@@ -1,0 +1,35 @@
+<html>
+<head>
+<script>
+	function Set(x)
+	{
+		document.getElementById('video').src = x+'.html';
+	}
+</script>
+<style>
+SPAN
+{
+	cursor:pointer;
+	font-size:22px;
+	font-family:Verdana;
+	margin-left:8px;
+}
+</style>
+</head>
+<body style="margin:0;pading:0;">
+
+<div>
+	<span onclick="Set('01');">Empresa</span>
+	<span onclick="Set('02');">Departamentos</span>
+	<span onclick="Set('03');">Cargos</span>
+	<span onclick="Set('04');">Empleados</span>
+	<span onclick="Set('05');">Proveedores</span>
+	<span onclick="Set('06');">Clientes</span>
+	<span onclick="Set('07');">Documentos</span>
+	<span onclick="Set('08');">Procesos</span>
+</div>
+
+<iframe id="video" style="width:1290px;height:780px;border:none;" src="about:blank">
+
+</body>
+</html>

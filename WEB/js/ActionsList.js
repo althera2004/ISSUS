@@ -1,0 +1,412 @@
+﻿function IncidentActionGetFilter(exportType) {
+    document.getElementById("nav-search-input").value = "";
+    var ok = true;
+    document.getElementById("ListDataTable").style.display = "none";
+    document.getElementById("ItemTableError").style.display = "none";
+    document.getElementById("ItemTableVoid").style.display = "none";
+    document.getElementById("ErrorDate").style.display = "none";
+    document.getElementById("ErrorStatus").style.display = "none";
+    document.getElementById("ErrorType").style.display = "none";
+    var from = GetDate($("#TxtDateFrom").val(), "-");
+    var to = GetDate($("#TxtDateTo").val(), "-");
+
+    var status1 = document.getElementById("chkStatus1").checked;
+    var status2 = document.getElementById("chkStatus2").checked;
+    var status3 = document.getElementById("chkStatus3").checked;
+    var status4 = document.getElementById("chkStatus4").checked;
+
+    var type1 = document.getElementById("RType1").checked;
+    var type2 = document.getElementById("RType2").checked;
+    var type3 = document.getElementById("RType3").checked;
+
+    if (from !== null && to !== null) {
+        if (from > to) {
+            ok = false;
+            document.getElementById("ErrorDate").style.display = "";
+        }
+    }
+
+    if (!status1 && !status2 && !status3 && !status4) {
+        ok = false;
+        document.getElementById("ErrorStatus").style.display = "";
+    }
+
+    if (!type1 && !type2 && !type3) {
+        ok = false;
+        document.getElementById("ErrorType").style.display = "";
+    }
+
+
+    if (ok === false) {
+        document.getElementById("ItemTableError").style.display = "";
+        return false;
+    }
+
+    var data =
+    {
+        "companyId": Company.Id,
+        "from": from,
+        "to": to,
+        "statusIdnetified": status1,
+        "statusAnalyzed": status2,
+        "statusInProgress": status3,
+        "statusClose": status4,
+        "typeImprovement": type1,
+        "typeFix": type2,
+        "typePrevent": type3,
+        "origin": $("#CmbOrigin").val() * 1
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Async/IncidentActionsActions.asmx/GetFilter",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            eval("IncidentActionlist=" + msg.d + ";");
+            ItemRenderTable(IncidentActionlist);
+            if (exportType !== "undefined") {
+                if (exportType === "PDF") {
+                    ExportPDF();
+                }
+            }
+        },
+        error: function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function ItemRenderTable(list) {
+    var items = new Array();
+    var target = document.getElementById("ListDataTable");
+    VoidTable("ListDataTable");
+    target.style.display = "";
+
+    if (list.length === 0) {
+        document.getElementById("ItemTableVoid").style.display = "";
+        $("#NumberCosts").html("0");
+        target.style.display = "none";
+        return false;
+    }
+
+    var total = 0;
+
+    for (var x = 0; x < list.length; x++) {
+        var item = list[x];
+        var row = document.createElement("TR");
+        var tdNumber = document.createElement("TD");
+        var tdOpen = document.createElement("TD");
+        var tdType = document.createElement("TD");
+        var tdStatus = document.createElement("TD");
+        var tdOrigin = document.createElement("TD");
+        var tdDescription = document.createElement("TD");
+        var tdAction = document.createElement("TD");
+        var tdClose = document.createElement("TD");
+
+        total += list[x].Amount;
+
+        var status = "";
+        var colorStatus = "#fff;";
+        if (item.Status === 1) { status = Dictionary.Item_IndicentAction_Status1; colorStatus = "#f00"; }
+        if (item.Status === 2) { status = Dictionary.Item_IndicentAction_Status2; colorStatus = "#dd0"; }
+        if (item.Status === 3) { status = Dictionary.Item_IndicentAction_Status3; colorStatus = "#070"; }
+        if (item.Status === 4) { status = Dictionary.Item_IndicentAction_Status4; colorStatus = "#000"; }
+
+        var type = "";
+        if (item.ActionType === 1) { type = Dictionary.Item_IncidentAction_Type1; }
+        if (item.ActionType === 2) { type = Dictionary.Item_IncidentAction_Type2; }
+        if (item.ActionType === 3) { type = Dictionary.Item_IncidentAction_Type3; }
+
+        var origin = "";
+        if (item.Origin === 1) { origin = document.createTextNode(Dictionary.Item_IncidentAction_Origin1); }
+        if (item.Origin === 2) { origin = document.createTextNode(Dictionary.Item_IncidentAction_Origin2); }
+        if (item.Origin === 3) {
+            origin = document.createElement("A");
+            origin.href = "IncidentView.aspx?id=" + item.Associated.Id;
+            var innerLink = document.createTextNode(Dictionary.Item_IncidentAction_Origin3);
+            origin.appendChild(innerLink);
+            var spantext = document.createElement("span");
+            spantext.style.display = "none";
+            spantext.appendChild(document.createTextNode(item.Associated.Description));
+            origin.appendChild(spantext);
+            origin.title = Dictionary.Item_IncidentAction_Origin3 + " \"" + item.Associated.Description + "\"";
+        }
+
+        if (item.Origin === 4) {
+            origin = document.createElement("A");
+            origin.href = "BusinessRiskView.aspx?id=" + item.Associated.Id;
+            var innerLink = document.createTextNode(Dictionary.Item_IncidentAction_Origin4);
+            origin.appendChild(innerLink);
+            var spantext = document.createElement("span");
+            spantext.style.display = "none";
+            spantext.appendChild(document.createTextNode(item.Associated.Description));
+            origin.appendChild(spantext);
+            origin.title = Dictionary.Item_IncidentAction_Origin4 + " \"" + item.Associated.Description + "\"";
+        }
+
+        var actionLink = document.createElement("A");
+        actionLink.appendChild(document.createTextNode(item.Number));
+        actionLink.href = "ActionView.aspx?id=" + item.Id;
+
+        row.id = item.Id;
+
+        //<i class="fa fa-pie-chart"></i>
+        var iconStatus = document.createElement('I');
+        iconStatus.className = "fa icon-pie-chart";
+        if (item.Status === 3) { iconStatus.className = "fa icon-play"; }
+        if (item.Status === 4) { iconStatus.className = "fa icon-lock"; }
+
+        iconStatus.style.color = colorStatus;
+        tdNumber.appendChild(iconStatus);
+
+        tdOpen.appendChild(document.createTextNode(FormatYYYYMMDD(item.OpenDate, "/")));
+        tdType.appendChild(document.createTextNode(type));
+        tdStatus.appendChild(iconStatus);
+        tdStatus.appendChild(document.createTextNode(" " + status));
+        tdOrigin.appendChild(origin);
+
+
+        var actionLinkDescription = document.createElement("A");
+        actionLinkDescription.appendChild(document.createTextNode(item.Description));
+        actionLinkDescription.href = "ActionView.aspx?id=" + item.Id;
+        tdDescription.appendChild(actionLinkDescription);
+
+
+        tdAction.appendChild(document.createTextNode(FormatYYYYMMDD(item.ImplementationDate, "/")));
+        tdClose.appendChild(document.createTextNode(FormatYYYYMMDD(item.CloseDate, "/")));
+
+        //tdDescription.style.width = "200px";
+        tdType.style.width = "100px";
+        tdStatus.style.width = "120px";
+        tdOrigin.style.width = "150px";
+        tdAction.style.width = "95px";
+        tdClose.style.width = "100px";
+        tdOpen.style.width = "95px";
+
+        //row.appendChild(tdNumber);
+        row.appendChild(tdDescription);
+        row.appendChild(tdType);
+        row.appendChild(tdOpen);
+        row.appendChild(tdStatus);
+        row.appendChild(tdOrigin);
+        row.appendChild(tdAction);
+        row.appendChild(tdClose);
+
+        var iconEdit = document.createElement("SPAN");
+        iconEdit.className = "btn btn-xs btn-info";
+        iconEdit.id = item.Number;
+        var innerEdit = document.createElement("I");
+        innerEdit.className = ApplicationUser.Grants.IncidentActions.Write ? "icon-edit bigger-120" : "icon-eye-open bigger-120";
+        iconEdit.appendChild(innerEdit);
+        iconEdit.onclick = function () { document.location = "ActionView.aspx?id=" + this.parentNode.parentNode.id; };
+
+        if (ApplicationUser.Grants.IncidentActions.Delete === true) {
+            var iconDelete = document.createElement("SPAN");
+            iconDelete.className = "btn btn-xs btn-danger";
+            iconDelete.id = item.Number;
+            var innerDelete = document.createElement("I");
+            innerDelete.className = "icon-trash bigger-120";
+            iconDelete.appendChild(innerDelete);
+
+            if (item.Origin === 3) {
+                iconDelete.onclick = function () { NoDeleteIncident(); };
+            }
+            else if (item.Origin === 4) {
+                iconDelete.onclick = function () { NoDeleteBusinessRisk(); };
+            }
+            else {
+                iconDelete.onclick = function () { IncidentActionDelete(this); };
+            }
+        }
+
+
+        var tdActions = document.createElement("TD");
+        tdActions.style.width = "90px";
+
+        tdActions.appendChild(iconEdit);
+        if (ApplicationUser.Grants.IncidentActions.Delete) {
+            tdActions.appendChild(document.createTextNode(' '));
+            tdActions.appendChild(iconDelete);
+        }
+        row.appendChild(tdActions);
+
+        target.appendChild(row);
+
+        if ($.inArray(item.Description, items) === -1) {
+            items.push(item.Description);
+        }
+
+        if ($.inArray(item.Associated.Description, items) === -1) {
+            items.push(item.Associated.Description);
+        }
+    }
+
+    if (items.length === 0) {
+        document.getElementById("nav-search").style.display = "none";
+    }
+    else {
+        document.getElementById("nav-search").style.display = "";
+
+        items.sort(function (a, b) {
+            if (a < b) return -1;
+            if (a > b) return 1;
+            return 0;
+        });
+        var autocomplete = $(".nav-search-input").typeahead();
+        autocomplete.data("typeahead").source = items;
+
+        $("#nav-search-input").keyup(FilterList);
+        $("#nav-search-input").change(FilterList);
+    }
+
+    $("#NumberCosts").html(list.length);
+    $("#TotalCosts").html(ToMoneyFormat(total, 2));
+    $("#th2").click();
+    if (document.getElementById("th2").className.indexOf("DESC") !== -1) { $("#th2").click(); }
+}
+
+function IncidentActionDelete(sender) {
+    IncidentActionSelectedId = sender.parentNode.parentNode.id;
+    IncidentActionSelected = IncidentActiongetById(IncidentActionSelectedId);
+    if (IncidentActionSelected === null) { return false; }
+    $('#IncidentActionDeleteName').html(IncidentActionSelected.Description);
+    var dialog = $("#IncidentActionDeleteDialog").removeClass('hide').dialog({
+        resizable: false,
+        modal: true,
+        title: Dictionary.Common_Delete,
+        title_html: true,
+        buttons:
+        [
+            {
+                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "class": "btn btn-danger btn-xs",
+                click: function () {
+                    IncidentActionDeleteConfirmed();
+                }
+            },
+            {
+                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                "class": "btn btn-xs",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            }
+        ]
+    });
+}
+
+function IncidentActionDeleteConfirmed() {
+    var webMethod = "/Async/IncidentActionsActions.asmx/Delete";
+    var data = { incidentActionId: IncidentActionSelectedId, companyId: Company.Id, userId: user.Id };
+    $("#IncidentActionDeleteDialog").dialog("close");
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            IncidentActionGetFilter();
+        },
+        error: function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function IncidentActiongetById(id) {
+    for (var x = 0; x < IncidentActionlist.length; x++) {
+        if (IncidentActionlist[x].Id === id) {
+            return IncidentActionlist[x];
+        }
+    }
+    return null;
+}
+
+function NoDeleteBusinessRisk() {
+    alertInfoUI(Dictionary.Item_IncidentAction_ErrorMessage_NoDeleteBusinessRisk, null);
+}
+
+function NoDeleteIncident() {
+    alertInfoUI(Dictionary.Item_IncidentAction_ErrorMessage_NoDeleteIncident, null);
+}
+
+$("#nav-search").hide();
+
+function Resize() {
+    var listTable = document.getElementById("ListDataDiv");
+    var containerHeight = $(window).height();
+    listTable.style.height = (containerHeight - 450).toString() + "px";
+}
+
+window.onload = function () {
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
+    Resize();
+};
+
+window.onresize = function () { Resize(); };
+
+function Export() {
+    IncidentActionGetFilter("PDF");
+}
+
+function ExportPDF() {
+    var from = $("#TxtDateFrom").val();
+    var to =$("#TxtDateTo").val();
+
+    var status1 = document.getElementById("chkStatus1").checked;
+    var status2 = document.getElementById("chkStatus2").checked;
+    var status3 = document.getElementById("chkStatus3").checked;
+    var status4 = document.getElementById("chkStatus4").checked;
+
+    var type1 = document.getElementById("RType1").checked;
+    var type2 = document.getElementById("RType2").checked;
+    var type3 = document.getElementById("RType3").checked;
+
+    var data =
+    {
+        "companyId": Company.Id,
+        "from": from,
+        "to": to,
+        "statusIdentified": status1,
+        "statusAnalyzed": status2,
+        "statusInProgress": status3,
+        "statusClose": status4,
+        "typeImprovement": type1,
+        "typeFix": type2,
+        "typePrevent": type3,
+        "origin": $("#CmbOrigin").val() * 1
+    };
+
+    var webMethod = "/Export/IncidentActionExportList.aspx/PDF";
+    LoadingShow(Dictionary.Common_Report_Rendering);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            LoadingHide();
+            //successInfoUI(msg.d.MessageError, Go, 200);
+            var link = document.createElement("a");
+            link.id = "download";
+            link.href = msg.d.MessageError;
+            link.download = msg.d.MessageError;
+            link.target = "_blank";
+            document.body.appendChild(link);
+            document.body.removeChild(link);
+            $("#download").trigger("click");
+            window.open(msg.d.MessageError);
+            $("#dialogAddAddress").dialog("close");
+        },
+        error: function (msg) {
+            LoadingHide();
+            alertUI("error:" + msg.responseText);
+        }
+    });
+}

@@ -1,0 +1,29 @@
+﻿{
+    CompanyId:0,
+    ItemType: 13,
+    "ItemUrl": "ActionView.aspx?id=",
+    AlertDescription:'Acción identificada y no evaluada',
+    Query:'select
+                IA.Id,
+                IA.Description
+            FROM IncidentAction IA
+            WHERE
+                IA.CompanyId = #CompanyId#
+            AND IA.WhatHappendOn IS NULL
+            AND IA.CausesOn IS NULL',
+    Index:
+    [
+        {Position:0, FieldName:'Id'},
+        {Position:1, FieldName:'Description'}
+    ],
+    Tag: '<li>
+                                    <a href="ActionView.aspx?id={0}">
+                                                <strong>Acción identificada y no evaluada</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">{1}</span></td></tr></table>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>'
+}

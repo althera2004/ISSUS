@@ -1,0 +1,28 @@
+﻿{
+    "CompanyId": 0,
+    "ItemType": 13,
+    "ItemUrl": "IncidentView.aspx?id=",
+    "AlertDescription": "Analizada sin actuación",
+    "Query": "SELECT
+                IA.Id,
+                IA.Description
+            FROM IncidentAction IA
+            WHERE
+                IA.CompanyId = #CompanyId#
+        AND IA.CausesOn IS NOT NULL 
+        AND IA.ActionsOn IS NULL
+        AND IA.Active = 1", "Index":
+    [
+        { "Position": 0, "FieldName": "Id" },
+        { "Position": 1, "FieldName": "Description" }
+    ],
+    Tag: '<li>
+                                    <a href="ActionView.aspx?id={0}">
+                                                <strong>Analizada sin actuación</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">{1}</span></td></tr></table>                                            </span>
+                                        </div>
+                                    </a>
+    </li>'
+}

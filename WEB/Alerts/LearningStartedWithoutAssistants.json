@@ -1,0 +1,41 @@
+﻿{
+    CompanyId:0, // Para todas la compañías
+    ItemType:10, // Id del tipo Learning, para determinar quien tiene acceso
+    "ItemUrl": "FormacionView.aspx?id=",
+    AlertDescription:'Alert_Started_Wihtout_Assistans',
+    Query:'SELECT
+        L.Id,
+        L.Description
+    FROM Learning L WITH(NOLOCK)
+    LEFT JOIN 
+    (
+        SELECT COUNT(Id) NAssistants, LearningId FROM LearningAssistant WITH(NOLOCK)
+        WHERE CompanyId = #CompanyId#
+        AND Active = 1
+        GROUP BY LearningId
+    ) AS LA 
+    ON LA.LearningId = L.Id
+
+    WHERE
+        L.CompanyId = #CompanyId# -- Será sustituido por el Id de la compañía logada
+    AND L.Active = 1
+    AND L.RealStart < GETDATE()
+    AND L.RealFinish IS NULL
+	AND LA.NAssistants < 1',  // Consulta SQL dónde se extraen las alertas
+    Index:
+    [
+        {Position:0, FieldName:'Id'},
+        {Position:1, FieldName:'Description'}
+    ],  // Datos de cada aviso generado por la alerta
+    Tag: '<li>
+                                    <a href="FormacionView.aspx?id={0}">
+                                                <!-- Descripción de la alerta pasada por el diccionario -->
+                                                <strong>#AlertDescription#</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-graduation-cap"></i></td><td><span style="width:150px;white-space:normal;">{1}</span></td></tr></table>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>' // Cómo se muestra la alerta en la aplicación (desplegable campana)
+}

@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C05BF57E-B756-4D71-A669-5E0261CD1697}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GisoFramework</RootNamespace>
+    <AssemblyName>GisoFramework</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\GisoFramework.XML</DocumentationFile>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>IssusWeb.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.10\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.OOXML.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.2.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.2.1\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Extensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activity\ActionResult.cs" />
+    <Compile Include="Activity\ActivityTrace.cs" />
+    <Compile Include="Activity\ActivityLog.cs" />
+    <Compile Include="Activity\ExceptionManager.cs" />
+    <Compile Include="Alerts\AlertDefinition.cs" />
+    <Compile Include="Alerts\FieldPosition.cs" />
+    <Compile Include="ApplicationGrant.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="ApplicationItem.cs" />
+    <Compile Include="DifferenciableAttribute.cs" />
+    <Compile Include="Item\BaseItem.cs" />
+    <Compile Include="Item\Binding\ColumnsBusinessRiskFilterGet.cs" />
+    <Compile Include="Item\Binding\ColumnsBusinessRiskGetAll.cs" />
+    <Compile Include="Item\Binding\ColumnsCompanyGetEmployees.cs" />
+    <Compile Include="Item\Binding\ColumnsCostDefinitionGet.cs" />
+    <Compile Include="Item\Binding\ColumnsCustomerGetByCompany.cs" />
+    <Compile Include="Item\Binding\ColumnsCustomerIncidentActionGet.cs" />
+    <Compile Include="Item\Binding\ColumnsDocumentAttachGet.cs" />
+    <Compile Include="Item\Binding\ColumnsEmployeeGetByCompany.cs" />
+    <Compile Include="Item\Binding\ColumnsEmployeeGetByUserId.cs" />
+    <Compile Include="Item\Binding\ColumnsIncidentActionGet.cs" />
+    <Compile Include="Item\Binding\ColumnsIncidentActionGetById.cs" />
+    <Compile Include="Item\Binding\ColumnsIncidentCostGet.cs" />
+    <Compile Include="Item\Binding\ColumnsIncidentFilterGet.cs" />
+    <Compile Include="Item\Binding\ColumnsIncidentGet.cs" />
+    <Compile Include="Item\Binding\ColumnsIndicadorFilter.cs" />
+    <Compile Include="Item\Binding\ColumnsIndicadorGet.cs" />
+    <Compile Include="Item\Binding\ColumnsIndicadorRegistroGet.cs" />
+    <Compile Include="Item\Binding\ColumnsObjetivoFilter.cs" />
+    <Compile Include="Item\Binding\ColumnsObjetivoGet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Item\Binding\ColumnsObjetivoRegistroGet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Item\Binding\ColumnsProbabilitySeverityRangeGetAll.cs" />
+    <Compile Include="Item\Binding\ColumnsProviderCostGet.cs" />
+    <Compile Include="Item\Binding\ColumnsProviderGetDefinitions.cs" />
+    <Compile Include="Item\Binding\ColumnsProviderIncidentActionsGet.cs" />
+    <Compile Include="Item\Binding\ColumnsRevisionGet.cs" />
+    <Compile Include="Item\Binding\ColumnsRulesGetAll.cs" />
+    <Compile Include="Item\Binding\ColumnsRulesGetBAR.cs" />
+    <Compile Include="Item\Binding\ColumnsRulesGetById.cs" />
+    <Compile Include="Item\Binding\ColumnsScheduleTaskGetByEmployee.cs" />
+    <Compile Include="Item\Binding\ColumnsUnidadGet.cs" />
+    <Compile Include="Item\Binding\ColumnsUploadFileGet.cs" />
+    <Compile Include="Item\Binding\ColumnsUserGetByCompanyId.cs" />
+    <Compile Include="Item\Binding\IndicentActionFilterGet.cs" />
+    <Compile Include="Item\BusinessRisk.cs" />
+    <Compile Include="Item\BusinessRiskFilterItem.cs" />
+    <Compile Include="Item\CostDefinition.cs" />
+    <Compile Include="Item\CustomerIncidentActions.cs" />
+    <Compile Include="Item\DocumentAttach.cs" />
+    <Compile Include="Item\DocumentVersionRow.cs" />
+    <Compile Include="Item\Employee.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Item\IncidentAction.cs" />
+    <Compile Include="Item\Binding\ColumnsActionsGetByCompany.cs" />
+    <Compile Include="Item\Binding\ColumnsApplicationGetMenu.cs" />
+    <Compile Include="Item\Binding\ColumnsApplicationUserGetEffectiveGrants.cs" />
+    <Compile Include="Item\Binding\ColumnsApplicationUserGetGrants.cs" />
+    <Compile Include="Item\Binding\ColumnsCustomerGetBy.cs" />
+    <Compile Include="Item\Binding\ColumnsEquipmentCalibrationActGet.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Item\Binding\ColumnsEquipmentGetById.cs" />
+    <Compile Include="Item\Binding\ColumnsEquipmentGetCalibrationDefinition.cs" />
+    <Compile Include="Item\Binding\ColumnsEquipmentGetList.cs" />
+    <Compile Include="Item\Binding\ColumnsEquipmentGetVerificationDefinition.cs" />
+    <Compile Include="Item\Binding\ColumnsEquipmentMaintenanceActGet.cs" />
+    <Compile Include="Item\Binding\ColumnsEquipmentMaintenanceGetByEquipmentId.cs" />
+    <Compile Include="Item\Binding\ColumnsEquipmentRecordGet.cs" />
+    <Compile Include="Item\Binding\ColumnsEquipmentRepairGet.cs" />
+    <Compile Include="Item\Binding\ColumnsEquipmentScaleDivisionGetByCompany.cs" />
+    <Compile Include="Item\Binding\ColumnsEquipmentVerificationActGet.cs" />
+    <Compile Include="Item\Binding\ColumnsProviderGetByCompany.cs" />
+    <Compile Include="Item\Customer.cs" />
+    <Compile Include="Item\Equipment.cs" />
+    <Compile Include="Item\EquipmentCalibrationAct.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Item\EquipmentCalibrationDefinition.cs" />
+    <Compile Include="Item\EquipmentMaintenanceAct.cs" />
+    <Compile Include="Item\EquipmentMaintenanceDefinition.cs" />
+    <Compile Include="Item\EquipmentRecord.cs" />
+    <Compile Include="Item\EquipmentRepair.cs" />
+    <Compile Include="Item\EquipmentScaleDivision.cs" />
+    <Compile Include="Item\EquipmentVerificationAct.cs" />
+    <Compile Include="Item\EquipmentVerificationDefinition.cs" />
+    <Compile Include="Item\Incident.cs" />
+    <Compile Include="Item\IncidentActionCost.cs" />
+    <Compile Include="Item\IncidentActionFilterItem.cs" />
+    <Compile Include="Item\IncidentCost.cs" />
+    <Compile Include="Item\IncidentFilterItem.cs" />
+    <Compile Include="Item\Indicador.cs" />
+    <Compile Include="Item\IndicadorFilterItem.cs" />
+    <Compile Include="Item\IndicadorObjetivo.cs" />
+    <Compile Include="Item\IndicadorRegistro.cs" />
+    <Compile Include="Item\Objetivo.cs" />
+    <Compile Include="Item\ObjetivoFilterItem.cs" />
+    <Compile Include="Item\ObjetivoRegistro.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Item\ProbabilitySeverityRange.cs" />
+    <Compile Include="Item\ProcessTypeKernel.cs" />
+    <Compile Include="Item\Revision.cs" />
+    <Compile Include="Item\Rules.cs" />
+    <Compile Include="Item\Unidad.cs" />
+    <Compile Include="Item\UploadFile.cs" />
+    <Compile Include="LogOn\LogOnObject.cs" />
+    <Compile Include="Item\ProviderCost.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Item\ProviderDefinition.cs" />
+    <Compile Include="Item\ProviderIncidentActions.cs" />
+    <Compile Include="Item\ScheduledTask.cs" />
+    <Compile Include="LogOn\ApplicationLogOn.cs" />
+    <Compile Include="RandomPassword.cs" />
+    <Compile Include="UserGrant.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="ApplicationUser.cs" />
+    <Compile Include="CompanyCreate.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="DataAccess\Command.cs" />
+    <Compile Include="DataAccess\DataParameter.cs" />
+    <Compile Include="ApplicationDictionary.cs" />
+    <Compile Include="Item\Assistant.cs" />
+    <Compile Include="Item\Binding\ColumnsApplicationUserGetById.cs" />
+    <Compile Include="Item\Binding\ColumnsGetLogin.cs" />
+    <Compile Include="Item\Binding\ColumnsJobPositionGetById.cs" />
+    <Compile Include="Item\Binding\ColumnsCompanyGetDocuments.cs" />
+    <Compile Include="Item\Binding\ColumnsDocumentGetById.cs" />
+    <Compile Include="Item\Binding\ColumnsDocumentsLastModified.cs" />
+    <Compile Include="Item\Binding\ColumnsEmployeeGetById.cs" />
+    <Compile Include="Item\Binding\ColumnsGetLearningAssistance.cs" />
+    <Compile Include="Item\Binding\ColumnsJobPositionGetAll.cs" />
+    <Compile Include="Item\Binding\ColumnsJobPositionGetEmployees.cs" />
+    <Compile Include="Item\Binding\ColumnsLearningFilter.cs" />
+    <Compile Include="Item\Binding\ColumnsLearningGetById.cs" />
+    <Compile Include="Item\Binding\ColumnsProcessGetById.cs" />
+    <Compile Include="Item\Binding\ColumnsProcessTypeGetByCompany.cs" />
+    <Compile Include="Item\Binding\ColumnsLearningGetAssistance.cs" />
+    <Compile Include="Item\Binding\ColumnsGetSkillByEmployee.cs" />
+    <Compile Include="Item\Binding\ColumnsDepartmentGetById.cs" />
+    <Compile Include="Item\Country.cs" />
+    <Compile Include="Item\DocumentCategory.cs" />
+    <Compile Include="Item\DocumentOrigin.cs" />
+    <Compile Include="Item\EmployeeAddress.cs" />
+    <Compile Include="Item\Binding\ColumnsEmployeeJobPosition.cs" />
+    <Compile Include="Item\EmployeeSkills.cs" />
+    <Compile Include="Item\JobPositionAsigment.cs" />
+    <Compile Include="Item\Binding\ColumnsJobPositiongetByDepartment.cs" />
+    <Compile Include="Item\ProcessType.cs" />
+    <Compile Include="Item\LearningAssistance.cs" />
+    <Compile Include="Item\LearningFilter.cs" />
+    <Compile Include="Item\Process.cs" />
+    <Compile Include="Item\JobPosition.cs" />
+    <Compile Include="Item\Company.cs" />
+    <Compile Include="Item\CompanyAddress.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Item\Department.cs" />
+    <Compile Include="Item\Document.cs" />
+    <Compile Include="Item\DocumentVersion.cs" />
+    <Compile Include="Item\Learning.cs" />
+    <Compile Include="Item\Provider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools.cs" />
+    <Compile Include="UserInterface\BreadCrumbItem.cs" />
+    <Compile Include="UserInterface\LeftMenuOption.cs" />
+    <Compile Include="UserInterface\MenuOption.cs" />
+    <Compile Include="UserInterface\MenuShortcut.cs" />
+    <Compile Include="UserInterface\Shortcut.cs" />
+    <Compile Include="Variance.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IssusWeb.pfx" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SbrinnaFramework\SbrinnaFramework.csproj">
+      <Project>{acadb79e-9811-43f5-b82c-b15bd44bf93b}</Project>
+      <Name>SbrinnaFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

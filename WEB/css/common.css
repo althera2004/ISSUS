@@ -1,0 +1,56 @@
+﻿body 
+{
+    font-family:Verdana, Tahoma;
+    font-size:14px;
+    color:#00d;
+}
+
+.Required
+{
+    color:#d33;
+}
+
+.ErrorMessage
+{
+    color:#ff0;
+    background-color:#f00;
+    padding:4px;
+}
+
+#MainPanel
+{
+    width:60%;
+    padding-left:20%;
+    padding-right:20%;
+}
+
+.MainPanelButton
+{
+    font-size:18px;
+    width:180px;
+    height:180px;
+    display:inline;
+    float:left;
+    margin:12px;
+    border:1px solid #33f;
+}
+
+.MainPanelButtonOver
+{
+    font-size:18px;
+    width:180px;
+    height:180px;
+    display:inline;
+    float:left;
+    margin:12px;
+    border:1px solid #33f;
+    color:#f00;
+    cursor:pointer;
+}
+
+.MainPanelButtonLabel
+{
+    bottom:0;
+    width:100;
+    text-align:center;
+}

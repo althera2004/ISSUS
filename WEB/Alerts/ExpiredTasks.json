@@ -1,0 +1,127 @@
+﻿{
+    CompanyId:0,
+    ItemType:13,
+    AlertDescription:'Expired tasks',
+    Query:"SELECT
+        TOTAL.EquipmentId as Id,
+        TOTAL.Description
+		FROM
+		(
+
+		SELECT
+			'C' AS OperationType,
+			ECA.Id,
+			E.Id AS EquipmentId,
+			E.Description,
+			ECA.Vto,
+			ECA.Operation
+		FROM EquipmentCalibrationAct ECA
+		INNER JOIN Equipment E
+		ON	E.Id = ECA.EquipmentId
+		AND	E.Active = 1
+		AND E.CompanyId = ECA.CompanyId
+		AND ECA.Active = 1
+		WHERE
+			ECA.CompanyId = #CompanyId#
+		AND ECA.Responsable = #ActualUser#
+
+		UNION 
+
+		SELECT
+			'V' AS OperationType,
+			EVA.Id,
+			E.Id AS EquipmentId,
+			E.Description,
+			EVA.Vto,
+			EVA.Operation
+		FROM EquipmentVerificationAct EVA
+		INNER JOIN Equipment E
+		ON	E.Id = EVA.EquipmentId
+		AND	E.Active = 1
+		AND E.CompanyId = EVA.CompanyId
+		AND EVA.Active = 1
+		WHERE
+			EVA.CompanyId = #CompanyId#
+		AND EVA.Responsable = #ActualUser#
+
+		UNION 
+
+		SELECT
+			'M' AS OperationType,
+			EMA.Id,
+			E.Id AS EquipmentId,
+			E.Description,
+			EMA.Vto,
+			EMA.Operation
+		FROM EquipmentMaintenanceAct EMA
+		INNER JOIN Equipment E
+		ON	E.Id = EMA.EquipmentId
+		AND	E.Active = 1
+		AND E.CompanyId = EMA.CompanyId
+		AND EMA.Active = 1
+		WHERE
+			EMA.CompanyId = #CompanyId#
+		AND EMA.ResponsableId = #ActualUser#
+
+		UNION
+
+		SELECT
+			'A' AS OperationType,
+			IA.Id,
+			IA.Id AS EquipmentId,
+			IA.Description,
+			IA.ActionsSchedule,
+			IA.Description
+		FROM IncidentAction IA WITH(NOLOCK)
+		WHERE
+			ActionsExecuter = #CompanyId#
+		AND	ClosedOn IS NULL
+
+		UNION
+
+		SELECT
+			'A' AS OperationType,
+			IA.Id,
+			IA.Id AS EquipmentId,
+			IA.Description,
+			IA.ActionsSchedule,
+			IA.Description
+		FROM IncidentAction IA WITH(NOLOCK)
+		WHERE
+			ClosedExecutor = #ActualUser#
+		AND	ClosedExecutorOn IS NULL
+
+		UNION 
+
+		SELECT
+			'I' AS OperationType,
+			I.Id,
+			I.Id AS EquipmentId,
+			I.Description,
+			I.ActionsSchedule,
+			I.Description
+		FROM Incident I WITH(NOLOCK)
+		WHERE
+			ActionsExecuter = #ActualUser#
+		AND	ClosedOn IS NULL
+
+		) AS TOTAL
+		WHERE TOTAL.Vto < GETDATE() AND 1=2
+		ORDER BY TOTAL.Vto",
+    Index:
+    [
+        {Position:0, FieldName:'Id'},
+        {Position:1, FieldName:'Description'}
+    ],
+    Tag: '<li>
+                                    <a href="EquipmentView.aspx?id={0}">
+                                                <strong>Expired tasks</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <i class="btn btn-xs no-hover btn-warning icon-laptop"></i>{1}
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>'
+}
+

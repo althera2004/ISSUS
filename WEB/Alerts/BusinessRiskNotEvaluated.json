@@ -1,0 +1,25 @@
+﻿{
+    CompanyId:0,
+    ItemType:13,
+    AlertDescription:'Expired tasks',
+    Query:"select id, description
+    From businessrisk with(nolock)
+    where result  = 0
+    and active = 1
+    and companyid = #CompanyId#",
+    Index:
+    [
+        {Position:0, FieldName:'Id'},
+        {Position:1, FieldName:'Description'}
+    ],
+    Tag: '<li>
+                                    <a href="EquipmentView.aspx?id={0}">
+                                                <strong>Riesgo sin valorar</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <i class="btn btn-xs no-hover btn-warning icon-ray"></i>{1}
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>'
+}

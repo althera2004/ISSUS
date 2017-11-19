@@ -1,0 +1,518 @@
+﻿// Bar popup for bar item {0}
+function Show{0}BarPopup()
+{{
+    {0}RenderPopup();
+
+    var dialog = $("#dialog{0}").removeClass('hide').dialog({{
+        resizable: false,
+        modal: true,
+        title: '{1}',
+        title_html: true,
+        width: {2},
+        buttons: [
+            {{
+                id: 'Btn{0}Save',
+                html: "<i class='icon-ok bigger-110'></i>&nbsp; Afegir",
+                "class": "btn btn-success btn-xs",
+                click: function () {{ {0}Insert(); }}
+            }},
+            {{
+                html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel·lar",
+                "class": "btn btn-xs",
+                click: function () {{ $(this).dialog("close"); }}
+            }}
+        ]
+    }});
+}}
+
+for(var x=0; x< {0}.length;x++)
+{{
+    if({0}[x].Id === {0}Selected)
+    {{
+        document.getElementById('Txt{0}').value = {0}[x].Value;
+        break;
+    }}
+
+    FillCmb{0}();
+}}
+
+// Selection functions for bar item {0}
+function {0}Changed(sender)
+{{
+    var id= sender.parentNode.parentNode.parentNode.id * 1;
+    $("#dialog{0}").dialog('close');
+    for(var x=0;x<{0}.length;x++)
+    {{
+        if({0}[x].Id === id)
+        {{
+            {0}Selected = id;
+            document.getElementById('Txt{0}').value = {0}[x].Value;
+            break;
+        }}
+    }}
+
+    FillCmb{0}();
+}}
+
+function FillCmb{0}()
+{{
+    VoidTable('Cmb{0}');
+    var optionDefault = document.createElement('option');
+    optionDefault.value = 0;
+    optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectAll));
+    document.getElementById('Cmb{0}').appendChild(optionDefault);
+
+    for(var x=0; x<{0}.length;x++)
+    {{
+        var option = document.createElement('option');
+        option.value = {0}[x].Id;
+        option.appendChild(document.createTextNode({0}[x].Value));
+        if({0}Selected == {0}[x].Id)
+        {{
+            option.selected = true;
+        }}
+
+        document.getElementById('Cmb{0}').appendChild(option);
+    }}
+}}
+
+// Insert functions for bar item {0}
+function {0}Insert(sender) {{
+    document.getElementById('Txt{0}NewNameErrorRequired').style.display = 'none';
+    document.getElementById('Txt{0}NewNameErrorDuplicated').style.display = 'none';
+    $('#Txt{0}NewName').val('');
+    var Selected = 0;
+    var dialog = $("#{0}InsertDialog").removeClass('hide').dialog({{
+        resizable: false,
+        width: 600,
+        modal: true,
+        title: Dictionary.Common_Add,
+        title_html: true,
+        buttons: [
+                {{
+                    html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
+                    click: function () {{
+                        var ok = true;
+                        if(document.getElementById('Txt{0}NewName').value == '')
+                        {{
+                            document.getElementById('Txt{0}NewNameErrorRequired').style.display='block';
+                            ok = false;
+                        }}
+                        else
+                        {{
+                            document.getElementById('Txt{0}NewNameErrorRequired').style.display='none';
+                        }}
+
+                        var duplicated = false;
+                        for(var x=0; x<{0}.length; x++)
+                        {{
+                            if(document.getElementById('Txt{0}NewName').value.toLowerCase() == {0}[x].Value.toLowerCase())
+                            {{
+                                duplicated = true;
+                                break;
+                            }}
+                        }}
+
+                        if(duplicated === true)
+                        {{
+                            document.getElementById('Txt{0}NewNameErrorDuplicated').style.display='block';
+                            ok = false;
+                        }}
+                        else
+                        {{
+                            document.getElementById('Txt{0}NewNameErrorDuplicated').style.display='none';
+                        }}
+
+                        if(ok === false) {{ window.scrollTo(0, 0); return false; }}
+
+                        document.getElementById('Txt{0}NewNameErrorRequired').style.display='none';
+                        document.getElementById('Txt{0}NewNameErrorDuplicated').style.display='none';
+                        $(this).dialog("close");
+                        {0}InsertConfirmed(document.getElementById('Txt{0}NewName').value);
+                    }}
+                }},
+                {{
+                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    click: function () {{ $(this).dialog("close"); }}
+                }}
+            ]
+
+    }});
+}}
+
+function {0}InsertConfirmed(newDescription)
+{{
+    // 1.- Modificar en la BBDD
+    var webMethod = "/Async/{0}Actions.asmx/Insert";
+    var description = '';
+    var data = {{
+        'description': newDescription,
+        'companyId': Company.Id,
+        'userId': user.Id
+    }};
+
+    var newId = 0;
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({{
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (response) {{
+            LoadingHide();
+            if (response.d.Success === true) {{
+                newId = response.d.MessageError * 1;
+
+                // 2.- Añadir en HTML
+                {0}.push({{"Id":newId,"Value":newDescription,"Active":true,"Deletable":true}});
+
+                // 3.- Modificar la fila de la tabla del popup
+                {0}RenderPopup();
+                FillCmb{0}();
+            }}
+            if (response.d.Success !== true) {{
+                alertUI(response.d.MessageError);
+            }}
+        }},
+        error: function (jqXHR, textStatus, errorThrown) {{
+            LoadingHide();
+            alertUI(jqXHR.responseText);
+        }}
+    }});  
+                
+    FillCmb{0}();              
+}}
+
+// Update function for bar item {0}
+function {0}Update(sender) 
+{{
+    document.getElementById('Txt{0}NameErrorRequired').style.display='none';
+    document.getElementById('Txt{0}NameErrorDuplicated').style.display='none';
+    $('#Txt{0}Name').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    Selected = sender.parentNode.parentNode.parentNode.id * 1;
+    var dialog = $("#{0}UpdateDialog").removeClass('hide').dialog({{
+        resizable: false,
+        width: 600,
+        modal: true,
+        title: Dictionary.Common_Edit,
+        title_html: true,
+        buttons: [
+                {{
+                    html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
+                    click: function () {{
+                        var ok = true;
+                        if(document.getElementById('Txt{0}Name').value == '')
+                        {{
+                            document.getElementById('Txt{0}NameErrorRequired').style.display='block';
+                            ok = false;
+                        }}
+                        else
+                        {{
+                            document.getElementById('Txt{0}NameErrorRequired').style.display='none';
+                        }}
+
+                        var duplicated = false;
+                        for(var x=0;x<{0}.length;x++)
+                        {{
+                            if(document.getElementById('Txt{0}Name').value.toLowerCase() == {0}[x].Value.toLowerCase() && Selected != {0}[x].Id && {0}[x].Active === true)
+                            {{
+                                duplicated = true;
+                                break;
+                            }}
+                        }}
+
+                        if(duplicated === true)
+                        {{
+                            document.getElementById('Txt{0}NameErrorDuplicated').style.display='block';
+                            ok = false;
+                        }}
+                        else
+                        {{
+                            document.getElementById('Txt{0}NameErrorDuplicated').style.display='none';
+                        }}
+
+
+                        if(ok === false) {{ window.scrollTo(0, 0); return false; }}
+
+                        document.getElementById('Txt{0}NameErrorRequired').style.display='none';
+                        document.getElementById('Txt{0}NameErrorDuplicated').style.display='none';
+                        $(this).dialog("close");
+                        {0}UpdateConfirmed(Selected, document.getElementById('Txt{0}Name').value);
+                    }}
+                }},
+                {{
+                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    click: function () {{
+                        $(this).dialog("close");
+                    }}
+                }}
+            ]
+
+    }});
+}}
+
+function {0}UpdateConfirmed(id,newDescription)
+{{
+    // 1.- Modificar en la BBDD
+    var webMethod = "/Async/{0}Actions.asmx/Update";
+    var description = '';
+    for(var x=0; x<{0}.length;x++)
+    {{
+        if({0}[x].Id === id)
+        {{
+            description = {0}[x].Value;
+            break;
+        }}
+    }}
+    var data = {{
+        '{0}Id': id,
+        'description': newDescription,
+        'companyId': Company.Id,
+        'userId': user.Id
+    }};
+
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({{
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (response) {{
+            LoadingHide();
+            if (response.d.Success !== true) {{
+                alertUI(response.d.MessageError);
+            }}
+        }},
+        error: function (jqXHR, textStatus, errorThrown) {{
+            LoadingHide();
+            alertUI(jqXHR.responseText);
+        }}
+    }});
+
+    // 2.- Modificar en HTML
+    var temp = new Array();
+    for(var x=0; x<{0}.length;x++)
+    {{
+        if({0}[x].Id!== id)
+        {{
+            temp.push({0}[x]);
+        }}
+        else
+        {{
+            var item = {0}[x];
+            temp.push({{"Id":item.Id,"Value":newDescription,"Active":item.Active,"Deletable":item.Delete}});
+        }}
+    }}
+
+    {0} = new Array();
+    for(var x=0; x<temp.length;x++)
+    {{
+        {0}.push(temp[x]);
+    }}
+
+    // 3.- Modificar la fila de la tabla del popup
+    var target = document.getElementById('Selectable{0}');
+    for(var x=0; x< target.childNodes.length; x++)
+    {{
+        if(target.childNodes[x].id == id)
+        {{
+            target.childNodes[x].childNodes[0].innerHTML = newDescription;
+            break;
+        }}
+    }}
+
+    // 4.- Modificar el texto si es el seleccionado
+    if({0}Selected=== id)
+    {{
+        document.getElementById('Txt{0}').value = newDescription;
+    }}
+
+    FillCmb{0}();
+}}
+            
+// Delete functions for bar item {0}
+function {0}Delete(sender)
+{{
+    $('#{0}Name').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    Selected = sender.parentNode.parentNode.parentNode.id * 1;
+    var dialog = $('#{0}DeleteDialog').removeClass('hide').dialog({{
+        resizable: false,
+        modal: true,
+        title: Dictionary.Common_Delete,
+        title_html: true,
+        buttons:
+        [
+            {{
+                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
+                "class": "btn btn-danger btn-xs",
+                click: function () {{
+                    $(this).dialog("close");
+                    {0}DeleteConfirmed(Selected);
+                }}
+            }},
+            {{
+                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                click: function () {{ $(this).dialog("close"); }}
+            }}
+        ]
+    }});
+}}
+            
+function {0}DeleteConfirmed(id)
+{{
+    // 1.- Desactivar en la BBDD
+    var webMethod = '/Async/{0}Actions.asmx/Delete';
+    var description = '';
+    for(var x=0; x<{0}.length;x++)
+    {{
+        if({0}[x].Id === id)
+        {{
+            description = {0}[x].Value;
+            break;
+        }}
+    }}
+
+    var data = {{
+        '{0}Id': id,
+        'description': description,
+        'companyId': Company.Id,
+        'userId': user.Id
+    }};
+
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({{
+        type: 'POST',
+        url: webMethod,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(data, null, 2),
+        success: function (response)
+        {{
+            LoadingHide();
+            if (response.d.Success !== true) {{ alertUI(response.d.MessageError); }}
+        }},
+        error: function (jqXHR, textStatus, errorThrown)
+        {{
+            LoadingHide();
+            alertUI(jqXHR.responseText);
+        }}
+    }});
+
+    // 2.- Desactivar en HTML
+    var temp = new Array();
+    for(var x=0; x<{0}.length;x++)
+    {{
+        if({0}[x].Id!== id) {{ temp.push({0}[x]); }}
+    }}
+
+    {0} = new Array();
+    for(var x=0; x<temp.length;x++)
+    {{
+        {0}.push(temp[x]);
+    }}
+
+    // 3.- Eliminar la fila de la tabla del popup
+    var target = document.getElementById('Selectable{0}');
+    for(var x=0; x< target.childNodes.length; x++)
+    {{
+        if(target.childNodes[x].id == id)
+        {{
+            target.childNodes[x].style.display='none';
+            break;
+        }}
+    }}
+
+    FillCmb{0}();
+}}
+
+
+// Common scripts
+function {0}RenderPopup() 
+{{
+    VoidTable('Selectable{0}');
+    var target = document.getElementById('Selectable{0}');
+    for (var x = 0; x < {0}.length; x++) 
+    {{
+        {0}PopupRow({0}[x], target)
+    }}
+}}
+
+function {0}PopupRow(item, target) {{
+    if (item.Active === false) return;
+    var tr = document.createElement('tr');
+    tr.id = item.Id;
+    var td1 = document.createElement('td');
+    var td2 = document.createElement('td');
+    if ({0}Selected === item.Id) {{
+        td1.style.fontWeight = 'bold';
+    }}
+    td1.appendChild(document.createTextNode(item.Value));
+
+    var div = document.createElement('div');
+    var span1 = document.createElement('span');
+    span1.className = 'btn btn-xs btn-success';
+    span1.title = Dictionary.Common_SelectAll;
+    var i1 = document.createElement('i');
+    i1.className = 'icon-star bigger-120';
+    span1.appendChild(i1);
+
+    if ({0}Selected === item.Id) {{
+        span1.onclick = function () {{ alertUI(Dictionary.Common_Selected); }};
+    }}
+    else {{
+        span1.onclick = function () {{ {0}Changed(this); }};
+    }}
+
+    div.appendChild(span1);
+
+    var span2 = document.createElement('span');
+    span2.className = 'btn btn-xs btn-info';
+    span2.title = Dictionary.Common_Edit;
+    var i2 = document.createElement('i');
+    i2.className = 'icon-edit bigger-120';
+    span2.appendChild(i2);
+    div.appendChild(document.createTextNode(' '));
+    div.appendChild(span2);
+
+    if (item.Id < 0) {{
+        span2.onclick = function () {{ alertUI(Dictionary.Common_Error_Kernel_Delete); }};
+    }}
+    else {{
+        span2.onclick = function () {{ {0}Update(this); }};
+    }}
+
+    var span3 = document.createElement('span');
+    span3.className = 'btn btn-xs btn-danger';
+    span3.title = Dictionary.Common_Delete;
+    var i3 = document.createElement('i');
+    i3.className = 'icon-trash bigger-120';
+    span3.appendChild(i3);
+
+    if ({0}Selected === item.Id) {{
+        span3.onclick = function () {{ alertUI(Dictionary.Common_Selected); }};
+    }}
+    else if (item.Id < 0) {{
+        span3.onclick = function () {{ alertUI(Dictionary.Common_Error_Kernel_Delete); }};
+    }}
+    else if (item.Deletable === false) {{
+        span3.onclick = function () {{ alertUI(Dictionary.Common_Error_NoDeletable); }};
+    }}
+    else {{
+        span3.onclick = function () {{ {0}Delete(this); }};
+    }}
+    div.appendChild(document.createTextNode(' '));
+    div.appendChild(span3);
+    td2.appendChild(div);
+
+
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    target.appendChild(tr);
+}}

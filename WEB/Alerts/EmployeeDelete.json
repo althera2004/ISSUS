@@ -1,0 +1,94 @@
+﻿{
+    "CompanyId": 0,
+    "ItemType": 11,
+    "ItemUrl": "Employee.aspx?id=",
+    "AlertDescription": "Responsable no activo",
+    "Query": "
+
+SELECT
+	DATA.Id as Id,
+	CASE
+		WHEN DATA.ItemType = 'E' THEN 'Equipo ' + DATA.Description
+		WHEN DATA.ItemType = 'ECDI' THEN 'Calibración interna<br />Equipo ' + DATA.Description
+		WHEN DATA.ItemType = 'ECDE' THEN 'Calibración externa<br />Equipo ' + DATA.Description
+		WHEN DATA.ItemType = 'EVDI' THEN 'Verificación interna<br />Equipo ' + DATA.Description
+		WHEN DATA.ItemType = 'EVDE' THEN 'Verificación externa<br />Equipo ' + DATA.Description
+	END AS Description
+FROM
+(
+select
+	E.Id AS Id,
+	E.Description AS Description,
+	E.Id AS ItemId,
+	'E' AS ItemType,
+	EMP.Id AS EmployeeId,
+	ISNULL(EMP.Name,'') AS EmployeeName,
+	ISNULL(EMP.LastName,'') AS EmployeeLastName
+FROM Equipment E WITH(NOLOCK)
+INNER JOIN Employee EMP WITH(NOLOCK)
+ON	EMP.Id = E.Resposable
+AND EMP.Active = 0
+WHERE
+	E.Active = 1
+AND	E.CompanyId = #CompanyId#
+
+UNION
+
+select
+	ECD.EquipmentId AS Id,
+	E.Description AS Description,
+	ECD.Id AS ItemId,
+	'ECD' + CASE WHEN ECD.Type = 0 THEN 'I' ELSE 'E' END AS ItemType,
+	EMP.Id AS EmployeeId,
+	ISNULL(EMP.Name,'') AS EmployeeName,
+	ISNULL(EMP.LastName,'') AS EmployeeLastName
+FROM EquipmentCalibrationDefinition ECD WITH(NOLOCK)
+INNER JOIN Employee EMP WITH(NOLOCK)
+ON	EMP.Id = ECD.Responsable
+INNER JOIN Equipment E WITH(NOLOCK)
+ON	E.Id = ECD.EquipmentId
+AND E.Active = 1
+AND EMP.Active = 0
+WHERE
+	ECD.Active = 1
+AND	ECD.CompanyId = #CompanyId#
+
+UNION
+
+select
+	EVD.EquipmentId AS Id,
+	E.Description AS Description,
+	EVD.Id AS ItemId,
+	'EVD' + CASE WHEN EVD.VerificationType = 0 THEN 'I' ELSE 'E' END AS ItemType,
+	EMP.Id AS EmployeeId,
+	ISNULL(EMP.Name,'') AS EmployeeName,
+	ISNULL(EMP.LastName,'') AS EmployeeLastName
+FROM EquipmentVerificationDefinition EVD WITH(NOLOCK)
+INNER JOIN Employee EMP WITH(NOLOCK)
+ON	EMP.Id = EVD.Responsable
+INNER JOIN Equipment E WITH(NOLOCK)
+ON	E.Id = EVD.EquipmentId
+AND E.Active = 1
+AND EMP.Active = 0
+WHERE
+	EVD.Active = 1
+AND	EVD.CompanyId = #CompanyId#
+) AS DATA
+                    
+        ",
+    "Index":
+    [
+        {"Position": 0, "FieldName": "Id"},
+        {"Position": 1, "FieldName": "Description"}
+    ],
+    "Tag": "<li>
+                                    <a href=\"EquipmentView.aspx?id={0}\">
+                                                <strong>Responsable no activo</strong><br />
+                                        <div class=\"clearfix\">
+                                            <span class=\"pull-left\">
+                                                <table><tr><td align=\"top\"> <i class=\"btn btn-xs no-hover btn-warning icon-tag\"></i></td><td><span style=\"width:150px;white-space:normal;\">{1}</span></td></tr></table>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>"
+}

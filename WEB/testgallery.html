@@ -1,0 +1,2481 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta charset="utf-8" /><title>
+	ISSUS 1.2
+</title><meta http-equiv="CACHE-CONTROL" content="NO-CACHE" /><meta name="description" content="overview &amp; stats" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" /><link rel="stylesheet" href="assets/css/bootstrap.min.css" /><link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+
+    <!--[if IE 7]>
+        <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+    <![endif]-->
+    <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.custom.min.css" /><link rel="stylesheet" href="assets/css/chosen.css" /><link rel="stylesheet" href="assets/css/datepicker.css" /><link rel="stylesheet" href="assets/css/bootstrap-timepicker.css" /><link rel="stylesheet" href="assets/css/daterangepicker.css" /><link rel="stylesheet" href="assets/css/colorpicker.css" /><link rel="stylesheet" href="assets/css/ace-fonts.css" /><link rel="stylesheet" href="customization/12.css" /><link rel="stylesheet" href="assets/css/ace-rtl.min.css" /><link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+    <![endif]-->
+    <style type="text/css">
+        ._ASC{background:url(../../images/sort_incr.png) no-repeat;background-position:center left;padding-left:20px !important;}
+        ._DESC{background:url(../../images/sort_decrease.png) no-repeat;background-position:center left;padding-left:20px !important;}
+        .iconfile{ 
+            border:1px solid #777;
+            background-color:#fdfdfd;
+    -webkit-box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
+-moz-box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
+box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
+}
+        .sort:after {
+            float: right;
+            display: inline;
+            content: "\f0dc";
+            font-family: FontAwesome;
+            font-size: 13px;
+            font-weight: 400;
+            color: #555;
+            cursor:pointer;
+        } 
+        .ASC:after {
+            float: right;
+            display: inline;
+            content: "\f0dd";
+            font-family: FontAwesome;
+            font-size: 13px;
+            font-weight: 400;
+            color: #55f;
+            cursor:pointer;
+        }
+        .DESC:after {
+            float: right;
+            display: inline;
+            content: "\f0de";
+            font-family: FontAwesome;
+            font-size: 13px;
+            font-weight: 400;
+            color: #55f;
+            cursor:pointer;
+        }
+
+        .NoData { text-shadow:#fff 0px 1px 0, #000 0 -1px 0;}
+
+        textarea { resize: none; }
+        select { font-size: 14px; }
+        .dd-desc{display:none !important}
+        .dd-selected, .dd-option{padding:2px !important}
+        .dd-option-image,.dd-selected-image{margin-top:3px !important;margin-left:2px !important}
+        .required{color:#f00;}
+        
+        input.money-bank{text-align: right;}
+        input.money-bank-nozero{text-align: right;}
+        input.integer{text-align:right;}
+        input.integerFormated{text-align:right;}
+        input.decimalFormated{text-align:right;}
+        
+        BODY{
+          -moz-user-select: none;
+          -khtml-user-select: none;
+          -webkit-user-select: none;
+          user-select: none;
+        }
+
+        #build
+        {
+            bottom:0;
+            font-size:9px;
+            margin-left:4px;
+            color:#555;
+            position:fixed;
+        }
+
+        .scrollTable {background-color:#fdfdfd;}
+
+        .scrollTable tbody:last-child {
+            border-bottom:1px solid #ddd;
+        }
+
+        .scrollTable tr:nth-child(odd) {background-color:#f9f9f9;}
+        .scrollTable tr:nth-child(even) {background-color:#fff;}
+
+        @media print {
+            #navbar {display:none;}
+            #sidebar {display:none;}
+            #logofooter {display:none;}
+            #breadcrumbs{display:none;}
+            .page-content {width:100%;left:0;right:0;}
+            .tab-content{display:block !important;}
+        }
+    </style>
+    <!-- Specific style of page -->
+    <script type="text/javascript" src="js/Data.aspx"></script>
+    
+    <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
+
+    <script type="text/javascript">
+        var scaleImages = false;
+        var ApplicationUser = {
+    "Id":50,
+    "Login":"ADMIN",
+    "Language":"ca",
+    "ShowHelp":false,
+    "Status":"Ok",    "Employee":
+			{
+				"Id":3,
+				"CompanyId":0,
+				"Name":"Juan",
+				"LastName":"Castilla Calderón",
+				"Nif":"",
+				"Email":"",
+				"Phone":"",
+				"Address":
+                                {
+                                    "Address":"",
+                                    "PostalCode":"",
+                                    "City":"",
+                                    "Province":"",
+                                    "Country":0
+                                },
+				"Notes":"",
+				"DisabledDate":null,
+				"Active":false,
+				"JobPositions":[]
+			},
+        "Grants":
+        {
+            "undefined":{"Read": true, "Write": true, "Delete": true},
+            "CompanyProfile":{"Read": true, "Write": true, "Delete": true},
+            "JobPosition":{"Read": true, "Write": true, "Delete": true},
+            "Department":{"Read": true, "Write": true, "Delete": true},
+            "Employee":{"Read": true, "Write": true, "Delete": true},
+            "User":{"Read": true, "Write": true, "Delete": true},
+            "Document":{"Read": true, "Write": true, "Delete": true},
+            "Proccess":{"Read": true, "Write": true, "Delete": true},
+            "Learning":{"Read": true, "Write": true, "Delete": true},
+            "Incident":{"Read": true, "Write": true, "Delete": true},
+            "IncidentActions":{"Read": true, "Write": true, "Delete": true},
+            "Provider":{"Read": true, "Write": true, "Delete": true},
+            "Customer":{"Read": true, "Write": true, "Delete": true},
+            "Cost":{"Read": true, "Write": true, "Delete": true},
+            "undefined":{"Read": true, "Write": true, "Delete": true},
+            "BusinessRisk":{"Read": true, "Write": true, "Delete": true},
+            "Rules":{"Read": true, "Write": true, "Delete": true},
+            "undefined":{"Read": true, "Write": true, "Delete": true}
+        }
+
+    };
+    </script>
+    <script type="text/javascript" src="assets/js/ace-extra.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+    <!-- Specific scripts of page -->
+
+        <!--[if IE]>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <![endif]-->
+    
+
+    <script type="text/javascript">
+    var GrantToWrite = true;
+    var IncidentAction = {
+	"Id":82,
+	"CompanyId":12,
+	"ActionType":2,
+	"Description":"jhkjhk",
+	"Origin":3,
+	"ReporterType":1,
+	"Department":{"Id":25, "Description":""},
+	"Provider":null,
+	"Customer":null,
+	"Number":4,
+	"IncidentId":6,
+	"BusinessRiskId":0,
+	"WhatHappened":"klkhlkhlkhl",
+	"WhatHappenedBy":{"Id":3,"Value":"Juan Castilla Calderón", "Active":false},
+	"WhatHappenedOn":20160604,
+	"Causes":"",
+	"CausesBy":{"Id":-1,"Value":"", "Active":false},
+	"CausesOn":null,
+	"Actions":"",
+	"ActionsBy":{"Id":-1,"Value":"", "Active":false},
+	"ActionsOn":null,
+	"Monitoring":"",
+	"ClosedBy":{"Id":-1,"Value":"", "Active":false},
+	"ClosedOn":null,
+	"Notes":"",
+	"Active":true
+	};
+    var IncidentActionId = 82;
+        var Incident = {
+	"Id":6,
+	"CompanyId":12,
+	"Code":3,
+	"Description":"jhkjhk",
+	"Origin":1,
+	"Department":{"Id":25, "Description":""},
+	"Provider":{"Id":0, "Description":""},
+	"Customer":{"Id":0,"Description":""},
+	"WhatHappened":"klkhlkhlkhl",
+	"WhatHappenedBy":{"Id":3,"Value":"Juan Castilla Calderón", "Active":false},
+	"WhatHappenedOn":20160604,
+	"Causes":"",
+	"CausesBy":{"Id":-1,"Value":"", "Active":false},
+	"CausesOn":null,
+	"Actions":"",
+	"ActionsBy":{"Id":-1,"Value":"", "Active":false},
+	"ActionsOn":null,
+	"ClosedBy":{"Id":-1,"Value":"", "Active":false},
+	"ClosedOn":null,
+	"ApplyAction":false,
+	"Notes":"",
+	"Active":true
+	};
+        var Costs = [{
+                        "Id":1,
+                        "Description":"Recarga extintores",
+                        "Amount":25.100,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":30/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":2,
+                        "Description":"Revisión caldera",
+                        "Amount":34.000,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":30/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":3,
+                        "Description":"Desinfección canalización del aire",
+                        "Amount":125.345,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":28/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":4,
+                        "Description":"borrable",
+                        "Amount":0.000,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":14/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":6,
+                        "Description":"qwe",
+                        "Amount":123.000,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":29/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":7,
+                        "Description":"tr",
+                        "Amount":12.000,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":29/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":9,
+                        "Description":"cien coma 12",
+                        "Amount":100.120,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":30/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":10,
+                        "Description":"doce coma 5",
+                        "Amount":12.500,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":30/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":11,
+                        "Description":"quince con trece",
+                        "Amount":15.130,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":29/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":12,
+                        "Description":"test",
+                        "Amount":12.000,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":29/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":14,
+                        "Description":"miles",
+                        "Amount":1234.570,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":30/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":16,
+                        "Description":"coste modificado",
+                        "Amount":45.680,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":30/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":17,
+                        "Description":"nuevo",
+                        "Amount":111.000,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":30/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":18,
+                        "Description":"modificado",
+                        "Amount":45.680,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":30/05/2016,
+                        "Active":false,
+                        "Deletable":true
+                    },{
+                        "Id":19,
+                        "Description":"coste habitual modificado",
+                        "Amount":46.680,
+                        "ModifiedBy":{"Id":50,"Value":"ADMIN"},
+                        "ModifiedOn":06/07/2016,
+                        "Active":true,
+                        "Deletable":true
+                    },{
+                        "Id":20,
+                        "Description":"añadido desde BAR - 185",
+                        "Amount":185.130,
+                        "ModifiedBy":{"Id":234,"Value":"AALALAA"},
+                        "ModifiedOn":20/07/2016,
+                        "Active":true,
+                        "Deletable":true
+                    }];
+    var Providers = [{
+                        "Id": 26,
+                        "Description": "Aigua Sant hilari",
+                        "Active": true,
+                        "Deletable": false,
+                        "CompanyId": 12
+                      },{
+                        "Id": 22,
+                        "Description": "ARGASA Vending",
+                        "Active": true,
+                        "Deletable": true,
+                        "CompanyId": 12
+                      },{
+                        "Id": 25,
+                        "Description": "Artes gráficas Papiro",
+                        "Active": true,
+                        "Deletable": true,
+                        "CompanyId": 12
+                      },{
+                        "Id": 19,
+                        "Description": "Eninter elevadores y ascensores",
+                        "Active": true,
+                        "Deletable": true,
+                        "CompanyId": 12
+                      },{
+                        "Id": 24,
+                        "Description": "Manufactures del Vallès",
+                        "Active": true,
+                        "Deletable": true,
+                        "CompanyId": 12
+                      },{
+                        "Id": 13,
+                        "Description": "Néxica",
+                        "Active": true,
+                        "Deletable": false,
+                        "CompanyId": 12
+                      },{
+                        "Id": 20,
+                        "Description": "Orange - France Telecom",
+                        "Active": true,
+                        "Deletable": true,
+                        "CompanyId": 12
+                      },{
+                        "Id": 23,
+                        "Description": "ServiFoc extintores",
+                        "Active": true,
+                        "Deletable": true,
+                        "CompanyId": 12
+                      },{
+                        "Id": 32,
+                        "Description": "test-proveedor",
+                        "Active": true,
+                        "Deletable": false,
+                        "CompanyId": 12
+                      },{
+                        "Id": 21,
+                        "Description": "TXT-Express",
+                        "Active": true,
+                        "Deletable": true,
+                        "CompanyId": 12
+                      }];
+    var Customers = [{
+                        "Id": 9,
+                        "Description": "weke",
+                        "Active": true,
+                        "Deletable": false,
+                        "CompanyId": 12
+                      },{
+                        "Id": 11,
+                        "Description": "fdgsdfg",
+                        "Active": true,
+                        "Deletable": true,
+                        "CompanyId": 12
+                      }];
+    var Employees = [{"Id":57,"Value":"Adrián Cañete Álvarez", "Active":true},{"Id":2,"Value":"Alberto Gómez Martínez", "Active":true},{"Id":22,"Value":"Antonio Medina", "Active":true},{"Id":50,"Value":"Buzz Lightyear", "Active":true},{"Id":49,"Value":"Dado de baja", "Active":true},{"Id":37,"Value":"dfgdfg dfgdf", "Active":false},{"Id":3,"Value":"Juan Castilla Calderón", "Active":true},{"Id":1,"Value":"Pepito Grillo", "Active":false},{"Id":38,"Value":"qq qq", "Active":false},{"Id":51,"Value":"qq qq", "Active":false},{"Id":58,"Value":"WALL-E ..", "Active":true},{"Id":18,"Value":"wellys KEnny", "Active":true},{"Id":56,"Value":"Woody ..", "Active":true}];
+    var Departments = [
+                    {
+                        "Id":27,
+                        "Description":"Contable fiscal",
+                        "CompanyId":12,
+                        "Active": false,
+                        "Deletable": false
+                    },
+                    {
+                        "Id":25,
+                        "Description":"Desarrollo",
+                        "CompanyId":12,
+                        "Active": false,
+                        "Deletable": false
+                    },
+                    {
+                        "Id":9,
+                        "Description":"Gerencia",
+                        "CompanyId":12,
+                        "Active": false,
+                        "Deletable": false
+                    },
+                    {
+                        "Id":28,
+                        "Description":"Representación",
+                        "CompanyId":12,
+                        "Active": false,
+                        "Deletable": false
+                    },
+                    {
+                        "Id":26,
+                        "Description":"Seguridad",
+                        "CompanyId":12,
+                        "Active": false,
+                        "Deletable": false
+                    },
+                    {
+                        "Id":24,
+                        "Description":"Ventas",
+                        "CompanyId":12,
+                        "Active": false,
+                        "Deletable": false
+                    }];
+    var IncidentActionCosts = [];
+    var CompanyIncidentActionCosts = [{"Id":3,"IncidentActionId":54,"CompanyId":12,"Description":"Revisión caldera","Amount":34.00,"Quantity":1.00,"Responsible":{"Id":3,"Value":"Juan Castilla Calderón", "Active":false},"Active":true},{"Id":6,"IncidentActionId":61,"CompanyId":12,"Description":"coste modificado","Amount":45.68,"Quantity":2.00,"Responsible":{"Id":3,"Value":"Juan Castilla Calderón", "Active":false},"Active":true},{"Id":7,"IncidentActionId":61,"CompanyId":12,"Description":"nuevo","Amount":123.12,"Quantity":3.00,"Responsible":{"Id":3,"Value":"Juan Castilla Calderón", "Active":false},"Active":true},{"Id":8,"IncidentActionId":61,"CompanyId":12,"Description":"nuevo","Amount":111.00,"Quantity":3.00,"Responsible":{"Id":3,"Value":"Juan Castilla Calderón", "Active":false},"Active":true},{"Id":9,"IncidentActionId":54,"CompanyId":12,"Description":"añadido desde BAR","Amount":12.00,"Quantity":1.00,"Responsible":{"Id":3,"Value":"Juan Castilla Calderón", "Active":false},"Active":true}];
+    </script>
+</head>
+<body _oncontextmenu="return false;" style="background-image:url(/WelcomeBackgrounds/issus02.jpg);background-size:cover;">
+    <form method="post" action="./ActionView.aspx?id=82" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTg5ODYwNTIzNw9kFgJmD2QWAgIBD2QWDmYPFgIeBFRleHQFAjE0ZAIBDxYCHwAFAjE0ZAICDxYCHwAFjiw8bGk+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSJBY3Rpb25WaWV3LmFzcHg/aWQ9ODgiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPHN0cm9uZz5BbmFsaXphZGEgc2luIGFjdHVhY2nDs248L3N0cm9uZz48YnIgLz4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8ZGl2IGNsYXNzPSJjbGVhcmZpeCI+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJwdWxsLWxlZnQiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPHRhYmxlPjx0cj48dGQgYWxpZ249InRvcCI+IDxpIGNsYXNzPSJidG4gYnRuLXhzIG5vLWhvdmVyIGJ0bi13YXJuaW5nIGljb24tdGFnIj48L2k+PC90ZD48dGQ+PHNwYW4gc3R5bGU9IndpZHRoOjE1MHB4O3doaXRlLXNwYWNlOm5vcm1hbDsiPmNvbiBhY2Npb248L3NwYW4+PC90ZD48L3RyPjwvdGFibGU+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2E+DQogICAgPC9saT48bGk+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSJBY3Rpb25WaWV3LmFzcHg/aWQ9MTAwIj4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzdHJvbmc+QW5hbGl6YWRhIHNpbiBhY3R1YWNpw7NuPC9zdHJvbmc+PGJyIC8+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0iY2xlYXJmaXgiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzcz0icHVsbC1sZWZ0Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx0YWJsZT48dHI+PHRkIGFsaWduPSJ0b3AiPiA8aSBjbGFzcz0iYnRuIGJ0bi14cyBuby1ob3ZlciBidG4td2FybmluZyBpY29uLXRhZyI+PC9pPjwvdGQ+PHRkPjxzcGFuIHN0eWxlPSJ3aWR0aDoxNTBweDt3aGl0ZS1zcGFjZTpub3JtYWw7Ij5lc3Q8L3NwYW4+PC90ZD48L3RyPjwvdGFibGU+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2E+DQogICAgPC9saT48bGk+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSJBY3Rpb25WaWV3LmFzcHg/aWQ9MTAxIj4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzdHJvbmc+QW5hbGl6YWRhIHNpbiBhY3R1YWNpw7NuPC9zdHJvbmc+PGJyIC8+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0iY2xlYXJmaXgiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzcz0icHVsbC1sZWZ0Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx0YWJsZT48dHI+PHRkIGFsaWduPSJ0b3AiPiA8aSBjbGFzcz0iYnRuIGJ0bi14cyBuby1ob3ZlciBidG4td2FybmluZyBpY29uLXRhZyI+PC9pPjwvdGQ+PHRkPjxzcGFuIHN0eWxlPSJ3aWR0aDoxNTBweDt3aGl0ZS1zcGFjZTpub3JtYWw7Ij5lc3Q8L3NwYW4+PC90ZD48L3RyPjwvdGFibGU+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2E+DQogICAgPC9saT48bGk+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSJBY3Rpb25WaWV3LmFzcHg/aWQ9MTAyIj4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzdHJvbmc+QW5hbGl6YWRhIHNpbiBhY3R1YWNpw7NuPC9zdHJvbmc+PGJyIC8+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0iY2xlYXJmaXgiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzcz0icHVsbC1sZWZ0Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx0YWJsZT48dHI+PHRkIGFsaWduPSJ0b3AiPiA8aSBjbGFzcz0iYnRuIGJ0bi14cyBuby1ob3ZlciBidG4td2FybmluZyBpY29uLXRhZyI+PC9pPjwvdGQ+PHRkPjxzcGFuIHN0eWxlPSJ3aWR0aDoxNTBweDt3aGl0ZS1zcGFjZTpub3JtYWw7Ij5lc3Q8L3NwYW4+PC90ZD48L3RyPjwvdGFibGU+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2E+DQogICAgPC9saT48bGk+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSJBY3Rpb25WaWV3LmFzcHg/aWQ9MTAzIj4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzdHJvbmc+QW5hbGl6YWRhIHNpbiBhY3R1YWNpw7NuPC9zdHJvbmc+PGJyIC8+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0iY2xlYXJmaXgiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzcz0icHVsbC1sZWZ0Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx0YWJsZT48dHI+PHRkIGFsaWduPSJ0b3AiPiA8aSBjbGFzcz0iYnRuIGJ0bi14cyBuby1ob3ZlciBidG4td2FybmluZyBpY29uLXRhZyI+PC9pPjwvdGQ+PHRkPjxzcGFuIHN0eWxlPSJ3aWR0aDoxNTBweDt3aGl0ZS1zcGFjZTpub3JtYWw7Ij5lc3Q8L3NwYW4+PC90ZD48L3RyPjwvdGFibGU+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2E+DQogICAgPC9saT48bGk+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSJBY3Rpb25WaWV3LmFzcHg/aWQ9MTA0Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzdHJvbmc+QW5hbGl6YWRhIHNpbiBhY3R1YWNpw7NuPC9zdHJvbmc+PGJyIC8+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0iY2xlYXJmaXgiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzcz0icHVsbC1sZWZ0Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx0YWJsZT48dHI+PHRkIGFsaWduPSJ0b3AiPiA8aSBjbGFzcz0iYnRuIGJ0bi14cyBuby1ob3ZlciBidG4td2FybmluZyBpY29uLXRhZyI+PC9pPjwvdGQ+PHRkPjxzcGFuIHN0eWxlPSJ3aWR0aDoxNTBweDt3aGl0ZS1zcGFjZTpub3JtYWw7Ij50ZXN0IGhpc3TDs3JpY28gYWNjaW9uZXM8L3NwYW4+PC90ZD48L3RyPjwvdGFibGU+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2E+DQogICAgPC9saT48bGk+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSJBY3Rpb25WaWV3LmFzcHg/aWQ9MTA2Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzdHJvbmc+QW5hbGl6YWRhIHNpbiBhY3R1YWNpw7NuPC9zdHJvbmc+PGJyIC8+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0iY2xlYXJmaXgiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzcz0icHVsbC1sZWZ0Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx0YWJsZT48dHI+PHRkIGFsaWduPSJ0b3AiPiA8aSBjbGFzcz0iYnRuIGJ0bi14cyBuby1ob3ZlciBidG4td2FybmluZyBpY29uLXRhZyI+PC9pPjwvdGQ+PHRkPjxzcGFuIHN0eWxlPSJ3aWR0aDoxNTBweDt3aGl0ZS1zcGFjZTpub3JtYWw7Ij50ZXN0IGhpc3TDs3JpY28gYWNjaW9uZXM8L3NwYW4+PC90ZD48L3RyPjwvdGFibGU+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2E+DQogICAgPC9saT48bGk+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSJBY3Rpb25WaWV3LmFzcHg/aWQ9MTA3Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzdHJvbmc+QW5hbGl6YWRhIHNpbiBhY3R1YWNpw7NuPC9zdHJvbmc+PGJyIC8+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGRpdiBjbGFzcz0iY2xlYXJmaXgiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8c3BhbiBjbGFzcz0icHVsbC1sZWZ0Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDx0YWJsZT48dHI+PHRkIGFsaWduPSJ0b3AiPiA8aSBjbGFzcz0iYnRuIGJ0bi14cyBuby1ob3ZlciBidG4td2FybmluZyBpY29uLXRhZyI+PC9pPjwvdGQ+PHRkPjxzcGFuIHN0eWxlPSJ3aWR0aDoxNTBweDt3aGl0ZS1zcGFjZTpub3JtYWw7Ij50ZXN0IGhpc3TDs3JpY28gYWNjaW9uZXM8L3NwYW4+PC90ZD48L3RyPjwvdGFibGU+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L3NwYW4+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9kaXY+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2E+DQogICAgPC9saT48ZGl2PjwvZGl2PjxsaSBjbGFzcz0iZHJvcGRvd24tZm9vdGVyIj4NCgkJCQkJCQkJCTxhIGhyZWY9IkFsZXJ0cy5hc3B4Ij4NCgkJCQkJCQkJCQlWZXVyZSB0b3QNCgkJCQkJCQkJCQk8aSBjbGFzcz0iYWNlLWljb24gZmEgZmEtYXJyb3ctcmlnaHQiPjwvaT4NCgkJCQkJCQkJCTwvYT4NCgkJCQkJCQkJPC9saT5kAgMPFgIfAAXqBzxkaXYgY2xhc3M9InNpZGViYXItc2hvcnRjdXRzIiBpZD0ic2lkZWJhci1zaG9ydGN1dHMiPjxkaXYgY2xhc3M9InNpZGViYXItc2hvcnRjdXRzLWxhcmdlIiBpZD0ic2lkZWJhci1zaG9ydGN1dHMtbGFyZ2UiPjxidXR0b24gdHlwZT0iYnV0dG9uIiBjbGFzcz0iYnRuIGJ0bi1pbmZvIiBzdHlsZT0iaGVpZ2h0OjMycHg7IiBvbmNsaWNrPSJkb2N1bWVudC5sb2NhdGlvbj0nRGFzaEJvYXJkLmFzcHgnOyIgdGl0bGU9IkluaWNpIj48aSBjbGFzcz0iaWNvbi1kYXNoYm9hcmQiPjwvaT48L2J1dHRvbj48YnV0dG9uIHR5cGU9ImJ1dHRvbiIgY2xhc3M9ImJ0biBidG4tc3VjY2VzcyIgc3R5bGU9ImhlaWdodDozMnB4OyIgb25jbGljaz0iZG9jdW1lbnQubG9jYXRpb249J0RvY3VtZW50cy5hc3B4JzsiIHRpdGxlPSJEb2N1bWVudHMiPjxpIGNsYXNzPSJpY29uLWZpbGUiPjwvaT48L2J1dHRvbj48YnV0dG9uIHR5cGU9ImJ1dHRvbiIgY2xhc3M9ImJ0biBidG4tZGFuZ2VyIiBzdHlsZT0iaGVpZ2h0OjMycHg7IiBvbmNsaWNrPSJkb2N1bWVudC5sb2NhdGlvbj0nUnVsZXNMaXN0LmFzcHgnOyIgdGl0bGU9Ik5vcm1lcyI+PGkgY2xhc3M9Imljb24tZ2VhciI+PC9pPjwvYnV0dG9uPjxidXR0b24gdHlwZT0iYnV0dG9uIiBjbGFzcz0iYnRuIGJ0bi13YXJuaW5nIiBzdHlsZT0iaGVpZ2h0OjMycHg7IiBvbmNsaWNrPSJkb2N1bWVudC5sb2NhdGlvbj0nQnVzaW5lc3NSaXNrc0xpc3QuYXNweCc7IiB0aXRsZT0iUmlzYyI+PGkgY2xhc3M9Imljb24tcmF5Ij48L2k+PC9idXR0b24+PC9kaXY+PGRpdiBjbGFzcz0ic2lkZWJhci1zaG9ydGN1dHMtbWluaSIgaWQ9InNpZGViYXItc2hvcnRjdXRzLW1pbmkiPjxzcGFuIGNsYXNzPSJidG4gYnRuLWluZm8iPjwvc3Bhbj48c3BhbiBjbGFzcz0iYnRuIGJ0bi1zdWNjZXNzIj48L3NwYW4+PHNwYW4gY2xhc3M9ImJ0biBidG4tZGFuZ2VyIj48L3NwYW4+PHNwYW4gY2xhc3M9ImJ0biBidG4td2FybmluZyI+PC9zcGFuPjwvZGl2PjwvZGl2PmQCBA8WAh8ABcQfPGxpID48YSBocmVmPSIvRGFzaEJvYXJkLmFzcHgiPjxpIGNsYXNzPSJpY29uLWRhc2hib2FyZCI+PC9pPjxzcGFuIGNsYXNzPSJtZW51LXRleHQiPiBJbmljaSA8L3NwYW4+PC9hPjwvbGk+PGxpIGNsYXNzPSJoc3ViIj4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSIjIiBjbGFzcz0iZHJvcGRvd24tdG9nZ2xlIj4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGkgY2xhc3M9Imljb24tdGFnIj48L2k+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxzcGFuIGNsYXNzPSJtZW51LXRleHQiPiBQYW5lbCBkZSBjb250cm9sIDwvc3Bhbj4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGIgY2xhc3M9ImFycm93IGljb24tYW5nbGUtZG93biI+PC9iPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvYT4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8dWwgY2xhc3M9InN1Ym1lbnUgbmF2LXNob3ciIHN0eWxlPSJkaXNwbGF5Om5vbmU7Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGxpPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGEgaHJlZj0iaHR0cDovL2xvY2FsaG9zdDo4MS9Db21wYW55UHJvZmlsZS5hc3B4Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8aSBjbGFzcz0iaWNvbi1idWlsZGluZyI+PC9pPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIERhZGVzIGRlIGzCtGVtcHJlc2ENCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvYT4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9saT48bGk+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSJodHRwOi8vbG9jYWxob3N0OjgxL0RlcGFydG1lbnRzTGlzdC5hc3B4Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8aSBjbGFzcz0iaWNvbi1icmllZmNhc2UiPjwvaT4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBEZXBhcnRhbWVudHMNCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvYT4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9saT48bGk+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8YSBocmVmPSJodHRwOi8vbG9jYWxob3N0OjgxL0Nhcmdvc0xpc3QuYXNweCI+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGkgY2xhc3M9Imljb24tZ2VhciI+PC9pPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEPDoHJyZWNzDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2E+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvbGk+PGxpPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGEgaHJlZj0iaHR0cDovL2xvY2FsaG9zdDo4MS9FbXBsb3llZXNMaXN0LmFzcHgiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxpIGNsYXNzPSJpY29uLW1hbGUiPjwvaT4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBFbXBsZWF0cw0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9hPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2xpPjxsaT4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxhIGhyZWY9Imh0dHA6Ly9sb2NhbGhvc3Q6ODEvUHJvdmlkZXJzTGlzdC5hc3B4Ij4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8aSBjbGFzcz0iaWNvbi10cnVjayI+PC9pPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFByb3Zlw69kb3JzDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2E+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvbGk+PGxpPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGEgaHJlZj0iaHR0cDovL2xvY2FsaG9zdDo4MS9DdXN0b21lcnNMaXN0LmFzcHgiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxpIGNsYXNzPSJpY29uLXN1aXRjYXNlIj48L2k+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ2xpZW50cw0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9hPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2xpPjxsaT4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxhIGhyZWY9Imh0dHA6Ly9sb2NhbGhvc3Q6ODEvVXNlckxpc3QuYXNweCI+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGkgY2xhc3M9Imljb24tZ3JvdXAiPjwvaT4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBVc3VhcmlzDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2E+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvbGk+PGxpPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGEgaHJlZj0iaHR0cDovL2xvY2FsaG9zdDo4MS9SdWxlc0xpc3QuYXNweCI+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPGkgY2xhc3M9Imljb24tZ2VhciI+PC9pPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE5vcm1lcw0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9hPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2xpPjxsaT4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxhIGhyZWY9Imh0dHA6Ly9sb2NhbGhvc3Q6ODEvQ29zdERlZmluaXRpb25MaXN0LmFzcHgiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDxpIGNsYXNzPSJpY29uLW1vbmV5Ij48L2k+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ29zdCBoYWJpdHVhbA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC9hPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8L2xpPg0KICAgICAgICAgICAgICAgICAgICAgICAgICAgIDwvdWw+DQogICAgICAgICAgICAgICAgICAgICAgICA8L2xpPjxsaSA+PGEgaHJlZj0iL0RvY3VtZW50cy5hc3B4Ij48aSBjbGFzcz0iaWNvbi1maWxlIj48L2k+PHNwYW4gY2xhc3M9Im1lbnUtdGV4dCI+IERvY3VtZW50cyA8L3NwYW4+PC9hPjwvbGk+PGxpID48YSBocmVmPSIvUHJvY2Vzb3NMaXN0LmFzcHgiPjxpIGNsYXNzPSJpY29uLWNvZ3MiPjwvaT48c3BhbiBjbGFzcz0ibWVudS10ZXh0Ij4gUHJvY2Vzc29zIDwvc3Bhbj48L2E+PC9saT48bGkgPjxhIGhyZWY9Ii9Gb3JtYWNpb25MaXN0LmFzcHgiPjxpIGNsYXNzPSJpY29uLWdyYWR1YXRpb24tY2FwIj48L2k+PHNwYW4gY2xhc3M9Im1lbnUtdGV4dCI+IEZvcm1hY2nDsyA8L3NwYW4+PC9hPjwvbGk+PGxpID48YSBocmVmPSIvRXF1aXBtZW50TGlzdC5hc3B4Ij48aSBjbGFzcz0iaWNvbi1sYXB0b3AiPjwvaT48c3BhbiBjbGFzcz0ibWVudS10ZXh0Ij4gRXF1aXBzIDwvc3Bhbj48L2E+PC9saT48bGkgPjxhIGhyZWY9Ii9JbmNpZGVudExpc3QuYXNweCI+PGkgY2xhc3M9Imljb24td2FybmluZy1zaWduIj48L2k+PHNwYW4gY2xhc3M9Im1lbnUtdGV4dCI+IEluY2lkw6huY2llcyA8L3NwYW4+PC9hPjwvbGk+PGxpID48YSBocmVmPSIvQWN0aW9uTGlzdC5hc3B4Ij48aSBjbGFzcz0iaWNvbi10YWdzIj48L2k+PHNwYW4gY2xhc3M9Im1lbnUtdGV4dCI+IEFjY2lvbnMgPC9zcGFuPjwvYT48L2xpPjxsaSA+PGEgaHJlZj0iL0J1c2luZXNzUmlza3NMaXN0LmFzcHgiPjxpIGNsYXNzPSJpY29uLXJheSI+PC9pPjxzcGFuIGNsYXNzPSJtZW51LXRleHQiPiBSaXNjb3MgPC9zcGFuPjwvYT48L2xpPmQCBQ8WAh8ABRExLjIuMzkzNi4yMDE2MDUyOWQCBw8PFgIeCEltYWdlVXJsBTwvaW1hZ2VzL0xvZ29zLzEyLmpwZz9hYz0wNjI0M2IwMi04YTUxLTQ2NzEtYjYyNy05MmE5ZDkzNzAzOGUWAh4GaGVpZ2h0BQIzMGRkQsQCoOjkTjP7bBHXtI+oD14WfhkGN8RxyW9R/V+QTJo=" />
+</div>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="BDB90124" />
+</div>
+        <div class="navbar navbar-fixed-top" id="navbar">
+            <script type="text/javascript">
+                try { ace.settings.check('navbar', 'fixed') } catch (e) { }
+            </script>
+            <div class="navbar-container" id="navbar-container">
+                <div class="navbar-header pull-left">
+                    <span class="navbar-brand"><small>Sbrinna S.L. - ISSUS 1.2</small></span>
+                </div><!-- /.navbar-header -->
+                <div class="navbar-header pull-right" role="navigation">
+                    <ul class="nav ace-nav">
+                        <li class="grey">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <i class="icon-bell-alt icon-animated-bell"></i>
+                                <span class="badge badge-important">14</span>
+                            </a>
+                            <ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+                                <li class="dropdown-header"><i class="icon-warning-sign"></i>14 Avisos</li>
+                                <li>
+                                    <a href="ActionView.aspx?id=88">
+                                                <strong>Analizada sin actuación</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">con accion</span></td></tr></table>                                            </span>
+                                        </div>
+                                    </a>
+    </li><li>
+                                    <a href="ActionView.aspx?id=100">
+                                                <strong>Analizada sin actuación</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">est</span></td></tr></table>                                            </span>
+                                        </div>
+                                    </a>
+    </li><li>
+                                    <a href="ActionView.aspx?id=101">
+                                                <strong>Analizada sin actuación</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">est</span></td></tr></table>                                            </span>
+                                        </div>
+                                    </a>
+    </li><li>
+                                    <a href="ActionView.aspx?id=102">
+                                                <strong>Analizada sin actuación</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">est</span></td></tr></table>                                            </span>
+                                        </div>
+                                    </a>
+    </li><li>
+                                    <a href="ActionView.aspx?id=103">
+                                                <strong>Analizada sin actuación</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">est</span></td></tr></table>                                            </span>
+                                        </div>
+                                    </a>
+    </li><li>
+                                    <a href="ActionView.aspx?id=104">
+                                                <strong>Analizada sin actuación</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">test histórico acciones</span></td></tr></table>                                            </span>
+                                        </div>
+                                    </a>
+    </li><li>
+                                    <a href="ActionView.aspx?id=106">
+                                                <strong>Analizada sin actuación</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">test histórico acciones</span></td></tr></table>                                            </span>
+                                        </div>
+                                    </a>
+    </li><li>
+                                    <a href="ActionView.aspx?id=107">
+                                                <strong>Analizada sin actuación</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">test histórico acciones</span></td></tr></table>                                            </span>
+                                        </div>
+                                    </a>
+    </li><div></div><li class="dropdown-footer">
+									<a href="Alerts.aspx">
+										Veure tot
+										<i class="ace-icon fa fa-arrow-right"></i>
+									</a>
+								</li>
+                            </ul>
+                        </li>
+                        <li class="light-blue">
+                            <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                                <img class="nav-user-photo" src="assets/avatars/avatar07.png" alt="ADMIN" />
+                                <span class="user-info"><small>Benvingut,</small>ADMIN</span>
+                                <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                                <li><a href="UserProfileView.aspx"><i class="icon-user"></i>Perfil de l´usuari</a></li>
+                                <li class="divider"></li>
+                                <li><a href="LogOut.aspx"><i class="icon-off"></i>Sortir</a></li>
+                            </ul>
+                        </li>
+                    </ul><!-- /.ace-nav -->
+                </div><!-- /.navbar-header -->
+            </div><!-- /.container -->
+        </div>
+        <div class="main-container" id="main-container" style="padding-top:45px;">
+            <script type="text/javascript">
+                try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+            </script>
+            <div class="main-container-inner" id="container">
+                <a class="menu-toggler" id="menu-toggler" href="#">
+                    <span class="menu-text"></span>
+                </a>
+                <div class="sidebar responsive sidebar-fixed sidebar-scroll" id="sidebar" data-sidebar="true">
+                    <script type="text/javascript">
+                        try { ace.settings.check('sidebar', 'fixed') } catch (e) { }
+                    </script>
+
+                    <!-- #sidebar-shortcuts -->
+                    <div class="sidebar-shortcuts" id="sidebar-shortcuts"><div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large"><button type="button" class="btn btn-info" style="height:32px;" onclick="document.location='DashBoard.aspx';" title="Inici"><i class="icon-dashboard"></i></button><button type="button" class="btn btn-success" style="height:32px;" onclick="document.location='Documents.aspx';" title="Documents"><i class="icon-file"></i></button><button type="button" class="btn btn-danger" style="height:32px;" onclick="document.location='RulesList.aspx';" title="Normes"><i class="icon-gear"></i></button><button type="button" class="btn btn-warning" style="height:32px;" onclick="document.location='BusinessRisksList.aspx';" title="Risc"><i class="icon-ray"></i></button></div><div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini"><span class="btn btn-info"></span><span class="btn btn-success"></span><span class="btn btn-danger"></span><span class="btn btn-warning"></span></div></div>
+                    <!-- #sidebar-shortcuts -->
+
+                    <ul class="nav nav-list">
+                        <li ><a href="/DashBoard.aspx"><i class="icon-dashboard"></i><span class="menu-text"> Inici </span></a></li><li class="hsub">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="icon-tag"></i>
+                                <span class="menu-text"> Panel de control </span>
+                                <b class="arrow icon-angle-down"></b>
+                            </a>
+                            <ul class="submenu nav-show" style="display:none;">
+                                <li>
+                                    <a href="http://localhost:81/CompanyProfile.aspx">
+                                        <i class="icon-building"></i>
+                                        Dades de l´empresa
+                                    </a>
+                                </li><li>
+                                    <a href="http://localhost:81/DepartmentsList.aspx">
+                                        <i class="icon-briefcase"></i>
+                                        Departaments
+                                    </a>
+                                </li><li>
+                                    <a href="http://localhost:81/CargosList.aspx">
+                                        <i class="icon-gear"></i>
+                                        Càrrecs
+                                    </a>
+                                </li><li>
+                                    <a href="http://localhost:81/EmployeesList.aspx">
+                                        <i class="icon-male"></i>
+                                        Empleats
+                                    </a>
+                                </li><li>
+                                    <a href="http://localhost:81/ProvidersList.aspx">
+                                        <i class="icon-truck"></i>
+                                        Proveïdors
+                                    </a>
+                                </li><li>
+                                    <a href="http://localhost:81/CustomersList.aspx">
+                                        <i class="icon-suitcase"></i>
+                                        Clients
+                                    </a>
+                                </li><li>
+                                    <a href="http://localhost:81/UserList.aspx">
+                                        <i class="icon-group"></i>
+                                        Usuaris
+                                    </a>
+                                </li><li>
+                                    <a href="http://localhost:81/RulesList.aspx">
+                                        <i class="icon-gear"></i>
+                                        Normes
+                                    </a>
+                                </li><li>
+                                    <a href="http://localhost:81/CostDefinitionList.aspx">
+                                        <i class="icon-money"></i>
+                                        Cost habitual
+                                    </a>
+                                </li>
+                            </ul>
+                        </li><li ><a href="/Documents.aspx"><i class="icon-file"></i><span class="menu-text"> Documents </span></a></li><li ><a href="/ProcesosList.aspx"><i class="icon-cogs"></i><span class="menu-text"> Processos </span></a></li><li ><a href="/FormacionList.aspx"><i class="icon-graduation-cap"></i><span class="menu-text"> Formació </span></a></li><li ><a href="/EquipmentList.aspx"><i class="icon-laptop"></i><span class="menu-text"> Equips </span></a></li><li ><a href="/IncidentList.aspx"><i class="icon-warning-sign"></i><span class="menu-text"> Incidències </span></a></li><li ><a href="/ActionList.aspx"><i class="icon-tags"></i><span class="menu-text"> Accions </span></a></li><li ><a href="/BusinessRisksList.aspx"><i class="icon-ray"></i><span class="menu-text"> Riscos </span></a></li>
+                    </ul><!-- /.nav-list -->
+                    <div class="sidebar-collapse" id="sidebar-collapse">
+                        <i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+                    </div>
+                    <span id="build">
+                        <div style="display:none;">
+                        
+<!-- Havigation history -->
+    Dashboard.aspx
+<br />    /ActionList.aspx
+<br /><!-- -->
+
+                        <b>/ActionList.aspx</b>
+                        </div>
+                        1.2.3936.20160529
+                    </span>
+                    <script type="text/javascript">
+                        try {ace.settings.check('sidebar', 'collapsed'); } catch (e) { }
+                    </script>
+                </div>
+
+                <div class="main-content">
+                    <div class="breadcrumbs breadcrumbs-fixed" id="breadcrumbs">
+                        <script type="text/javascript">
+                            try {ace.settings.check('breadcrumbs', 'fixed'); } catch (e) { }
+                        </script>
+
+                        <ul class="breadcrumb">
+                            <li><i class="icon-home home-icon"></i><a href="/DashBoard.aspx">Inici</a></li><li><a href="ActionList.aspx" title="Accions">Accions</a></li><li class "active">Fitxa de l´acció</li>
+                        </ul><!-- .breadcrumb -->
+
+                        <!-- Buscador -->
+                        <div class="nav-search" id="nav-search">
+                            <form class="form-search" action="Search.aspx" method="post">
+                                <span class="input-icon">
+                                    <input type="text" placeholder="Cercar" ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                                    <i class="icon-search nav-search-icon"></i>
+                                </span>
+                            </form>
+                        </div>
+                        <!-- /Buscador -->
+                        <!-- #nav-search -->
+                    </div>
+
+                    <div class="page-content" style="padding-top:60px !important;" id="content-page">
+                        <div class="page-header col-sm-12" style="padding-top:0 !important;">
+                            <div class="col-sm-8">
+                                <h1>Acció: <strong>jhkjhk</strong></h1>
+                            </div>
+                            <div class="col-sm-4" style="text-align:right">
+                                
+                            </div>
+                        </div><!-- /.page-header -->
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <!-- PAGE CONTENT BEGINS -->
+                                
+                            <div>
+                                <div>
+                                    <div id="user-profile-2" class="user-profile">
+                                        <div class="tabbable">
+                                            <ul class="nav nav-tabs padding-18">
+<li class="active" id="Tabhome">
+                           <a data-toggle="tab" href="#home">Dades bàsiques</a>
+                          </li>
+                                                <li class="" id="Tabcostes">
+                                                    <a data-toggle="tab" href="#costes">Costos</a>
+                                                </li>
+                                                <li class="" id="Tabadjuntos">
+                                                    <a data-toggle="tab" href="#docs">Adjuntos</a>
+                                                </li>
+</ul>
+                                            <div class="tab-content no-border padding-24" style="height:500px;">
+                                                <div id="home" class="tab-pane active">
+                                                    <div>
+                                                        <form class="form-horizontal" role="form">
+                                                            <div class="form-group">
+                                                                <label id="TxtDescriptionLabel" class="col-sm-2">Descripció<span style="color:#f00">*</span></label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" id="TxtDescription" placeholder="Descripció" class="col-xs-12 col-sm-12 tooltip-info" value="jhkjhk" maxlength="50" onblur="this.value=$.trim(this.value);" />
+                                                                    <span class="ErrorMessage" id="TxtDescriptionErrorRequired" style="display:none;">Obligatori</span>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group" id="IncidentDiv" style="display:none;">
+                                                                <label class="col-sm-2"><strong>Orígen</strong></label>
+                                                                <div class="col-sm-11">Incidència&nbsp;<a href="IncidentView.aspx?id=6" title="Editar jhkjhk">00003 - jhkjhk</a></div>
+                                                            </div>
+                                                            <div class="form-group" id="BusinessRiskDiv" style="display:none;">
+                                                                <label class="col-sm-2"><strong>Orígen</strong></label>
+                                                                <div class="col-sm-11">Anàlisis de risc&nbsp;<a href="BusinessRiskView.aspx?id=-1" title=""></a></div>
+                                                            </div>
+                                                            <div class="form-group" id="ROriginDiv">
+                                                                <label id="ROriginLabel" class="col-sm-2">Orígen<span style="color:#f00;">*</span></label>
+                                                                <div class="col-sm-2"><input type="radio" value="0" id="ROrigin1" name="ROrigin" />Auditoria</div>
+                                                                <div class="col-sm-4"><input type="radio" value="1" id="ROrigin2" name="ROrigin" />Propossat per direcció</div>
+                                                                <div class="col-sm-2">
+                                                                    <span class="ErrorMessage" id="ROriginErrorRequired" style="display:none;">Obligatori</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group" id="RTypeDiv">
+                                                                <label id="RTypeLabel" class="col-sm-2">Tipus<span style="color:#f00;">*</span></label>
+                                                                <div class="col-sm-2"><input type="radio" value="0" id="RType1" name="RType" />Millora</div>
+                                                                <div class="col-sm-2"><input type="radio" value="1" id="RType2" name="RType" />Corretiva</div>
+                                                                <div class="col-sm-2"><input type="radio" value="2" id="RType3" name="Rtype" />Preventiva</div>
+                                                                <div class="col-sm-2">
+                                                                    <span class="ErrorMessage" id="RTypeErrorRequired" style="display:none;">Obligatori</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group" id="RReporterDiv">
+                                                                <label id="RReporterTypeLabel" class="col-sm-2">Reportat per<span style="color:#f00;">*</span></label>
+                                                                <div class="col-sm-2"><input type="radio" value="0" id="RReporterType1" name="RReporterType" onclick="RReporterTypeChanged();" />Interna</div>
+                                                                <div class="col-sm-2"><input type="radio" value="1" id="RReporterType2" name="RReporterType" onclick="RReporterTypeChanged();" />Proveïdor</div>
+                                                                <div class="col-sm-2"><input type="radio" value="2" id="RReporterType3" name="RReporterType" onclick="RReporterTypeChanged();" />Client</div>
+                                                                <div class="col-sm-4" style="display:none" id="RReporterTypeCmb">
+
+                                                                    <div class="col-sm-12" id="DivCmbReporterType1" style="height:35px !important;" title="" data-rel="tooltip">
+                                                                        <!-- data-placement="top"> -->
+                                                                        <select class="form-control col-xs-12 col-sm-12" id="CmbReporterType1" data-placeholder="" onchange="">
+                                                                            <option value="0">Sel·leccionar</option>
+                                                                        </select>
+
+                                                                    </div>
+                                                                    <div id="DivCmbReporterType3">
+                                                                        <div class="col-sm-9" id="" style="height:35px !important;">
+                                                                            <select id="CmbReporterType3" class="form-control col-xs-12 col-sm-12"></select>
+                                                                            <input style="display:none;" type="text" readonly="readonly" id="CmbReporterType3Value" placeholder="Proveedor" class="col-xs-12 col-sm-12" />
+                                                                        </div>
+                                                                        <div class="col-sm-3" id="CmbReporterType3Bar"><button class="btn btn-light" style="height:30px;" title="Proveïdors" id="BtnCmbReporterType3BAR" disabled="">...</button></div>
+                                                                    </div>
+                                                                    <div id="DivCmbReporterType2">
+                                                                        <div class="col-sm-9" id="" style="height:35px !important;">
+                                                                            <select id="CmbReporterType2" class="form-control col-xs-12 col-sm-12"></select>
+                                                                            <input style="display:none;" type="text" readonly="readonly" id="CmbReporterType2Value" placeholder="Proveedor" class="col-xs-12 col-sm-12" />
+                                                                        </div>
+                                                                        <div class="col-sm-3" id="CmbReporterType2Bar"><button class="btn btn-light" style="height:30px;" title="Proveïdors" id="BtnCmbReporterType2BAR" disabled="">...</button></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <span class="ErrorMessage" id="RReporterTypeErrorRequired" style="display:none;">Obligatori</span>
+                                                            <div class="form-group">
+                                                                <h4 id="TxtWhatHappenedLabel">Què ha passat?</h4>
+
+                                                                <div class="col-sm-8">
+                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtWhatHappened">klkhlkhlkhl</textarea>
+                                                                </div>
+
+                                                                <div class="col-sm-4">
+                                                                    <label id="CmbWhatHappenedResponsibleLabel" class="col-sm-4 control-label no-padding-right">Responsable</label>
+                                                                    <div class="col-sm-8" id="DivCmbWhatHappenedResponsible" style="height:35px !important;" title="" data-rel="tooltip">
+                                                                        <!-- data-placement="top"> -->
+                                                                        <select class="form-control col-xs-12 col-sm-12" id="CmbWhatHappenedResponsible" data-placeholder="" onchange="">
+                                                                            <option value="0">Sel·leccionar</option>
+                                                                            <option value="58">WALL-E ..</option>
+                                                                            <option value="56">Woody ..</option>
+                                                                            <option value="57">Adrián Cañete Álvarez</option>
+                                                                            <option value="3" selected="selected">Juan Castilla Calderón</option>
+                                                                            <option value="49">Dado de baja</option>
+                                                                            <option value="2">Alberto Gómez Martínez</option>
+                                                                            <option value="18">wellys KEnny</option>
+                                                                            <option value="50">Buzz Lightyear</option>
+                                                                            <option value="22">Antonio Medina</option>
+                                                                        </select>
+
+                                                                    </div>
+                                                                    <label id="TxtWhatHappenedDateLabel" class="col-sm-4 control-label no-padding-right">Data d´execució prevista</label>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="row">
+                                                                            <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtWhatHappenedDateDiv">
+                                                                                <div class="input-group">
+                                                                                    <input class="form-control date-picker" id="TxtWhatHappenedDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="04/06/2016">
+                                                                                    <span id="TxtWhatHappenedDateBtn" class="input-group-addon" onclick="document.getElementById('TxtWhatHappenedDate').focus();">
+                                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <span class="ErrorMessage" id="TxtWhatHappenedDateDateMalformed" style="display:none;">La data no és correcta</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr />
+                                                            <div class="form-group">
+                                                                <h4 id="TxtCausesLabel">Per què ha passat?</h4>
+
+                                                                <div class="col-sm-8">
+                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtCauses"></textarea>
+                                                                </div>
+
+                                                                <div class="col-sm-4">
+                                                                    <label id="CmbCausesResponsibleLabel" class="col-sm-4 control-label no-padding-right">Responsable</label>
+                                                                    <div class="col-sm-8" id="DivCmbCausesResponsible" style="height:35px !important;" title="" data-rel="tooltip">
+                                                                        <!-- data-placement="top"> -->
+                                                                        <select class="form-control col-xs-12 col-sm-12" id="CmbCausesResponsible" data-placeholder="" onchange="">
+                                                                            <option value="0">Sel·leccionar</option>
+                                                                            <option value="58">WALL-E ..</option>
+                                                                            <option value="56">Woody ..</option>
+                                                                            <option value="57">Adrián Cañete Álvarez</option>
+                                                                            <option value="3">Juan Castilla Calderón</option>
+                                                                            <option value="49">Dado de baja</option>
+                                                                            <option value="2">Alberto Gómez Martínez</option>
+                                                                            <option value="18">wellys KEnny</option>
+                                                                            <option value="50">Buzz Lightyear</option>
+                                                                            <option value="22">Antonio Medina</option>
+                                                                        </select>
+
+                                                                    </div>
+                                                                    <label id="TxtCausesDateLabel" class="col-sm-4 control-label no-padding-right">Data d´execució prevista</label>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="row">
+                                                                            <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtCausesDateDiv">
+                                                                                <div class="input-group">
+                                                                                    <input class="form-control date-picker" id="TxtCausesDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="">
+                                                                                    <span id="TxtCausesDateBtn" class="input-group-addon" onclick="document.getElementById('TxtCausesDate').focus();">
+                                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <span class="ErrorMessage" id="TxtCausesDateDateMalformed" style="display:none;">La data no és correcta</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr />
+                                                            <div class="form-group">
+                                                                <h4 id="TxtActionsLabel">Actuacions</h4>
+
+                                                                <div class="col-sm-8">
+                                                                    <textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtActions"></textarea>
+                                                                </div>
+
+                                                                <div class="col-sm-4">
+                                                                    <label id="CmbActionsResponsibleLabel" class="col-sm-4 control-label no-padding-right">Responsable</label>
+                                                                    <div class="col-sm-8" id="DivCmbActionsResponsible" style="height:35px !important;" title="" data-rel="tooltip">
+                                                                        <!-- data-placement="top"> -->
+                                                                        <select class="form-control col-xs-12 col-sm-12" id="CmbActionsResponsible" data-placeholder="" onchange="">
+                                                                            <option value="0">Sel·leccionar</option>
+                                                                            <option value="58">WALL-E ..</option>
+                                                                            <option value="56">Woody ..</option>
+                                                                            <option value="57">Adrián Cañete Álvarez</option>
+                                                                            <option value="3">Juan Castilla Calderón</option>
+                                                                            <option value="49">Dado de baja</option>
+                                                                            <option value="2">Alberto Gómez Martínez</option>
+                                                                            <option value="18">wellys KEnny</option>
+                                                                            <option value="50">Buzz Lightyear</option>
+                                                                            <option value="22">Antonio Medina</option>
+                                                                        </select>
+
+                                                                    </div>
+                                                                    <label id="TxtActionsDateLabel" class="col-sm-4 control-label no-padding-right">Data d´execució prevista</label>
+                                                                    <div class="col-sm-8">
+                                                                        <div class="row">
+                                                                            <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtActionsDateDiv">
+                                                                                <div class="input-group">
+                                                                                    <input class="form-control date-picker" id="TxtActionsDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="">
+                                                                                    <span id="TxtActionsDateBtn" class="input-group-addon" onclick="document.getElementById('TxtActionsDate').focus();">
+                                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <span class="ErrorMessage" id="TxtActionsDateDateMalformed" style="display:none;">La data no és correcta</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr />
+                                                            <div class="form-group">
+                                                                <h4 id="TxtMonitoringLabel">Seguiment</h4>
+
+                                                                <div class="col-sm-12">
+                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtMonitoring"></textarea>
+                                                                </div>
+
+                                                            </div>
+                                                            <hr />
+                                                            <div class="form-group">
+                                                                <h4 id="TxtActionsLabel">Tancament</h4>
+                                                                <label id="CmbClosedResponsibleLabel" class="col-sm-2 control-label no-padding-right">Responsable</label>
+                                                                <div class="col-sm-3" id="DivCmbClosedResponsible" style="height:35px !important;" title="" data-rel="tooltip">
+                                                                    <!-- data-placement="top"> -->
+                                                                    <select class="form-control col-xs-12 col-sm-12" id="CmbClosedResponsible" data-placeholder="" onchange="">
+                                                                        <option value="0">Sel·leccionar</option>
+                                                                        <option value="58">WALL-E ..</option>
+                                                                        <option value="56">Woody ..</option>
+                                                                        <option value="57">Adrián Cañete Álvarez</option>
+                                                                        <option value="3">Juan Castilla Calderón</option>
+                                                                        <option value="49">Dado de baja</option>
+                                                                        <option value="2">Alberto Gómez Martínez</option>
+                                                                        <option value="18">wellys KEnny</option>
+                                                                        <option value="50">Buzz Lightyear</option>
+                                                                        <option value="22">Antonio Medina</option>
+                                                                    </select>
+
+                                                                </div>
+                                                                <label id="TxtClosedDateLabel" class="col-sm-2 control-label no-padding-right">Data d´execució prevista</label>
+                                                                <div class="col-sm-2">
+                                                                    <div class="row">
+                                                                        <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtClosedDateDiv">
+                                                                            <div class="input-group">
+                                                                                <input class="form-control date-picker" id="TxtClosedDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="">
+                                                                                <span id="TxtClosedDateBtn" class="input-group-addon" onclick="document.getElementById('TxtClosedDate').focus();">
+                                                                                    <i class="icon-calendar bigger-110"></i>
+                                                                                </span>
+                                                                            </div>
+                                                                            <span class="ErrorMessage" id="TxtClosedDateDateMalformed" style="display:none;">La data no és correcta</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr />
+                                                            <div class="form-group">
+                                                                <h4 id="TxtNotesLabel">Notes</h4>
+
+                                                                <div class="col-sm-12">
+                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtNotes"></textarea>
+                                                                </div>
+
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                    <!-- Form footer -->
+                                                    <div class="clearfix form-actions" style="margin-bottom:50px;">
+                                                        <div style="float:left;">
+                                                            Modificar per:&nbsp;<strong>Juan Castilla Calderón</strong><br /><i>04/06/2016</i>
+                                                        </div>
+                                                        <div style="float:right;">
+                                                            <button class="btn btn-success" type="button" id="BtnSave"><i class="icon-ok bigger-110"></i>Aceptar</button>&nbsp;&nbsp;<button class="btn btn-" type="button" id="BtnCancel"><i class="icon-undo bigger-110"></i>Cancel·lar</button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Form footer -->
+                                                </div>
+                                                <div id="costes" class="tab-pane">
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-8">
+                                                            <h4>Costos</h4>
+                                                        </div>
+                                                        <div class="col-sm-4" style="text-align:right;">
+                                                            <h4 class="pink" style="right:0;">
+                                                                <button class="btn btn-success" type="button" id="BtnNewCost">
+                                                                    <i class="icon-plus-sign bigger-110"></i>
+                                                                    Afegir cost
+                                                                </button>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-bordered table-striped">
+                                                                    <thead class="thin-border-bottom">
+                                                                        <tr>
+                                                                            <th onclick="Sort(this,'IncidentActionCostsTableData','text',true);" id="th0" class="sort">Descripció</th>
+                                                                            <th onclick="Sort(this,'IncidentActionCostsTableData','money',true);" id="th1" class="sort" style="width:90px;">Import</th>
+                                                                            <th onclick="Sort(this,'IncidentActionCostsTableData','money',true);" id="th2" class="sort hidden-480" style="width:90px;" ">Quantitat</th>
+                                                                            <th onclick="Sort(this,'IncidentActionCostsTableData','money',true);" id="th3" class="sort" style="width:120px;">Total</th>
+                                                                            <th onclick="Sort(this,'IncidentActionCostsTableData','text',true);" id="th4" class="sort hidden-480">Responsable</th>
+                                                                            <th class="hidden-480" style="width:90px;"></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="IncidentActionCostsTableData"></tbody>
+                                                                    <tfoot id="IncidentActionCostsTableVoid" style="display:none;">
+                                                                        <tr>
+                                                                            <td colspan="10" align="center" style="background-color:#ddddff;color:#0000aa;">
+                                                                                <table style="border:none;">
+                                                                                    <tr>
+                                                                                        <td rowspan="2" style="border:none;"><i class="icon-info-sign" style="font-size:48px;"></i></td>
+                                                                                        <td style="border:none;">
+                                                                                            <h4>No hi ha dades</h4>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tfoot>
+                                                                </table>
+                                                            </div><!-- /.table-responsive -->
+                                                        </div><!-- /span -->
+                                                    </div>
+                                                </div>
+                                                <div id="docs" class="tab-pane">
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-8">
+                                                            <h4>Documents adjunts</h4>
+                                                        </div>
+                                                        <div class="col-sm-4" style="text-align:right;">
+                                                            <h4 class="pink" style="right:0;">
+                                                                <button class="btn btn-success" type="button" id="BtnNewCost">
+                                                                    <i class="icon-plus-sign bigger-110"></i>
+                                                                    Afegir document
+                                                                </button>
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-12">
+                                                        <div class="col-sm-2">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-10 iconfile">
+                                                                <div>
+                                                                    DOC-01.pdf
+                                                                </div>
+                                                                <div>
+                                                                    <img src="/images/FileIcons/01.jpg" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-10 iconfile">
+                                                                <div>
+                                                                    Muestra.docx
+                                                                </div>
+                                                                <div>
+                                                                    <img src="/images/FileIcons/02.jpg" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+                                                        <div class="col-sm-2">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-10 iconfile">
+                                                                <div>
+                                                                    Informe.txt
+                                                                </div>
+                                                                <div>
+                                                                    <img src="/images/FileIcons/03.jpg" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                        <div id="trazas" class="tab-pane">
+                                                            <table class="table table-bordered table-striped">
+                                                                <thead class="thin-border-bottom">
+                                                                    <tr>
+                                                                        <th style="width:150px;">Data</th>
+                                                                        <th>Motius</th>
+                                                                        <th>Traça</th>
+                                                                        <th style="width:250px;">Usuari</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody></tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                </div>
+                            </div>
+                            <!-- Popup dialogs -->
+                            
+                            <div id="dialogNewCost" class="hide" style="width:500px;">
+                                <form class="form-horizontal" role="form" id="FormDialogNewMaintaiment">    
+                                    <!--<div class="form-group" id="RIncidentActionCostRow">
+                                        <div class="col-sm-6">
+                                            <input type="radio" name="RIncidentActionCost" id="RIncidentActionCostBased" onclick="RIncidentActionCostChanged();" />Sel·leccionar cost
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="radio" name="RIncidentActionCost" id="RIncidentActionCostNew" onclick="RIncidentActionCostChanged();" />Entrada manual
+                                        </div>
+                                    </div>     
+                                    <div class="form-group" id="CmbIncidentActionCostDescriptionRow">
+                                        <label id="CmbIncidentActionCostDescriptionLabel" class="col-sm-3 control-label no-padding-right">Cost<span class="required">*</span></label>
+                                        <div class="col-sm-9">
+                                            <select id="CmbIncidentActionCostDescription" onchange="CmbIncidentActionCostDescriptionChanged();" class="col-xs-12 col-sm-12"></select>
+                                            <span class="ErrorMessage" id="CmbIncidentActionCostDescriptionErrorRequired" style="display:none;">Obligatori</span>
+                                        </div>
+                                    </div>   -->                  
+                                    <div class="form-group" id="TxtIncidentActionCostDescriptionRow">
+                                        <label id ="TxtIncidentActionCostDescriptionLabel" class="col-sm-3 control-label no-padding-right" for="TxtIncidentActionCostDescription">Descripció<span class="required">*</span></label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="col-xs-12 col-sm-12" id="TxtIncidentActionCostDescription" placeholder="Descripció" value="" maxlength="50" />
+                                            <span class="ErrorMessage" id="TxtIncidentActionCostDescriptionErrorRequired" style="display:none;">Obligatori</span>
+                                        </div>
+                                        <div class="col-sm-2" id="DivBtnCostBAR">
+                                            <button class="btn btn-light" style="height: 30px;" title="Costos habituals" id="BtnCostBAR">...</button>
+                                        </div>
+                                    </div>                               
+                                    <div class="form-group">
+                                        <label id ="TxtIncidentActionCostAmountLabel" class="col-sm-3 control-label no-padding-right" for="TxtIncidentActionCostAmount">Preu<span class="required">*</span></label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtIncidentActionCostAmount" placeholder="Preu" value="" maxlength="8" />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <span class="ErrorMessage" id="TxtIncidentActionCostAmountErrorRequired" style="display:none;">Obligatori</span>
+                                        </div>
+                                    </div>                             
+                                    <div class="form-group">
+                                        <label id ="TxtIncidentActionCostQuantityLabel" class="col-sm-3 control-label no-padding-right" for="TxtIncidentActionCostQuantity">Quantitat<span class="required">*</span></label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtIncidentActionCostQuantity" placeholder="Quantitat" value="Quantitat" maxlength="8" onblur="this.value=$.trim(this.value);" />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <span class="ErrorMessage" id="TxtIncidentActionCostQuantityErrorRequired" style="display:none;">Obligatori</span>
+                                        </div>
+                                    </div>   
+                                    <div class="form-group">
+                                        <label id="CmdIncidentActionCostResponsibleLabel" class="col-sm-3 control-label no-padding-right">Identificat per<span class="required">*</span></label>
+                                        <div class="col-sm-9">
+                                            <select id="CmdIncidentActionCostResponsible" class="col-xs-12 col-sm-12"></select>
+                                            <span class="ErrorMessage" id="CmdIncidentActionCostResponsibleRequiredLabel" style="display:none;">Obligatori</span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div id="dialogIncidentActionCostDelete" class="hide" style="width:500px;">
+                                <p>¿Seguro&nbsp;<strong><span id="dialogIncidentActionCostDeleteName"></span></strong>?</p>
+                            </div>
+
+                            <!-- Cost definition BAR popups -->
+                            <div id="dialogCost" class="hide" style="width:600px;">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead class="thin-border-bottom">
+                                            <tr>
+                                                <th>Nom</th>
+                                                <th>Import</th>
+                                                <th style="width:150px;">&nbsp;</th>													
+                                            </tr>
+                                        </thead>
+                                        <tbody id="SelectableCost"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div id="CostInsertDialog" class="hide" style="width:600px;">
+                                <div class="form-group">
+                                    <label id="TxtCostNewNameLabel" class="col-sm-3 control-label no-padding-right">Nom<span style="color: #f00;">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="name" value=" " class="col-sm-12" id="TxtCostNewName" size="50" placeholder="Nom" maxlength="50" onblur="this.value=$.trim(this.value);" />
+                                        <span class="ErrorMessage" id="TxtCostNewNameErrorRequired" style="display: none;">Obligatori</span>
+                                        <span class="ErrorMessage" id="TxtCostNewNameErrorDuplicated" style="display: none;">Ja existeix</span>
+                                    </div>
+                                </div>
+                                <div style="clear:both;height:12px;"></div>
+                                <div class="form-group">
+                                    <label id="TxtCostNewAmountLabel" class="col-sm-3 control-label no-padding-right">Import<span style="color: #f00;">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input class="col-sm-12 money-bank" type="text" id="TxtCostNewAmount" size="50" placeholder="Import" maxlength="50" onblur="this.value=$.trim(this.value);" />
+                                        <span class="ErrorMessage" id="TxtCostNewAmountErrorRequired" style="display: none;">Obligatori</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="CostUpdateDialog" class="hide" style="width:600px;">                                
+                                <div class="form-group">
+                                    <label id="TxtCostNameLabel" class="col-sm-3 control-label no-padding-right">Nom<span style="color: #f00;">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="name" value=" " class="col-sm-12" id="TxtCostName" size="50" placeholder="Nom" maxlength="50" onblur="this.value=$.trim(this.value);" />
+                                        <span class="ErrorMessage" id="TxtCostNameErrorRequired" style="display: none;">Obligatori</span>
+                                        <span class="ErrorMessage" id="TxtCostNameErrorDuplicated" style="display: none;">Ja existeix</span>
+                                    </div>
+                                </div>
+                                <div style="clear:both;height:12px;"></div>
+                                <div class="form-group">
+                                    <label id="TxtCostAmountLabel" class="col-sm-3 control-label no-padding-right">Import<span style="color: #f00;">*</span></label>
+                                    <div class="col-sm-9">
+                                        <input class="col-sm-12 money-bank" type="text" id="TxtCostAmount" size="50" placeholder="Import" maxlength="50" onblur="this.value=$.trim(this.value);" />
+                                        <span class="ErrorMessage" id="TxtCostAmountErrorRequired" style="display: none;">Obligatori</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="CostDeleteDialog" class="hide" style="width:600px;">
+                                <p>Borrar coste&nbsp;<strong><span id="CostName"></span></strong>?</p>
+                            </div>
+                            <!-- -------------------------------------->
+
+                            
+                            <!--- BAR POPUPS FOR Provider ITEM -->
+                            <div id="dialogProvider" class="hide" style="width:600px;">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead class="thin-border-bottom">
+                                            <tr>
+                                                <th>Proveedor</th>
+                                                <th style="width:150px;">&nbsp;</th>													
+                                            </tr>
+                                        </thead>
+                                        <tbody id="SelectableProvider">
+                                        </tbody>
+                                    </table>
+                                </div><!-- /.table-responsive -->
+                            </div><!-- #dialog-message -->
+
+                            <div id="ProviderInsertDialog" class="hide" style="width:600px;">
+                                <p>Nom&nbsp;&nbsp;<input type="text" id="TxtProviderNewName" size="50" placeholder="Nom" maxlength="50" onblur="this.value=$.trim(this.value);" /></p>
+                                <span class="ErrorMessage" id="TxtProviderNewNameErrorRequired" style="display:none;">Obligatori</span>
+                                <span class="ErrorMessage" id="TxtProviderNewNameErrorDuplicated" style="display:none;">Ja existeix</span>
+                            </div>
+
+                            <div id="ProviderUpdateDialog" class="hide" style="width:600px;">
+                                <p>Nom&nbsp;&nbsp;<input type="text" id="TxtProviderName" size="50" placeholder="Nom" maxlength="50" onblur="this.value=$.trim(this.value);" /></p>
+                                <span class="ErrorMessage" id="TxtProviderNameErrorRequired" style="display:none;">Obligatori</span>
+                                <span class="ErrorMessage" id="TxtProviderNameErrorDuplicated" style="display:none;">Ja existeix</span>
+                            </div>
+
+                            <div id="ProviderDeleteDialog" class="hide" style="width:600px;">
+                                <p>Estás que sí&nbsp;<strong><span id="ProviderName"></span></strong>?</p>
+                            </div>
+                            
+                            <!--- BAR POPUPS FOR Customer ITEM -->
+                            <div id="dialogCustomer" class="hide" style="width:600px;">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead class="thin-border-bottom">
+                                            <tr>
+                                                <th>Cliente</th>
+                                                <th style="width:150px;">&nbsp;</th>													
+                                            </tr>
+                                        </thead>
+                                        <tbody id="SelectableCustomer">
+                                        </tbody>
+                                    </table>
+                                </div><!-- /.table-responsive -->
+                            </div><!-- #dialog-message -->
+
+                            <div id="CustomerInsertDialog" class="hide" style="width:600px;">
+                                <p>Nom&nbsp;&nbsp;<input type="text" id="TxtCustomerNewName" size="50" placeholder="Nom" maxlength="50" onblur="this.value=$.trim(this.value);" /></p>
+                                <span class="ErrorMessage" id="TxtCustomerNewNameErrorRequired" style="display:none;">Obligatori</span>
+                                <span class="ErrorMessage" id="TxtCustomerNewNameErrorDuplicated" style="display:none;">Ja existeix</span>
+                            </div>
+
+                            <div id="CustomerUpdateDialog" class="hide" style="width:600px;">
+                                <p>Nom&nbsp;&nbsp;<input type="text" id="TxtCustomerName" size="50" placeholder="Nom" maxlength="50" onblur="this.value=$.trim(this.value);" /></p>
+                                <span class="ErrorMessage" id="TxtCustomerNameErrorRequired" style="display:none;">Obligatori</span>
+                                <span class="ErrorMessage" id="TxtCustomerNameErrorDuplicated" style="display:none;">Ja existeix</span>
+                            </div>
+
+                            <div id="CustomerDeleteDialog" class="hide" style="width:600px;">
+                                <p>Estás que sí&nbsp;<strong><span id="CustomerName"></span></strong>?</p>
+                            </div>
+
+                                <!-- PAGE CONTENT ENDS -->
+                                
+                                <div id="AlertUIDialog" class="hide" style="width:500px;">
+                                    <table cellpadding="4" cellspacing="2">
+                                        <tr>
+                                            <td valign="top" align="center" style="width:26px;"><i class="icon-exclamation-sign red" style="font-size:40px;"></i></td>
+                                            <td style="font-weight:bold;"><span id="AlertUIMessage"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div id="InfoUIDialog" class="hide" style="width:500px;">
+                                    <table cellpadding="4" cellspacing="2">
+                                        <tr>
+                                            <td valign="top" align="center" style="width:26px;"><i class="icon-info-sign blue" style="font-size:40px;"></i></td>
+                                            <td style="font-weight:bold;"><span id="InfoUIMessage"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div id="WarningUIDialog" class="hide" style="width:500px;">
+                                    <table cellpadding="4" cellspacing="2">
+                                        <tr>
+                                            <td valign="top" align="center" style="width:26px;"><i class="icon-warning-sign red" style="font-size:40px;"></i></td>
+                                            <td style="font-weight:bold;"><span id="WarningUIMessage"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div id="SuccessUIDialog" class="hide" style="width:500px;">
+                                    <table cellpadding="4" cellspacing="2">
+                                        <tr>
+                                            <td valign="top" align="center" style="width:26px;"><i class="icon-ok green" style="font-size:40px;"></i></td>
+                                            <td style="font-weight:bold;"><span id="SuccessUIMessage"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div id="PromptUIDialog" class="hide" style="width:500px;">
+                                    <table cellpadding="4" cellspacing="2">
+                                        <tr>
+                                            <td valign="top" align="center" style="width:26px;"><i class="icon-question blue" style="font-size:40px;"></i></td>
+                                            <td style="font-weight:bold;"><span id="PromptUIMessage"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div id="LoadingDialog" class="hide" style="width:500px;">
+                                    <table cellpadding="4" cellspacing="2">
+                                        <tr>
+                                            <td valign="top" align="center" style="width:26px;"><img src ="assets/img/loading.gif" /></td>
+                                            <td style="font-weight:bold;"><span id="LoadingMessage"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.page-content -->
+                </div><!-- /.main-content -->
+            </div><!-- /.main-container-inner -->
+             
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                <i class="icon-double-angle-up icon-only bigger-110"></i>
+            </a>
+        </div><!-- /.main-container -->
+        <div id="logofooter" class="btn-scroll-up hidden-sm" style="width:100%;background-color:#ddd;color:#333;font-size:1em;text-align:center;padding:8px;position:fixed; margin:0 !important;bottom:0;right:0;">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <center>&copy; <a href="http://www.scrambotika.com" target="_blank">Scramb&ograve;tika</a></center>
+            </div>
+            <div class="col-sm-4" style="text-align:right;height:30px;"><img id="ImgCompany" height="30" src="/images/Logos/12.jpg?ac=06243b02-8a51-4671-b627-92a9d937038e" /></div>            
+        </div><!-- /.page-header -->
+    </form>
+        <!-- basic scripts -->
+
+        <!--[if !IE]> -->
+
+        <script type="text/javascript">
+            window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+        </script>
+
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+        <script type="text/javascript">
+         window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+        </script>
+        <![endif]-->
+        <script type="text/javascript">
+            if ("ontouchend" in document)
+            {
+                document.write("<script src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'>" + "<" + "/script>");
+            }
+        </script>
+        <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="assets/js/typeahead-bs2.min.js"></script>
+
+        <!-- page specific plugin scripts -->
+
+        <!--[if lte IE 8]>
+          <script type="text/javascript" src="assets/js/excanvas.min.js"></script>
+        <![endif]-->
+
+    <script type="text/javascript" src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.easy-pie-chart.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.sparkline.min.js"></script>
+    <script type="text/javascript" src="assets/js/flot/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="assets/js/flot/jquery.flot.pie.min.js"></script>
+    <script type="text/javascript" src="assets/js/flot/jquery.flot.resize.min.js"></script>
+    <script type="text/javascript" src="assets/js/ace-elements.min.js"></script>
+    <script type="text/javascript" src="assets/js/ace.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.ddslick.min.js"></script>    
+    
+        <script type="text/javascript" src="assets/js/jquery-ui-1.10.3.full.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.ui.touch-punch.min.js"></script>
+        <script type="text/javascript" src="assets/js/chosen.jquery.min.js"></script>
+        <script type="text/javascript" src="assets/js/fuelux/fuelux.spinner.min.js"></script>
+        <script type="text/javascript" src="assets/js/date-time/bootstrap-timepicker.min.js"></script>
+        <script type="text/javascript" src="assets/js/date-time/moment.min.js"></script>
+        <script type="text/javascript" src="assets/js/date-time/daterangepicker.min.js"></script>
+        <script type="text/javascript" src="assets/js/bootstrap-colorpicker.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.knob.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.autosize.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.maskedinput.min.js"></script>
+        <script type="text/javascript" src="assets/js/bootstrap-tag.min.js"></script>
+        <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="js/Actions.js"></script>
+        <script type="text/javascript" src="js/IncidentActionCost.js"></script>
+        <script type="text/javascript" src="js/ActionProvider.js"></script>
+        <script type="text/javascript" src="js/ActionCustomer.js"></script>
+        <script type="text/javascript" src="js/CostBar.js"></script>
+        <script type="text/javascript">
+            jQuery(function ($) {
+
+                $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
+                    _title: function (title) {
+                        var $title = this.options.title || '&nbsp;'
+                        if (("title_html" in this.options) && this.options.title_html == true)
+                            title.html($title);
+                        else title.text($title);
+                    }
+                }));
+
+                /*$('.date-picker').datepicker({
+                    autoclose: true,
+                    todayHighlight: true,
+                    language: 'ca'
+                })*/
+                var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
+                $(".date-picker").datepicker(options);
+
+                $("#BtnSave").on('click', function (e) { e.preventDefault(); SaveAction(); });
+                $('#BtnCancel').on('click', function (e) { document.location = referrer; });
+                $('#BtnSaveAction').on('click', function (e) { e.preventDefault(); SaveIncident(); });
+                $('#BtnCancelAction').on('click', function (e) { document.location = referrer; });
+
+                $("#BtnNewCost").on('click', function (e) {
+                    e.preventDefault();
+                    ShowNewCostPopup(0);
+                });   
+
+                $('#CmbReporterType2Bar').on('click', function (e){
+                    e.preventDefault();
+                    ShowProviderBarPopup($('#CmbReporterType2'));
+                });                
+
+                $('#CmbReporterType3Bar').on('click', function (e){
+                    e.preventDefault();
+                    ShowCustomerBarPopup($('#CmbReporterType3'));
+                });
+
+                $('#BtnCostBAR').on('click', function (e){
+                    e.preventDefault();
+                    ShowCostBarPopup($('#TxtCostDescription'));
+                });
+
+                // Control wizard de la acción
+                $('#TxtWhatHappened').on('keyup', function (e) { e.preventDefault(); TxtWhatHappenedChanged(); });
+                $('#TxtCauses').on('keyup', function (e) { e.preventDefault(); TxtCausesChanged(); });
+                $('#TxtActions').on('keyup', function (e) { e.preventDefault(); TxtActionsChanged(); });            
+                $('#CmbClosedResponsible').on('change', function (e) { e.preventDefault(); SetCloseRequired(); });
+                // $('#TxtClosedDate').on('change', function (e) { e.preventDefault(); SetCloseRequired(); });
+                // $('#CmbClosedExecutor').on('change', function (e) { e.preventDefault(); SetCloseRequired(); });
+                // $('#TxtClosedExecutorDate').on('change', function (e) { e.preventDefault(); SetCloseRequired(); });
+            });
+
+            function SaveAction() {
+                ClearFieldTextMessages('TxtDescription');
+                ClearFieldTextMessages('ROrigin');
+                ClearFieldTextMessages('RType');
+                ClearFieldTextMessages('RReporterType');
+                ClearFieldTextMessages('TxtWhatHappened');
+                ClearFieldTextMessages('TxtWhatHappenedResponsible');
+                ClearFieldTextMessages('TxtWhatHappenedDate');
+                var ok = true;
+                var ErrorMessage = new Array();
+
+                var dateWhatHappened=null;
+                var dateCauses=null;
+                var dateActions=null;
+                var dateActionsExecution=null;
+                var dateClose=null;
+                var dateCloseExecution=null;
+
+                if (document.getElementById('TxtDescription').value === '') {
+                    ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequiredResponsible);                
+                    SetFieldTextMessages('TxtDescription');
+                    ok = false;
+                }
+
+                if(IncidentAction.IncidentId < 1 && IncidentAction.BusinessRiskId < 1)
+                {
+                    if (!document.getElementById('ROrigin1').checked && !document.getElementById('ROrigin2').checked) {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_OriginRequired);
+                        document.getElementById('ROriginLabel').style.color = '#f00';
+                        //document.getElementById('ROriginErrorRequired').style.display = '';
+                    } else {
+                        document.getElementById('ROriginLabel').style.color = '#000';
+                        //document.getElementById('ROriginErrorRequired').style.display = 'none';
+                    }
+
+                    if (!document.getElementById('RType1').checked && !document.getElementById('RType2').checked && !document.getElementById('RType3').checked) {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_TypeRequired);
+                        document.getElementById('RTypeLabel').style.color = '#f00';
+                        //document.getElementById('RTypeErrorRequired').style.display = '';
+                    } else {
+                        document.getElementById('RTypeLabel').style.color = '#000';
+                        //document.getElementById('RTypeErrorRequired').style.display = 'none';
+                    }
+
+                    if (!document.getElementById('RReporterType1').checked && !document.getElementById('RReporterType2').checked && !document.getElementById('RReporterType3').checked) {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ReportedByRequired);
+                        document.getElementById('RReporterTypeLabel').style.color = '#f00';
+                        //document.getElementById('RReporterTypeErrorRequired').style.display = '';
+                    } else {
+                        var origin = true;
+                        if (document.getElementById('RReporterType1').checked && $('#CmbReporterType1').val() * 1 === 0) { origin = false; }
+                        if (document.getElementById('RReporterType2').checked && $('#CmbReporterType2').val() * 1 === 0) { origin = false; }
+                        if (document.getElementById('RReporterType3').checked && $('#CmbReporterType3').val() * 1 === 0) { origin = false; }
+                        if (origin === true) {
+                            document.getElementById('RReporterTypeLabel').style.color = '#000';
+                           // document.getElementById('RReporterTypeErrorRequired').style.display = 'none';
+                        } else {
+                            ok = false;
+                            ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ReportedByRequired);
+                            document.getElementById('RReporterTypeLabel').style.color = '#f00';
+                           // document.getElementById('RReporterTypeErrorRequired').style.display = '';
+                        }
+                    }
+                }
+
+                var state = 1;
+                if ($('#TxtWhatHappened').val() === '') 
+                {
+                    ok=false;
+                    ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequired);
+                    SetFieldTextMessages('TxtWhatHappened');
+                }
+                
+                if (document.getElementById('CmbWhatHappenedResponsible').value * 1 === 0) {
+                    ok = false;
+                    ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequiredResponsible);
+                    SetFieldTextMessages('CmbWhatHappenedResponsible');
+                }
+
+                if ($('#TxtWhatHappenedDate').val() === '') {
+                    ok = false;
+                    ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRquiredDate);
+                    SetFieldTextMessages('TxtWhatHappenedDate');
+                }
+                else
+                {
+                    if(!RequiredDateValue('TxtWhatHappenedDate'))
+                    {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_Error_DateMalformed_WhatHappened);
+                    }
+                    else
+                    {
+                        dateWhatHappened = GetDate($('#TxtWhatHappenedDate').val(), '/', false);
+                    }
+                }
+
+                if(IncidentCausesRequired===true)
+                {
+                    if ($('#TxtCauses').val() === '') {
+                        ok=false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequired);
+                        SetFieldTextMessages('TxtCauses');
+
+                    }
+                    if (document.getElementById('CmbCausesResponsible').value * 1 === 0) {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequiredResponsible);
+                        SetFieldTextMessages('CmbCausesResponsible');
+                    }
+
+                    if ($('#TxtCausesDate').val() === '') {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequiredDate);
+                        SetFieldTextMessages('TxtCausesDate');
+                    }
+                    else
+                    {
+                        if(!RequiredDateValue('TxtCausesDate'))
+                        {
+                            ok = false;
+                            ErrorMessage.push(Dictionary.Item_IncidentAction_Error_DateMalformed_Causes);
+                        }
+                        else
+                        {
+                            dateCauses = GetDate($('#TxtCausesDate').val(), '/', false);
+                        }
+                    }
+                }
+
+                if(IncidentActionsRequired===true)
+                {
+                    if ($('#TxtActions').val() === '') 
+                    {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequired);
+                        SetFieldTextMessages('TxtActions');
+                    }
+
+                    if (document.getElementById('CmbActionsResponsible').value * 1 === 0) {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredResponsible);
+                        SetFieldTextMessages('CmbActionsResponsible');
+                    }
+
+                    if ($('#TxtActionsDate').val() === '') {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredDate);
+                        SetFieldTextMessages('TxtActionsDate');
+                    }
+                    else
+                    {
+                        if(!RequiredDateValue('TxtActionsDate'))
+                        {
+                            ok = false;
+                            ErrorMessage.push(Dictionary.Item_IncidentAction_Error_DateMalformed_Actions);
+                        }
+                        else
+                        {
+                            dateActions = GetDate($('#TxtActionsDate').val(), '/', false);
+                        }
+                    }
+
+                    /* ISSUS-10
+                    if (document.getElementById('CmbActionsExecuter').value * 1 === 0) {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredExecutor);
+                        SetFieldTextMessages('CmbActionsExecuter');
+                    }
+
+                    if ($('#TxtActionsSchedule').val() === '') {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredSchedule);
+                        SetFieldTextMessages('TxtActionsSchedule');
+                    }
+                    else{
+                        dateActionsExecution = GetDate($('#TxtActionsSchedule').val(), '/', false);
+                    }*/
+                }
+
+                if(IncidentClosedRequired===true)
+                {
+
+                    if (document.getElementById('CmbClosedResponsible').value * 1 === 0) {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseResponsibleRequired);
+                        SetFieldTextMessages('CmbClosedResponsible');
+                    }
+
+                    /* ISSUS-10 
+                    if (document.getElementById('CmbClosedExecutor').value * 1 === 0) {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseExecutor);
+                        SetFieldTextMessages('CmbClosedExecutor');
+                    }
+                    */
+
+                    if ($('#TxtClosedDate').val() === '') {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseDate);
+                        SetFieldTextMessages('TxtClosedDate');
+                    }
+                    else
+                    {
+                        if(!RequiredDateValue('TxtClosedDate'))
+                        {
+                            ok = false;
+                            ErrorMessage.push(Dictionary.Item_IncidentAction_Error_DateMalformed_Close);
+                        }
+                        else
+                        {
+                            dateClose = GetDate($('#TxtClosedDate').val(), '/', false);
+                        }
+                    }
+
+                    /* ISSUS-10
+                    if ($('#TxtClosedExecutorDate').val() === '') {
+                        ok = false;
+                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseExecutorDate);
+                        SetFieldTextMessages('TxtClosedExecutorDate');
+                    }
+                    else{
+                        dateCloseExecution = GetDate($('#TxtClosedExecutorDate').val(), '/', false);
+                    } */
+                }
+
+                // Detect untemporality dates
+                var okDates=true;
+                if(dateWhatHappened !== null)
+                {
+                    if(dateCauses !== null && dateWhatHappened > dateCauses)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtWhatHappenedDate');
+                        SetFieldTextMessages('TxtCausesDate');
+                    }
+                    if(dateActions !== null && dateWhatHappened > dateActions)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtWhatHappenedDate');
+                        SetFieldTextMessages('TxtActionsDate');
+                    }
+                    /* ISSUS-10 if(dateActionsExecution !== null && dateWhatHappened > dateActionsExecution)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtWhatHappenedDate');
+                        SetFieldTextMessages('TxtActionsSchedule');
+                    } */
+                    if(dateClose !== null && dateWhatHappened > dateClose)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtWhatHappenedDate');
+                        SetFieldTextMessages('TxtClosedDate');
+                    }
+                    /* ISSUS- 10 if(dateCloseExecution !== null && dateWhatHappened > dateCloseExecution)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtWhatHappenedDate');
+                        SetFieldTextMessages('TxtClosedExecutorDate');
+                    } */
+                }
+
+                if(dateCauses !== null)
+                {
+                    if(dateActions !== null && dateCauses > dateActions)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtActionsDate');
+                        SetFieldTextMessages('TxtCausesDate');
+                    }
+                    /* ISSUS-10 
+                    if(dateActionsExecution !== null && dateCauses > dateActionsExecution)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtCausesDate');
+                        SetFieldTextMessages('TxtActionsSchedule');
+                    } */
+                    if(dateClose !== null && dateCauses > dateClose)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtCausesDate');
+                        SetFieldTextMessages('TxtClosedDate');
+                    }
+                    /* ISSUS-10
+                    if(dateCloseExecution !== null && dateCauses > dateCloseExecution)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtCausesDate');
+                        SetFieldTextMessages('TxtClosedExecutorDate');
+                    } */
+                }
+
+                if(dateActions !== null)
+                {
+                    /* ISSUS 10
+                    if(dateActionsExecution !== null && dateActions > dateActionsExecution)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtActionsDate');
+                        SetFieldTextMessages('TxtActionsSchedule');
+                    } */
+                    if(dateClose !== null && dateActions > dateClose)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtActionsDate');
+                        SetFieldTextMessages('TxtClosedDate');
+                    }
+                    /* ISSUS-10
+                    if(dateCloseExecution !== null && dateActions > dateCloseExecution)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtActionsDate');
+                        SetFieldTextMessages('TxtClosedExecutorDate');
+                    } */
+                }
+            
+                /* ISSUS-10
+                if(dateActionsExecution !== null)
+                {
+                    if(dateClose !== null && dateActionsExecution > dateClose)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtActionsSchedule');
+                        SetFieldTextMessages('TxtClosedDate');
+                    }
+                
+                    if(dateCloseExecution !== null && dateActionsExecution > dateCloseExecution)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtActionsSchedule');
+                        SetFieldTextMessages('TxtClosedExecutorDate');
+                    } 
+                }
+                */
+
+                /* ISSUS-10
+                if(dateClose !== null)
+                {
+                    if(dateCloseExecution !== null && dateClose > dateCloseExecution)
+                    {
+                        okDates = false;
+                        SetFieldTextMessages('TxtClosedDate');
+                        SetFieldTextMessages('TxtClosedExecutorDate');
+                    }
+                } */
+
+                if(okDates === false)
+                {
+                    ok = false;
+                    ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_UntemporalyDates);
+                }
+
+                if (ok === false) {
+                    var ErrorContent = '<ul>';
+                    for(var x=0; x<ErrorMessage.length; x++)
+                    {
+                        ErrorContent+= '<li>' + ErrorMessage[x] + '</li>';
+                    }
+                    ErrorContent+='</ul>';
+                    warningInfoUI("<strong>" + Dictionary.Common_Message_FormErrors + "</strong><br />" + ErrorContent, null, 600);
+                    return false;
+                }
+
+                var ROrigin = 0;
+                if (document.getElementById('ROrigin1').checked) { ROrigin = 1; }
+                if (document.getElementById('ROrigin2').checked) { ROrigin = 2; }
+
+                var Rtype = 0;
+                if (document.getElementById('RType1').checked) { Rtype = 1; }
+                if (document.getElementById('RType2').checked) { Rtype = 2; }
+                if (document.getElementById('RType3').checked) { Rtype = 3; }
+
+                var RReporter = 0;
+                if (document.getElementById('RReporterType1').checked) { RReporter = 1; }
+                if (document.getElementById('RReporterType2').checked) { RReporter = 2; }
+                if (document.getElementById('RReporterType3').checked) { RReporter = 3; }
+
+                var Department = { Id: RReporter == 1 ? $('#CmbReporterType1').val() * 1 : 0};
+                var Provider = { Id: RReporter == 2 ? $('#CmbReporterType2').val() * 1: 0 };
+                var Customer = { Id: RReporter == 3 ? $('#CmbReporterType3').val() * 1: 0 };
+
+                if (IncidentAction.IncidentId > 0) {
+                    RReporter = IncidentAction.ReporterType;
+                    Department = IncidentAction.Department;
+                    Provider = IncidentAction.Provider;
+                    Customer = IncidentAction.Customer;
+
+                    // Incidencia
+                    ROrigin = 3;
+
+                    // Correctiva
+                    Rtype = 2;
+                }
+
+                if (IncidentAction.BusinessRiskId > 0) {
+                    RReporter = IncidentAction.ReporterType;
+                    Department = IncidentAction.Department;
+                    Provider = IncidentAction.Provider;
+                    Customer = IncidentAction.Customer;
+
+                    // Analisis de riesgo
+                    ROrigin = 4;
+
+                    // Preventiva
+                    Rtype = 3;
+                }
+
+                var whatHappenedOn = GetDate($('#TxtWhatHappenedDate').val(), '-');
+                var causesOn = GetDate($('#TxtCausesDate').val(), '-');
+                var actionsOn = GetDate($('#TxtActionsDate').val(), '-');
+                var actionsSchedule = null; // ISSUS-10 GetDate($('#TxtActionsSchedule').val(), '-');
+                var closedOn = GetDate($('#TxtClosedDate').val(), '-');
+                var closedExecutorOn = null; // ISSUS-10 GetDate($('#TxtClosedExecutorDate').val(), '-');
+
+                var action =
+                {
+                    Id: IncidentActionId,
+                    CompanyId: Company.Id,
+                    ActionType: Rtype,
+                    Description: $('#TxtDescription').val(),
+                    Origin: ROrigin,
+                    ReporterType: RReporter,
+                    Department: Department,
+                    Provider: Provider,
+                    Customer: Customer,
+                    Number: IncidentAction.Number,
+                    IncidentId: IncidentAction.IncidentId,
+                    BusinessRiskId: IncidentAction.BusinessRiskId,
+                    WhatHappened: $('#TxtWhatHappened').val(),
+                    WhatHappenedBy: { Id: $('#CmbWhatHappenedResponsible').val() },
+                    WhatHappenedOn: whatHappenedOn,
+                    Causes: $('#TxtCauses').val(),
+                    CausesBy: { Id: $('#CmbCausesResponsible').val() },
+                    CausesOn: causesOn,
+                    Actions: $('#TxtActions').val(),
+                    ActionsBy: { Id: $('#CmbActionsResponsible').val() },
+                    ActionsOn: actionsOn,
+                    ActionsExecuter: {Id: 0}, // ISSUS-10 { Id: $('#CmbActionsExecuter').val() },
+                    ActionsSchedule: actionsSchedule,
+                    Monitoring: $('#TxtMonitoring').val(),
+                    ClosedBy: { Id: $('#CmbClosedResponsible').val() },
+                    ClosedOn: closedOn,
+                    ClosedExecutor: {Id: 0}, // ISSUS-10{ Id: $('#CmbClosedExecutor').val() },
+                    ClosedExecutorOn : closedExecutorOn,
+                    Notes: $('#TxtNotes').val()
+                };
+
+                var webMethod = "/Async/IncidentActionsActions.asmx/Save";
+                var data = { incidentAction: action,  userId: user.Id };
+                $.ajax({
+                    type: "POST",
+                    url: webMethod,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(data, null, 2),
+                    success: function (msg) {
+                        document.location = referrer;
+
+                    },
+                    error: function (msg) {
+                        alertUI(msg.responseText);
+                    }
+                });
+
+            }
+
+            function CmbReporterDepartmentsFill() {
+                var target = document.getElementById('CmbReporterType1');
+                for (var x = 0; x < Departments.length; x++) {
+                    var option = document.createElement('OPTION');
+                    option.value = Departments[x].Id;
+                    option.appendChild(document.createTextNode(Departments[x].Description));
+                    target.appendChild(option);
+                }
+            }
+
+            function CmbReporterProvidersFill() {
+                VoidTable('CmbReporterType2');
+                var target = document.getElementById('CmbReporterType2');
+
+                var optionDefault = document.createElement('OPTION');
+                optionDefault.value = 0;
+                optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectOne));
+                target.appendChild(optionDefault);
+
+                for (var x = 0; x < Providers.length; x++) {
+                    var option = document.createElement('OPTION');
+                    option.value = Providers[x].Id;
+                    option.appendChild(document.createTextNode(Providers[x].Description));
+                    target.appendChild(option);
+                }
+            }
+
+            function CmbReporterCustomersFill() {
+                VoidTable('CmbReporterType3');
+                var target = document.getElementById('CmbReporterType3');
+
+                var optionDefault = document.createElement('OPTION');
+                optionDefault.value = 0;
+                optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectOne));
+                target.appendChild(optionDefault);
+
+                for (var x = 0; x < Customers.length; x++) {
+                    var option = document.createElement('OPTION');
+                    option.value = Customers[x].Id;
+                    option.appendChild(document.createTextNode(Customers[x].Description));
+                    target.appendChild(option);
+                }
+            }
+
+            CmbReporterProvidersFill();
+            CmbReporterCustomersFill();
+            CmbReporterDepartmentsFill();
+
+            function RReporterTypeChanged() {
+                document.getElementById('RReporterTypeCmb').style.display = '';
+                document.getElementById('DivCmbReporterType1').style.display = document.getElementById('RReporterType1').checked ? '' : 'none';
+                document.getElementById('DivCmbReporterType2').style.display = document.getElementById('RReporterType2').checked ? '' : 'none';
+                document.getElementById('DivCmbReporterType3').style.display = document.getElementById('RReporterType3').checked ? '' : 'none';
+
+                /* ISSUS-91
+                if (document.getElementById('RReporterType1').checked) {
+                    document.getElementById('CmbReporterType2').value = 0;
+                    document.getElementById('CmbReporterType3').value = 0;
+                }
+
+                if (document.getElementById('RReporterType2').checked) {
+                    document.getElementById('CmbReporterType1').value = 0;
+                    document.getElementById('CmbReporterType3').value = 0;
+                }
+
+                if (document.getElementById('RReporterType3').checked) {
+                    document.getElementById('CmbReporterType1').value = 0;
+                    document.getElementById('CmbReporterType2').value = 0;
+                }
+                */
+            }
+
+            if (IncidentAction.Origin == 1) { document.getElementById('ROrigin1').checked = true; }
+            if (IncidentAction.Origin == 2) { document.getElementById('ROrigin2').checked = true; }
+
+            if (IncidentAction.Origin == 3) {
+                document.getElementById('ROriginDiv').style.display = 'none';
+                document.getElementById('RTypeDiv').style.display = 'none';
+                document.getElementById('RReporterDiv').style.display = 'none';
+                document.getElementById('IncidentDiv').style.display = '';
+                document.getElementById('BusinessRiskDiv').style.display = 'none';
+            }
+            if (IncidentAction.Origin == 4) {
+                document.getElementById('ROriginDiv').style.display = 'none';
+                document.getElementById('RTypeDiv').style.display = 'none';
+                document.getElementById('RReporterDiv').style.display = 'none';
+                document.getElementById('IncidentDiv').style.display = 'none';
+                document.getElementById('BusinessRiskDiv').style.display = '';
+            }
+            else {
+                if (IncidentAction.ReporterType == 1) {
+                    document.getElementById('RReporterType1').checked = true;
+                    $('#CmbReporterType1').val(IncidentAction.Department.Id);
+                }
+                if (IncidentAction.ReporterType == 2) {
+                    document.getElementById('RReporterType2').checked = true;
+                    $('#CmbReporterType2').val(IncidentAction.Provider.Id);
+                }
+                if (IncidentAction.ReporterType == 3) {
+                    document.getElementById('RReporterType3').checked = true;
+                    $('#CmbReporterType3').val(IncidentAction.Customer.Id);
+                }
+                if (IncidentAction.ActionType == 1) { document.getElementById('RType1').checked = true; }
+                if (IncidentAction.ActionType == 2) { document.getElementById('RType2').checked = true; }
+                if (IncidentAction.ActionType == 3) { document.getElementById('RType3').checked = true; }
+                RReporterTypeChanged();
+            }
+
+            FormLoad();
+            if(document.getElementById('IncidentActionCostsTableData')!=null)
+            {
+                IncidentActionCostRenderTable('IncidentActionCostsTableData');
+            }
+
+            // ISSUS-190
+            document.getElementById('TxtDescription').focus();
+        </script>
+
+        <script type = "text/javascript">
+            function alertUI(message) {
+                $('#AlertUIMessage').html(message);
+                var dialog = $("#AlertUIDialog").removeClass('hide').dialog({
+                    resizable: false,
+                    modal: true,
+                    title: Dictionary.Common_Warning,
+                    title_html: true,
+                    buttons:
+                    [
+                        {
+                            html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                            "class": "btn btn-xs btn-success",
+                            click: function () {
+                                $(this).dialog("close");
+                            }
+                        }
+                    ]
+                });
+            }
+
+            function alertInfoUI(message, action) {
+                $('#InfoUIMessage').html(message);
+                var dialog = $("#InfoUIDialog").removeClass('hide').dialog({
+                    resizable: false,
+                    modal: true,
+                    title: Dictionary.Common_Warning,
+                    title_html: true,
+                    buttons: [
+                            {
+                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                                "class": "btn btn-xs btn-success",
+                                click: function () {
+                                    $(this).dialog("close");
+                                    if(action!=null)
+                                    {
+                                        action();
+                                    }
+                                }
+                            }
+                        ]
+
+                });
+            }
+
+            function warningInfoUI(message, action, width) {
+                $('#WarningUIMessage').html(message);
+                var dialog = $("#WarningUIDialog").removeClass('hide').dialog({
+                    resizable: false,
+                    width: width == null ? 300 : width,
+                    modal: true,
+                    title: Dictionary.Common_Warning,
+                    title_html: true,
+                    buttons: [
+                            {
+                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                                "class": "btn btn-xs btn-success",
+                                click: function () {
+                                    $(this).dialog("close");
+                                    if(action!=null)
+                                    {
+                                        action();
+                                    }
+                                }
+                            }
+                        ]
+
+                });
+            }
+
+            function successInfoUI(message, action, width) {
+                $('#SuccessUIMessage').html(message);
+                var dialog = $("#SuccessUIDialog").removeClass('hide').dialog({
+                    resizable: false,
+                    width: width == null ? 300 : width,
+                    modal: true,
+                    title: Dictionary.Common_Warning,
+                    title_html: true,
+                    buttons: [
+                            {
+                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                                "class": "btn btn-xs btn-success",
+                                click: function () {
+                                    $(this).dialog("close");
+                                    if(action!=null)
+                                    {
+                                        action();
+                                    }
+                                }
+                            }
+                    ]
+
+                });
+            }
+
+            function promptInfoUI(message, width, actionYes, actionNo) {
+                $('#PromptUIMessage').html(message);
+                var dialog = $("#PromptUIDialog").removeClass('hide').dialog({
+                    resizable: false,
+                    width: width == null ? 300 : width,
+                    modal: true,
+                    title: Dictionary.Common_Warning,
+                    title_html: true,
+                    buttons: [
+                            {
+                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                                "class": "btn btn-xs btn-success",
+                                click: function () {
+                                    $(this).dialog("close");
+                                    if(actionYes!=null)
+                                    {
+                                        actionYes();
+                                    }
+                                }
+                            },
+                            {
+                                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                                "class": "btn btn-xs btn-danger",
+                                click: function () {
+                                    $(this).dialog("close");
+                                    if(actionNo!=null)
+                                    {
+                                        actionNo();
+                                    }
+                                }
+                            }
+                    ]
+
+                });
+            }
+
+            function LoadingShow(message)
+            {
+                return;
+                $('#LoadingMessage').html(message);
+                var dialog = $("#LoadingDialog").removeClass('hide').dialog({
+                    resizable: false,
+                    modal: true,
+                    title: Dictionary.Common_Working,
+                    title_html: true
+
+                });
+            }
+
+            function LoadingHide()
+            {
+                return;
+                $('#LoadingDialog').dialog('close');
+            }
+
+            function FilterList() {
+                if (document.getElementById('ListDataTable') != null) {
+
+                    var searcheablesIndex = new Array();
+                    var headerList = document.getElementById('ListDataHeader').childNodes;
+                    var cont =0;
+                    for(var x=0;x<headerList.length;x++)
+                    {
+                        if(headerList[x].className!=null && headerList[x].className.indexOf('search')!=-1)
+                        {
+                            searcheablesIndex.push(cont);
+                        }
+                        if(headerList[x].tagName === 'TH') {cont++;}
+                    }
+
+                    var pattern = document.getElementById('nav-search-input').value.toUpperCase();
+                    var list = document.getElementById('ListDataTable');
+                    var cont = 0;
+                    for (var x = 0; x < list.childNodes.length; x++) {
+                        var row = list.childNodes[x];
+
+                        if(row.tagName==='TR')
+                        {
+                            var match = false;
+
+                            for(var y=0;y<searcheablesIndex.length;y++)
+                            {
+                                if(row.childNodes[searcheablesIndex[y]].childNodes.length >0)
+                                {
+                                    var item = row.childNodes[searcheablesIndex[y]].innerText.toUpperCase();
+                                    if (item.indexOf(pattern) != -1) {
+                                        match = true;
+                                    }
+                                }
+                            }
+
+                            row.style.display = match ? '' : 'none';
+                        }
+                    }
+                }
+            }
+            
+
+            if (document.getElementById('ListDataTable') == null) {
+                document.getElementById('nav-search').style.display = 'none';
+            }
+
+            var referrer = '/ActionList.aspx';
+
+            items = [];
+            if(items.length===0)
+            {
+                document.getElementById('nav-search').style.display='none';
+            }
+            else
+            {                
+                $('#nav-search-input').keyup(FilterList);
+                $('#nav-search-input').change(FilterList);
+            }
+
+            // Force Logout
+            var sessionTimeOut = 10 * 60000;
+            setTimeout(function(){ document.location = 'LogOut.aspx'; }, sessionTimeOut);
+
+            // Money format
+            /*$('input.money-bank').priceFormat({
+                prefix: '',
+                thousandsSeparator: '.',
+                centsSeparator: Dictionary.NumericDecimalSeparator,
+                centsLimit: 2,
+                permitZeroValue: true
+            });
+            $('input.decimalFormated').priceFormat({
+                prefix: '',
+                thousandsSeparator: '.',
+                centsSeparator: Dictionary.NumericDecimalSeparator,
+                centsLimit: 6,
+                permitZeroValue: true,
+                completeDecimals: false
+            });
+            $('input.money-bank-nozero').priceFormat({
+                prefix: '',
+                thousandsSeparator: '.',
+                centsSeparator: Dictionary.NumericDecimalSeparator,
+                permitZeroValue: false
+            });
+            $('input.integer').priceFormat({
+                prefix: '',
+                thousandsSeparator: '',
+                centsSeparator: '',
+                centsLimit: 0,
+                permitZeroValue: false
+            });
+            $('input.integerFormated').priceFormat({
+                prefix: '',
+                thousandsSeparator: Dictionary.NumericMilesSeparator,
+                centsSeparator: '',
+                centsLimit: 0,
+                permitZeroValue: false
+            });*/
+
+            var numberActual;
+
+            function AcceptKey(code, type)
+            {
+                var ok = false;
+                if (code ==  8) { ok = true; }
+                if (code ==  9) { ok = true; }
+                if (code == 13) { ok = true; }
+                if (code == 46) { ok = true; }
+                if (code == 37) { ok = true; }
+                if (code == 39) { ok = true; }
+                if (code == 27) { ok = true; }
+                if(code > 95 && code < 106) { ok = true; }
+                if(code > 36 && code < 41) { ok = true; }
+                if(code > 47 && code < 58) { ok = true; }
+
+                if(type === 'decimal' || type ==='money')
+                {
+                    if(code===188 || code===110 || code===190){
+                        ok = true;
+                    }
+                }
+
+                return ok;
+            }
+
+            function numberDecimalDown(e)
+            {
+                var code = (e.keyCode ? e.keyCode : e.which);
+
+                if(AcceptKey(code,'decimal')===false){
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                numberActual = e.currentTarget.value;
+                if(code===188 || code===110 || code===190){
+                    e.currentTarget.value = numberActual.split(',').join('.');
+                    if(numberActual.indexOf('.')!=-1) {
+                        console.log('doble-down');
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                }
+
+                console.log("do"+numberActual);                
+            }
+
+            function numberIntegerDown(e)
+            {
+                var code = (e.keyCode ? e.keyCode : e.which);
+                numberActual = e.currentTarget.value;
+                console.log(code);               
+
+                if(AcceptKey(code,'integer') ===false) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }
+
+            function numberDecimalUp(e)
+            {
+                console.log("up"+e.currentTarget.value);
+                var code = (e.keyCode ? e.keyCode : e.which);
+                numberActual = e.currentTarget.value;
+
+                if(numberActual.indexOf(',')!=-1){
+                    e.currentTarget.value = numberActual.split(',').join('.');
+                }
+
+                if(numberActual.split('.').length>2){
+                    console.log('doble-up');
+                    e.currentTarget.value = numberActual;
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }
+
+            function numberDecimalFocus(e){
+                if(e.currentTarget.value*1 === 0){
+                    e.currentTarget.value = "";
+                    console.log("erased");
+                }
+                console.log(e.currentTarget.value);
+                e.currentTarget.value = e.currentTarget.value.toString().split(Dictionary.NumericDecimalSeparator).join('.');
+            }
+
+            function numberIntegerFocus(e){
+                if(e.currentTarget.value*1 === 0){
+                    e.currentTarget.value = "";
+                    console.log("erased");
+                }
+                console.log(e.currentTarget.value);
+            }
+
+            function numberDecimalBlur(e) {
+                var value = e.currentTarget.value;
+                value = Math.round(value * 100) / 100;
+                e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
+            }
+
+            function numberDecimalBlur6(e) {
+                var value = e.currentTarget.value;
+                value = Math.round(value * 1000000) / 1000000;
+                e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
+            }
+
+            function numberIntegerBlur(e){
+                e.currentTarget.value = (e.currentTarget.value * 1).toString();
+            }
+
+            $('input.money-bank').on('keyup', numberDecimalUp);
+            $('input.money-bank').on('keydown', numberDecimalDown);
+            $('input.money-bank').on('focus', numberDecimalFocus);
+            $('input.money-bank').on('blur', numberDecimalBlur);
+
+            $('input.decimalFormated').on('keyup', numberDecimalUp);
+            $('input.decimalFormated').on('keydown', numberDecimalDown);
+            $('input.decimalFormated').on('focus', numberDecimalFocus);
+            $('input.decimalFormated').on('blur', numberDecimalBlur6);
+
+            //$('input.integerFormated').on('keyup', numberIntegerUp);
+            $('input.integerFormated').on('keydown', numberIntegerDown);
+            $('input.integerFormated').on('focus', numberIntegerFocus);
+            $('input.integerFormated').on('blur', numberIntegerBlur);
+
+            var preventSubmit = false;
+            $('TEXTAREA').on('focus', function(e) { preventSubmit = true; });
+            $('TEXTAREA').on('blur', function(e) { preventSubmit = false; });
+
+            $(document).keypress(function(e) {
+                if(e.which == 13) {
+                    var overlay = $('.ui-widget-overlay');
+                    if(overlay.length === 0) {
+                        if(preventSubmit === false)
+                        {
+                            if(document.getElementById('BtnSave')!==null)
+                            {
+                                $('#BtnSave').click();
+                            }
+                            e.preventDefault();
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+</html>

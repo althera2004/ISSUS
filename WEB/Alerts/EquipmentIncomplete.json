@@ -1,0 +1,101 @@
+﻿{
+    CompanyId:0, // Para todas la compañías
+    ItemType:13, // Id del tipo Learning, para determinar quien tiene acceso
+    "ItemUrl": "EquipmentView.aspx?id=",
+    AlertDescription:'Equipo incompleto',
+    Query:"SELECT
+DATA.Id,
+'Falta ' +
+CASE WHEN SUM(Data.Verification) > 0 THEN 'verificación ' ELSE '' END +
+CASE WHEN SUM(Data.Calibration) > 0 THEN 'calibración ' ELSE '' END +
+CASE WHEN SUM(Data.Maintenance) > 0 THEN 'mantenimiento ' ELSE '' END +
+'para ' +
+DATA.Description AS Description,
+SUM(Data.Verification) AS V,
+SUM(Data.Calibration) AS C,
+SUM(Data.Maintenance) AS M,
+DATA.Responsable
+
+
+FROM
+(
+SELECT
+E.Id,
+E.Description,
+1 AS Verification,
+0 AS Calibration,
+0 AS Maintenance,
+EV.Responsable
+
+FROM Equipment E
+LEFT JOIN EquipmentVerificationDefinition EV
+ON	EV.EquipmentId = E.Id
+
+WHERE
+	E.IsVerification = 1
+AND	EV.Id IS NULL
+    AND E.CompanyId   = #CompanyId#
+        AND E.Active=1
+
+UNION 
+
+SELECT
+E.Id,
+E.Description,
+0 AS Verification,
+1 AS Calibration,
+0 AS Maintenance,
+EV.Responsable
+
+FROM Equipment E
+LEFT JOIN EquipmentCalibrationDefinition EV
+ON	EV.EquipmentId = E.Id
+
+WHERE
+	E.IsCalibration = 1
+AND	EV.Id IS NULL
+AND E.CompanyId = #CompanyId#
+        AND E.Active=1
+
+UNION 
+
+SELECT
+E.Id,
+E.Description,
+0 AS Verification,
+0 AS Calibration,
+1 AS Maintenance,
+EV.ResponsableId AS Responsable
+
+FROM Equipment E
+LEFT JOIN EquipmentMaintenanceDefinition EV
+ON	EV.EquipmentId = E.Id
+
+WHERE
+	E.IsMaintenance = 1
+AND	EV.Id IS NULL
+AND E.CompanyId = #CompanyId#
+        AND E.Active=1
+) AS DATA
+
+WHERE DATA.Responsable = #ActualUser#
+
+GROUP BY 
+	Data.Id,
+	Data.Description,
+	DATA.Responsable",  // Consulta SQL dónde se extraen las alertas
+    Index:
+    [
+        {Position:0, FieldName:'Id'},
+        {Position:1, FieldName:'Description'}
+    ],  // Datos de cada aviso generado por la alerta
+    Tag: '<li>
+                                    <a href="EquipmentView.aspx?id={0}">
+                                                <strong>Equipo incompleto</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">{1}</span></td></tr></table>                                            </span>
+                                        </div>
+                                    </a>
+                                </li>' // Cómo se muestra la alerta en la aplicación (desplegable campana)
+}

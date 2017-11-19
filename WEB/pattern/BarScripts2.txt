@@ -1,0 +1,98 @@
+﻿                    function {0}Delete(sender)
+                    {
+                        $('{1}{0}Name').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+                        Selected = sender.parentNode.parentNode.parentNode.id * 1;
+                        var dialog = $('{1}{0}DeleteDialog').removeClass('hide').dialog({
+                            resizable: false,
+                            modal: true,
+                            title: Dictionary.Common_Delete,
+                            title_html: true,
+                            buttons: [
+                                    {
+                                        html: ""<i class='icon-trash bigger-110'></i>&nbsp;"" + Dictionary.Common_Delete,
+                                        ""class"": ""btn btn-danger btn-xs"",
+                                        click: function () {
+                                            $(this).dialog(""close"");
+                                            {0}DeleteConfirmed(Selected);
+                                        }
+                                    },
+                                    {
+                                        html: ""<i class='icon-remove bigger-110'></i>&nbsp;"" + Dictionary.Common_Cancel,
+                                        ""class"": ""btn btn-xs"",
+                                        click: function () {
+                                            $(this).dialog(""close"");
+                                        }
+                                    }
+                                ]
+
+                        });
+                    }
+
+                    function ProcessTypeDeleteConfirmed(id)
+                    {
+                        // 1.- Desactivar en la BBDD
+                        var webMethod = '/Async/ProcessActions.asmx/DesactiveProcessType';
+                        var description = '';
+                        for(var x=0; x<processTypeCompany.length;x++)
+                        {
+                            if(processTypeCompany[x].Id === id)
+                            {
+                                description = processTypeCompany[x].Description;
+                                break;
+                            }
+                        }
+                        var data = {
+                            'processTypeId': id,
+                            'description': description,
+                            'companyId': Company.Id,
+                            'userId': user.Id
+                        };
+
+                        LoadingShow(Dictionary.Common_Message_Saving);
+                        $.ajax({
+                            type: 'POST',
+                            url: webMethod,
+                            contentType: 'application/json; charset=utf-8',
+                            dataType: 'json',
+                            data: JSON.stringify(data, null, 2),
+                            success: function (response) {
+                                LoadingHide();
+                                if (response.d.Success !== true) {
+                                    alertUI(response.d.MessageError);
+                                }
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                LoadingHide();
+                                alertUI(jqXHR.responseText);
+                            }
+                        });
+
+                        // 2.- Desactivar en HTML
+                        var temp = new Array();
+                        for(var x=0; x<processTypeCompany.length;x++)
+                        {
+                            if(processTypeCompany[x].Id!== id)
+                            {
+                                temp.push(processTypeCompany[x]);
+                            }
+                        }
+
+                        processTypeCompany = new Array();
+                        for(var x=0; x<temp.length;x++)
+                        {
+                            processTypeCompany.push(temp[x]);
+                        }
+
+                        // 3.- Eliminar la fila de la tabla del popup
+                        var target = document.getElementById('SelectableProcessType');
+                        for(var x=0; x< target.childNodes.length; x++)
+                        {
+                            if(target.childNodes[x].id == id)
+                            {
+                                target.childNodes[x].style.display='none';
+                                break;
+                            }
+                        }
+
+                        FillCmbTipo();
+                    }

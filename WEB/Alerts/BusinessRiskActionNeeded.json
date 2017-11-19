@@ -1,0 +1,37 @@
+﻿{
+    "CompanyId": 0,
+    "ItemType": 13,
+    "ItemUrl": "BusinessRiskView.aspx?id=",
+    "AlertDescription": "Riesgo significativo",
+    "Query": "select
+                     BR.Id,
+                     BR.[Description] AS Description
+                    from businessrisk br
+                    INNER JOIN Rules R
+                    ON BR.RuleId = R.Id
+                    left join businessrisk br2
+                    on br.id = br2.previousbusinessriskid
+                    LEFT JOIN IncidentAction IA 
+                    ON IA.businessriskid = BR.Id
+
+
+                    where br2.id is null
+                    AND BR.CompanyId = #CompanyId#
+                    AND BR.Assumed = 0
+                    AND R.Limit <= BR.Result AND BR.Active = 1
+                    --AND IA.Id IS NULL",
+    "Index":
+    [
+        { "Position": 0, "FieldName": "Id" },
+        { "Position": 1, "FieldName": "Description" }
+    ],
+    Tag: '<li>
+                                    <a href="BusinessRiskView.aspx?id={0}">
+                                                <strong>Riesgo significativo</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-warning-sign"></i></td><td><span style="width:150px;white-space:normal;">{1}</span></td></tr></table>                                            </span>
+                                        </div>
+                                    </a>
+    </li>'
+}

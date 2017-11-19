@@ -1,0 +1,33 @@
+﻿{
+    "Code": 14,
+    "ItemType": "Provider",
+    "Name": "Item_Provider",
+    "NamePlural": "Item_Providers",
+    "Searcheable": true,
+    "NewButton": 
+    {
+        "Text": "Item_Provider_Btn_New",
+        "Action": "success",
+        "Icon": "icon-plus-sign",
+        "Id": "BtnNewProvider"
+    },
+    "Headers":
+    [
+        {
+            "Id": "ListDataHeader",
+            "ActionsItem": 2,
+            Items:
+            [
+                {
+                    "Text": "Nombre",
+                    "Sortable": true,
+                    "Filtrable": true,
+                    "HiddenMobile": true,
+                    "Id": "th0",
+                    "HeaderId": "ListDataHeader",
+                    "DataId": "ListDataTable"
+                }
+            ]
+        }
+    ]
+}

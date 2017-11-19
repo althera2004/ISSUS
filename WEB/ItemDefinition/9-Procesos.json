@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ItemDefinition>
+	<ItemName>Proceso</ItemName>
+	<ItemNamePlural>Procesos</ItemNamePlural>
+	<ListViews>
+		<ListView id="ListDataHeader" NumberOfActions="2">
+			<Header>
+				<Column Label="Nombre" Sortable="true" Filtrable="true"></Column>
+				<Column Label="Responsable" Sortable="true"></Column>
+				<Column Label="Tipo"></Column>
+			</Header>
+		</ListView>
+	</ListViews>
+</ItemDefinition>

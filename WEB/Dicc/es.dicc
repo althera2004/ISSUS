@@ -1,0 +1,1469 @@
+﻿Acción::Acción
+afectados::afectados
+Alert_Started_Wihtout_Assistans::Curso empezado sin asistentes
+Añadir::Añadir
+Auditorías::Auditorías
+Avatar::Avatar
+Calibration-Ext::Calibración externa
+Calibration-Int::Calibración interna
+Commo_Error_FilterDateFrom::Fecha de inicio no válida
+Commo_Error_FilterDateTo::Fecha final no válida
+Common_Accept::Aceptar
+Common_Action_Success::Operación realizada con éxito
+Common_Active::Activo
+Common_Active_Plural::Activo
+Common_ActualMonth::Mes actual
+Common_Add::Añadir
+Common_Alerts::Avisos
+Common_All::Todos
+Common_All_Female::Toda					   
+Common_All_Female_Plural::Todas
+Common_All_Male::Todo
+Common_All_Male_Plural::Todos
+Common_AlreadyExists::Ya existe
+Common_Back::Volver
+Common_Cancel::Cancelar
+Common_CanNotDelete::No se puede eliminar
+Common_Change::Cambiar
+Common_Chronometer_Hours::horas
+Common_Chronometer_Minutes::minutos
+Common_Chronometer_Seconds::segundos		  
+Common_Color_Blue::Azúl
+Common_Color_Green::Verde
+Common_Color_Red::Rojo
+Common_Color_Yellow::Amarillo
+Common_Comparer_eq::igual a
+Common_Comparer_eqgt::mayor o igual que
+Common_Comparer_eqlt::menor o igual que
+Common_Comparer_gt::mayor que
+Common_Comparer_lt::menor que
+Common_ComparerSign_eq::=
+Common_ComparerSign_eqgt::>=
+Common_ComparerSign_eqlt::<=
+Common_ComparerSign_gt::>
+Common_ComparerSign_lt::<
+Common_Configuration::Panel de control
+Common_CreatedBy::Generado por
+Common_Date::Fecha
+Common_DateClose::Fecha de cierre
+Common_DateExecution::Fecha prevista
+Common_Day::Día
+Common_Days::Días
+Common_Delete::Eliminar
+Common_DeleteMessage::¿Seguro que quiere eliminar									
+Common_Edit::Editar
+Common_Error::Error
+Common_Error_Application::Se ha producido un error en la aplicación
+Common_Error_BeforeStart::La fecha no puede ser anterior a la de inicio
+Common_Error_DateMalformed::La fecha no es correcta
+Common_Error_IncorrectMail::El correo es incorrecto
+Common_Error_IncorrectPassword::Contraseña no válida
+Common_Error_Kernel_Delete::No se puede eliminar porque es parte básica de la aplicación
+Common_Error_Kernel_Edit::No se puede modificar porque es parte básica de la aplicación
+Common_Error_LastActive::No se puede eliminar porque es la única definida
+Common_Error_MaximumToday::La fecha no puede ser posterior a hoy
+Common_Error_MinimumOneAction::Escoger una opción
+Common_Error_MoneyMalformed::No es un valor correcto
+Common_Error_NameAlreadyExists::Ya existe
+Common_Error_NoAccess::El elemento seleccionado no está disponible
+Common_Error_NoCalibrationsDefined::No hay calibraciones definidas
+Common_Error_NoDeletable::No se puede eliminar
+Common_Error_NoEditable::No se puede modificar
+Common_Error_NoFileSelected::Se ha de seleccionar un fichero
+Common_Error_NoVerificationsDefined::No hay verificaciones definidas
+Common_Error_UnsupportedFile::Tipo de documento no admitido
+Common_Error_UserCanNotAccess::El usuario no tiene permisos para acceder a la aplicación
+Common_ErrorMessage_CanNotDelete::No se puede eliminar
+Common_ErrorMessage_InUse::No se puede eliminar porque está en uso
+Common_ErrorMessage_IsSelected::Ya está seleccionado
+Common_Exit::Salir
+Common_External::Externo
+Common_Filter::Filtrar
+Common_FinishDate::Finalización
+Common_Form_Errors::Revise los datos del formulario
+Common_From::Desde
+Common_Here::aquí
+Common_Home::Inicio
+Common_Inactive::Inactivo
+Common_Inactive_Plural::Inactivos
+Common_Internal::Interno
+Common_Label_Days::días
+Common_Label_Months::meses
+Common_Label_Weeks::semanas
+Common_Label_Years::años
+Common_LastWeek::Última semana
+Common_ListPdf::Imprimir
+Common_Message_Deleting::Eliminando...
+Common_Message_FormErrors::Revise los datos del formulario
+Common_Message_Saving::Guardando...
+Common_ModifiedBy::Modificado por
+Common_Modify::Modificar
+Common_Month::Mes
+Common_MonthName_April::Abril
+Common_MonthName_August::Agosto
+Common_MonthName_December::Diciembre
+Common_MonthName_February::Febrero
+Common_MonthName_January::Enero
+Common_MonthName_July::Julio
+Common_MonthName_June::Junio
+Common_MonthName_March::Marzo
+Common_MonthName_May::Mayo
+Common_MonthName_November::Noviembre
+Common_MonthName_October::Octubre
+Common_MonthName_September::Septiembre
+Common_Months::Meses
+Common_Name::Nombre
+Common_New::Nuevo
+Common_Next::Siguiente
+Common_No::No
+Common_NoAlerts::<strong>¡Felicidades!</strong><br />No hay ninguna alerta pendiente
+Common_NoGrants::Usuario sin permisos
+Common_NoGrants_Explanation::Póngase en contacto con el administrador de la aplicación en la siguiente dirección de correo
+Common_None::Ninguno
+Common_None_Female::Ninguna
+Common_None_Male::Ninguno
+Common_NotSet_Female::No especificada
+Common_NotSet_Male::No especificado
+Common_Period::Periodo
+Common_PeriodAll::Todo el periodo
+Common_Previous::Anterior
+Common_PrintExcel::Imprimir en Excel
+Common_PrintPdf::Imprimir en PDF
+Common_RegisterCount::Nº registros
+Common_Report_Rendering::Generando informe...
+Common_Required::Obligatorio
+Common_Responsible::Responsable
+Common_Save::Guardar
+Common_Search::Buscar
+Common_SelectAll todos::Seleccionar todos
+Common_SelectAll::Seleccionar
+Common_Selected::Seleccionado
+Common_SelectOne::Seleccionar
+Common_ShowAll::Ver todo
+Common_Status::Estado
+Common_Target::Objetivo
+Common_Task::Tarea
+Common_ThisMonth::Este mes
+Common_ThisWeek::esta semana
+Common_TiemoutSessionTitle::La sesión ha terminado
+Common_TimeoutSessionMessage::Se ha superado el tiempo permitido de inactividad
+Common_Title_Views::Visualizaciones
+Common_To:Hasta
+Common_Today::Hoy
+Common_Total::Total
+Common_Update::Modificar
+Common_View::Ver
+Common_ViewAll::Ver todo
+Common_VoidData::Sin datos
+Common_VoidSearchResult::La búsqueda no ha encontrado datos
+Common_Warning::Aviso
+Common_Warning_BrowserOld::Se ha de actializar el navegador
+Common_Warning_ImageRequired::Se ha de seleccionar una imagen
+Common_Warning_ImageTooBig:: Imagen muy grande <br />Se ha de reducir el tamaño.
+Common_Warning_MimeType::tipus de arxiu no admès
+Common_Warning_Undelete::No se puede eliminar porque tiene registros asociados
+Common_Week::Semana
+Common_WeekDayName_Friday::Viernes
+Common_WeekDayName_Monday::Lunes
+Common_WeekDayName_Saturday::Sábado
+Common_WeekDayName_Sunday::Domingo
+Common_WeekDayName_Thursday::Jueves
+Common_WeekDayName_Tuesday::Martes
+Common_WeekDayName_Wednesday::Miércoles
+Common_WeekDayShortName_Friday::Viernes
+Common_WeekDayShortName_Monday::lu
+Common_WeekDayShortName_Saturday::sa
+Common_WeekDayShortName_Sunday::dm
+Common_WeekDayShortName_Thursday::ju
+Common_WeekDayShortName_Tuesday::ma
+Common_WeekDayShortName_Wednesday::mi
+Common_Welcome::Bienvenido
+Common_Working::Acción en proceso
+Common_Year::Año
+Common_Years::Años
+Common_Yes::Sí
+CompanyProfile::Datos de empresa
+Email::Correo
+Fin::Fin
+Item_Action_Popup_Details_Title::Detalles de la acción
+Item_Alert_ListHeader_Description::Descripción
+Item_Alert_ListHeader_Reason::Motivo
+Item_Alerts::Avisos
+Item_Attach_DiskFreeLabel1::Disponible el 
+Item_Attach_DiskFreeLabel2::% de asignación de disco
+Item_Attach_DiskQuote::Cuota de disco asignada:
+Item_Attach_FreeDisk::Espacio disponible
+Item_Attach_Popup_Delete_Question::¿Eliminar el adjunto?
+Item_Attach_Popup_Delete_Title::Eliminar adjunto
+Item_Attachment_Btn_New::Añadir documento
+Item_Attachment_CreateDate::Subido el
+Item_Attachment_Description::Descripción
+Item_Attachment_Header_CreateDate::Subido el
+Item_Attachment_Header_Description::Descripción
+Item_Attachment_Header_FileName::Fichero
+Item_Attachment_Header_Size::Tamaño
+Item_Attachment_Popup_Warning::Esta acción no se puede deshacer
+Item_Attachment_SectionTitle::Documentos adjuntos
+Item_Attachment_Size::Tamaño
+Item_BusinesRisk_ListHeader_Date::Fecha
+Item_BusinesRisk_ListHeader_Description::Nombre
+Item_BusinesRisk_ListHeader_IPR::IPR
+Item_BusinesRisk_ListHeader_Process::Proceso
+Item_BusinesRisk_ListHeader_Result::Final
+Item_BusinesRisk_ListHeader_Rule::Norma
+Item_BusinesRisk_ListHeader_StartValue::Valor actual
+Item_BusinesRisk_ListHeader_Type::Tipo
+Item_BusinessRisk::Riesgo
+Item_BusinessRisk_Btn_NewIPR::Fijar nuevo IPR
+Item_BusinessRisk_Button_CategoryBAR::Gestión de normas
+Item_BusinessRisk_Button_New::Añadir riesgo
+Item_BusinessRisk_ErrorMesagge_OutOfDate::La fecha debe ser posterior a
+Item_BusinessRisk_ErrorMessage_ClosedRequiredData::Si se cierra, debe indicar si aplica acción o si se asume el riesgo
+Item_BusinessRisk_ErrorMessage_CloseEarlierThanStart::La fecha de cierre no puede ser anterior a la fecha de alta
+Item_BusinessRisk_ErrorMessage_DateCloseRequired::Especificar una fecha de cierre
+Item_BusinessRisk_ErrorMessage_DateStartRequired::Especificar una fecha de alta
+Item_BusinessRisk_ErrorMessage_DateUpToLimit::La fecha no puede ser posterior a la actual
+Item_BusinessRisk_ErrorMessage_FinalProbabilityRequired::Indicar el nivel de probabilidad final
+Item_BusinessRisk_ErrorMessage_FinalSeverityRequired::Indicar el nivel de severidad final
+Item_BusinessRisk_ErrorMessage_InitialValueBadRange::El valor inicial debe estar entre 1 y 25
+Item_BusinessRisk_ErrorMessage_InitialValueRequired::Especificar un valor inicial
+Item_BusinessRisk_ErrorMessage_NameRequired::Especificar un nombre
+Item_BusinessRisk_ErrorMessage_NewProbabiliySeverity_Required::Indicar el nuevo nivel de probabilidad y severidad
+Item_BusinessRisk_ErrorMessage_ProbabilityRequired::Especificar una probabilidad
+Item_BusinessRisk_ErrorMessage_ProcessRequired::Especificar un proceso
+Item_BusinessRisk_ErrorMessage_ResultRequired::Especificar un resultado (probabilidad x severidad)
+Item_BusinessRisk_ErrorMessage_RulesRequired::Especificar una norma
+Item_BusinessRisk_ErrorMessage_SeverityRequired::Especificar una severidad
+Item_BusinessRisk_ErrorMessage_StartNotApply::Una vez evaluado el riesgo, establecer si se realiza una acción o si se asume
+Item_BusinessRisk_Filter_NoData::Este riesgo no tiene costes
+Item_BusinessRisk_Help_CostBlocked::Per porder afegir costos s'ha de desar l'acció
+Item_BusinessRisk_LabelField_ActualResult::Resultado actual
+Item_BusinessRisk_LabelField_ApplyAction::Aplicar una acción
+Item_BusinessRisk_LabelField_ApplyActionNo::No aplicar una acción
+Item_BusinessRisk_LabelField_Assumed::Asumir el riesgo
+Item_BusinessRisk_LabelField_Causes::Causas
+Item_BusinessRisk_LabelField_CloseDate::Fecha de Cierre
+Item_BusinessRisk_LabelField_Code::Código
+Item_BusinessRisk_LabelField_DateStart::Fecha de alta
+Item_BusinessRisk_LabelField_Description::Descripción
+Item_BusinessRisk_LabelField_InitialValue::Valor inicial
+Item_BusinessRisk_LabelField_IPR::IPR actual
+Item_BusinessRisk_LabelField_Notes::Notas
+Item_BusinessRisk_LabelField_Probability::Probabilidad
+Item_BusinessRisk_LabelField_Process::Procesos
+Item_BusinessRisk_LabelField_Remainder::Chuleta
+Item_BusinessRisk_LabelField_Result::Resultado
+Item_BusinessRisk_LabelField_Rules::Normas
+Item_BusinessRisk_LabelField_Severity::Severidad
+Item_BusinessRisk_LabelField_StartControl::Control inicial
+Item_BusinessRisk_List_Filter_From::Desde
+Item_BusinessRisk_List_Filter_From::Hasta
+Item_BusinessRisk_List_Filter_Process::Procesos
+Item_BusinessRisk_List_Filter_Rules::Normas
+Item_BusinessRisk_List_Filter_Type::Tipo
+Item_BusinessRisk_List_Filter_Type_Assumed::Asumido
+Item_BusinessRisk_List_Filter_Type_NotSignificant::No significativo
+Item_BusinessRisk_List_Filter_Type_Significant::Significativo
+Item_BusinessRisk_Message_InsertSucess::Riesgo guardado correctamente. Ya se pueden usar las pestañas del formulario
+Item_BusinessRisk_Message_IPR::Hay # riesgos que pasarán de no-significativos a significativos. ¿Desea continuar?
+Item_BusinessRisk_Message_IPR_2::Hay # riesgos que pasarán de significativos a no-significativos. ¿Desea continuar?
+Item_BusinessRisk_Message_ReevaluteRisk::Evaluar el riesgo después de aplicar una acción
+Item_BusinessRisk_MessageClosingNotAvailable::No se puede dar por resuelto un riesgo mientras la acción continúe abierta
+Item_BusinessRisk_MessageHistoric::Este riesgo tiene un nuevo estado a fecha de #. Para acceder clicar
+Item_BusinessRisk_Popup_Delete_Title::Eliminar análisis de riego
+Item_BusinessRisk_PopupDelete_Message::¿Eliminar el riego?
+Item_BusinessRisk_SelectProbabilitySeverity::Seleccionar una probabilidad y una severidad
+Item_BusinessRisk_SelectRuleType::Seleccionar una norma
+Item_BusinessRisk_Status_Assumed::Asumido
+Item_BusinessRisk_Status_NotSignificant::No significativo
+Item_BusinessRisk_Status_Significant::Significativo
+Item_BusinessRisk_Status_Unevaluated::No evaluado
+Item_BusinessRisk_Tab_Action::Acción
+Item_BusinessRisk_Tab_Basic::Situación inicial
+Item_BusinessRisk_Tab_Costs::Costes
+Item_BusinessRisk_Tab_Graphics::Situación final
+Item_BusinessRisk_Tab_HistoryActions::Historial de acciones
+Item_BusinessRisk_Title_BusinessRiskDetails::Ficha del riesgo
+Item_BusinessRisk_Title_FinalResult::Resultado del análisis de riesgo
+Item_BusinessRisk_Title_Graph::Gráfico
+Item_BusinessRisk_Title_List::Listado
+Item_BusinessRisk_Title_StartResult::Acciones después de avaluar el riesgo
+Item_BusinessRisk_Title_StartResult::Acciones después de evaluar el riesgo
+Item_BusinessRisk_Warning_ActionTabAvailable::En la pestaña de acción, indicar los datos de la acción
+Item_BusinessRisk_Warning_ActionTabAvailable::En la pestaña de acción, indicar los datos de la acción
+Item_BusinessRisks::Riesgos
+Item_CalibrationAct_Button_New::Nueva calibración
+Item_CalibrationAct_Warning_DefinitionRequired::Para añadir nuevas calibraciones, grabar una configuración inicial
+Item_CalibrationType_External::externa
+Item_CalibrationType_Internal::interna
+Item_Company_Button_CompanyAddressBAR::Gestión de direcciones
+Item_Company_Help_Address::Indicar la dirección, incluye el tipo de vía
+Item_Company_Help_BAR_Addresses::Gestión de direcciones
+Item_Company_Help_City::Indicar la población
+Item_Company_Help_Common_SelectAddress::Seleccionar dirección
+Item_Company_Help_Email::Indicar la dirección de correo electrónico
+Item_Company_Help_Fax::Indicar el número de fax
+Item_Company_Help_Mobile::Indicar el número de móvil
+Item_Company_Help_Name::Nombre de la empresa
+Item_Company_Help_Nif::Indicar el NIF
+Item_Company_Help_Pais::Seleccionar el país
+Item_Company_Help_Phone::Indicar el número de teléfono
+Item_Company_Help_Provincia::Indicar la provincia
+Item_Company_Help_ZipCode::Indicar el código postal
+Item_Company_Logo::Logo
+Item_Company_Tab_Countries::Países
+Item_Company_Tab_DiskQuote::Uso de disco
+Item_Company_Tab_Principal::Datos principales
+Item_Company_Tab_Traces::Trazas
+Item_CompanyAddress_FieldLabel_Address::Dirección
+Item_CompanyAddress_FieldLabel_Cellular::Móvil
+Item_CompanyAddress_FieldLabel_City::Población
+Item_CompanyAddress_FieldLabel_Country::País
+Item_CompanyAddress_FieldLabel_PostalCode::C.P.
+Item_CompanyAddress_FieldLabel_Province::Dirección
+Item_CompanyAddress_FieldLabel_Province::Provincia
+Item_CompanyAddress_FielLabel_Phone::Teléfono
+Item_CompanyAddress_Header_Address::Dirección
+Item_CompanyAddress_PopupDelete_Message::¿Eliminar la dirección?
+Item_CompanyAddress_PopupTile_Add::Añadir dirección
+Item_CompanyAddress_PopupTile_Edit::Editar la dirección
+Item_CompanyAddress_PopupTitle::Seleccionar una dirección principal
+Item_CompanyAddress_ToolTip_SetAsPrincipal::Establecer como principal
+Item_CompanyCountries_Status_Availables::Países disponibles
+Item_CompanyCountries_Status_Selected::Países seleccionados
+Item_CompanyCountry_Button_Discard::Descartar países
+Item_CompanyCountry_Button_Select::Seleccionar países
+Item_CompanyCountry_FieldLabel_Name::Nombre
+Item_CompanyData::Datos de la empresa
+Item_CompanyData_Button_ChangeLogo::Cambiar el logo
+Item_CompanyData_Error_Message_PhoneOrCellular::Indicar el teléfono fijo o el móvil
+Item_CompanyData_FieldLabel_Address::Dirección
+Item_CompanyData_FieldLabel_Cellular::Móvil
+Item_CompanyData_FieldLabel_City::Localidad
+Item_CompanyData_FieldLabel_Country::País
+Item_CompanyData_FieldLabel_Email::Correo
+Item_CompanyData_FieldLabel_Fax::Fax
+Item_CompanyData_FieldLabel_Phone::Teléfono
+Item_CompanyData_FieldLabel_PostalAddress::Código postal
+Item_CompanyData_FieldLabel_Province::Provincia
+Item_CompanyData_Popup_ImageDelete_Title::Eliminar la imagen
+Item_CompanyProfile_FieldLabel_Name::Nombre
+Item_CompanyProfile_FieldLabel_Nif::NIF
+Item_Cost::Coste habitual
+Item_CostDefinition::Coste habitual
+Item_CostDefinition_Button_New::Añadir nuevo coste
+Item_CostDefinition_Field_Amount::Importe
+Item_CostDefinition_Field_Description::Nombre
+Item_CostDefinition_ListHeader_Amount::Importe
+Item_CostDefinition_ListHeader_Name::Nombre
+Item_CostDefinition_Popup_AddCost_Title::Añadir coste
+Item_CostDefinition_Popup_Delete_Title::Eliminar el coste
+Item_CostDefinition_PopupDelete_Message::¿Eliminar el coste?
+Item_CostDefinition_Tab_Principal::Datos básicos
+Item_CostDefinitions::Costes habituales
+Item_Country_Message_NoDelete::No se puede eliminar porque forma parte de una dirección
+Item_Country_Message_SaveWarning::Los países seleccionados no estarán disponibles hasta que se guarden los datos de la empresa
+Item_Country_WarningMessage::Los cambios en los países serán efectivos al guardar los datos de la empresa
+Item_Customer::Cliente
+Item_Customer_Btn_New::Añadir cliente
+Item_Customer_Detail::Ficha del cliente
+Item_Customer_FieldLabel_Name::Nombre
+Item_Customer_Header_Associated::Relacionado con
+Item_Customer_Header_Description::Descripción
+Item_Customer_Header_Status::Estado
+Item_Customer_Header_Type::Tipo
+Item_Customer_Help_Name::Nombre del cliente
+Item_Customer_Label_Costs::Calibraciones / Mantenimientos / Reparaciones
+Item_Customer_ListHeader_Name::Nombre
+Item_Customer_Popup_Delete_Question::¿Eliminar el cliente?
+Item_Customer_Popup_Delete_Title::Eliminar cliente
+Item_Customer_Section_Incidents::Incidencias y acciones
+Item_Customers::Clientes
+Item_Customers_Tab_Principal::Datos básicos
+Item_Customers_Tab_Traces::Trazas
+Item_DashBoard::Inicio
+Item_DashBoard_Title_NewDocuments::Nuevos documentos
+Item_Departmennt_ErrorMessage_HasEmployees::No se puede eliminar si tiene empleados/as o algún cargo asignado
+Item_Department::Departamento
+Item_Department_Button_New::Añadir departamento
+Item_Department_Help_Field_Name::Indicar el nombre del departamento
+Item_Department_ListEmployees::Empleados
+Item_Department_ListEmployees_Header_Email::Correo
+Item_Department_ListEmployees_Header_Name::Nombre
+Item_Department_ListEmployees_Header_Nif::NIF
+Item_Department_ListEmployees_Header_Phone::Teléfono
+Item_Department_ListHeader_Name::Nombre
+Item_Department_ListHeaderEmployees::Empleados
+Item_Department_ListHeaderJobPositions::Cargos
+Item_Department_ListJobPositions::Cargos
+Item_Department_ListJobPositions_Header_Name::Nombre
+Item_Department_Message_WithoutEmployees::Sin empleados/as
+Item_Department_Popup_Delete_Title::Eliminar departamento
+Item_Department_PopupAdd_Title::Añadir departamento
+Item_Department_PopupDelete_Message::¿Eliminar el departamento?
+Item_Department_Status_Deleted::Departamento eliminado
+Item_Department_Tab_Principal::Datos básicos
+Item_Department_Tab_Traces::Trazas
+Item_Department_Title_DepartmentDetails::Ficha del departamento
+Item_Departments::Departamentos
+Item_Document::Documento
+Item_Document_Button_CategoryBAR::Gestión de categorías
+Item_Document_Button_New::Añadir documento
+Item_Document_Button_NewVersion::Generar una nueva versión del documento
+Item_Document_Button_SourceBAR::Gestión de procedencias
+Item_Document_Button_SourceBAR::Seleccionar una procedencia
+Item_Document_Error_DeleteReasonRequired::Especificar el motivo de eliminación
+Item_Document_ErrorMessage_AlreadyExists::Ya existe
+Item_Document_ErrorMessage_StartDatePreviousRevision::La fecha de inicio no puede ser posteior a la primera revisión
+Item_Document_FieldLabel_Category::Categoría
+Item_Document_FieldLabel_Code::Código
+Item_Document_FieldLabel_Conservation::Conservación
+Item_Document_FieldLabel_CreationDate::Fecha de alta
+Item_Document_FieldLabel_InactiveDate::Fecha de baja
+Item_Document_FieldLabel_Location::Ubicación
+Item_Document_FieldLabel_Name::Documento
+Item_Document_FieldLabel_Origin::Origen
+Item_Document_FieldLabel_Reason::Motivo del cambio
+Item_Document_FieldLabel_RevisionAttachment::Adjunto
+Item_Document_FieldLabel_RevisionDate::Fecha de revisión
+Item_Document_FieldLabel_Source::Procedencia
+Item_Document_FieldLabel_Version::Versión
+Item_Document_Help_BARCategoria::Gestionar las categorías
+Item_Document_Help_BARProcedencia::Gestionar las procedencias
+Item_Document_Help_Categoria::Seleccionar una categoría
+Item_Document_Help_Codigo::Código interno del documento
+Item_Document_Help_ConservacionCantidad::Período de conservación
+Item_Document_Help_ConservacionTiempo::Indicar magnitud de tiempo de conservación
+Item_Document_Help_EndDate::Fecha de baja del documento
+Item_Document_Help_Name::Nombre del documento
+Item_Document_Help_NewRevision::Incrementa la versión del documento. Especificar el motivo
+Item_Document_Help_Origin::Indicar si el documento es interno o externo
+Item_Document_Help_Reason::Motivo del cambio
+Item_Document_Help_Revision::Versión del documento
+Item_Document_Help_Source::Seleccionar la procedencia del documento
+Item_Document_Help_StartDate::Fecha de creación del documento
+Item_Document_Help_Ubicacion::Indicar la ubicación del documento
+Item_Document_List_Header_Code::Código
+Item_Document_List_Header_Date::Fecha
+Item_Document_List_Header_Document::Documento
+Item_Document_List_Header_Employee::Empleado/a
+Item_Document_List_Header_Name::Documento
+Item_Document_List_Header_Responsible::Responsable
+Item_Document_List_Header_Revision::Revisión
+Item_Document_List_Header_Version::Versión
+Item_Document_ListHeader_Code::Código
+Item_Document_ListHeader_Name::Documento
+Item_Document_ListHeader_Revision::Revisión
+Item_Document_ListRevision_ApprovedBy::Aprobado por
+Item_Document_ListRevision_Date::Fecha
+Item_Document_ListRevision_Reason::Motivo
+Item_Document_ListRevision_RevisionNumber::Revisión
+Item_Document_Message_NewVersion::Indicar los motivos del cambio de versión
+Item_Document_Modified::Últimos documentos modificados
+Item_Document_Popup_AddCotegory_Title::Añadir categoría
+Item_Document_Popup_AddSource_Title::Añadir procedencia
+Item_Document_PopupCategory_Header::Categoría
+Item_Document_PopupCategory_Title::Categorías de documento
+Item_Document_PopupDelete_Message::¿Eliminar el documento?
+Item_Document_PopupDelete_Message::Motivo de eliminación
+Item_Document_PopupDelete_Title::Eliminar documento
+Item_Document_PopupSource_Header::Procedencia
+Item_Document_PopupSource_Title::Procedencias de documento
+Item_Document_Status_Active_Single::Activo
+Item_Document_Status_ActivePlural::Activos
+Item_Document_Status_Inactive::Documentos inactivos
+Item_Document_Status_InactivePlural::Inactivos
+Item_Document_Tab_Details::Ficha del documento
+Item_Document_Tab_Principal::Datos principales
+Item_Document_Tab_Traces::Trazas
+Item_Document_Tab_Versions::Versiones
+Item_Document_VersionAttachmentTitle::Versiones y documentos
+Item_DocumentAttachment::Fichero adjunto
+Item_DocumentAttachment_AddFile::Subir un fichero
+Item_DocumentAttachment_Button_New::Adjuntar un fichero
+Item_DocumentAttachment_Description::Fichero adjunto
+Item_DocumentAttachment_Plural::Ficheros adjuntos
+Item_DocumentAttachment_PopupUpload_Description_ErrorRequired::Indicar una descripción del fichero
+Item_DocumentAttachment_PopupUpload_Description_Label::Descripción
+Item_DocumentAttachment_ReplaceWarning::Si se adjunta un nuevo fichero, sustituirá al existente
+Item_DocumentAttachment_UpladTitle1::Seleccionar el fichero
+Item_DocumentAttachment_UpladTitle2:: a cargar
+Item_DocumentCategory_Popup_Delete_Title::Eliminar categoría
+Item_DocumentCategory_Popup_Update_Title::Modificar una categoría
+Item_DocumentCategory_PopupDelete_Message::¿Eliminar la categoría?
+Item_DocumentList::Documentos
+Item_Documents::Documentos
+Item_DocumentSource_Popup_Delete_Title::Eliminar procedencia
+Item_DocumentSource_Popup_Update_Title::Modificar una procedencia
+Item_DocumentSource_PopupDelete_Message::¿Eliminar la procedencia?
+Item_Employee::Empleado/a
+Item_Employee_Button_LinkJobPosition::Asignar cargo
+Item_Employee_Button_New::Añadir empleado/a
+Item_Employee_Button_Restore::Restablecer
+Item_Employee_Button_Unlink::Desvincular
+Item_Employee_Delete_Item_CalibrationExternal::Calibración externa
+Item_Employee_Delete_Item_CalibrationInternal::Calibración interna
+Item_Employee_Delete_Item_Equipment::Equipo
+Item_Employee_Delete_Item_IncidentActionExecutor::Ejecutor/a de la acción de la incidencia
+Item_Employee_Delete_Item_MaintenanceExternal::Mantenimiento externo
+Item_Employee_Delete_Item_MaintenanceInternal::Mantenimiento interno
+Item_Employee_Delete_Item_VerificationExternal::Verificación externa
+Item_Employee_Delete_Item_VerificationInternal::Verificación interna
+Item_Employee_Error_AutoDelete::No se puede eliminar empleado/a actual
+Item_Employee_ErrorMessage_AmployeeAlreadyExists::Empleado/a existente
+Item_Employee_ErrorMessage_MailMalformed::El correo no es correcto
+Item_Employee_ErrorMessage_NifAlreadyExists::NIF ya existe
+Item_Employee_FieldLabel_Academic_Desired::Formación académica deseada
+Item_Employee_FieldLabel_Academic_Real::Formación académica real
+Item_Employee_FieldLabel_Address::Dirección
+Item_Employee_FieldLabel_City::Localidad
+Item_Employee_FieldLabel_Country::País
+Item_Employee_FieldLabel_Email::Correo
+Item_Employee_FieldLabel_Especific_Desired::Formación específica deseada
+Item_Employee_FieldLabel_Especific_Real::Formación específica real
+Item_Employee_FieldLabel_InactiveDate::Dar de baja
+Item_Employee_FieldLabel_LastName::Apellidos
+Item_Employee_FieldLabel_Name::Nombre
+Item_Employee_FieldLabel_NIF::NIF
+Item_Employee_FieldLabel_Notes::Notas
+Item_Employee_FieldLabel_Phone::Teléfono
+Item_Employee_FieldLabel_PostalCode::C.P.
+Item_Employee_FieldLabel_Province::Provincia
+Item_Employee_Help_Abilities::Indicar las habilidades del/a empleado/a
+Item_Employee_Help_AbilitiesValidNo::Indicar si no son válidas
+Item_Employee_Help_AbilitiesValidYes::Indicar si son válidas
+Item_Employee_Help_Academic::Formación académica que posee el/la empleado/a
+Item_Employee_Help_AcademicValidNo::Indicar si es válida
+Item_Employee_Help_AcademicValidYes::Indicar si no es válida
+Item_Employee_Help_Btn_Link::Asocia empleado/a a un cargo
+Item_Employee_Help_BtnUserName::Item_Employee_Help_BtnUserName
+Item_Employee_Help_ConfirmarNuevoPassword::Confirmar la contraseña
+Item_Employee_Help_Direccion::Dirección del empleado/a, incluye tipo de vía
+Item_Employee_Help_DisactivateDate::Fecha de baja. Si se rellena este dato, el/la empleado/a quedará inactivo/a
+Item_Employee_Help_DisactivateDateSelfLocked::Un/a empleado/a no puede darse de baja a si mismo/a
+Item_Employee_Help_Email::Dirección de correo del/a empleado/a
+Item_Employee_Help_Especific::Formación específica para el cargo
+Item_Employee_Help_EspecificValidNo::Indicar si no es válida
+Item_Employee_Help_EspecificValidYes::Indicar si es válida
+Item_Employee_Help_Experience::Indicar la experiencia laboral del/a empleado/a
+Item_Employee_Help_ExperienceValidNo::Indicar si no es válida
+Item_Employee_Help_ExperienceValidYes::Indicar si es válida
+Item_Employee_Help_IconCommon_Color_Blue::Azul
+Item_Employee_Help_IconCommon_Color_Green::Verde
+Item_Employee_Help_IconCommon_Color_Red::Rojo
+Item_Employee_Help_IconCommon_Color_Yellow::Amarillo
+Item_Employee_Help_Language::Idioma
+Item_Employee_Help_LastName::Apellidos
+Item_Employee_Help_NewPassword::Introducir una nueva contraseña
+Item_Employee_Help_Nif::NIF del/a empleado/a
+Item_Employee_Help_Nombre::Nombre del/a empleado/a
+Item_Employee_Help_Notes::Añadir notas sobre el/la empleado/a
+Item_Employee_Help_OnlineHelp::Activar ayuda en línea
+Item_Employee_Help_Pais::Indicar un país
+Item_Employee_Help_PasswordActual::Introducir la contraseña actual
+Item_Employee_Help_PermisoAdministracion::Permiso para administración
+Item_Employee_Help_PermisoDocumentos::Permiso para documentos
+Item_Employee_Help_PermisoFormacion::Permiso para formaciones
+Item_Employee_Help_PermisoProceso::Permiso para procesos
+Item_Employee_Help_Poblacion::Indicar la población
+Item_Employee_Help_PostalCode::Indica el código postal
+Item_Employee_Help_Provincia::Indicar la provincia
+Item_Employee_Help_ResetPassword::Regenerar contraseña
+Item_Employee_Help_Shortcuts::Accesos directos
+Item_Employee_Help_Telefono::Indicar el teléfono fijo
+Item_Employee_Help_UserName::Indicar el nombre del/a empleado/a
+Item_Employee_Label_DesiredWorkExperience::Experiencia laboral deseada
+Item_Employee_Label_RealWorkExperience::Experiencia laboral real
+Item_Employee_List_Delete::Elementos
+Item_Employee_List_Delete_Error::Indicar un sustituto para cada asignación
+Item_Employee_List_Delete_FieldLabel_All::Sustituir todas las entradas con el/la empleado/a
+Item_Employee_List_Delete_Header_Description::Descripción
+Item_Employee_List_Delete_Header_Substitution::Substituido por...
+Item_Employee_List_Delete_Header_Type::Tipo
+Item_Employee_List_Header_Date::Baja
+Item_Employee_List_Header_Email::Correo
+Item_Employee_List_Header_Name::Nombre
+Item_Employee_List_Header_Nif::NIF
+Item_Employee_ListDepartment_Header_Department::Departamento
+Item_Employee_ListJobPosition_Department::Departamento
+Item_Employee_ListJobPosition_EndDate::Fecha de baja
+Item_Employee_ListJobPosition_Header_Department::Departamento
+Item_Employee_ListJobPosition_Header_JobPosition::Cargo
+Item_Employee_ListJobPosition_JobPosition::Cargo
+Item_Employee_ListJobPosition_Responsible::Responsable
+Item_Employee_ListJobPosition_StartDate::Fecha de alta
+Item_Employee_ListLearningHeader_Date::Fecha de realización
+Item_Employee_Message_Delete::Empleado/a configurado/a de forma activa en la aplicación. ¿Quiere continuar con su eliminación?
+Item_Employee_Message_InsertSucess::Empleado/a guardado/a correctamente. Ya se pueden usar las pestañas del formulario
+Item_Employee_Message_NoDeletableByJobPositionLink::No se puede eliminar porque tiene un cargo asignado
+Item_Employee_Popup_Delete_Title::Eliminar el/la empleado/a
+Item_Employee_Popup_LinkJobPosition_Message::Asignar cargo
+Item_Employee_Popup_LinkJobPosition_Message::Indicar la fecha de inicio
+Item_Employee_Popup_UnlinkDepartment_Message::Desvincular departamento
+Item_Employee_Popup_UnlinkJobPosition_Message cargo::Desvincular cargo
+Item_Employee_Popup_UnlinkJobPosition_Message empleado::Desvincular empleado/a
+Item_Employee_Popup_UnlinkJobPosition_Message::Desvincular
+Item_Employee_Popup_UnlinkJobPosition_Message2::Indicar la fecha de finalización
+Item_Employee_PopupDelete_Message::¿Eliminar el/la empleado/a
+Item_Employee_SectionTitle_InternalLearning::Formación realizada en la empresa
+Item_Employee_SectionTitle_ProffesionalInfo::Información profesional
+Item_Employee_SectionTitle_Skills::Formación para el/la empleado/a
+Item_Employee_Skills_FieldLabel_DesiredHabilities::Habilidades solicitadas
+Item_Employee_Skills_FieldLabel_RealHabilities::Habilidades reales
+Item_Employee_Skills_Status_Undefined::Indefinido
+Item_Employee_Tab_Delete::Participación del/a empleado/a en la aplicación
+Item_Employee_Tab_InternalLearning::Formación interna
+Item_Employee_Tab_Learning::Formación
+Item_Employee_Tab_Principal::Datos básicos
+Item_Employee_Tab_Traces::Trazas
+Item_Employee_Tab_UploadFiles::Adjuntos
+Item_Employee_Title_Delete::Datos del/a empleado/a
+Item_Employee_Title_EmployeeData::Ficha del/a empleado/a
+Item_Employees::Empleados/as
+Item_Equipment::Equipo
+Item_Equipment_Button_New::Añadir equipo
+Item_Equipment_Button_New::Nuevo equipo
+Item_Equipment_Field_Calibration_Cost::Coste
+Item_Equipment_Field_Calibration_Expiration::vto.
+Item_Equipment_Field_Calibration_Notes::Notas
+Item_Equipment_Field_Calibration_Operation::Operación
+Item_Equipment_Field_Calibration_Pattern::Patrón
+Item_Equipment_Field_Calibration_Periodicity::Periodicidad
+Item_Equipment_Field_Calibration_Provider::Proveedor
+Item_Equipment_Field_Calibration_Range::Rango
+Item_Equipment_Field_Calibration_Responsible::Responsable
+Item_Equipment_Field_Calibration_Result::Resultado
+Item_Equipment_Field_Calibration_Type::Tipo
+Item_Equipment_Field_Calibration_Uncertainty::Incertidumbre
+Item_Equipment_Field_Code_Label::Código
+Item_Equipment_Field_Code_Placeholder::Código
+Item_Equipment_Field_Description_Label::Descripción
+Item_Equipment_Field_Description_Placeholder::Descripción
+Item_Equipment_Field_Image::Cambiar la imagen
+Item_Equipment_Field_Image_Actual_Label::Imagen actual
+Item_Equipment_Field_Image_Label::Cambiar
+Item_Equipment_Field_Image_New_Label::Nueva imagen
+Item_Equipment_Field_IsCalibration_Label::Calibración
+Item_Equipment_Field_IsMaintenance_Label::Mantenimiento
+Item_Equipment_Field_IsVerification_Label::Verificación
+Item_Equipment_Field_Location_Label::Ubicación
+Item_Equipment_Field_Location_PlaceHolder::Ubicación
+Item_Equipment_Field_Measure_Range_Label::Rango de medida
+Item_Equipment_Field_Measure_Range_PlaceHolder::Rango de medida
+Item_Equipment_Field_Model_Label::Modelo
+Item_Equipment_Field_Model_PlaceHolder::Modelo
+Item_Equipment_Field_Notes_Label::Notas
+Item_Equipment_Field_Observations_Label::Observaciones
+Item_Equipment_Field_Responsible_Label::Responsable
+Item_Equipment_Field_Responsible_PlaceHolder::Responsable
+Item_Equipment_Field_ScaleDivision_Label::División de escala
+Item_Equipment_Field_ScaleDivision_PlaceHolder::División de escala
+Item_Equipment_Field_SerialNumber_Label::Nº serie
+Item_Equipment_Field_SerialNumber_PlaceHolder::Nº serie
+Item_Equipment_Field_TradeMark_Label::Marca
+Item_Equipment_Field_TradeMark_PlaceHolder::Marca
+Item_Equipment_Field_Verification_Provider::Proveedor
+Item_Equipment_FilterLabel_MaintenanceExternal::Mantenimiento externo
+Item_Equipment_FilterLabel_MaintenanceInternal::Mantenimiento interno
+Item_Equipment_FilterLabel_RepairExternal::Reparación externa
+Item_Equipment_FilterLabel_RepairInternal::Reparación interna
+Item_Equipment_Header_Code::Código
+Item_Equipment_Header_Description::Descripción
+Item_Equipment_Header_Location::Ubicación
+Item_Equipment_Header_Responsible::Responsable
+Item_Equipment_Help_CalibrationCheck::Marcar si el equipo tiene calibraciones
+Item_Equipment_Help_Code::Indicar el código del equipo
+Item_Equipment_Help_Description::Indicar la descripción del equipo
+Item_Equipment_Help_EquipmentScaleDivision::Seleccionar la división de escala
+Item_Equipment_Help_EquipmentScaleDivisionBAR::Gestionar las divisiones de escala
+Item_Equipment_Help_Location::Indicar la ubicación del equipo
+Item_Equipment_Help_MaintenanceCheck::Marcar si el equipo tiene mantenimiento
+Item_Equipment_Help_MeasureRange::Indicar el rango de medida
+Item_Equipment_Help_Model::Indicar el modelo
+Item_Equipment_Help_Observations::Anotar observaciones sobre el equipo
+Item_Equipment_Help_Responsible::Seleccionar responsable
+Item_Equipment_Help_ScaleDivision::Seleccionar una división de escala
+Item_Equipment_Help_SerialNumber::Indicar el número de serie
+Item_Equipment_Help_TradeMark::Indicar la marca
+Item_Equipment_Help_VerificationCheck::Marcar si el equipo tiene verificaciones
+Item_Equipment_Maintenance_Btn_NewConfiguration::Configurar un nuevo mantenimiento
+Item_Equipment_Maintenance_Btn_NewRecord::Registrar un mantenimiento realizado
+Item_Equipment_Maintenance_Button_AddAct::Registrar un mantenimiento realizado
+Item_Equipment_Maintenance_Button_AddConfiguration::Configurar un nuevo mantenimiento
+Item_Equipment_Message_DeleteQuestion::¿Eliminar el equipo?
+Item_Equipment_Message_InsertSucess::Equipo guardado correctamente. Ya se pueden usar las pestañas del formulario
+Item_Equipment_PDFTitle::Registre de actuacions en el equipo
+Item_Equipment_Popup_AddCustomer_Title::Añadir cliente
+Item_Equipment_Popup_AddProvider_Title::Añadir proveedor
+Item_Equipment_Popup_AddScaleDivision_Title::Añadir división de escala
+Item_Equipment_Popup_Delete_Title::Eliminar empleado/a
+Item_Equipment_Popup_Delete_Title::Eliminar equipo
+Item_Equipment_Popup_ImageDelete_Title::Eliminar imagen
+Item_Equipment_PopupTitle_DeleteScaleDivision::Eliminar división de escala
+Item_Equipment_Tab_Basic::Datos básicos
+Item_Equipment_Tab_Calibration::Calibraciones
+Item_Equipment_Tab_Details::Ficha del equipo
+Item_Equipment_Tab_Maintenance::Mantenimientos
+Item_Equipment_Tab_Records::Registros
+Item_Equipment_Tab_Repair::Reparaciones
+Item_Equipment_Tab_Traces::Trazas
+Item_Equipment_Tab_UploadFiles::Adjuntos
+Item_Equipment_Tab_Verification::Verificaciones
+Item_Equipment_VerificationType_External::externa
+Item_Equipment_VerificationType_Internal::interna
+Item_EquipmentCalibration::Calibración
+Item_EquipmentCalibration_ErrorMessage_ExternalCost_Required::Indicar el coste de calibración externa
+Item_EquipmentCalibration_ErrorMessage_ExternalOperation_Required::Indicar la operación de calibración externa
+Item_EquipmentCalibration_ErrorMessage_ExternalPattern_Required::Indicar el patrón de la calibración externa
+Item_EquipmentCalibration_ErrorMessage_ExternalPeriodicity_Required::Indicar la periodicidad de calibración externa
+Item_EquipmentCalibration_ErrorMessage_ExternalRange_Required::Indicar el rango de la calibración externa
+Item_EquipmentCalibration_ErrorMessage_ExternalResponsible_Required::Indicar responsable de calibración externa
+Item_EquipmentCalibration_ErrorMessage_ExternalUncertainty_Required::Indicar la incertidumbre de la calibración externa
+Item_EquipmentCalibration_ErrorMessage_InternalCost_Required::Indicar el coste de calibración interna
+Item_EquipmentCalibration_ErrorMessage_InternalOperation_Required::Indicar la operación de calibración interna
+Item_EquipmentCalibration_ErrorMessage_InternalPatternRequired::Indicar el patrón de la calibración interna
+Item_EquipmentCalibration_ErrorMessage_InternalPeriodicity_Required::Indicar la periodicidad de calibración interna
+Item_EquipmentCalibration_ErrorMessage_InternalRangeRequired::Indicar el rango de la calibración interna
+Item_EquipmentCalibration_ErrorMessage_InternalResponsibleRequired::Indicar responsable de la calibración interna
+Item_EquipmentCalibration_ErrorMessage_InternalUncertainty_Required::Indicar la incertidumbre de la calibración interna
+Item_EquipmentCalibration_Label_External::Calibración externa
+Item_EquipmentCalibration_Label_Internal::Calibración interna
+Item_EquipmentCalibration_Plural::Calibraciones
+Item_EquipmentCalibration_Popup_Delete_Title::Eliminar calibración
+Item_EquipmentCalibrationAct_PopupDelete_Question::¿Eliminar la calibración?
+Item_EquipmentCalibrationAct_PopupDelete_Title::Eliminar calibración
+Item_EquipmentCalibrationAct_PopupNew_Title::Nueva calibración
+Item_EquipmentCalibrationAct_PopupUpdate_Title::Modificar una calibración
+Item_EquipmentList::Listado de equipos
+Item_EquipmentMaintenance::Mantenimiento
+Item_EquipmentMaintenance_Button_Register::Registrar
+Item_EquipmentMaintenance_ErrorMessage_AsociateRecords::No se puede Eliminar configuración de mantenimiento con registros
+Item_EquipmentMaintenance_Label_External::Mantenimiento externo
+Item_EquipmentMaintenance_Label_Internal::Mantenimiento interno
+Item_EquipmentMaintenance_Plural::Mantenimientos
+Item_EquipmentMaintenance_Popup_DeleteAct_Title::Eliminar registro de mantenimiento
+Item_EquipmentMaintenance_Popup_FieldLabel_Accesories::Accesorios
+Item_EquipmentMaintenance_Popup_FieldLabel_Amount::Coste
+Item_EquipmentMaintenance_Popup_FieldLabel_Operation::Operación
+Item_EquipmentMaintenance_Popup_FieldLabel_Periodicity::Periodicidad
+Item_EquipmentMaintenance_Popup_FieldLabel_Provider::Proveedor
+Item_EquipmentMaintenance_Popup_FieldLabel_Responsible::Responsable
+Item_EquipmentMaintenance_Popup_NewAct_Title::Añadir registro de mantenimiento
+Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitions::Definir un mantenimiento para el equipo
+Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitionSelected::Seleccionar el tipo de mantenimiento
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_Amount::Coste
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_Date::Fecha
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_Observations::Observaciones
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_Provider::Proveedor
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_Responsible::Responsable
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_Type::Mantenimiento
+Item_EquipmentMaintenance_PopupConfiguration_Title::Configurar una operación de mantenimiento
+Item_EquipmentMaintenance_PopupConfigurationDelete_Question::¿Eliminar el mantenimiento?
+Item_EquipmentMaintenance_PopupConfigurationDelete_Title::Eliminar operación de mantenimiento
+Item_EquipmentMaintenance_PopupConfigurationUpdate_Title::Modificar una operación de mantenimiento
+Item_EquipmentMaintenance_PopupIntervention::Registro de mantenimiento realizado
+Item_EquipmentMaintenance_PopupInterventionUpdate::Modificar un mantenimiento realizado
+Item_EquipmentMaintenance_Required::No hay mantenimientos definidos
+Item_EquipmentMaintenanceAct_Header_Cost::Coste
+Item_EquipmentMaintenanceAct_Header_Date::Fecha
+Item_EquipmentMaintenanceAct_Header_Expiration::Vto.
+Item_EquipmentMaintenanceAct_Header_Observations::Observaciones
+Item_EquipmentMaintenanceAct_Header_Operation::Operación
+Item_EquipmentMaintenanceAct_Header_Responsible::Responsable
+Item_EquipmentMaintenanceAct_Plural::Mantenimientos realizados
+Item_EquipmentMaintenanceAct_Singular::Mantenimiento realizados
+Item_EquipmentMaintenanceDefinicion_Singular::Configuración de mantenimientos
+Item_EquipmentMaintenanceDefinition_Header_Accesories::Accesorios
+Item_EquipmentMaintenanceDefinition_Header_Cost::Coste
+Item_EquipmentMaintenanceDefinition_Header_Operation::Operación
+Item_EquipmentMaintenanceDefinition_Header_Periodicity::Periodicidad (días)
+Item_EquipmentMaintenanceDefinition_Header_Periodicity_PDF::Periodicidad
+Item_EquipmentMaintenanceDefinition_Header_Type::Tipo
+Item_EquipmentMaintenanceDefinition_Plurar::Configuraciones de mantenimiento
+Item_EquipmentRecord_Error_FilterDateFromMalformed::La fecha de inicio no es correcta
+Item_EquipmentRecord_Error_FilterDateToMalformed::La fecha final no es correcta
+Item_EquipmentRecord_Filter_Button::Filtrar
+Item_EquipmentRecord_Filter_CalibrationExternal::Calibración EXT
+Item_EquipmentRecord_Filter_CalibrationInternal::Calibración INT
+Item_EquipmentRecord_Filter_MaintenanceExternal::Mnto. EXT
+Item_EquipmentRecord_Filter_MaintenanceInternal::Mnto. INT
+Item_EquipmentRecord_Filter_RepairExternal::Reparación EXT
+Item_EquipmentRecord_Filter_RepairInternal::Reparación INT
+Item_EquipmentRecord_Filter_VerificationExternal::Verificación EXT
+Item_EquipmentRecord_Filter_VerificationInternal::Verificación INT
+Item_EquipmentRecords_FilterError_Dates::La fecha de finalización no puede ser inferior a la inicial
+Item_EquipmentRecords_FilterError_Item::Seleccionar un tipo de registro
+Item_EquipmentRecords_FilterError_Title::Revisar los datos de la consulta
+Item_EquipmentRepair::Reparación
+Item_EquipmentRepair_ButtonNew::Añadir reparación
+Item_EquipmentRepair_Header_Cost::Coste
+Item_EquipmentRepair_Header_Date::Fecha
+Item_EquipmentRepair_Header_Expiration::Vto.
+Item_EquipmentRepair_Header_Observations::Observaciones
+Item_EquipmentRepair_Header_Operation::Operación
+Item_EquipmentRepair_Header_Responsible::Responsable
+Item_EquipmentRepair_HeaderList_Cost::Coste
+Item_EquipmentRepair_HeaderList_Date::Fecha
+Item_EquipmentRepair_HeaderList_Operation::Operación
+Item_EquipmentRepair_HeaderList_Responsible::Responsable
+Item_EquipmentRepair_HeaderList_Total::Total
+Item_EquipmentRepair_HeaderList_Type::Tipo
+Item_EquipmentRepair_Plural::Reparaciones
+Item_EquipmentRepair_PopupDelete_Title::Eliminar reparación
+Item_EquipmentRepair_PopupNew_Title::Nueva reparación
+Item_EquipmentRepair_PopupUpdate_Title::Modificar una reparación
+Item_EquipmentRepair_Title::Reparaciones
+Item_Equipments::Equipos
+Item_EquipmentVerification::Verificación
+Item_EquipmentVerification_ErrorMessage_ExternalCost_Required::Indicar el coste de verificación externa
+Item_EquipmentVerification_ErrorMessage_ExternalOperation_Required::Indicar la operación de verificación externa
+Item_EquipmentVerification_ErrorMessage_ExternalPattern_Required::Indicar el patrón de la verificación externa
+Item_EquipmentVerification_ErrorMessage_ExternalPeriodicity_Required::Indicar la periodicidad de verificación externa
+Item_EquipmentVerification_ErrorMessage_ExternalRange_Required::Indicar el rango de la verificación externa
+Item_EquipmentVerification_ErrorMessage_ExternalResponsible_Required::Indicar responsable de la verificación externa
+Item_EquipmentVerification_ErrorMessage_ExternalUncertainty_Required::Indicar el error de la verificación externa
+Item_EquipmentVerification_ErrorMessage_InternalCost_Required::Indicar el coste de verificación interna
+Item_EquipmentVerification_ErrorMessage_InternalOperation_Required::Indicar la operación de verificación interna
+Item_EquipmentVerification_ErrorMessage_InternalPattern_Required::Indicar el patrón de la verificación interna
+Item_EquipmentVerification_ErrorMessage_InternalPeriodicity_Required::Indicar la periodicidad de verificación interna
+Item_EquipmentVerification_ErrorMessage_InternalRange_Required::Indicar el rango de la verificación interna
+Item_EquipmentVerification_ErrorMessage_InternalResponsible_Required::Indicar el responsable de la verificación interna
+Item_EquipmentVerification_ErrorMessage_InternalUncertainty_Required::Indicar el error de la verificación interna
+Item_EquipmentVerification_Field_Cost::Coste
+Item_EquipmentVerification_Field_Expiration::vto.
+Item_EquipmentVerification_Field_Notes::Notas
+Item_EquipmentVerification_Field_Operation::Operación
+Item_EquipmentVerification_Field_Pattern::Patrón
+Item_EquipmentVerification_Field_Periodicity::Periodicidad
+Item_EquipmentVerification_Field_Provider::Proveedor
+Item_EquipmentVerification_Field_Range::Rango
+Item_EquipmentVerification_Field_Responsible::Responsable
+Item_EquipmentVerification_Field_Result::Resultado
+Item_EquipmentVerification_Field_Uncertainty::Error
+Item_EquipmentVerification_Label_External::Verificación externa
+Item_EquipmentVerification_Label_Internal::Verificación interna
+Item_EquipmentVerification_Message_WarningNew::Para añadir nuevas verificaciones, guardar la configuración actual
+Item_EquipmentVerification_New::Nueva verificación
+Item_EquipmentVerification_Plural::Verificaciones
+Item_EquipmentVerification_Popup_Delete_Title::Eliminar verificación
+Item_EquipmentVerification_PopupDelete_Title::Eliminar verificación
+Item_EquipmentVerification_PopupNew_Title::Registrar una verificación
+Item_EquipmentVerification_PopupUpdate_Title::Modificar una verificación
+Item_Incident::Incidencia
+Item_Incident_Button_New::Añadir incidencia
+Item_Incident_Button_Print::Imprimir la ficha
+Item_Incident_Detail::Ficha de la incidencia
+Item_Incident_Detail_Dates::Las fechas no están ordenadas cronológicamente
+Item_Incident_Detail_Description::Indicar una descripción de la incidencia
+Item_Incident_Detail_Origin::Seleccionar el origen de la incidencia
+Item_Incident_Detail_Title::Revisar los datos de la ficha
+Item_Incident_Detail_WhatHappened::Informar sobre qué ha pasado
+Item_Incident_Detail_WhatHappenedResponsible::Seleccionar quien ha redactado lo que ha pasado
+Item_Incident_Error_DateMalformed_Actions::La fecha de las acciones no es correcta
+Item_Incident_Error_DateMalformed_Causes::La fecha de las causas no es correcta
+Item_Incident_Error_DateMalformed_Close::La fecha de cierre no es correcta
+Item_Incident_Error_DateMalformed_WhatHappened::La fecha de qué ha pasado no es correcta
+Item_Incident_ErrorMessage_ActionsDateRequired::Especificar la fecha de información
+Item_Incident_ErrorMessage_ActionsExecuterRequired::Especificar ejecutor/a de la acción
+Item_Incident_ErrorMessage_ActionsRequired::Informar sobre las acciones
+Item_Incident_ErrorMessage_ActionsResponsibleRequired::Especificar quien ha redactado las acciones
+Item_Incident_ErrorMessage_ActionsScheduleRequired::Especificar la fecha de ejecución
+Item_Incident_ErrorMessage_CausesDateRequired::Indicar la fecha de información de las causas
+Item_Incident_ErrorMessage_CausesRequired::Informar sobre las causas
+Item_Incident_ErrorMessage_CausesResponsibleRequired::Indicar responsable de la identificación de las causas
+Item_Incident_ErrorMessage_ClosedDateRequired::Especificar la fecha de cierre
+Item_Incident_ErrorMessage_ClosedResponsibleRequired::Especificar responsable del cierre
+Item_Incident_ErrorMessage_DatesUntemporality::Los datos no están ordenados cronológicamente
+Item_Incident_ErrorMessage_DescriptionRequired::Introducir una descripción
+Item_Incident_ErrorMessage_ReporterCustomerRequired::Especificar el cliente que reporta la incidencia
+Item_Incident_ErrorMessage_ReporterDepartmentRequired::Especificar el departamento que reporta la incidencia
+Item_Incident_ErrorMessage_ReporterProviderRequired::Especificar el proveedor que reporta la incidencia
+Item_Incident_ErrorMessage_ReporterTypeRequired::Especificar quien reporta la incidencia
+Item_Incident_ErrorMessage_WhatHappenedDateRequired::Indicar la fecha de información de qué ha pasado
+Item_Incident_ErrorMessage_WhatHappenedRequired::Informar sobre qué ha pasado
+Item_Incident_ErrorMessage_WhatHappenedResponsibleRequired::Indicar responsable de qué ha pasado
+Item_Incident_Field_Actions::Actuaciones
+Item_Incident_Field_ActionsDate::Fecha
+Item_Incident_Field_ActionsExecuter::Ejecutor/a
+Item_Incident_Field_ActionsResponsible::Responsable
+Item_Incident_Field_ActionsSchedule::Fecha
+Item_Incident_Field_Anotations::Notas
+Item_Incident_Field_Causes::¿Por qué ha pasado?
+Item_Incident_Field_CausesDate::Fecha
+Item_Incident_Field_CausesResponsible::Redactado
+Item_Incident_Field_CloseDate::Fecha
+Item_Incident_Field_CloseResponsible::Cerrada por
+Item_Incident_Field_Description::Descripción
+Item_Incident_Field_Notes::Notas
+Item_Incident_Field_WhatHappened::¿Qué ha pasado?
+Item_Incident_Field_WhatHappenedDate::Fecha
+Item_Incident_Field_WhatHappenedResponsible::Redactado
+Item_Incident_FilterError_Customer::Seleccionar un cliente
+Item_Incident_FilterError_Date::La fecha de finalización no puede ser anterior a la inicial
+Item_Incident_FilterError_Department::Seleccionar un departamento
+Item_Incident_FilterError_Origin::Seleccionar un tipo de origen
+Item_Incident_FilterError_Provider::Seleccionar un proveedor
+Item_Incident_FilterError_Status::Seleccionar un estado
+Item_Incident_FilterError_Title::Revisar los datos de la consulta
+Item_Incident_Header_ActionNumber::Acción
+Item_Incident_Header_Close::Cierre
+Item_Incident_Header_Description::Problema
+Item_Incident_Header_Number::Número
+Item_Incident_Header_Open::Apertura
+Item_Incident_Header_Origin::Origen
+Item_Incident_Header_Status::Estado
+Item_Incident_Label_Actions::Actuaciones
+Item_Incident_Label_Causes::¿Por qué ha pasado?
+Item_Incident_Label_Closing::Cierre
+Item_Incident_Label_Date::Fecha
+Item_Incident_Label_From::Desde
+Item_Incident_Label_Responsible::Redactado
+Item_Incident_label_To::Hasta
+Item_Incident_Label_WhatHappened::¿Qué ha pasado?
+Item_Incident_List_Filter_From::Desde
+Item_Incident_List_Filter_Status::Estado
+Item_Incident_List_Filter_To::Hasta
+Item_Incident_Message_DeleteAction::Se eliminará la acción actual asociada a esta incidencia cuando se guarde la incidencia.<br />¿Desea continuar?
+Item_Incident_New_Label::Nueva incidencia
+Item_Incident_Origin0::Todos
+Item_Incident_Origin1::Interno
+Item_Incident_Origin2::Proveedor
+Item_Incident_Origin3::Cliente
+Item_Incident_Plural::Incidencias
+Item_Incident_Popup_Delete_Title::Eliminar incidencia
+Item_Incident_PopupDelete_Message::¿Eliminar la incidencia?
+Item_Incident_PopupDelete_Message_Actions::Se eliminarán también las aciones que estén asociadas
+Item_Incident_Status1::Identificado
+Item_Incident_Status2::Analizado
+Item_Incident_Status3::En progreso
+Item_Incident_Status4::Cerrado
+Item_Incident_Tab_Action::Acción
+Item_Incident_Tab_Basic::Datos básicos
+Item_Incident_Tab_Costs::Costes
+Item_Incident_Tab_Traces::Trazas
+Item_Incident_Tab_UploadFiles::Adjuntos
+Item_Incident_Warning_ActionSaveIncident::Para poder vincular una acción, primero guarde la incidencia
+Item_Incident_Warning_ActionTabAvailable::En la pestaña de acción, informar los datos de la acción
+Item_IncidentAction::Acción
+Item_IncidentAction_Button_New::Añadir acción
+Item_IncidentAction_Error_DateMalformed_Actions::La fecha de acciones no es correcta
+Item_IncidentAction_Error_DateMalformed_Causes::La fecha de las causas no es correcta
+Item_IncidentAction_Error_DateMalformed_Close::La fecha de cierre no es correcta
+Item_IncidentAction_Error_DateMalformed_WhatHappened::La fecha de qué ha pasado no es correcta
+Item_IncidentAction_ErrorMessage_ActionsRequired::Indicar las actuaciones a desarrollar
+Item_IncidentAction_ErrorMessage_ActionsRequiredDate::Indicar la fecha de información de las actuaciones
+Item_IncidentAction_ErrorMessage_ActionsRequiredExecutor::Indicar ejecutor/a de las actuaciones
+Item_IncidentAction_ErrorMessage_ActionsRequiredResponsible::Indicar responsable de las actuaciones
+Item_IncidentAction_ErrorMessage_ActionsRequiredSchedule::Indicar la fecha prevista
+Item_IncidentAction_ErrorMessage_CausesRequired::Indicar las causas
+Item_IncidentAction_ErrorMessage_CausesRequiredDate::Indicar la fecha de información de las causas
+Item_IncidentAction_ErrorMessage_CausesRequiredResponsible::Indicar quien ha redactado las causas
+Item_IncidentAction_ErrorMessage_CloseDate::Indicar la fecha de información del cierre
+Item_IncidentAction_ErrorMessage_CloseExecutor::Indicar ejecutor/a del cierre
+Item_IncidentAction_ErrorMessage_CloseExecutorDate::Indicar la fecha de cierre
+Item_IncidentAction_ErrorMessage_CloseResponsibleRequired::Indicar responsable del cierre
+Item_IncidentAction_ErrorMessage_DescriptionRequired::Introducir la descripción
+Item_IncidentAction_ErrorMessage_NoDeleteBusinessRisk::Esta acción proviene de un análisis de riesgo.<br />No se puede eliminar
+Item_IncidentAction_ErrorMessage_NoDeleteIncident::Esta acción está vinculada a una incidencia.<br />No se puede eliminar
+Item_IncidentAction_ErrorMessage_OriginRequired::Seleccionar el origen
+Item_IncidentAction_ErrorMessage_ReportedByRequired::Indicar quien reporta la acción
+Item_IncidentAction_ErrorMessage_TypeRequired::Seleccionar el tipo
+Item_IncidentAction_ErrorMessage_UntemporalyDates::Las fecha de la acción no están ordenadas cronológicamente
+Item_IncidentAction_ErrorMessage_WhatHappenedRequired::Indicar qué ha pasado
+Item_IncidentAction_ErrorMessage_WhatHappenedRequiredResponsible::Indicar quien lo ha redactado
+Item_IncidentAction_ErrorMessage_WhatHappenedRquiredDate::Indicar la fecha de cuándo ha pasado
+Item_IncidentAction_Field_Actions::Actuaciones
+Item_IncidentAction_Field_Anotations::Anotaciones
+Item_IncidentAction_Field_Causes::¿Por qué ha pasado?
+Item_IncidentAction_Field_Close::Cierre
+Item_IncidentAction_Field_Customer::Cliente
+Item_IncidentAction_Field_Date::Fecha
+Item_IncidentAction_Field_Executer::Ejecutor/a
+Item_IncidentAction_Field_Fix::Correción
+Item_IncidentAction_Field_Improvement::Mejora
+Item_IncidentAction_Field_Internal::Interna
+Item_IncidentAction_Field_Monitoring::Seguimiento
+Item_IncidentAction_Field_Notes::Notas
+Item_IncidentAction_Field_Prevent::Preventiva
+Item_IncidentAction_Field_Provider::Proveedor
+Item_IncidentAction_Field_Responsible::Responsable
+Item_IncidentAction_Field_ResponsibleActions::Responsable
+Item_IncidentAction_Field_ResponsibleCauses::Redactado
+Item_IncidentAction_Field_ResponsibleClose::Cerrada por
+Item_IncidentAction_Field_ResponsibleWhatHappend::Redactado
+Item_IncidentAction_Field_Schelude::Fecha
+Item_IncidentAction_Field_WhatHappened::¿Qué ha pasado?
+Item_IncidentAction_Header_Close::Cierre
+Item_IncidentAction_Header_Description::Problema
+Item_IncidentAction_Header_ImplementDate::Implem. prevista
+Item_IncidentAction_Header_Number::Número
+Item_IncidentAction_Header_Open::Apertura
+Item_IncidentAction_Header_Origin::Origen
+Item_IncidentAction_Header_Status::Estado
+Item_IncidentAction_Header_Type::Tipo
+Item_IncidentAction_Label_ApplyAction::¿Aplicar acción correctiva?
+Item_IncidentAction_Label_BusinessRisk::Análisis de riesgo
+Item_IncidentAction_Label_Description::Descripción
+Item_IncidentAction_Label_Incident::Incidencia
+Item_IncidentAction_Label_Origin::Origen
+Item_IncidentAction_Label_Reporter::Reportada por
+Item_IncidentAction_Label_Type::Tipo
+Item_IncidentAction_List_Filter_ErrorDate::La fecha final no puede ser anterior a la inicial
+Item_IncidentAction_List_Filter_ErrorRequired::Faltan datos para poder realizar la búsqueda
+Item_IncidentAction_List_Filter_ErrorStatus::Seleccionar un estado
+Item_IncidentAction_List_Filter_ErrorType::Seleccionar un tipo de acción
+Item_IncidentAction_List_Filter_From::Desde
+Item_IncidentAction_List_Filter_Source::Origen
+Item_IncidentAction_List_Filter_Status::Estado
+Item_IncidentAction_List_Filter_To::Hasta
+Item_IncidentAction_List_Filter_Type::Tipo
+Item_IncidentAction_Origin1::Auditoría
+Item_IncidentAction_Origin2::Propuesto por dirección
+Item_IncidentAction_Origin3::Incidencia
+Item_IncidentAction_Origin4::Análisis de riesgo
+Item_IncidentAction_ReporterType1::Interna
+Item_IncidentAction_ReporterType2::Proveedor
+Item_IncidentAction_ReporterType3::Cliente
+Item_IncidentAction_Tab_Basic::Datos básicos
+Item_IncidentAction_Tab_Costs::Costes
+Item_IncidentAction_Tab_Traces::Trazas
+Item_IncidentAction_Tab_UploadFiles::Adjuntos
+Item_IncidentAction_Type1::Mejora
+Item_IncidentAction_Type2::Correctiva
+Item_IncidentAction_Type3::Preventiva
+Item_IncidentActionCost_Btn_New::Añadir coste
+Item_IncidentActionCost_FieldLabel_Amount::Precio
+Item_IncidentActionCost_FieldLabel_Cost::Coste
+Item_IncidentActionCost_FieldLabel_Description::Descripción
+Item_IncidentActionCost_FieldLabel_Quantity::Cantidad
+Item_IncidentActionCost_FieldLabel_ReportedBy::Identificado por
+Item_IncidentActionCost_Filter_NoData::No hay datos
+Item_IncidentActionCost_Header_Amount::Coste
+Item_IncidentActionCost_Header_Description::Descripción
+Item_IncidentActionCost_Header_Quantity::Cantidad
+Item_IncidentActionCost_Header_ReportedBy::Responsable
+Item_IncidentActionCost_Header_Total::Total
+Item_IncidentActionCost_PopupTitle_Delete::Eliminar coste
+Item_IncidentActionCost_PopupTitle_Update::Modificar un coste
+Item_IncidentActionCost_Radio_ManualEntry::Entrada manual
+Item_IncidentActionCost_Radio_SelectCost::Seleccionar un coste
+Item_IncidentActionCosts::Costes
+Item_IncidentActionList::Accions
+Item_IncidentActions::Acciones
+Item_IncidentActions_Detail::Ficha de la acción
+Item_IncidentActions_New_Label::Nueva acción
+Item_IncidentActoionCost_PopupTitle_Add::Añadir nuevo coste
+Item_IncidentCost::Coste
+Item_IncidentCost_Btn_New::Añadir coste
+Item_IncidentCost_FieldLabel_Amount::Precio
+Item_IncidentCost_FieldLabel_Cost::Coste
+Item_IncidentCost_FieldLabel_Description::Descripción
+Item_IncidentCost_FieldLabel_Quantity::Cantidad
+Item_IncidentCost_FieldLabel_ReportedBy::Identificado por
+Item_IncidentCost_Filter_NoData::Esta incidencia no tiene costes
+Item_IncidentCost_Header_Amount::Coste
+Item_IncidentCost_Header_Description::Concepto
+Item_IncidentCost_Header_Quantity::Cantidad
+Item_IncidentCost_Header_ReportedBy::Identificado por
+Item_IncidentCost_Header_Total::Total
+Item_IncidentCost_PopupTitle_Add::Añadir nuevo coste
+Item_IncidentCost_PopupTitle_Delete::Eliminar coste
+Item_IncidentCost_PopupTitle_Update::Modificar un coste
+Item_IncidentCost_Radio_ManualEntry::Entrada manual
+Item_IncidentCost_Radio_SelectCost::Seleccionar un coste
+Item_IncidentCosts::Costes
+Item_IncidentList::Incidencias
+Item_Incidents::Incidencias
+Item_Indicaddor_Filter_TypeLabel::Tipo
+Item_Indicaddor_Filter_TypeObjetivo::Vinculado a objetivo
+Item_Indicaddor_Filter_TypeProcess::Vinculado a proceso
+Item_Indicaddor_Popup_Units::Gestionar unidades
+Item_Indicador::Indicador
+Item_Indicador_AnulateMessageTile::Indicador anulado
+Item_Objetivo_Btn_Anular::Cerrar
+Item_Indicador_Btn_Anular::Cerrar
+Item_Indicador_Btn_UnitsBAR::Editar unidades
+Item_Indicador_Button_New::Añadir indicador
+Item_Indicador_Error_PreviousIndicadorDate::No puede ser anterior a la fecha de inicio
+Item_Indicador_ErrorMessage_NoDelete::No se puede eliminar porque está asociado a un objetivo
+Item_Indicador_Field_Alarma::Alarma
+Item_Indicador_Field_Calculo::Cálculo
+Item_Indicador_Field_EndDate::Fecha de baja
+Item_Indicador_Field_EndReason::Motivo
+Item_Indicador_Field_EndResponsible::Responsable baja
+Item_Indicador_Field_Meta::Meta
+Item_Indicador_Field_Name::Nombre
+Item_Indicador_Field_Objetivo::Objectivo
+Item_Indicador_Field_Periodicity::Periodicidad
+Item_Indicador_Field_Process::Proceso
+Item_Indicador_Field_Responsible::Responsable
+Item_Indicador_Field_StartDate::Fecha inicio
+Item_Indicador_Field_Unidad::Unidades
+Item_Indicador_Filter_Button::Filtrar
+Item_Indicador_GraphicsNoData::No hay registros en el indicador
+Item_Indicador_Header_Description::Descripcin
+Item_Indicador_Header_Objetivo::Objectivo
+Item_Indicador_Header_ObjetivoResponsible::Resp. indicador
+Item_Indicador_Header_Process::Proceso
+Item_Indicador_Header_ProcessResponsible::Resp. proceso
+Item_Indicador_Header_ProcessType::Tipus de proceso
+Item_Indicador_Header_StartDate::Fecha inicio
+Item_Indicador_Label_Type::Tipo
+Item_Indicador_Label_TypeObjetivo::Objectivo
+Item_Indicador_Label_TypeProceso::Proceso
+Item_Indicador_Message_ProcessBlocked::El indicador está vinculado a objectivos
+Item_Indicador_New_Button::Añadir registro
+Item_Indicador_New_Label::Nuevo indicador
+Item_Indicador_Popup_DeleteRecord_Message::¿Quiere eliminar el registro
+Item_Indicador_PopupAnular_Title::Anular indicador
+Item_Indicador_RecordsReportTitle::Registros de indicador
+Item_Indicador_Tab_Basic::Datos básicos
+Item_Indicador_Tab_Graphics::Gráficos
+Item_Indicador_Tab_Records::Registros
+Item_Indicador_TableRecords_Header_Alarm::Alarma
+Item_Indicador_TableRecords_Header_Comments::Comentarios
+Item_Indicador_TableRecords_Header_Date::Fecha
+Item_Indicador_TableRecords_Header_IndicatorName::Indicador
+Item_Indicador_TableRecords_Header_Meta::Meta
+Item_Indicador_TableRecords_Header_Responsible::Responsable
+Item_Indicador_TableRecords_Header_Value::Valor
+Item_IndicadorAction_List_Filter_ShowActive::Activos
+Item_IndicadorAction_List_Filter_ShowClosed::Cerrados
+Item_Indicadores::Indicadores
+Item_IndicatorRecord_FieldLabel_Comments::Comentarios
+Item_IndicatorRecord_FieldLabel_Date::Fecha
+Item_IndicatorRecord_FieldLabel_Reason::Motivo de anulación
+Item_IndicatorRecord_FieldLabel_Responsible::Responsable
+Item_IndicatorRecord_FieldLabel_Value::Valor
+Item_IndicatorRecord_PopupTitle_Insert::Añadir registro
+Item_IndicatorRecord_PopupTitle_Update::Modificar registro														  
+Item_IndicentAction_Status1::Identificada
+Item_IndicentAction_Status2::Analizada
+Item_IndicentAction_Status3::En progreso
+Item_IndicentAction_Status4::Cerrada
+Item_Indicents::Incidencias
+Item_JobPosition::Cargo
+Item_JobPosition_BreadCrumb_Edit::Ficha del cargo
+Item_JobPosition_Button_DepartmentsBAR::Gestionar departamentos
+Item_JobPosition_Button_New::Añadir cargo
+Item_JobPosition_Button_New::Nuevo cargo
+Item_JobPosition_Error_DeleteReasonRequired::Especificar el motivo de eliminación
+Item_JobPosition_ErrorMessage_HasEmployees::Tiene empleados
+Item_JobPosition_ErrorMessage_HasEmployeesHistoric::Tiene empleados
+Item_JobPosition_ErrorMessage_HasJobPositionLinked::No se puede eliminar si tiene un cargo asignado
+Item_JobPosition_FieldLabel_Academic_Learning::Formación académica
+Item_JobPosition_FieldLabel_Department::Departamento
+Item_JobPosition_FieldLabel_DepartmentName::Nombre
+Item_JobPosition_FieldLabel_Habilities::Habilidades
+Item_JobPosition_FieldLabel_Name::Nombre
+Item_JobPosition_FieldLabel_Notes::Notas
+Item_JobPosition_FieldLabel_Responsabilities::Responsabilidades
+Item_JobPosition_FieldLabel_Specific_Learning::Formación específica
+Item_JobPosition_FieldLabel_Work_Experience::Experiencia laboral
+Item_JobPosition_Help_Academica::Indicar la formación académica para el cargo
+Item_JobPosition_Help_BARDepartamento::Gestionar los departamentos
+Item_JobPosition_Help_Departamento::Seleccionar un departamento
+Item_JobPosition_Help_Especifica::Indicar la formación específica per al cargo
+Item_JobPosition_Help_Experiencia::Indicar la experiencia laboral requerida para el cargo
+Item_JobPosition_Help_Habilidades::Indicar las habilidades requeridas para el cargo
+Item_JobPosition_Help_Name::Nombre
+Item_JobPosition_Help_Notes::Notas
+Item_JobPosition_Help_Responsabilidades::Indicar las responsabilidades del cargo
+Item_JobPosition_Help_Responsible::Indicar responsable del cargo
+Item_JobPosition_List_Departments_Department::Departamento
+Item_JobPosition_ListEmployees_Header_Email::Correo
+Item_JobPosition_ListEmployees_Header_Name::Nombre
+Item_JobPosition_ListEmployees_Header_Nif::NIF
+Item_JobPosition_ListEmployees_Header_Phone::Teléfono
+Item_JobPosition_ListEmployees_Title::Empleados/as
+Item_JobPosition_ListHeader_Department::Departamento
+Item_JobPosition_ListHeader_Name::Nombre
+Item_JobPosition_ListHeader_Responsible::Responsable
+Item_JobPosition_Message_WithoutEmployees::Cargo sin empleados/as
+Item_JobPosition_Message_WithoutResponsible::Cargo sin responsable
+Item_JobPosition_PopupDelete_Message::¿Eliminar el cargo?
+Item_JobPosition_Tab_Principal::Datos básicos
+Item_JobPosition_Tab_Traces::Trazas
+Item_JobPositions::Cargos
+Item_Learning::Formación
+Item_Learning_Button_New::Nueva acción formativa
+Item_Learning_Edit::Editar la formación
+Item_Learning_Error_DateMalformed_EndDate::La fecha de finalización no es correcta
+Item_Learning_Error_DateMalformed_StartDate::La fecha de inicio no es correcta
+Item_Learning_Error_DeleteReasonRequired::Especificar el motivo de eliminación
+Item_Learning_Error_MimumOneAssistant::Seleccionar asistentes
+Item_Learning_Error_NoCompleted::La participación debe estar completada
+Item_Learning_Error_NoEmeployeesAvailables::No hay empleados/as disponibles
+Item_Learning_ErrorMessage_UntemporalyDates::Fechas cruzadas
+Item_Learning_FieldLabel_Academic_Desired::Formación académica deseada
+Item_Learning_FieldLabel_Amount::Importe
+Item_Learning_FieldLabel_Coach::Formador/a
+Item_Learning_FieldLabel_Course::Curso
+Item_Learning_FieldLabel_EndDate::Fecha de fin real
+Item_Learning_FieldLabel_EstimatedDate::Fecha prevista
+Item_Learning_FieldLabel_Hours::Horas
+Item_Learning_FieldLabel_Methodology::Metodología
+Item_Learning_FieldLabel_Name::Nombre de la acción formativa
+Item_Learning_FieldLabel_Notes::Notas
+Item_Learning_FieldLabel_StartDate::Fecha de inicio real
+Item_Learning_FieldLabel_Year::Año de realización del curso
+Item_Learning_Filter_AllPeriode::Todos los años
+Item_Learning_Filter_FromYear::Desde el año
+Item_Learning_Filter_ToYear::Hasta el año
+Item_Learning_Help_Coach::Indicar formador/a
+Item_Learning_Help_FinalReal::Fecha real de finalización
+Item_Learning_Help_Horas::Horas del curso
+Item_Learning_Help_InicioReal::Fecha de inicio real del curso
+Item_Learning_Help_Item_Learning_FieldLabel_Amount::Coste de la formación
+Item_Learning_Help_MesPrevisto::Mes previsto de inicio de la formación
+Item_Learning_Help_Metologia::Metologíia del curso
+Item_Learning_Help_Nombre::Indicar el nombre de la formación
+Item_Learning_Help_Notas::Añadir notas sobre la formación
+Item_Learning_Help_Objetivo::Indicar el objetivo de la formación
+Item_Learning_Help_SelectAllAssistants::Seleccionar asistentes al curso
+Item_Learning_Help_Year::Año de la formación
+Item_Learning_Help_YearPrevisto::Año previsto para el inicio de la formación
+Item_Learning_Message_Evaluation::Si guarda la formación, con los participantes evaluados, se guardará como evaluada y ya no se podrá modificar
+Item_Learning_Message_NoAssistants::No hay asistentes al curso
+Item_Learning_Objetive::Objetivo
+Item_Learning_PopupDelete_Message::¿Eliminar la formación?
+Item_Learning_SelectAssistants::Añadir participantes
+Item_Learning_Status_Done::Realizada
+Item_Learning_Status_Evaluated::Evaluada
+Item_Learning_Status_Finished::Finalizada
+Item_Learning_Status_InProgress::Pendiente
+Item_Learning_Tab_Principal::Datos básicos
+Item_Learning_Tab_UploadFiles::Adjuntos
+Item_Learning_ToolTip_New::Nueva formación
+Item_LearningAsistant_Button_SelectAll::Seleccionar todos
+Item_LearningAsistant_Button_UnselectAll::Deseleccionar todos
+Item_LearningAssistant_Status_All::Todos
+Item_LearningAssistant_Status_Done::Realizado
+Item_LearningAssistant_Status_Evaluated::Apto
+Item_LearningAssistant_Status_InProgress::Pendiente
+Item_LearningAssistant_Status_Selected::Apuntado al curso
+Item_LearningAssistant_Status_Selected::Seleccionado
+Item_LearningAssistants::Participantes
+Item_LearningList::Formación
+Item_LearningList_NoAssistants::Sin alumnos
+Item_Learnings::Formaciones
+Item_Objetivo::Objectiu
+Item_Objetivo_Button_Indicators::Indicadors
+Item_Objetivo_Button_New::Afegir objectiu
+Item_Objetivo_Error_DateMinimum::La data no pot ser anterior a la d'inici
+Item_Objetivo_Error_PreviewEndDate::No pot ser anterior a la dada de inici
+Item_Objetivo_Error_PreviousObjetivoDate::No pot ser anterior a la dada de inici
+Item_Objetivo_FieldLabel_ClosePreviewDate::Data prevista
+Item_Objetivo_FieldLabel_CloseRealDate::Data
+Item_Objetivo_FieldLabel_CloseResponsible::Responsable
+Item_Objetivo_FieldLabel_DateStart::Data inici
+Item_Objetivo_FieldLabel_Description::Descripció
+Item_Objetivo_FieldLabel_Indicator::Indicador
+Item_Objetivo_FieldLabel_Methodology::Metodologia
+Item_Objetivo_FieldLabel_Name::Nom
+Item_Objetivo_FieldLabel_Notes::Notes
+Item_Objetivo_FieldLabel_Periodicity::Periodicitat
+Item_Objetivo_FieldLabel_Resources::Recursos
+Item_Objetivo_FieldLabel_Responsible::Responsable
+Item_Objetivo_FieldLabel_Viculated::Viculat a indicador
+Item_Objetivo_GraphicsNoData::No hi ha registres associats a l'objetiu
+Item_Objetivo_Header_Name::Nom
+Item_Objetivo_Header_PreviewEndDate::Fecha fin prev.
+Item_Objetivo_Header_Responsible::Responsable
+Item_Objetivo_Header_StartDate::Inicio
+Item_Objetivo_ListHeader_Name::Nombre
+Item_Objetivo_ListHeader_PreviewEndDate::Cierre previsto
+Item_Objetivo_ListHeader_ResponsibleName::Responsable
+Item_Objetivo_ListHeader_StartDate::Fecha inicio
+Item_Objetivo_Message_IndicadorBlocked::No se puede cambiar porque tiene registros asociados
+Item_Objetivo_RecordsReportTitle::Registros de objectivo
+Item_Objetivo_Tab_Records::Registros
+Item_Objetivo_Tab_RecordsFromIndicator::Registros del indicador vinculat
+Item_Objetivo_Tab_RecordsFromIndicatorMessage::Los registros pertenecen al indicador ##
+Item_Objetivo_TabBasic::Datos básicos
+Item_Objetivo_TabGraphics::Gráficos
+Item_Objetivo_TableRecords_Header_Comments::Comentarios
+Item_Objetivo_TableRecords_Header_Date::Fecha
+Item_Objetivo_TableRecords_Header_Meta::Meta
+Item_Objetivo_TableRecords_Header_Responsible::Responsable
+Item_Objetivo_TableRecords_Header_Value::Valor
+Item_Objetivo_TabRecords::Registros
+Item_Objetivo_TitleClose::Cierre real
+Item_ObjetivoAction_List_Filter_From::Desde
+Item_ObjetivoAction_List_Filter_ShowActive::Activos
+Item_ObjetivoAction_List_Filter_ShowClosed::Cerrados
+Item_ObjetivoAction_List_Filter_To::Hasta
+Item_ObjetivoList::Objectivos
+Item_Objetivos::Objectivos						 
+Item_Proccess::Proceso
+Item_Proccess_ListHeader_Name::Nombre
+Item_Proccess_ListHeader_ProcessType::Tipo
+Item_Proccess_ListHeader_Responsible::Responsable
+Item_Process::Proceso
+Item_Process_Button_Edit::Ficha del proceso
+Item_Process_Button_New::Añadir proceso
+Item_Process_Button_New::Nuevo proceso
+Item_Process_Button_ProcessTypeBAR::Gestión de tipos de proceso
+Item_Process_FieldLabel_Development::Desarrollo
+Item_Process_FieldLabel_End::Fín
+Item_Process_FieldLabel_Name::Nombre
+Item_Process_FieldLabel_Responsible::Responsable
+Item_Process_FieldLabel_Start::Inicio
+Item_Process_FieldLabel_Type::Tipo
+Item_Process_Help_BARType::Gestionar los tipos de procesos
+Item_Process_Help_Deploy::Indicar el desarrollo del proceso
+Item_Process_Help_End::Indicar como se finaliza el proceso
+Item_Process_Help_Name::Indicar el nombre del proceso
+Item_Process_Help_ProcessType::Seleccionar el tipo de proceso
+Item_Process_Help_Responsible::Indicar responsable del proceso
+Item_Process_Help_Start::Indicar el inicio del proceso
+Item_Process_ListIndicatorsHeader_Alarm::Alarma
+Item_Process_ListIndicatorsHeader_Meta::Meta
+Item_Process_ListIndicatorsHeader_Name::Nombre
+Item_Process_ListIndicatorsHeader_Responsible::Responsable
+Item_Process_ListIndicatorsHeader_Unit::Unidad
+Item_Process_Popup_AddProcessType_Title::Añadir tipo de proceso
+Item_Process_Popup_Delete_Title::Eliminar proceso
+Item_Process_Popup_DeleteProcessType_Title::Eliminar tipo de proceso
+Item_Process_Popup_UpdateProcessType_Title::Modificar un tipo de proceso
+Item_Process_PopupDelete_Message::¿Eliminar el proceso?
+Item_Process_PopupType_Header::Tipo
+Item_Process_SelectJobPosition:: Seleccionar un cargo
+Item_Process_SelectProcessType::Seleccionar un tipo de proceso
+Item_Process_SelectProcessTypeAcción::Acción
+Item_Process_Status_WhitoutResponsible::Proceso sin responsable activo
+Item_Process_Tab_Indicators::Indicadores
+Item_Process_Tab_Principal::Datos básicos
+Item_Process_Tab_Traces::Trazas
+Item_Processes::Procesos
+Item_ProcessType::Tipo
+Item_ProcessType_Name_Estrategic::Estratégico
+Item_ProcessType_Name_Principal::Principal
+Item_ProcessType_Name_Support::Soporte
+Item_ProcessType_PopupDelete_Message::¿Eliminar el tipo de proceso?
+Item_Profile::Perfil de usuario/a
+Item_Profile_FieldLabel_Address::Dirección
+Item_Profile_FieldLabel_Email::Correo
+Item_Profile_FieldLabel_Language::Idioma
+Item_Profile_FieldLabel_Name::Nombre
+Item_Profile_FieldLabel_Phone::Teléfono
+Item_Profile_ShortCuts::Botones de ayuda rápida
+Item_Profile_ShowHelp::Activar ayuda en línea
+Item_Profile_Title_PersonalData::Datos personales
+Item_Provider::Proveedor
+Item_Provider_Btn_New::Añadir proveedor
+Item_Provider_Detail::Ficha del proveedor
+Item_Provider_Header_Associated::Relacionado con
+Item_Provider_Header_Cost::Coste
+Item_Provider_Header_Date::Fecha
+Item_Provider_Header_Description::Descripción
+Item_Provider_Header_Equipment::Equipo
+Item_Provider_Header_Operation::Operación
+Item_Provider_Header_Periodicity::Periodicidad
+Item_Provider_Header_Responsible::Responsable
+Item_Provider_Header_Status::Estado
+Item_Provider_Header_Type::Tipo
+Item_Provider_Help_Name::Nombre del proveedor
+Item_Provider_Label_Costs::Actuaciones a Calibraciones / Verificaciones / Mantenimientos / Reparaciones
+Item_Provider_Label_Definitions::Configurado en Calibraciones / Verificaciones / Mantenimientos
+Item_Provider_Label_Incidents::Incidencias y acciones
+Item_Provider_ListHeader_Name::Nombre
+Item_Provider_Popup_Delete_Title::Eliminar proveedor
+Item_Provider_PopupTitle_Delete::¿Eliminar el proveedor?
+Item_Provider_Tab_Principal::Datos básicos
+Item_Provider_Tab_Traces::Trazas
+Item_Providers::Proveedores
+Item_Reports::Informes
+Item_Review::Revisión dirección
+Item_Rule::Norma
+Item_Rules::Normas
+Item_Rules_Btn_New::Añadir norma
+Item_Rules_Button_New::Nueva norma
+Item_Rules_Error_LimitOutOfRange::El límite debe estar entre 1 y 25
+Item_Rules_FieldLabel_Limit::Límite
+Item_Rules_FieldLabel_Name::Nombre
+Item_Rules_FieldLabel_Notes::Notas
+Item_Rules_Popup_AddRule_Title::Añadir norma
+Item_Rules_Popup_DeleteProcessType_Title::Eliminar norma
+Item_Rules_Popup_Header::Normas
+Item_Rules_Popup_HeaderLimit::Límite
+Item_Rules_Popup_Limit::Límite
+Item_Rules_Popup_UpdateRules_Title::Modificar una norma
+Item_Rules_PopupDelete_Message::¿Eliminar la norma?
+Item_Rules_Section_BusinessRisk::Riesgos asociados
+Item_Rules_Section_BusinessRisk_Header_Code::Código
+Item_Rules_Section_BusinessRisk_Header_Name::Riesgo
+Item_Rules_Section_BusinessRisk_Header_Result::Resultado
+Item_Rules_Section_BusinessRisk_Header_Status::Estado
+Item_Rules_Section_BusinessRisk_NoData::Esta norma no tiene riesgos asociados
+Item_Rules_Tab_Principal::Datos básicos
+Item_Rules_Tab_Traces::Trazas
+Item_ScheduledTasks::Tareas previstas
+Item_Tace_ListHeader_Date::Fecha
+Item_Tace_ListHeader_Name::Nombre
+Item_Tace_ListHeader_Reason::Motivos
+Item_Tace_ListHeader_Trace::Traza
+Item_Tace_ListHeader_User::Usuario/a
+Item_Trace::Traza
+Item_Trace_Active::Activación
+Item_Trace_Created::Creación
+Item_Trace_Delete::Eliminación
+Item_Trace_LastActions::Últimas acciones
+Item_Trace_Modify::Modificación
+Item_Trace_Unactive::Desactivación
+Item_Trace_Update::Actualización
+Item_Trace_Updated::Actualización
+Item_Traces::Trazas
+Item_Unidad::Unidad
+Item_Unidad_Btn_New::Nueva unidad
+Item_Unidad_Help_Description::Descripción de la unidad
+Item_Unidad_ListHeader_Description::Descripcióm
+Item_Unidad_Popup_Delete_Title::¿Quiere eliminar la unidad
+Item_Unidad_PopupTitle_Delete::Eliminar unidad
+Item_Unidad_Tab_Principal::Datos básicos
+Item_Unidades::Unidades
+Item_User::Usuario/a
+Item_User_ActualPassword::Contraseña actual
+Item_User_Btn_ResetPassword::Regenerar
+Item_User_Button_New::Añadir usuario/a
+Item_User_ChangePassword::Cambiar la contraseña
+Item_User_ErrorMessage_PaswordsNoMatch::Las contraseñas no coinciden
+Item_User_FieldLabel_PasswordConfirm::Confirmar la contraseña
+Item_User_Help_PrimaryUser::A aquest usuari no se li poden modificar els permissos
+Item_User_Help_ResetPassword::Se enviará la nueva contraseña al correo del usuario
+Item_User_List_Header_Email::Correo
+Item_User_List_Header_EmployeeName::Empleat/da
+Item_User_List_Header_Grant::Permiso
+Item_User_List_Header_Read::Lectura
+Item_User_List_Header_UserName::Usuario/a
+Item_User_List_Header_Write::Modificación
+Item_User_Message_AfterChangePassword::Al cambiar la contraseña, se cerrará la sesión para reiniciarcon la nueva
+Item_User_Message_GrantsAvaiable::Se ha activado la pestaña de permisos. Por favor, activa los permisos necesarios para que el usuario pueda utilizar la aplicación.
+Item_User_Message_ResetPassword_Ok::Contraseña regenerada correctamente. Se ha enviado un correo al usuario/a con las instrucciones de acceso a la aplicación.
+Item_User_Message_WelcommeMailSent::Se ha enviado un correo al usuario/a con las instrucciones de acceso a la aplicación.
+Item_User_NewPassword::Nueva contraseña
+Item_User_PopupDelete_Message::¿Eliminar el/la usuario/a?
+Item_User_Profile_Title_Settings::Configuración
+Item_User_Suicide::Un/a usuario/a no se puede eliminar a si mismo/a
+Item_User_Tab_Grants::Permisos
+Item_User_Tab_Password::Contraseña
+Item_User_Tab_Principal::Datos básicos
+Item_User_Title_Account::Gestión de la cuenta
+Item_User_Title_ResetPassword::Regenerar la contraseña
+Item_Users::Usuarios/as
+Maintenance-Ext::Mantenimiento externo
+Maintenance-Int::Mantenimiento interno
+NumericDecimalSeparator::,
+NumericMilesSeparator::.
+por::por
+Principal::Principal
+Repair-Ext::Reparación externa
+Repair-Int::Reparación interna
+Responsabilidades::Responsabilidades
+Resumen::Resúmen
+semana::semana
+Servicio::Servicio
+SkillsFor::Formación para el/la empleado/a
+Tipo::Tipo
+Verification-Ext::Verificación externa
+Verification-Int::Verificación interna

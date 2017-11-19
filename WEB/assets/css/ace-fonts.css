@@ -1,0 +1,27 @@
+/* included only when we don't want to use fonts from google server */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src:  local('Open Sans Light'),
+        local('OpenSans-Light')
+        url(../font/DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src:  local('Open Sans'),
+        local('OpenSans'),
+        url(../font/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+
+@font-face {
+  font-family:FontAwesome;
+  src:url(../font/fontawesome-webfontd.eot) format(embedded-opentype),
+    url(../font/fontawesome-webfontf.woff) format(woff),
+    url(../font/fontawesome-webfontf.ttf) format(truetype),
+    url(../font/fontawesome-webfont.svg#fontawesomeregular) format(svg);
+  font-weight:400;
+  font-style:normal;
+}

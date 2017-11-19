@@ -1,0 +1,13 @@
+﻿{
+  "version": "2.2.1",
+  "ignore": [
+    "\\assets\\"
+  ],
+  "options": {
+    "eval": true
+  },
+  "globalVariables": [
+    "Dictionary"
+  ],
+  "runOnBuild": true
+}
