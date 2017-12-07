@@ -847,19 +847,6 @@ namespace GisoFramework.Item
                         res.ModifiedOn = rdr.GetDateTime(ColumnsIndicadorGet.ModifiedOn);
                         res.Active = rdr.GetBoolean(ColumnsIndicadorGet.Active);
 
-                        //if (!rdr.IsDBNull(ColumnsIndicadorGet.ObjetivoId))
-                        //{
-                        //    int objetivoId = rdr.GetInt32(ColumnsIndicadorGet.ObjetivoId);
-                        //    if (objetivoId > 0)
-                        //    {
-                        //        res.Objetivo = new Objetivo()
-                        //        {
-                        //            Id = objetivoId,
-                        //            Description = rdr.GetString(ColumnsIndicadorGet.ObjetivoDescription)
-                        //        };
-                        //    }
-                        //}
-
                         if (!rdr.IsDBNull(ColumnsIndicadorGet.ProcessId))
                         {
                             int processId = rdr.GetInt32(ColumnsIndicadorGet.ProcessId);

@@ -131,23 +131,31 @@
                                                                 <div class="col-sm-1"><input type="radio" name="RAction" id="RActionYes" onclick="RActionChanged();" />Sí</div>
                                                                 <div class="col-sm-1"><input type="radio" name="RAction" id="RActionNo" onclick="RActionChanged();" />No</div>
                                                             </div> 
+                                                            <hr />
                                                             <div class="form-group">
-                                                                <label class="col-sm-12" id="TxtCausesLabel"><%=this.Dictionary["Item_Incident_Label_Closing"]%></label>
-                                                            </div>
-                                                            <div class="form-group">
+                                                                <label class="col-sm-2" id="TxtCausesLabel"><strong><%=this.Dictionary["Item_Incident_Label_Closing"]%></strong></label>
+                                                            <!--/div>
+                                                            <div class="form-group"-->
                                                                 <%=this.CmbClosedResponsible.Render %>
-                                                                <div class="col-sm-4">   
+                                                                <!--div class="col-sm-4"-->   
                                                                     <%=this.ClosedDate.Render %>
-                                                                </div>
+                                                                <!--/div-->
                                                             </div>
-                                                            <%=this.TxtNotes.Render %>
+                                                            <hr />
+                                                            <div class="form-group">
+                                                            	<%=this.TxtNotes.Render %>
+																						 
+																								
+																	  
+                                                            </div>
+																					  
                                                         </form>
-                                                        <br />
-                                                        <br />
-                                                        <br />
-                                                        <br />
-                                                        <br />
-                                                    </div> 
+															  
+															  
+															  
+															  
+															  
+                                                    </div>
                                                     <%=this.FormFooter %>
                                                 </div>
                                                 <div id="accion" class="tab-pane">       
@@ -193,7 +201,7 @@
                                                 <div id="costes" class="tab-pane">
                                                     <div class="col-sm-12">
                                                         <div class="col-sm-8">
-                                                            <h4><%=this.Dictionary["Item_Incident_Tab_Costs"] %></h4>
+                                                            <!-- <h4><%=this.Dictionary["Item_Incident_Tab_Costs"] %></h4> -->
                                                         </div>
                                                         <div class="col-sm-4" style="text-align:right;">
                                                             <h4 class="pink" style="right:0;">

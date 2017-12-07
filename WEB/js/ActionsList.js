@@ -131,7 +131,8 @@ function ItemRenderTable(list) {
             spantext.style.display = "none";
             spantext.appendChild(document.createTextNode(item.Associated.Description));
             origin.appendChild(spantext);
-            origin.title = Dictionary.Item_IncidentAction_Origin3 + " \"" + item.Associated.Description + "\"";
+            //origin.title = Dictionary.Item_IncidentAction_Origin3 + " \"" + item.Associated.Description + "\"";
+			origin.title = item.Associated.Description;
         }
 
         if (item.Origin === 4) {
@@ -143,7 +144,8 @@ function ItemRenderTable(list) {
             spantext.style.display = "none";
             spantext.appendChild(document.createTextNode(item.Associated.Description));
             origin.appendChild(spantext);
-            origin.title = Dictionary.Item_IncidentAction_Origin4 + " \"" + item.Associated.Description + "\"";
+            //origin.title = Dictionary.Item_IncidentAction_Origin4 + " \"" + item.Associated.Description + "\"";
+			origin.title = item.Associated.Description;
         }
 
         var actionLink = document.createElement("A");
@@ -154,17 +156,30 @@ function ItemRenderTable(list) {
 
         //<i class="fa fa-pie-chart"></i>
         var iconStatus = document.createElement('I');
-        iconStatus.className = "fa icon-pie-chart";
-        if (item.Status === 3) { iconStatus.className = "fa icon-play"; }
-        if (item.Status === 4) { iconStatus.className = "fa icon-lock"; }
-
-        iconStatus.style.color = colorStatus;
+		if (item.Status === 1) {
+            iconStatus.className = "fa icon-pie-chart";
+			iconStatus.title = Dictionary.Item_IndicentAction_Status1;
+        }
+		if (item.Status === 2) {
+            iconStatus.className = "fa icon-pie-chart";
+			iconStatus.title = Dictionary.Item_IndicentAction_Status2;
+        }
+		if (item.Status === 3) {
+            iconStatus.className = "fa icon-play";
+			iconStatus.title = Dictionary.Item_IndicentAction_Status3;
+        }
+        if (item.Status === 4) {
+            iconStatus.className = "fa icon-lock";
+			iconStatus.title = Dictionary.Item_IndicentAction_Status4;
+        }
+        
+		iconStatus.style.color = colorStatus;
         tdNumber.appendChild(iconStatus);
 
         tdOpen.appendChild(document.createTextNode(FormatYYYYMMDD(item.OpenDate, "/")));
         tdType.appendChild(document.createTextNode(type));
         tdStatus.appendChild(iconStatus);
-        tdStatus.appendChild(document.createTextNode(" " + status));
+        //tdStatus.appendChild(document.createTextNode(" " + status));
         tdOrigin.appendChild(origin);
 
 
@@ -179,11 +194,16 @@ function ItemRenderTable(list) {
 
         //tdDescription.style.width = "200px";
         tdType.style.width = "100px";
-        tdStatus.style.width = "120px";
+		tdOpen.style.width = "100px";
+		tdOpen.align = "center";
+		tdStatus.style.width = "60px";
+		tdStatus.align = "center";
         tdOrigin.style.width = "150px";
-        tdAction.style.width = "95px";
+        tdAction.style.width = "100px";
+		tdAction.align = "center";
         tdClose.style.width = "100px";
-        tdOpen.style.width = "95px";
+        tdClose.align = "center";
+		
 
         //row.appendChild(tdNumber);
         row.appendChild(tdDescription);

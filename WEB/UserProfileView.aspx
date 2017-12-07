@@ -11,7 +11,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
-        var CompanyCode = '<%=this.CompanyCode %>';
+        var CompanyCode = "<%=this.CompanyCode %>";
         var User = <%=this.UserJson %>;
         var Employee = {};
         var colorBlue = Dictionary.Common_Color_Blue;
@@ -20,13 +20,13 @@
         var colorYellow = Dictionary.Common_Color_Yellow;
         var shorcuts = <%=this.ShortcutsJson %>;
         var userShortCuts = <%=this.UserShortcuts %>;
-        var ColorSelected='';
-        var HomePage = '<%=this.HomePage%>';
+        var ColorSelected="";
+        var HomePage = "<%=this.HomePage%>";
 
         function SaveProfile()
         {
-            var showHelp = document.getElementById('chkShowHelp').checked;
-            var language = document.getElementById('CmbIdioma').value;
+            var showHelp = document.getElementById("chkShowHelp").checked;
+            var language = document.getElementById("CmbIdioma").value;
 
             var blue = null;
             var green = null;
@@ -37,7 +37,7 @@
             {
                 if(userShortCuts[x].Color == "Blue")
                 {
-                    blue = userShortCuts[x].Id == '' ? null : userShortCuts[x].Id;
+                    blue = userShortCuts[x].Id == "" ? null : userShortCuts[x].Id;
                     break;
                 }
             }
@@ -46,7 +46,7 @@
             {
                 if(userShortCuts[x].Color == "Green")
                 {
-                    green = userShortCuts[x].Id == '' ? null : userShortCuts[x].Id;
+                    green = userShortCuts[x].Id == "" ? null : userShortCuts[x].Id;
                     break;
                 }
             }
@@ -55,7 +55,7 @@
             {
                 if(userShortCuts[x].Color == "Yellow")
                 {
-                    yellow = userShortCuts[x].Id == '' ? null : userShortCuts[x].Id;
+                    yellow = userShortCuts[x].Id == "" ? null : userShortCuts[x].Id;
                     break;
                 }
             }
@@ -64,27 +64,26 @@
             {
                 if(userShortCuts[x].Color == "Red")
                 {
-                    red = userShortCuts[x].Id == '' ? null : userShortCuts[x].Id;
+                    red = userShortCuts[x].Id == "" ? null : userShortCuts[x].Id;
                     break;
                 }
             }
 
-            var webMethod = "/Async/LoginActions.asmx/SaveProfile";
             var data = {
-                userId: User.Id,
-                language: language,
-                showHelp: showHelp,
-                blue: blue,
-                green: green,
-                yellow: yellow,
-                red: red,
-                companyId: Company.Id
+                "userId": User.Id,
+                "language": language,
+                "showHelp": showHelp,
+                "blue": blue,
+                "green": green,
+                "yellow": yellow,
+                "red": red,
+                "companyId": Company.Id
             };
 
-            LoadingShow('');
+            LoadingShow("");
             $.ajax({
                 type: "POST",
-                url: webMethod,
+                url: "/Async/LoginActions.asmx/SaveProfile",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 data: JSON.stringify(data, null, 2),
@@ -109,13 +108,13 @@
             var shortcut = GetShortcutById(id);
             if(id==0)
             {        
-                document.getElementById('Icon'+ColorSelected).className = '';
-                document.getElementById('Button'+ColorSelected).title = '';
+                document.getElementById("Icon" + ColorSelected).className = "";
+                document.getElementById("Button" + ColorSelected).title = "";
                 for(var x=0; x<userShortCuts.length;x++)
                 {
                     if(userShortCuts[x].Color == ColorSelected)
                     {
-                        userShortCuts[x].Id = '';
+                        userShortCuts[x].Id = "";
                     }
                 }
                 return false;
@@ -123,8 +122,8 @@
 
             if(shortcut!=null)
             {
-                document.getElementById('Icon'+ColorSelected).className = shortcut.Icon;
-                document.getElementById('Button'+ColorSelected).title = shortcut.Label;
+                document.getElementById("Icon" + ColorSelected).className = shortcut.Icon;
+                document.getElementById("Button" + ColorSelected).title = shortcut.Label;
                 for(var x=0; x<userShortCuts.length;x++)
                 {
                     if(userShortCuts[x].Color == ColorSelected)
@@ -163,10 +162,10 @@
 
         function SetCmbShortcutsValue(value)
         {    
-            var comboItems = document.getElementById('Contentholder1_CmbShorcuts').childNodes
+            var comboItems = document.getElementById("Contentholder1_CmbShorcuts").childNodes
             for (var x = 0; x < comboItems.length; x++) {
                 var item = comboItems[x];
-                if (item.tagName == 'OPTION') {
+                if (item.tagName == "OPTION") {
                     if (item.value == value) {
                         item.selected = true;
                     }
@@ -195,7 +194,6 @@
                                 <div>
                                     <div id="user-profile-2" class="user-profile">
                                         <div class="tabbable">
-                                            
                                             <ul class="nav nav-tabs padding-18">
                                                 <li class="active">
                                                     <a data-toggle="tab" href="#home"><%=this.Dictionary["Item_User_Tab_Principal"] %></a>
@@ -244,7 +242,7 @@
                                                         <h4><%=this.Dictionary["Item_Profile_ShortCuts"]%></h4>
                                                         <div class="form-group">
                                                             <div class="col-sm-4">
-                                                                <div class="sidebar1" id="sidebar1">
+                                                                <div class="sidebar1" id="sidebar1" style="width:250px;">
                                                                     <!-- #sidebar-shortcuts -->
                                                                     <asp:Literal runat="server" ID="LtMenuShortCuts"></asp:Literal>
                                                                 </div>
@@ -328,31 +326,30 @@
         <script type="text/javascript" src="assets/js/bootstrap-tag.min.js"></script>
         <script type="text/javascript" src="js/common.js"></script>
         <script type="text/javascript">
-            var selectedAvatar = '';
+            var selectedAvatar = "";
             function SelectAvatar(name) {
                 selectedAvatar = name;
-                var webMethod = "/Async/LoginActions.asmx/Changeavatar";
                 var data = {
-                    'avatar': name,
-                    'userId': user.Id,
-                    'companyId': Company.Id
+                    "avatar": name,
+                    "userId": user.Id,
+                    "companyId": Company.Id
                 };
 
-                LoadingShow('');
+                LoadingShow("");
                 $.ajax({
                     type: "POST",
-                    url: webMethod,
+                    url: "/Async/LoginActions.asmx/Changeavatar",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     data: JSON.stringify(data, null, 2),
                     success: function (response) {
                         LoadingHide();
                         if (response.d.Success === true) {
-                            for (var x = 0; x < document.getElementById('TableAvatars').childNodes.length; x++) {
-                                document.getElementById('TableAvatars').childNodes[x].className = 'avatar';
+                            for (var x = 0; x < document.getElementById("TableAvatars").childNodes.length; x++) {
+                                document.getElementById("TableAvatars").childNodes[x].className = "avatar";
                             }
 
-                            document.getElementById(selectedAvatar).className = 'avatarSelected';
+                            document.getElementById(selectedAvatar).className = "avatarSelected";
                         }
                         if (response.d.Success !== true) {
                             alertUI(response.d.MessageError);
@@ -366,37 +363,35 @@
             }
 
             function ChangePassword() {
-                var ok = true;
-                
-                if(!RequiredFieldText('TxtPassActual')) { ok = false; }
-                if(!RequiredFieldText('TxtPassNew1')) { ok = false; }
-                if(!RequiredFieldText('TxtPassNew2')) { ok = false; }
-                if(!MatchRequiredBothFieldText('TxtPassNew1','TxtPassNew2')) { ok = false; }
+                var ok = true;                
+                if(!RequiredFieldText("TxtPassActual")) { ok = false; }
+                if(!RequiredFieldText("TxtPassNew1")) { ok = false; }
+                if(!RequiredFieldText("TxtPassNew2")) { ok = false; }
+                if(!MatchRequiredBothFieldText("TxtPassNew1","TxtPassNew2")) { ok = false; }
 
                 if(ok===false) {
                     window.scrollTo(0, 0); 
                     return false;
                 }
 
-                var webMethod = "/Async/LoginActions.asmx/ChangePassword";
                 var data = {
-                    'oldPassword': $('#TxtPassActual').val(),
-                    'newPassword': $('#TxtPassNew1').val(),
-                    'userId': user.Id,
-                    'companyId': Company.Id
+                    "oldPassword": $("#TxtPassActual").val(),
+                    "newPassword": $("#TxtPassNew1").val(),
+                    "userId": user.Id,
+                    "companyId": Company.Id
                 };
 
                 LoadingShow('');
                 $.ajax({
                     type: "POST",
-                    url: webMethod,
+                    url: "/Async/LoginActions.asmx/ChangePassword",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     data: JSON.stringify(data, null, 2),
                     success: function (response) {
                         LoadingHide();
                         if (response.d.Success === true) {
-                            document.location = 'LogOut.aspx?company=' + CompanyCode;
+                            document.location = "LogOut.aspx?company=" + CompanyCode;
                         }
                         if (response.d.Success !== true) {
                             alertUI(response.d.MessageError);
@@ -412,32 +407,35 @@
             jQuery(function ($) {
                 $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
                     _title: function (title) {
-                        var $title = this.options.title || '&nbsp;'
-                        if (("title_html" in this.options) && this.options.title_html == true)
+                        var $title = this.options.title || "&nbsp;"
+                        if (("title_html" in this.options) && this.options.title_html == true) {
                             title.html($title);
-                        else title.text($title);
+                        }
+                        else {
+                            title.text($title);
+                        }
                     }
                 }));
                 
                 <%if(this.ShowHelp) { %>
-                SetToolTip('DivCmbIdioma',"<%=this.Dictionary["Item_Employee_Help_Language"] %>");
-                SetToolTip('chkShowHelp',"<%=this.Dictionary["Item_Employee_Help_OnlineHelp"] %>");
-                SetToolTip('ButtonBlue',"<%=this.Dictionary["Item_Employee_Help_IconCommon_Color_Blue"] %>");
-                SetToolTip('ButtonGreen',"<%=this.Dictionary["Item_Employee_Help_IconCommon_Color_Green"] %>");
-                SetToolTip('ButtonRed',"<%=this.Dictionary["Item_Employee_Help_IconCommon_Color_Red"] %>");
-                SetToolTip('ButtonYellow',"<%=this.Dictionary["Item_Employee_Help_IconCommon_Color_Yellow"] %>");
-                SetToolTip('Contentholder1_CmbShorcuts',"<%=this.Dictionary["Item_Employee_Help_Shortcuts"] %>");
-                SetToolTip('TxtPassActual',"<%=this.Dictionary["Item_Employee_Help_PasswordActual"] %>");
-                SetToolTip('TxtPassNew1',"<%=this.Dictionary["Item_Employee_Help_NewPassword"] %>");
-                SetToolTip('TxtPassNew2',"<%=this.Dictionary["Item_Employee_Help_ConfirmarNuevoPassword"] %>");
+                SetToolTip("DivCmbIdioma","<%=this.Dictionary["Item_Employee_Help_Language"] %>");
+                SetToolTip("chkShowHelp","<%=this.Dictionary["Item_Employee_Help_OnlineHelp"] %>");
+                SetToolTip("ButtonBlue","<%=this.Dictionary["Item_Employee_Help_IconCommon_Color_Blue"] %>");
+                SetToolTip("ButtonGreen","<%=this.Dictionary["Item_Employee_Help_IconCommon_Color_Green"] %>");
+                SetToolTip("ButtonRed","<%=this.Dictionary["Item_Employee_Help_IconCommon_Color_Red"] %>");
+                SetToolTip("ButtonYellow","<%=this.Dictionary["Item_Employee_Help_IconCommon_Color_Yellow"] %>");
+                SetToolTip("Contentholder1_CmbShorcuts","<%=this.Dictionary["Item_Employee_Help_Shortcuts"] %>");
+                SetToolTip("TxtPassActual","<%=this.Dictionary["Item_Employee_Help_PasswordActual"] %>");
+                SetToolTip("TxtPassNew1","<%=this.Dictionary["Item_Employee_Help_NewPassword"] %>");
+                SetToolTip("TxtPassNew2","<%=this.Dictionary["Item_Employee_Help_ConfirmarNuevoPassword"] %>");
 
-                $('[data-rel=tooltip]').tooltip();
-                $('[data-rel=popover]').popover({ container: 'body' });
+                $("[data-rel=tooltip]").tooltip();
+                $("[data-rel=popover]").popover({ container: "body" });
                 <% } %>
 
-                $('#BtnPasswordOk').click(ChangePassword);
-                $('#BtnSave').click(SaveProfile);
-                $('#BtnCancel').click(function (e) { document.location = 'DashBoard.aspx'; });
+                $("#BtnPasswordOk").click(ChangePassword);
+                $("#BtnSave").click(SaveProfile);
+                $("#BtnCancel").click(function (e) { document.location = "DashBoard.aspx"; });
             });
         </script>
 </asp:Content>

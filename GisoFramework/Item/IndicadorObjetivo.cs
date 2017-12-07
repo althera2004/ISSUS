@@ -203,6 +203,11 @@ namespace GisoFramework.Item
 
         public static string JsonList(ReadOnlyCollection<IndicadorObjetivo> list)
         {
+            if(list == null)
+            {
+                return "[]";
+            }
+
             StringBuilder res = new StringBuilder("[");
             bool first = true;
             foreach (IndicadorObjetivo item in list)

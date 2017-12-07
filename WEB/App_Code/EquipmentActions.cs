@@ -13,7 +13,7 @@ using System.Web.Services;
 using System.Web.Script.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
-
+using System.Text;
 
 /// <summary>
 /// Summary description for EquipmentActions
@@ -160,5 +160,27 @@ public class EquipmentActions : WebService
     public string GetFilter(long equipmentId, int companyId, bool calibrationInternal, bool calibrationExternal, bool verificationInternal, bool verificationExternal, bool maintenanceInternal, bool maintenanceExternal, bool repairInternal, bool repairExternal, DateTime? dateFrom, DateTime? dateTo)
     {
         return EquipmentRecord.EquipmentRecordJsonList(equipmentId, companyId, calibrationInternal, calibrationExternal, verificationInternal, verificationExternal, maintenanceInternal, maintenanceExternal, repairInternal, repairExternal, dateFrom, dateTo);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult Anulate(int equipmentId, int companyId, int applicationUserId, string reason, DateTime date, int responsible)
+    {
+        return Equipment.Anulate(equipmentId, companyId, applicationUserId, reason, date, responsible);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult Restore(int equipmentId, int companyId, int applicationUserId)
+    {
+        return Equipment.Restore(equipmentId, companyId, applicationUserId);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public string SetFilter(string filter)
+    {
+        Session["EquipmentFilter"] = filter.ToUpperInvariant();
+        return "OK";
     }
 }

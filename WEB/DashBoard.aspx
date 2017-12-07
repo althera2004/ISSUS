@@ -24,7 +24,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-sm-12">
                                 <!-- PAGE CONTENT BEGINS -->
-                                <div class="row" style="padding-bottom:8px;">
+                                <div class="row" style="padding-bottom:8px;" id="SelectRow">
                                     <div class="col-xs-12">
                                         <div class="col-xs-3">
                                             <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["DashBoard_SelectOwner"] %>
@@ -201,6 +201,10 @@
                 tr.appendChild(tdDate);
 
                 target.appendChild(tr);
+            }
+
+            if (user.PrimaryUser !== true) {
+                $("#SelectRow").hide();
             }
         </script>
 </asp:Content>

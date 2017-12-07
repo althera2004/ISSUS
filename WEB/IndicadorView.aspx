@@ -57,13 +57,14 @@
                                                         <form class="form-horizontal" role="form">   
                                                             <div class="form-group">
                                                                 <label id="TxtDescriptionLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Indicador_Field_Name"] %><span style="color:#f00">*</span></label>
-                                                                <div class="col-sm-6">                                                                                                                            
+                                                                <div class="col-sm-8">                                                                                                                            
                                                                     <input type="text" id="TxtDescription" placeholder="<%=this.Dictionary["Item_Indicador_Field_Name"] %>" class="col-xs-12 col-sm-12 tooltip-info" value="" maxlength="100" onblur="this.value=$.trim(this.value);" />
                                                                     <span class="ErrorMessage" id="TxtDescriptionErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                     <span class="ErrorMessage" id="TxtDescriptionErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_AlreadyExists"] %></span>                                                                                       
                                                                 </div>
                                                                 <label id="TxtStartDateLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Indicador_Field_StartDate"] %><span style="color:#f00">*</span></label>
-                                                                <div class="col-sm-3">                                                                                                                            
+                                                                <div class="col-sm-2">
+                                                                <div class="row">                                 
                                                                     <div class="col-xs-12 col-sm-12 tooltip-info" id="DivStartDate">
                                                                         <div class="input-group">
                                                                             <input class="form-control date-picker" id="TxtStartDate" type="text" data-date-format="dd/mm/yyyy" placeholder="<%=this.Dictionary["Item_Indicador_Field_StartDate"] %>" maxlength="10" />
@@ -72,6 +73,7 @@
                                                                             </span>
                                                                         </div>
                                                                     </div>
+                                                                    </div>
                                                                     <span class="ErrorMessage" id="TxtStartDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                     <span class="ErrorMessage" id="TxtStartDateErrorMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>                                                                                       
                                                                 </div>	
@@ -79,7 +81,7 @@
                                                             <div class="form-group">
                                                                 <%=this.CmbResponsible.Render %>
                                                                 <label id="TxtPeriodicityLabel" class="col-sm-1"><%=this.Dictionary["Item_Indicador_Field_Periodicity"] %><span style="color: #f00">*</span></label>
-                                                                <div class="col-sm-2">
+                                                                <div class="col-sm-1">
                                                                     <input type="text" id="TxtPeriodicity" placeholder="Periodicitat" class="col-xs-12 col-sm-12 tooltip-info integerFormated" value="0" maxlength="3" onblur="this.value=$.trim(this.value);" />
                                                                     <span class="ErrorMessage" id="TxtPeriodicityErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>                                                                
@@ -91,14 +93,14 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="col-sm-1 control-label no-padding-right" id="TxtCalculoLabel"><%=this.Dictionary["Item_Indicador_Field_Calculo"] %><span style="color:#f00">*</span></label>
-                                                                <div class="col-sm-10">
+                                                                <div class="col-sm-11">
                                                                     <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="500" id="TxtCalculo"></textarea>
                                                                     <span class="ErrorMessage" id="TxtCalculoErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label id="CmbMetaLabel" class="col-sm-1 control-label no-padding-right">Meta<span style="color:#f00">*</span></label>
-                                                                <div class="col-sm-4" id="DivCmbMetaComparer" style="" title="" data-rel="tooltip">
+                                                                <div class="col-sm-5" id="DivCmbMetaComparer" style="" title="" data-rel="tooltip">
                                                                     <select style="float:left;width:60%;" class="form-control" id="CmbMetaComparer" data-placeholder="" onchange="">
                                                                         <option value="0">Seleccionar</option>
                                                                         <option value="eq"><%=this.Dictionary["Common_Comparer_eq"] %> (=)</option>
@@ -112,7 +114,7 @@
                                                                     <span class="ErrorMessage" id="CmbMetaErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>	
                                                                 <label id="CmbAlarmaLabel" class="col-sm-1 control-label no-padding-right">Alarma</label>
-                                                                <div class="col-sm-4" id="DivCmbAlarmaComparer" style="height:35px !important;" title="" data-rel="tooltip"><!-- data-placement="top"> -->
+                                                                <div class="col-sm-5" id="DivCmbAlarmaComparer" style="height:35px !important;" title="" data-rel="tooltip"><!-- data-placement="top"> -->
                                                                     <select style="float:left;width:60%;" class="form-control" id="CmbAlarmaComparer" data-placeholder="" onchange="">
                                                                         <option value="">Seleccionar</option>
                                                                         <option value="eq"><%=this.Dictionary["Common_Comparer_eq"] %> (=)</option>
@@ -194,7 +196,7 @@
                                                                     <th id="th3"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Comments"]%></th>
                                                                     <th id="th4" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th>
                                                                     <th id="th5" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Alarm"]%></th>
-                                                                    <th id="th6" onclick="Sort(this,'IndicadorRegistrosTable','text',false);" class="sort" style="width: 150px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Responsible"]%></th>
+                                                                    <th id="th6" onclick="Sort(this,'IndicadorRegistrosTable','text',false);" class="sort" style="width: 175px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Responsible"]%></th>
                                                                     <th style="width: 106px;">&nbsp;</th>
                                                                 </tr>
                                                             </thead>

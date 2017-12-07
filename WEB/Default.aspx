@@ -45,6 +45,12 @@
             -moz-box-shadow: 4px 4px 24px 4px rgba(0,0,0,0.55);
             box-shadow: 4px 4px 24px 4px rgba(0,0,0,0.55);
         }
+		
+		a:hover { text-decoration:none; font-weight:bold;}
+		
+		.btn { border-radius:5px;}
+		
+		.widget-main, .widget-box {	border-radius: 10px;}								   
     </style>
 
     <!--[if lte IE 8]>
@@ -116,28 +122,29 @@
                                             <fieldset>
                                                 <label class="block clearfix">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Email" id="TxtUserName" value="jcastilla@sbrinna.com" />
+                                                        <input type="text" class="form-control" placeholder="Email" id="TxtUserName" value="" />
                                                         <i class="icon-user"></i>
                                                     </span>
                                                 </label>
                                                 <label class="block clearfix">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="password" class="form-control" placeholder="Password" id="TxtPassword" value="root" />
+                                                        <input type="password" class="form-control" placeholder="Password" id="TxtPassword" value="" />
                                                         <i class="icon-lock"></i>
                                                     </span>
                                                 </label>
                                                 <div class="space"></div>
                                                 <div class="clearfix">
-                                                    <button type="button" class="width-35 pull-right btn btn-sm btn-primary" id="BtnLogin"></button>
+													<button type="button" class="width-35 pull-right btn btn-sm btn-primary" id="BtnLogin"></button>
                                                 </div>
-                                                <div class="space-4"></div>
+                                                <%=this.IssusVersion%>
+												<div class="space-4"></div>
                                                 <h4>
                                                     <span id="ErrorSpan" style="color: #f00; display: none;"></span>
                                                 </h4>
                                             </fieldset>
                                         </form>
-                                        <asp:Literal runat="server" ID="LtCompnayName"></asp:Literal>
-                                        <%=this.IssusVersion %>
+										<asp:Literal runat="server" ID="LtCompnayName"></asp:Literal>
+                                        <!-- %=this.IssusVersion % -->
                                     </div>
                                     <!-- /widget-main -->
                                 </div>

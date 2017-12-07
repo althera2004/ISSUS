@@ -26,5 +26,8 @@ namespace GisoFramework.Item.Binding
         public const int IsCalibration = 7;
         public const int IsVerification = 8;
         public const int IsMaintenance = 9;
+        public const int EndDate = 10;
+        public const int HasAttachments = 11;
+        public const int TotalCost = 12;
     }
 }

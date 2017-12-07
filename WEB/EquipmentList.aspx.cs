@@ -31,6 +31,27 @@ public partial class EquipmentList : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
+    public string EquipmentsJson
+    {
+        get
+        {
+            return Equipment.GetListJson(this.company.Id);
+        }
+    }
+
+    public string Filter
+    {
+        get
+        {
+            if(this.Session["EquipmentFilter"] == null)
+            {
+                return "CVM|0";
+            }
+
+            return this.Session["EquipmentFilter"].ToString().ToUpperInvariant();
+        }
+    }
+
     /// <summary>
     /// Gets a random value to prevents static cache files
     /// </summary>
@@ -111,7 +132,7 @@ public partial class EquipmentList : Page
         bool grantDelete = UserGrant.HasDeleteGrant(this.user.Grants, ApplicationGrant.Equipment);
         bool grantEmployee = UserGrant.HasReadGrant(this.user.Grants, ApplicationGrant.Employee);
 
-        this.EquipmentData.Text = Equipment.List(this.company, grantWrite, grantDelete, grantEmployee, this.dictionary);
+        //this.EquipmentData.Text = Equipment.List(this.company, grantWrite, grantDelete, grantEmployee, this.dictionary);
 
         bool first = true;
         ReadOnlyCollection<Equipment> equipments = Equipment.GetList(this.company);
@@ -153,6 +174,6 @@ public partial class EquipmentList : Page
         }
 
         this.master.SearcheableItems = sea.ToString();
-        this.EquipmentDataTotal.Text = equipments.Count.ToString();
+        //this.EquipmentDataTotal.Text = equipments.Count.ToString();
     }
 }

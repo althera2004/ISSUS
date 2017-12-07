@@ -381,6 +381,10 @@ function EquipmentMaintenanceActEdit(sender) {
         ]
 
     });
+
+    if (Equipment.EndDate !== null) {
+        $("#BtnEquipmentMaintenanceActUpdate").hide();
+    }
 }
 
 function EquipmentMaintenanceDefinitionRegister(sender) {

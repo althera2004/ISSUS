@@ -70,7 +70,7 @@ public partial class Export_PrintEquipmentData : Page
 
         iTextSharp.text.Document document = new iTextSharp.text.Document(PageSize.A4, 40, 40, 65, 55);
 
-        PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(Request.PhysicalApplicationPath + "\\DOCS\\" + fileName, FileMode.Create));
+        PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(Request.PhysicalApplicationPath + "\\Temp\\" + fileName, FileMode.Create));
         TwoColumnHeaderFooter PageEventHandler = new TwoColumnHeaderFooter()
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, companyId),
@@ -458,7 +458,7 @@ public partial class Export_PrintEquipmentData : Page
         Response.ClearHeaders();
         Response.AddHeader("Content-Disposition", "inline;filename=outfile.pdf");
         Response.ContentType = "application/pdf";
-        Response.WriteFile(Request.PhysicalApplicationPath + "\\DOCS\\" + fileName);
+        Response.WriteFile(Request.PhysicalApplicationPath + "\\Temp\\" + fileName);
         Response.Flush();
         Response.Clear();
     }
@@ -492,7 +492,7 @@ public partial class Export_PrintEquipmentData : Page
 
         iTSpdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
            new FileStream(
-               string.Format(CultureInfo.InvariantCulture, @"{0}DOCS\{1}", path, fileName),
+               string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
 
         Company company = new Company(equipment.CompanyId);
@@ -558,7 +558,7 @@ public partial class Export_PrintEquipmentData : Page
         pdfDoc.Add(mainDataTable);
 
         pdfDoc.CloseDocument();
-        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}DOCS/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
+        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
         return res;
     }
 

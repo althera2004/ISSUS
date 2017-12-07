@@ -42,6 +42,13 @@ window.onload = function () {
         $("#ItemTableVoid").show();
     }
 
+	if (typeof Indicador.EndDate !== "undefined" && Indicador.EndDate !== null) {
+        //gtk aquí ocultar botón
+		$("#BtnRecordNew").hide();
+		//alertInfoUI(Dictionary.Item_Indicador_Message_IndicadorClosed, null);
+        //return false;
+    }
+
     Resize();
 
     var options = $.extend({}, $.datepicker.regional[userLanguage], { autoclose: true, todayHighlight: true });
@@ -372,11 +379,20 @@ function RenderRegistroRow(registro) {
     row += "    <td>" + registro.Comments + "</td>";
     row += "    <td align=\"right\" style=\"width:120px;\">" + registro.MetaComparer + " " + ToMoneyFormat(registro.Meta, 2) + "</td>";
     row += "    <td align=\"right\" style=\"width:120px;\">" + registro.AlarmaComparer + " " + alarmaText + "</td>";
-    row += "    <td style=\"width:150px;\">" + registro.Responsible.Value + "</td>";
+    row += "    <td style=\"width:175px;\">" + registro.Responsible.Value + "</td>";
     row += "    <td style=\"width:90px;\">";
-    row += "         <span title=\"" + Dictionary.Common_Edit + "\" class=\"btn btn-xs btn-info\" onclick=\"RecordEdit(" + registro.Id + ");\"><i class=\"icon-edit bigger-120\"></i></span>";
-    row += "        &nbsp;";
-    row += "        <span title=\"" + Dictionary.Common_Delete + "\" class=\"btn btn-xs btn-danger\" onclick=\"RecordDelete(" + registro.Id + ");\"><i class=\"icon-trash bigger-120\"></i></span>";
+
+    //gtk aquí ocultar botón	
+	if (typeof Indicador.EndDate !== "undefined" && Indicador.EndDate !== null) {
+		row += "		&nbsp;";
+		row += "        &nbsp;";
+		row += "        &nbsp;";
+    }
+	else {
+		row += "         <span title=\"" + Dictionary.Common_Edit + "\" class=\"btn btn-xs btn-info\" onclick=\"RecordEdit(" + registro.Id + ");\"><i class=\"icon-edit bigger-120\"></i></span>";
+		row += "        &nbsp;";
+		row += "        <span title=\"" + Dictionary.Common_Delete + "\" class=\"btn btn-xs btn-danger\" onclick=\"RecordDelete(" + registro.Id + ");\"><i class=\"icon-trash bigger-120\"></i></span>";
+	}
     row += "     </td>";
     row += "</tr>";
     $("#IndicadorRegistrosTable").append(row);
@@ -1488,16 +1504,24 @@ function DisableLayout() {
     $("select").attr("disabled", "disabled");
     $("textarea").attr("disabled", "disabled");
     $("#BtnUnitsBAR").hide();
+    $("#RActionYes").attr("disabled", "disabled");
+    $("#RActionNo").attr("disabled", "disabled");
 
     // Mantener activos los inputs de "Reobrir"
     $("#TxtAnularComments").removeAttr("disabled");
     $("#TxtAnularDate").removeAttr("disabled");
     $("#CmbResponsibleAnularRecord").removeAttr("disabled");
+
+    // los filtros
+    $("#TxtRecordsFromDate").removeAttr("disabled");
+    $("#TxtRecordsToDate").removeAttr("disabled");
 }
 
 function EnableLayout() {
     $("input").removeAttr("disabled");
     $("select").removeAttr("disabled");
     $("textarea").removeAttr("disabled");
+    $("#RActionYes").removeAttr("disabled");
+    $("#RActionNo").removeAttr("disabled");
     $("#BtnUnitsBAR").show();
 }

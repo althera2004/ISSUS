@@ -185,6 +185,7 @@ public partial class UserProfileView : Page
     private void Go()
     {
         this.user = Session["User"] as ApplicationUser;
+        this.user = ApplicationUser.GetById(this.user.Id, this.company.Id);
         //this.user.Employee = new Employee(this.user.Employee.Id, false);
         this.company = (Company)Session["company"];
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;

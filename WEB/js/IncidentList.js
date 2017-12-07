@@ -342,12 +342,14 @@ function ItemRenderTable(list) {
         }
         else {
             if (user.Grants.IncidentActions.Read === false) {
-                tdAction.appendChild(document.createTextNode(item.Action.Description));
+                //tdAction.appendChild(document.createTextNode(item.Action.Description));
+				tdAction.appendChild(document.createTextNode(Dictionary.Common_View));
             }
             else {
                 var link3 = document.createElement('A');
                 link3.href = 'ActionView.aspx?id=' + item.Action.Id;
-                link3.appendChild(document.createTextNode(item.Action.Description));
+                //link3.appendChild(document.createTextNode(item.Action.Description));
+				link3.appendChild(document.createTextNode(Dictionary.Common_View));
                 tdAction.appendChild(link3);
             }
         }
@@ -362,16 +364,26 @@ function ItemRenderTable(list) {
         tdOpen.appendChild(document.createTextNode(FormatYYYYMMDD(item.Open, '/')));
 
         var iconStatus = document.createElement('I');
-        iconStatus.className = "fa icon-pie-chart";
-        if (item.Status === 3) {
+		
+		if (item.Status === 1) {
+            iconStatus.className = "fa icon-pie-chart";
+			iconStatus.title = Dictionary.Item_Incident_Status1;
+        }
+		if (item.Status === 2) {
+            iconStatus.className = "fa icon-pie-chart";
+			iconStatus.title = Dictionary.Item_Incident_Status2;
+        }
+		if (item.Status === 3) {
             iconStatus.className = "fa icon-play";
+			iconStatus.title = Dictionary.Item_Incident_Status3;
         }
         if (item.Status === 4) {
             iconStatus.className = "fa icon-lock";
+			iconStatus.title = Dictionary.Item_Incident_Status4;
         }
         iconStatus.style.color = colorStatus;
         tdStatus.appendChild(iconStatus);
-        tdStatus.appendChild(document.createTextNode(' ' + status));
+        //tdStatus.appendChild(document.createTextNode(' ' + status));
 
         var incidentLinkDescription = document.createElement('A');
         incidentLinkDescription.href = 'IncidentView.aspx?id=' + item.IncidentId;
@@ -388,11 +400,15 @@ function ItemRenderTable(list) {
         row.appendChild(tdAction);
         row.appendChild(tdClose);
 
-        tdStatus.style.width = "120px";
-        tdOrigin.style.width = "200px";
-        tdAction.style.width = "150px";
-        tdOpen.style.width = "90px";
-        tdClose.style.width = "90px";
+        tdOpen.style.width = "100px";
+		tdOpen.align = "center"
+		tdStatus.style.width = "60px";
+		tdStatus.align = "center"
+        tdOrigin.style.width = "250px";
+		tdAction.style.width = "90px";
+        tdAction.align = "center"
+		tdClose.style.width = "100px";
+		tdClose.align = "center"
 
         var iconEdit = document.createElement('SPAN');
         iconEdit.className = 'btn btn-xs btn-info';

@@ -215,14 +215,14 @@ namespace GisoFramework.LogOn
         /// <summary>
         /// Log on application
         /// </summary>
-        /// <param name="userName">User name</param>
+        /// <param name="email">User email</param>
         /// <param name="password">User password</param>
         /// <param name="clientAddress">IP address from log on action</param>
         /// <returns>Result of action</returns>
-        public static ActionResult GetApplicationAccess(string userName, string password, string clientAddress)
+        public static ActionResult GetApplicationAccess(string email, string password, string clientAddress)
         {
             HttpContext.Current.Session["Companies"] = null;
-            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
                 return ActionResult.NoAction;
             }
@@ -242,7 +242,7 @@ namespace GisoFramework.LogOn
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@Login", userName));
+                    cmd.Parameters.Add(DataParameter.Input("@Login", email));
                     cmd.Parameters.Add(DataParameter.Input("@Password", password));
                     cmd.Connection.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
@@ -254,9 +254,10 @@ namespace GisoFramework.LogOn
                             companiesId.Add(rdr.GetInt32(ColumnsGetLogin.CompanyId).ToString() + '|' + rdr.GetInt32(ColumnsGetLogin.Id).ToString());
                             result.Id = rdr.GetInt32(ColumnsGetLogin.Id);
                             result.Result = IntegerToLogOnResult(rdr.GetInt32(ColumnsGetLogin.Status));
-                            result.UserName = userName;
+                            result.UserName = email;
                             result.CompanyId = rdr.GetInt32(ColumnsGetLogin.CompanyId);
                             result.MustResetPassword = rdr.GetBoolean(ColumnsGetLogin.MustResetPassword);
+                            result.Agreement = rdr.GetBoolean(ColumnsGetLogin.Agreement);
 
                             if (result.Result == LogOnResult.Fail)
                             {
@@ -321,7 +322,7 @@ namespace GisoFramework.LogOn
             }
 
             HttpContext.Current.Session["Companies"] = companiesId;
-            InsertLog(userName, clientAddress, resultOk ? 1 : 2, result.Id, string.Empty, result.CompanyId);
+            InsertLog(email, clientAddress, resultOk ? 1 : 2, result.Id, string.Empty, result.CompanyId);
             res.SetSuccess(result);
             return res;
         }

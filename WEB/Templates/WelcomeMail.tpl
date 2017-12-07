@@ -23,7 +23,7 @@
 <p>
   <center>
     <FONT FACE="calibri" SIZE="2" COLOR="black">
-      <br />Si us plau, no responguis a aquest email. Si necessites contactar amb nosaltres envia’ns un correu a <a href="mailto:hola@scrambotika.com>hola@scrambotika.com“"/a>.
+      <br />Si us plau, no responguis a aquest email. Si necessites contactar amb nosaltres envia’ns un correu a <a href="mailto:hola@scrambotika.com">hola@scrambotika.com.</a>
     </FONT>
   </center>
 </p>

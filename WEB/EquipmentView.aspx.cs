@@ -401,6 +401,8 @@ public partial class EquipmentView : Page
     public UIButton MaintenanceNewAct { get; set; }
     #endregion
 
+    public FormSelect CmbResponsibleClose { get; set; }
+
 
     /// <summary>
     /// Page's load event
@@ -494,6 +496,8 @@ public partial class EquipmentView : Page
             this.formFooter.ModifiedBy = this.Equipment.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Equipment.ModifiedOn;
             this.formFooter.AddButton(new UIButton() { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
+            this.formFooter.AddButton(new UIButton() { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Equipment_Btn_Restaurar"], Action = "primary" });
+            this.formFooter.AddButton(new UIButton() { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Equipment_Btn_Anular"], Action = "danger" });
             this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success", ColumnsSpan = 12 });
             this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"], ColumnsSpan = 12 });
 
@@ -1392,6 +1396,38 @@ public partial class EquipmentView : Page
         }
 
         this.ResponsibleData = responsibleData.ToString();
+
+
+
+        this.CmbResponsibleClose = new FormSelect()
+        {
+            ColumnsSpanLabel = 3,
+            Label = this.dictionary["Item_Equipment_FieldLabel_EndResponsible"],
+            ColumnsSpan = 9,
+            Name = "CmbEndResponsible",
+            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo),
+            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" },
+            RequiredMessage = this.dictionary["Common_Required"],
+            Required = true
+        };
+
+        long endResponsibleId = -1;
+        if (this.Equipment.EndResponsible != null)
+        {
+            endResponsibleId = this.Equipment.EndResponsible.Id;
+        }
+        foreach (Employee e in this.company.Employees)
+        {
+            if (e.Active && e.DisabledDate == null)
+            {
+                this.CmbResponsibleClose.AddOption(new FormSelectOption()
+                {
+                    Value = e.Id.ToString(),
+                    Text = e.FullName,
+                    Selected = e.Id == endResponsibleId
+                });
+            }
+        }
     }
 
     private void RenderDocuments()

@@ -34,7 +34,6 @@ namespace GisoFramework
         /// </summary>
         private const string IncorrectPassword = "NOPASS";
 
-        #region Fields
         /// <summary>
         /// Application user identifier
         /// </summary>
@@ -86,7 +85,6 @@ namespace GisoFramework
         public string Email { get; set; }
 
         public bool PrimaryUser { get; set; }
-        #endregion
 
         public string Description
         {
@@ -135,6 +133,7 @@ namespace GisoFramework
                             this.Employee = Employee.EmptySimple;
                             this.Email = rdr.GetString(ColumnsApplicationUserGetById.Email);
                             this.PrimaryUser = rdr.GetBoolean(ColumnsApplicationUserGetById.PrimaryUser);
+                            this.CompanyId = rdr.GetInt32(ColumnsApplicationUserGetById.CompanyId);
 
                             if (!rdr.IsDBNull(ColumnsApplicationUserGetById.EmployeeId))
                             {
@@ -217,7 +216,6 @@ namespace GisoFramework
             this.Employee = Employee.EmptySimple;
         }
 
-        #region Properties
         public int CompanyId { get; set; }
 
         /// <summary>Gets a empty user</summary>
@@ -412,9 +410,7 @@ namespace GisoFramework
             }
         }
 
-        /// <summary>
-        /// Gets or sets the status of user
-        /// </summary>
+        /// <summary>Gets or sets the status of user</summary>
         public ApplicationLogOn.LogOnResult Status
         {
             get
@@ -428,27 +424,7 @@ namespace GisoFramework
             }
         }
 
-        /*
-        /// <summary>
-        /// Gets or sets the employee associated to user
-        /// </summary>
-        public Employee Employee
-        {
-            get
-            {
-                return this.employee;
-            }
-
-            set
-            {
-                this.employee = value;
-            }
-        }
-        */
-
-        /// <summary>
-        /// Gets or sets the shorcuts of user
-        /// </summary>
+        /// <summary>Gets or sets the shorcuts of user</summary>
         public MenuShortcut MenuShortcuts
         {
             get
@@ -462,9 +438,7 @@ namespace GisoFramework
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether user has admin role
-        /// </summary>
+        /// <summary>Gets a value indicating whether user has admin role</summary>
         public bool Admin
         {
             get
@@ -484,9 +458,7 @@ namespace GisoFramework
             }
         }
 
-        /// <summary>
-        /// Gets a json structure of user's groups
-        /// </summary>
+        /// <summary>Gets a json structure of user's groups</summary>
         public string GroupsJson
         {
             get
@@ -505,9 +477,7 @@ namespace GisoFramework
             }
         }
 
-        /// <summary>
-        /// Gets user's groups
-        /// </summary>
+        /// <summary>Gets user's groups</summary>
         public ReadOnlyCollection<ApplicationLogOn.SecurityGroup> Groups
         {
             get
@@ -516,9 +486,7 @@ namespace GisoFramework
             }
         }
 
-        /// <summary>
-        /// Gets a json structure of user
-        /// </summary>
+        /// <summary>Gets a json structure of user</summary>
         public string Json
         {
             get
@@ -579,8 +547,12 @@ namespace GisoFramework
                 return res.ToString();
             }
         }
-        #endregion
 
+        /// <summary>
+        /// Obtains user of a company
+        /// </summary>
+        /// <param name="companyId">The company identifier.</param>
+        /// <returns>List of users of a company</returns>
         public static ReadOnlyCollection<ApplicationUser> CompanyUsers(int companyId)
         {
             List<ApplicationUser> res = new List<ApplicationUser>();
@@ -912,6 +884,12 @@ namespace GisoFramework
             return res;
         }
 
+        /// <summary>
+        /// Gets user the by identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="companyId">The company identifier.</param>
+        /// <returns>Data of application user</returns>
         public static ApplicationUser GetById(int userId, int companyId)
         {
             ApplicationUser res = ApplicationUser.Empty;
@@ -1103,6 +1081,7 @@ namespace GisoFramework
                     cmd.ExecuteNonQuery();
 
                     #region Send Mail
+                    Company company = new Company(companyId);
                     string userName = cmd.Parameters["@UserName"].Value as string;
                     string password = cmd.Parameters["@Password"].Value as string;
                     string email = cmd.Parameters["@Email"].Value as string;
@@ -1128,7 +1107,7 @@ namespace GisoFramework
                     };
 
                     string templatePath = HttpContext.Current.Request.PhysicalApplicationPath;
-                    if(!templatePath.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
+                    if (!templatePath.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
                     {
                         templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\ResetPassword.tpl", templatePath);
                     }
@@ -1151,10 +1130,10 @@ namespace GisoFramework
                             body = input.ReadToEnd();
                         }
 
-                        body = body.Replace("#USERNAME#", userName).Replace("#PASSWORD#", password).Replace("#EMAIL#", email);
+                        body = body.Replace("#USERNAME#", userName).Replace("#PASSWORD#", password).Replace("#EMAIL#", email).Replace("#EMPRESA", company.Name);
                     }
 
-
+                    mail.Subject = "La teva nova contrasenya d'accés a ISSUS";
                     mail.Body = body;
                     client.Send(mail);
                     #endregion
@@ -1542,6 +1521,40 @@ namespace GisoFramework
             return res;
         }
 
+        public static ActionResult UnsetEmployee(int userId, int companyId)
+        {
+            ActionResult res = ActionResult.NoAction;
+            /* CREATE PROCEDURE Employee_UnsetUser
+             *   @UserId bigint,
+             *   @CompanyId int */
+            using (SqlCommand cmd = new SqlCommand("Employee_UnsetUser"))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                try
+                {
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess();
+                }
+                catch (Exception ex)
+                {
+                    res.SetFail(ex);
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
+        }
+
         /// <summary>
         /// Generates a JSON structure of application user grants
         /// </summary>
@@ -1572,7 +1585,7 @@ namespace GisoFramework
         /// Render the HTML code for a row in users list
         /// </summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
-        /// <param name="grants">Grants of user</param>
+        /// <param name="userGrants">Grants of user</param>
         /// <returns>HTML code</returns>
         public string ListRow(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> userGrants)
         {
@@ -1933,40 +1946,6 @@ namespace GisoFramework
 
                     client.Send(mail);
                     res.SetSuccess(Convert.ToInt32(cmd.Parameters["@Id"].Value));
-                }
-                catch (Exception ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
-                    {
-                        cmd.Connection.Close();
-                    }
-                }
-            }
-
-            return res;
-        }
-
-        public static ActionResult UnsetEmployee(int userId, int companyId)
-        {
-            ActionResult res = ActionResult.NoAction;
-            /* CREATE PROCEDURE Employee_UnsetUser
-             *   @UserId bigint,
-             *   @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("Employee_UnsetUser"))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                try
-                {
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
                 }
                 catch (Exception ex)
                 {

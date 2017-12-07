@@ -11,15 +11,18 @@ namespace GisoFramework.Item.Binding
     public static class ColumnsLearningFilter
     {
         /// <summary>Index column of learning id</summary>
-        public const int LearningId = 0;
+        public const int Id = 0;
 
         /// <summary>Index colum of learning description</summary>
-        public const int LearningDescription = 1;
+        public const int CourseName = 1;
 
-        /// <summary>Index column of learnind estimated date</summary>
-        public const int LearningEstimatedDate = 2;
+        /// <summary>Index column of learning estimated date</summary>
+        public const int EstimatedDate = 2;
 
-        /// <summary>Index column of learnind amount</summary>
-        public const int LearningAmmount = 4;
+        /// <summary>Index column of learning amount</summary>
+        public const int Ammount = 4;
+
+        /// <summary>Index column of learning status</summary>
+        public const int Status = 5;
     }
 }

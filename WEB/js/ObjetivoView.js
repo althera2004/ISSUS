@@ -71,6 +71,11 @@ window.onload = function () {
     if (ItemData.EndDate !== null) {
         DisableLayout();
     }
+	
+	//gtk aquí ocultar botón
+	if (ItemData.EndDate !== null) {
+        $("#BtnRecordNew").hide();
+    }
 }
 
 window.onresize = function () { Resize(); }
@@ -406,12 +411,21 @@ function RenderRegistroRow(registro) {
     row += "    <td>" + registro.Comments + "</td>";
     row += "    <td align=\"right\" style=\"width:120px;\">" + registro.MetaComparer + " " + metaText + "</td>";
     //row += "    <td align=\"right\" style=\"width:120px;\">" + registro.AlarmaComparer + " " + ToMoneyFormat(registro.Alarma,2) + "</td>";
-    row += "    <td style=\"width:150px;\">" + responsibleName + "</td>";
+    row += "    <td style=\"width:175px;\">" + responsibleName + "</td>";
     row += "    <td style=\"width:90px;\">";
-    row += "         <span title=\"" + Dictionary.Common_Edit + "\" class=\"btn btn-xs btn-info\" onclick=\"RecordEdit(" + registro.Id + ");\"><i class=\"icon-edit bigger-120\"></i></span>";
-    row += "        &nbsp;";
-    row += "        <span title=\"" + Dictionary.Common_Delete + "\" class=\"btn btn-xs btn-danger\" onclick=\"RecordDelete(" + registro.Id + ");\"><i class=\"icon-trash bigger-120\"></i></span>";
-    row += "     </td>";
+	
+	//gtk aquí ocultar botón
+	if (ItemData.EndDate !== null) {
+        row += "        &nbsp;";
+		row += "        &nbsp;";
+		row += "        &nbsp;";
+    }
+	else {
+		row += "         <span title=\"" + Dictionary.Common_Edit + "\" class=\"btn btn-xs btn-info\" onclick=\"RecordEdit(" + registro.Id + ");\"><i class=\"icon-edit bigger-120\"></i></span>";
+		row += "        &nbsp;";
+		row += "        <span title=\"" + Dictionary.Common_Delete + "\" class=\"btn btn-xs btn-danger\" onclick=\"RecordDelete(" + registro.Id + ");\"><i class=\"icon-trash bigger-120\"></i></span>";
+	}
+	row += "     </td>";
     row += "</tr>";
     $("#ObjetivoRegistrosTable").append(row);
 }
@@ -1283,6 +1297,10 @@ function DisableLayout() {
     $("#TxtAnularComments").removeAttr("disabled");
     $("#TxtAnularDate").removeAttr("disabled");
     $("#CmbResponsibleAnularRecord").removeAttr("disabled");
+
+    // los filtros
+    $("#TxtRecordsFromDate").removeAttr("disabled");
+    $("#TxtRecordsToDate").removeAttr("disabled");
 }
 
 function EnableLayout() {

@@ -38,10 +38,10 @@ namespace GISOWeb
 
         [WebMethod(EnableSession = true)]
         [ScriptMethod]
-        public ActionResult GetLogin(string userName, string password, string ip)
+        public ActionResult GetLogin(string email, string password, string ip)
         {
             ActionResult res = ActionResult.NoAction;
-            res = ApplicationLogOn.GetApplicationAccess(userName, password, ip);
+            res = ApplicationLogOn.GetApplicationAccess(email, password, ip);
 
             if (res.Success)
             {
@@ -168,8 +168,8 @@ namespace GISOWeb
                 res = employee.SetUser();
             }
 
-            Company companySession = new Company(itemUser.CompanyId);
-            HttpContext.Current.Session["Company"] = companySession;
+            /*Company companySession = new Company(itemUser.CompanyId);
+            HttpContext.Current.Session["Company"] = companySession;*/
 
             return res;
         }
@@ -193,9 +193,9 @@ namespace GISOWeb
                 }
             }
 
-            Company companySession = new Company(itemUser.CompanyId);
+            /*Company companySession = new Company(itemUser.CompanyId);
             HttpContext.Current.Session["Company"] = companySession;
-            HttpContext.Current.Session["User"] = ApplicationUser.GetById(itemUser.Id, itemUser.CompanyId);
+            HttpContext.Current.Session["User"] = ApplicationUser.GetById(itemUser.Id, itemUser.CompanyId);*/
             return res;
         }
 
@@ -217,6 +217,13 @@ namespace GISOWeb
                 }
             }
 
+            ApplicationUser userFromDB = ApplicationUser.GetById(userId, companyId);
+            Company company = new Company(companyId);
+            if (userFromDB.PrimaryUser)
+            {
+                SendMailUserMother(userFromDB.UserName, company.Name);
+            }
+
             return res;
         }
 
@@ -224,115 +231,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult ResetPassword(int userId, int companyId)
         {
-            //return ApplicationUser.ResetPassword(userId, companyId);
-            ActionResult res = ActionResult.NoAction;
-
-            /* CREATE PROCEDURE ApplicationUser_ChangePassword
-             * @UserId int,
-             * @CompanyId int,
-             * @Result int out */
-            using (SqlCommand cmd = new SqlCommand("ApplicationUser_ResetPassword"))
-            {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters.Add("@Result", SqlDbType.Int);
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Parameters["@Result"].Value = DBNull.Value;
-                    cmd.Parameters["@Result"].Direction = ParameterDirection.Output;
-
-                    cmd.Parameters.Add("@UserName", SqlDbType.NVarChar, 50);
-                    cmd.Parameters.Add("@Password", SqlDbType.NVarChar, 50);
-                    cmd.Parameters.Add("@Email", SqlDbType.NVarChar, 50);
-                    cmd.Parameters["@UserName"].Value = DBNull.Value;
-                    cmd.Parameters["@Password"].Value = DBNull.Value;
-                    cmd.Parameters["@Email"].Value = DBNull.Value;
-                    cmd.Parameters["@UserName"].Direction = ParameterDirection.Output;
-                    cmd.Parameters["@Password"].Direction = ParameterDirection.Output;
-                    cmd.Parameters["@Email"].Direction = ParameterDirection.Output;
-
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-
-                    #region Send Mail
-                    Company company = new Company(companyId);
-
-                    string userName = cmd.Parameters["@UserName"].Value as string;
-                    string password = cmd.Parameters["@Password"].Value as string;
-                    string email = cmd.Parameters["@Email"].Value as string;
-
-                    string sender = ConfigurationManager.AppSettings["mailaddress"];
-                    string pass = ConfigurationManager.AppSettings["mailpass"];
-
-                    MailAddress senderMail = new MailAddress(sender, "ISSUS");
-                    MailAddress to = new MailAddress(email);
-
-                    SmtpClient client = new SmtpClient();
-                    client.Host = "smtp.scrambotika.com";
-                    client.Credentials = new System.Net.NetworkCredential(sender, pass);
-                    client.Port = 25;
-                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
-
-                    MailMessage mail = new MailMessage(senderMail, to);
-                    mail.IsBodyHtml = true;
-                    mail.Subject = "Reinicio de contraseña en ISSUS";
-
-                    string templatePath = HttpContext.Current.Request.PhysicalApplicationPath;
-                    if (!templatePath.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
-                    {
-                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\ResetPassword.tpl", templatePath);
-                    }
-                    else
-                    {
-
-                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\ResetPassword.tpl", templatePath);
-                    }
-
-                    string body = string.Format(
-                        CultureInfo.GetCultureInfo("en-us"),
-                        "Se ha reestablecido su contraseña en ISSUS.<br />Acceder a la siguiente url http://issus.scrambotika.com/ <br/> User:<b>{0}</b><br/>Password:<b>{1}</b>",
-                        userName,
-                        password);
-
-                    if (File.Exists(templatePath))
-                    {
-                        using (StreamReader input = new StreamReader(templatePath))
-                        {
-                            body = input.ReadToEnd();
-                        }
-
-                        body = body.Replace("#USERNAME#", userName).Replace("#PASSWORD#", password).Replace("#EMAIL#", email);
-                    }
-
-
-                    mail.Subject = "La teva nova contrasenya d'accés a ISSUS";
-					mail.Body = body;
-                    client.Send(mail);
-                    #endregion
-
-                    if (cmd.Parameters["@Result"].Value.ToString().Trim() == "1")
-                    {
-                        res.SetSuccess();
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail("No se pudo reiniciar la contraseña");
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
-                    {
-                        cmd.Connection.Close();
-                    }
-                }
-            }
-
-            return res;
+            return ApplicationUser.ResetPassword(userId, companyId);
         }
 
         [WebMethod(EnableSession = true)]
@@ -380,7 +279,6 @@ namespace GISOWeb
                         GrantToDelete = false,
                         GrantToRead = action == "R",
                         GrantToWrite = action == "W"
-
                     };
 
                     bool found = false;
@@ -415,6 +313,37 @@ namespace GISOWeb
             }
 
             return res;
+        }
+
+        private void SendMailUserMother(string userName, string companyName)
+        {
+            string sender = ConfigurationManager.AppSettings["mailaddress"];
+            string pass = ConfigurationManager.AppSettings["mailpass"];
+
+            MailAddress senderMail = new MailAddress(sender, "ISSUS");
+            MailAddress to = new MailAddress(ConfigurationManager.AppSettings["mailaddress"].ToString());
+
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.scrambotika.com";
+            client.Credentials = new System.Net.NetworkCredential(sender, pass);
+            client.Port = 25;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            MailMessage mail = new MailMessage(senderMail, to);
+            mail.IsBodyHtml = true;
+
+            
+
+            string body = string.Format(
+                CultureInfo.GetCultureInfo("en-us"),
+                "Se ha reestablecido la contraseña en ISSUS de un administrador primario.<br />User:<b>{0}</b><br/>Empresa:<b>{1}</b>",
+                userName,
+                companyName);
+
+
+            mail.Subject = "Reinicio de contraseña en ISSUS de usuario primario";
+            mail.Body = body;
+            client.Send(mail);
         }
     }
 }

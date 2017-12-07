@@ -3,33 +3,35 @@ var DepartmentSelected;
 var DepartmentUpdatedId;
 
 function DepartmentDelete(sender) {
-    document.getElementById('dialogDepartment').parentNode.style.cssText += 'z-Index:1039 !important';
+    document.getElementById("dialogDepartment").parentNode.style.cssText += "z-Index:1039 !important";
     DepartmentSelected = sender.id * 1;
     var department = GetCompanyDepartment(DepartmentSelected);
-    $('#DepartmentName').html(department.Name);
-    var dialog = $("#DepartmentDeleteDialog").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
+    $("#DepartmentName").html(department.Name);
+    var dialog = $("#DepartmentDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
         buttons:
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     DepartmentDeleteAction();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
         ],
-        close: function () { document.getElementById('dialogDepartment').parentNode.style.cssText += 'z-Index:1050 !important'; }
+        "close": function () {
+            document.getElementById("dialogDepartment").parentNode.style.cssText += "z-Index:1050 !important";
+        }
     });
 }
 
@@ -57,7 +59,7 @@ function DepartmentDeleteAction(id) {
                 departmentsCompany.push(temp[y]);
             }
 
-            $("#dialogDepartment").dialog('close');
+            $("#dialogDepartment").dialog("close");
             ShowDepartmentPopup();
             FillDepartmentCombo();
         },
@@ -68,10 +70,10 @@ function DepartmentDeleteAction(id) {
 }
 
 function SetDepartment(e) {
-    var departmentId = e.target.id.split('-')[1];
+    var departmentId = e.target.id.split("-")[1];
     SelectedDepartment = departmentId;
     cargo.Department.Id = departmentId;
-    var departmentName = '';
+    var departmentName = "";
 
     for (var x = 0; x < departments.length; x++) {
         if (departments[x].Id === departmentId) {
@@ -82,27 +84,27 @@ function SetDepartment(e) {
     }
 
     FillDepartmentCombo();
-    $('#TxtDepartmentName').val(departmentName);
-    $('#dialogDepartment').dialog('close');
+    $("#TxtDepartmentName").val(departmentName);
+    $("#dialogDepartment").dialog("close");
 }
 
 function DepartmentAssociationAction(id) {
     SelectedDepartment = id;
     cargo.Department.Id = id;
     FillDepartmentCombo();
-    $('#TxtDepartmentName').val(GetCompanyDepartment(id).Description);
-    $('#dialogDepartment').dialog('close');
+    $("#TxtDepartmentName").val(GetCompanyDepartment(id).Description);
+    $("#dialogDepartment").dialog("close");
 }
 
 function CmbDepartmentChanged() {
-    SelectedDepartment = document.getElementById('CmbDepartment').value * 1;
+    SelectedDepartment = document.getElementById("CmbDepartment").value * 1;
     cargo.Department.Id = SelectedDepartment;
     FillDepartmentCombo();
     if (SelectedDepartment === 0) {
-        $('#TxtDepartmentName').val('');
+        $("#TxtDepartmentName").val("");
     }
     else {
-        $('#TxtDepartmentName').val(GetCompanyDepartment(SelectedDepartment).Description);
+        $("#TxtDepartmentName").val(GetCompanyDepartment(SelectedDepartment).Description);
     }
 }
 
@@ -114,12 +116,12 @@ function getDepartmentName(id) {
         }
     }
 
-    return '';
+    return "";
 }
 
 function RenderDepartmentsPopup() {
-    VoidTable('DepartmentsTablePopup');
-    var target = document.getElementById('DepartmentsTablePopup');
+    VoidTable("DepartmentsTablePopup");
+    var target = document.getElementById("DepartmentsTablePopup");
     departmentsCompany.sort(CompareDepartments);
     for (var x = 0; x < departmentsCompany.length; x++) {
         CompanyDepartmentRow(departmentsCompany[x], target);
@@ -128,26 +130,26 @@ function RenderDepartmentsPopup() {
 
 function CompanyDepartmentRow(department, target) {
     var selected = department.Id === cargo.Department.Id;
-    var tr = document.createElement('tr');
+    var tr = document.createElement("tr");
     tr.id = department.Id;
 
-    var td1 = document.createElement('td');
+    var td1 = document.createElement("td");
     td1.appendChild(document.createTextNode(department.Description));
     if (selected === true) {
-        td1.style.fontWeight = 'bold';
+        td1.style.fontWeight = "bold";
     }
 
-    var td2 = document.createElement('td');
-    var div = document.createElement('div');
-    var span1 = document.createElement('span');
-    span1.className = 'btn btn-xs btn-success';
+    var td2 = document.createElement("td");
+    var div = document.createElement("div");
+    var span1 = document.createElement("span");
+    span1.className = "btn btn-xs btn-success";
     span1.title = Dictionary.Common_SelectAll;
-    var i1 = document.createElement('i');
-    i1.className = 'icon-star bigger-120';
+    var i1 = document.createElement("i");
+    i1.className = "icon-star bigger-120";
     span1.appendChild(i1);
 
     if (selected === true) {
-        span1.onclick = function () { warningInfoUI(Dictionary.Common_Selected, null, null, 'dialogDepartment'); };
+        span1.onclick = function () { warningInfoUI(Dictionary.Common_Selected, null, null, "dialogDepartment"); };
     }
     else {
         span1.onclick = function () { DepartmentAssociationAction(department.Id); };
@@ -155,29 +157,29 @@ function CompanyDepartmentRow(department, target) {
 
     div.appendChild(span1);
 
-    var span2 = document.createElement('span');
-    span2.className = 'btn btn-xs btn-info';
+    var span2 = document.createElement("span");
+    span2.className = "btn btn-xs btn-info";
     span2.title = Dictionary.Common_Edit;
-    var i2 = document.createElement('i');
-    i2.className = 'icon-edit bigger-120';
+    var i2 = document.createElement("i");
+    i2.className = "icon-edit bigger-120";
     span2.appendChild(i2);
     span2.onclick = function () { DepartmentUpdate(this); };
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span2);
 
-    var span3 = document.createElement('span');
+    var span3 = document.createElement("span");
     span3.id = department.Id;
-    span3.className = 'btn btn-xs btn-danger';
+    span3.className = "btn btn-xs btn-danger";
     span3.title = Dictionary.Common_Delete;
-    var i3 = document.createElement('i');
-    i3.className = 'icon-trash bigger-120';
+    var i3 = document.createElement("i");
+    i3.className = "icon-trash bigger-120";
     span3.appendChild(i3);
 
     if (selected === true) {
-        span3.onclick = function () { alertUI(Dictionary.Common_ErrorMessage_InUse, 'dialogDepartment'); };
+        span3.onclick = function () { alertUI(Dictionary.Common_ErrorMessage_InUse, "dialogDepartment"); };
     }
     else if (DepartmentHasJobPosition(department.Id)) {
-        span3.onclick = function () { alertUI(Dictionary.Item_JobPosition_ErrorMessage_HasJobPositionLinked, 'dialogDepartment'); };
+        span3.onclick = function () { alertUI(Dictionary.Item_JobPosition_ErrorMessage_HasJobPositionLinked, "dialogDepartment"); };
     }
     else {
         span3.onclick = function () { DepartmentDelete(this); };
@@ -194,9 +196,9 @@ function CompanyDepartmentRow(department, target) {
 
 function SortByName() {
     return function (a, b) {
-        if (a['Name'] > b['Name']) {
+        if (a["Name"] > b["Name"]) {
             return 1;
-        } else if (a['Name'] < b['Name']) {
+        } else if (a["Name"] < b["Name"]) {
             return -1;
         }
         return 0;
@@ -205,25 +207,25 @@ function SortByName() {
 
 function ShowDepartmentPopup() {
     RenderDepartmentsPopup();
-    var dialog = $("#dialogDepartment").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Departments + '</h4>',
-        title_html: true,
-        width: 800,
-        buttons: [
+    var dialog = $("#dialogDepartment").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Departments + "</h4>",
+        "title_html": true,
+        "width": 800,
+        "buttons": [
             {
-                id: 'BtnNewDepartmentSave',
-                html: "<i class='icon-plus bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                "id": "BtnNewDepartmentSave",
+                "html": "<i class=\"icon-plus bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     DepartmentInsert();
                 }
             },
             {
-                html: "<i class='icon-undo bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-undo bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -233,13 +235,13 @@ function ShowDepartmentPopup() {
 
 function ValidateJobPositionForm() {
     var ok = true;
-    document.getElementById('TxtNameErrorDuplicated').style.display = 'none';
-    if (!RequiredFieldText('TxtName')) { ok = false; }
+    document.getElementById("TxtNameErrorDuplicated").style.display = "none";
+    if (!RequiredFieldText("TxtName")) { ok = false; }
     else
     {
         var duplicated = false;
         for (var x = 0; x < jobPositionCompany.length; x++) {
-            if (jobPositionCompany[x].Description === document.getElementById('TxtName').value && jobPositionCompany[x].Id !== cargo.Id) {
+            if (jobPositionCompany[x].Description === document.getElementById("TxtName").value && jobPositionCompany[x].Id !== cargo.Id) {
                 duplicated = true;
                 break;
             }
@@ -247,8 +249,8 @@ function ValidateJobPositionForm() {
 
         if (duplicated === true) {
             ok = false;
-            document.getElementById('TxtNameLabel').style.color = '#f00';
-            document.getElementById('TxtNameErrorDuplicated').style.display = 'block';
+            document.getElementById("TxtNameLabel").style.color = "#f00";
+            document.getElementById("TxtNameErrorDuplicated").style.display = "block";
         }
     }
 

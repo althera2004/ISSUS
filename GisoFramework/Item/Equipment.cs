@@ -106,10 +106,14 @@ namespace GisoFramework.Item
         public DateTime? EndDate { get; set; }
 
         [DifferenciableAttribute]
-        public int EndResponsible { get; set; }
+        public Employee EndResponsible { get; set; }
 
         [DifferenciableAttribute]
         public string EndReason { get; set; }
+
+        public bool HasAttachments { get; set; }
+
+        public decimal TotalCost { get; set; }
 
         /// <summary>Gets an identifier/description json item</summary>
         public override string JsonKeyValue
@@ -286,7 +290,16 @@ namespace GisoFramework.Item
 
                         if (!rdr.IsDBNull(ColumnsEquipmentGetById.EndResponsible))
                         {
-                            res.EndResponsible = rdr.GetInt32(ColumnsEquipmentGetById.EndResponsible);
+                            res.EndResponsible = new Employee()
+                            {
+                                Id = Convert.ToInt64(rdr.GetInt32(ColumnsEquipmentGetById.EndResponsible)),
+                                Name = rdr.GetString(ColumnsEquipmentGetById.EndResponsibleName),
+                                LastName = rdr.GetString(ColumnsEquipmentGetById.EndResponsibleLastName)
+                            };
+                        }
+                        else
+                        {
+                            res.EndResponsible = Employee.Empty;
                         }
 
                         if (!rdr.IsDBNull(ColumnsEquipmentGetById.EndReason))
@@ -336,6 +349,53 @@ namespace GisoFramework.Item
             return res;
         }
 
+        public static string GetListJson(int companyId)
+        {
+            StringBuilder res = new StringBuilder("[");
+            ReadOnlyCollection<Equipment> equipments = GetList(companyId);
+            bool first = true;
+            foreach(Equipment equipment in equipments)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    res.Append(",");
+                }
+
+                res.AppendFormat(
+                    CultureInfo.InvariantCulture,
+                    @"{{""Id"":{0},
+                    ""Codigo"":""{1}"",
+                    ""Descripcion"":""{2}"",
+                    ""Ubicacion"":""{3}"",
+                    ""Responsable"": {{""Id"":{4},""FullName"":""{5}""}},
+                    ""Adjuntos"":{6},
+                    ""Calibracion"":{7},
+                    ""Verificacion"":{8},
+                    ""Mantenimiento"":{9},
+                    ""Activo"":{10},
+                    ""Coste"": {11}}}",
+                    equipment.Id,
+                    equipment.Code,
+                    Tools.JsonCompliant(equipment.Description),
+                    Tools.JsonCompliant(equipment.Location),
+                    equipment.Responsible.Id,
+                    Tools.JsonCompliant(equipment.Responsible.FullName),
+                    equipment.HasAttachments ? "true": "false",
+                    equipment.IsCalibration ? "true" : "false",
+                    equipment.IsVerification ? "true" : "false",
+                    equipment.IsMaintenance ? "true" : "false",
+                    equipment.EndDate.HasValue ? "false" : "true",
+                    equipment.TotalCost);
+            }
+
+            res.Append("]");
+            return res.ToString();
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -372,7 +432,7 @@ namespace GisoFramework.Item
                     SqlDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        res.Add(new Equipment()
+                        Equipment equipemnt = new Equipment()
                         {
                             Id = rdr.GetInt64(ColumnsEquipmentGetList.Id),
                             Code = rdr.GetString(ColumnsEquipmentGetList.Code),
@@ -386,8 +446,17 @@ namespace GisoFramework.Item
                             },
                             IsCalibration = rdr.GetBoolean(ColumnsEquipmentGetList.IsCalibration),
                             IsVerification = rdr.GetBoolean(ColumnsEquipmentGetList.IsVerification),
-                            IsMaintenance = rdr.GetBoolean(ColumnsEquipmentGetList.IsMaintenance)
-                        });
+                            IsMaintenance = rdr.GetBoolean(ColumnsEquipmentGetList.IsMaintenance),
+                            HasAttachments = rdr.GetBoolean(ColumnsEquipmentGetList.HasAttachments),
+                            TotalCost = rdr.GetDecimal(ColumnsEquipmentGetList.TotalCost)
+                        };
+
+                        if (!rdr.IsDBNull(ColumnsEquipmentGetList.EndDate))
+                        {
+                            equipemnt.EndDate = rdr.GetDateTime(ColumnsEquipmentGetList.EndDate);
+                        }
+
+                        res.Add(equipemnt);
                     }
                 }
                 catch (SqlException ex)
@@ -702,6 +771,143 @@ namespace GisoFramework.Item
                 catch (NullReferenceException ex)
                 {
                     ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        public static ActionResult Restore(int equipmentId, int companyId, int applicationUserId)
+        {
+            string source = string.Format(
+               CultureInfo.InvariantCulture,
+               @"Equipment::Restore({0}, {1})",
+               equipmentId,
+               applicationUserId);
+            ActionResult res = ActionResult.NoAction;
+            /* CREATE PROCEDURE [dbo].[Equipment_Restore]
+             *   @EquipmentId int,
+             *   @CompanyId int,
+             *   @ApplicationUserId int */
+            using (SqlCommand cmd = new SqlCommand("Equipment_Restore"))
+            {
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    {
+                        cmd.Connection = cnn;
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess(equipmentId);
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (ArgumentException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (InvalidCastException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        public static ActionResult Anulate(int equipmentId, int companyId, int applicationUserId, string reason, DateTime date, int responsible)
+        {
+            string source = string.Format(
+                CultureInfo.InvariantCulture,
+                @"Equipment::Anulate({0}, {1})",
+                equipmentId,
+                applicationUserId);
+            ActionResult res = ActionResult.NoAction;
+            /* CREATE PROCEDURE [dbo].[Equipment_Anulate]
+             *   @EquipmentId int,
+             *   @CompanyId int,
+             *   @EndDate datetime,
+             *   @EndReason nvarchar(500),
+             *   @EndResponsable int,
+             *   @UnidadId int,
+             *   @ApplicationUserId int */
+            using (SqlCommand cmd = new SqlCommand("Equipment_Anulate"))
+            {
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    {
+                        cmd.Connection = cnn;
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EndDate", date));
+                        cmd.Parameters.Add(DataParameter.Input("@EndReason", reason, 500));
+                        cmd.Parameters.Add(DataParameter.Input("@EndResponsible", responsible));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess(equipmentId);
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (ArgumentException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (InvalidCastException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
                 }
                 finally
                 {

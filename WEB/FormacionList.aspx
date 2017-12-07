@@ -99,7 +99,17 @@
                                                         <tbody id="ListDataTable">
                                                             <asp:Literal runat="server" ID="LtLearningTable"></asp:Literal>
                                                         </tbody>
+                                                        <tfoot class="thin-border-bottom">
+                                                            <tr id="ListDataFooter">
+                                                                <td style="color:#333;" colspan="2"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="LtCount"></asp:Literal></i></td>
+                                                                <td style="color:#333;" align="right"><strong><%=this.Dictionary["Common_Total"] %>:&nbsp</strong></td>
+                                                                <td style="color:#333;" align="right"><strong><asp:Literal runat="server" ID="LtTotal"></asp:Literal></strong></td>
+                                                                <td style="color:#333;"></td>
+                                                            </tr>
+                                                        </tfoot>
                                                     </table>
+                                            <br />
+                                            <br />
                                         </div><!-- /.table-responsive -->
                                     </div><!-- /span -->
                                 </div><!-- /row -->						
@@ -363,6 +373,10 @@
 
             window.onload = function () {
                 $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
+                $(".page-header .col-sm-8").addClass("col-sm-6");
+                $(".page-header .col-sm-8").removeClass("col-sm-8");
+                $(".page-header .col-sm-4").addClass("col-sm-6");
+                $(".page-header .col-sm-4").removeClass("col-sm-4");
             }
         </script>
 </asp:Content>

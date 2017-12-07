@@ -182,12 +182,129 @@ public class LearningActions : WebService {
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
+    public ActionResult CompleteFail(int companyId, AssistantData[] assistants, int userId)
+    {
+        ActionResult res = ActionResult.NoAction;
+        foreach (AssistantData assitant in assistants)
+        {
+            res = Assistant.CompleteFail(assitant.AssistantId, companyId, userId);
+            if (!res.Success)
+            {
+                break;
+            }
+        }
+
+        if (res.Success)
+        {
+            string message = "[";
+            bool first = true;
+            foreach (AssistantData data in assistants)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    message += ",";
+                }
+
+                message += string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
+            }
+
+            message += "]";
+            res.SetSuccess(message);
+        }
+
+        return res;
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult Unevaluated(int companyId, AssistantData[] assistants, int userId)
+    {
+        ActionResult res = ActionResult.NoAction;
+        foreach (AssistantData assitant in assistants)
+        {
+            res = Assistant.Unevaluated(assitant.AssistantId, companyId, userId);
+            if (!res.Success)
+            {
+                break;
+            }
+        }
+
+        if (res.Success)
+        {
+            string message = "[";
+            bool first = true;
+            foreach (AssistantData data in assistants)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    message += ",";
+                }
+
+                message += string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
+            }
+
+            message += "]";
+            res.SetSuccess(message);
+        }
+
+        return res;
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
     public ActionResult Success(int companyId, AssistantData[] assistants, int userId)
     {
         ActionResult res = ActionResult.NoAction;
         foreach (AssistantData assitant in assistants)
         {
             res = Assistant.CompleteAndSuccess(assitant.AssistantId, companyId, userId);
+            if (!res.Success)
+            {
+                break;
+            }
+        }
+
+        if (res.Success)
+        {
+            string message = "[";
+            bool first = true;
+            foreach (AssistantData data in assistants)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    message += ",";
+                }
+
+                message += string.Format(@"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
+            }
+
+            message += "]";
+            res.SetSuccess(message);
+        }
+
+        return res;
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult SuccessFail(int companyId, AssistantData[] assistants, int userId)
+    {
+        ActionResult res = ActionResult.NoAction;
+        foreach (AssistantData assitant in assistants)
+        {
+            res = Assistant.CompleteAndSuccessFail(assitant.AssistantId, companyId, userId);
             if (!res.Success)
             {
                 break;

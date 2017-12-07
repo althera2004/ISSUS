@@ -22,11 +22,48 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
+    <script type="text/javascript">
+        var Equipments = <%=this.EquipmentsJson %>;
+        var Filter = "<%=this.Filter %>";
+    </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
+                                <div class="col-sm-12">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td style="width:120px;">
+                                                <strong><%=this.Dictionary["Item_Equipment_List_Filter_ShowByOperation"] %>:</strong>
+                                            </td>
+                                            <td>
+                                                <div class="row">
+                                                    <input type="checkbox" name="RBOperation" id="RBOperation1" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowCalibration"] %>
+                                                    &nbsp;&nbsp;
+                                                    <input type="checkbox" name="RBOperation" id="RBOperation2" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowVerification"] %>
+                                                    &nbsp;&nbsp;
+                                                    <input type="checkbox" name="RBOperation" id="RBOperation3" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowMaintenance"] %>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>     
+                                            <td>
+                                                <strong><%=this.Dictionary["Item_Equipment_List_Filter_ShowByStatus"] %>:</strong>
+                                            </td>                                       
+                                            <td>
+                                                <div class="row">
+                                                    <input type="radio" name="RBStatus" id="RBStatus0" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Common_All"] %>
+                                                    &nbsp;&nbsp;
+                                                    <input type="radio" name="RBStatus" id="RBStatus1" onclick="RenderTable();" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowActive"] %>
+                                                    &nbsp;&nbsp;
+                                                    <input type="radio" name="RBStatus" id="RBStatus2" onclick="RenderTable();" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowClosed"] %>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div> 
+                                <div style="height:8px;clear:both;"></div>
                                 <!-- PAGE CONTENT BEGINS -->
                                 <div class="row">
                                     <div class="col-xs-12">
@@ -34,10 +71,10 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
-                                                        <th onclick="Sort(this,'ListDataTable');" id="th0" class="search hidden-40 sort" style="width:110px;cursor:pointer;"><%=this.Dictionary["Item_Equipment_Header_Code"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable');" id="th1" class="search sort" style="cursor:pointer;"><%=this.Dictionary["Item_Equipment_Header_Description"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable');" id="th2" class="hidden-480 sort" style="width:120px;cursor:pointer;"><%=this.Dictionary["Item_Equipment_Header_Location"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable');" id="th3" class="hidden-480 sort" style="width:250px;cursor:pointer;"><%=this.Dictionary["Item_Equipment_Header_Responsible"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable');" id="th0" class="search hidden-40 sort" style="cursor:pointer;"><%=this.Dictionary["Item_Equipment_Header_Code"] %> - <%=this.Dictionary["Item_Equipment_Header_Description"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable');" id="th1" class="hidden-480 sort" style="width:120px;cursor:pointer;"><%=this.Dictionary["Item_Equipment_Header_Location"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable');" id="th2" class="hidden-480 sort" style="width:250px;cursor:pointer;"><%=this.Dictionary["Item_Equipment_Header_Responsible"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable', 'money');" id="th3" class="hidden-480 sort" style="width:120px;cursor:pointer;"><%=this.Dictionary["Item_Equipment_Header_Cost"] %></th>
 			                                            <th style="width:35px;"></th>
 			                                            <th style="width:106px;">&nbsp;</th>
 		                                            </tr>
@@ -53,7 +90,10 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="EquipmentDataTotal"></asp:Literal></i></th>
+                                                        <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalRecords"></span></i></th>
+                                                        <th style="width:250px;text-align:right;"><%=this.Dictionary["Common_Total"] %></th>
+                                                        <th style="width:120px;text-align:right;"><span id="TotalCost"></span></th>
+                                                        <th style="width:141px;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
                                             </table>

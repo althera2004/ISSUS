@@ -63,21 +63,21 @@
                                                 <div id="home" class="tab-pane active">                                                
                                                     <form class="form-horizontal" role="form">
                                                         <div class="form-group">
-                                                            <label id="TxtCodigoLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Code"]%></label>
+                                                            <label id="TxtCodigoLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Code"]%></label>
                                                             <div class="col-sm-2">
                                                                 <input type="text" id="TxtCodigo" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Code"] %>" class="col-xs-12 col-sm-12 tooltip-info" maxlength="10" onblur="this.value=$.trim(this.value);" />
                                                                 <span class="ErrorMessage" id="TxtCodigoErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 <span class="ErrorMessage" id="TxtCodigoErrorDuplicated" style="display: none;"><%=this.Dictionary["Item_Document_ErrorMessage_AlreadyExists"] %></span>
                                                             </div>
-                                                            <label id="TxtDocumentoLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Name"]%></label>
-                                                            <div class="col-sm-5">
+                                                            <label id="TxtDocumentoLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Name"]%></label>
+                                                            <div class="col-sm-8">
                                                                 <input type="text" id="TxtDocumento" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Name"] %>" class="col-xs-12 col-sm-12 tooltip-info" maxlength="100" onblur="this.value=$.trim(this.value);" />
                                                                 <span class="ErrorMessage" id="TxtDocumentoErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 <span class="ErrorMessage" id="TxtDocumentoErrorDuplicated" style="display: none;"><%=this.Dictionary["Item_Document_ErrorMessage_AlreadyExists"] %></span>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label id="TxtStartDateLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_CreationDate"]%></label>
+                                                            <label id="TxtStartDateLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_CreationDate"]%></label>
                                                             <div class="col-sm-2">
                                                                 <input type="text" style="display: none;" id="TxtStartDate_" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_CreationDate"] %>" class="col-xs-12 col-sm-12" readonly="readonly" />
                                                                 <div class="row">
@@ -93,7 +93,7 @@
                                                                     <span class="ErrorMessage" id="TxtStartDatePreviousRevision" style="display: none;"><%=this.Dictionary["Item_Document_ErrorMessage_StartDatePreviousRevision"] %></span>
                                                                 </div>
                                                             </div>
-                                                            <label id="Label3" class="col-sm-2 control-label no-padding-right" <%if (this.DocumentId < 1)
+                                                            <label id="Label3" class="col-sm-1 control-label no-padding-right" <%if (this.DocumentId < 1)
                                                                                                                                  { %> style="display: none;" <% } %>><%=this.Dictionary["Item_Document_FieldLabel_InactiveDate"]%></label>
                                                             <div class="col-sm-2" <%if (this.DocumentId < 1)
                                                                                     { %> style="display: none;" <% } %>>
@@ -109,51 +109,53 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label id="Label6" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_RevisionDate"]%></label>
+                                                        <!--/div>
+                                                        <div class="form-group"-->
+                                                            <label id="Label6" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_RevisionDate"]%></label>
                                                             <div class="col-sm-2">
                                                                 <input type="text" readonly="readonly" id="TxtRevisionDate" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_RevisionDate"] %>" class="col-xs-12 col-sm-12" /></div>
-                                                            <label id="TxtRevisionLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Version"]%></label>
-                                                            <div class="col-sm-2">
+                                                            <label id="TxtRevisionLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Version"]%></label>
+                                                            <div class="col-sm-1">
                                                                 <input type="text" <% if (this.DocumentId > 0)
                                                                                       { %>readonly="readonly" <% } %>id="TxtRevision" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Version"] %>" class="col-xs-12 col-sm-12" value="<%= this.LastVersion.Version == 0 ? string.Empty : this.LastVersion.Version.ToString().Trim() %>" maxlength="4" onkeypress="validate(event)" onblur="this.value=$.trim(this.value);" />
                                                                 <span class="ErrorMessage" id="TxtRevisionErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
-                                                            <div class="cols-sm-3">
+                                                            <div class="cols-sm-1">
                                                                 <button class="btn btn-info" type="button" id="BtnNewVersion" style="padding: 0 !important">
-                                                                    <i class="icon-ok"></i>
+                                                                    <i class="icon-plus bigger-110"></i>
                                                                     <%=this.Dictionary["Item_Document_Button_NewVersion"] %>
                                                                 </button>
                                                             </div>
                                                         </div>
+                                                        <hr />
                                                         <% if (this.DocumentId > 0) { %>
                                                         <div class="form-group">
-                                                            <label id="TxtAttachLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_RevisionAttachment"]%></label>
-                                                            <div class="col-sm-2">
+                                                            <label id="TxtAttachLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_RevisionAttachment"]%></label>
+                                                            <div class="col-sm-1">
                                                                 <button class="btn btn-success" style="padding:0 !important;" type="button" id="BtnNewUploadfileVersion" onclick="UploadFile();">
-                                                                    <i class="icon-plus-sign bigger-110"></i>
+                                                                    <i class="icon-plus bigger-110"></i>
                                                                     <span id="BtnAttachText"><%=this.Dictionary["Item_DocumentAttachment_Button_New"] %></span>
                                                                 </button>
                                                             </div>
                                                             <label id="ActualDocumentLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_DocumentAttachment_Description"] %>:</label>
-                                                            <label id="ActualDocumentLink" class="col-sm-2" style="font-weight:bold;"></label>
+                                                            <label id="ActualDocumentLink" class="col-sm-6" style="font-weight:bold;"></label>
                                                             <div class="col-sm-2" id="tdIconsDiv"></div>
                                                         </div>
                                                         <% } %>
+                                                        <hr />
                                                         <div class="space-4"></div>
                                                         <div class="form-group">
-                                                            <label id="TxtCategoryLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Category"]%></label>
-                                                            <div class="col-sm-8" id="DivCmbCategory" style="height: 35px !important;">
+                                                            <label id="TxtCategoryLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Category"]%></label>
+                                                            <div class="col-sm-6" id="DivCmbCategory" style="height: 35px !important;">
                                                                 <select id="CmbCategory" onchange="CmbCategoryChanged();" class="col-xs-12 col-sm-12"></select>
                                                                 <input style="display: none;" type="text" readonly="readonly" id="TxtCategory" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Category"] %>" class="col-xs-12 col-sm-12" />
                                                                 <span class="ErrorMessage" id="TxtCategoryErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                             <div class="col-sm-1"><span class="btn btn-light" style="height: 30px;" title="<%=this.Dictionary["Item_Document_Button_CategoryBAR"] %>" id="BtnCategory">...</span></div>
-                                                        </div>
+                                                        <!--/div>
                                                         <div class="space-4"></div>
-                                                        <div class="form-group">
-                                                            <label id="TxtConservacionLabel" class="col-sm-2 control-label no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Document_FieldLabel_Conservation"] %></label>
+                                                        <div class="form-group"-->
+                                                            <label id="TxtConservacionLabel" class="col-sm-1 control-label no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Document_FieldLabel_Conservation"] %></label>
                                                             <div class="col-sm-1">
                                                                 <input type="text" class="col-xs-10 col-sm-12" id="TxtConservacion" maxlength="4" onkeypress="validate(event)" onblur="this.value=$.trim(this.value);" />
                                                                 <span class="ErrorMessage" id="TxtConservacionErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
@@ -167,15 +169,15 @@
                                                         </div>
                                                         <div class="space-4"></div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-2 control-label no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Document_FieldLabel_Origin"] %></label>
-                                                            <div class="col-sm-2" id="DivCmbOrigen" style="height: 35px !important;">
+                                                            <label class="col-sm-1 control-label no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Document_FieldLabel_Origin"] %></label>
+                                                            <div class="col-sm-3" id="DivCmbOrigen" style="height: 35px !important;">
                                                                 <select class="form-control col-xs-10 col-sm-10" id="CmbOrigen" data-placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Origin"] %>" onchange="OrigenChanged(this);">
                                                                     <option value="1"><%=this.Dictionary["Common_Internal"] %></option>
                                                                     <option value="2"><%=this.Dictionary["Common_External"] %></option>
                                                                 </select>
                                                             </div>
-                                                            <label id="TxtProcedenciaLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Source"]%></label>
-                                                            <div class="col-sm-4" id="DivCmbProcedencia" style="height: 35px !important;">
+                                                            <label id="TxtProcedenciaLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Source"]%></label>
+                                                            <div class="col-sm-6" id="DivCmbProcedencia" style="height: 35px !important;">
                                                                 <select id="CmbProcedencia" onchange="CmbProcedenciaChanged();" class="col-xs-12 col-sm-12"></select>
                                                                 <input style="display: none;" type="text" readonly="readonly" id="TxtProcedencia" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Source"] %>" class="col-xs-12 col-sm-12" />
                                                                 <span class="ErrorMessage" id="TxtProcedenciaErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
@@ -184,17 +186,19 @@
                                                         </div>
                                                         <div class="space-4"></div>
                                                         <div class="form-group">
-                                                            <label id="TxtUbicacionLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Location"]%></label>
-                                                            <div class="col-sm-9">
+                                                            <label id="TxtUbicacionLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Location"]%></label>
+                                                            <div class="col-sm-11">
                                                                 <input type="text" id="TxtUbicacion" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Location"] %>" class="col-xs-12 col-sm-12" maxlength="100" onblur="this.value=$.trim(this.value);" />
                                                                 <span class="ErrorMessage" id="TxtUbicacionErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                         </div>
                                                         <div class="space-4"></div>
                                                         <div class="form-group">
-                                                            <label id="Label5" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Reason"]%></label>
-                                                            <div class="col-sm-9">
-                                                                <input type="text" readonly="readonly" id="TxtMotivo" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Reason"] %>" class="col-xs-12 col-sm-12" value="<%=this.LastVersion.Reason %>" /></div>
+                                                            <label id="Label5" class="col-sm-12"><%=this.Dictionary["Item_Document_FieldLabel_Reason"]%></label>
+                                                            <div class="col-sm-12">
+                                                                <!--input type="text" readonly="readonly" id="TxtMotivo" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Reason"] %>" class="col-xs-12 col-sm-12" value="</div>/%=this.LastVersion.Reason %>" /-->
+                                                                <textarea disabled="disabled" id="TxtMotivo" class="form-control col-xs-12 col-sm-12" maxlength="500" rows="3" onblur="this.value=$.trim(this.value);"><%=this.LastVersion.Reason %></textarea>
+                                                                </div>
                                                         </div>
                                                         <%=this.FormFooter %>
                                                     </form>

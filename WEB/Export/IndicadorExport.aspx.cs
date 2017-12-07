@@ -84,7 +84,7 @@ public partial class Export_IndicadorExport : Page
         iTS.Document pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
         iTSpdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
            new FileStream(
-               string.Format(CultureInfo.InvariantCulture, @"{0}DOCS\{1}", path, fileName),
+               string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
 
         writer.PageEvent = new TwoColumnHeaderFooter()
@@ -460,7 +460,7 @@ public partial class Export_IndicadorExport : Page
 
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();
-        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}DOCS/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
+        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
         return res;
     }
 }

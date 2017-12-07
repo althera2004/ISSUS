@@ -107,15 +107,25 @@
                                                             <div class="col-sm-2">
                                                                 <%=this.ImgEquipment.Render %>
                                                             </div>
-                                                            <div style="clear:both">&nbsp;</div>
-                                                            <div class="form-group">
-                                                                <%=this.CmbResponsible.Render %>
+                                                            <!--div style="clear:both">&nbsp;</div-->
+                                                            <!--div class="form-group">
+                                                                <!--%=this.CmbResponsible.Render %-->
+                                                            </div-->
+                                                            <div class="form-group col-sm-12">
+						
+				  
+                                                            <label id="Label99" class="col-sm-1 control-label no-padding-right"><!--%=this.Dictionary["Item_Equipment_Actions"] %--></label>
+                                                                <div class="col-sm-1" style="text-align:center;" ><input runat="server" type="checkbox" id="status0" name="status" value="0" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsCalibration_Label"] %></div>
+                                                                <div class="col-sm-1" style="text-align:center;" ><input runat="server" type="checkbox" id="status1" name="status" value="1" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsVerification_Label"] %></div>
+                                                                <div class="col-sm-1" style="text-align:center; padding-left:5px; padding-right:5px;"><input runat="server" type="checkbox" id="status2" name="status" value="2" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsMaintenance_Label"]%></div>
+																																																			  
+																
+                                                                    <%=this.CmbResponsible.Render %>
+                                                                 <div class="col-sm-3">&nbsp;</div>
                                                             </div>
-                                                            <div class="for-group">
-                                                                <div class="col-sm-2"><input runat="server" type="checkbox" id="status0" name="status" value="0" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsCalibration_Label"] %></div>
-                                                                <div class="col-sm-2"><input runat="server" type="checkbox" id="status1" name="status" value="1" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsVerification_Label"] %></div>
-                                                                <div class="col-sm-3"><input runat="server" type="checkbox" id="status2" name="status" value="2" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsMaintenance_Label"]%></div>
-                                                                <div class="col-sm-5 ErrorMessage" id="MinimumOptionsError" style="display:none;"><%=this.Dictionary["Common_Error_MinimumOneAction"] %></div>
+                                                            <div class="form-group">
+                                                            <div class="col-sm-2">&nbsp;</div>
+                                                            <div class="col-sm-10 ErrorMessage" id="MinimumOptionsError" style="display:none;"><%=this.Dictionary["Common_Error_MinimumOneAction"] %></div>
                                                             </div>
                                                             <div style="display:none;">
                                                             <%=this.TxtNotes.Render %>
@@ -133,7 +143,7 @@
                                                         <form class="form-horizontal" role="form">
                                                             <div class="col-sm-6" style="border:1px solid #e0e0e0;">
                                                                 <div class="form-group">
-                                                                    <div class="col-sm-12">
+                                                                    <div class="col-sm-12" style="padding-top: 5px;">
                                                                         <input type="checkbox" id="CalibrationInternalActive" name="CalibrationInternalActive" value="0" onclick="LockInternalCalibrationForm(this.checked);" />
                                                                         <span style="font-size:16px;font-weight:bold;"><%=this.Dictionary["Item_CalibrationType_Internal"] %></span>
                                                                     </div>
@@ -173,7 +183,7 @@
                                                             </div>
                                                             <div class="col-sm-6" style="border:1px solid #e0e0e0;">
                                                                 <div class="form-group">
-                                                                    <div class="col-sm-12">
+                                                                    <div class="col-sm-12" style="padding-top: 5px;">
                                                                         <input type="checkbox" id="CalibrationExternalActive" name="CalibrationExternalActive" value="0" onclick="LockExternalCalibrationForm(this.checked);" />
                                                                         <span style="font-size:16px;font-weight:bold;"><%=this.Dictionary["Item_CalibrationType_External"] %></span>
                                                                     </div>
@@ -228,11 +238,15 @@
                                                         </div>
                                                     </div>
                                                     <div class="row" id="CalibrationDivTable">
-                                                        <div class="col-sm-12" style="margin-bottom:8px;">
+                                                    	<div class="form-group col-sm-12">
+                                                    	<div class="col-sm-10"><h4><%=this.Dictionary["Item_EquipmentCalibration_Reg"] %></h4></div>
+                                                               <div class="col-sm-1 no-padding-right">
+                                                        <!--div class="col-sm-12" style="margin-bottom:8px;"-->
                                                             <button class="btn btn-success" type="button" id="BtnNewCalibration">
-                                                                <i class="icon-plus-sign bigger-110"></i>
+                                                                <i class="icon-plus bigger-110"></i>
                                                                 <%=this.Dictionary["Item_CalibrationAct_Button_New"] %>
                                                             </button>
+                                                        </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-12">
@@ -280,7 +294,7 @@
                                                         <form class="form-horizontal" role="form">
                                                             <div class="col-sm-6" style="border:1px solid #e0e0e0;">
                                                                 <div class="form-group">
-                                                                    <div class="col-sm-12">
+                                                                    <div class="col-sm-12" style="padding-top: 5px;">
                                                                         <input type="checkbox" id="VerificationInternalActive" name="VerificationInternalActive" value="0" onclick="LockInternalVerificationForm(this.checked);" />
                                                                         <span style="font-size:16px;font-weight:bold;"><%=this.Dictionary["Item_Equipment_VerificationType_Internal"] %></span>
                                                                     </div>
@@ -319,7 +333,7 @@
                                                             </div>
                                                             <div class="col-sm-6" style="border:1px solid #e0e0e0;">
                                                                 <div class="form-group">
-                                                                    <div class="col-sm-12">
+                                                                    <div class="col-sm-12" style="padding-top: 5px;">
                                                                         <input type="checkbox" id="VerificationExternalActive" name="VerificationExternalActive" value="0" onclick="LockExternalVerificationForm(this.checked);" />
                                                                         <span style="font-size:16px;font-weight:bold;"><%=this.Dictionary["Item_Equipment_VerificationType_External"] %></span>
                                                                     </div>
@@ -374,12 +388,17 @@
                                                         </div>
                                                     </div>
                                                     <div class="row" id="VerificationDivTable">
-                                                        <div class="col-sm-12" style="margin-bottom:8px;">
+                                                        <div class="form-group col-sm-12">
+                                                    	<div class="col-sm-10"><h4><%=this.Dictionary["Item_EquipmentVerification_Reg"] %></h4></div>
+                                                               <div class="col-sm-1 no-padding-right">
+                                                        <!--div class="col-sm-12" style="margin-bottom:8px;"-->
                                                             <button class="btn btn-success" type="button" id="BtnNewVerification">
-                                                                <i class="icon-plus-sign bigger-110"></i>
+                                                                <i class="icon-plus bigger-110"></i>
                                                                 <%=this.Dictionary["Item_EquipmentVerification_New"] %>
                                                             </button>
                                                         </div>
+                                                        </div>
+                                                        
                                                         <div class="row">
                                                             <div class="col-xs-12">
                                                                 <div class="table-responsive">
@@ -491,7 +510,7 @@
                                                         <div class="col-sm-6" style="text-align:right">                                                                 
                                                             <h4 class="pink">
                                                                 <button class="btn btn-success" type="button" id="EquipmentRepairNewBtn">
-                                                                    <i class="icon-plus-sign bigger-110"></i>
+                                                                    <i class="icon-plus bigger-110"></i>
                                                                     <%=this.Dictionary["Item_EquipmentRepair_ButtonNew"] %>
                                                                 </button>
                                                             </h4>	
@@ -1101,7 +1120,39 @@
                                             <p><input type="checkbox" /> Guardar como copia local</p>
                                         </div>-->
                                 </div><!-- /.table-responsive -->
-                            </div><!-- #dialog-message -->                            
+                            </div><!-- #dialog-message -->
+
+                            <div id="dialogAnular" class="hide" style="width: 500px;">
+                                <form class="form-horizontal" role="form" id="FormDialogAnular">
+                                    <div class="form-group">
+                                        <label id="TxtEndReasonLabel" class="col-sm-3 control-label no-padding-right" for="TxtRegistroComments"><%=this.Dictionary["Item_Equipment_FieldLabel_EndReason"] %><span class="required">*</span></label>
+                                        <div class="col-sm-9">
+                                            <textarea class="col-xs-12 col-sm-12" id="TxtEndReason" rows="5"></textarea>
+                                            <span class="ErrorMessage" id="TxtEndReasonErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="TxtEndDateLabel" class="col-sm-3 control-label no-padding-right" for="TxtRecordDate"><%=this.Dictionary["Item_Equipment_FieldLabel_EndDate"] %><span class="required">*</span></label>
+                                        <div class="col-sm-4">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtFechaCierreRealDiv">
+                                                    <div class="input-group">
+                                                        <input class="form-control date-picker" id="TxtEndDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                        <span id="TxtTxtEndDateBtn" class="input-group-addon" onclick="document.getElementById('TxtEndDate').focus();">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                                                    </div>
+                                                    <span class="ErrorMessage" id="TxtEndDateErrorRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
+                                                    <span class="ErrorMessage" id="TxtEndDateMalformed" style="display: none;"><%= this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <%=this.CmbResponsibleClose.Render %>
+                                    </div>
+                                </form>
+                            </div>
 
                             <!----------- BAR ----------------->
                             <%=this.EquipmentScaleDivisionBarPopups.Render%>
@@ -1323,7 +1374,8 @@
                         $("[data-rel=tooltip]").tooltip();
                     }
 
-                    //ProviderInsertDialog
+                    $("#BtnAnular").on("click", AnularPopup);
+                    $("#BtnRestaurar").on("click", Restore);
                     
                     <%=this.Launch%>
                 });
@@ -1408,7 +1460,11 @@
                                 }
                             ]
 
-                    });
+                });
+
+                if (Equipment.EndDate !== null) {
+                    $("#BtnNewEquipmentCalibrationActSave").hide();
+                }
             }
 
             function EquipmentCalibrationActDelete(sender){
@@ -1476,6 +1532,10 @@
                     ]
 
                 });
+
+                if (Equipment.EndDate !== null) {
+                    $("#BtnEquipmentVerificationActEditSave").hide();
+                }
             }
 
             function EquipmentVerificationActDelete(sender){

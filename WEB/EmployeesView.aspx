@@ -59,13 +59,13 @@
                                                     <div class="row">
                                                         <form class="form-horizontal" role="form">
                                                             <div class="form-group">
-                                                                <label id="TxtNombreLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Name"] %></label>
+                                                                <label id="TxtNombreLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Name"] %><span style="color:#f00">*</span></label>
                                                                 <div class="col-sm-3">
                                                                     <input type="text" id="TxtNombre" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Name"] %>" value="<%=this.Employee.Name %>" class="col-xs-12 col-sm-12" maxlength="50" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
                                                                     <span class="ErrorMessage" id="TxtNombreErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                     <span class="ErrorMessage" id="TxtNombreErrorDuplicated" style="display:none;"><%=this.Dictionary["Item_Employee_ErrorMessage_AmployeeAlreadyExists"] %></span>
                                                                 </div>
-                                                                <label id="TxtApellido1Label" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_LastName"] %></label>
+                                                                <label id="TxtApellido1Label" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_LastName"] %><span style="color:#f00">*</span></label>
                                                                 <div class="col-sm-4">
                                                                     <input type="text" id="TxtApellido1" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_LastName"] %>" value="<%=this.Employee.LastName %>" class="col-xs-12 col-sm-12" maxlength="50" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
                                                                     <span class="ErrorMessage" id="TxtApellido1ErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
@@ -102,24 +102,24 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label id="TxtCpLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_PostalCode"]%></label>
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-3">
                                                                     <input type="text" id="TxtCp" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_PostalCode"] %>" value="<%=this.Employee.Address.PostalCode %>" class="col-xs-12 col-sm-12" maxlength="10" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
                                                                     <span class="ErrorMessage" id="TxtCpErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
-                                                                <label id="TxtPoblacionLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_City"]%></label>
-                                                                <div class="col-sm-5">
+                                                                <label id="TxtPoblacionLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_City"]%></label>
+                                                                <div class="col-sm-7">
                                                                     <input type="text" id="TxtPoblacion" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_City"] %>" value="<%=this.Employee.Address.City %>" class="col-xs-12 col-sm-12" maxlength="50" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
                                                                     <span class="ErrorMessage" id="TxtPoblacionErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label id="TxtProvinciaLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Province"]%></label>
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-6">
                                                                     <input type="text" id="TxtProvincia" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Province"] %>" value="<%=this.Employee.Address.Province %>" class="col-xs-12 col-sm-12" maxlength="50" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
                                                                     <span class="ErrorMessage" id="TxtProvinciaErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
-                                                                <label id="TxtPaisLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Country"]%></label>
-                                                                <div class="col-sm-5" id="DivCmbPais" style="height:35px !important;">
+                                                                <label id="TxtPaisLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Country"]%></label>
+                                                                <div class="col-sm-3" id="DivCmbPais" style="height:35px !important;">
                                                                     <%if(this.Active ) { %>
                                                                     <select id="CmbPais" onchange="document.getElementById('TxtPais').value = this.value;" class="col-xs-12 col-sm-12">
                                                                         <asp:Literal runat="server" ID="LtCountries"></asp:Literal>

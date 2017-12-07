@@ -100,6 +100,7 @@ namespace GisoFramework.Item
                         this.fiscalNumber = rdr[5].ToString();
                         this.Code = rdr[6].ToString();
                         this.DiskQuote = rdr.GetInt64(8);
+                        this.Agreement = rdr.GetBoolean(9);
                     }
 
                     this.departments = Company.GetDepartments(this.Id);
@@ -265,6 +266,8 @@ namespace GisoFramework.Item
 
         /// <summary>Gets or sets company's disk quote</summary>
         public long DiskQuote { get; set; }
+
+        public bool Agreement { get; set; }
 
         #region Properties
         /// <summary>

@@ -112,7 +112,7 @@ Common_MonthName_November::Novembre
 Common_MonthName_October::Octubre
 Common_MonthName_September::Setembre
 Common_Months::Mesos
-Common_Name::Nom
+Common_Name::Usuari
 Common_New::Nou
 Common_Next::Següent
 Common_No::No
@@ -298,8 +298,8 @@ Item_BusinessRisk_Warning_ActionTabAvailable::A la pestanya d'acció, indicar les
 Item_BusinessRisks::Riscos
 Item_CalibrationAct_Button_New::Afegir
 Item_CalibrationAct_Warning_DefinitionRequired::Per afegir nous calibratges, s'ha de desar almenys una definició
-Item_CalibrationType_External::externa
-Item_CalibrationType_Internal::interna
+Item_CalibrationType_External::Configuració externa
+Item_CalibrationType_Internal::Configuració interna
 Item_Company_Button_CompanyAddressBAR::Gestió d'adreces
 Item_Company_Help_Address::Indicar l'adreça, inclou el tipus de via
 Item_Company_Help_BAR_Addresses::Gestió d'adreces
@@ -338,7 +338,7 @@ Item_CompanyCountries_Status_Selected::Països seleccionats
 Item_CompanyCountry_Button_Discard::Descartar països
 Item_CompanyCountry_Button_Select::Seleccionar països
 Item_CompanyCountry_FieldLabel_Name::Nom
-Item_CompanyData::Dades de l'empresa
+Item_CompanyData::Dades Empresa
 Item_CompanyData_Button_ChangeLogo::Canviar el logo
 Item_CompanyData_Error_Message_PhoneOrCellular::Indicar el mòbil
 Item_CompanyData_FieldLabel_Address::Direcció
@@ -413,7 +413,7 @@ Item_Departments::Departaments
 Item_Document::Document
 Item_Document_Button_CategoryBAR::Gestió de categories
 Item_Document_Button_New::Afegir
-Item_Document_Button_NewVersion::Generar nova versió
+Item_Document_Button_NewVersion::Versió
 Item_Document_Button_SourceBAR::Gestió de procedències
 Item_Document_Button_SourceBAR::Seleccionar una procedència
 Item_Document_Error_DeleteReasonRequired::Especificar el motiu de l'eliminació
@@ -422,14 +422,14 @@ Item_Document_ErrorMessage_StartDatePreviousRevision::La data d'inici no pot pos
 Item_Document_FieldLabel_Category::Categoria
 Item_Document_FieldLabel_Code::Codi
 Item_Document_FieldLabel_Conservation::Conservació
-Item_Document_FieldLabel_CreationDate::Data d'alta
-Item_Document_FieldLabel_InactiveDate::Data de baixa
+Item_Document_FieldLabel_CreationDate::Data alta
+Item_Document_FieldLabel_InactiveDate::Data baixa
 Item_Document_FieldLabel_Location::Ubicació
 Item_Document_FieldLabel_Name::Document
 Item_Document_FieldLabel_Origin::Origen
 Item_Document_FieldLabel_Reason::Motiu del canvi
 Item_Document_FieldLabel_RevisionAttachment::Adjunt
-Item_Document_FieldLabel_RevisionDate::Data de revisió
+Item_Document_FieldLabel_RevisionDate::D.revisió
 Item_Document_FieldLabel_Source::Procedència
 Item_Document_FieldLabel_Version::Versió
 Item_Document_Help_BARCategoria::Gestionar les categories
@@ -660,13 +660,13 @@ Item_Equipment_Field_Notes_Label::Notes
 Item_Equipment_Field_Observations_Label::Notes
 Item_Equipment_Field_Responsible_Label::Responsable
 Item_Equipment_Field_Responsible_PlaceHolder::Responsable
-Item_Equipment_Field_StartDate::Data inici
+Item_Equipment_Field_StartDate::D.Inici
 Item_Equipment_Field_EndDate::Data anulació
 Item_Equipment_Field_EndResponsible::Responsable
 Item_Equipment_Field_EndReason::Motiu
-Item_Equipment_Field_ScaleDivision_Label::Divisió d'escala
+Item_Equipment_Field_ScaleDivision_Label::Div.Escala
 Item_Equipment_Field_ScaleDivision_PlaceHolder::Divisió d'escala
-Item_Equipment_Field_SerialNumber_Label::Nº sèrie
+Item_Equipment_Field_SerialNumber_Label::N.sèrie
 Item_Equipment_Field_SerialNumber_PlaceHolder::Nº sèrie
 Item_Equipment_Field_TradeMark_Label::Marca
 Item_Equipment_Field_TradeMark_PlaceHolder::Marca
@@ -676,6 +676,7 @@ Item_Equipment_FilterLabel_MaintenanceInternal::Manteniment intern
 Item_Equipment_FilterLabel_RepairExternal::Reparació externa
 Item_Equipment_FilterLabel_RepairInternal::Reparació interna
 Item_Equipment_Header_Code::Codi
+Item_Equipment_Header_Cost::Cost
 Item_Equipment_Header_Description::Descripció
 Item_Equipment_Header_Location::Ubicació
 Item_Equipment_Header_Responsible::Responsable
@@ -718,8 +719,11 @@ Item_Equipment_Tab_Repair::Reparacions
 Item_Equipment_Tab_Traces::Traces
 Item_Equipment_Tab_UploadFiles::Adjunts
 Item_Equipment_Tab_Verification::Verificacions
-Item_Equipment_VerificationType_External::externa
-Item_Equipment_VerificationType_Internal::interna
+Item_Equipment_Actions::Accions
+Item_Equipment_VerificationType_External::Configuració externa
+Item_Equipment_VerificationType_Internal::Configuració interna
+Item_EquipmentVerification_Reg::Registre de Verificacions
+Item_EquipmentCalibration_Reg::Registre de Calibratges		  
 Item_EquipmentCalibration::Calibratge
 Item_EquipmentCalibration_ErrorMessage_ExternalCost_Required::Indicar el cost de calibratge extern
 Item_EquipmentCalibration_ErrorMessage_ExternalOperation_Required::Indicar l'operació de calibratge extern
@@ -1213,13 +1217,15 @@ Item_Learning_FieldLabel_Academic_Desired::Formació acadèmica desitjada
 Item_Learning_FieldLabel_Amount::Cost
 Item_Learning_FieldLabel_Coach::Formador
 Item_Learning_FieldLabel_Course::Curs
-Item_Learning_FieldLabel_EndDate::Data fi real
-Item_Learning_FieldLabel_EstimatedDate::Data prevista
+Item_Learning_FieldLabel_EndDate::D.Fi real
+Item_Learning_FieldLabel_EstimatedDate::D.Prevista
+Item_Learning_FieldLabel_Cost::Cost
+Item_Learning_FieldLabel_Status::Estat
 Item_Learning_FieldLabel_Hours::Hores
 Item_Learning_FieldLabel_Methodology::Metodologia
 Item_Learning_FieldLabel_Name::Nom de l'acció formativa
 Item_Learning_FieldLabel_Notes::Notes
-Item_Learning_FieldLabel_StartDate::Data inici real
+Item_Learning_FieldLabel_StartDate::D.Inici real
 Item_Learning_FieldLabel_Year::Any de realització del curs
 Item_Learning_Filter_AllPeriode::Tots els anys
 Item_Learning_Filter_FromYear::Des de l'any
@@ -1245,7 +1251,7 @@ Item_Learning_Message_Evaluation::Guardant una formació amb tots els assistents 
 Item_Learning_Message_NoAssistants::No hi ha assistents al curs
 Item_Learning_Objetive::Objectiu
 Item_Learning_PopupDelete_Message::Vol eliminar la formació
-Item_Learning_SelectAssistants::Afegir participants
+Item_Learning_SelectAssistants::Afegir
 Item_Learning_Status_Done::Realitzada
 Item_Learning_Status_Evaluated::Avaluada
 Item_Learning_Status_Finished::Finalitzada
@@ -1257,7 +1263,10 @@ Item_LearningAsistant_Button_SelectAll::Seleccionar tots
 Item_LearningAsistant_Button_UnselectAll::Treure seleccionar tots
 Item_LearningAssistant_Status_All::Tots
 Item_LearningAssistant_Status_Done::Realitzat
+Item_LearningAssistant_Status_DoneFail::No realitzat
+Item_LearningAssistant_Status_Unevaluated::No evaluat
 Item_LearningAssistant_Status_Evaluated::Apte
+Item_LearningAssistant_Status_EvaluatedFail::No apte
 Item_LearningAssistant_Status_InProgress::Pendent
 Item_LearningAssistant_Status_Selected::Apuntat al curs
 Item_LearningAssistant_Status_Selected::Seleccionat
@@ -1267,7 +1276,6 @@ Item_LearningList_NoAssistants::Sense alumnes
 Item_Learnings::Formacions
 Item_Objetivo::Objectius
 Item_Objetivo_AnulateMessageTile::Objetiu tancat
-Item_Objetivo_Btn_Anular::Reobrir
 Item_Objetivo_Btn_Anular::Tancar
 Item_Objetivo_Btn_Restaurar::Reobrir
 Item_Objetivo_Button_Indicators::Indicadors
@@ -1471,6 +1479,7 @@ Item_User_ErrorMessage_PaswordsNoMatch::Les contrasenyes no coincideixen
 Item_User_FieldLabel_PasswordConfirm::Confirmar contrasenya
 Item_User_Help_PrimaryUser::A aquest/a usuari/a no se li poden modificar els permisos
 Item_User_Help_ResetPassword::S'envirarà la nova contrasenya a l'usuari per correu
+Item_User_Help_ResetPasswordOwner::Per canviar la contrasenya a un mateix s'ha de fer des de el perfil
 Item_User_List_Header_Email::Correu
 Item_User_List_Header_EmployeeName::Empleat/da
 Item_User_List_Header_Grant::Permís
@@ -1509,3 +1518,19 @@ SkillsFor::Formació per a l'/la empleat/da
 Tipo::Tipus
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
+Item_Equipment_Btn_Anular::Donar de baixa
+Item_Equipment_FieldLabel_EndReason::Motiu de baixa
+Item_Equipment_FieldLabel_EndDate::D.Baixa
+Item_Equipment_FieldLabel_EndResponsible::Responsable
+Item_Equipment_PopupAnular_Title::Baixa d'equip
+Item_Equipment_Btn_Restaurar::Restaurar
+Item_Equipment_AnulateMessageTile::Equip de baixa
+Item_Equipment_List_Filter_ShowActive::Actius
+Item_Equipment_List_Filter_ShowClosed::De baixa
+Item_Equipment_List_Filter_ShowCalibration::Calibracions
+Item_Equipment_List_Filter_ShowVerification::Verificacions
+Item_Equipment_List_Filter_ShowMaintenance::Manteniments
+Item_Equipment_List_Filter_ShowByOperation::Operativa
+Item_Equipment_List_Filter_ShowByStatus::Estat
+Agreement_Document_Title::Condicions d'ús
+Agreement_Button_Download::Descarregar condicions

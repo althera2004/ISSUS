@@ -326,6 +326,10 @@ function EquipmentRepairEdit(sender) {
         ]
 
     });
+
+    if (Equipment.EndDate !== null) {
+        $("#BtnNewAddresSave").hide();
+    }
 }
 
 function EquipmentRepairNew() {

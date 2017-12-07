@@ -706,22 +706,22 @@ function SaveIncident() {
     }
 
     if (ok === false) {
-        var ErrorContent = '';
+        var ErrorContent = "";
         if (ErrorMessage.length > 0) {
-            ErrorContent += '<h4>' + Dictionary.Item_Incident + '</h4><ul>';
+            ErrorContent += "<h4>" + Dictionary.Item_Incident + "</h4><ul>";
 
             for (var xi = 0; xi < ErrorMessage.length; xi++) {
-                ErrorContent += '<li>' + ErrorMessage[xi] + '</li>';
+                ErrorContent += "<li>" + ErrorMessage[xi] + "</li>";
             }
-            ErrorContent += '</ul>';
+            ErrorContent += "</ul>";
         }
         if (ErrorMessageActions.length > 0) {
-            ErrorContent += '<h4>' + Dictionary.Item_IncidentAction + '</h4><ul>';
+            ErrorContent += "<h4>" + Dictionary.Item_IncidentAction + "</h4><ul>";
 
             for (var xa = 0; xa < ErrorMessageActions.length; xa++) {
-                ErrorContent += '<li>' + ErrorMessageActions[xa] + '</li>';
+                ErrorContent += "<li>" + ErrorMessageActions[xa] + "</li>";
             }
-            ErrorContent += '</ul>';
+            ErrorContent += "</ul>";
         }
 
         warningInfoUI("<strong>" + Dictionary.Common_Message_FormErrors + "</strong><br />" + ErrorContent, null, 600);
@@ -729,13 +729,13 @@ function SaveIncident() {
     }
 
     var RReporter = 0;
-    if (document.getElementById('RReporterType1').checked) { RReporter = 1; }
-    if (document.getElementById('RReporterType2').checked) { RReporter = 2; }
-    if (document.getElementById('RReporterType3').checked) { RReporter = 3; }
+    if (document.getElementById("RReporterType1").checked) { RReporter = 1; }
+    if (document.getElementById("RReporterType2").checked) { RReporter = 2; }
+    if (document.getElementById("RReporterType3").checked) { RReporter = 3; }
 
-    var incidentDepartment = { Id: RReporter == 1 ? $('#CmbReporterType1').val() * 1 : 0 };
-    var incidentProvider = { Id: RReporter == 2 ? $('#CmbReporterType2').val() * 1 : 0 };
-    var incidentCustomer = { Id: RReporter == 3 ? $('#CmbReporterType3').val() * 1 : 0 };
+    var incidentDepartment = { Id: RReporter == 1 ? $("#CmbReporterType1").val() * 1 : 0 };
+    var incidentProvider = { Id: RReporter == 2 ? $("#CmbReporterType2").val() * 1 : 0 };
+    var incidentCustomer = { Id: RReporter == 3 ? $("#CmbReporterType3").val() * 1 : 0 };
 
     var incident =
     {
@@ -962,26 +962,26 @@ function RActionChanged() {
     {
         alertUI(Dictionary.Item_Incident_Warning_ActionTabAvailable, null, 500);
 
-        document.getElementById('Tabaccion').style.display = '';
+        document.getElementById("Tabaccion").style.display = "";
         if (IncidentAction.Id === 0) {
             // Copiar los datos de la incidencia a la acción
-            document.getElementById('TxtActionDescription').value = document.getElementById('TxtDescription').value;
-            document.getElementById('TxtActionWhatHappened').value = document.getElementById('TxtWhatHappened').value;
-            document.getElementById('CmbActionWhatHappenedResponsible').value = document.getElementById('CmbWhatHappenedResponsible').value;
-            document.getElementById('TxtActionWhatHappenedDate').value = document.getElementById('TxtWhatHappenedDate').value;
-            document.getElementById('TxtActionCauses').value = document.getElementById('TxtCauses').value;
-            document.getElementById('CmbActionCausesResponsible').value = document.getElementById('CmbCausesResponsible').value;
-            document.getElementById('TxtActionCausesDate').value = document.getElementById('TxtCausesDate').value;
-            document.getElementById('TxtActionActions').value = document.getElementById('TxtActions').value;
-            document.getElementById('CmbActionActionsResponsible').value = document.getElementById('CmbActionsResponsible').value;
-            document.getElementById('TxtActionActionsDate').value = document.getElementById('TxtActionsDate').value;
-            // ISSUS-10 document.getElementById('CmbActionActionsExecuter').value = document.getElementById('CmbActionsExecuter').value;
-            // ISSUS-10 document.getElementById('TxtActionActionsSchedule').value = document.getElementById('TxtActionsSchedule').value;
+            document.getElementById("TxtActionDescription").value = document.getElementById("TxtDescription").value;
+            document.getElementById("TxtActionWhatHappened").value = document.getElementById("TxtWhatHappened").value;
+            document.getElementById("CmbActionWhatHappenedResponsible").value = document.getElementById("CmbWhatHappenedResponsible").value;
+            document.getElementById("TxtActionWhatHappenedDate").value = document.getElementById("TxtWhatHappenedDate").value;
+            document.getElementById("TxtActionCauses").value = document.getElementById("TxtCauses").value;
+            document.getElementById("CmbActionCausesResponsible").value = document.getElementById("CmbCausesResponsible").value;
+            document.getElementById("TxtActionCausesDate").value = document.getElementById("TxtCausesDate").value;
+            document.getElementById("TxtActionActions").value = document.getElementById("TxtActions").value;
+            document.getElementById("CmbActionActionsResponsible").value = document.getElementById("CmbActionsResponsible").value;
+            document.getElementById("TxtActionActionsDate").value = document.getElementById("TxtActionsDate").value;
+            // ISSUS-10 document.getElementById("CmbActionActionsExecuter").value = document.getElementById("CmbActionsExecuter").value;
+            // ISSUS-10 document.getElementById("TxtActionActionsSchedule").value = document.getElementById("TxtActionsSchedule").value;
 
             // Se establece el estado de la acción
-            IncidentActionCausesRequired = document.getElementById('TxtActionCauses').value !== '';
-            IncidentActionActionsRequired = document.getElementById('TxtActionActions').value !== '';
-            // ISSUS-10 IncidentActionClosedRequired = (document.getElementById('CmbActionActionsExecuter').value * 1) > 0;
+            IncidentActionCausesRequired = document.getElementById("TxtActionCauses").value !== "";
+            IncidentActionActionsRequired = document.getElementById("TxtActionActions").value !== "";
+            // ISSUS-10 IncidentActionClosedRequired = (document.getElementById("CmbActionActionsExecuter").value * 1) > 0;
 
             // Se lanza el comprobador para poder el required en los campos necesarios
             SetCloseRequired();
@@ -1032,12 +1032,12 @@ function LastRequiredLevelAction() {
 }
 
 function RActionChangedNoCancel() {
-    document.getElementById('RActionYes').checked = true;
+    document.getElementById("RActionYes").checked = true;
     return false;
 }
 
 function RActionChangedNoAccept() {
-    document.getElementById('Tabaccion').style.display = 'none';
+    document.getElementById("Tabaccion").style.display = "none";
     IncidentAction = {
         "Id": 0,
         "CompanyId": 0,
@@ -1068,68 +1068,68 @@ function RActionChangedNoAccept() {
 }
 
 function TxtCausesChanged(locked) {
-    IncidentActionCausesRequired = document.getElementById('TxtCauses').value.length > 0;
+    IncidentActionCausesRequired = document.getElementById("TxtCauses").value.length > 0;
     if (LastRequiredLevel() > 2 || locked === true) { locked = true; }
-    if (document.getElementById('TxtCauses').value.length === 0 && !locked) {
-        FieldSetRequired('TxtCausesLabel', Dictionary.Item_Incident_Field_Causes, false);
-        FieldSetRequired('CmbCausesResponsibleLabel', Dictionary.Item_Incident_Field_CausesResponsible, false);
-        FieldSetRequired('TxtCausesDateLabel', Dictionary.Item_Incident_Field_CausesDate, false);
-        document.getElementById('CmbCausesResponsible').value = 0;
-        document.getElementById('TxtCausesDate').value = '';
+    if (document.getElementById("TxtCauses").value.length === 0 && !locked) {
+        FieldSetRequired("TxtCausesLabel", Dictionary.Item_Incident_Field_Causes, false);
+        FieldSetRequired("CmbCausesResponsibleLabel", Dictionary.Item_Incident_Field_CausesResponsible, false);
+        FieldSetRequired("TxtCausesDateLabel", Dictionary.Item_Incident_Field_CausesDate, false);
+        document.getElementById("CmbCausesResponsible").value = 0;
+        document.getElementById("TxtCausesDate").value = "";
     }
     else {
-        FieldSetRequired('TxtCausesLabel', Dictionary.Item_Incident_Field_Causes, true);
-        FieldSetRequired('CmbCausesResponsibleLabel', Dictionary.Item_Incident_Field_CausesResponsible, true);
-        FieldSetRequired('TxtCausesDateLabel', Dictionary.Item_Incident_Field_CausesDate, true);
-        if (document.getElementById('CmbCausesResponsible').value * 1 === 0) { document.getElementById('CmbCausesResponsible').value = ApplicationUser.Employee.Id; }
-        if (document.getElementById('TxtCausesDate').value === '') { document.getElementById('TxtCausesDate').value = FormatDate(new Date(), '/');}
+        FieldSetRequired("TxtCausesLabel", Dictionary.Item_Incident_Field_Causes, true);
+        FieldSetRequired("CmbCausesResponsibleLabel", Dictionary.Item_Incident_Field_CausesResponsible, true);
+        FieldSetRequired("TxtCausesDateLabel", Dictionary.Item_Incident_Field_CausesDate, true);
+        if (document.getElementById("CmbCausesResponsible").value * 1 === 0) { document.getElementById("CmbCausesResponsible").value = ApplicationUser.Employee.Id; }
+        if (document.getElementById("TxtCausesDate").value === "") { document.getElementById("TxtCausesDate").value = FormatDate(new Date(), "/");}
     }
 }
 
 function TxtActionsChanged(locked) {
-    IncidentActionsRequired = document.getElementById('TxtActions').value.length > 0;
+    IncidentActionsRequired = document.getElementById("TxtActions").value.length > 0;
 
     if (LastRequiredLevel() > 3 || locked === true ) { locked = true; }
-    if (document.getElementById('TxtActions').value.length === 0 && !locked) {
-        FieldSetRequired('TxtActionsLabel', Dictionary.Item_Incident_Field_Actions, false);
-        FieldSetRequired('CmbActionsResponsibleLabel', Dictionary.Item_Incident_Field_ActionsResponsible, false);
-        FieldSetRequired('TxtActionsDateLabel', Dictionary.Common_DateExecution, false);
-        // ISSUS-74 FieldSetRequired('CmbActionsExecuterLabel', Dictionary.Item_Incident_Field_ActionsExecuter, false);
-        // ISSUS-74 FieldSetRequired('TxtActionsScheduleLabel', Dictionary.Item_Incident_Field_ActionsSchedule, false);
-        document.getElementById('CmbActionsResponsible').value = 0;
-        // ISSUS-74 document.getElementById('CmbActionsExecuter').value = 0;
-        document.getElementById('TxtActionsDate').value = '';
-        // ISSUS-74 document.getElementById('TxtActionsSchedule').value = '';
+    if (document.getElementById("TxtActions").value.length === 0 && !locked) {
+        FieldSetRequired("TxtActionsLabel", Dictionary.Item_Incident_Field_Actions, false);
+        FieldSetRequired("CmbActionsResponsibleLabel", Dictionary.Item_Incident_Field_ActionsResponsible, false);
+        FieldSetRequired("TxtActionsDateLabel", Dictionary.Common_DateExecution, false);
+        // ISSUS-74 FieldSetRequired("CmbActionsExecuterLabel", Dictionary.Item_Incident_Field_ActionsExecuter, false);
+        // ISSUS-74 FieldSetRequired("TxtActionsScheduleLabel", Dictionary.Item_Incident_Field_ActionsSchedule, false);
+        document.getElementById("CmbActionsResponsible").value = 0;
+        // ISSUS-74 document.getElementById("CmbActionsExecuter").value = 0;
+        document.getElementById("TxtActionsDate").value = "";
+        // ISSUS-74 document.getElementById("TxtActionsSchedule").value = "";
         TxtCausesChanged(false);
     }
     else {
-        FieldSetRequired('TxtActionsLabel', Dictionary.Item_Incident_Field_Actions, true);
-        FieldSetRequired('CmbActionsResponsibleLabel', Dictionary.Item_Incident_Field_ActionsResponsible, true);
-        FieldSetRequired('TxtActionsDateLabel', Dictionary.Common_DateExecution, true);
-        // ISSUS-74 FieldSetRequired('CmbActionsExecuterLabel', Dictionary.Item_Incident_Field_ActionsExecuter, true);
-        // ISSUS-74 FieldSetRequired('TxtActionsScheduleLabel', Dictionary.Item_Incident_Field_ActionsSchedule, true);
-        if (document.getElementById('CmbActionsResponsible').value * 1 === 0) { document.getElementById('CmbActionsResponsible').value = ApplicationUser.Employee.Id; }
-        // ISSUS-74 if (document.getElementById('CmbActionsExecuter').value * 1 === 0) { document.getElementById('CmbActionsExecuter').value = ApplicationUser.Employee.Id; }
-        if (document.getElementById('TxtActionsDate').value === '') { document.getElementById('TxtActionsDate').value = FormatDate(new Date(), '/'); }
-        // ISSUS-74 if (document.getElementById('TxtActionsSchedule').value === '') { document.getElementById('TxtActionsSchedule').value = FormatDate(new Date(), '/'); }
+        FieldSetRequired("TxtActionsLabel", Dictionary.Item_Incident_Field_Actions, true);
+        FieldSetRequired("CmbActionsResponsibleLabel", Dictionary.Item_Incident_Field_ActionsResponsible, true);
+        FieldSetRequired("TxtActionsDateLabel", Dictionary.Common_DateExecution, true);
+        // ISSUS-74 FieldSetRequired("CmbActionsExecuterLabel", Dictionary.Item_Incident_Field_ActionsExecuter, true);
+        // ISSUS-74 FieldSetRequired("TxtActionsScheduleLabel", Dictionary.Item_Incident_Field_ActionsSchedule, true);
+        if (document.getElementById("CmbActionsResponsible").value * 1 === 0) { document.getElementById("CmbActionsResponsible").value = ApplicationUser.Employee.Id; }
+        // ISSUS-74 if (document.getElementById("CmbActionsExecuter").value * 1 === 0) { document.getElementById("CmbActionsExecuter").value = ApplicationUser.Employee.Id; }
+        if (document.getElementById("TxtActionsDate").value === "") { document.getElementById("TxtActionsDate").value = FormatDate(new Date(), "/"); }
+        // ISSUS-74 if (document.getElementById("TxtActionsSchedule").value === "") { document.getElementById("TxtActionsSchedule").value = FormatDate(new Date(), "/"); }
         TxtCausesChanged(true);
     }
 }
 
 function CmbClosedResponsibleChanged()
 {
-    var value = document.getElementById('CmbClosedResponsible').value * 1;
+    var value = document.getElementById("CmbClosedResponsible").value * 1;
     IncidentClosedRequired = value !== 0;
-    FieldSetRequired('CmbClosedResponsibleLabel', Dictionary.Item_Incident_Field_CloseResponsible, IncidentClosedRequired);
-    FieldSetRequired('TxtClosedDateLabel', Dictionary.Item_Incident_Field_CloseDate, IncidentClosedRequired);
+    FieldSetRequired("CmbClosedResponsibleLabel", Dictionary.Item_Incident_Field_CloseResponsible, IncidentClosedRequired);
+    FieldSetRequired("TxtClosedDateLabel", Dictionary.Item_Incident_Field_CloseDate, IncidentClosedRequired);
 
     if (IncidentClosedRequired === false) {
-        document.getElementById('CmbClosedResponsible').value = 0;
-        document.getElementById('TxtClosedDate').value = '';
+        document.getElementById("CmbClosedResponsible").value = 0;
+        document.getElementById("TxtClosedDate").value = "";
     }
     else {
-        if (document.getElementById('CmbClosedResponsible').value * 1 === 0) { document.getElementById('CmbClosedResponsible').value = ApplicationUser.Employee.Id; }
-        if (document.getElementById('TxtClosedDate').value === '') { document.getElementById('TxtClosedDate').value = FormatDate(new Date, '/'); }
+        if (document.getElementById("CmbClosedResponsible").value * 1 === 0) { document.getElementById("CmbClosedResponsible").value = ApplicationUser.Employee.Id; }
+        if (document.getElementById("TxtClosedDate").value === "") { document.getElementById("TxtClosedDate").value = FormatDate(new Date, "/"); }
     }
     TxtActionsChanged(IncidentClosedRequired);
 }
@@ -1137,61 +1137,61 @@ function CmbClosedResponsibleChanged()
 // Control wizard de la acción
 function TxtActionWhatHappenedChanged(locked) {
     locked = true;
-    if (document.getElementById('TxtActionWhatHappened').value.length === 0 && !locked) {
-        FieldSetRequired('TxtActionWhatHappenedLabel', Dictionary.Item_IncidentAction_Field_WhatHappened, false);
-        FieldSetRequired('CmbActionWhatHappenedResponsibleLabel', Dictionary.Item_IncidentAction_Field_Responsible, false);
-        FieldSetRequired('TxtActionWhatHappenedDateLabel', Dictionary.Item_IncidentAction_Field_Date, false);
-        document.getElementById('CmbActionWhatHappenedResponsible').value = 0;
+    if (document.getElementById("TxtActionWhatHappened").value.length === 0 && !locked) {
+        FieldSetRequired("TxtActionWhatHappenedLabel", Dictionary.Item_IncidentAction_Field_WhatHappened, false);
+        FieldSetRequired("CmbActionWhatHappenedResponsibleLabel", Dictionary.Item_IncidentAction_Field_Responsible, false);
+        FieldSetRequired("TxtActionWhatHappenedDateLabel", Dictionary.Item_IncidentAction_Field_Date, false);
+        document.getElementById("CmbActionWhatHappenedResponsible").value = 0;
     }
     else {
-        FieldSetRequired('TxtActionWhatHappenedLabel', Dictionary.Item_IncidentAction_Field_WhatHappened, true);
-        FieldSetRequired('CmbActionWhatHappenedResponsibleLabel', Dictionary.Item_IncidentAction_Field_Responsible, true);
-        FieldSetRequired('TxtActionWhatHappenedDateLabel', Dictionary.Item_IncidentAction_Field_Date, true);
-        if (document.getElementById('CmbActionWhatHappenedResponsible').value * 1 === 0) { document.getElementById('CmbActionWhatHappenedResponsible').value = ApplicationUser.Employee.Id; }
+        FieldSetRequired("TxtActionWhatHappenedLabel", Dictionary.Item_IncidentAction_Field_WhatHappened, true);
+        FieldSetRequired("CmbActionWhatHappenedResponsibleLabel", Dictionary.Item_IncidentAction_Field_Responsible, true);
+        FieldSetRequired("TxtActionWhatHappenedDateLabel", Dictionary.Item_IncidentAction_Field_Date, true);
+        if (document.getElementById("CmbActionWhatHappenedResponsible").value * 1 === 0) { document.getElementById("CmbActionWhatHappenedResponsible").value = ApplicationUser.Employee.Id; }
     }
 }
 
 function TxtActionCausesChanged(locked) {
-    IncidentCausesRequired = document.getElementById('TxtCauses').value.length > 0;
+    IncidentCausesRequired = document.getElementById("TxtCauses").value.length > 0;
     if (LastRequiredLevelAction() > 2 || locked === true) { locked = true; }
-    if (document.getElementById('TxtActionCauses').value.length === 0 && !locked) {
-        FieldSetRequired('TxtActionCausesLabel', Dictionary.Item_IncidentAction_Field_Causes, false);
-        FieldSetRequired('CmbActionCausesResponsibleLabel', Dictionary.Item_IncidentAction_Field_Responsible, false);
-        FieldSetRequired('TxtActionCausesDateLabel', Dictionary.Item_IncidentAction_Field_Date, false);
-        document.getElementById('CmbActionCausesResponsible').value = 0;
+    if (document.getElementById("TxtActionCauses").value.length === 0 && !locked) {
+        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, false);
+        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_Responsible, false);
+        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Item_IncidentAction_Field_Date, false);
+        document.getElementById("CmbActionCausesResponsible").value = 0;
         IncidentActionCausesRequired = false;
         TxtActionWhatHappenedChanged(false);
     }
     else {
-        FieldSetRequired('TxtActionCausesLabel', Dictionary.Item_IncidentAction_Field_Causes, true);
-        FieldSetRequired('CmbActionCausesResponsibleLabel', Dictionary.Item_IncidentAction_Field_Responsible, true);
-        FieldSetRequired('TxtActionCausesDateLabel', Dictionary.Item_IncidentAction_Field_Date, true);
-        if (document.getElementById('CmbActionCausesResponsible').value * 1 === 0) { document.getElementById('CmbActionCausesResponsible').value = ApplicationUser.Employee.Id; }
+        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
+        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_Responsible, true);
+        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Item_IncidentAction_Field_Date, true);
+        if (document.getElementById("CmbActionCausesResponsible").value * 1 === 0) { document.getElementById("CmbActionCausesResponsible").value = ApplicationUser.Employee.Id; }
         IncidentActionCausesRequired = true;
         TxtActionWhatHappenedChanged(true);
     }
 }
 
 function TxtActionActionsChanged(locked) {
-    IncidentActionActionsRequired = document.getElementById('TxtActions').value.length > 0;
+    IncidentActionActionsRequired = document.getElementById("TxtActions").value.length > 0;
     if (LastRequiredLevelAction() > 3 || locked === true) { locked = true; }
-    if (document.getElementById('TxtActionActions').value.length === 0 && !locked) {
-        FieldSetRequired('TxtActionActionsLabel', Dictionary.Item_IncidentAction_Field_Actions, false);
-        FieldSetRequired('CmbActionActionsResponsibleLabel', Dictionary.Item_IncidentAction_Field_Responsible, false);
-        FieldSetRequired('TxtActionActionsDateLabel', Dictionary.Item_IncidentAction_Field_Date, false);
-        // ISSUS-10 FieldSetRequired('CmbActionActionsExecuterLabel', Dictionary.Item_IncidentAction_Field_Executer, false);
-        // ISSUS-10 FieldSetRequired('TxtActionActionsScheduleLabel', Dictionary.Item_IncidentAction_Field_Schelude, false);
-        document.getElementById('CmbActionActionsResponsible').value = 0;
+    if (document.getElementById("TxtActionActions").value.length === 0 && !locked) {
+        FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, false);
+        FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_Responsible, false);
+        FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Item_IncidentAction_Field_Date, false);
+        // ISSUS-10 FieldSetRequired("CmbActionActionsExecuterLabel", Dictionary.Item_IncidentAction_Field_Executer, false);
+        // ISSUS-10 FieldSetRequired("TxtActionActionsScheduleLabel", Dictionary.Item_IncidentAction_Field_Schelude, false);
+        document.getElementById("CmbActionActionsResponsible").value = 0;
         IncidentActionActionsRequired = false;
         TxtActionCausesChanged(false);
     }
     else {
-        FieldSetRequired('TxtActionActionsLabel', Dictionary.Item_IncidentAction_Field_Actions, true);
-        FieldSetRequired('CmbActionActionsResponsibleLabel', Dictionary.Item_IncidentAction_Field_Responsible, true);
-        FieldSetRequired('TxtActionActionsDateLabel', Dictionary.Item_IncidentAction_Field_Date, true);
-        // ISSUS-10 FieldSetRequired('CmbActionActionsExecuterLabel', Dictionary.Item_IncidentAction_Field_Executer, true);
-        // ISSUS-10 FieldSetRequired('TxtActionActionsScheduleLabel', Dictionary.Item_IncidentAction_Field_Schelude, true);
-        if (document.getElementById('CmbActionActionsResponsible').value * 1 === 0) { document.getElementById('CmbActionActionsResponsible').value = ApplicationUser.Employee.Id; }
+        FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, true);
+        FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_Responsible, true);
+        FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Item_IncidentAction_Field_Date, true);
+        // ISSUS-10 FieldSetRequired("CmbActionActionsExecuterLabel", Dictionary.Item_IncidentAction_Field_Executer, true);
+        // ISSUS-10 FieldSetRequired("TxtActionActionsScheduleLabel", Dictionary.Item_IncidentAction_Field_Schelude, true);
+        if (document.getElementById("CmbActionActionsResponsible").value * 1 === 0) { document.getElementById("CmbActionActionsResponsible").value = ApplicationUser.Employee.Id; }
         IncidentActionActionsRequired = true;
         TxtActionCausesChanged(true);
     }
@@ -1199,19 +1199,19 @@ function TxtActionActionsChanged(locked) {
 
 function SetCloseRequired() {
     IncidentActionClosedRequired = false;
-    if (document.getElementById('CmbActionClosedResponsible').value * 1 !== 0) { IncidentActionClosedRequired = true; }
-    else if (document.getElementById('TxtActionClosedDate').value !== '') { IncidentActionClosedRequired = true; }
+    if (document.getElementById("CmbActionClosedResponsible").value * 1 !== 0) { IncidentActionClosedRequired = true; }
+    else if (document.getElementById("TxtActionClosedDate").value !== "") { IncidentActionClosedRequired = true; }
 
     if (IncidentActionClosedRequired === true) {
-        FieldSetRequired('CmbActionClosedResponsibleLabel', Dictionary.Item_IncidentAction_Field_Responsible, true);
-        FieldSetRequired('TxtActionClosedDateLabel', Dictionary.Common_Date, true);
-        if (document.getElementById('CmbActionClosedResponsible').value === 0) {
-            document.getElementById('CmbClosedResponsible').value = ApplicationUser.Employee.Id;
+        FieldSetRequired("CmbActionClosedResponsibleLabel", Dictionary.Item_IncidentAction_Field_Responsible, true);
+        FieldSetRequired("TxtActionClosedDateLabel", Dictionary.Common_Date, true);
+        if (document.getElementById("CmbActionClosedResponsible").value === 0) {
+            document.getElementById("CmbClosedResponsible").value = ApplicationUser.Employee.Id;
         }
     }
     else {
-        FieldSetRequired('CmbActionClosedResponsibleLabel', Dictionary.Item_IncidentAction_Field_Responsible, false);
-        FieldSetRequired('TxtActionClosedDateLabel', Dictionary.Common_Date, false);
+        FieldSetRequired("CmbActionClosedResponsibleLabel", Dictionary.Item_IncidentAction_Field_Responsible, false);
+        FieldSetRequired("TxtActionClosedDateLabel", Dictionary.Common_Date, false);
     }
 
     TxtActionActionsChanged(IncidentActionClosedRequired);
@@ -1269,24 +1269,31 @@ if (ApplicationUser.Grants.IncidentActions.Write === false) {
 }
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
+    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 450) + 'px';
+    listTable.style.height = (containerHeight - 450) + "px";
 }
 
 window.onload = function () {
     Resize();
 
-    $("input").attr("disabled", "disabled");
-    $("select").attr("disabled", "disabled");
-    $("textarea").attr("disabled", "disabled");
-    $("#BtnNewCost").hide();
-    $("#BtnNewUploadfile").hide();
-    $(".icon-trash").parent().hide();
-    $(".icon-edit").parent().hide();
+    if (Incident.ClosedOn !== null) {
+        $("input").attr("disabled", "disabled");
+        $("select").attr("disabled", "disabled");
+        $("textarea").attr("disabled", "disabled");
+        $("#BtnNewCost").hide();
+        $("#BtnNewUploadfile").hide();
+        $(".icon-trash").parent().hide();
+        $(".icon-edit").parent().hide();
 
-    $("#CmbClosedResponsible").removeAttr("disabled");
-    $("#TxtClosedDate").removeAttr("disabled");
-    $("#TxtNotes").removeAttr("disabled");
+        $("#CmbClosedResponsible").removeAttr("disabled");
+        $("#TxtClosedDate").removeAttr("disabled");
+        $("#TxtNotes").removeAttr("disabled");
+    }
+
+
+    $("#menuoption-12 a").show();
+    $("#menuoption-13 a").show();
 }
+
 window.onresize = function () { Resize(); }

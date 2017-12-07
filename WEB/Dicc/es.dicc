@@ -45,8 +45,8 @@ Common_ComparerSign_lt::<
 Common_Configuration::Panel de control
 Common_CreatedBy::Generado por
 Common_Date::Fecha
-Common_DateClose::Fecha de cierre
-Common_DateExecution::Fecha prevista
+Common_DateClose::Fecha cierre
+Common_DateExecution::F. prevista
 Common_Day::Día
 Common_Days::Días
 Common_Delete::Eliminar
@@ -112,7 +112,7 @@ Common_MonthName_November::Noviembre
 Common_MonthName_October::Octubre
 Common_MonthName_September::Septiembre
 Common_Months::Meses
-Common_Name::Nombre
+Common_Name::Usuario
 Common_New::Nuevo
 Common_Next::Siguiente
 Common_No::No
@@ -206,12 +206,12 @@ Item_Attachment_Popup_Warning::Esta acción no se puede deshacer
 Item_Attachment_SectionTitle::Documentos adjuntos
 Item_Attachment_Size::Tamaño
 Item_BusinesRisk_ListHeader_Date::Fecha
-Item_BusinesRisk_ListHeader_Description::Nombre
+Item_BusinesRisk_ListHeader_Description::Riesgo
 Item_BusinesRisk_ListHeader_IPR::IPR
 Item_BusinesRisk_ListHeader_Process::Proceso
 Item_BusinesRisk_ListHeader_Result::Final
 Item_BusinesRisk_ListHeader_Rule::Norma
-Item_BusinesRisk_ListHeader_StartValue::Valor actual
+Item_BusinesRisk_ListHeader_StartValue::Resultado
 Item_BusinesRisk_ListHeader_Type::Tipo
 Item_BusinessRisk::Riesgo
 Item_BusinessRisk_Btn_NewIPR::Fijar nuevo IPR
@@ -237,17 +237,18 @@ Item_BusinessRisk_ErrorMessage_SeverityRequired::Especificar una severidad
 Item_BusinessRisk_ErrorMessage_StartNotApply::Una vez evaluado el riesgo, establecer si se realiza una acción o si se asume
 Item_BusinessRisk_Filter_NoData::Este riesgo no tiene costes
 Item_BusinessRisk_Help_CostBlocked::Per porder afegir costos s'ha de desar l'acció
-Item_BusinessRisk_LabelField_ActualResult::Resultado actual
+Item_BusinessRisk_LabelField_ActualResult::Resultado
 Item_BusinessRisk_LabelField_ApplyAction::Aplicar una acción
 Item_BusinessRisk_LabelField_ApplyActionNo::No aplicar una acción
 Item_BusinessRisk_LabelField_Assumed::Asumir el riesgo
 Item_BusinessRisk_LabelField_Causes::Causas
 Item_BusinessRisk_LabelField_CloseDate::Fecha de Cierre
 Item_BusinessRisk_LabelField_Code::Código
-Item_BusinessRisk_LabelField_DateStart::Fecha de alta
+Item_BusinessRisk_LabelField_DateStart::Fecha alta
 Item_BusinessRisk_LabelField_Description::Descripción
 Item_BusinessRisk_LabelField_InitialValue::Valor inicial
-Item_BusinessRisk_LabelField_IPR::IPR actual
+Item_BusinessRisk_LabelField_IPR::IPR
+Item_BusinessRisk_LabelField_Name::Riesgo
 Item_BusinessRisk_LabelField_Notes::Notas
 Item_BusinessRisk_LabelField_Probability::Probabilidad
 Item_BusinessRisk_LabelField_Process::Procesos
@@ -294,8 +295,8 @@ Item_BusinessRisk_Warning_ActionTabAvailable::En la pestaña de acción, indicar
 Item_BusinessRisks::Riesgos
 Item_CalibrationAct_Button_New::Nueva calibración
 Item_CalibrationAct_Warning_DefinitionRequired::Para añadir nuevas calibraciones, grabar una configuración inicial
-Item_CalibrationType_External::externa
-Item_CalibrationType_Internal::interna
+Item_CalibrationType_External::Configuración externa
+Item_CalibrationType_Internal::Configuración interna
 Item_Company_Button_CompanyAddressBAR::Gestión de direcciones
 Item_Company_Help_Address::Indicar la dirección, incluye el tipo de vía
 Item_Company_Help_BAR_Addresses::Gestión de direcciones
@@ -334,7 +335,7 @@ Item_CompanyCountries_Status_Selected::Países seleccionados
 Item_CompanyCountry_Button_Discard::Descartar países
 Item_CompanyCountry_Button_Select::Seleccionar países
 Item_CompanyCountry_FieldLabel_Name::Nombre
-Item_CompanyData::Datos de la empresa
+Item_CompanyData::Datos Empresa
 Item_CompanyData_Button_ChangeLogo::Cambiar el logo
 Item_CompanyData_Error_Message_PhoneOrCellular::Indicar el teléfono fijo o el móvil
 Item_CompanyData_FieldLabel_Address::Dirección
@@ -344,18 +345,18 @@ Item_CompanyData_FieldLabel_Country::País
 Item_CompanyData_FieldLabel_Email::Correo
 Item_CompanyData_FieldLabel_Fax::Fax
 Item_CompanyData_FieldLabel_Phone::Teléfono
-Item_CompanyData_FieldLabel_PostalAddress::Código postal
+Item_CompanyData_FieldLabel_PostalAddress::C.P.
 Item_CompanyData_FieldLabel_Province::Provincia
 Item_CompanyData_Popup_ImageDelete_Title::Eliminar la imagen
 Item_CompanyProfile_FieldLabel_Name::Nombre
 Item_CompanyProfile_FieldLabel_Nif::NIF
-Item_Cost::Coste habitual
-Item_CostDefinition::Coste habitual
-Item_CostDefinition_Button_New::Añadir nuevo coste
+Item_Cost::Costes habituales
+Item_CostDefinition::Costes habituales
+Item_CostDefinition_Button_New::Añadir
 Item_CostDefinition_Field_Amount::Importe
-Item_CostDefinition_Field_Description::Nombre
+Item_CostDefinition_Field_Description::Coste
 Item_CostDefinition_ListHeader_Amount::Importe
-Item_CostDefinition_ListHeader_Name::Nombre
+Item_CostDefinition_ListHeader_Name::Coste
 Item_CostDefinition_Popup_AddCost_Title::Añadir coste
 Item_CostDefinition_Popup_Delete_Title::Eliminar el coste
 Item_CostDefinition_PopupDelete_Message::¿Eliminar el coste?
@@ -365,7 +366,7 @@ Item_Country_Message_NoDelete::No se puede eliminar porque forma parte de una di
 Item_Country_Message_SaveWarning::Los países seleccionados no estarán disponibles hasta que se guarden los datos de la empresa
 Item_Country_WarningMessage::Los cambios en los países serán efectivos al guardar los datos de la empresa
 Item_Customer::Cliente
-Item_Customer_Btn_New::Añadir cliente
+Item_Customer_Btn_New::Añadir
 Item_Customer_Detail::Ficha del cliente
 Item_Customer_FieldLabel_Name::Nombre
 Item_Customer_Header_Associated::Relacionado con
@@ -385,7 +386,7 @@ Item_DashBoard::Inicio
 Item_DashBoard_Title_NewDocuments::Nuevos documentos
 Item_Departmennt_ErrorMessage_HasEmployees::No se puede eliminar si tiene empleados/as o algún cargo asignado
 Item_Department::Departamento
-Item_Department_Button_New::Añadir departamento
+Item_Department_Button_New::Añadir
 Item_Department_Help_Field_Name::Indicar el nombre del departamento
 Item_Department_ListEmployees::Empleados
 Item_Department_ListEmployees_Header_Email::Correo
@@ -408,8 +409,8 @@ Item_Department_Title_DepartmentDetails::Ficha del departamento
 Item_Departments::Departamentos
 Item_Document::Documento
 Item_Document_Button_CategoryBAR::Gestión de categorías
-Item_Document_Button_New::Añadir documento
-Item_Document_Button_NewVersion::Generar una nueva versión del documento
+Item_Document_Button_New::Añadir
+Item_Document_Button_NewVersion::Versión
 Item_Document_Button_SourceBAR::Gestión de procedencias
 Item_Document_Button_SourceBAR::Seleccionar una procedencia
 Item_Document_Error_DeleteReasonRequired::Especificar el motivo de eliminación
@@ -418,14 +419,14 @@ Item_Document_ErrorMessage_StartDatePreviousRevision::La fecha de inicio no pued
 Item_Document_FieldLabel_Category::Categoría
 Item_Document_FieldLabel_Code::Código
 Item_Document_FieldLabel_Conservation::Conservación
-Item_Document_FieldLabel_CreationDate::Fecha de alta
-Item_Document_FieldLabel_InactiveDate::Fecha de baja
+Item_Document_FieldLabel_CreationDate::Fecha alta
+Item_Document_FieldLabel_InactiveDate::Fecha baja
 Item_Document_FieldLabel_Location::Ubicación
 Item_Document_FieldLabel_Name::Documento
 Item_Document_FieldLabel_Origin::Origen
 Item_Document_FieldLabel_Reason::Motivo del cambio
 Item_Document_FieldLabel_RevisionAttachment::Adjunto
-Item_Document_FieldLabel_RevisionDate::Fecha de revisión
+Item_Document_FieldLabel_RevisionDate::F.Revisión
 Item_Document_FieldLabel_Source::Procedencia
 Item_Document_FieldLabel_Version::Versión
 Item_Document_Help_BARCategoria::Gestionar las categorías
@@ -498,7 +499,7 @@ Item_DocumentSource_Popup_Update_Title::Modificar una procedencia
 Item_DocumentSource_PopupDelete_Message::¿Eliminar la procedencia?
 Item_Employee::Empleado/a
 Item_Employee_Button_LinkJobPosition::Asignar cargo
-Item_Employee_Button_New::Añadir empleado/a
+Item_Employee_Button_New::Añadir
 Item_Employee_Button_Restore::Restablecer
 Item_Employee_Button_Unlink::Desvincular
 Item_Employee_Delete_Item_CalibrationExternal::Calibración externa
@@ -621,7 +622,7 @@ Item_Employee_Title_Delete::Datos del/a empleado/a
 Item_Employee_Title_EmployeeData::Ficha del/a empleado/a
 Item_Employees::Empleados/as
 Item_Equipment::Equipo
-Item_Equipment_Button_New::Añadir equipo
+Item_Equipment_Button_New::Añadir
 Item_Equipment_Button_New::Nuevo equipo
 Item_Equipment_Field_Calibration_Cost::Coste
 Item_Equipment_Field_Calibration_Expiration::vto.
@@ -653,12 +654,13 @@ Item_Equipment_Field_Measure_Range_PlaceHolder::Rango de medida
 Item_Equipment_Field_Model_Label::Modelo
 Item_Equipment_Field_Model_PlaceHolder::Modelo
 Item_Equipment_Field_Notes_Label::Notas
-Item_Equipment_Field_Observations_Label::Observaciones
+Item_Equipment_Field_Observations_Label::Nnotas
 Item_Equipment_Field_Responsible_Label::Responsable
 Item_Equipment_Field_Responsible_PlaceHolder::Responsable
-Item_Equipment_Field_ScaleDivision_Label::División de escala
+Item_Equipment_Field_StartDate::F. Alta
+Item_Equipment_Field_ScaleDivision_Label::Div.Escala
 Item_Equipment_Field_ScaleDivision_PlaceHolder::División de escala
-Item_Equipment_Field_SerialNumber_Label::Nº serie
+Item_Equipment_Field_SerialNumber_Label::N.Serie
 Item_Equipment_Field_SerialNumber_PlaceHolder::Nº serie
 Item_Equipment_Field_TradeMark_Label::Marca
 Item_Equipment_Field_TradeMark_PlaceHolder::Marca
@@ -709,8 +711,11 @@ Item_Equipment_Tab_Repair::Reparaciones
 Item_Equipment_Tab_Traces::Trazas
 Item_Equipment_Tab_UploadFiles::Adjuntos
 Item_Equipment_Tab_Verification::Verificaciones
-Item_Equipment_VerificationType_External::externa
-Item_Equipment_VerificationType_Internal::interna
+Item_Equipment_Actions::Acciones
+Item_Equipment_VerificationType_External::Configuración externa
+Item_Equipment_VerificationType_Internal::Configuración interna
+Item_EquipmentVerification_Reg::Registro de Verificaciones
+Item_EquipmentCalibration_Reg::Registro de Calibraciones		
 Item_EquipmentCalibration::Calibración
 Item_EquipmentCalibration_ErrorMessage_ExternalCost_Required::Indicar el coste de calibración externa
 Item_EquipmentCalibration_ErrorMessage_ExternalOperation_Required::Indicar la operación de calibración externa
@@ -795,7 +800,7 @@ Item_EquipmentRecords_FilterError_Dates::La fecha de finalización no puede ser 
 Item_EquipmentRecords_FilterError_Item::Seleccionar un tipo de registro
 Item_EquipmentRecords_FilterError_Title::Revisar los datos de la consulta
 Item_EquipmentRepair::Reparación
-Item_EquipmentRepair_ButtonNew::Añadir reparación
+Item_EquipmentRepair_ButtonNew::Añadir
 Item_EquipmentRepair_Header_Cost::Coste
 Item_EquipmentRepair_Header_Date::Fecha
 Item_EquipmentRepair_Header_Expiration::Vto.
@@ -850,7 +855,7 @@ Item_EquipmentVerification_PopupDelete_Title::Eliminar verificación
 Item_EquipmentVerification_PopupNew_Title::Registrar una verificación
 Item_EquipmentVerification_PopupUpdate_Title::Modificar una verificación
 Item_Incident::Incidencia
-Item_Incident_Button_New::Añadir incidencia
+Item_Incident_Button_New::Añadir
 Item_Incident_Button_Print::Imprimir la ficha
 Item_Incident_Detail::Ficha de la incidencia
 Item_Incident_Detail_Dates::Las fechas no están ordenadas cronológicamente
@@ -945,7 +950,7 @@ Item_Incident_Tab_UploadFiles::Adjuntos
 Item_Incident_Warning_ActionSaveIncident::Para poder vincular una acción, primero guarde la incidencia
 Item_Incident_Warning_ActionTabAvailable::En la pestaña de acción, informar los datos de la acción
 Item_IncidentAction::Acción
-Item_IncidentAction_Button_New::Añadir acción
+Item_IncidentAction_Button_New::Añadir
 Item_IncidentAction_Error_DateMalformed_Actions::La fecha de acciones no es correcta
 Item_IncidentAction_Error_DateMalformed_Causes::La fecha de las causas no es correcta
 Item_IncidentAction_Error_DateMalformed_Close::La fecha de cierre no es correcta
@@ -995,7 +1000,8 @@ Item_IncidentAction_Field_Schelude::Fecha
 Item_IncidentAction_Field_WhatHappened::¿Qué ha pasado?
 Item_IncidentAction_Header_Close::Cierre
 Item_IncidentAction_Header_Description::Problema
-Item_IncidentAction_Header_ImplementDate::Implem. prevista
+Item_IncidentAction_Header_ImplementDate::F. prevista
+Item_IncidentAction_Header_ImplementDate_Tooltip::Fecha de implementación prevista
 Item_IncidentAction_Header_Number::Número
 Item_IncidentAction_Header_Open::Apertura
 Item_IncidentAction_Header_Origin::Origen
@@ -1031,7 +1037,7 @@ Item_IncidentAction_Tab_UploadFiles::Adjuntos
 Item_IncidentAction_Type1::Mejora
 Item_IncidentAction_Type2::Correctiva
 Item_IncidentAction_Type3::Preventiva
-Item_IncidentActionCost_Btn_New::Añadir coste
+Item_IncidentActionCost_Btn_New::Añadir
 Item_IncidentActionCost_FieldLabel_Amount::Precio
 Item_IncidentActionCost_FieldLabel_Cost::Coste
 Item_IncidentActionCost_FieldLabel_Description::Descripción
@@ -1054,7 +1060,7 @@ Item_IncidentActions_Detail::Ficha de la acción
 Item_IncidentActions_New_Label::Nueva acción
 Item_IncidentActoionCost_PopupTitle_Add::Añadir nuevo coste
 Item_IncidentCost::Coste
-Item_IncidentCost_Btn_New::Añadir coste
+Item_IncidentCost_Btn_New::Añadir
 Item_IncidentCost_FieldLabel_Amount::Precio
 Item_IncidentCost_FieldLabel_Cost::Coste
 Item_IncidentCost_FieldLabel_Description::Descripción
@@ -1078,12 +1084,12 @@ Item_Indicaddor_Filter_TypeLabel::Tipo
 Item_Indicaddor_Filter_TypeObjetivo::Vinculado a objetivo
 Item_Indicaddor_Filter_TypeProcess::Vinculado a proceso
 Item_Indicaddor_Popup_Units::Gestionar unidades
-Item_Indicador::Indicador
+Item_Indicador::Indicadores
 Item_Indicador_AnulateMessageTile::Indicador anulado
 Item_Objetivo_Btn_Anular::Cerrar
 Item_Indicador_Btn_Anular::Cerrar
 Item_Indicador_Btn_UnitsBAR::Editar unidades
-Item_Indicador_Button_New::Añadir indicador
+Item_Indicador_Button_New::Añadir
 Item_Indicador_Error_PreviousIndicadorDate::No puede ser anterior a la fecha de inicio
 Item_Indicador_ErrorMessage_NoDelete::No se puede eliminar porque está asociado a un objetivo
 Item_Indicador_Field_Alarma::Alarma
@@ -1093,7 +1099,7 @@ Item_Indicador_Field_EndReason::Motivo
 Item_Indicador_Field_EndResponsible::Responsable baja
 Item_Indicador_Field_Meta::Meta
 Item_Indicador_Field_Name::Nombre
-Item_Indicador_Field_Objetivo::Objectivo
+Item_Indicador_Field_Objetivo::Objetivo
 Item_Indicador_Field_Periodicity::Periodicidad
 Item_Indicador_Field_Process::Proceso
 Item_Indicador_Field_Responsible::Responsable
@@ -1101,18 +1107,18 @@ Item_Indicador_Field_StartDate::Fecha inicio
 Item_Indicador_Field_Unidad::Unidades
 Item_Indicador_Filter_Button::Filtrar
 Item_Indicador_GraphicsNoData::No hay registros en el indicador
-Item_Indicador_Header_Description::Descripcin
-Item_Indicador_Header_Objetivo::Objectivo
-Item_Indicador_Header_ObjetivoResponsible::Resp. indicador
+Item_Indicador_Header_Description::Indicador
+Item_Indicador_Header_Objetivo::Objetivo
+Item_Indicador_Header_ObjetivoResponsible::Responsable
 Item_Indicador_Header_Process::Proceso
-Item_Indicador_Header_ProcessResponsible::Resp. proceso
-Item_Indicador_Header_ProcessType::Tipus de proceso
-Item_Indicador_Header_StartDate::Fecha inicio
+Item_Indicador_Header_ProcessResponsible::Responsable
+Item_Indicador_Header_ProcessType::Tipo proceso
+Item_Indicador_Header_StartDate::Inicio
 Item_Indicador_Label_Type::Tipo
-Item_Indicador_Label_TypeObjetivo::Objectivo
+Item_Indicador_Label_TypeObjetivo::Objetivo
 Item_Indicador_Label_TypeProceso::Proceso
-Item_Indicador_Message_ProcessBlocked::El indicador está vinculado a objectivos
-Item_Indicador_New_Button::Añadir registro
+Item_Indicador_Message_ProcessBlocked::El indicador está vinculado a Objetivos
+Item_Indicador_New_Button::Añadir
 Item_Indicador_New_Label::Nuevo indicador
 Item_Indicador_Popup_DeleteRecord_Message::¿Quiere eliminar el registro
 Item_Indicador_PopupAnular_Title::Anular indicador
@@ -1145,7 +1151,7 @@ Item_Indicents::Incidencias
 Item_JobPosition::Cargo
 Item_JobPosition_BreadCrumb_Edit::Ficha del cargo
 Item_JobPosition_Button_DepartmentsBAR::Gestionar departamentos
-Item_JobPosition_Button_New::Añadir cargo
+Item_JobPosition_Button_New::Añadir
 Item_JobPosition_Button_New::Nuevo cargo
 Item_JobPosition_Error_DeleteReasonRequired::Especificar el motivo de eliminación
 Item_JobPosition_ErrorMessage_HasEmployees::Tiene empleados
@@ -1199,13 +1205,13 @@ Item_Learning_FieldLabel_Academic_Desired::Formación académica deseada
 Item_Learning_FieldLabel_Amount::Importe
 Item_Learning_FieldLabel_Coach::Formador/a
 Item_Learning_FieldLabel_Course::Curso
-Item_Learning_FieldLabel_EndDate::Fecha de fin real
-Item_Learning_FieldLabel_EstimatedDate::Fecha prevista
+Item_Learning_FieldLabel_EndDate::F.Fin real
+Item_Learning_FieldLabel_EstimatedDate::F.Prevista
 Item_Learning_FieldLabel_Hours::Horas
 Item_Learning_FieldLabel_Methodology::Metodología
 Item_Learning_FieldLabel_Name::Nombre de la acción formativa
 Item_Learning_FieldLabel_Notes::Notas
-Item_Learning_FieldLabel_StartDate::Fecha de inicio real
+Item_Learning_FieldLabel_StartDate::F.Inicio real
 Item_Learning_FieldLabel_Year::Año de realización del curso
 Item_Learning_Filter_AllPeriode::Todos los años
 Item_Learning_Filter_FromYear::Desde el año
@@ -1227,7 +1233,7 @@ Item_Learning_Message_Evaluation::Si guarda la formación, con los participantes
 Item_Learning_Message_NoAssistants::No hay asistentes al curso
 Item_Learning_Objetive::Objetivo
 Item_Learning_PopupDelete_Message::¿Eliminar la formación?
-Item_Learning_SelectAssistants::Añadir participantes
+Item_Learning_SelectAssistants::Añadir
 Item_Learning_Status_Done::Realizada
 Item_Learning_Status_Evaluated::Evaluada
 Item_Learning_Status_Finished::Finalizada
@@ -1247,13 +1253,13 @@ Item_LearningAssistants::Participantes
 Item_LearningList::Formación
 Item_LearningList_NoAssistants::Sin alumnos
 Item_Learnings::Formaciones
-Item_Objetivo::Objectiu
+Item_Objetivo::Objetivos
 Item_Objetivo_Button_Indicators::Indicadors
-Item_Objetivo_Button_New::Afegir objectiu
+Item_Objetivo_Button_New::Añadir
 Item_Objetivo_Error_DateMinimum::La data no pot ser anterior a la d'inici
 Item_Objetivo_Error_PreviewEndDate::No pot ser anterior a la dada de inici
 Item_Objetivo_Error_PreviousObjetivoDate::No pot ser anterior a la dada de inici
-Item_Objetivo_FieldLabel_ClosePreviewDate::Data prevista
+Item_Objetivo_FieldLabel_ClosePreviewDate::Fecha prevista
 Item_Objetivo_FieldLabel_CloseRealDate::Data
 Item_Objetivo_FieldLabel_CloseResponsible::Responsable
 Item_Objetivo_FieldLabel_DateStart::Data inici
@@ -1267,16 +1273,16 @@ Item_Objetivo_FieldLabel_Resources::Recursos
 Item_Objetivo_FieldLabel_Responsible::Responsable
 Item_Objetivo_FieldLabel_Viculated::Viculat a indicador
 Item_Objetivo_GraphicsNoData::No hi ha registres associats a l'objetiu
-Item_Objetivo_Header_Name::Nom
-Item_Objetivo_Header_PreviewEndDate::Fecha fin prev.
+Item_Objetivo_Header_Name::Objetivo
+Item_Objetivo_Header_PreviewEndDate::F. prevista
 Item_Objetivo_Header_Responsible::Responsable
 Item_Objetivo_Header_StartDate::Inicio
-Item_Objetivo_ListHeader_Name::Nombre
+Item_Objetivo_ListHeader_Name::Objetivo
 Item_Objetivo_ListHeader_PreviewEndDate::Cierre previsto
 Item_Objetivo_ListHeader_ResponsibleName::Responsable
 Item_Objetivo_ListHeader_StartDate::Fecha inicio
 Item_Objetivo_Message_IndicadorBlocked::No se puede cambiar porque tiene registros asociados
-Item_Objetivo_RecordsReportTitle::Registros de objectivo
+Item_Objetivo_RecordsReportTitle::Registros de Objetivo
 Item_Objetivo_Tab_Records::Registros
 Item_Objetivo_Tab_RecordsFromIndicator::Registros del indicador vinculat
 Item_Objetivo_Tab_RecordsFromIndicatorMessage::Los registros pertenecen al indicador ##
@@ -1293,20 +1299,20 @@ Item_ObjetivoAction_List_Filter_From::Desde
 Item_ObjetivoAction_List_Filter_ShowActive::Activos
 Item_ObjetivoAction_List_Filter_ShowClosed::Cerrados
 Item_ObjetivoAction_List_Filter_To::Hasta
-Item_ObjetivoList::Objectivos
-Item_Objetivos::Objectivos						 
+Item_ObjetivoList::Objetivos
+Item_Objetivos::Objetivos						 
 Item_Proccess::Proceso
-Item_Proccess_ListHeader_Name::Nombre
+Item_Proccess_ListHeader_Name::Proceso
 Item_Proccess_ListHeader_ProcessType::Tipo
 Item_Proccess_ListHeader_Responsible::Responsable
 Item_Process::Proceso
 Item_Process_Button_Edit::Ficha del proceso
-Item_Process_Button_New::Añadir proceso
+Item_Process_Button_New::Añadir
 Item_Process_Button_New::Nuevo proceso
 Item_Process_Button_ProcessTypeBAR::Gestión de tipos de proceso
 Item_Process_FieldLabel_Development::Desarrollo
 Item_Process_FieldLabel_End::Fín
-Item_Process_FieldLabel_Name::Nombre
+Item_Process_FieldLabel_Name::Proceso
 Item_Process_FieldLabel_Responsible::Responsable
 Item_Process_FieldLabel_Start::Inicio
 Item_Process_FieldLabel_Type::Tipo
@@ -1319,7 +1325,7 @@ Item_Process_Help_Responsible::Indicar responsable del proceso
 Item_Process_Help_Start::Indicar el inicio del proceso
 Item_Process_ListIndicatorsHeader_Alarm::Alarma
 Item_Process_ListIndicatorsHeader_Meta::Meta
-Item_Process_ListIndicatorsHeader_Name::Nombre
+Item_Process_ListIndicatorsHeader_Name::Proceso
 Item_Process_ListIndicatorsHeader_Responsible::Responsable
 Item_Process_ListIndicatorsHeader_Unit::Unidad
 Item_Process_Popup_AddProcessType_Title::Añadir tipo de proceso
@@ -1351,7 +1357,7 @@ Item_Profile_ShortCuts::Botones de ayuda rápida
 Item_Profile_ShowHelp::Activar ayuda en línea
 Item_Profile_Title_PersonalData::Datos personales
 Item_Provider::Proveedor
-Item_Provider_Btn_New::Añadir proveedor
+Item_Provider_Btn_New::Añadir
 Item_Provider_Detail::Ficha del proveedor
 Item_Provider_Header_Associated::Relacionado con
 Item_Provider_Header_Cost::Coste
@@ -1377,8 +1383,8 @@ Item_Reports::Informes
 Item_Review::Revisión dirección
 Item_Rule::Norma
 Item_Rules::Normas
-Item_Rules_Btn_New::Añadir norma
-Item_Rules_Button_New::Nueva norma
+Item_Rules_Btn_New::Añadir
+Item_Rules_Button_New::Añadir
 Item_Rules_Error_LimitOutOfRange::El límite debe estar entre 1 y 25
 Item_Rules_FieldLabel_Limit::Límite
 Item_Rules_FieldLabel_Name::Nombre
@@ -1414,10 +1420,10 @@ Item_Trace_Unactive::Desactivación
 Item_Trace_Update::Actualización
 Item_Trace_Updated::Actualización
 Item_Traces::Trazas
-Item_Unidad::Unidad
+Item_Unidad::Unidades
 Item_Unidad_Btn_New::Nueva unidad
 Item_Unidad_Help_Description::Descripción de la unidad
-Item_Unidad_ListHeader_Description::Descripcióm
+Item_Unidad_ListHeader_Description::Descripción
 Item_Unidad_Popup_Delete_Title::¿Quiere eliminar la unidad
 Item_Unidad_PopupTitle_Delete::Eliminar unidad
 Item_Unidad_Tab_Principal::Datos básicos
@@ -1425,24 +1431,24 @@ Item_Unidades::Unidades
 Item_User::Usuario/a
 Item_User_ActualPassword::Contraseña actual
 Item_User_Btn_ResetPassword::Regenerar
-Item_User_Button_New::Añadir usuario/a
+Item_User_Button_New::Añadir
 Item_User_ChangePassword::Cambiar la contraseña
 Item_User_ErrorMessage_PaswordsNoMatch::Las contraseñas no coinciden
 Item_User_FieldLabel_PasswordConfirm::Confirmar la contraseña
-Item_User_Help_PrimaryUser::A aquest usuari no se li poden modificar els permissos
+Item_User_Help_PrimaryUser::A este usuario no se le pueden modificar los permisos
 Item_User_Help_ResetPassword::Se enviará la nueva contraseña al correo del usuario
 Item_User_List_Header_Email::Correo
-Item_User_List_Header_EmployeeName::Empleat/da
+Item_User_List_Header_EmployeeName::Empleado/a
 Item_User_List_Header_Grant::Permiso
 Item_User_List_Header_Read::Lectura
 Item_User_List_Header_UserName::Usuario/a
 Item_User_List_Header_Write::Modificación
-Item_User_Message_AfterChangePassword::Al cambiar la contraseña, se cerrará la sesión para reiniciarcon la nueva
+Item_User_Message_AfterChangePassword::Al cambiar la contraseña, se cerrará la sesión para reiniciar con la nueva contraseña
 Item_User_Message_GrantsAvaiable::Se ha activado la pestaña de permisos. Por favor, activa los permisos necesarios para que el usuario pueda utilizar la aplicación.
 Item_User_Message_ResetPassword_Ok::Contraseña regenerada correctamente. Se ha enviado un correo al usuario/a con las instrucciones de acceso a la aplicación.
 Item_User_Message_WelcommeMailSent::Se ha enviado un correo al usuario/a con las instrucciones de acceso a la aplicación.
 Item_User_NewPassword::Nueva contraseña
-Item_User_PopupDelete_Message::¿Eliminar el/la usuario/a?
+Item_User_PopupDelete_Message::¿Eliminar?
 Item_User_Profile_Title_Settings::Configuración
 Item_User_Suicide::Un/a usuario/a no se puede eliminar a si mismo/a
 Item_User_Tab_Grants::Permisos

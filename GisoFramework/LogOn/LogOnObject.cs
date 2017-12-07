@@ -6,56 +6,37 @@
 // --------------------------------
 namespace GisoFramework.LogOn
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.Text;
-    using GisoFramework.LogOn;
 
-    /// <summary>
-    /// Implements LogOnObject class
-    /// </summary>
+    /// <summary>Implements LogOnObject class</summary>
     public class LogOnObject
     {
-        /// <summary>
-        /// Gets or sets the membership of user in security groups
-        /// </summary>
+        /// <summary>Gets or sets the membership of user in security groups</summary>
         private List<ApplicationLogOn.SecurityGroup> membership;
 
-        /// <summary>
-        /// Gets or sets user identifier
-        /// </summary>
+        /// <summary>Gets or sets user identifier</summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets user name
-        /// </summary>
+        /// <summary>Gets or sets user name</summary>
         public string UserName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the result of log on action
-        /// </summary>
+        /// <summary>Gets or sets the result of log on action</summary>
         public ApplicationLogOn.LogOnResult Result { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether user can access to multiple companies
-        /// </summary>
+        /// <summary>Gets or sets a value indicating whether user can access to multiple companies</summary>
         public bool MultipleCompany { get; set; }
 
-        /// <summary>
-        /// Gets or sets de identifier of compnay to log in
-        /// </summary>
+        /// <summary>Gets or sets de identifier of compnay to log in</summary>
         public int CompanyId { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether if user must change password
-        /// </summary>
+        /// <summary>Gets or sets a value indicating whether if user must change password</summary>
         public bool MustResetPassword { get; set; }
 
-        /// <summary>
-        /// Gets the membership of user in security groups
-        /// </summary>
+        /// <summary>Gets or sets a value indicating whether if agrrement is accepted</summary>
+        public bool Agreement { get; set; }
+
+        /// <summary>Gets the membership of user in security groups</summary>
         public ReadOnlyCollection<ApplicationLogOn.SecurityGroup> Membership
         {
             get
@@ -163,7 +144,6 @@ namespace GisoFramework.LogOn
         public override int GetHashCode()
         {
             int hash = 17;
-
             hash = hash * (23 + this.Id.GetHashCode());
             hash = hash * (23 + this.UserName.GetHashCode());
             return hash;

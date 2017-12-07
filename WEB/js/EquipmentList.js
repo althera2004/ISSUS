@@ -51,8 +51,8 @@ function EquipmentDelete(id, name) {
 jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || '&nbsp;'
-            if (("title_html" in this.options) && this.options.title_html == true)
+            var $title = this.options.title || "&nbsp;"
+            if (("title_html" in this.options) && this.options.title_html === true)
                 title.html($title);
             else title.text($title);
         }
@@ -62,12 +62,18 @@ jQuery(function ($) {
 function Resize() {
     var listTable = document.getElementById('ListDataDiv');
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 310) + 'px';
+    listTable.style.height = (containerHeight - 390) + 'px';
 }
 
 window.onload = function () {
     Resize();
-
+    document.getElementById("RBOperation1").checked = Filter.indexOf("C") !== -1;
+    document.getElementById("RBOperation2").checked = Filter.indexOf("V") !== -1;
+    document.getElementById("RBOperation3").checked = Filter.indexOf("M") !== -1;
+    document.getElementById("RBStatus0").checked = Filter.indexOf("0") !== -1;
+    document.getElementById("RBStatus1").checked = Filter.indexOf("1") !== -1;
+    document.getElementById("RBStatus2").checked = Filter.indexOf("2") !== -1;
+    RenderTable();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;")
 }
 window.onresize = function () { Resize(); }
@@ -100,6 +106,177 @@ function Export(fileType) {
         error: function (msg) {
             LoadingHide();
             alertUI("error:" + msg.responseText);
+        }
+    });
+}
+
+function RenderTable() {
+    SetFilter();
+    console.log("RenderTable");
+    $("#ListDataTable").html("");
+    var temp = [];
+    for (var x = 0; x < Equipments.length; x++) {
+        var ok = true;
+        var equipment = Equipments[x];
+        if (document.getElementById("RBStatus1").checked === true && equipment.Activo === false) { ok = false; }
+        if (document.getElementById("RBStatus2").checked === true && equipment.Activo === true) { ok = false; }
+        if (ok === true) {
+
+            if (document.getElementById("RBOperation1").checked === true && equipment.Calibracion === true) { temp.push(equipment); }
+            else
+                if (document.getElementById("RBOperation2").checked === true && equipment.Verificacion === true) { temp.push(equipment); }
+                else
+                    if (document.getElementById("RBOperation3").checked === true && equipment.Mantenimiento === true) { temp.push(equipment); }
+        }
+    }
+
+    $("#TotalRecords").html(temp.length);
+    var total = 0;
+    if (temp.length > 0) {
+        for (var y = 0; y < temp.length; y++) {
+            RenderRow(temp[y]);
+            total += temp[y].Coste;
+        }
+    }
+
+    $("#TotalCost").html(ToMoneyFormat(total, 2));
+}
+
+function RenderRow(equipment) {
+    /*<tr>
+    <td class="hidden-480" style="width:110px;"><a href="EquipmentView.aspx?id=2">1234567890</a></td>
+    <td><a href="EquipmentView.aspx?id=2">12367890</a></td>
+    <td class="hidden-480" style="width:120px;">123467890</td>
+    <td class="hidden-480" style="width:250px;"><a href="EmployeesView.aspx?id=3" title="Editar Juan Castilla Calderón">Juan Castilla Calderón</a></td>
+    <td class="hidden-480" style="width:35px;text-align:center;"><i class="icon-paperclip" title="Veure adjunts" style="cursor:pointer;" onclick="document.location='EquipmentView.aspx?id=2&amp;Tab=TabuploadFiles';"></i></td>
+    <td style="width:90px;"><span title="Editar 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890" class="btn btn-xs btn-info" onclick="document.location='EquipmentView.aspx?id=2';"><i class="icon-edit bigger-120"></i></span>&nbsp;<span title="Eliminar 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890" class="btn btn-xs btn-danger" onclick="EquipmentDelete(2,'123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890');"><i class="icon-trash bigger-120"></i></span></td></tr>*/
+
+    var tr = document.createElement("tr");
+
+    var tdCodigo = document.createElement("td");
+    var tdDescripcion = document.createElement("td");
+    var tdUbicacion = document.createElement("td");
+    var tdResponsable = document.createElement("td");
+    var tdCoste = document.createElement("td");
+    var tdAdjuntos = document.createElement("td");
+    var tdAcciones = document.createElement("td");
+
+    tdCodigo.style.width = "110px";
+    tdUbicacion.style.width = "120px";
+    tdResponsable.style.width = "250px";
+    tdCoste.style.width = "120px";
+    tdAdjuntos.style.width = "35px";
+    tdAcciones.style.width = "90px";
+
+    tdCoste.style.textAlign = "right";
+    tdAdjuntos.style.textAlign = "center";
+
+    tdCodigo.className = "hidden-480";
+    tdUbicacion.className = "hidden-480";
+    tdCoste.className = "hidden-480";
+    tdResponsable.className = "hidden-480";
+    tdAdjuntos.className = "hidden-480";
+
+    var linkCodigo = document.createElement("a");
+    linkCodigo.href = "EquipmentView.aspx?id=" + equipment.Id;
+    linkCodigo.appendChild(document.createTextNode(equipment.Codigo));
+    tdCodigo.appendChild(linkCodigo);
+
+    var linkDescripcion = document.createElement("a");
+    linkDescripcion.href = "EquipmentView.aspx?id=" + equipment.Id;
+    linkDescripcion.appendChild(document.createTextNode(equipment.Codigo));
+    linkDescripcion.appendChild(document.createTextNode(" - "));
+    linkDescripcion.appendChild(document.createTextNode(equipment.Descripcion));
+    tdDescripcion.appendChild(linkDescripcion);
+
+    tdUbicacion.appendChild(document.createTextNode(equipment.Ubicacion));
+    if (user.Grants["Employee"].Write === true) {
+        var LinkResponsable = document.createElement("a");
+        LinkResponsable.href = "EmployeesView.aspx?id=" + equipment.Responsable.Id;
+        LinkResponsable.title = equipment.Responsable.FullName;
+        LinkResponsable.appendChild(document.createTextNode(equipment.Responsable.FullName));
+        tdResponsable.appendChild(LinkResponsable);
+    }
+    else {
+        tdResponsable.appendChild(document.createTextNode(equipment.Responsable.FullName));
+    }
+
+    tdCoste.appendChild(document.createTextNode(ToMoneyFormat(equipment.Coste, 2)));
+
+    if (equipment.Adjuntos === true) {
+        var icon = document.createElement("i");
+        icon.className = "icon-paperclip";
+        icon.title = Dictionary.Item_Equipment_Message_Attachs;
+        icon.style.cursor = "pointer";
+        icon.onclick = function () {
+            document.location = "EquipmentView.aspx?id=" + equipment.Id + "&Tab=TabuploadFiles";
+        };
+        tdAdjuntos.appendChild(icon);
+    }
+    else {
+        tdAdjuntos.appendChild(document.createTextNode(" "));
+    }
+
+    if (user.Grants["Equipment"].Write === true) {
+        /*<span title="Editar 6789 123456789 123456789 123456789 123456789 1234567890" class="btn btn-xs btn-info" onclick="document.location='EquipmentView.aspx?id=2';"><i class="icon-edit bigger-120"></i></span> */
+        var buttonEdit = document.createElement("span");
+        buttonEdit.title = Dictionary.Common_Edit + " " + equipment.Descripcion;
+        buttonEdit.className = "btn btn-xs btn-info";
+        buttonEdit.onclick = function () { document.location = "EquipmentView.aspx?id=" + equipment.Id; };
+        var iconEdit = document.createElement("i");
+        iconEdit.className = "icon-edit bigger-120";
+        buttonEdit.appendChild(iconEdit);
+        tdAcciones.appendChild(buttonEdit);
+
+        if (user.Grants["Equipment"].Delete === true) {
+            /*<span title="Eliminar 180" class="btn btn-xs btn-danger" onclick="EquipmentDelete(2,'123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890');"><i class="icon-trash bigger-120"></i></span>*/
+            var buttonDelete = document.createElement("span");
+            buttonDelete.title = Dictionary.Common_Delete + " " + equipment.Descripcion;
+            buttonDelete.className = "btn btn-xs btn-danger";
+            buttonDelete.onclick = function () { EquipmentDelete(equipment.Id, equipment.Descripcion); };
+            var iconDelete = document.createElement("i");
+            iconDelete.className = "icon-trash bigger-120";
+            buttonDelete.appendChild(iconDelete);
+            tdAcciones.appendChild(document.createTextNode(" "));
+            tdAcciones.appendChild(buttonDelete);
+        }
+    }
+
+    //tr.appendChild(tdCodigo);
+    tr.appendChild(tdDescripcion);
+    tr.appendChild(tdUbicacion);
+    tr.appendChild(tdResponsable);
+    tr.appendChild(tdCoste);
+    tr.appendChild(tdAdjuntos);
+    tr.appendChild(tdAcciones);
+
+    document.getElementById("ListDataTable").appendChild(tr);
+}
+
+function SetFilter() {
+    var Filter = "";
+    if (document.getElementById("RBOperation1").checked === true) { Filter += "C"; }
+    if (document.getElementById("RBOperation2").checked === true) { Filter += "V"; }
+    if (document.getElementById("RBOperation3").checked === true) { Filter += "M"; }
+    Filter += "|";
+    if (document.getElementById("RBStatus0").checked === true) { Filter += "0"; }
+    if (document.getElementById("RBStatus1").checked === true) { Filter += "1"; }
+    if (document.getElementById("RBStatus2").checked === true) { Filter += "2"; }
+
+    var webMethod = "/Async/EquipmentActions.asmx/SetFilter";
+    var data = { "filter": Filter };
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            console.log("SetFilter", "OK");
+        },
+        error: function (msg) {
+            console.log("SetFilter", msg.responseText);
         }
     });
 }

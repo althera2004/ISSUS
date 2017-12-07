@@ -39,5 +39,8 @@ namespace GisoFramework.Item.Binding
 
         /// <summary> Index of PrimaryUser column</summary>
         public const int PrimaryUser = 11;
+
+        /// <summary> Index of Agreement column</summary>
+        public const int Agreement = 12;
     }
 }

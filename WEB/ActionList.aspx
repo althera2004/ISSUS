@@ -105,12 +105,12 @@
                                                         <!-- <th id="th0" class="search"><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th> -->
 														<th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="sort search"><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th>
 														<th onclick="Sort(this,'ListDataTable','text',false);" id="th1" class="sort search" style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_Type"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th2" class="sort search" style="width:95px;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
-                                                        <th id="th3" style="width:120px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th2" class="sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
+                                                        <th id="th3" style="width:60px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"] %></th>
                                                         <!-- <th id="th4" class="search sort" style="width:150px;"><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %></th> -->
 														<th onclick="Sort(this,'ListDataTable','text',false);" id="th4" class="sort search" style="width:150px;"><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %></th>
-														<th onclick="Sort(this,'ListDataTable','date',false);" id="th5" class="sort hidden-480 search" style="width:95px;"><%=this.Dictionary["Item_IncidentAction_Header_ImplementDate"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th6" class="sort hidden-480 search" style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_Close"] %></th>
+														<th onclick="Sort(this,'ListDataTable','date',false);" id="th5" class="sort hidden-480 search" style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_ImplementDate"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th6" class="sort hidden-480 search" style="width:100px;text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Close"] %></th>
                                                         <th class="hidden-480" style="width:107px !important;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
@@ -167,9 +167,9 @@
 																<span id="NumberCosts"></span>
 															</i>
 														</th>
-                                                        <th style="width:95px;font-weight:bold;"><%=this.Dictionary["Common_Total"] %></th>
-                                                        <th style="width:95px;"><div id="TotalCosts" style="width:100%;text-align:right;font-weight:bold;"></div></th>
-                                                        <th style="width:106px;"></th>
+                                                        <th style="width:100px; font-weight:bold; text-align:right"><%=this.Dictionary["Common_Total"] %>:</th>
+														<th style="width:100px;"><div id="TotalCosts" style="width:100%;text-align:right;font-weight:bold;"></div></th>
+                                                        <th style="width:107px;"></th>
                                                     </tr>
                                                 </thead>
                                             </table>

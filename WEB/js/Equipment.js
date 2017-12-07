@@ -255,7 +255,7 @@ function PrintData() {
     });
 }
 
-// Poner los actor ordenados
+// Poner los actos ordenados
 window.onload = function () {
     $("#VerificationDivTable #th0").click();
     $("#VerificationDivTable #th0").click();
@@ -306,6 +306,8 @@ window.onload = function () {
     if (Equipment.ExternalVerification.Cost === null) {
         $("#TxtVerificationExternalCost").val("");
     }
+
+    AnulateLayout();
 }
 
 function ValidateForm(form) {
@@ -404,3 +406,169 @@ function ValidateForm(form) {
 
     return result;
 }
+
+// ANULAR / RESTAURAR -------------------------------
+function AnularPopup() {
+    $("#TxtEndDate").val(FormatDate(new Date(), "/"));
+    $("#TxtAnularComments").html("");
+    $("#CmbEndResponsible").val(user.Employee.Id);
+    var dialog = $("#dialogAnular").removeClass("hide").dialog({
+        resizable: false,
+        modal: true,
+        title: Dictionary.Item_Equipment_PopupAnular_Title,
+        width: 600,
+        buttons:
+        [
+            {
+                "id": "BtnAnularSave",
+                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Item_Indicador_Btn_Anular,
+                "class": "btn btn-success btn-xs",
+                "click": function () { AnularConfirmed(); }
+            },
+            {
+                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () { $(this).dialog("close"); }
+            }
+        ]
+    });
+}
+
+var anulationData = null;
+function AnularConfirmed() {
+    document.getElementById("TxtEndReasonLabel").style.color = "#000";
+    document.getElementById("TxtEndDateLabel").style.color = "#000";
+    document.getElementById("CmbEndResponsibleLabel").style.color = "#000";
+    document.getElementById("TxtEndReasonErrorRequired").style.display = "none";
+    document.getElementById("TxtEndDateErrorRequired").style.display = "none";
+    document.getElementById("TxtEndDateMalformed").style.display = "none";
+    document.getElementById("CmbEndResponsibleErrorRequired").style.display = "none";
+
+    var ok = true;
+    if ($("#TxtEndReason").val() === "") {
+        ok = false;
+        document.getElementById("TxtEndReasonLabel").style.color = "#f00";
+        document.getElementById("TxtEndReasonErrorRequired").style.display = "";
+    }
+
+    if ($("#TxtEndDate").val() === "") {
+        ok = false;
+        document.getElementById("TxtEndDateLabel").style.color = "#f00";
+        document.getElementById("TxtEndDateRequired").style.display = "";
+    }
+    else {
+        if (validateDate($("#TxtEndDate").val()) === false) {
+            ok = false;
+            $("#TxtEndDateLabel").css("color", "#f00");
+            $("#TxtEndDateMalformed").show();
+        }
+    }
+
+    if ($("#CmbEndResponsible").val() * 1 < 1) {
+        ok = false;
+        document.getElementById("CmbEndResponsibleLabel").style.color = "#f00";
+        document.getElementById("CmbEndResponsibleErrorRequired").style.display = "";
+    }
+
+    if (ok === false) {
+        return false;
+    }
+
+    //Anulate(int indicadorId, int companyId, int applicationUserId, string reason, DateTime date, int responsible)
+    var webMethod = "/Async/EquipmentActions.asmx/Anulate";
+    var data = {
+        "equipmentId": Equipment.Id,
+        "companyId": Company.Id,
+        "reason": $("#TxtEndReason").val(),
+        "responsible": $("#CmbEndResponsible").val() * 1,
+        "date": GetDate($("#TxtEndDate").val(), "/"),
+        "applicationUserId": user.Id
+    };
+    anulationData = data;
+    $("#dialogAnular").dialog("close");
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            document.location = referrer;
+        },
+        error: function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function AnulateLayout() {
+    $("#BtnRestaurar").hide();
+    if (Equipment.EndDate !== null) {
+        var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+        message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
+        message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Equipment_AnulateMessageTile + "</h3>";
+        message += "    <p style=\"margin-left:50px;\">";
+        message += "        " + Dictionary.Item_Equipment_FieldLabel_EndReason + ": <strong>" + Equipment.EndReason + "</strong><br />";
+        message += "        " + Dictionary.Item_Equipment_FieldLabel_EndDate + ": <strong>" + Equipment.EndDate + "</strong><br />";
+        message += "        " + Dictionary.Item_Equipment_FieldLabel_EndResponsible + ": <strong>" + Equipment.EndResponsible.Value + "</strong>";
+        message += "    </p>";
+        message += "</div><br /><br /><br />";
+        $("#home").append(message);
+        $("#BtnAnular").hide();
+        $("#BtnRestaurar").show();
+
+        $("input").attr("disabled", "disabled");
+        $("select").attr("disabled", "disabled");
+        $("select").css("backgroundColor", "#eee;");
+        $("textarea").attr("disabled", "disabled");
+        $("textarea").css("backgroundColor", "#eee;");
+        $("#BtnEquipmentChangeImage").hide();
+        $("#BtnSave").hide();
+        $("#BtnEquipmentScaleDivisionBAR").hide();
+        $("#BtnCalibrationInternalSave").hide();
+        $("#BtnCalibrationExternalSave").hide();
+        $("#BtnCalibrationExternalProviderBAR").hide();
+        $("#BtnVerificationInternalSave").hide();
+        $("#BtnVerificationExternalSave").hide();
+        $("#BtnVerificationExternalProviderBAR").hide();
+        $("#BtnNewCalibration").hide();
+        $("#BtnNewVerification").hide();
+        $("#BtnNewMaintainment").hide();
+        $("#BtnNewMaintainmentAct").hide();
+        $("#EquipmentRepairNewBtn").hide();
+        $("#BtnNewUploadfile").hide();
+        $("TD .btn-danger").hide();
+        $(".document-container .btn-danger").hide();
+    }
+    else {
+        $("#DivAnulateMessage").hide();
+        $("#BtnAnular").show();
+    }
+}
+
+function Restore() {
+    var webMethod = "/Async/EquipmentActions.asmx/Restore";
+    var data = {
+        "equipmentId": Equipment.Id,
+        "companyId": Company.Id,
+        "applicationUserId": user.Id
+    };
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            document.location = document.location + "";
+        },
+        error: function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}
+// --------------------------------------------------

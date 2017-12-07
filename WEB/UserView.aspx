@@ -92,21 +92,21 @@
                                                     </div>
                                                     <div class="form-group col-sm-12 employeeProfile">
                                                         <label id="TxtCpLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_PostalCode"]%></label>
-                                                        <div class="col-sm-4">
+                                                        <div class="col-sm-2">
                                                             <input type="text" id="TxtCp" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_PostalCode"] %>" value="<%=this.UserItem.Employee.Address.PostalCode %>" class="col-xs-12 col-sm-12" maxlength="10" readonly="readonly" />                                                            
                                                         </div>
-                                                        <label id="TxtPoblacionLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_City"]%></label>
-                                                        <div class="col-sm-5">
+                                                        <label id="TxtPoblacionLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_City"]%></label>
+                                                        <div class="col-sm-8">
                                                             <input type="text" id="TxtPoblacion" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_City"] %>" value="<%=this.UserItem.Employee.Address.City %>" class="col-xs-12 col-sm-12" maxlength="50" readonly="readonly" />
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-sm-12 employeeProfile">
                                                         <label id="TxtProvinciaLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Province"]%></label>
-                                                        <div class="col-sm-4">
+                                                        <div class="col-sm-6">
                                                             <input type="text" id="TxtProvincia" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Province"] %>" value="<%=this.UserItem.Employee.Address.Province %>" class="col-xs-12 col-sm-12" maxlength="50" readonly="readonly" />                                                            
                                                         </div>
-                                                        <label id="TxtPaisLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Country"]%></label>
-                                                        <div class="col-sm-5" id="DivCmbPais" style="height:35px !important;">
+                                                        <label id="TxtPaisLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Country"]%></label>
+                                                        <div class="col-sm-4" id="DivCmbPais" style="height:35px !important;">
                                                             <input type="text" id="TxtPais" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Country"] %>" value="<%=this.UserItem.Employee.Address.Country %>" class="col-xs-12 col-sm-12" maxlength="15" readonly="readonly" />                                                            
                                                         </div>
                                                     </div>
@@ -114,12 +114,16 @@
                                                     <div style="clear:both;">&nbsp;</div>
                                                     <h4 id="ResetH4"><%=this.Dictionary["Item_User_Title_ResetPassword"]%></h4>
                                                     <button class="btn btn-success" type="button" id="Button1" onclick="ResetPassword();">
-                                                        <i class="icon-ok bigger-110"></i>
+                                                        <i class="icon-repeat bigger-110"></i>
                                                         <%=this.Dictionary["Item_User_Btn_ResetPassword"]%>
                                                     </button>
-                                                    <div id="ResetAlert" class="alert alert-danger">
-                                                        <strong><%=this.Dictionary["Common_Warning"] %></strong>
-                                                        <%=this.Dictionary["Item_User_Help_ResetPassword"] %><br />
+                                                    <div style="clear:both;">&nbsp;</div>
+                                                    <div id="ResetAlert" class="alert alert-info">
+                                                        <i class="icon-info-sign fa-2x"/></i>
+                                                        <h3 style="display: inline;"><%=this.Dictionary["Common_Warning"] %></h3><br />
+                                                        <p style="margin-left: 50px;">
+                                                        <%=this.Dictionary["Item_User_Help_ResetPassword"] %>
+                                                        </p>
                                                     </div>
                                                     <% } else { %>                                                    
                                                     <div style="clear:both;">&nbsp;</div>
@@ -387,7 +391,7 @@
             });
 
             // ISSUS-190
-            document.getElementById('TxtUserName').focus();
+            //document.getElementById('TxtUserName').focus();
 
             // ISSUS-259
             function grantsAvaiable()
@@ -570,6 +574,11 @@
                 $("#Button1").hide();
                 $("#ResetH4").hide();
                 $("#ResetAlert").hide();
+            }
+
+            if (user.Id === itemUser.Id) {
+                $("#Button1").attr("disabled", "disabled");
+                $("#ResetAlert").html(Dictionary.Item_User_Help_ResetPasswordOwner);
             }
         </script>
 </asp:Content>

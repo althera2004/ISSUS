@@ -170,6 +170,8 @@ public partial class FormacionList : Page
 
     private void RenderLearningData()
     {
+        decimal total = 0;
+        int count = 0;
         StringBuilder res = new StringBuilder();
         List<string> s = new List<string>();
         foreach (Learning learning in this.learningFilter.Filter())
@@ -179,6 +181,9 @@ public partial class FormacionList : Page
             {
                 s.Add(learning.Description);
             }
+
+            count++;
+            total += learning.Amount;
         } 
 
         s.Sort();
@@ -207,5 +212,10 @@ public partial class FormacionList : Page
 
         this.master.SearcheableItems = sea.ToString();
         this.LtLearningTable.Text = res.ToString();
+        this.LtCount.Text = count.ToString();
+        this.LtTotal.Text = string.Format(
+            CultureInfo.InvariantCulture,
+            @"{0:#0.00}",
+            total).Replace('.',',');
     }
 }

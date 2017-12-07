@@ -64,89 +64,101 @@
                                             <div class="tab-content no-border padding-24" style="height:500px;">
                                                 <div id="home" class="tab-pane active">       
                                                     <div>
-                                                        <form class="form-horizontal" role="form">   
+                                                        <form class="form-horizontal" role="form">
                                                             <div class="form-group">
                                                                 <%=this.TxtDescription.Render %>
-                                                            </div> 
-                                                            <div class="form-group" id="IncidentDiv" style="display:none;">
-                                                                <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>
-                                                                <div class="col-sm-11"><label class="control-label no-padding-right"><%=this.Dictionary["Item_IncidentAction_Label_Incident"] %>&nbsp;<%=this.Incident.Link %></label></div>
                                                             </div>
-                                                            <div class="form-group" id="BusinessRiskDiv" style="display:none;">
+                                                            <div class="form-group" id="IncidentDiv" style="display: none;">
                                                                 <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>
-                                                                <div class="col-sm-11"><label class="control-label no-padding-right"><%=this.Dictionary["Item_IncidentAction_Label_BusinessRisk"] %>&nbsp;<%=this.BusinessRisk.Link %></label></div>
+                                                                <!--div class="col-sm-11"-->
+                                                                <label class="col-sm-11"><%=this.Dictionary["Item_IncidentAction_Label_Incident"] %>&nbsp;<%=this.Incident.Link %></label><!--/div-->
+                                                            </div>
+                                                            <div class="form-group" id="BusinessRiskDiv" style="display: none;">
+                                                                <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>
+                                                                <!--div class="col-sm-11"-->
+                                                                <label class="col-sm-11"><%=this.Dictionary["Item_IncidentAction_Label_BusinessRisk"] %>&nbsp;<%=this.BusinessRisk.Link %></label><!--/div-->
                                                             </div>
                                                             <div class="form-group" id="ROriginDiv">
-                                                                <label id="ROriginLabel" class="col-sm-2"><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %><span style="color:#f00;">*</span></label>
-                                                                <div class="col-sm-2"><input type="radio" value="0" id="ROrigin1" name="ROrigin" /><%=this.Dictionary["Item_IncidentAction_Origin1"] %></div>
-                                                                <div class="col-sm-4"><input type="radio" value="1" id="ROrigin2" name="ROrigin" /><%=this.Dictionary["Item_IncidentAction_Origin2"] %></div>
+                                                                <label id="ROriginLabel" class="col-sm-2"><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %><span style="color: #f00;">*</span></label>
                                                                 <div class="col-sm-2">
-                                                                    <span class="ErrorMessage" id="ROriginErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                                                    <input type="radio" value="0" id="ROrigin1" name="ROrigin" /><%=this.Dictionary["Item_IncidentAction_Origin1"] %></div>
+                                                                <div class="col-sm-4">
+                                                                    <input type="radio" value="1" id="ROrigin2" name="ROrigin" /><%=this.Dictionary["Item_IncidentAction_Origin2"] %></div>
+                                                                <div class="col-sm-2">
+                                                                    <span class="ErrorMessage" id="ROriginErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"]%></span>
                                                                 </div>
-                                                            </div>                                                            
+                                                            </div>
                                                             <div class="form-group" id="RTypeDiv">
-                                                                <label id="RTypeLabel" class="col-sm-2"><%=this.Dictionary["Item_IncidentAction_Label_Type"] %><span style="color:#f00;">*</span></label>
-                                                                <div class="col-sm-2"><input type="radio" value="0" id="RType1" name="RType" /><%=this.Dictionary["Item_IncidentAction_Type1"] %></div>
-                                                                <div class="col-sm-2"><input type="radio" value="1" id="RType2" name="RType" /><%=this.Dictionary["Item_IncidentAction_Type2"] %></div>
-                                                                <div class="col-sm-2"><input type="radio" value="2" id="RType3" name="Rtype"/><%=this.Dictionary["Item_IncidentAction_Type3"] %></div>
-                                                                <div class="col-sm-2">                                                                    
-                                                                    <span class="ErrorMessage" id="RTypeErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                                                <label id="RTypeLabel" class="col-sm-2"><%=this.Dictionary["Item_IncidentAction_Label_Type"] %><span style="color: #f00;">*</span></label>
+                                                                <div class="col-sm-2">
+                                                                    <input type="radio" value="0" id="RType1" name="RType" /><%=this.Dictionary["Item_IncidentAction_Type1"] %></div>
+                                                                <div class="col-sm-2">
+                                                                    <input type="radio" value="1" id="RType2" name="RType" /><%=this.Dictionary["Item_IncidentAction_Type2"] %></div>
+                                                                <div class="col-sm-2">
+                                                                    <input type="radio" value="2" id="RType3" name="Rtype" /><%=this.Dictionary["Item_IncidentAction_Type3"] %></div>
+                                                                <div class="col-sm-2">
+                                                                    <span class="ErrorMessage" id="RTypeErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"]%></span>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group" id="RReporterDiv">
-                                                                <label id="RReporterTypeLabel" class="col-sm-2"><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %><span style="color:#f00;">*</span></label>
-                                                                <div class="col-sm-2"><input type="radio" value="0" id="RReporterType1" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType1"] %></div>
-                                                                <div class="col-sm-2"><input type="radio" value="1" id="RReporterType2" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType2"] %></div>
-                                                                <div class="col-sm-2"><input type="radio" value="2" id="RReporterType3" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType3"] %></div>
-                                                                <div class="col-sm-4" style="display:none" id="RReporterTypeCmb">
+                                                                <label id="RReporterTypeLabel" class="col-sm-2"><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %><span style="color: #f00;">*</span></label>
+                                                                <div class="col-sm-2">
+                                                                    <input type="radio" value="0" id="RReporterType1" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType1"] %></div>
+                                                                <div class="col-sm-2">
+                                                                    <input type="radio" value="1" id="RReporterType2" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType2"] %></div>
+                                                                <div class="col-sm-2">
+                                                                    <input type="radio" value="2" id="RReporterType3" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType3"] %></div>
+                                                                <div class="col-sm-4" style="display: none" id="RReporterTypeCmb">
                                                                     <%=this.CmbReporterDepartment.Render%>
                                                                     <div id="DivCmbReporterType3">
-                                                                        <div class="col-sm-9" id="" style="height:35px !important;">
+                                                                        <div class="col-sm-9" id="" style="height: 35px !important;">
                                                                             <select id="CmbReporterType3" class="form-control col-xs-12 col-sm-12"></select>
-                                                                            <input style="display:none;" type="text" readonly="readonly" id="CmbReporterType3Value" placeholder="<%= this.Dictionary["Item_Provider"] %>" class="col-xs-12 col-sm-12" />
+                                                                            <input style="display: none;" type="text" readonly="readonly" id="CmbReporterType3Value" placeholder="<%= this.Dictionary["Item_Provider"] %>" class="col-xs-12 col-sm-12" />
                                                                         </div>
-                                                                        <div class="col-sm-3" id="CmbReporterType3Bar"><button class="btn btn-light" style="height:30px;" title="<%= this.Dictionary["Item_Providers"] %>" id="BtnCmbReporterType3BAR" disabled="">...</button></div>
+                                                                        <div class="col-sm-3" id="CmbReporterType3Bar">
+                                                                            <button class="btn btn-light" style="height: 30px;" title="<%= this.Dictionary["Item_Providers"] %>" id="BtnCmbReporterType3BAR" disabled="">...</button></div>
                                                                     </div>
                                                                     <div id="DivCmbReporterType2">
-                                                                        <div class="col-sm-9" id="" style="height:35px !important;">
+                                                                        <div class="col-sm-9" id="" style="height: 35px !important;">
                                                                             <select id="CmbReporterType2" class="form-control col-xs-12 col-sm-12"></select>
-                                                                            <input style="display:none;" type="text" readonly="readonly" id="CmbReporterType2Value" placeholder="<%= this.Dictionary["Item_Department"] %>" class="col-xs-12 col-sm-12" />
+                                                                            <input style="display: none;" type="text" readonly="readonly" id="CmbReporterType2Value" placeholder="<%= this.Dictionary["Item_Department"] %>" class="col-xs-12 col-sm-12" />
                                                                         </div>
-                                                                        <div class="col-sm-3" id="CmbReporterType2Bar"><button class="btn btn-light" style="height:30px;" title="<%= this.Dictionary["Item_Departments"] %>" id="BtnCmbReporterType2BAR" disabled="">...</button></div>
+                                                                        <div class="col-sm-3" id="CmbReporterType2Bar">
+                                                                            <button class="btn btn-light" style="height: 30px;" title="<%= this.Dictionary["Item_Departments"] %>" id="BtnCmbReporterType2BAR" disabled="">...</button></div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <span class="ErrorMessage" id="RReporterTypeErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                                            <span class="ErrorMessage" id="RReporterTypeErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"]%></span>
                                                             <div class="form-group">
                                                                 <%=this.TxtWhatHappened.Render %>
                                                                 <div class="col-sm-4">
                                                                     <%=this.CmbWhatHappenedResponsible.Render %>
                                                                     <%=this.WhatHappenedDate.Render %>
                                                                 </div>
-                                                            </div>   
-                                                            <hr />  
+                                                            </div>
+                                                            <hr />
                                                             <div class="form-group">
                                                                 <%=this.TxtCauses.Render %>
-                                                                <div class="col-sm-4">                                                                    
+                                                                <div class="col-sm-4">
                                                                     <%=this.CmbCausesResponsible.Render %>
                                                                     <%=this.CausesDate.Render %>
                                                                 </div>
-                                                            </div>    
-                                                            <hr /> 
+                                                            </div>
+                                                            <hr />
                                                             <div class="form-group">
                                                                 <%=this.TxtActions.Render %>
                                                                 <div class="col-sm-4">
                                                                     <%=this.CmbActionsResponsible.Render %>
                                                                     <%=this.ActionsDate.Render %>
                                                                 </div>
-                                                            </div>   
-                                                            <hr />
-                                                            <div class="form-group">
-                                                                <%=this.TxtMonitoring.Render %> 
                                                             </div>
                                                             <hr />
                                                             <div class="form-group">
-                                                            <h4 id="TxtActionsLabel"><%=this.Dictionary["Item_IncidentAction_Field_Close"] %></h4>
+                                                                <%=this.TxtMonitoring.Render %>
+                                                            </div>
+                                                            <hr />
+                                                            <div class="form-group">
+                                                                <label id="TxtActionsLabel" class="col-sm-2"><strong><%=this.Dictionary["Item_IncidentAction_Field_Close"] %></strong></label>
                                                                 <%=this.CmbClosedResponsible.Render %>
                                                                 <%=this.ClosedDate.Render %>
                                                             </div>
@@ -1134,6 +1146,7 @@
                     $("#TxtClosedDate").removeAttr("disabled");
                     $("#TxtNotes").removeAttr("disabled");
                 }
+                $("#menuoption-13 a").show();
             }
 
             window.onresize = function () { Resize(); }

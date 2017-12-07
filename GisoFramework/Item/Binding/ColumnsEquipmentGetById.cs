@@ -93,5 +93,11 @@ namespace GisoFramework.Item.Binding
 
         /// <summary>Index of EndReason column</summary>
         public const int EndReason = 27;
+
+        /// <summary>Index of EndReason column</summary>
+        public const int EndResponsibleName = 28;
+
+        /// <summary>Index of EndReason column</summary>
+        public const int EndResponsibleLastName = 29;
     }
 }

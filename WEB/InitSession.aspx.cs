@@ -27,7 +27,8 @@ public partial class InitSession : Page
     {
         this.Session["UserId"] = this.Request.Form["UserId"];
         this.Session["CompanyId"] = this.Request.Form["CompanyId"];
-        this.Session["Company"] = new Company(Convert.ToInt32(this.Request.Form["CompanyId"]));
+        Company company = new Company(Convert.ToInt32(this.Request.Form["CompanyId"]));
+        this.Session["Company"] = company;
         ApplicationUser user = new ApplicationUser(Convert.ToInt32(this.Request.Form["UserId"]));
         if (user.CompanyId == 0)
         {
@@ -66,18 +67,19 @@ public partial class InitSession : Page
         }
         else
         {
-            if (true || user.HasGrantToRead(ApplicationGrant.CompanyProfile))
+            string landPage = user.Grants[0].Item.Page;
+            if (!company.Agreement)
             {
-                this.Session["home"] = "/DashBoard.aspx";
-                Response.Redirect("/DashBoard.aspx", false);
-                Context.ApplicationInstance.CompleteRequest();
+                landPage = "/Agreement.aspx";
             }
-            else
+            else if (true || user.HasGrantToRead(ApplicationGrant.CompanyProfile))
             {
-                this.Session["home"] = user.Grants[0].Item.Page;
-                Response.Redirect(user.Grants[0].Item.Page, false);
-                Context.ApplicationInstance.CompleteRequest();
+                landPage = "/DashBoard.aspx";
             }
+
+            Session["home"] = landPage;
+            Response.Redirect(landPage, false);
+            Context.ApplicationInstance.CompleteRequest();
         }
     }
 }

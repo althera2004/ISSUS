@@ -399,6 +399,90 @@ namespace GisoFramework.Item
         }
 
         /// <summary>
+        /// Set the assistance as completed
+        /// </summary>
+        /// <param name="assistantId">Assistant identifier</param>
+        /// <param name="companyId">Compnay identifier</param>
+        /// <param name="userId">Identifier of user that performs the action</param>
+        /// <returns>Result of action</returns>
+        public static ActionResult Unevaluated(int assistantId, int companyId, int userId)
+        {
+            ActionResult res = ActionResult.NoAction;
+            /* CREATE PROCEDURE LearningAssistant_Complete
+             * @LearningAssitantId int,
+             * @CompanyId int,
+             * @UserId int */
+            using (SqlCommand cmd = new SqlCommand("LearningAssistant_Unevaluated"))
+            {
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@LearningAssitantId", SqlDbType.Int);
+                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                    cmd.Parameters["@LearningAssitantId"].Value = assistantId;
+                    cmd.Parameters["@CompanyId"].Value = companyId;
+                    cmd.Parameters["@UserId"].Value = userId;
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess();
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        /// <summary>
+        /// Set the assistance as completed
+        /// </summary>
+        /// <param name="assistantId">Assistant identifier</param>
+        /// <param name="companyId">Compnay identifier</param>
+        /// <param name="userId">Identifier of user that performs the action</param>
+        /// <returns>Result of action</returns>
+        public static ActionResult CompleteFail(int assistantId, int companyId, int userId)
+        {
+            ActionResult res = ActionResult.NoAction;
+            /* CREATE PROCEDURE LearningAssistant_Complete
+             * @LearningAssitantId int,
+             * @CompanyId int,
+             * @UserId int */
+            using (SqlCommand cmd = new SqlCommand("LearningAssistant_Complete"))
+            {
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@LearningAssitantId", SqlDbType.Int);
+                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                    cmd.Parameters["@LearningAssitantId"].Value = assistantId;
+                    cmd.Parameters["@CompanyId"].Value = companyId;
+                    cmd.Parameters["@UserId"].Value = userId;
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess();
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        /// <summary>
         /// Set the assistance as successfull completed
         /// </summary>
         /// <param name="assistantId">Assistant identifier</param>
@@ -413,6 +497,48 @@ namespace GisoFramework.Item
              * @CompanyId int,
              * @UserId int */
             using (SqlCommand cmd = new SqlCommand("LearningAssistant_Success"))
+            {
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@LearningAssitantId", SqlDbType.Int);
+                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                    cmd.Parameters["@LearningAssitantId"].Value = assistantId;
+                    cmd.Parameters["@CompanyId"].Value = companyId;
+                    cmd.Parameters["@UserId"].Value = userId;
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess();
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        /// <summary>
+        /// Set the assistance as successfull completed
+        /// </summary>
+        /// <param name="assistantId">Assistant identifier</param>
+        /// <param name="companyId">Compnay identifier</param>
+        /// <param name="userId">Identifier of user that performs the action</param>
+        /// <returns>Result of action</returns>
+        public static ActionResult CompleteAndSuccessFail(int assistantId, int companyId, int userId)
+        {
+            ActionResult res = ActionResult.NoAction;
+            /* CREATE PROCEDURE LearningAssistant_SuccessFail
+             * @LearningAssitantId int,
+             * @CompanyId int,
+             * @UserId int */
+            using (SqlCommand cmd = new SqlCommand("LearningAssistant_SuccessFail"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 try

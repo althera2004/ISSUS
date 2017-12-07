@@ -110,7 +110,7 @@ public partial class Export_PrintActionData : Page
 
         iTextSharp.text.Document document = new iTextSharp.text.Document(PageSize.A4, 30, 30, 65, 55);
 
-        PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(Request.PhysicalApplicationPath + "\\DOCS\\" + fileName, FileMode.Create));
+        PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(Request.PhysicalApplicationPath + "\\Temp\\" + fileName, FileMode.Create));
         TwoColumnHeaderFooter PageEventHandler = new TwoColumnHeaderFooter()
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, companyId),
@@ -225,7 +225,7 @@ public partial class Export_PrintActionData : Page
         Response.ClearHeaders();
         Response.AddHeader("Content-Disposition", "inline;filename=Accion.pdf");
         Response.ContentType = "application/pdf";
-        Response.WriteFile(Request.PhysicalApplicationPath + "\\DOCS\\" + fileName);
+        Response.WriteFile(Request.PhysicalApplicationPath + "\\Temp\\" + fileName);
         Response.Flush();
         Response.Clear();
     }

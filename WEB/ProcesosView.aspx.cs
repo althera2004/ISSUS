@@ -8,6 +8,8 @@ using GisoFramework.Item;
 using System.Collections.ObjectModel;
 using SbrinnaCoreFramework.UI;
 using SbrinnaCoreFramework;
+using System.Globalization;
+using System.IO;
 
 public partial class ProcesosView : Page
 {
@@ -106,7 +108,7 @@ public partial class ProcesosView : Page
             {
                 Name = "TxtName",
                 Value = this.Proceso.Description,
-                ColumnSpan = 7,
+                ColumnSpan = 11,
                 Placeholder = this.dictionary["Common_Name"],
                 Required = true,
                 RequiredMessage = this.dictionary["Common_Required"],
@@ -200,7 +202,7 @@ public partial class ProcesosView : Page
             this.master.TitleInvariant = true;
             this.master.Titulo = string.Format("{0}: <strong>{1}</strong>", this.dictionary["Item_Process"], this.process.Description);
             this.RenderIndicatorsData();
-
+            this.RenderDocuments();
         }
         
         this.RenderProcesosData();
@@ -243,5 +245,109 @@ public partial class ProcesosView : Page
         }
 
         this.procesosListJson = res.ToString();
+    }
+
+    private void RenderDocuments()
+    {
+        this.LtDocumentsList.Text = string.Empty;
+        this.LtDocuments.Text = string.Empty;
+
+        ReadOnlyCollection<UploadFile> files = UploadFile.GetByItem(9, this.processId, this.company.Id);
+        StringBuilder res = new StringBuilder();
+        StringBuilder resList = new StringBuilder();
+        int contCells = 0;
+        ReadOnlyCollection<string> extensions = ToolsFile.ExtensionToShow;
+        foreach (UploadFile file in files)
+        {
+            decimal finalSize = ToolsFile.FormatSize((decimal)file.Size);
+            string fileShowed = string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description;
+            if (fileShowed.Length > 15)
+            {
+                fileShowed = fileShowed.Substring(0, 15) + "...";
+            }
+
+            string viewButton = string.Format(
+                CultureInfo.InvariantCulture,
+                @"<div class=""col-sm-2 btn-success"" onclick=""ShowPDF('{0}');""><i class=""icon-eye-open bigger-120""></i></div>",
+                file.FileName
+                );
+
+            string listViewButton = string.Format(
+                CultureInfo.InvariantCulture,
+                @"<span class=""btn btn-xs btn-success"" onclick=""ShowPDF('{0}');"">
+                            <i class=""icon-eye-open bigger-120""></i>
+                        </span>",
+                file.FileName);
+
+            var fileExtension = Path.GetExtension(file.FileName);
+
+            if (!extensions.Contains(fileExtension))
+            {
+                viewButton = "<div class=\"col-sm-2\">&nbsp;</div>";
+                listViewButton = "<span style=\"margin-left:30px;\">&nbsp;</span>";
+            }
+
+            res.AppendFormat(
+                CultureInfo.InvariantCulture,
+                @"<div id=""{0}"" class=""col-sm-3 document-container"">
+                        <div class=""col-sm-6"">&nbsp</div>
+                        {10}
+                        <div class=""col-sm-2 btn-info""><a class=""icon-download bigger-120"" href=""/DOCS/{3}/{4}"" target=""_blank"" style=""color:#fff;""></a></div>
+                        <div class=""col-sm-2 btn-danger"" onclick=""DeleteUploadFile({0},'{1}');""><i class=""icon-trash bigger-120""></i></div>
+                        <div class=""col-sm-12 iconfile"" style=""max-width: 100%;"">
+                            <div class=""col-sm-4""><img src=""/images/FileIcons/{2}.png"" /></div>
+                            <div class=""col-sm-8 document-name"">
+                                <strong title=""{1}"">{9}</strong><br />
+                                {7}: {5:dd/MM/yyyy}
+                                {8}: {6:#,##0.00} MB
+                            </div>
+                        </div>
+                    </div>",
+                    file.Id,
+                    string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
+                    file.Extension,
+                    this.company.Id,
+                    file.FileName,
+                    file.CreatedOn,
+                    finalSize,
+                    this.Dictionary["Item_Attachment_Header_CreateDate"],
+                    this.dictionary["Item_Attachment_Header_Size"],
+                    fileShowed,
+                    viewButton);
+
+            resList.AppendFormat(
+                CultureInfo.InvariantCulture,
+                @"<tr id=""tr{2}"">
+                    <td>{1}</td>
+                    <td align=""center"" style=""width:90px;"">{4:dd/MM/yyyy}</td>
+                    <td align=""right"" style=""width:120px;"">{5:#,##0.00} MB</td>
+                    <td style=""width:150px;"">
+                        {6}
+                        <span class=""btn btn-xs btn-info"">
+                            <a class=""icon-download bigger-120"" href=""/DOCS/{3}/{0}"" target=""_blank"" style=""color:#fff;""></a>
+                        </span>
+                        <span class=""btn btn-xs btn-danger"" onclick=""DeleteUploadFile({2},'{1}');"">
+                            <i class=""icon-trash bigger-120""></i>
+                        </span>
+                    </td>
+                </tr>",
+                file.FileName,
+                string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
+                file.Id,
+                this.company.Id,
+                file.CreatedOn,
+                finalSize,
+                listViewButton);
+
+            contCells++;
+            if (contCells == 4)
+            {
+                contCells = 0;
+                res.Append("<div style=\"clear:both\">&nbsp;</div>");
+            }
+        }
+
+        this.LtDocuments.Text = res.ToString();
+        this.LtDocumentsList.Text = resList.ToString();
     }
 }

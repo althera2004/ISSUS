@@ -3,9 +3,9 @@
 </center>
 <FONT FACE="calibri" SIZE="4" COLOR="black">
   <p>Hola #USERNAME#!</p>
-  <p>Texto para indicar que se ha resetado el password.</p>
+  <p>La teva contrasenya ha estat regenerada.</p>
   <p>
-    Pots accedir a l’aplicació des d’<a href="http://www.scrambotika.cat/">aquest enllaç</a> amb les següents dades:
+    Pots accedir a l’aplicació des d’<a href="http://issus.scrambotika.com/">aquest enllaç</a> amb les següents dades:
   </p>
   <li>
     Usuari: <strong>#EMAIL#</strong>
@@ -19,11 +19,11 @@
     <a href="mailto:hola@scrambotika.com>hola@scrambotika.com“"/a>
   </p>
 </FONT>
-<img src="http://www.scrambotika.cat/scrambotika_mail.jpg" alt="Scrambòtika" />
+<img src="http://issus.scrambotika.com/scrambotika_mail.jpg" alt="Scrambòtika" />
 <p>
   <center>
     <FONT FACE="calibri" SIZE="2" COLOR="black">
-      <br />Si us plau, no responguis a aquest email. Si necessites contactar amb nosaltres envia’ns un correu a <a href="mailto:hola@scrambotika.com>hola@scrambotika.com“"/a>.
+      <br />Si us plau, no responguis a aquest email. Si necessites contactar amb nosaltres envia’ns un correu a <a href="mailto:hola@scrambotika.com">hola@scrambotika.com.</a>
     </FONT>
   </center>
 </p>

@@ -137,13 +137,14 @@ namespace GisoFramework.Item
                     while (rdr.Read())
                     {
                         res.Add(new Learning()
-                            {
-                                Id = rdr.GetInt32(ColumnsLearningFilter.LearningId),
-                                Description = rdr.GetString(ColumnsLearningFilter.LearningDescription),
-                                DateEstimated = rdr.GetDateTime(ColumnsLearningFilter.LearningEstimatedDate),
-                                Amount = rdr.GetDecimal(ColumnsLearningFilter.LearningAmmount),
-                                CompanyId = this.CompanyId
-                            });
+                        {
+                            Id = rdr.GetInt32(ColumnsLearningFilter.Id),
+                            Description = rdr.GetString(ColumnsLearningFilter.CourseName),
+                            DateEstimated = rdr.GetDateTime(ColumnsLearningFilter.EstimatedDate),
+                            Amount = rdr.GetDecimal(ColumnsLearningFilter.Ammount),
+                            CompanyId = this.CompanyId,
+                            Status = rdr.GetInt32(ColumnsLearningFilter.Status)
+                        });
                     }
                 }
                 finally

@@ -78,14 +78,157 @@
                                                             </div>
                                                         </div>
                                                         <div class="space-4"></div>
+														
+                                                        <!-- GTK AQUI -->
+																							 
+																   
+																																	
+																										 
+																													   
+																	 
+																																																												  
+																   
+																														  
+																		 
+																				   
+																							  
+																													  
+																												  
+																						
+																														 
+																							   
+																																																										   
+																							   
+																																				 
+
+																														   
+																																				  
+																									  
+																																																   
+																																																	   
+																							   
+																						 
+																						
+																																														  
+																					
+																								 
+																				
+																								  
+																				   
+																																					
+																						   
+																															   
+																		 
+																					
+																																																				
+																						   
+																																	
+																		 
+																  
+																   
+																			
+																				   
+															  
                                                         <div class="form-group">
+                                                            <label id="CmbFechaPrevistaMesLabel" class="col-sm-1 control-label no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Learning_FieldLabel_EstimatedDate"] %><span style="color:#f00;">*</span></label>
+                                                            <div class="col-sm-2" id="DivCmbFechaPrevistaMes" style="height:35px !important;">
+                                                                <% if (this.Learning.Status < 2) { %>
+                                                                <select class="col-xs-12 col-sm-12" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="CmbFechaPrevistaMes">
+                                                                    <option value="0"<%=this.Learning.DateEstimated.Month == 0 ? "selected=\"selected\"" : string.Empty %>><%=this.Dictionary["Common_Month"]%></option>
+                                                                    <option value="1"<%=this.Learning.DateEstimated.Month == 1 ? "selected=\"selected\"" : string.Empty %>><%=this.Dictionary["Common_MonthName_January"]%></option>
+                                                                    <option value="2"<%=this.Learning.DateEstimated.Month == 2 ? "selected=\"selected\"" : string.Empty %>><%=this.Dictionary["Common_MonthName_February"]%></option>
+                                                                    <option value="3"><%=this.Dictionary["Common_MonthName_March"]%></option>
+                                                                    <option value="4"><%=this.Dictionary["Common_MonthName_April"]%></option>
+                                                                    <option value="5"><%=this.Dictionary["Common_MonthName_May"]%></option>
+                                                                    <option value="6"><%=this.Dictionary["Common_MonthName_June"]%></option>
+                                                                    <option value="7"><%=this.Dictionary["Common_MonthName_July"]%></option>
+                                                                    <option value="8"><%=this.Dictionary["Common_MonthName_August"]%></option>
+                                                                    <option value="9"><%=this.Dictionary["Common_MonthName_September"]%></option>
+                                                                    <option value="10"><%=this.Dictionary["Common_MonthName_October"]%></option>
+                                                                    <option value="11"><%=this.Dictionary["Common_MonthName_November"]%></option>
+                                                                    <option value="12"><%=this.Dictionary["Common_MonthName_December"]%></option>
+                                                                </select>
+                                                                <span class="ErrorMessage" id="CmbFechaPrevistaMesErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                                                <% } else { %>
+                                                                <input type="text" readonly="readonly" class="col-xs-12 col-sm-12" value="<%=this.MesPrevisto %>" id="TxtFechaPresvistaMesReadOnly"  />
+                                                                <% } %>
+                                                            </div>
+                                                            <div class="col-sm-3" id="DivCmbYearPrevisto" style="height:35px !important;">
+                                                                <% if (this.Learning.Status != 2)
+                                                                   { %>
+                                                                <select onchange="document.getElementById('TxtFechaPrevistaYear').value = this.value;" id="CmbYearPrevisto" class="col-xs-12 col-sm-12" >
+                                                                    <asp:Literal runat="server" ID="LtYearPrevistos"></asp:Literal>
+                                                                </select>
+                                                                <% } %>
+                                                                <input <% if (this.Learning.Status != 2) { %>style="display:none;" <% } %> type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtFechaPrevistaYear" placeholder="<%=this.Dictionary["Common_Year"] %>" class="col-xs-12 col-sm-12" onkeypress="validate(event)" maxlength="4"  />
+                                                                <span class="ErrorMessage" id="TxtFechaPrevistaYearErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                            </div>
+                                                            <label id="TxtHoursLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Hours"] %><span style="color:#f00;">*</span></label>
+                                                            <div class="col-sm-2">
+                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtHours" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Hours"] %>" class="col-xs-12 col-sm-12 integerFormated" maxlength="9" />
+                                                                <span class="ErrorMessage" id="TxtHoursErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                            </div>
+                                                            <label id="TxtAmountLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %></label>
+                                                            <div class="col-sm-2">
+                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtAmount" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %>" class="col-xs-12 col-sm-12 money-bank" maxlength="9" />
+                                                                <span class="ErrorMessage" id="TxtAmountErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label id="TxtMasterLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Coach"] %><span style="color:#f00;">*</span></label>
+                                                            <div class="col-sm-5">
+                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtMaster" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Coach"] %>" class="col-xs-12 col-sm-12" maxlength="100" />
+                                                                <span class="ErrorMessage" id="TxtMasterErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                            </div>
+                                                        <!--/div>
+                                                        <div class="form-group"-->
+                                                            <label id="TxtRealStartLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_StartDate"] %></label>
+                                                            <div class="col-sm-2">
+                                                                <div class="row">
+                                                                    <div class="col-xs-12 col-sm-12">
+                                                                        <div class="input-group">
+                                                                            <input <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control <% if (this.Learning.Status == 2) { %>_<% } %>date-picker" id="TxtRealStart" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                                            <span  <% if (this.Learning.Status == 2) { %>style="display:none;" <% } %>class="input-group-addon" onclick="document.getElementById('TxtRealStart').focus();" id="BtnRealStart">
+                                                                                <i class="icon-calendar bigger-110"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <span class="ErrorMessage" id="TxtRealStartErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtRealStartErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtRealStartDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                                </div>
+                                                            </div>
+                                                            <label id="TxtRealFinishLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_EndDate"] %></label>
+                                                            <div class="col-sm-2">
+                                                                <div class="row">
+                                                                    <div class="col-xs-12 col-sm-12">
+                                                                        <div class="input-group">
+                                                                            <input <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control <% if (this.Learning.Status == 2) { %>_<% } %>date-picker" id="TxtRealFinish" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                                            <span <% if (this.Learning.Status == 2) { %>style="display:none;" <% } %>class="input-group-addon" onclick="document.getElementById('TxtRealFinish').focus();" id="BtnRealFinish">
+                                                                                <i class="icon-calendar bigger-110"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <span class="ErrorMessage" id="TxtRealFinishErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtRealFinishErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtRealFinishDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <!-- GTK AAAA -->
+                                                        <hr />
+                                                        <div class="form-group col-sm-12">
                                                             <!--<label class="col-sm-2 control-label" for="form-input-readonly"><%=this.Dictionary["Item_LearningAssistants"] %></label>-->
                                                             <% if (this.Learning.Status == 0)
                                                                { %>
+                                                               <div class="col-sm-11"><h4><%=this.Dictionary["Item_LearningAssistants"] %></h4></div>
+                                                               <div class="col-sm-1 no-padding-right">
                                                                <button class="btn btn-success" type="button" id="BtnSelectEmpleado">
-                                                                <i class="icon-plus-sign bigger-110"></i>
+                                                                <i class="icon-plus bigger-110"></i>
                                                                 <%=this.Dictionary["Item_Learning_SelectAssistants"] %>
                                                             </button>
+                                                            </div>
                                                             <!--<div class="col-sm-1"><span class="btn btn-light" style="height:30px;" id="BtnSelectEmpleado_" title="<%=this.Dictionary["Item_Learning_SelectAssistants"] %>">...</span></div>-->
                                                             <% } %>
                                                         </div>                                                            
@@ -115,108 +258,40 @@
                                                             </div><!-- /span -->
                                                             <% if (this.Learning.Status == 1) { %>
                                                             <div class="col-xs-12">
+                                                                <button class="btn btn-info" type="button" id="BtnUnevaluated" onclick="Unevaluated();">
+                                                                    <i class="icon-ok"></i>
+                                                                    <%=this.Dictionary["Item_LearningAssistant_Status_Unevaluated"] %>
+                                                                </button>
+                                                                &nbsp;&nbsp;&nbsp
                                                                 <button class="btn btn-info" type="button" id="BtnRealizado" onclick="Realizado();">
                                                                     <i class="icon-ok"></i>
                                                                     <%=this.Dictionary["Item_LearningAssistant_Status_Done"] %>
                                                                 </button>
-                                                                &nbsp; &nbsp; &nbsp;
+                                                                &nbsp;&nbsp;&nbsp;
+                                                                <button class="btn btn-info" type="button" id="BtnRealizadoFail" onclick="RealizadoFail();">
+                                                                    <i class="icon-ok"></i>
+                                                                    <%=this.Dictionary["Item_LearningAssistant_Status_DoneFail"] %>
+                                                                </button>
+                                                                &nbsp;&nbsp;&nbsp;
                                                                 <button class="btn btn-info" type="button" id="BtnItem_LearningAssistant_Status_Evaluated" onclick="Item_LearningAssistant_Status_Evaluated();">
                                                                     <i class="icon-ok"></i>
                                                                     <%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %>
                                                                 </button>
+                                                                &nbsp;&nbsp;&nbsp;
+                                                                <button class="btn btn-info" type="button" id="BtnItem_LearningAssistant_Status_EvaluatedFail" onclick="Item_LearningAssistant_Status_EvaluatedFail();">
+                                                                    <i class="icon-ok"></i>
+                                                                    <%=this.Dictionary["Item_LearningAssistant_Status_EvaluatedFail"] %>
+                                                                </button>
                                                             </div>
                                                             <% } %>
                                                         </div><!-- /row -->	
-                                                        <div class="space-4"></div>
+                                                        <!--div class="space-4"></div-->
                                                         <hr />
-                                                        <div class="form-group">
-                                                            <label id="CmbFechaPrevistaMesLabel" class="col-sm-2 control-label no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Learning_FieldLabel_EstimatedDate"] %><span style="color:#f00;">*</span></label>
-                                                            <div class="col-sm-2" id="DivCmbFechaPrevistaMes" style="height:35px !important;">
-                                                                <% if (this.Learning.Status < 2) { %>
-                                                                <select class="col-xs-12 col-sm-12" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="CmbFechaPrevistaMes">
-                                                                    <option value="0"<%=this.Learning.DateEstimated.Month == 0 ? "selected=\"selected\"" : string.Empty %>><%=this.Dictionary["Common_Month"]%></option>
-                                                                    <option value="1"<%=this.Learning.DateEstimated.Month == 1 ? "selected=\"selected\"" : string.Empty %>><%=this.Dictionary["Common_MonthName_January"]%></option>
-                                                                    <option value="2"<%=this.Learning.DateEstimated.Month == 2 ? "selected=\"selected\"" : string.Empty %>><%=this.Dictionary["Common_MonthName_February"]%></option>
-                                                                    <option value="3"><%=this.Dictionary["Common_MonthName_March"]%></option>
-                                                                    <option value="4"><%=this.Dictionary["Common_MonthName_April"]%></option>
-                                                                    <option value="5"><%=this.Dictionary["Common_MonthName_May"]%></option>
-                                                                    <option value="6"><%=this.Dictionary["Common_MonthName_June"]%></option>
-                                                                    <option value="7"><%=this.Dictionary["Common_MonthName_July"]%></option>
-                                                                    <option value="8"><%=this.Dictionary["Common_MonthName_August"]%></option>
-                                                                    <option value="9"><%=this.Dictionary["Common_MonthName_September"]%></option>
-                                                                    <option value="10"><%=this.Dictionary["Common_MonthName_October"]%></option>
-                                                                    <option value="11"><%=this.Dictionary["Common_MonthName_November"]%></option>
-                                                                    <option value="12"><%=this.Dictionary["Common_MonthName_December"]%></option>
-                                                                </select>
-                                                                <span class="ErrorMessage" id="CmbFechaPrevistaMesErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
-                                                                <% } else { %>
-                                                                <input type="text" readonly="readonly" class="col-xs-12 col-sm-12" value="<%=this.MesPrevisto %>" id="TxtFechaPresvistaMesReadOnly"  />
-                                                                <% } %>
-                                                            </div>
-                                                            <div class="col-sm-2" id="DivCmbYearPrevisto" style="height:35px !important;">
-                                                                <% if (this.Learning.Status != 2)
-                                                                   { %>
-                                                                <select onchange="document.getElementById('TxtFechaPrevistaYear').value = this.value;" id="CmbYearPrevisto" class="col-xs-12 col-sm-12" >
-                                                                    <asp:Literal runat="server" ID="LtYearPrevistos"></asp:Literal>
-                                                                </select>
-                                                                <% } %>
-                                                                <input <% if (this.Learning.Status != 2) { %>style="display:none;" <% } %> type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtFechaPrevistaYear" placeholder="<%=this.Dictionary["Common_Year"] %>" class="col-xs-12 col-sm-12" onkeypress="validate(event)" maxlength="4"  />
-                                                                <span class="ErrorMessage" id="TxtFechaPrevistaYearErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                            </div>
-                                                            <label id="TxtHoursLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Hours"] %><span style="color:#f00;">*</span></label>
-                                                            <div class="col-sm-2">
-                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtHours" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Hours"] %>" class="col-xs-12 col-sm-12 integerFormated" maxlength="9" />
-                                                                <span class="ErrorMessage" id="TxtHoursErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                            </div>
-                                                            <label id="TxtAmountLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %></label>
-                                                            <div class="col-sm-2">
-                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtAmount" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %>" class="col-xs-12 col-sm-12 money-bank" maxlength="9" />
-                                                                <span class="ErrorMessage" id="TxtAmountErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label id="TxtMasterLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Coach"] %><span style="color:#f00;">*</span></label>
-                                                            <div class="col-sm-7">
-                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtMaster" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Coach"] %>" class="col-xs-12 col-sm-12" maxlength="100" />
-                                                                <span class="ErrorMessage" id="TxtMasterErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label id="TxtRealStartLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_StartDate"] %></label>
-                                                            <div class="col-sm-2">
-                                                                <div class="row">
-                                                                    <div class="col-xs-12 col-sm-12">
-                                                                        <div class="input-group">
-                                                                            <input <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control <% if (this.Learning.Status == 2) { %>_<% } %>date-picker" id="TxtRealStart" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                                            <span  <% if (this.Learning.Status == 2) { %>style="display:none;" <% } %>class="input-group-addon" onclick="document.getElementById('TxtRealStart').focus();" id="BtnRealStart">
-                                                                                <i class="icon-calendar bigger-110"></i>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <span class="ErrorMessage" id="TxtRealStartErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtRealStartErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtRealStartDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
-                                                                </div>
-                                                            </div>
-                                                            <label id="TxtRealFinishLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_EndDate"] %></label>
-                                                            <div class="col-sm-2">
-                                                                <div class="row">
-                                                                    <div class="col-xs-12 col-sm-12">
-                                                                        <div class="input-group">
-                                                                            <input <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control <% if (this.Learning.Status == 2) { %>_<% } %>date-picker" id="TxtRealFinish" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                                            <span <% if (this.Learning.Status == 2) { %>style="display:none;" <% } %>class="input-group-addon" onclick="document.getElementById('TxtRealFinish').focus();" id="BtnRealFinish">
-                                                                                <i class="icon-calendar bigger-110"></i>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <span class="ErrorMessage" id="TxtRealFinishErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtRealFinishErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtRealFinishDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                        </div>
+                                                        <!-- GTK ZZZZ -->
+                                                        
+                                                        
+                                                        <!--div class="form-group">
+                                                        </div-->
                                                         <div class="for-group">
                                                             <label class="col-sm-12"><%=this.Dictionary["Item_Learning_Objetive"] %></label>
                                                         </div>
@@ -304,7 +379,7 @@
                                         <table class="table table-bordered table-striped">
                                             <thead class="thin-border-bottom">
                                                 <tr>
-                                                    <th class="hidden-480" width="20px;">
+                                                    <th class="hidden-480" style="width:20px;">
                                                         <input type="checkbox" title="<%=this.Dictionary["Common_SelectAll todos"] %>" onclick="SelectAll(this);" />
                                                     </th>
                                                     <th>
@@ -359,21 +434,21 @@
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
-        <script type="text/javascript" src="assets/js/jquery-ui-1.10.3.full.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.ui.touch-punch.min.js"></script>
-        <script type="text/javascript" src="assets/js/chosen.jquery.min.js"></script>
-        <script type="text/javascript" src="assets/js/fuelux/fuelux.spinner.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/bootstrap-timepicker.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/moment.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/daterangepicker.min.js"></script>
-        <script type="text/javascript" src="assets/js/bootstrap-colorpicker.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.knob.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.autosize.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.maskedinput.min.js"></script>
-        <script type="text/javascript" src="assets/js/bootstrap-tag.min.js"></script>
-        <script type="text/javascript" src="assets/js/autoNumeric.js"> </script>
-        <script type="text/javascript" src="js/FormacionView.js?ac<%= this.AntiCache %>"></script>
+        <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>
+        <script type="text/javascript" src="/assets/js/chosen.jquery.min.js"></script>
+        <script type="text/javascript" src="/assets/js/fuelux/fuelux.spinner.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/bootstrap-timepicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/moment.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/daterangepicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/bootstrap-colorpicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.knob.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.autosize.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.maskedinput.min.js"></script>
+        <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
+        <script type="text/javascript" src="/assets/js/autoNumeric.js"></script>
+        <script type="text/javascript" src="/js/FormacionView.js?ac<%= this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/UploadFile.js?ac<%= this.AntiCache %>"></script>
 </asp:Content>
 

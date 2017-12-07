@@ -33,7 +33,7 @@ function DeleteEmployeeConfirmed(id) {
     if (formacion.Id === 0) {
         var survivors = new Array();
         for (var x = 0; x < SelectedEmployees.length; x++) {
-            if (SelectedEmployees[x].AssistantId != id) {
+            if (SelectedEmployees[x].AssistantId !== id) {
                 survivors.push(SelectedEmployees[x]);
             }
         }
@@ -65,7 +65,7 @@ function DeleteEmployeeConfirmed(id) {
             // Eliminar de la lista
             var survivors = new Array();
             for (var x = 0; x < SelectedEmployees.length; x++) {
-                if (SelectedEmployees[x].AssistantId != id) {
+                if (SelectedEmployees[x].AssistantId !== id) {
                     survivors.push(SelectedEmployees[x]);
                 }
             }
@@ -137,6 +137,118 @@ function Realizado() {
     }
 }
 
+function RealizadoFail() {
+    // Complete(int companyId, AssistantData[] assistants, int userId)
+    var assistants = new Array();
+    for (var x = 0; x < SelectedEmployeesTable.childNodes.length; x++) {
+        if (SelectedEmployeesTable.childNodes[x].childNodes[0].childNodes[0].checked === true) {
+            var id = SelectedEmployeesTable.childNodes[x].id;
+            var AssistantId = id.split('|')[0] * 1;
+            var EmployeeId = id.split('|')[1] * 1;
+            assistants.push({ AssistantId: AssistantId, EmployeeId: EmployeeId, LearningId: formacion.Id });
+        }
+    }
+
+    if (assistants.length === 0) {
+        alert(Dictionary.Item_Learning_Error_MimumOneAssistant);
+    }
+    else {
+        var webMethod = "/Async/LearningActions.asmx/CompleteFail";
+        var data = { assistants: assistants, companyId: Company.Id, userId: user.Id };
+        LoadingShow(Dictionary.Common_Message_Saving);
+        $.ajax({
+            type: "POST",
+            url: webMethod,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(data, null, 2),
+            success: function (msg) {
+                LoadingHide();
+                if (msg.d.Success === true) {
+                    var result;
+                    eval("result = " + msg.d.MessageError + ";");
+                    for (var x = 0; x < result.length; x++) {
+                        var trId = result[x].AssistantId + '|' + result[x].EmployeeId;
+                        if (document.getElementById(trId) !== null) {
+                            document.getElementById(trId).childNodes[2].childNodes[0].innerHTML = Dictionary.Common_No;
+                            document.getElementById(trId).childNodes[2].childNodes[0].style.color = 'red';
+                            document.getElementById(trId).childNodes[3].childNodes[0].innerHTML = '-';
+                            document.getElementById(trId).childNodes[3].childNodes[0].style.color = 'grey';
+                            document.getElementById(trId).childNodes[2].childNodes[0].id = result[x].AssistantId;
+                            document.getElementById(trId).childNodes[3].childNodes[0].id = result[x].AssistantId;
+                            document.getElementById(trId).childNodes[2].childNodes[0].onclick = function () { Toggle(this, 'Completed', this.id * 1, 1); };
+                            document.getElementById(trId).childNodes[3].childNodes[0].onclick = function () { Toggle(this, 'Success', this.id * 1, 1); };
+                        }
+                    }
+                }
+                else {
+                    alert(msg.d.MessageError);
+                }
+            },
+            error: function (msg) {
+                LoadingHide();
+                alertUI(msg.responseText);
+            }
+        });
+    }
+}
+
+function Unevaluated() {
+    // Complete(int companyId, AssistantData[] assistants, int userId)
+    var assistants = new Array();
+    for (var x = 0; x < SelectedEmployeesTable.childNodes.length; x++) {
+        if (SelectedEmployeesTable.childNodes[x].childNodes[0].childNodes[0].checked === true) {
+            var id = SelectedEmployeesTable.childNodes[x].id;
+            var AssistantId = id.split('|')[0] * 1;
+            var EmployeeId = id.split('|')[1] * 1;
+            assistants.push({ AssistantId: AssistantId, EmployeeId: EmployeeId, LearningId: formacion.Id });
+        }
+    }
+
+    if (assistants.length === 0) {
+        alert(Dictionary.Item_Learning_Error_MimumOneAssistant);
+    }
+    else {
+        var webMethod = "/Async/LearningActions.asmx/Unevaluated";
+        var data = { assistants: assistants, companyId: Company.Id, userId: user.Id };
+        LoadingShow(Dictionary.Common_Message_Saving);
+        $.ajax({
+            type: "POST",
+            url: webMethod,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(data, null, 2),
+            success: function (msg) {
+                LoadingHide();
+                if (msg.d.Success === true) {
+                    var result;
+                    eval("result = " + msg.d.MessageError + ";");
+                    for (var x = 0; x < result.length; x++) {
+                        var trId = result[x].AssistantId + '|' + result[x].EmployeeId;
+                        if (document.getElementById(trId) !== null) {
+                            document.getElementById(trId).childNodes[2].childNodes[0].innerHTML = "-";
+                            document.getElementById(trId).childNodes[2].childNodes[0].style.color = 'greay';
+                            document.getElementById(trId).childNodes[3].childNodes[0].innerHTML = '-';
+                            document.getElementById(trId).childNodes[3].childNodes[0].style.color = 'grey';
+                            document.getElementById(trId).childNodes[2].childNodes[0].id = result[x].AssistantId;
+                            document.getElementById(trId).childNodes[3].childNodes[0].id = result[x].AssistantId;
+                            document.getElementById(trId).childNodes[2].childNodes[0].onclick = function () { Toggle(this, 'Completed', this.id * 1, 1); };
+                            document.getElementById(trId).childNodes[3].childNodes[0].onclick = function () { Toggle(this, 'Success', this.id * 1, 1); };
+                        }
+                    }
+                }
+                else {
+                    alert(msg.d.MessageError);
+                }
+            },
+            error: function (msg) {
+                LoadingHide();
+                alertUI(msg.responseText);
+            }
+        });
+    }
+}
+
 function Item_LearningAssistant_Status_Evaluated() {
     var assistants = new Array();
     for (var x = 0; x < SelectedEmployeesTable.childNodes.length; x++) {
@@ -190,6 +302,59 @@ function Item_LearningAssistant_Status_Evaluated() {
     }
 }
 
+function Item_LearningAssistant_Status_EvaluatedFail() {
+    var assistants = new Array();
+    for (var x = 0; x < SelectedEmployeesTable.childNodes.length; x++) {
+        if (SelectedEmployeesTable.childNodes[x].childNodes[0].childNodes[0].checked === true) {
+            var id = SelectedEmployeesTable.childNodes[x].id;
+            var AssistantId = id.split('|')[0] * 1;
+            var EmployeeId = id.split('|')[1] * 1;
+            assistants.push({ AssistantId: AssistantId, EmployeeId: EmployeeId, LearningId: formacion.Id });
+        }
+    }
+
+    if (assistants.length === 0) {
+        alert('Hay que seleccionar algún asistente');
+    }
+    else {
+        var webMethod = "/Async/LearningActions.asmx/SuccessFail";
+        var data = { assistants: assistants, companyId: Company.Id, userId: user.Id };
+        LoadingShow(Dictionary.Common_Message_Saving);
+        $.ajax({
+            type: "POST",
+            url: webMethod,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(data, null, 2),
+            success: function (msg) {
+                if (msg.d.Success === true) {
+                    var result;
+                    eval("result = " + msg.d.MessageError + ";");
+                    for (var x = 0; x < result.length; x++) {
+                        var trId = result[x].AssistantId + '|' + result[x].EmployeeId;
+                        if (document.getElementById(trId) !== null) {
+                            document.getElementById(trId).childNodes[2].childNodes[0].innerHTML = Dictionary.Common_Yes;
+                            document.getElementById(trId).childNodes[2].childNodes[0].style.color = 'green';
+                            document.getElementById(trId).childNodes[3].childNodes[0].innerHTML = Dictionary.Common_No;
+                            document.getElementById(trId).childNodes[3].childNodes[0].style.color = 'red';
+                            document.getElementById(trId).childNodes[2].childNodes[0].id = result[x].AssistantId;
+                            document.getElementById(trId).childNodes[3].childNodes[0].id = result[x].AssistantId;
+                            document.getElementById(trId).childNodes[2].childNodes[0].onclick = function () { Toggle(this, 'Completed', this.id * 1, 1); };
+                            document.getElementById(trId).childNodes[3].childNodes[0].onclick = function () { Toggle(this, 'Success', this.id * 1, 1); };
+                        }
+                    }
+                }
+                else {
+                    alert(msg.d.MessageError);
+                }
+            },
+            error: function (msg) {
+                alertUI(msg.responseText);
+            }
+        });
+    }
+}
+
 function SelectAllAssistants(sender) {
     if (sender.checked === true) {
         sender.title = Dictionary.Item_LearningAsistant_Button_UnselectAll;
@@ -213,14 +378,14 @@ function SelectAll(sender) {
 
     var target = document.getElementById('SelectableEmployeesTable').childNodes;
     for (var x = 0; x < target.length; x++) {
-        if (target[x].tagName == 'TR') {
+        if (target[x].tagName === 'TR') {
             target[x].childNodes[0].childNodes[0].checked = sender.checked;
         }
     }
 }
 
 function Toggle(sender, action, value, status) {
-    if (sender.parentNode.parentNode.childNodes[2].childNodes[0].innerHTML != Dictionary.Common_Yes && action == 'Success') {
+    if (sender.parentNode.parentNode.childNodes[2].childNodes[0].innerHTML !== Dictionary.Common_Yes && action === "Success") {
         alert(Dictionary.Item_Learning_Error_NoCompleted);
         return false;
     }
@@ -390,8 +555,6 @@ function SelectEmployees() {
 }
 
 function Save() {
-
-
     // Sólo si el status = 1 (Realizado) se revisa si está en condiciones de pasar a evaluado
     var evaluatedAll = false;
     if (formacion.Status == 1) {
@@ -429,17 +592,17 @@ function SaveConfirmed(evaluatedAll)
         }
     }
     else {
-        d1 = GetDate(document.getElementById('TxtRealStart').value);
+        d1 = GetDate($("#TxtRealStart").val(), "/", true);
     }
 
     var d2 = null;
-    if (document.getElementById('TxtRealFinish').value === '') {
-        if (!RequiredDateValue('TxtRealFinish') && formacion.status > 1) {
+    if (document.getElementById("TxtRealFinish").value === '') {
+        if (!RequiredDateValue("TxtRealFinish") && formacion.status > 1) {
             ok = false;
         }
     }
     else {
-        d2 = GetDate(document.getElementById('TxtRealFinish').value);
+        d2 = GetDate($("#TxtRealFinish").val(), "/", true);
     }
     var ok = true;
     if (!RequiredFieldText('TxtYear')) { ok = false; }
