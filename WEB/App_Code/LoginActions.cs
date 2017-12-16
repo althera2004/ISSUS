@@ -107,11 +107,13 @@ namespace GISOWeb
                     MailAddress senderMail = new MailAddress(sender, "ISSUS");
                     MailAddress to = new MailAddress(itemUser.Email);
 
-                    SmtpClient client = new SmtpClient();
-                    client.Host = "smtp.scrambotika.com";
-                    client.Credentials = new System.Net.NetworkCredential(sender, pass);
-                    client.Port = 25;
-                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    SmtpClient client = new SmtpClient()
+                    {
+                        Host = "smtp.scrambotika.com",
+                        Credentials = new System.Net.NetworkCredential(sender, pass),
+                        Port = 25,
+                        DeliveryMethod = SmtpDeliveryMethod.Network
+                    };
 
                     string body = string.Format(
                         CultureInfo.GetCultureInfo("en-us"),
@@ -121,14 +123,23 @@ namespace GISOWeb
                         userpass);
 
                     string templatePath = HttpContext.Current.Request.PhysicalApplicationPath;
-                    if (!templatePath.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
+                    if(!templatePath.EndsWith("\\", StringComparison.OrdinalIgnoreCase))
                     {
-                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\NewUser.tpl", templatePath);
+                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\", templatePath);
+                    }
+
+                    string translatedTemplate = string.Format(
+                        CultureInfo.InvariantCulture,
+                        @"NewUser_{0}.tpl",
+                        company.Language);
+
+                    if (!File.Exists(templatePath + "Templates\\" + translatedTemplate))
+                    {
+                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\NewUser.tpl", templatePath);
                     }
                     else
                     {
-
-                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\NewUser.tpl", templatePath);
+                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\{1}", templatePath, translatedTemplate);
                     }
 
                     if (File.Exists(templatePath))
@@ -138,13 +149,16 @@ namespace GISOWeb
                             body = input.ReadToEnd();
                         }
 
-                        body = body.Replace("#USERNAME#", itemUser.UserName).Replace("#PASSWORD#", userpass).Replace("#EMAIL#", itemUser.Email);
+                        body = body.Replace("#USERNAME#", itemUser.UserName).Replace("#PASSWORD#", userpass).Replace("#EMAIL#", itemUser.Email).Replace("#EMPRESA#", company.Name);
                     }
 
-                    MailMessage mail = new MailMessage(senderMail, to);
-                    mail.IsBodyHtml = true;
-                    mail.Subject = "Benvingut/uda a ISSUS";			
-                    mail.Body = body;
+                    MailMessage mail = new MailMessage(senderMail, to)
+                    {
+                        IsBodyHtml = true,
+                        Subject = "Benvingut/uda a ISSUS",
+                        Body = body
+                    };
+
                     client.Send(mail);
                     res.SetSuccess(Convert.ToInt32(cmd.Parameters["@Id"].Value));
                 }
@@ -323,16 +337,18 @@ namespace GISOWeb
             MailAddress senderMail = new MailAddress(sender, "ISSUS");
             MailAddress to = new MailAddress(ConfigurationManager.AppSettings["mailaddress"].ToString());
 
-            SmtpClient client = new SmtpClient();
-            client.Host = "smtp.scrambotika.com";
-            client.Credentials = new System.Net.NetworkCredential(sender, pass);
-            client.Port = 25;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            SmtpClient client = new SmtpClient()
+            {
+                Host = "smtp.scrambotika.com",
+                Credentials = new System.Net.NetworkCredential(sender, pass),
+                Port = 25,
+                DeliveryMethod = SmtpDeliveryMethod.Network
+            };
 
-            MailMessage mail = new MailMessage(senderMail, to);
-            mail.IsBodyHtml = true;
-
-            
+            MailMessage mail = new MailMessage(senderMail, to)
+            {
+                IsBodyHtml = true
+            };            
 
             string body = string.Format(
                 CultureInfo.GetCultureInfo("en-us"),

@@ -87,7 +87,7 @@
 			                                            <th onclick="Sort(this,'ListDataTable','text',false);" id="th1" class="search sort" style="cursor:pointer;width:200px;"><%=this.Dictionary["Item_Objetivo_Header_Responsible"] %></th>
 			                                            <th onclick="Sort(this,'ListDataTable','date',false);" id="th2" class="search sort" style="cursor:pointer;width:100px;"><%=this.Dictionary["Item_Objetivo_Header_StartDate"] %></th>
 			                                            <th onclick="Sort(this,'ListDataTable','date',false);" id="th3" class="search sort" style="cursor:pointer;width:100px;"><%=this.Dictionary["Item_Objetivo_Header_PreviewEndDate"] %></th>
-			                                            <th style="width:106px;">&nbsp;</th>
+			                                            <th style="width:107px;">&nbsp;</th>
 
 
 		                                            </tr>

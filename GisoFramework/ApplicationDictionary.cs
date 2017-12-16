@@ -19,13 +19,16 @@ namespace GisoFramework
     /// </summary>
     public sealed class ApplicationDictionary
     {
-        /// <summary>
-        /// Prevents a default instance of the ApplicationDictionary class from being created.
-        /// </summary>
+        /// <summary>Prevents a default instance of the ApplicationDictionary class from being created.</summary>
         private ApplicationDictionary()
         {
         }
 
+        /// <summary>
+        /// Loads the new language.
+        /// </summary>
+        /// <param name="language">Language code</param>
+        /// <returns></returns>
         public static Dictionary<string, string> LoadNewLanguage(string language)
         {
             Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;

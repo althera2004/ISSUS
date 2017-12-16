@@ -71,12 +71,12 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
-                                                        <th onclick="Sort(this,'ListDataTable');" id="th0" class="search hidden-40 sort" style="cursor:pointer;"><%=this.Dictionary["Item_Equipment_Header_Code"] %> - <%=this.Dictionary["Item_Equipment_Header_Description"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable');" id="th1" class="hidden-480 sort" style="width:120px;cursor:pointer;"><%=this.Dictionary["Item_Equipment_Header_Location"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable');" id="th2" class="hidden-480 sort" style="width:250px;cursor:pointer;"><%=this.Dictionary["Item_Equipment_Header_Responsible"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable', 'money');" id="th3" class="hidden-480 sort" style="width:120px;cursor:pointer;"><%=this.Dictionary["Item_Equipment_Header_Cost"] %></th>
+														<th onclick="Sort(this,'ListDataTable');" id="th0" class="search hidden-40 sort"><%=this.Dictionary["Item_Equipment_Header_Code"] %> - <%=this.Dictionary["Item_Equipment_Header_Description"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable');" id="th1" class="search hidden-480 sort" style="width:250px;"><%=this.Dictionary["Item_Equipment_Header_Location"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable');" id="th2" class="search hidden-480 sort" style="width:250px;"><%=this.Dictionary["Item_Equipment_Header_Responsible"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable', 'money');" id="th3" class="search hidden-480 sort" style="width:120px;"><%=this.Dictionary["Item_Equipment_Header_Cost"] %></th>
 			                                            <th style="width:35px;"></th>
-			                                            <th style="width:106px;">&nbsp;</th>
+			                                            <th style="width:107px;">&nbsp;</th>
 		                                            </tr>
                                                 </thead>
                                             </table>

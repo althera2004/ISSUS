@@ -421,7 +421,7 @@ function AnularPopup() {
         [
             {
                 "id": "BtnAnularSave",
-                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Item_Indicador_Btn_Anular,
+                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 "click": function () { AnularConfirmed(); }
             },
@@ -572,3 +572,10 @@ function Restore() {
     });
 }
 // --------------------------------------------------
+
+$("#CmbCalibrationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbCalibrationInternalResponsible").val() * 1, Employees); });
+$("#CmbCalibrationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbCalibrationExternalResponsible").val() * 1, Employees); });
+$("#CmbEquipmentCalibrationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentCalibrationActResponsible").val() * 1, Employees); });
+$("#CmbVerificationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationInternalResponsible").val() * 1, Employees); });
+$("#CmbVerificationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationExternalResponsible").val() * 1, Employees); });
+$("#CmbEquipmentVerificationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentVerificationActResponsible").val() * 1, Employees); });

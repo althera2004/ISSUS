@@ -457,7 +457,7 @@ function FillCmbEquipmentVerificationActResponsible() {
         if (Employees[x].Active === true) {
             var option = document.createElement('option');
             option.value = Employees[x].Id;
-            option.appendChild(document.createTextNode(Employees[x].Value));
+            option.appendChild(document.createTextNode(Employees[x].FullName));
             document.getElementById('CmbEquipmentVerificationActResponsible').appendChild(option);
         }
     }

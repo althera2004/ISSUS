@@ -185,9 +185,9 @@ public partial class UserProfileView : Page
     private void Go()
     {
         this.user = Session["User"] as ApplicationUser;
-        this.user = ApplicationUser.GetById(this.user.Id, this.company.Id);
+        this.company = Session["company"] as Company;
+        this.user = new ApplicationUser(this.user.Id);
         //this.user.Employee = new Employee(this.user.Employee.Id, false);
-        this.company = (Company)Session["company"];
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AddBreadCrumbInvariant(this.user.UserName);
@@ -342,6 +342,5 @@ public partial class UserProfileView : Page
 
         this.LtIdiomas.Text = "<option value=\"es\"" + (this.user.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
         this.LtIdiomas.Text += "<option value=\"ca\"" + (this.user.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
-        //this.LtIdiomas.Text += "<option value=\"en\"" + (this.user.Language == "en" ? " selected=\"selected\"" : string.Empty) + ">English</option>";
     }
 }

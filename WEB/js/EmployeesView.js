@@ -284,6 +284,7 @@ jQuery(function ($) {
     $('#BtnSave').on('click', SaveEmployee);
     $('#BtnSaveFormacion').on('click', SaveEmployee);
     $('#BtnSaveInternalLearning').on('click', SaveEmployee);
+    $("#BtnAnular").on("click", AnularPopup);
 
     function SaveEmployee() {
         if (ValidateForm() === false) {
@@ -721,4 +722,81 @@ if (ApplicationUser.Grants.Employee.Write === false) {
     $("#BtnNewUploadfile").hide();
     $("#UploadFilesContainer .btn-danger").hide();
     $("#UploadFilesList .btn-danger").hide();
+}
+
+function AnularPopup() {
+    $("#TxtEndDate").val(FormatDate(new Date(), "/"));
+    var dialog = $("#dialogAnular").removeClass("hide").dialog({
+        resizable: false,
+        modal: true,
+        title: Dictionary.Item_Employee_PopupAnular_Title,
+        width: 600,
+        buttons:
+        [
+            {
+                "id": "BtnAnularSave",
+                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Item_Employee_Btn_Inactive,
+                "class": "btn btn-success btn-xs",
+                "click": function () { AnularConfirmed(); }
+            },
+            {
+                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () { $(this).dialog("close"); }
+            }
+        ]
+    });
+}
+
+var anulationData = null;
+function AnularConfirmed() {
+    console.log("AnularConfirmed");
+    var ok = true;
+    $("#TxtEndDateLabel").css("color", "#000");
+    $("#TxtEndDateErrorRequired").hide();
+    $("#TxtEndDateMalformed").hide();
+    
+    if ($("#TxtEndDate").val() === "") {
+        ok = false;
+        $("#TxtEndDateLabel").css("color", "#f00");
+        $("#TxtEndDateErrorRequired").show();
+    }
+    else {
+        if (validateDate($("#TxtEndDate").val()) === false) {
+            ok = false;
+            $("#TxtEndDateLabel").css("color", "#f00");
+            $("#TxtEndDateMalformed").show();
+        }
+    }
+
+    if (ok === false) {
+        return false;
+    }
+
+    //Anulate(int indicadorId, int companyId, int applicationUserId, string reason, DateTime date, int responsible)
+    var webMethod = "/Async/EmployeeActions.asmx/Disable";
+    var data = {
+        "employeeId": employeeId,
+        "companyId": Company.Id,
+        "endDate": GetDate($("#TxtEndDate").val(), "/"),
+        "userId": user.Id
+    };
+    anulationData = data;
+    $("#dialogAnular").dialog("close");
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            document.location = referrer;
+            //AnulateLayout();
+        },
+        error: function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
 }

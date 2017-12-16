@@ -98,6 +98,7 @@ namespace GisoFramework.Item
                         Id = actionCost.Id,
                         IncidentId = incidentId,
                         BusinessRiskId = actionCost.IncidentActionId,
+                        Description = actionCost.Description,
                         Quantity = actionCost.Quantity,
                         CompanyId = actionCost.CompanyId,
                         Responsible = actionCost.Responsible,
@@ -205,7 +206,6 @@ namespace GisoFramework.Item
                                 LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
                             },
                             Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
-
                         });
                     }
                 }

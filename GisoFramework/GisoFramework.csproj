@@ -197,6 +197,7 @@
     <Compile Include="Item\ScheduledTask.cs" />
     <Compile Include="LogOn\ApplicationLogOn.cs" />
     <Compile Include="RandomPassword.cs" />
+    <Compile Include="ToolsPdf.cs" />
     <Compile Include="UserGrant.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>

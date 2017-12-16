@@ -8,7 +8,7 @@
 <li>
   Usuario: <strong>#EMAIL#</strong>
 </li>
-  <li>
+<li>
     Contraseña: <strong>#PASSWORD#</strong>
 </li>
   <p>Gracias por confiar en ISSUS.</p>

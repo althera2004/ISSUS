@@ -228,7 +228,6 @@ public partial class Export_BusinessRiskExportList : Page
         criteria4.Padding = 6f;
         criteria4.PaddingTop = 4f;
 
-
         criteriatable.AddCell(criteria1Label);
         criteriatable.AddCell(criteria1);
         criteriatable.AddCell(criteria2Label);
@@ -241,146 +240,66 @@ public partial class Export_BusinessRiskExportList : Page
         pdfDoc.Add(criteriatable);
         //---------------------------
 
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(7);
-        table.WidthPercentage = 100;
-        //relative col widths in proportions - 1/3 and 2/3
         float[] widths = new float[] { 10f, 10f, 30f, 20f, 20f, 10f, 10f };
+        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(7)
+        {
+            WidthPercentage = 100,
+            HorizontalAlignment = 1,
+            SpacingBefore = 20f,
+            SpacingAfter = 30f
+        };
+
         table.SetWidths(widths);
-        table.HorizontalAlignment = 1;
-        //leave a gap before and after the table
-        table.SpacingBefore = 20f;
-        table.SpacingAfter = 30f;
 
-        iTSpdf.PdfPCell headerDescripcion = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_BusinesRisk_ListHeader_Description"].ToUpperInvariant(), headerFontFinal));
-        headerDescripcion.Border = borderAll;
-        headerDescripcion.BackgroundColor = backgroundColor;
-        headerDescripcion.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerDescripcion.Padding = 8f;
-        headerDescripcion.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerType = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Type"].ToUpperInvariant(), headerFontFinal));
-        headerType.Border = borderAll;
-        headerType.BackgroundColor = backgroundColor;
-        headerType.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        headerType.Padding = 8f;
-        headerType.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerOpen = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_BusinesRisk_ListHeader_Date"].ToUpperInvariant(), headerFontFinal));
-        headerOpen.Border = borderAll;
-        headerOpen.BackgroundColor = backgroundColor;
-        headerOpen.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        headerOpen.Padding = 8f;
-        headerOpen.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerProcess = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_BusinesRisk_ListHeader_Process"].ToUpperInvariant(), headerFontFinal));
-        headerProcess.Border = borderAll;
-        headerProcess.BackgroundColor = backgroundColor;
-        headerProcess.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        headerProcess.Padding = 8f;
-        headerProcess.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerRule = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_BusinesRisk_ListHeader_Rule"].ToUpperInvariant(), headerFontFinal));
-        headerRule.Border = borderAll;
-        headerRule.BackgroundColor = backgroundColor;
-        headerRule.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        headerRule.Padding = 8f;
-        headerRule.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerActualValue = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_BusinesRisk_ListHeader_StartValue"].ToUpperInvariant(), headerFontFinal));
-        headerActualValue.Border = borderAll;
-        headerActualValue.BackgroundColor = backgroundColor;
-        headerActualValue.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        headerActualValue.Padding = 8f;
-        headerActualValue.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerIpr = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_BusinesRisk_ListHeader_IPR"].ToUpperInvariant(), headerFontFinal));
-        headerIpr.Border = borderAll;
-        headerIpr.BackgroundColor = backgroundColor;
-        headerIpr.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        headerIpr.Padding = 8f;
-        headerIpr.PaddingTop = 6f;
-
-        table.AddCell(headerType);
-        table.AddCell(headerOpen);
-        table.AddCell(headerDescripcion);
-        table.AddCell(headerProcess);
-        table.AddCell(headerRule);
-        table.AddCell(headerActualValue);
-        table.AddCell(headerIpr);
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Type"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_BusinesRisk_ListHeader_Date"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_BusinesRisk_ListHeader_Description"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_BusinesRisk_ListHeader_Process"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_BusinesRisk_ListHeader_Rule"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_BusinesRisk_ListHeader_StartValue"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_BusinesRisk_ListHeader_IPR"].ToUpperInvariant(), headerFontFinal));
 
         int cont = 0;
         List<BusinessRiskFilterItem> data = HttpContext.Current.Session["BusinessRiskFilterData"] as List<BusinessRiskFilterItem>;
         bool pair = false;
         foreach (BusinessRiskFilterItem risk in data)
         {
-            int border = 0;
-
+            cont++;
             BaseColor lineBackground = pair ? rowEven : rowPair;
-            // pair = !pair;
-
-            iTSpdf.PdfPCell cellDescription = new iTSpdf.PdfPCell(new iTS.Phrase(risk.Description, times));
-            cellDescription.Border = border;
-            cellDescription.BackgroundColor = lineBackground;
-            cellDescription.Padding = 6f;
-            cellDescription.PaddingTop = 4f;
-
-            iTSpdf.PdfPCell processCell = new iTSpdf.PdfPCell(new iTS.Phrase(risk.Process.Description, times));
-            processCell.Border = border;
-            processCell.BackgroundColor = lineBackground;
-            processCell.Padding = 6f;
-            processCell.PaddingTop = 4f;
-
-            iTSpdf.PdfPCell cellDate = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", risk.OpenDate), times));
-            cellDate.Border = border;
-            cellDate.BackgroundColor = lineBackground;
-            cellDate.Padding = 6f;
-            cellDate.PaddingTop = 4f;
-            cellDate.HorizontalAlignment = Rectangle.ALIGN_CENTER;
-
-            iTSpdf.PdfPCell ruleCell = new iTSpdf.PdfPCell(new iTS.Phrase(risk.Rule.Description, times));
-            ruleCell.Border = border;
-            ruleCell.BackgroundColor = lineBackground;
-            ruleCell.Padding = 6f;
-            ruleCell.PaddingTop = 4f;
-            ruleCell.HorizontalAlignment = Rectangle.ALIGN_CENTER;
-
             string typeText = string.Empty;
             if (risk.Assumed) { typeText = dictionary["Item_BusinessRisk_Status_Assumed"]; }
             else if (risk.InitialResult == 0) { typeText = dictionary["Item_BusinessRisk_Status_Unevaluated"]; }
             else if (risk.InitialResult < risk.Rule.Limit) { typeText = dictionary["Item_BusinessRisk_Status_NotSignificant"]; }
-            else { typeText = dictionary["Item_BusinessRisk_Status_Significant"]; }
+            else { typeText = dictionary["Item_BusinessRisk_Status_Significant"]; }            
 
-            iTSpdf.PdfPCell cellType = new iTSpdf.PdfPCell(new iTS.Phrase(typeText, times));
-            cellType.Border = border;
-            cellType.BackgroundColor = lineBackground;
-            cellType.Padding = 6f;
-            cellType.PaddingTop = 4f;
-            cellType.HorizontalAlignment = Rectangle.ALIGN_CENTER;
-
-            iTSpdf.PdfPCell cellActualValue = new iTSpdf.PdfPCell(new iTS.Phrase(risk.InitialResult.ToString(), times));
-            cellActualValue.Border = border;
-            cellActualValue.BackgroundColor = lineBackground;
-            cellActualValue.Padding = 6f;
-            cellActualValue.PaddingTop = 4f;
-            cellActualValue.HorizontalAlignment = Rectangle.ALIGN_CENTER;
-
-            iTSpdf.PdfPCell cellIpr = new iTSpdf.PdfPCell(new iTS.Phrase(risk.Rule.Limit.ToString(), times));
-            cellIpr.Border = border;
-            cellIpr.BackgroundColor = lineBackground;
-            cellIpr.Padding = 6f;
-            cellIpr.PaddingTop = 4f;
-            cellIpr.HorizontalAlignment = Rectangle.ALIGN_CENTER;
-
-            table.AddCell(cellType);
-            table.AddCell(cellDate);
-            table.AddCell(cellDescription);
-            table.AddCell(processCell);
-            table.AddCell(ruleCell);
-            table.AddCell(cellActualValue);
-            table.AddCell(cellIpr);
-
-            cont++;
+            table.AddCell(ToolsPdf.DataCellCenter(typeText, times));
+            table.AddCell(ToolsPdf.DataCellCenter(risk.OpenDate, times));
+            table.AddCell(ToolsPdf.DataCell(risk.Description, times));
+            table.AddCell(ToolsPdf.DataCell(risk.Process.Description,times));
+            table.AddCell(ToolsPdf.DataCellCenter(risk.Rule.Description, times));
+            table.AddCell(ToolsPdf.DataCellCenter(risk.InitialResult.ToString(), times));
+            table.AddCell(ToolsPdf.DataCellRight(risk.Rule.Limit.ToString(), times));
         }
+
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(
+            CultureInfo.InvariantCulture,
+            @"{0}: {1}",
+            dictionary["Common_RegisterCount"],
+            cont), times))
+        {
+            Border = iTS.Rectangle.TOP_BORDER,
+            BackgroundColor = rowEven,
+            Padding = 6f,
+            PaddingTop = 4f,
+            Colspan = 4
+        });
+
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
+        {
+            Border = iTS.Rectangle.TOP_BORDER,
+            BackgroundColor = rowEven,
+            Colspan = 4
+        });
 
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();

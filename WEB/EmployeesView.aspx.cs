@@ -616,11 +616,13 @@ public partial class EmployeesView : Page
         this.RenderCountries();
         if (this.active)
         {
+            this.formFooter.AddButton(new UIButton() { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Employee_Btn_Inactive"], Action = "danger" });
             this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
         }
         else
         {
-            this.formFooter.AddButton(new UIButton() { Id = "BtnRestore", Icon = "icon-ok", Text = this.dictionary["Item_Employee_Button_Restore"], Action = "success" });
+            this.formFooter.AddButton(new UIButton() { Id = "BtnRestore", Icon = "icon-undo", Text = this.dictionary["Item_Employee_Button_Restore"], Action = "primary" });
+            //this.formFooter.AddButton(new UIButton() { Id = "BtnRestore", Icon = "icon-ok", Text = this.dictionary["Item_Employee_Button_Restore"], Action = "success" });
         }
 
         this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });

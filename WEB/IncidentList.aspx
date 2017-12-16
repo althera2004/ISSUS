@@ -105,11 +105,12 @@
                                                     <tr id="ListDataHeader">
                                                         <!--<th onclick="Sort(this,'ItemTableData','text',true);" id="th1" class="sort" style="width:90px;cursor:pointer;"><%=this.Dictionary["Item_Incident_Header_Number"] %></th>-->
                                                         <th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="sort search"><%=this.Dictionary["Item_Incident_Header_Description"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="sort"  style="width:90px;"><%=this.Dictionary["Item_Incident_Header_Open"] %></th>
-                                                        <th style="width:120px;"><%=this.Dictionary["Item_Incident_Header_Status"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="sort"  style="width:100px;"><%=this.Dictionary["Item_Incident_Header_Open"] %></th>
+                                                        <th style="width:60px;"><%=this.Dictionary["Item_Incident_Header_Status"] %></th>
                                                         <th style="width:200px;" onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="sort" ><%=this.Dictionary["Item_Incident_Header_Origin"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th4" class="sort hidden-480 search" style="width:150px;"><%=this.Dictionary["Item_Incident_Header_ActionNumber"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th5" class="hidden-480" style="width:90px !important;"><%=this.Dictionary["Item_Incident_Header_Close"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th4" class="sort hidden-480 search" style="width:90px;"><%=this.Dictionary["Item_Incident_Header_ActionNumber"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','money',false);" id="th5" class="hidden-480" style="width:100px !important;"><%=this.Dictionary["Item_Incident_Header_Cost"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th6" class="hidden-480" style="width:100px !important;"><%=this.Dictionary["Item_Incident_Header_Close"] %></th>
                                                         <th class="hidden-480" style="width:107px !important;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
@@ -171,9 +172,9 @@
 																<span id="NumberCosts"></span>
 															</i>
 														</th>
-                                                        <th style="width:150px;font-weight:bold;"><%=this.Dictionary["Common_Total"] %></th>
-                                                        <th style="width:90px;"><div id="TotalCosts" style="width:100%;text-align:right;font-weight:bold;"></div></th>
-                                                        <th style="width:106px;"></th>
+                                                        <th style="width:90px;font-weight:bold;" align="right"><%=this.Dictionary["Common_Total"] %></th>
+                                                        <th style="width:100px;"><div id="TotalCosts" style="width:100%;text-align:right;font-weight:bold;"></div></th>
+                                                        <th style="width:216px;"></th>
                                                     </tr>
                                                 </thead>
                                             </table>

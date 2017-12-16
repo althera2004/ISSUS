@@ -149,14 +149,49 @@ jQuery(function ($) {
 
 function Resize() {
     var listTable = document.getElementById('ListDataDiv');
-    var listTable2 = document.getElementById('ListDataDiv2');
+    //var listTable2 = document.getElementById('ListDataDiv2');
     var containerHeight = $(window).height();
     listTable.style.height = (containerHeight - 380) + 'px';
-    listTable2.style.height = (containerHeight - 380) + 'px';
+    //listTable2.style.height = (containerHeight - 380) + 'px';
 }
 
 window.onload = function () {
     Resize();
+    RenderEmployeeTable();
     $("#th0").click();
 }
+
 window.onresize = function () { Resize(); }
+
+function RenderEmployeeRow(employee) {
+    var style = "";
+    if (employee.Baja === true) {
+        style = " style=\"font-style: italic;\"";
+    }
+    var res = "<tr>";
+    res += "  <td" + style + ">";
+    res += "    "+ employee.Link;
+    res += "  </td>";
+    res += "  <td style=\"width: 250px;\">" + employee.Cargos +"</td>";
+    res += "  <td style=\"width: 250px;\">" + employee.Departamentos +"</td>";
+    res += "  <td style=\"width: 90px;\">";
+    res += "    <span title=\"Editar " + employee.FullName + "\" class=\"btn btn-xs btn-info\" onclick=\"EmployeeUpdate(" + employee.Id +", 'Editar'); \">";
+    res += "      <i class=\"icon-edit bigger-120\"></i>";
+    res += "    </span>";
+    res += "    &nbsp;";
+    res += "    <span title=\"Eliminar " + employee.FullName + "\" class=\"btn btn-xs btn-danger\" onclick=\"EmployeeDelete(" + employee.Id +", '" + employee.FullName +"'); \">";
+    res += "      <i class=\"icon-trash bigger-120\"></i>";
+    res += "    </span>";
+    res += "  </td>";
+    res += "</tr>";
+    return res;
+}
+
+function RenderEmployeeTable() {
+    $("#ListDataTable").html("");
+    var res = "";
+    for (var x = 0; x < employees.length; x++) {
+        res += RenderEmployeeRow(employees[x]);
+    }
+    $("#ListDataTable").html(res);
+}

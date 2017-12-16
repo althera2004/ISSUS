@@ -30,6 +30,8 @@ public partial class EmployeesList : Page
 
     public string UserLogin { get { return this.user.UserName; } }
 
+    public string EmployeesJson { get; private set; }
+
     /// <summary>
     /// Gets a random value to prevents static cache files
     /// </summary>
@@ -136,51 +138,43 @@ public partial class EmployeesList : Page
     private void RenderEmployeeData()
     {
         StringBuilder active = new StringBuilder();
-        StringBuilder inactive = new StringBuilder();
         StringBuilder sea = new StringBuilder();
         bool first = true;
         int contData = 0;
-        int contData2 = 0;
         ReadOnlyCollection<Employee> employees = Employee.GetList(this.company.Id);
         foreach (Employee employee in employees)
         {
             if (employee.Active)
             {
-                if (employee.DisabledDate.HasValue)
+
+                if (first)
                 {
-                    inactive.Append(employee.ListRowInactive(this.dictionary, this.user.Grants));
-                    contData2++;
+                    first = false;
                 }
                 else
                 {
-                    if (first)
-                    {
-                        first = false;
-                    }
-                    else
-                    {
-                        sea.Append(",");
-                    }
-
-                    if (employee.FullName.IndexOf("\"") != -1)
-                    {
-                        sea.Append(string.Format(@"'{0}'", employee.FullName));
-                    }
-                    else
-                    {
-                        sea.Append(string.Format(@"""{0}""", employee.FullName));
-                    }
-
-                    active.Append(employee.ListRow(this.dictionary, this.user.Grants));
-                    contData++;
+                    sea.Append(",");
+                    active.Append(",");
                 }
+
+                if (employee.FullName.IndexOf("\"") != -1)
+                {
+                    sea.Append(string.Format(@"'{0}'", employee.FullName));
+                }
+                else
+                {
+                    sea.Append(string.Format(@"""{0}""", employee.FullName));
+                }
+
+                //active.Append(employee.ListRow(this.dictionary, this.user.Grants));
+                active.Append(employee.JsonListRow(this.dictionary, this.user.Grants));
+                contData++;
             }
         }
 
-        this.EmployeeData.Text = active.ToString();
+        //this.EmployeeData.Text = active.ToString();
+        this.EmployeesJson = "[" + active + "]";
         this.EmployeeDataTotal.Text = contData.ToString();
-        this.EmployeeInactiveData.Text = inactive.ToString();
-        this.EmployeeInactiveDataTotal.Text = contData2.ToString();
         this.master.SearcheableItems = sea.ToString();
     }
 }

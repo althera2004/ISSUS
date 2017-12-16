@@ -6,12 +6,12 @@ function IncidentActionCostRenderTable(tableName) {
     var target = document.getElementById(tableName);
 
     if (IncidentActionCosts.length === 0) {
-        document.getElementById('IncidentActionCostsTableVoid').style.display = '';
-        target.style.display = 'none';
+        document.getElementById("IncidentActionCostsTableVoid").style.display = "";
+        target.style.display = "none";
     }
     else {
-        document.getElementById('IncidentActionCostsTableVoid').style.display = 'none';
-        target.style.display = '';
+        document.getElementById("IncidentActionCostsTableVoid").style.display = "none";
+        target.style.display = "";
     }
 
     var total = 0;
@@ -26,53 +26,53 @@ function IncidentActionCostRenderTable(tableName) {
 }
 
 function IncidentActionCostRenderRow(incidentActionCost, target) {
-    var row = document.createElement('TR');
-    var tdDescription = document.createElement('TD');
-    var tdAmount = document.createElement('TD');
-    var tdQuantity = document.createElement('TD');
-    var tdTotal = document.createElement('TD');
-    var tdResponsible = document.createElement('TD');
+    var row = document.createElement("TR");
+    var tdDescription = document.createElement("TD");
+    var tdAmount = document.createElement("TD");
+    var tdQuantity = document.createElement("TD");
+    var tdTotal = document.createElement("TD");
+    var tdResponsible = document.createElement("TD");
 
-    tdDescription.style.width = "290px";
-    tdAmount.style.width = "90px";
-    tdQuantity.style.width = "90px";
-    tdTotal.style.width = "120px";
+    //tdDescription.style.width = "290px";
+    tdAmount.style.width = "120px";
+    tdQuantity.style.width = "120px";
+    tdTotal.style.width = "150px";
+	tdResponsible.style.width = "300px";
 
     row.id = incidentActionCost.Id;
 
-    tdAmount.align = 'right';
-    tdQuantity.align = 'right';
-    tdTotal.align = 'right';
+    tdAmount.align = "right";
+    tdQuantity.align = "right";
+    tdTotal.align = "right";
 
     tdDescription.appendChild(document.createTextNode(incidentActionCost.Description));
     tdAmount.appendChild(document.createTextNode(ToMoneyFormat(incidentActionCost.Amount, 2)));
     tdQuantity.appendChild(document.createTextNode(ToMoneyFormat(incidentActionCost.Quantity, 2)));
     tdTotal.appendChild(document.createTextNode(ToMoneyFormat(incidentActionCost.Amount * incidentActionCost.Quantity, 2)));
     tdResponsible.appendChild(document.createTextNode(incidentActionCost.Responsible.Value));
-    var iconEdit = document.createElement('SPAN');
-    iconEdit.className = 'btn btn-xs btn-info';
-    var innerEdit = document.createElement('I');
-    innerEdit.className = 'icon-edit bigger-120';
+    var iconEdit = document.createElement("SPAN");
+    iconEdit.className = "btn btn-xs btn-info";
+    var innerEdit = document.createElement("I");
+    innerEdit.className = "icon-edit bigger-120";
     iconEdit.appendChild(innerEdit);
     iconEdit.onclick = function () { IncidentActionCostEdit(this.parentNode.parentNode.id); };
 
-
-    var iconDelete = document.createElement('SPAN');
-    iconDelete.className = 'btn btn-xs btn-danger';
-    var innerDelete = document.createElement('I');
-    innerDelete.className = 'icon-trash bigger-120';
+    var iconDelete = document.createElement("SPAN");
+    iconDelete.className = "btn btn-xs btn-danger";
+    var innerDelete = document.createElement("I");
+    innerDelete.className = "icon-trash bigger-120";
     iconDelete.appendChild(innerDelete);
     iconDelete.onclick = function () { IncidentActionCostDelete(this.parentNode.parentNode.id); };
 
-    var tdActions = document.createElement('TD');
+    var tdActions = document.createElement("TD");
 
     tdActions.appendChild(iconEdit);
-    tdActions.appendChild(document.createTextNode(' '));
+    tdActions.appendChild(document.createTextNode(" "));
     tdActions.appendChild(iconDelete);
 
-    tdTotal.className = 'hidden-480';
-    tdResponsible.className = 'hidden-480';
-    tdActions.className = 'hidden-480';
+    tdTotal.className = "hidden-480";
+    tdResponsible.className = "hidden-480";
+    tdActions.className = "hidden-480";
     tdActions.style.width = "90px";
 
     row.appendChild(tdDescription);
@@ -87,61 +87,61 @@ function IncidentActionCostRenderRow(incidentActionCost, target) {
 }
 
 function IncidentActionCostSetPopupFormFill() {
-    ClearFieldTextMessages('CmbIncidentActionCostDescription');
-    ClearFieldTextMessages('TxtIncidentActionCostDescription');
-    ClearFieldTextMessages('TxtIncidentActionCostAmount');
-    ClearFieldTextMessages('TxtIncidentActionCostQuantity');
-    ClearFieldTextMessages('CmdIncidentActionCostResponsible');
+    ClearFieldTextMessages("CmbIncidentActionCostDescription");
+    ClearFieldTextMessages("TxtIncidentActionCostDescription");
+    ClearFieldTextMessages("TxtIncidentActionCostAmount");
+    ClearFieldTextMessages("TxtIncidentActionCostQuantity");
+    ClearFieldTextMessages("CmdIncidentActionCostResponsible");
     SelectedIncidentActionCost = IncidentActionCostGetById(SelectedIncidentActionCostId, IncidentActionCosts);
-    $('#TxtIncidentActionCostDescription').val(SelectedIncidentActionCost.Description);
-    $('#TxtIncidentActionCostAmount').val(ToMoneyFormat(SelectedIncidentActionCost.Amount, 2));
-    $('#TxtIncidentActionCostQuantity').val(ToMoneyFormat(SelectedIncidentActionCost.Quantity, 2));
-    $('#CmdIncidentActionCostResponsible').val(SelectedIncidentActionCost.Responsible.Id);
-    /*document.getElementById('RIncidentActionCostRow').style.display = 'none';
-    document.getElementById('RIncidentActionCostNew').checked = true;*/
+    $("#TxtIncidentActionCostDescription").val(SelectedIncidentActionCost.Description);
+    $("#TxtIncidentActionCostAmount").val(ToMoneyFormat(SelectedIncidentActionCost.Amount, 2));
+    $("#TxtIncidentActionCostQuantity").val(ToMoneyFormat(SelectedIncidentActionCost.Quantity, 2));
+    $("#CmdIncidentActionCostResponsible").val(SelectedIncidentActionCost.Responsible.Id);
+    /*document.getElementById("RIncidentActionCostRow").style.display = "none";
+    document.getElementById("RIncidentActionCostNew").checked = true;*/
     RIncidentActionCostChanged();
 }
 
 function IncidentActionCostSetPopupFormReset(newIncidentActionCost) {
-    ClearFieldTextMessages('CmbIncidentActionCostDescription');
-    ClearFieldTextMessages('TxtIncidentActionCostDescription');
-    ClearFieldTextMessages('TxtIncidentActionCostAmount');
-    ClearFieldTextMessages('TxtIncidentActionCostQuantity');
-    ClearFieldTextMessages('CmdIncidentActionCostResponsible');
-    /*document.getElementById('RIncidentActionCostRow').style.display = '';
+    ClearFieldTextMessages("CmbIncidentActionCostDescription");
+    ClearFieldTextMessages("TxtIncidentActionCostDescription");
+    ClearFieldTextMessages("TxtIncidentActionCostAmount");
+    ClearFieldTextMessages("TxtIncidentActionCostQuantity");
+    ClearFieldTextMessages("CmdIncidentActionCostResponsible");
+    /*document.getElementById("RIncidentActionCostRow").style.display = "";
     CmbIncidentActionCostDescriptionFill();
     if (CompanyIncidentActionCosts.length === 0) {
-        $('#RIncidentActionCostBased').prop('disabled', true);
-        document.getElementById('RIncidentActionCostNew').checked = true;
+        $("#RIncidentActionCostBased").prop("disabled", true);
+        document.getElementById("RIncidentActionCostNew").checked = true;
     }
     else {
-        $('#RIncidentActionCostBased').prop('disabled', false);
-        document.getElementById('RIncidentActionCostBased').checked = true;
+        $("#RIncidentActionCostBased").prop("disabled", false);
+        document.getElementById("RIncidentActionCostBased").checked = true;
     }
 
     RIncidentActionCostChanged();*/
-    $('#TxtIncidentActionCostDescription').val('');
-    $('#TxtIncidentActionCostAmount').val('');
-    $('#TxtIncidentActionCostQuantity').val('');
-    $('#CmbCmbIncidentActionCostDescription').val(0);
-    $('#CmdIncidentActionCostResponsible').val(ApplicationUser.Employee.Id);
+    $("#TxtIncidentActionCostDescription").val("");
+    $("#TxtIncidentActionCostAmount").val("");
+    $("#TxtIncidentActionCostQuantity").val("");
+    $("#CmbCmbIncidentActionCostDescription").val(0);
+    $("#CmdIncidentActionCostResponsible").val(ApplicationUser.Employee.Id);
 }
 
 function RIncidentActionCostChanged() {
     return;
-    var IncidentActionCostNew = document.getElementById('RIncidentActionCostNew').checked;
+    var IncidentActionCostNew = document.getElementById("RIncidentActionCostNew").checked;
 
-    document.getElementById('CmbIncidentActionCostDescriptionRow').style.display = IncidentActionCostNew ? 'none' : '';
-    document.getElementById('TxtIncidentActionCostDescriptionRow').style.display = IncidentActionCostNew ? '' : 'none';
-    $('#TxtIncidentActionCostAmount').prop('readonly', !IncidentActionCostNew);
+    document.getElementById("CmbIncidentActionCostDescriptionRow").style.display = IncidentActionCostNew ? "none" : "";
+    document.getElementById("TxtIncidentActionCostDescriptionRow").style.display = IncidentActionCostNew ? "" : "none";
+    $("#TxtIncidentActionCostAmount").prop("readonly", !IncidentActionCostNew);
 }
 
 function CmbIncidentActionCostDescriptionChanged() {
-    $('#TxtIncidentActionCostAmount').val('');
-    var incidentActionCostId = $('#CmbIncidentActionCostDescription').val() * 1;
+    $("#TxtIncidentActionCostAmount").val("");
+    var incidentActionCostId = $("#CmbIncidentActionCostDescription").val() * 1;
     for (var x = 0; x < CompanyIncidentActionCosts.length; x++) {
         if (CompanyIncidentActionCosts[x].Id === incidentActionCostId) {
-            $('#TxtIncidentActionCostAmount').val(ToMoneyFormat(CompanyIncidentActionCosts[x].Amount, 2));
+            $("#TxtIncidentActionCostAmount").val(ToMoneyFormat(CompanyIncidentActionCosts[x].Amount, 2));
         }
     }
 }
@@ -149,26 +149,26 @@ function CmbIncidentActionCostDescriptionChanged() {
 function IncidentActionCostEdit(id) {
     SelectedIncidentActionCostId = id * 1;
     IncidentActionCostSetPopupFormFill();
-    var dialog = $("#dialogNewCost").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_IncidentActionCost_PopupTitle_Update + '</h4>',
-        title_html: true,
-        width: 500,
-        buttons:
+    var dialog = $("#dialogNewCost").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_IncidentActionCost_PopupTitle_Update + "</h4>",
+        "title_html": true,
+        "width": 500,
+        "buttons":
         [
             {
-                id: 'BtnNewAddresSave',
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Change,
+                "id": "BtnNewAddresSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Change,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     IncidentActionCostSave();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -180,26 +180,26 @@ function IncidentActionCostEdit(id) {
 function ShowNewCostPopup(actionSelected) {
     SelectedIncidentActionCostId = 0;
     IncidentActionCostSetPopupFormReset();
-    var dialog = $("#dialogNewCost").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_IncidentCost_PopupTitle_Add + '</h4>',
-        title_html: true,
-        width: 500,
-        buttons:
+    var dialog = $("#dialogNewCost").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_IncidentCost_PopupTitle_Add + "</h4>",
+        "title_html": true,
+        "width": 500,
+        "buttons":
         [
             {
-                id: 'BtnNewAddresSave',
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                "id": "BtnNewAddresSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     IncidentActionCostSave();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }

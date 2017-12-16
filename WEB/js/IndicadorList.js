@@ -228,13 +228,19 @@ function ItemRenderTable(list) {
         tdObjetivoResponsible.appendChild(document.createTextNode(item.ObjetivoResponsible));
 
         //tdDescription.style.width = "200px";
-        tdTipoProceso.style.width = "150px";
-        tdProceso.style.width = "300px";
-        tdObjetivo.style.width = "200px";
-        tdProcesoResponsible.style.width = "100px";
-        tdObjetivoResponsible.style.width = "150px";
+											
+										
+										 
+												   
+													
         tdStartDate.style.width = "90px";
-
+		tdProceso.style.width = "250px";
+		tdTipoProceso.style.width = "110px";
+        tdObjetivo.style.width = "200px";
+		tdProcesoResponsible.style.width = "100px";
+		tdObjetivoResponsible.style.width = "200px";
+        
+        //row.appendChild(tdNumber);
         //row.appendChild(tdNumber);
         row.appendChild(tdIndicador);
         row.appendChild(tdStartDate);

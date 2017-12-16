@@ -4,6 +4,7 @@
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
+using GisoFramework;
 using System;
 using System.Configuration;
 using System.Data;
@@ -28,11 +29,11 @@ public partial class PreInitSession : Page
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        string Password = this.Request.Form["Password"].ToString();
+        string password = this.Request.Form["Password"].ToString();
         this.UserId = this.Request.Form["UserId"].ToString();
         this.CompanyId = this.Request.Form["CompanyId"].ToString();
-
-        string query = "UPDATE ApplicationUser SET Password = '" + Password + "', MustResetPassword = 0 where Id = " + UserId;
+        ApplicationUser.SetPassword(Convert.ToInt32(this.UserId), password);
+        /*string query = "UPDATE ApplicationUser SET Password = '" + Password + "', MustResetPassword = 0 where Id = " + UserId;
         using (SqlCommand cmd = new SqlCommand(query))
         {
             cmd.CommandType = CommandType.Text;
@@ -40,6 +41,6 @@ public partial class PreInitSession : Page
             cmd.Connection.Open();
             cmd.ExecuteNonQuery();
             cmd.Connection.Close();
-        }
+        }*/
     }
 }

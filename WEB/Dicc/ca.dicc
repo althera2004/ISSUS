@@ -133,7 +133,7 @@ Common_RegisterCount::Nº registres
 Common_Report_Rendering::Generant informe...
 Common_Required::Obligatori
 Common_Responsible::Responsable
-Common_Save::Desar
+Common_Save::Acceptar
 Common_Search::Cercar
 Common_SearchCriteria::Criteris de cerca
 Common_SelectAll todos::Seleccionar tots
@@ -525,7 +525,9 @@ Item_Employee_FieldLabel_Country::País
 Item_Employee_FieldLabel_Email::Correu
 Item_Employee_FieldLabel_Especific_Desired::Formació específica desitjada
 Item_Employee_FieldLabel_Especific_Real::Formació específica real
-Item_Employee_FieldLabel_InactiveDate::Donar de baixa
+Item_Employee_FieldLabel_InactiveDate::Data baixa
+Item_Employee_Btn_Inactive::Donar de baixa
+Item_Employee_Btn_Restore::Reincorporar
 Item_Employee_FieldLabel_LastName::Cognoms
 Item_Employee_FieldLabel_Name::Nom
 Item_Employee_FieldLabel_NIF::NIF
@@ -920,10 +922,12 @@ Item_Incident_FilterError_Status::Seleccionar un estat
 Item_Incident_FilterError_Title::Revisar les dades de la consulta
 Item_Incident_Header_ActionNumber::Acció
 Item_Incident_Header_Close::Tancament
+Item_Incident_Header_Cost::Cost
 Item_Incident_Header_Description::Problema
 Item_Incident_Header_Number::Número
 Item_Incident_Header_Open::Obertura
 Item_Incident_Header_Origin::Origen
+Item_Incident_Header_Cost::Cost
 Item_Incident_Header_Status::Estat
 Item_Incident_Label_Actions::Actuacions
 Item_Incident_Label_Causes::Per què ha passat?
@@ -1009,7 +1013,8 @@ Item_IncidentAction_Field_WhatHappened::Què ha passat?
 Item_IncidentAction_Header_Close::Tancament
 Item_IncidentAction_Header_Description::Problema
 Item_IncidentAction_Header_ImplementDate::D. prevista
-Item_IncidentAction_Header_ImplementDate_Tooltip::Data de implementació prevista 
+Item_IncidentAction_Header_ImplementDate_Tooltip::Data de implementació prevista
+Item_IncidentAction_Header_Cost::Cost
 Item_IncidentAction_Header_Number::Número
 Item_IncidentAction_Header_Open::Obertura
 Item_IncidentAction_Header_Origin::Origen
@@ -1075,10 +1080,10 @@ Item_IncidentCost_FieldLabel_Description::Descripció
 Item_IncidentCost_FieldLabel_Quantity::Quantitat
 Item_IncidentCost_FieldLabel_ReportedBy::Identificat per
 Item_IncidentCost_Filter_NoData::Aquesta incidència no té costos
-Item_IncidentCost_Header_Amount::Cost
-Item_IncidentCost_Header_Description::Concepte
+Item_IncidentCost_Header_Amount::Import
+Item_IncidentCost_Header_Description::Descripció
 Item_IncidentCost_Header_Quantity::Quantitat
-Item_IncidentCost_Header_ReportedBy::Identificat per
+Item_IncidentCost_Header_ReportedBy::Responsable
 Item_IncidentCost_Header_Total::Total
 Item_IncidentCost_PopupTitle_Add::Afegir un nou cost
 Item_IncidentCost_PopupTitle_Delete::Eliminar un cost
@@ -1138,6 +1143,7 @@ Item_Indicador_StatusLabelWithoutMeta::Meta no definida
 Item_Indicador_Tab_Basic::Dades bàsiques
 Item_Indicador_Tab_Graphics::Gràfics
 Item_Indicador_Tab_Records::Registres
+Item_Indicador_TableRecords_Header_Status::Estat
 Item_Indicador_TableRecords_Header_Alarm::Alarma
 Item_Indicador_TableRecords_Header_Comments::Comentaris
 Item_Indicador_TableRecords_Header_Date::Data
@@ -1329,6 +1335,7 @@ Item_Objetivo_Tab_RecordsFromIndicator::Registres de l´indicador vinculat
 Item_Objetivo_Tab_RecordsFromIndicatorMessage::Els registres pertanyen a l'indicador ##
 Item_Objetivo_TabBasic::Dades bàsiques
 Item_Objetivo_TabGraphics::Gràfics
+Item_Objetivo_TableRecords_Header_Status::Estat
 Item_Objetivo_TableRecords_Header_Comments::Comentaris
 Item_Objetivo_TableRecords_Header_Date::Data
 Item_Objetivo_TableRecords_Header_Meta::Meta
@@ -1487,7 +1494,7 @@ Item_User_List_Header_Read::Lectura
 Item_User_List_Header_UserName::Usuari/a
 Item_User_List_Header_Write::Modificació
 Item_User_Message_AfterChangePassword::Al canviar la contrasenya es reiniciarà la sessió per tornar a entrar amb la nova
-Item_User_Message_GrantsAvaiable::S'ha activat la pestanya &quot
+Item_User_Message_GrantsAvaiable::S'ha activat la pestanya de permisos. Sisplau, activa els permisos adients per tal que l'usuari pugui utilitzar l'aplicació.
 Item_User_Message_ResetPassword_Ok::S'ha restablert la contrasenya
 Item_User_Message_WelcommeMailSent::S'ha enviat un missatge al correu especificat amb les instruccions d'accés a l'aplicació
 Item_User_NewPassword::Nova contrasenya
@@ -1518,12 +1525,12 @@ SkillsFor::Formació per a l'/la empleat/da
 Tipo::Tipus
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
-Item_Equipment_Btn_Anular::Donar de baixa
+Item_Equipment_Btn_Anular::Baixa
 Item_Equipment_FieldLabel_EndReason::Motiu de baixa
 Item_Equipment_FieldLabel_EndDate::D.Baixa
 Item_Equipment_FieldLabel_EndResponsible::Responsable
 Item_Equipment_PopupAnular_Title::Baixa d'equip
-Item_Equipment_Btn_Restaurar::Restaurar
+Item_Equipment_Btn_Restaurar::Reactivar
 Item_Equipment_AnulateMessageTile::Equip de baixa
 Item_Equipment_List_Filter_ShowActive::Actius
 Item_Equipment_List_Filter_ShowClosed::De baixa
@@ -1534,3 +1541,8 @@ Item_Equipment_List_Filter_ShowByOperation::Operativa
 Item_Equipment_List_Filter_ShowByStatus::Estat
 Agreement_Document_Title::Condicions d'ús
 Agreement_Button_Download::Descarregar condicions
+MailTemplate_ResetPassword_Subject::Reestabliment de paraula de pas a ISSUS
+MailTemplate_ResetPassword_Error::No s'ha reestabler la paraula de pas
+MailTemplate_ResetPassword_DefaultBody::Se h'reestablert la seva paraula de pas a ISSUS.<br />Accedir a la seqgüent url http://issus.scrambotika.com/ <br/> User:<b>{0}</b><br/>Password:<b>{1}</b>
+Item_Employee_PopupAnular_Title::Baixa d'empleat
+Item_Employee_Warning_NoUser::L'empleat no té associat un usuari a l'aplicació

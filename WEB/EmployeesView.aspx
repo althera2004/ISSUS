@@ -132,29 +132,7 @@
                                                             <div class="form-group">
                                                                 <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Notes"] %></label>
                                                                 <div class="col-sm-11"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtNotas" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.Notes %></textarea></div>
-                                                            </div>
-                                                            <% if (this.EmployeeId > 0)
-                                                               { %>
-                                                            <div class="form-group">
-                                                                <label id="Label2" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_InactiveDate"]%></label>
-                                                                <%if (this.Active) { %>
-                                                                <div class="col-sm-2">
-                                                                    <div class="row">
-                                                                        <div class="col-xs-12 col-sm-12 tooltip-info" id="DivEndDate">
-                                                                            <div class="input-group">
-                                                                                <input class="form-control date-picker" id="TxtEndDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                                                <span id="BtnEndDate" class="input-group-addon" onclick="document.getElementById('TxtEndDate').focus();">
-                                                                                    <i class="icon-calendar bigger-110"></i>
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <% } else { %>                                                                
-                                                                <div class="col-sm-2"><input type="text" id="Text1" value="<%=this.Employee.DisabledDate.Value.ToShortDateString() %>" class="col-xs-12 col-sm-12" readonly="readonly" /></div>
-                                                                <% } %>
-                                                            </div>
-                                                            <% } %>
+                                                            </div>                                                            
                                                         </form>
                                                     </div>  
                                                     <% if (this.EmployeeId > 0)
@@ -535,6 +513,28 @@
                                 </p>
                                 <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                 <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                            </div>
+
+                            <div id="dialogAnular" class="hide" style="width: 500px;">
+                                <form class="form-horizontal" role="form" id="FormDialogAnular">
+                                    <div class="form-group">
+                                        <label id="TxtEndDateLabel" class="col-sm-3 control-label no-padding-right" for="TxtRecordDate"><%=this.Dictionary["Item_IndicatorRecord_FieldLabel_Date"] %><span class="required">*</span></label>
+                                        <div class="col-sm-4">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 tooltip-info" id="DivEndDate">
+                                                    <div class="input-group">
+                                                        <input class="form-control date-picker" id="TxtEndDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                        <span id="BtnEndDate" class="input-group-addon" onclick="document.getElementById('TxtEndDate').focus();">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                                                    </div>
+                                                    <span class="ErrorMessage" id="TxtEndDateErrorRequired" style="display:none;"><%= this.Dictionary["Common_Required"] %></span>
+                                                    <span class="ErrorMessage" id="TxtEndDateMalformed" style="display:none;"><%= this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server"> 

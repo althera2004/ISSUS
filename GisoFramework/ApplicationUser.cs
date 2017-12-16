@@ -548,6 +548,40 @@ namespace GisoFramework
             }
         }
 
+        public static ActionResult SetPassword(int applicationUserId, string Password)
+        {
+            ActionResult res = ActionResult.NoAction;
+            /* CREATE PROCEDURE [dbo].[ApplicationUser_SetPassword]
+             *   UserId int,
+             *   @Password nvarchar(50) */
+            using(SqlCommand cmd = new SqlCommand("ApplicationUser_SetPassword"))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                using(SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    try
+                    {
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch(Exception ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if(cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+            return res;
+        }
+
         /// <summary>
         /// Obtains user of a company
         /// </summary>
@@ -1048,6 +1082,7 @@ namespace GisoFramework
         public static ActionResult ResetPassword(int userId, int companyId)
         {
             ActionResult res = ActionResult.NoAction;
+            Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
 
             /* CREATE PROCEDURE ApplicationUser_ChangePassword
              * @UserId int,
@@ -1086,6 +1121,8 @@ namespace GisoFramework
                     string password = cmd.Parameters["@Password"].Value as string;
                     string email = cmd.Parameters["@Email"].Value as string;
 
+                    ApplicationUser selectedUser = new ApplicationUser(userId);
+
                     string sender = ConfigurationManager.AppSettings["mailaddress"];
                     string pass = ConfigurationManager.AppSettings["mailpass"];
 
@@ -1103,37 +1140,41 @@ namespace GisoFramework
                     MailMessage mail = new MailMessage(senderMail, to)
                     {
                         IsBodyHtml = true,
-                        Subject = "Reinicio de contraseña en ISSUS"
+                        Subject = dictionary["MailTemplate_ResetPassword_DefaultBody"]
                     };
 
                     string templatePath = HttpContext.Current.Request.PhysicalApplicationPath;
+                    string translatedTemplate = string.Format(
+                        CultureInfo.InvariantCulture,
+                        @"ResetPassword_{0}.tpl",
+                        selectedUser.language);
                     if (!templatePath.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
                     {
-                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\ResetPassword.tpl", templatePath);
+                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\", templatePath);
                     }
-                    else
-                    {
 
-                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\ResetPassword.tpl", templatePath);
+                    if(!File.Exists(templatePath + "Templates\\"+ translatedTemplate))
+                    {
+                        translatedTemplate = "ResetPassword.tpl";
                     }
 
                     string body = string.Format(
                         CultureInfo.GetCultureInfo("en-us"),
-                        "Se ha reestablecido su contraseña en ISSUS.<br />Acceder a la siguiente url http://issus.scrambotika.com/ <br/> User:<b>{0}</b><br/>Password:<b>{1}</b>",
+                        dictionary["MailTemplate_ResetPassword_DefaultBody"],
                         userName,
                         password);
 
-                    if(File.Exists(templatePath))
+                    if(File.Exists(templatePath + "Templates\\" + translatedTemplate))
                     {
-                        using(StreamReader input = new StreamReader(templatePath))
+                        using(StreamReader input = new StreamReader(templatePath + "Templates\\" + translatedTemplate))
                         {
                             body = input.ReadToEnd();
                         }
 
-                        body = body.Replace("#USERNAME#", userName).Replace("#PASSWORD#", password).Replace("#EMAIL#", email).Replace("#EMPRESA", company.Name);
+                        body = body.Replace("#USERNAME#", userName).Replace("#PASSWORD#", password).Replace("#EMAIL#", email).Replace("#EMPRESA#", company.Name);
                     }
 
-                    mail.Subject = "La teva nova contrasenya d'accés a ISSUS";
+                    mail.Subject = dictionary["MailTemplate_ResetPassword_Subject"];
                     mail.Body = body;
                     client.Send(mail);
                     #endregion
@@ -1146,7 +1187,7 @@ namespace GisoFramework
                 catch (SqlException ex)
                 {
                     ExceptionManager.Trace(ex, string.Format(CultureInfo.InvariantCulture, "ResetPassword({0}, {1})", userId, companyId));
-                    res.SetFail("No se pudo reiniciar la contraseña");
+                    res.SetFail(dictionary["MailTemplate_ResetPassword_Error"]);
                 }
                 finally
                 {

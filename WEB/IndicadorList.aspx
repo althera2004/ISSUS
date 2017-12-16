@@ -116,13 +116,13 @@
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
                                                         <th id="th0" class="sort search" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_Description"] %></th>
-                                                        <th id="th1" class="sort hidden-480" style="width:90px;" onclick="Sort(this,'ListDataTable','date',false);"><%=this.Dictionary["Item_Indicador_Header_StartDate"] %></th>
-                                                        <th id="th2" class="sort" style="width:300px;" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_Process"] %></th>
-                                                        <th id="th3" class="sort" style="width:150px;" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_ProcessType"] %></th>
+                                                                                                                <th id="th1" class="sort hidden-480 search" style="width:90px;" onclick="Sort(this,'ListDataTable','date',false);"><%=this.Dictionary["Item_Indicador_Header_StartDate"] %></th>
+                                                        <th id="th2" class="sort search" style="width:250px;" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_Process"] %></th>
+                                                        <th id="th3" class="sort search" style="width:110px;" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_ProcessType"] %></th>
                                                         <!-- <th id="th3" class="search" style="width:200px;"><%=this.Dictionary["Item_Indicador_Header_Objetivo"] %></th> -->
                                                         <!-- <th id="th3" class="sort hidden-480" style="width:100px;" onclick="Sort(this,'ListDataTable','date',false);"><%=this.Dictionary["Item_Indicador_Header_ProcessResponsible"] %></th> -->
-                                                        <th id="th4" class="sort hidden-480" style="width:150px;" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_ObjetivoResponsible"] %></th>
-                                                        <th style="width:106px !important;">&nbsp;</th>
+                                                        <th id="th4" class="sort hidden-480 search" style="width:200px;" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_ObjetivoResponsible"] %></th>
+                                                        <th style="width:107px !important;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
                                             </table>

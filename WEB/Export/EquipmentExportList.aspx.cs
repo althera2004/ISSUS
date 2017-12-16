@@ -128,7 +128,7 @@ public partial class Export_EquipmentList : Page
         iTSpdf.PdfPCell titleCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont));
         titleCell.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
         titleCell.Border = iTS.Rectangle.NO_BORDER;
-        titleTable.AddCell(titleCell);        
+        titleTable.AddCell(titleCell);
 
         var borderNone = iTS.Rectangle.NO_BORDER;
         var borderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
@@ -136,42 +136,43 @@ public partial class Export_EquipmentList : Page
         var borderTBR = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.RIGHT_BORDER;
 
 
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(4);
-
-        // actual width of table in points
-        table.WidthPercentage = 100;
-        // fix the absolute width of the table
-        // table.LockedWidth = true;
-
-        //relative col widths in proportions - 1/3 and 2/3
         float[] widths = new float[] { 20f, 10f, 5f, 15f };
+        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(4)
+        {
+            WidthPercentage = 100,
+            HorizontalAlignment = 1,
+            SpacingBefore = 20f,
+            SpacingAfter = 30f
+        };
         table.SetWidths(widths);
-        table.HorizontalAlignment = 1;
-        //leave a gap before and after the table
-        table.SpacingBefore = 20f;
-        table.SpacingAfter = 30f;
 
-        iTSpdf.PdfPCell headerDescription = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Header_Code"].ToUpperInvariant()  + " - " +dictionary["Item_Equipment_Header_Description"].ToUpperInvariant(), headerFontFinal));
-        headerDescription.Border = borderAll;
-        headerDescription.BackgroundColor = backgroundColor;
-        headerDescription.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerDescription.Padding = 8f;
-        headerDescription.PaddingTop = 6f;
+        iTSpdf.PdfPCell headerDescription = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Header_Code"].ToUpperInvariant() + " - " + dictionary["Item_Equipment_Header_Description"].ToUpperInvariant(), headerFontFinal))
+        {
+            Border = borderAll,
+            BackgroundColor = backgroundColor,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 8f,
+            PaddingTop = 6f,
+        };
 
-        iTSpdf.PdfPCell headerLocation = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Header_Location"].ToUpperInvariant(), headerFontFinal));
-        headerLocation.Border = borderAll;
-        headerLocation.BackgroundColor = backgroundColor;
-        headerLocation.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerLocation.Padding = 8f;
-        headerLocation.PaddingTop = 6f;
+        iTSpdf.PdfPCell headerLocation = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Header_Location"].ToUpperInvariant(), headerFontFinal))
+        {
+            Border = borderAll,
+            BackgroundColor = backgroundColor,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 8f,
+            PaddingTop = 6f
+        };
 
-        iTSpdf.PdfPCell headerCode = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Header_Cost"].ToUpperInvariant(), headerFontFinal));
-        headerCode.Border = borderAll;
-        headerCode.BackgroundColor = backgroundColor;
-        headerCode.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerCode.Padding = 8f;
-        headerCode.PaddingTop = 6f;
-        
+        iTSpdf.PdfPCell headerCode = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Header_Cost"].ToUpperInvariant(), headerFontFinal))
+        {
+            Border = borderAll,
+            BackgroundColor = backgroundColor,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 8f,
+            PaddingTop = 6f
+        };
+
         iTSpdf.PdfPCell headerResponsible = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Header_Responsible"].ToUpperInvariant(), headerFontFinal));
         headerResponsible.Border = borderAll;
         headerResponsible.BackgroundColor = backgroundColor;
@@ -245,7 +246,7 @@ public partial class Export_EquipmentList : Page
         string statusText = string.Empty;
         string operativaText = string.Empty;
 
-        if(filter.IndexOf("0") != -1)
+        if (filter.IndexOf("0") != -1)
         {
             statusText = dictionary["Common_All"];
         }
@@ -358,7 +359,6 @@ public partial class Export_EquipmentList : Page
         totalRegistrosCell.BackgroundColor = rowEven;
         totalRegistrosCell.Padding = 6f;
         totalRegistrosCell.PaddingTop = 4f;
-        totalRegistrosCell.Colspan = 2;
         table.AddCell(totalRegistrosCell);
 
         iTSpdf.PdfPCell totalLabelCell = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant(), times));
@@ -378,10 +378,12 @@ public partial class Export_EquipmentList : Page
         totalCell.HorizontalAlignment = 2;
         table.AddCell(totalCell);
 
-        iTSpdf.PdfPCell blankCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times));
-        blankCell.Border = iTS.Rectangle.TOP_BORDER;
-        blankCell.BackgroundColor = rowEven;
-        table.AddCell(blankCell);
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
+        {
+            Border = iTS.Rectangle.TOP_BORDER,
+            BackgroundColor = rowEven,
+            Colspan = 2
+        });
 
         pdfDoc.Add(criteriatable);
         pdfDoc.Add(table);

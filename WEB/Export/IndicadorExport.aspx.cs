@@ -334,7 +334,7 @@ public partial class Export_IndicadorExport : Page
             criteriaProcess.Padding = 6f;
             criteriaProcess.PaddingTop = 4f;
 
-            criteriatable.AddCell(criteriaProcess);
+            criteriatable.AddCell(criteriaProcessLabel);
             criteriatable.AddCell(criteriaProcess);
         }
 
@@ -349,82 +349,18 @@ public partial class Export_IndicadorExport : Page
         table.SpacingBefore = 20f;
         table.SpacingAfter = 30f;
 
-        iTSpdf.PdfPCell headerDescripcion = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Indicador_Header_Description"].ToUpperInvariant(), headerFontFinal));
-        headerDescripcion.Border = borderAll;
-        headerDescripcion.BackgroundColor = backgroundColor;
-        headerDescripcion.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerDescripcion.Padding = 8f;
-        headerDescripcion.PaddingTop = 6f;
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Description"].ToUpperInvariant(), times));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_StartDate"].ToUpperInvariant(), times));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Process"].ToUpperInvariant(), times));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ProcessType"].ToUpperInvariant(), times));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ObjetivoResponsible"].ToUpperInvariant(), times));
 
-        iTSpdf.PdfPCell headerDate = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Indicador_Header_StartDate"].ToUpperInvariant(), headerFontFinal));
-        headerDate.Border = borderAll;
-        headerDate.BackgroundColor = backgroundColor;
-        headerDate.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerDate.Padding = 8f;
-        headerDate.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerProcess = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Indicador_Header_Process"].ToUpperInvariant(), headerFontFinal));
-        headerProcess.Border = borderAll;
-        headerProcess.BackgroundColor = backgroundColor;
-        headerProcess.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerProcess.Padding = 8f;
-        headerProcess.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerProcessType = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Indicador_Header_ProcessType"], headerFontFinal));
-        headerProcessType.Border = borderAll;
-        headerProcessType.BackgroundColor = backgroundColor;
-        headerProcessType.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerProcessType.Padding = 8f;
-        headerProcessType.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerResponsible = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Indicador_Header_ObjetivoResponsible"].ToUpperInvariant(), headerFontFinal));
-        headerResponsible.Border = borderAll;
-        headerResponsible.BackgroundColor = backgroundColor;
-        headerResponsible.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerResponsible.Padding = 8f;
-        headerResponsible.PaddingTop = 6f;
-
-        table.AddCell(headerDescripcion);
-        table.AddCell(headerDate);
-        table.AddCell(headerProcess);
-        table.AddCell(headerProcessType);
-        table.AddCell(headerResponsible);
 
         int cont = 0;
         ReadOnlyCollection<IndicadorFilterItem> data = Indicador.Filter(companyId, indicatorType, from, to, processId, processTypeId, targetId, status);
         bool pair = false;
         foreach (IndicadorFilterItem item in data)
         {
-            int border = 0;
-
-            BaseColor lineBackground = pair ? rowEven : rowPair;
-            // pair = !pair;
-
-            iTSpdf.PdfPCell cellDescription = new iTSpdf.PdfPCell(new iTS.Phrase(item.Indicador.Description, times));
-            cellDescription.Border = border;
-            cellDescription.BackgroundColor = lineBackground;
-            cellDescription.Padding = 6f;
-            cellDescription.PaddingTop = 4f;
-            table.AddCell(cellDescription);
-
-            iTSpdf.PdfPCell cellDate = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", item.StartDate), times));
-            cellDate.Border = border;
-            cellDate.BackgroundColor = lineBackground;
-            cellDate.Padding = 6f;
-            cellDate.PaddingTop = 4f;
-            cellDate.HorizontalAlignment = Rectangle.ALIGN_CENTER;
-            table.AddCell(cellDate);
-
-            string statustext = string.Empty;
-
-            iTSpdf.PdfPCell cellProcess = new iTSpdf.PdfPCell(new iTS.Phrase(item.Proceso.Description, times));
-            cellProcess.Border = border;
-            cellProcess.BackgroundColor = lineBackground;
-            cellProcess.Padding = 6f;
-            cellProcess.PaddingTop = 4f;
-            cellProcess.HorizontalAlignment = Rectangle.ALIGN_LEFT;
-            table.AddCell(cellProcess);
-
             string processTypeText = string.Empty;
             switch (item.Proceso.ProcessType)
             {
@@ -439,24 +375,35 @@ public partial class Export_IndicadorExport : Page
                     break;
             }
 
-            iTSpdf.PdfPCell cellProcessType = new iTSpdf.PdfPCell(new iTS.Phrase(processTypeText, times));
-            cellProcessType.Border = border;
-            cellProcessType.BackgroundColor = lineBackground;
-            cellProcessType.Padding = 6f;
-            cellProcessType.PaddingTop = 4f;
-            cellProcessType.HorizontalAlignment = Rectangle.ALIGN_LEFT;
-            table.AddCell(cellProcessType);
+            BaseColor lineBackground = pair ? rowEven : rowPair;
+            // pair = !pair;
 
-            iTSpdf.PdfPCell cellResponsible = new iTSpdf.PdfPCell(new iTS.Phrase(item.ObjetivoResponsible, times));
-            cellResponsible.Border = border;
-            cellResponsible.BackgroundColor = lineBackground;
-            cellResponsible.Padding = 6f;
-            cellResponsible.PaddingTop = 4f;
-            cellResponsible.HorizontalAlignment = Rectangle.ALIGN_LEFT;
-            table.AddCell(cellResponsible);
-
+            table.AddCell(ToolsPdf.DataCell(item.Indicador.Description, times));
+            table.AddCell(ToolsPdf.DataCell(item.StartDate, times, Rectangle.ALIGN_CENTER));            
+            table.AddCell(ToolsPdf.DataCell(item.Proceso.Description, times));
+            table.AddCell(ToolsPdf.DataCell(processTypeText, times));
+            table.AddCell(ToolsPdf.DataCell(item.ObjetivoResponsible, times));
             cont++;
         }
+
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(
+           CultureInfo.InvariantCulture,
+           @"{0}: {1}",
+           dictionary["Common_RegisterCount"],
+           cont), times))
+        {
+            Border = iTS.Rectangle.TOP_BORDER,
+            BackgroundColor = backgroundColor,
+            Padding = 6f,
+            PaddingTop = 4f
+        });
+
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
+        {
+            Border = iTS.Rectangle.TOP_BORDER,
+            BackgroundColor = backgroundColor,
+            Colspan = 4
+        });
 
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();

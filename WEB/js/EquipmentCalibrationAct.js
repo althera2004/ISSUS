@@ -172,7 +172,6 @@ function EquipmentCalibrationActRenderTable(targetName) {
     var target = document.getElementById(targetName);
     var total = 0;
     for (var x = 0; x < EquipmentCalibrationActList.length; x++) {
-        // WEKE
         if (x === 8) {
             break;
         }
@@ -182,8 +181,8 @@ function EquipmentCalibrationActRenderTable(targetName) {
     }
 
     $("#TableEquipmentCalibrationActTotalLabel").html("<i style=\"color:#aaa;font-weight:bold;\">" + Dictionary.Common_RegisterCount +":&nbsp;"+ EquipmentCalibrationActList.length + "</i><span style=\"float:right\">" + Dictionary.Common_Total + ":</span>");
-    document.getElementById('TableEquipmentCalibrationActTotal').innerHTML = ToMoneyFormat(total, 2);
-    if ($("#CalibrationDivTable #th0").attr('class') === "sort  ASC") {
+    document.getElementById("TableEquipmentCalibrationActTotal").innerHTML = ToMoneyFormat(total, 2);
+    if ($("#CalibrationDivTable #th0").attr("class") === "sort  ASC") {
         $("#CalibrationDivTable #th0").click();
     }
     else {
@@ -194,30 +193,32 @@ function EquipmentCalibrationActRenderTable(targetName) {
 
 function EquipmentCalibrationActRenderRow(equipmentCalibrationAct, targetName) {
     var target = document.getElementById(targetName);
-    var row = document.createElement('TR');
-    var tdFecha = document.createElement('TD');
-    var tdType = document.createElement('TD');
-    var tdMax = document.createElement('TD');
-    var tdResult = document.createElement('TD');
-    var tdResponsible = document.createElement('TD');
-    var tdCost = document.createElement('TD');
-    var tdVto = document.createElement('TD');
+    var row = document.createElement("TR");
+    var tdFecha = document.createElement("TD");
+    var tdType = document.createElement("TD");
+    var tdMax = document.createElement("TD");
+    var tdResult = document.createElement("TD");
+    var tdResponsible = document.createElement("TD");
+    var tdCost = document.createElement("TD");
+    var tdVto = document.createElement("TD");
 
-    tdFecha.style.width = '90px';
-    tdType.style.width = '90px';
-    tdMax.style.width = '130px';
-    tdResult.style.width = '120px';
-    tdCost.style.width = '120px';
-    tdVto.style.width = '90px';
+    tdFecha.style.width = "90px";
+    tdType.style.width = "90px";
+    tdMax.style.width = "130px";
+    tdResult.style.width = "120px";
+    tdCost.style.width = "120px";
+    tdVto.style.width = "90px";
 
-    tdFecha.align = 'center';
-    tdVto.align = 'center';
-    tdCost.align = 'right';
-    tdResult.align = 'right';
-    tdMax.align = 'right';
+    tdFecha.align = "center";
+    tdVto.align = "center";
+    tdCost.align = "right";
+    tdResult.align = "right";
+    tdMax.align = "right";
 
+    var success = true;
     if (equipmentCalibrationAct.Result > equipmentCalibrationAct.MaxResult) {
-        tdResult.style.color = '#f00';
+        tdResult.style.color = "#f00";
+        success = false;
     }
 
     tdMax.appendChild(document.createTextNode(ToMoneyFormat(equipmentCalibrationAct.MaxResult, 6)));
@@ -231,11 +232,15 @@ function EquipmentCalibrationActRenderRow(equipmentCalibrationAct, targetName) {
     var vto = null;
     if (typeof equipmentCalibrationAct.Expiration != "undefined") { vto = FormatYYYYMMDD(equipmentCalibrationAct.Expiration, '/'); }
     if (typeof equipmentCalibrationAct.Vto != "undefined") { vto = FormatYYYYMMDD(equipmentCalibrationAct.Vto, '/'); }
-
-    tdVto.appendChild(document.createTextNode(vto));
+    if (success === false) {
+        tdVto.appendChild(document.createTextNode(""));
+    }
+    else {
+        tdVto.appendChild(document.createTextNode(vto));
+    }
     tdResponsible.appendChild(document.createTextNode(equipmentCalibrationAct.Responsible.Value));
 
-    row.id = 'EquipmentCalibrationAct' + equipmentCalibrationAct.Id;
+    row.id = "EquipmentCalibrationAct" + equipmentCalibrationAct.Id;
     row.appendChild(tdFecha);
     row.appendChild(tdType);
     row.appendChild(tdMax);
@@ -458,7 +463,7 @@ function FillCmbEquipmentCalibrationActResponsible() {
         if (Employees[x].Active === true) {
             var option = document.createElement('option');
             option.value = Employees[x].Id;
-            option.appendChild(document.createTextNode(Employees[x].Value));
+            option.appendChild(document.createTextNode(Employees[x].FullName));
             document.getElementById('CmbEquipmentCalibrationActResponsible').appendChild(option);
         }
     }
@@ -570,8 +575,8 @@ function EquipmentCalibrationSave() {
             success: function (msg) {
                 SelectedEquipmentCalibrationAct.Id = msg.d.MessageError * 1;
                 EquipmentCalibrationActList.push(SelectedEquipmentCalibrationAct);
-                EquipmentCalibrationActRenderTable('TableEquipmentCalibrationAct');
-                $('#dialogEquipmentCalibrationForm').dialog('close');
+                EquipmentCalibrationActRenderTable("TableEquipmentCalibrationAct");
+                $("#dialogEquipmentCalibrationForm").dialog("close");
             },
             error: function (msg) {
                 alertUI(msg.responseText);

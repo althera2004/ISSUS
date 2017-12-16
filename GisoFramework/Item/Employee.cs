@@ -748,7 +748,22 @@ namespace GisoFramework.Item
                     activeValue = "false";
                 }
 
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0},""Value"":""{1}"", ""Active"":{2}}}", this.Id, this.FullName, activeValue);
+                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0},""Value"":""{1}"", ""Active"":{2}}}", this.Id, this.FullName, activeValue);
+            }
+        }
+
+        public string JsonCombo
+        {
+            get
+            {
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"{{""Id"":{0},""CompanyId"":{1},""FullName"":""{2}"",""HasUserAssigned"":{3},""Active"":{4}}}",
+                    this.Id,
+                    this.CompanyId,
+                    Tools.JsonCompliant(this.FullName),
+                    this.HasUserAssigned ? "true" : "false",
+                    this.Active ? "true" : "false");
             }
         }
 
@@ -756,15 +771,13 @@ namespace GisoFramework.Item
         {
             get
             {
-                StringBuilder res = new StringBuilder();
-                res.Append(Environment.NewLine);
-                res.Append("\t\t\t{").Append(Environment.NewLine);
-                res.Append("\t\t\t\t\"Id\":").Append(this.Id).Append(",").Append(Environment.NewLine);
-                res.Append("\t\t\t\t\"CompanyId\":").Append(this.CompanyId).Append(",").Append(Environment.NewLine);
-                res.Append("\t\t\t\t\"Name\":\"").Append(this.name).Append("\",").Append(Environment.NewLine);
-                res.Append("\t\t\t\t\"LastName\":\"").Append(this.lastName).Append("\"").Append(Environment.NewLine);
-                res.Append("\t\t\t}");
-                return res.ToString();
+                return string.Format(
+                       CultureInfo.InvariantCulture,
+                       @"{{""Id"":{0},""CompanyId"":{1},""Name"":""{2}"",""LastName"":""{3}""}}",
+                       this.Id,
+                       this.CompanyId,
+                       Tools.JsonCompliant(this.Name),
+                       Tools.JsonCompliant(this.LastName));
             }
         }
 
@@ -861,7 +874,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), "<a href=\"EmployeesView.aspx?id={0}\" title=\"{2} {1}\">{1}</a>", this.Id, this.FullName, ((Dictionary<string, string>)HttpContext.Current.Session["Dictionary"])["Common_Edit"]);
+                return string.Format(CultureInfo.InvariantCulture, "<a href=\"EmployeesView.aspx?id={0}\" title=\"{2} {1}\">{1}</a>", this.Id, this.FullName, ((Dictionary<string, string>)HttpContext.Current.Session["Dictionary"])["Common_Edit"]);
             }
         }
 
@@ -1424,17 +1437,13 @@ namespace GisoFramework.Item
         /// </summary>
         /// <param name="employeeId">Employee identifier</param>
         /// <param name="jobPositionId">Job position identifier</param>
+        /// <param name="date">Date of effective unassignation</param>
         /// <param name="companyId">Compnay identifier</param>
         /// <param name="userId">Identifier of user taht performs the action</param>
         /// <returns>Result of action</returns>
-        public static ActionResult UnassignateJobPosition(int employeeId, long jobPositionId, int companyId, int userId)
+        public static ActionResult UnassignateJobPosition(int employeeId, long jobPositionId,DateTime date, int companyId, int userId)
         {
             ActionResult res = ActionResult.NoAction;
-            /* CREATE PROCEDURE Employee_UnasignateJobPosition
-             * @EmployeeId int,
-             * @JobPosition bigint,
-             * @CompanyId int,
-             * @UserId int */
             using (SqlCommand cmd = new SqlCommand("Employee_UnasignateJobPosition"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
@@ -1443,6 +1452,7 @@ namespace GisoFramework.Item
                 {
                     cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
                     cmd.Parameters.Add(DataParameter.Input("@JobPositionId", jobPositionId));
+                    cmd.Parameters.Add(DataParameter.Input("@Date", date));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Connection.Open();
@@ -1499,7 +1509,40 @@ namespace GisoFramework.Item
             return res;
         }
 
-       public static ReadOnlyCollection<Employee> GetList(int companyId)
+        public static string CompanyListJson(Company company)
+        {
+            if(company == null)
+            {
+                return "[]";
+            }
+
+            return CompanyListJson(company.Id);
+        }
+
+        public static string CompanyListJson(int companyId)
+        {
+            StringBuilder res = new StringBuilder("[");
+            ReadOnlyCollection<Employee> employees = GetList(companyId);
+            bool first = true;
+            foreach (Employee employee in employees.OrderBy(e => e.FullName))
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    res.Append(",");
+                }
+
+                res.Append(employee.JsonCombo);
+            }
+
+            res.Append("]");
+            return res.ToString();
+        }
+
+        public static ReadOnlyCollection<Employee> GetList(int companyId)
         {
             List<Employee> res = new List<Employee>();
             using (SqlCommand cmd = new SqlCommand("Company_GetEmployees"))
@@ -1838,6 +1881,115 @@ namespace GisoFramework.Item
                 departmentsList.ToString(),
                 iconEdit,
                 iconDelete);
+        }
+
+        /// <summary>
+        /// Render the HTML code for a row in active employees list
+        /// </summary>
+        /// <param name="dictionary">Dictionary for fixed labels</param>
+        /// <param name="grants">User grants</param>
+        /// <returns>HTML code</returns>
+        public string JsonListRow(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> grants)
+        {
+            if (dictionary == null)
+            {
+                dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+            }
+
+            bool grantEmployee = UserGrant.HasWriteGrant(grants, ApplicationGrant.Employee);
+            bool grantEmployeeDelete = UserGrant.HasDeleteGrant(grants, ApplicationGrant.Employee);
+            bool grantDepartment = UserGrant.HasWriteGrant(grants, ApplicationGrant.Department);
+            bool grantJobPosition = UserGrant.HasWriteGrant(grants, ApplicationGrant.JobPosition);
+
+            string iconDelete = string.Empty;
+            if (grantEmployeeDelete)
+            {
+                string deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "ProviderDelete({0},'{1}');", this.Id, this.Description);
+                string deleteAction = this.HasActions ? "EmployeeDeleteAlert" : "EmployeeDelete";
+                iconDelete = string.Format(
+                    CultureInfo.GetCultureInfo("en-us"),
+                    @"<span title=""{2} {1}"" class=""btn btn-xs btn-danger"" onclick=""{3}({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>",
+                    this.Id,
+                    this.FullName,
+                    dictionary["Common_Delete"],
+                    deleteAction);
+            }
+
+            string iconEdit = string.Format(
+                CultureInfo.InvariantCulture,
+                @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-info"" onclick=""EmployeeUpdate({0},'{1}');""><i class=""icon-eye-open bigger-120""></i></span>",
+                this.Id,
+                dictionary["Common_View"],
+                this.Description);
+
+            if (grantEmployee)
+            {
+                iconEdit = string.Format(
+                CultureInfo.InvariantCulture,
+                @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-info"" onclick=""EmployeeUpdate({0},'{1}');""><i class=""icon-edit bigger-120""></i></span>",
+                this.Id,
+                dictionary["Common_Edit"],
+                this.Description);
+            }
+
+            /*
+            string deleteAction = this.HasActions ? "EmployeeDeleteAlert" : "EmployeeDelete";
+            string iconEdit = grantEmployee ? string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""EmployeeUpdate({0},'{1}');""><i class=""icon-edit bigger-120""></i></span>", this.Id, this.FullName, dictionary["Common_Edit"]) : string.Empty;
+            string iconDelete = grantEmployeeDelete ? string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-danger"" onclick=""{3}({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", 
+                this.Id, 
+                this.FullName, 
+                dictionary["Common_Delete"], 
+                deleteAction) : @"<span class=""btn btn-xs btn-danger"" onclick=""NoDelete();""><i class=""icon-trash bigger-120""></i></span>";
+            */
+
+            bool firstDepartment = true;
+
+            StringBuilder departmentsList = new StringBuilder();
+            if (this.departments != null)
+            {
+                foreach (Department deparment in this.departments)
+                {
+                    if (firstDepartment)
+                    {
+                        firstDepartment = false;
+                    }
+                    else
+                    {
+                        departmentsList.Append(", ");
+                    }
+
+                    departmentsList.Append(grantDepartment ? deparment.Link : deparment.Description);
+                }
+            }
+
+            StringBuilder cargosList = new StringBuilder();
+            bool firstJobPosition = true;
+            foreach (JobPosition jobPositionItem in this.jobPositions)
+            {
+                if (firstJobPosition)
+                {
+                    firstJobPosition = false;
+                }
+                else
+                {
+                    cargosList.Append(", ");
+                }
+
+                cargosList.Append(grantJobPosition ? jobPositionItem.Link : jobPositionItem.Description);
+            }
+
+            string pattern = @"{{""Id"":{0},""Link"":""{1}"",""FullName"":""{7}"",""Cargos"":""{2}"",""Departamentos"":""{3}"",""Editable"":{4},""Deletable"":{5}, ""Baja"":{6}}}";
+            return string.Format(
+                CultureInfo.GetCultureInfo("en-us"),
+                pattern,
+                this.Id,
+                Tools.JsonCompliant(grantEmployee ? this.Link : this.FullName),
+                Tools.JsonCompliant(cargosList.ToString()),
+                Tools.JsonCompliant(departmentsList.ToString()),
+                grantEmployee ? "true" : "false",
+                grantEmployeeDelete ? "true" : "false",
+                this.disabledDate.HasValue ? "true" : "false",
+                Tools.JsonCompliant(this.FullName));
         }
 
         /// <summary>

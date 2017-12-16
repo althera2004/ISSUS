@@ -292,6 +292,7 @@ function ItemRenderTable(list) {
         var tdOrigin = document.createElement('TD');
         var tdDescription = document.createElement('TD');
         var tdAction = document.createElement('TD');
+        var tdAmount = document.createElement('TD');
         var tdClose = document.createElement('TD');
 
         var status = '';
@@ -392,23 +393,28 @@ function ItemRenderTable(list) {
 
         tdClose.appendChild(document.createTextNode(FormatYYYYMMDD(item.Close, '/')));
 
+        tdAmount.appendChild(document.createTextNode(ToMoneyFormat(item.Amount, 2)));
+
+        tdOpen.style.width = "100px";
+		tdOpen.align = "center"
+		tdStatus.style.width = "60px";
+		tdStatus.align = "center"
+        tdOrigin.style.width = "200px";
+		tdAction.style.width = "90px";
+        tdAction.align = "center"
+        tdAmount.style.width = "100px";
+        tdAmount.align = "right";
+		tdClose.style.width = "100px";
+		tdClose.align = "center"
+
         //row.appendChild(tdNumber);
         row.appendChild(tdDescription);
         row.appendChild(tdOpen);
         row.appendChild(tdStatus);
         row.appendChild(tdOrigin);
         row.appendChild(tdAction);
+        row.appendChild(tdAmount);
         row.appendChild(tdClose);
-
-        tdOpen.style.width = "100px";
-		tdOpen.align = "center"
-		tdStatus.style.width = "60px";
-		tdStatus.align = "center"
-        tdOrigin.style.width = "250px";
-		tdAction.style.width = "90px";
-        tdAction.align = "center"
-		tdClose.style.width = "100px";
-		tdClose.align = "center"
 
         var iconEdit = document.createElement('SPAN');
         iconEdit.className = 'btn btn-xs btn-info';
@@ -429,7 +435,7 @@ function ItemRenderTable(list) {
         }
 
         var tdActions = document.createElement('TD');
-        tdActions.style.width = "90px";
+        tdActions.style.width = "91px";
 
         tdActions.appendChild(iconEdit);
         if (ApplicationUser.Grants.Incident.Delete) {

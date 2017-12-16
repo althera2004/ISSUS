@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
@@ -328,7 +329,8 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return Employee.GetByCompanyJson(this.company.Id);
+            return Employee.CompanyListJson(this.company.Id);
+            //return Employee.GetByCompanyJson(this.company.Id);
         }
     }
 
@@ -1013,7 +1015,7 @@ public partial class EquipmentView : Page
             DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        foreach (Employee e in this.company.Employees)
+        foreach (Employee e in this.company.Employees.OrderBy(e => e.FullName))
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -1143,7 +1145,7 @@ public partial class EquipmentView : Page
             DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        foreach (Employee e in this.company.Employees)
+        foreach (Employee e in this.company.Employees.OrderBy(e => e.FullName))
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -1337,7 +1339,7 @@ public partial class EquipmentView : Page
             DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        foreach (Employee e in this.company.Employees)
+        foreach (Employee e in this.company.Employees.OrderBy(e => e.FullName))
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -1390,7 +1392,7 @@ public partial class EquipmentView : Page
         this.status2.Checked = this.Equipment.IsMaintenance;
 
         StringBuilder responsibleData = new StringBuilder();
-        foreach (Employee employee in this.company.Employees)
+        foreach (Employee employee in this.company.Employees.OrderBy(e => e.FullName))
         {
             responsibleData.Append(string.Format(@"<option value=""{0}""{1}>{2}</option>", employee.Id, employee.Id == this.Equipment.Responsible.Id ? " selected=\"selected\"" : string.Empty, employee.FullName));
         }
@@ -1416,7 +1418,8 @@ public partial class EquipmentView : Page
         {
             endResponsibleId = this.Equipment.EndResponsible.Id;
         }
-        foreach (Employee e in this.company.Employees)
+
+        foreach (Employee e in this.company.Employees.OrderBy(e => e.FullName))
         {
             if (e.Active && e.DisabledDate == null)
             {

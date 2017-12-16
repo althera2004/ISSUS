@@ -101,7 +101,7 @@ public class EmployeeActions : WebService {
     [ScriptMethod]
     public ActionResult AsociateNewDepartment(int companyId, int employeeId, string departmentName, int userId)
     {
-        ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
+        ActionResult result = ActionResult.NoAction;
         Department department = new Department() { Id = -1, CompanyId = companyId, Description = departmentName };
         result = ActivityLog.Department(department.Id, 1, companyId, DepartmentLogActions.Create, string.Empty);
         result = department.Insert(userId);
@@ -151,79 +151,14 @@ public class EmployeeActions : WebService {
     [ScriptMethod]
     public ActionResult AssociateJobPosition(int companyId, int employeeId, int jobPositionId, DateTime date, int userId)
     {
-        //return Employee.AssignateJobPosition(employeeId, Convert.ToInt64(jobPositionId), companyId, userId);
-        ActionResult res = ActionResult.NoAction;
-        /* CREATE PROCEDURE Employee_AsignateJobPosition
-         * @EmployeeId int,
-         * @JobPosition bigint,
-         * @CompanyId int,
-         * @UserId int */
-        using (SqlCommand cmd = new SqlCommand("Employee_AsignateJobPosition"))
-        {
-            cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-            cmd.CommandType = CommandType.StoredProcedure;
-            try
-            {
-                cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
-                cmd.Parameters.Add(DataParameter.Input("@JobPositionId", jobPositionId));
-                cmd.Parameters.Add(DataParameter.Input("@Date", date));
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                cmd.Connection.Open();
-                cmd.ExecuteNonQuery();
-                res.SetSuccess();
-            }
-            catch (SqlException ex)
-            {
-                res.SetFail(ex);
-            }
-            finally
-            {
-                if (cmd.Connection.State != ConnectionState.Closed)
-                {
-                    cmd.Connection.Close();
-                }
-            }
-        }
-
-        return res;
+        return Employee.AssignateJobPosition(employeeId, Convert.ToInt64(jobPositionId), companyId, userId);
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
     public ActionResult DesassociateJobPosition(int companyId, int employeeId, int jobPositionId, DateTime date, int userId)
     {
-        //return Employee.UnassignateJobPosition(employeeId, Convert.ToInt64(jobPositionId), companyId, userId);
-        ActionResult res = ActionResult.NoAction;
-        using (SqlCommand cmd = new SqlCommand("Employee_UnasignateJobPosition"))
-        {
-            cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-            cmd.CommandType = CommandType.StoredProcedure;
-            try
-            {
-                cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
-                cmd.Parameters.Add(DataParameter.Input("@JobPositionId", jobPositionId));
-                cmd.Parameters.Add(DataParameter.Input("@Date", date));
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                cmd.Connection.Open();
-                cmd.ExecuteNonQuery();
-                res.SetSuccess();
-            }
-            catch (SqlException ex)
-            {
-                res.SetFail(ex);
-            }
-            finally
-            {
-                if (cmd.Connection.State != ConnectionState.Closed)
-                {
-                    cmd.Connection.Close();
-                }
-            }
-        }
-
-        return res;
+        return Employee.UnassignateJobPosition(employeeId, Convert.ToInt64(jobPositionId), date, companyId, userId);
     }
 
 

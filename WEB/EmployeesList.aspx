@@ -21,6 +21,9 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
+    <script type="text/javascript">
+        var employees = <%=this.EmployeesJson %>;
+    </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
@@ -28,14 +31,14 @@
                                 <div class="col-xs-12">
                                     <div id="user-profile-2" class="user-profile">
                                         <div class="tabbable">
-                                            <ul class="nav nav-tabs padding-18">
+                                            <!--<ul class="nav nav-tabs padding-18">
                                                 <li class="active">
                                                     <a data-toggle="tab" href="#active" id="SelectorTabActive"><%=this.Dictionary["Common_Active_Plural"] %></a>
                                                 </li>
                                                 <li class="">
                                                     <a data-toggle="tab" href="#inactive" id="SelectorTabInactive"><%=this.Dictionary["Common_Inactive_Plural"] %></a>
                                                 </li>
-                                            </ul>
+                                            </ul>-->
                                             <div class="tab-content no-border padding-24" style="height:500px;">
                                                 <div id="active" class="tab-pane active"> 
                                                     <div class="row">
@@ -67,39 +70,6 @@
                                                                 </table>
                                                             </div>
                                                             <!-- /.table-responsive -->
-                                                        </div><!-- /span -->
-                                                    </div><!-- /row -->	
-                                                </div>
-                                                <div id="inactive" class="tab-pane">
-                                                    <div class="row">
-                                                        <div class="col-xs-12">
-                                                            <div class="table-responsive" id="scrollTableDiv2">
-                                                                <table class="table table-bordered table-striped" style="margin: 0">
-                                                                    <thead class="thin-border-bottom">
-                                                                        <tr>
-                                                                            <th onclick="Sort(this,'EmployeesDataTableInactive');" id="th0" class="" style="cursor:pointer;"><%=this.Dictionary["Item_Employee_List_Header_Name"] %></th>
-                                                                            <th class="hidden-480" style="width:120px;" ><%=this.Dictionary["Item_Employee_List_Header_Nif"] %></th>
-                                                                            <th class="hidden-480" style="width:300px;" ><%=this.Dictionary["Item_Employee_List_Header_Email"] %></th>
-                                                                            <th class="hidden-480" style="width:90px;" align="center"><%=this.Dictionary["Item_Employee_List_Header_Date"] %></th>
-                                                                            <th class="hidden-480" style="width:106px;" align="center">&nbsp;</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                </table>
-                                                                <div id="ListDataDiv2" style="overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                                    <table class="table table-bordered table-striped" style="border-top: none;">
-                                                                        <tbody id="ListDataTable2">
-                                                                            <asp:Literal runat="server" ID="EmployeeInactiveData"></asp:Literal>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-                                                                <table class="table table-bordered table-striped" style="margin: 0">
-                                                                    <thead class="thin-border-bottom">
-                                                                        <tr id="ListDataFooter2">
-                                                                            <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="EmployeeInactiveDataTotal"></asp:Literal></i></th>                                                                            
-                                                                        </tr>
-                                                                    </thead>
-                                                                </table>
-                                                            </div><!-- /.table-responsive -->
                                                         </div><!-- /span -->
                                                     </div><!-- /row -->	
                                                 </div>

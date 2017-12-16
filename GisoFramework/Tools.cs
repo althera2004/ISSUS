@@ -24,6 +24,11 @@ namespace GisoFramework
         {
         }
 
+        public static string PdfMoneyFormat(decimal value)
+        {
+            return string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", value).Replace(",", "*").Replace(".", ",").Replace("*", ".");
+        }
+
         /// <summary>
         /// Make a string with decimal format
         /// </summary>

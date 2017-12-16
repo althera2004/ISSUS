@@ -121,6 +121,7 @@
     <asp:ContentPlaceHolder id="PageStyles" runat="server">
     </asp:ContentPlaceHolder>
     <script type="text/javascript">
+        var listOrder = null;
         var timeout = 180000;
         var scaleImages = false;
         var ApplicationUser = <%=this.ApplicationUserJson %>;

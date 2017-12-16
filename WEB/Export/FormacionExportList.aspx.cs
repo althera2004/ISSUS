@@ -28,7 +28,6 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using System.Text;
 
-
 public partial class Export_FormacionExportList : Page
 {
     BaseFont headerFont = null;

@@ -1,4 +1,6 @@
-﻿function IncidentActionGetFilter(exportType) {
+﻿var lockOrderList = false;
+
+function IncidentActionGetFilter(exportType) {
     document.getElementById("nav-search-input").value = "";
     var ok = true;
     document.getElementById("ListDataTable").style.display = "none";
@@ -283,7 +285,20 @@ function ItemRenderTable(list) {
 
     $("#NumberCosts").html(list.length);
     $("#TotalCosts").html(ToMoneyFormat(total, 2));
-    $("#th2").click();
+
+    if (lockOrderList === false) {
+        $("#th2").click();
+    }
+    else {
+        var column = listOrder.split('|')[0];
+        var order = listOrder.split('|')[1];
+
+        $("#" + column).click();
+        if (document.getElementById(column).className.indexOf(order) === -1) {
+            $("#" + column).click();
+        }
+    }
+
     if (document.getElementById("th2").className.indexOf("DESC") !== -1) { $("#th2").click(); }
 }
 
@@ -371,6 +386,7 @@ window.onload = function () {
 window.onresize = function () { Resize(); };
 
 function Export() {
+    lockOrderList = true;
     IncidentActionGetFilter("PDF");
 }
 
@@ -399,7 +415,8 @@ function ExportPDF() {
         "typeImprovement": type1,
         "typeFix": type2,
         "typePrevent": type3,
-        "origin": $("#CmbOrigin").val() * 1
+        "origin": $("#CmbOrigin").val() * 1,
+        "listOrder": listOrder
     };
 
     var webMethod = "/Export/IncidentActionExportList.aspx/PDF";

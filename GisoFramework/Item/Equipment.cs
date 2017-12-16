@@ -499,6 +499,7 @@ namespace GisoFramework.Item
         /// Get a list of company's equipments
         /// </summary>
         /// <param name="company">Equipment's company</param>
+        /// <param name="grantWrite">User grant to write</param>
         /// <param name="grantDelete">User grant to delete</param>
         /// <param name="grantEmployee">User grant to employees</param>
         /// <param name="dictionary">Interface dictionary</param>
@@ -517,11 +518,12 @@ namespace GisoFramework.Item
         /// 
         /// </summary>
         /// <param name="list"></param>
-        /// <param name="grantEquipmentDelete"></param>
-        /// <param name="grantEmployee"></param>
-        /// <param name="dictionary"></param>
+        /// <param name="grantWrite">User grant to write</param>
+        /// <param name="grantDelete">User grant to delete equipments</param>
+        /// <param name="grantEmployee">User grant to employees</param>
+        /// <param name="dictionary">Interface dictionary</param>
         /// <returns></returns>
-        public static string List(ReadOnlyCollection<Equipment> list, bool grantWrite, bool grantEquipmentDelete, bool grantEmployee, Dictionary<string, string> dictionary)
+        public static string List(ReadOnlyCollection<Equipment> list, bool grantWrite, bool grantDelete, bool grantEmployee, Dictionary<string, string> dictionary)
         {
             if (list == null)
             {
@@ -536,10 +538,147 @@ namespace GisoFramework.Item
             StringBuilder res = new StringBuilder();
             foreach (Equipment equipment in list)
             {
-                res.Append(equipment.ListRow(dictionary, grantWrite, grantEquipmentDelete, grantEmployee));
+                res.Append(equipment.ListRow(dictionary, grantWrite, grantDelete, grantEmployee));
             }
 
             return res.ToString();
+        }
+
+        public static ActionResult Restore(int equipmentId, int companyId, int applicationUserId)
+        {
+            string source = string.Format(
+               CultureInfo.InvariantCulture,
+               @"Equipment::Restore({0}, {1})",
+               equipmentId,
+               applicationUserId);
+            ActionResult res = ActionResult.NoAction;
+            /* CREATE PROCEDURE [dbo].[Equipment_Restore]
+             *   @EquipmentId int,
+             *   @CompanyId int,
+             *   @ApplicationUserId int */
+            using (SqlCommand cmd = new SqlCommand("Equipment_Restore"))
+            {
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    {
+                        cmd.Connection = cnn;
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess(equipmentId);
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (ArgumentException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (InvalidCastException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        public static ActionResult Anulate(int equipmentId, int companyId, int applicationUserId, string reason, DateTime date, int responsible)
+        {
+            string source = string.Format(
+                CultureInfo.InvariantCulture,
+                @"Equipment::Anulate({0}, {1})",
+                equipmentId,
+                applicationUserId);
+            ActionResult res = ActionResult.NoAction;
+            /* CREATE PROCEDURE [dbo].[Equipment_Anulate]
+             *   @EquipmentId int,
+             *   @CompanyId int,
+             *   @EndDate datetime,
+             *   @EndReason nvarchar(500),
+             *   @EndResponsable int,
+             *   @UnidadId int,
+             *   @ApplicationUserId int */
+            using (SqlCommand cmd = new SqlCommand("Equipment_Anulate"))
+            {
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    {
+                        cmd.Connection = cnn;
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EndDate", date));
+                        cmd.Parameters.Add(DataParameter.Input("@EndReason", reason, 500));
+                        cmd.Parameters.Add(DataParameter.Input("@EndResponsible", responsible));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess(equipmentId);
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (ArgumentException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (InvalidCastException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
         }
 
         public ActionResult Delete(int userId, string reason)
@@ -771,143 +910,6 @@ namespace GisoFramework.Item
                 catch (NullReferenceException ex)
                 {
                     ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
-                    {
-                        cmd.Connection.Close();
-                    }
-                }
-            }
-
-            return res;
-        }
-
-        public static ActionResult Restore(int equipmentId, int companyId, int applicationUserId)
-        {
-            string source = string.Format(
-               CultureInfo.InvariantCulture,
-               @"Equipment::Restore({0}, {1})",
-               equipmentId,
-               applicationUserId);
-            ActionResult res = ActionResult.NoAction;
-            /* CREATE PROCEDURE [dbo].[Equipment_Restore]
-             *   @EquipmentId int,
-             *   @CompanyId int,
-             *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Equipment_Restore"))
-            {
-                try
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
-                    {
-                        cmd.Connection = cnn;
-                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
-                        cmd.Connection.Open();
-                        cmd.ExecuteNonQuery();
-                        res.SetSuccess(equipmentId);
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (InvalidCastException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
-                    {
-                        cmd.Connection.Close();
-                    }
-                }
-            }
-
-            return res;
-        }
-
-        public static ActionResult Anulate(int equipmentId, int companyId, int applicationUserId, string reason, DateTime date, int responsible)
-        {
-            string source = string.Format(
-                CultureInfo.InvariantCulture,
-                @"Equipment::Anulate({0}, {1})",
-                equipmentId,
-                applicationUserId);
-            ActionResult res = ActionResult.NoAction;
-            /* CREATE PROCEDURE [dbo].[Equipment_Anulate]
-             *   @EquipmentId int,
-             *   @CompanyId int,
-             *   @EndDate datetime,
-             *   @EndReason nvarchar(500),
-             *   @EndResponsable int,
-             *   @UnidadId int,
-             *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Equipment_Anulate"))
-            {
-                try
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
-                    {
-                        cmd.Connection = cnn;
-                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                        cmd.Parameters.Add(DataParameter.Input("@EndDate", date));
-                        cmd.Parameters.Add(DataParameter.Input("@EndReason", reason, 500));
-                        cmd.Parameters.Add(DataParameter.Input("@EndResponsible", responsible));
-                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
-                        cmd.Connection.Open();
-                        cmd.ExecuteNonQuery();
-                        res.SetSuccess(equipmentId);
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (InvalidCastException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
                 }
                 finally
                 {

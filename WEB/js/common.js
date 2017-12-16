@@ -226,6 +226,7 @@ var sort_by = function (field, reverse, primer) {
 
 function Sort(sender, targetName, dataType, HasTotalFooter) {
     var sortType = sender.className.indexOf("ASC") !== -1 ? "DESC" : "ASC";
+    listOrder = sender.id + "|" + sortType;
 
     // Eliminar el sortype de los th
     for (var x = 0; x < sender.parentNode.childNodes.length; x++) {
@@ -835,4 +836,20 @@ function ParseInputValueToMoney(value) {
 
 function Decimal2Integer(value) {
     return Math.floor(value);
+}
+
+function WarningEmployeeNoUserCheck(employeeId, employeesList) {
+    for (var x = 0; x < employeesList.length; x++) {
+        if (employeesList[x].Id === employeeId) {
+            if (employeesList[x].HasUserAssigned === false) {
+                WarningEmployeeNoUser();
+            }
+
+            break;
+        }
+    }
+}
+
+function WarningEmployeeNoUser() {
+    alertUI(Dictionary.Item_Employee_Warning_NoUser);
 }

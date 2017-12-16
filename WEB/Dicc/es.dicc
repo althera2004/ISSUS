@@ -1473,3 +1473,6 @@ SkillsFor::Formación para el/la empleado/a
 Tipo::Tipo
 Verification-Ext::Verificación externa
 Verification-Int::Verificación interna
+MailTemplate_ResetPassword_Subject::Reinicio de contraseña en ISSUS
+MailTemplate_ResetPassword_Error::No se pudo reiniciar la contraseña
+MailTemplate_ResetPassword_DefaultBody::Se ha reestablecido su contraseña en ISSUS.<br />Acceder a la siguiente url http://issus.scrambotika.com/ <br/> User:<b>{0}</b><br/>Password:<b>{1}</b>
