@@ -33,6 +33,15 @@ public partial class UserView : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
+    /// <summary>Gets a random value to prevents static cache files</summary>
+    public string AntiCache
+    {
+        get
+        {
+            return Guid.NewGuid().ToString();
+        }
+    }
+
     /// <summary>Indicates if employee is active</summary>
     private bool active;
 

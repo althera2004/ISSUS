@@ -67,7 +67,7 @@
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">  
-        <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script>
         <script type="text/javascript">
             var Filter = <%=this.Filter %>;
             var Tasks = <%=this.Tasks %>;

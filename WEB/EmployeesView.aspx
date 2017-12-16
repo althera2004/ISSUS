@@ -17,7 +17,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
-    <script type="text/javascript" src="js/common.js"></script><script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script><script type="text/javascript" src="js/common.js"></script>
     <link rel="stylesheet" href="/Document-Viewer/style.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript" src="/Document-Viewer/yepnope.1.5.3-min.js"></script>

@@ -213,7 +213,8 @@ public partial class ActionView : Page
     {
         get
         {
-            return Employee.GetByCompanyJson(this.company.Id);
+            return Employee.CompanyListJson(this.company.Id);
+            //return Employee.GetByCompanyJson(this.company.Id);
         }
     }
 

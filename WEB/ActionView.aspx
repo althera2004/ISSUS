@@ -462,7 +462,7 @@
         <script type="text/javascript" src="/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
         <script type="text/javascript" src="/assets/js/jquery.maskedinput.min.js"></script>
         <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
-        <script type="text/javascript" src="/js/common.js"></script>
+        <script type="text/javascript" src="/js/common.js?ac<%= this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/Actions.js?ac<%= this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/IncidentActionCost.js?ac<%= this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/ActionProvider.js?ac<%= this.AntiCache %>"></script>

@@ -371,8 +371,8 @@
         <!-- script type="text/javascript" src="/assets/js/jquery.dynameter.js"></script -->
         <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
         <script type="text/javascript" src="/assets/js/dx.chartjs.js"></script>
-        <script type="text/javascript" src="/js/common.js"></script>
-        <script type="text/javascript" src="/js/Chart.js"></script>
+        <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/js/Chart.js?ac=<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/ObjetivoView.js?ac=<%=this.AntiCache %>"></script>
 </asp:Content>
 

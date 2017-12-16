@@ -123,32 +123,32 @@
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
-        <script type="text/javascript" src="assets/js/jquery-ui-1.10.3.full.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.ui.touch-punch.min.js"></script>
-        <script type="text/javascript" src="assets/js/chosen.jquery.min.js"></script>
-        <script type="text/javascript" src="assets/js/fuelux/fuelux.spinner.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/bootstrap-timepicker.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/moment.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/daterangepicker.min.js"></script>
-        <script type="text/javascript" src="assets/js/bootstrap-colorpicker.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.knob.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.autosize.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.maskedinput.min.js"></script>
-        <script type="text/javascript" src="assets/js/bootstrap-tag.min.js"></script>
-        <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>
+        <script type="text/javascript" src="/assets/js/chosen.jquery.min.js"></script>
+        <script type="text/javascript" src="/assets/js/fuelux/fuelux.spinner.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/bootstrap-timepicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/moment.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/daterangepicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/bootstrap-colorpicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.knob.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.autosize.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.maskedinput.min.js"></script>
+        <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
+        <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script>
         <!-- page scripts -->
         <script type="text/javascript">
             function Go(param, value) {
-                var yearFrom = document.getElementById('CmbYearFrom').value;
-                var yearTo = document.getElementById('CmbYearTo').value;
+                var yearFrom = document.getElementById("CmbYearFrom").value;
+                var yearTo = document.getElementById("CmbYearTo").value;
                 var mode = 3;
-                if (document.getElementById('Contentholder1_status0').checked) mode = 0;
-                if (document.getElementById('Contentholder1_status1').checked) mode = 1;
-                if (document.getElementById('Contentholder1_status2').checked) mode = 2;
+                if (document.getElementById("Contentholder1_status0").checked) mode = 0;
+                if (document.getElementById("Contentholder1_status1").checked) mode = 1;
+                if (document.getElementById("Contentholder1_status2").checked) mode = 2;
                 if (yearTo > 0) {
                     if (yearFrom > yearTo) {
-                        alert('El año de origen no puede ser superior al año final');
+                        alert("El año de origen no puede ser superior al año final");
                         window.scrollTo(0, 0); 
                         return false;
                     }

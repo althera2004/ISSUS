@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
-    <script type="text/javascript" src="js/common.js"></script><script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script><script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript">
         var companyId = <%=this.CompanyId %>;
         var employeeId = <%=this.EmployeeId %>;

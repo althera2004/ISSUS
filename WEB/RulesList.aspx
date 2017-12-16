@@ -66,9 +66,9 @@
     </div>                                                    
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
-        <script type="text/javascript" src="assets/js/jquery-ui-1.10.3.full.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.ui.touch-punch.min.js"></script>  
-        <script type="text/javascript" src="js/common.js"></script>
-        <script type="text/javascript" src="js/RulesList.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>  
+        <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/js/RulesList.js?<%=this.AntiCache %>"></script>
 </asp:Content>
 

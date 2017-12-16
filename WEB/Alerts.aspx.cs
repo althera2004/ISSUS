@@ -28,6 +28,15 @@ public partial class Alerts : Page
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
+    /// <summary>Gets a random value to prevents static cache files</summary>
+    public string AntiCache
+    {
+        get
+        {
+            return Guid.NewGuid().ToString();
+        }
+    }
+
     /// <summary>
     /// Gets the dictionary for interface texts
     /// </summary>

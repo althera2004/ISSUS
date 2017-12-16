@@ -33,7 +33,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
-    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script>
     <script type="text/javascript">
         var process = <%=this.Proceso.Json %>;
         var processList = [<%=this.ProcesosListJson %>];

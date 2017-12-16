@@ -87,32 +87,32 @@
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
-        <script type="text/javascript" src="assets/js/jquery-ui-1.10.3.full.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.ui.touch-punch.min.js"></script>
-        <script type="text/javascript" src="assets/js/chosen.jquery.min.js"></script>
-        <script type="text/javascript" src="assets/js/fuelux/fuelux.spinner.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/bootstrap-datepicker.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/bootstrap-timepicker.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/moment.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/daterangepicker.min.js"></script>
-        <script type="text/javascript" src="assets/js/bootstrap-colorpicker.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.knob.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.autosize.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.maskedinput.min.js"></script>
-        <script type="text/javascript" src="assets/js/bootstrap-tag.min.js"></script>
-    <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>
+        <script type="text/javascript" src="/assets/js/chosen.jquery.min.js"></script>
+        <script type="text/javascript" src="/assets/js/fuelux/fuelux.spinner.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/bootstrap-timepicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/moment.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/daterangepicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/bootstrap-colorpicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.knob.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.autosize.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.maskedinput.min.js"></script>
+        <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
+    <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script>
     <script type="text/javascript">
         function Save() {
             var ok = true;
-            if (!RequiredFieldText('TxtName')) { ok = false; }            
+            if (!RequiredFieldText("TxtName")) { ok = false; }            
             else
             {
                 var duplicated = false;
                 for(var x=0; x<providers.length; x++)
                 {
                     var description = providers[x].Value.toLowerCase();
-                    if(description == document.getElementById('TxtName').value.toLowerCase() && providers[x].Id != providerId)
+                    if(description == document.getElementById("TxtName").value.toLowerCase() && providers[x].Id != providerId)
                     {
                         duplicated = true;
                         break;

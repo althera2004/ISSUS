@@ -32,6 +32,15 @@ public partial class CostDefinitionView : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
+    /// <summary>Gets a random value to prevents static cache files</summary>
+    public string AntiCache
+    {
+        get
+        {
+            return Guid.NewGuid().ToString();
+        }
+    }
+
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 

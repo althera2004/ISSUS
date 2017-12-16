@@ -23,6 +23,15 @@ public partial class Countries : Page
 
     private FormFooter formFooter;
 
+    /// <summary>Gets a random value to prevents static cache files</summary>
+    public string AntiCache
+    {
+        get
+        {
+            return Guid.NewGuid().ToString();
+        }
+    }
+
     public string FormFooter
     {
         get

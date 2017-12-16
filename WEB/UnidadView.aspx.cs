@@ -18,6 +18,15 @@ public partial class UnidadView : Page
     private Unidad unidad;
     private FormFooter formFooter;
 
+    /// <summary>Gets a random value to prevents static cache files</summary>
+    public string AntiCache
+    {
+        get
+        {
+            return Guid.NewGuid().ToString();
+        }
+    }
+
     private TabBar tabBar = new TabBar() { Id = "UnidadTabBar" };
 
     public bool IsActual

@@ -35,6 +35,15 @@ public partial class UserProfileView : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
+    /// <summary>Gets a random value to prevents static cache files</summary>
+    public string AntiCache
+    {
+        get
+        {
+            return Guid.NewGuid().ToString();
+        }
+    }
+
     private int userId;
     private StringBuilder shortcutsJson;
     private StringBuilder userShortcuts;

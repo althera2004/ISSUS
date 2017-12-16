@@ -5,7 +5,6 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <!-- Script de la página -->
-    <script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript">
         var documento = <%=this.DocumentoJson %>;
         var documentId = <%=this.DocumentId %>;
@@ -360,20 +359,20 @@
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
-        <script type="text/javascript" src="assets/js/jquery-ui-1.10.3.full.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.ui.touch-punch.min.js"></script>
-        <script type="text/javascript" src="assets/js/chosen.jquery.min.js"></script>
-        <script type="text/javascript" src="assets/js/fuelux/fuelux.spinner.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/bootstrap-timepicker.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/moment.min.js"></script>
-        <!-- script type="text/javascript" src="assets/js/date-time/_daterangepicker.min.js"></!-->
+        <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>
+        <script type="text/javascript" src="/assets/js/chosen.jquery.min.js"></script>
+        <script type="text/javascript" src="/assets/js/fuelux/fuelux.spinner.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/bootstrap-timepicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/moment.min.js"></script>
+        <!-- script type="text/javascript" src="/assets/js/date-time/_daterangepicker.min.js"></!-->
 
-        <script type="text/javascript" src="js/common.js"></script>
+        <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
         <!-- page scripts -->
-        <script type="text/javascript" src="js/DocumentView.js?<%=this.AntiCache %>"></script>
-        <script type="text/javascript" src="js/Procedencia.js?<%=this.AntiCache %>"></script>
-        <script type="text/javascript" src="js/Categoria.js?<%=this.AntiCache %>"></script>
-        <script type="text/javascript" src="js/DocumentAttachment.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/js/DocumentView.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/js/Procedencia.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/js/Categoria.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/js/DocumentAttachment.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript">
             function OrigenChanged(sender) {
                 sourceSelected = sender.value;

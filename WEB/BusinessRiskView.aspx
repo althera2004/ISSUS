@@ -902,27 +902,27 @@
                             </div><!-- #dialog-message -->
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
-    <script type="text/javascript" src="assets/js/jquery-ui-1.10.3.full.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.ui.touch-punch.min.js"></script>
-    <script type="text/javascript" src="assets/js/chosen.jquery.min.js"></script>
-    <script type="text/javascript" src="assets/js/fuelux/fuelux.spinner.min.js"></script>
-    <script type="text/javascript" src="assets/js/date-time/bootstrap-timepicker.min.js"></script>
-    <script type="text/javascript" src="assets/js/date-time/moment.min.js"></script>
-    <script type="text/javascript" src="assets/js/date-time/daterangepicker.min.js"></script>
-    <script type="text/javascript" src="assets/js/bootstrap-colorpicker.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.knob.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.autosize.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
-    <script type="text/javascript" src="assets/js/jquery.maskedinput.min.js"></script>
-    <script type="text/javascript" src="assets/js/bootstrap-tag.min.js"></script>
-    <script type="text/javascript" src="js/common.js"></script>
-    <script type="text/javascript" src="js/IncidentActionCost.js?<%=this.AntiCache %>"></script>
-    <script type="text/javascript" src="js/BusinessRiskView.js?<%=this.AntiCache %>"></script>
-    <script type="text/javascript" src="js/BusinessRiskViewRules.js?<%=this.AntiCache %>"></script>
+    <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript" src="/assets/js/chosen.jquery.min.js"></script>
+    <script type="text/javascript" src="/assets/js/fuelux/fuelux.spinner.min.js"></script>
+    <script type="text/javascript" src="/assets/js/date-time/bootstrap-timepicker.min.js"></script>
+    <script type="text/javascript" src="/assets/js/date-time/moment.min.js"></script>
+    <script type="text/javascript" src="/assets/js/date-time/daterangepicker.min.js"></script>
+    <script type="text/javascript" src="/assets/js/bootstrap-colorpicker.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.knob.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.autosize.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery.maskedinput.min.js"></script>
+    <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
+    <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
+    <script type="text/javascript" src="/js/IncidentActionCost.js?<%=this.AntiCache %>"></script>
+    <script type="text/javascript" src="/js/BusinessRiskView.js?<%=this.AntiCache %>"></script>
+    <script type="text/javascript" src="/js/BusinessRiskViewRules.js?<%=this.AntiCache %>"></script>
     <script src="//d3js.org/d3.v3.min.js"></script>
-    <script type="text/javascript" src="js/nv.d3.js"></script>
-    <script type="text/javascript" src="js/BusinessRiskHistoryChart.js"></script>
-    <script type="text/javascript" src="js/CostBar.js?<%=this.AntiCache %>"></script>
+    <script type="text/javascript" src="/js/nv.d3.js"></script>
+    <script type="text/javascript" src="/js/BusinessRiskHistoryChart.js"></script>
+    <script type="text/javascript" src="/js/CostBar.js?<%=this.AntiCache %>"></script>
     <script type="text/javascript" src="/js/UploadFile.js?ac<%= this.AntiCache %>"></script>
     <script type="text/javascript">
         var currentMousePos = { x: -1, y: -1 };

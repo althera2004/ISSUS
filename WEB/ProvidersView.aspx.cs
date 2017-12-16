@@ -20,6 +20,15 @@ public partial class ProvidersView : Page
 
     private TabBar tabBar = new TabBar() { Id = "ProviderTabBar" };
 
+    /// <summary>Gets a random value to prevents static cache files</summary>
+    public string AntiCache
+    {
+        get
+        {
+            return Guid.NewGuid().ToString();
+        }
+    }
+
     public bool IsActual
     {
         get
