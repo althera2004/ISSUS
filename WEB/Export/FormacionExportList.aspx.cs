@@ -266,14 +266,18 @@ public partial class Export_FormacionExportList : Page
 
         List<Learning> data = learningFilter.Filter().ToList();
 
-        switch (listOrder.ToUpperInvariant())
+        // cambio de ahora
+        if (!string.IsNullOrEmpty(listOrder))
         {
-            case "TH1|ASC":
-                data = data.OrderBy(d => d.Description).ToList();
-                break;
-            case "TH1|DESC":
-                data = data.OrderByDescending(d => d.Description).ToList();
-                break;
+            switch (listOrder.ToUpperInvariant())
+            {
+                case "TH1|ASC":
+                    data = data.OrderBy(d => d.Description).ToList();
+                    break;
+                case "TH1|DESC":
+                    data = data.OrderByDescending(d => d.Description).ToList();
+                    break;
+            }
         }
 
         foreach (Learning learning in data)
