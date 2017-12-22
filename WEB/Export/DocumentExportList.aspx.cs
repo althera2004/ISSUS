@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
@@ -31,7 +32,7 @@ public partial class Export_DocumentExportList : Page
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult PDF(int companyId)
+    public static ActionResult PDF(int companyId, string filter, string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
         ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -87,6 +88,7 @@ public partial class Export_DocumentExportList : Page
         // ------------ FONTS 
         iTSpdf.BaseFont awesomeFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         iTS.Font times = new iTS.Font(arial, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        iTS.Font timesBold = new iTS.Font(arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
         iTS.Font headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         criteriaFont = new iTS.Font(arial, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         iTS.Font titleFont = new iTS.Font(arial, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
@@ -107,20 +109,45 @@ public partial class Export_DocumentExportList : Page
         var borderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
 
 
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(5);
+        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(2);
+        float[] cirteriaWidths = new float[] { 8f, 50f };
+        criteriatable.SetWidths(cirteriaWidths);
+        criteriatable.WidthPercentage = 100;
 
-        // actual width of table in points
-        table.WidthPercentage = 100;
-        // fix the absolute width of the table
-        // table.LockedWidth = true;
+        iTSpdf.PdfPCell criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Status"] + " :", timesBold));
+        criteria1Label.Border = ToolsPdf.BorderNone;
+        criteria1Label.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
+        criteria1Label.Padding = 6f;
+        criteria1Label.PaddingTop = 4f;
 
-        //relative col widths in proportions - 1/3 and 2/3
+        string statusText = dictionary["Common_All_Male_Plural"];
+        if(filter == "A")
+        {
+            statusText = dictionary["Common_Active_Plural"];
+        }
+
+        if(filter == "B")
+        {
+            statusText = dictionary["Common_Inactive_Plural"];
+        }
+
+        iTSpdf.PdfPCell criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times));
+        criteria1.Border = ToolsPdf.BorderNone;
+        criteria1.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
+        criteria1.Padding = 6f;
+        criteria1.PaddingTop = 4f;
+
+        criteriatable.AddCell(criteria1Label);
+        criteriatable.AddCell(criteria1);
+
+        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(5)
+        {
+            WidthPercentage = 100,
+            HorizontalAlignment = 1
+        };
+        
         float[] widths = new float[] { 10f, 20f, 20f, 5f, 5f };
         table.SetWidths(widths);
-        table.HorizontalAlignment = 1;
-        //leave a gap before and after the table
-        //table.SpacingBefore = 20f;
-        //table.SpacingAfter = 30f;
 
         iTSpdf.PdfPCell headerCode = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Document_List_Header_Code"].ToUpperInvariant(), headerFontFinal));
         headerCode.Border = borderAll;
@@ -170,12 +197,48 @@ public partial class Export_DocumentExportList : Page
         table.AddCell(headerVersionNumber);
 
         int cont = 0;
-        ReadOnlyCollection<GisoFramework.Item.Document> data = GisoFramework.Item.Document.GetByCompany(companyId);
+        ReadOnlyCollection<GisoFramework.Item.Document> documents = GisoFramework.Item.Document.GetByCompany(companyId);
+        List<GisoFramework.Item.Document> data = new List<GisoFramework.Item.Document>();
+
+        if(filter.IndexOf("A") != -1)
+        {
+            data = documents.Where(d => d.EndDate.HasValue == false).ToList();
+        }
+
+
+        if (filter.IndexOf("I") != -1)
+        {
+            data.AddRange(documents.Where(d => d.EndDate.HasValue == true).ToList());
+        }
+
+        switch (listOrder.ToUpperInvariant())
+        {
+            case "TH0|ASC":
+                data = data.OrderBy(d => d.Description).ToList();
+                break;
+            case "TH0|DESC":
+                data = data.OrderByDescending(d => d.Description).ToList();
+                break;
+            case "TH1|ASC":
+                data = data.OrderBy(d => d.Code).ToList();
+                break;
+            case "TH1|DESC":
+                data = data.OrderByDescending(d => d.Code).ToList();
+                break;
+            case "TH2|ASC":
+                data = data.OrderBy(d => d.LastVersionNumber()).ToList();
+                break;
+            case "TH2|DESC":
+                data = data.OrderByDescending(d => d.LastVersionNumber()).ToList();
+                break;
+        }
+
         bool pair = false;
+        int count = 0;
         foreach (GisoFramework.Item.Document document in data)
         {
             int border = 0;
-
+            count++;
             BaseColor lineBackground = pair ? rowEven : rowPair;
             // pair = !pair;
 
@@ -234,10 +297,27 @@ public partial class Export_DocumentExportList : Page
             table.AddCell(cellResponsible);
             table.AddCell(cellCode);
             table.AddCell(cellVersionNumber);
-
-            cont++;
         }
 
+        string totalRegistros = string.Format(
+            CultureInfo.InvariantCulture,
+            @"{0}: {1}",
+            dictionary["Common_RegisterCount"],
+            count);
+        iTSpdf.PdfPCell totalRegistrosCell = new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, times));
+        totalRegistrosCell.Border = iTS.Rectangle.TOP_BORDER;
+        totalRegistrosCell.BackgroundColor = rowEven;
+        totalRegistrosCell.Padding = 6f;
+        totalRegistrosCell.PaddingTop = 4f;
+        table.AddCell(totalRegistrosCell);
+
+        iTSpdf.PdfPCell blankCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times));
+        blankCell.Border = iTS.Rectangle.TOP_BORDER;
+        blankCell.BackgroundColor = rowEven;
+        blankCell.Colspan = 4;
+        table.AddCell(blankCell);
+
+        pdfDoc.Add(criteriatable);
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();
         res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));

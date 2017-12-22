@@ -1133,13 +1133,13 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
                     cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
                     cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rules.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, 500));
-                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 500));
-                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Parameters.Add(DataParameter.Input("@InitialValue", this.InitialValue));
                     cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, 2000));
 
                     cmd.Parameters.Add(DataParameter.Input("@StartProbability", this.StartProbability));
                     cmd.Parameters.Add(DataParameter.Input("@StartSeverity", this.StartSeverity));
@@ -1226,10 +1226,10 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rules.Id));
                     cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
                     cmd.Parameters.Add(DataParameter.Input("@PreviousBusinessRiskId", this.PreviousBusinessRiskId));
-                    cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, 500));
-                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 500));
-                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, 500));
-                    cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, 2000));
                     //cmd.Parameters.Add(DataParameter.Input("@InitialValue", auxiliarInitialValue));
 
                     cmd.Parameters.Add(DataParameter.Input("@StartProbability", this.StartProbability));

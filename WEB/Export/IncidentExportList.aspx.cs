@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
@@ -54,7 +55,8 @@ public partial class Export_IncidentExportList : Page
         int origin,
         int departmentId,
         int providerId,
-        int customerId)
+        int customerId,
+        string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
         ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -327,7 +329,7 @@ public partial class Export_IncidentExportList : Page
         //---------------------------
 
         //relative col widths in proportions - 1/3 and 2/3
-        float[] widths = new float[] { 10f, 10f, 20f, 35f, 15f, 10f, 10f };
+        float[] widths = new float[] { 35f, 10f, 10f, 20f, 8f, 10f, 10f };
         iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(7)
         {
             WidthPercentage = 100,
@@ -346,79 +348,76 @@ public partial class Export_IncidentExportList : Page
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Cost"], headerFontFinal));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Close"], headerFontFinal));
 
-        /*iTSpdf.PdfPCell headerDescripcion = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Incident_Header_Description"].ToUpperInvariant(), headerFontFinal));
-        headerDescripcion.Border = borderAll;
-        headerDescripcion.BackgroundColor = backgroundColor;
-        headerDescripcion.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerDescripcion.Padding = 8f;
-        headerDescripcion.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerOpen = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Incident_Header_Open"].ToUpperInvariant(), headerFontFinal));
-        headerOpen.Border = borderAll;
-        headerOpen.BackgroundColor = backgroundColor;
-        headerOpen.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerOpen.Padding = 8f;
-        headerOpen.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerStatus = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Incident_Header_Status"].ToUpperInvariant(), headerFontFinal));
-        headerStatus.Border = borderAll;
-        headerStatus.BackgroundColor = backgroundColor;
-        headerStatus.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerStatus.Padding = 8f;
-        headerStatus.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerOrigen = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Incident_Header_Origin"].ToUpperInvariant(), headerFontFinal));
-        headerOrigen.Border = borderAll;
-        headerOrigen.BackgroundColor = backgroundColor;
-        headerOrigen.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerOrigen.Padding = 8f;
-        headerOrigen.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerAction = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Incident_Header_ActionNumber"].ToUpperInvariant(), headerFontFinal));
-        headerAction.Border = borderAll;
-        headerAction.BackgroundColor = backgroundColor;
-        headerAction.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerAction.Padding = 8f;
-        headerAction.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerCierre = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Incident_Header_Close"].ToUpperInvariant(), headerFontFinal));
-        headerCierre.Border = borderAll;
-        headerCierre.BackgroundColor = backgroundColor;
-        headerCierre.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerCierre.Padding = 8f;
-        headerCierre.PaddingTop = 6f;
-
-        table.AddCell(headerOpen);
-        table.AddCell(headerStatus);
-        table.AddCell(headerOrigen);
-        table.AddCell(headerDescripcion);
-        table.AddCell(headerAction);
-        table.AddCell(headerCierre);*/
-
         int cont = 0;
         decimal totalCost = 0;
         List<IncidentFilterItem> data = HttpContext.Current.Session["IncidentFilterData"] as List<IncidentFilterItem>;
         bool pair = false;
+
+        foreach(IncidentFilterItem item in data)
+        {
+            string originValue = string.Empty;
+            if (!string.IsNullOrEmpty(item.Customer.Description))
+            {
+                originValue = item.Customer.Description;
+            }
+            if (!string.IsNullOrEmpty(item.Provider.Description))
+            {
+                originValue = item.Provider.Description;
+            }
+            if (!string.IsNullOrEmpty(item.Department.Description))
+            {
+                originValue = item.Department.Description;
+            }
+
+            item.OriginText = originValue;
+        }
+
+        switch (listOrder.ToUpperInvariant())
+        {
+            case "TH0|ASC":
+                data = data.OrderBy(d => d.Description).ToList();
+                break;
+            case "TH0|DESC":
+                data = data.OrderByDescending(d => d.Description).ToList();
+                break;
+            case "TH1|ASC":
+                data = data.OrderBy(d => d.Open).ToList();
+                break;
+            case "TH1|DESC":
+                data = data.OrderByDescending(d => d.Open).ToList();
+                break;
+            case "TH3|ASC":
+                data = data.OrderBy(d => d.OriginText).ToList();
+                break;
+            case "TH3|DESC":
+                data = data.OrderByDescending(d => d.OriginText).ToList();
+                break;
+            case "TH4|ASC":
+                data = data.OrderBy(d => d.Action.Description).ToList();
+                break;
+            case "TH4|DESC":
+                data = data.OrderByDescending(d => d.Action.Description).ToList();
+                break;
+            case "TH5|ASC":
+                data = data.OrderBy(d => d.Amount).ToList();
+                break;
+            case "TH5|DESC":
+                data = data.OrderByDescending(d => d.Amount).ToList();
+                break;
+            case "TH6|ASC":
+                data = data.OrderBy(d => d.Close).ToList();
+                break;
+            case "TH6|DESC":
+                data = data.OrderByDescending(d => d.Close).ToList();
+                break;
+        }
+
         foreach (IncidentFilterItem incidentFilter in data)
         {
             cont++;
             totalCost += incidentFilter.Amount;
             Incident incident = Incident.GetById(incidentFilter.Id, companyId);
-            IncidentAction action = IncidentAction.GetByIncidentId(incident.Id, companyId);
-
-            string originValue = string.Empty;
-            if (!string.IsNullOrEmpty(incident.Customer.Description))
-            {
-                originValue = incident.Customer.Description;
-            }
-            if (!string.IsNullOrEmpty(incident.Provider.Description))
-            {
-                originValue = incident.Provider.Description;
-            }
-            if (!string.IsNullOrEmpty(incident.Department.Description))
-            {
-                originValue = incident.Department.Description;
-            }
+            IncidentAction action = IncidentAction.GetByIncidentId(incident.Id, companyId);            
 
             BaseColor lineBackground = pair ? rowEven : rowPair;
             // pair = !pair;
@@ -432,19 +431,19 @@ public partial class Export_IncidentExportList : Page
             string actionDescription = string.Empty;
             if (!string.IsNullOrEmpty(action.Description))
             {
-                actionDescription = action.Description;
+                actionDescription = dictionary["Common_Yes"];
             }
 
             string originText = string.Empty;
             if (incidentFilter.Origin == 1) { originText = dictionary["Item_IncidentAction_Origin1"]; }
             if (incidentFilter.Origin == 2) { originText = dictionary["Item_IncidentAction_Origin2"]; }
             if (incidentFilter.Origin == 3) { originText = dictionary["Item_IncidentAction_Origin3"]; }
-            if (incidentFilter.Origin == 4) { originText = dictionary["Item_IncidentAction_Origin4"]; }            
+            if (incidentFilter.Origin == 4) { originText = dictionary["Item_IncidentAction_Origin4"]; }
 
+            table.AddCell(ToolsPdf.DataCell(incidentFilter.Description, times));
             table.AddCell(ToolsPdf.DataCellCenter(incidentFilter.Open, times));
             table.AddCell(ToolsPdf.DataCell(statustext, times));
-            table.AddCell(ToolsPdf.DataCell(originValue, times));
-            table.AddCell(ToolsPdf.DataCell(incidentFilter.Description, times));
+            table.AddCell(ToolsPdf.DataCell(incidentFilter.OriginText, times));
             table.AddCell(ToolsPdf.DataCell(actionDescription, times));
             table.AddCell(ToolsPdf.DataCellMoney(incidentFilter.Amount, times));
             table.AddCell(ToolsPdf.DataCellCenter(incidentFilter.Close, times));

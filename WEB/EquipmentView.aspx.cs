@@ -1366,7 +1366,7 @@ public partial class EquipmentView : Page
             Rows = 5,
             Value = this.Equipment.Observations,
             Name = "TxtObservations",
-            MaxLength = 500
+            MaxLength = 2000
         };
 
         this.TxtStartDate = new FormDatePicker()

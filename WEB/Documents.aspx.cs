@@ -50,7 +50,26 @@ public partial class Documents : Page
         }
     }
 
-    public UIDataHeader DataHeader { get; set; }
+    public string Filter
+    {
+        get
+        {
+            if (this.Session["DocumentFilter"] == null)
+            {
+                return "AI";
+            }
+
+            return this.Session["DocumentFilter"].ToString().ToUpperInvariant();
+        }
+    }
+
+    public string DocumentsJson
+    {
+        get
+        {
+            return Document.GetAllJson(this.company.Id);
+        }
+    }
 
     /// <summary>
     /// Page's load event
@@ -85,55 +104,33 @@ public partial class Documents : Page
     /// </summary>
     private void Go()
     {
+        this.company = (Company)Session["Company"];
         this.user = (ApplicationUser)Session["User"];
         this.master = this.Master as Giso;
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
-        string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Documents");
         this.master.Titulo = "Item_Documents";
         this.RenderDocumentData();
-        this.RenderDocumentInactiveData();
 
         if (this.user.HasGrantToWrite(ApplicationGrant.Department))
         {
             this.master.ButtonNewItem = UIButton.NewItemButton("Item_Document_Button_New", "DocumentView.aspx");
         }
-
-        this.DataHeader = new UIDataHeader() { Id = "ListDataHeader", ActionsItem = 2 };
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Document_ListHeader_Name"], Sortable = true, Filterable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Document_ListHeader_Code"], Width = 120, Sortable = false, Filterable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Document_ListHeader_Revision"], Width = 90, Sortable = false });
     }
 
     private void RenderDocumentData()
     {
-        StringBuilder res = new StringBuilder();
-        StringBuilder sea = new StringBuilder();
-        bool first = true;
+        StringBuilder sea = new StringBuilder(@"""""");
         ReadOnlyCollection<Document> documents = Document.GetByCompany((Company)Session["Company"]);
-
-        bool grantWrite = UserGrant.HasWriteGrant(this.user.Grants, ApplicationGrant.Document);
-        bool grantDelete = UserGrant.HasDeleteGrant(this.user.Grants, ApplicationGrant.Document);
-
-        int cont = 0;
         foreach (Document document in documents)
         {
-            if (first)
-            {
-                first = false;
-            }
-            else
-            {
-                sea.Append(",");
-            }
-
             if (document.Code.IndexOf("\"") != -1)
             {
-                sea.Append(string.Format(@"'{0}',", document.Code));
+                sea.Append(string.Format(@",'{0}',", document.Code));
             }
             else
             {
-                sea.Append(string.Format(@"""{0}"",", document.Code));
+                sea.Append(string.Format(@",""{0}"",", document.Code));
             }
 
             if (document.Description.IndexOf("\"") != -1)
@@ -144,30 +141,8 @@ public partial class Documents : Page
             {
                 sea.Append(string.Format(@"""{0}""", document.Description));
             }
-
-            res.Append(document.ListRow(this.dictionary, grantWrite, grantDelete));
-            cont++;
         }
-
-        this.DocumentDataTotal.Text = cont.ToString();
-        this.LtDocumentsActive.Text = res.ToString();
+        
         this.master.SearcheableItems = sea.ToString();
-    }
-
-    private void RenderDocumentInactiveData()
-    {
-        StringBuilder res = new StringBuilder();
-        ReadOnlyCollection<Document> documents = Document.GetByCompanyInactive((Company)Session["Company"]);
-
-        bool grantWrite = UserGrant.HasWriteGrant(this.user.Grants, ApplicationGrant.Document);
-        bool grantDelete = UserGrant.HasDeleteGrant(this.user.Grants, ApplicationGrant.Document);
-
-        foreach (Document document in documents)
-        {
-            res.Append(document.ListRowInactive(this.dictionary, grantWrite, grantDelete));
-        }
-
-        this.LtDocumentsInactive.Text = res.ToString();
-        this.DocumentInactiveDataTotal.Text = documents.Count.ToString();
     }
 }

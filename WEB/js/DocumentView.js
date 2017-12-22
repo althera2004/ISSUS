@@ -136,7 +136,7 @@ function Insert() {
             "Origin": { "Id": procedenciaSelected },
             "Conservation": document.getElementById('TxtConservacion').value,
             "ConservationType": document.getElementById('CmbConservacion').value,
-            "Source": document.getElementById('CmbOrigen').value == 2,
+            "Source": document.getElementById('CmbOrigen').value === 2,
             "Location": document.getElementById('TxtUbicacion').value,
             "Active": true
         },
@@ -173,23 +173,25 @@ function Update() {
         "newDocument":
         {
             "Id": documento.Id,
-            "CompanyId": documento.Company.Id,
+            "CompanyId": companyId,
             "Code": document.getElementById('TxtCodigo').value,
             "Description": document.getElementById('TxtDocumento').value,
-            "StartDate": GetDate(document.getElementById('TxtStartDate').value, '-'),
-            "EndDate": GetDate(document.getElementById('TxtEndDate').value, '-'),
+            "StartDate": GetDate(document.getElementById('TxtStartDate').value, '/'),
+            //"EndDate": GetDate(document.getElementById('TxtEndDate').value, '/'),
             "Category": { "Id": categorySelected },
-            "RevisionDate": GetDate(document.getElementById('TxtRevisionDate').value, '-'),
+            "RevisionDate": GetDate(document.getElementById('TxtRevisionDate').value, '/'),
             "Origin": { "Id": procedenciaSelected },
             "Conservation": $('#TxtConservacion').val(),
             "ConservationType": $('#CmbConservacion').val(),
-            "Source": $('#CmbOrigen').val() == 2,
+            "Source": $('#CmbOrigen').val() === 2,
             "Location": $('#TxtUbicacion').val(),
             "Active": true
         },
         "reason": selectedReason,
         "userId": userId
     };
+
+    //alert(data.newDocument.EndDate);
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({

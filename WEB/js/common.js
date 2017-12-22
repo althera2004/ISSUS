@@ -839,6 +839,7 @@ function Decimal2Integer(value) {
 }
 
 function WarningEmployeeNoUserCheck(employeeId, employeesList) {
+console.log("WarningEmployeeNoUserCheck");
     for (var x = 0; x < employeesList.length; x++) {
         if (employeesList[x].Id === employeeId) {
             if (employeesList[x].HasUserAssigned === false) {

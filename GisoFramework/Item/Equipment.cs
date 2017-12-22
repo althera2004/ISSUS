@@ -787,7 +787,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@IsCalibration", this.IsCalibration));
                     cmd.Parameters.Add(DataParameter.Input("@IsVerification", this.IsVerification));
                     cmd.Parameters.Add(DataParameter.Input("@IsMaintenance", this.IsMaintenance));
-                    cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 500));
                     cmd.Parameters.Add(DataParameter.Input("@Active", this.Active));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
@@ -858,7 +858,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@IsCalibration", this.IsCalibration));
                     cmd.Parameters.Add(DataParameter.Input("@IsVerification", this.IsVerification));
                     cmd.Parameters.Add(DataParameter.Input("@IsMaintenance", this.IsMaintenance));
-                    cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 500));
                     cmd.Parameters.Add(DataParameter.Input("@StartDate", this.StartDate));

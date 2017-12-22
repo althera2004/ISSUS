@@ -8,8 +8,6 @@ function RenderTable()
         RenderRow(asignations[x]);
         data += asignations[x].AssignationType + '-' + asignations[x].ItemId + '|';
     }
-
-    document.getElementById('TxtData').value = data;
 }
 
 function RenderRow(asignation)
@@ -133,7 +131,7 @@ function SaveEmployee() {
     
     if($('#All').val() * 1 === 0)
     {
-        warningInfoUI("Se ha de seleccionar un sustituto", null, 300);
+        warningInfoUI(Dictionary.Item_Employee_List_Delete_ErrorNoSubstitute, null, 300);
         return false;
     }
 

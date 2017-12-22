@@ -38,7 +38,7 @@ function RenderChart() {
 }
 
 RenderChart();
-
+$(".discreteBar").on("click",function (e) {console.log(e)});
 
 function exampleData() {
     function y() {

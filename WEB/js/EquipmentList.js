@@ -81,7 +81,10 @@ window.onresize = function () { Resize(); }
 function Export(fileType) {
     console.log("Export", fileType);
     var webMethod = "/Export/EquipmentExportList.aspx/" + fileType;
-    var data = { "companyId": Company.Id };
+    var data = {
+        "companyId": Company.Id,
+        "listOrder": listOrder
+    };
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
         type: "POST",

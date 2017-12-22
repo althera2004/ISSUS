@@ -1,4 +1,5 @@
-﻿var firstChart = true;
+﻿var lockOrderList = false;
+var firstChart = true;
 var CloseRequired = false;
 
 window.onload = function () {
@@ -76,6 +77,9 @@ window.onload = function () {
 	if (ItemData.EndDate !== null) {
         $("#BtnRecordNew").hide();
     }
+
+    $("#CmbResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsible").val() * 1, Employees); });
+    $("#CmbResponsibleRecord").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsibleRecord").val() * 1, Employees); });
 }
 
 window.onresize = function () { Resize(); }
@@ -516,10 +520,12 @@ function ObjetivoRegistroFilter(exportType) {
 
     if (exportType === "PDF") {
         Export("PDF");
+        lockOrderList = false;
     }
 
     if (exportType === "Excel") {
         Export("Excel");
+        lockOrderList = false;
     }
 }
 
@@ -531,7 +537,8 @@ function Export(fileType) {
         "companyId": Company.Id,
         "objetivoName": ItemData.Name,
         "objetivoId": ItemData.Id,
-        "indicadorId": ItemData.IndicatorId
+        "indicadorId": ItemData.IndicatorId,
+        "listOrder": orderList
     };
     var webMethod = "/Export/ObjetivoRecords.aspx/" + fileType;
     LoadingShow(Dictionary.Common_Report_Rendering);

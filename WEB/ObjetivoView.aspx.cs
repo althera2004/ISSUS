@@ -94,11 +94,11 @@ public partial class ObjetivoView : Page
         }
     }
 
-    public string Employess
+    public string Employees
     {
         get
         {
-            return Employee.JsonList(this.company.Employees);
+            return Employee.CompanyListJson(this.company.Id);
         }
     }
 

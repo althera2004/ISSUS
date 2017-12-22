@@ -12,10 +12,11 @@ namespace GisoFramework
     {
         public static readonly iTS.BaseColor HeaderBackgroundColor = new iTS.BaseColor(220, 220, 220);
         public const int BorderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
+        public const int BorderNone = iTS.Rectangle.NO_BORDER;
 
         public static iTSpdf.PdfPCell HeaderCell(string label, iTS.Font font)
         {
-            return new iTSpdf.PdfPCell(new iTS.Phrase(label.ToLowerInvariant(), font))
+            return new iTSpdf.PdfPCell(new iTS.Phrase(label.ToUpperInvariant(), font))
             {
                 Border = BorderAll,
                 BackgroundColor = HeaderBackgroundColor,
@@ -63,7 +64,7 @@ namespace GisoFramework
                 return DataCell(string.Empty, font, iTS.Rectangle.ALIGN_CENTER);
             }
 
-            return DataCell(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), font);
+            return DataCell(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), font, iTS.Rectangle.ALIGN_CENTER);
         }
 
         public static iTSpdf.PdfPCell DataCell(DateTime? value, iTS.Font font)

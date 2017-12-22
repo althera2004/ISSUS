@@ -171,10 +171,10 @@ function CmbReporterCustomersFill() {
 function CmdResponsibleFill() {
     for (var x = 0; x < Employees.length; x++) {
         if (Employees[x].Active === true) {
-            var option = document.createElement('OPTION');
+            var option = document.createElement("OPTION");
             option.value = Employees[x].Id;
-            option.appendChild(document.createTextNode(Employees[x].Value));
-            document.getElementById('CmdIncidentCostResponsible').appendChild(option);
+            option.appendChild(document.createTextNode(Employees[x].FullName));
+            document.getElementById("CmdIncidentCostResponsible").appendChild(option);
         }
     }
 }
@@ -1288,18 +1288,21 @@ window.onload = function () {
 
         $("#CmbClosedResponsible").removeAttr("disabled");
         $("#TxtClosedDate").removeAttr("disabled");
-        $("#TxtNotes").removeAttr("disabled");
+        //$("#TxtNotes").removeAttr("disabled");
+
+        $("#Chk1").removeAttr("disabled");
+        $("#Chk2").removeAttr("disabled");
     }
 
 
     $("#menuoption-12 a").show();
     $("#menuoption-13 a").show();
 
-
-    $("#CmbActionsResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionsResponsible").val() * 1, Employees); });
-    $("#CmbClosedResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbClosedResponsible").val() * 1, Employees); });
-    $("#CmbActionActionsResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionActionsResponsible").val() * 1, Employees); });
-    $("#CmbActionClosedResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionClosedResponsible").val() * 1, Employees); });
 }
 
 window.onresize = function () { Resize(); }
+
+$("#CmbActionsResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionsResponsible").val() * 1, Employees); });
+$("#CmbClosedResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbClosedResponsible").val() * 1, Employees); });
+$("#CmbActionActionsResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionActionsResponsible").val() * 1, Employees); });
+$("#CmbActionClosedResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionClosedResponsible").val() * 1, Employees); });

@@ -92,6 +92,7 @@ namespace GISOWeb
                 cmd.Parameters.Add(DataParameter.Input("@CompanyId", itemUser.CompanyId));
                 cmd.Parameters.Add(DataParameter.Input("@Login", itemUser.UserName, 50));
                 cmd.Parameters.Add(DataParameter.Input("@Email", itemUser.Email, 50));
+                cmd.Parameters.Add(DataParameter.Input("@Admin", itemUser.Admin));
                 cmd.Parameters.Add(DataParameter.Input("@Password", userpass));
                 try
                 {

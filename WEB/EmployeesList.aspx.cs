@@ -54,6 +54,19 @@ public partial class EmployeesList : Page
         }
     }
 
+    public string Filter
+    {
+        get
+        {
+            if (this.Session["EmployeeFilter"] == null)
+            {
+                return "AI";
+            }
+
+            return this.Session["EmployeeFilter"].ToString().ToUpperInvariant();
+        }
+    }
+
     public UIDataHeader DataHeader { get; set; }
 
     public new string User
@@ -174,7 +187,6 @@ public partial class EmployeesList : Page
 
         //this.EmployeeData.Text = active.ToString();
         this.EmployeesJson = "[" + active + "]";
-        this.EmployeeDataTotal.Text = contData.ToString();
         this.master.SearcheableItems = sea.ToString();
     }
 }

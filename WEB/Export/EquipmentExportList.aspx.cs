@@ -55,7 +55,7 @@ public partial class Export_EquipmentList : Page
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult PDF(int companyId)
+    public static ActionResult PDF(int companyId, string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
         ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -146,44 +146,10 @@ public partial class Export_EquipmentList : Page
         };
         table.SetWidths(widths);
 
-        iTSpdf.PdfPCell headerDescription = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Header_Code"].ToUpperInvariant() + " - " + dictionary["Item_Equipment_Header_Description"].ToUpperInvariant(), headerFontFinal))
-        {
-            Border = borderAll,
-            BackgroundColor = backgroundColor,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 8f,
-            PaddingTop = 6f,
-        };
-
-        iTSpdf.PdfPCell headerLocation = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Header_Location"].ToUpperInvariant(), headerFontFinal))
-        {
-            Border = borderAll,
-            BackgroundColor = backgroundColor,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 8f,
-            PaddingTop = 6f
-        };
-
-        iTSpdf.PdfPCell headerCode = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Header_Cost"].ToUpperInvariant(), headerFontFinal))
-        {
-            Border = borderAll,
-            BackgroundColor = backgroundColor,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 8f,
-            PaddingTop = 6f
-        };
-
-        iTSpdf.PdfPCell headerResponsible = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Header_Responsible"].ToUpperInvariant(), headerFontFinal));
-        headerResponsible.Border = borderAll;
-        headerResponsible.BackgroundColor = backgroundColor;
-        headerResponsible.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        headerResponsible.Padding = 8f;
-        headerResponsible.PaddingTop = 6f;
-
-        table.AddCell(headerDescription);
-        table.AddCell(headerLocation);
-        table.AddCell(headerCode);
-        table.AddCell(headerResponsible);
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Code"].ToUpperInvariant() + " - " + dictionary["Item_Equipment_Header_Description"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Location"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Cost"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Responsible"].ToUpperInvariant(), headerFontFinal));
 
         int cont = 0;
         List<Equipment> data = Equipment.GetList(companyId).ToList();
@@ -310,6 +276,35 @@ public partial class Export_EquipmentList : Page
         bool pair = false;
         decimal total = 0;
         int border = 0;
+
+        switch (listOrder.ToUpperInvariant())
+        {
+            case "TH0|ASC":
+                data = data.OrderBy(d => d.Code).ToList();
+                break;
+            case "TH0|DESC":
+                data = data.OrderByDescending(d => d.Code).ToList();
+                break;
+            case "TH1|ASC":
+                data = data.OrderBy(d => d.Location).ToList();
+                break;
+            case "TH1|DESC":
+                data = data.OrderByDescending(d => d.Location).ToList();
+                break;
+            case "TH2|ASC":
+                data = data.OrderBy(d => d.Responsible.FullName).ToList();
+                break;
+            case "TH2|DESC":
+                data = data.OrderByDescending(d => d.Responsible.FullName).ToList();
+                break;
+            case "TH3|ASC":
+                data = data.OrderBy(d => d.TotalCost).ToList();
+                break;
+            case "TH3|DESC":
+                data = data.OrderByDescending(d => d.TotalCost).ToList();
+                break;
+        }
+
         foreach (Equipment equipment in data)
         {
             total += equipment.TotalCost;

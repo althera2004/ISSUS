@@ -267,5 +267,13 @@ namespace GISOWeb
         {
             return Document.Delete(documentId, companyId, userId, reason);
         }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod]
+        public string SetFilter(string filter)
+        {
+            Session["DocumentFilter"] = filter.ToUpperInvariant();
+            return "OK";
+        }
     }
 }

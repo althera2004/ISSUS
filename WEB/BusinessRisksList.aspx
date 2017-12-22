@@ -286,7 +286,7 @@
         <script type="text/javascript" src="/js/BusinessRiskList.js?<%=this.AntiCache %>"></script>
         <script src="//d3js.org/d3.v3.min.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/nv.d3.js?<%=this.AntiCache %>"></script>
-        <script type="text/javascript" src="/js/BusinessRiskChart.js"></script>
+        <script type="text/javascript" src="/js/BusinessRiskChart.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript">
             
             var currentMousePos = { x: -1, y: -1 };

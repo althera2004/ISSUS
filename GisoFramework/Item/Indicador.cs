@@ -278,8 +278,7 @@ namespace GisoFramework.Item
                                 UserId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
                                 User = new ApplicationUser()
                                 {
-                                    Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
-                                    UserName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleLogin)
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId)
                                 }
                             };
                         }
@@ -1118,7 +1117,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Parameters.Add(DataParameter.Input("@EndDate", date));
-                        cmd.Parameters.Add(DataParameter.Input("@EndReason", reason, 500));
+                        cmd.Parameters.Add(DataParameter.Input("@EndReason", reason, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@EndResponsible", responsible));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
 
@@ -1266,7 +1265,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
                         cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Proceso.Id));
                         //cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", this.Objetivo.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@Calculo", this.Calculo, 500));
+                        cmd.Parameters.Add(DataParameter.Input("@Calculo", this.Calculo, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@MetaComparer", this.MetaComparer, 10));
                         cmd.Parameters.Add(DataParameter.Input("@Meta", this.Meta));
                         cmd.Parameters.Add(DataParameter.Input("@AlarmaComparer", this.AlarmaComparer, 10));
@@ -1341,7 +1340,7 @@ namespace GisoFramework.Item
              *   @ResponsableId int,
              *   @ProcessId int,
              *   @ObjetivoId int,
-             *   @Calculo nvarchar(500),
+             *   @Calculo nvarchar(2000),
              *   @MetaComparer nvarchar(10),
              *   @Meta decimal(18,6),
              *   @AlarmaComparer nvarchar(10),
@@ -1366,7 +1365,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
                         cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Proceso.Id));
                         // cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", this.Objetivo.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@Calculo", this.Calculo, 500));
+                        cmd.Parameters.Add(DataParameter.Input("@Calculo", this.Calculo, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@MetaComparer", this.MetaComparer, 10));
                         cmd.Parameters.Add(DataParameter.Input("@Meta", this.Meta));
                         cmd.Parameters.Add(DataParameter.Input("@AlarmaComparer", this.AlarmaComparer, 10));

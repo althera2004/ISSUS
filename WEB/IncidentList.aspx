@@ -58,7 +58,18 @@
                                             <td><input type="checkbox" id="RIncidentStatus2" checked="checked" /><%=this.Dictionary["Item_Incident_Status2"] %></td>
                                             <td><input type="checkbox" id="RIncidentStatus3" checked="checked" /><%=this.Dictionary["Item_Incident_Status3"] %></td>
                                             <td><input type="checkbox" id="RIncidentStatus4" /><%=this.Dictionary["Item_Incident_Status4"] %></td>
-                                            <td style="width:200px;">&nbsp;</td>
+                                            <td style="width:200px;">&nbsp;
+                                            
+                                            <div class="row">
+                                                <div class="col-sm-1"></div>                                        
+                                                <div class="col-sm-11" style="text-align:right">
+                                                    <button class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></button>
+                                                    <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i>Tots</button>
+                                                    <button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i>Cap</button>
+                                                </div>
+                                            </div>
+                                            
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td style="width:250px;">
@@ -87,14 +98,14 @@
                                             </td>
                                         </tr>
                                     </table>
-                                    <div class="row">
+                                    <!--div class="row">
                                         <div class="col-sm-9"></div>                                        
                                         <div class="col-sm-3" style="text-align:right">
-                                            <button class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></button>
+                                            <button class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><//%=this.Dictionary["Common_Filter"] %></button>
                                             <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i>Tots</button>
                                             <button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i>Cap</button>
                                         </div>
-                                    </div>
+                                    </div-->                                
                                 </div> 
                                 <div style="height:8px;clear:both;"></div>
                                 <div class="row" style="margin-top:20px;">
@@ -103,14 +114,14 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
-                                                        <!--<th onclick="Sort(this,'ItemTableData','text',true);" id="th1" class="sort" style="width:90px;cursor:pointer;"><%=this.Dictionary["Item_Incident_Header_Number"] %></th>-->
+                                                        <!--<th onclick="Sort(this,'ItemTableData','text',true);" id="th1" class="sort" style="width:90px;"><%=this.Dictionary["Item_Incident_Header_Number"] %></th>-->
                                                         <th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="sort search"><%=this.Dictionary["Item_Incident_Header_Description"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="sort"  style="width:100px;"><%=this.Dictionary["Item_Incident_Header_Open"] %></th>
-                                                        <th style="width:60px;"><%=this.Dictionary["Item_Incident_Header_Status"] %></th>
-                                                        <th style="width:200px;" onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="sort" ><%=this.Dictionary["Item_Incident_Header_Origin"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th4" class="sort hidden-480 search" style="width:90px;"><%=this.Dictionary["Item_Incident_Header_ActionNumber"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','money',false);" id="th5" class="hidden-480" style="width:100px !important;"><%=this.Dictionary["Item_Incident_Header_Cost"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th6" class="hidden-480" style="width:100px !important;"><%=this.Dictionary["Item_Incident_Header_Close"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="sort search"  style="width:100px; text-align:center"><%=this.Dictionary["Item_Incident_Header_Open"] %></th>
+														<th style="width:60px;"><%=this.Dictionary["Item_Incident_Header_Status"] %></th>
+														<th style="width:200px;" onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="sort search" ><%=this.Dictionary["Item_Incident_Header_Origin"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th4" class="sort hidden-480 search" style="width:90px; text-align:center"><%=this.Dictionary["Item_Incident_Header_ActionNumber"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','money',false);" id="th5" class="sort hidden-480 search" style="width:100px; text-align:center"><%=this.Dictionary["Item_Incident_Header_Cost"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th6" class="sort hidden-480 search" style="width:100px !important; text-align:center"><%=this.Dictionary["Item_Incident_Header_Close"] %></th>
                                                         <th class="hidden-480" style="width:107px !important;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
@@ -165,16 +176,16 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <th style="color:#aaa;">
+														<th>
 															<i>
 																<%=this.Dictionary["Common_RegisterCount"] %>:
 																&nbsp;
 																<span id="NumberCosts"></span>
 															</i>
 														</th>
-                                                        <th style="width:90px;font-weight:bold;" align="right"><%=this.Dictionary["Common_Total"] %></th>
+                                                        <th style="width:90px; font-weight:bold; text-align:right"><%=this.Dictionary["Common_Total"] %></th>
                                                         <th style="width:100px;"><div id="TotalCosts" style="width:100%;text-align:right;font-weight:bold;"></div></th>
-                                                        <th style="width:216px;"></th>
+                                                        <th style="width:107px;"></th>
                                                     </tr>
                                                 </thead>
                                             </table>

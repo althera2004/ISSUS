@@ -193,7 +193,7 @@ function Restore()
         success: function (response) {
             LoadingHide();
             if (response.d.Success === true) {
-                document.location = referrer;
+                document.location = document.location + "";
             }
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -347,7 +347,7 @@ jQuery(function ($) {
         else {
             var endDate = null;
             var CanSave = false;
-            if(document.getElementById('TxtEndDate').value !== '')
+            /*if(document.getElementById('TxtEndDate').value !== '')
             {
                 endDate = GetDate($('#TxtEndDate').val(), "/", false);
                 if(HasActions)
@@ -358,9 +358,9 @@ jQuery(function ($) {
                     SaveEmployeeConfirmed();
                 }
             }
-            else {
+            else {*/
                 SaveEmployeeConfirmed();
-            }
+            /*}*/
         }
     }
 
@@ -552,17 +552,6 @@ function EmployeeDeleteAlertYes() {
     document.location = 'EmployeeSubstitution.aspx?id=' + EmployeeDeleteId + '&enddate=' + FormatDate(GetDate(document.getElementById('TxtEndDate').value, '/'), '');
 }
 
-function EmployeeDeleteAlert(id, description) {
-    if (id === ApplicationUser.Employee.Id) {
-        warningInfoUI(Dictionary.Item_Employee_Error_AutoDelete, null, 300);
-        return false;
-    }
-
-    EmployeeDeleteId = id;
-    promptInfoUI(Dictionary.Item_Employee_Message_Delete, 300, EmployeeDeleteAlertYes, EmployeeDeleteAlertNo);
-    return false;
-}
-
 if (SkillAcademicValid !== null) {
     if (SkillAcademicValid === true) {
         document.getElementById('AcademicValidYes').checked = true;
@@ -725,6 +714,16 @@ if (ApplicationUser.Grants.Employee.Write === false) {
 }
 
 function AnularPopup() {
+    if (employeeId === ApplicationUser.Employee.Id) {
+        warningInfoUI(Dictionary.Item_Employee_Error_AutoDelete, null, 400);
+        return false;
+    }
+
+    if (HasActions) {
+        EmployeeDeleteAlert(employee.Id, $('#TxtNombre').val() + ' ' + $('#TxtApellido1').val());
+        return false;
+    }
+
     $("#TxtEndDate").val(FormatDate(new Date(), "/"));
     var dialog = $("#dialogAnular").removeClass("hide").dialog({
         resizable: false,
@@ -799,4 +798,21 @@ function AnularConfirmed() {
             alertUI(msg.responseText);
         }
     });
+}
+
+window.onload = function () {
+    if (employee.DisabledDate !== null) {
+        res = "";
+        res += "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+        res += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
+        res += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Employee_Label_InactiveTitle + "</h3><br />";
+        res += "    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Dictionary.Item_Employee_Label_InactiveDate + ": <strong>14/11/2017</strong></p></div><br /><br /><br />";
+        $("#oldFormFooter").after(res);
+    }
+}
+
+function EmployeeDeleteAlert(id, description) {
+    EmployeeDeleteId = id;
+    promptInfoUI(Dictionary.Item_Employee_Message_Delete, 300, EmployeeDeleteAlertYes, null);
+    return false;
 }

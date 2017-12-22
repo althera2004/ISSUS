@@ -236,7 +236,7 @@ namespace GisoFramework.Item
                             Number = rdr.GetInt64(ColumnsIncidentActionGet.Number)
                         };
 
-                        if (!rdr.IsDBNull(ColumnsIncidentActionGet.CausesOn))
+                        if (!rdr.IsDBNull(ColumnsIncidentActionGet.CausesId))
                         {
                             res.Causes = rdr.GetString(ColumnsIncidentActionGet.Causes);
                             res.CausesOn = rdr.GetDateTime(ColumnsIncidentActionGet.CausesOn);
@@ -252,7 +252,7 @@ namespace GisoFramework.Item
                             res.CausesBy = Employee.Empty;
                         }
 
-                        if (!rdr.IsDBNull(ColumnsIncidentActionGet.ActionsOn))
+                        if (!rdr.IsDBNull(ColumnsIncidentActionGet.ActionsId))
                         {
                             res.Actions = rdr.GetString(ColumnsIncidentActionGet.Actions);
                             res.ActionsOn = rdr.GetDateTime(ColumnsIncidentActionGet.ActionsOn);
@@ -832,27 +832,27 @@ namespace GisoFramework.Item
                     //// if (this.Provider == null) { cmd.Parameters.Add(DataParameter.InputNull("@ProviderId")); } else { cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id)); }
                     //// if (this.Customer == null) { cmd.Parameters.Add(DataParameter.InputNull("@CustomerId")); } else { cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer.Id)); }
 
-                    cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy.Id));
                     cmd.Parameters.Add(DataParameter.Input("@WhatHappendDate", this.WhatHappenedOn));
 
-                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy));
                     cmd.Parameters.Add(DataParameter.Input("@CausesDate", this.CausesOn));
 
-                    cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsDate", this.ActionsOn));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsExecuter", this.ActionsExecuter));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsSchedule", this.ActionsSchedule));
-                    cmd.Parameters.Add(DataParameter.Input("@Monitoring", this.Monitoring ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Monitoring", this.Monitoring ?? string.Empty, 2000));
 
                     cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy));
                     cmd.Parameters.Add(DataParameter.Input("@ClosedDate", this.ClosedOn));
                     cmd.Parameters.Add(DataParameter.Input("@ClosedExecutor", this.ClosedExecutorOn));
                     cmd.Parameters.Add(DataParameter.Input("@ClosedExecutorOn", this.ClosedExecutorOn));
 
-                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
@@ -939,27 +939,27 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider));
                     cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer));
 
-                    cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy.Id));
                     cmd.Parameters.Add(DataParameter.Input("@WhatHappendOn", this.WhatHappenedOn));
 
-                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy));
                     cmd.Parameters.Add(DataParameter.Input("@CausesOn", this.CausesOn));
 
-                    cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsOn", this.ActionsOn));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsExecuter", this.ActionsExecuter));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsSchedule", this.ActionsSchedule));
-                    cmd.Parameters.Add(DataParameter.Input("@Monitoring", this.Monitoring ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Monitoring", this.Monitoring ?? string.Empty, 2000));
 
                     cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy));
                     cmd.Parameters.Add(DataParameter.Input("@ClosedOn", this.ClosedOn));
                     cmd.Parameters.Add(DataParameter.Input("@ClosedExecutor", this.ClosedExecutor));
                     cmd.Parameters.Add(DataParameter.Input("@ClosedExecutorOn", this.ClosedExecutorOn));
 
-                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();

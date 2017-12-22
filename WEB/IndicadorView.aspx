@@ -43,6 +43,7 @@
         var itemId = IndicadorId;
         var userLanguage = "<%=this.UserLanguage %>";
         var IndicadoresObjetivo = <%=this.IndicadoresObjetivo %>;
+        var Employees = <%= this.Employees %>;
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">

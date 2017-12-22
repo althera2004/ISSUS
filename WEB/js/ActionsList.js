@@ -288,6 +288,7 @@ function ItemRenderTable(list) {
 
     if (lockOrderList === false) {
         $("#th2").click();
+        if (document.getElementById("th2").className.indexOf("DESC") !== -1) { $("#th2").click(); }
     }
     else {
         var column = listOrder.split('|')[0];
@@ -298,8 +299,6 @@ function ItemRenderTable(list) {
             $("#" + column).click();
         }
     }
-
-    if (document.getElementById("th2").className.indexOf("DESC") !== -1) { $("#th2").click(); }
 }
 
 function IncidentActionDelete(sender) {

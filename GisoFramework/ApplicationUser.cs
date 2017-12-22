@@ -439,24 +439,7 @@ namespace GisoFramework
         }
 
         /// <summary>Gets a value indicating whether user has admin role</summary>
-        public bool Admin
-        {
-            get
-            {
-                if (this.groups != null)
-                {
-                    foreach (ApplicationLogOn.SecurityGroup group in this.groups)
-                    {
-                        if (group == ApplicationLogOn.SecurityGroup.Company)
-                        {
-                            return true;
-                        }
-                    }
-                }
-
-                return false;
-            }
-        }
+        public bool Admin { get; set; }
 
         /// <summary>Gets a json structure of user's groups</summary>
         public string GroupsJson
@@ -496,6 +479,7 @@ namespace GisoFramework
                 res.Append("    \"CompanyId\":").Append(this.CompanyId).Append(",").Append(Environment.NewLine);
                 res.Append("    \"Login\":\"").Append(this.userName).Append("\",").Append(Environment.NewLine);
                 res.Append("    \"PrimaryUser\":").Append(this.PrimaryUser ? "true" : "false").Append(",").Append(Environment.NewLine);
+                res.Append("    \"Admin\":").Append(this.Admin ? "true" : "false").Append(",").Append(Environment.NewLine);
                 res.Append("    \"Language\":\"").Append(this.language).Append("\",").Append(Environment.NewLine);
                 res.Append("    \"ShowHelp\":").Append(this.showHelp ? "true" : "false").Append(",").Append(Environment.NewLine);
                 res.Append("    \"Status\":\"").Append(this.status).Append("\",");
@@ -627,6 +611,16 @@ namespace GisoFramework
                                     LastName = rdr.GetString(ColumnsUserGetByCompanyId.EmployeeLastName),
                                     Email = rdr.GetString(ColumnsUserGetByCompanyId.EmployeeEmail)
                                 };
+                            }
+
+                            if (!rdr.IsDBNull(ColumnsUserGetByCompanyId.PrimaryUser))
+                            {
+                                newUser.PrimaryUser = rdr.GetBoolean(ColumnsUserGetByCompanyId.PrimaryUser);
+                            }
+
+                            if (!rdr.IsDBNull(ColumnsUserGetByCompanyId.Admin))
+                            {
+                                newUser.Admin = rdr.GetBoolean(ColumnsUserGetByCompanyId.Admin);
                             }
 
                             res.Add(newUser);
@@ -950,6 +944,7 @@ namespace GisoFramework
                         res.GetGrants();
                         res.Employee = Employee.GetByUserId(res.id);
                         res.PrimaryUser = rdr.GetBoolean(10);
+                        res.Admin = rdr.GetBoolean(11);
                     }
                 }
                 finally
@@ -1670,7 +1665,20 @@ namespace GisoFramework
                 this.Description);
             }
 
-            string pattern = @"<tr><td>{0}</td><td style=""width:200px;"">{1}</td><td style=""width:200px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</td></tr>";
+            string iconAdmin = string.Empty;
+            if (this.PrimaryUser)
+            {
+                iconAdmin = "<i class=\"icon-star\" style=\"color:#0f0;\"></i>";
+            }
+            else
+            {
+                if (this.Admin)
+                {
+                    iconAdmin = iconAdmin = "<i class=\"icon-star\" style=\"color:#00f;\"></i>";
+                }
+            }
+
+            string pattern = @"<tr><td style=""width:40px;"">{5}</td><td>{0}</td><td style=""width:200px;"">{1}</td><td style=""width:200px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</td></tr>";
             return string.Format(
                 CultureInfo.GetCultureInfo("en-us"),
                 pattern,
@@ -1678,7 +1686,8 @@ namespace GisoFramework
                 employeeLink,
                 this.Email,
                 iconEdit,
-                iconDelete);
+                iconDelete,
+                iconAdmin);
         }
 
         /// <summary>
@@ -1853,6 +1862,7 @@ namespace GisoFramework
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", this.id));
                     cmd.Parameters.Add(DataParameter.Input("@UserName", this.userName, 50));
                     cmd.Parameters.Add(DataParameter.Input("@Email", this.Email, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Admin", this.Admin));
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
                     res = this.Employee.Update(userId);
@@ -1950,6 +1960,7 @@ namespace GisoFramework
                 cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                 cmd.Parameters.Add(DataParameter.Input("@Login", this.userName, 50));
                 cmd.Parameters.Add(DataParameter.Input("@Email", this.Email, 50));
+                cmd.Parameters.Add(DataParameter.Input("@Admin", this.Admin));
                 cmd.Parameters.Add(DataParameter.Input("@Password", userpass));
                 try
                 {

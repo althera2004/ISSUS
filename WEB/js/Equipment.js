@@ -579,3 +579,4 @@ $("#CmbEquipmentCalibrationActResponsible").on("change", function () { WarningEm
 $("#CmbVerificationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationInternalResponsible").val() * 1, Employees); });
 $("#CmbVerificationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationExternalResponsible").val() * 1, Employees); });
 $("#CmbEquipmentVerificationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentVerificationActResponsible").val() * 1, Employees); });
+$("#CmbNewMaintainmentResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbNewMaintainmentResponsible").val() * 1, Employees); });

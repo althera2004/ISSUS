@@ -26,19 +26,13 @@ namespace GisoFramework.Item
     /// </summary>
     public class Company
     {
-        /// <summary>
-        /// Company default language
-        /// </summary>
+        /// <summary> Company default language </summary>
         private string language;
 
-        /// <summary>
-        /// Company nif
-        /// </summary>
+        /// <summary> Company nif </summary>
         private string fiscalNumber;
 
-        /// <summary>
-        /// Company departments
-        /// </summary>
+        /// <summary> Company departments </summary>
         private Collection<Department> departments;
 
         /// <summary>Company's employees</summary>
@@ -50,9 +44,7 @@ namespace GisoFramework.Item
         /// <summary>Compnay's default address</summary>
         private CompanyAddress defaultAddress;
 
-        /// <summary>
-        /// Selected countries for the company
-        /// </summary>
+        /// <summary> Selected countries for the company </summary>
         private List<Country> countries;
 
         /// <summary>Initializes a new instance of the Company class</summary>
@@ -528,6 +520,17 @@ namespace GisoFramework.Item
                 first = false;
             }
 
+            if (item1.language != item2.language)
+            {
+                if (!first)
+                {
+                    res.Append(",");
+                }
+
+                res.Append("Language:").Append(item2.language);
+                first = false;
+            }
+
             if (item1.defaultAddress.Id != item2.defaultAddress.Id)
             {
                 if (!first)
@@ -618,6 +621,7 @@ namespace GisoFramework.Item
             res.Append("\t\t\"Web\":\"").Append(company.Web).Append("\",").Append(Environment.NewLine);
             res.Append("\t\t\"SubscriptionStart\":\"").Append(company.SubscriptionStart.ToShortDateString()).Append("\",").Append(Environment.NewLine);
             res.Append("\t\t\"SubscriptionEnd\":\"").Append(company.SubscriptionEnd.ToShortDateString()).Append("\",").Append(Environment.NewLine);
+            res.Append("\t\t\"Language\":\"").Append(company.language).Append("\",").Append(Environment.NewLine);
             res.Append("\t\t\"Departments\":").Append(Environment.NewLine);
             res.Append("\t\t[");
             bool firstDepartment = true;
@@ -803,6 +807,7 @@ namespace GisoFramework.Item
              * @Name nvarchar(50),
              * @Nif nvarchar(15),
              * @DefaultAddress int,
+             * @Language nvarchar(2),
              * @UserId int
              */
             using (SqlCommand cmd = new SqlCommand("Company_Update"))
@@ -815,11 +820,13 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add("@Name", SqlDbType.Text);
                     cmd.Parameters.Add("@Nif", SqlDbType.Text);
                     cmd.Parameters.Add("@DefaultAddress", SqlDbType.Int);
+                    cmd.Parameters.Add("@Language", SqlDbType.NVarChar);
                     cmd.Parameters.Add("@UserId", SqlDbType.Int);
                     cmd.Parameters["@CompanyId"].Value = this.Id;
                     cmd.Parameters["@Name"].Value = this.Name;
                     cmd.Parameters["@Nif"].Value = this.fiscalNumber;
                     cmd.Parameters["@DefaultAddress"].Value = this.defaultAddress.Id;
+                    cmd.Parameters["@Language"].Value = this.language;
                     cmd.Parameters["@UserId"].Value = userId;
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();

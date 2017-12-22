@@ -482,21 +482,23 @@ function SaveCompany() {
 
     var webMethod = "/Async/CompanyActions.asmx/Save";
     var data = {
-        'oldCompany':
+        "oldCompany":
         {
-            'Id': Company.Id,
-            'Name': Company.Name,
-            'FiscalNumber': Company.Nif,
-            'DefaultAddress': Company.DefaultAddress
+            "Id": Company.Id,
+            "Name": Company.Name,
+            "FiscalNumber": Company.Nif,
+            "DefaultAddress": Company.DefaultAddress,
+            "Language": Company.Language
         },
-        'newCompany':
+        "newCompany":
         {
-            'Id': Company.Id,
-            'Name': $('#TxtName').val(),
-            'FiscalNumber': $('#TxtNif').val(),
-            'DefaultAddress': { Id: addressSelected }
+            "Id": Company.Id,
+            "Name": $("#TxtName").val(),
+            "FiscalNumber": $("#TxtNif").val(),
+            "DefaultAddress": { Id: addressSelected },
+            "Language": $("#CmbIdioma").val()
         },
-        'userId': user.Id
+        "userId": user.Id
     };
 
     $.ajax({

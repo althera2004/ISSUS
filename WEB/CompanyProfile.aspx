@@ -115,6 +115,14 @@
                                                 </div>
                                             </div>
                                             <div class="space-4"></div>
+                                            <div class="form-group">
+                                                <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Profile_FieldLabel_Language"] %></label>
+                                                <div class="col-xs-3" id="DivCmbIdioma" style="height:35px !important;">
+                                                    <select id="CmbIdioma" class="col-xs-12">
+                                                        <asp:Literal runat="server" ID="LtIdiomas"></asp:Literal>
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <hr />
                                             <div class="row">
                                                 <div class="col-xs-4">
@@ -410,6 +418,8 @@
             function DownloadAgreement() {
                 window.open("/DOCS/Agreement_<%=this.Company.Name %>.pdf");
             }
+
+            $("#CmbIdioma").val(Company.Language);
         </script>
 </asp:Content>
 

@@ -1011,15 +1011,15 @@ namespace GisoFramework.Item
             /* ALTER PROCEDURE [dbo].[Objetivo_Insert]
              *   @ObjetivoId int output,
              *   @Name nvarchar(100),
-             *   @Description nvarchar(500),
+             *   @Description nvarchar(2000),
              *   @ResponsibleId int,
              *   @StartDate datetime,
              *   @VinculatedToIndicator bit,
              *   @IndicatorId int,
              *   @RevisionId int,
-             *   @Methodology nvarchar(500),
-             *   @Resources nvarchar(500),
-             *   @Notes nvarchar(500),
+             *   @Methodology nvarchar(2000),
+             *   @Resources nvarchar(2000),
+             *   @Notes nvarchar(2000),
              *   @PreviewEndDate datetime,
              *   @EndDate datetime,
              *   @ResponsibleClose int,
@@ -1035,15 +1035,15 @@ namespace GisoFramework.Item
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.OutputInt("@ObjetivoId"));
                         cmd.Parameters.Add(DataParameter.Input("@Name", this.Name, 100));
-                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 500));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@ResponsibleId", this.Responsible));
                         cmd.Parameters.Add(DataParameter.Input("@StartDate", this.StartDate));
                         cmd.Parameters.Add(DataParameter.Input("@VinculatedToIndicator", this.VinculatedToIndicator));
                         cmd.Parameters.Add(DataParameter.Input("@IndicatorId", this.IndicatorId));
                         cmd.Parameters.Add(DataParameter.Input("@RevisionId", this.RevisionId));
-                        cmd.Parameters.Add(DataParameter.Input("@Methodology", this.Methodology, 500));
-                        cmd.Parameters.Add(DataParameter.Input("@Resources", this.Resources, 500));
-                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 500));
+                        cmd.Parameters.Add(DataParameter.Input("@Methodology", this.Methodology, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Resources", this.Resources, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@PreviewendDate", this.PreviewEndDate));
                         cmd.Parameters.Add(DataParameter.Input("@EndDate", this.EndDate));
                         cmd.Parameters.Add(DataParameter.Input("@ResponsibleClose", this.EndResponsible));
@@ -1104,15 +1104,15 @@ namespace GisoFramework.Item
             /* ALTER PROCEDURE [dbo].[Objetivo_Update]
              *   @ObjetivoId int,
              *   @Name nvarchar(100),
-             *   @Description nvarchar(500),
+             *   @Description nvarchar(2000),
              *   @ResponsibleId int,
              *   @StartDate datetime,
              *   @VinculatedToIndicator bit,
              *   @IndicatorId int,
              *   @RevisionId int,
-             *   @Methodology nvarchar(500),
-             *   @Resources nvarchar(500),
-             *   @Notes nvarchar(500),
+             *   @Methodology nvarchar(2000),
+             *   @Resources nvarchar(2000),
+             *   @Notes nvarchar(2000),
              *   @PreviewEndDate datetime,
              *   @EndDate datetime,
              *   @ResponsibleClose int,
@@ -1128,15 +1128,15 @@ namespace GisoFramework.Item
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", this.Id));
                         cmd.Parameters.Add(DataParameter.Input("@Name", this.Name, 100));
-                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 500));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@ResponsibleId", this.Responsible.Id));
                         cmd.Parameters.Add(DataParameter.Input("@StartDate", this.StartDate));
                         cmd.Parameters.Add(DataParameter.Input("@VinculatedToIndicator", this.VinculatedToIndicator));
                         cmd.Parameters.Add(DataParameter.Input("@IndicatorId", this.IndicatorId));
                         cmd.Parameters.Add(DataParameter.Input("@RevisionId", this.RevisionId));
-                        cmd.Parameters.Add(DataParameter.Input("@Methodology", this.Methodology, 500));
-                        cmd.Parameters.Add(DataParameter.Input("@Resources", this.Resources, 500));
-                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 500));
+                        cmd.Parameters.Add(DataParameter.Input("@Methodology", this.Methodology, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Resources", this.Resources, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@PreviewEndDate", this.PreviewEndDate));
                         cmd.Parameters.Add(DataParameter.Input("@EndDate", this.EndDate));
                         cmd.Parameters.Add(DataParameter.Input("@ResponsibleClose", this.EndResponsible));

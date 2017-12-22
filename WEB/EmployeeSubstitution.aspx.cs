@@ -30,6 +30,14 @@ public partial class EmployeeSubstitution : Page
     /// <summary>Indicates if employee is active</summary>
     private bool active;
 
+    public string UserLanguage
+    {
+        get
+        {
+            return this.user.Language;
+        }
+    }
+
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
@@ -105,6 +113,7 @@ public partial class EmployeeSubstitution : Page
     }
 
 
+    public FormDatePicker TxtEndDate { get; set; }
     TabBar tabBar = new TabBar() { Id = "EmployeeTabBar" };
 
     public string TabBar
@@ -193,10 +202,20 @@ public partial class EmployeeSubstitution : Page
             this.tabBar.AddTab(new Tab() { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Employee_Tab_Delete"], Available = true });
 
 
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Delete"], Action = "success" });
+            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ban-circle", Text = this.dictionary["Item_Employee_Btn_Inactive"], Action = "danger" });
             this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
             this.formFooter.ModifiedBy = this.employee.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.employee.ModifiedOn;
+
+
+            this.TxtEndDate = new FormDatePicker()
+            {
+                Id = "TxtEndDate",
+                Label = this.dictionary["Item_Employee_FieldLabel_InactiveDate"],
+                ColumnsSpanLabel = 4,
+                ColumnsSpan = 8
+                
+            };
         }
     }
 }

@@ -578,6 +578,8 @@ Item_Employee_Help_ResetPassword::Restablir contrasenya
 Item_Employee_Help_Shortcuts::Dreceres
 Item_Employee_Help_Telefono::Indicar el telèfon
 Item_Employee_Help_UserName::Indicar el nom de l'empleat/da
+Item_Employee_Label_InactiveTitle::Empleat de baixa
+Item_Employee_Label_InactiveDate::Data de baixa
 Item_Employee_Label_DesiredWorkExperience::Experiència laboral desitjada
 Item_Employee_Label_RealWorkExperience::Experiència laboral real
 Item_Employee_List_Delete::Elements
@@ -599,6 +601,7 @@ Item_Employee_ListJobPosition_JobPosition::Càrrec
 Item_Employee_ListJobPosition_Responsible::Responsable
 Item_Employee_ListJobPosition_StartDate::Data d'alta
 Item_Employee_ListLearningHeader_Date::Data de realització
+Item_Employee_Message_InactivateWarning::L'empleat té tasques assignades i s'ha de assginar un substitut
 Item_Employee_Message_Delete::L'Empleat/da esta configurat/da a l'aplicació. Vol continuar amb l'eliminació?
 Item_Employee_Message_InsertSucess::Empleat/da desat/da amb èxit. Ja es poden fer servir les pestanyes del formulari
 Item_Employee_Message_NoDeletableByJobPositionLink::No es pot eliminar perquè té un registre associat
@@ -1546,3 +1549,5 @@ MailTemplate_ResetPassword_Error::No s'ha reestabler la paraula de pas
 MailTemplate_ResetPassword_DefaultBody::Se h'reestablert la seva paraula de pas a ISSUS.<br />Accedir a la seqgüent url http://issus.scrambotika.com/ <br/> User:<b>{0}</b><br/>Password:<b>{1}</b>
 Item_Employee_PopupAnular_Title::Baixa d'empleat
 Item_Employee_Warning_NoUser::L'empleat no té associat un usuari a l'aplicació
+User_PrimaryUser::Usuari primari
+User_Admin::Administrador

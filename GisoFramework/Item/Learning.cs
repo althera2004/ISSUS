@@ -701,11 +701,11 @@ namespace GisoFramework.Item
                     cmd.Parameters["@Master"].Value = Tools.LimitedText(this.Master, 100);
                     cmd.Parameters["@Hours"].Value = this.Hours;
                     cmd.Parameters["@Amount"].Value = this.Amount;
-                    cmd.Parameters["@Notes"].Value = Tools.LimitedText(this.Notes, 100);
+                    cmd.Parameters["@Notes"].Value = Tools.LimitedText(this.Notes, 2000);
                     cmd.Parameters["@Year"].Value = this.Year;
                     cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Parameters["@Objetivo"].Value = Tools.LimitedText(this.Objective, 500);
-                    cmd.Parameters["@Metodologia"].Value = Tools.LimitedText(this.Methodology, 500);
+                    cmd.Parameters["@Objetivo"].Value = Tools.LimitedText(this.Objective, 2000);
+                    cmd.Parameters["@Metodologia"].Value = Tools.LimitedText(this.Methodology, 2000);
                     if (this.RealStart.HasValue)
                     {
                         cmd.Parameters["@RealStart"].Value = this.RealStart.Value;
@@ -789,17 +789,17 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add("@Metodologia", SqlDbType.Text);
                     cmd.Parameters["@LearningId"].Value = this.Id;
                     cmd.Parameters["@CompanyId"].Value = this.CompanyId;
-                    cmd.Parameters["@Description"].Value = Tools.LimitedText(this.Description, 500);
+                    cmd.Parameters["@Description"].Value = Tools.LimitedText(this.Description, 2000);
                     cmd.Parameters["@Status"].Value = this.Status;
                     cmd.Parameters["@DateStimatedDate"].Value = this.DateEstimated;
-                    cmd.Parameters["@Master"].Value = this.Master;
+                    cmd.Parameters["@Master"].Value = Tools.LimitedText(this.Master, 100);
                     cmd.Parameters["@Hours"].Value = this.Hours;
                     cmd.Parameters["@Amount"].Value = this.Amount;
                     cmd.Parameters["@Notes"].Value = this.Notes;
                     cmd.Parameters["@Year"].Value = this.Year;
                     cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Parameters["@Objetivo"].Value = Tools.LimitedText(this.Objective,500);
-                    cmd.Parameters["@Metodologia"].Value = Tools.LimitedText(this.Methodology, 500);
+                    cmd.Parameters["@Objetivo"].Value = Tools.LimitedText(this.Objective, 2000);
+                    cmd.Parameters["@Metodologia"].Value = Tools.LimitedText(this.Methodology, 2000);
                     if (this.RealStart.HasValue)
                     {
                         cmd.Parameters["@RealStart"].Value = this.RealStart.Value;

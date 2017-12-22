@@ -1,6 +1,7 @@
 ﻿var RuleLimitFromDB;
 var rule = { "Id": 0 };
 var BusinessRiskSelected;
+var lockOrderList = false;
 
 function BusinessRiskDeleteAction() {
     var webMethod = "/Async/BusinessRiskActions.asmx/BusinessRiskDelete";
@@ -24,26 +25,26 @@ function BusinessRiskDeleteAction() {
 }
 
 function BusinessRiskDelete(id, name) {
-    $('#BusinessRiskName').html(name);
+    $("#BusinessRiskName").html(name);
     BusinessRiskSelected = id;
-    var dialog = $("#BusinessRiskDeleteDialog").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_BusinessRisk_Popup_Delete_Title + '</h4>',
-        title_html: true,
-        buttons:
+    var dialog = $("#BusinessRiskDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_BusinessRisk_Popup_Delete_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     BusinessRiskDeleteAction();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -52,56 +53,56 @@ function BusinessRiskDelete(id, name) {
 }
 
 function BusinessRiskUpdate(id, name) {
-    document.location = 'BusinessRiskView.aspx?id=' + id;
+    document.location = "BusinessRiskView.aspx?id=" + id;
     return false;
 }
 
 function BussinesRiskListGetAll() {
-    document.getElementById('BtnRecordShowAll').style.display = 'none';
-    document.getElementById('BtnRecordShowNone').style.display = '';
+    document.getElementById("BtnRecordShowAll").style.display = "none";
+    document.getElementById("BtnRecordShowNone").style.display = "";
     var ok = true;
-    VoidTable('ItemTableData');
-    $('#CmbRules').val(0);
-    $('#CmbType').val(0);
-    $('#CmbProcess').val(0);
-    $('#TxtDateFrom').val('');
-    $('#TxtDateTo').val('');
-    var from = GetDate($('#TxtDateFrom').val(), '-');
-    var to = GetDate($('#TxtDateTo').val(), '-');
+    VoidTable("ItemTableData");
+    $("#CmbRules").val(0);
+    $("#CmbType").val(0);
+    $("#CmbProcess").val(0);
+    $("#TxtDateFrom").val("");
+    $("#TxtDateTo").val("");
+    var from = GetDate($("#TxtDateFrom").val(), "-");
+    var to = GetDate($("#TxtDateTo").val(), "-");
     BusinessRiskGetFilter();
 }
 
 function BusinessRiskListGetNone() {
-    document.getElementById('BtnRecordShowAll').style.display = '';
-    document.getElementById('BtnRecordShowNone').style.display = 'none';
-    VoidTable('ListDataTable');
-    $('#TxtDateFrom').val("");
-    $('#TxtDateTo').val("");
-    $('#CmbRules').val(0);
-    $('#CmbProcess').val(0);
-    $('#CmbType').val(0);
+    document.getElementById("BtnRecordShowAll").style.display = "";
+    document.getElementById("BtnRecordShowNone").style.display = "none";
+    VoidTable("ListDataTable");
+    $("#TxtDateFrom").val("");
+    $("#TxtDateTo").val("");
+    $("#CmbRules").val(0);
+    $("#CmbProcess").val(0);
+    $("#CmbType").val(0);
 }
 
 function BusinessRiskGetFilter(exportType) {
     var ok = true;
-    VoidTable('ListDataTable');
+    VoidTable("ListDataTable");
 
-    var from = GetDate($('#TxtDateFrom').val(), '-');
-    var to = GetDate($('#TxtDateTo').val(), '-');
+    var from = GetDate($("#TxtDateFrom").val(), "-");
+    var to = GetDate($("#TxtDateTo").val(), "-");
 
-    var rulesId = $('#CmbRules').val() * 1;
-    var processId = $('#CmbProcess').val() * 1;
-    var type = $('#CmbType').val() * 1;
+    var rulesId = $("#CmbRules").val() * 1;
+    var processId = $("#CmbProcess").val() * 1;
+    var type = $("#CmbType").val() * 1;
 
     if (from !== null && to !== null) {
         if (from > to) {
             ok = false;
-            document.getElementById('ErrorDate').style.display = '';
+            document.getElementById("ErrorDate").style.display = "";
         }
     }
 
     if (ok === false) {
-        document.getElementById('ItemTableError').style.display = '';
+        document.getElementById("ItemTableError").style.display = "";
         return false;
     }
 
@@ -199,55 +200,55 @@ function BusinessRiskRenderTable(list) {
 
     for (var x = 0; x < list.length; x++) {
         var item = list[x];
-        var row = document.createElement('TR');
-        var tdStatus = document.createElement('TD');
-        var tdOpenDate = document.createElement('TD');
-        var tdName = document.createElement('TD');
-        var tdProcess = document.createElement('TD');
-        var tdRules = document.createElement('TD');
-        var tdInitialResult = document.createElement('TD');
-        var tdFinalResult = document.createElement('TD');
+        var row = document.createElement("TR");
+        var tdStatus = document.createElement("TD");
+        var tdOpenDate = document.createElement("TD");
+        var tdName = document.createElement("TD");
+        var tdProcess = document.createElement("TD");
+        var tdRules = document.createElement("TD");
+        var tdInitialResult = document.createElement("TD");
+        var tdFinalResult = document.createElement("TD");
 
-        var objProcess = eval('(' + item.Process + ')');
-        var objRules = eval('(' + item.Rules + ')');
+        var objProcess = eval("(" + item.Process + ")");
+        var objRules = eval("(" + item.Rules + ")");
 
         if (objProcess.Id > 0) {
             if (user.Grants.Proccess.Read === false) {
                 tdProcess.appendChild(document.createTextNode(objProcess.Description));
             }
             else {
-                var link = document.createElement('A');
-                link.href = 'ProcesosView.aspx?id=' + objProcess.Id;
+                var link = document.createElement("A");
+                link.href = "ProcesosView.aspx?id=" + objProcess.Id;
                 link.appendChild(document.createTextNode(objProcess.Description));
                 tdProcess.appendChild(link);
             }
         }
         if (objRules.Id > 0) {
 
-            if (user.Grants.Rules === null || user.Grants.Rules.Read === false || user.Grants.Rules.Write == false) {
+            if (user.Grants.Rules === null || user.Grants.Rules.Read === false || user.Grants.Rules.Write === false) {
                 tdRules.appendChild(document.createTextNode(objRules.Description));
             }
             else {
-                var link = document.createElement('A');
-                link.href = 'RulesView.aspx?id=' + objRules.Id;
-                link.appendChild(document.createTextNode(objRules.Description));
-                tdRules.appendChild(link);
+                var linkRule = document.createElement("A");
+                linkRule.href = "RulesView.aspx?id=" + objRules.Id;
+                linkRule.appendChild(document.createTextNode(objRules.Description));
+                tdRules.appendChild(linkRule);
             }
         }
 
         row.id = item.BusinessRiskId;
 
-        var businessRiskLink = document.createElement('A');
-        businessRiskLink.href = 'BusinessRiskView.aspx?id=' + item.BusinessRiskId;
+        var businessRiskLink = document.createElement("A");
+        businessRiskLink.href = "BusinessRiskView.aspx?id=" + item.BusinessRiskId;
         businessRiskLink.appendChild(document.createTextNode(item.Description));
 
-        icon = document.createElement('I');
+        icon = document.createElement("I");
         tdStatus.appendChild(icon);
 
-        var realResult = item.FinalResult;
-        if (realResult === 0) {
+        var realResult = item.StartResult;
+        /*if (realResult === 0) {
             realResult = item.StartResult;
-        }
+        }*/
 
         var realAction = item.FinalAction;
         if (realAction === 0) {
@@ -255,44 +256,44 @@ function BusinessRiskRenderTable(list) {
         }
 
         if (item.Assumed === true) {
-            icon.style.color = '#FFC97D';
+            icon.style.color = "#FFC97D";
             icon.title = Dictionary.Item_BusinessRisk_Status_Assumed;
-            icon.className = 'icon-circle bigger-110';
+            icon.className = "icon-circle bigger-110";
         }
-        else if (realResult == 0) {
-            icon.style.color = '#777777';
+        else if (realResult === 0) {
+            icon.style.color = "#777777";
             icon.title = Dictionary.Item_BusinessRisk_Status_Unevaluated;
-            icon.className = 'icon-warning-sign bigger-110';
+            icon.className = "icon-warning-sign bigger-110";
         }
         else if (realAction === 1)
         {
-            icon.style.color = '#FFC97D';
+            icon.style.color = "#FFC97D";
             icon.title = Dictionary.Item_BusinessRisk_Status_Assumed;
-            icon.className = 'icon-circle bigger-110';
+            icon.className = "icon-circle bigger-110";
         }
         else
         {
             if(realResult < item.RuleLimit)
             {
-                icon.style.color = '#A5CA9F';
+                icon.style.color = "#A5CA9F";
                 icon.title = Dictionary.Item_BusinessRisk_Status_NotSignificant;
-                icon.className = 'icon-circle bigger-110';
+                icon.className = "icon-circle bigger-110";
             }
             else {
-                icon.style.color = '#DC8475';
+                icon.style.color = "#DC8475";
                 icon.title = Dictionary.Item_BusinessRisk_Status_Significant;
-                icon.className = 'icon-circle bigger-110';
+                icon.className = "icon-circle bigger-110";
             }
         }
 
-        tdOpenDate.appendChild(document.createTextNode(FormatYYYYMMDD(item.OpenDate, '/')));
-        tdInitialResult.appendChild(document.createTextNode(realResult == 0 ? '' : realResult));
-        tdFinalResult.appendChild(document.createTextNode(item.RuleLimit == 0 ? '' : item.RuleLimit));
+        tdOpenDate.appendChild(document.createTextNode(FormatYYYYMMDD(item.OpenDate, "/")));
+        tdInitialResult.appendChild(document.createTextNode(realResult === 0 ? "" : realResult));
+        tdFinalResult.appendChild(document.createTextNode(item.RuleLimit === 0 ? "" : item.RuleLimit));
         tdName.appendChild(businessRiskLink);
 
-        tdOpenDate.style.width = '90px';
-        tdInitialResult.align = 'center';
-        tdFinalResult.align = 'center';
+        tdOpenDate.style.width = "90px";
+        tdInitialResult.align = "center";
+        tdFinalResult.align = "center";
 
         tdStatus.style.width = "40px";
         tdRules.style.width = "120px";
@@ -308,29 +309,29 @@ function BusinessRiskRenderTable(list) {
         row.appendChild(tdInitialResult);
         row.appendChild(tdFinalResult);
 
-        var iconEdit = document.createElement('SPAN');
-        iconEdit.className = 'btn btn-xs btn-info';
+        var iconEdit = document.createElement("SPAN");
+        iconEdit.className = "btn btn-xs btn-info";
         iconEdit.id = item.Number;
-        var innerEdit = document.createElement('I');
-        innerEdit.className = ApplicationUser.Grants.BusinessRisk.Write ? 'icon-edit bigger-120' : 'icon-eye-open bigger-120';
+        var innerEdit = document.createElement("I");
+        innerEdit.className = ApplicationUser.Grants.BusinessRisk.Write ? "icon-edit bigger-120" : "icon-eye-open bigger-120";
         iconEdit.appendChild(innerEdit);
-        iconEdit.onclick = function () { document.location = 'BusinessRiskView.aspx?id=' + this.parentNode.parentNode.id; };
+        iconEdit.onclick = function () { document.location = "BusinessRiskView.aspx?id=" + this.parentNode.parentNode.id; };
 
         if (ApplicationUser.Grants.BusinessRisk.Delete === true) {
-            var iconDelete = document.createElement('SPAN');
-            iconDelete.className = 'btn btn-xs btn-danger';
+            var iconDelete = document.createElement("SPAN");
+            iconDelete.className = "btn btn-xs btn-danger";
             iconDelete.id = item.Number;
-            var innerDelete = document.createElement('I');
-            innerDelete.className = 'icon-trash bigger-120';
+            var innerDelete = document.createElement("I");
+            innerDelete.className = "icon-trash bigger-120";
             iconDelete.appendChild(innerDelete);
             iconDelete.onclick = function () { BusinessRiskDelete(this.parentNode.parentNode.id); };
         }
 
-        var tdActions = document.createElement('TD');
+        var tdActions = document.createElement("TD");
 
         tdActions.appendChild(iconEdit);        
         if (ApplicationUser.Grants.BusinessRisk.Delete === true) {
-            tdActions.appendChild(document.createTextNode(' '));
+            tdActions.appendChild(document.createTextNode(" "));
             tdActions.appendChild(iconDelete);
         }
 
@@ -348,7 +349,7 @@ function BusinessRiskRenderTable(list) {
                 "Code": item.Code,
                 "Rules": item.Rules,
                 "Result": realResult,
-                "Assumed": realAction == 1,
+                "Assumed": realAction === 1,
                 "RuleLimit": item.RuleLimit
             });
         }
@@ -366,25 +367,26 @@ function BusinessRiskRenderTable(list) {
         }
     }
 
-    document.getElementById('GraphicTableVoid').style.display = 'none';
-    document.getElementById('svggrafic').style.display = '';
+    document.getElementById("GraphicTableVoid").style.display = "none";
+    document.getElementById("svggrafic").style.display = "";
     exampleData();
     RenderChart();
+    $(".discreteBar").on("click", function (e) { console.log(e) });
 
-    if (document.getElementById('CmbRules').value * 1 > 0) {
+    if (document.getElementById("CmbRules").value * 1 > 0) {
         DrawRuleLine();
-        document.getElementById('BtnChangeIpr').style.display = '';
+        document.getElementById("BtnChangeIpr").style.display = "";
         rule = RuleGetById($("#CmbRules").val() * 1);
         if (rule !== null) {
             actualRuleLimit = rule.Limit;
-            $('#RuleDescription').html('<strong>' + rule.Description + '</strong> ' + Dictionary.Item_Rules_FieldLabel_Limit + ': <strong>' + RuleLimitFromDB + '</strong>');
+            $("#RuleDescription").html("<strong>" + rule.Description + "</strong> " + Dictionary.Item_Rules_FieldLabel_Limit + ": <strong>" + RuleLimitFromDB + "</strong>");
         }
     }
     else {
         rule = { "Id": 0 };
         resizegrafico($("#CmbRules").val() * 1);
-        document.getElementById('BtnChangeIpr').style.display = 'none';
-        $('#RuleDescription').html(Dictionary.Common_All_Female_Plural);
+        document.getElementById("BtnChangeIpr").style.display = "none";
+        $("#RuleDescription").html(Dictionary.Common_All_Female_Plural);
         actualRuleLimit = -1;
     }
 
@@ -407,9 +409,20 @@ function BusinessRiskRenderTable(list) {
     }
 
     $("#NumberCosts").html(list.length);
-    $("#th1").click();
-    if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
-        $("#th1").click()
+    if (lockOrderList === false) {
+        $("#th1").click();
+        if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
+            $("#th1").click();
+        }
+    }
+    else {
+        var column = listOrder.split('|')[0];
+        var order = listOrder.split('|')[1];
+
+        $("#" + column).click();
+        if (document.getElementById(column).className.indexOf(order) === -1) {
+            $("#" + column).click();
+        }
     }
 }
 
@@ -462,6 +475,7 @@ function SetRule(id)
     RenderChart();
     DrawRuleLine();
     $("#input-span-slider").slider({ value: id });
+    $(".discreteBar").on("click", function (e) { console.log(e) });
 }
 
 function NewIpr()
@@ -489,15 +503,11 @@ function NewIpr()
     }
 
     candidate = new Array();
-    for (var x=0;x<BusinessRiskGraph.length;x++)
-    {
-        if(BusinessRiskGraph[x].Assumed===false)
-        {
-            if(BusinessRiskGraph[x].Result >= RuleLimitFromDB)
-            {
-                if(BusinessRiskGraph[x].Result < actualRuleLimit)
-                {
-                    candidate.push(BusinessRiskGraph[x]);
+    for (var y = 0; y < BusinessRiskGraph.length; y++) {
+        if (BusinessRiskGraph[y].Assumed === false) {
+            if (BusinessRiskGraph[y].Result >= RuleLimitFromDB) {
+                if (BusinessRiskGraph[y].Result < actualRuleLimit) {
+                    candidate.push(BusinessRiskGraph[y]);
                 }
             }
         }
@@ -543,36 +553,33 @@ function NewIprConfirmed()
     });
 }
 
-function RenderSteps()
-{
-    VoidTable('steps');
-    for(var x = 1; x<26;x++)
-    {
-        var span = document.createElement('span');
+function RenderSteps() {
+    VoidTable("steps");
+    for (var x = 1; x < 26; x++) {
+        var span = document.createElement("span");
         span.id = x;
-        span.className = 'tick';
+        span.className = "tick";
         span.appendChild(document.createTextNode(x));
-        span.appendChild(document.createElement('BR'));
-        span.appendChild(document.createTextNode('|'));
-        span.style.left = ((100/24)*(x-1))+'%';
-        document.getElementById('steps').appendChild(span);
-        span.onclick = function(){ SetRule(this.id) };
-        if(x=== RuleLimitFromDB)
-        {
-            span.style.color = '#00f';
-            span.style.fontWeight='bold';
+        span.appendChild(document.createElement("BR"));
+        span.appendChild(document.createTextNode("|"));
+        span.style.left = ((100 / 24) * (x - 1)) + "%";
+        document.getElementById("steps").appendChild(span);
+        span.onclick = function () { SetRule(this.id) };
+        if (x === RuleLimitFromDB) {
+            span.style.color = "#00f";
+            span.style.fontWeight = "bold";
         }
     }
 }
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
+    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
     var finalHeight = containerHeight - 510;
     if (finalHeight < 400) {
         finalHeight = 400;
     }
-    listTable.style.height = (finalHeight) + 'px';
+    listTable.style.height = (finalHeight) + "px";
 }
 
 window.onload = function () {
@@ -583,49 +590,49 @@ window.onload = function () {
 window.onresize = function () { Resize(); }
 
 function Export() {
+    lockOrderList = true;
     BusinessRiskGetFilter("PDF");
 }
 
 function ExportPDF() {
-    var from = $('#TxtDateFrom').val();
-    var to = $('#TxtDateTo').val();
+    var from = $("#TxtDateFrom").val();
+    var to = $("#TxtDateTo").val();
 
-    var rulesId = $('#CmbRules').val() * 1;
-    var processId = $('#CmbProcess').val() * 1;
-    var typeId = $('#CmbType').val() * 1;
+    var rulesId = $("#CmbRules").val() * 1;
+    var processId = $("#CmbProcess").val() * 1;
+    var typeId = $("#CmbType").val() * 1;
 
     var data =
-    {
-        companyId: Company.Id,
-        from: from,
-        to: to,
-        rulesId: rulesId,
-        processId: processId,
-        typeId: typeId
-    };
+        {
+            "companyId": Company.Id,
+            "from": from,
+            "to": to,
+            "rulesId": rulesId,
+            "processId": processId,
+            "typeId": typeId,
+            "listOrder": listOrder
+        };
 
-
-    var webMethod = "/Export/BusinessriskExportList.aspx/PDF";
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
         type: "POST",
-        url: webMethod,
+        url: "/Export/BusinessriskExportList.aspx/PDF",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(data, null, 2),
         success: function (msg) {
             LoadingHide();
             //successInfoUI(msg.d.MessageError, Go, 200);
-            var link = document.createElement('a');
-            link.id = 'download';
+            var link = document.createElement("a");
+            link.id = "download";
             link.href = msg.d.MessageError;
             link.download = msg.d.MessageError;
-            link.target = '_blank';
+            link.target = "_blank";
             document.body.appendChild(link);
             document.body.removeChild(link);
-            $('#download').trigger('click');
+            $("#download").trigger("click");
             window.open(msg.d.MessageError);
-            $("#dialogAddAddress").dialog('close');
+            $("#dialogAddAddress").dialog("close");
         },
         error: function (msg) {
             LoadingHide();

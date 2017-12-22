@@ -63,24 +63,24 @@
                                                         <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Notes"] %></label>
                                                     </div>
                                                     <div class="form-group">
-                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtResponsabilidades"><%=this.Cargo.Responsibilities %></textarea></div>
-                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtNotas"><%=this.Cargo.Notes %></textarea></div>
+                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtResponsabilidades"><%=this.Cargo.Responsibilities %></textarea></div>
+                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtNotas"><%=this.Cargo.Notes %></textarea></div>
                                                     </div>
                                                     <div class="for-group">
                                                         <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Academic_Learning"] %></label>
                                                         <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Specific_Learning"] %></label>
                                                     </div>
                                                     <div class="form-group">
-                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtFormacionAcademicaDeseada"><%=this.Cargo.AcademicSkills %></textarea></div>
-                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtFormacionEspecificaDeseada"><%=this.Cargo.SpecificSkills %></textarea></div>
+                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtFormacionAcademicaDeseada"><%=this.Cargo.AcademicSkills %></textarea></div>
+                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtFormacionEspecificaDeseada"><%=this.Cargo.SpecificSkills %></textarea></div>
                                                     </div>
                                                     <div class="for-group">
                                                         <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Work_Experience"] %></label>
                                                         <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Habilities"] %></label>
                                                     </div>
                                                     <div class="form-group">
-                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtExperienciaLaboral"><%=this.Cargo.WorkExperience %></textarea></div>
-                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtHabilidades"><%=this.Cargo.Habilities %></textarea></div>
+                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtExperienciaLaboral"><%=this.Cargo.WorkExperience %></textarea></div>
+                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtHabilidades"><%=this.Cargo.Habilities %></textarea></div>
                                                     </div> 
                                                     <% if (!this.NewJobPosition)
                                                         { %>

@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
@@ -51,7 +52,8 @@ public partial class Export_IndicadorExport : Page
         int? processId,
         int? processTypeId,
         int? targetId,
-        int status)
+        int status,
+        string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
         ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -357,8 +359,43 @@ public partial class Export_IndicadorExport : Page
 
 
         int cont = 0;
-        ReadOnlyCollection<IndicadorFilterItem> data = Indicador.Filter(companyId, indicatorType, from, to, processId, processTypeId, targetId, status);
+        List<IndicadorFilterItem> data = Indicador.Filter(companyId, indicatorType, from, to, processId, processTypeId, targetId, status).ToList();
         bool pair = false;
+
+        switch (listOrder.ToUpperInvariant())
+        {
+            case "TH0|ASC":
+                data = data.OrderBy(d => d.Indicador.Description).ToList();
+                break;
+            case "TH0|DESC":
+                data = data.OrderByDescending(d => d.Indicador.Description).ToList();
+                break;
+            case "TH1|ASC":
+                data = data.OrderBy(d => d.StartDate).ToList();
+                break;
+            case "TH1|DESC":
+                data = data.OrderByDescending(d => d.StartDate).ToList();
+                break;
+            case "TH2|ASC":
+                data = data.OrderBy(d => d.Proceso.Description).ToList();
+                break;
+            case "TH2|DESC":
+                data = data.OrderByDescending(d => d.Proceso.Description).ToList();
+                break;
+            case "TH3|ASC":
+                data = data.OrderBy(d => d.Proceso.ProcessType).ToList();
+                break;
+            case "TH3|DESC":
+                data = data.OrderByDescending(d => d.Proceso.ProcessType).ToList();
+                break;
+            case "TH4|ASC":
+                data = data.OrderBy(d => d.ObjetivoResponsible).ToList();
+                break;
+            case "TH4|DESC":
+                data = data.OrderByDescending(d => d.ObjetivoResponsible).ToList();
+                break;
+        }
+
         foreach (IndicadorFilterItem item in data)
         {
             string processTypeText = string.Empty;

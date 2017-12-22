@@ -223,6 +223,8 @@ public partial class CompanyProfile : Page
         };
 
         this.RenderCountriesTab();
+        this.LtIdiomas.Text = "<option value=\"es\"" + (this.user.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
+        this.LtIdiomas.Text += "<option value=\"ca\"" + (this.user.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
     }
 
     private void RenderCountries()

@@ -336,10 +336,11 @@
                 if (document.getElementById("Contentholder1_status2").checked == true) { status = 2; }
                 var data =
                 {
-                    companyId: Company.Id,
-                    yearFrom: $("#CmbYearFrom").val(),
-                    yearTo: $("#CmbYearTo").val(),
-                    mode: status
+                    "companyId": Company.Id,
+                    "yearFrom": $("#CmbYearFrom").val(),
+                    "yearTo": $("#CmbYearTo").val(),
+                    "mode": status,
+                    "listOrder": listOrder
                 };
 
                 var webMethod = "/Export/FormacionExportList.aspx/PDF";

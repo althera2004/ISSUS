@@ -21,13 +21,24 @@ function EmployeeDeleteAlertYes() {
     document.location = 'EmployeeSubstitution.aspx?id=' + EmployeeDeleteId;
 }
 
-function EmployeeDeleteAlert(id, description) {
+/*function EmployeeDeleteAlert(id, description) {
     if (id === ApplicationUser.Employee.Id) {
         warningInfoUI(Dictionary.Item_Employee_Error_AutoDelete, null, 300);
         return false;
     }
     EmployeeDeleteId = id;
     promptInfoUI(Dictionary.Item_Employee_Message_Delete, 300, EmployeeDeleteAlertYes, EmployeeDeleteAlertNo);
+}*/
+
+function EmployeeDeleteAlert(id, description) {
+    if (id === ApplicationUser.Employee.Id) {
+        warningInfoUI(Dictionary.Item_Employee_Error_AutoDelete, null, 300);
+        return false;
+    }
+
+    EmployeeDeleteId = id;
+    promptInfoUI(Dictionary.Item_Employee_Message_Delete, 300, EmployeeDeleteAlertYes, EmployeeDeleteAlertNo);
+    return false;
 }
 
 function EmployeeDelete(id, description) {
@@ -157,6 +168,8 @@ function Resize() {
 
 window.onload = function () {
     Resize();
+    if (Filter.indexOf("A") !== -1) { document.getElementById("Chk1").checked = true; }
+    if (Filter.indexOf("I") !== -1) { document.getElementById("Chk2").checked = true; }
     RenderEmployeeTable();
     $("#th0").click();
 }
@@ -190,8 +203,45 @@ function RenderEmployeeRow(employee) {
 function RenderEmployeeTable() {
     $("#ListDataTable").html("");
     var res = "";
+    var count = 0;
     for (var x = 0; x < employees.length; x++) {
-        res += RenderEmployeeRow(employees[x]);
+        var show = false;
+        if (Filter.indexOf("A") !== -1 && employees[x].Baja === false) { show = true; }
+        if (Filter.indexOf("I") !== -1 && employees[x].Baja === true) { show = true; }
+        if (show === true) {
+            res += RenderEmployeeRow(employees[x]);
+            count++;
+        }
     }
+
     $("#ListDataTable").html(res);
+    $("#TotalRecords").html(count);
+}
+
+function FilterChanged() {
+    SetFilter();
+    RenderEmployeeTable();
+}
+
+function SetFilter() {
+    Filter = "";
+    if (document.getElementById("Chk1").checked === true) { Filter += "A"; }
+    if (document.getElementById("Chk2").checked === true) { Filter += "I"; }
+
+    var webMethod = "/Async/EmployeeActions.asmx/SetFilter";
+    var data = { "filter": Filter };
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            console.log("SetFilter", "OK");
+        },
+        error: function (msg) {
+            console.log("SetFilter", msg.responseText);
+        }
+    });
 }

@@ -525,7 +525,7 @@ namespace GisoFramework.Item
                 try
                 {
                     cmd.Parameters.Add(DataParameter.OutputInt("@Id"));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                     cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.jobPosition.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Type", this.processType));
@@ -587,7 +587,7 @@ namespace GisoFramework.Item
                 try
                 {
                     cmd.Parameters.Add(DataParameter.Input("@Id", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                     cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.jobPosition.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Type", this.processType));

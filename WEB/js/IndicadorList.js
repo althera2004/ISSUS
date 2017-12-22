@@ -1,5 +1,6 @@
 ﻿var IndicadorList = null;
 var filterData = null;
+var lockOrderList = false;
 
 function CmbTipusIndicadorChange() {
     var tipus = $("#CmbTipusIndicador").val() * 1;
@@ -228,11 +229,7 @@ function ItemRenderTable(list) {
         tdObjetivoResponsible.appendChild(document.createTextNode(item.ObjetivoResponsible));
 
         //tdDescription.style.width = "200px";
-											
-										
-										 
-												   
-													
+
         tdStartDate.style.width = "90px";
 		tdProceso.style.width = "250px";
 		tdTipoProceso.style.width = "110px";
@@ -318,9 +315,21 @@ function ItemRenderTable(list) {
     }
 
     $("#NumberCosts").html(list.length);
-    $("#th1").click();
-    if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
+
+    if (lockOrderList === false) {
         $("#th1").click();
+        if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
+            $("#th1").click();
+        }
+    }
+    else {
+        var column = listOrder.split('|')[0];
+        var order = listOrder.split('|')[1];
+
+        $("#" + column).click();
+        if (document.getElementById(column).className.indexOf(order) === -1) {
+            $("#" + column).click();
+        }
     }
 }
 
@@ -448,12 +457,15 @@ window.onload = function () {
 window.onresize = function () { Resize(); }
 
 function Export() {
+    lockOrderList = true;
     IndicadorGetFilter("PDF");
 }
 
 function ExportPDF() {
     console.clear();
     console.log(filterData);
+    var data = filterData;
+    data["listOrder"] = listOrder;
     var webMethod = "/Export/IndicadorExport.aspx/PDF";
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
@@ -461,7 +473,7 @@ function ExportPDF() {
         url: webMethod,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: JSON.stringify(filterData, null, 2),
+        data: JSON.stringify(data, null, 2),
         success: function (msg) {
             LoadingHide();
             //successInfoUI(msg.d.MessageError, Go, 200);

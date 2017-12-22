@@ -149,7 +149,7 @@
     </div>
     <form id="LoginForm" action="InitSession.aspx" method="post">
         <div style="display: none;">
-            <input type="text" name="LoginId" id="LoginId" value="<%=this.userId %>" />
+            <input type="text" name="LoginId" id="LoginId" value="<%=this.UserId %>" />
             <input type="text" name="UserId" id="UserId" value="" />
             <input type="text" name="CompanyId" id="CompanyId" />
         </div>

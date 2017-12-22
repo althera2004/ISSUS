@@ -446,7 +446,7 @@ public partial class BusinessRiskView : Page
                 Name = "StartControl",
                 Value = this.businessRisk.StartControl,
                 ColumnsSpan = 12,
-                MaxLength = 500
+                MaxLength = 2000
             }.Render;
         }
     }
@@ -463,7 +463,7 @@ public partial class BusinessRiskView : Page
                 Name = "Description",
                 Value = this.businessRisk.ItemDescription,
                 ColumnsSpan = 12,
-                MaxLength =500                
+                MaxLength = 2000
             }.Render;
         }
     }
@@ -480,7 +480,7 @@ public partial class BusinessRiskView : Page
                 Name = "Notes",
                 Value = this.businessRisk.Notes,
                 ColumnsSpan = 12,
-                MaxLength = 500
+                MaxLength = 2000
             }.Render;
         }
     }
@@ -497,7 +497,7 @@ public partial class BusinessRiskView : Page
                 Name = "Causes",
                 Value = this.businessRisk.Causes,
                 ColumnsSpan = 12,
-                MaxLength = 500
+                MaxLength = 2000
             }.Render;
         }
     }

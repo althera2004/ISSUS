@@ -50,9 +50,19 @@
                                                             <span class="ErrorMessage" id="TxtUserEmailErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"]%></span>
                                                         </div>
                                                     </div>
+                                                    <div class="form-group col-sm-12">
+                                                        <label id="TxtPrimaryUserLabel" class="col-sm-1 control-label no-padding-right">&nbsp;</label>
+                                                        <div class="col-sm-5">
+                                                            <input type="checkbox" id="ChkPrimaryUser" disabled="disabled" />&nbsp;<%=this.Dictionary["User_PrimaryUser"] %>
+                                                        </div>
+                                                        <label id="TxtAdminLabel" class="col-sm-1 control-label no-padding-right _emailed">&nbsp;</label>
+                                                        <div class="col-sm-5 _emailed">
+                                                            <input type="checkbox" id="ChkAdmin" />&nbsp;<%=this.Dictionary["User_Admin"] %>
+                                                        </div>
+                                                    </div>
                                                     <h4 style="clear:both;"><%=this.Dictionary["Item_Employee"]%></h4>
                                                     <div class="form-group col-sm-12">
-                                                        <label id="CmbEmployeeLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Name"] %></label>
+                                                        <label id="CmbEmployeeLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee"] %></label>
                                                         <div class="col-sm-5">
                                                             <select id="CmbEmployee" onchange="CmbEmployeeChanged()" class="col-sm-12">
                                                                 <asp:Literal runat="server" ID="CmbEmployeeData"></asp:Literal>
@@ -311,9 +321,10 @@
                     "itemUser":
                     {
                         "Id":itemUser.Id,
-                        "UserName": $('#TxtUserName').val(),
+                        "UserName": $("#TxtUserName").val(),
                         "Email": email,
-                        "CompanyId": CompanyId 
+                        "CompanyId": CompanyId,
+                        "Admin": document.getElementById("ChkAdmin").checked === true
                     },
                     "employeeId": $('#CmbEmployee').val()*1,
                     "userId": user.Id
@@ -579,6 +590,15 @@
             if (user.Id === itemUser.Id) {
                 $("#Button1").attr("disabled", "disabled");
                 $("#ResetAlert").html(Dictionary.Item_User_Help_ResetPasswordOwner);
+            }
+
+            if (itemUser.PrimaryUser === true) {
+                document.getElementById("ChkPrimaryUser").checked = true;
+                document.getElementById("ChkAdmin").disabled = true;
+            }
+
+            if (itemUser.Admin === true) {
+                document.getElementById("ChkAdmin").checked = true;
             }
         </script>
 </asp:Content>

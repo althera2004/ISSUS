@@ -85,6 +85,9 @@ window.onload = function () {
     if (Indicador.EndDate !== null) {
         DisableLayout();
     }
+
+    $("#CmbResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsible").val() * 1, Employees); });
+    $("#CmbResponsibleRecord").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsibleRecord").val() * 1, Employees); });
 }
 
 window.onresize = function () { Resize(); }

@@ -1,37 +1,51 @@
 ﻿var SelectedIncidentCostId;
 var SelectedIncidentCost;
+var filter = "IA";
+
+function FilterChanged() {
+    if (document.getElementById("Chk1") !== null) {
+        filter = "";
+        if (document.getElementById("Chk1").checked === true) { filter += "I" };
+        if (document.getElementById("Chk2").checked === true) { filter += "A" };
+        IncidentCostRenderTable("IncidentCostsTableData");
+    }
+}
 
 function IncidentCostRenderTable(tableName) {
     VoidTable(tableName);
     var target = document.getElementById(tableName);
-
-    if (IncidentCosts.length === 0) {
-        document.getElementById('IncidentCostsTableVoid').style.display = '';
-        target.style.display = 'none';
-    }
-    else {
-        document.getElementById('IncidentCostsTableVoid').style.display = 'none';
-        target.style.display = '';        
-    }
-
     var total = 0;
+    var count = 0;
     for (var x = 0; x < IncidentCosts.length; x++) {
         if (IncidentCosts[x].Active === true) {
-            total += IncidentCostRenderRow(IncidentCosts[x], target);
+            var show = false;
+            if (filter.indexOf(IncidentCosts[x].Source) !== -1) {
+                total += IncidentCostRenderRow(IncidentCosts[x], target);
+                count++;
+            }
         }
     }
 
-    $("#NumberCosts").html(IncidentCosts.length);
+    if (count === 0) {
+        document.getElementById("IncidentCostsTableVoid").style.display = "";
+        target.style.display = "none";
+    }
+    else {
+        document.getElementById("IncidentCostsTableVoid").style.display = "none";
+        target.style.display = "";        
+    }
+
+    $("#NumberCosts").html(count);
     $("#TotalCosts").html(ToMoneyFormat(total, 2));
 }
 
 function IncidentCostRenderRow(incidentCost, target) {
-    var row = document.createElement('TR');
-    var tdDescription = document.createElement('TD');
-    var tdAmount = document.createElement('TD');
-    var tdQuantity = document.createElement('TD');
-    var tdTotal = document.createElement('TD');
-    var tdResponsible = document.createElement('TD');
+    var row = document.createElement("TR");
+    var tdDescription = document.createElement("TD");
+    var tdAmount = document.createElement("TD");
+    var tdQuantity = document.createElement("TD");
+    var tdTotal = document.createElement("TD");
+    var tdResponsible = document.createElement("TD");
 
     row.id = incidentCost.Id;
 
@@ -418,27 +432,27 @@ function IncidentCostDelete(id) {
     SelectedIncidentCostId = id * 1;
     SelectedIncidentCost = IncidentCostGetById(SelectedIncidentCostId, IncidentCosts);
     if (SelectedIncidentCost === null) { return false; }
-    document.getElementById('dialogIncidentCostDeleteName').innerHTML = SelectedIncidentCost.Description + ' - ' + decimalFormat(SelectedIncidentCost.Amount);
-    var dialog = $("#dialogIncidentCostDelete").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_IncidentCost_PopupTitle_Delete + '</h4>',
-        title_html: true,
-        width: 500,
-        buttons:
+    $("#dialogIncidentCostDeleteName").html(SelectedIncidentCost.Description + " - " + decimalFormat(SelectedIncidentCost.Amount));
+    var dialog = $("#dialogIncidentCostDelete").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_IncidentCost_PopupTitle_Delete + "</h4>",
+        "title_html": true,
+        "width": 500,
+        "buttons":
         [
             {
-                id: 'BtnNewAddresSave',
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
+                "id": "BtnNewAddresSave",
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     IncidentCostDelteConfirmed();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }

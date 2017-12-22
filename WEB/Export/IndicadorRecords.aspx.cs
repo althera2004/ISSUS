@@ -494,7 +494,6 @@ public partial class Export_IndicadorRecords : Page
             table.AddCell(ToolsPdf.DataCell(metaText, times));
             table.AddCell(ToolsPdf.DataCell(alarmText, times));
             table.AddCell(ToolsPdf.DataCell(r.Responsible.FullName, times));
-            cont++;
         }
 
         table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(

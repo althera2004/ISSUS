@@ -1,7 +1,9 @@
-﻿var ObjetivosList = null;
+﻿var lockOrderList = false;
+var ObjetivosList = null;
 var filterData = null;
 
 function Export() {
+    lockOrderList = true;
     ObjetivoGetFilter("PDF");
 }
 
@@ -34,11 +36,11 @@ function ObjetivoGetFilter(exportType) {
     if (document.getElementById("RBStatus2").checked === true) { status = 2; }
 
     filterData =
-    {
-        "companyId": Company.Id,
-        "from": from,
-        "to": to,
-        "status": status
+        {
+            "companyId": Company.Id,
+            "from": from,
+            "to": to,
+            "status": status
         };
 
     console.log(filterData);
@@ -67,14 +69,14 @@ function ObjetivoGetFilter(exportType) {
 
 function ItemRenderTable(list) {
     var items = new Array();
-    var target = document.getElementById('ListDataTable');
-    VoidTable('ListDataTable');
-    target.style.display = '';
+    var target = document.getElementById("ListDataTable");
+    VoidTable("ListDataTable");
+    target.style.display = "";
 
     if (list.length === 0) {
-        document.getElementById('ItemTableVoid').style.display = '';
+        document.getElementById("ItemTableVoid").style.display = "";
         $("#NumberCosts").html("0");
-        target.style.display = 'none';
+        target.style.display = "none";
         return false;
     }
 
@@ -82,7 +84,6 @@ function ItemRenderTable(list) {
 
     for (var x = 0; x < list.length; x++) {
         var item = list[x];
-        console.log("Item", item);
         var row = document.createElement("TR");
         row.id = item.Id;
         var tdObjetivo = document.createElement("TD");
@@ -115,7 +116,6 @@ function ItemRenderTable(list) {
         // ---- RESPONSABLE OBJETIVO
         tdObjetivoResponsible.appendChild(document.createTextNode(item.ResponsibleName));
 
-
         tdObjetivoResponsible.style.width = "200px";
         tdStartDate.style.width = "100px";
         tdPreviewEndDate.style.width = "100px";
@@ -125,20 +125,20 @@ function ItemRenderTable(list) {
         row.appendChild(tdStartDate);
         row.appendChild(tdPreviewEndDate);
 
-        var iconEdit = document.createElement('SPAN');
-        iconEdit.className = 'btn btn-xs btn-info';
+        var iconEdit = document.createElement("SPAN");
+        iconEdit.className = "btn btn-xs btn-info";
         iconEdit.id = item.Number;
-        var innerEdit = document.createElement('I');
-        innerEdit.className = ApplicationUser.Grants.Indicador.Write ? 'icon-edit bigger-120' : 'icon-eye-open bigger-120';
+        var innerEdit = document.createElement("I");
+        innerEdit.className = ApplicationUser.Grants.Indicador.Write ? "icon-edit bigger-120" : "icon-eye-open bigger-120";
         iconEdit.appendChild(innerEdit);
-        iconEdit.onclick = function () { document.location = 'ObjetivoView.aspx?id=' + this.parentNode.parentNode.id; };
+        iconEdit.onclick = function () { document.location = "ObjetivoView.aspx?id=" + this.parentNode.parentNode.id; };
 
         if (ApplicationUser.Grants.Indicador.Delete === true) {
-            var iconDelete = document.createElement('SPAN');
-            iconDelete.className = 'btn btn-xs btn-danger';
+            var iconDelete = document.createElement("SPAN");
+            iconDelete.className = "btn btn-xs btn-danger";
             iconDelete.id = item.Number;
-            var innerDelete = document.createElement('I');
-            innerDelete.className = 'icon-trash bigger-120';
+            var innerDelete = document.createElement("I");
+            innerDelete.className = "icon-trash bigger-120";
             iconDelete.appendChild(innerDelete);
 
             if (item.Origin === 3) {
@@ -154,7 +154,7 @@ function ItemRenderTable(list) {
 
 
         var tdActions = document.createElement('TD');
-        tdActions.style.width = "90px";
+        tdActions.style.width = "91px";
 
         tdActions.appendChild(iconEdit);
         if (ApplicationUser.Grants.Indicador.Delete) {
@@ -171,27 +171,39 @@ function ItemRenderTable(list) {
     }
 
     if (items.length === 0) {
-        document.getElementById('nav-search').style.display = 'none';
+        document.getElementById("nav-search").style.display = "none";
     }
     else {
-        document.getElementById('nav-search').style.display = '';
+        document.getElementById("nav-search").style.display = "";
 
         items.sort(function (a, b) {
             if (a < b) return -1;
             if (a > b) return 1;
             return 0;
         })
-        var autocomplete = $('.nav-search-input').typeahead();
-        autocomplete.data('typeahead').source = items;
+        var autocomplete = $(".nav-search-input").typeahead();
+        autocomplete.data("typeahead").source = items;
 
-        $('#nav-search-input').keyup(FilterList);
-        $('#nav-search-input').change(FilterList);
+        $("#nav-search-input").keyup(FilterList);
+        $("#nav-search-input").change(FilterList);
     }
 
     $("#NumberCosts").html(list.length);
-    $("#th1").click();
-    if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
-        $("#th1").click();
+
+    if (lockOrderList === false) {
+        $("#th0").click();
+        if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
+            $("#th0").click();
+        }
+    }
+    else {
+        var column = listOrder.split('|')[0];
+        var order = listOrder.split('|')[1];
+
+        $("#" + column).click();
+        if (document.getElementById(column).className.indexOf(order) === -1) {
+            $("#" + column).click();
+        }
     }
 }
 
@@ -208,16 +220,16 @@ function ObjetivoDelete(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     ObjetivoDeleteConfirmed();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -282,6 +294,8 @@ window.onresize = function () { Resize(); }
 function ExportPDF() {
     console.clear();
     console.log(filterData);
+    var data = filterData;
+    data["listOrder"] = listOrder;
     var webMethod = "/Export/ObjetivoExport.aspx/PDF";
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
@@ -289,7 +303,7 @@ function ExportPDF() {
         url: webMethod,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
-        data: JSON.stringify(filterData, null, 2),
+        data: JSON.stringify(data, null, 2),
         success: function (msg) {
             LoadingHide();
             //successInfoUI(msg.d.MessageError, Go, 200);
@@ -310,4 +324,3 @@ function ExportPDF() {
         }
     });
 }
-

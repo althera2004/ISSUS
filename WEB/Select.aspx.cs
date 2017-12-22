@@ -10,9 +10,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Web.UI;
 using GisoFramework.Item;
-using System.Threading;
 
 public partial class Select : Page
 {
@@ -20,7 +20,7 @@ public partial class Select : Page
     private string ip;
     private string companyCode;
 
-    public long userId { get; private set; }
+    public long UserId { get; private set; }
 
     public string BK
     {
@@ -76,7 +76,7 @@ public partial class Select : Page
 
         Session["Navigation"] = null;
         string id = this.Request.QueryString["action"].ToString();
-        this.userId = Convert.ToInt64(id.Split('-')[1]);
+        this.UserId = Convert.ToInt64(id.Split('-')[1]);
         this.RenderCompanies();
     }
 

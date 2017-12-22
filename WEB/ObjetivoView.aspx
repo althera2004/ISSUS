@@ -36,10 +36,11 @@
         var ItemData = <%= this.ItemData %>;
         var Objetivos = <%= this.Objetivos %>;
         var Registros = <%=this.Registros %>;
-        var Empleados = <%= this.Employess %>;
+        var Employees = <%= this.Employees %>;
         var IndicadorObjetivo = <%=this.IndicadoresObjetivo %>;
         var IndicadorName = "<%=this.IndicadorName %>";
         var Periodicidades = <%=this.Periodicities %>;
+        var orderList = "";
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
@@ -65,7 +66,7 @@
                                                                 <div class="form-group">
                                                                     <label class="col-sm-1 control-label no-padding-right" id="TxtDescriptionLabel"><%= this.Dictionary["Item_Objetivo_FieldLabel_Description"] %><span style="color:#f00">*</span></label>
                                                                     <div class="col-sm-11">
-                                                                        <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="500" id="TxtDescription"></textarea>
+                                                                        <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtDescription"></textarea>
                                                                         <span class="ErrorMessage" id="TxtDescriptionErrorRequired" style="display:none;"><%= this.Dictionary["Common_Required"] %></span>
                                                                     </div>
                                                                     <div class="col-sm-11">&nbsp;</div>
@@ -135,7 +136,7 @@
                                                             <div class="form-group">
                                                                 <label class="col-sm-1 control-label no-padding-right" id="TxtMetodologiaLabel"><%= this.Dictionary["Item_Objetivo_FieldLabel_Methodology"] %></label>
                                                                 <div class="col-sm-11">
-                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="500" id="TxtMetodologia"><%=this.Objetivo.Methodology %></textarea>
+                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtMetodologia"><%=this.Objetivo.Methodology %></textarea>
                                                                     <span class="ErrorMessage" id="TxtMetodologiaRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                                 <div class="col-sm-11">&nbsp;</div>
@@ -144,7 +145,7 @@
                                                             <div class="form-group">
                                                                 <label class="col-sm-1 control-label no-padding-right" id="TxtRecursosLabel"><%= this.Dictionary["Item_Objetivo_FieldLabel_Resources"] %></label>
                                                                 <div class="col-sm-11">
-                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="500" id="TxtRecursos"><%=this.Objetivo.Resources %></textarea>
+                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtRecursos"><%=this.Objetivo.Resources %></textarea>
                                                                     <span class="ErrorMessage" id="TxtRecursosRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                                 <div class="col-sm-11">&nbsp;</div>
@@ -153,7 +154,7 @@
                                                             <div class="form-group">
                                                                 <label class="col-sm-1 control-label no-padding-right" id="TxtNotesLabel"><%= this.Dictionary["Item_Objetivo_FieldLabel_Notes"] %></label>
                                                                 <div class="col-sm-11">
-                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="500" id="TxtNotes"></textarea>
+                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtNotes"></textarea>
                                                                 </div>
                                                                 <div class="col-sm-11">&nbsp;</div>
                                                             </div>
@@ -208,9 +209,9 @@
                                                             <thead class="thin-border-bottom" id="RegistrosTHead">
                                                                 <tr>
                                                                     <td colspan="8" style="text-align: right;">
-                                                                        <span title="<%=this.Dictionary["Common_PrintPdf"] %>" class="btn btn-xs btn-info" onclick="ObjetivoRegistroFilter('PDF');"><i class="icon-file-pdf bigger-120"></i>&nbsp;PDF</span>
+                                                                        <span title="<%=this.Dictionary["Common_PrintPdf"] %>" class="btn btn-xs btn-info" onclick="lockOrderList=true;ObjetivoRegistroFilter('PDF');"><i class="icon-file-pdf bigger-120"></i>&nbsp;PDF</span>
                                                                         &nbsp;
-                                                                        <span title="<%=this.Dictionary["Common_PrintExcel"] %>" class="btn btn-xs btn-info" onclick="ObjetivoRegistroFilter('Excel');"><i class="icon-file-excel bigger-120"></i>&nbsp;Excel</span>
+                                                                        <span title="<%=this.Dictionary["Common_PrintExcel"] %>" class="btn btn-xs btn-info" onclick="lockOrderList=true;ObjetivoRegistroFilter('Excel');"><i class="icon-file-excel bigger-120"></i>&nbsp;Excel</span>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>

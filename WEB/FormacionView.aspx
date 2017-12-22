@@ -296,19 +296,19 @@
                                                             <label class="col-sm-12"><%=this.Dictionary["Item_Learning_Objetive"] %></label>
                                                         </div>
                                                         <div class="form-group">
-                                                            <div class="col-sm-12"><textarea rows="5" <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control col-xs-12 col-sm-12" maxlength="500" id="TxtObjetivo"></textarea></div>
+                                                            <div class="col-sm-12"><textarea rows="5" <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtObjetivo"></textarea></div>
                                                         </div>
                                                         <div class="for-group">
                                                             <label class="col-sm-12"><%=this.Dictionary["Item_Learning_FieldLabel_Methodology"] %></label>
                                                         </div>
                                                         <div class="form-group">
-                                                            <div class="col-sm-12"><textarea rows="5" <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control col-xs-12 col-sm-12" maxlength="500" id="TxtMetodologia"></textarea></div>
+                                                            <div class="col-sm-12"><textarea rows="5" <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtMetodologia"></textarea></div>
                                                         </div>
                                                         <div class="for-group">
                                                             <label class="col-sm-12"><%=this.Dictionary["Item_Learning_FieldLabel_Notes"] %></label>
                                                         </div>
                                                         <div class="form-group">
-                                                            <div class="col-sm-12"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="500" id="TxtNotes"></textarea></div>
+                                                            <div class="col-sm-12"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtNotes"></textarea></div>
                                                         </div>
                                                         <%=this.FormFooter %>
                                                     </form>

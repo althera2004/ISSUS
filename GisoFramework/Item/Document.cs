@@ -19,6 +19,7 @@ namespace GisoFramework.Item
     using GisoFramework.Activity;
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
+    using System.Text;
 
     /// <summary>
     /// Implements document class
@@ -138,6 +139,29 @@ namespace GisoFramework.Item
             }
         }
 
+        public static string GetAllJson(int companyId)
+        {
+            StringBuilder res = new StringBuilder("[");
+            bool first = true;
+            ReadOnlyCollection<Document> documents = GetByCompany(companyId);
+            foreach(Document document in documents)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    res.Append(",");
+                }
+
+                res.Append(document.Json);
+            }
+
+            res.Append("]");
+            return res.ToString();
+        }
+
         /// <summary>Gets the structure json item</summary>
         public override string Json
         {
@@ -165,11 +189,13 @@ namespace GisoFramework.Item
                 ""Conservation"":{9},
                 ""Source"":{10},
                 ""Location"":""{11}"",
-                ""Active"":'{12}'
+                ""LastVersion"":{13},
+                ""Baja"": {14},
+                ""Active"":{12}
             }}";
 
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattenr,
                     this.Id,
                     this.Code.Replace("\"", "\\\""),
@@ -184,7 +210,8 @@ namespace GisoFramework.Item
                     this.Source ? "true" : "false",
                     this.Location,
                     this.Active ? "true" : "false",
-                    this.CompanyId);
+                    actual.Version,
+                    this.EndDate.HasValue ? "true" : "false");
             }
         }
 
@@ -451,6 +478,11 @@ namespace GisoFramework.Item
                                 Origin = new DocumentOrigin() { Description = rdr.GetString(ColumnsCompanyGetDocuments.SourceName), Id = rdr.GetInt32(ColumnsCompanyGetDocuments.SourceId) },
                                 Location = rdr.GetString(ColumnsCompanyGetDocuments.Location)
                             };
+
+                            if (!rdr.IsDBNull(ColumnsCompanyGetDocuments.EndDate))
+                            {
+                                newDocument.EndDate = rdr.GetDateTime(ColumnsCompanyGetDocuments.EndDate);
+                            }
 
                             res.Add(newDocument);
                         }
@@ -1056,7 +1088,7 @@ namespace GisoFramework.Item
                 cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
                 cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
                 cmd.Parameters.Add("@FechaAlta", SqlDbType.Date);
-                cmd.Parameters.Add("@FechaBaja", SqlDbType.Date);
+                //cmd.Parameters.Add("@FechaBaja", SqlDbType.Date);
                 cmd.Parameters.Add("@Origen", SqlDbType.Int);
                 cmd.Parameters.Add("@CategoryId", SqlDbType.Int);
                 cmd.Parameters.Add("@ProcedenciaId", SqlDbType.Int);
@@ -1073,14 +1105,14 @@ namespace GisoFramework.Item
                 cmd.Parameters["@FechaAlta"].Value = this.StartDate;
                 
 
-                if (this.EndDate.HasValue)
-                {
-                    cmd.Parameters["@FechaBaja"].Value = this.EndDate;
-                }
-                else
-                {
-                    cmd.Parameters["@FechaBaja"].Value = DBNull.Value;
-                }
+                //if (this.EndDate.HasValue)
+                //{
+                //    cmd.Parameters["@FechaBaja"].Value = this.EndDate;
+                //}
+                //else
+                //{
+                //    cmd.Parameters["@FechaBaja"].Value = DBNull.Value;
+                //}
 
                 cmd.Parameters["@Origen"].Value = this.Source;
                 cmd.Parameters["@CategoryId"].Value = this.Category.Id;

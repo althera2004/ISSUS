@@ -1,4 +1,6 @@
-﻿jQuery(function ($) {
+﻿var lockOrderList = false;
+
+jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
             var $title = this.options.title || '&nbsp;';
@@ -145,9 +147,9 @@ for (var x3 = 0; x3 < Customers.length; x3++) {
 }
 
 function ShowCombos(x) {
-    document.getElementById("CmbOrigin1").style.display = x == 1 ? "" : "none";
-    document.getElementById("CmbOrigin2").style.display = x == 2 ? "" : "none";
-    document.getElementById("CmbOrigin3").style.display = x == 3 ? "" : "none";
+    document.getElementById("CmbOrigin1").style.display = x === 1 ? "" : "none";
+    document.getElementById("CmbOrigin2").style.display = x === 2 ? "" : "none";
+    document.getElementById("CmbOrigin3").style.display = x === 3 ? "" : "none";
 }
 
 ShowCombos(0);
@@ -297,10 +299,10 @@ function ItemRenderTable(list) {
 
         var status = '';
         var colorStatus = '#fff;'
-        if (item.Status == 1) { status = Dictionary.Item_Incident_Status1; colorStatus = '#f00'; }
-        if (item.Status == 2) { status = Dictionary.Item_Incident_Status2; colorStatus = '#dd0'; }
-        if (item.Status == 3) { status = Dictionary.Item_Incident_Status3; colorStatus = '#070'; }
-        if (item.Status == 4) { status = Dictionary.Item_Incident_Status4; colorStatus = '#000'; }
+        if (item.Status === 1) { status = Dictionary.Item_Incident_Status1; colorStatus = '#f00'; }
+        if (item.Status === 2) { status = Dictionary.Item_Incident_Status2; colorStatus = '#dd0'; }
+        if (item.Status === 3) { status = Dictionary.Item_Incident_Status3; colorStatus = '#070'; }
+        if (item.Status === 4) { status = Dictionary.Item_Incident_Status4; colorStatus = '#000'; }
 
         if (item.Department.Id > 0) {
             if (user.Grants.Department.Read === false) {
@@ -475,9 +477,21 @@ function ItemRenderTable(list) {
 
     $("#NumberCosts").html(list.length);
     $("#TotalCosts").html(ToMoneyFormat(total, 2));
-    $("#th1").click();
-    if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
+
+    if (lockOrderList === false) {
         $("#th1").click();
+        if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
+            $("#th1").click();
+        }
+    }
+    else {
+        var column = listOrder.split('|')[0];
+        var order = listOrder.split('|')[1];
+
+        $("#" + column).click();
+        if (document.getElementById(column).className.indexOf(order) === -1) {
+            $("#" + column).click();
+        }
     }
 }
 
@@ -504,7 +518,7 @@ if (Filter !== null) {
         document.getElementById('CmbOrigin2').style.display = 'block';
     }
 
-    if (Filter.origin == 3) {
+    if (Filter.origin === 3) {
         document.getElementById('ROrigin3').checked = true;
         document.getElementById('CmbOrigin3').value = Filter.customerId;
         document.getElementById('CmbOrigin3').style.display = 'block';
@@ -593,6 +607,7 @@ window.onload = function () {
 window.onresize = function () { Resize(); }
 
 function Export() {
+    lockOrderList = true;
     IncidentGetFilter("PDF");
 }
 
@@ -618,17 +633,18 @@ function ExportPDF() {
 
     var data =
     {
-        companyId: Company.Id,
-        from: from,
-        to: to,
-        statusIdnetified: status1,
-        statusAnalyzed: status2,
-        statusInProgress: status3,
-        statusClose: status4,
-        origin: origin,
-        departmentId: $("#CmbOrigin1").val() * 1,
-        providerId: $("#CmbOrigin2").val() * 1,
-        customerId: $("#CmbOrigin3").val() * 1
+        "companyId": Company.Id,
+        "from": from,
+        "to": to,
+        "statusIdnetified": status1,
+        "statusAnalyzed": status2,
+        "statusInProgress": status3,
+        "statusClose": status4,
+        "origin": origin,
+        "departmentId": $("#CmbOrigin1").val() * 1,
+        "providerId": $("#CmbOrigin2").val() * 1,
+        "customerId": $("#CmbOrigin3").val() * 1,
+        "listOrder": listOrder
     };
 
     var webMethod = "/Export/IncidentExportList.aspx/PDF";

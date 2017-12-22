@@ -43,12 +43,12 @@ public partial class Export_ObjetivoRecords : Page
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult Excel(int companyId, DateTime? dateFrom, DateTime? dateTo, string objetivoName, int objetivoId, int indicadorId)
+    public static ActionResult Excel(int companyId, DateTime? dateFrom, DateTime? dateTo, string objetivoName, int objetivoId, int indicadorId, string listOrder)
     {
         if (indicadorId > 0)
         {
             Indicador indicador = Indicador.GetById(indicadorId, companyId);
-            return ExcelIndicador(companyId, dateFrom, dateTo, indicador.Description, indicadorId, objetivoName);
+            return ExcelIndicador(companyId, dateFrom, dateTo, indicador.Description, indicadorId, objetivoName, listOrder);
         }
 
         ActionResult res = ActionResult.NoAction;
@@ -278,7 +278,7 @@ public partial class Export_ObjetivoRecords : Page
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult ExcelIndicador(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId, string objetivoName)
+    public static ActionResult ExcelIndicador(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId, string objetivoName, string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
         ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -531,14 +531,14 @@ public partial class Export_ObjetivoRecords : Page
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult PDF(int companyId, DateTime? dateFrom, DateTime? dateTo, string objetivoName, int objetivoId, int indicadorId)
+    public static ActionResult PDF(int companyId, DateTime? dateFrom, DateTime? dateTo, string objetivoName, int objetivoId, int indicadorId, string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
 
         if (indicadorId > 0)
         {
             Indicador indicador = Indicador.GetById(indicadorId, companyId);
-            return PDFIndicador(companyId, dateFrom, dateTo, indicador.Description, indicadorId, objetivoName, objetivoId);
+            return PDFIndicador(companyId, dateFrom, dateTo, indicador.Description, indicadorId, objetivoName, objetivoId, listOrder);
         }
 
 
@@ -863,7 +863,7 @@ public partial class Export_ObjetivoRecords : Page
     
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult PDFIndicador(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId, string objetivoName, int objetivoId)
+    public static ActionResult PDFIndicador(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId, string objetivoName, int objetivoId, string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
         Objetivo objetivo = Objetivo.GetById(objetivoId, companyId);
@@ -964,6 +964,8 @@ public partial class Export_ObjetivoRecords : Page
         {
             periode = dictionary["Common_PeriodAll"];
         }
+
+        periode += listOrder;
 
         var borderNone = iTS.Rectangle.NO_BORDER;
         var borderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
@@ -1086,6 +1088,40 @@ public partial class Export_ObjetivoRecords : Page
         table.AddCell(headerResponsible);
 
         int cont = 0;
+        List<IndicadorRegistro> data = registros.Where(r => r.Date >= fechaInicio).ToList();
+        switch (listOrder.ToUpperInvariant())
+        {
+            case "TH1|ASC":
+                data = data.OrderBy(d => d.Value).ToList();
+                break;
+            case "TH1|DESC":
+                data = data.OrderByDescending(d => d.Value).ToList();
+                break;
+            case "TH2|ASC":
+                data = data.OrderBy(d => d.Date).ToList();
+                break;
+            case "TH2|DESC":
+                data = data.OrderByDescending(d => d.Date).ToList();
+                break;
+            case "TH3|ASC":
+                data = data.OrderBy(d => d.Id).ToList();
+                break;
+            case "TH3|DESC":
+                data = data.OrderByDescending(d => d.Id).ToList();
+                break;
+            case "TH4|ASC":
+                data = data.OrderBy(d => d.Meta).ToList();
+                break;
+            case "TH4|DESC":
+                data = data.OrderByDescending(d => d.Meta).ToList();
+                break;
+            case "TH5|ASC":
+                data = data.OrderBy(d => d.Responsible.FullName).ToList();
+                break;
+            case "TH5|DESC":
+                data = data.OrderByDescending(d => d.Responsible.FullName).ToList();
+                break;
+        }
 
         // Aplicar filtro
         if (dateFrom.HasValue)
@@ -1098,7 +1134,7 @@ public partial class Export_ObjetivoRecords : Page
             registros = registros.Where(r => r.Date <= dateTo.Value).ToList();
         }
 
-        foreach (IndicadorRegistro r in registros.Where(r=>r.Date >= fechaInicio).OrderByDescending(r => r.Date))
+        foreach (IndicadorRegistro r in data)
         {
             cont++;
             string metaText = IndicadorRegistro.ComparerLabelSign(r.MetaComparer, dictionary);

@@ -82,12 +82,12 @@ public partial class CargosView : Page
             {
                 Name = "TxtName",
                 Value = this.cargo.Description,
-                ColumnSpan = 8,
+                ColumnSpan = 10,
                 Required = true,
                 RequiredMessage = this.dictionary["Common_Required"],
                 Duplicated = true,
                 DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
-                MaximumLength = 50,
+                MaximumLength = 100,
                 Placeholder = this.dictionary["Item_JobPosition_FieldLabel_Name"],
                 GrantToWrite = this.GrantToWrite
             }.Render;
@@ -122,7 +122,7 @@ public partial class CargosView : Page
             FormSelect select = new FormSelect()
             {
                 Name = "CmbResponsible",
-                ColumnsSpan = 8,
+                ColumnsSpan = 4,
                 GrantToWrite = this.GrantToWrite,
                 ChangeEvent = "SelectedResponsible = this.value;",
                 Placeholder = this.dictionary["Common_Responsible"],

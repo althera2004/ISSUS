@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
@@ -44,7 +45,7 @@ public partial class Export_FormacionExportList : Page
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult PDF(int companyId, string yearFrom, string yearTo, int mode)
+    public static ActionResult PDF(int companyId, string yearFrom, string yearTo, int mode, string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
         ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -262,7 +263,20 @@ public partial class Export_FormacionExportList : Page
         LearningFilter learningFilter = new LearningFilter(companyId) { Mode = mode, YearFrom = yFrom, YearTo = yTo };
         decimal totalCost = 0;
         int count = 0;
-        foreach (Learning learning in learningFilter.Filter())
+
+        List<Learning> data = learningFilter.Filter().ToList();
+
+        switch (listOrder.ToUpperInvariant())
+        {
+            case "TH1|ASC":
+                data = data.OrderBy(d => d.Description).ToList();
+                break;
+            case "TH1|DESC":
+                data = data.OrderByDescending(d => d.Description).ToList();
+                break;
+        }
+
+        foreach (Learning learning in data)
         {
             count++;
             learning.ObtainAssistance();

@@ -273,4 +273,12 @@ public class EmployeeActions : WebService {
 
         return res;
     }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public string SetFilter(string filter)
+    {
+        Session["EmployeeFilter"] = filter.ToUpperInvariant();
+        return "OK";
+    }
 }

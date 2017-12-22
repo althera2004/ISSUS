@@ -40,6 +40,14 @@ public partial class IndicadorView : Page
         }
     }
 
+    public string Employees
+    {
+        get
+        {
+            return Employee.CompanyListJson(this.company.Id);
+        }
+    }
+
     public string UserLanguage
     {
         get
@@ -579,7 +587,7 @@ public partial class IndicadorView : Page
             responsibleId = this.Indicador.Responsible.Id;
         }
 
-        foreach (Employee e in this.company.EmployessWithUser)
+        foreach (Employee e in this.company.Employees)
         {
             if (e.Active && e.DisabledDate == null)
             {

@@ -18,5 +18,7 @@ namespace GisoFramework.Item.Binding
         public const int EmployeeName = 7;
         public const int EmployeeLastName = 8;
         public const int EmployeeEmail = 9;
+        public const int PrimaryUser = 10;
+        public const int Admin = 11;
     }
 }

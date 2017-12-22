@@ -199,9 +199,16 @@
                                                     <%=this.FormFooterAction %>
                                                 </div>
                                                 <div id="costes" class="tab-pane">
-                                                    <div class="col-sm-12">
-                                                        <div class="col-sm-8">
-                                                            <!-- <h4><%=this.Dictionary["Item_Incident_Tab_Costs"] %></h4> -->
+                                                    <div class="col-sm-12">                                                        
+                                                        <div class="col-sm-8" style="padding-bottom:8px;" id="SelectRow">
+                                                            <div class="col-xs-12">
+                                                                <div class="col-xs-3">
+                                                                    <input type="checkbox" id="Chk1" onchange="FilterChanged();" checked="checked" />&nbsp;<%=this.Dictionary["Item_Incident"] %>
+                                                                </div>
+                                                                <div class="col-xs-3">
+                                                                    <input type="checkbox" id="Chk2" onchange="FilterChanged();" checked="checked" />&nbsp;<%=this.Dictionary["Item_IncidentAction"] %>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <div class="col-sm-4" style="text-align:right;">
                                                             <h4 class="pink" style="right:0;">
@@ -476,7 +483,7 @@
         <script type="text/javascript" src="/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
         <script type="text/javascript" src="/assets/js/jquery.maskedinput.min.js"></script>
         <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
-        <script type="text/javascript" src="/js/common.js"></script>
+        <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/CostBar.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/Incident.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/IncidentCost.js?<%=this.AntiCache %>"></script>

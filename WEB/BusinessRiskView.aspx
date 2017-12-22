@@ -626,7 +626,7 @@
                                 </div>
                                 <div class="col-sm-12" style="margin-bottom:12px;">
                                     <label id="TxtRulesNotesLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_Rules_FieldLabel_Notes"]%></label>
-                                    <textarea id="TxtRulesNotes" rows="3" class="col-sm-10" maxlength="500" onblur="this.value=$.trim(this.value);"></textarea>
+                                    <textarea id="TxtRulesNotes" rows="3" class="col-sm-10" maxlength="2000" onblur="this.value=$.trim(this.value);"></textarea>
                                 </div>
                                 <div class="col-sm-12" style="margin-bottom:12px;">
                                     <label id="TxtLimitLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_Rules_FieldLabel_Limit"]%><span style="color:#f00;">*</span></label>
@@ -644,7 +644,7 @@
                                 </div>
                                 <div class="col-sm-12" style="margin-bottom:12px;">
                                     <label id="TxtNewRulesNotesLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_Rules_FieldLabel_Notes"]%></label>
-                                    <textarea id="TxtNewRulesNotes" class="col-sm-10" maxlength="500" rows="3" onblur="this.value=$.trim(this.value);"></textarea>
+                                    <textarea id="TxtNewRulesNotes" class="col-sm-10" maxlength="2000" rows="3" onblur="this.value=$.trim(this.value);"></textarea>
                                 </div>
                                 <div class="col-sm-12">
                                     <label id="TxtNewLimitLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_Rules_FieldLabel_Limit"]%><span style="color:#f00;">*</span></label>

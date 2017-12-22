@@ -26,6 +26,8 @@ namespace GisoFramework.Item
 
         public int Origin { get; set; }
 
+        public string OriginText { get; set; }
+
         public IncidentAction Action { get; set; }
 
         public Department Department { get; set; }

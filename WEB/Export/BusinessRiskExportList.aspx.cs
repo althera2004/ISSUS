@@ -50,7 +50,8 @@ public partial class Export_BusinessRiskExportList : Page
         string to,
         long rulesId,
         long processId,
-        int typeId)
+        int typeId,
+        string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
         ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -261,6 +262,48 @@ public partial class Export_BusinessRiskExportList : Page
 
         int cont = 0;
         List<BusinessRiskFilterItem> data = HttpContext.Current.Session["BusinessRiskFilterData"] as List<BusinessRiskFilterItem>;
+
+        switch (listOrder.ToUpperInvariant())
+        {
+            case "TH1|ASC":
+                data = data.OrderBy(d => d.OpenDate).ToList();
+                break;
+            case "TH1|DESC":
+                data = data.OrderByDescending(d => d.OpenDate).ToList();
+                break;
+            case "TH2|ASC":
+                data = data.OrderBy(d => d.Description).ToList();
+                break;
+            case "TH2|DESC":
+                data = data.OrderByDescending(d => d.Description).ToList();
+                break;
+            case "TH3|ASC":
+                data = data.OrderBy(d => d.Process.Description).ToList();
+                break;
+            case "TH3|DESC":
+                data = data.OrderByDescending(d => d.Process.Description).ToList();
+                break;
+            case "TH4|ASC":
+                data = data.OrderBy(d => d.Rule.Description).ToList();
+                break;
+            case "TH4|DESC":
+                data = data.OrderByDescending(d => d.Rule.Description).ToList();
+                break;
+            case "TH5|ASC":
+                data = data.OrderBy(d => d.InitialResult).ToList();
+                break;
+            case "TH5|DESC":
+                data = data.OrderByDescending(d => d.InitialResult).ToList();
+                break;
+            case "TH6|ASC":
+                data = data.OrderBy(d => d.Rule.Limit).ToList();
+                break;
+            case "TH6|DESC":
+                data = data.OrderByDescending(d => d.Rule.Limit).ToList();
+                break;
+        }
+
+
         bool pair = false;
         foreach (BusinessRiskFilterItem risk in data)
         {
@@ -270,14 +313,16 @@ public partial class Export_BusinessRiskExportList : Page
             if (risk.Assumed) { typeText = dictionary["Item_BusinessRisk_Status_Assumed"]; }
             else if (risk.InitialResult == 0) { typeText = dictionary["Item_BusinessRisk_Status_Unevaluated"]; }
             else if (risk.InitialResult < risk.Rule.Limit) { typeText = dictionary["Item_BusinessRisk_Status_NotSignificant"]; }
-            else { typeText = dictionary["Item_BusinessRisk_Status_Significant"]; }            
+            else { typeText = dictionary["Item_BusinessRisk_Status_Significant"]; }
+
+            string initialResultText = risk.InitialResult == 0 ? string.Empty : risk.InitialResult.ToString();
 
             table.AddCell(ToolsPdf.DataCellCenter(typeText, times));
             table.AddCell(ToolsPdf.DataCellCenter(risk.OpenDate, times));
             table.AddCell(ToolsPdf.DataCell(risk.Description, times));
             table.AddCell(ToolsPdf.DataCell(risk.Process.Description,times));
             table.AddCell(ToolsPdf.DataCellCenter(risk.Rule.Description, times));
-            table.AddCell(ToolsPdf.DataCellCenter(risk.InitialResult.ToString(), times));
+            table.AddCell(ToolsPdf.DataCellCenter(initialResultText, times));
             table.AddCell(ToolsPdf.DataCellRight(risk.Rule.Limit.ToString(), times));
         }
 

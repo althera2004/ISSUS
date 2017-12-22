@@ -30,6 +30,8 @@ namespace GisoFramework.Item
 
         public int Origin { get; set; }
 
+        public string OriginText { get; set; }
+
         public int Status { get; set; }
 
         public string Description { get; set; }

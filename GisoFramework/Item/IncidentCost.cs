@@ -28,6 +28,7 @@ namespace GisoFramework.Item
         public decimal Amount { get; set; }
         public decimal Quantity { get; set; }
         public Employee Responsible { get; set; }
+        public string Source { get; set; }
 
         public static IncidentCost Empty
         {
@@ -76,7 +77,8 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("Amount", this.Amount)).Append(",");
                 res.Append(Tools.JsonPair("Quantity", this.Quantity)).Append(",");
                 res.Append(Tools.JsonPair("Responsible", this.Responsible)).Append(",");
-                res.Append(Tools.JsonPair("Active", this.Active)).Append("}");
+                res.Append(Tools.JsonPair("Active", this.Active)).Append(",");
+                res.Append(Tools.JsonPair("Source", this.Source)).Append("}");
                 return res.ToString();
             }
         }
@@ -103,7 +105,8 @@ namespace GisoFramework.Item
                         CompanyId = actionCost.CompanyId,
                         Responsible = actionCost.Responsible,
                         Amount = actionCost.Amount,
-                        Active = actionCost.Active
+                        Active = actionCost.Active,
+                        Source = "A"
                     });
                 }
             }
@@ -205,7 +208,8 @@ namespace GisoFramework.Item
                                 Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
                                 LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
                             },
-                            Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
+                            Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active),
+                            Source = "I"
                         });
                     }
                 }

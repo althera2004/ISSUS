@@ -795,15 +795,15 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider));
                     cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer));
                     
-                    cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy));
                     cmd.Parameters.Add(DataParameter.Input("@WhatHappendOn", this.WhatHappenedOn));
 
-                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy.Id));
                     cmd.Parameters.Add(DataParameter.Input("@CausesOn", this.CausesOn));
 
-                    cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy.Id));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsOn", this.ActionsOn));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsExecuter", this.ActionsExecuter.Id));
@@ -811,8 +811,8 @@ namespace GisoFramework.Item
 
                     cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy.Id));
                     cmd.Parameters.Add(DataParameter.Input("@ClosedOn", this.ClosedOn));
-                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, 500));
-                    cmd.Parameters.Add(DataParameter.Input("@Anotations", this.Annotations ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Anotations", this.Annotations ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@ApplyAction", this.ApplyAction));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Connection.Open();
@@ -893,15 +893,15 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id)); 
                     cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer.Id));
 
-                    cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy.Id));
                     cmd.Parameters.Add(DataParameter.Input("@WhatHappendOn", this.WhatHappenedOn));
 
-                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy.Id));
                     cmd.Parameters.Add(DataParameter.Input("@CausesOn", this.CausesOn));
 
-                    cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy.Id));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsOn", this.ActionsOn));
                     cmd.Parameters.Add(DataParameter.Input("@ActionsExecuter", this.ActionsExecuter.Id));
@@ -910,8 +910,8 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy.Id));
                     cmd.Parameters.Add(DataParameter.Input("@ClosedOn", this.ClosedOn));
 
-                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, 500));
-                    cmd.Parameters.Add(DataParameter.Input("@Anotations", this.Annotations ?? string.Empty, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Anotations", this.Annotations ?? string.Empty, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Parameters.Add(DataParameter.Input("@Differences", differences));
                     cmd.Parameters.Add(DataParameter.Input("@ApplyAction", this.ApplyAction));
