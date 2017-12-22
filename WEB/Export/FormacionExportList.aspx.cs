@@ -62,7 +62,7 @@ public partial class Export_FormacionExportList : Page
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_LearningList"],
-            company.Name,
+            company.Code,
             DateTime.Now);
 
         // FONTS
