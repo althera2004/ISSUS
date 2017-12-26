@@ -13,6 +13,7 @@
         var itemUser = <%=this.UserItem.Json %>;
         var ddData = [<%=this.CountryData %>];
         var userEmails = <%=this.Emails %>;
+        var debug = "<%=this.Debug %>";
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">

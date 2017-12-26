@@ -33,6 +33,8 @@ public partial class UserView : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
+    public string Debug { get; private set; }
+
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
@@ -271,7 +273,17 @@ public partial class UserView : Page
 
         if (this.userItemId > 0)
         {
-            this.userItem = ApplicationUser.GetById(this.userItemId, this.company.Id);
+            //try
+            //{
+                this.userItem = ApplicationUser.GetById(this.userItemId, this.company.Id);
+            //    this.Debug = string.Empty;
+            //}
+            //catch(Exception ex)
+            //{
+            //    this.userItem = ApplicationUser.Empty;
+            //    this.Debug = GisoFramework.Tools.JsonCompliant(ex.Message);
+            //}
+
             this.master.TitleInvariant = true;
             this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_User"], this.userItem.UserName);
 

@@ -31,6 +31,11 @@ namespace GisoFramework
             return DataCell(value, font, iTS.Rectangle.ALIGN_RIGHT);
         }
 
+        public static iTSpdf.PdfPCell DataCellRight(int value, iTS.Font font)
+        {
+            return DataCell(value.ToString(CultureInfo.InvariantCulture), font, iTS.Rectangle.ALIGN_RIGHT);
+        }
+
         public static iTSpdf.PdfPCell DataCell(string value, iTS.Font font)
         {
             return DataCell(value, font, iTS.Rectangle.ALIGN_LEFT);

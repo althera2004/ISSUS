@@ -277,32 +277,35 @@ public partial class Export_EquipmentList : Page
         decimal total = 0;
         int border = 0;
 
-        switch (listOrder.ToUpperInvariant())
+        if (!string.IsNullOrEmpty(listOrder))
         {
-            case "TH0|ASC":
-                data = data.OrderBy(d => d.Code).ToList();
-                break;
-            case "TH0|DESC":
-                data = data.OrderByDescending(d => d.Code).ToList();
-                break;
-            case "TH1|ASC":
-                data = data.OrderBy(d => d.Location).ToList();
-                break;
-            case "TH1|DESC":
-                data = data.OrderByDescending(d => d.Location).ToList();
-                break;
-            case "TH2|ASC":
-                data = data.OrderBy(d => d.Responsible.FullName).ToList();
-                break;
-            case "TH2|DESC":
-                data = data.OrderByDescending(d => d.Responsible.FullName).ToList();
-                break;
-            case "TH3|ASC":
-                data = data.OrderBy(d => d.TotalCost).ToList();
-                break;
-            case "TH3|DESC":
-                data = data.OrderByDescending(d => d.TotalCost).ToList();
-                break;
+            switch (listOrder.ToUpperInvariant())
+            {
+                case "TH0|ASC":
+                    data = data.OrderBy(d => d.Code).ToList();
+                    break;
+                case "TH0|DESC":
+                    data = data.OrderByDescending(d => d.Code).ToList();
+                    break;
+                case "TH1|ASC":
+                    data = data.OrderBy(d => d.Location).ToList();
+                    break;
+                case "TH1|DESC":
+                    data = data.OrderByDescending(d => d.Location).ToList();
+                    break;
+                case "TH2|ASC":
+                    data = data.OrderBy(d => d.Responsible.FullName).ToList();
+                    break;
+                case "TH2|DESC":
+                    data = data.OrderByDescending(d => d.Responsible.FullName).ToList();
+                    break;
+                case "TH3|ASC":
+                    data = data.OrderBy(d => d.TotalCost).ToList();
+                    break;
+                case "TH3|DESC":
+                    data = data.OrderByDescending(d => d.TotalCost).ToList();
+                    break;
+            }
         }
 
         foreach (Equipment equipment in data)
