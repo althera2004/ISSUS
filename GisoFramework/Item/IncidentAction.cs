@@ -192,6 +192,141 @@ namespace GisoFramework.Item
         }
         */
 
+        public static ActionResult Anulate(int incidentActionId, int companyId, int applicationUserId, DateTime date, int responsible)
+        {
+            string source = string.Format(
+                CultureInfo.InvariantCulture,
+                @"IncidentAction::Anulate({0}, {1})",
+                incidentActionId,
+                applicationUserId);
+            ActionResult res = ActionResult.NoAction;
+            /* CREATE PROCEDURE [dbo].[IncidentAction_Anulate]
+             *   @IncidentActionId int,
+             *   @CompanyId int,
+             *   @EndDate datetime,
+             *   @EndResponsable int,
+             *   @UnidadId int,
+             *   @ApplicationUserId int */
+            using (SqlCommand cmd = new SqlCommand("IncidentAction_Anulate"))
+            {
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    {
+                        cmd.Connection = cnn;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", incidentActionId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EndDate", date));
+                        cmd.Parameters.Add(DataParameter.Input("@EndResponsible", responsible));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess(incidentActionId);
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (ArgumentException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (InvalidCastException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        public static ActionResult Restore(int incidentActionId, int companyId, int applicationUserId)
+        {
+            string source = string.Format(
+               CultureInfo.InvariantCulture,
+               @"IncidentAction::Restore({0}, {1})",
+               incidentActionId,
+               applicationUserId);
+            ActionResult res = ActionResult.NoAction;
+            /* CREATE PROCEDURE [dbo].[IncidentAction_Restore]
+             *   @IncidentActionId int,
+             *   @CompanyId int,
+             *   @ApplicationUserId int */
+            using (SqlCommand cmd = new SqlCommand("IncidentAction_Restore"))
+            {
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    {
+                        cmd.Connection = cnn;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", incidentActionId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess(incidentActionId);
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (ArgumentException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                catch (InvalidCastException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
+        }
+
         public static IncidentAction GetById(long incidentActionId, int companyId)
         {
             IncidentAction res = IncidentAction.Empty;

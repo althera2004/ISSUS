@@ -577,7 +577,7 @@ Item_Employee_Label_DesiredWorkExperience::Experiencia laboral deseada
 Item_Employee_Label_RealWorkExperience::Experiencia laboral real
 Item_Employee_List_Delete::Elementos
 Item_Employee_List_Delete_Error::Indicar un sustituto para cada asignación
-Item_Employee_List_Delete_ErrorNoSubstitute::S'ha d'indicar un substitut
+Item_Employee_List_Delete_ErrorNoSubstitute::Manca definir un substitut
 Item_Employee_List_Delete_FieldLabel_All::Sustituir todas las entradas con el/la empleado/a
 Item_Employee_List_Delete_Header_Description::Descripción
 Item_Employee_List_Delete_Header_Substitution::Substituido por...

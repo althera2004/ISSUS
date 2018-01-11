@@ -141,7 +141,7 @@
                 $("#TotalRows").html(count);
             }
 
-            function RenderTaskRow (task){
+            function RenderTaskRow(task) {
                 /*<tr style="cursor:pointer;" onclick="document.location='EquipmentView.aspx?id=2&amp;Tab=calibracion&amp;OperationId=67&amp;Action=10&amp;Type=E'">
                 <td title="Calibratges" style="color:#f00;">Calibratge extern / sdfsd</td>
                 <td style="color:#f00;width:350px;"><div title="90" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:320px;">1 1234567890</div></td>
@@ -208,4 +208,3 @@
             }
         </script>
 </asp:Content>
-

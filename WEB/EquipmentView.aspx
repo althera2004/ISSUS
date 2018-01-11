@@ -32,6 +32,7 @@
         var EquipmentMaintenanceActList = <%=this.EquipmentMaintenanceActList %>;
         var EquipmentRepairList = <%=this.EquipmentRepairList %>;
         var EquipmentScaleDivisionSelected = <%=this.EquipmentScaleDivisionSelected %>;
+        var mantenimientoLaunchId = 0;
 
         var Providers = <%=this.ProvidersJson %>;
         var Customers = <%=this.CustomersJson %>;

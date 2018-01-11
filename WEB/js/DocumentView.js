@@ -1,32 +1,44 @@
 ﻿$(document).ready(function () {
-    $('#BtnNewVersion').click(Versioned);
-    $('#BtnSave').click(SetReason);
-    $('#BtnCancel').click(function (e) {
+    $("#BtnNewVersion").click(Versioned);
+    $("#BtnSave").click(SetReason);
+    $("#BtnCancel").click(function (e) {
         document.location = referrer;
     });
+
+    if (documento.LastVersion === 0) {
+        $("#TxtRevision").val(0);
+    }
+
+    $("#BtnAnular").on("click", AnularPopup);
+    $("#BtnRestaurar").on("click", Restore);
+
+    if (typeof documento.EndDate !== "undefined" && documento.EndDate !== null && documento.EndDate !== "") {
+        AnulateLayout();
+    }
 });
 
 function Versioned() {
-    document.getElementById('TxtNewReason').value = '';
-    var dialog = $("#ReasonDialog").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Item_Document_Button_NewVersion,
-        title_html: true,
-        width: 400,
-        buttons: [
+    $("#TxtNewReason").val("");
+    $("#TxtNewReasonErrorRequired").hide();
+    var dialog = $("#ReasonDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Document_Button_NewVersion,
+        "title_html": true,
+        "width": 400,
+        "buttons": [
             {
-                id: 'BtnNewCategorySave',
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                "id": "BtnNewCategorySave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
-                click: function () {
-                    if (document.getElementById('TxtNewReason').value === '') {
-                        document.getElementById('TxtNewReasonErrorRequired').style.display = 'block';
+                "click": function () {
+                    if (document.getElementById("TxtNewReason").value === "") {
+                        $("#TxtNewReasonErrorRequired").show();
                         return false;
                     }
                     else {
-                        document.getElementById('TxtNewReasonErrorRequired').style.display = 'none';
-                        selectedReason = document.getElementById('TxtNewReason').value;
+                        $("#TxtNewReasonErrorRequired").hide();
+                        selectedReason = document.getElementById("TxtNewReason").value;
                         VersionedConfirmed();
                     }
 
@@ -34,10 +46,10 @@ function Versioned() {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
-                    document.getElementById('TxtNewReasonErrorRequired').style.display = 'none';
+                "click": function () {
+                    $("#TxtNewReasonErrorRequired").hide();
                     $(this).dialog("close");
                     return null;
                 }
@@ -49,11 +61,11 @@ function Versioned() {
 function VersionedConfirmed() {
     var webMethod = "/Async/DocumentActions.asmx/Versioned";
     var data = {
-        'documentId': documentId,
-        'userId': userId,
-        'companyId': Company.Id,
-        'version': $('#TxtRevision').val(),
-        'reason': selectedReason
+        "documentId": documentId,
+        "userId": userId,
+        "companyId": Company.Id,
+        "version": $("#TxtRevision").val(),
+        "reason": selectedReason
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
@@ -65,18 +77,18 @@ function VersionedConfirmed() {
         data: JSON.stringify(data, null, 2),
         success: function (msg) {
             LoadingHide();
-            document.getElementById('TxtRevision').value = msg.d.MessageError;
-            document.getElementById('TxtRevisionDate').value = FormatDate(new Date(), '/');
-            document.getElementById('TxtMotivo').value = document.getElementById('TxtNewReason').value;
+            document.getElementById("TxtRevision").value = msg.d.MessageError;
+            document.getElementById("TxtRevisionDate").value = FormatDate(new Date(), "/");
+            document.getElementById("TxtMotivo").value = document.getElementById("TxtNewReason").value;
             InsertVersionRow();
-            $("#ReasonDialog").dialog('close');
+            $("#ReasonDialog").dialog("close");
             attachActual = null;
             SetAttachLayout();
         },
         error: function (msg) {
             LoadingHide();
             alertUI("error:" + msg.d.MessageError);
-            $("#ReasonDialog").dialog('close');
+            $("#ReasonDialog").dialog("close");
         }
     });
 }
@@ -213,4 +225,130 @@ function Update() {
 }
 
 // ISSUS-190
-document.getElementById('TxtCodigo').focus();
+document.getElementById("TxtCodigo").focus();
+
+function AnularPopup() {
+    $("#TxtEndDate").val(FormatDate(new Date(), "/"));
+    $("#TxtAnularComments").val("");
+    var dialog = $("#dialogAnular").removeClass("hide").dialog({
+        resizable: false,
+        modal: true,
+        title: Dictionary.Item_Document_PopupAnular_Title,
+        width: 600,
+        buttons:
+        [
+            {
+                "id": "BtnAnularDocument",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Document_Btn_Anular,
+                "class": "btn btn-success btn-xs",
+                "click": function () { AnularConfirmed(); }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () { $(this).dialog("close"); }
+            }
+        ]
+    });
+}
+
+var anulationData = null;
+function AnularConfirmed() {
+    console.log("AnularConfirmed");
+    document.getElementById("TxtAnularCommentsLabel").style.color = "#000";
+    document.getElementById("TxtEndDateLabel").style.color = "#000";
+    document.getElementById("TxtAnularCommentsErrorRequired").style.display = "none";
+    document.getElementById("TxtEndDateErrorRequired").style.display = "none";
+    document.getElementById("TxtEndDateMalformed").style.display = "none";
+
+    var ok = true;
+    if ($("#TxtEndDate").val() === "") {
+        ok = false;
+        document.getElementById("TxtEndDateLabel").style.color = "#f00";
+        document.getElementById("TxtEndDateErrorRequired").style.display = "";
+    }
+    else {
+        if (validateDate($("#TxtEndDate").val()) === false) {
+            ok = false;
+            $("#TxtEndDateLabel").css("color", "#f00");
+            $("#TxtEndDateMalformed").show();
+        }
+    }
+
+    if (ok === false) {
+        return false;
+    }
+
+    var webMethod = "/Async/DocumentActions.asmx/Anulate";
+    var data = {
+        "documentId": documentId,
+        "companyId": companyId,
+        "endReason": $("#TxtAnularComments").val(),
+        "endDate": GetDate($("#TxtEndDate").val(), "/"),
+        "userId": user.Id
+    };
+    anulationData = data;
+    $("#dialogAnular").dialog("close");
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            document.location = referrer;
+        },
+        error: function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function AnulateLayout() {
+    $("input").attr("disabled", "disabled");
+    $("select").attr("disabled", "disabled");
+    $("#BtnNewUploadfileVersion").hide();
+    $("#BtnNewVersion").hide();
+    $("#BtnCategory").hide();
+    $(".btn-danger").hide();
+    $("#BtnSave").hide();
+    $("input").css("background-color", "#eee");
+    $("select").css("background-color", "#eee");
+    $("textarea").css("background-color", "#eee");
+
+    var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+    message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
+    message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Document_AnulateMessageTile + "</h3>";
+    message += "    <p style=\"margin-left:50px;\">";
+    message += "        " + Dictionary.Item_Document_FieldLabel_EndReason + ": <strong>" + documento.EndReason + "</strong><br />";
+    message += "        " + Dictionary.Item_Document_FieldLabel_InactiveDate + ": <strong>" + documento.EndDate + "</strong><br />";
+    message += "    </p>";
+    message += "</div><br /><br /><br />";
+    $("#home").append(message);
+}
+
+function Restore() {
+    var webMethod = "/Async/DocumentActions.asmx/Restore";
+    var data = {
+        "documentId": documentId,
+        "companyId": companyId,
+        "userId": user.Id
+    };
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            document.location = referrer;
+        },
+        error: function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}

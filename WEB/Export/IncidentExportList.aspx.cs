@@ -126,23 +126,22 @@ public partial class Export_IncidentExportList : Page
         iTSpdf.PdfPTable titleTable = new iTSpdf.PdfPTable(1);
         float[] titleWidths = new float[] { 50f };
         titleTable.SetWidths(titleWidths);
-        iTSpdf.PdfPCell titleCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont));
-        titleCell.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        titleCell.Border = iTS.Rectangle.NO_BORDER;
+        iTSpdf.PdfPCell titleCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont))
+        {
+            HorizontalAlignment = iTS.Element.ALIGN_CENTER,
+            Border = iTS.Rectangle.NO_BORDER
+        };
         titleTable.AddCell(titleCell);
 
         var borderNone = iTS.Rectangle.NO_BORDER;
-        var borderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
-        var borderTBL = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.LEFT_BORDER;
-        var borderTBR = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.RIGHT_BORDER;
-
-
 
         //------ CRITERIA
-        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(2);
+        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(2)
+        {
+            WidthPercentage = 100
+        };
         float[] cirteriaWidths = new float[] { 8f, 50f };
         criteriatable.SetWidths(cirteriaWidths);
-        criteriatable.WidthPercentage = 100;
 
         #region texts
 
@@ -267,53 +266,69 @@ public partial class Export_IncidentExportList : Page
         }
         #endregion
 
-        iTSpdf.PdfPCell criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"] + " :", timesBold));
-        criteria1Label.Border = borderNone;
-        criteria1Label.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria1Label.Padding = 6f;
-        criteria1Label.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"] + " :", timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
 
-        iTSpdf.PdfPCell criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times));
-        criteria1.Border = borderNone;
-        criteria1.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria1.Padding = 6f;
-        criteria1.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
 
-        iTSpdf.PdfPCell criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, timesBold));
-        criteria2Label.Border = borderNone;
-        criteria2Label.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria2Label.Padding = 6f;
-        criteria2Label.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
 
-        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times));
-        criteria2.Border = borderNone;
-        criteria2.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria2.Padding = 6f;
-        criteria2.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
 
-        iTSpdf.PdfPCell criteria3Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Status"] + " :", timesBold));
-        criteria3Label.Border = borderNone;
-        criteria3Label.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria3Label.Padding = 6f;
-        criteria3Label.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria3Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Status"] + " :", timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
 
-        iTSpdf.PdfPCell criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times));
-        criteria3.Border = borderNone;
-        criteria3.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria3.Padding = 6f;
-        criteria3.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
 
-        iTSpdf.PdfPCell criteria4Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Origin"] + " :", timesBold));
-        criteria4Label.Border = borderNone;
-        criteria4Label.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria4Label.Padding = 6f;
-        criteria4Label.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria4Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Origin"] + " :", timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
 
-        iTSpdf.PdfPCell criteria4 = new iTSpdf.PdfPCell(new iTS.Phrase(criteriaOrigin, times));
-        criteria4.Border = borderNone;
-        criteria4.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria4.Padding = 6f;
-        criteria4.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria4 = new iTSpdf.PdfPCell(new iTS.Phrase(criteriaOrigin, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
 
 
         criteriatable.AddCell(criteria1Label);

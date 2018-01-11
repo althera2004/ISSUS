@@ -28,6 +28,8 @@ namespace GisoFramework.Item
 
         public int RecordType { get; set; }
 
+        public string RecordTypeText { get; set; }
+
         public string Operation { get; set; }
 
         public Employee Responsible { get; set; }

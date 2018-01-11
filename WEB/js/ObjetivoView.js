@@ -477,6 +477,10 @@ function ObjetivoRegistroFilter(exportType) {
         return false;
     }
 
+    if (typeof exportType !== "undefined") {
+        lockOrderList = true;
+    }
+
     $("#ObjetivoRegistrosTable").html("");
     $("#ObjetivoRegistrosTable").show();
     $("#ItemTableError").hide();
@@ -516,16 +520,30 @@ function ObjetivoRegistroFilter(exportType) {
         }
     }
 
+    if (listOrder === null) {
+        listOrder = "th2|DESC";
+    }
+    console.log(listOrder);
+    if (lockOrderList) {
+        var th = listOrder.split('|')[0];
+        var sort = listOrder.split('|')[1];
+
+        $("#" + th).click();
+        if (document.getElementById(th).className.indexOf(sort) === -1) {
+            $("#" + th).click();
+        }
+
+    }
+
     DisableVinculatedTo(count > 0);
 
+    lockOrderList = false;
     if (exportType === "PDF") {
         Export("PDF");
-        lockOrderList = false;
     }
 
     if (exportType === "Excel") {
         Export("Excel");
-        lockOrderList = false;
     }
 }
 
@@ -538,7 +556,7 @@ function Export(fileType) {
         "objetivoName": ItemData.Name,
         "objetivoId": ItemData.Id,
         "indicadorId": ItemData.IndicatorId,
-        "listOrder": orderList
+        "listOrder": listOrder
     };
     var webMethod = "/Export/ObjetivoRecords.aspx/" + fileType;
     LoadingShow(Dictionary.Common_Report_Rendering);

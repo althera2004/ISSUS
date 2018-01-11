@@ -13,6 +13,7 @@ namespace GisoFramework.UserInterface
     using System.Data;
     using System.Data.SqlClient;
     using System.Globalization;
+    using System.Linq;
     using System.Text;
     using System.Web;
     using GisoFramework.DataAccess;
@@ -33,9 +34,7 @@ namespace GisoFramework.UserInterface
         /// </summary>
         public ApplicationItem Item { get; set; }
 
-        /// <summary>
-        /// Gets option children
-        /// </summary>
+        /// <summary>Gets option children</summary>
         public ReadOnlyCollection<ApplicationItem> Children
         {
             get
@@ -47,7 +46,17 @@ namespace GisoFramework.UserInterface
 
                 return new ReadOnlyCollection<ApplicationItem>(this.children);
             }
-        }   
+        }  
+        
+        public void AddChild(ApplicationItem item)
+        {
+            if (this.children == null)
+            {
+                this.children = new List<ApplicationItem>();
+            }
+
+            this.children.Add(item);
+        }
  
         /// <summary>
         /// Render the HTML code for an menu option
@@ -75,7 +84,7 @@ namespace GisoFramework.UserInterface
         /// </summary>
         /// <param name="applicationUserId">User identifier</param>
         /// <returns>Menu structure for an user</returns>
-        public static ReadOnlyCollection<MenuOption> GetMenu(int applicationUserId)
+        public static ReadOnlyCollection<MenuOption> GetMenu(int applicationUserId, bool admin)
         {
             List<MenuOption> res = new List<MenuOption>();
 
@@ -148,6 +157,26 @@ namespace GisoFramework.UserInterface
                             }
                         }
                     }
+
+                    if (admin)
+                    {
+                        string temp = HttpContext.Current.Request.Url.AbsoluteUri.Replace(HttpContext.Current.Request.Url.AbsolutePath, string.Empty);
+                        if (!temp.EndsWith("/", StringComparison.Ordinal))
+                        {
+                            temp += "/";
+                        }
+
+                        MenuOption config = res.Where(o => o.Item.Description == "Common_Configuration").First();
+                        config.AddChild(new ApplicationItem()
+                        {
+                            Id = 0,
+                            Description = "Item_Backup",
+                            Icon = "icon-gear",
+                            Container = false,
+                            Parent = 0,
+                            Url = new Uri(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}BackUp.aspx", temp))
+                        });
+                    }
                 }
                 finally
                 {
@@ -194,9 +223,11 @@ namespace GisoFramework.UserInterface
             }
 
             Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+            ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
             StringBuilder res = new StringBuilder();
             bool selected = false;
             var actualUrl = HttpContext.Current.Request.Url.AbsoluteUri.ToUpperInvariant();
+
             foreach (ApplicationItem option in this.Children)
             {
                 res.Append(option.Render());

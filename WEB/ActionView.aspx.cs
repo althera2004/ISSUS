@@ -312,9 +312,14 @@ public partial class ActionView : Page
             this.master.TitleInvariant = true;
             this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_IncidentAction"], this.IncidentAction.Description);
 
-            this.formFooter = new FormFooter();
-            this.formFooter.ModifiedBy = this.IncidentAction.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.IncidentAction.ModifiedOn;
+            this.formFooter = new FormFooter
+            {
+                ModifiedBy = this.IncidentAction.ModifiedBy.Description,
+                ModifiedOn = this.IncidentAction.ModifiedOn
+            };
+
+            this.formFooter.AddButton(new UIButton() { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_IncidentAction_Btn_Restaurar"], Action = "primary" });
+            this.formFooter.AddButton(new UIButton() { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_IncidentAction_Btn_Anular"], Action = "danger" });
             this.formFooter.AddButton(new UIButton() { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
             this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success", ColumnsSpan = 12 });
             this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"], ColumnsSpan = 12 });
@@ -438,12 +443,13 @@ public partial class ActionView : Page
 
         this.CmbClosedResponsible = new FormSelect()
         {
-            ColumnsSpanLabel = 2,
+            ColumnsSpanLabel = 4,
             Label = this.dictionary["Item_IncidentAction_Field_ResponsibleClose"],
-            ColumnsSpan = 3,
+            ColumnsSpan = 8,
             Name = "CmbClosedResponsible",
             GrantToWrite = this.grantToWrite,
             RequiredMessage = this.dictionary["Common_Required"],
+            Required = true,
             DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
@@ -598,9 +604,10 @@ public partial class ActionView : Page
         {
             Id = "TxtClosedDate",
             Label = this.dictionary["Item_IncidentAction_Field_Date"],
-            ColumnsSpanLabel = 2,
-            ColumnsSpan = 2,
-            Value = this.IncidentAction.ClosedOn
+            ColumnsSpanLabel = 4,
+            ColumnsSpan = 6,
+            Value = this.IncidentAction.ClosedOn,
+            Required = true
         };
 
         this.ClosedExecutorDate = new FormDatePicker()

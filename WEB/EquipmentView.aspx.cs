@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.UI;
@@ -15,7 +16,6 @@ using GisoFramework;
 using GisoFramework.Item;
 using SbrinnaCoreFramework.UI;
 using SbrinnaCoreFramework;
-using System.IO;
 
 public partial class EquipmentView : Page
 {
@@ -590,7 +590,16 @@ public partial class EquipmentView : Page
             }
         }
 
-        if(SelectedTab.Equals("tabuploadfiles", StringComparison.OrdinalIgnoreCase))
+        if (SelectedTab.Equals("mantenimiento", StringComparison.OrdinalIgnoreCase))
+        {
+            if (this.Request.QueryString["Action"] != null)
+            {
+                string actionId = this.Request.QueryString["Action"].ToString();
+                this.launch = "mantenimientoLaunchId = " + actionId + ";EquipmentMaintenanceDefinitionRegister(null);";
+            }
+        }
+
+        if (SelectedTab.Equals("tabuploadfiles", StringComparison.OrdinalIgnoreCase))
         {
             this.launch = @"$(""#TabuploadFiles a"").click();";
         }

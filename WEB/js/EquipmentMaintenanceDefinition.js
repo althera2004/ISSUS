@@ -212,7 +212,7 @@ function FillCmbNewMaintainmentResponsible() {
     document.getElementById("CmbNewMaintainmentResponsible").appendChild(optionDefault);
 
     for (var x = 0; x < Employees.length; x++) {
-        if (Employees[x].Active === true || MaintainmentNewResponsibleSelected == Employees[x].Id) {
+        if ((Employees[x].Active === true && Employees[x].DisabledDate === null) || MaintainmentNewResponsibleSelected == Employees[x].Id) {
             var option = document.createElement("option");
             option.value = Employees[x].Id;
             option.appendChild(document.createTextNode(Employees[x].FullName));

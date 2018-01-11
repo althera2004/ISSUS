@@ -33,9 +33,7 @@ namespace SbrinnaCoreFramework.UI
             }
         }
 
-        /// <summary>
-        /// Gets an standard button to cancel item edition
-        /// </summary>
+        /// <summary>Gets an standard button to cancel item edition</summary>
         public static UIButton FormCancelButton
         {
             get
@@ -50,9 +48,7 @@ namespace SbrinnaCoreFramework.UI
             }
         }
 
-        /// <summary>
-        /// Gets an standard button to back navigation
-        /// </summary>
+        /// <summary>Gets an standard button to back navigation</summary>
         public static UIButton FormBackButton
         {
             get
@@ -93,8 +89,11 @@ namespace SbrinnaCoreFramework.UI
         public int ColumnsSpan { get; set; }
 
         /// <summary>
-        /// Gets HTML code for button control
+        /// Gets or sets a value indicating whether button is hidden
         /// </summary>
+        public bool Hidden { get; set; }
+
+        /// <summary>Gets HTML code for button control</summary>
         public string Render
         {
             get
@@ -108,7 +107,7 @@ namespace SbrinnaCoreFramework.UI
                         this.ColumnsSpan);
                 }
 
-                string pattern = @"<button class=""{5}btn btn-{3}"" type=""button"" id=""{1}""{4}><i class=""{2} bigger-110""></i>{0}</button>";
+                string pattern = @"<button class=""{5}btn btn-{3}"" {6} type=""button"" id=""{1}""{4}><i class=""{2} bigger-110""></i>{0}</button>";
                 return string.Format(
                     CultureInfo.GetCultureInfo("es-es"),
                     pattern,
@@ -117,7 +116,8 @@ namespace SbrinnaCoreFramework.UI
                     this.Icon,
                     this.Action,
                     string.IsNullOrEmpty(this.EventClick) ? string.Empty : " onclick=\"" + this.EventClick + "\"",
-                    colSm);
+                    colSm,
+                    this.Hidden ? " style=\"display:none;\"" : string.Empty);
             }
         }
 
@@ -174,6 +174,7 @@ namespace SbrinnaCoreFramework.UI
         /// </summary>
         /// <param name="label">Text of button</param>
         /// <param name="link">Link to item edition page</param>
+        /// <param name="icon">Icon of button</param>
         /// <returns>HTML for a new item button</returns>
         public static UIButton NewItemButton(string label, string link, string icon)
         {

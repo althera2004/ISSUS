@@ -1306,3 +1306,16 @@ $("#CmbActionsResponsible").on("change", function () { WarningEmployeeNoUserChec
 $("#CmbClosedResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbClosedResponsible").val() * 1, Employees); });
 $("#CmbActionActionsResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionActionsResponsible").val() * 1, Employees); });
 $("#CmbActionClosedResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionClosedResponsible").val() * 1, Employees); });
+
+function AnulateLayout() {
+
+    var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+    message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
+    message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Incident_AnulateMessageTile + "</h3>";
+    message += "    <p style=\"margin-left:50px;\">";
+    message += "        " + Dictionary.Item_Incident_Field_CloseResponsible + ": <strong>" + Incident.ClosedBy.Value + "</strong><br />";
+    message += "        " + Dictionary.Item_Incident_Field_CloseDate + ": <strong>" + $("#TxtClosedDate").val() + "</strong><br />";
+    message += "    </p>";
+    message += "</div><br /><br /><br />";
+    $("#home").append(message);
+}

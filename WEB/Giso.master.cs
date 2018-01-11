@@ -133,8 +133,10 @@ public partial class Giso : MasterPage
 
             if(actual.ToUpperInvariant().IndexOf("DASHBOARD.ASPX") != -1)
             {
-                List<string> newNavigation = new List<string>();
-                newNavigation.Add("Dashboard.aspx");
+                List<string> newNavigation = new List<string>
+                {
+                    "Dashboard.aspx"
+                };
                 Session["Navigation"] = newNavigation;
                 return "DashBoard.aspx";
             }

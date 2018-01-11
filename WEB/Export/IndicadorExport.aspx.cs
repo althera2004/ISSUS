@@ -123,35 +123,35 @@ public partial class Export_IndicadorExport : Page
         iTSpdf.PdfPTable titleTable = new iTSpdf.PdfPTable(1);
         float[] titleWidths = new float[] { 50f };
         titleTable.SetWidths(titleWidths);
-        iTSpdf.PdfPCell titleCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont));
-        titleCell.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        titleCell.Border = iTS.Rectangle.NO_BORDER;
+        iTSpdf.PdfPCell titleCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont))
+        {
+            HorizontalAlignment = iTS.Element.ALIGN_CENTER,
+            Border = iTS.Rectangle.NO_BORDER
+        };
         titleTable.AddCell(titleCell);
 
         var borderNone = iTS.Rectangle.NO_BORDER;
-        var borderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
-        var borderTBL = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.LEFT_BORDER;
-        var borderTBR = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.RIGHT_BORDER;
 
-
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(5);
-
-        // actual width of table in points
-        table.WidthPercentage = 100;
-        // fix the absolute width of the table
-        // table.LockedWidth = true;
+        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(5)
+        {
+            WidthPercentage = 100
+        };
 
         //------ CRITERIA
-        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(6);
         float[] cirteriaWidths = new float[] { 20f, 50f, 20f, 50f, 20f, 150f };
+        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(6)
+        {
+            WidthPercentage = 100
+        };
         criteriatable.SetWidths(cirteriaWidths);
-        criteriatable.WidthPercentage = 100;
 
-        iTSpdf.PdfPCell criteriaBlank = new iTSpdf.PdfPCell(new iTS.Phrase(".", times));
-        criteriaBlank.Border = borderNone;
-        criteriaBlank.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteriaBlank.Padding = 6f;
-        criteriaBlank.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteriaBlank = new iTSpdf.PdfPCell(new iTS.Phrase(".", times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
 
         string periode = string.Empty;
         if (from.HasValue && !to.HasValue)
@@ -169,27 +169,33 @@ public partial class Export_IndicadorExport : Page
         else
         {
             periode = dictionary["Common_All_Male"];
-        }        
+        }
 
-        iTSpdf.PdfPCell criteriaPeriodeLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold));
-        criteriaPeriodeLabel.Border = borderNone;
-        criteriaPeriodeLabel.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteriaPeriodeLabel.Padding = 6f;
-        criteriaPeriodeLabel.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteriaPeriodeLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteriaPeriodeLabel);
 
-        iTSpdf.PdfPCell criteriaPeriode = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times));
-        criteriaPeriode.Border = borderNone;
-        criteriaPeriode.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteriaPeriode.Padding = 6f;
-        criteriaPeriode.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteriaPeriode = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteriaPeriode);
 
-        iTSpdf.PdfPCell criteriaStatusLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Status"] + " :", timesBold));
-        criteriaStatusLabel.Border = borderNone;
-        criteriaStatusLabel.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteriaStatusLabel.Padding = 6f;
-        criteriaStatusLabel.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteriaStatusLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Status"] + " :", timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteriaStatusLabel);
 
         string statusText = dictionary["Common_All"];
@@ -203,20 +209,24 @@ public partial class Export_IndicadorExport : Page
             statusText = dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"];
         }
 
-        iTSpdf.PdfPCell criteriaStatus = new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times));
-        criteriaStatus.Border = borderNone;
-        criteriaStatus.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteriaStatus.Padding = 6f;
-        criteriaStatus.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteriaStatus = new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteriaStatus);
         criteriatable.AddCell(criteriaBlank);
         criteriatable.AddCell(criteriaBlank);
 
-        iTSpdf.PdfPCell criteriaIndicadorTypeLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Indicaddor_Filter_TypeLabel"] + " :", timesBold));
-        criteriaIndicadorTypeLabel.Border = borderNone;
-        criteriaIndicadorTypeLabel.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteriaIndicadorTypeLabel.Padding = 6f;
-        criteriaIndicadorTypeLabel.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteriaIndicadorTypeLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Indicaddor_Filter_TypeLabel"] + " :", timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteriaIndicadorTypeLabel);
 
         string indicadorTypeText = dictionary["Common_All_Male_Plural"];
@@ -233,11 +243,13 @@ public partial class Export_IndicadorExport : Page
                 break;
         }
 
-        iTSpdf.PdfPCell criteriaIndicadorType = new iTSpdf.PdfPCell(new iTS.Phrase(indicadorTypeText, times));
-        criteriaIndicadorType.Border = borderNone;
-        criteriaIndicadorType.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteriaIndicadorType.Padding = 6f;
-        criteriaIndicadorType.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteriaIndicadorType = new iTSpdf.PdfPCell(new iTS.Phrase(indicadorTypeText, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteriaIndicadorType);
 
         if (indicatorType == 0)
@@ -249,11 +261,13 @@ public partial class Export_IndicadorExport : Page
         }
         else if (indicatorType == 1)
         {
-            iTSpdf.PdfPCell criteriaProcessLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Process"] + " :", timesBold));
-            criteriaProcessLabel.Border = borderNone;
-            criteriaProcessLabel.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-            criteriaProcessLabel.Padding = 6f;
-            criteriaProcessLabel.PaddingTop = 4f;
+            iTSpdf.PdfPCell criteriaProcessLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Process"] + " :", timesBold))
+            {
+                Border = borderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            };
             criteriatable.AddCell(criteriaProcessLabel);
 
             string processText = dictionary["Common_All_Male_Plural"];
@@ -263,18 +277,22 @@ public partial class Export_IndicadorExport : Page
                 processText = p.Description;
             }
 
-            iTSpdf.PdfPCell criteriaProcess = new iTSpdf.PdfPCell(new iTS.Phrase(processText, times));
-            criteriaProcess.Border = borderNone;
-            criteriaProcess.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-            criteriaProcess.Padding = 6f;
-            criteriaProcess.PaddingTop = 4f;
+            iTSpdf.PdfPCell criteriaProcess = new iTSpdf.PdfPCell(new iTS.Phrase(processText, times))
+            {
+                Border = borderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            };
             criteriatable.AddCell(criteriaProcess);
 
-            iTSpdf.PdfPCell criteriaProcessTypeLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_ProcessType"] + " :", timesBold));
-            criteriaProcessTypeLabel.Border = borderNone;
-            criteriaProcessTypeLabel.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-            criteriaProcessTypeLabel.Padding = 6f;
-            criteriaProcessTypeLabel.PaddingTop = 4f;
+            iTSpdf.PdfPCell criteriaProcessTypeLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_ProcessType"] + " :", timesBold))
+            {
+                Border = borderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            };
             criteriatable.AddCell(criteriaProcessTypeLabel);
 
             string processTypeCriteriaText = dictionary["Common_All_Male_Plural"];
@@ -306,20 +324,24 @@ public partial class Export_IndicadorExport : Page
                 }
             }
 
-            iTSpdf.PdfPCell criteriaProcessType = new iTSpdf.PdfPCell(new iTS.Phrase(processTypeCriteriaText, times));
-            criteriaProcessType.Border = borderNone;
-            criteriaProcessType.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-            criteriaProcessType.Padding = 6f;
-            criteriaProcessType.PaddingTop = 4f;
+            iTSpdf.PdfPCell criteriaProcessType = new iTSpdf.PdfPCell(new iTS.Phrase(processTypeCriteriaText, times))
+            {
+                Border = borderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            };
             criteriatable.AddCell(criteriaProcessType);
         }
         else if (indicatorType == 2)
         {
-            iTSpdf.PdfPCell criteriaProcessLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Objetivo"] + " :", timesBold));
-            criteriaProcessLabel.Border = borderNone;
-            criteriaProcessLabel.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-            criteriaProcessLabel.Padding = 6f;
-            criteriaProcessLabel.PaddingTop = 4f;
+            iTSpdf.PdfPCell criteriaProcessLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Objetivo"] + " :", timesBold))
+            {
+                Border = borderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            };
             criteriatable.AddCell(criteriaProcessLabel);
 
             string objetivoText = dictionary["Common_All_Male_Plural"];
@@ -330,11 +352,13 @@ public partial class Export_IndicadorExport : Page
                 objetivoText = o.Description;
             }
 
-            iTSpdf.PdfPCell criteriaProcess = new iTSpdf.PdfPCell(new iTS.Phrase(objetivoText, times));
-            criteriaProcess.Border = borderNone;
-            criteriaProcess.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-            criteriaProcess.Padding = 6f;
-            criteriaProcess.PaddingTop = 4f;
+            iTSpdf.PdfPCell criteriaProcess = new iTSpdf.PdfPCell(new iTS.Phrase(objetivoText, times))
+            {
+                Border = borderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            };
 
             criteriatable.AddCell(criteriaProcessLabel);
             criteriatable.AddCell(criteriaProcess);
@@ -356,7 +380,6 @@ public partial class Export_IndicadorExport : Page
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Process"].ToUpperInvariant(), times));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ProcessType"].ToUpperInvariant(), times));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ObjetivoResponsible"].ToUpperInvariant(), times));
-
 
         int cont = 0;
         List<IndicadorFilterItem> data = Indicador.Filter(companyId, indicatorType, from, to, processId, processTypeId, targetId, status).ToList();

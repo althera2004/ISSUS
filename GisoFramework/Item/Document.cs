@@ -15,11 +15,11 @@ namespace GisoFramework.Item
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
+    using System.Text;
     using System.Web;
     using GisoFramework.Activity;
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
-    using System.Text;
 
     /// <summary>
     /// Implements document class
@@ -139,28 +139,7 @@ namespace GisoFramework.Item
             }
         }
 
-        public static string GetAllJson(int companyId)
-        {
-            StringBuilder res = new StringBuilder("[");
-            bool first = true;
-            ReadOnlyCollection<Document> documents = GetByCompany(companyId);
-            foreach(Document document in documents)
-            {
-                if (first)
-                {
-                    first = false;
-                }
-                else
-                {
-                    res.Append(",");
-                }
-
-                res.Append(document.Json);
-            }
-
-            res.Append("]");
-            return res.ToString();
-        }
+        public string EndReason { get; set; }
 
         /// <summary>Gets the structure json item</summary>
         public override string Json
@@ -191,6 +170,7 @@ namespace GisoFramework.Item
                 ""Location"":""{11}"",
                 ""LastVersion"":{13},
                 ""Baja"": {14},
+                ""EndReason"":""{15}"",
                 ""Active"":{12}
             }}";
 
@@ -211,7 +191,8 @@ namespace GisoFramework.Item
                     this.Location,
                     this.Active ? "true" : "false",
                     actual.Version,
-                    this.EndDate.HasValue ? "true" : "false");
+                    this.EndDate.HasValue ? "true" : "false",
+                    Tools.JsonCompliant(this.EndReason));
             }
         }
 
@@ -293,6 +274,34 @@ namespace GisoFramework.Item
         }
 
         /// <summary>
+        /// Obtains a JSON array of documents
+        /// </summary>
+        /// <param name="companyId">Company identifier</param>
+        /// <returns>JSON array of documents</returns>
+        public static string GetAllJson(int companyId)
+        {
+            StringBuilder res = new StringBuilder("[");
+            bool first = true;
+            ReadOnlyCollection<Document> documents = GetByCompany(companyId);
+            foreach (Document document in documents)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    res.Append(",");
+                }
+
+                res.Append(document.Json);
+            }
+
+            res.Append("]");
+            return res.ToString();
+        }
+
+        /// <summary>
         /// Filter the inactive documents from company's documents
         /// </summary>
         /// <param name="companyId">Company identifier</param>
@@ -360,7 +369,6 @@ namespace GisoFramework.Item
             List<Document> res = new List<Document>();
             if (company != null)
             {
-
                 using (SqlCommand cmd = new SqlCommand("Company_GetDocumentsInactive"))
                 {
                     try
@@ -455,7 +463,7 @@ namespace GisoFramework.Item
         /// <returns>A list of documents</returns>
         public static ReadOnlyCollection<Document> GetByCompany(Company company)
         {
-            if(company == null)
+            if (company == null)
             {
                 return new ReadOnlyCollection<Document>(new List<Document>());
             }
@@ -466,7 +474,7 @@ namespace GisoFramework.Item
         /// <summary>
         /// Get all document of company from data base
         /// </summary>
-        /// <param name="companyID">Company's identifier to search in</param>
+        /// <param name="companyId">Company identifier</param>
         /// <returns>A list of documents</returns>
         public static ReadOnlyCollection<Document> GetByCompany(int companyId)
         {
@@ -521,7 +529,6 @@ namespace GisoFramework.Item
                             UserCreateName = rdr.GetString(10)
                         });
                     }
-
                 }
                 catch (SqlException ex)
                 {
@@ -642,6 +649,7 @@ namespace GisoFramework.Item
                                 };
 
                                 res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                                res.EndReason = rdr.GetString(ColumnsDocumentGetById.EndReason);
                             }
 
                             res.AddVersion(new DocumentVersion()
@@ -855,7 +863,7 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE Document_Restore
              * @DocumentId int,
              * @CompanyId int,
-             * @UserId int */
+             * @ApplicationUserId int */
             using (SqlCommand cmd = new SqlCommand("Document_Restore"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
@@ -864,7 +872,43 @@ namespace GisoFramework.Item
                 {
                     cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", userId));
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess();
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        public static ActionResult Anulate(int documentId, DateTime endDate, string endReason, int companyId, int userId)
+        {
+            ActionResult res = ActionResult.NoAction;
+            /* CREATE PROCEDURE [dbo].[Document_Anulate]
+             *   @DocumentId int,
+             *   @CompanyId int,
+             *   @EndDate datetime,
+             *   @EndReason nvarchar(500),
+             *   @ApplicationUserId int */
+            using (SqlCommand cmd = new SqlCommand("Document_Anulate"))
+            {
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                cmd.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Parameters.Add(DataParameter.Input("@EndDate", endDate));
+                    cmd.Parameters.Add(DataParameter.Input("@EndReason", endReason, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", userId));
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
                     res.SetSuccess();
@@ -897,10 +941,11 @@ namespace GisoFramework.Item
 
             string iconRenameFigure = grantWrite ? "icon-edit" : "icon-eye-open";
 
-            string iconRename = string.Format(CultureInfo.GetCultureInfo("en-us"),
-                @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-info"" onclick=""DocumentUpdate({0},'{1}');""><i class=""{3} bigger-120""></i></span>", 
-                this.Id, 
-                Tools.SetTooltip(this.Description), 
+            string iconRename = string.Format(
+                CultureInfo.GetCultureInfo("en-us"),
+                @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-info"" onclick=""DocumentUpdate({0},'{1}');""><i class=""{3} bigger-120""></i></span>",
+                this.Id,
+                Tools.SetTooltip(this.Description),
                 grantWrite ? dictionary["Common_Edit"] : dictionary["Common_View"],
                 iconRenameFigure);
 
@@ -913,7 +958,7 @@ namespace GisoFramework.Item
                 this.Link,
                 this.Code,
                 actual.Version,
-                iconRename, 
+                iconRename,
                 iconDelete);
         }
 
@@ -1086,7 +1131,7 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE Document_Update
              * @DocumentId bigint,
              * @CompanyId int,
-             * @Description nvarchar(50),
+             * @Description nvarchar(100),
              * @CategoryId int,
              * @FechaAlta date,
              * @FechaBaja date,
@@ -1102,39 +1147,21 @@ namespace GisoFramework.Item
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@DocumentId", SqlDbType.BigInt);
-                cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
-                cmd.Parameters.Add("@FechaAlta", SqlDbType.Date);
-                //cmd.Parameters.Add("@FechaBaja", SqlDbType.Date);
-                cmd.Parameters.Add("@Origen", SqlDbType.Int);
-                cmd.Parameters.Add("@CategoryId", SqlDbType.Int);
+
+                cmd.Parameters.Add(DataParameter.Input("@DocumentId", this.Id));
+                cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                cmd.Parameters.Add(DataParameter.Input("@FechaAlta", this.StartDate));
+                cmd.Parameters.Add(DataParameter.Input("@Origen", this.Source));
+                cmd.Parameters.Add(DataParameter.Input("@CategoryId", this.Category.Id));
+                cmd.Parameters.Add(DataParameter.Input("@Conservacion", this.Conservation));
+                cmd.Parameters.Add(DataParameter.Input("@ConservacionType", this.ConservationType));
+                cmd.Parameters.Add(DataParameter.Input("@Activo", this.Active));
+                cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code, 10));
+                cmd.Parameters.Add(DataParameter.Input("@Ubicacion", this.Location, 100));
+                cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+
                 cmd.Parameters.Add("@ProcedenciaId", SqlDbType.Int);
-                cmd.Parameters.Add("@Conservacion", SqlDbType.Int);
-                cmd.Parameters.Add("@ConservacionType", SqlDbType.Int);
-                cmd.Parameters.Add("@Activo", SqlDbType.Bit);
-                cmd.Parameters.Add("@Codigo", SqlDbType.NVarChar);
-                cmd.Parameters.Add("@Ubicacion", SqlDbType.NVarChar);
-                cmd.Parameters.Add("@UserId", SqlDbType.Int);
-
-                cmd.Parameters["@DocumentId"].Value = this.Id;
-                cmd.Parameters["@CompanyId"].Value = this.CompanyId;
-                cmd.Parameters["@Description"].Value = this.Description;
-                cmd.Parameters["@FechaAlta"].Value = this.StartDate;
-                
-
-                //if (this.EndDate.HasValue)
-                //{
-                //    cmd.Parameters["@FechaBaja"].Value = this.EndDate;
-                //}
-                //else
-                //{
-                //    cmd.Parameters["@FechaBaja"].Value = DBNull.Value;
-                //}
-
-                cmd.Parameters["@Origen"].Value = this.Source;
-                cmd.Parameters["@CategoryId"].Value = this.Category.Id;
-
                 if (this.Origin.Id > 0)
                 {
                     cmd.Parameters["@ProcedenciaId"].Value = this.Origin.Id;
@@ -1143,13 +1170,6 @@ namespace GisoFramework.Item
                 {
                     cmd.Parameters["@ProcedenciaId"].Value = DBNull.Value;
                 }
-
-                cmd.Parameters["@Conservacion"].Value = this.Conservation;
-                cmd.Parameters["@ConservacionType"].Value = this.ConservationType;
-                cmd.Parameters["@Activo"].Value = this.Active;
-                cmd.Parameters["@Codigo"].Value = this.Code;
-                cmd.Parameters["@Ubicacion"].Value = this.Location;
-                cmd.Parameters["@UserId"].Value = userId;
 
                 try
                 {

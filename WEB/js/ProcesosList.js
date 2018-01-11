@@ -84,7 +84,6 @@ function Resize() {
 window.onload = function () {
     Resize();
 
-    // WEKE AUTO-ORDENAR
     if (!$("#th0").hasClass("ASC")) {
         $("#th0").click();
         $("#th0").click();

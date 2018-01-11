@@ -275,7 +275,7 @@ function FillCmbEquipmentMaintainmentActResponsible() {
     document.getElementById("CmbEquipmentMaintenanceActResponsible").appendChild(optionDefault);
 
     for (var x = 0; x < Employees.length; x++) {
-        if (Employees[x].Active === true) {
+        if (Employees[x].Active === true && Employees[x].DisabledDate === null) {
             var option = document.createElement("option");
             option.value = Employees[x].Id;
             option.appendChild(document.createTextNode(Employees[x].FullName));
@@ -285,7 +285,6 @@ function FillCmbEquipmentMaintainmentActResponsible() {
 
     $("#CmbEquipmentMaintenanceActResponsible").val(ApplicationUser.Employee.Id);
 }
-
 
 function EquipmentMaintananceActDelete(sender) {
     SelectedEquipmentMaintenanceActId = sender.parentNode.parentNode.id.substring(23);
@@ -388,6 +387,7 @@ function EquipmentMaintenanceActEdit(sender) {
 }
 
 function EquipmentMaintenanceDefinitionRegister(sender) {
+    console.log("EquipmentMaintenanceDefinitionRegister", sender);
     SelectedEquipmentMaintenanceActAction = 'New';
     document.getElementById('CmbEquipmentMaintenanceTypeErrorRequired').style.display = 'none';
     if (EquipmentMaintenanceDefinitionList.length == 0) {
@@ -400,16 +400,25 @@ function EquipmentMaintenanceDefinitionRegister(sender) {
     FillCmbEquipmentMaintainmentActResponsible();
 
     if (sender === null) {
-        SelectedEquipmentDefinitionSelectedId = 0;
-        SelectedEquipmentMaintenanceDefinition = null;
-        EquipmentMaintenanceActNewFormReset(SelectedEquipmentMaintenanceDefinition);
+        SelectedEquipmentDefinitionSelectedId = mantenimientoLaunchId;
+        if (SelectedEquipmentDefinitionSelectedId == 0) {
+            SelectedEquipmentMaintenanceDefinition = null;
+            EquipmentMaintenanceActNewFormReset(SelectedEquipmentMaintenanceDefinition);
+        }
+        else {
+            SelectedEquipmentMaintenanceDefinition = EquipmentMaintenanceDefinitiongetById(SelectedEquipmentDefinitionSelectedId);
+            if (SelectedEquipmentMaintenanceDefinition == null) { return false; }
+            EquipmentMaintenanceActNewFormReset(SelectedEquipmentMaintenanceDefinition);
+            $("#CmbEquipmentMaintenanceType").val(mantenimientoLaunchId);
+            $("#dialogNewEquipmentMaintenanceActOperation").html(SelectedEquipmentMaintenanceDefinition.Description + '&nbsp;<i>(' + (SelectedEquipmentMaintenanceDefinition.MaintenanceType == 0 ? Dictionary.Common_Internal : Dictionary.Common_External) + ')</i>');
+        }
     }
     else {
         SelectedEquipmentDefinitionSelectedId = sender.parentNode.parentNode.id.substring(30) * 1;
         SelectedEquipmentMaintenanceDefinition = EquipmentMaintenanceDefinitiongetById(SelectedEquipmentDefinitionSelectedId);
         if (SelectedEquipmentMaintenanceDefinition == null) { return false; }
         EquipmentMaintenanceActNewFormReset(SelectedEquipmentMaintenanceDefinition);
-        $('#dialogNewEquipmentMaintenanceActOperation').html(SelectedEquipmentMaintenanceDefinition.Description + '&nbsp;<i>(' + (SelectedEquipmentMaintenanceDefinition.MaintenanceType == 0 ? Dictionary.Common_Internal : Dictionary.Common_External) + ')</i>');
+        $("#dialogNewEquipmentMaintenanceActOperation").html(SelectedEquipmentMaintenanceDefinition.Description + '&nbsp;<i>(' + (SelectedEquipmentMaintenanceDefinition.MaintenanceType == 0 ? Dictionary.Common_Internal : Dictionary.Common_External) + ')</i>');
     }
 
     var dialog = $("#dialogNewEquipmentMaintenanceAct").removeClass('hide').dialog({
@@ -562,6 +571,7 @@ function MaintainmentNewSave() {
 }
 
 function ShowMaintaimentRecordPopup(actionSelected) {
+    console.log("ShowMaintaimentRecordPopup", actionSelected);
     var dialog = $("#dialogNewMaintaimentRecord").removeClass('hide').dialog({
         resizable: false,
         modal: true,

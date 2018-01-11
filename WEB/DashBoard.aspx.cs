@@ -4,16 +4,20 @@
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
+//using SbrinnaCoreFramework.Graph;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
-using System.Text;
 using System.Linq;
+using System.Text;
 using System.Web.UI;
-using GisoFramework.Item;
-//using SbrinnaCoreFramework.Graph;
 using GisoFramework;
+using GisoFramework.DataAccess;
+using GisoFramework.Item;
+using GisoFramework.Item.Binding;
 using SbrinnaCoreFramework;
 
 /// <summary>Implementation of DashBoard page</summary>
@@ -61,7 +65,7 @@ public partial class DashBoard : Page
             {
                 filter = Session["DashBoardFilter"].ToString();
             }
-            
+
             return filter;
         }
     }
@@ -116,7 +120,7 @@ public partial class DashBoard : Page
     {
         List<string> searchItems = new List<string>();
         StringBuilder tasksJson = new StringBuilder("[");
-        List<ScheduledTask> tasks = ScheduledTask.GetByEmployee(this.user.Employee.Id, this.company.Id).Where(t=>t.Expiration >= DateTime.Now.AddYears(-1)).ToList();
+        List<ScheduledTask> tasks = ScheduledTask.GetByEmployee(this.user.Employee.Id, this.company.Id).Where(t => t.Expiration >= DateTime.Now.AddYears(-1)).ToList();
         StringBuilder res = new StringBuilder();
         tasks = tasks.OrderBy(t => t.Expiration).ToList();
         bool first = true;
@@ -133,7 +137,7 @@ public partial class DashBoard : Page
             }
 
             string text = task.Equipment.Description;
-            if(!searchItems.Contains(text)) { searchItems.Add(text); };
+            if (!searchItems.Contains(text)) { searchItems.Add(text); };
 
             text = task.Responsible.FullName;
             if (!searchItems.Contains(text)) { searchItems.Add(text); };
@@ -177,7 +181,7 @@ public partial class DashBoard : Page
         StringBuilder sea = new StringBuilder();
 
         first = true;
-        foreach(string item in searchItems.OrderBy(s => s))
+        foreach (string item in searchItems.OrderBy(s => s))
         {
             if (first)
             {
@@ -195,5 +199,96 @@ public partial class DashBoard : Page
         }
 
         this.master.SearcheableItems = sea.ToString();
+    }
+
+    private void _RenderScheludedTasksList()
+    {
+        /*List<ScheduledTask> res = new List<ScheduledTask>();
+        using (SqlCommand cmd = new SqlCommand("ScheduleTask_GetByEmployee"))
+        {
+            cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+            try
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(DataParameter.Input("@EmployeeId", this.user.Employee.Id));
+                cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.company.Id));
+                cmd.Connection.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    if (user.PrimaryUser || rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId) == this.user.Employee.Id)
+                    {
+                        ScheduledTask newTask = new ScheduledTask()
+                        {
+                            OperationId = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.OperationId),
+                            Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.Operation),
+                            Equipment = new Equipment()
+                            {
+                                Id = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.EquipmentId),
+                                Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.Description)
+                            },
+                            Expiration = rdr.GetDateTime(ColumnsScheduleTaskGetByEmployee.Expiration),
+                            TaskType = rdr.GetString(ColumnsScheduleTaskGetByEmployee.OperationType),
+                            Responsible = new Employee()
+                            {
+                                Id = rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId),
+                                Name = rdr.GetString(ColumnsScheduleTaskGetByEmployee.EmployeeName),
+                                LastName = rdr.GetString(ColumnsScheduleTaskGetByEmployee.EmployeeLastName)
+                            },
+                            Action = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.Action),
+                            Internal = rdr[ColumnsScheduleTaskGetByEmployee.Type].ToString() == "0" ? "I" : "E"
+                        };
+
+                        if (!rdr.IsDBNull(ColumnsScheduleTaskGetByEmployee.ProviderName))
+                        {
+                            newTask.Provider = new Provider()
+                            {
+                                Id = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.ProviderId),
+                                Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.ProviderName)
+                            };
+                        }
+
+                        bool exists = false;
+                        foreach (ScheduledTask task in res)
+                        {
+                            if (newTask.Equipment.Id == task.Equipment.Id &&
+                            newTask.OperationId == task.OperationId &&
+                            newTask.TaskType == task.TaskType &&
+                            task.Internal == newTask.Internal)
+                            {
+                                if (task.Expiration < newTask.Expiration)
+                                {
+                                    task.Expiration = newTask.Expiration;
+                                }
+
+                                exists = true;
+                            }
+                        }
+
+                        if (!exists)
+                        {
+                            res.Add(newTask);
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                if (cmd.Connection.State != ConnectionState.Closed)
+                {
+                    cmd.Connection.Close();
+                }
+            }
+        }
+
+        StringBuilder text = new StringBuilder();
+        res = res.OrderBy(t => t.Expiration).ToList();
+        foreach (ScheduledTask task in res)
+        {
+            text.Append(task.Row(this.dictionary));
+        }
+
+        this.DataTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0}", res.Count);
+        this.LtScheduledTasks.Text = text.ToString();*/
     }
 }

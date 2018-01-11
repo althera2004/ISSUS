@@ -144,7 +144,10 @@ namespace GisoFramework.Item
                             bool exists = false;
                             foreach (ScheduledTask task in res)
                             {
-                                if (newTask.Equipment.Id == task.Equipment.Id && newTask.TaskType == task.TaskType && task.Internal == newTask.Internal)
+                                if (newTask.Equipment.Id == task.Equipment.Id &&
+                                newTask.OperationId == task.OperationId &&
+                                newTask.TaskType == task.TaskType &&
+                                task.Internal == newTask.Internal)
                                 {
                                     if (task.Expiration < newTask.Expiration)
                                     {

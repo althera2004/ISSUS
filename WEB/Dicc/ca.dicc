@@ -416,6 +416,9 @@ Item_Document_Button_New::Afegir
 Item_Document_Button_NewVersion::Versió
 Item_Document_Button_SourceBAR::Gestió de procedències
 Item_Document_Button_SourceBAR::Seleccionar una procedència
+Item_Document_Btn_Anular::Donar de baixa
+Item_Document_AnulateMessageTile::Document de baixa
+Item_Document_PopupAnular_Title::Baixa del document
 Item_Document_Error_DeleteReasonRequired::Especificar el motiu de l'eliminació
 Item_Document_ErrorMessage_AlreadyExists::Ja existeix
 Item_Document_ErrorMessage_StartDatePreviousRevision::La data d'inici no pot posterior a la primera revisió
@@ -424,6 +427,7 @@ Item_Document_FieldLabel_Code::Codi
 Item_Document_FieldLabel_Conservation::Conservació
 Item_Document_FieldLabel_CreationDate::Data alta
 Item_Document_FieldLabel_InactiveDate::Data baixa
+Item_Document_FieldLabel_EndReason::Motiu de baixa
 Item_Document_FieldLabel_Location::Ubicació
 Item_Document_FieldLabel_Name::Document
 Item_Document_FieldLabel_Origin::Origen
@@ -432,6 +436,7 @@ Item_Document_FieldLabel_RevisionAttachment::Adjunt
 Item_Document_FieldLabel_RevisionDate::D.revisió
 Item_Document_FieldLabel_Source::Procedència
 Item_Document_FieldLabel_Version::Versió
+Item_Document_NewAttachTitle::Adjuntar nouy document
 Item_Document_Help_BARCategoria::Gestionar les categories
 Item_Document_Help_BARProcedencia::Gestionar les procedències
 Item_Document_Help_Categoria::Sel·leccionar una categoria
@@ -900,6 +905,9 @@ Item_Incident_ErrorMessage_ReporterTypeRequired::Especificar qui reporta la inci
 Item_Incident_ErrorMessage_WhatHappenedDateRequired::Indicar la data d'informació de què ha passat
 Item_Incident_ErrorMessage_WhatHappenedRequired::Indicar què ha passat
 Item_Incident_ErrorMessage_WhatHappenedResponsibleRequired::Indicar qui ha registrat el que ha passat
+Item_Incident_AnulateMessageTile::Incidència tancada
+Item_Incident_Btn_Restaurar::Reobrir
+Item_Incident_Btn_Anular::Tancar
 Item_Incident_Field_Actions::Actuacions
 Item_Incident_Field_ActionsDate::Data
 Item_Incident_Field_ActionsExecuter::Executor/a
@@ -1551,3 +1559,24 @@ Item_Employee_PopupAnular_Title::Baixa d'empleat
 Item_Employee_Warning_NoUser::L'empleat no té associat un usuari a l'aplicació
 User_PrimaryUser::Usuari primari
 User_Admin::Administrador
+Item_Backup::Back-Up
+Item_Backup_Explain::Explicar que es un backup para poder hacer una restauración o migrar datos a otra aplicación y tal...
+Item_Backup_Btn_Go::Realitzar back-up
+Item_EquipmentScaleDivision::Divisió d'escala
+Item_EquipmentCalibrationDefinition::Definició de calibracions
+Item_EquipmentCalibrationAct::Calibracions realitzades
+Item_EquipmentVerificationDefinition::Definició de verificacions
+Item_EquipmentVerificationAct::Verificacions realitzades
+Item_EquipmentMaintenanceDefinition::Definicions de manteniments
+Item_EquipmentMaintenanceAct::Manteniments realitzats
+Item_Document_Category::Categoria documents
+Item_EmployeeSkills::Habilitats empleats
+Item_IncidentCost::Costs d'incidències
+Item_IncidentActionCost::Costos d'accions
+Item_LearningAssistant::Assistents a formaciones
+Item_IncidentAction_Btn_Restaurar::Reobrir
+Item_IncidentAction_Btn_Anular::Tancar
+Item_IncidentAction_PopupAnular_Title::Tancar acció
+Item_IncidentAction_AnulateMessageTile::Tancament
+Item_IncidentAction_Label_EndDate::Data
+Item_IncidentAction_Label_EndResponsible::Responsable
