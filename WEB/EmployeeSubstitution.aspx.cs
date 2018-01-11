@@ -207,14 +207,14 @@ public partial class EmployeeSubstitution : Page
             this.formFooter.ModifiedBy = this.employee.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.employee.ModifiedOn;
 
-
             this.TxtEndDate = new FormDatePicker()
             {
                 Id = "TxtEndDate",
                 Label = this.dictionary["Item_Employee_FieldLabel_InactiveDate"],
-                ColumnsSpanLabel = 4,
-                ColumnsSpan = 8
-                
+                ColumnsSpanLabel = 2,
+                ColumnsSpan = 2,
+                Required = true,
+                Value = DateTime.Now
             };
         }
     }

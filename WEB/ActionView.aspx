@@ -70,8 +70,7 @@
                                                             </div>
                                                             <div class="form-group" id="IncidentDiv" style="display: none;">
                                                                 <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>
-                                                                <!--div class="col-sm-11"-->
-                                                                <label class="col-sm-11"><%=this.Dictionary["Item_IncidentAction_Label_Incident"] %>&nbsp;<%=this.Incident.Link %></label><!--/div-->
+                                                                <label class="col-sm-11"><%=this.Dictionary["Item_IncidentAction_Label_Incident"] %>&nbsp;<%=this.Incident.Link %></label>
                                                             </div>
                                                             <div class="form-group" id="BusinessRiskDiv" style="display: none;">
                                                                 <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>
@@ -155,12 +154,6 @@
                                                             <hr />
                                                             <div class="form-group">
                                                                 <%=this.TxtMonitoring.Render %>
-                                                            </div>
-                                                            <hr />
-                                                            <div class="form-group">
-                                                                <label id="TxtActionsLabel" class="col-sm-2"><strong><%=this.Dictionary["Item_IncidentAction_Field_Close"] %></strong></label>
-                                                                <%=this.CmbClosedResponsible.Render %>
-                                                                <%=this.ClosedDate.Render %>
                                                             </div>
                                                             <hr />
                                                             <div class="form-group">
@@ -447,6 +440,17 @@
 
                             <%=this.ProviderBarPopups.Render %>
                             <%=this.CustomerBarPopups.Render %>
+
+                            <div id="dialogAnular" class="hide" style="width: 400px;">
+                                <form class="form-horizontal" role="form" id="FormDialogAnular">
+                                    <div class="form-group">                                        
+                                        <%=this.CmbClosedResponsible.Render %>
+                                    </div>
+                                    <div class="form-group">
+                                        <%=this.ClosedDate.Render %>
+                                    </div>
+                                </form>
+                            </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>

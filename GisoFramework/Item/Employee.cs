@@ -756,14 +756,20 @@ namespace GisoFramework.Item
         {
             get
             {
+                string endDate = "null";
+                if (this.disabledDate.HasValue)
+                {
+                    endDate = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.disabledDate.Value);
+                }
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    @"{{""Id"":{0},""CompanyId"":{1},""FullName"":""{2}"",""HasUserAssigned"":{3},""Active"":{4}}}",
+                    @"{{""Id"":{0},""CompanyId"":{1},""FullName"":""{2}"",""HasUserAssigned"":{3},""Active"":{4},""DisabledDate"":{5}}}",
                     this.Id,
                     this.CompanyId,
                     Tools.JsonCompliant(this.FullName),
                     this.HasUserAssigned ? "true" : "false",
-                    this.Active ? "true" : "false");
+                    this.Active ? "true" : "false",
+                    endDate);
             }
         }
 

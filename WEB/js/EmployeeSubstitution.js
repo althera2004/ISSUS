@@ -41,16 +41,17 @@ function RenderRow(asignation)
     tr.appendChild(td2);
 
     // ISSUS-101
-    // tr.appendChild(td3);
+    tr.appendChild(td3);
     target.appendChild(tr);
 }
 
 function RenderCmbSubstitute(itemtype, itemid)
 {
-    var target = document.createElement('SELECT');
-    target.id = itemtype + '-' + itemid;
+    var target = document.createElement("SELECT");
+    target.id = itemtype + "-" + itemid;
+    target.className = "SelectSubstitute";
 
-    var optionDefault = document.createElement('OPTION');
+    var optionDefault = document.createElement("OPTION");
     optionDefault.value = 0;
     optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectOne));
     target.appendChild(optionDefault);
@@ -58,9 +59,9 @@ function RenderCmbSubstitute(itemtype, itemid)
     for(var x=0;x<Company.Employees.length;x++)
     {
         if (Company.Employees[x].Id !== employeeId && Company.Employees[x].Active === true && Company.Employees[x].DisabledDate === null) {
-            var option = document.createElement('OPTION');
+            var option = document.createElement("OPTION");
             option.value = Company.Employees[x].Id;
-            option.appendChild(document.createTextNode(Company.Employees[x].Name + ' ' + Company.Employees[x].LastName));
+            option.appendChild(document.createTextNode(Company.Employees[x].Name + " " + Company.Employees[x].LastName));
             target.appendChild(option);
         }
     }
@@ -112,37 +113,55 @@ function Cancel() {
 
 function SaveEmployee() {
     var ok = true;
-    /*data = '';
-    var target = document.getElementById('TableEmployeeElements');
-    for (var x = 0; x < target.childNodes.length; x++) {
-        var row = target.childNodes[x];
-        row.style.color = '#000';
-        data += row.lastChild.firstChild.id + ':' + row.lastChild.firstChild.value + '|';
-        if (row.lastChild.firstChild.value * 1 === 0) {
-            row.style.color = '#F00';
+    console.log("SaveEmployee");
+    
+
+    var ok = true;
+    var errorMessage = "";
+    if ($("#TxtEndDate").val() === "") {
+        ok = false;
+        errorMessage = $("#TxtEndDateDateRequired").html();
+        errorMessage += "<br />";
+    }
+    else {
+        if (!validateDate($("#TxtEndDate").val())) {
             ok = false;
+            errorMessage = $("#TxtEndDateDateMalformed").html();
+            errorMessage += "<br />";
         }
     }
 
+    var okSubst = true;
+    $(".SelectSubstitute").each(function () {
+        var $this = $(this);
+        $(this).css("background-color", "transparent");
+        var res = $(this).attr("id") + "|" + $(this).val() + "#";
+        if ($(this).val() * 1 < 1) {
+            okSubst = false;
+            $(this).css("background-color", "#fdd");
+        }
+        $("#Subst").html($("#Subst").html() + res);
+    });
+
+    if (okSubst === false) {
+        errorMessage += Dictionary.Item_Employee_List_Delete_Error;
+    }
+
     if (ok === false) {
-        warningInfoUI(Dictionary.Item_Employee_List_Delete_Error, null, 300)
-        return false;
-    }*/
-    
-    if($('#All').val() * 1 === 0)
-    {
-        warningInfoUI(Dictionary.Item_Employee_List_Delete_ErrorNoSubstitute, null, 300);
+        warningInfoUI(errorMessage, null, 300);
         return false;
     }
 
     var webMethod = "/Async/EmployeeActions.asmx/Substitute";
     var data = {
-        "data": $('#TxtData').val(),
+        "endDate": GetDate($("#TxtEndDate").val(), "/", false),
         "userId": user.Id,
         "companyId": companyId,
         "actualEmployee": employeeId,
-        "newEmployee": $('#All').val() * 1
+        "substitutions": $("#Subst").val()
     };
+
+    console.log(data)
 
     $.ajax({
         type: "POST",

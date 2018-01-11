@@ -41,6 +41,17 @@ namespace GisoFramework
             return DataCell(value, font, iTS.Rectangle.ALIGN_LEFT);
         }
 
+        public static iTSpdf.PdfPCell DataCellMoney(decimal? value, iTS.Font font)
+        {
+            string valueText = string.Empty;
+            if (value.HasValue)
+            {
+                valueText = Tools.PdfMoneyFormat(value.Value);
+            }
+
+            return DataCellRight(valueText, font);
+        }
+
         public static iTSpdf.PdfPCell DataCellMoney(decimal value, iTS.Font font)
         {
             string valueText = Tools.PdfMoneyFormat(value);

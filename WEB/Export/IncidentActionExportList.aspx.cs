@@ -120,24 +120,20 @@ public partial class Export_IncidentActionExportList : Page
 
         var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         fontAwe = new Font(fontAwesomeIcon, 10);
-        // -------------------        
-
+        // -------------------
 
         iTSpdf.PdfPTable titleTable = new iTSpdf.PdfPTable(1);
         float[] titleWidths = new float[] { 50f };
         titleTable.SetWidths(titleWidths);
-        iTSpdf.PdfPCell titleCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont));
-        titleCell.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        titleCell.Border = iTS.Rectangle.NO_BORDER;
+        iTSpdf.PdfPCell titleCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont))
+        {
+            HorizontalAlignment = iTS.Element.ALIGN_CENTER,
+            Border = iTS.Rectangle.NO_BORDER
+        };
         titleTable.AddCell(titleCell);
 
         var borderNone = iTS.Rectangle.NO_BORDER;
-        var borderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
-        var borderTBL = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.LEFT_BORDER;
-        var borderTBR = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.RIGHT_BORDER;
-
-
-
+        
         //------ CRITERIA
         iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(4);
         float[] cirteriaWidths = new float[] { 20f, 50f, 15f, 100f };

@@ -2,6 +2,7 @@
 var firstChart = true;
 var UnitSelected = null;
 var $myPayloadMeter;
+var lockOrderList = false;
 
 window.onload = function () {
     $("#build").hide();
@@ -446,6 +447,10 @@ function IndicadorRegistroFilter(exportType) {
         return false;
     }
 
+    if (typeof exportType !== "undefined") {
+        lockOrderList = true;
+    }
+
     $("#IndicadorRegistrosTable").html("");
     $("#IndicadorRegistrosTable").show();
     $("#ItemTableError").hide();
@@ -484,6 +489,22 @@ function IndicadorRegistroFilter(exportType) {
         $("#ItemTableVoid").show();
     }
 
+    if (listOrder === null) {
+        listOrder = "th2|DESC";
+    }
+    console.log(listOrder);
+    if (lockOrderList) {
+        var th = listOrder.split('|')[0];
+        var sort = listOrder.split('|')[1];
+
+        $("#" + th).click();
+        if (document.getElementById(th).className.indexOf(sort) === -1) {
+            $("#" + th).click();
+        }
+
+    }
+
+    lockOrderList = false;
     if (exportType === "PDF") {
         Export("PDF");
     }
@@ -1419,7 +1440,8 @@ function Export(fileType) {
         "dateTo": GetDate($("#TxtRecordsToDate").val(), "/", false),
         "companyId": Company.Id,
         "indicadorId": Indicador.Id,
-        "indicadorName": Indicador.Description
+        "indicadorName": Indicador.Description,
+        "listOrder": listOrder
     };
 
     LoadingShow(Dictionary.Common_Report_Rendering);

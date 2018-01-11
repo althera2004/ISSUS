@@ -22,6 +22,7 @@ namespace SbrinnaCoreFramework.UI
         public string Label { get; set; }
         public DateTime? Value { get; set; }
         public bool? GrantToWrite { get; set; }
+        public bool Required { get; set; }
 
         public string Render
         {
@@ -40,6 +41,7 @@ namespace SbrinnaCoreFramework.UI
                 }
 
                 string malformedLabel = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span class=""ErrorMessage"" id=""{0}DateMalformed"" style=""display:none;"">{1}</span>", this.Id, dictionary["Common_Error_DateMalformed"]);
+                string requiredLabel = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span class=""ErrorMessage"" id=""{0}DateRequired"" style=""display:none;"">{1}</span>", this.Id, dictionary["Common_Required"]);
 
                 return string.Format(
                     CultureInfo.InvariantCulture,
@@ -54,6 +56,7 @@ namespace SbrinnaCoreFramework.UI
                                     </span>
                                 </div>
                                 {4}
+                                {7}
                             </div>
                         </div>
                     </div>",
@@ -63,7 +66,8 @@ namespace SbrinnaCoreFramework.UI
                     this.Value.HasValue ? string.Format("{0:dd/MM/yyyy}", this.Value.Value) : string.Empty,
                     malformedLabel,
                     (this.GrantToWrite.HasValue && this.GrantToWrite.Value == false) ? " readonly=\"readonly\"" : string.Empty,
-                    (this.GrantToWrite.HasValue && this.GrantToWrite.Value == false) ? " style=\"display:none;\"" : string.Empty);
+                    (this.GrantToWrite.HasValue && this.GrantToWrite.Value == false) ? " style=\"display:none;\"" : string.Empty,
+                    this.Required ? requiredLabel : string.Empty);
             }
         }
     }

@@ -96,5 +96,8 @@ namespace GisoFramework.Item.Binding
 
         /// <summary> Index of CompanyId column</summary>
         public const int CompanyId = 28;
+
+        /// <summary> Index of Admin column</summary>
+        public const int Admin = 29;
     }
 }

@@ -36,7 +36,7 @@
                                                                         <tr>
                                                                             <th style="width:300px;"><%=this.Dictionary["Item_Employee_List_Delete_Header_Type"]%></th>
                                                                             <th><%=this.Dictionary["Item_Employee_List_Delete_Header_Description"]%></th>
-                                                                            <!-- ISSUS-101 <th style="width:200px;"><%=this.Dictionary["Item_Employee_List_Delete_Header_Substitution"]%></th> -->
+                                                                            <th style="width:200px;"><%=this.Dictionary["Item_Employee_List_Delete_Header_Substitution"]%></th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody id="TableEmployeeElements"></tbody>
@@ -56,6 +56,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <textarea id="Subst" style="display:none;"></textarea>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>

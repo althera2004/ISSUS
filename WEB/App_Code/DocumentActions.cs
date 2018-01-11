@@ -34,6 +34,13 @@ namespace GISOWeb
             return Document.Restore(documentId, companyId, userId);
         }
 
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod]
+        public ActionResult Anulate(int documentId,DateTime endDate, string endReason, int companyId, int userId)
+        {
+            return Document.Anulate(documentId, endDate, endReason, companyId, userId);
+        }
+
         /// <summary>
         /// Asynchronous action to call category insert
         /// </summary>

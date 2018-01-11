@@ -208,10 +208,10 @@ public class EmployeeActions : WebService {
 
     [WebMethod(EnableSession=true)]
     [ScriptMethod]
-    public ActionResult Substitute(string data, int userId, int companyId, int actualEmployee, int newEmployee)
+    public ActionResult Substitute(DateTime endDate, int userId, int companyId, int actualEmployee, string substitutions)
     {
         ActionResult res = ActionResult.NoAction;
-        string[] actions = data.Split('|');
+        string[] subs = substitutions.Split('#');
 
         using (SqlCommand cmd = new SqlCommand())
         {
@@ -225,13 +225,13 @@ public class EmployeeActions : WebService {
             {
                 cmd.Connection.Open();
                 string procedure = string.Empty;
-                foreach (string action in actions)
+                foreach (string action in subs)
                 {
                     if (!string.IsNullOrEmpty(action))
                     {
                         string item = action.Split('-')[0];
-                        string itemId = action.Split('-')[1];
-                        string newEmployeeId = newEmployee.ToString();
+                        string itemId = action.Split('-')[1].Split('|')[0];
+                        string newEmployeeId = action.Split('|')[1];
 
                         switch (item)
                         {
@@ -256,7 +256,7 @@ public class EmployeeActions : WebService {
                 }
 
                 //// res = Employee.Delete(Convert.ToInt32(actualEmployee), string.Empty, Convert.ToInt32(companyId), Convert.ToInt32(userId));
-                res = Employee.Disable(actualEmployee, companyId, userId, DateTime.Now);
+                res = Employee.Disable(actualEmployee, companyId, userId, endDate);
             }
             catch (Exception ex)
             {

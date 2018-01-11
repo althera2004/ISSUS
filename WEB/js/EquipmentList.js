@@ -74,7 +74,7 @@ window.onload = function () {
     document.getElementById("RBStatus1").checked = Filter.indexOf("1") !== -1;
     document.getElementById("RBStatus2").checked = Filter.indexOf("2") !== -1;
     RenderTable();
-    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;")
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;")    
 }
 window.onresize = function () { Resize(); }
 
@@ -143,6 +143,19 @@ function RenderTable() {
     }
 
     $("#TotalCost").html(ToMoneyFormat(total, 2));
+
+    if (listOrder === null) {
+        $("#th0").click();
+    }
+    else {
+        var column = listOrder.split('|')[0];
+        var order = listOrder.split('|')[1];
+
+        $("#" + column).click();
+        if (document.getElementById(column).className.indexOf(order) === -1) {
+            $("#" + column).click();
+        }
+    }
 }
 
 function RenderRow(equipment) {

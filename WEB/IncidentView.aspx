@@ -132,29 +132,14 @@
                                                                 <div class="col-sm-1"><input type="radio" name="RAction" id="RActionNo" onclick="RActionChanged();" />No</div>
                                                             </div> 
                                                             <hr />
-                                                            <div class="form-group">
-                                                                <label class="col-sm-2" id="TxtCausesLabel"><strong><%=this.Dictionary["Item_Incident_Label_Closing"]%></strong></label>
-                                                            <!--/div>
-                                                            <div class="form-group"-->
+                                                            <div class="form-group" style="display:none;">
                                                                 <%=this.CmbClosedResponsible.Render %>
-                                                                <!--div class="col-sm-4"-->   
                                                                     <%=this.ClosedDate.Render %>
-                                                                <!--/div-->
                                                             </div>
-                                                            <hr />
                                                             <div class="form-group">
                                                             	<%=this.TxtNotes.Render %>
-																						 
-																								
-																	  
-                                                            </div>
-																					  
+                                                            </div>																					  
                                                         </form>
-															  
-															  
-															  
-															  
-															  
                                                     </div>
                                                     <%=this.FormFooter %>
                                                 </div>
@@ -496,13 +481,16 @@
                 $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
                     _title: function (title) {
                         var $title = this.options.title || '&nbsp;'
-                        if (("title_html" in this.options) && this.options.title_html == true)
+                        if (("title_html" in this.options) && this.options.title_html == true) {
                             title.html($title);
-                        else title.text($title);
+                        }
+                        else {
+                            title.text($title);
+                        }
                     }
                 }));
 
-                var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
+                var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage%>"], { autoclose: true, todayHighlight: true });
                 $(".date-picker").datepicker(options);
 
                 $('#BtnSave').on('click', function (e) { e.preventDefault(); SaveIncident(); });
@@ -568,7 +556,9 @@
             IncidentActionFormAfterLoad();
 
             console.log(document.getElementById("RActionYes").checked);
-            if ($("#CmbClosedResponsible").val() > 0) {
+            //if ($("#CmbClosedResponsible").val() > 0) {
+            if (Incident.ClosedOn !== null)
+            {
                 $("#TxtDescription").attr("disabled", true);
                 
                 $("#RReporterType1").attr("disabled", true);
@@ -601,6 +591,8 @@
                     $("#RActionYes").attr("disabled", true);
                     $("#RActionNo").attr("disabled", true);
                 }
+
+                AnulateLayout();
             }
 
             function PrintData() {

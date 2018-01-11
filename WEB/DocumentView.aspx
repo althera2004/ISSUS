@@ -92,24 +92,6 @@
                                                                     <span class="ErrorMessage" id="TxtStartDatePreviousRevision" style="display: none;"><%=this.Dictionary["Item_Document_ErrorMessage_StartDatePreviousRevision"] %></span>
                                                                 </div>
                                                             </div>
-                                                            <label id="Label3" class="col-sm-1 control-label no-padding-right" <%if (this.DocumentId < 1)
-                                                                                                                                 { %> style="display: none;" <% } %>><%=this.Dictionary["Item_Document_FieldLabel_InactiveDate"]%></label>
-                                                            <div class="col-sm-2" <%if (this.DocumentId < 1)
-                                                                                    { %> style="display: none;" <% } %>>
-                                                                <input type="text" style="display: none;" id="TxtEndDate_" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_InactiveDate"] %>" class="col-xs-12 col-sm-12" />
-                                                                <div class="row">
-                                                                    <div class="col-xs-12 col-sm-12 tooltip-info" id="DivEndDate">
-                                                                        <div class="input-group">
-                                                                            <input class="form-control date-picker_start" id="TxtEndDate" type="text" data-date-format="dd/mm/yyyy" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_InactiveDate"] %>" maxlength="10" />
-                                                                            <span class="input-group-addon" onclick="document.getElementById('TxtEndDate').focus();">
-                                                                                <i class="icon-calendar bigger-110"></i>
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        <!--/div>
-                                                        <div class="form-group"-->
                                                             <label id="Label6" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_RevisionDate"]%></label>
                                                             <div class="col-sm-2">
                                                                 <input type="text" readonly="readonly" id="TxtRevisionDate" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_RevisionDate"] %>" class="col-xs-12 col-sm-12" /></div>
@@ -357,6 +339,37 @@
                                 <span class="ErrorMessage" id="TxtProcedenciaNewNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                 <span class="ErrorMessage" id="TxtProcedenciaNewNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
+
+    
+
+                            <div id="dialogAnular" class="hide" style="width: 500px;">
+                                <form class="form-horizontal" role="form" id="FormDialogAnular">
+                                    <div class="form-group">
+                                        <label id="TxtEndDateLabel" class="col-sm-3 control-label no-padding-right" for="TxtEndDate"><%=this.Dictionary["Item_Document_FieldLabel_InactiveDate"] %><span class="required">*</span></label>
+                                        <div class="col-sm-4">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 tooltip-info">
+                                                    <div class="input-group">
+                                                        <input class="form-control date-picker" id="TxtEndDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                        <span id="TxtEndDateBtn" class="input-group-addon" onclick="document.getElementById('TxtEndDate').focus();">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                                                    </div>
+                                                    <span class="ErrorMessage" id="TxtEndDateErrorRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
+                                                    <span class="ErrorMessage" id="TxtEndDateMalformed" style="display: none;"><%= this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="TxtAnularCommentsLabel" class="col-sm-3 control-label no-padding-right" for="TxtRegistroComments"><%=this.Dictionary["Item_ObjetivoRecord_FieldLabel_Reason"] %></label>
+                                        <div class="col-sm-9">
+                                            <textarea class="col-xs-12 col-sm-12" id="TxtAnularComments" rows="5"></textarea>
+                                            <span class="ErrorMessage" id="TxtAnularCommentsErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
@@ -365,10 +378,7 @@
         <script type="text/javascript" src="/assets/js/fuelux/fuelux.spinner.min.js"></script>
         <script type="text/javascript" src="/assets/js/date-time/bootstrap-timepicker.min.js"></script>
         <script type="text/javascript" src="/assets/js/date-time/moment.min.js"></script>
-        <!-- script type="text/javascript" src="/assets/js/date-time/_daterangepicker.min.js"></!-->
-
         <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
-        <!-- page scripts -->
         <script type="text/javascript" src="/js/DocumentView.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/Procedencia.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/Categoria.js?<%=this.AntiCache %>"></script>
@@ -501,13 +511,13 @@
                     }
                 }));
                 
-                $('#TxtRevision').css('text-align','right');
-                $('#TxtConservacion').css('text-align','right');
+                $("#TxtRevision").css("text-align", "right");
+                $("#TxtConservacion").css("text-align", "right");
+               
+                var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true });
+                $("#TxtEndDate").datepicker(options);
 
-                var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
-                $("._date-picker").datepicker(options);
-
-                var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true, maxDate: firstDate });
+                var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true, maxDate: firstDate });
                 $(".date-picker_start").datepicker(options);
 
                 if(ApplicationUser.ShowHelp===true){
@@ -529,29 +539,28 @@
                     $('[data-rel=tooltip]').tooltip();
                 }
 
-
-                $("#BtnCategory").on('click', function (e) {
+                $("#BtnCategory").on("click", function (e) {
                     e.preventDefault();
                     RenderCategoryTable();
-                    var dialog = $("#dialogCategory").removeClass('hide').dialog({
-                        resizable: false,
-                        modal: true,
-                        title: 'Adjuntar nou document',
-                        title_html: true,
-                        width: 800,
-                        buttons: [
+                    var dialog = $("#dialogCategory").removeClass("hide").dialog({
+                        "resizable": false,
+                        "modal": true,
+                        "title": Dictionary.Item_Document_PopupCategory_Title,
+                        "title_html": true,
+                        "width": 800,
+                        "buttons": [
                             {
-                                id: 'BtnNewCategory',
-                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                                "id": "BtnNewCategory",
+                                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                                 "class": "btn btn-success btn-xs",
-                                click: function () {
+                                "click": function () {
                                     CategoryInsert();
                                 }
                             },
                             {
-                                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                                 "class": "btn btn-xs",
-                                click: function () {
+                                "click": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -560,10 +569,10 @@
                     });
                 });
 
-                $("#BtnProcedencia").on('click', function (e) {
+                $("#BtnProcedencia").on("click", function (e) {
                     e.preventDefault();
                     RenderProcedenciasTable();
-                    var dialog = $("#dialogProcedencia").removeClass('hide').dialog({
+                    var dialog = $("#dialogProcedencia").removeClass("hide").dialog({
                         resizable: false,
                         modal: true,
                         title: Dictionary.Item_Document_PopupSource_Title,
@@ -590,42 +599,41 @@
             });
 
             if (documentId != -1) {
-                $('#TxtCodigo').val(documento.Code);
-                $('#TxtDocumento').val(documento.Description);
-                $('#TxtStartDate').val(documento.StartDate);
-                $('#TxtEndDate').val(documento.EndDate);
-                $('#TxtRevisionDate').val(documento.RevisionDate);
-                $('#TxtUbicacion').val(documento.Location);
-                $('#TxtConservacion').val(documento.Conservation);
-                document.getElementById('CmbOrigen').value = sourceSelected;
+                $("#TxtCodigo").val(documento.Code);
+                $("#TxtDocumento").val(documento.Description);
+                $("#TxtStartDate").val(documento.StartDate);
+                $("#TxtEndDate").val(documento.EndDate);
+                $("#TxtRevisionDate").val(documento.RevisionDate);
+                $("#TxtUbicacion").val(documento.Location);
+                $("#TxtConservacion").val(documento.Conservation);
+                document.getElementById("CmbOrigen").value = sourceSelected;
                 SetCategoryText();
                 SetProcedenciaText();
                 SetOrigen();
             }
             else {
-                $('#TabHistoricoSelector').hide();
-                $('#TxtStartDate').val(FormatDate(new Date(),'/'));
-                $('#BtnNewVersion').hide();
-                document.getElementById('TxtProcedencia').style.display = 'none';
-                document.getElementById('TxtProcedenciaLabel').style.display = 'none';
-                document.getElementById('BtnProcedencia').style.display = 'none';
-                document.getElementById('CmbProcedencia').style.display = 'none';            
+                $("#TabHistoricoSelector").hide();
+                $("#TxtStartDate").val(FormatDate(new Date(), "/"));
+                $("#BtnNewVersion").hide();
+                document.getElementById("TxtProcedencia").style.display = "none";
+                document.getElementById("TxtProcedenciaLabel").style.display = "none";
+                document.getElementById("BtnProcedencia").style.display = "none";
+                document.getElementById("CmbProcedencia").style.display = "none";
             }
 
             FillCmbCategory();
             FillCmbProcedencia();
 
             // Control de permisos
-            if(typeof ApplicationUser.Grants.Document === "undefined" || ApplicationUser.Grants.Document.Write === false){
+            if (typeof ApplicationUser.Grants.Document === "undefined" || ApplicationUser.Grants.Document.Write === false) {
                 $(".btn-danger").hide();
-                $("input").attr("disabled",true);
-                $("textarea").attr("disabled",true);
-                $("select").attr("disabled",true);
-                $("select").css("background-color","#eee");
+                $("input").attr("disabled", true);
+                $("textarea").attr("disabled", true);
+                $("select").attr("disabled", true);
+                $("select").css("background-color", "#eee");
                 $("#BtnNewUploadfileVersion").hide();
                 $("#BtnNewVersion").hide();
                 $("#BtnCategory").hide();
-                
             }
         </script>
 </asp:Content>

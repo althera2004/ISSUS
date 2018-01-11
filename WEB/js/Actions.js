@@ -10,10 +10,10 @@ function CmdResponsibleFill() {
     for (var x = 0; x < Employees.length; x++) {
         if (Employees[x].Active === true) {
             // Incident cost
-            var option = document.createElement('OPTION');
+            var option = document.createElement("OPTION");
             option.value = Employees[x].Id;
-            option.appendChild(document.createTextNode(Employees[x].Value));
-            document.getElementById('CmdIncidentActionCostResponsible').appendChild(option);
+            option.appendChild(document.createTextNode(Employees[x].FullName));
+            document.getElementById("CmdIncidentActionCostResponsible").appendChild(option);
         }
     }
 }
@@ -148,3 +148,171 @@ function SetCloseRequired() {
 
 $("#CmbActionsResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionsResponsible").val() * 1, Employees); });
 $("#CmbClosedResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbClosedResponsible").val() * 1, Employees); });
+
+$("#BtnAnular").hide();
+$("#BtnRestaurar").hide();
+if (IncidentAction.ClosedOn === null) {
+    $("#BtnAnular").show();
+} else {
+    $("#BtnRestaurar").show();
+    AnulateLayout();
+}
+
+$("#BtnAnular").on("click", AnularPopup);
+$("#BtnRestaurar").on("click", Restore);
+
+function AnularPopup() {
+    //FieldSetRequired("CmbClosedResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleClose, true);
+    //FieldSetRequired("TxtClosedDateLabel", Dictionary.Common_Date, true);
+
+    var ok = true;
+    if ($("#TxtDescription").val() === "") { ok = false; }
+    if ($("#TxtWhatHappened").val() === "") { ok = false; }
+    if ($("#TxtCauses").val() === "") { ok = false; }
+    if ($("#TxtActions").val() === "") { ok = false; }
+    if ($("#TxtWhatHappenedDate").val() === "") { ok = false; }
+    if ($("#TxtCausesDate").val() === "") { ok = false; }
+    if ($("#TxtActionsDate").val() === "") { ok = false; }
+    if ($("#CmbWhatHappenedResponsible").val() * 1 < 1) { ok = false; }
+    if ($("#CmbCausesResponsible").val() * 1 < 1) { ok = false; }
+    if ($("#CmbActionsResponsible").val() * 1 < 1) { ok = false; }
+
+    if (ok === false) {
+        alertUI("Revise los campos obligatorios");
+        return false;
+    }
+
+    $("#CmbClosedResponsibleLabel").html(Dictionary.Item_IncidentAction_Field_ResponsibleClose + "<span style=\"color:#f00;\">*</span>");
+    $("#TxtClosedDateLabel").html(Dictionary.Item_IncidentAction_Field_Date + "<span style=\"color:#f00;\">*</span>");
+    $("#CmbClosedResponsibleLabel").removeClass("control-label");
+    $("#CmbClosedResponsibleLabel").removeClass("no-padding-right");
+    $("#TxtClosedDate").val(FormatDate(new Date(), "/"));
+    $("#CmbClosedResponsible").val(user.Employee.Id);
+    var dialog = $("#dialogAnular").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Objetivo_PopupAnular_Title,
+        "width": 400,
+        "buttons":
+        [
+            {
+                "id": "BtnAnularSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_IncidentAction_Btn_Anular,
+                "class": "btn btn-success btn-xs",
+                "click": function () { AnularConfirmed(); }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () { $(this).dialog("close"); }
+            }
+        ]
+    });
+}
+
+var anulationData = null;
+function AnularConfirmed() {
+    document.getElementById("TxtClosedDateLabel").style.color = "#000";
+    document.getElementById("CmbClosedResponsibleLabel").style.color = "#000";
+    document.getElementById("TxtClosedDateDateRequired").style.display = "none";
+    document.getElementById("TxtClosedDateDateMalformed").style.display = "none";
+    document.getElementById("CmbClosedResponsibleErrorRequired").style.display = "none";
+
+    var ok = true;
+
+    if ($("#TxtClosedDate").val() === "") {
+        ok = false;
+        document.getElementById("TxtClosedDateLabel").style.color = "#f00";
+        document.getElementById("TxtClosedDateDateRequired").style.display = "";
+    }
+    else {
+        if (validateDate($("#TxtClosedDate").val()) === false) {
+            ok = false;
+            $("#TxtClosedDateLabel").css("color", "#f00");
+            $("#TxtClosedDateDateMalformed").show();
+        }
+    }
+
+    if ($("#CmbClosedResponsible").val() * 1 < 1) {
+        ok = false;
+        document.getElementById("CmbClosedResponsibleLabel").style.color = "#f00";
+        document.getElementById("CmbClosedResponsibleErrorRequired").style.display = "";
+    }
+
+    if (ok === false) {
+        return false;
+    }
+
+    var webMethod = "/Async/IncidentActionsActions.asmx/Anulate";
+    var data = {
+        "incidentActionId": IncidentAction.Id,
+        "companyId": Company.Id,
+        "responsible": $("#CmbClosedResponsible").val() * 1,
+        "date": GetDate($("#TxtClosedDate").val(), "/"),
+        "applicationUserId": user.Id
+    };
+    anulationData = data;
+    $("#dialogAnular").dialog("close");
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            SaveAction();
+            //document.location = referrer;
+        },
+        error: function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function AnulateLayout() {
+    $("#BtnRestaurar").hide();
+    if (IncidentAction.ClosedOn !== null) {
+        var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+        message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
+        message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_IncidentAction_AnulateMessageTile + "</h3>";
+        message += "    <p style=\"margin-left:50px;\">";
+        message += "        " + Dictionary.Item_IncidentAction_Label_EndDate + ": <strong>" + IncidentAction.ClosedOn + "</strong><br />";
+        message += "        " + Dictionary.Item_IncidentAction_Label_EndResponsible + ": <strong>" + IncidentAction.ClosedBy.Value + "</strong>";
+        message += "    </p>";
+        message += "</div><br /><br /><br />";
+        $("#home").append(message);
+        $("#BtnAnular").hide();
+        $("#BtnRestaurar").show();
+    }
+    else {
+        $("#DivAnulateMessage").hide();
+        $("#BtnAnular").show();
+    }
+}
+
+function Restore() {
+    var webMethod = "/Async/IncidentActionsActions.asmx/Restore";
+    var data = {
+        "incidentActionId": IncidentAction.Id,
+        "companyId": Company.Id,
+        "applicationUserId": user.Id
+    };
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            IncidentAction.EndDate = null;
+            AnulateLayout();
+        },
+        error: function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}

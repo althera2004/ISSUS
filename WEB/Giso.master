@@ -140,7 +140,7 @@
     <asp:ContentPlaceHolder id="PageScripts" runat="server"></asp:ContentPlaceHolder>
     <asp:ContentPlaceHolder id="ScriptHeadContentHolder" runat="server"></asp:ContentPlaceHolder>
 </head>
-<body oncontextmenu="return false;">
+<body _oncontextmenu="return false;">
     <form id="form1" runat="server">
         <div class="navbar navbar-fixed-top" id="navbar">
             <script type="text/javascript">
@@ -371,6 +371,7 @@
     <script type="text/javascript" src="/assets/js/jquery.slimscroll.min.js"></script>
     <script type="text/javascript" src="/assets/js/jquery.easy-pie-chart.min.js"></script>
     <script type="text/javascript" src="/assets/js/jquery.sparkline.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.number.js"></script>
     <script type="text/javascript" src="/assets/js/flot/jquery.flot.min.js"></script>
     <script type="text/javascript" src="/assets/js/flot/jquery.flot.pie.min.js"></script>
     <script type="text/javascript" src="/assets/js/flot/jquery.flot.resize.min.js"></script>
@@ -625,45 +626,7 @@
             }
 
             // Force Logout
-            var timeoutAlerted=false;
-            //setTimeout(function(){ timeoutAlert() }, timeout);
-
-            // Money format
-            /*$('input.money-bank').priceFormat({
-                prefix: '',
-                thousandsSeparator: '.',
-                centsSeparator: Dictionary.NumericDecimalSeparator,
-                centsLimit: 2,
-                permitZeroValue: true
-            });
-            $('input.decimalFormated').priceFormat({
-                prefix: '',
-                thousandsSeparator: '.',
-                centsSeparator: Dictionary.NumericDecimalSeparator,
-                centsLimit: 6,
-                permitZeroValue: true,
-                completeDecimals: false
-            });
-            $('input.money-bank-nozero').priceFormat({
-                prefix: '',
-                thousandsSeparator: '.',
-                centsSeparator: Dictionary.NumericDecimalSeparator,
-                permitZeroValue: false
-            });
-            $('input.integer').priceFormat({
-                prefix: '',
-                thousandsSeparator: '',
-                centsSeparator: '',
-                centsLimit: 0,
-                permitZeroValue: false
-            });
-            $('input.integerFormated').priceFormat({
-                prefix: '',
-                thousandsSeparator: Dictionary.NumericMilesSeparator,
-                centsSeparator: '',
-                centsLimit: 0,
-                permitZeroValue: false
-            });*/
+            var timeoutAlerted = false;
 
             var numberActual;
 
@@ -681,7 +644,7 @@
                 if(code > 36 && code < 41) { ok = true; }
                 if(code > 47 && code < 58) { ok = true; }
 
-                if(type === 'decimal' || type ==='money')
+                if(type === "decimal" || type === "money")
                 {
                     if(code===188 || code===110 || code===190){
                         ok = true;
@@ -704,7 +667,6 @@
                 if(code===188 || code===110 || code===190){
                     e.currentTarget.value = numberActual.split(",").join(".");
                     if(numberActual.indexOf(".")!=-1) {
-                        console.log("doble-down");
                         e.preventDefault();
                         e.stopPropagation();
                     }
@@ -761,6 +723,9 @@
             function moneyBlur(e) {
                 var value = e.currentTarget.value;
                 console.log("moneyBlur", value);
+                if ($.isNumeric(value) === false) {
+                    value = value = StringToNumberNullable(value, '.', ',');
+                }
                 if(e.currentTarget.className.indexOf("nullable") != -1 && value ===""){
                 }
                 else{
@@ -847,9 +812,9 @@
             });
 
             function EmployeeGetById(id){
-                for(var x=0; x< Empleados.length;x++){
-                    if(Empleados[x].Id === id){
-                        return Empleados[x];
+                for (var x = 0; x < Employees.length; x++) {
+                    if (Employees[x].Id === id) {
+                        return Employees[x];
                     }
                 }
                 return null;

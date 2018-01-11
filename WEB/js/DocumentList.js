@@ -146,12 +146,20 @@ function RenderDocumentTable() {
             count++;
         }
     }
+
     $("#TotalRecords").html(count);
-    if (listOrder !== null) {
-        $("th0").click();
-        if (th0.className.indexOf("DESC") === -1 && listOrder.indexOf("DESC") !== -1) {
-            $("th0").click();
-        }
+
+
+    if (listOrder === null) {
+        listOrder = "th0|ASC";
+    }
+
+    var th = listOrder.split('|')[0];
+    var order = listOrder.split('|')[1];
+    console.log(listOrder);
+    $("#" + th).click();
+    if (document.getElementById(th).className.indexOf(order) === -1) {
+        $("#" + th).click();
     }
 }
 

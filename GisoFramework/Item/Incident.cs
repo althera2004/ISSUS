@@ -120,9 +120,8 @@ namespace GisoFramework.Item
             {
                 return string.Format(
                     CultureInfo.GetCultureInfo("en-us"),
-                    @"<a href=""IncidentView.aspx?id={0}"" title=""{3} {2}"">{1:00000} - {2}</a>",
+                    @"<a href=""IncidentView.aspx?id={0}"" title=""{2} {1}"">{1}</a>",
                     this.Id,
-                    this.Code,
                     this.Description,
                     ((Dictionary<string, string>)HttpContext.Current.Session["Dictionary"])["Common_Edit"]);
             }

@@ -43,7 +43,7 @@ public partial class Export_IndicadorRecords : Page
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult Excel(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId)
+    public static ActionResult Excel(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId, string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
         ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -182,7 +182,41 @@ public partial class Export_IndicadorRecords : Page
             registros = registros.Where(r => r.Date <= dateTo.Value).ToList();
         }
 
-        foreach (IndicadorRegistro r in registros.OrderByDescending(r => r.Date))
+        switch (listOrder.ToUpperInvariant())
+        {
+            case "TH1|ASC":
+                registros = registros.OrderBy(d => d.Value).ToList();
+                break;
+            case "TH1|DESC":
+                registros = registros.OrderByDescending(d => d.Value).ToList();
+                break;
+            case "TH2|ASC":
+                registros = registros.OrderBy(d => d.Date).ToList();
+                break;
+            case "TH2|DESC":
+                registros = registros.OrderByDescending(d => d.Date).ToList();
+                break;
+            case "TH4|ASC":
+                registros = registros.OrderBy(d => d.Meta).ToList();
+                break;
+            case "TH4|DESC":
+                registros = registros.OrderByDescending(d => d.Meta).ToList();
+                break;
+            case "TH5|ASC":
+                registros = registros.OrderBy(d => d.Alarma).ToList();
+                break;
+            case "TH5|DESC":
+                registros = registros.OrderByDescending(d => d.Alarma).ToList();
+                break;
+            case "TH6|ASC":
+                registros = registros.OrderBy(d => d.Responsible.FullName).ToList();
+                break;
+            case "TH6|DESC":
+                registros = registros.OrderByDescending(d => d.Responsible.FullName).ToList();
+                break;
+        }
+
+        foreach (IndicadorRegistro r in registros)
         {
             if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
             string metaText = IndicadorRegistro.ComparerLabelSign(r.MetaComparer, dictionary);
@@ -191,10 +225,6 @@ public partial class Export_IndicadorRecords : Page
 
             string statusLabel = dictionary["Item_Objetivo_StatusLabelWithoutMeta"];
             if (metaText == "=" && r.Value == r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == ">" && r.Value > r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == ">=" && r.Value >= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "<" && r.Value < r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "<=" && r.Value <= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
             else if (metaText == ">" && r.Value > r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
             else if (metaText == ">=" && r.Value >= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
             else if (metaText == "<" && r.Value < r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
@@ -286,7 +316,7 @@ public partial class Export_IndicadorRecords : Page
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult PDF(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId)
+    public static ActionResult PDF(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId, string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
         ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -404,19 +434,23 @@ public partial class Export_IndicadorRecords : Page
             PaddingTop = 4f
         });
 
-        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times));
-        criteria2.Border = borderNone;
-        criteria2.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria2.Padding = 6f;
-        criteria2.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteria2);
 
         string typeText = string.Empty;
-        iTSpdf.PdfPCell criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(typeText, times));
-        criteria3.Border = borderNone;
-        criteria3.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria3.Padding = 6f;
-        criteria3.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(typeText, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteria3);
 
         pdfDoc.Add(criteriatable);
@@ -439,7 +473,6 @@ public partial class Export_IndicadorRecords : Page
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Alarm"].ToUpperInvariant(), times));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Responsible"].ToUpperInvariant(), times));
 
-
         // Aplicar filtro
         if (dateFrom.HasValue)
         {
@@ -451,8 +484,42 @@ public partial class Export_IndicadorRecords : Page
             registros = registros.Where(r => r.Date <= dateTo.Value).ToList();
         }
 
+        switch (listOrder.ToUpperInvariant())
+        {
+            case "TH1|ASC":
+                registros = registros.OrderBy(d => d.Value).ToList();
+                break;
+            case "TH1|DESC":
+                registros = registros.OrderByDescending(d => d.Value).ToList();
+                break;
+            case "TH2|ASC":
+                registros = registros.OrderBy(d => d.Date).ToList();
+                break;
+            case "TH2|DESC":
+                registros = registros.OrderByDescending(d => d.Date).ToList();
+                break;
+            case "TH4|ASC":
+                registros = registros.OrderBy(d => d.Meta).ToList();
+                break;
+            case "TH4|DESC":
+                registros = registros.OrderByDescending(d => d.Meta).ToList();
+                break;
+            case "TH5|ASC":
+                registros = registros.OrderBy(d => d.Alarma).ToList();
+                break;
+            case "TH5|DESC":
+                registros = registros.OrderByDescending(d => d.Alarma).ToList();
+                break;
+            case "TH6|ASC":
+                registros = registros.OrderBy(d => d.Responsible.FullName).ToList();
+                break;
+            case "TH6|DESC":
+                registros = registros.OrderByDescending(d => d.Responsible.FullName).ToList();
+                break;
+        }
+
         int cont = 0;
-        foreach (IndicadorRegistro r in registros.OrderByDescending(r => r.Date))
+        foreach (IndicadorRegistro r in registros)
         {
             cont++;
             string metaText = IndicadorRegistro.ComparerLabelSign(r.MetaComparer, dictionary);
@@ -464,13 +531,10 @@ public partial class Export_IndicadorRecords : Page
             else if (metaText == ">=" && r.Value >= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
             else if (metaText == "<" && r.Value < r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
             else if (metaText == "<=" && r.Value <= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == ">" && r.Value > r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == ">=" && r.Value >= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "<" && r.Value < r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "<=" && r.Value <= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
             else if (!string.IsNullOrEmpty(alarmText))
             {
-                if (alarmText == ">" && r.Value > r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                if (alarmText == "=" && r.Value == r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == ">" && r.Value > r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
                 else if (alarmText == ">=" && r.Value >= r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
                 else if (alarmText == "<" && r.Value < r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
                 else if (alarmText == "<=" && r.Value <= r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
@@ -487,7 +551,7 @@ public partial class Export_IndicadorRecords : Page
             table.AddCell(ToolsPdf.DataCell(statusLabel, times));
 
             metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, r.Meta);
-            alarmText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", alarmText, r.Meta);
+            alarmText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", alarmText, r.Alarma);
             table.AddCell(ToolsPdf.DataCellRight(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", r.Value), times));
             table.AddCell(ToolsPdf.DataCell(r.Date, times));
             table.AddCell(ToolsPdf.DataCell(r.Comments, times));

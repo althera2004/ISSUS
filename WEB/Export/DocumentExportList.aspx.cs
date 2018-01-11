@@ -186,10 +186,10 @@ public partial class Export_DocumentExportList : Page
                 data = data.OrderByDescending(d => d.Code).ToList();
                 break;
             case "TH2|ASC":
-                data = data.OrderBy(d => d.LastVersionNumber()).ToList();
+                data = data.OrderBy(d => d.LastNumber).ToList();
                 break;
             case "TH2|DESC":
-                data = data.OrderByDescending(d => d.LastVersionNumber()).ToList();
+                data = data.OrderByDescending(d => d.LastNumber).ToList();
                 break;
         }
         

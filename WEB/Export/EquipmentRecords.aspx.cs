@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Globalization;
+using System.Linq;
 using System.IO;
 using System.Web;
 using System.Web.Script.Services;
@@ -55,7 +56,8 @@ public partial class Export_EquipmentRecords : Page
         bool repairInternal,
         bool repairExternal,
         DateTime? dateFrom,
-        DateTime? dateTo)
+        DateTime? dateTo,
+        string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
         ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -218,7 +220,50 @@ public partial class Export_EquipmentRecords : Page
 
         int countRow = 4;
         decimal total = 0;
-        foreach (EquipmentRecord r in GetFilter)
+
+        List<EquipmentRecord> data = GetFilter;
+
+        // Poner el tipo de registro diccionarizado
+        foreach (EquipmentRecord r in data)
+        {
+            r.RecordTypeText = dictionary[r.Item + "-" + (r.RecordType == 0 ? "Int" : "Ext")];
+        }
+
+        switch (listOrder.ToUpperInvariant())
+        {
+            case "TH0|ASC":
+                data = data.OrderBy(d => d.Date).ToList();
+                break;
+            case "TH0|DESC":
+                data = data.OrderByDescending(d => d.Date).ToList();
+                break;
+            case "TH1|ASC":
+                data = data.OrderBy(d => d.RecordTypeText).ToList();
+                break;
+            case "TH1|DESC":
+                data = data.OrderByDescending(d => d.RecordTypeText).ToList();
+                break;
+            case "TH2|ASC":
+                data = data.OrderBy(d => d.Operation).ToList();
+                break;
+            case "TH2|DESC":
+                data = data.OrderByDescending(d => d.Operation).ToList();
+                break;
+            case "TH3|ASC":
+                data = data.OrderBy(d => d.Responsible.FullName).ToList();
+                break;
+            case "TH3|DESC":
+                data = data.OrderByDescending(d => d.Responsible.FullName).ToList();
+                break;
+            case "TH4|ASC":
+                data = data.OrderBy(d => d.Cost).ToList();
+                break;
+            case "TH4|DESC":
+                data = data.OrderByDescending(d => d.Cost).ToList();
+                break;
+        }
+
+        foreach (EquipmentRecord r in data)
         {
             if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
 
@@ -229,7 +274,7 @@ public partial class Export_EquipmentRecords : Page
 
             // Tipo
             if (sh.GetRow(countRow).GetCell(1) == null) { sh.GetRow(countRow).CreateCell(1); }
-            sh.GetRow(countRow).GetCell(1).SetCellValue(dictionary[r.Item + "-" + (r.RecordType == 0 ? "Int" : "Ext")]);
+            sh.GetRow(countRow).GetCell(1).SetCellValue(r.RecordTypeText);
 
             // Operacion
             if (sh.GetRow(countRow).GetCell(2) == null) { sh.GetRow(countRow).CreateCell(2); }
@@ -327,7 +372,8 @@ public partial class Export_EquipmentRecords : Page
         bool repairInternal,
         bool repairExternal,
         DateTime? dateFrom,
-        DateTime? dateTo)
+        DateTime? dateTo,
+        string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
         ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -345,7 +391,7 @@ public partial class Export_EquipmentRecords : Page
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
-            @"{0}_{1}_{2:yyyyMMddhhmmss}.weke.pdf",
+            @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_Equipment"],
             equipment.Description,
             DateTime.Now);
@@ -433,39 +479,49 @@ public partial class Export_EquipmentRecords : Page
         criteriatable.SetWidths(cirteriaWidths);
         criteriatable.WidthPercentage = 100;
 
-        iTSpdf.PdfPCell criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment"], timesBold));
-        criteria1Label.Border = borderNone;
-        criteria1Label.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria1Label.Padding = 6f;
-        criteria1Label.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment"], timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteria1Label);
 
-        iTSpdf.PdfPCell criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Description, times));
-        criteria1.Border = borderNone;
-        criteria1.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria1.Padding = 6f;
-        criteria1.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Description, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteria1);
 
-        iTSpdf.PdfPCell criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold));
-        criteria2Label.Border = borderNone;
-        criteria2Label.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria2Label.Padding = 6f;
-        criteria2Label.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteria2Label);
 
-        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times));
-        criteria2.Border = borderNone;
-        criteria2.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria2.Padding = 6f;
-        criteria2.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteria2);
 
-        iTSpdf.PdfPCell criteria3Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Customer_Header_Type"], timesBold));
-        criteria3Label.Border = borderNone;
-        criteria3Label.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria3Label.Padding = 6f;
-        criteria3Label.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria3Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Customer_Header_Type"], timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
         criteriatable.AddCell(criteria3Label);
 
         string typeText = string.Empty;
@@ -541,111 +597,115 @@ public partial class Export_EquipmentRecords : Page
             }
             typeText += dictionary["Item_EquipmentRecord_Filter_RepairExternal"];
         }
-
-        iTSpdf.PdfPCell criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(typeText, times));
-        criteria3.Border = borderNone;
-        criteria3.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria3.Padding = 6f;
-        criteria3.PaddingTop = 4f;
-        criteriatable.AddCell(criteria3);
+        
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(typeText + listOrder, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        });
 
         pdfDoc.Add(criteriatable);
 
-
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(5);
-
-        // actual width of table in points
-        table.WidthPercentage = 100;
-        // fix the absolute width of the table
-        // table.LockedWidth = true;
+        PdfPTable table = new iTSpdf.PdfPTable(5)
+        {
+            WidthPercentage = 100,
+            HorizontalAlignment = 0,
+            SpacingBefore = 20f,
+            SpacingAfter = 30f
+        };
 
         //relative col widths in proportions - 1/3 and 2/3
         float[] widths = new float[] { 10f, 20f, 15f, 30f, 15f };
         table.SetWidths(widths);
-        table.HorizontalAlignment = 0;
-        //leave a gap before and after the table
-        table.SpacingBefore = 20f;
-        table.SpacingAfter = 30f;
-        
-        iTSpdf.PdfPCell headerDate = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentRepair_HeaderList_Date"].ToUpperInvariant(), headerFont));
-        headerDate.Border = borderAll;
-        headerDate.BackgroundColor = backgroundColor;
-        headerDate.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        headerDate.Padding = 8f;
-        headerDate.PaddingTop = 6f;
 
-        iTSpdf.PdfPCell headerType = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentRepair_HeaderList_Type"].ToUpperInvariant(), headerFont));
-        headerType.Border = borderAll;
-        headerType.BackgroundColor = backgroundColor;
-        headerType.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        headerType.Padding = 8f;
-        headerType.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerOperation = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentRepair_HeaderList_Operation"].ToUpperInvariant(), headerFont));
-        headerOperation.Border = borderAll;
-        headerOperation.BackgroundColor = backgroundColor;
-        headerOperation.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        headerOperation.Padding = 8f;
-        headerOperation.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerResponsible = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentRepair_HeaderList_Responsible"].ToUpperInvariant(), headerFont));
-        headerResponsible.Border = borderAll;
-        headerResponsible.BackgroundColor = backgroundColor;
-        headerResponsible.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        headerResponsible.Padding = 8f;
-        headerResponsible.PaddingTop = 6f;
-
-        iTSpdf.PdfPCell headerCost = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentRepair_HeaderList_Cost"].ToUpperInvariant(), headerFont));
-        headerCost.Border = borderAll;
-        headerCost.BackgroundColor = backgroundColor;
-        headerCost.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        headerCost.Padding = 8f;
-        headerCost.PaddingTop = 6f;
-
-        table.AddCell(headerDate);
-        table.AddCell(headerType);
-        table.AddCell(headerOperation);
-        table.AddCell(headerResponsible);
-        table.AddCell(headerCost);
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Date"].ToUpperInvariant(), headerFont));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Type"].ToUpperInvariant(), headerFont));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Operation"].ToUpperInvariant(), headerFont));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Responsible"].ToUpperInvariant(), headerFont));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Cost"].ToUpperInvariant(), headerFont));
 
         decimal totalCost = 0;
         int cont=0;
+
+        // Poner el tipo de registro diccionarizado
         foreach (EquipmentRecord r in data)
         {
-            int border = 0;            
+            r.RecordTypeText = dictionary[r.Item + "-" + (r.RecordType == 0 ? "Int" : "Ext")];
+        }
 
-            iTSpdf.PdfPCell cellDate = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", r.Date), times));
-            cellDate.Border = border;
-            cellDate.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-            cellDate.Padding = 6f;
-            cellDate.PaddingTop = 4f;
-            table.AddCell(cellDate);
+            switch (listOrder.ToUpperInvariant())
+        {
+            case "TH0|ASC":
+                data = data.OrderBy(d => d.Date).ToList();
+                break;
+            case "TH0|DESC":
+                data = data.OrderByDescending(d => d.Date).ToList();
+                break;
+            case "TH1|ASC":
+                data = data.OrderBy(d => d.RecordTypeText).ToList();
+                break;
+            case "TH1|DESC":
+                data = data.OrderByDescending(d => d.RecordTypeText).ToList();
+                break;
+            case "TH2|ASC":
+                data = data.OrderBy(d => d.Operation).ToList();
+                break;
+            case "TH2|DESC":
+                data = data.OrderByDescending(d => d.Operation).ToList();
+                break;
+            case "TH3|ASC":
+                data = data.OrderBy(d => d.Responsible.FullName).ToList();
+                break;
+            case "TH3|DESC":
+                data = data.OrderByDescending(d => d.Responsible.FullName).ToList();
+                break;
+            case "TH4|ASC":
+                data = data.OrderBy(d => d.Cost).ToList();
+                break;
+            case "TH4|DESC":
+                data = data.OrderByDescending(d => d.Cost).ToList();
+                break;
+        }
 
-            string itemType = dictionary[r.Item + "-" + (r.RecordType == 0 ? "Int" : "Ext")];
-            iTSpdf.PdfPCell typeCell = new iTSpdf.PdfPCell(new iTS.Phrase(itemType, times));
-            typeCell.Border = border;
-            typeCell.Padding = 6f;
-            typeCell.PaddingTop = 4f;
-            table.AddCell(typeCell);
+        foreach (EquipmentRecord r in data)
+        {
+            /*table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", r.Date), times))
+            {
+                Border = border,
+                HorizontalAlignment = iTS.Element.ALIGN_CENTER,
+                Padding = 6f,
+                PaddingTop = 4f
+            });*/
+            table.AddCell(ToolsPdf.DataCellCenter(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", r.Date), times));
 
-            iTSpdf.PdfPCell operationCell = new iTSpdf.PdfPCell(new iTS.Phrase(r.Operation, times));
-            operationCell.Border = border;
-            operationCell.Padding = 6f;
-            operationCell.PaddingTop = 4f;
-            table.AddCell(operationCell);
+            //iTSpdf.PdfPCell typeCell = new iTSpdf.PdfPCell(new iTS.Phrase(r.RecordTypeText, times));
+            //typeCell.Border = border;
+            //typeCell.Padding = 6f;
+            //typeCell.PaddingTop = 4f;
+            table.AddCell(ToolsPdf.DataCell(r.RecordTypeText, times));
 
-            iTSpdf.PdfPCell responsibleCell = new iTSpdf.PdfPCell(new iTS.Phrase(r.Responsible.FullName, times));
-            responsibleCell.Border = border;
-            responsibleCell.Padding = 6f;
-            responsibleCell.PaddingTop = 4f;
-            table.AddCell(responsibleCell);
+            //iTSpdf.PdfPCell operationCell = new iTSpdf.PdfPCell(new iTS.Phrase(r.Operation, times));
+            //operationCell.Border = border;
+            //operationCell.Padding = 6f;
+            //operationCell.PaddingTop = 4f;
+            table.AddCell(ToolsPdf.DataCell(r.Operation, times));
 
-            iTSpdf.PdfPCell cellCost = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", r.Cost), times));
-            cellCost.Border = border;
-            cellCost.Padding = 6f;
-            cellCost.PaddingTop = 4f;
-            cellCost.HorizontalAlignment = iTS.Element.ALIGN_RIGHT;
-            table.AddCell(cellCost);
+            //iTSpdf.PdfPCell responsibleCell = new iTSpdf.PdfPCell(new iTS.Phrase(r.Responsible.FullName, times));
+            //responsibleCell.Border = border;
+            //responsibleCell.Padding = 6f;
+            //responsibleCell.PaddingTop = 4f;
+            table.AddCell(ToolsPdf.DataCell(r.Responsible.FullName, times));
+            
+            /*table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", r.Cost), times))
+            {
+                Border = border,
+                Padding = 6f,
+                PaddingTop = 4f,
+                HorizontalAlignment = iTS.Element.ALIGN_RIGHT
+            });*/
+            table.AddCell(ToolsPdf.DataCellMoney(r.Cost, times));
 
             if (r.Cost.HasValue)
             {
@@ -656,17 +716,17 @@ public partial class Export_EquipmentRecords : Page
         }
 
         // Row total
-        iTSpdf.PdfPCell totalCellLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"], times));
-        totalCellLabel.Border = iTS.Rectangle.TOP_BORDER;
-        totalCellLabel.HorizontalAlignment = iTS.Element.ALIGN_RIGHT;
-        totalCellLabel.Colspan = 4;
-
-        iTSpdf.PdfPCell totalCellValue = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", totalCost), times));
-        totalCellValue.Border = iTS.Rectangle.TOP_BORDER;
-        totalCellValue.HorizontalAlignment = iTS.Element.ALIGN_RIGHT;
-
-        table.AddCell(totalCellLabel);
-        table.AddCell(totalCellValue);
+        table.AddCell(new PdfPCell(new iTS.Phrase(dictionary["Common_Total"], times))
+        {
+            Border = iTS.Rectangle.TOP_BORDER,
+            HorizontalAlignment = iTS.Element.ALIGN_RIGHT,
+            Colspan = 4
+        });
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", totalCost), times))
+        {
+            Border = iTS.Rectangle.TOP_BORDER,
+            HorizontalAlignment = iTS.Element.ALIGN_RIGHT
+        });
 
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();
@@ -674,7 +734,7 @@ public partial class Export_EquipmentRecords : Page
         return res;
     }
 
-    public static iTSpdf.PdfPCell criteriaCell(bool criteria, string label)
+    /*public static iTSpdf.PdfPCell criteriaCell(bool criteria, string label)
     {
         Chunk yes = new Chunk("\uf046", fontAwe);
         Chunk no = new Chunk("\uf096", fontAwe);
@@ -685,5 +745,5 @@ public partial class Export_EquipmentRecords : Page
         res.Border = iTS.Rectangle.NO_BORDER;
         res.AddElement(pr);
         return res;
-    }
+    }*/
 }

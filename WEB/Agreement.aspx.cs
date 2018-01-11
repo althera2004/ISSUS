@@ -1,8 +1,14 @@
 ﻿using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using PDF_Tests;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -11,24 +17,14 @@ using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using iTS = iTextSharp.text;
 using iTSpdf = iTextSharp.text.pdf;
-using GisoFramework;
-using GisoFramework.Activity;
-using GisoFramework.Item;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using PDF_Tests;
-using System.Data.SqlClient;
-using System.Data;
-using System.Configuration;
 
 public partial class Agreement : Page
 {
-    private string languageBrowser;
+    //private string languageBrowser;
     private string ip;
-    private string companyCode;
+    //private string companyCode;
 
     public ApplicationUser User { get; private set; }
     public Company Company { get; private set; }

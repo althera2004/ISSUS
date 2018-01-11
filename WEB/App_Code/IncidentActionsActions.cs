@@ -104,4 +104,18 @@ public class IncidentActionsActions : WebService
         Session["IncidentActionFilter"] = filter.ToString();        
         return IncidentAction.FilterList(companyId, from, to, statusIdnetified, statusAnalyzed, statusInProgress, statusClose, typeImprovement, typeFix, typePrevent, origin);
     }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult Anulate(int incidentActionId, int companyId, int applicationUserId, DateTime date, int responsible)
+    {
+        return IncidentAction.Anulate(incidentActionId, companyId, applicationUserId, date, responsible);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult Restore(int incidentActionId, int companyId, int applicationUserId)
+    {
+        return IncidentAction.Restore(incidentActionId, companyId, applicationUserId);
+    }
 }

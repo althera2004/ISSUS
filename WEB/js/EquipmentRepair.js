@@ -242,7 +242,7 @@ function FillCmbEquipmentRepairResponsible() {
     document.getElementById("CmbEquipmentRepairResponsible").appendChild(optionDefault);
 
     for (var x = 0; x < Employees.length; x++) {
-        if (Employees[x].Active === true) {
+        if (Employees[x].Active === true && Employees[x].DisabledDate === null) {
             var option = document.createElement("option");
             option.value = Employees[x].Id;
             option.appendChild(document.createTextNode(Employees[x].FullName));

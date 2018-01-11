@@ -134,6 +134,7 @@ namespace GisoFramework
                             this.Email = rdr.GetString(ColumnsApplicationUserGetById.Email);
                             this.PrimaryUser = rdr.GetBoolean(ColumnsApplicationUserGetById.PrimaryUser);
                             this.CompanyId = rdr.GetInt32(ColumnsApplicationUserGetById.CompanyId);
+                            this.Admin = rdr.GetBoolean(ColumnsApplicationUserGetById.Admin);
 
                             if (!rdr.IsDBNull(ColumnsApplicationUserGetById.EmployeeId))
                             {
@@ -1678,7 +1679,7 @@ namespace GisoFramework
                 }
             }
 
-            string pattern = @"<tr><td style=""width:40px;"">{5}</td><td>{0}</td><td style=""width:200px;"">{1}</td><td style=""width:200px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</td></tr>";
+            string pattern = @"<tr><td style=""width:40px;"">{5}</td><td>{0}</td><td style=""width:200px;"">{1}</td><td style=""width:300px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</td></tr>";
             return string.Format(
                 CultureInfo.GetCultureInfo("en-us"),
                 pattern,
