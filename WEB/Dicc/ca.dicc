@@ -526,7 +526,7 @@ Item_Employee_FieldLabel_Email::Correu
 Item_Employee_FieldLabel_Especific_Desired::Formació específica desitjada
 Item_Employee_FieldLabel_Especific_Real::Formació específica real
 Item_Employee_FieldLabel_InactiveDate::Data baixa
-Item_Employee_Btn_Inactive::Donar de baixa
+Item_Employee_Btn_Inactive::Baixa
 Item_Employee_Btn_Restore::Reincorporar
 Item_Employee_FieldLabel_LastName::Cognoms
 Item_Employee_FieldLabel_Name::Nom
