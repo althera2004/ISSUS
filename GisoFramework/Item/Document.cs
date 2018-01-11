@@ -235,6 +235,24 @@ namespace GisoFramework.Item
             }
         }
 
+        /// <summary>Gets the last version</summary>
+        public int LastNumber
+        {
+            get
+            {
+                int res = 0;
+                foreach (DocumentVersion version in this.Versions)
+                {
+                    if (version.Version > res)
+                    {
+                        res = version.Version;
+                    }
+                }
+
+                return res;
+            }
+        }
+
         /// <summary>
         /// Gets a value indicating whether if document is active
         /// </summary>

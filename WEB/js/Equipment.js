@@ -221,7 +221,7 @@ function PrintData() {
     window.open('/export/PrintEquipmentData.aspx?id=' + Equipment.Id + '&companyId=' + Equipment.CompanyId);
 
     return false;
-    var data =
+    /*var data =
     {
         "equipmentId": Equipment.Id,
         "companyId": Equipment.CompanyId,
@@ -252,7 +252,7 @@ function PrintData() {
             LoadingHide();
             alertUI("error:" + msg.responseText);
         }
-    });
+    });*/
 }
 
 // Poner los actos ordenados

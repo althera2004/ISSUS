@@ -5,23 +5,23 @@ function CancelSave() { }
 
 function EmployeeDelete(id, name) {
     $('#DeleteEmployeeName').html(name);
-    var dialog = $("#EmployeeDeleteDialog").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons: [
+    var dialog = $("#EmployeeDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons": [
                 {
-                    html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
+                    "html": "<i class=\"con-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
                     "class": "btn btn-danger btn-xs",
-                    click: function () {
+                    "click": function () {
                         DeleteEmployeeConfirmed(id);
                     }
                 },
                 {
-                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
-                    click: function () {
+                    "click": function () {
                         $(this).dialog("close");
                     }
                 }
@@ -39,7 +39,7 @@ function DeleteEmployeeConfirmed(id) {
         }
 
         SelectedEmployees = new Array();
-        VoidTable('SelectedEmployeesTable');
+        VoidTable("SelectedEmployeesTable");
         for (var y = 0; y < survivors.length; y++) {
             SelectedEmployees.push(survivors[y]);
             InsertEmployeeRow(survivors[y]);

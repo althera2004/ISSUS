@@ -140,6 +140,9 @@ namespace GisoFramework.Item
         /// Render the HTML code for a row to job position assigantiosn on employee profile
         /// </summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
+        /// <param name="grantDelete"></param>
+        /// <param name="grantDepartmentsView"></param>
+        /// <param name="grantJobPositionView"></param>
         /// <returns>HTML code</returns>
         public string TableRow(Dictionary<string, string> dictionary, bool grantDelete, bool grantJobPositionView, bool grantDepartmentsView)
         {

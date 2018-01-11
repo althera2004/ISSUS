@@ -105,8 +105,8 @@ public partial class Export_PrintEquipmentData : Page
         table.AddCell(cellDescription);
 
         table.AddCell(titleCell(dictionary["Item_Equipment_Tab_Basic"], 3));
-        table.AddCell(titleLabel(dictionary["Item_Equipment_Field_TradeMark_Label"]));
-        table.AddCell(titleData(equipment.Trademark));
+        table.AddCell(TitleLabel(dictionary["Item_Equipment_Field_TradeMark_Label"]));
+        table.AddCell(TitleData(equipment.Trademark));
 
         if (!string.IsNullOrEmpty(equipment.Image))
         {
@@ -144,23 +144,23 @@ public partial class Export_PrintEquipmentData : Page
         }
 
 
-        table.AddCell(titleLabel(dictionary["Item_Equipment_Field_Model_Label"]));
-        table.AddCell(titleData(equipment.Model));
+        table.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Model_Label"]));
+        table.AddCell(TitleData(equipment.Model));
 
-        table.AddCell(titleLabel(dictionary["Item_Equipment_Field_SerialNumber_Label"]));
-        table.AddCell(titleData(equipment.SerialNumber));
+        table.AddCell(TitleLabel(dictionary["Item_Equipment_Field_SerialNumber_Label"]));
+        table.AddCell(TitleData(equipment.SerialNumber));
 
-        table.AddCell(titleLabel(dictionary["Item_Equipment_Field_Location_Label"]));
-        table.AddCell(titleData(equipment.Location));
+        table.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Location_Label"]));
+        table.AddCell(TitleData(equipment.Location));
 
-        table.AddCell(titleLabel(dictionary["Item_Equipment_Field_ScaleDivision_Label"]));
-        table.AddCell(titleData(equipment.ScaleDivisionValue.Value.ToString() + " " + equipment.MeasureUnit.Description));
+        table.AddCell(TitleLabel(dictionary["Item_Equipment_Field_ScaleDivision_Label"]));
+        table.AddCell(TitleData(equipment.ScaleDivisionValue.Value.ToString() + " " + equipment.MeasureUnit.Description));
 
-        table.AddCell(titleLabel(dictionary["Item_Equipment_Field_Responsible_Label"]));
-        table.AddCell(titleData(equipment.Responsible.FullName));
+        table.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Responsible_Label"]));
+        table.AddCell(TitleData(equipment.Responsible.FullName));
 
-        table.AddCell(titleLabel(dictionary["Item_Equipment_Field_Notes_Label"]));
-        table.AddCell(titleData(equipment.Observations));
+        table.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Notes_Label"]));
+        table.AddCell(TitleData(equipment.Observations));
 
         document.Add(table);
         #endregion
@@ -174,23 +174,23 @@ public partial class Export_PrintEquipmentData : Page
             float[] tableConfigurationIntWidth = new float[] { 25f, 30f, 25f, 40f };
             tableConfigurationInt.SetWidths(tableConfigurationIntWidth);
             tableConfigurationInt.HorizontalAlignment = 0;
-            tableConfigurationInt.AddCell(titleCell(dictionary["Item_EquipmentCalibration_Label_Internal"]));
-            tableConfigurationInt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Operation"]));
-            tableConfigurationInt.AddCell(titleData(equipment.InternalCalibration.Description, 3));
-            tableConfigurationInt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Periodicity"]));
-            tableConfigurationInt.AddCell(titleData(equipment.InternalCalibration.Periodicity.ToString() + " " + dictionary["Common_Days"], 3));
-            tableConfigurationInt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Uncertainty"]));
-            tableConfigurationInt.AddCell(titleData(equipment.InternalCalibration.Uncertainty.ToString()));
-            tableConfigurationInt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Range"]));
-            tableConfigurationInt.AddCell(titleData(equipment.InternalCalibration.Range));
-            tableConfigurationInt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Pattern"]));
-            tableConfigurationInt.AddCell(titleData(equipment.InternalCalibration.Pattern));
-            tableConfigurationInt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Cost"]));
-            tableConfigurationInt.AddCell(titleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.InternalCalibration.Cost)));
-            tableConfigurationInt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Responsible"]));
-            tableConfigurationInt.AddCell(titleData(equipment.InternalCalibration.Responsible.FullName, 3));
-            tableConfigurationInt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Notes"]));
-            tableConfigurationInt.AddCell(titleData(equipment.InternalCalibration.Notes, 3));
+            tableConfigurationInt.AddCell(TitleCell(dictionary["Item_EquipmentCalibration_Label_Internal"]));
+            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Operation"]));
+            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Description, 3));
+            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Periodicity"]));
+            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Periodicity.ToString() + " " + dictionary["Common_Days"], 3));
+            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Uncertainty"]));
+            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Uncertainty.ToString()));
+            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Range"]));
+            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Range));
+            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Pattern"]));
+            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Pattern));
+            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Cost"]));
+            tableConfigurationInt.AddCell(TitleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.InternalCalibration.Cost)));
+            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Responsible"]));
+            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Responsible.FullName, 3));
+            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Notes"]));
+            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Notes, 3));
             document.Add(tableConfigurationInt);
         }
         #endregion
@@ -205,25 +205,25 @@ public partial class Export_PrintEquipmentData : Page
             float[] tableConfigurationExtWidth = new float[] { 25f, 30f, 25f, 40f };
             tableConfigurationExt.SetWidths(tableConfigurationExtWidth);
             tableConfigurationExt.HorizontalAlignment = 0;
-            tableConfigurationExt.AddCell(titleCell(dictionary["Item_EquipmentCalibration_Label_External"]));
-            tableConfigurationExt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Operation"]));
-            tableConfigurationExt.AddCell(titleData(equipment.ExternalCalibration.Description, 3));
-            tableConfigurationExt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Periodicity"]));
-            tableConfigurationExt.AddCell(titleData(equipment.ExternalCalibration.Periodicity.ToString() + " " + dictionary["Common_Days"], 3));
-            tableConfigurationExt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Uncertainty"]));
-            tableConfigurationExt.AddCell(titleData(equipment.ExternalCalibration.Uncertainty.ToString()));
-            tableConfigurationExt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Range"]));
-            tableConfigurationExt.AddCell(titleData(equipment.ExternalCalibration.Range));
-            tableConfigurationExt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Pattern"]));
-            tableConfigurationExt.AddCell(titleData(equipment.ExternalCalibration.Pattern));
-            tableConfigurationExt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Cost"]));
-            tableConfigurationExt.AddCell(titleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.ExternalCalibration.Cost)));
-            tableConfigurationExt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Responsible"]));
-            tableConfigurationExt.AddCell(titleData(equipment.ExternalCalibration.Responsible.FullName, 3));
-            tableConfigurationExt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Provider"]));
-            tableConfigurationExt.AddCell(titleData(equipment.ExternalCalibration.Provider.Description, 3));
-            tableConfigurationExt.AddCell(titleLabel(dictionary["Item_Equipment_Field_Calibration_Notes"]));
-            tableConfigurationExt.AddCell(titleData(equipment.ExternalCalibration.Notes, 3));
+            tableConfigurationExt.AddCell(TitleCell(dictionary["Item_EquipmentCalibration_Label_External"]));
+            tableConfigurationExt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Operation"]));
+            tableConfigurationExt.AddCell(TitleData(equipment.ExternalCalibration.Description, 3));
+            tableConfigurationExt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Periodicity"]));
+            tableConfigurationExt.AddCell(TitleData(equipment.ExternalCalibration.Periodicity.ToString() + " " + dictionary["Common_Days"], 3));
+            tableConfigurationExt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Uncertainty"]));
+            tableConfigurationExt.AddCell(TitleData(equipment.ExternalCalibration.Uncertainty.ToString()));
+            tableConfigurationExt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Range"]));
+            tableConfigurationExt.AddCell(TitleData(equipment.ExternalCalibration.Range));
+            tableConfigurationExt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Pattern"]));
+            tableConfigurationExt.AddCell(TitleData(equipment.ExternalCalibration.Pattern));
+            tableConfigurationExt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Cost"]));
+            tableConfigurationExt.AddCell(TitleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.ExternalCalibration.Cost)));
+            tableConfigurationExt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Responsible"]));
+            tableConfigurationExt.AddCell(TitleData(equipment.ExternalCalibration.Responsible.FullName, 3));
+            tableConfigurationExt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Provider"]));
+            tableConfigurationExt.AddCell(TitleData(equipment.ExternalCalibration.Provider.Description, 3));
+            tableConfigurationExt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Notes"]));
+            tableConfigurationExt.AddCell(TitleData(equipment.ExternalCalibration.Notes, 3));
             document.Add(tableConfigurationExt);
         }
         #endregion
@@ -237,23 +237,23 @@ public partial class Export_PrintEquipmentData : Page
             float[] tableVerificationIntWidth = new float[] { 25f, 30f, 25f, 40f };
             tableVerificationInt.SetWidths(tableVerificationIntWidth);
             tableVerificationInt.HorizontalAlignment = 0;
-            tableVerificationInt.AddCell(titleCell(dictionary["Item_EquipmentVerification_Label_Internal"]));
-            tableVerificationInt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Operation"]));
-            tableVerificationInt.AddCell(titleData(equipment.InternalVerification.Description, 3));
-            tableVerificationInt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Periodicity"]));
-            tableVerificationInt.AddCell(titleData(equipment.InternalVerification.Periodicity.ToString() + " " + dictionary["Common_Days"], 3));
-            tableVerificationInt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Uncertainty"]));
-            tableVerificationInt.AddCell(titleData(equipment.InternalVerification.Uncertainty.ToString()));
-            tableVerificationInt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Range"]));
-            tableVerificationInt.AddCell(titleData(equipment.InternalVerification.Range));
-            tableVerificationInt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Pattern"]));
-            tableVerificationInt.AddCell(titleData(equipment.InternalVerification.Pattern));
-            tableVerificationInt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Cost"]));
-            tableVerificationInt.AddCell(titleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.InternalVerification.Cost)));
-            tableVerificationInt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Responsible"]));
-            tableVerificationInt.AddCell(titleData(equipment.InternalVerification.Responsible.FullName, 3));
-            tableVerificationInt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Notes"]));
-            tableVerificationInt.AddCell(titleData(equipment.InternalVerification.Notes, 3));
+            tableVerificationInt.AddCell(TitleCell(dictionary["Item_EquipmentVerification_Label_Internal"]));
+            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Operation"]));
+            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Description, 3));
+            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Periodicity"]));
+            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Periodicity.ToString() + " " + dictionary["Common_Days"], 3));
+            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Uncertainty"]));
+            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Uncertainty.ToString()));
+            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Range"]));
+            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Range));
+            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Pattern"]));
+            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Pattern));
+            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Cost"]));
+            tableVerificationInt.AddCell(TitleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.InternalVerification.Cost)));
+            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Responsible"]));
+            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Responsible.FullName, 3));
+            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Notes"]));
+            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Notes, 3));
             document.Add(tableVerificationInt);
         }
         #endregion
@@ -268,25 +268,25 @@ public partial class Export_PrintEquipmentData : Page
             float[] tableVerificationExtWidth = new float[] { 25f, 30f, 25f, 40f };
             tableVerificationExt.SetWidths(tableVerificationExtWidth);
             tableVerificationExt.HorizontalAlignment = 0;
-            tableVerificationExt.AddCell(titleCell(dictionary["Item_EquipmentVerification_Label_External"]));
-            tableVerificationExt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Operation"]));
-            tableVerificationExt.AddCell(titleData(equipment.ExternalVerification.Description, 3));
-            tableVerificationExt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Periodicity"]));
-            tableVerificationExt.AddCell(titleData(equipment.ExternalVerification.Periodicity.ToString() + " " + dictionary["Common_Days"], 3));
-            tableVerificationExt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Uncertainty"]));
-            tableVerificationExt.AddCell(titleData(equipment.ExternalVerification.Uncertainty.ToString()));
-            tableVerificationExt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Range"]));
-            tableVerificationExt.AddCell(titleData(equipment.ExternalVerification.Range));
-            tableVerificationExt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Pattern"]));
-            tableVerificationExt.AddCell(titleData(equipment.ExternalVerification.Pattern));
-            tableVerificationExt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Cost"]));
-            tableVerificationExt.AddCell(titleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.ExternalVerification.Cost)));
-            tableVerificationExt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Responsible"]));
-            tableVerificationExt.AddCell(titleData(equipment.ExternalVerification.Responsible.FullName, 3));
-            tableVerificationExt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Provider"]));
-            tableVerificationExt.AddCell(titleData(equipment.ExternalVerification.Provider.Description, 3));
-            tableVerificationExt.AddCell(titleLabel(dictionary["Item_EquipmentVerification_Field_Notes"]));
-            tableVerificationExt.AddCell(titleData(equipment.ExternalVerification.Notes, 3));
+            tableVerificationExt.AddCell(TitleCell(dictionary["Item_EquipmentVerification_Label_External"]));
+            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Operation"]));
+            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Description, 3));
+            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Periodicity"]));
+            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Periodicity.ToString() + " " + dictionary["Common_Days"], 3));
+            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Uncertainty"]));
+            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Uncertainty.ToString()));
+            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Range"]));
+            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Range));
+            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Pattern"]));
+            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Pattern));
+            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Cost"]));
+            tableVerificationExt.AddCell(TitleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.ExternalVerification.Cost)));
+            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Responsible"]));
+            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Responsible.FullName, 3));
+            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Provider"]));
+            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Provider.Description, 3));
+            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Notes"]));
+            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Notes, 3));
             document.Add(tableVerificationExt);
         }
         #endregion
@@ -369,9 +369,6 @@ public partial class Export_PrintEquipmentData : Page
             tableMaintenance.AddCell(header5);
 
             int borderFirst = iTS.Rectangle.TOP_BORDER;
-            int borderLast = iTS.Rectangle.BOTTOM_BORDER;
-            int borderMiddle = iTS.Rectangle.NO_BORDER;
-            int borderUnique = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER;
             int cont = 0;
             ReadOnlyCollection<Equipment> data = Equipment.GetList(companyId);
             bool pair = false;
@@ -384,11 +381,13 @@ public partial class Export_PrintEquipmentData : Page
                 BaseColor lineBackground = pair ? rowEven : rowPair;
                 // pair = !pair;
 
-                iTSpdf.PdfPCell cellDate = new iTSpdf.PdfPCell(new iTS.Phrase(maintenance.Description, times));
-                cellDate.Border = border;
-                cellDate.BackgroundColor = lineBackground;
-                cellDate.Padding = 6f;
-                cellDate.PaddingTop = 4f;
+                iTSpdf.PdfPCell cellDate = new iTSpdf.PdfPCell(new iTS.Phrase(maintenance.Description, times))
+                {
+                    Border = border,
+                    BackgroundColor = lineBackground,
+                    Padding = 6f,
+                    PaddingTop = 4f
+                };
                 tableMaintenance.AddCell(cellDate);
 
                 string typeText = dictionary["Common_Internal"];
@@ -396,35 +395,43 @@ public partial class Export_PrintEquipmentData : Page
                 {
                     typeText = dictionary["Common_External"];
                 }
-                iTSpdf.PdfPCell typeCell = new iTSpdf.PdfPCell(new iTS.Phrase(typeText, times));
-                typeCell.Border = border;
-                typeCell.BackgroundColor = lineBackground;
-                typeCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                typeCell.Padding = 6f;
-                typeCell.PaddingTop = 4f;
+                iTSpdf.PdfPCell typeCell = new iTSpdf.PdfPCell(new iTS.Phrase(typeText, times))
+                {
+                    Border = border,
+                    BackgroundColor = lineBackground,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    Padding = 6f,
+                    PaddingTop = 4f
+                };
                 tableMaintenance.AddCell(typeCell);
 
-                iTSpdf.PdfPCell operationCell = new iTSpdf.PdfPCell(new iTS.Phrase(maintenance.Periodicity.ToString() + " " + dictionary["Common_Days"], times));
-                operationCell.Border = border;
-                operationCell.BackgroundColor = lineBackground;
-                operationCell.HorizontalAlignment = Element.ALIGN_RIGHT;
-                operationCell.Padding = 6f;
-                operationCell.PaddingTop = 4f;
+                iTSpdf.PdfPCell operationCell = new iTSpdf.PdfPCell(new iTS.Phrase(maintenance.Periodicity.ToString() + " " + dictionary["Common_Days"], times))
+                {
+                    Border = border,
+                    BackgroundColor = lineBackground,
+                    HorizontalAlignment = Element.ALIGN_RIGHT,
+                    Padding = 6f,
+                    PaddingTop = 4f
+                };
                 tableMaintenance.AddCell(operationCell);
 
-                iTSpdf.PdfPCell responsibleCell = new iTSpdf.PdfPCell(new iTS.Phrase(maintenance.Accessories, times));
-                responsibleCell.Border = border;
-                responsibleCell.BackgroundColor = lineBackground;
-                responsibleCell.Padding = 6f;
-                responsibleCell.PaddingTop = 4f;
+                iTSpdf.PdfPCell responsibleCell = new iTSpdf.PdfPCell(new iTS.Phrase(maintenance.Accessories, times))
+                {
+                    Border = border,
+                    BackgroundColor = lineBackground,
+                    Padding = 6f,
+                    PaddingTop = 4f
+                };
                 tableMaintenance.AddCell(responsibleCell);
 
-                iTSpdf.PdfPCell costCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", maintenance.Cost), times));
-                costCell.Border = border;
-                costCell.BackgroundColor = lineBackground;
-                costCell.HorizontalAlignment = Element.ALIGN_RIGHT;
-                costCell.Padding = 6f;
-                costCell.PaddingTop = 4f;
+                iTSpdf.PdfPCell costCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", maintenance.Cost), times))
+                {
+                    Border = border,
+                    BackgroundColor = lineBackground,
+                    HorizontalAlignment = Element.ALIGN_RIGHT,
+                    Padding = 6f,
+                    PaddingTop = 4f
+                };
                 tableMaintenance.AddCell(costCell);
 
                 if (maintenance.Cost.HasValue)
@@ -435,18 +442,22 @@ public partial class Export_PrintEquipmentData : Page
             }
 
             // TotalRow
-            iTSpdf.PdfPCell totalLabelCell = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant()+":", timesBold));
-            totalLabelCell.Border = borderFirst;
-            totalLabelCell.HorizontalAlignment = Element.ALIGN_RIGHT;
-            totalLabelCell.Colspan = 4;
-            totalLabelCell.Padding = 8f;
+            iTSpdf.PdfPCell totalLabelCell = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", timesBold))
+            {
+                Border = borderFirst,
+                HorizontalAlignment = Element.ALIGN_RIGHT,
+                Colspan = 4,
+                Padding = 8f
+            };
             tableMaintenance.AddCell(totalLabelCell);
 
-            iTSpdf.PdfPCell totalCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", cost), timesBold));
-            totalCell.Border = borderFirst;
-            totalCell.HorizontalAlignment = Element.ALIGN_RIGHT;
-            totalCell.Colspan = 1;
-            totalCell.Padding = 8f;
+            iTSpdf.PdfPCell totalCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", cost), timesBold))
+            {
+                Border = borderFirst,
+                HorizontalAlignment = Element.ALIGN_RIGHT,
+                Colspan = 1,
+                Padding = 8f
+            };
             tableMaintenance.AddCell(totalCell);
 
             document.Add(tableMaintenance);
@@ -562,7 +573,7 @@ public partial class Export_PrintEquipmentData : Page
         return res;
     }
 
-    private PdfPCell titleCell(string value)
+    private PdfPCell TitleCell(string value)
     {
         return titleCell(value, 4);
     }
@@ -570,16 +581,18 @@ public partial class Export_PrintEquipmentData : Page
     private PdfPCell titleCell(string value, int colSpan)
     {
         Font valueFont = new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK);
-        PdfPCell cell = new PdfPCell(new Phrase(value.ToUpperInvariant(), valueFont));
-        cell.Colspan = colSpan;
-        cell.HorizontalAlignment = Element.ALIGN_LEFT;
-        cell.Padding = 8;
-        cell.PaddingTop = 6;
-        cell.Border = Rectangle.BOTTOM_BORDER;
+        PdfPCell cell = new PdfPCell(new Phrase(value.ToUpperInvariant(), valueFont))
+        {
+            Colspan = colSpan,
+            HorizontalAlignment = Element.ALIGN_LEFT,
+            Padding = 8,
+            PaddingTop = 6,
+            Border = Rectangle.BOTTOM_BORDER
+        };
         return cell;
     }
 
-    private PdfPCell titleLabel(string value)
+    private PdfPCell TitleLabel(string value)
     {
         Font valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
         PdfPCell cell = new PdfPCell(new Phrase(string.Format(CultureInfo.InvariantCulture, "{0}:", value.ToUpperInvariant()), valueFont));
@@ -591,20 +604,22 @@ public partial class Export_PrintEquipmentData : Page
         return cell;
     }
 
-    private PdfPCell titleData(string value)
+    private PdfPCell TitleData(string value)
     {
-        return titleData(value, 1);
+        return TitleData(value, 1);
     }
 
-    private PdfPCell titleData(string value, int colsPan)
+    private PdfPCell TitleData(string value, int colsPan)
     {
         Font valueFont = new Font(this.arial, 10, Font.BOLD, BaseColor.BLACK);
-        PdfPCell cell = new PdfPCell(new Phrase(value, valueFont));
-        cell.Colspan = colsPan;
-        cell.HorizontalAlignment = Element.ALIGN_LEFT;
-        cell.Padding = 8;
-        cell.PaddingTop = 6;
-        cell.Border = Rectangle.NO_BORDER;
+        PdfPCell cell = new PdfPCell(new Phrase(value, valueFont))
+        {
+            Colspan = colsPan,
+            HorizontalAlignment = Element.ALIGN_LEFT,
+            Padding = 8,
+            PaddingTop = 6,
+            Border = Rectangle.NO_BORDER
+        };
         return cell;
     }
 }
