@@ -224,7 +224,12 @@ public partial class FormacionList : Page
         this.LtCount.Text = count.ToString();
         this.LtTotal.Text = string.Format(
             CultureInfo.InvariantCulture,
-            @"{0:#0.00}",
+            //@"{0:#0.00}",
+			@"{0:#,##0.00}",
             total).Replace('.',',');
-    }
+    
+
+        //this.LtTotal.Text = string.Format(CultureInfo.InvariantCulture,@"{0:#,##0.00}",total).Replace('.',',');
+		this.LtTotal.Text = string.Format(CultureInfo.GetCultureInfo("es-es"), "{0:#,##0.00}",total);	//GTK
+	}
 }

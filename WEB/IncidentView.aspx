@@ -188,10 +188,10 @@
                                                         <div class="col-sm-8" style="padding-bottom:8px;" id="SelectRow">
                                                             <div class="col-xs-12">
                                                                 <div class="col-xs-3">
-                                                                    <input type="checkbox" id="Chk1" onchange="FilterChanged();" checked="checked" />&nbsp;<%=this.Dictionary["Item_Incident"] %>
+                                                                    <input type="checkbox" id="Chk1" onchange="FilterChanged();" checked="checked" />&nbsp;<%=this.Dictionary["Item_Incident_Cost_IncidentCheck"] %>
                                                                 </div>
                                                                 <div class="col-xs-3">
-                                                                    <input type="checkbox" id="Chk2" onchange="FilterChanged();" checked="checked" />&nbsp;<%=this.Dictionary["Item_IncidentAction"] %>
+                                                                    <input type="checkbox" id="Chk2" onchange="FilterChanged();" checked="checked" />&nbsp;<%=this.Dictionary["Item_Incident_Cost_IncidentActionCheck"] %>
                                                                 </div>
                                                             </div>
                                                         </div>

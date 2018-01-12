@@ -94,7 +94,17 @@ public partial class Agreement : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement.tpl", path);
+        // Se extrae el lenguage por defecto de la empresa
+        string language = this.Company.Language;
+
+        // Se genera el path completo de la plantilla del idioma en concreto
+        path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement-{1}.tpl", path, language);
+
+        // Si no existiera la plantilla se genera el path completo de la plantilla sin traducir
+        if(!File.Exists(path))
+        {
+            path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement.tpl", path);
+        }
 
         string text = string.Empty;
         using(StreamReader rdr = new StreamReader(path))
