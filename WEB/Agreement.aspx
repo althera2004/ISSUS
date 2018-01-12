@@ -70,9 +70,9 @@
                     "Btn": "Aceptar"
                 },
                 "ca": {
-                    "Title": "Accès a diferents empreses",
-                    "Message": "El seu usuari te accès a poder gestionar distintes empreses.<br />Sel·leccioni amb quina vol treballar.<br />Per a traballar amb una altra empresa, haurà de sortir de l'aplicació i tonar a validar-se.",
-                    "Btn": "Aceptar"
+                    "Title": "Acord de prestació de serveis",
+                    "Message": "Per fer ús de l'aplicació s'han d'acceptar les següents condicions.",
+                    "Btn": "Acceptar"
                 }
             };
 

@@ -416,7 +416,7 @@ Item_Document_Button_New::Afegir
 Item_Document_Button_NewVersion::Versió
 Item_Document_Button_SourceBAR::Gestió de procedències
 Item_Document_Button_SourceBAR::Seleccionar una procedència
-Item_Document_Btn_Anular::Donar de baixa
+Item_Document_Btn_Anular::Baixa
 Item_Document_AnulateMessageTile::Document de baixa
 Item_Document_PopupAnular_Title::Baixa del document
 Item_Document_Error_DeleteReasonRequired::Especificar el motiu de l'eliminació
@@ -908,6 +908,8 @@ Item_Incident_ErrorMessage_WhatHappenedResponsibleRequired::Indicar qui ha regis
 Item_Incident_AnulateMessageTile::Incidència tancada
 Item_Incident_Btn_Restaurar::Reobrir
 Item_Incident_Btn_Anular::Tancar
+Item_Incident_Cost_IncidentCheck::Costos propis incidència
+Item_Incident_Cost_IncidentActionCheck::Costos propis acció						   
 Item_Incident_Field_Actions::Actuacions
 Item_Incident_Field_ActionsDate::Data
 Item_Incident_Field_ActionsExecuter::Executor/a
@@ -1548,7 +1550,7 @@ Item_Equipment_List_Filter_ShowClosed::De baixa
 Item_Equipment_List_Filter_ShowCalibration::Calibracions
 Item_Equipment_List_Filter_ShowVerification::Verificacions
 Item_Equipment_List_Filter_ShowMaintenance::Manteniments
-Item_Equipment_List_Filter_ShowByOperation::Operativa
+Item_Equipment_List_Filter_ShowByOperation::Registres
 Item_Equipment_List_Filter_ShowByStatus::Estat
 Agreement_Document_Title::Condicions d'ús
 Agreement_Button_Download::Descarregar condicions
@@ -1556,7 +1558,7 @@ MailTemplate_ResetPassword_Subject::Reestabliment de paraula de pas a ISSUS
 MailTemplate_ResetPassword_Error::No s'ha reestabler la paraula de pas
 MailTemplate_ResetPassword_DefaultBody::Se h'reestablert la seva paraula de pas a ISSUS.<br />Accedir a la seqgüent url http://issus.scrambotika.com/ <br/> User:<b>{0}</b><br/>Password:<b>{1}</b>
 Item_Employee_PopupAnular_Title::Baixa d'empleat
-Item_Employee_Warning_NoUser::L'empleat no té associat un usuari a l'aplicació
+Item_Employee_Warning_NoUser::Aquest/a empleat/ada no té usuari assignat i rebrà avisos del sistema.
 User_PrimaryUser::Usuari primari
 User_Admin::Administrador
 Item_Backup::Back-Up
