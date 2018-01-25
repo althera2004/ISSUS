@@ -810,6 +810,9 @@
                                                         </span>
                                                     </div>
                                                 </div>
+                                            <span class="ErrorMessage" id="TxtEquipmentMaintenanceActDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentMaintenanceActDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>                                        
+                                        
                                             </div>
                                         </div>
                                         <!-- ISSUS-18 -->
@@ -960,6 +963,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <span class="ErrorMessage" id="TxtEquipmentCalibrationActDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentCalibrationActDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
                                         </div>
                                     </div>    
                                     <div class="form-group">
@@ -1021,6 +1026,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>                                        
                                         </div>
                                     </div>    
                                     <div class="form-group">
@@ -1190,21 +1197,20 @@
                 jQuery(function ($) {
 
                     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
-                        _title: function (title) {
-                            var $title = this.options.title || '&nbsp;'
-                            if (("title_html" in this.options) && this.options.title_html == true)
+                        "_title": function (title) {
+                            var $title = this.options.title || "&nbsp;"
+                            if (("title_html" in this.options) && this.options.title_html == true) {
                                 title.html($title);
-                            else title.text($title);
+                            }
+                            else {
+                                title.text($title);
+                            }
                         }
                     }));
 
-                    /*$('.date-picker').datepicker({
-                        autoclose: true,
-                        todayHighlight: true,
-                        language: 'ca'
-                    })*/
-                    var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
+                    var options = $.extend({}, $.datepicker.regional["ca"], { dateFormat: "dd/mm/yy", autoclose: true, todayHighlight: true });
                     $(".date-picker").datepicker(options);
+                    $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
                     $('#BtnRecordFilter').on('click', function (e) {
                         e.preventDefault();

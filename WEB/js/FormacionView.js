@@ -826,6 +826,7 @@ jQuery(function ($) {
     });*/
     var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
     $(".date-picker").datepicker(options);
+    $(".date-picker").on("blur", function () { DatePickerChanged(this); });
 
     if (ApplicationUser.ShowHelp === true) {
         SetToolTip('TxtYear', Dictionary.Item_Learning_Help_Year);

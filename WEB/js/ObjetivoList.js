@@ -153,12 +153,12 @@ function ItemRenderTable(list) {
         }
 
 
-        var tdActions = document.createElement('TD');
+        var tdActions = document.createElement("TD");
         tdActions.style.width = "91px";
 
         tdActions.appendChild(iconEdit);
         if (ApplicationUser.Grants.Indicador.Delete) {
-            tdActions.appendChild(document.createTextNode(' '));
+            tdActions.appendChild(document.createTextNode(" "));
             tdActions.appendChild(iconDelete);
         }
         row.appendChild(tdActions);
@@ -210,14 +210,15 @@ function ItemRenderTable(list) {
 function ObjetivoDelete(sender) {
     ObjetivoSelectedId = sender.parentNode.parentNode.id;
     ObjetivoSelected = ObjetivoGetById(ObjetivoSelectedId);
+    console.log(ObjetivoSelectedId);
     if (ObjetivoSelected === null) { return false; }
     $("#ObjetivoDeleteName").html(ObjetivoSelected.Name);
     var dialog = $("#ObjetivoDeleteDialog").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
         [
             {
                 "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
@@ -238,7 +239,6 @@ function ObjetivoDelete(sender) {
 }
 
 function ObjetivoDeleteConfirmed() {
-    var webMethod = "/Async/ObjetivoActions.asmx/Inactivate";
     var data = {
         objetivoId: ObjetivoSelectedId,
         companyId: Company.Id,
@@ -247,15 +247,15 @@ function ObjetivoDeleteConfirmed() {
     $("#ObjetivoDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/ObjetivoActions.asmx/Inactivate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             ObjetivoGetFilter();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -263,6 +263,7 @@ function ObjetivoDeleteConfirmed() {
 }
 
 function ObjetivoGetById(id) {
+    id = id * 1;
     for (var x = 0; x < ObjetivosList.length; x++) {
         if (ObjetivosList[x].Id === id) {
             return ObjetivosList[x];
@@ -296,15 +297,14 @@ function ExportPDF() {
     console.log(filterData);
     var data = filterData;
     data["listOrder"] = listOrder;
-    var webMethod = "/Export/ObjetivoExport.aspx/PDF";
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Export/ObjetivoExport.aspx/PDF",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
             //successInfoUI(msg.d.MessageError, Go, 200);
             var link = document.createElement("a");
@@ -318,7 +318,7 @@ function ExportPDF() {
             window.open(msg.d.MessageError);
             $("#dialogAddAddress").dialog("close");
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI("error:" + msg.responseText);
         }

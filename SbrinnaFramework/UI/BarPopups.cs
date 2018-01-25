@@ -117,91 +117,91 @@ namespace SbrinnaCoreFramework.UI
             get
             {
                 string pattern = @"function {0}Changed(sender)
-                    {
+                    {{
                         var id= sender.parentNode.parentNode.parentNode.id * 1;
                         $('#dialogProcessType').dialog('close');
                         for(var x=0;x<{0}.length;x++)
-                        {
+                        {{
                             if({0}[x].Id === id)
-                            {
+                            {{
                                 {0}Selected = id;
                                 document.getElementById('{0}Type').value = {0}[x].Description;
                                 break;
-                            }
-                        }
+                            }}
+                        }}
 
                         FillCmbTipo();
                     }                    
 
-                    function {0}Update(sender) {
-                        document.getElementById('Txt{0}NameErrorRequired').style.display='none';
-                        document.getElementById('Txt{0}NameErrorDuplicated').style.display='none';
+                    function {0}}}Update(sender) {{
+                        document.getElementById('Txt{0}}}NameErrorRequired').style.display='none';
+                        document.getElementById('Txt{0}}}NameErrorDuplicated').style.display='none';
                         $('#TxtProcessTypeName').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
                         Selected = sender.parentNode.parentNode.parentNode.id * 1;
-                        var dialog = $('#{0}UpdateDialog').removeClass('hide').dialog({
+                        var dialog = $('#{0}}}UpdateDialog').removeClass('hide').dialog({{
                             resizable: false,
                             width: 600,
                             modal: true,
                             title: Dictionary.Common_Edit,
                             title_html: true,
                             buttons: [
-                                    {
+                                    {{
                                         html: ""<i class='icon-ok bigger-110'></i>&nbsp;"" + Dictionary.Common_Accept,
                                         ""class"": ""btn btn-success btn-xs"",
-                                        click: function () {
+                                        click: function () {{
                                             var ok = true;
-                                            if(document.getElementById('Txt{0}Name').value == '')
-                                            {
-                                                document.getElementById('Txt{0}NameErrorRequired').style.display='block';
+                                            if(document.getElementById('Txt{0}}}Name').value == '')
+                                            {{
+                                                document.getElementById('Txt{0}}}NameErrorRequired').style.display='block';
                                                 ok = false;
-                                            }
+                                            }}
                                             else
-                                            {
-                                                document.getElementById('Txt{0}NameErrorRequired').style.display='none';
-                                            }
+                                            {{
+                                                document.getElementById('Txt{0}}}NameErrorRequired').style.display='none';
+                                            }}
 
                                             var duplicated = false;
                                             for(var x=0;x<processTypeCompany.length;x++)
-                                            {
-                                                if(document.getElementById('Txt{0}Name').value.toLowerCase() == processTypeCompany[x].Description.toLowerCase() && Selected != processTypeCompany[x].Id && processTypeCompany[x].Active === true)
-                                                {
+                                            {{
+                                                if(document.getElementById('Txt{0}}}Name').value.toLowerCase() == processTypeCompany[x].Description.toLowerCase() && Selected != processTypeCompany[x].Id && processTypeCompany[x].Active === true)
+                                                {{
                                                     duplicated = true;
                                                     break;
-                                                }
-                                            }
+                                                }}
+                                            }}
 
                                             if(duplicated === true)
-                                            {
-                                                document.getElementById('Txt{0}NameErrorDuplicated').style.display='block';
+                                            {{
+                                                document.getElementById('Txt{0}}}NameErrorDuplicated').style.display='block';
                                                 ok = false;
-                                            }
+                                            }}
                                             else
-                                            {
-                                                document.getElementById('Txt{0}NameErrorDuplicated').style.display='none';
-                                            }
+                                            {{
+                                                document.getElementById('Txt{0}}}NameErrorDuplicated').style.display='none';
+                                            }}
 
 
-                                            if(ok === false) { window.scrollTo(0, 0); return false; }
+                                            if(ok === false) {{ window.scrollTo(0, 0); return false; }}
 
-                                            document.getElementById('Txt{0}NameErrorRequired').style.display='none';
-                                            document.getElementById('Txt{0}NameErrorDuplicated').style.display='none';
+                                            document.getElementById('Txt{0}}}NameErrorRequired').style.display='none';
+                                            document.getElementById('Txt{0}}}NameErrorDuplicated').style.display='none';
                                             $(this).dialog('close');
-                                            ProcessTypeUpdateConfirmed(Selected, document.getElementById('Txt{0}Name').value);
-                                        }
-                                    },
-                                    {
+                                            ProcessTypeUpdateConfirmed(Selected, document.getElementById('Txt{0}}}Name').value);
+                                        }}
+                                    }},
+                                    {{
                                         html: ""<i class='icon-remove bigger-110'></i>&nbsp;"" + Dictionary.Common_Cancel,
                                         ""class"": ""btn btn-xs"",
-                                        click: function () {
+                                        click: function () {{
                                             $(this).dialog('close');
-                                        }
-                                    }
+                                        }}
+                                    }}
                                 ]
 
-                        });
-                    }";
+                        }});
+                    }}";
 
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), pattern, this.Id);
+                return string.Format(CultureInfo.InvariantCulture, pattern, this.Id);
             }
         }
 

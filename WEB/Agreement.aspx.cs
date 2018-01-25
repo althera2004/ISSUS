@@ -208,6 +208,11 @@ public partial class Agreement : Page
         pdfDoc.Open();
         pdfDoc.CloseDocument();
 
+        using(StreamWriter fileText = new StreamWriter(fileName.Replace(".pdf",".txt")))
+        {
+            fileText.Write(HttpContext.Current.Request.ToString());
+        }
+
         using(SqlCommand cmd = new SqlCommand("UPDATE Company SET Agreement = 1 WHERE Id = " + company.Id.ToString()))
         {
             cmd.CommandType = CommandType.Text;

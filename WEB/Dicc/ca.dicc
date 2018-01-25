@@ -1473,6 +1473,7 @@ Item_Tace_ListHeader_Reason::Motius
 Item_Tace_ListHeader_Trace::Traça
 Item_Tace_ListHeader_User::Usuari/a
 Item_Trace::Traça
+Item_TracePlural::Traces
 Item_Trace_Active::Activació
 Item_Trace_Created::Creació
 Item_Trace_Delete::Eliminació

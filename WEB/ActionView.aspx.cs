@@ -607,6 +607,7 @@ public partial class ActionView : Page
             ColumnsSpanLabel = 4,
             ColumnsSpan = 6,
             Value = this.IncidentAction.ClosedOn,
+            GrantToWrite = this.grantToWrite,
             Required = true
         };
 

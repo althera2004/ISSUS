@@ -243,7 +243,6 @@ function AnularConfirmed() {
         return false;
     }
 
-    var webMethod = "/Async/IncidentActionsActions.asmx/Anulate";
     var data = {
         "incidentActionId": IncidentAction.Id,
         "companyId": Company.Id,
@@ -256,13 +255,12 @@ function AnularConfirmed() {
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         type: "POST",
-        url: webMethod,
+        url: "/Async/IncidentActionsActions.asmx/Anulate",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(data, null, 2),
         success: function (msg) {
             SaveAction();
-            //document.location = referrer;
         },
         error: function (msg) {
             LoadingHide();
@@ -293,7 +291,6 @@ function AnulateLayout() {
 }
 
 function Restore() {
-    var webMethod = "/Async/IncidentActionsActions.asmx/Restore";
     var data = {
         "incidentActionId": IncidentAction.Id,
         "companyId": Company.Id,
@@ -302,13 +299,13 @@ function Restore() {
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         type: "POST",
-        url: webMethod,
+        url: "/Async/IncidentActionsActions.asmx/Restore",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(data, null, 2),
         success: function (msg) {
-            IncidentAction.EndDate = null;
-            AnulateLayout();
+            Incident.ClosedOn = null;
+            document.location = document.location + "";
         },
         error: function (msg) {
             LoadingHide();

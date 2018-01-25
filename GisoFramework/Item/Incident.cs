@@ -707,6 +707,96 @@ namespace GisoFramework.Item
             return res;
         }
 
+        public static ActionResult Restore(long incidentId, int companyId, int userId)
+        {
+            /* CREATE PROCEDURE [dbo].[Incident_Restore]
+             *   @IncidentId int,
+             *   @CompanyId int,
+             *   @ApplicationUserId int */
+            ActionResult res = ActionResult.NoAction;
+            using (SqlCommand cmd = new SqlCommand("Incident_Restore"))
+            {
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                cmd.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@IncidentId", incidentId));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", userId));
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess();
+                }
+                catch (SqlException ex)
+                {
+                    res.SetFail(ex);
+                    ExceptionManager.Trace(ex, "Incident::Restore", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, userId, companyId));
+                }
+                catch (NullReferenceException ex)
+                {
+                    res.SetFail(ex);
+                    ExceptionManager.Trace(ex, "Incident::Restore", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, userId, companyId));
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        public static ActionResult Anulate(int incidentId, int companyId, int applicationUserId, DateTime date, int responsible)
+        {
+            /* CREATE PROCEDURE [dbo].[Incident_Anulate]
+             *   @IncidentId int,
+             *   @CompanyId int,
+             *   @EndDate datetime,
+             *   @EndResponsible int,
+             *   @ApplicationUserId int */
+            ActionResult res = ActionResult.NoAction;
+            using (SqlCommand cmd = new SqlCommand("Incident_Anulate"))
+            {
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                cmd.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@IncidentId", incidentId));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Parameters.Add(DataParameter.Input("@EndDate", date));
+                    cmd.Parameters.Add(DataParameter.Input("@EndResponsible", responsible));
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess();
+                }
+                catch (SqlException ex)
+                {
+                    res.SetFail(ex);
+                    ExceptionManager.Trace(ex, "Incident::Anulate", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, applicationUserId, companyId));
+                }
+                catch (NullReferenceException ex)
+                {
+                    res.SetFail(ex);
+                    ExceptionManager.Trace(ex, "Incident::Anulate", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, applicationUserId, companyId));
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+
+            return res;
+        }
+
         public static ActionResult Delete(long incidentId, int userId, int companyId)
         {
             /* CREATE PROCEDURE Incident_Delete

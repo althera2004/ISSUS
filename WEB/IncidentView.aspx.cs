@@ -550,12 +550,14 @@ public partial class IncidentView : Page
 
         this.CmbClosedResponsible = new FormSelect()
         {
-            ColumnsSpanLabel = 2,
+            ColumnsSpanLabel = 4,
             Label = this.dictionary["Item_Incident_Field_CloseResponsible"],
-            ColumnsSpan = 5,
+            ColumnsSpan = 8,
             Name = "CmbClosedResponsible",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.dictionary["Common_Required"],
+            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" },
+            Required = true,
         };
 
         long whatHappenedResponsibleId = this.Incident.WhatHappenedBy == null ? 0 : this.Incident.WhatHappenedBy.Id;
@@ -698,10 +700,11 @@ public partial class IncidentView : Page
         {
             Id = "TxtClosedDate",
             Label = this.dictionary["Item_Incident_Field_CloseDate"],
-            ColumnsSpanLabel = 2,
-            ColumnsSpan = 10,
+            ColumnsSpanLabel = 4,
+            ColumnsSpan = 6,
             Value = this.Incident.ClosedOn,
-            GrantToWrite = this.grantToWrite
+            GrantToWrite = this.grantToWrite,
+            Required = true
         };
     }
 

@@ -79,4 +79,18 @@ public class IncidentActions : WebService
 
         return Incident.FilterList(companyId, from, to, statusIdnetified, statusAnalyzed, statusInProgress, statusClose, origin, departmentId, providerId, customerId);
     }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult Anulate(int incidentId, int companyId, int applicationUserId, DateTime date, int responsible)
+    {
+        return Incident.Anulate(incidentId, companyId, applicationUserId, date, responsible);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult Restore(int incidentId, int companyId, int applicationUserId)
+    {
+        return Incident.Restore(incidentId, companyId, applicationUserId);
+    }
 }

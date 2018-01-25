@@ -30,7 +30,6 @@ window.onload = function () {
     $("#BtnAnular").on("click", AnularPopup);
     $("#BtnRestaurar").on("click", Restore);
 
-
     $("#BtnUnitsBAR").on("click", function (e) {
         e.preventDefault();
         ShowUnitsBarPopup();
@@ -204,12 +203,12 @@ function Save() {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: "/Async/IndicadorActions.asmx/Save",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/IndicadorActions.asmx/Save",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -218,7 +217,7 @@ function Save() {
                 document.location = referrer;
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -608,8 +607,6 @@ function AnularConfirmed() {
         return false;
     }
 
-    //Anulate(int indicadorId, int companyId, int applicationUserId, string reason, DateTime date, int responsible)
-    var webMethod = "/Async/IndicadorActions.asmx/Anulate";
     var data = {
         "indicadorId": Indicador.Id,
         "companyId": Company.Id,
@@ -621,16 +618,16 @@ function AnularConfirmed() {
     $("#dialogAnular").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/IndicadorActions.asmx/Anulate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             document.location = referrer;
             //AnulateLayout();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -657,20 +654,20 @@ function RecordEdit(id) {
     FillFormRegistro(selectedRecordId);
     var title = selectedRecordId == -1 ? Dictionary.Item_IndicatorRecord_PopupTitle_Insert : Dictionary.Item_IndicatorRecord_PopupTitle_Update;
     var dialog = $("#dialogNewRecord").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: title,
-        width: 500,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": title,
+        "width": 500,
+        "buttons":
         [
             {
                 "id": "BtnNewRegistroSave",
-                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + (selectedRecordId > 0 ? Dictionary.Common_Change : Dictionary.Common_Add),
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + (selectedRecordId > 0 ? Dictionary.Common_Change : Dictionary.Common_Add),
                 "class": "btn btn-success btn-xs",
                 "click": function () { IndicadorRegistroSave(); }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
@@ -691,23 +688,23 @@ function RecordDelete(id) {
         $("#dialogDeleteName").html(Dictionary.Item_Indicador_Popup_DeleteRecord_Message);
     }
     var dialog = $("#dialogDeleteRecord").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     RecordDeleteConfirmed();
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -716,7 +713,6 @@ function RecordDelete(id) {
 }
 
 function RecordDeleteConfirmed() {
-    var webMethod = "/Async/IndicadorActions.asmx/DeleteRegistro";
     var data = {
         "registroId": selectedRecordId,
         "companyId": Company.Id,
@@ -725,12 +721,12 @@ function RecordDeleteConfirmed() {
     $("#dialogDeleteRecord").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/IndicadorActions.asmx/DeleteRegistro",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             var temp = new Array();
             for (var x = 0; x < Registros.length; x++) {
                 if (Registros[x].Id !== selectedRecordId) {
@@ -741,7 +737,7 @@ function RecordDeleteConfirmed() {
             Registros = temp;
             IndicadorRegistroFilter();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -866,12 +862,12 @@ function IndicadorRegistroSave() {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: "/Async/IndicadorActions.asmx/SaveRegistro",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/IndicadorActions.asmx/SaveRegistro",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -901,7 +897,7 @@ function IndicadorRegistroSave() {
                 $("#BtnRecordFilter").click();
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -909,13 +905,13 @@ function IndicadorRegistroSave() {
 }
 
 window.chartColors = {
-    red: 'rgb(255, 99, 132)',
-    orange: 'rgb(255, 159, 64)',
-    yellow: 'rgb(255, 205, 86)',
-    green: 'rgb(75, 192, 192)',
-    blue: 'rgb(54, 162, 235)',
-    purple: 'rgb(153, 102, 255)',
-    grey: 'rgb(201, 203, 207)'
+    "red": "rgb(255, 99, 132)",
+    "orange": "rgb(255, 159, 64)",
+    "yellow": "rgb(255, 205, 86)",
+    "green": "rgb(75, 192, 192)",
+    "blue": "rgb(54, 162, 235)",
+    "purple": "rgb(153, 102, 255)",
+    "grey": "rgb(201, 203, 207)"
 };
 
 function DrawGraphics(stop) {
@@ -933,20 +929,20 @@ function DrawGraphics(stop) {
 
         // ---------- BARRAS
         var barOptions = {
-            scaleBeginAtZero: true,
-            scaleShowGridLines: true,
-            scaleGridLineColor: "rgba(0,0,0,.05)",
-            scaleGridLineWidth: 1,
-            barShowStroke: false,
-            barStrokeWidth: 1,
-            barValueSpacing: 5,
-            barDatasetSpacing: 10,
-            responsive: true,
-            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-            legend: {
-                display: true,
-                labels: {
-                    fontColor: "rgb(255, 99, 132)"
+            "scaleBeginAtZero": true,
+            "scaleShowGridLines": true,
+            "scaleGridLineColor": "rgba(0,0,0,.05)",
+            "scaleGridLineWidth": 1,
+            "barShowStroke": false,
+            "barStrokeWidth": 1,
+            "barValueSpacing": 5,
+            "barDatasetSpacing": 10,
+            "responsive": true,
+            "legendTemplate": "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+            "legend": {
+                "display": true,
+                "labels": {
+                    "fontColor": "rgb(255, 99, 132)"
                 }
             }
         }
@@ -977,32 +973,32 @@ function DrawGraphics(stop) {
         }
 
         var overlayData = {
-            labels: labels,
-            datasets: [
+            "labels": labels,
+            "datasets": [
                 {
-                    label: "Alarma",
-                    type: "line",
-                    fillColor: "rgba(244,210,210,0)",
-                    strokeColor: "rgba(216,33,0,0.8)",
-                    highlightFill: "rgba(151,187,205,0.75)",
-                    highlightStroke: "rgba(151,187,205,1)",
-                    data: alarmas
+                    "label": "Alarma",
+                    "type": "line",
+                    "fillColor": "rgba(244,210,210,0)",
+                    "strokeColor": "rgba(216,33,0,0.8)",
+                    "highlightFill": "rgba(151,187,205,0.75)",
+                    "highlightStroke": "rgba(151,187,205,1)",
+                    "data": alarmas
                 }, {
-                    label: "Meta",
-                    type: "line",
-                    fillColor: "rgba(119,226,152,0)",
-                    strokeColor: "rgba(59,183,38,0.8)",
-                    highlightFill: "rgba(59,183,38,0.75)",
-                    highlightStroke: "rgba(94,114,95,1)",
-                    data: metas
+                    "label": "Meta",
+                    "type": "line",
+                    "fillColor": "rgba(119,226,152,0)",
+                    "strokeColor": "rgba(59,183,38,0.8)",
+                    "highlightFill": "rgba(59,183,38,0.75)",
+                    "highlightStroke": "rgba(94,114,95,1)",
+                    "data": metas
                 },
                 {
-                    label: "Valor",
-                    fillColor: "#275b89",
-                    strokeColor: "rgba(77,110,240,0.8)",
-                    highlightFill: "rgba(77,100,240,0.75)",
-                    highlightStroke: "rgba(77,100,240,1)",
-                    data: values
+                    "label": "Valor",
+                    "fillColor": "#275b89",
+                    "strokeColor": "rgba(77,110,240,0.8)",
+                    "highlightFill": "rgba(77,100,240,0.75)",
+                    "highlightStroke": "rgba(77,100,240,1)",
+                    "data": values
                 }
             ]
         };
@@ -1043,9 +1039,9 @@ function DrawGraphics(stop) {
                 offset: 10,
                 width: 20,
                 ranges: [
-                    { startValue: 0, endValue: lastAlarm, color: '#f00' },
-                    { startValue: lastAlarm, endValue: lastMeta, color: '#fa0' },
-                    { startValue: lastMeta, endValue: maxValue, color: '#0f0' }
+                    { "startValue": 0, "endValue": lastAlarm, "color": "#f00" },
+                    { "startValue": lastAlarm, "endValue": lastMeta, "color": "#fa0" },
+                    { "startValue": lastMeta, "endValue": maxValue, "color": "#0f0" }
                 ]
             },
             "scale": {
@@ -1067,7 +1063,7 @@ function DrawGraphics(stop) {
             "subvalueIndicator": {
                 "type": "textCloud",
                 "text": {
-                    customizeText: function (arg) {
+                    "customizeText": function (arg) {
                         return arg.valueText.split(',').join('') * 1;
                     }
                 }
@@ -1155,7 +1151,6 @@ function UnitSave() {
         return false;
     }
 
-    var webMethod = "/Async/UnidadActions.asmx/Update";
     data = {
         "unidadId": UnitSelected,
         "description": description,
@@ -1175,12 +1170,12 @@ function UnitSave() {
     // Insert(string description, int companyId, int userId)
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/UnidadActions.asmx/Update",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -1212,7 +1207,7 @@ function UnitSave() {
                 $("#UnitsInsertDialog").dialog("close");
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -1342,20 +1337,20 @@ function UnitDelete(sender) {
     $("#UnitsName").html(unidad.Description);
     ProviderSelected = UnitSelected;
     var dialog = $("#UnitsDeleteDialog").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons: [
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons": [
                 {
-                    "html": "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
                         UnitDeleteConfirmed();
                     }
                 },
                 {
-                    "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     "click": function () {
                         $(this).dialog("close");
@@ -1366,7 +1361,6 @@ function UnitDelete(sender) {
 }
 
 function UnitDeleteConfirmed() {
-    var webMethod = "/Async/UnidadActions.asmx/Delete";
     var data = {
         "unidadId": UnitSelected,
         "companyId": Company.Id,
@@ -1376,11 +1370,11 @@ function UnitDeleteConfirmed() {
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/UnidadActions.asmx/Delete",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "success": function (msg) {
             var temp = new Array();
             for (var x = 0; x < Unidades.length; x++) {
                 if (Unidades[x].Id !== UnitSelected) {
@@ -1392,7 +1386,7 @@ function UnitDeleteConfirmed() {
             UnitsRenderPopup();
             FillComboUnidades();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -1446,26 +1440,26 @@ function Export(fileType) {
 
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
-        type: "POST",
-        url: "/Export/IndicadorRecords.aspx/" + fileType,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Export/IndicadorRecords.aspx/" + fileType,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
             //successInfoUI(msg.d.MessageError, Go, 200);
-            var link = document.createElement('a');
-            link.id = 'download';
+            var link = document.createElement("a");
+            link.id = "download";
             link.href = msg.d.MessageError;
             link.download = msg.d.MessageError;
-            link.target = '_blank';
+            link.target = "_blank";
             document.body.appendChild(link);
             document.body.removeChild(link);
-            $('#download').trigger('click');
+            $("#download").trigger("click");
             window.open(msg.d.MessageError);
-            $("#dialogAddAddress").dialog('close');
+            $("#dialogAddAddress").dialog("close");
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI("error:" + msg.responseText);
         }
@@ -1495,11 +1489,6 @@ function AnulateLayout() {
 }
 
 function Restore() {
-    /// <summary>
-    /// Restores indicator
-    /// </summary>
-    /// <returns></returns>
-    var webMethod = "/Async/IndicadorActions.asmx/Restore";
     var data = {
         "indicadorId": Indicador.Id,
         "companyId": Company.Id,
@@ -1508,16 +1497,16 @@ function Restore() {
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/IndicadorActions.asmx/Restore",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "success": function (msg) {
             Indicador.EndDate = null;
             AnulateLayout();
             EnableLayout();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }

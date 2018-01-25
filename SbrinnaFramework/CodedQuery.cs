@@ -3,32 +3,20 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
-using System.Linq;
-using System.Text;
+using System.util.collections;
 
 namespace SbrinnaCoreFramework
 {
-    public struct CodedQuery
+    public struct CodedQuery: IEquatable<CodedQuery>
     {
         /// <summary>Encrypted data</summary>
         private NameValueCollection query;
 
         /// <summary>Decrypted data</summary>
-        private List<KeyValuePair<string, object>> data;
+        private List<CodedQueryItem> data;
 
         /// <summary>Indicates if it is parsed</summary>
         private bool parsed;
-
-        /*
-        /// <summary>
-        /// Initializes a new instance of the CodedQuery class
-        /// </summary>
-        /// <param name="query">Encrypted data</param>
-        public CodedQuery(NameValueCollection query)
-        {
-            this.query = query;
-        }
-        */
 
         /// <summary>Gets a clean CodedQuery data</summary>
         public string CleanQuery
@@ -40,16 +28,17 @@ namespace SbrinnaCoreFramework
         }
 
         /// <summary>Gets the collection of decrypted values</summary>
-        public ReadOnlyCollection<KeyValuePair<string, object>> Data
+        public ReadOnlyCollection<CodedQueryItem> Data
         {
             get
             {
                 if (!this.parsed)
                 {
                     this.Parse();
+                    this.parsed = true;
                 }
 
-                return new ReadOnlyCollection<KeyValuePair<string, object>>(this.data);
+                return new ReadOnlyCollection<CodedQueryItem>(this.data);
             }
         }
 
@@ -76,7 +65,7 @@ namespace SbrinnaCoreFramework
                 return (T)Convert.ChangeType(default(T), typeof(T), CultureInfo.InvariantCulture);
             }
 
-            foreach (KeyValuePair<string, object> pair in this.data)
+            foreach (CodedQueryItem pair in this.data)
             {
                 if (pair.Key.Equals(key, StringComparison.OrdinalIgnoreCase))
                 {
@@ -92,7 +81,7 @@ namespace SbrinnaCoreFramework
         {
             if (this.data == null)
             {
-                List<KeyValuePair<string, object>> res = new List<KeyValuePair<string, object>>();
+                List<CodedQueryItem> res = new List<CodedQueryItem>();
                 string[] parts = this.CleanQuery.Split('&');
                 foreach (string part in parts)
                 {
@@ -100,13 +89,18 @@ namespace SbrinnaCoreFramework
                     {
                         if (part.IndexOf('=') != -1)
                         {
-                            res.Add(new KeyValuePair<string, object>(part.Split('=')[0], part.Split('=')[1]));
+                            res.Add(new CodedQueryItem(part.Split('=')[0], part.Split('=')[1]));
                         }
                     }
                 }
 
                 this.data = res;
             }
+        }
+
+        public bool Equals(CodedQuery other)
+        {
+            throw new NotImplementedException();
         }
     }
 }

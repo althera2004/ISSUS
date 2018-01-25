@@ -126,6 +126,8 @@
         var scaleImages = false;
         var ApplicationUser = <%=this.ApplicationUserJson %>;
         var PendentTasks = <%=this.PendentTasks %>;
+        var referrer = "<%=this.Referrer %>";
+        items = [<%=this.SearcheableItems %>];
     </script>
     <script type="text/javascript" src="assets/js/ace-extra.min.js"></script>
     <!--[if lt IE 9]>
@@ -144,7 +146,7 @@
     <form id="form1" runat="server">
         <div class="navbar navbar-fixed-top" id="navbar">
             <script type="text/javascript">
-                try { ace.settings.check('navbar', 'fixed') } catch (e) { }
+                try { ace.settings.check("navbar", "fixed") } catch (e) { }
             </script>
             <div class="navbar-container" id="navbar-container">
                 <div class="navbar-header pull-left">
@@ -180,7 +182,7 @@
         </div>
         <div class="main-container" id="main-container" style="padding-top:45px;">
             <script type="text/javascript">
-                try { ace.settings.check('main-container', 'fixed') } catch (e) { }
+                try { ace.settings.check("main-container", "fixed") } catch (e) { }
             </script>
             <div class="main-container-inner" id="container">
                 <a class="menu-toggler" id="menu-toggler" href="#">
@@ -188,7 +190,7 @@
                 </a>
                 <div class="sidebar responsive sidebar-fixed sidebar-scroll" id="sidebar" data-sidebar="true">
                     <script type="text/javascript">
-                        try { ace.settings.check('sidebar', 'fixed') } catch (e) { }
+                        try { ace.settings.check("sidebar", "fixed") } catch (e) { }
                     </script>
 
                     <!-- #sidebar-shortcuts -->
@@ -379,191 +381,11 @@
     <script type="text/javascript" src="/assets/js/ace.min.js"></script>
     <script type="text/javascript" src="/assets/js/jquery.ddslick.min.js"></script>
     <script type="text/javascript" src="/assets/js/chosen.jquery.js"></script>
+    <script type="text/javascript" src="/js/PopupAlerts.js"></script>
+    <script type="text/javascript" src="/js/moment.js"></script>
     <asp:ContentPlaceHolder id="ScriptBodyContentHolder" runat="server">
     </asp:ContentPlaceHolder>
         <script type = "text/javascript">
-            function alertUI(message) {
-                $("#AlertUIMessage").html(message);
-                var dialog = $("#AlertUIDialog").removeClass("hide").dialog({
-                    resizable: false,
-                    modal: true,
-                    title: Dictionary.Common_Warning,
-                    title_html: true,
-                    buttons:
-                    [
-                        {
-                            html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
-                            "class": "btn btn-xs btn-success",
-                            click: function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    ]
-                });
-            }
-
-            function alertInfoUI(message, action) {
-                $("#InfoUIMessage").html(message);
-                var dialog = $("#InfoUIDialog").removeClass("hide").dialog({
-                    resizable: false,
-                    modal: true,
-                    title: Dictionary.Common_Warning,
-                    title_html: true,
-                    buttons: [
-                            {
-                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
-                                "class": "btn btn-xs btn-success",
-                                click: function () {
-                                    $(this).dialog("close");
-                                    if(action!=null)
-                                    {
-                                        action();
-                                    }
-                                }
-                            }
-                        ]
-
-                });
-            }
-
-            function warningInfoUI(message, action, width) {
-                $("#WarningUIMessage").html(message);
-                var dialog = $("#WarningUIDialog").removeClass("hide").dialog({
-                    resizable: false,
-                    width: width == null ? 300 : width,
-                    modal: true,
-                    title: Dictionary.Common_Warning,
-                    title_html: true,
-                    buttons: [
-                            {
-                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
-                                "class": "btn btn-xs btn-success",
-                                click: function () {
-                                    $(this).dialog("close");
-                                    if(action!=null)
-                                    {
-                                        action();
-                                    }
-                                }
-                            }
-                        ]
-
-                });
-            }
-
-            function successInfoUI(message, action, width) {
-                $('#SuccessUIMessage').html(message);
-                var dialog = $("#SuccessUIDialog").removeClass("hide").dialog({
-                    resizable: false,
-                    width: width == null ? 300 : width,
-                    modal: true,
-                    title: Dictionary.Common_Warning,
-                    title_html: true,
-                    buttons: [
-                            {
-                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
-                                "class": "btn btn-xs btn-success",
-                                click: function () {
-                                    $(this).dialog("close");
-                                    if(action!=null)
-                                    {
-                                        action();
-                                    }
-                                }
-                            }
-                    ]
-
-                });
-            }
-
-            function timeoutAlert() {
-                if(timeoutAlerted===true ) {
-                    return false
-                };
-
-                if(timePassed*1 < 30){
-                    console.log("===> Timeout falso intento", timePassed);
-                    return false;
-                }
-                
-                timeoutAlerted=false;
-                var dialog = $("#TimeoutDialog").removeClass("hide").dialog({
-                    resizable: false,
-                    width: 500,
-                    modal: true,
-                    title: Dictionary.Common_TiemoutSessionTitle,
-                    title_html: true,
-                    buttons: 
-                    [
-                        {
-                            html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
-                            "class": "btn btn-xs btn-success",
-                            click: function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    ]
-
-                }).on("dialogclose", function(event) {
-                    document.location="LogOut.aspx";
-                })
-            }
-
-            function promptInfoUI(message, width, actionYes, actionNo) {
-                $("#PromptUIMessage").html(message);
-                var dialog = $("#PromptUIDialog").removeClass("hide").dialog({
-                    resizable: false,
-                    width: width == null ? 300 : width,
-                    modal: true,
-                    title: Dictionary.Common_Warning,
-                    title_html: true,
-                    buttons: [
-                            {
-                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
-                                "class": "btn btn-xs btn-success",
-                                click: function () {
-                                    $(this).dialog("close");
-                                    if(actionYes!=null)
-                                    {
-                                        actionYes();
-                                    }
-                                }
-                            },
-                            {
-                                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
-                                "class": "btn btn-xs btn-danger",
-                                click: function () {
-                                    $(this).dialog("close");
-                                    if(actionNo!=null)
-                                    {
-                                        actionNo();
-                                    }
-                                }
-                            }
-                    ]
-
-                });
-            }
-
-            function LoadingShow(message)
-            {
-                return;
-                $("#LoadingMessage").html(message);
-                var dialog = $("#LoadingDialog").removeClass("hide").dialog({
-                    resizable: false,
-                    modal: true,
-                    title: Dictionary.Common_Working,
-                    title_html: true
-
-                });
-            }
-
-            function LoadingHide()
-            {
-                return;
-                $("#LoadingDialog").dialog("close");
-            }
-
             function FilterList() {
                 if (document.getElementById("ListDataTable") != null) {
 
@@ -612,9 +434,6 @@
                 document.getElementById("nav-search").style.display = "none";
             }
 
-            var referrer = "<%=this.Referrer %>";
-
-            items = [<%=this.SearcheableItems %>];
             if(items.length===0 || document.getElementById("ListDataTable") == null)
             {
                 document.getElementById("nav-search").style.display="none";
@@ -820,8 +639,8 @@
                 return null;
             }
 
-            if(PendentTasks > 0) {
-                $("#menuoption-1 i").append("<span class=\"badge badge-primary\" style=\"margin-right:8px;font-family:Arial;\">"+PendentTasks+"</span>");
+            if (PendentTasks > 0) {
+                $("#menuoption-1 i").append("<span class=\"badge badge-primary\" style=\"margin-right:8px;font-family:Arial;\">" + PendentTasks + "</span>");
             }
         </script>
     </body>

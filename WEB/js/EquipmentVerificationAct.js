@@ -409,6 +409,13 @@ function EquipmentVerificationActValidateForm() {
     if (!RequiredFieldText('TxtEquipmentVerificationActDate')) {
         ok = false;
     }
+    else {
+        if (validateDate($("#TxtEquipmentVerificationActDate").val()) === false) {
+            $("#TxtEquipmentVerificationActDateLabel").css("color", "#f00");
+            $("#TxtEquipmentVerificationActDateMalformed").show();
+            ok = false;
+        }
+    }
 
     if (!RequiredFieldText('TxtEquipmentVerificationActResult')) {
         ok = false;

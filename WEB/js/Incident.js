@@ -202,8 +202,7 @@ function SaveIncident() {
     // ISSUS-74 ClearFieldTextMessages('TxtActionsSchedule');
 
     // Reset form error color for action if needed
-    if (document.getElementById('RActionYes').checked === true)
-    {
+    if (document.getElementById('RActionYes').checked === true) {
         ClearFieldTextMessages('TxtActionDescription');
         ClearFieldTextMessages('TxtActionWhatHappened');
         ClearFieldTextMessages('CmbActionWhatHappenedResponsible');
@@ -244,20 +243,17 @@ function SaveIncident() {
         ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ReporterTypeRequired);
     } else {
         var origin = true;
-        if (document.getElementById('RReporterType1').checked && $('#CmbReporterType1').val() * 1 === 0)
-        {
+        if (document.getElementById('RReporterType1').checked && $('#CmbReporterType1').val() * 1 === 0) {
             origin = false;
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ReporterDepartmentRequired);
         }
 
-        if (document.getElementById('RReporterType2').checked && $('#CmbReporterType2').val() * 1 === 0)
-        {
+        if (document.getElementById('RReporterType2').checked && $('#CmbReporterType2').val() * 1 === 0) {
             origin = false;
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ReporterProviderRequired);
         }
 
-        if (document.getElementById('RReporterType3').checked && $('#CmbReporterType3').val() * 1 === 0)
-        {
+        if (document.getElementById('RReporterType3').checked && $('#CmbReporterType3').val() * 1 === 0) {
             origin = false;
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ReporterCustomerRequired);
         }
@@ -269,7 +265,7 @@ function SaveIncident() {
             document.getElementById('RReporterTypeLabel').style.color = '#f00';
         }
     }
-    
+
     if ($('#TxtWhatHappened').val() === '') {
         ok = false;
         ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_WhatHappenedRequired);
@@ -287,8 +283,7 @@ function SaveIncident() {
         ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_WhatHappenedDateRequired);
         SetFieldTextMessages('TxtWhatHappenedDate');
     }
-    else
-    {
+    else {
         if (!RequiredDateValue('TxtWhatHappenedDate')) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_Incident_Error_DateMalformed_WhatHappened);
@@ -316,8 +311,7 @@ function SaveIncident() {
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_CausesDateRequired);
             SetFieldTextMessages('TxtCausesDate');
         }
-        else
-        {
+        else {
             if (!RequiredDateValue('TxtCausesDate')) {
                 ok = false;
                 ErrorMessage.push(Dictionary.Item_Incident_Error_DateMalformed_Causes);
@@ -346,8 +340,7 @@ function SaveIncident() {
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ActionsDateRequired);
             SetFieldTextMessages('TxtActionsDate');
         }
-        else
-        {
+        else {
             if (!RequiredDateValue('TxtActionsDate')) {
                 ok = false;
                 ErrorMessage.push(Dictionary.Item_Incident_Error_DateMalformed_Actions);
@@ -375,10 +368,8 @@ function SaveIncident() {
         }*/
     }
 
-    if (IncidentClosedRequired === true)
-    {
-        if(document.getElementById('CmbClosedResponsible').value * 1 === 0)
-        {
+    if (IncidentClosedRequired === true) {
+        if (document.getElementById('CmbClosedResponsible').value * 1 === 0) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_CloseResponsibleRequired);
             SetFieldTextMessages('CmbClosedResponsible');
@@ -389,8 +380,7 @@ function SaveIncident() {
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ClosedDateRequired);
             SetFieldTextMessages('TxtClosedDate');
         }
-        else
-        {
+        else {
             if (!RequiredDateValue('TxtClosedDate')) {
                 ok = false;
                 ErrorMessage.push(Dictionary.Item_Incident_Error_DateMalformed_Close);
@@ -408,8 +398,7 @@ function SaveIncident() {
     console.log(DateCauses);
     console.log(DateActions);
     console.log(DateClose);
-    if (DateWhatHappened !== null)
-    {
+    if (DateWhatHappened !== null) {
         if (DateCauses !== null && DateWhatHappened > DateCauses) {
             okFechas = false;
             SetFieldTextMessages('TxtWhatHappenedDate');
@@ -508,8 +497,7 @@ function SaveIncident() {
             SetFieldTextMessages('TxtActionWhatHappenedDate');
             ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRquiredDate);
         }
-        else
-        {
+        else {
             if (!RequiredDateValue('TxtActionWhatHappenedDate')) {
                 ok = false;
                 ErrorMessageActions.push(Dictionary.Item_IncidentAction_Error_DateMalformed_WhatHappened);
@@ -537,8 +525,7 @@ function SaveIncident() {
                 SetFieldTextMessages('TxtActionCausesDate');
                 ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequiredDate);
             }
-            else
-            {
+            else {
                 if (!RequiredDateValue('TxtActionCausesDate')) {
                     ok = false;
                     ErrorMessageActions.push(Dictionary.Item_IncidentAction_Error_DateMalformed_Causes);
@@ -568,8 +555,7 @@ function SaveIncident() {
                 SetFieldTextMessages('TxtActionActionsDate');
                 ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredDate);
             }
-            else
-            {
+            else {
                 if (!RequiredDateValue('TxtActionActionsDate')) {
                     ok = false;
                     ErrorMessageActions.push(Dictionary.Item_IncidentAction_Error_DateMalformed_Actions);
@@ -609,8 +595,7 @@ function SaveIncident() {
                     SetTextFieldMessages('TxtActionClosedDate');
                     ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseDate);
                 }
-                else
-                {
+                else {
                     if (!RequiredDateValue('TxtActionClosedDate')) {
                         ok = false;
                         ErrorMessageActions.push(Dictionary.Item_IncidentAction_Error_DateMalformed_Close);
@@ -738,33 +723,35 @@ function SaveIncident() {
     var incidentCustomer = { Id: RReporter == 3 ? $("#CmbReporterType3").val() * 1 : 0 };
 
     var incident =
-    {
-        Id: IncidentId,
-        CompanyId: Company.Id,
-        Description: $('#TxtDescription').val(),
-        ReporterType: RReporter,
-        Department: incidentDepartment,
-        Provider: incidentProvider,
-        Customer: incidentCustomer,
-        Number: 0,
-        ApplyAction: document.getElementById('RActionYes').checked,
-        WhatHappened: $('#TxtWhatHappened').val(),
-        WhatHappenedBy: { Id: $('#CmbWhatHappenedResponsible').val() },
-        WhatHappenedOn: GetDate($('#TxtWhatHappenedDate').val(), '-'),
-        Causes: $('#TxtCauses').val(),
-        CausesBy: { Id: $('#CmbCausesResponsible').val() },
-        CausesOn: GetDate($('#TxtCausesDate').val(), '-'),
-        Actions: $('#TxtActions').val(),
-        ActionsBy: { Id: $('#CmbActionsResponsible').val() },
-        ActionsOn: GetDate($('#TxtActionsDate').val(), '-'),
-        ActionsExecuter: { Id: $('#CmbActionsExecuter').val() },
-        ActionsSchedule: null, // ISSUS-74 GetDate($('#TxtActionsSchedule').val(), '-'),
-        Monitoring: $('#TxtMonitoring').val(),
-        ClosedBy: { Id: $('#CmbClosedResponsible').val() },
-        ClosedOn: GetDate($('#TxtClosedDate').val(), '-'),
-        Notes: $('#TxtNotes').val(),
-        Anotations: $('#TxtAnotations').val()
-    };
+        {
+            Id: IncidentId,
+            CompanyId: Company.Id,
+            Description: $('#TxtDescription').val(),
+            ReporterType: RReporter,
+            Department: incidentDepartment,
+            Provider: incidentProvider,
+            Customer: incidentCustomer,
+            Number: 0,
+            ApplyAction: document.getElementById('RActionYes').checked,
+            WhatHappened: $('#TxtWhatHappened').val(),
+            WhatHappenedBy: { Id: $('#CmbWhatHappenedResponsible').val() },
+            WhatHappenedOn: DateWhatHappened,
+            Causes: $('#TxtCauses').val(),
+            CausesBy: { Id: $('#CmbCausesResponsible').val() },
+            CausesOn: DateCauses,
+            Actions: $('#TxtActions').val(),
+            ActionsBy: { Id: $('#CmbActionsResponsible').val() },
+            ActionsOn: DateActions,
+            ActionsExecuter: { Id: $('#CmbActionsExecuter').val() },
+            ActionsSchedule: null, // ISSUS-74 GetDate($('#TxtActionsSchedule').val(), '-'),
+            Monitoring: $('#TxtMonitoring').val(),
+            ClosedBy: { Id: $('#CmbClosedResponsible').val() },
+            ClosedOn: DateClose,
+            Notes: $('#TxtNotes').val(),
+            Anotations: $('#TxtAnotations').val()
+        };
+
+    console.log(incident);
 
     var webMethod;
     var data;
@@ -781,33 +768,33 @@ function SaveIncident() {
                 // ISSUS-36
                 if (incident.ApplyAction) {
                     var action =
-                    {
-                        "Id": IncidentAction.Id,
-                        "CompanyId": Company.Id,
-                        "ActionType": 2, // Correctiva
-                        "Description": $('#TxtActionDescription').val(),
-                        "Origin": 3, // Incidencia
-                        "ReporterType": incident.ReporterType,
-                        "Department": incident.Department,
-                        "Provider": incident.Provider,
-                        "Customer": incident.Customer,
-                        "Number": 0,
-                        "IncidentId": msg.d.MessageError*1,
-                        "WhatHappened": $('#TxtActionWhatHappened').val(),
-                        "WhatHappenedBy": { "Id": $('#CmbActionWhatHappenedResponsible').val() },
-                        "WhatHappenedOn": GetDate($('#TxtActionWhatHappenedDate').val()),
-                        "Causes": $('#TxtActionCauses').val(),
-                        "CausesBy": { "Id": $('#CmbActionCausesResponsible').val() },
-                        "CausesOn": GetDate($('#TxtActionCausesDate').val()),
-                        "Actions": $('#TxtActionActions').val(),
-                        "ActionsBy": { "Id": $('#CmbActionActionsResponsible').val() },
-                        "ActionsOn": GetDate($('#TxtActionActionsDate').val()),
-                        "Monitoring": $('#TxtActionMonitoring').val(),
-                        "ClosedBy": { "Id": $('#CmbActionClosedResponsible').val() },
-                        "ClosedOn": GetDate($('#TxtActionClosedDate').val()),
-                        "Notes": $('#TxtActionNotes').val(),
-                        "Active": true
-                    };
+                        {
+                            "Id": IncidentAction.Id,
+                            "CompanyId": Company.Id,
+                            "ActionType": 2, // Correctiva
+                            "Description": $('#TxtActionDescription').val(),
+                            "Origin": 3, // Incidencia
+                            "ReporterType": incident.ReporterType,
+                            "Department": incident.Department,
+                            "Provider": incident.Provider,
+                            "Customer": incident.Customer,
+                            "Number": 0,
+                            "IncidentId": msg.d.MessageError * 1,
+                            "WhatHappened": $('#TxtActionWhatHappened').val(),
+                            "WhatHappenedBy": { "Id": $('#CmbActionWhatHappenedResponsible').val() },
+                            "WhatHappenedOn": GetDate($('#TxtActionWhatHappenedDate').val()),
+                            "Causes": $('#TxtActionCauses').val(),
+                            "CausesBy": { "Id": $('#CmbActionCausesResponsible').val() },
+                            "CausesOn": GetDate($('#TxtActionCausesDate').val()),
+                            "Actions": $('#TxtActionActions').val(),
+                            "ActionsBy": { "Id": $('#CmbActionActionsResponsible').val() },
+                            "ActionsOn": GetDate($('#TxtActionActionsDate').val()),
+                            "Monitoring": $('#TxtActionMonitoring').val(),
+                            "ClosedBy": { "Id": $('#CmbActionClosedResponsible').val() },
+                            "ClosedOn": GetDate($('#TxtActionClosedDate').val()),
+                            "Notes": $('#TxtActionNotes').val(),
+                            "Active": true
+                        };
 
                     webMethod = "/Async/IncidentActionsActions.asmx/Save";
                     data = { incidentAction: action, userId: user.Id };
@@ -896,33 +883,33 @@ function SaveIncident() {
             success: function (msg) {
                 if (incident.ApplyAction) {
                     var action =
-                    {
-                        "Id": IncidentAction.Id,
-                        "CompanyId": Company.Id,
-                        "ActionType": 2, // Correctiva
-                        "Description": $('#TxtActionDescription').val(),
-                        "Origin": 3, // Incidencia
-                        "ReporterType": incident.ReporterType,
-                        "Department": incident.Department,
-                        "Provider": incident.Provider,
-                        "Customer": incident.Customer,
-                        "Number": IncidentAction.Number,
-                        "IncidentId": incident.Id,
-                        "WhatHappened": $('#TxtActionWhatHappened').val(),
-                        "WhatHappenedBy": { "Id": $('#CmbActionWhatHappenedResponsible').val() },
-                        "WhatHappenedOn": GetDate($('#TxtActionWhatHappenedDate').val()),
-                        "Causes": $('#TxtActionCauses').val(),
-                        "CausesBy": { "Id": $('#CmbActionCausesResponsible').val() },
-                        "CausesOn": GetDate($('#TxtActionCausesDate').val()),
-                        "Actions": $('#TxtActionActions').val(),
-                        "ActionsBy": { "Id": $('#CmbActionActionsResponsible').val() },
-                        "ActionsOn": GetDate($('#TxtActionActionsDate').val()),
-                        "Monitoring": $('#TxtActionMonitoring').val(),
-                        "ClosedBy": { "Id": $('#CmbActionClosedResponsible').val() },
-                        "ClosedOn": GetDate($('#TxtActionClosedDate').val()),
-                        "Notes": $('#TxtActionNotes').val(),
-                        "Active": true
-                    };
+                        {
+                            "Id": IncidentAction.Id,
+                            "CompanyId": Company.Id,
+                            "ActionType": 2, // Correctiva
+                            "Description": $("#TxtActionDescription").val(),
+                            "Origin": 3, // Incidencia
+                            "ReporterType": incident.ReporterType,
+                            "Department": incident.Department,
+                            "Provider": incident.Provider,
+                            "Customer": incident.Customer,
+                            "Number": IncidentAction.Number,
+                            "IncidentId": incident.Id,
+                            "WhatHappened": $("#TxtActionWhatHappened").val(),
+                            "WhatHappenedBy": { "Id": $("#CmbActionWhatHappenedResponsible").val() },
+                            "WhatHappenedOn": DateActionWhatHappened,
+                            "Causes": $("#TxtActionCauses").val(),
+                            "CausesBy": { "Id": $("#CmbActionCausesResponsible").val() },
+                            "CausesOn": DateActionCauses,
+                            "Actions": $("#TxtActionActions").val(),
+                            "ActionsBy": { "Id": $("#CmbActionActionsResponsible").val() },
+                            "ActionsOn": DateActionActions,
+                            "Monitoring": $("#TxtActionMonitoring").val(),
+                            "ClosedBy": { "Id": $("#CmbActionClosedResponsible").val() },
+                            "ClosedOn": DateActionClose,
+                            "Notes": $("#TxtActionNotes").val(),
+                            "Active": true
+                        };
 
                     webMethod = "/Async/IncidentActionsActions.asmx/Save";
                     data = { incidentAction: action, userId: user.Id };
@@ -1307,15 +1294,167 @@ $("#CmbClosedResponsible").on("change", function () { WarningEmployeeNoUserCheck
 $("#CmbActionActionsResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionActionsResponsible").val() * 1, Employees); });
 $("#CmbActionClosedResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionClosedResponsible").val() * 1, Employees); });
 
-function AnulateLayout() {
+$("#BtnAnular").hide();
+$("#BtnRestaurar").hide();
+if (IncidentAction.ClosedOn === null) {
+    $("#BtnAnular").show();
+} else {
+    $("#BtnRestaurar").show();
+    AnulateLayout();
+}
 
-    var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
-    message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
-    message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Incident_AnulateMessageTile + "</h3>";
-    message += "    <p style=\"margin-left:50px;\">";
-    message += "        " + Dictionary.Item_Incident_Field_CloseResponsible + ": <strong>" + Incident.ClosedBy.Value + "</strong><br />";
-    message += "        " + Dictionary.Item_Incident_Field_CloseDate + ": <strong>" + $("#TxtClosedDate").val() + "</strong><br />";
-    message += "    </p>";
-    message += "</div><br /><br /><br />";
-    $("#home").append(message);
+$("#BtnAnular").on("click", AnularPopup);
+$("#BtnRestaurar").on("click", Restore);
+
+function AnularPopup() {
+    //FieldSetRequired("CmbClosedResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleClose, true);
+    //FieldSetRequired("TxtClosedDateLabel", Dictionary.Common_Date, true);
+
+    var ok = true;
+    if ($("#TxtDescription").val() === "") { ok = false; }
+    if ($("#TxtWhatHappened").val() === "") { ok = false; }
+    if ($("#TxtCauses").val() === "") { ok = false; }
+    if ($("#TxtActions").val() === "") { ok = false; }
+    if ($("#TxtWhatHappenedDate").val() === "") { ok = false; }
+    if ($("#TxtCausesDate").val() === "") { ok = false; }
+    if ($("#TxtActionsDate").val() === "") { ok = false; }
+    if ($("#CmbWhatHappenedResponsible").val() * 1 < 1) { ok = false; }
+    if ($("#CmbCausesResponsible").val() * 1 < 1) { ok = false; }
+    if ($("#CmbActionsResponsible").val() * 1 < 1) { ok = false; }
+
+    if (ok === false) {
+        alertUI("Revise los campos obligatorios");
+        return false;
+    }
+
+    $("#CmbClosedResponsibleLabel").html(Dictionary.Item_IncidentAction_Field_ResponsibleClose + "<span style=\"color:#f00;\">*</span>");
+    $("#TxtClosedDateLabel").html(Dictionary.Item_IncidentAction_Field_Date + "<span style=\"color:#f00;\">*</span>");
+    $("#CmbClosedResponsibleLabel").removeClass("control-label");
+    $("#CmbClosedResponsibleLabel").removeClass("no-padding-right");
+    $("#TxtClosedDate").val(FormatDate(new Date(), "/"));
+    $("#CmbClosedResponsible").val(user.Employee.Id);
+    var dialog = $("#dialogAnular").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Objetivo_PopupAnular_Title,
+        "width": 400,
+        "buttons":
+        [
+            {
+                "id": "BtnAnularSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_IncidentAction_Btn_Anular,
+                "class": "btn btn-success btn-xs",
+                "click": function () { AnularConfirmed(); }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () { $(this).dialog("close"); }
+            }
+        ]
+    });
+}
+
+var anulationData = null;
+function AnularConfirmed() {
+    document.getElementById("TxtClosedDateLabel").style.color = "#000";
+    document.getElementById("CmbClosedResponsibleLabel").style.color = "#000";
+    document.getElementById("TxtClosedDateDateRequired").style.display = "none";
+    document.getElementById("TxtClosedDateDateMalformed").style.display = "none";
+    document.getElementById("CmbClosedResponsibleErrorRequired").style.display = "none";
+
+    var ok = true;
+
+    if ($("#TxtClosedDate").val() === "") {
+        ok = false;
+        document.getElementById("TxtClosedDateLabel").style.color = "#f00";
+        document.getElementById("TxtClosedDateDateRequired").style.display = "";
+    }
+    else {
+        if (validateDate($("#TxtClosedDate").val()) === false) {
+            ok = false;
+            $("#TxtClosedDateLabel").css("color", "#f00");
+            $("#TxtClosedDateDateMalformed").show();
+        }
+    }
+
+    if ($("#CmbClosedResponsible").val() * 1 < 1) {
+        ok = false;
+        document.getElementById("CmbClosedResponsibleLabel").style.color = "#f00";
+        document.getElementById("CmbClosedResponsibleErrorRequired").style.display = "";
+    }
+
+    if (ok === false) {
+        return false;
+    }
+
+    var data = {
+        "incidentId": Incident.Id,
+        "companyId": Company.Id,
+        "responsible": $("#CmbClosedResponsible").val() * 1,
+        "date": GetDate($("#TxtClosedDate").val(), "/"),
+        "applicationUserId": user.Id
+    };
+    anulationData = data;
+    $("#dialogAnular").dialog("close");
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: "/Async/IncidentActions.asmx/Anulate",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            SaveIncident();
+        },
+        error: function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function AnulateLayout() {
+    $("#BtnRestaurar").hide();
+    if (Incident.ClosedOn !== null) {
+        var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+        message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
+        message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Incident_AnulateMessageTile + "</h3>";
+        message += "    <p style=\"margin-left:50px;\">";
+        message += "        " + Dictionary.Item_Incident_Field_CloseResponsible + ": <strong>" + Incident.ClosedBy.Value + "</strong><br />";
+        message += "        " + Dictionary.Item_Incident_Field_CloseDate + ": <strong>" + $("#TxtClosedDate").val() + "</strong><br />";
+        message += "    </p>";
+        message += "</div><br /><br /><br />";
+        $("#home").append(message);
+        $("#BtnAnular").hide();
+        $("#BtnRestaurar").show();
+    }
+    else {
+        $("#DivAnulateMessage").hide();
+        $("#BtnAnular").show();
+    }
+}
+
+function Restore() {
+    var data = {
+        "incidentId": Incident.Id,
+        "companyId": Company.Id,
+        "applicationUserId": user.Id
+    };
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: "/Async/IncidentActions.asmx/Restore",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            Incident.EndDate = null;
+            document.location = document.location + "";
+        },
+        error: function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
 }

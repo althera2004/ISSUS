@@ -223,6 +223,13 @@ function EquipmentMaintenanceActValidateForm() {
     if (!RequiredFieldText('TxtEquipmentMaintenanceActDate')) {
         ok = false;
     }
+    else {
+        if (validateDate($("#TxtEquipmentMaintenanceActDate").val()) === false) {
+            $("#TxtEquipmentMaintenanceActDateLabel").css("color", "#f00");
+            $("#TxtEquipmentMaintenanceActDateMalformed").show();
+            ok = false;
+        }
+    }
     /*
     if (!RequiredFieldText('TxtEquipmentMaintenanceActCost')) {
         ok = false;
@@ -235,7 +242,7 @@ function EquipmentMaintenanceActValidateForm() {
         ok = false;
     }
 
-    return true;
+    return ok;
 }
 
 function FillCmbEquipmentMaintainmentType() {
@@ -388,8 +395,8 @@ function EquipmentMaintenanceActEdit(sender) {
 
 function EquipmentMaintenanceDefinitionRegister(sender) {
     console.log("EquipmentMaintenanceDefinitionRegister", sender);
-    SelectedEquipmentMaintenanceActAction = 'New';
-    document.getElementById('CmbEquipmentMaintenanceTypeErrorRequired').style.display = 'none';
+    SelectedEquipmentMaintenanceActAction = "New";
+    document.getElementById("CmbEquipmentMaintenanceTypeErrorRequired").style.display = "none";
     if (EquipmentMaintenanceDefinitionList.length == 0) {
         warningInfoUI(Dictionary.Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitions, null);
         return false;

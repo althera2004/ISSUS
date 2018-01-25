@@ -12,29 +12,29 @@ function RenderTable()
 
 function RenderRow(asignation)
 {
-    var target = document.getElementById('TableEmployeeElements');
-    var tr = document.createElement('TR');
-    var td1 = document.createElement('TD');
-    var label = '';
+    var target = document.getElementById("TableEmployeeElements");
+    var tr = document.createElement("TR");
+    var td1 = document.createElement("TD");
+    var label = "";
     switch (asignation.AssignationType)
     {
-        case 'E': label = Dictionary.Item_Employee_Delete_Item_Equipment; break;
-        case 'ECDI': label = Dictionary.Item_Employee_Delete_Item_CalibrationInternal; break;
-        case 'ECDE': label = Dictionary.Item_Employee_Delete_Item_CalibrationExternal; break;
-        case 'EVDI': label = Dictionary.Item_Employee_Delete_Item_VerificationInternal; break;
-        case 'EVDE': label = Dictionary.Item_Employee_Delete_Item_VerificationExternal; break;
-        case 'EMDE': label = Dictionary.Item_Employee_Delete_Item_MaintenanceInternal; break;
-        case 'EMDI': label = Dictionary.Item_Employee_Delete_Item_MaintenanceExternal; break;
-        case 'IAE': label = Dictionary.Item_Employee_Delete_Item_IncidentActionExecutor; break;
-        default: label = ''; break;
+        case "E": label = Dictionary.Item_Employee_Delete_Item_Equipment; break;
+        case "ECDI": label = Dictionary.Item_Employee_Delete_Item_CalibrationInternal; break;
+        case "ECDE": label = Dictionary.Item_Employee_Delete_Item_CalibrationExternal; break;
+        case "EVDI": label = Dictionary.Item_Employee_Delete_Item_VerificationInternal; break;
+        case "EVDE": label = Dictionary.Item_Employee_Delete_Item_VerificationExternal; break;
+        case "EMDI": label = Dictionary.Item_Employee_Delete_Item_MaintenanceInternal; break;
+        case "EMDE": label = Dictionary.Item_Employee_Delete_Item_MaintenanceExternal; break;
+        case "IAE": label = Dictionary.Item_Employee_Delete_Item_IncidentActionExecutor; break;
+        default: label = ""; break;
     }
 
     td1.appendChild(document.createTextNode(label));
 
-    var td2 = document.createElement('TD');
+    var td2 = document.createElement("TD");
     td2.appendChild(document.createTextNode(asignation.Description));
 
-    var td3 = document.createElement('TD');
+    var td3 = document.createElement("TD");
     td3.appendChild(RenderCmbSubstitute(asignation.AssignationType, asignation.ItemId));
 
     tr.appendChild(td1);

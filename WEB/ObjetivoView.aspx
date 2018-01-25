@@ -122,7 +122,7 @@
                                                                         <option value="eqlt"><%=this.Dictionary["Common_Comparer_eqlt"] %> (&lt;=)</option>
                                                                     </select>
                                                                     &nbsp;
-                                                                    <input style="display: inline; width: 33%; height: 30px;" type="text" id="TxtMeta" placeholder="Meta" class="tooltip-info decimalFormated nullable" value="0" maxlength="5" onblur="this.value=$.trim(this.value);" />
+                                                                    <input style="display: inline; width: 33%; height: 30px;" type="text" id="TxtMeta" placeholder="Meta" class="tooltip-info decimalFormated nullable" value="0" maxlength="8" onblur="this.value=$.trim(this.value);" />
                                                                     <span class="ErrorMessage" id="CmbMetaErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                                 <label id="CmbObjetivoBlocked" class="col-sm-4 control-label no-padding-right" style="display: none; text-align: left; color: #777;"><i><%=this.Dictionary["Item_Objetivo_Message_IndicadorBlocked"] %></i></label>

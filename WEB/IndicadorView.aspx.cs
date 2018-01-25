@@ -504,7 +504,7 @@ public partial class IndicadorView : Page
             ColumnSpanLabel = 0,
             GrantToWrite = this.grantToWrite,
             Label = string.Empty,
-            MaximumLength = 5,
+            MaximumLength = 8,
             Name = "TxtMeta",
             Placeholder = this.Dictionary["Item_Indicador_Field_Meta"],
             Value = this.Indicador.Meta.ToString(),
@@ -517,7 +517,7 @@ public partial class IndicadorView : Page
             ColumnSpanLabel = 0,
             GrantToWrite = this.grantToWrite,
             Label = string.Empty,
-            MaximumLength = 5,
+            MaximumLength = 8,
             Name = "TxtAlarma",
             Placeholder = this.Dictionary["Item_Indicador_Field_Alarma"]
         };

@@ -1316,7 +1316,7 @@ function DisableLayout() {
 
     $("#CmbResponsible").prop("disabled", true).trigger("chosen:updated");
     $("#CmbIndicador").prop("disabled", true).trigger("chosen:updated");
-
+    $("#CmbMetaComparer").prop("disabled", true).trigger("chosen:updated");
 
     // Mantener activos los inputs de "Reobrir"
     $("#TxtAnularComments").removeAttr("disabled");

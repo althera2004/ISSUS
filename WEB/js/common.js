@@ -48,13 +48,21 @@ function validateDecimal(evt, value) {
 function validateDate(dateString) {
     // First check for the pattern
     if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
-        return false;
+    {
+        if (!/^\d{1,2}\/\d{1,2}\/\d{2}$/.test(dateString))
+        {
+            return false;
+        }
+    }
 
     // Parse the date parts to integers
     var parts = dateString.split("/");
-    var day = parseInt(parts[0], 10);
-    var month = parseInt(parts[1], 10);
-    var year = parseInt(parts[2], 10);
+    var day = parseInt(parts[0], 10) * 1;
+    var month = parseInt(parts[1], 10) * 1;
+    var year = parseInt(parts[2], 10) * 1;
+    if (year < 1000) {
+        year += 2000;
+    }
 
     // Check the ranges of month and year
     if (year < 1000 || year > 3000 || month === 0 || month > 12)
@@ -178,12 +186,16 @@ function GetDate(date, separator, nullable) {
             }
         }
     }
-    if (separator === '/') { separator = '-'; }
-    if (separator === null) { separator = '-'; }
-    date = date.split('/').join('-');
-    var day = date.split(separator)[0];
+
+    if (separator === "/") { separator = "-"; }
+    if (separator === null) { separator = "-"; }
+    date = date.split("/").join("-");
+    var day = date.split(separator)[0] * 1;
     var month = (date.split(separator)[1] * 1) -1;
-    var year = date.split(separator)[2];
+    var year = date.split(separator)[2] * 1;
+    if (year < 100) {
+        year += 2000;
+    }
     return new Date(year, month, day);
 }
 
@@ -853,4 +865,16 @@ console.log("WarningEmployeeNoUserCheck");
 
 function WarningEmployeeNoUser() {
     alertUI(Dictionary.Item_Employee_Warning_NoUser);
+}
+
+function DatePickerChanged(sender) {
+    var value = sender.value;
+    if (validateDate(value, "/", false) === false) {
+        sender.value = "";
+        return false;
+    }
+
+    var date = GetDate(sender.value, "/", false);
+    value = FormatDate(date, "/")
+    sender.value = value;
 }

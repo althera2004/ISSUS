@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodedQuery.cs" />
+    <Compile Include="CodedQueryItem.cs" />
     <Compile Include="Graph\InfoBox.cs" />
     <Compile Include="Graph\InfoBoxBar.cs" />
     <Compile Include="ImageHelper.cs" />

@@ -187,6 +187,7 @@
 
             var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true });
             $(".date-picker").datepicker(options);
+            $(".date-picker").on("blur", function () { DatePickerChanged(this); });
 
             $("#BtnSearch").on("click", function (e) {
                 e.preventDefault();

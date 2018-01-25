@@ -227,12 +227,12 @@ function ProviderInsert(sender) {
     $("#TxtProviderNewName").val("");
     var Selected = 0;
     var dialog = $("#ProviderInsertDialog").removeClass("hide").dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: "<h4 class=\"smaller\">" + Dictionary.Item_Equipment_Popup_AddProvider_Title + "</h4>",
-        title_html: true,
-        buttons: [
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Equipment_Popup_AddProvider_Title + "</h4>",
+        "title_html": true,
+        "buttons": [
             {
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
@@ -285,12 +285,12 @@ function ProviderInsertConfirmed(newDescription) {
     var newId = 0;
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: "/Async/ProviderActions.asmx/Insert",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/ProviderActions.asmx/Insert",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
                 newId = response.d.MessageError * 1;
@@ -306,7 +306,7 @@ function ProviderInsertConfirmed(newDescription) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -322,54 +322,54 @@ function ProviderUpdate(sender) {
     $('#TxtProviderName').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
     var dialog = $("#ProviderUpdateDialog").removeClass('hide').dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: Dictionary.Common_Edit,
-        title_html: true,
-        buttons: [
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": Dictionary.Common_Edit,
+        "title_html": true,
+        "buttons": [
                 {
-                    html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                     "class": "btn btn-success btn-xs",
-                    click: function () {
+                    "click": function () {
                         var ok = true;
-                        if (document.getElementById('TxtProviderName').value == '') {
-                            document.getElementById('TxtProviderNameErrorRequired').style.display = 'block';
+                        if (document.getElementById("TxtProviderName").value == "") {
+                            document.getElementById("TxtProviderNameErrorRequired").style.display = "block";
                             ok = false;
                         }
                         else {
-                            document.getElementById('TxtProviderNameErrorRequired').style.display = 'none';
+                            document.getElementById("TxtProviderNameErrorRequired").style.display = "none";
                         }
 
                         var duplicated = false;
                         for (var x = 0; x < Providers.length; x++) {
-                            if (document.getElementById('TxtProviderName').value.toLowerCase() == Providers[x].Description.toLowerCase() && Selected != Providers[x].Id && Providers[x].Active === true) {
+                            if (document.getElementById("TxtProviderName").value.toLowerCase() == Providers[x].Description.toLowerCase() && Selected != Providers[x].Id && Providers[x].Active === true) {
                                 duplicated = true;
                                 break;
                             }
                         }
 
                         if (duplicated === true) {
-                            document.getElementById('TxtProviderNameErrorDuplicated').style.display = 'block';
+                            document.getElementById("TxtProviderNameErrorDuplicated").style.display = "block";
                             ok = false;
                         }
                         else {
-                            document.getElementById('TxtProviderNameErrorDuplicated').style.display = 'none';
+                            document.getElementById("TxtProviderNameErrorDuplicated").style.display = "none";
                         }
 
 
                         if (ok === false) { window.scrollTo(0, 0); return false; }
 
-                        document.getElementById('TxtProviderNameErrorRequired').style.display = 'none';
-                        document.getElementById('TxtProviderNameErrorDuplicated').style.display = 'none';
+                        document.getElementById("TxtProviderNameErrorRequired").style.display = "none";
+                        document.getElementById("TxtProviderNameErrorDuplicated").style.display = "none";
                         $(this).dialog("close");
-                        ProviderUpdateConfirmed(Selected, document.getElementById('TxtProviderName').value);
+                        ProviderUpdateConfirmed(Selected, document.getElementById("TxtProviderName").value);
                     }
                 },
                 {
-                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
-                    click: function () {
+                    "click": function () {
                         $(this).dialog("close");
                     }
                 }
@@ -380,7 +380,6 @@ function ProviderUpdate(sender) {
 
 function ProviderUpdateConfirmed(id, newDescription) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/ProviderActions.asmx/Update";
     var description = '';
     for (var x = 0; x < Providers.length; x++) {
         if (Providers[x].Id === id) {
@@ -389,26 +388,26 @@ function ProviderUpdateConfirmed(id, newDescription) {
         }
     }
     var data = {
-        'providerId': id,
-        'description': newDescription,
-        'companyId': Company.Id,
-        'userId': user.Id
+        "providerId": id,
+        "description": newDescription,
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/ProviderActions.asmx/Update",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -432,7 +431,7 @@ function ProviderUpdateConfirmed(id, newDescription) {
     }
 
     // 3.- Modificar la fila de la tabla del popup
-    var target = document.getElementById('SelectableProvider');
+    var target = document.getElementById("SelectableProvider");
     for (var x = 0; x < target.childNodes.length; x++) {
         if (target.childNodes[x].id == id) {
             target.childNodes[x].childNodes[0].innerHTML = newDescription;
@@ -442,7 +441,7 @@ function ProviderUpdateConfirmed(id, newDescription) {
 
     // 4.- Modificar el texto si es el seleccionado
     if (ProviderSelected === id) {
-        document.getElementById('TxtProviderName').value = newDescription;
+        document.getElementById("TxtProviderName").value = newDescription;
     }
 
     FillCmbProviders();
@@ -450,27 +449,27 @@ function ProviderUpdateConfirmed(id, newDescription) {
 
 // Delete functions for bar item Provider
 function ProviderDelete(sender) {
-    $('#ProviderName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    $("#ProviderName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $('#ProviderDeleteDialog').removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons:
+    var dialog = $("#ProviderDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                     ProviderDeleteConfirmed(Selected);
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () { $(this).dialog("close"); }
+                "click": function () { $(this).dialog("close"); }
             }
         ]
     });

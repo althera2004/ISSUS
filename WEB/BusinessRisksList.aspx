@@ -310,6 +310,7 @@
                 });*/
                 var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true });
                 $(".date-picker").datepicker(options);
+                $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
                 $("#BtnNewBusinessRisk").on('click', function (e) {
                     document.location = 'BusinessRiskView.aspx?id=-1';

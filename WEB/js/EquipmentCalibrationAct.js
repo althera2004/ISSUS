@@ -404,16 +404,23 @@ function EquipmentCalibrationActEditFormFill(EquipmentCalibrationAct) {
 
 function EquipmentCalibrationActValidateForm() {
     var ok = true;
-    if (!document.getElementById('REquipmentCalibrationActTypeInternal').checked && !document.getElementById('REquipmentCalibrationActTypeExternal').checked) {
+    if (!document.getElementById("REquipmentCalibrationActTypeInternal").checked && !document.getElementById("REquipmentCalibrationActTypeExternal").checked) {
         ok = false;
-        document.getElementById('REquipmentCalibrationActTypeErrorRequired').style.display = '';
+        document.getElementById("REquipmentCalibrationActTypeErrorRequired").style.display = "";
     }
     else {
-        document.getElementById('REquipmentCalibrationActTypeErrorRequired').style.display = 'none';
+        document.getElementById("REquipmentCalibrationActTypeErrorRequired").style.display = "none";
     }
 
-    if (!RequiredFieldText('TxtEquipmentCalibrationActDate')) {
+    if (!RequiredFieldText("TxtEquipmentCalibrationActDate")) {
         ok = false;
+    }
+    else {
+        if (validateDate($("#TxtEquipmentCalibrationActDate").val()) === false) {
+            $("#TxtEquipmentCalibrationActDateLabel").css("color", "#f00");
+            $("#TxtEquipmentCalibrationActDateMalformed").show();
+            ok = false;
+        }
     }
 
     if (!RequiredFieldText('TxtEquipmentCalibrationActResult')) {

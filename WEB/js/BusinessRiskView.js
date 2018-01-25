@@ -26,6 +26,7 @@ jQuery(function ($) {
     // Internacionalizad datepicker en catalán
     var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
     $(".date-picker").datepicker(options);
+    $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
     // Botón de lanzamiento de popup de normas
     $("#BtnSelectRules").on('click', function (e) {
@@ -1346,6 +1347,7 @@ else {
 
 $("#DateStart").datepicker({ maxDate: '0' });
 $("#DateClose").datepicker({ minDate: GetDate(businessRisk.DateStart, '/', false) });
+$(".date-picker").on("blur", function () { DatePickerChanged(this); });
 
 /*
 function GetMinimimDateStart()

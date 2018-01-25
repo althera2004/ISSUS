@@ -43,12 +43,6 @@
                                                 <li class="" id="TabuploadFiles">
                                                     <a data-toggle="tab" href="#uploadFiles"><%=this.Dictionary["Item_Learning_Tab_UploadFiles"]%></a>
                                                 </li>
-                                                <% }
-                                                    if (this.Admin)
-                                                   { %>
-                                                <li class="" id="TabTrazas">
-                                                    <a data-toggle="tab" href="#trazas"><%=this.Dictionary["Trazas"]%></a>
-                                                </li>
                                                 <% } %>
                                             </ul>
                                             <div class="tab-content no-border padding-24">

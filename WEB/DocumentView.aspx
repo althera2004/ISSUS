@@ -516,9 +516,11 @@
                
                 var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true });
                 $("#TxtEndDate").datepicker(options);
+                $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
                 var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true, maxDate: firstDate });
                 $(".date-picker_start").datepicker(options);
+                $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
                 if(ApplicationUser.ShowHelp===true){
                     SetToolTip('DivEndDate', Dictionary.Item_Document_Help_EndDate);

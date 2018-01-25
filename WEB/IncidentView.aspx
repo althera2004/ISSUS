@@ -132,10 +132,6 @@
                                                                 <div class="col-sm-1"><input type="radio" name="RAction" id="RActionNo" onclick="RActionChanged();" />No</div>
                                                             </div> 
                                                             <hr />
-                                                            <div class="form-group" style="display:none;">
-                                                                <%=this.CmbClosedResponsible.Render %>
-                                                                    <%=this.ClosedDate.Render %>
-                                                            </div>
                                                             <div class="form-group">
                                                             	<%=this.TxtNotes.Render %>
                                                             </div>																					  
@@ -453,6 +449,17 @@
                                         </div>-->
                                 </div><!-- /.table-responsive -->
                             </div><!-- #dialog-message -->
+
+                            <div id="dialogAnular" class="hide" style="width: 400px;">
+                                <form class="form-horizontal" role="form" id="FormDialogAnular">
+                                    <div class="form-group">                                        
+                                        <%=this.CmbClosedResponsible.Render %>
+                                    </div>
+                                    <div class="form-group">
+                                        <%=this.ClosedDate.Render %>
+                                    </div>
+                                </form>
+                            </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
@@ -492,6 +499,7 @@
 
                 var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage%>"], { autoclose: true, todayHighlight: true });
                 $(".date-picker").datepicker(options);
+                $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
                 $('#BtnSave').on('click', function (e) { e.preventDefault(); SaveIncident(); });
                 $('#BtnCancel').on('click', function (e) { document.location = referrer; });

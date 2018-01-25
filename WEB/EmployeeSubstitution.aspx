@@ -90,6 +90,7 @@
 
                 var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true });
                 $(".date-picker").datepicker(options);
+                $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
             });
         </script>
 </asp:Content>

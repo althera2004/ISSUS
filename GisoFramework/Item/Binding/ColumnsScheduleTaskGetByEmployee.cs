@@ -17,12 +17,13 @@ namespace GisoFramework.Item.Binding
         public const int Description = 3;
         public const int Expiration = 4;
         public const int Operation = 5;
-        public const int Type = 6;
+        public const int Code = 6;
         public const int Action = 7;
         public const int EmployeeId = 8;
         public const int ProviderId = 9;
         public const int EmployeeName = 10;
         public const int EmployeeLastName = 11;
         public const int ProviderName = 12;
+        public const int Type = 13;
     }
 }

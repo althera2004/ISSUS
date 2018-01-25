@@ -20,6 +20,7 @@ jQuery(function ($) {
     });*/
     var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
     $(".date-picker").datepicker(options);
+    $(".date-picker").on("blur", function () { DatePickerChanged(this); });
 
     $("#BtnSearch").on('click', function (e) {
         e.preventDefault();
