@@ -58,11 +58,12 @@ public partial class Export_FormacionExportList : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+        // le damos nombre al fichero final item_company_fecha.pdf
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_LearningList"],
-            company.Name,
+            company.Code,
             DateTime.Now);
 
         // FONTS
@@ -81,6 +82,7 @@ public partial class Export_FormacionExportList : Page
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
 
+        // evento para poner titulo y pie de página cada vez que salta de página
         writer.PageEvent = new TwoColumnHeaderFooter()
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, company.Id),
