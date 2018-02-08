@@ -200,10 +200,10 @@ public partial class Export_FormacionExportList : Page
         };
 
         //relative col widths in proportions - 1/3 and 2/3
-        float[] widths = new float[] { 15f, 20f, 5f, 5f, 5f };
+        float[] widths = new float[] { 15f, 5f, 5f, 5f, 5f };
         table.SetWidths(widths);
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Course"].ToUpperInvariant(), headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistants"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_ListHeader_DateComplete"].ToUpperInvariant(), headerFontFinal));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Cost"].ToUpperInvariant(), headerFontFinal));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Status"].ToUpperInvariant(), headerFontFinal));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_EstimatedDate"].ToUpperInvariant(), headerFontFinal));
@@ -268,34 +268,9 @@ public partial class Export_FormacionExportList : Page
             }
 
             int border = 0;
-
-            // pair = !pair;
-
-            iTSpdf.PdfPCell courseCell = new iTSpdf.PdfPCell(new iTS.Phrase(learning.Description, times))
-            {
-                Border = border,
-                Padding = 6f,
-                PaddingTop = 4f
-            };
-            table.AddCell(courseCell);
-
-            iTSpdf.PdfPCell assistantsCell = new iTSpdf.PdfPCell(new iTS.Phrase(assist, times))
-            {
-                Border = border,
-                Padding = 6f,
-                PaddingTop = 4f
-            };
-            table.AddCell(assistantsCell);
-
-            string costText = string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", learning.Amount);
-            iTSpdf.PdfPCell costCell = new iTSpdf.PdfPCell(new Phrase(costText, times))
-            {
-                Border = border,
-                Padding = 6f,
-                PaddingTop = 4f,
-                HorizontalAlignment = 2
-            };
-            table.AddCell(costCell);
+            table.AddCell(ToolsPdf.DataCell(learning.Description,times));
+            table.AddCell(ToolsPdf.DataCellCenter(learning.RealFinish, times));
+            table.AddCell(ToolsPdf.DataCellMoney(learning.Amount, times));
             totalCost += learning.Amount;
 
             string statusText = string.Empty;

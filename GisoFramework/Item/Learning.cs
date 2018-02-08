@@ -516,7 +516,7 @@ namespace GisoFramework.Item
             string month = Tools.TranslatedMonth(this.DateEstimated.Month, dictionary);
 
             StringBuilder res = new StringBuilder();
-            List<LearningAssistance> succededAssistants = new List<LearningAssistance>();
+            /*List<LearningAssistance> succededAssistants = new List<LearningAssistance>();
             List<LearningAssistance> completedAssistants = new List<LearningAssistance>();
             List<LearningAssistance> uncompletesAssistants = new List<LearningAssistance>();
             List<LearningAssistance> preAssistants = new List<LearningAssistance>();
@@ -584,7 +584,7 @@ namespace GisoFramework.Item
             foreach (LearningAssistance preAssistance in preAssistants)
             {
                 preAssistantsText.Append(preAssistance.Employee.LearningTag(dictionary, admin));
-            }
+            }*/
 
             string iconDeleteAction = "LearningDelete";
 
@@ -599,8 +599,9 @@ namespace GisoFramework.Item
             res.Append("<tr>");
             res.Append("<td>").Append(this.Link).Append("</td>");
             res.Append("<td>");
+            res.AppendFormat(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.RealFinish);
 
-            bool existsAssistants = false;
+            /*bool existsAssistants = false;
             if (succededAssistantsText.ToString().Length > 0)
             {
                 res.Append(dictionary["Item_LearningAssistant_Status_Evaluated"]).Append("<div class=\"tags\">");
@@ -635,11 +636,21 @@ namespace GisoFramework.Item
                     CultureInfo.InvariantCulture,
                     @"<div style=""padding:8px;""><i>{0}</i></div>",
                     dictionary["Item_Learning_Message_NoAssistants"]);
-            }
+            }*/
 
             string amountText = string.Format(CultureInfo.InvariantCulture, @"{0:#0.00}", this.Amount).Replace(".", ",");
 
             res.Append("</td>");
+
+            string statusText = string.Empty;
+            switch (this.Status)
+            {
+                case 0: statusText = dictionary["Item_Learning_Status_InProgress"]; break;
+                case 1: statusText = dictionary["Item_Learning_Status_Finished"]; break;
+                case 2: statusText = dictionary["Item_Learning_Status_Evaluated"]; break;
+            }
+            res.Append("<td align=\"center\" class=\"hidden-480\">").Append(statusText).Append("</td>");
+
             res.Append("<td align=\"center\" class=\"hidden-480\">").Append(month).Append(" ").Append(this.DateEstimated.Year).Append("</td>");
             res.Append("<td align=\"right\" class=\"hidden-480\">").Append(amountText).Append("</td>");
             res.Append("<td class=\"hidden-480\" style=\"width:90px;white-space: nowrap;\">");

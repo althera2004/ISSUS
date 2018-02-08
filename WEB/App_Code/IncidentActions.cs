@@ -12,9 +12,7 @@ using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for IncidentActions
-/// </summary>
+/// <summary>Asynchronous actions for "incidentaction" item</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
@@ -76,7 +74,6 @@ public class IncidentActions : WebService
         filter.Append(Tools.JsonPair("providerId", providerId)).Append(",");
         filter.Append(Tools.JsonPair("customerId", customerId)).Append("}");
         Session["IncidentFilter"] = filter.ToString();
-
         return Incident.FilterList(companyId, from, to, statusIdnetified, statusAnalyzed, statusInProgress, statusClose, origin, departmentId, providerId, customerId);
     }
 

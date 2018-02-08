@@ -125,7 +125,7 @@ namespace GisoFramework.Item
                     Tools.JsonPair("Alarma", this.Alarma),
                     this.Value,
                     this.Date,
-                    this.Comments,
+                    Tools.JsonCompliant(this.Comments),
                     this.Responsible.JsonKeyValue,
                     this.CreatedBy.JsonKeyValue,
                     this.CreatedOn,

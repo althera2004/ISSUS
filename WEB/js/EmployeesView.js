@@ -19,16 +19,15 @@
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
-            //document.location = document.referrer;
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             document.location = referrer;
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -37,7 +36,6 @@
 
 function UpdateSkill()
 {
-    var webMethod = "/Async/EmployeeActions.asmx/EmployeeSkillsUpdate";
     var data = { 
         oldSkills: employeeSkills,
         newSkills: {
@@ -56,15 +54,15 @@ function UpdateSkill()
     };
 
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/EmployeeActions.asmx/EmployeeSkillsUpdate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             document.location = referrer;
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
@@ -74,67 +72,67 @@ function ValidateForm()
 {
     var ok = true;
     var errorNif = false;
-    var ddData = $('#CmbPais').data('ddslick');
+    var ddData = $("#CmbPais").data("ddslick");
     var country = ddData.selectedData.value;
-    document.getElementById('TxtNombreErrorDuplicated').style.display = 'none';
-    document.getElementById('TxtApellido1ErrorDuplicated').style.display = 'none';
-    document.getElementById('TxtEmailErrorDuplicated').style.display = 'none';
+    document.getElementById("TxtNombreErrorDuplicated").style.display = "none";
+    document.getElementById("TxtApellido1ErrorDuplicated").style.display = "none";
+    document.getElementById("TxtEmailErrorDuplicated").style.display = "none";
 
-    if(RequiredFieldText('TxtNombre') === false) { ok = false; }
-    if(RequiredFieldText('TxtApellido1') === false) { ok = false; }
+    if(RequiredFieldText("TxtNombre") === false) { ok = false; }
+    if(RequiredFieldText("TxtApellido1") === false) { ok = false; }
     var nifError = false;
-    if(document.getElementById('TxtNif').value !== '' && country === 'España')
+    if(document.getElementById("TxtNif").value !== "" && country === "España")
     {
-        if(MalFormedNif('TxtNif') === false){ nifError = true; ok = false; }                    
+        if(MalFormedNif("TxtNif") === false){ nifError = true; ok = false; }                    
     }
     else
     {
-        document.getElementById('TxtNifLabel').style.color = '#000';
-        document.getElementById('TxtNifErrorMalformed').style.display = 'none';
+        document.getElementById("TxtNifLabel").style.color = "#000";
+        document.getElementById("TxtNifErrorMalformed").style.display = "none";
     }
 
-    if(document.getElementById('TxtNif').value !== '')
+    if(document.getElementById("TxtNif").value !== "")
     {
         for(var x=0; x<Company.Employees.length;x++)
         {
-            if(Company.Employees[x].Nif == document.getElementById('TxtNif').value && Company.Employees[x].Id != employeeId && Company.Employees[x].Active === true)
+            if(Company.Employees[x].Nif === document.getElementById("TxtNif").value && Company.Employees[x].Id !== employeeId && Company.Employees[x].Active === true)
             {
-                document.getElementById('TxtNifErrorDuplicated').style.display = 'block';                            
-                document.getElementById('TxtNifErrorDuplicated').innerHTML = Dictionary.Item_Employee_ErrorMessage_NifAlreadyExists + ':<br />' + Company.Employees[x].Name + ' ' + Company.Employees[x].LastName;
-                document.getElementById('TxtNifLabel').style.color = '#f00';
+                document.getElementById("TxtNifErrorDuplicated").style.display = "block";                            
+                document.getElementById("TxtNifErrorDuplicated").innerHTML = Dictionary.Item_Employee_ErrorMessage_NifAlreadyExists + ":<br />" + Company.Employees[x].Name + " " + Company.Employees[x].LastName;
+                document.getElementById("TxtNifLabel").style.color = "#f00";
                 ok = false;
                 break;
             }
             else
             {
-                document.getElementById('TxtNifErrorDuplicated').style.display = 'none';
+                document.getElementById("TxtNifErrorDuplicated").style.display = "none";
                 if(errorNif === false)
                 {
-                    document.getElementById('TxtNifLabel').style.color = '#000';
+                    document.getElementById("TxtNifLabel").style.color = "#000";
                 }
             }
         }
     }
     else
     {
-        document.getElementById('TxtNifErrorDuplicated').style.display = 'none';
+        document.getElementById("TxtNifErrorDuplicated").style.display = "none";
         if(errorNif === false)
         {
-            document.getElementById('TxtNifLabel').style.color = '#000';
+            document.getElementById("TxtNifLabel").style.color = "#000";
         }
     }
 
-    if(document.getElementById('TxtNombre').value !== '' &&
-       document.getElementById('TxtApellido1').value !== '' &&
-       document.getElementById('TxtEmail').value !== '')
+    if(document.getElementById("TxtNombre").value !== "" &&
+       document.getElementById("TxtApellido1").value !== "" &&
+       document.getElementById("TxtEmail").value !== "")
     {
         var foundEmployee=false;
         for(var y=0; y<Company.Employees.length;y++)
         {
-            if(Company.Employees[y].Name.toLowerCase() == document.getElementById('TxtNombre').value.toLowerCase() &&
-               Company.Employees[y].LastName.toLowerCase() == document.getElementById('TxtApellido1').value.toLowerCase() &&
-               Company.Employees[y].Email.toLowerCase() == document.getElementById('TxtEmail').value.toLowerCase() &&
-               Company.Employees[y].Id != employeeId &&
+            if(Company.Employees[y].Name.toLowerCase() === document.getElementById("TxtNombre").value.toLowerCase() &&
+               Company.Employees[y].LastName.toLowerCase() === document.getElementById("TxtApellido1").value.toLowerCase() &&
+               Company.Employees[y].Email.toLowerCase() === document.getElementById("TxtEmail").value.toLowerCase() &&
+               Company.Employees[y].Id !== employeeId &&
                Company.Employees[y].Active === true)
             {
                 foundEmployee = true;
@@ -144,39 +142,38 @@ function ValidateForm()
 
         if(foundEmployee === true)
         {
-            document.getElementById('TxtNombreErrorDuplicated').style.display = 'block';
-            document.getElementById('TxtApellido1ErrorDuplicated').style.display = 'block';
-            document.getElementById('TxtEmailErrorDuplicated').style.display = 'block';
-            document.getElementById('TxtNombreLabel').style.color = '#f00';
-            document.getElementById('TxtApellido1Label').style.color = '#f00';
-            document.getElementById('TxtEmailLabel').style.color = '#f00';
+            document.getElementById("TxtNombreErrorDuplicated").style.display = "block";
+            document.getElementById("TxtApellido1ErrorDuplicated").style.display = "block";
+            document.getElementById("TxtEmailErrorDuplicated").style.display = "block";
+            document.getElementById("TxtNombreLabel").style.color = "#f00";
+            document.getElementById("TxtApellido1Label").style.color = "#f00";
+            document.getElementById("TxtEmailLabel").style.color = "#f00";
             ok = false;
         }
         else
         {
-            document.getElementById('TxtNombreErrorDuplicated').style.display = 'none';
-            document.getElementById('TxtApellido1ErrorDuplicated').style.display = 'none';
-            document.getElementById('TxtEmailErrorDuplicated').style.display = 'none';
+            document.getElementById("TxtNombreErrorDuplicated").style.display = "none";
+            document.getElementById("TxtApellido1ErrorDuplicated").style.display = "none";
+            document.getElementById("TxtEmailErrorDuplicated").style.display = "none";
         }
     }
 
-    //if(RequiredFieldText('TxtTelefono') === false) { ok = false; }
-    if(RequiredFieldText('TxtEmail') === false) { ok = false; }
+    //if(RequiredFieldText("TxtTelefono") === false) { ok = false; }
+    if(RequiredFieldText("TxtEmail") === false) { ok = false; }
     else
     {
-        if(MalFormedEmail('TxtEmail') === false) { ok = false; }
+        if(MalFormedEmail("TxtEmail") === false) { ok = false; }
     }
-    //if(RequiredFieldText('TxtDireccion') === false) { ok = false; }
-    //if(RequiredFieldText('TxtCp') === false) { ok = false; }
-    //if(RequiredFieldText('TxtPoblacion') === false) { ok = false; }
-    //if(RequiredFieldText('TxtProvincia') === false) { ok = false; }
-    //if(RequiredFieldText('TxtPais') === false) { ok = false; }
+    //if(RequiredFieldText("TxtDireccion") === false) { ok = false; }
+    //if(RequiredFieldText("TxtCp") === false) { ok = false; }
+    //if(RequiredFieldText("TxtPoblacion") === false) { ok = false; }
+    //if(RequiredFieldText("TxtProvincia") === false) { ok = false; }
+    //if(RequiredFieldText("TxtPais") === false) { ok = false; }
     return ok;
 }
 
 function Restore()
 {
-    var webMethod = "/Async/EmployeeActions.asmx/Restore";
     var data = {
         "employeeId": employee.Id,
         "companyId": Company.Id,
@@ -185,12 +182,12 @@ function Restore()
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/EmployeeActions.asmx/Restore",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
                 document.location = document.location + "";
@@ -199,7 +196,7 @@ function Restore()
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -220,60 +217,60 @@ jQuery(function ($) {
     }));
                 
     if (ApplicationUser.ShowHelp === true) {
-        SetToolTip('TxtNombre', Dictionary.Item_Employee_Help_Nombre);
-        SetToolTip('TxtApellido1', Dictionary.Item_Employee_Help_LastName);
-        SetToolTip('TxtNif', Dictionary.Item_Employee_Help_Nif);
-        SetToolTip('TxtTelefono', Dictionary.Item_Employee_Help_Telefono);
-        SetToolTip('TxtEmail', Dictionary.Item_Employee_Help_Email);
-        SetToolTip('TxtDireccion', Dictionary.Item_Employee_Help_Direccion);
-        SetToolTip('TxtCp', Dictionary.Item_Employee_Help_PostalCode);
-        SetToolTip('TxtPoblacion', Dictionary.Item_Employee_Help_Poblacion);
-        SetToolTip('TxtProvincia', Dictionary.Item_Employee_Help_Provincia);
-        SetToolTip('DivCmbPais', Dictionary.Item_Employee_Help_Pais);
-        SetToolTip('TxtNotas', Dictionary.Item_Employee_Help_Notes);
-        SetToolTip('TxtAcademic', Dictionary.Item_Employee_Help_Academic);
-        SetToolTip('AcademicValidYes', Dictionary.Item_Employee_Help_AcademicValidYes);
-        SetToolTip('AcademicValidNo', Dictionary.Item_Employee_Help_AcademicValidNo);
-        SetToolTip('TxtSpecific', Dictionary.Item_Employee_Help_Especific);
-        SetToolTip('SpecificValidYes', Dictionary.Item_Employee_Help_EspecificValidYes);
-        SetToolTip('SpecificValidNo', Dictionary.Item_Employee_Help_EspecificValidNo);
-        SetToolTip('TxtWorkExperience', Dictionary.Item_Employee_Help_Experience);
-        SetToolTip('WorkExperienceValidYes', Dictionary.Item_Employee_Help_ExperienceValidYes);
-        SetToolTip('WorkExperienceValidNo', Dictionary.Item_Employee_Help_ExperienceValidNo);
-        SetToolTip('TxtHability', Dictionary.Item_Employee_Help_Abilities);
-        SetToolTip('HabilityValidYes', Dictionary.Item_Employee_Help_AbilitiesValidYes);
-        SetToolTip('HabilityValidNo', Dictionary.Item_Employee_Help_AbilitiesValidNo);
-        if (document.getElementById('TxtEndDate') !== null) {
+        SetToolTip("TxtNombre", Dictionary.Item_Employee_Help_Nombre);
+        SetToolTip("TxtApellido1", Dictionary.Item_Employee_Help_LastName);
+        SetToolTip("TxtNif", Dictionary.Item_Employee_Help_Nif);
+        SetToolTip("TxtTelefono", Dictionary.Item_Employee_Help_Telefono);
+        SetToolTip("TxtEmail", Dictionary.Item_Employee_Help_Email);
+        SetToolTip("TxtDireccion", Dictionary.Item_Employee_Help_Direccion);
+        SetToolTip("TxtCp", Dictionary.Item_Employee_Help_PostalCode);
+        SetToolTip("TxtPoblacion", Dictionary.Item_Employee_Help_Poblacion);
+        SetToolTip("TxtProvincia", Dictionary.Item_Employee_Help_Provincia);
+        SetToolTip("DivCmbPais", Dictionary.Item_Employee_Help_Pais);
+        SetToolTip("TxtNotas", Dictionary.Item_Employee_Help_Notes);
+        SetToolTip("TxtAcademic", Dictionary.Item_Employee_Help_Academic);
+        SetToolTip("AcademicValidYes", Dictionary.Item_Employee_Help_AcademicValidYes);
+        SetToolTip("AcademicValidNo", Dictionary.Item_Employee_Help_AcademicValidNo);
+        SetToolTip("TxtSpecific", Dictionary.Item_Employee_Help_Especific);
+        SetToolTip("SpecificValidYes", Dictionary.Item_Employee_Help_EspecificValidYes);
+        SetToolTip("SpecificValidNo", Dictionary.Item_Employee_Help_EspecificValidNo);
+        SetToolTip("TxtWorkExperience", Dictionary.Item_Employee_Help_Experience);
+        SetToolTip("WorkExperienceValidYes", Dictionary.Item_Employee_Help_ExperienceValidYes);
+        SetToolTip("WorkExperienceValidNo", Dictionary.Item_Employee_Help_ExperienceValidNo);
+        SetToolTip("TxtHability", Dictionary.Item_Employee_Help_Abilities);
+        SetToolTip("HabilityValidYes", Dictionary.Item_Employee_Help_AbilitiesValidYes);
+        SetToolTip("HabilityValidNo", Dictionary.Item_Employee_Help_AbilitiesValidNo);
+        if (document.getElementById("TxtEndDate") !== null) {
             if (employeeId === ApplicationUser.Employee.Id) {
-                SetToolTip('TxtEndDate', Dictionary.Item_Employee_Help_DisactivateDateSelfLocked);
-                SetToolTip('BtnEndDate', Dictionary.Item_Employee_Help_DisactivateDateSelfLocked);
-                document.getElementById('TxtEndDate').disabled = true;
+                SetToolTip("TxtEndDate", Dictionary.Item_Employee_Help_DisactivateDateSelfLocked);
+                SetToolTip("BtnEndDate", Dictionary.Item_Employee_Help_DisactivateDateSelfLocked);
+                document.getElementById("TxtEndDate").disabled = true;
             }
             else {
-                SetToolTip('TxtEndDate', Dictionary.Item_Employee_Help_DisactivateDate);
-                SetToolTip('BtnEndDate', Dictionary.Item_Employee_Help_DisactivateDate);
+                SetToolTip("TxtEndDate", Dictionary.Item_Employee_Help_DisactivateDate);
+                SetToolTip("BtnEndDate", Dictionary.Item_Employee_Help_DisactivateDate);
             }
         }
-        SetToolTip('TxtUserName', Dictionary.Item_Employee_Help_UserName);
-        SetToolTip('BtnChangeUserName', Dictionary.Item_Employee_Help_BtnUserName);
-        SetToolTip('Button1', Dictionary.Item_Employee_Help_ResetPassword);
-        SetToolTip('chkAdministration', Dictionary.Item_Employee_Help_PermisoAdministracion);
-        SetToolTip('chkProcess', Dictionary.Item_Employee_Help_PermisoProceso);
-        SetToolTip('chkDocuments', Dictionary.Item_Employee_Help_PermisoDocumentos);
-        SetToolTip('chkLearning', Dictionary.Item_Employee_Help_PermisoFormacion);
-        SetToolTip('BtnNewJobPosition', Dictionary.Item_Employee_Help_Btn_Link);
+        SetToolTip("TxtUserName", Dictionary.Item_Employee_Help_UserName);
+        SetToolTip("BtnChangeUserName", Dictionary.Item_Employee_Help_BtnUserName);
+        SetToolTip("Button1", Dictionary.Item_Employee_Help_ResetPassword);
+        SetToolTip("chkAdministration", Dictionary.Item_Employee_Help_PermisoAdministracion);
+        SetToolTip("chkProcess", Dictionary.Item_Employee_Help_PermisoProceso);
+        SetToolTip("chkDocuments", Dictionary.Item_Employee_Help_PermisoDocumentos);
+        SetToolTip("chkLearning", Dictionary.Item_Employee_Help_PermisoFormacion);
+        SetToolTip("BtnNewJobPosition", Dictionary.Item_Employee_Help_Btn_Link);
 
-        $('[data-rel=tooltip]').tooltip();
+        $("[data-rel=tooltip]").tooltip();
     }
 
-    $('#BtnRestore').on('click', Restore);
-    $('#BtnCancel').on('click', Cancel);
-    $('#BtnCancelFormacion').on('click', Cancel);
-    $('#BtnCancelInternalLearning').on('click', Cancel);
+    $("#BtnRestore").on("click", Restore);
+    $("#BtnCancel").on("click", Cancel);
+    $("#BtnCancelFormacion").on("click", Cancel);
+    $("#BtnCancelInternalLearning").on("click", Cancel);
 
     function Cancel() {
         var location = document.location + '';
-        if (location.indexOf('&New=true') != -1) {
+        if (location.indexOf('&New=true') !== -1) {
             document.location = 'EmployeesList.aspx';
         }
         else {
@@ -281,9 +278,9 @@ jQuery(function ($) {
         }
     }
 
-    $('#BtnSave').on('click', SaveEmployee);
-    $('#BtnSaveFormacion').on('click', SaveEmployee);
-    $('#BtnSaveInternalLearning').on('click', SaveEmployee);
+    $("#BtnSave").on("click", SaveEmployee);
+    $("#BtnSaveFormacion").on("click", SaveEmployee);
+    $("#BtnSaveInternalLearning").on("click", SaveEmployee);
     $("#BtnAnular").on("click", AnularPopup);
 
     function SaveEmployee() {
@@ -292,7 +289,7 @@ jQuery(function ($) {
             return false;
         }
 
-        var ddData = $('#CmbPais').data('ddslick');
+        var ddData = $("#CmbPais").data("ddslick");
         var country = ddData.selectedData.value;
 
         if (employeeId < 1) {
@@ -301,7 +298,7 @@ jQuery(function ($) {
                 "newEmployee":
                 {
                     "Id": employee.Id,
-                    "Name": $('#TxtNombre').val(),
+                    "Name": $("#TxtNombre").val(),
                     "LastName": $('#TxtApellido1').val(),
                     "Nif": $('#TxtNif').val(),
                     "Email": $('#TxtEmail').val(),
@@ -322,12 +319,12 @@ jQuery(function ($) {
 
             LoadingShow(Dictionary.Common_Message_Saving);
             $.ajax({
-                type: "POST",
-                url: webMethod,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(data, null, 2),
-                success: function (response) {
+                "type": "POST",
+                "url": webMethod,
+                "contentType": "application/json; charset=utf-8",
+                "dataType": "json",
+                "data": JSON.stringify(data, null, 2),
+                "success": function (response) {
                     LoadingHide();
                     if (response.d.Success === true) {
                         newId = response.d.MessageError.split('|')[0] * 1;
@@ -338,7 +335,7 @@ jQuery(function ($) {
                         alertUI(response.d.MessageError);
                     }
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                "error": function (jqXHR, textStatus, errorThrown) {
                     LoadingHide();
                     alertUI(jqXHR.responseText);
                 }
@@ -436,7 +433,7 @@ jQuery(function ($) {
     var i = 0;
     for(var x=0; x<ddData.length;x++)
     {
-        if(ddData[x].value == employee.Address.Country) { i=x; break; }
+        if(ddData[x].value === employee.Address.Country) { i=x; break; }
     }
 
     $('#CmbPais').ddslick({data: ddData});
@@ -551,46 +548,6 @@ function EmployeeDeleteAlertNo() {
 
 function EmployeeDeleteAlertYes() {
     document.location = 'EmployeeSubstitution.aspx?id=' + EmployeeDeleteId + '&enddate=' + FormatDate(GetDate(document.getElementById('TxtEndDate').value, '/'), '');
-}
-
-if (SkillAcademicValid !== null) {
-    if (SkillAcademicValid === true) {
-        document.getElementById('AcademicValidYes').checked = true;
-    }
-    else {
-
-        document.getElementById('AcademicValidNo').checked = true;
-    }
-}
-
-if (SkillSpecificValid !== null) {
-    if (SkillSpecificValid === true) {
-        document.getElementById('SpecificValidYes').checked = true;
-    }
-    else {
-
-        document.getElementById('SpecificValidNo').checked = true;
-    }
-}
-
-if (SkillWorkExperienceValid != null) {
-    if (SkillWorkExperienceValid === true) {
-        document.getElementById('WorkExperienceValidYes').checked = true;
-    }
-    else {
-
-        document.getElementById('WorkExperienceValidNo').checked = true;
-    }
-}
-
-if (SkillHabilityValid !== null) {
-    if (SkillHabilityValid === true) {
-        document.getElementById('HabilityValidYes').checked = true;
-    }
-    else {
-
-        document.getElementById('HabilityValidNo').checked = true;
-    }
 }
 
 // ISSUS-190
@@ -809,6 +766,54 @@ window.onload = function () {
         res += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Employee_Label_InactiveTitle + "</h3><br />";
         res += "    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Dictionary.Item_Employee_Label_InactiveDate + ": <strong>14/11/2017</strong></p></div><br /><br /><br />";
         $("#oldFormFooter").after(res);
+    }
+
+
+    if (document.getElementById("AcademicValidYes") !== null) {
+        if (SkillAcademicValid !== null) {
+            if (SkillAcademicValid === true) {
+                document.getElementById("AcademicValidYes").checked = true;
+            }
+            else {
+                document.getElementById("AcademicValidNo").checked = true;
+            }
+        }
+    }
+
+    if (document.getElementById("SpecificValidYes") !== null) {
+        if (SkillSpecificValid !== null) {
+            if (SkillSpecificValid === true) {
+                document.getElementById("SpecificValidYes").checked = true;
+            }
+            else {
+
+                document.getElementById("SpecificValidNo").checked = true;
+            }
+        }
+    }
+
+    if (WorkExperienceValidYes !== null) {
+        if (SkillWorkExperienceValid !== null) {
+            if (SkillWorkExperienceValid === true) {
+                document.getElementById("WorkExperienceValidYes").checked = true;
+            }
+            else {
+
+                document.getElementById("WorkExperienceValidNo").checked = true;
+            }
+        }
+    }
+
+    if (document.getElementById("HabilityValidYes") !== null) {
+        if (SkillHabilityValid !== null) {
+            if (SkillHabilityValid === true) {
+                document.getElementById("HabilityValidYes").checked = true;
+            }
+            else {
+
+                document.getElementById("HabilityValidNo").checked = true;
+            }
+        }
     }
 }
 

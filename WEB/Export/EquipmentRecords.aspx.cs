@@ -668,43 +668,13 @@ public partial class Export_EquipmentRecords : Page
                 data = data.OrderByDescending(d => d.Cost).ToList();
                 break;
         }
-
+        
         foreach (EquipmentRecord r in data)
         {
-            /*table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", r.Date), times))
-            {
-                Border = border,
-                HorizontalAlignment = iTS.Element.ALIGN_CENTER,
-                Padding = 6f,
-                PaddingTop = 4f
-            });*/
             table.AddCell(ToolsPdf.DataCellCenter(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", r.Date), times));
-
-            //iTSpdf.PdfPCell typeCell = new iTSpdf.PdfPCell(new iTS.Phrase(r.RecordTypeText, times));
-            //typeCell.Border = border;
-            //typeCell.Padding = 6f;
-            //typeCell.PaddingTop = 4f;
             table.AddCell(ToolsPdf.DataCell(r.RecordTypeText, times));
-
-            //iTSpdf.PdfPCell operationCell = new iTSpdf.PdfPCell(new iTS.Phrase(r.Operation, times));
-            //operationCell.Border = border;
-            //operationCell.Padding = 6f;
-            //operationCell.PaddingTop = 4f;
             table.AddCell(ToolsPdf.DataCell(r.Operation, times));
-
-            //iTSpdf.PdfPCell responsibleCell = new iTSpdf.PdfPCell(new iTS.Phrase(r.Responsible.FullName, times));
-            //responsibleCell.Border = border;
-            //responsibleCell.Padding = 6f;
-            //responsibleCell.PaddingTop = 4f;
             table.AddCell(ToolsPdf.DataCell(r.Responsible.FullName, times));
-            
-            /*table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", r.Cost), times))
-            {
-                Border = border,
-                Padding = 6f,
-                PaddingTop = 4f,
-                HorizontalAlignment = iTS.Element.ALIGN_RIGHT
-            });*/
             table.AddCell(ToolsPdf.DataCellMoney(r.Cost, times));
 
             if (r.Cost.HasValue)
@@ -715,16 +685,35 @@ public partial class Export_EquipmentRecords : Page
             cont++;
         }
 
-        // Row total
+
+        iTS.BaseColor rowEven = new iTS.BaseColor(240, 240, 240);
+        string totalRegistros = string.Format(
+           CultureInfo.InvariantCulture,
+           @"{0}: {1}",
+           dictionary["Common_RegisterCount"],
+           cont);
+
+        iTSpdf.PdfPCell totalRegistrosCell = new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, times))
+        {
+            Border = iTS.Rectangle.TOP_BORDER,
+            BackgroundColor = rowEven,
+            Padding = 6f,
+            PaddingTop = 4f,
+            Colspan = 2
+        };
+        table.AddCell(totalRegistrosCell);
+
         table.AddCell(new PdfPCell(new iTS.Phrase(dictionary["Common_Total"], times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             HorizontalAlignment = iTS.Element.ALIGN_RIGHT,
-            Colspan = 4
+            BackgroundColor = rowEven,
+            Colspan = 2
         });
         table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", totalCost), times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
+            BackgroundColor = rowEven,
             HorizontalAlignment = iTS.Element.ALIGN_RIGHT
         });
 
@@ -733,17 +722,4 @@ public partial class Export_EquipmentRecords : Page
         res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
         return res;
     }
-
-    /*public static iTSpdf.PdfPCell criteriaCell(bool criteria, string label)
-    {
-        Chunk yes = new Chunk("\uf046", fontAwe);
-        Chunk no = new Chunk("\uf096", fontAwe);
-        iTSpdf.PdfPCell res = new iTSpdf.PdfPCell();
-        iTS.Phrase pr = new Phrase();
-        pr.Add(criteria ? yes : no);
-        pr.Add(new Chunk(" " + label, criteriaFont));
-        res.Border = iTS.Rectangle.NO_BORDER;
-        res.AddElement(pr);
-        return res;
-    }*/
 }

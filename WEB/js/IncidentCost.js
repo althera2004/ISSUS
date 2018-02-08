@@ -147,11 +147,11 @@ function RIncidentCostChanged() {
 }
 
 function CmbIncidentCostDescriptionChanged() {
-    $('#TxtIncidentCostAmount').val('');
-    var incidentCostId = $('#CmbIncidentCostDescription').val() * 1;
+    $("#TxtIncidentCostAmount").val("");
+    var incidentCostId = $("#CmbIncidentCostDescription").val() * 1;
     for (var x = 0; x < CompanyIncidentCosts.length; x++) {
         if (CompanyIncidentCosts[x].Id === incidentCostId) {
-            $('#TxtIncidentCostAmount').val(ToMoneyFormat(CompanyIncidentCosts[x].Amount, 2));
+            $("#TxtIncidentCostAmount").val(ToMoneyFormat(CompanyIncidentCosts[x].Amount, 2));
         }
     }
 }
@@ -160,25 +160,25 @@ function IncidentCostEdit(id) {
     SelectedIncidentCostId = id * 1;
     IncidentCostSetPopupFormFill();
     var dialog = $("#dialogNewCost").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_IncidentCost_PopupTitle_Update + '</h4>',
-        title_html: true,
-        width: 500,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_IncidentCost_PopupTitle_Update + "</h4>",
+        "title_html": true,
+        "width": 500,
+        "buttons":
         [
             {
-                id: 'BtnNewCostSave',
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Change,
+                "id": "BtnNewCostSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Change,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     IncidentCostSave();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -190,26 +190,26 @@ function IncidentCostEdit(id) {
 function ShowNewCostPopup(actionSelected) {
     SelectedIncidentCostId = 0;
     IncidentCostSetPopupFormReset();
-    var dialog = $("#dialogNewCost").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_IncidentCost_PopupTitle_Add + '</h4>',
-        title_html: true,
-        width: 500,
-        buttons:
+    var dialog = $("#dialogNewCost").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_IncidentCost_PopupTitle_Add + "</h4>",
+        "title_html": true,
+        "width": 500,
+        "buttons":
         [
             {
-                id: 'BtnNewAddresSave',
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                "id": "BtnNewAddresSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     IncidentCostSave();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -260,12 +260,12 @@ function IncidentCostSave() {
         return false;
     }
 
-    var Description = $('#TxtIncidentActionCostDescription').val();
+    var Description = $("#TxtIncidentActionCostDescription").val();
     var IncidentCost = SelectedIncidentCost;
-    var amount = ParseInputValueToNumber($('#TxtIncidentActionCostAmount').val());
-    var quantity = ParseInputValueToNumber($('#TxtIncidentCostQuantity').val());
+    var amount = ParseInputValueToNumber($("#TxtIncidentActionCostAmount").val());
+    var quantity = ParseInputValueToNumber($("#TxtIncidentCostQuantity").val());
 
-    SelectedIncidentCost = 
+    SelectedIncidentCost =
     {
         "Id": SelectedIncidentCostId,
         "IncidentId": IncidentId,
@@ -274,8 +274,9 @@ function IncidentCostSave() {
         "Description": Description,
         "Amount": amount,
         "Quantity": quantity,
-        "Responsible": { "Id": $('#CmdIncidentCostResponsible').val() * 1, Value: $('#CmdIncidentCostResponsible option:selected').text(), Active:true },
-        "Active": true
+        "Responsible": { "Id": $("#CmdIncidentCostResponsible").val() * 1, Value: $("#CmdIncidentCostResponsible option:selected").text(), Active: true },
+        "Active": true,
+        "Source": "IA"
     };
 
     if (SelectedIncidentCostId === 0) {
@@ -285,19 +286,19 @@ function IncidentCostSave() {
         };
 
         $.ajax({
-            type: "POST",
-            url: "/Async/IncidentCostActions.asmx/Insert",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(dataInsert, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/IncidentCostActions.asmx/Insert",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(dataInsert, null, 2),
+            "success": function (msg) {
                 SelectedIncidentCost.Id = msg.d.MessageError * 1;
                 IncidentCosts.push(SelectedIncidentCost);
                 CompanyIncidentCosts.push(SelectedIncidentCost);
                 IncidentCostRenderTable('IncidentCostsTableData');
                 $("#dialogNewCost").dialog('close');
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });

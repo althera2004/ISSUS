@@ -56,7 +56,8 @@ function IncidentActionGetFilter(exportType) {
         "typeImprovement": type1,
         "typeFix": type2,
         "typePrevent": type3,
-        "origin": $("#CmbOrigin").val() * 1
+        "origin": $("#CmbOrigin").val() * 1,
+        "reporter": $("#CmbReporter").val() * 1
     };
 
     $.ajax({
@@ -127,8 +128,7 @@ function ItemRenderTable(list) {
         if (item.Origin === 3) {
             origin = document.createElement("A");
             origin.href = "IncidentView.aspx?id=" + item.Associated.Id;
-            var innerLink = document.createTextNode(Dictionary.Item_IncidentAction_Origin3);
-            origin.appendChild(innerLink);
+            origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin3));
             var spantext = document.createElement("span");
             spantext.style.display = "none";
             spantext.appendChild(document.createTextNode(item.Associated.Description));
@@ -140,12 +140,11 @@ function ItemRenderTable(list) {
         if (item.Origin === 4) {
             origin = document.createElement("A");
             origin.href = "BusinessRiskView.aspx?id=" + item.Associated.Id;
-            var innerLink = document.createTextNode(Dictionary.Item_IncidentAction_Origin4);
-            origin.appendChild(innerLink);
-            var spantext = document.createElement("span");
-            spantext.style.display = "none";
-            spantext.appendChild(document.createTextNode(item.Associated.Description));
-            origin.appendChild(spantext);
+            origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin4));
+            var spantext2 = document.createElement("span");
+            spantext2.style.display = "none";
+            spantext2.appendChild(document.createTextNode(item.Associated.Description));
+            origin.appendChild(spantext2);
             //origin.title = Dictionary.Item_IncidentAction_Origin4 + " \"" + item.Associated.Description + "\"";
 			origin.title = item.Associated.Description;
         }
@@ -415,6 +414,7 @@ function ExportPDF() {
         "typeFix": type2,
         "typePrevent": type3,
         "origin": $("#CmbOrigin").val() * 1,
+        "reporter": $("#CmbReporter").val() * 1,
         "listOrder": listOrder
     };
 

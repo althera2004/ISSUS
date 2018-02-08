@@ -24,5 +24,8 @@ namespace GisoFramework.Item.Binding
 
         /// <summary>Index column of learning status</summary>
         public const int Status = 5;
+
+        /// <summary>Index column of learning finish date</summary>
+        public const int FinishDate = 6;
     }
 }

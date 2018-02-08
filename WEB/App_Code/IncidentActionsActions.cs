@@ -87,7 +87,7 @@ public class IncidentActionsActions : WebService
     
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public string GetFilter(int companyId, DateTime? from, DateTime? to, bool statusIdnetified, bool statusAnalyzed, bool statusInProgress, bool statusClose, bool typeImprovement, bool typeFix, bool typePrevent, int origin)
+    public string GetFilter(int companyId, DateTime? from, DateTime? to, bool statusIdnetified, bool statusAnalyzed, bool statusInProgress, bool statusClose, bool typeImprovement, bool typeFix, bool typePrevent, int origin, int reporter)
     {
         StringBuilder filter = new StringBuilder("{");
         filter.Append(Tools.JsonPair("companyId", companyId)).Append(",");
@@ -100,9 +100,10 @@ public class IncidentActionsActions : WebService
         filter.Append(Tools.JsonPair("typeImprovement", typeImprovement)).Append(",");
         filter.Append(Tools.JsonPair("typeFix", typeFix)).Append(",");
         filter.Append(Tools.JsonPair("typePrevent", typePrevent)).Append(",");
+        filter.Append(Tools.JsonPair("reporter", reporter)).Append(",");
         filter.Append(Tools.JsonPair("origin", origin)).Append("}");
         Session["IncidentActionFilter"] = filter.ToString();        
-        return IncidentAction.FilterList(companyId, from, to, statusIdnetified, statusAnalyzed, statusInProgress, statusClose, typeImprovement, typeFix, typePrevent, origin);
+        return IncidentAction.FilterList(companyId, from, to, statusIdnetified, statusAnalyzed, statusInProgress, statusClose, typeImprovement, typeFix, typePrevent, origin, reporter);
     }
 
     [WebMethod(EnableSession = true)]

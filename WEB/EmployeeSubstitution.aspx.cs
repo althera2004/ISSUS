@@ -30,6 +30,14 @@ public partial class EmployeeSubstitution : Page
     /// <summary>Indicates if employee is active</summary>
     private bool active;
 
+    public string Employees
+    {
+        get
+        {
+            return Employee.CompanyListJson(this.company.Id);
+        }
+    }
+
     public string UserLanguage
     {
         get

@@ -103,7 +103,6 @@
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    LoadingHide();
                     alert(jqXHR.responseText);
                 }
             });

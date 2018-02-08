@@ -9,6 +9,7 @@
         var companyId = <%=this.CompanyId %>;
         var employeeId = <%=this.EmployeeId %>;
         var asignations = <%=this.Employee.EmployeeActions %>;
+        var Employees = <%=this.Employees %>;
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">

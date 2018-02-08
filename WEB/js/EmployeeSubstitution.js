@@ -187,3 +187,8 @@ function SaveEmployee() {
 
 FillCmbAll();
 RenderTable();
+
+$("select").on("change", function (e) {
+    console.log(e.target.value);
+    WarningEmployeeNoUserCheck(e.target.value * 1, Employees);
+});

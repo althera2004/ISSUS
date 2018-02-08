@@ -16,5 +16,6 @@ namespace GisoFramework.Item.Binding
         public const int StartDate = 5;
         public const int PreviewEndDate = 6;
         public const int EndDate = 7;
+        public const int Active = 8;
     }
 }

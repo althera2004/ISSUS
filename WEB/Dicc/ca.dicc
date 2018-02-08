@@ -1252,6 +1252,8 @@ Item_Learning_Filter_ToYear::Fins l'any
 Item_Learning_ListHeader_EstimatedDate::Data prevista
 Item_Learning_ListHeader_Cost::Cost
 Item_Learning_ListHeader_Assistants::Participants
+Item_Learning_ListHeader_DateComplete::Data realització
+Item_Learning_ListHeader_Status::Estat
 Item_Learning_ListHeader_Course::Curs
 Item_Learning_Help_Coach::Indicar formador/a
 Item_Learning_Help_FinalReal::Data real de finalització

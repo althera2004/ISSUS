@@ -124,12 +124,12 @@ function IndicadorGetFilter(exportType) {
     };
 
     $.ajax({
-        type: "POST",
-        url: "/Async/IndicadorActions.asmx/GetFilter",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(filterData, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/IndicadorActions.asmx/GetFilter",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(filterData, null, 2),
+        "success": function (msg) {
             eval("IndicadorList=" + msg.d + ";");
             ItemRenderTable(IndicadorList);
             if (exportType !== "undefined") {
@@ -301,21 +301,21 @@ function ItemRenderTable(list) {
 
 
     if (items.length === 0) {
-        document.getElementById('nav-search').style.display = 'none';
+        document.getElementById("nav-search").style.display = "none";
     }
     else {
-        document.getElementById('nav-search').style.display = '';
+        document.getElementById("nav-search").style.display = "";
 
         items.sort(function (a, b) {
             if (a < b) return -1;
             if (a > b) return 1;
             return 0;
-        })
-        var autocomplete = $('.nav-search-input').typeahead();
-        autocomplete.data('typeahead').source = items;
+        });
+        var autocomplete = $(".nav-search-input").typeahead();
+        autocomplete.data("typeahead").source = items;
 
-        $('#nav-search-input').keyup(FilterList);
-        $('#nav-search-input').change(FilterList);
+        $("#nav-search-input").keyup(FilterList);
+        $("#nav-search-input").change(FilterList);
     }
 
     $("#NumberCosts").html(list.length);
@@ -455,10 +455,10 @@ window.onload = function () {
     }
 
     IndicadorGetFilter();
-    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;")
-}
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
+};
 
-window.onresize = function () { Resize(); }
+window.onresize = function () { Resize(); };
 
 function Export() {
     lockOrderList = true;
@@ -470,15 +470,14 @@ function ExportPDF() {
     console.log(filterData);
     var data = filterData;
     data["listOrder"] = listOrder;
-    var webMethod = "/Export/IndicadorExport.aspx/PDF";
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Export/IndicadorExport.aspx/PDF",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
             //successInfoUI(msg.d.MessageError, Go, 200);
             var link = document.createElement("a");
@@ -492,7 +491,7 @@ function ExportPDF() {
             window.open(msg.d.MessageError);
             $("#dialogAddAddress").dialog("close");
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI("error:" + msg.responseText);
         }

@@ -5,9 +5,7 @@
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item.Binding
 {
-    /// <summary>
-    /// Index columns of stored GetLogin result
-    /// </summary>
+    /// <summary>Index columns of stored GetLogin result</summary>
     public static class ColumnsGetLogin
     {
         /// <summary> Index of Id column</summary>

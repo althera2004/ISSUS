@@ -56,6 +56,7 @@ public partial class Export_IncidentActionExportList : Page
         bool typeFix,
         bool typePrevent,
         int origin,
+        int reporter,
         string listOrder)
     {
         ActionResult res = ActionResult.NoAction;
@@ -147,6 +148,13 @@ public partial class Export_IncidentActionExportList : Page
         if (origin == 2) { criteriaOrigin = dictionary["Item_IncidentAction_Origin2"]; }
         if (origin == 3) { criteriaOrigin = dictionary["Item_IncidentAction_Origin3"]; }
         if (origin == 4) { criteriaOrigin = dictionary["Item_IncidentAction_Origin4"]; }
+
+        string reporterText = dictionary["Common_All_Male"];
+        if (reporter == 1) { reporterText = dictionary["Item_IncidentAction_ReporterType1"]; }
+        if (reporter == 2) { reporterText = dictionary["Item_IncidentAction_ReporterType2"]; }
+        if (reporter == 3) { reporterText = dictionary["Item_IncidentAction_ReporterType3"]; }
+
+
         string periode = string.Empty;
         if (!string.IsNullOrEmpty(from) && string.IsNullOrEmpty(to))
         {
@@ -249,7 +257,7 @@ public partial class Export_IncidentActionExportList : Page
         criteria2Label.Padding = 6f;
         criteria2Label.PaddingTop = 4f;
 
-        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(typetext, times));
+        iTSpdf.PdfPCell criteria2 = new PdfPCell(new iTS.Phrase(typetext, times));
         criteria2.Border = borderNone;
         criteria2.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
         criteria2.Padding = 6f;
@@ -267,18 +275,21 @@ public partial class Export_IncidentActionExportList : Page
         criteria3.Padding = 6f;
         criteria3.PaddingTop = 4f;
 
-        iTSpdf.PdfPCell criteria4Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Origin"] + " :", timesBold));
-        criteria4Label.Border = borderNone;
-        criteria4Label.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria4Label.Padding = 6f;
-        criteria4Label.PaddingTop = 4f;
+        iTSpdf.PdfPCell criteria4Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Origin"] + " :", timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
 
-        iTSpdf.PdfPCell criteria4 = new iTSpdf.PdfPCell(new iTS.Phrase(criteriaOrigin, times));
-        criteria4.Border = borderNone;
-        criteria4.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria4.Padding = 6f;
-        criteria4.PaddingTop = 4f;
-
+        iTSpdf.PdfPCell criteria4 = new iTSpdf.PdfPCell(new iTS.Phrase(criteriaOrigin, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
 
         criteriatable.AddCell(criteria1Label);
         criteriatable.AddCell(criteria1);
@@ -288,6 +299,30 @@ public partial class Export_IncidentActionExportList : Page
         criteriatable.AddCell(criteria3);
         criteriatable.AddCell(criteria4Label);
         criteriatable.AddCell(criteria4);
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Label_Reporter"] + " :", timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        });
+
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(reporterText, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        });
+
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f,
+            Colspan = 2
+        });
 
         pdfDoc.Add(criteriatable);
         //---------------------------

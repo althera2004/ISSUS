@@ -393,7 +393,8 @@ namespace GisoFramework.Item
                                     Id = rdr.GetInt32(ColumnsObjetivoFilter.ResponsibleId),
                                     Name = rdr.GetString(ColumnsObjetivoFilter.ResponsibleName),
                                     LastName = rdr.GetString(ColumnsObjetivoFilter.ResponsibleLastname)
-                                }
+                                },
+                                Active = rdr.GetBoolean(ColumnsObjetivoFilter.Active)
                             }
                         };
 

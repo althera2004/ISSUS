@@ -735,9 +735,9 @@ namespace GisoFramework.Item
             return res;
         }
 
-        public static string FilterList(int companyId, DateTime? from, DateTime? to, bool statusIdentified, bool statusAnalyzed, bool statusInProgress, bool statusClose, bool typeImprovement, bool typeFix, bool typePrevent, int origin)
+        public static string FilterList(int companyId, DateTime? from, DateTime? to, bool statusIdentified, bool statusAnalyzed, bool statusInProgress, bool statusClose, bool typeImprovement, bool typeFix, bool typePrevent, int origin, int reporter)
         {
-            ReadOnlyCollection<IncidentActionFilterItem> items = Filter(companyId, from, to, statusIdentified, statusAnalyzed, statusInProgress, statusClose, typeImprovement, typeFix, typePrevent, origin);
+            ReadOnlyCollection<IncidentActionFilterItem> items = Filter(companyId, from, to, statusIdentified, statusAnalyzed, statusInProgress, statusClose, typeImprovement, typeFix, typePrevent, origin, reporter);
             StringBuilder res = new StringBuilder("[");
             bool first = true;
             foreach (IncidentActionFilterItem item in items)
@@ -771,7 +771,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static ReadOnlyCollection<IncidentActionFilterItem> Filter(int companyId, DateTime? from, DateTime? to, bool statusIdentified, bool statusAnalyzed, bool statusInProgress, bool statusClose, bool typeImprovement, bool typeFix, bool typePrevent, int origin)
+        public static ReadOnlyCollection<IncidentActionFilterItem> Filter(int companyId, DateTime? from, DateTime? to, bool statusIdentified, bool statusAnalyzed, bool statusInProgress, bool statusClose, bool typeImprovement, bool typeFix, bool typePrevent, int origin, int reporter)
         {
             /* CREATE PROCEDURE IncidentActions_Filter
              *   @CompanyId int,
@@ -804,6 +804,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@TypeFix", typeFix));
                     cmd.Parameters.Add(DataParameter.Input("@TypePrevent", typePrevent));
                     cmd.Parameters.Add(DataParameter.Input("@Origin", origin));
+                    cmd.Parameters.Add(DataParameter.Input("@Reporter", reporter));
 
                     cmd.Connection.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();

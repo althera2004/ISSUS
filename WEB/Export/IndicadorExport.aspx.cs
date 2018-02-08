@@ -132,13 +132,13 @@ public partial class Export_IndicadorExport : Page
 
         var borderNone = iTS.Rectangle.NO_BORDER;
 
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(5)
+        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(6)
         {
             WidthPercentage = 100
         };
 
         //------ CRITERIA
-        float[] cirteriaWidths = new float[] { 20f, 50f, 20f, 50f, 20f, 150f };
+        float[] cirteriaWidths = new float[] { 20f, 50f, 25f, 50f, 20f, 150f };
         iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(6)
         {
             WidthPercentage = 100
@@ -268,7 +268,6 @@ public partial class Export_IndicadorExport : Page
                 Padding = 6f,
                 PaddingTop = 4f
             };
-            criteriatable.AddCell(criteriaProcessLabel);
 
             string processText = dictionary["Common_All_Male_Plural"];
             if (processId.HasValue)
@@ -284,7 +283,6 @@ public partial class Export_IndicadorExport : Page
                 Padding = 6f,
                 PaddingTop = 4f
             };
-            criteriatable.AddCell(criteriaProcess);
 
             iTSpdf.PdfPCell criteriaProcessTypeLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_ProcessType"] + " :", timesBold))
             {
@@ -293,7 +291,6 @@ public partial class Export_IndicadorExport : Page
                 Padding = 6f,
                 PaddingTop = 4f
             };
-            criteriatable.AddCell(criteriaProcessTypeLabel);
 
             string processTypeCriteriaText = dictionary["Common_All_Male_Plural"];
             if (processTypeId.HasValue)
@@ -331,6 +328,10 @@ public partial class Export_IndicadorExport : Page
                 Padding = 6f,
                 PaddingTop = 4f
             };
+
+            criteriatable.AddCell(criteriaProcessLabel);
+            criteriatable.AddCell(criteriaProcess);
+            criteriatable.AddCell(criteriaProcessTypeLabel);
             criteriatable.AddCell(criteriaProcessType);
         }
         else if (indicatorType == 2)
@@ -342,7 +343,6 @@ public partial class Export_IndicadorExport : Page
                 Padding = 6f,
                 PaddingTop = 4f
             };
-            criteriatable.AddCell(criteriaProcessLabel);
 
             string objetivoText = dictionary["Common_All_Male_Plural"];
 
@@ -357,7 +357,8 @@ public partial class Export_IndicadorExport : Page
                 Border = borderNone,
                 HorizontalAlignment = iTS.Element.ALIGN_LEFT,
                 Padding = 6f,
-                PaddingTop = 4f
+                PaddingTop = 4f,
+                Colspan = 3
             };
 
             criteriatable.AddCell(criteriaProcessLabel);
@@ -368,13 +369,14 @@ public partial class Export_IndicadorExport : Page
         //---------------------------
 
         //relative col widths in proportions - 1/3 and 2/3
-        float[] widths = new float[] { 30f, 10f, 30f, 10f, 10f };
+        float[] widths = new float[] { 7f, 30f, 10f, 30f, 10f, 10f };
         table.SetWidths(widths);
         table.HorizontalAlignment = 1;
         //leave a gap before and after the table
         table.SpacingBefore = 20f;
         table.SpacingAfter = 30f;
 
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Common_Status"].ToUpperInvariant(), times));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Description"].ToUpperInvariant(), times));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_StartDate"].ToUpperInvariant(), times));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Process"].ToUpperInvariant(), times));
@@ -435,9 +437,7 @@ public partial class Export_IndicadorExport : Page
                     break;
             }
 
-            BaseColor lineBackground = pair ? rowEven : rowPair;
-            // pair = !pair;
-
+            table.AddCell(ToolsPdf.DataCell(item.Status == 0 ? dictionary["Common_Active"] : dictionary["Common_Inactive"], times));
             table.AddCell(ToolsPdf.DataCell(item.Indicador.Description, times));
             table.AddCell(ToolsPdf.DataCell(item.StartDate, times, Rectangle.ALIGN_CENTER));            
             table.AddCell(ToolsPdf.DataCell(item.Proceso.Description, times));
@@ -455,7 +455,8 @@ public partial class Export_IndicadorExport : Page
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = backgroundColor,
             Padding = 6f,
-            PaddingTop = 4f
+            PaddingTop = 4f,
+            Colspan = 2
         });
 
         table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))

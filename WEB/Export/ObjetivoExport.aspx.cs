@@ -120,11 +120,7 @@ public partial class Export_ObjetivoExport : Page
         };
 
         titleTable.AddCell(titleCell);
-        
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(4)
-        {
-            WidthPercentage = 100
-        };
+
 
         //------ CRITERIA
         iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(4);
@@ -209,14 +205,18 @@ public partial class Export_ObjetivoExport : Page
         pdfDoc.Add(criteriatable);
         //---------------------------
 
-        //relative col widths in proportions - 1/3 and 2/3
-        float[] widths = new float[] { 50f, 30f, 10f, 10f };
-        table.SetWidths(widths);
-        table.HorizontalAlignment = 1;
-        //leave a gap before and after the table
-        table.SpacingBefore = 20f;
-        table.SpacingAfter = 30f;
+        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(5)
+        {
+            WidthPercentage = 100,
+            HorizontalAlignment = 1,
+            SpacingBefore = 20f,
+            SpacingAfter = 30f
+        };
 
+        float[] widths = new float[] { 7f, 50f, 30f, 12f, 12f };
+        table.SetWidths(widths);
+
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Common_Status"].ToUpperInvariant(), headerFontFinal));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_Header_Name"].ToUpperInvariant(), headerFontFinal));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_Header_Responsible"].ToUpperInvariant(), headerFontFinal));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_Header_StartDate"].ToUpperInvariant(), headerFontFinal));
@@ -224,7 +224,6 @@ public partial class Export_ObjetivoExport : Page
 
         int cont = 0;
         List<ObjetivoFilterItem> data = Objetivo.Filter(companyId,  from, to, status).ToList();
-        bool pair = false;
 
         foreach(ObjetivoFilterItem item in data)
         {
@@ -265,55 +264,17 @@ public partial class Export_ObjetivoExport : Page
         cont = 0;
         foreach (ObjetivoFilterItem item in data)
         {
-            int border = 0;
-            cont++;
-            BaseColor lineBackground = pair ? rowEven : rowPair;
-            // pair = !pair;
-
-            iTSpdf.PdfPCell cellDescription = new iTSpdf.PdfPCell(new iTS.Phrase(item.Objetivo.Name, times))
-            {
-                Border = border,
-                BackgroundColor = lineBackground,
-                Padding = 6f,
-                PaddingTop = 4f
-            };
-            table.AddCell(cellDescription);
-
-            iTSpdf.PdfPCell cellResponsible = new iTSpdf.PdfPCell(new iTS.Phrase(item.Objetivo.Responsible.FullName, times))
-            {
-                Border = border,
-                BackgroundColor = lineBackground,
-                Padding = 6f,
-                PaddingTop = 4f,
-                HorizontalAlignment = Rectangle.ALIGN_LEFT
-            };
-            table.AddCell(cellResponsible);
-
-            iTSpdf.PdfPCell cellDate = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", item.Objetivo.StartDate), times))
-            {
-                Border = border,
-                BackgroundColor = lineBackground,
-                Padding = 6f,
-                PaddingTop = 4f,
-                HorizontalAlignment = Rectangle.ALIGN_CENTER
-            };
-            table.AddCell(cellDate);
-
             string endDateText = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", item.Objetivo.PreviewEndDate);
             if (item.Objetivo.EndDate.HasValue)
             {
                 endDateText = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", item.Objetivo.EndDate);
             }
 
-            iTSpdf.PdfPCell cellEndDate = new iTSpdf.PdfPCell(new iTS.Phrase(endDateText, times))
-            {
-                Border = border,
-                BackgroundColor = lineBackground,
-                Padding = 6f,
-                PaddingTop = 4f,
-                HorizontalAlignment = Rectangle.ALIGN_CENTER
-            };
-            table.AddCell(cellEndDate);
+            table.AddCell(ToolsPdf.DataCell(item.Objetivo.Active ? dictionary["Common_Active"] : dictionary["Common_Inactve"], times));
+            table.AddCell(ToolsPdf.DataCell(item.Objetivo.Name, times));
+            table.AddCell(ToolsPdf.DataCell(item.Objetivo.Responsible.FullName, times));
+            table.AddCell(ToolsPdf.DataCellCenter(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", item.Objetivo.StartDate), times));
+            table.AddCell(ToolsPdf.DataCellCenter(endDateText, times));
         }
 
         string totalRegistros = string.Format(
@@ -326,7 +287,8 @@ public partial class Export_ObjetivoExport : Page
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = rowEven,
             Padding = 6f,
-            PaddingTop = 4f
+            PaddingTop = 4f,
+            Colspan = 2
         };
 
         iTSpdf.PdfPCell blankCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))

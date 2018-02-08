@@ -162,9 +162,10 @@ $("#BtnAnular").on("click", AnularPopup);
 $("#BtnRestaurar").on("click", Restore);
 
 function AnularPopup() {
-    //FieldSetRequired("CmbClosedResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleClose, true);
-    //FieldSetRequired("TxtClosedDateLabel", Dictionary.Common_Date, true);
-
+    /// <summary>
+    /// Shows popup for anulation.
+    /// </summary>
+    /// <returns></returns>
     var ok = true;
     if ($("#TxtDescription").val() === "") { ok = false; }
     if ($("#TxtWhatHappened").val() === "") { ok = false; }
@@ -210,8 +211,14 @@ function AnularPopup() {
     });
 }
 
+/// <var>The anulation data</var>
 var anulationData = null;
+
 function AnularConfirmed() {
+    /// <summary>
+    /// Anulars the confirmed.
+    /// </summary>
+    /// <returns></returns>
     document.getElementById("TxtClosedDateLabel").style.color = "#000";
     document.getElementById("CmbClosedResponsibleLabel").style.color = "#000";
     document.getElementById("TxtClosedDateDateRequired").style.display = "none";
@@ -270,19 +277,24 @@ function AnularConfirmed() {
 }
 
 function AnulateLayout() {
+    /// <summary>
+    /// Anulates the layout.
+    /// </summary>
+    /// <returns></returns>
     $("#BtnRestaurar").hide();
     if (IncidentAction.ClosedOn !== null) {
         var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
         message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_IncidentAction_AnulateMessageTile + "</h3>";
         message += "    <p style=\"margin-left:50px;\">";
-        message += "        " + Dictionary.Item_IncidentAction_Label_EndDate + ": <strong>" + IncidentAction.ClosedOn + "</strong><br />";
+        message += "        " + Dictionary.Item_IncidentAction_Label_EndDate + ": <strong>" + GetDateYYYYMMDDText(IncidentAction.ClosedOn,"/", false) + "</strong><br />";
         message += "        " + Dictionary.Item_IncidentAction_Label_EndResponsible + ": <strong>" + IncidentAction.ClosedBy.Value + "</strong>";
         message += "    </p>";
         message += "</div><br /><br /><br />";
         $("#home").append(message);
         $("#BtnAnular").hide();
         $("#BtnRestaurar").show();
+        $("#BtnSave").hide();
     }
     else {
         $("#DivAnulateMessage").hide();
@@ -291,6 +303,10 @@ function AnulateLayout() {
 }
 
 function Restore() {
+    /// <summary>
+    /// Restores this instance.
+    /// </summary>
+    /// <returns></returns>
     var data = {
         "incidentActionId": IncidentAction.Id,
         "companyId": Company.Id,

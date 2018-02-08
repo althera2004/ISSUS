@@ -1385,6 +1385,7 @@ function AnularConfirmed() {
     }
 
     if (ok === false) {
+        alert("oohhh");
         return false;
     }
 
@@ -1399,15 +1400,15 @@ function AnularConfirmed() {
     $("#dialogAnular").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: "/Async/IncidentActions.asmx/Anulate",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/IncidentActions.asmx/Anulate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             SaveIncident();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -1417,6 +1418,7 @@ function AnularConfirmed() {
 function AnulateLayout() {
     $("#BtnRestaurar").hide();
     if (Incident.ClosedOn !== null) {
+        $("#DivAnulateMessage").remove();
         var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
         message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Incident_AnulateMessageTile + "</h3>";
@@ -1428,6 +1430,7 @@ function AnulateLayout() {
         $("#home").append(message);
         $("#BtnAnular").hide();
         $("#BtnRestaurar").show();
+        $("#BtnSave").hide();
     }
     else {
         $("#DivAnulateMessage").hide();

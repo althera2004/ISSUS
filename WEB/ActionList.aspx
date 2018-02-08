@@ -78,7 +78,7 @@
                                         <tr>
                                             <td>&nbsp;</td>
                                             <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Source"] %>:</strong></td>
-                                            <td colspan="4">
+                                            <td colspan="2">
                                                 <select id="CmbOrigin">
                                                     <option value="-1"><%=this.Dictionary["Common_All_Female_Plural"] %></option>
                                                     <option value="1"><%=this.Dictionary["Item_IncidentAction_Origin1"] %></option>
@@ -87,10 +87,19 @@
                                                     <option value="4"><%=this.Dictionary["Item_IncidentAction_Origin4"] %></option>
                                                 </select>  
                                             </td>
+                                            <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %>:</strong></td>
+                                            <td colspan="2">
+                                                <select id="CmbReporter">
+                                                    <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>
+                                                    <option value="1"><%=this.Dictionary["Item_IncidentAction_ReporterType1"] %></option>
+                                                    <option value="2"><%=this.Dictionary["Item_IncidentAction_ReporterType2"] %></option>
+                                                    <option value="3"><%=this.Dictionary["Item_IncidentAction_ReporterType3"] %></option>
+                                                </select>  
+                                            </td>
                                             <td>
-                                                <button class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
-                                                <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%= this.Dictionary["Common_All_Male_Plural"] %></button>
-                                                <button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i><%= this.Dictionary["Common_None_Male"] %></button>
+                                                <button class="btn btn-success" style="width:100px;" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
+                                                <button class="btn btn-success" style="width:100px;" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%= this.Dictionary["Common_All_Male_Plural"] %></button>
+                                                <button class="btn btn-success" style="width:100px;display:none;" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%= this.Dictionary["Common_None_Male"] %></button>
                                             </td>
                                         </tr>
                                     </table>
@@ -249,6 +258,7 @@
             document.getElementById('RType2').checked = false;
             document.getElementById('RType3').checked = false;
             document.getElementById('CmbOrigin').value = -1;
+            document.getElementById('CmbReporter').value = 0;
             VoidTable('ListDataTable');
         }
 
@@ -266,6 +276,7 @@
             document.getElementById('RType2').checked = true;
             document.getElementById('RType3').checked = true;
             document.getElementById('CmbOrigin').value = -1;
+            document.getElementById('CmbReporter').value = 0;
             IncidentActionGetFilter();
         }
 

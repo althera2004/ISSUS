@@ -5,9 +5,7 @@
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item.Binding
 {
-    /// <summary>
-    /// Implements a class that publish index of stored procedure ColumsGetSkillByEmployee columns result
-    /// </summary>
+    /// <summary>Implements a class that publish index of stored procedure ColumsGetSkillByEmployee columns result</summary>
     public static class ColumnsGetSkillByEmployee
     {
         /// <summary>Index of Id column</summary>

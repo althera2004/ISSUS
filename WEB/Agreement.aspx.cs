@@ -98,7 +98,7 @@ public partial class Agreement : Page
         string language = this.Company.Language;
 
         // Se genera el path completo de la plantilla del idioma en concreto
-        path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement-{1}.tpl", path, language);
+        path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_{1}.tpl", path, language);
 
         // Si no existiera la plantilla se genera el path completo de la plantilla sin traducir
         if(!File.Exists(path))
@@ -179,16 +179,25 @@ public partial class Agreement : Page
 
         pdfDoc.Open();
 
-        string templatePath = HttpContext.Current.Request.PhysicalApplicationPath;
-        if (!templatePath.EndsWith("\\", StringComparison.OrdinalIgnoreCase))
+        if (!path.EndsWith("\\", StringComparison.OrdinalIgnoreCase))
         {
-            templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\", templatePath);
+            path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement.tpl", templatePath);
+        // Se extrae el lenguage por defecto de la empresa
+        string language = company.Language;
+
+        // Se genera el path completo de la plantilla del idioma en concreto
+        var templatepath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_{1}.tpl", path, language);
+
+        // Si no existiera la plantilla se genera el path completo de la plantilla sin traducir
+        if (!File.Exists(path))
+        {
+            templatepath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement.tpl", path);
+        }
 
         string text = string.Empty;
-        using (StreamReader rdr = new StreamReader(templatePath))
+        using (StreamReader rdr = new StreamReader(templatepath))
         {
             text = rdr.ReadToEnd();
         }
@@ -208,10 +217,10 @@ public partial class Agreement : Page
         pdfDoc.Open();
         pdfDoc.CloseDocument();
 
-        using(StreamWriter fileText = new StreamWriter(fileName.Replace(".pdf",".txt")))
+        /*using(StreamWriter fileText = new StreamWriter(path + fileName.Replace(".pdf",".txt")))
         {
             fileText.Write(HttpContext.Current.Request.ToString());
-        }
+        }*/
 
         using(SqlCommand cmd = new SqlCommand("UPDATE Company SET Agreement = 1 WHERE Id = " + company.Id.ToString()))
         {

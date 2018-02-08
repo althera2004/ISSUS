@@ -43,8 +43,9 @@
                                             <table class="table table-bordered table-striped">
                                                         <thead class="thin-border-bottom">
                                                             <tr id="ListDataHeader">
-                                                                <th onclick="Sort(this,'ListDataTable');" id="th0" class="sort search" style="width:200px;cursor:pointer;"><%=this.Dictionary["Item_Learning_ListHeader_Course"] %></th>
-                                                                <th><%=this.Dictionary["Item_Learning_ListHeader_Assistants"] %></th>
+                                                                <th onclick="Sort(this,'ListDataTable');" id="th0" class="sort search" style="cursor:pointer;"><%=this.Dictionary["Item_Learning_ListHeader_Course"] %></th>
+                                                                <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_DateComplete"] %></th>
+                                                                <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_Status"] %></th>
                                                                 <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_EstimatedDate"] %></th>
                                                                 <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_Cost"] %></th>
                                                                 <th class="hidden-480" style="width:90px !important;">&nbsp;</th>

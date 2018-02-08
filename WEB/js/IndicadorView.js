@@ -514,6 +514,9 @@ function IndicadorRegistroFilter(exportType) {
 }
 
 function IndicadorRegistroAll() {
+    $("#TxtRecordsFromDate").val("");
+    $("#TxtRecordsToDate").val("");
+    IndicadorRegistroFilter();
     $("#BtnRecordShowAll").hide();
     $("#BtnRecordShowNone").show();
     $("#IndicadorRegistrosTable").show();

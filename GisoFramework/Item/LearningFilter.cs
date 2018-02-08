@@ -15,14 +15,10 @@ namespace GisoFramework.Item
     using System.Globalization;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements LearningFilter class
-    /// </summary>
+    /// <summary>Implements LearningFilter class</summary>
     public class LearningFilter
     {
-        /// <summary>
-        /// Initializes a new instance of the LearningFilter class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the LearningFilter class.</summary>
         /// <param name="companyId">Compnay identifier</param>
         public LearningFilter(int companyId)
         {
@@ -32,29 +28,19 @@ namespace GisoFramework.Item
             this.YearTo = DateTime.Now.Year;
         }
 
-        /// <summary>
-        /// Gets or sets compnay identifier
-        /// </summary>
+        /// <summary>Gets or sets compnay identifier.</summary>
         public int CompanyId { get; set; }
 
-        /// <summary>
-        /// Gets or sets year of start period
-        /// </summary>
+        /// <summary>Gets or sets year of start period</summary>
         public int? YearFrom { get; set; }
 
-        /// <summary>
-        /// Gets or sets year of finish period
-        /// </summary>
+        /// <summary>Gets or sets year of finish period</summary>
         public int? YearTo { get; set; }
 
-        /// <summary>
-        /// Gets or sets the mode of searched learnings
-        /// </summary>
+        /// <summary>Gets or sets the mode of searched learnings</summary>
         public int Mode { get; set; }
 
-        /// <summary>
-        /// Gets a JSON structure of learning filter
-        /// </summary>
+        /// <summary>Gets a JSON structure of learning filter</summary>
         public string Json
         {
             get
@@ -64,12 +50,12 @@ namespace GisoFramework.Item
 
                 if (this.YearFrom.HasValue)
                 {
-                    yearFromText = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:0000}", this.YearFrom.Value);
+                    yearFromText = string.Format(CultureInfo.InvariantCulture, "{0:0000}", this.YearFrom.Value);
                 }
 
                 if (this.YearTo.HasValue)
                 {
-                    yearToText = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:0000}", this.YearTo.Value);
+                    yearToText = string.Format(CultureInfo.InvariantCulture, "{0:0000}", this.YearTo.Value);
                 }
 
                 string pattern = @"{{
@@ -80,7 +66,7 @@ namespace GisoFramework.Item
                     }}";
 
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     yearFromText,
                     yearToText,
@@ -89,9 +75,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Obtain compnay's learning by filter
-        /// </summary>
+        /// <summary>Obtain compnay's learning by filter</summary>
         /// <returns>List of learnings</returns>
         public ReadOnlyCollection<Learning> Filter()
         {
@@ -136,7 +120,7 @@ namespace GisoFramework.Item
                     SqlDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        res.Add(new Learning()
+                        Learning data = new Learning()
                         {
                             Id = rdr.GetInt32(ColumnsLearningFilter.Id),
                             Description = rdr.GetString(ColumnsLearningFilter.CourseName),
@@ -144,7 +128,13 @@ namespace GisoFramework.Item
                             Amount = rdr.GetDecimal(ColumnsLearningFilter.Ammount),
                             CompanyId = this.CompanyId,
                             Status = rdr.GetInt32(ColumnsLearningFilter.Status)
-                        });
+                        };
+
+                        if (!rdr.IsDBNull(ColumnsLearningFilter.FinishDate)){
+                            data.RealFinish = rdr.GetDateTime(ColumnsLearningFilter.FinishDate);
+                        }
+
+                        res.Add(data);
                     }
                 }
                 finally

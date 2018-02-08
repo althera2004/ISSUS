@@ -588,6 +588,7 @@ function Export(fileType) {
 }
 
 function ObjetivoRegistroAll() {
+    ObjetivoRegistroFilter();
     $("#BtnRecordShowAll").hide();
     $("#BtnRecordShowNone").show();
     $("#ObjetivoRegistrosTable").show();
