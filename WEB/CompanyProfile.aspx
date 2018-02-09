@@ -7,6 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
         scaleImages = true;
+        //HOLA SOY CRISTINA
         var addresses= <%=this.Addresses %>;
         var addressSelected = <%=this.DefaultAddressId %>;
         var ddData = [<%=this.CountryData %>];
