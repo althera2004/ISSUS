@@ -39,12 +39,12 @@
                                     <div class="tab-content no-border padding-24">
                                         <div id="home" class="tab-pane active">
                                             <div class="form-group">
-                                                <label class="col-sm-1 control-label no-padding-right" id="TxtNameLabel"><%=this.Dictionary["Item_CompanyProfile_FieldLabel_Name"] %></label>
+                                                <label class="col-sm-1 control-label no-padding-right" id="TxtNameLabel"><%=this.Dictionary["Item_CompanyProfile_FieldLabel_Name"] %><span style="color:#f00">*</span></label>
                                                 <div class="col-sm-7">
                                                     <input type="text" id="TxtName" placeholder="Item_CompanyProfile_FieldLabel_Name" class="col-xs-12 col-sm-12 tooltip-info" data-rel="tooltip" value="<%=this.Company.Name %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
                                                     <span class="ErrorMessage" id="TxtNameErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"]%></span>
                                                 </div>
-                                                <label class="col-sm-1 control-label no-padding-right" id="TxtNifLabel"><%=this.Dictionary["Item_CompanyProfile_FieldLabel_Nif"] %></label>
+                                                <label class="col-sm-1 control-label no-padding-right" id="TxtNifLabel"><%=this.Dictionary["Item_CompanyProfile_FieldLabel_Nif"] %><span style="color:#f00">*</span></label>
                                                 <div class="col-sm-3">
                                                     <input type="text" id="TxtNif" placeholder="Item_CompanyProfile_FieldLabel_Name" class="col-xs-12 col-sm-12 tooltip-info" data-rel="tooltip" value="<%=this.Company.FiscalNumber %>" maxlength="15" onblur="this.value=$.trim(this.value);this.value = this.value.toUpperCase();" />
                                                     <span class="ErrorMessage" id="TxtNifErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"]%></span>

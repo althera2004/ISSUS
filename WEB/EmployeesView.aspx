@@ -85,7 +85,7 @@
                                                                     <input type="text" id="TxtTelefono" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Phone"] %>" value="<%=this.Employee.Phone %>" class="col-xs-12 col-sm-12" onkeypress="validate(event)" maxlength="15" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
                                                                     <span class="ErrorMessage" id="TxtTelefonoErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
-                                                                <label id="TxtEmailLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Email"]%></label>
+                                                                <label id="TxtEmailLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Email"]%><span style="color:#f00">*</span></label>
                                                                 <div class="col-sm-7">
                                                                     <input type="text" id="TxtEmail" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Email"] %>" value="<%=this.Employee.Email %>" class="col-xs-12 col-sm-12" maxlength="50" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
                                                                     <span class="ErrorMessage" id="TxtEmailErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
