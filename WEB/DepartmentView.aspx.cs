@@ -46,7 +46,7 @@ public partial class DepartmentView : Page
                 Name = "TxtName",
                 Value = this.department.Description,
                 ColumnSpan = 11,
-                Placeholder = this.dictionary["Common_Name"],
+                Placeholder = this.dictionary["Item_Department"],
                 Required = true,
                 RequiredMessage = this.dictionary["Common_Required"],
                 Duplicated = true,

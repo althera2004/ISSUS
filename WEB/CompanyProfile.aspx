@@ -54,7 +54,7 @@
 
                                             <div class="space-4"></div>
                                             <div class="form-group">
-                                                <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_CompanyData_FieldLabel_Address"] %></label>
+                                                <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_CompanyData_FieldLabel_Address"] %><span style="color:#f00">*</span></label>
                                                 <div class="col-sm-10" id="DivCmbAddress" style="height: 35px !important;">
                                                     <select id="CmbAddress" class="col-xs-12 col-sm-12 tooltip-info" onchange="CmbAddressChanged();"></select>
                                                     <input style="display: none;" readonly="readonly" type="text" id="TxtDireccion" placeholder="<%=this.Dictionary["Item_CompanyData_FieldLabel_Address"] %>" class="col-xs-12 col-sm-12" value="<%=this.CompanyDefaultAddress.Address %>" />
@@ -272,7 +272,7 @@
                             <div id="dialogAddAddress" class="hide" style="width:800px;">
                                 <form class="form-horizontal" role="form" id="FormNewAddressDialog">                                    
                                     <div class="form-group">
-                                        <label id ="TxtNewAddressLabel" class="col-sm-2 control-label no-padding-right" for="TxtNewAddress"><%=this.Dictionary["Item_CompanyAddress_FieldLabel_Address"] %></label>
+                                        <label id ="TxtNewAddressLabel" class="col-sm-2 control-label no-padding-right" for="TxtNewAddress"><%=this.Dictionary["Item_CompanyAddress_FieldLabel_Address"] %><span style="color:#f00">*</span></label>
                                         <div class="col-sm-9">
                                             <input type="text" class="col-xs-12 col-sm-12" id="TxtNewAddress" placeholder="<%=this.Dictionary["Item_CompanyAddress_FieldLabel_Address"] %>" value="" maxlength="100" onblur="this.value=$.trim(this.value);" />
                                             <span class="ErrorMessage" id="TxtNewAddressErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
@@ -280,12 +280,12 @@
                                     </div>
                                     <div class="space-4"></div>                                    
                                     <div class="form-group">
-                                        <label id="TxtNewAddressPostalCodeLabel" class="col-sm-2 control-label no-padding-right" for="TxtNewAddressPostalCode"><%=this.Dictionary["Item_CompanyAddress_FieldLabel_PostalCode"] %></label>
+                                        <label id="TxtNewAddressPostalCodeLabel" class="col-sm-2 control-label no-padding-right" for="TxtNewAddressPostalCode"><%=this.Dictionary["Item_CompanyAddress_FieldLabel_PostalCode"] %><span style="color:#f00">*</span></label>
                                         <div class="col-sm-3">
                                             <input  type="text" class="col-xs-12 col-sm-12" id="TxtNewAddressPostalCode" placeholder="<%=this.Dictionary["Item_CompanyAddress_FieldLabel_PostalCode"] %>" value="" maxlength="10" onblur="this.value=$.trim(this.value);" />
                                             <span class="ErrorMessage" id="TxtNewAddressPostalCodeErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
-                                        <label id="TxtNewAddressCityLabel" class="col-sm-1 control-label no-padding-right" for="TxtNewAddressCity"><%=this.Dictionary["Item_CompanyAddress_FieldLabel_City"] %></label>
+                                        <label id="TxtNewAddressCityLabel" class="col-sm-1 control-label no-padding-right" for="TxtNewAddressCity"><%=this.Dictionary["Item_CompanyAddress_FieldLabel_City"] %><span style="color:#f00">*</span></label>
                                         <div class="col-sm-5">
                                             <input type="text" class="col-xs-12 col-sm-12" id="TxtNewAddressCity" placeholder="<%=this.Dictionary["Item_CompanyAddress_FieldLabel_City"] %>" value="" maxlength="50" onblur="this.value=$.trim(this.value);" />
                                             <span class="ErrorMessage" id="TxtNewAddressCityErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
@@ -293,7 +293,7 @@
                                     </div>
                                     <div class="space-4"></div>                                    
                                     <div class="form-group">
-                                        <label id="TxtNewAddressProvinceLabel" class="col-sm-2 control-label no-padding-right" for="TxtNewAddressProvince"><%=this.Dictionary["Item_CompanyAddress_FieldLabel_Province"] %></label>
+                                        <label id="TxtNewAddressProvinceLabel" class="col-sm-2 control-label no-padding-right" for="TxtNewAddressProvince"><%=this.Dictionary["Item_CompanyAddress_FieldLabel_Province"] %><span style="color:#f00">*</span></label>
                                         <div class="col-sm-3">
                                             <input type="text" class="col-xs-12 col-sm-12" id="TxtNewAddressProvince" placeholder="<%=this.Dictionary["Item_CompanyAddress_FieldLabel_Province"] %>" value="" maxlength="50" onblur="this.value=$.trim(this.value);" />
                                             <span class="ErrorMessage" id="TxtNewAddressProvinceErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
@@ -307,7 +307,7 @@
                                     </div>
                                     <div class="space-4"></div>                                    
                                     <div class="form-group">
-                                        <label id="TxtNewAddressPhoneLabel" class="col-sm-2 control-label no-padding-right" for="TxtNewAddressPhone"><%=this.Dictionary["Item_CompanyData_FieldLabel_Phone"] %></label>
+                                        <label id="TxtNewAddressPhoneLabel" class="col-sm-2 control-label no-padding-right" for="TxtNewAddressPhone"><%=this.Dictionary["Item_CompanyData_FieldLabel_Phone"] %><span style="color:#f00">*</span></label>
                                         <div class="col-sm-3">
                                             <input type="text" class="col-xs-12 col-sm-12" placeholder="<%=this.Dictionary["Item_CompanyData_FieldLabel_Phone"] %>" id="TxtNewAddressPhone" value="" onkeypress="validate(event)" maxlength="15" onblur="this.value=$.trim(this.value);" />
                                             <span class="ErrorMessage" id="TxtNewAddressPhoneErrorRequired" style="display:none;"><%=this.Dictionary["Item_CompanyData_Error_Message_PhoneOrCellular"]%></span>
@@ -319,12 +319,12 @@
                                     </div>
                                     <div class="space-4"></div>                                    
                                     <div class="form-group">
-                                        <label id="TxtNewAddressMobileLabel" class="col-sm-2 control-label no-padding-right" for="TxtNewAddressMobile"><%=this.Dictionary["Item_CompanyAddress_FieldLabel_Cellular"] %></label>
+                                        <label id="TxtNewAddressMobileLabel" class="col-sm-2 control-label no-padding-right" for="TxtNewAddressMobile"><%=this.Dictionary["Item_CompanyAddress_FieldLabel_Cellular"] %><span style="color:#f00">*</span></label>
                                         <div class="col-sm-3">
                                             <input type="text" class="col-xs-12 col-sm-12" id="TxtNewAddressMobile" placeholder="<%=this.Dictionary["Item_CompanyAddress_FieldLabel_Cellular"] %>" value="" onkeypress="validate(event)" maxlength="15" onblur="this.value=$.trim(this.value);" />
                                             <span class="ErrorMessage" id="TxtNewAddressMobileErrorRequired" style="display:none;"><%=this.Dictionary["Item_CompanyData_Error_Message_PhoneOrCellular"]%></span>
                                         </div>
-                                        <label id="TxtNewAddressEmailLabel" class="col-sm-1 control-label no-padding-right" for="TxtNewAddressEmail"><%=this.Dictionary["Item_CompanyData_FieldLabel_Email"] %></label>
+                                        <label id="TxtNewAddressEmailLabel" class="col-sm-1 control-label no-padding-right" for="TxtNewAddressEmail"><%=this.Dictionary["Item_CompanyData_FieldLabel_Email"] %><span style="color:#f00">*</span></label>
                                         <div class="col-sm-5">
                                             <input type="text" class="col-xs-12 col-sm-12" id="TxtNewAddressEmail" placeholder="<%=this.Dictionary["Item_CompanyData_FieldLabel_Email"] %>" value="" maxlength="50" onblur="this.value=$.trim(this.value);" />
                                             <span class="ErrorMessage" id="TxtNewAddressEmailErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>

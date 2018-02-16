@@ -216,8 +216,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="for-group">
-                                                            <label class="col-sm-5"><%=this.Dictionary["Item_Employee_FieldLabel_Academic_Desired"]%></label>
-                                                            <label class="col-sm-7"><%=this.Dictionary["Item_Employee_FieldLabel_Academic_Real"]%></label>
+                                                            <label class="col-sm-5"><%=this.Dictionary["Item_Employee_FieldLabel_Especific_Desired"]%></label>
+                                                            <label class="col-sm-7"><%=this.Dictionary["Item_Employee_FieldLabel_Especific_Real"]%></label>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionSpecific"><%=this.JobPositionSpecific %></textarea></div>

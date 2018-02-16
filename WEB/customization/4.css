@@ -1,5 +1,5 @@
 html{min-height:100%;position:relative}
-body{padding-bottom:0;background-color:#e4e6e9;min-height:100%;font-family:'Open Sans';font-size:13px;color:#393939;line-height:1.5}
+body {padding-bottom: 0;background-color: #e4e6e9; min-height: 100%; font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 13px; color: #393939; line-height: 1.5;}
 body.navbar-fixed{padding-top:45px}
 body.breadcrumbs-fixed{padding-top:86px}
 .main-container{position:static;padding:0}
