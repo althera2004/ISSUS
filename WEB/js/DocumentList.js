@@ -119,28 +119,59 @@ function Resize() {
     var listTable = document.getElementById("ListDataDiv");
     var listTableInactive = document.getElementById("ListDataDivInactive");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 370) + "px";
+    listTable.style.height = (containerHeight - 380) + "px";
 }
 
 window.onload = function () {
     Resize();
     if (Filter.indexOf("A") !== -1) { document.getElementById("Chk1").checked = true; }
     if (Filter.indexOf("I") !== -1) { document.getElementById("Chk2").checked = true; }
+	var parts = Filter.split('|');
+	console.log(parts);
+    FillComboCategorias();
+	if(parts.length > 2){
+		console.log(parts[1], parts[2]);
+		$("#CmbCategory").val(parts[1]*1);
+		$("#CmbOrigin").val(parts[2]*1);
+	}
+	
+	
     RenderDocumentTable();
+	$("#CmbCategory").on("change", FilterChanged);
+	$("#CmbOrigin").on("change", FilterChanged);
     $("#th0").click();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
 }
 
 window.onresize = function () { Resize(); }
 
+function FillComboCategorias() {
+    for (var x = 0; x < categories.length; x++) {
+        var option = document.createElement("OPTION");
+        option.value = categories[x].Id;
+        option.appendChild(document.createTextNode(categories[x].Description));
+		document.getElementById("CmbCategory").appendChild(option);
+    }
+}
+
 function RenderDocumentTable() {
     $("#ListDataTable").html("");
     var res = "";
     var count = 0;
+	var categorySelected = $("#CmbCategory").val()*1;
+	var originSelected = $("#CmbOrigin").val()*1;
     for (var x = 0; x < documents.length; x++) {
         var show = false;
         if (documents[x].Baja === false && Filter.indexOf("A") !== -1) { show = true; }
         if (documents[x].Baja === true && Filter.indexOf("I") !== -1) { show = true; }
+		
+		if(originSelected === 0 && documents[x].Origin.Id > 0) { show = false; }
+		if(originSelected === 1 && documents[x].Origin.Id === 0) { show = false; }
+		
+		if(categorySelected > 0){
+			if(documents[x].Category.Id !== categorySelected){ show = false; }
+		}
+		
         if (show === true) {
             res += RenderDocumentRow(documents[x]);
             count++;
@@ -148,7 +179,6 @@ function RenderDocumentTable() {
     }
 
     $("#TotalRecords").html(count);
-
 
     if (listOrder === null) {
         listOrder = "th0|ASC";
@@ -170,11 +200,13 @@ function RenderDocumentRow(data) {
         iconEditChar = "eye-open";
     }
 
-
     var tr = document.createElement("TR");
     var tdName = document.createElement("TD");
     var tdCode = document.createElement("TD");
     var tdRevision = document.createElement("TD");
+    var tdCategory = document.createElement("TD");
+    var tdOrigin = document.createElement("TD");
+    var tdLocation = document.createElement("TD");
     var tdActions = document.createElement("TD");
 
     if (data.Baja === true) {
@@ -194,6 +226,9 @@ function RenderDocumentRow(data) {
 
     tdCode.appendChild(document.createTextNode(data.Code));
     tdRevision.appendChild(document.createTextNode(data.LastVersion));
+    tdCategory.appendChild(document.createTextNode(data.Category.Description));
+    tdOrigin.appendChild(document.createTextNode(data.Origin.Id === 0 ? Dictionary.Common_Internal : Dictionary.Common_External));
+    tdLocation.appendChild(document.createTextNode(data.Location));
 
     var buttonEdit = document.createElement("SPAN");
     buttonEdit.id = data.Id;
@@ -220,36 +255,22 @@ function RenderDocumentRow(data) {
     }
 
     tdCode.style.width = "110px";
-    tdRevision.style.width = "110px";
+    tdRevision.style.width = "50px";
+	tdRevision.align = "right";
+    tdCategory.style.width = "180px";
+    tdOrigin.style.width = "110px";
+    tdLocation.style.width = "180px";
     tdActions.style.width = "90px";
 
     var target = document.getElementById("ListDataTable");
     tr.appendChild(tdName);
     tr.appendChild(tdCode);
+    tr.appendChild(tdCategory);
+    tr.appendChild(tdOrigin);
+    tr.appendChild(tdLocation);
     tr.appendChild(tdRevision);
     tr.appendChild(tdActions);
     target.appendChild(tr);
-
-
-   /* var res = "<tr" + style + ">";
-    res += "    <td>";
-    res += "        <a href=\"DocumentView.aspx?id=" + document.Id + "\" title=\"" + Dictionary.Common_Edit + " " + document.Description + "\">" + document.Description + "</a>";
-    res += "    </td>";
-    res += "    <td class=\"hidden-480\" style=\"width:110px;\">" + document.Code + "</td>";
-    res += "    <td class=\"hidden-480\" align=\"right\" style=\"width: 110px; \">" + document.LastVersion + "</td>";
-    res += "    <td style=\"width:90px;\">";
-    res += "        <span title=\"" + Dictionary.Common_Edit + " '" + document.Description + "'\" class=\"btn btn-xs btn-info\" onclick=\"DocumentUpdate(" + document.Id + ", '" + document.Description + "'); \">";
-    res += "            <i class=\"icon-eye-" + iconEdit + " bigger-120\"></i>";
-    res += "       </span >&nbsp;";
-    if (user.Grants["Employee"].Delete === true) {
-        res += "       <span title=\"" + Dictionary.Common_Delete + " '" + document.Description + "'\" class=\"btn btn-xs btn-danger\" onclick=\"DocumentDelete(" + document.Id + ", '" + document.Description + "'); \">";
-        res += "            <i class=\"icon-trash bigger-120\"></i>";
-        res += "        </span>";
-    }
-    res += "    </td>";
-    res += "</tr>";
-
-    return res;*/
 }
 
 function Export(fileType) {
@@ -297,6 +318,9 @@ function SetFilter() {
     Filter = "";
     if (document.getElementById("Chk1").checked === true) { Filter += "A"; }
     if (document.getElementById("Chk2").checked === true) { Filter += "I"; }
+	Filter += "|" + $("#CmbCategory").val();
+	Filter += "|" + $("#CmbOrigin").val();
+	
 
     var webMethod = "/Async/DocumentActions.asmx/SetFilter";
     var data = { "filter": Filter };

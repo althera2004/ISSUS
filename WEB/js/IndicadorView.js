@@ -106,7 +106,7 @@ function CmbProcessChanged() {
 function Resize() {
     var listTable = document.getElementById('ListDataDiv');
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 470) + 'px';
+    listTable.style.height = (containerHeight - 480) + 'px';
 }
 
 function IndicadorTypeLayout() {
@@ -214,7 +214,12 @@ function Save() {
                 alertUI(response.d.MessageError);
             }
             else {
-                document.location = referrer;
+				if(IndicadorId < 0){
+					document.location = "IndicadorView.aspx?id=" + response.d.MessageError;
+				}
+				else {
+					document.location = referrer;
+				}
             }
         },
         "error": function (jqXHR, textStatus, errorThrown) {
@@ -481,6 +486,8 @@ function IndicadorRegistroFilter(exportType) {
             selectedRegistros.push(Registros[x]);
         }
     }
+
+    $("#NumberCosts").html(count);
 
     if (count === 0) {
         $("#IndicadorRegistrosTable").hide();
@@ -1154,6 +1161,7 @@ function UnitSave() {
         return false;
     }
 
+    var webMethod = "/Async/UnidadActions.asmx/Update";
     data = {
         "unidadId": UnitSelected,
         "description": description,
@@ -1164,6 +1172,7 @@ function UnitSave() {
     if (UnitSelected < 0) {
         webMethod = "/Async/UnidadActions.asmx/Insert";
         var data = {
+            "unidadId": -1,
             "description": $("#TxtUnitsNewName").val(),
             "companyId": Company.Id,
             "userId": ApplicationUser.Id
@@ -1174,7 +1183,7 @@ function UnitSave() {
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
-        "url": "/Async/UnidadActions.asmx/Update",
+        "url": webMethod,
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),

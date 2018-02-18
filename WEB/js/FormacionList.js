@@ -36,20 +36,12 @@ function selectRow(sender) {
 }
 
 function Go(param, value) {
-    var yearFrom = document.getElementById("CmbYearFrom").value;
-    var yearTo = document.getElementById("CmbYearTo").value;
+    var yearFrom = $("#TxtDateFrom").val();
+    var yearTo =$("#TxtDateTo").val();
     var mode = 3;
     if (document.getElementById("Contentholder1_status0").checked) mode = 0;
     if (document.getElementById("Contentholder1_status1").checked) mode = 1;
     if (document.getElementById("Contentholder1_status2").checked) mode = 2;
-    if (yearTo > 0) {
-        if (yearFrom > yearTo) {
-            alert("El año de origen no puede ser superior al año final");
-            window.scrollTo(0, 0);
-            return false;
-        }
-    }
-
     document.location = "FormacionList.aspx?mode=" + mode + "&yearFrom=" + yearFrom + "&yearTo=" + yearTo;
 }
 
@@ -273,4 +265,36 @@ window.onload = function () {
     $(".page-header .col-sm-4").addClass("col-sm-6");
     $(".page-header .col-sm-4").removeClass("col-sm-4");
     $("#th0").click();
+	var options = $.extend({}, $.datepicker.regional[userLanguage], { autoclose: true, todayHighlight: true });
+    $(".date-picker").datepicker(options);
+	
+	$("#TxtDateFrom").val(dateFrom);
+	$("#TxtDateTo").val(dateTo);
+	
+	$("#TxtDateFrom").on("change", DateChange);
+	$("#TxtDateTo").on("change", DateChange);
 };
+
+function DateChange(){
+	$("#TxtDateFromErrorDateRange").hide();
+	$("#TxtDateToErrorDateRange").hide();
+	document.getElementById("TxtDateFromLabel").style.color="#000";
+	document.getElementById("TxtDateToLabel").style.color="#000";
+	var dateFrom = GetDate($("#TxtDateFrom").val(),"/", false);
+	var dateTo = GetDate($("#TxtDateTo").val(),"/", false);
+	console.log(dateFrom, dateTo);
+	
+	var ok = true;
+	
+	if($("#TxtDateFrom").val() !== "" && $("#TxtDateTo").val() !== ""){
+		if(dateFrom > dateTo){
+			document.getElementById("TxtDateFromLabel").style.color="#f00";
+			document.getElementById("TxtDateToLabel").style.color="#f00";
+			$("#TxtDateFromErrorDateRange").show();
+			$("#TxtDateToErrorDateRange").show();
+			ok = false;
+		}
+	}
+	
+	Go();
+}

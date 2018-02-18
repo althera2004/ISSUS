@@ -28,12 +28,23 @@ public partial class FormacionList : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
+    public string DateFrom { get; private set; }
+    public string DateTo { get; private set; }
+
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
         {
             return Guid.NewGuid().ToString();
+        }
+    }
+
+    public string UserLanguage
+    {
+        get
+        {
+            return this.user.Language;
         }
     }
 
@@ -78,20 +89,19 @@ public partial class FormacionList : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
-        int? yearFrom = null;
-        int? yearTo = null;
+        DateTime? yearFrom = null;
+        DateTime? yearTo = null;
         int mode = 3;
 
         if (this.Request.QueryString["yearfrom"] != null)
         {
             if (this.Request.QueryString["yearfrom"].ToString() != "0")
             {
-                yearFrom = Convert.ToInt32(this.Request.QueryString["yearfrom"], CultureInfo.GetCultureInfo("en-us"));
+                yearFrom = GisoFramework.Tools.TextToDate(this.Request.QueryString["yearfrom"].ToString());
+                DateFrom = this.Request.QueryString["yearfrom"].ToString();
             }
         }
 
@@ -99,7 +109,8 @@ public partial class FormacionList : Page
         {
             if (this.Request.QueryString["yearto"].ToString() != "0")
             {
-                yearTo = Convert.ToInt32(this.Request.QueryString["yearto"], CultureInfo.GetCultureInfo("en-us"));
+                yearTo = GisoFramework.Tools.TextToDate(this.Request.QueryString["yearto"].ToString());
+                DateTo = this.Request.QueryString["yearto"].ToString();
             }
         }
 
@@ -110,37 +121,6 @@ public partial class FormacionList : Page
 
         this.user = (ApplicationUser)Session["User"];
         this.company = (Company)Session["company"];
-
-        // Establecer años
-        string selectedFrom = yearFrom.HasValue ? string.Empty : " selected=\"selected\"";
-        string selectedTo = yearTo.HasValue ? string.Empty : " selected=\"selected\"";
-        this.LtYearFrom.Text = string.Format(@"<option value=""0""{0}>-</option>", selectedFrom);
-        this.LtYearTo.Text = string.Format(@"<option value=""0""{0}>-</option>", selectedTo);
-
-        for (int x = 2007; x < DateTime.Now.Year + 3; x++)
-        {
-            selectedFrom = string.Empty;
-            selectedTo = string.Empty;
-
-            if (yearFrom.HasValue)
-            {
-                if (x == yearFrom.Value)
-                {
-                    selectedFrom = " selected=\"selected\"";
-                }
-            }
-
-            if (yearTo.HasValue)
-            {
-                if (x == yearTo.Value)
-                {
-                    selectedTo = " selected=\"selected\"";
-                }
-            }
-
-            this.LtYearFrom.Text += string.Format(@"<option value=""{0}""{1}>{0}</option>", x, selectedFrom);
-            this.LtYearTo.Text += string.Format(@"<option value=""{0}""{1}>{0}</option>", x, selectedTo);
-        }
 
         switch (mode)
         {

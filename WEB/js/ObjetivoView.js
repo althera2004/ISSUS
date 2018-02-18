@@ -520,6 +520,8 @@ function ObjetivoRegistroFilter(exportType) {
         }
     }
 
+    $("#NumberCosts").html(count);
+
     if (listOrder === null) {
         listOrder = "th2|DESC";
     }

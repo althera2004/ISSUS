@@ -273,17 +273,7 @@ public partial class UserView : Page
 
         if (this.userItemId > 0)
         {
-            //try
-            //{
-                this.userItem = ApplicationUser.GetById(this.userItemId, this.company.Id);
-            //    this.Debug = string.Empty;
-            //}
-            //catch(Exception ex)
-            //{
-            //    this.userItem = ApplicationUser.Empty;
-            //    this.Debug = GisoFramework.Tools.JsonCompliant(ex.Message);
-            //}
-
+            this.userItem = ApplicationUser.GetById(this.userItemId, this.company.Id);
             this.master.TitleInvariant = true;
             this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_User"], this.userItem.UserName);
 
@@ -310,6 +300,9 @@ public partial class UserView : Page
             }
 
             this.LtGrantList.Text = res.ToString();
+
+            this.LtIdiomas.Text = "<option value=\"es\"" + (this.userItem.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
+            this.LtIdiomas.Text += "<option value=\"ca\"" + (this.userItem.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
         }
         else
         {
@@ -335,7 +328,8 @@ public partial class UserView : Page
                 this.Grants.InnerText = grants;
             }
 
-            this.LtGrantList.Text = res.ToString();
+            this.LtGrantList.Text = res.ToString(); this.LtIdiomas.Text = "<option value=\"es\"" + (this.company.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
+            this.LtIdiomas.Text += "<option value=\"ca\"" + (this.company.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
         }
 
         this.companyUserNames = new StringBuilder();

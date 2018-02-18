@@ -349,7 +349,7 @@ public partial class Export_IndicadorExport : Page
             if (targetId.HasValue)
             {
                 Objetivo o = Objetivo.GetById(targetId.Value, companyId);
-                objetivoText = o.Description;
+                objetivoText = o.Name;
             }
 
             iTSpdf.PdfPCell criteriaProcess = new iTSpdf.PdfPCell(new iTS.Phrase(objetivoText, times))

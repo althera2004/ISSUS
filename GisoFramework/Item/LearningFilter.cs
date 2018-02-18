@@ -24,18 +24,18 @@ namespace GisoFramework.Item
         {
             this.CompanyId = companyId;
             this.Mode = 2;
-            this.YearFrom = DateTime.Now.Year;
-            this.YearTo = DateTime.Now.Year;
+            this.YearFrom = DateTime.Now;
+            this.YearTo = DateTime.Now;
         }
 
         /// <summary>Gets or sets compnay identifier.</summary>
         public int CompanyId { get; set; }
 
         /// <summary>Gets or sets year of start period</summary>
-        public int? YearFrom { get; set; }
+        public DateTime? YearFrom { get; set; }
 
         /// <summary>Gets or sets year of finish period</summary>
-        public int? YearTo { get; set; }
+        public DateTime? YearTo { get; set; }
 
         /// <summary>Gets or sets the mode of searched learnings</summary>
         public int Mode { get; set; }
@@ -50,12 +50,12 @@ namespace GisoFramework.Item
 
                 if (this.YearFrom.HasValue)
                 {
-                    yearFromText = string.Format(CultureInfo.InvariantCulture, "{0:0000}", this.YearFrom.Value);
+                    yearFromText = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.YearFrom.Value);
                 }
 
                 if (this.YearTo.HasValue)
                 {
-                    yearToText = string.Format(CultureInfo.InvariantCulture, "{0:0000}", this.YearTo.Value);
+                    yearToText = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.YearTo.Value);
                 }
 
                 string pattern = @"{{
@@ -91,8 +91,8 @@ namespace GisoFramework.Item
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@YearFrom", SqlDbType.Int);
-                    cmd.Parameters.Add("@YearTo", SqlDbType.Int);
+                    cmd.Parameters.Add("@YearFrom", SqlDbType.DateTime);
+                    cmd.Parameters.Add("@YearTo", SqlDbType.DateTime);
                     cmd.Parameters.Add("@Mode", SqlDbType.Int);
                     cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
 

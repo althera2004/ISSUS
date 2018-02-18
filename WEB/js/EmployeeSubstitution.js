@@ -1,12 +1,12 @@
-﻿var data = '';
+﻿var data = "";
 
 function RenderTable()
 {
-    VoidTable('TableEmployeeElements');
+    VoidTable("TableEmployeeElements");
     for(var x=0;x<asignations.length;x++)
     {
         RenderRow(asignations[x]);
-        data += asignations[x].AssignationType + '-' + asignations[x].ItemId + '|';
+        data += asignations[x].AssignationType + "-" + asignations[x].ItemId + "|";
     }
 }
 
@@ -70,8 +70,8 @@ function RenderCmbSubstitute(itemtype, itemid)
 }
 
 function ChangeAll() {
-    var value = document.getElementById('All').value;
-    var target = document.getElementById('TableEmployeeElements');
+    var value = document.getElementById("All").value;
+    var target = document.getElementById("TableEmployeeElements");
     for (var x = 0; x < target.childNodes.length; x++) {
         var row = target.childNodes[x];
         var select = row.lastChild.firstChild;
@@ -81,28 +81,26 @@ function ChangeAll() {
 
 function FillCmbAll()
 {
-    var target = document.getElementById('All');
-
-    var optionDefault = document.createElement('OPTION');
+    var target = document.getElementById("All");
+    var optionDefault = document.createElement("OPTION");
     optionDefault.value = 0;
     optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectOne));
     target.appendChild(optionDefault);
-
     for (var x = 0; x < Company.Employees.length; x++) {
         if (Company.Employees[x].Id !== employeeId && Company.Employees[x].Active === true && Company.Employees[x].DisabledDate === null) {
-            var option = document.createElement('OPTION');
+            var option = document.createElement("OPTION");
             option.value = Company.Employees[x].Id;
-            option.appendChild(document.createTextNode(Company.Employees[x].Name + ' ' + Company.Employees[x].LastName));
+            option.appendChild(document.createTextNode(Company.Employees[x].Name + " " + Company.Employees[x].LastName));
             target.appendChild(option);
         }
     }
 }
 
-$('#BtnSave').on('click', SaveEmployee);
-$('#BtnCancel').on('click', Cancel);
+$("#BtnSave").on("click", SaveEmployee);
+$("#BtnCancel").on("click", Cancel);
 
 function Cancel() {
-    var location = document.location + '';
+    var location = document.location + "";
     if (location.indexOf('&New=true') != -1) {
         
     }
@@ -114,7 +112,6 @@ function Cancel() {
 function SaveEmployee() {
     var ok = true;
     console.log("SaveEmployee");
-    
 
     var ok = true;
     var errorMessage = "";
@@ -161,24 +158,33 @@ function SaveEmployee() {
         "substitutions": $("#Subst").val()
     };
 
+	if(action === "delete"){
+		webMethod = "/Async/EmployeeActions.asmx/Substitute";
+		data = {
+			"employeeId": employeeId,
+			"companyId": companyId,
+			"reason": "",
+			"userId": user.Id
+		};
+	}
     console.log(data)
 
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
-                document.location = 'EmployeesList.aspx';
+                document.location = "EmployeesList.aspx";
             }
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }

@@ -24,6 +24,17 @@ namespace GisoFramework
         {
         }
 
+        public static DateTime? TextToDate(string text)
+        {
+            var parts = text.Split('/');
+            if(parts.Length == 3)
+            {
+                return DateTime.ParseExact(text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            }
+
+            return null;
+        }
+
         public static string PdfMoneyFormat(decimal value)
         {
             return string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", value).Replace(",", "*").Replace(".", ",").Replace("*", ".");

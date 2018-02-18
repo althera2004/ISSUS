@@ -209,17 +209,17 @@ public partial class Export_FormacionExportList : Page
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_EstimatedDate"].ToUpperInvariant(), headerFontFinal));
         int cont = 0;
 
-        int? yFrom=null;
-        int? yTo=null;
+        DateTime? yFrom=null;
+        DateTime? yTo=null;
 
         if (!string.IsNullOrEmpty(yearFrom) && yearFrom !="0")
         {
-            yFrom = Convert.ToInt32(yearFrom);
+            yFrom = Tools.TextToDate(yearFrom);
         }
 
         if (!string.IsNullOrEmpty(yearTo) && yearTo != "0")
         {
-            yTo = Convert.ToInt32(yearTo);
+            yTo = Tools.TextToDate(yearTo);
         }
 
         LearningFilter learningFilter = new LearningFilter(companyId) { Mode = mode, YearFrom = yFrom, YearTo = yTo };
