@@ -455,7 +455,7 @@ public partial class EmployeesView : Page
         this.master.AddBreadCrumb("Item_Employees", "EmployeesList.aspx", false);
         this.master.AddBreadCrumb(label);
         this.master.TitleInvariant = true;
-        this.master.Titulo = this.dictionary["Item_Employee"];
+        this.master.Titulo = this.dictionary["Item_Employee_Title_EmployeeData"];
 
         if (employeeId > 0)
         {

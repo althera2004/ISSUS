@@ -54,7 +54,7 @@ public partial class ProvidersView : Page
                 Name = "TxtName",
                 Value = this.provider.Description,
                 ColumnSpan = 11,
-                Placeholder = this.dictionary["Common_Name"],
+                Placeholder = this.dictionary["Item_Provider"],
                 Required = true,
                 RequiredMessage = this.dictionary["Common_Required"],
                 Duplicated = true,

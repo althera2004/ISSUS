@@ -342,7 +342,7 @@ function FillForm() {
 }
 
 function RenderRegistroRow(registro) {
-    var color = "#c00";
+    var color = "#dc8475";
     var statusLabel = Dictionary.Item_Indicador_StatusLabelWithoutMeta;
     var icon = "icon-circle bigger-110";
     var metaText = ToMoneyFormat(registro.Meta, 2);
@@ -352,27 +352,27 @@ function RenderRegistroRow(registro) {
         metaText = "";
         statusLabel = Dictionary.Item_Indicador_StatusLabelWithoutMeta;
     }
-    else if (registro.MetaComparer === "=" && registro.Value === registro.Meta) { color = "#0a0"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = "#0a0"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === ">=" && registro.Value >= registro.Meta) { color = "#0a0"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = "#0a0"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = "#0a0"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = "#0a0"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === ">=" && registro.Value >= registro.Meta) { color = "#0a0"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = "#0a0"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = "#0a0"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "=" && registro.Value === registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === ">=" && registro.Value >= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === ">=" && registro.Value >= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
     else if (registro.Alarma !== null) {
-        if (registro.AlarmaComparer === ">" && registro.Value > registro.Alarma) { color = "#c00"; icon = "ace-icon fa icon-warning-sign"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === ">=" && registro.Value >= registro.Alarma) { color = "#c00"; icon = "ace-icon fa icon-warning-sign"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === "<" && registro.Value < registro.Alarma) { color = "#c00"; icon = "ace-icon fa icon-warning-sign"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === "<=" && registro.Value <= registro.Alarma) { color = "#c00"; icon = "ace-icon fa icon-warning-sign"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        if (registro.AlarmaComparer === ">" && registro.Value > registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === ">=" && registro.Value >= registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === "<" && registro.Value < registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === "<=" && registro.Value <= registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
         else {
-            color = "#c00";
+            color = "#dc8475";
             statusLabel = Dictionary.Item_Indicador_StatusLabelNoMeta;
         }
     }
     else {
-        color = "#c00";
+        color = "#dc8475";
         statusLabel = Dictionary.Item_Indicador_StatusLabelNoMeta;
     }
 

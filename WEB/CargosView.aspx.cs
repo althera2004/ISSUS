@@ -88,7 +88,7 @@ public partial class CargosView : Page
                 Duplicated = true,
                 DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
                 MaximumLength = 100,
-                Placeholder = this.dictionary["Item_JobPosition_FieldLabel_Name"],
+                Placeholder = this.dictionary["Item_JobPosition"],
                 GrantToWrite = this.GrantToWrite
             }.Render;
         }
@@ -310,7 +310,7 @@ public partial class CargosView : Page
             }
         }
 
-        string label = this.jobPositionId == -1 ? "Item_JobPosition_Button_New" : string.Format("{0}: <strong>{1}</strong>", this.dictionary["Item_JobPosition"], this.cargo.Description);
+        string label = this.jobPositionId == -1 ? "Item_JobPosition_BreadCrumb_Edit" : string.Format("{0}: <strong>{1}</strong>", this.dictionary["Item_JobPosition"], this.cargo.Description);
         this.master.AddBreadCrumb("Item_JobPositions", "CargosList.aspx", false);
         this.master.AddBreadCrumb("Item_JobPosition_BreadCrumb_Edit");
         this.master.Titulo = label;

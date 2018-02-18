@@ -85,7 +85,7 @@
                                                                     <input type="text" id="TxtTelefono" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Phone"] %>" value="<%=this.Employee.Phone %>" class="col-xs-12 col-sm-12" onkeypress="validate(event)" maxlength="15" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
                                                                     <span class="ErrorMessage" id="TxtTelefonoErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
-                                                                <label id="TxtEmailLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Email"]%></label>
+                                                                <label id="TxtEmailLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Email"]%><span style="color:#f00">*</span></label>
                                                                 <div class="col-sm-7">
                                                                     <input type="text" id="TxtEmail" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Email"] %>" value="<%=this.Employee.Email %>" class="col-xs-12 col-sm-12" maxlength="50" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
                                                                     <span class="ErrorMessage" id="TxtEmailErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
@@ -216,8 +216,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="for-group">
-                                                            <label class="col-sm-5"><%=this.Dictionary["Item_Employee_FieldLabel_Academic_Desired"]%></label>
-                                                            <label class="col-sm-7"><%=this.Dictionary["Item_Employee_FieldLabel_Academic_Real"]%></label>
+                                                            <label class="col-sm-5"><%=this.Dictionary["Item_Employee_FieldLabel_Especific_Desired"]%></label>
+                                                            <label class="col-sm-7"><%=this.Dictionary["Item_Employee_FieldLabel_Especific_Real"]%></label>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionSpecific"><%=this.JobPositionSpecific %></textarea></div>

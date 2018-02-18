@@ -34,11 +34,11 @@
                                             <div id="home" class="tab-pane active">                                                
                                                 <div class="form-horizontal" role="form">
                                                     <div class="form-group">
-                                                        <label class="col-sm-1 control-label no-padding-right" style="margin-right:15px;" id="TxtNameLabel"><%=this.Dictionary["Item_JobPosition_FieldLabel_Name"] %></label>                                        
+                                                        <label class="col-sm-1 control-label no-padding-right" style="margin-right:15px;" id="TxtNameLabel"><%=this.Dictionary["Item_JobPosition"] %><span style="color:#f00">*</span></label>                                        
                                                         <%=this.TxtName %>					                    
                                                     </div>
                                                     <div class="form-group">
-                                                        <label id="TxtDepartmentNameLabel" class="col-sm-1" style="margin-right:15px;"><%=this.Dictionary["Item_JobPosition_FieldLabel_Department"]%></label>
+                                                        <label id="TxtDepartmentNameLabel" class="col-sm-1 control-label no-padding-right" style="margin-right:15px;"><%=this.Dictionary["Item_JobPosition_FieldLabel_Department"]%><span style="color:#f00">*</span></label>
                                                         <!--<%=this.BarDepartment %>-->
                                                         <div class="col-sm-4" id="DivCmbDepartment" style="height:35px !important;">
                                                             <select id="CmbDepartment" class="col-xs-12 col-sm-12 tooltip-info" onchange="CmbDepartmentChanged();"></select>
