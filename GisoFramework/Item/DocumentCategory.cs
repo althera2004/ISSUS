@@ -15,6 +15,7 @@ namespace GisoFramework.Item
     using System.Globalization;
     using GisoFramework.Activity;
     using GisoFramework.DataAccess;
+    using System.Text;
 
     /// <summary>
     /// TODO: Update summary.
@@ -124,9 +125,46 @@ namespace GisoFramework.Item
             }
         }
         
-        /// <summary>
-        /// Gets a JSON structure og document category
-        /// </summary>
+        /// <summary>Obtains a JSON array of document's categories</summary>
+        /// <param name="companyId">Company identifier</param>
+        /// <returns>JSON array of documents</returns>
+        public static string GetAllJson(int companyId)
+        {
+            StringBuilder res = new StringBuilder("[");
+            bool first = true;
+            ReadOnlyCollection<DocumentCategory> categories = GetByCompany(companyId);
+            foreach (DocumentCategory category in categories)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    res.Append(",");
+                }
+
+                res.Append(category.JsonKeyValue);
+            }
+
+            res.Append("]");
+            return res.ToString();
+        }
+
+        /// <summary>Gets a JSON key value structure og document category</summary>
+        public string JsonKeyValue
+        {
+            get
+            {
+                return string.Format(
+                    CultureInfo.GetCultureInfo("en-us"),
+                    @"{{""Id"":{0}, ""Description"":""{1}""}}",
+                    this.id,
+                    Tools.JsonCompliant(this.description));
+            }
+        }
+
+        /// <summary>Gets a JSON structure og document category</summary>
         public string Json
         {
             get

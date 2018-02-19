@@ -185,7 +185,7 @@ function CompanyDepartmentRow(department, target) {
         span3.onclick = function () { DepartmentDelete(this); };
     }
 
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span3);
     td2.appendChild(div);
 
@@ -274,27 +274,27 @@ jQuery(function ($) {
     }));
 
     if (ApplicationUser.ShowHelp === true) {
-        SetToolTip('TxtName', Dictionary.Item_JobPosition_Help_Name);
-        SetToolTip('DivCmbResponsible', Dictionary.Item_JobPosition_Help_Responsible);
-        SetToolTip('DivCmbDepartment', Dictionary.Item_JobPosition_Help_Departamento);
-        SetToolTip('BtnDepartment', Dictionary.Item_JobPosition_Help_BARDepartamento);
-        SetToolTip('TxtResponsabilidades', Dictionary.Item_JobPosition_Help_Responsabilidades);
-        SetToolTip('TxtNotas', Dictionary.Item_JobPosition_Help_Notes);
-        SetToolTip('TxtFormacionAcademicaDeseada', Dictionary.Item_JobPosition_Help_Academica);
-        SetToolTip('TxtFormacionEspecificaDeseada', Dictionary.Item_JobPosition_Help_Especifica);
-        SetToolTip('TxtExperienciaLaboral', Dictionary.Item_JobPosition_Help_Experiencia);
-        SetToolTip('TxtHabilidades', Dictionary.Item_JobPosition_Help_Habilidades);
-        $('[data-rel=tooltip]').tooltip();
+        SetToolTip("TxtName", Dictionary.Item_JobPosition_Help_Name);
+        SetToolTip("DivCmbResponsible", Dictionary.Item_JobPosition_Help_Responsible);
+        SetToolTip("DivCmbDepartment", Dictionary.Item_JobPosition_Help_Departamento);
+        SetToolTip("BtnDepartment", Dictionary.Item_JobPosition_Help_BARDepartamento);
+        SetToolTip("TxtResponsabilidades", Dictionary.Item_JobPosition_Help_Responsabilidades);
+        SetToolTip("TxtNotas", Dictionary.Item_JobPosition_Help_Notes);
+        SetToolTip("TxtFormacionAcademicaDeseada", Dictionary.Item_JobPosition_Help_Academica);
+        SetToolTip("TxtFormacionEspecificaDeseada", Dictionary.Item_JobPosition_Help_Especifica);
+        SetToolTip("TxtExperienciaLaboral", Dictionary.Item_JobPosition_Help_Experiencia);
+        SetToolTip("TxtHabilidades", Dictionary.Item_JobPosition_Help_Habilidades);
+        $("[data-rel=tooltip]").tooltip();
     }
 
     //$('.department').on('click', SetDepartment);
-    $('#BtnCancel').click(function (e) {
+    $("#BtnCancel").click(function (e) {
         //document.location = document.referrer;
         document.location = referrer;
     });
 
     if (cargo.Id > 0) {
-        $('#BtnSave').on('click', function (e) {
+        $("#BtnSave").on("click", function (e) {
             if (ValidateJobPositionForm() === false) {
                 window.scrollTo(0, 0);
                 return false;
@@ -306,34 +306,33 @@ jQuery(function ($) {
                 ResponsibleItem = { Id: SelectedResponsible * 1, CompanyId: Company.Id };
             }
 
-            var webMethod = "/Async/JobPositionActions.asmx/Update";
             cargo.Department.id = originalDepartmentId;
             var data = {
-                'oldJobPositionId': cargo.Id,
-                'newJobPosition':
+                "oldJobPositionId": cargo.Id,
+                "newJobPosition":
                 {
-                    'Id': cargo.Id,
-                    'Description': $('#TxtName').val(),
-                    'CompanyId': Company.Id,
-                    'Responsible': ResponsibleItem,
-                    'Department': { Id: SelectedDepartment, CompanyId: Company.Id },
-                    'Responsibilities': $('#TxtResponsabilidades').val(),
-                    'Notes': $('#TxtNotas').val(),
-                    'AcademicSkills': $('#TxtFormacionAcademicaDeseada').val(),
-                    'SpecificSkills': $('#TxtFormacionEspecificaDeseada').val(),
-                    'WorkExperience': $('#TxtExperienciaLaboral').val(),
-                    'Habilities': $('#TxtHabilidades').val()
+                    "Id": cargo.Id,
+                    "Description": $("#TxtName").val(),
+                    "CompanyId": Company.Id,
+                    "Responsible": ResponsibleItem,
+                    "Department": { Id: SelectedDepartment, CompanyId: Company.Id },
+                    "Responsibilities": $("#TxtResponsabilidades").val(),
+                    "Notes": $("#TxtNotas").val(),
+                    "AcademicSkills": $("#TxtFormacionAcademicaDeseada").val(),
+                    "SpecificSkills": $("#TxtFormacionEspecificaDeseada").val(),
+                    "WorkExperience": $("#TxtExperienciaLaboral").val(),
+                    "Habilities": $("#TxtHabilidades").val()
                 },
-                'userId': user.Id
+                "userId": user.Id
             };
 
             $.ajax({
-                type: "POST",
-                url: webMethod,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(data, null, 2),
-                success: function (response) {
+                "type": "POST",
+                "url": "/Async/JobPositionActions.asmx/Update",
+                "contentType": "application/json; charset=utf-8",
+                "dataType": "json",
+                "data": JSON.stringify(data, null, 2),
+                "success": function (response) {
                     if (response.d.Success === true) {
                         //document.location = document.referrer;
                         document.location = referrer;
@@ -342,124 +341,122 @@ jQuery(function ($) {
                         alertUI(response.d.MessageError);
                     }
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                "error": function (jqXHR, textStatus, errorThrown) {
                     alert(jqXHR.responseText);
                 }
             });
         });
     }
     else {
-        $('#BtnSave').on('click', function (e) {
+        $("#BtnSave").on("click", function (e) {
             if (ValidateJobPositionForm() === false) {
                 window.scrollTo(0, 0);
                 return false;
             }
 
-            var webMethod = "/Async/JobPositionActions.asmx/Insert";
             cargo.Department.id = originalDepartmentId;
             var data = {
-                'newJobPosition':
+                "newJobPosition":
                 {
-                    'Id': cargo.Id,
-                    'Description': $('#TxtName').val(),
-                    'CompanyId': Company.Id,
-                    'Responsible': { Id: SelectedResponsible, CompanyId: Company.Id },
-                    'Department': { Id: SelectedDepartment, CompanyId: Company.Id },
-                    'Responsibilities': $('#TxtResponsabilidades').val(),
-                    'Notes': $('#TxtNotas').val(),
-                    'AcademicSkills': $('#TxtFormacionAcademicaDeseada').val(),
-                    'SpecificSkills': $('#TxtFormacionEspecificaDeseada').val(),
-                    'WorkExperience': $('#TxtExperienciaLaboral').val(),
-                    'Habilities': $('#TxtHabilidades').val()
+                    "Id": cargo.Id,
+                    "Description": $("#TxtName").val(),
+                    "CompanyId": Company.Id,
+                    "Responsible": { Id: SelectedResponsible, CompanyId: Company.Id },
+                    "Department": { Id: SelectedDepartment, CompanyId: Company.Id },
+                    "Responsibilities": $("#TxtResponsabilidades").val(),
+                    "Notes": $("#TxtNotas").val(),
+                    "AcademicSkills": $("#TxtFormacionAcademicaDeseada").val(),
+                    "SpecificSkills": $("#TxtFormacionEspecificaDeseada").val(),
+                    "WorkExperience": $("#TxtExperienciaLaboral").val(),
+                    "Habilities": $("#TxtHabilidades").val()
                 },
-                'userId': user.Id
+                "userId": user.Id
             };
 
             $.ajax({
-                type: "POST",
-                url: webMethod,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(data, null, 2),
-                success: function (response) {
+                "type": "POST",
+                "url": "/Async/JobPositionActions.asmx/Insert",
+                "contentType": "application/json; charset=utf-8",
+                "dataType": "json",
+                "data": JSON.stringify(data, null, 2),
+                "success": function (response) {
                     if (response.d.Success === true) {
-                        document.location = 'CargosList.aspx';
+                        document.location = "CargosList.aspx";
                     }
                     if (response.d.Success !== true) {
                         alertUI(response.d.MessageError);
                     }
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                "error": function (jqXHR, textStatus, errorThrown) {
                     alert(jqXHR.responseText);
                 }
             });
         });
     }
 
-    $("#BtnDepartment").on('click', function (e) {
+    $("#BtnDepartment").on("click", function (e) {
         e.preventDefault();
         ShowDepartmentPopup();
     });
 });
 
 function DepartmentInsert() {
-    document.getElementById('dialogDepartment').parentNode.style.cssText += 'z-Index:1039 !important';
-    document.getElementById('TxtDepartmentNewName').value = '';
-    document.getElementById('TxtDepartmentNewNameErrorRequired').style.display = 'none';
-    document.getElementById('TxtDepartmentNewNameErrorDuplicated').style.display = 'none';
-    $('#TxtProcessTypeNewName').val('');
+    document.getElementById("dialogDepartment").parentNode.style.cssText += "z-Index:1039 !important";
+    document.getElementById("TxtDepartmentNewName").value = "";
+    document.getElementById("TxtDepartmentNewNameErrorRequired").style.display = "none";
+    document.getElementById("TxtDepartmentNewNameErrorDuplicated").style.display = "none";
+    $("#TxtProcessTypeNewName").val("");
     var Selected = 0;
-    var dialog = $("#DepartmentInsertDialog").removeClass('hide').dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Department_PopupAdd_Title +'</h4>',
-        title_html: true,
-        buttons:
+    var dialog = $("#DepartmentInsertDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Department_PopupAdd_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     var ok = true;
-                    document.getElementById('TxtDepartmentNewNameErrorRequired').style.display = 'none';
-                    document.getElementById('TxtDepartmentNewNameErrorDuplicated').style.display = 'none';
+                    document.getElementById("TxtDepartmentNewNameErrorRequired").style.display = "none";
+                    document.getElementById("TxtDepartmentNewNameErrorDuplicated").style.display = "none";
 
-                    if (!RequiredFieldText('TxtDepartmentNewName')) { ok = false; }
+                    if (!RequiredFieldText("TxtDepartmentNewName")) { ok = false; }
                     else
                     {
                         var duplicated = false;
                         for (var x = 0; x < departmentsCompany.length; x++) {
-                            if (document.getElementById('TxtDepartmentNewName').value.toLowerCase() === departmentsCompany[x].Description.toLowerCase()) {
+                            if (document.getElementById("TxtDepartmentNewName").value.toLowerCase() === departmentsCompany[x].Description.toLowerCase()) {
                                 duplicated = true;
                                 break;
                             }
                         }
 
                         if (duplicated === true) {
-                            document.getElementById('TxtDepartmentNewNameErrorDuplicated').style.display = 'block';
+                            document.getElementById("TxtDepartmentNewNameErrorDuplicated").style.display = "block";
                             ok = false;
                         }
                     }
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
 
-                    document.getElementById('TxtDepartmentNewNameErrorRequired').style.display = 'none';
-                    document.getElementById('TxtDepartmentNewNameErrorDuplicated').style.display = 'none';
+                    document.getElementById("TxtDepartmentNewNameErrorRequired").style.display = "none";
+                    document.getElementById("TxtDepartmentNewNameErrorDuplicated").style.display = "none";
                     $(this).dialog("close");
-                    DepartmentInsertConfirmed(document.getElementById('TxtDepartmentNewName').value);
+                    DepartmentInsertConfirmed(document.getElementById("TxtDepartmentNewName").value);
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
         ],
-        close: function () { document.getElementById('dialogDepartment').parentNode.style.cssText += 'z-Index:1050 !important'; }
-
+        "close": function () { document.getElementById("dialogDepartment").parentNode.style.cssText += "z-Index:1050 !important"; }
     });
 }
 

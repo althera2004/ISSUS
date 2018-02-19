@@ -4,7 +4,7 @@ function AcceptSave() { SaveConfirmed(true); }
 function CancelSave() { }
 
 function EmployeeDelete(id, name) {
-    $('#DeleteEmployeeName').html(name);
+    $("#DeleteEmployeeName").html(name);
     var dialog = $("#EmployeeDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
@@ -582,12 +582,12 @@ function Save() {
 
 function SaveConfirmed(evaluatedAll)
 {
-    ClearFieldTextMessages('TxtRealStart');
-    ClearFieldTextMessages('TxtRealFinish');
+    ClearFieldTextMessages("TxtRealStart");
+    ClearFieldTextMessages("TxtRealFinish");
     var d1 = null;
-    if (document.getElementById('TxtRealStart').value === '')
+    if (document.getElementById("TxtRealStart").value === "")
     {
-        if (!RequiredDateValue('TxtRealStart') && formacion.status > 1) {
+        if (!RequiredDateValue("TxtRealStart") && formacion.status > 1) {
             ok = false;
         }
     }
@@ -596,7 +596,7 @@ function SaveConfirmed(evaluatedAll)
     }
 
     var d2 = null;
-    if (document.getElementById("TxtRealFinish").value === '') {
+    if (document.getElementById("TxtRealFinish").value === "") {
         if (!RequiredDateValue("TxtRealFinish") && formacion.status > 1) {
             ok = false;
         }
@@ -605,12 +605,26 @@ function SaveConfirmed(evaluatedAll)
         d2 = GetDate($("#TxtRealFinish").val(), "/", true);
     }
     var ok = true;
-    if (!RequiredFieldText('TxtYear')) { ok = false; }
-    if (!RequiredFieldText('TxtName')) { ok = false; }
+    //if (!RequiredFieldText("TxtYear")) { ok = false; }
+    if (!RequiredFieldText("TxtName")) { ok = false; }
 
     if (formacion.Status < 2) {
+        $("#TxtFechaPrevistaErrorRequired").hide();
+        $("#TxtFechaPrevistaDateMalformed").hide();
 
-        if (document.getElementById('CmbFechaPrevistaMes').value === '0' || document.getElementById('TxtFechaPrevistaYear').value == '') {
+        if ($("#TxtFechaPrevista").val() === "") {
+            document.getElementById("TxtFechaPrevistaLabel").style.color = "#f00";
+            $("#TxtFechaPrevistaErrorRequired").show();
+            ok = false;
+        }
+        else if (validateDate($("#TxtFechaPrevista").val()) === false) {
+            document.getElementById("TxtFechaPrevistaLabel").style.color = "#f00";
+            $("#TxtFechaPrevistaDateMalformed").show();
+            ok = false;
+        }
+
+
+        /*if (document.getElementById('CmbFechaPrevistaMes').value === '0' || document.getElementById('TxtFechaPrevistaYear').value == '') {
             ok = false;
             document.getElementById('CmbFechaPrevistaMesLabel').style.color = '#f00';
             if (document.getElementById('CmbFechaPrevistaMes').value === '0') {
@@ -631,7 +645,7 @@ function SaveConfirmed(evaluatedAll)
             document.getElementById('CmbFechaPrevistaMesLabel').style.color = '#000';
             document.getElementById('CmbFechaPrevistaMesErrorRequired').style.display = 'none';
             document.getElementById('TxtFechaPrevistaYearErrorRequired').style.display = 'none';
-        }
+        }*/
 
         if (!RequiredFieldText('TxtMaster')) { ok = false; }
         if (!RequiredFieldText('TxtHours')) { ok = false; }
@@ -722,7 +736,7 @@ function SaveConfirmed(evaluatedAll)
         }
     }
 
-    var webMethod = '';
+    var webMethod = "";
     if (formacion.Id < 1) {
         webMethod = 'Async/LearningActions.asmx/Insert';
     }
@@ -741,7 +755,7 @@ function SaveConfirmed(evaluatedAll)
 
     var dateEstimated = formacion.DateEstimated;
     if (formacion.Status < 2) {
-        var month = 0;
+        /*var month = 0;
         var list = document.getElementById('CmbFechaPrevistaMes').childNodes;
         for (var x3 = 0; x3 < list.length; x3++) {
             if (list[x3].tagName === 'OPTION') {
@@ -750,57 +764,50 @@ function SaveConfirmed(evaluatedAll)
                     break;
                 }
             }
-        }
+        }*/
 
-        dateEstimated = new Date(document.getElementById('TxtFechaPrevistaYear').value * 1, month - 1, 1);
+        //dateEstimated = new Date(document.getElementById('TxtFechaPrevistaYear').value * 1, month - 1, 1);
+		dateEstimated = GetDate($("#TxtFechaPrevista").val(), "/", true);
     }
 
     var status = 0;
-    if (document.getElementById('RBStatus2').checked) {
-        status = 1;
-    }
-    else if (document.getElementById('RBStatus3').checked) {
-        status = 2;
-    }
-
-    if (evaluatedAll === true) {
-        status = 2;
-    }
-
+    if (document.getElementById('RBStatus2').checked) { status = 1; }
+    else if (document.getElementById('RBStatus3').checked) { status = 2; }
+    if (evaluatedAll === true) { status = 2; }
     var amount = ParseInputValueToNumber($('#TxtAmount').val());
 
     var data = {
-        'oldLearning': formacion,
-        'newLearning':
+        "oldLearning": formacion,
+        "newLearning":
         {
             "Id": formacion.Id,
             "CompanyId": Company.Id,
-            "Description": $('#TxtName').val(),
+            "Description": $("#TxtName").val(),
             "DateEstimated": dateEstimated,
-            "Hours": StringToNumber($('#TxtHours').val()),
-            "Amount": ParseInputValueToNumber($('#TxtAmount').val()),
-            "Master": $('#TxtMaster').val(),
-            "Notes": $('#TxtNotes').val(),
-            "Objective": $('#TxtObjetivo').val(),
-            "Methodology": $('#TxtMetodologia').val(),
+            "Hours": StringToNumber($("#TxtHours").val()),
+            "Amount": ParseInputValueToNumber($("#TxtAmount").val()),
+            "Master": $("#TxtMaster").val(),
+            "Notes": $("#TxtNotes").val(),
+            "Objective": $("#TxtObjetivo").val(),
+            "Methodology": $("#TxtMetodologia").val(),
             "Status": status,
-            "Year": $('#TxtYear').val(),
+            "Year": $("#TxtYear").val(),
             "RealStart": d1,
             "RealFinish": d2
         },
-        'newAssistants': newAssistants,
-        'userId': user.Id,
-        'companyId': Company.Id
+        "newAssistants": newAssistants,
+        "userId": user.Id,
+        "companyId": Company.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
                 //document.location = document.referrer;
@@ -810,7 +817,7 @@ function SaveConfirmed(evaluatedAll)
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -872,7 +879,7 @@ jQuery(function ($) {
         document.getElementById('RBStatus1').checked = true;
     }
 
-    var month = formacion.DateEstimated.split('/')[1] * 1;
+    /*var month = formacion.DateEstimated.split('/')[1] * 1;
     var year = formacion.DateEstimated.split('/')[2] * 1;
 
     if (year > 1) {
@@ -891,7 +898,10 @@ jQuery(function ($) {
                 }
             }
         }
-    }
+    }*/
+	if(formacion.DateEstimated !== "01/01/0001") {
+		$("#TxtFechaPrevista").val(formacion.DateEstimated);
+	}
 
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
@@ -955,36 +965,36 @@ jQuery(function ($) {
             return false;
         }
 
-        var dialog = $("#assistantDialog").removeClass('hide').css('max-height', '400px').dialog({
-            resizable: false,
-            modal: true,
-            title: Dictionary.Item_Employees,
-            title_html: true,
-            width: 800,
-            'max-height': 400,
-            buttons: [
+        var dialog = $("#assistantDialog").removeClass("hide").css("max-height", "400px").dialog({
+            "resizable": false,
+            "modal": true,
+            "title": Dictionary.Item_Employees,
+            "title_html": true,
+            "width": 800,
+            "max-height": 400,
+            "buttons": [
                 {
                     id: 'BtnSelect',
                     html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept ,
                     "class": "btn btn-success btn-xs",
-                    click: function () {
+                    "click": function () {
                         SelectEmployees();
                     }
                 },
                 {
                     html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel·lar",
                     "class": "btn btn-xs",
-                    click: function () {
+                    "click": function () {
                         $(this).dialog("close");
                     }
                 }
             ]
-        }).css('max-height', '400px');
+        }).css("max-height", "400px");
     });
 });
 
 // ISSUS-190
-document.getElementById('TxtYear').focus();
+document.getElementById("TxtName").focus();
 
 // ISSUS-201
 if (formacion.Id > 0)

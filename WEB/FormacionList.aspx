@@ -9,6 +9,11 @@
             width:100% !important;
         }
     </style>
+	<script>
+		var userLanguage = "<%=this.UserLanguage %>";
+		var dateFrom = "<%=this.DateFrom%>";
+		var dateTo = "<%=this.DateTo%>";
+	</script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
@@ -16,18 +21,34 @@
                             <div class="col-xs-12">
                                 <table cellpadding="2" cellspacing="2">
                                     <tr>
-                                        <td>
-                                            <%=this.Dictionary["Item_Learning_Filter_FromYear"] %>:
-                                            <select onchange="Go(0, this.value);" id="CmbYearFrom">
-                                                <asp:Literal runat="server" ID="LtYearFrom"></asp:Literal>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <%=this.Dictionary["Item_Learning_Filter_ToYear"] %>:
-                                            <select onchange="Go(1, this.value);" id="CmbYearTo">
-                                                <asp:Literal runat="server" ID="LtYearTo"></asp:Literal>
-                                            </select>
-                                        </td>
+                                        <td id="TxtDateFromLabel"><%=this.Dictionary["Item_Learning_Filter_FromYear"] %>:</td>
+										<td>
+                                            <div class="col-xs-12 col-sm-12">
+												<div class="input-group">
+													<input class="form-control date-picker" style="width:100px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													<span class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();" id="BtnDateFrom">
+														<i class="icon-calendar bigger-110"></i>
+													</span>
+												</div>
+											</div>
+											<span class="ErrorMessage" id="TxtDateFromErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											<span class="ErrorMessage" id="TxtDateFromErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											<span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+										</td>
+                                        <td id="TxtDateToLabel"><%=this.Dictionary["Item_Learning_Filter_ToYear"] %>:</td>
+										<td>
+                                            <div class="col-xs-12 col-sm-12">
+												<div class="input-group">
+													<input class="form-control date-picker" style="width:100px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													<span class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();" id="BtnDateTo">
+														<i class="icon-calendar bigger-110"></i>
+													</span>
+												</div>
+											</div>
+											<span class="ErrorMessage" id="TxtDateToErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											<span class="ErrorMessage" id="TxtDateToErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											<span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+										</td>
                                         <td>&nbsp;&nbsp;&nbsp;<input runat="server" type="radio" id="status0" name="status" value="0" onclick="Go(2,0);" /><%=this.Dictionary["Item_Learning_Status_InProgress"] %></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input runat="server" type="radio" id="status1" name="status" value="1" onclick="Go(2,1);" /><%=this.Dictionary["Item_Learning_Status_Done"] %></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input runat="server" type="radio" id="status2" name="status" value="2" onclick="Go(2,2);" /><%=this.Dictionary["Item_Learning_Status_Evaluated"] %></td>
@@ -56,7 +77,7 @@
                                                         </tbody>
                                                         <tfoot class="thin-border-bottom">
                                                             <tr id="ListDataFooter">
-                                                                <td style="color:#333;" colspan="2"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="LtCount"></asp:Literal></i></td>
+                                                                <td style="color:#333;" colspan="3"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="LtCount"></asp:Literal></i></td>
                                                                 <td style="color:#333;" align="right"><strong><%=this.Dictionary["Common_Total"] %>:&nbsp</strong></td>
                                                                 <td style="color:#333;" align="right"><strong><asp:Literal runat="server" ID="LtTotal"></asp:Literal></strong></td>
                                                                 <td style="color:#333;"></td>
@@ -91,6 +112,7 @@
         <script type="text/javascript" src="/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
         <script type="text/javascript" src="/assets/js/jquery.maskedinput.min.js"></script>
         <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
+        <script type="text/javascript" src="/assets/js/autoNumeric.js"></script>
         <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/FormacionList.js?ac=<%=this.AntiCache %>"></script>
 </asp:Content>

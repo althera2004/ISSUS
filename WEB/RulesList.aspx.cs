@@ -4,8 +4,8 @@ using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
-using SbrinnaCoreFramework.UI;
 using SbrinnaCoreFramework;
+using SbrinnaCoreFramework.UI;
 
 public partial class RulesList : Page
 {
@@ -17,9 +17,7 @@ public partial class RulesList : Page
 
     private ApplicationUser user;
 
-    /// <summary>
-    /// Gets the dictionary for interface texts
-    /// </summary>
+    /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -28,9 +26,7 @@ public partial class RulesList : Page
         }
     }
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -39,9 +35,7 @@ public partial class RulesList : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
@@ -67,9 +61,7 @@ public partial class RulesList : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)Session["User"];
@@ -91,7 +83,7 @@ public partial class RulesList : Page
 
         if (this.user.HasGrantToWrite(ApplicationGrant.Department))
         {
-            this.master.ButtonNewItem = new SbrinnaCoreFramework.UI.UIButton()
+            this.master.ButtonNewItem = new UIButton()
             {
                 Text = this.dictionary["Item_Rules_Btn_New"],
                 Action = "success",

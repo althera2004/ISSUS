@@ -28,9 +28,7 @@ public partial class Documents : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
+    /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -39,9 +37,7 @@ public partial class Documents : Page
         }
     }
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -56,7 +52,7 @@ public partial class Documents : Page
         {
             if (this.Session["DocumentFilter"] == null)
             {
-                return "AI";
+                return "AI|-1|-1";
             }
 
             return this.Session["DocumentFilter"].ToString().ToUpperInvariant();
@@ -68,6 +64,14 @@ public partial class Documents : Page
         get
         {
             return Document.GetAllJson(this.company.Id);
+        }
+    }
+
+    public string CategoriesJson
+    {
+        get
+        {
+            return DocumentCategory.GetAllJson(this.company.Id);
         }
     }
 
@@ -99,9 +103,7 @@ public partial class Documents : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.company = (Company)Session["Company"];
@@ -135,11 +137,20 @@ public partial class Documents : Page
 
             if (document.Description.IndexOf("\"") != -1)
             {
-                sea.Append(string.Format(@"'{0}'", document.Description));
+                sea.Append(string.Format(@"'{0}',", document.Description));
             }
             else
             {
-                sea.Append(string.Format(@"""{0}""", document.Description));
+                sea.Append(string.Format(@"""{0}"",", document.Description));
+            }
+
+            if (document.Location.IndexOf("\"") != -1)
+            {
+                sea.Append(string.Format(@"'{0}'", document.Location));
+            }
+            else
+            {
+                sea.Append(string.Format(@"""{0}""", document.Location));
             }
         }
         

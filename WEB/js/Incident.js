@@ -1336,7 +1336,7 @@ function AnularPopup() {
     var dialog = $("#dialogAnular").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": Dictionary.Item_Objetivo_PopupAnular_Title,
+        "title": Dictionary.Item_Incident_PopupAnular_Title,
         "width": 400,
         "buttons":
         [

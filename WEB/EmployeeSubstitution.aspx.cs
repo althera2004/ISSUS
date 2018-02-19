@@ -30,6 +30,8 @@ public partial class EmployeeSubstitution : Page
     /// <summary>Indicates if employee is active</summary>
     private bool active;
 
+    public string Action { get; private set; }
+
     public string Employees
     {
         get
@@ -167,6 +169,7 @@ public partial class EmployeeSubstitution : Page
     /// </summary>
     private void Go()
     {
+        this.Action = "Baja";
         if (this.Request.QueryString["id"] != null)
         {
             this.employeeId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
@@ -175,6 +178,15 @@ public partial class EmployeeSubstitution : Page
         if (this.Request.QueryString["enddate"] != null)
         {
             this.EndDate = this.Request.QueryString["enddate"].ToString().Trim();
+        }
+
+        if (this.Request.QueryString["action"] != null)
+        {
+            var actionData = this.Request.QueryString["action"].ToString().Trim();
+			if(actionData == "delete") 
+			{
+				this.Action = "delete";
+			}
         }
 
         this.user = (ApplicationUser)Session["User"];

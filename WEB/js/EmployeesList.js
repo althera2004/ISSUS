@@ -41,33 +41,48 @@ function EmployeeDeleteAlert(id, description) {
     return false;
 }
 
-function EmployeeDelete(id, description) {
+function EmployeeSubstitutionYes() {
+	document.location = "EmployeeSubstitution.aspx?id=" + EmployeeDeleteId + "&enddate=null&action=delete";
+}
+
+function EmployeeSubstitutionNo() {
+	return false;
+}
+
+function EmployeeDelete(id, description, hasAction) {
     if (id === ApplicationUser.Employee.Id)
     {
-        warningInfoUI(Dictionary.Item_Employee_Error_AutoDelete, null, 300);
+        warningInfoUI(Dictionary.Item_Employee_Error_AutoDelete, null, 400);
         return false;
     }
 
-    document.getElementById('EmployeeName').innerHTML = description;
-    var dialog = $("#EmployeeDeleteDialog").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Employee_Popup_Delete_Title + '</h4>',
-        title_html: true,
-        buttons:
+    if (hasAction === true) {
+		EmployeeDeleteId = id;
+		promptInfoUI(Dictionary.Item_Employee_Message_Delete, 400, EmployeeSubstitutionYes, EmployeeSubstitutionNo);
+        return false;
+    }
+
+    document.getElementById("EmployeeName").innerHTML = description;
+    var dialog = $("#EmployeeDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+		"width": 400,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Employee_Popup_Delete_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                     EmployeeDeleteConfirmed(id);
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     ClearFieldTextMessages('TxtNewReason');
                     $(this).dialog("close");
                 }
@@ -78,31 +93,30 @@ function EmployeeDelete(id, description) {
 
 function EmployeeDeleteConfirmed(id)
 {
-    var webMethod = "/Async/EmployeeActions.asmx/EmployeeDelete";
     var data = {
-        'employeeId': id,
-        'companyId': Company.Id,
-        'userId': user.Id,
-        'reason': '' //document.getElementById('TxtNewReason').value
+        "employeeId": id,
+        "companyId": Company.Id,
+        "userId": user.Id,
+        "reason": ""
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/EmployeeActions.asmx/EmployeeDelete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
-                document.location = document.location + '';
+                document.location = document.location + "";
             }
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -111,30 +125,29 @@ function EmployeeDeleteConfirmed(id)
             
 function Restore(employeeId)
 {
-    var webMethod = "/Async/EmployeeActions.asmx/Restore";
     var data = {
-        'employeeId': employeeId,
-        'companyId': Company.Id,
-        'userId': user.Id
+        "employeeId": employeeId,
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/EmployeeActions.asmx/Restore",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
-                document.location = document.location + '';
+                document.location = document.location + "";
             }
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -144,7 +157,7 @@ function Restore(employeeId)
 jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || '&nbsp;';
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true)
             {
                 title.html($title);
@@ -154,16 +167,14 @@ jQuery(function ($) {
         }
     }));
                 
-    $('#SelectorTabActive').on('click', function (e) { document.getElementById('BtnNewItem').style.visibility = 'visible'; });
-    $('#SelectorTabInactive').on('click', function (e) { document.getElementById('BtnNewItem').style.visibility = 'hidden'; });
+    $("#SelectorTabActive").on("click", function (e) { document.getElementById("BtnNewItem").style.visibility = "visible"; });
+    $("#SelectorTabInactive").on("click", function (e) { document.getElementById("BtnNewItem").style.visibility = "hidden"; });
 });
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
-    //var listTable2 = document.getElementById('ListDataDiv2');
+    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 380) + 'px';
-    //listTable2.style.height = (containerHeight - 380) + 'px';
+    listTable.style.height = (containerHeight - 380) + "px";
 }
 
 window.onload = function () {
@@ -192,7 +203,7 @@ function RenderEmployeeRow(employee) {
     res += "      <i class=\"icon-edit bigger-120\"></i>";
     res += "    </span>";
     res += "    &nbsp;";
-    res += "    <span title=\"Eliminar " + employee.FullName + "\" class=\"btn btn-xs btn-danger\" onclick=\"EmployeeDelete(" + employee.Id +", '" + employee.FullName +"'); \">";
+    res += "    <span title=\"Eliminar " + employee.FullName + "\" class=\"btn btn-xs btn-danger\" onclick=\"EmployeeDelete(" + employee.Id + ", '" + employee.FullName + "'," + employee.HasActions + "); \">";
     res += "      <i class=\"icon-trash bigger-120\"></i>";
     res += "    </span>";
     res += "  </td>";
@@ -232,15 +243,15 @@ function SetFilter() {
     var data = { "filter": Filter };
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             console.log("SetFilter", "OK");
         },
-        error: function (msg) {
+        "error": function (msg) {
             console.log("SetFilter", msg.responseText);
         }
     });

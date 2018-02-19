@@ -55,5 +55,8 @@ namespace GisoFramework.Item.Binding
 
         /// <summary>Index of "InactiveDate" Column</summary>
         public static readonly int InactiveDate = 14;
+
+        /// <summary>Index of "HasActionAssignated" Column</summary>
+        public static readonly int HasActionAssignated = 14;
     }
 }

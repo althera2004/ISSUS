@@ -162,10 +162,6 @@ $("#BtnAnular").on("click", AnularPopup);
 $("#BtnRestaurar").on("click", Restore);
 
 function AnularPopup() {
-    /// <summary>
-    /// Shows popup for anulation.
-    /// </summary>
-    /// <returns></returns>
     var ok = true;
     if ($("#TxtDescription").val() === "") { ok = false; }
     if ($("#TxtWhatHappened").val() === "") { ok = false; }
@@ -192,7 +188,7 @@ function AnularPopup() {
     var dialog = $("#dialogAnular").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": Dictionary.Item_Objetivo_PopupAnular_Title,
+        "title": Dictionary.Item_IncidentAction_PopupAnular_Title,
         "width": 400,
         "buttons":
         [

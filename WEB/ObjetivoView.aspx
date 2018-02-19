@@ -122,7 +122,7 @@
                                                                         <option value="eqlt"><%=this.Dictionary["Common_Comparer_eqlt"] %> (&lt;=)</option>
                                                                     </select>
                                                                     &nbsp;
-                                                                    <input style="display: inline; width: 33%; height: 30px;" type="text" id="TxtMeta" placeholder="Meta" class="tooltip-info decimalFormated nullable" value="0" maxlength="8" onblur="this.value=$.trim(this.value);" />
+                                                                    <input style="display: inline; width: 33%; height: 30px;" type="text" id="TxtMeta" placeholder="Meta" class="tooltip-info decimalFormated nullable" value="0" maxlength="14" onblur="this.value=$.trim(this.value);" />
                                                                     <span class="ErrorMessage" id="CmbMetaErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                                 <label id="CmbObjetivoBlocked" class="col-sm-4 control-label no-padding-right" style="display: none; text-align: left; color: #777;"><i><%=this.Dictionary["Item_Objetivo_Message_IndicadorBlocked"] %></i></label>
@@ -131,7 +131,8 @@
                                                                     <input type="text" id="TxtPeriodicity" placeholder="Periodicitat" class="col-xs-12 col-sm-12 tooltip-info integerFormated" value="0" maxlength="3" onblur="this.value=$.trim(this.value);" />
                                                                     <span class="ErrorMessage" id="TxtPeriodicityErrorRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
                                                                 </div>
-                                                            </div>
+																<label id="Label1" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Label_Days"] %></label>
+															</div>
                                                             <div style="height:12px;clear:both;">&nbsp;</div>
                                                             <div class="form-group">
                                                                 <label class="col-sm-1 control-label no-padding-right" id="TxtMetodologiaLabel"><%= this.Dictionary["Item_Objetivo_FieldLabel_Methodology"] %></label>
@@ -269,7 +270,20 @@
                                                                     </tr>
                                                                 </tfoot>
                                                             </table>
-                                                        </div>
+                                                        </div>                                                                                      
+                                                        <table class="table table-bordered table-striped" style="margin: 0">
+                                                            <thead class="thin-border-bottom">
+                                                                <tr id="ListDataFooter">
+                                                                    <th style="color:#aaa;">
+															            <i>
+																            <%=this.Dictionary["Common_RegisterCount"] %>:
+																            &nbsp;
+																            <span id="NumberCosts"></span>
+															            </i>
+														            </th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
                                                     </div>
                                                 </div>
                                                 <div id="graphics" class="tab-pane">

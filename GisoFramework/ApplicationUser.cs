@@ -946,6 +946,7 @@ namespace GisoFramework
                         res.Employee = Employee.GetByUserId(res.id);
                         res.PrimaryUser = rdr.GetBoolean(10);
                         res.Admin = rdr.GetBoolean(11);
+                        res.language = rdr.GetString(12);
                     }
                 }
                 finally
@@ -1863,6 +1864,7 @@ namespace GisoFramework
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", this.id));
                     cmd.Parameters.Add(DataParameter.Input("@UserName", this.userName, 50));
                     cmd.Parameters.Add(DataParameter.Input("@Email", this.Email, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Language", this.language, 50));
                     cmd.Parameters.Add(DataParameter.Input("@Admin", this.Admin));
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
@@ -1943,8 +1945,17 @@ namespace GisoFramework
             return false;
         }
 
+        /// <summary>Insert user in database</summary>
+        /// <param name="applicationUserId">Identifier of user that performs the action</param>
+        /// <returns>Result action</returns>
         public ActionResult Insert(int applicationUserId)
         {
+            /*CREATE PROCEDURE ApplicationUser_Insert
+             *   @Id int output,
+             *   @CompanyId int,
+             *   @Login nvarchar(50),
+             *   @Email nvarchar(50),
+             *   @Password nvarchar(50) */
             /*CREATE PROCEDURE ApplicationUser_Insert
              *   @Id int output,
              *   @CompanyId int,
@@ -1954,13 +1965,14 @@ namespace GisoFramework
             ActionResult res = ActionResult.NoAction;
             using (SqlCommand cmd = new SqlCommand("ApplicationUser_Insert"))
             {
-                string userpass = RandomPassword.Generate(5, 8);
+                string userpass = GisoFramework.RandomPassword.Generate(5, 8);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.Parameters.Add(DataParameter.OutputInt("@Id"));
                 cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                cmd.Parameters.Add(DataParameter.Input("@Login", this.userName, 50));
+                cmd.Parameters.Add(DataParameter.Input("@Login", this.UserName, 50));
                 cmd.Parameters.Add(DataParameter.Input("@Email", this.Email, 50));
+                cmd.Parameters.Add(DataParameter.Input("@Language", this.language, 50));
                 cmd.Parameters.Add(DataParameter.Input("@Admin", this.Admin));
                 cmd.Parameters.Add(DataParameter.Input("@Password", userpass));
                 try
@@ -1985,16 +1997,48 @@ namespace GisoFramework
                         DeliveryMethod = SmtpDeliveryMethod.Network
                     };
 
-                    MailMessage mail = new MailMessage(senderMail, to)
-                    {
-                        IsBodyHtml = true,
-                        Subject = "Datos de acceso a ISSUS",
-                        Body = string.Format(
+                    string body = string.Format(
                         CultureInfo.GetCultureInfo("en-us"),
                         "Acceder a la siguiente url http://www.scrambotika.cat/Default.aspx?company={0} <br/> User:<b>{1}</b><br/>Password:<b>{2}</b>",
                         company.Code,
-                        this.userName,
-                        userpass)
+                        this.UserName,
+                        userpass);
+
+                    string templatePath = HttpContext.Current.Request.PhysicalApplicationPath;
+                    if (!templatePath.EndsWith("\\", StringComparison.OrdinalIgnoreCase))
+                    {
+                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\", templatePath);
+                    }
+
+                    string translatedTemplate = string.Format(
+                        CultureInfo.InvariantCulture,
+                        @"NewUser_{0}.tpl",
+                        company.Language);
+
+                    if (!File.Exists(templatePath + "Templates\\" + translatedTemplate))
+                    {
+                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\NewUser.tpl", templatePath);
+                    }
+                    else
+                    {
+                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\{1}", templatePath, translatedTemplate);
+                    }
+
+                    if (File.Exists(templatePath))
+                    {
+                        using (StreamReader input = new StreamReader(templatePath))
+                        {
+                            body = input.ReadToEnd();
+                        }
+
+                        body = body.Replace("#USERNAME#", this.UserName).Replace("#PASSWORD#", userpass).Replace("#EMAIL#", this.Email).Replace("#EMPRESA#", company.Name);
+                    }
+
+                    MailMessage mail = new MailMessage(senderMail, to)
+                    {
+                        IsBodyHtml = true,
+                        Subject = "Benvingut/uda a ISSUS",
+                        Body = body
                     };
 
                     client.Send(mail);

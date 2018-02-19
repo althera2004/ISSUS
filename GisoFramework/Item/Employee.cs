@@ -495,6 +495,8 @@ namespace GisoFramework.Item
 
         public bool HasUserAssigned { get; set; }
 
+        public bool HasActionAssigned { get; set; }
+
         /// <summary>
         /// Gets or sets the employee's skills
         /// </summary>
@@ -1574,7 +1576,8 @@ namespace GisoFramework.Item
                                 email = rdr.GetString(ColumnsCompanyGetEmployees.Email),
                                 jobPositions = new List<JobPosition>(),
                                 departments = new List<Department>(),
-                                HasUserAssigned = rdr.GetInt32(ColumnsCompanyGetEmployees.HasUserAssigned) == 1
+                                HasUserAssigned = rdr.GetInt32(ColumnsCompanyGetEmployees.HasUserAssigned) == 1,
+                                HasActionAssigned = rdr.GetInt32(ColumnsCompanyGetEmployees.HasActionAssignated) == 1
                             };
 
                             if (!rdr.IsDBNull(ColumnsCompanyGetEmployees.EndDate))
@@ -1611,9 +1614,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Employee>(res);
         }
 
-        /// <summary>
-        /// Render a tag for employee
-        /// </summary>
+        /// <summary>Render a tag for employee</summary>
         /// <param name="dictionary">Dictionary for fices labels</param>
         /// <param name="admin">Indicates is session user is admin</param>
         /// <returns>HTML code for employee tag</returns>
@@ -1637,9 +1638,7 @@ namespace GisoFramework.Item
                 cursor);
         }
 
-        /// <summary>
-        /// Render the HTML code for a department row for employe profile
-        /// </summary>
+        /// <summary>Render the HTML code for a department row for employe profile</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="departmentId">Department identifier</param>
         /// <returns>HTML code</returns>
@@ -1674,9 +1673,7 @@ namespace GisoFramework.Item
             return string.Format(CultureInfo.GetCultureInfo("en-us"), @"<tr><td>{0}</td><td class=""hidden-480"">{1}</td><td class=""hidden-480"">{2}</td><td class=""hidden-480"">{3}</td><td>{4} {5}</td></tr>", this.Link, this.nif, this.email, this.phone, iconRename, iconDelete);
         }
 
-        /// <summary>
-        /// Render the HTML code for a row in inactive employees list
-        /// </summary>
+        /// <summary>Render the HTML code for a row in inactive employees list</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="grants">Grants of user</param>
         /// <returns>HTML code</returns>
@@ -1702,9 +1699,7 @@ namespace GisoFramework.Item
                 grantWrite ? iconRestore : string.Empty);
         }
 
-        /// <summary>
-        /// Obtain the employee's skills from data base
-        /// </summary>
+        /// <summary>Obtain the employee's skills from data base</summary>
         public void ObtainEmployeeSkills()
         {
             this.employeeSkills = new EmployeeSkills(this.Id, this.CompanyId);
@@ -1783,9 +1778,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Render the HTML code for a row in active employees list
-        /// </summary>
+        /// <summary>Render the HTML code for a row in active employees list</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="grants">User grants</param>
         /// <returns>HTML code</returns>
@@ -1889,9 +1882,7 @@ namespace GisoFramework.Item
                 iconDelete);
         }
 
-        /// <summary>
-        /// Render the HTML code for a row in active employees list
-        /// </summary>
+        /// <summary>Render the HTML code for a row in active employees list</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="grants">User grants</param>
         /// <returns>HTML code</returns>
@@ -1984,7 +1975,7 @@ namespace GisoFramework.Item
                 cargosList.Append(grantJobPosition ? jobPositionItem.Link : jobPositionItem.Description);
             }
 
-            string pattern = @"{{""Id"":{0},""Link"":""{1}"",""FullName"":""{7}"",""Cargos"":""{2}"",""Departamentos"":""{3}"",""Editable"":{4},""Deletable"":{5}, ""Baja"":{6}}}";
+            string pattern = @"{{""Id"":{0},""Link"":""{1}"",""FullName"":""{7}"",""Cargos"":""{2}"",""Departamentos"":""{3}"",""Editable"":{4},""Deletable"":{5},""HasActions"":{8}, ""Baja"":{6}}}";
             return string.Format(
                 CultureInfo.GetCultureInfo("en-us"),
                 pattern,
@@ -1995,12 +1986,11 @@ namespace GisoFramework.Item
                 grantEmployee ? "true" : "false",
                 grantEmployeeDelete ? "true" : "false",
                 this.disabledDate.HasValue ? "true" : "false",
-                Tools.JsonCompliant(this.FullName));
+                Tools.JsonCompliant(this.FullName),
+                this.HasActionAssigned ? "true" : "false");
         }
 
-        /// <summary>
-        /// Obtain the assistance of employee in company learning
-        /// </summary>
+        /// <summary>Obtain the assistance of employee in company learning</summary>
         public void ObtainLearningAssistance()
         {
             this.learningAssistance = new List<LearningAssistance>();
@@ -2073,9 +2063,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Obtain the historial job position assignations
-        /// </summary>
+        /// <summary>Obtain the historial job position assignations</summary>
         public void ObtainJobPositionsHistoric()
         {
             this.JobPositionAssignment = new Collection<JobPositionAsigment>();
@@ -2173,9 +2161,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Insert employee data in database
-        /// </summary>
+        /// <summary>Insert employee data in database</summary>
         /// <param name="userActionId">Identifier of user that performs the actions</param>
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userActionId)
@@ -2255,9 +2241,7 @@ namespace GisoFramework.Item
             return actionResult;
         }
 
-        /// <summary>
-        /// Update employee data in database
-        /// </summary>
+        /// <summary>Update employee data in database</summary>
         /// <param name="userActionId">Identifier of user that performs the action</param>
         /// <returns>Result of action</returns>
         public ActionResult Update(int userActionId)

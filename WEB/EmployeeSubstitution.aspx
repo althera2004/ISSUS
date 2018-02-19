@@ -6,6 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script><script type="text/javascript" src="js/common.js"></script>
     <script type="text/javascript">
+	    var action = "<%=this.Action%>";
         var companyId = <%=this.CompanyId %>;
         var employeeId = <%=this.EmployeeId %>;
         var asignations = <%=this.Employee.EmployeeActions %>;

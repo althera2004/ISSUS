@@ -161,7 +161,7 @@ namespace GisoFramework.Item
                 ""Description"":""{2}"",
                 ""StartDate"":""{3}"",
                 ""EndDate"":""{4}"",
-                ""Category"":{{""Id"":{5}}},
+                ""Category"":{5},
                 ""RevisionDate"":""{6}"",
                 ""Origin"":{{""Id"":{7}}},
                 ""ConservationType"":{8},
@@ -182,13 +182,13 @@ namespace GisoFramework.Item
                     this.Description.Replace("\"", "\\\""),
                     string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:dd/MM/yyy}", this.StartDate),
                     fechaBaja,
-                    this.Category.Id,
+                    this.Category.JsonKeyValue,
                     string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:dd/MM/yyy}", actual.Date),
                     this.Origin.Id,
                     this.ConservationType,
                     this.Conservation,
                     this.Source ? "true" : "false",
-                    this.Location,
+                    Tools.JsonCompliant(this.Location),
                     this.Active ? "true" : "false",
                     actual.Version,
                     this.EndDate.HasValue ? "true" : "false",
@@ -273,9 +273,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Obtains a JSON array of documents
-        /// </summary>
+        /// <summary>Obtains a JSON array of documents</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>JSON array of documents</returns>
         public static string GetAllJson(int companyId)
@@ -500,8 +498,16 @@ namespace GisoFramework.Item
                                 CompanyId = companyId,
                                 Description = rdr.GetString(ColumnsCompanyGetDocuments.Description),
                                 Code = rdr.GetString(ColumnsCompanyGetDocuments.Code),
-                                Category = new DocumentCategory() { Description = rdr.GetString(ColumnsCompanyGetDocuments.CategoryName), Id = rdr.GetInt32(ColumnsCompanyGetDocuments.CategoryId) },
-                                Origin = new DocumentOrigin() { Description = rdr.GetString(ColumnsCompanyGetDocuments.SourceName), Id = rdr.GetInt32(ColumnsCompanyGetDocuments.SourceId) },
+                                Category = new DocumentCategory()
+                                {
+                                    Description = rdr.GetString(ColumnsCompanyGetDocuments.CategoryName),
+                                    Id = rdr.GetInt32(ColumnsCompanyGetDocuments.CategoryId)
+                                },
+                                Origin = new DocumentOrigin()
+                                {
+                                    Description = rdr.GetString(ColumnsCompanyGetDocuments.SourceName),
+                                    Id = rdr.GetInt32(ColumnsCompanyGetDocuments.SourceId)
+                                },
                                 Location = rdr.GetString(ColumnsCompanyGetDocuments.Location)
                             };
 

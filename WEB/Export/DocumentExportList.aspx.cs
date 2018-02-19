@@ -109,8 +109,8 @@ public partial class Export_DocumentExportList : Page
         titleTable.AddCell(titleCell);
 
         
-        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(2);
-        float[] cirteriaWidths = new float[] { 8f, 50f };
+        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(6);
+        float[] cirteriaWidths = new float[] { 10f, 20f, 12f, 30f, 10f, 80f };
         criteriatable.SetWidths(cirteriaWidths);
         criteriatable.WidthPercentage = 100;
 
@@ -122,8 +122,26 @@ public partial class Export_DocumentExportList : Page
             PaddingTop = 4f
         };
 
+        iTSpdf.PdfPCell criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Document_FieldLabel_Category"] + " :", timesBold))
+        {
+            Border = ToolsPdf.BorderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
+
+        iTSpdf.PdfPCell criteria3Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Document_FieldLabel_Origin"] + " :", timesBold))
+        {
+            Border = ToolsPdf.BorderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
+
         string statusText = dictionary["Common_All_Male_Plural"];
-        if(filter == "A")
+        string category = dictionary["Common_All_Female_Plural"];
+        string origin = dictionary["Common_All_Male_Plural"];
+        if (filter == "A")
         {
             statusText = dictionary["Common_Active_Plural"];
         }
@@ -131,6 +149,40 @@ public partial class Export_DocumentExportList : Page
         if(filter == "B")
         {
             statusText = dictionary["Common_Inactive_Plural"];
+        }
+
+        ReadOnlyCollection<GisoFramework.Item.Document> documents = GisoFramework.Item.Document.GetByCompany(companyId);
+        List<GisoFramework.Item.Document> data = new List<GisoFramework.Item.Document>();
+
+        if (filter.IndexOf("A") != -1)
+        {
+            data = documents.Where(d => d.EndDate.HasValue == false).ToList();
+        }
+
+        if (filter.IndexOf("I") != -1)
+        {
+            data.AddRange(documents.Where(d => d.EndDate.HasValue == true).ToList());
+        }
+
+        string[] parts = filter.Split('|');
+        if (parts[1] != "-1")
+        {
+            data = data.Where(d => d.Category.Id == Convert.ToInt32(parts[1])).ToList();
+            ReadOnlyCollection<DocumentCategory> cats = DocumentCategory.GetByCompany(companyId);
+            DocumentCategory cat = cats.Where(c => c.Id == Convert.ToInt32(parts[1])).First();
+            category = cat.Description;
+        }
+
+        if (parts[2] == "0")
+        {
+            data = data.Where(d => d.Origin.Id == 0).ToList();
+            origin = dictionary["Common_Internal"];
+        }
+
+        if (parts[2] == "1")
+        {
+            data = data.Where(d => d.Origin.Id > 0).ToList();
+            origin = dictionary["Common_External"];
         }
 
         iTSpdf.PdfPCell criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times))
@@ -141,35 +193,45 @@ public partial class Export_DocumentExportList : Page
             PaddingTop = 4f
         };
 
+        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(category, times))
+        {
+            Border = ToolsPdf.BorderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
+
+        iTSpdf.PdfPCell criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(origin, times))
+        {
+            Border = ToolsPdf.BorderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        };
+
         criteriatable.AddCell(criteria1Label);
         criteriatable.AddCell(criteria1);
+        criteriatable.AddCell(criteria2Label);
+        criteriatable.AddCell(criteria2);
+        criteriatable.AddCell(criteria3Label);
+        criteriatable.AddCell(criteria3);
 
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(3)
+        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(6)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 1
         };
         
         //float[] widths = new float[] { 10f, 20f, 20f, 5f, 5f };
-        float[] widths = new float[] { 50f, 5f, 5f };
+        float[] widths = new float[] { 20f, 5f, 15f, 15f, 10f, 5f };
         table.SetWidths(widths);
 
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_List_Header_Document"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_List_Header_Code"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_List_Header_Version"], headerFontFinal));
-        
-        ReadOnlyCollection<GisoFramework.Item.Document> documents = GisoFramework.Item.Document.GetByCompany(companyId);
-        List<GisoFramework.Item.Document> data = new List<GisoFramework.Item.Document>();
-
-        if(filter.IndexOf("A") != -1)
-        {
-            data = documents.Where(d => d.EndDate.HasValue == false).ToList();
-        }
-
-        if (filter.IndexOf("I") != -1)
-        {
-            data.AddRange(documents.Where(d => d.EndDate.HasValue == true).ToList());
-        }
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_ListHeader_Name"], headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_ListHeader_Code"], headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_ListHeader_Category"], headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_ListHeader_Origin"], headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_ListHeader_Location"], headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_ListHeader_Revision"], headerFontFinal));
 
         switch (listOrder.ToUpperInvariant())
         {
@@ -199,6 +261,9 @@ public partial class Export_DocumentExportList : Page
             count++;
             table.AddCell(ToolsPdf.DataCell(document.Description, times));
             table.AddCell(ToolsPdf.DataCell(document.Code, times));
+            table.AddCell(ToolsPdf.DataCell(document.Category.Description, times));
+            table.AddCell(ToolsPdf.DataCell(document.Origin.Id == 0 ? dictionary["Common_Internal"] : dictionary["Common_External"], times));
+            table.AddCell(ToolsPdf.DataCell(document.Location, times));
             table.AddCell(ToolsPdf.DataCellRight(document.LastNumber, times));
         }
 

@@ -462,7 +462,10 @@ Item_Document_List_Header_Revision::Revisió
 Item_Document_List_Header_Version::Versió
 Item_Document_ListHeader_Code::Codi
 Item_Document_ListHeader_Name::Document
-Item_Document_ListHeader_Revision::Revisió
+Item_Document_ListHeader_Revision::Rev.
+Item_Document_ListHeader_Location::Ubicació
+Item_Document_ListHeader_Category::Categoria
+Item_Document_ListHeader_Origin::Origen
 Item_Document_ListRevision_ApprovedBy::Aprovat per
 Item_Document_ListRevision_Date::Data
 Item_Document_ListRevision_Reason::Motiu

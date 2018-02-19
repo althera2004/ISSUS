@@ -819,6 +819,6 @@ window.onload = function () {
 
 function EmployeeDeleteAlert(id, description) {
     EmployeeDeleteId = id;
-    promptInfoUI(Dictionary.Item_Employee_Message_Delete, 300, EmployeeDeleteAlertYes, null);
+    promptInfoUI(Dictionary.Item_Employee_Message_InactivateWarning, 300, EmployeeDeleteAlertYes, null);
     return false;
 }

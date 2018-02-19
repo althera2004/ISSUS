@@ -1,19 +1,18 @@
 ﻿var EquipmentSelected;
 function EquipmentDeleteAction() {
-    var webMethod = "/Async/EquipmentActions.asmx/Delete";
-    var data = { equipmentId: EquipmentSelected, reason: '', companyId: Company.Id, userId: user.Id };
+    var data = { equipmentId: EquipmentSelected, reason: "", companyId: Company.Id, userId: user.Id };
     $("#EquipmentDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
-            document.location = document.location + '';
+        "type": "POST",
+        "url": "/Async/EquipmentActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            document.location = document.location + "";
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -21,26 +20,26 @@ function EquipmentDeleteAction() {
 }
 
 function EquipmentDelete(id, name) {
-    $('#EquipmentName').html(name);
+    $("#EquipmentName").html(name);
     EquipmentSelected = id;
-    var dialog = $("#EquipmentDeleteDialog").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Equipment_Popup_Delete_Title + '</h4>',
-        title_html: true,
-        buttons:
+    var dialog = $("#EquipmentDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Equipment_Popup_Delete_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     EquipmentDeleteAction();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -60,9 +59,9 @@ jQuery(function ($) {
 });
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
+    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 390) + 'px';
+    listTable.style.height = (containerHeight - 390) + "px";
 }
 
 window.onload = function () {
@@ -80,33 +79,32 @@ window.onresize = function () { Resize(); }
 
 function Export(fileType) {
     console.log("Export", fileType);
-    var webMethod = "/Export/EquipmentExportList.aspx/" + fileType;
     var data = {
         "companyId": Company.Id,
         "listOrder": listOrder
     };
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Export/EquipmentExportList.aspx/" + fileType,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
             //successInfoUI(msg.d.MessageError, Go, 200);
-            var link = document.createElement('a');
-            link.id = 'download';
+            var link = document.createElement("a");
+            link.id = "download";
             link.href = msg.d.MessageError;
             link.download = msg.d.MessageError;
-            link.target = '_blank';
+            link.target = "_blank";
             document.body.appendChild(link);
+            $("#download").trigger("click");
             document.body.removeChild(link);
-            $('#download').trigger('click');
             window.open(msg.d.MessageError);
-            $("#dialogAddAddress").dialog('close');
+            $("#dialogAddAddress").dialog("close");
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI("error:" + msg.responseText);
         }
@@ -124,7 +122,6 @@ function RenderTable() {
         if (document.getElementById("RBStatus1").checked === true && equipment.Activo === false) { ok = false; }
         if (document.getElementById("RBStatus2").checked === true && equipment.Activo === true) { ok = false; }
         if (ok === true) {
-
             if (document.getElementById("RBOperation1").checked === true && equipment.Calibracion === true) { temp.push(equipment); }
             else
                 if (document.getElementById("RBOperation2").checked === true && equipment.Verificacion === true) { temp.push(equipment); }
@@ -159,16 +156,7 @@ function RenderTable() {
 }
 
 function RenderRow(equipment) {
-    /*<tr>
-    <td class="hidden-480" style="width:110px;"><a href="EquipmentView.aspx?id=2">1234567890</a></td>
-    <td><a href="EquipmentView.aspx?id=2">12367890</a></td>
-    <td class="hidden-480" style="width:120px;">123467890</td>
-    <td class="hidden-480" style="width:250px;"><a href="EmployeesView.aspx?id=3" title="Editar Juan Castilla Calderón">Juan Castilla Calderón</a></td>
-    <td class="hidden-480" style="width:35px;text-align:center;"><i class="icon-paperclip" title="Veure adjunts" style="cursor:pointer;" onclick="document.location='EquipmentView.aspx?id=2&amp;Tab=TabuploadFiles';"></i></td>
-    <td style="width:90px;"><span title="Editar 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890" class="btn btn-xs btn-info" onclick="document.location='EquipmentView.aspx?id=2';"><i class="icon-edit bigger-120"></i></span>&nbsp;<span title="Eliminar 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890" class="btn btn-xs btn-danger" onclick="EquipmentDelete(2,'123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890');"><i class="icon-trash bigger-120"></i></span></td></tr>*/
-
     var tr = document.createElement("tr");
-
     var tdCodigo = document.createElement("td");
     var tdDescripcion = document.createElement("td");
     var tdUbicacion = document.createElement("td");
@@ -279,19 +267,18 @@ function SetFilter() {
     if (document.getElementById("RBStatus1").checked === true) { Filter += "1"; }
     if (document.getElementById("RBStatus2").checked === true) { Filter += "2"; }
 
-    var webMethod = "/Async/EquipmentActions.asmx/SetFilter";
     var data = { "filter": Filter };
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/EquipmentActions.asmx/SetFilter",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             console.log("SetFilter", "OK");
         },
-        error: function (msg) {
+        "error": function (msg) {
             console.log("SetFilter", msg.responseText);
         }
     });
