@@ -387,11 +387,11 @@ Item_Customers_Tab_Principal::Dades bàsiques
 Item_Customers_Tab_Traces::Traces
 Item_DashBoard::Inici
 Item_DashBoard_Title_NewDocuments::Nous documents
-Item_Departmennt_ErrorMessage_HasEmployees::No es pot eliminar si té empleats o algun càrrec assignat
+Item_Departmennt_ErrorMessage_HasEmployees::No es pot eliminar si té empleats/des o algun càrrec assignat
 Item_Department::Departament
 Item_Department_Button_New::Afegir
 Item_Department_Help_Field_Name::Indicar el nom del departament
-Item_Department_ListEmployees::Empleats
+Item_Department_ListEmployees::Empleats/des
 Item_Department_ListEmployees_Header_Email::Correu
 Item_Department_ListEmployees_Header_Name::Nom
 Item_Department_ListEmployees_Header_Nif::NIF
@@ -426,8 +426,8 @@ Item_Document_FieldLabel_Category::Categoria
 Item_Document_FieldLabel_Code::Codi
 Item_Document_FieldLabel_Conservation::Conservació
 Item_Document_FieldLabel_CreationDate::Data alta
-Item_Document_FieldLabel_InactiveDate::Data baixa
-Item_Document_FieldLabel_EndReason::Motiu de baixa
+Item_Document_FieldLabel_InactiveDate::Data
+Item_Document_FieldLabel_EndReason::Motiu
 Item_Document_FieldLabel_Location::Ubicació
 Item_Document_FieldLabel_Name::Document
 Item_Document_FieldLabel_Origin::Origen
@@ -508,7 +508,7 @@ Item_DocumentSource_PopupDelete_Message::Vol eliminar la procedència
 Item_Employee::Empleat/da
 Item_Employee_Button_LinkJobPosition::Assignar càrrec
 Item_Employee_Button_New::Afegir
-Item_Employee_Button_Restore::Restablir
+Item_Employee_Button_Restore::Reactivar
 Item_Employee_Button_Unlink::Desvincular
 Item_Employee_Delete_Item_CalibrationExternal::Calibratge extern
 Item_Employee_Delete_Item_CalibrationInternal::Calibratge intern
@@ -530,8 +530,8 @@ Item_Employee_FieldLabel_Country::País
 Item_Employee_FieldLabel_Email::Correu
 Item_Employee_FieldLabel_Especific_Desired::Formació específica desitjada
 Item_Employee_FieldLabel_Especific_Real::Formació específica real
-Item_Employee_FieldLabel_InactiveDate::Data baixa
-Item_Employee_Btn_Inactive::Baixa
+Item_Employee_FieldLabel_InactiveDate::Data
+Item_Employee_Btn_Inactive::Inactivar
 Item_Employee_Btn_Restore::Reincorporar
 Item_Employee_FieldLabel_LastName::Cognoms
 Item_Employee_FieldLabel_Name::Nom
@@ -549,7 +549,7 @@ Item_Employee_Help_AcademicValidYes::Indicar si no és vàlida
 Item_Employee_Help_Btn_Link::Associa l'empleat/da a un càrrec
 Item_Employee_Help_BtnUserName::Nom d'usuari/a
 Item_Employee_Help_ConfirmarNuevoPassword::Confirmar contrasenya
-Item_Employee_Help_Direccion::Adreça de l'empleat/a, inclou el tipus de via
+Item_Employee_Help_Direccion::Adreça de l'empleat/da, inclou el tipus de via
 Item_Employee_Help_DisactivateDate::Data de baixa. Si s'omple aquest camp, l'empleat/da restarà inactiu/va
 Item_Employee_Help_DisactivateDateSelfLocked::Un empleat/da no pot donar-se de baixa a ell/a mateix/a
 Item_Employee_Help_Email::Adreça de correu electrònic
@@ -583,8 +583,8 @@ Item_Employee_Help_ResetPassword::Restablir contrasenya
 Item_Employee_Help_Shortcuts::Dreceres
 Item_Employee_Help_Telefono::Indicar el telèfon
 Item_Employee_Help_UserName::Indicar el nom de l'empleat/da
-Item_Employee_Label_InactiveTitle::Empleat de baixa
-Item_Employee_Label_InactiveDate::Data de baixa
+Item_Employee_Label_InactiveTitle::Empleat/da inactiu/va
+Item_Employee_Label_InactiveDate::Data
 Item_Employee_Label_DesiredWorkExperience::Experiència laboral desitjada
 Item_Employee_Label_RealWorkExperience::Experiència laboral real
 Item_Employee_List_Delete::Elements
@@ -606,9 +606,10 @@ Item_Employee_ListJobPosition_JobPosition::Càrrec
 Item_Employee_ListJobPosition_Responsible::Responsable
 Item_Employee_ListJobPosition_StartDate::Data d'alta
 Item_Employee_ListLearningHeader_Date::Data de realització
-Item_Employee_Message_InactivateWarning::L'empleat té tasques assignades i s'ha de assginar un substitut
-Item_Employee_Message_Delete::L'Empleat/da esta configurat/da a l'aplicació. Vol continuar amb l'eliminació?
-Item_Employee_Message_InsertSucess::Empleat/da desat/da amb èxit. Ja es poden fer servir les pestanyes del formulari
+Item_Employee_Message_Inactivate::L'Empleat/da esta configurat/da a l'aplicació. Segur que el/la vol inactivar?
+Item_Employee_Message_InactivateWarning::L'empleat/da té tasques assignades i s'haurà d'assignar un/a substitut/ta. ¿Vol continuar?
+Item_Employee_Message_Delete::L'Empleat/da esta configurat/da a l'aplicació. Segur que el/la vol eliminar?
+Item_Employee_Message_InsertSucess::Empleat/da desat/da amb èxit. Ja es poden fer servir les noves pestanyes del formulari
 Item_Employee_Message_NoDeletableByJobPositionLink::No es pot eliminar perquè té un registre associat
 Item_Employee_Popup_Delete_Title::Eliminar l'empleat/da
 Item_Employee_Popup_LinkJobPosition_Message::Assignar un càrrec
@@ -874,7 +875,7 @@ Item_EquipmentVerification_PopupNew_Title::Registrar una verificació
 Item_EquipmentVerification_PopupUpdate_Title::Modificar la verificació
 Item_Incident::Incidència
 Item_Incident_Button_New::Afegir
-Item_Incident_Button_Print::Imprimir la fitxa
+Item_Incident_Button_Print::Imprimir
 Item_Incident_Detail::Fitxa de la incidència
 Item_Incident_Detail_Dates::Les dates no estan ordenades cronològicament
 Item_Incident_Detail_Description::Indicar una descripció per la incidència
@@ -920,7 +921,7 @@ Item_Incident_Field_Causes::Per què ha passat?
 Item_Incident_Field_CausesDate::Data
 Item_Incident_Field_CausesResponsible::Registrat per
 Item_Incident_Field_CloseDate::Data
-Item_Incident_Field_CloseResponsible::Tancada per
+Item_Incident_Field_CloseResponsible::Responsable
 Item_Incident_Field_Description::Descripció
 Item_Incident_Field_Notes::Notes
 Item_Incident_Field_WhatHappened::Què ha passat?
@@ -953,27 +954,28 @@ Item_Incident_Label_WhatHappened::Què ha passat?
 Item_Incident_List_Filter_From::Des de
 Item_Incident_List_Filter_Status::Estat
 Item_Incident_List_Filter_To::Fins
-Item_Incident_Message_DeleteAction::S'eliminarà l'acció actual associada a aquesta incidència
+Item_Incident_Message_DeleteAction::S'eliminarà l'acció associada a aquesta incidència
 Item_Incident_New_Label::Nova incidència
 Item_Incident_Origin0::Tots
 Item_Incident_Origin1::Intern
 Item_Incident_Origin2::Proveïdor
 Item_Incident_Origin3::Client
 Item_Incident_Plural::Incidències
-Item_Incident_Popup_Delete_Title::Eliminar una incidència
+Item_Incident_PopupAnular_Title::Tancar incidència
+Item_Incident_Popup_Delete_Title::Eliminar incidència
 Item_Incident_PopupDelete_Message::Vol eliminar la incidència
 Item_Incident_PopupDelete_Message_Actions::S'eliminaran també les accions associades
-Item_Incident_Status1::Identificat
-Item_Incident_Status2::Analitzat
+Item_Incident_Status1::Identificada
+Item_Incident_Status2::Analitzada
 Item_Incident_Status3::En progrés
-Item_Incident_Status4::Tancat
+Item_Incident_Status4::Tancada
 Item_Incident_Tab_Action::Acció
 Item_Incident_Tab_Basic::Dades bàsiques
 Item_Incident_Tab_Costs::Costos
 Item_Incident_Tab_Traces::Traces
 Item_Incident_Tab_UploadFiles::Adjunts
 Item_Incident_Warning_ActionSaveIncident::Per poder vincular una acció, primer desar la incidència
-Item_Incident_Warning_ActionTabAvailable::A la pestanya d'acció, posar les dades
+Item_Incident_Warning_ActionTabAvailable::A la pestanya d'acció, entrar les dades
 Item_IncidentAction::Acció
 Item_IncidentAction_Button_New::Afegir
 Item_IncidentAction_Error_DateMalformed_Actions::La data d'accions no és correcta
@@ -1019,7 +1021,7 @@ Item_IncidentAction_Field_Provider::Proveïdor
 Item_IncidentAction_Field_Responsible::Responsable
 Item_IncidentAction_Field_ResponsibleActions::Responsable
 Item_IncidentAction_Field_ResponsibleCauses::Responsable
-Item_IncidentAction_Field_ResponsibleClose::Tancada per
+Item_IncidentAction_Field_ResponsibleClose::Responsable
 Item_IncidentAction_Field_ResponsibleWhatHappend::Responsable
 Item_IncidentAction_Field_Schelude::Data
 Item_IncidentAction_Field_WhatHappened::Què ha passat?
@@ -1121,7 +1123,7 @@ Item_Indicador_Field_Alarma::Alarma
 Item_Indicador_Field_Calculo::Càlcul
 Item_Indicador_Field_EndDate::Data de baixa
 Item_Indicador_Field_EndReason::Moitu de baixa
-Item_Indicador_Field_EndResponsible::Responsable baixa
+Item_Indicador_Field_EndResponsible::Responsable
 Item_Indicador_Field_Meta::Meta
 Item_Indicador_Field_Name::Nom
 Item_Indicador_Field_Objetivo::Objectiu
@@ -1169,7 +1171,7 @@ Item_IndicadorAction_List_Filter_ShowClosed::Tancats
 Item_Indicadores::Indicadors
 Item_IndicatorRecord_FieldLabel_Comments::Comentaris
 Item_IndicatorRecord_FieldLabel_Date::Data
-Item_IndicatorRecord_FieldLabel_Reason::Motiu anul·lació
+Item_IndicatorRecord_FieldLabel_Reason::Motiu
 Item_IndicatorRecord_FieldLabel_Responsible::Responsable
 Item_IndicatorRecord_FieldLabel_Value::Valor
 Item_IndicatorRecord_PopupTitle_Insert::Afegir registre
@@ -1363,7 +1365,7 @@ Item_ObjetivoAction_List_Filter_ShowActive::Actius
 Item_ObjetivoAction_List_Filter_ShowClosed::Tancats
 Item_ObjetivoAction_List_Filter_To::Fins
 Item_ObjetivoList::Objectius
-Item_ObjetivoRecord_FieldLabel_Reason::Motiu anul·lació
+Item_ObjetivoRecord_FieldLabel_Reason::Motiu
 Item_Objetivos::Objectius
 Item_Proccess::Procés
 Item_Proccess_ListHeader_Name::Nom
@@ -1542,8 +1544,8 @@ Tipo::Tipus
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
 Item_Equipment_Btn_Anular::Baixa
-Item_Equipment_FieldLabel_EndReason::Motiu de baixa
-Item_Equipment_FieldLabel_EndDate::D.Baixa
+Item_Equipment_FieldLabel_EndReason::Motiu
+Item_Equipment_FieldLabel_EndDate::Data
 Item_Equipment_FieldLabel_EndResponsible::Responsable
 Item_Equipment_PopupAnular_Title::Baixa d'equip
 Item_Equipment_Btn_Restaurar::Reactivar
@@ -1560,13 +1562,13 @@ Agreement_Button_Download::Descarregar condicions
 MailTemplate_ResetPassword_Subject::Reestabliment de paraula de pas a ISSUS
 MailTemplate_ResetPassword_Error::No s'ha reestabler la paraula de pas
 MailTemplate_ResetPassword_DefaultBody::Se h'reestablert la seva paraula de pas a ISSUS.<br />Accedir a la seqgüent url http://issus.scrambotika.com/ <br/> User:<b>{0}</b><br/>Password:<b>{1}</b>
-Item_Employee_PopupAnular_Title::Baixa d'empleat
-Item_Employee_Warning_NoUser::Aquest/a empleat/ada no té usuari assignat i rebrà avisos del sistema.
-User_PrimaryUser::Usuari primari
+Item_Employee_PopupAnular_Title::Inactivar empleat/da
+Item_Employee_Warning_NoUser::Aquest/a empleat/ada no té usuari/a assignat/da i per tant no rebrà avisos del sistema.
+User_PrimaryUser::Usuari/a primari/a
 User_Admin::Administrador
 Item_Backup::Back-Up
 Item_Backup_Explain::Explicar que es un backup para poder hacer una restauración o migrar datos a otra aplicación y tal...
-Item_Backup_Btn_Go::Realitzar back-up
+Item_Backup_Btn_Go::Iniciar back-up
 Item_EquipmentScaleDivision::Divisió d'escala
 Item_EquipmentCalibrationDefinition::Definició de calibracions
 Item_EquipmentCalibrationAct::Calibracions realitzades
@@ -1582,6 +1584,6 @@ Item_LearningAssistant::Assistents a formaciones
 Item_IncidentAction_Btn_Restaurar::Reobrir
 Item_IncidentAction_Btn_Anular::Tancar
 Item_IncidentAction_PopupAnular_Title::Tancar acció
-Item_IncidentAction_AnulateMessageTile::Tancament
+Item_IncidentAction_AnulateMessageTile::Acció tancada
 Item_IncidentAction_Label_EndDate::Data
 Item_IncidentAction_Label_EndResponsible::Responsable

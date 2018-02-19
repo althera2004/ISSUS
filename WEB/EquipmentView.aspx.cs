@@ -1339,7 +1339,7 @@ public partial class EquipmentView : Page
         {
             ColumnsSpanLabel = 2,
             Label = this.dictionary["Item_Equipment_Field_Responsible_Label"],
-            ColumnsSpan = 8,
+            ColumnsSpan = 3,
             Name = "CmbResponsible",
             ChangeEvent = "CmbResponsibleChanged();",
             GrantToWrite = this.grantToWrite,

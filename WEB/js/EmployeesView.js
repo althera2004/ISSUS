@@ -761,11 +761,11 @@ function AnularConfirmed() {
 window.onload = function () {
     if (employee.DisabledDate !== null) {
         res = "";
-        res += "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+        res += "<br /><div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
         res += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         res += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Employee_Label_InactiveTitle + "</h3><br />";
-        res += "    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Dictionary.Item_Employee_Label_InactiveDate + ": <strong>14/11/2017</strong></p></div><br /><br /><br />";
-        $("#oldFormFooter").after(res);
+        res += "    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Dictionary.Item_Employee_Label_InactiveDate + ": <strong>" + employee.DisabledDate + "</strong></p></div>";
+        $("#oldFormFooter").before(res);
     }
 
 

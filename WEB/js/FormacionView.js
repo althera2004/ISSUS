@@ -965,7 +965,7 @@ jQuery(function ($) {
             buttons: [
                 {
                     id: 'BtnSelect',
-                    html: "<i class='icon-ok bigger-110'></i>&nbsp; Afegir",
+                    html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept ,
                     "class": "btn btn-success btn-xs",
                     click: function () {
                         SelectEmployees();
