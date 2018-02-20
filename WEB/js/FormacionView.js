@@ -982,7 +982,7 @@ jQuery(function ($) {
                     }
                 },
                 {
-                    html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel·lar",
+                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     "click": function () {
                         $(this).dialog("close");
