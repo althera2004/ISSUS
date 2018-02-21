@@ -149,6 +149,12 @@
                                                             <%=this.TxtDescription %>
                                                         </div>
                                                         <div class="form-group">
+                                                            <label id="TxtCausesLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_BusinessRisk_LabelField_Causes"]%></label>
+                                                        </div>
+                                                        <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                                                            <%=this.TxtCauses %>
+                                                        </div>
+                                                        <div class="form-group">
                                                             <label id="TxtStartControlLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_BusinessRisk_LabelField_StartControl"]%></label>
                                                         </div>
                                                         <div class="form-group" style="margin-left:0px;margin-right:0px;">
@@ -159,12 +165,6 @@
                                                         </div>
                                                         <div class="form-group" style="margin-left:0px;margin-right:0px;">
                                                             <%=this.TxtNotes %>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label id="TxtCausesLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_BusinessRisk_LabelField_Causes"]%></label>
-                                                        </div>
-                                                        <div class="form-group" style="margin-left:0px;margin-right:0px;">
-                                                            <%=this.TxtCauses %>
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-sm-4 no-padding-left">
@@ -873,11 +873,11 @@
                                         <input type="file" id="fileName" name="fileName" multiple style="position:absolute;top:-100000px;"/>
                                         <div class="dz-default dz-message">
                                             <span id="UploadMessage">
-                                                <span class="bigger-150 bolder">
+                                                <span class="bigger-125 bolder">
                                                     <i class="ace-icon fa fa-caret-right red"></i>
-                                                    <%=this.Dictionary["Item_DocumentAttachment_UpladTitle1"] %>
                                                 </span>
-                                                <%=this.Dictionary["Item_DocumentAttachment_UpladTitle2"] %>
+                                                <span class="bigger-125"> <%=this.Dictionary["Item_DocumentAttachment_UpladTitle1"] %>
+                                                <%=this.Dictionary["Item_DocumentAttachment_UpladTitle2"] %></span> &nbsp;&nbsp;&nbsp;
                                                 <i class="upload-icon ace-icon fa fa-cloud-upload blue fa-2x"></i>
                                             </span>
                                             <span id="UploadMessageSelected" style="display:none;">
@@ -892,7 +892,7 @@
                                         </div>
 									</form>
                                         <div class="col-sm-12">
-                                            <label class="input-append col-sm-2"><%=this.Dictionary["Item_DocumentAttachment_PopupUpload_Description_Label"] %></label>
+                                            <label class="input-append col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_DocumentAttachment_PopupUpload_Description_Label"] %></label>
                                             <label class="input-append col-sm-10"><input class="col-sm-11" id="UploadFileDescription" name="UploadFileDescription" /></label>
                                         </div>
                                         <!--<div class="col-sm-12">

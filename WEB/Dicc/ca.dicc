@@ -415,9 +415,10 @@ Item_Document_Button_New::Afegir
 Item_Document_Button_NewVersion::Versió
 Item_Document_Button_SourceBAR::Gestió de procedències
 Item_Document_Button_SourceBAR::Seleccionar una procedència
-Item_Document_Btn_Anular::Baixa
-Item_Document_AnulateMessageTile::Document de baixa
-Item_Document_PopupAnular_Title::Baixa del document
+Item_Document_Btn_Anular::Inactivar
+Item_Document_Btn_Restaurar::Reactivar
+Item_Document_AnulateMessageTile::Document inactiu
+Item_Document_PopupAnular_Title::Inactivar document
 Item_Document_Error_DeleteReasonRequired::Especificar el motiu de l'eliminació
 Item_Document_ErrorMessage_AlreadyExists::Ja existeix
 Item_Document_ErrorMessage_StartDatePreviousRevision::La data d'inici no pot posterior a la primera revisió
@@ -1151,6 +1152,8 @@ Item_Indicador_Message_ProcessBlocked::El indicador està vinculat a objectius
 Item_Indicador_New_Button::Afegir
 Item_Indicador_New_Label::Nou indicador
 Item_Indicador_Popup_DeleteRecord_Message::Vol eliminar el registre
+Item_Indicador_PopupDelete_Message::Vol eliminar l'indicador
+Item_Indicador_PopupDelete_Message2::Aquesta acció no es pot desfer!
 Item_Indicador_PopupAnular_Title::Tancar indicador
 Item_Indicador_RecordsReportTitle::Registres d'indicador
 Item_Indicador_StatusLabelMeta::Meta assolida

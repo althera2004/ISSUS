@@ -415,7 +415,7 @@
                                         </div>
 									</form>
                                         <div class="col-sm-12">
-                                            <label class="input-append col-sm-2"><%=this.Dictionary["Item_DocumentAttachment_PopupUpload_Description_Label"] %></label>
+                                            <label class="input-append col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_DocumentAttachment_PopupUpload_Description_Label"] %></label>
                                             <label class="input-append col-sm-10"><input class="col-sm-11" id="UploadFileDescription" name="UploadFileDescription" /></label>
                                         </div>
                                         <!--<div class="col-sm-12">

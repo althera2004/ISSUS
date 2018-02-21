@@ -85,7 +85,8 @@
                                                                 <div class="col-sm-1">
                                                                     <input type="text" id="TxtPeriodicity" placeholder="Periodicitat" class="col-xs-12 col-sm-12 tooltip-info integerFormated" value="0" maxlength="3" onblur="this.value=$.trim(this.value);" />
                                                                     <span class="ErrorMessage" id="TxtPeriodicityErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                </div>                                                                
+                                                                </div>
+                                                                <label id="Label1" class="col-sm-1 control-label"><%=this.Dictionary["Common_Label_Days"] %></label>
                                                                 <%=this.CmbProcess.Render %>
                                                             </div>
                                                             <div class="form-group" style="display:none;">
@@ -195,8 +196,10 @@
                                                                     <th id="th1" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Value"]%></th>
                                                                     <th id="th2" onclick="Sort(this,'IndicadorRegistrosTable','date',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Date"]%></th>
                                                                     <th id="th3"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Comments"]%></th>
-                                                                    <th id="th4" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th>
-                                                                    <th id="th5" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Alarm"]%></th>
+                                                                    <!--th id="th4" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th-->
+                                                                    <!--th id="th5" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Alarm"]%></th-->
+                                                                    <th id="th4" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th>
+                                                                    <th id="th5" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Alarm"]%></th>
                                                                     <th id="th6" onclick="Sort(this,'IndicadorRegistrosTable','text',false);" class="sort" style="width: 175px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Responsible"]%></th>
                                                                     <th style="width: 106px;">&nbsp;</th>
                                                                 </tr>
