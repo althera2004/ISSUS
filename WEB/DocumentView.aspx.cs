@@ -340,8 +340,8 @@ public partial class DocumentView : Page
             this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.documentId, TargetType.Document);
         }
 
-        this.formFooter.AddButton(new UIButton() { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Objetivo_Btn_Restaurar"], Action = "primary", Hidden = !this.documento.EndDate.HasValue });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Objetivo_Btn_Anular"], Action = "danger", Hidden = this.documento.EndDate.HasValue });
+        this.formFooter.AddButton(new UIButton() { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Document_Btn_Restaurar"], Action = "primary", Hidden = !this.documento.EndDate.HasValue });
+        this.formFooter.AddButton(new UIButton() { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Document_Btn_Anular"], Action = "danger", Hidden = this.documento.EndDate.HasValue });
         this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
         this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
     }

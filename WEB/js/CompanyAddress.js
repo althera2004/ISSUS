@@ -177,7 +177,7 @@ function ShowAddressPopup() {
         [
             {
                 "id": "BtnNewAddresSave",
-                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
+                "html": "<i class=\"icon-plus bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
                 "click": function () { ShowAddAddressPopup(1); }
             },

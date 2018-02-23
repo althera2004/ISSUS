@@ -1000,7 +1000,7 @@ jQuery(function ($) {
             "buttons": [
                 {
                     "id": "BtnSelect",
-                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Save,
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Common_Save,
                     "class": "btn btn-success btn-xs",
                     "click": function () {
                         SelectEmployees();

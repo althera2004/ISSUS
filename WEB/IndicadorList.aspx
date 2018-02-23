@@ -187,8 +187,9 @@
                             </div><!-- /.col -->
                             <br /><br />
                             <div id="IndicadorDeleteDialog" class="hide" style="width:500px;">
-                                <p>&nbsp;<strong><span id="IndicadorDeleteName"></span></strong>?</p>
+                                <p><%=this.Dictionary["Item_Indicador_PopupDelete_Message"] %>&nbsp;<strong><span id="IndicadorDeleteName"></span></strong>? <br /><br /><strong><%=this.Dictionary["Item_Indicador_PopupDelete_Message2"] %></strong></p>
                             </div>
+
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>

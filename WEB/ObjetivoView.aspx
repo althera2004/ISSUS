@@ -220,7 +220,8 @@
                                                                     <th id="th1" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Value"]%></th>
                                                                     <th id="th2" onclick="Sort(this,'ObjetivoRegistrosTable','date',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Date"]%></th>
                                                                     <th id="th3"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Comments"]%></th>
-                                                                    <th id="th4" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th>
+                                                                    <th id="th4" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th>
+                                                                    <!--th id="th4" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></!--th>
                                                                     <!--<th id="th5" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Alarm"]%></th>-->
                                                                     <th id="th5" onclick="Sort(this,'ObjetivoRegistrosTable','text',false);" class="sort" style="width: 175px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Responsible"]%></th>
                                                                     <th style="width: 106px;">&nbsp;</th>

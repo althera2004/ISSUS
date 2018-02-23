@@ -310,7 +310,7 @@ Item_Company_Help_Fax::Indicar el número de fax
 Item_Company_Help_Mobile::Indicar el número de mòbil
 Item_Company_Help_Name::Nom de l'empresa
 Item_Company_Help_Nif::Indicar el NIF
-Item_Company_Help_Pais::Sel·leccionar el país
+Item_Company_Help_Pais::Seleccionar el país
 Item_Company_Help_Phone::Indicar el número de telèfon
 Item_Company_Help_Provincia::Indicar la província
 Item_Company_Help_ZipCode::Indicar el codi postal
@@ -329,9 +329,8 @@ Item_CompanyAddress_FielLabel_Phone::Telèfon
 Item_CompanyAddress_Header_Address::Adreça
 Item_CompanyAddress_PopupDelete_Message::Vol eliminar l'adreça
 Item_CompanyAddress_PopupTile_Add::Afegir adreça
-Item_CompanyAddress_PopupTile_Edit
 Item_CompanyAddress_PopupTile_Edit::Editar adreça
-Item_CompanyAddress_PopupTitle::Sel·leccionar adreça principal
+Item_CompanyAddress_PopupTitle::Seleccionar adreça principal
 Item_CompanyAddress_ToolTip_SetAsPrincipal::Establir com a principal
 Item_CompanyCountries_Status_Availables::Països disponibles
 Item_CompanyCountries_Status_Selected::Països seleccionats
@@ -416,9 +415,10 @@ Item_Document_Button_New::Afegir
 Item_Document_Button_NewVersion::Versió
 Item_Document_Button_SourceBAR::Gestió de procedències
 Item_Document_Button_SourceBAR::Seleccionar una procedència
-Item_Document_Btn_Anular::Baixa
-Item_Document_AnulateMessageTile::Document de baixa
-Item_Document_PopupAnular_Title::Baixa del document
+Item_Document_Btn_Anular::Inactivar
+Item_Document_Btn_Restaurar::Reactivar
+Item_Document_AnulateMessageTile::Document inactiu
+Item_Document_PopupAnular_Title::Inactivar document
 Item_Document_Error_DeleteReasonRequired::Especificar el motiu de l'eliminació
 Item_Document_ErrorMessage_AlreadyExists::Ja existeix
 Item_Document_ErrorMessage_StartDatePreviousRevision::La data d'inici no pot posterior a la primera revisió
@@ -439,7 +439,7 @@ Item_Document_FieldLabel_Version::Versió
 Item_Document_NewAttachTitle::Adjuntar nouy document
 Item_Document_Help_BARCategoria::Gestionar les categories
 Item_Document_Help_BARProcedencia::Gestionar les procedències
-Item_Document_Help_Categoria::Sel·leccionar una categoria
+Item_Document_Help_Categoria::Seleccionar una categoria
 Item_Document_Help_Codigo::Codi intern del document
 Item_Document_Help_ConservacionCantidad::Termini de conservació
 Item_Document_Help_ConservacionTiempo::Indicar la magnitud de temps de conservació
@@ -498,7 +498,7 @@ Item_DocumentAttachment_Plural::Fitxers adjunts
 Item_DocumentAttachment_PopupUpload_Description_ErrorRequired::Indicar una descripció del fitxer
 Item_DocumentAttachment_PopupUpload_Description_Label::Descripció
 Item_DocumentAttachment_ReplaceWarning::Si s'adjunta un nou fitxer, substituirà l'existent
-Item_DocumentAttachment_UpladTitle1::Sel·leccionar el fitxer
+Item_DocumentAttachment_UpladTitle1::Seleccionar el fitxer
 Item_DocumentAttachment_UpladTitle2::per a carregar
 Item_DocumentCategory_Popup_Delete_Title::Eliminar una categoria
 Item_DocumentCategory_Popup_Update_Title::Modificar una categoria
@@ -609,9 +609,9 @@ Item_Employee_ListJobPosition_JobPosition::Càrrec
 Item_Employee_ListJobPosition_Responsible::Responsable
 Item_Employee_ListJobPosition_StartDate::Data d'alta
 Item_Employee_ListLearningHeader_Date::Data de realització
-//Item_Employee_Message_Inactivate::L'Empleat/da esta configurat/da a l'aplicació. Segur que el/la vol inactivar?
+Item_Employee_Message_Inactivate::L'Empleat/da esta configurat/da a l'aplicació. Segur que el/la vol inactivar?
 Item_Employee_Message_InactivateWarning::L'empleat/da té tasques assignades i s'haurà d'assignar un/a substitut/ta. ¿Vol continuar?
-//Item_Employee_Message_Delete::L'Empleat/da esta configurat/da a l'aplicació. Segur que el/la vol eliminar?
+Item_Employee_Message_Delete::L'Empleat/da esta configurat/da a l'aplicació. Segur que el/la vol eliminar?
 Item_Employee_Message_InsertSucess::Empleat/da desat/da amb èxit. Ja es poden fer servir les noves pestanyes del formulari
 Item_Employee_Message_NoDeletableByJobPositionLink::No es pot eliminar perquè té un registre associat
 Item_Employee_Popup_Delete_Title::Eliminar l'empleat/da
@@ -1152,6 +1152,8 @@ Item_Indicador_Message_ProcessBlocked::El indicador està vinculat a objectius
 Item_Indicador_New_Button::Afegir
 Item_Indicador_New_Label::Nou indicador
 Item_Indicador_Popup_DeleteRecord_Message::Vol eliminar el registre
+Item_Indicador_PopupDelete_Message::Vol eliminar l'indicador
+Item_Indicador_PopupDelete_Message2::Aquesta acció no es pot desfer!
 Item_Indicador_PopupAnular_Title::Tancar indicador
 Item_Indicador_RecordsReportTitle::Registres d'indicador
 Item_Indicador_StatusLabelMeta::Meta assolida
@@ -1195,7 +1197,7 @@ Item_JobPosition_ErrorMessage_HasEmployeesHistoric::Té empleats/des
 Item_JobPosition_ErrorMessage_HasJobPositionLinked::No es por eliminar, té algun càrrec assignat
 Item_JobPosition_FieldLabel_Academic_Learning::Formació acadèmica
 Item_JobPosition_FieldLabel_Department::Departament
-Item_JobPosition_FieldLabel_DepartmentName::Nom
+Item_JobPosition_FieldLabel_DepartmentName::Departament
 Item_JobPosition_FieldLabel_Habilities::Habilitats
 Item_JobPosition_FieldLabel_Name::Nom
 Item_JobPosition_FieldLabel_Notes::Notes

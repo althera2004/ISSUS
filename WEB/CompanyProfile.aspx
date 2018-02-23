@@ -7,7 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
         scaleImages = true;
-        //HOLA SOY CRISTINA
+        
         var addresses= <%=this.Addresses %>;
         var addressSelected = <%=this.DefaultAddressId %>;
         var ddData = [<%=this.CountryData %>];
@@ -117,9 +117,9 @@
                                             </div>
                                             <div class="space-4"></div>
                                             <div class="form-group">
-                                                <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Profile_FieldLabel_Language"] %></label>
+                                                <label class="col-sm-1 control-label no-padding-right" hidden><%=this.Dictionary["Item_Profile_FieldLabel_Language"] %></label>
                                                 <div class="col-xs-3" id="DivCmbIdioma" style="height:35px !important;">
-                                                    <select id="CmbIdioma" class="col-xs-12">
+                                                    <select id="CmbIdioma" class="col-xs-12" hidden>
                                                         <asp:Literal runat="server" ID="LtIdiomas"></asp:Literal>
                                                     </select>
                                                 </div>
@@ -230,7 +230,7 @@
                                                     </h4>
                                                 </div> 
                                             </div>  
-                                            <div class="alert alert-info">
+                                            <div class="alert alert-info">icon-ok
                                                 <strong><%=this.Dictionary["Common_Warning"] %></strong>
                                                 <%=this.Dictionary["Item_Country_WarningMessage"] %><br />
                                             </div>

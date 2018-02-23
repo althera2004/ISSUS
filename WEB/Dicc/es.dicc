@@ -417,6 +417,8 @@ Item_Document_Error_DeleteReasonRequired::Especificar el motivo de eliminación
 Item_Document_ErrorMessage_AlreadyExists::Ya existe
 Item_Document_ErrorMessage_StartDatePreviousRevision::La fecha de inicio no puede ser posteior a la primera revisión
 Item_Document_FieldLabel_Category::Categoría
+Item_Document_Btn_Anular::Inactivar
+Item_Document_Btn_Restaurar::Reactivar
 Item_Document_FieldLabel_Code::Código
 Item_Document_FieldLabel_Conservation::Conservación
 Item_Document_FieldLabel_CreationDate::Fecha alta
@@ -1122,6 +1124,8 @@ Item_Indicador_Message_ProcessBlocked::El indicador está vinculado a Objetivos
 Item_Indicador_New_Button::Añadir
 Item_Indicador_New_Label::Nuevo indicador
 Item_Indicador_Popup_DeleteRecord_Message::¿Quiere eliminar el registro
+Item_Indicador_PopupDelete_Message::Quiere eliminar el indicador
+Item_Indicador_PopupDelete_Message2::Esta acción no se puede deshacer!
 Item_Indicador_PopupAnular_Title::Anular indicador
 Item_Indicador_RecordsReportTitle::Registros de indicador
 Item_Indicador_Tab_Basic::Datos básicos
