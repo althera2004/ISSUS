@@ -3,7 +3,7 @@
 jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || '&nbsp;';
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true) {
                 title.html($title);
             }
@@ -27,121 +27,121 @@ jQuery(function ($) {
         IncidentGetFilter();
     });
 
-    $('#BtnRecordShowAll').on('click', function (e) {
+    $("#BtnRecordShowAll").on("click", function (e) {
         e.preventDefault();
         IncidentListGetAll();
     });
 
-    $('#BtnRecordShowNone').on('click', function (e) {
+    $("#BtnRecordShowNone").on("click", function (e) {
         e.preventDefault();
         IncidentListGetNone();
     });
 });
 
 function IncidentListGetAll() {
-    document.getElementById('BtnRecordShowAll').style.display = 'none';
-    document.getElementById('BtnRecordShowNone').style.display = '';
+    document.getElementById("BtnRecordShowAll").style.display = "none";
+    document.getElementById("BtnRecordShowNone").style.display = "";
     var ok = true;
-    VoidTable('ListDataTable');
+    VoidTable("ListDataTable");
 
-    document.getElementById('RIncidentStatus1').checked = true;
-    document.getElementById('RIncidentStatus2').checked = true;
-    document.getElementById('RIncidentStatus3').checked = true;
-    document.getElementById('RIncidentStatus4').checked = true;
+    document.getElementById("RIncidentStatus1").checked = true;
+    document.getElementById("RIncidentStatus2").checked = true;
+    document.getElementById("RIncidentStatus3").checked = true;
+    document.getElementById("RIncidentStatus4").checked = true;
 
-    document.getElementById('ROrigin0').checked = true;
-    document.getElementById('ROrigin1').checked = false;
-    document.getElementById('ROrigin2').checked = false;
-    document.getElementById('ROrigin3').checked = false;
-    document.getElementById('ItemTableError').style.display = 'none';
-    document.getElementById('ItemTableVoid').style.display = 'none';
-    document.getElementById('ErrorDate').style.display = 'none';
-    document.getElementById('ErrorStatus').style.display = 'none';
-    document.getElementById('ErrorOrigin').style.display = 'none';
-    document.getElementById('ErrorDepartment').style.display = 'none';
-    document.getElementById('ErrorProvider').style.display = 'none';
-    document.getElementById('ErrorCustomer').style.display = 'none';
-    var from = GetDate($('#TxtDateFrom').val(), '-');
-    var to = GetDate($('#TxtDateTo').val(), '-');
+    document.getElementById("ROrigin0").checked = true;
+    document.getElementById("ROrigin1").checked = false;
+    document.getElementById("ROrigin2").checked = false;
+    document.getElementById("ROrigin3").checked = false;
+    document.getElementById("ItemTableError").style.display = "none";
+    document.getElementById("ItemTableVoid").style.display = "none";
+    document.getElementById("ErrorDate").style.display = "none";
+    document.getElementById("ErrorStatus").style.display = "none";
+    document.getElementById("ErrorOrigin").style.display = "none";
+    document.getElementById("ErrorDepartment").style.display = "none";
+    document.getElementById("ErrorProvider").style.display = "none";
+    document.getElementById("ErrorCustomer").style.display = "none";
+    var from = GetDate($("#TxtDateFrom").val(), "-");
+    var to = GetDate($("#TxtDateTo").val(), "-");
     IncidentGetFilter();
 }
 
 function IncidentListGetNone() {
-    document.getElementById('BtnRecordShowAll').style.display = '';
-    document.getElementById('BtnRecordShowNone').style.display = 'none';
+    document.getElementById("BtnRecordShowAll").style.display = "";
+    document.getElementById("BtnRecordShowNone").style.display = "none";
     var ok = true;
-    VoidTable('ListDataTable');
+    VoidTable("ListDataTable");
 
-    document.getElementById('RIncidentStatus1').checked = false;
-    document.getElementById('RIncidentStatus2').checked = false;
-    document.getElementById('RIncidentStatus3').checked = false;
-    document.getElementById('RIncidentStatus4').checked = false;
+    document.getElementById("RIncidentStatus1").checked = false;
+    document.getElementById("RIncidentStatus2").checked = false;
+    document.getElementById("RIncidentStatus3").checked = false;
+    document.getElementById("RIncidentStatus4").checked = false;
 
-    document.getElementById('ROrigin0').checked = false;
-    document.getElementById('ROrigin1').checked = false;
-    document.getElementById('ROrigin2').checked = false;
-    document.getElementById('ROrigin3').checked = false;
-    document.getElementById('ItemTableError').style.display = 'none';
-    document.getElementById('ItemTableVoid').style.display = 'none';
-    document.getElementById('ErrorDate').style.display = 'none';
-    document.getElementById('ErrorStatus').style.display = 'none';
-    document.getElementById('ErrorOrigin').style.display = 'none';
-    document.getElementById('ErrorDepartment').style.display = 'none';
-    document.getElementById('ErrorProvider').style.display = 'none';
-    document.getElementById('ErrorCustomer').style.display = 'none';
-    var from = GetDate($('#TxtDateFrom').val(), '-');
-    var to = GetDate($('#TxtDateTo').val(), '-');
+    document.getElementById("ROrigin0").checked = false;
+    document.getElementById("ROrigin1").checked = false;
+    document.getElementById("ROrigin2").checked = false;
+    document.getElementById("ROrigin3").checked = false;
+    document.getElementById("ItemTableError").style.display = "none";
+    document.getElementById("ItemTableVoid").style.display = "none";
+    document.getElementById("ErrorDate").style.display = "none";
+    document.getElementById("ErrorStatus").style.display = "none";
+    document.getElementById("ErrorOrigin").style.display = "none";
+    document.getElementById("ErrorDepartment").style.display = "none";
+    document.getElementById("ErrorProvider").style.display = "none";
+    document.getElementById("ErrorCustomer").style.display = "none";
+    var from = GetDate($("#TxtDateFrom").val(), "-");
+    var to = GetDate($("#TxtDateTo").val(), "-");
 }
 
-var targetCmbOrigin1 = document.getElementById('CmbOrigin1');
-/*var departmentDefaultOption = document.createElement('OPTION');
+var targetCmbOrigin1 = document.getElementById("CmbOrigin1");
+/*var departmentDefaultOption = document.createElement("OPTION");
 departmentDefaultOption.value = 0;
 departmentDefaultOption.appendChild(document.createTextNode(Dictionary.Common_SelectOne));
 target.appendChild(departmentDefaultOption);*/
 
-var departmentAllOption = document.createElement('OPTION');
+var departmentAllOption = document.createElement("OPTION");
 departmentAllOption.value = -2;
 departmentAllOption.appendChild(document.createTextNode(Dictionary.Common_All_Male_Plural));
 targetCmbOrigin1.appendChild(departmentAllOption);
 
 for (var x = 0; x < Departments.length; x++) {
-    var optionCmbOrigin1 = document.createElement('OPTION');
+    var optionCmbOrigin1 = document.createElement("OPTION");
     optionCmbOrigin1.value = Departments[x].Id;
     optionCmbOrigin1.appendChild(document.createTextNode(Departments[x].Description));
     targetCmbOrigin1.appendChild(optionCmbOrigin1);
 }
 
-var targetCmbOrigin2 = document.getElementById('CmbOrigin2');
-/*var providerDefaultOption = document.createElement('OPTION');
+var targetCmbOrigin2 = document.getElementById("CmbOrigin2");
+/*var providerDefaultOption = document.createElement("OPTION");
 providerDefaultOption.value = 0;
 providerDefaultOption.appendChild(document.createTextNode(Dictionary.Common_SelectOne));
 target.appendChild(providerDefaultOption);*/
 
-var providerAllOption = document.createElement('OPTION');
+var providerAllOption = document.createElement("OPTION");
 providerAllOption.value = -2;
 providerAllOption.appendChild(document.createTextNode(Dictionary.Common_All_Male_Plural));
 targetCmbOrigin2.appendChild(providerAllOption);
 
 for (var x2 = 0; x2 < Providers.length; x2++) {
-    var optionCmbOrigin2 = document.createElement('OPTION');
+    var optionCmbOrigin2 = document.createElement("OPTION");
     optionCmbOrigin2.value = Providers[x2].Id;
     optionCmbOrigin2.appendChild(document.createTextNode(Providers[x2].Description));
     targetCmbOrigin2.appendChild(optionCmbOrigin2);
 }
 
-var targetCmbOrigin3 = document.getElementById('CmbOrigin3');
+var targetCmbOrigin3 = document.getElementById("CmbOrigin3");
 /*var customerDefaultOption = document.createElement('OPTION');
 customerDefaultOption.value = 0;
 customerDefaultOption.appendChild(document.createTextNode(Dictionary.Common_SelectOne));
 target.appendChild(customerDefaultOption);*/
 
-var customerAllOption = document.createElement('OPTION');
+var customerAllOption = document.createElement("OPTION");
 customerAllOption.value = -2;
 customerAllOption.appendChild(document.createTextNode(Dictionary.Common_All_Male_Plural));
 targetCmbOrigin3.appendChild(customerAllOption);
 
 for (var x3 = 0; x3 < Customers.length; x3++) {
-    var optionCmbOrigin3 = document.createElement('OPTION');
+    var optionCmbOrigin3 = document.createElement("OPTION");
     optionCmbOrigin3.value = Customers[x3].Id;
     optionCmbOrigin3.appendChild(document.createTextNode(Customers[x3].Description));
     targetCmbOrigin3.appendChild(optionCmbOrigin3);
@@ -208,37 +208,34 @@ function IncidentGetFilter(exportType) {
 
     if (!status1 && !status2 && !status3 && !status4) {
         ok = false;
-        document.getElementById('ErrorStatus').style.display = '';
+        document.getElementById("ErrorStatus").style.display = "";
     }
 
     if (!origin0) {
-        if (origin1 && $('#CmbOrigin1').val() === 0) {
+        if (origin1 && $("#CmbOrigin1").val() === 0) {
             ok = false;
-            //document.getElementById('ErrorOrigin').style.display = '';
-            document.getElementById('ErrorDepartment').style.display = '';
+            document.getElementById('ErrorDepartment').style.display = "";
         }
-        if (origin2 && $('#CmbOrigin2').val() === 0) {
+        if (origin2 && $("#CmbOrigin2").val() === 0) {
             ok = false;
-            //document.getElementById('ErrorOrigin').style.display = '';
-            document.getElementById('ErrorProvider').style.display = '';
+            document.getElementById('ErrorProvider').style.display = "";
         }
-        if (origin3 && $('#CmbOrigin3').val() === 0) {
+        if (origin3 && $("#CmbOrigin3").val() === 0) {
             ok = false;
-            //document.getElementById('ErrorOrigin').style.display = '';
-            document.getElementById('ErrorCustomer').style.display = '';
+            document.getElementById("ErrorCustomer").style.display = "";
         }
     }
 
     if (ok === false) {
-        document.getElementById('ItemTableError').style.display = '';
+        document.getElementById("ItemTableError").style.display = "";
         return false;
     }
 
     var origin = 0;
     var originId = 0;
-    if (origin1 === true) { origin = 1; originId = $('#CmbOrigin1').val() * 1; }
-    if (origin2 === true) { origin = 2; originId = $('#CmbOrigin2').val() * 1; }
-    if (origin3 === true) { origin = 3; originId = $('#CmbOrigin3').val() * 1; }
+    if (origin1 === true) { origin = 1; originId = $("#CmbOrigin1").val() * 1; }
+    if (origin2 === true) { origin = 2; originId = $("#CmbOrigin2").val() * 1; }
+    if (origin3 === true) { origin = 3; originId = $("#CmbOrigin3").val() * 1; }
     var data =
     {
         companyId: Company.Id,
@@ -249,24 +246,24 @@ function IncidentGetFilter(exportType) {
         statusInProgress: status3,
         statusClose: status4,
         origin: origin,
-        departmentId: $('#CmbOrigin1').val() * 1,
-        providerId: $('#CmbOrigin2').val() * 1,
-        customerId: $('#CmbOrigin3').val() * 1
+        departmentId: $("#CmbOrigin1").val() * 1,
+        providerId: $("#CmbOrigin2").val() * 1,
+        customerId: $("#CmbOrigin3").val() * 1
     };
     $.ajax({
-        type: "POST",
-        url: "/Async/IncidentActions.asmx/GetFilter",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/IncidentActions.asmx/GetFilter",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             eval("IncidentList=" + msg.d + ";");
             ItemRenderTable(IncidentList);
             if (typeof exportType !== "undefined" && exportType !== "null") {
                 ExportPDF();
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
@@ -274,13 +271,13 @@ function IncidentGetFilter(exportType) {
 
 function ItemRenderTable(list) {
     items = new Array();
-    var target = document.getElementById('ListDataTable');
-    VoidTable('ListDataTable');
-    target.style.display = '';
+    var target = document.getElementById("ListDataTable");
+    VoidTable("ListDataTable");
+    target.style.display = "";
 
     if (list.length === 0) {
-        document.getElementById('ItemTableVoid').style.display = '';
-        target.style.display = 'none';
+        document.getElementById("ItemTableVoid").style.display = "";
+        target.style.display = "none";
         $("#NumberCosts").html("0");
         return false;
     }
@@ -288,30 +285,30 @@ function ItemRenderTable(list) {
     var total = 0;
     for (var x = 0; x < list.length; x++) {
         var item = list[x];
-        var row = document.createElement('TR');
-        var tdNumber = document.createElement('TD');
-        var tdOpen = document.createElement('TD');
-        var tdStatus = document.createElement('TD');
-        var tdOrigin = document.createElement('TD');
-        var tdDescription = document.createElement('TD');
-        var tdAction = document.createElement('TD');
-        var tdAmount = document.createElement('TD');
-        var tdClose = document.createElement('TD');
+        var row = document.createElement("TR");
+        var tdNumber = document.createElement("TD");
+        var tdOpen = document.createElement("TD");
+        var tdStatus = document.createElement("TD");
+        var tdOrigin = document.createElement("TD");
+        var tdDescription = document.createElement("TD");
+        var tdAction = document.createElement("TD");
+        var tdAmount = document.createElement("TD");
+        var tdClose = document.createElement("TD");
 
-        var status = '';
-        var colorStatus = '#fff;'
-        if (item.Status === 1) { status = Dictionary.Item_Incident_Status1; colorStatus = '#f00'; }
-        if (item.Status === 2) { status = Dictionary.Item_Incident_Status2; colorStatus = '#dd0'; }
-        if (item.Status === 3) { status = Dictionary.Item_Incident_Status3; colorStatus = '#070'; }
-        if (item.Status === 4) { status = Dictionary.Item_Incident_Status4; colorStatus = '#000'; }
+        var status = "";
+        var colorStatus = "#fff;"
+        if (item.Status === 1) { status = Dictionary.Item_Incident_Status1; colorStatus = "#f00"; }
+        if (item.Status === 2) { status = Dictionary.Item_Incident_Status2; colorStatus = "#dd0"; }
+        if (item.Status === 3) { status = Dictionary.Item_Incident_Status3; colorStatus = "#070"; }
+        if (item.Status === 4) { status = Dictionary.Item_Incident_Status4; colorStatus = "#000"; }
 
         if (item.Department.Id > 0) {
             if (user.Grants.Department.Read === false) {
                 tdOrigin.appendChild(document.createTextNode(item.Department.Name));
             }
             else {
-                var link = document.createElement('A');
-                link.href = 'DepartmentView.aspx?id=' + item.Department.Id;
+                var link = document.createElement("A");
+                link.href = "DepartmentView.aspx?id=" + item.Department.Id;
                 link.appendChild(document.createTextNode(item.Department.Description));
                 tdOrigin.appendChild(link);
             }
@@ -322,8 +319,8 @@ function ItemRenderTable(list) {
                 tdOrigin.appendChild(document.createTextNode(item.Provider.Description));
             }
             else {
-                var link1 = document.createElement('A');
-                link1.href = 'ProvidersView.aspx?id=' + item.Provider.Id;
+                var link1 = document.createElement("A");
+                link1.href = "ProvidersView.aspx?id=" + item.Provider.Id;
                 link1.appendChild(document.createTextNode(item.Provider.Description));
                 tdOrigin.appendChild(link1);
             }

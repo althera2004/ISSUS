@@ -427,13 +427,9 @@
 
                     $("#ListDataFooter").html("<th style=\"color:#aaa;\"><i>" + Dictionary.Common_RegisterCount + ":&nbsp;<span id=\"NumberCosts\"> " +cont + "</span></i></th>");
                 }
-            }
-            
+            }            
 
-            if (document.getElementById("ListDataTable") == null) {
-                document.getElementById("nav-search").style.display = "none";
-            }
-
+			// @alex: si la página no es una lista ó no hay datos que mostrar, se oculta el buscador de arriba a la derecha
             if(items.length===0 || document.getElementById("ListDataTable") == null)
             {
                 document.getElementById("nav-search").style.display="none";
@@ -520,7 +516,10 @@
                 }
             }
 
-            function numberDecimalFocus(e){
+            function numberDecimalFocus(e) {
+                console.log("numberDecimalFocus", e.currentTarget.value * 1);
+                e.currentTarget.value = e.currentTarget.value.toString().split(".").join("").split(",").join(".");
+                console.log("numberDecimalFocus", e.currentTarget.value * 1);
                 if(e.currentTarget.value * 1 === 0){
                     e.currentTarget.value = "";
                 }
@@ -531,6 +530,9 @@
                 if(e.currentTarget.value * 1 === 0){
                     e.currentTarget.value = "";
                 }
+				
+				// @alex: poner el formato en magnitud (sin puntos de millares)
+				e.currentTarget.value = e.currentTarget.value.toString().split(".").join("").split(",").join(".");
             }
 
             function numberDecimalBlur(e) {
@@ -542,9 +544,18 @@
             function moneyBlur(e) {
                 var value = e.currentTarget.value;
                 console.log("moneyBlur", value);
+
+                if (e.currentTarget.className.indexOf("nullable") !== -1) {
+                    if (value === "") {
+                        console.log("moneyBlur", "null value");
+                        return false;
+                    }
+                }
+
                 if ($.isNumeric(value) === false) {
                     value = value = StringToNumberNullable(value, '.', ',');
                 }
+
                 if(e.currentTarget.className.indexOf("nullable") != -1 && value ===""){
                 }
                 else{
@@ -560,18 +571,26 @@
                 }
                 else{
                     value = Math.round(value * 1000000) / 1000000;
-                    e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
+                    // @alex: poner puntos de millar
+					// e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
+					e.currentTarget.value = ToMoneyFormat(value, 6);
                 }
             }
 
             function numberDecimalBlur4(e) {
                 var value = e.currentTarget.value;
-                value = Math.round(value * 10000) / 10000;
-                e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
+                if(e.currentTarget.className.indexOf("nullable") != -1 && value ===""){
+                }
+                else{
+					value = Math.round(value * 10000) / 10000;
+					// @alex: poner puntos de millar
+					// e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
+					e.currentTarget.value = ToMoneyFormat(value, 4);
+				}
             }
 
             function numberIntegerBlur(e){
-                e.currentTarget.value = (e.currentTarget.value * 1).toString();
+                e.currentTarget.value = ToMoneyFormat(e.currentTarget.value * 1, 0);
             }
 
             $("input.money-bank").on("keyup", numberDecimalUp);
@@ -594,10 +613,12 @@
             $("input.integerFormated").on("focus", numberIntegerFocus);
             $("input.integerFormated").on("blur", numberIntegerBlur);
 
+			// @alex: preventDefault es un semáforo que evito que al pulsar ENTER en un textarea se haga el submit() del formulario
             var preventSubmit = false;
             $("TEXTAREA").on("focus", function(e) { preventSubmit = true; });
             $("TEXTAREA").on("blur", function(e) { preventSubmit = false; });
 
+			// @alex: esto es lo que hace que al pulsar ENTER se haga el submit del formulario
             $(document).keypress(function(e) {
                 if(e.which == 13) {
                     var overlay = $(".ui-widget-overlay");
@@ -626,9 +647,24 @@
             }
             setInterval("KeepSessionAlive()", 60000);
 
+			// @alex: con estas funciones se pasan las magnitudes de los campos al formato de cada uno
+			// --------------------------------------------------------------------------------------------
             $(".money-bank").each(function (){
                 $(this).val(ToMoneyFormat(ParseInputValueToNumber($(this).val()), 2));
             });
+			$(".decimalFormated").each(function (){
+                $(this).val(ToMoneyFormat(ParseInputValueToNumber($(this).val()), 2));
+            });
+			$(".decimalFormated4").each(function (){
+                $(this).val(ToMoneyFormat(ParseInputValueToNumber($(this).val()), 4));
+            });
+			$(".decimalFormated6").each(function (){
+                $(this).val(ToMoneyFormat(ParseInputValueToNumber($(this).val()), 6));
+            });
+			$(".integerFormated").each(function (){
+                $(this).val(ToMoneyFormat(ParseInputValueToNumber($(this).val()), 0));
+            });
+			// --------------------------------------------------------------------------------------------
 
             function EmployeeGetById(id){
                 for (var x = 0; x < Employees.length; x++) {
@@ -639,6 +675,7 @@
                 return null;
             }
 
+			// @alex: aquí se decide de poner el bubble en la opción "Dashboard" con la cantidad de tareas pendientes caducadas
             if (PendentTasks > 0) {
                 $("#menuoption-1 i").append("<span class=\"badge badge-primary\" style=\"margin-right:8px;font-family:Arial;\">" + PendentTasks + "</span>");
             }

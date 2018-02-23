@@ -100,6 +100,7 @@ function IndicatorVinculatedLayout() {
         $("#RecordListTitle").html(Dictionary.Item_Objetivo_Tab_Records);
         //$("#DivIndicadorRecordsMessage").hide();
         $("#TxtPeriodicity").removeAttr("disabled");
+		$("#Label1").html(Dictionary.Common_LabelDays);
     }
     else {
         $("#CmbIndicadorLabel").show();
@@ -107,6 +108,7 @@ function IndicatorVinculatedLayout() {
         $("#CmbIndicador").chosen();
         $("#CmbMetaLabel").hide();
         $("#DivCmbMetaComparer").hide();
+		$("#Label1").html(Dictionary.Item_Objetivo_CustomLabelDays);
         $("#RecordListTitle").html(Dictionary.Item_Objetivo_Tab_RecordsFromIndicator + " <strong><i>&quot;" + IndicadorName + "&quot;</i></strong>");
         //$("#DivIndicadorRecordsMessage").show();
         $("#TxtPeriodicity").attr("disabled", "disabled");

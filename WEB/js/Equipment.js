@@ -53,98 +53,98 @@ function SaveEquipment() {
     var InternalVerification = emptyVerification;
     var ExternalVerification = emptyVerification;
 
-    if (document.getElementById('CalibrationInternalActive').checked === true) {
+    if (document.getElementById("CalibrationInternalActive").checked === true) {
         InternalCalibration = {
             "Id": Equipment.InternalCalibration.Id === 0 ? -1 : Equipment.InternalCalibration.Id,
             "EquipmentId": Equipment.Id,
             "CompanyId": Company.Id,
             "CalibrationType": 0,
-            "Description": $('#TxtCalibrationInternalOperation').val(),
-            "Periodicity": ParseInputValueToNumber($('#TxtCalibrationInternalPeriodicity').val()),
-            "Uncertainty": ParseInputValueToNumber($('#TxtCalibrationInternalUncertainty').val()),
-            "Range": $('#TxtCalibrationInternalRange').val(),
-            "Pattern": $('#TxtCalibrationInternalPattern').val(),
-            "Cost": ParseInputValueToNumber($('#TxtCalibrationInternalCost').val()),
-            "Notes": $('#TxtCalibrationInternalNotes').val(),
+            "Description": $("#TxtCalibrationInternalOperation").val(),
+            "Periodicity": ParseInputValueToNumber($("#TxtCalibrationInternalPeriodicity").val()),
+            "Uncertainty": ParseInputValueToNumber($("#TxtCalibrationInternalUncertainty").val()),
+            "Range": $("#TxtCalibrationInternalRange").val(),
+            "Pattern": $("#TxtCalibrationInternalPattern").val(),
+            "Cost": ParseInputValueToNumber($("#TxtCalibrationInternalCost").val()),
+            "Notes": $("#TxtCalibrationInternalNotes").val(),
             "Provider": { Id: 0 },
-            "Responsible": GetEmployeeById($('#CmbCalibrationInternalResponsible').val() * 1)
+            "Responsible": GetEmployeeById($("#CmbCalibrationInternalResponsible").val() * 1)
         };
     }
 
-    if (document.getElementById('CalibrationExternalActive').checked === true) {
+    if (document.getElementById("CalibrationExternalActive").checked === true) {
         ExternalCalibration = {
             "Id": Equipment.ExternalCalibration.Id === 0 ? -1 : Equipment.ExternalCalibration.Id,
             "EquipmentId": Equipment.Id,
             "CompanyId": Company.Id,
             "CalibrationType": 1,
-            "Description": $('#TxtCalibrationExternalOperation').val(),
-            "Periodicity": ParseInputValueToNumber($('#TxtCalibrationExternalPeriodicity').val()),
-            "Uncertainty": ParseInputValueToNumber($('#TxtCalibrationExternalUncertainty').val()),
-            "Range": $('#TxtCalibrationExternalRange').val(),
-            "Pattern": $('#TxtCalibrationExternalPattern').val(),
-            "Cost": ParseInputValueToNumber($('#TxtCalibrationExternalCost').val()),
-            "Notes": $('#TxtCalibrationExternalNotes').val(),
-            "Provider": { "Id": $('#CmbCalibrationExternalProvider').val() * 1 },
-            "Responsible": GetEmployeeById($('#CmbCalibrationExternalResponsible').val() * 1)
+            "Description": $("#TxtCalibrationExternalOperation").val(),
+            "Periodicity": ParseInputValueToNumber($("#TxtCalibrationExternalPeriodicity").val()),
+            "Uncertainty": ParseInputValueToNumber($("#TxtCalibrationExternalUncertainty").val()),
+            "Range": $("#TxtCalibrationExternalRange").val(),
+            "Pattern": $("#TxtCalibrationExternalPattern").val(),
+            "Cost": ParseInputValueToNumber($("#TxtCalibrationExternalCost").val()),
+            "Notes": $("#TxtCalibrationExternalNotes").val(),
+            "Provider": { "Id": $("#CmbCalibrationExternalProvider").val() * 1 },
+            "Responsible": GetEmployeeById($("#CmbCalibrationExternalResponsible").val() * 1)
         };
     }
 
-    if (document.getElementById('VerificationInternalActive').checked === true) {
+    if (document.getElementById("VerificationInternalActive").checked === true) {
         InternalVerification = {
             "Id": Equipment.InternalVerification.Id === 0 ? -1 : Equipment.InternalVerification.Id,
             "EquipmentId": Equipment.Id,
             "CompanyId": Company.Id,
             "VerificationType": 0,
-            "Description": $('#TxtVerificationInternalOperation').val(),
-            "Periodicity": ParseInputValueToNumber($('#TxtVerificationInternalPeriodicity').val()),
-            "Uncertainty": StringToNumberNullable($('#TxtVerificationInternalUncertainty').val(), ".", ","),
-            "Range": $('#TxtVerificationInternalRange').val(),
-            "Pattern": $('#TxtVerificationInternalPattern').val(),
-            "Cost": StringToNumberNullable($('#TxtVerificationInternalCost').val(), ".", ","),
-            "Notes": $('#TxtVerificationInternalNotes').val(),
-            "Responsible": GetEmployeeById($('#CmbVerificationInternalResponsible').val() * 1)
+            "Description": $("#TxtVerificationInternalOperation").val(),
+            "Periodicity": ParseInputValueToNumber($("#TxtVerificationInternalPeriodicity").val()),
+            "Uncertainty": StringToNumberNullable($("#TxtVerificationInternalUncertainty").val(), ".", ","),
+            "Range": $("#TxtVerificationInternalRange").val(),
+            "Pattern": $("#TxtVerificationInternalPattern").val(),
+            "Cost": StringToNumberNullable($("#TxtVerificationInternalCost").val(), ".", ","),
+            "Notes": $("#TxtVerificationInternalNotes").val(),
+            "Responsible": GetEmployeeById($("#CmbVerificationInternalResponsible").val() * 1)
         };
     }
 
-    if (document.getElementById('VerificationExternalActive').checked === true) {
+    if (document.getElementById("VerificationExternalActive").checked === true) {
         ExternalVerification = {
             "Id": Equipment.ExternalVerification.Id === 0 ? -1 : Equipment.ExternalVerification.Id,
             "EquipmentId": Equipment.Id,
             "CompanyId": Company.Id,
             "VerificationType": 1,
-            "Description": $('#TxtVerificationExternalOperation').val(),
-            "Periodicity": ParseInputValueToNumber($('#TxtVerificationExternalPeriodicity').val()),
-            "Uncertainty": StringToNumberNullable($('#TxtVerificationExternalUncertainty').val(), ".", ","),
-            "Range": $('#TxtVerificationExternalRange').val(),
-            "Pattern": $('#TxtVerificationExternalPattern').val(),
-            "Cost": StringToNumberNullable($('#TxtVerificationExternalCost').val(), ".", ","),
-            "Notes": $('#TxtVerificationExternalNotes').val(),
-            "Provider": { "Id": $('#CmbVerificationExternalProvider').val() * 1 },
-            "Responsible": GetEmployeeById($('#CmbVerificationExternalResponsible').val() * 1)
+            "Description": $("#TxtVerificationExternalOperation").val(),
+            "Periodicity": ParseInputValueToNumber($("#TxtVerificationExternalPeriodicity").val()),
+            "Uncertainty": StringToNumberNullable($("#TxtVerificationExternalUncertainty").val(), ".", ","),
+            "Range": $("#TxtVerificationExternalRange").val(),
+            "Pattern": $("#TxtVerificationExternalPattern").val(),
+            "Cost": StringToNumberNullable($("#TxtVerificationExternalCost").val(), ".", ","),
+            "Notes": $("#TxtVerificationExternalNotes").val(),
+            "Provider": { "Id": $("#CmbVerificationExternalProvider").val() * 1 },
+            "Responsible": GetEmployeeById($("#CmbVerificationExternalResponsible").val() * 1)
         };
     }
 
     var NewEquipment = {
         "Id": Equipment.Id,
         "CompanyId": Company.Id,
-        "Code": $('#TxtCode').val(),
-        "Description": $('#TxtDescription').val(),
-        "TradeMark": $('#TxtTradeMark').val(),
-        "Model": $('#TxtModel').val(),
-        "SerialNumber": $('#TxtSerialNumber').val(),
-        "Location": $('#TxtLocation').val(),
-        "MeasureRange": ParseInputValueToNumber($('#TxtMeasureRange').val()),
-        "ScaleDivisionValue": ParseInputValueToNumber($('#TxtScaleDivision').val()),
+        "Code": $("#TxtCode").val(),
+        "Description": $("#TxtDescription").val(),
+        "TradeMark": $("#TxtTradeMark").val(),
+        "Model": $("#TxtModel").val(),
+        "SerialNumber": $("#TxtSerialNumber").val(),
+        "Location": $("#TxtLocation").val(),
+        "MeasureRange": ParseInputValueToNumber($("#TxtMeasureRange").val()),
+        "ScaleDivisionValue": ParseInputValueToNumber($("#TxtScaleDivision").val()),
         "MeasureUnit": {
-            'Id': $('#CmbEquipmentScaleDivision').val() * 1,
-            'Value': $('#CmbEquipmentScaleDivision option:selected').text()
+            "Id": $("#CmbEquipmentScaleDivision").val() * 1,
+            "Value": $("#CmbEquipmentScaleDivision option:selected").text()
         },
-        "Responsible": GetEmployeeById($('#CmbResponsible').val() * 1),
-        "IsCalibration": document.getElementById('Contentholder1_status0').checked,
-        "IsVerification": document.getElementById('Contentholder1_status1').checked,
-        "IsMaintenance": document.getElementById('Contentholder1_status2').checked,
-        "Notes": $('#TxtNotes').val(),
-        "Observations": $('#TxtObservations').val(),
+        "Responsible": GetEmployeeById($("#CmbResponsible").val() * 1),
+        "IsCalibration": document.getElementById("Contentholder1_status0").checked,
+        "IsVerification": document.getElementById("Contentholder1_status1").checked,
+        "IsMaintenance": document.getElementById("Contentholder1_status2").checked,
+        "Notes": $("#TxtNotes").val(),
+        "Observations": $("#TxtObservations").val(),
         "Active": true,
         "InternalCalibration": InternalCalibration,
         "ExternalCalibration": ExternalCalibration,
@@ -160,11 +160,11 @@ function SaveEquipment() {
     if (Equipment.Id > 0) {
         var webMethodUpdate = "/Async/EquipmentActions.asmx/Update";
         var dataUpdate = {
-            'newItem': NewEquipment,
-            'oldItem': Equipment,
-            'companyId': Company.Id,
-            'userId': user.Id,
-            'scaleDivision': $('#TxtScaleDivision').val()
+            "newItem": NewEquipment,
+            "oldItem": Equipment,
+            "companyId": Company.Id,
+            "userId": user.Id,
+            "scaleDivision": $("#TxtScaleDivision").val()
         };
         $.ajax({
             type: "POST",
@@ -183,10 +183,10 @@ function SaveEquipment() {
     else {
         var webMethodInsert = "/Async/EquipmentActions.asmx/Insert";
         var dataInsert = {
-            'equipment': NewEquipment,
-            'companyId': Company.Id,
-            'userId': user.Id,
-            'scaleDivision': $('#TxtScaleDivision').val()
+            "equipment": NewEquipment,
+            "companyId": Company.Id,
+            "userId": user.Id,
+            "scaleDivision": $("#TxtScaleDivision").val()
         };
         $.ajax({
             type: "POST",
@@ -211,48 +211,15 @@ function SaveEquipment() {
 
 function Reload()
 {
-    document.location = 'EquipmentView.aspx?id=' + EquipmentNewId;
+    document.location = "EquipmentView.aspx?id=" + EquipmentNewId;
 }
 
 // ISSUS-190
-document.getElementById('TxtCode').focus();
+document.getElementById("TxtCode").focus();
 
 function PrintData() {
-    window.open('/export/PrintEquipmentData.aspx?id=' + Equipment.Id + '&companyId=' + Equipment.CompanyId);
-
+    window.open("/export/PrintEquipmentData.aspx?id=" + Equipment.Id + "&companyId=" + Equipment.CompanyId);
     return false;
-    /*var data =
-    {
-        "equipmentId": Equipment.Id,
-        "companyId": Equipment.CompanyId,
-        "applicationUserId": ApplicationUser.Id
-    };
-    var webMethod = "/Export/PrintEquipmentData.aspx/PDF";
-    LoadingShow(Dictionary.Common_Report_Rendering);
-    $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
-            LoadingHide();
-            var link = document.createElement('a');
-            link.id = 'download';
-            link.href = msg.d.MessageError;
-            link.download = msg.d.MessageError;
-            link.target = '_blank';
-            document.body.appendChild(link);
-            document.body.removeChild(link);
-            $('#download').trigger('click');
-            window.open(msg.d.MessageError);
-            $("#dialogAddAddress").dialog('close');
-        },
-        error: function (msg) {
-            LoadingHide();
-            alertUI("error:" + msg.responseText);
-        }
-    });*/
 }
 
 // Poner los actos ordenados

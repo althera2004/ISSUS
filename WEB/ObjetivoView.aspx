@@ -131,7 +131,7 @@
                                                                     <input type="text" id="TxtPeriodicity" placeholder="Periodicitat" class="col-xs-12 col-sm-12 tooltip-info integerFormated" value="0" maxlength="3" onblur="this.value=$.trim(this.value);" />
                                                                     <span class="ErrorMessage" id="TxtPeriodicityErrorRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
                                                                 </div>
-																<label id="Label1" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Label_Days"] %></label>
+																<label id="Label1" class="col-sm-2"><%=this.Dictionary["Common_Label_Days"] %></label>
 															</div>
                                                             <div style="height:12px;clear:both;">&nbsp;</div>
                                                             <div class="form-group">

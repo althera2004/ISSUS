@@ -29,7 +29,7 @@
                                                         <div class="form-group">
                                                             <label id="TxtAmountLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_CostDefinition_Field_Amount"]%></label>                                                            
                                                             <div class="col-sm-2">                                                                                                                            
-                                                                <input type="text" id="TxtAmount" placeholder="<%=this.Dictionary["Item_CostDefinition_Field_Amount"]%>" class="col-xs-12 col-sm-12 tooltip-info money-bank" value="" onblur="this.value=$.trim(this.value);" />
+                                                                <input type="text" id="TxtAmount" placeholder="<%=this.Dictionary["Item_CostDefinition_Field_Amount"]%>" class="col-xs-12 col-sm-12 tooltip-info money-bank" value="" maxlength="12" onblur="this.value=$.trim(this.value);" />
                                                                 <span class="ErrorMessage" id="TxtAmountErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
                                                             </div>	
                                                         </div>

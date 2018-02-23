@@ -24,7 +24,7 @@ function EquipmentRecordGetFilter(filterData, exportType) {
                 }
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
@@ -377,7 +377,7 @@ function Export(data) {
             window.open(msg.d.MessageError);
             $("#dialogAddAddress").dialog("close");
         },
-        " error": function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI("error:" + msg.responseText);
         }

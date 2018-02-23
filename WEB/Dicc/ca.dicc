@@ -1370,6 +1370,7 @@ Item_ObjetivoAction_List_Filter_To::Fins
 Item_ObjetivoList::Objectius
 Item_ObjetivoRecord_FieldLabel_Reason::Motiu
 Item_Objetivos::Objectius
+Item_Objetivo_CustomLabelDays::dies segons indicador
 Item_Proccess::Procés
 Item_Proccess_ListHeader_Name::Nom
 Item_Proccess_ListHeader_ProcessType::Tipus

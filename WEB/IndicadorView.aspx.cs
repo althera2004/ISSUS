@@ -112,8 +112,8 @@ public partial class IndicadorView : Page
     #region IndicadorForm
     public FormText TxtDescription { get; set; }
     public FormTextInteger TxtPeriodicidad { get; set; }
-    public FormTextInteger TxtMeta { get; set; }
-    public FormTextInteger TxtAlarma { get; set; }
+    public FormTextDecimal TxtMeta { get; set; }
+    public FormTextDecimal TxtAlarma { get; set; }
     public FormTextArea TxtCalculo { get; set; }
     public FormSelect CmbUnidad { get; set; }
     public FormSelect CmbMetaComparer { get; set; }
@@ -498,7 +498,7 @@ public partial class IndicadorView : Page
             Required = true
         };
 
-        this.TxtMeta = new FormTextInteger()
+        this.TxtMeta = new FormTextDecimal()
         {
             ColumnSpan = 1,
             ColumnSpanLabel = 0,
@@ -511,7 +511,7 @@ public partial class IndicadorView : Page
             Required = true
         };
 
-        this.TxtAlarma = new FormTextInteger()
+        this.TxtAlarma = new FormTextDecimal()
         {
             ColumnSpan = 1,
             ColumnSpanLabel = 0,
