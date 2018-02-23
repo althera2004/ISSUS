@@ -959,9 +959,9 @@ function RActionChanged() {
             document.getElementById("TxtActionCauses").value = document.getElementById("TxtCauses").value;
             document.getElementById("CmbActionCausesResponsible").value = document.getElementById("CmbCausesResponsible").value;
             document.getElementById("TxtActionCausesDate").value = document.getElementById("TxtCausesDate").value;
-            document.getElementById("TxtActionActions").value = document.getElementById("TxtActions").value;
-            document.getElementById("CmbActionActionsResponsible").value = document.getElementById("CmbActionsResponsible").value;
-            document.getElementById("TxtActionActionsDate").value = document.getElementById("TxtActionsDate").value;
+            // document.getElementById("TxtActionActions").value = document.getElementById("TxtActions").value;
+            // document.getElementById("CmbActionActionsResponsible").value = document.getElementById("CmbActionsResponsible").value;
+            // document.getElementById("TxtActionActionsDate").value = document.getElementById("TxtActionsDate").value;
             // ISSUS-10 document.getElementById("CmbActionActionsExecuter").value = document.getElementById("CmbActionsExecuter").value;
             // ISSUS-10 document.getElementById("TxtActionActionsSchedule").value = document.getElementById("TxtActionsSchedule").value;
 
