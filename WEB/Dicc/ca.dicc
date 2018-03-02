@@ -422,6 +422,7 @@ Item_Document_PopupAnular_Title::Inactivar document
 Item_Document_Error_DeleteReasonRequired::Especificar el motiu de l'eliminació
 Item_Document_ErrorMessage_AlreadyExists::Ja existeix
 Item_Document_ErrorMessage_StartDatePreviousRevision::La data d'inici no pot posterior a la primera revisió
+Item_Document_ErrorMessage_CrossDate::No es pot desactivar abans de la darrera revisió #
 Item_Document_FieldLabel_Category::Categoria
 Item_Document_FieldLabel_Code::Codi
 Item_Document_FieldLabel_Conservation::Conservació

@@ -257,21 +257,34 @@ function AnularConfirmed() {
     console.log("AnularConfirmed");
     document.getElementById("TxtAnularCommentsLabel").style.color = "#000";
     document.getElementById("TxtEndDateLabel").style.color = "#000";
-    document.getElementById("TxtAnularCommentsErrorRequired").style.display = "none";
-    document.getElementById("TxtEndDateErrorRequired").style.display = "none";
-    document.getElementById("TxtEndDateMalformed").style.display = "none";
+    $("#TxtAnularCommentsErrorRequired").hide();
+    $("#TxtEndDateErrorRequired").hide();
+    $("#TxtEndDateMalformed").hide();
+    $("#TxtEndDateCrossDate").hide();
+	var crossDateMessage = $("#TxtEndDateCrossDate").html();
+	crossDateMessage = crossDateMessage.split("#").join($("#TxtRevisionDate").val());
+	$("#TxtEndDateCrossDate").html(crossDateMessage);
 
     var ok = true;
     if ($("#TxtEndDate").val() === "") {
         ok = false;
         document.getElementById("TxtEndDateLabel").style.color = "#f00";
-        document.getElementById("TxtEndDateErrorRequired").style.display = "";
+        $("#TxtEndDateErrorRequired").show();
     }
     else {
         if (validateDate($("#TxtEndDate").val()) === false) {
             ok = false;
             $("#TxtEndDateLabel").css("color", "#f00");
             $("#TxtEndDateMalformed").show();
+        }
+        else {
+            var lastRevisionDate = GetDate($("#TxtRevisionDate").val(), "/", false);
+            var inactivateDate = GetDate($("#TxtEndDate").val(), "/", false);
+            if (inactivateDate < lastRevisionDate) {
+				ok = false;
+                $("#TxtEndDateLabel").css("color", "#f00");
+                $("#TxtEndDateCrossDate").show();
+            }
         }
     }
 
