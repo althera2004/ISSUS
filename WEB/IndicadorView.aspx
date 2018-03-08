@@ -112,7 +112,7 @@
                                                                         <option value="eqlt"><%=this.Dictionary["Common_Comparer_eqlt"] %> (&lt;=)</option>
                                                                     </select>
                                                                     &nbsp;
-                                                                    <input style="display:inline;width:33%;height:30px;" type="text" id="TxtMeta" placeholder="Valor Meta" class="tooltip-info decimalFormated" value="0" maxlength="14" onblur="this.value=$.trim(this.value);" />
+                                                                    <input style="display:inline;width:33%;height:30px;" type="text" id="TxtMeta" placeholder="Meta" class="tooltip-info decimalFormated" value="0" maxlength="14" onblur="this.value=$.trim(this.value);" />
                                                                     <span class="ErrorMessage" id="CmbMetaErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>	
                                                                 <label id="CmbAlarmaLabel" class="col-sm-1 control-label no-padding-right">Alarma</label>
@@ -126,7 +126,7 @@
                                                                         <option value="eqlt"><%=this.Dictionary["Common_Comparer_eqlt"] %> (&lt;=)</option>
                                                                     </select> 
                                                                     &nbsp;                                                                                                                     
-                                                                    <input style="display:inline;width:33%;height:30px;"  type="text" id="TxtAlarma" placeholder="Valor Alarma" class="tooltip-info decimalFormated nullable" value="0" maxlength="14" onblur="this.value=$.trim(this.value);" />                                                                                       
+                                                                    <input style="display:inline;width:33%;height:30px;"  type="text" id="TxtAlarma" placeholder="Alarma" class="tooltip-info decimalFormated nullable" value="0" maxlength="14" onblur="this.value=$.trim(this.value);" />                                                                                       
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">	
