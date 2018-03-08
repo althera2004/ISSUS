@@ -357,6 +357,7 @@
                                                     </div>
                                                     <span class="ErrorMessage" id="TxtEndDateErrorRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
                                                     <span class="ErrorMessage" id="TxtEndDateMalformed" style="display: none;"><%= this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                    <span class="ErrorMessage" id="TxtEndDateCrossDate" style="display: none;"><%= this.Dictionary["Item_Document_ErrorMessage_CrossDate"] %></span>
                                                 </div>
                                             </div>
                                         </div>

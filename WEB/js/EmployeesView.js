@@ -433,7 +433,8 @@ jQuery(function ($) {
     var i = 0;
     for(var x=0; x<ddData.length;x++)
     {
-        if(ddData[x].value === employee.Address.Country) { i=x; break; }
+        if (ddData[x].value === employee.Address.Country) { i = x; break; }
+        console.log("pais", ddData[x]);
     }
 
     $('#CmbPais').ddslick({data: ddData});

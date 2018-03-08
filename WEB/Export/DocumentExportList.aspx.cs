@@ -101,18 +101,19 @@ public partial class Export_DocumentExportList : Page
         iTSpdf.PdfPTable titleTable = new iTSpdf.PdfPTable(1);
         float[] titleWidths = new float[] { 20f };
         titleTable.SetWidths(titleWidths);
-        iTSpdf.PdfPCell titleCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont))
+        titleTable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont))
         {
             HorizontalAlignment = iTS.Element.ALIGN_CENTER,
             Border = iTS.Rectangle.NO_BORDER
-        };
-        titleTable.AddCell(titleCell);
+        });
 
-        
-        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(6);
+
+        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(6)
+        {
+            WidthPercentage = 100
+        };
         float[] cirteriaWidths = new float[] { 10f, 20f, 12f, 30f, 10f, 80f };
         criteriatable.SetWidths(cirteriaWidths);
-        criteriatable.WidthPercentage = 100;
 
         iTSpdf.PdfPCell criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Status"] + " :", timesBold))
         {
@@ -141,14 +142,19 @@ public partial class Export_DocumentExportList : Page
         string statusText = dictionary["Common_All_Male_Plural"];
         string category = dictionary["Common_All_Female_Plural"];
         string origin = dictionary["Common_All_Male_Plural"];
-        if (filter == "A")
+        if (filter.IndexOf("A|") != -1 )
         {
             statusText = dictionary["Common_Active_Plural"];
         }
 
-        if(filter == "B")
+        if (filter.StartsWith("I", StringComparison.OrdinalIgnoreCase))
         {
             statusText = dictionary["Common_Inactive_Plural"];
+        }
+
+        if (filter.StartsWith("|", StringComparison.OrdinalIgnoreCase))
+        {
+            statusText = dictionary["Common_None"];
         }
 
         ReadOnlyCollection<GisoFramework.Item.Document> documents = GisoFramework.Item.Document.GetByCompany(companyId);
@@ -272,23 +278,21 @@ public partial class Export_DocumentExportList : Page
             @"{0}: {1}",
             dictionary["Common_RegisterCount"],
             count);
-        iTSpdf.PdfPCell totalRegistrosCell = new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, times))
+
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = rowEven,
             Padding = 6f,
             PaddingTop = 4f
-        };
+        });
 
-        iTSpdf.PdfPCell blankCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = rowEven,
             Colspan = 4
-        };
-
-        table.AddCell(totalRegistrosCell);
-        table.AddCell(blankCell);
+        });
 
         pdfDoc.Add(criteriatable);
         pdfDoc.Add(table);

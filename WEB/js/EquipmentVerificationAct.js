@@ -172,9 +172,11 @@ function EquipmentVerificationActRenderTable(targetName) {
     var target = document.getElementById(targetName);
     var total = 0;
     for (var x = 0; x < EquipmentVerificationActList.length; x++) {
-        if (x === 2) {
-            break;
-        }
+        // @alex: limitacion a los dos más recientes
+        //if (x === 2) {
+        //    break;
+        //}
+
         if (EquipmentVerificationActList[x].Active === true) {
             total += EquipmentVerificationActRenderRow(EquipmentVerificationActList[x], targetName);
         }

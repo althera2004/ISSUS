@@ -36,16 +36,15 @@ function DepartmentDelete(sender) {
 }
 
 function DepartmentDeleteAction(id) {
-    var webMethod = "/Async/DepartmentActions.asmx/DepartmentDelete";
     var data = { departmentId: DepartmentSelected, companyId: Company.Id, userId: user.Id };
     $("#DepartmentDeleteDialog").dialog("close");
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/DepartmentActions.asmx/DepartmentDelete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             // Eliminar de la lista de departamentos
             var temp = new Array();
             for (var x = 0; x < departmentsCompany.length; x++) {
@@ -63,7 +62,7 @@ function DepartmentDeleteAction(id) {
             ShowDepartmentPopup();
             FillDepartmentCombo();
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
@@ -254,7 +253,7 @@ function ValidateJobPositionForm() {
         }
     }
 
-    if (!RequiredFieldText('TxtDepartmentName')) { ok = false; }
+    if (!RequiredFieldText("TxtDepartmentName")) { ok = false; }
     return ok;
 }
 
@@ -262,8 +261,8 @@ jQuery(function ($) {
     $('#TxtDepartmentName').val(getDepartmentName(SelectedDepartment));
 
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
-        _title: function (title) {
-            var $title = this.options.title || '&nbsp;';
+        "_title": function (title) {
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true) {
                 title.html($title);
             }
@@ -287,9 +286,7 @@ jQuery(function ($) {
         $("[data-rel=tooltip]").tooltip();
     }
 
-    //$('.department').on('click', SetDepartment);
     $("#BtnCancel").click(function (e) {
-        //document.location = document.referrer;
         document.location = referrer;
     });
 
@@ -462,23 +459,22 @@ function DepartmentInsert() {
 
 function DepartmentInsertConfirmed(newDescription) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/DepartmentActions.asmx/DepartmentInsert";
-    var description = '';
+    var description = "";
     var data = {
-        'name': newDescription,
-        'companyId': Company.Id,
-        'userId': user.Id
+        "name": newDescription,
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     var newId = 0;
 
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type: "POST",
+        "url": "/Async/DepartmentActions.asmx/DepartmentInsert",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             if (response.d.Success === true) {
                 newId = response.d.MessageError * 1;
 
@@ -499,7 +495,7 @@ function DepartmentInsertConfirmed(newDescription) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             alert(jqXHR.responseText);
         }
     });
@@ -512,83 +508,82 @@ function CompareDepartments(a, b) {
 }
 
 function DepartmentUpdate(sender) {
-    document.getElementById('dialogDepartment').parentNode.style.cssText += 'z-Index:1039 !important';
+    document.getElementById("dialogDepartment").parentNode.style.cssText += "z-Index:1039 !important";
     var DepartmentUpdatedId = sender.parentNode.parentNode.parentNode.id * 1;
     var department = GetCompanyDepartment(DepartmentUpdatedId);
-    document.getElementById('TxtDepartmentUpdateName').value = department.Description;
-    document.getElementById('TxtDepartmentUpdateNameErrorRequired').style.display = 'none';
-    document.getElementById('TxtDepartmentUpdateNameErrorDuplicated').style.display = 'none';
-    var dialog = $("#DepartmentUpdateDialog").removeClass('hide').dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: Dictionary.Common_Edit,
-        title_html: true,
-        buttons:
+    document.getElementById("TxtDepartmentUpdateName").value = department.Description;
+    document.getElementById("TxtDepartmentUpdateNameErrorRequired").style.display = "none";
+    document.getElementById("TxtDepartmentUpdateNameErrorDuplicated").style.display = "none";
+    var dialog = $("#DepartmentUpdateDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": Dictionary.Common_Edit,
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     var ok = true;
-                    if (!RequiredFieldText('TxtDepartmentUpdateName')) { ok = false; }
+                    if (!RequiredFieldText("TxtDepartmentUpdateName")) { ok = false; }
                     else
                     {
                         var duplicated = false;
                         for (var x = 0; x < departmentsCompany.length; x++) {
-                            if (document.getElementById('TxtDepartmentUpdateName').value.toLowerCase() === departmentsCompany[x].Description.toLowerCase() && departmentsCompany[x].Id !== DepartmentUpdatedId) {
+                            if (document.getElementById("TxtDepartmentUpdateName").value.toLowerCase() === departmentsCompany[x].Description.toLowerCase() && departmentsCompany[x].Id !== DepartmentUpdatedId) {
                                 duplicated = true;
                                 break;
                             }
                         }
 
                         if (duplicated === true) {
-                            document.getElementById('TxtDepartmentUpdateNameErrorDuplicated').style.display = 'block';
+                            document.getElementById("TxtDepartmentUpdateNameErrorDuplicated").style.display = "block";
                             ok = false;
                         }
                     }
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
-                    document.getElementById('TxtDepartmentUpdateNameErrorRequired').style.display = 'none';
-                    document.getElementById('TxtDepartmentUpdateNameErrorDuplicated').style.display = 'none';
+                    document.getElementById("TxtDepartmentUpdateNameErrorRequired").style.display = "none";
+                    document.getElementById("TxtDepartmentUpdateNameErrorDuplicated").style.display = "none";
                     $(this).dialog("close");
-                    DepartmentUpdateConfirmed(DepartmentUpdatedId, document.getElementById('TxtDepartmentUpdateName').value);
+                    DepartmentUpdateConfirmed(DepartmentUpdatedId, document.getElementById("TxtDepartmentUpdateName").value);
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
         ],
-        close: function () { document.getElementById('dialogDepartment').parentNode.style.cssText += 'z-Index:1050 !important'; }
+        close: function () { document.getElementById("dialogDepartment").parentNode.style.cssText += "z-Index:1050 !important"; }
     });
 }
 
 function DepartmentUpdateConfirmed(id, name) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/DepartmentActions.asmx/DepartmentUpdate";
     var data = {
-        'departmentId': id,
-        'name': name,
-        'companyId': Company.Id,
-        'userId': user.Id
+        "departmentId": id,
+        "name": name,
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/DepartmentActions.asmx/DepartmentUpdate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             alert(jqXHR.responseText);
         }
     });
@@ -601,7 +596,12 @@ function DepartmentUpdateConfirmed(id, name) {
         }
         else {
             var item = departmentsCompany[x];
-            temp.push({ "Id": item.Id, "Description": name, "Active": item.Active, "Deletable": item.Delete });
+            temp.push({
+				"Id": item.Id,
+				"Description": name,
+				"Active": item.Active,
+				"Deletable": item.Delete 
+			});
         }
     }
 
@@ -616,7 +616,7 @@ function DepartmentUpdateConfirmed(id, name) {
 
     // 4.- Modificar el texto si es el seleccionado
     if (SelectedDepartment === id) {
-        document.getElementById('TxtDepartmentName').value = name;
+        document.getElementById("TxtDepartmentName").value = name;
     }
 }
 

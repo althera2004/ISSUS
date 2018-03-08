@@ -323,22 +323,22 @@ function SaveIncident() {
     }
 
     if (IncidentActionsRequired === true || IncidentClosedRequired === true) {
-        if ($('#TxtActions').val() === '') {
+        if ($("#TxtActions").val() === "") {
             ok = false;
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ActionsRequired);
-            SetFieldTextMessages('TxtActions');
+            SetFieldTextMessages("TxtActions");
         }
 
-        if (document.getElementById('CmbActionsResponsible').value * 1 === 0) {
+        if (document.getElementById("CmbActionsResponsible").value * 1 === 0) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ActionsResponsibleRequired);
-            SetFieldTextMessages('CmbActionsResponsible');
+            SetFieldTextMessages("CmbActionsResponsible");
         }
 
-        if ($('#TxtActionsDate').val() === '') {
+        if ($("#TxtActionsDate").val() === "") {
             ok = false;
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ActionsDateRequired);
-            SetFieldTextMessages('TxtActionsDate');
+            SetFieldTextMessages("TxtActionsDate");
         }
         else {
             if (!RequiredDateValue('TxtActionsDate')) {
@@ -724,31 +724,31 @@ function SaveIncident() {
 
     var incident =
         {
-            Id: IncidentId,
-            CompanyId: Company.Id,
-            Description: $('#TxtDescription').val(),
-            ReporterType: RReporter,
-            Department: incidentDepartment,
-            Provider: incidentProvider,
-            Customer: incidentCustomer,
-            Number: 0,
-            ApplyAction: document.getElementById('RActionYes').checked,
-            WhatHappened: $('#TxtWhatHappened').val(),
-            WhatHappenedBy: { Id: $('#CmbWhatHappenedResponsible').val() },
-            WhatHappenedOn: DateWhatHappened,
-            Causes: $('#TxtCauses').val(),
-            CausesBy: { Id: $('#CmbCausesResponsible').val() },
-            CausesOn: DateCauses,
-            Actions: $('#TxtActions').val(),
-            ActionsBy: { Id: $('#CmbActionsResponsible').val() },
-            ActionsOn: DateActions,
-            ActionsExecuter: { Id: $('#CmbActionsExecuter').val() },
-            ActionsSchedule: null, // ISSUS-74 GetDate($('#TxtActionsSchedule').val(), '-'),
-            Monitoring: $('#TxtMonitoring').val(),
-            ClosedBy: { Id: $('#CmbClosedResponsible').val() },
-            ClosedOn: DateClose,
-            Notes: $('#TxtNotes').val(),
-            Anotations: $('#TxtAnotations').val()
+            "Id": IncidentId,
+            "CompanyId": Company.Id,
+            "Description": $("#TxtDescription").val(),
+            "ReporterType": RReporter,
+            "Department": incidentDepartment,
+            "Provider": incidentProvider,
+            "Customer": incidentCustomer,
+            "Number": 0,
+            "ApplyAction": document.getElementById("RActionYes").checked,
+            "WhatHappened": $("#TxtWhatHappened").val(),
+            "WhatHappenedBy": { Id: $("#CmbWhatHappenedResponsible").val() },
+            "WhatHappenedOn": DateWhatHappened,
+            "Causes": $("#TxtCauses").val(),
+            "CausesBy": { Id: $("#CmbCausesResponsible").val() },
+            "CausesOn": DateCauses,
+            "Actions": $("#TxtActions").val(),
+            "ActionsBy": { Id: $("#CmbActionsResponsible").val() },
+            "ActionsOn": DateActions,
+            "ActionsExecuter": { Id: $("#CmbActionsExecuter").val() },
+            "ActionsSchedule": null, // ISSUS-74 GetDate($("#TxtActionsSchedule").val(), "-"),
+            "Monitoring": $("#TxtMonitoring").val(),
+            "ClosedBy": { Id: $("#CmbClosedResponsible").val() },
+            "ClosedOn": DateClose,
+            "Notes": $("#TxtNotes").val(),
+            "Anotations": $("#TxtAnotations").val()
         };
 
     console.log(incident);
@@ -959,9 +959,9 @@ function RActionChanged() {
             document.getElementById("TxtActionCauses").value = document.getElementById("TxtCauses").value;
             document.getElementById("CmbActionCausesResponsible").value = document.getElementById("CmbCausesResponsible").value;
             document.getElementById("TxtActionCausesDate").value = document.getElementById("TxtCausesDate").value;
-            document.getElementById("TxtActionActions").value = document.getElementById("TxtActions").value;
-            document.getElementById("CmbActionActionsResponsible").value = document.getElementById("CmbActionsResponsible").value;
-            document.getElementById("TxtActionActionsDate").value = document.getElementById("TxtActionsDate").value;
+            // document.getElementById("TxtActionActions").value = document.getElementById("TxtActions").value;
+            // document.getElementById("CmbActionActionsResponsible").value = document.getElementById("CmbActionsResponsible").value;
+            // document.getElementById("TxtActionActionsDate").value = document.getElementById("TxtActionsDate").value;
             // ISSUS-10 document.getElementById("CmbActionActionsExecuter").value = document.getElementById("CmbActionsExecuter").value;
             // ISSUS-10 document.getElementById("TxtActionActionsSchedule").value = document.getElementById("TxtActionsSchedule").value;
 
@@ -1055,7 +1055,7 @@ function RActionChangedNoAccept() {
 }
 
 function TxtCausesChanged(locked) {
-    IncidentActionCausesRequired = document.getElementById("TxtCauses").value.length > 0;
+    IncidentCausesRequired = document.getElementById("TxtCauses").value.length > 0;
     if (LastRequiredLevel() > 2 || locked === true) { locked = true; }
     if (document.getElementById("TxtCauses").value.length === 0 && !locked) {
         FieldSetRequired("TxtCausesLabel", Dictionary.Item_Incident_Field_Causes, false);
@@ -1075,30 +1075,21 @@ function TxtCausesChanged(locked) {
 
 function TxtActionsChanged(locked) {
     IncidentActionsRequired = document.getElementById("TxtActions").value.length > 0;
-
     if (LastRequiredLevel() > 3 || locked === true ) { locked = true; }
     if (document.getElementById("TxtActions").value.length === 0 && !locked) {
         FieldSetRequired("TxtActionsLabel", Dictionary.Item_Incident_Field_Actions, false);
         FieldSetRequired("CmbActionsResponsibleLabel", Dictionary.Item_Incident_Field_ActionsResponsible, false);
         FieldSetRequired("TxtActionsDateLabel", Dictionary.Common_DateExecution, false);
-        // ISSUS-74 FieldSetRequired("CmbActionsExecuterLabel", Dictionary.Item_Incident_Field_ActionsExecuter, false);
-        // ISSUS-74 FieldSetRequired("TxtActionsScheduleLabel", Dictionary.Item_Incident_Field_ActionsSchedule, false);
         document.getElementById("CmbActionsResponsible").value = 0;
-        // ISSUS-74 document.getElementById("CmbActionsExecuter").value = 0;
         document.getElementById("TxtActionsDate").value = "";
-        // ISSUS-74 document.getElementById("TxtActionsSchedule").value = "";
         TxtCausesChanged(false);
     }
     else {
         FieldSetRequired("TxtActionsLabel", Dictionary.Item_Incident_Field_Actions, true);
         FieldSetRequired("CmbActionsResponsibleLabel", Dictionary.Item_Incident_Field_ActionsResponsible, true);
         FieldSetRequired("TxtActionsDateLabel", Dictionary.Common_DateExecution, true);
-        // ISSUS-74 FieldSetRequired("CmbActionsExecuterLabel", Dictionary.Item_Incident_Field_ActionsExecuter, true);
-        // ISSUS-74 FieldSetRequired("TxtActionsScheduleLabel", Dictionary.Item_Incident_Field_ActionsSchedule, true);
         if (document.getElementById("CmbActionsResponsible").value * 1 === 0) { document.getElementById("CmbActionsResponsible").value = ApplicationUser.Employee.Id; }
-        // ISSUS-74 if (document.getElementById("CmbActionsExecuter").value * 1 === 0) { document.getElementById("CmbActionsExecuter").value = ApplicationUser.Employee.Id; }
         if (document.getElementById("TxtActionsDate").value === "") { document.getElementById("TxtActionsDate").value = FormatDate(new Date(), "/"); }
-        // ISSUS-74 if (document.getElementById("TxtActionsSchedule").value === "") { document.getElementById("TxtActionsSchedule").value = FormatDate(new Date(), "/"); }
         TxtCausesChanged(true);
     }
 }
