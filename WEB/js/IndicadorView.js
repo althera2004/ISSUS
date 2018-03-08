@@ -888,6 +888,7 @@ function IndicadorRegistroSave() {
                 var res;
                 eval("res=" + response.d.ReturnValue + ";");
                 if (selectedRecordId < 0) {
+					console.log("Registro", res);
                     Registros.push(res);
                 }
                 else {
@@ -1045,10 +1046,10 @@ function DrawGraphics(stop) {
 
         $("#circularGaugeContainer").dxCircularGauge({
             "width":10,
-            rangeContainer: {
-                offset: 10,
-                width: 20,
-                ranges: [
+            "rangeContainer": {
+                "offset": 10,
+                "width": 20,
+                "ranges": [
                     { "startValue": 0, "endValue": lastAlarm, "color": "#f00" },
                     { "startValue": lastAlarm, "endValue": lastMeta, "color": "#fa0" },
                     { "startValue": lastMeta, "endValue": maxValue, "color": "#0f0" }
@@ -1111,7 +1112,7 @@ function UnitUpdate(sender) {
 
     $(".dialogUnits").css("z-index", 1000);
     document.getElementById("UnitsInsertDialog").style.zIndex = 1150;
-    var dialog = $("#UnitsInsertDialog").removeClass('hide').dialog({
+    var dialog = $("#UnitsInsertDialog").removeClass("hide").dialog({
         "id": "UnitsInsertDialog",
         "resizable": false,
         "modal": true,
@@ -1121,14 +1122,14 @@ function UnitUpdate(sender) {
         "buttons": [
             {
                 "id": "UnitSave",
-                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
                     UnitSave();
                 }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $("#UnitsInsertDialog").dialog("close"); }
             }
@@ -1229,7 +1230,7 @@ function UnitSave() {
 // Bar popup for bar item Units
 function ShowUnitsBarPopup() {
     UnitsRenderPopup();
-    var dialog = $("#dialogUnits").removeClass('hide').dialog({
+    var dialog = $("#dialogUnits").removeClass("hide").dialog({
         "id": "dialogUnits",
         "resizable": false,
         "modal": true,
@@ -1239,14 +1240,14 @@ function ShowUnitsBarPopup() {
         "buttons": [
             {
                 "id": "BtnEquipmentScaleDivisionSave",
-                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
                     UnitUpdate(null);
                 }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
