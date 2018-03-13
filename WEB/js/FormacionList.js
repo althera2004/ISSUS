@@ -225,11 +225,13 @@ function Export() {
     var data =
         {
             "companyId": Company.Id,
-            "yearFrom": $("#CmbYearFrom").val(),
-            "yearTo": $("#CmbYearTo").val(),
+            "yearFrom": $("#TxtDateFrom").val(),
+            "yearTo": $("#TxtDateTo").val(),
             "mode": status,
             "listOrder": listOrder
         };
+
+    console.log(data);
 
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({

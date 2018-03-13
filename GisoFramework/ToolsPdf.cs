@@ -13,6 +13,7 @@ namespace GisoFramework
         public static readonly iTS.BaseColor HeaderBackgroundColor = new iTS.BaseColor(220, 220, 220);
         public const int BorderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
         public const int BorderNone = iTS.Rectangle.NO_BORDER;
+        public const int BorderBottom = iTS.Rectangle.BOTTOM_BORDER;
 
         public static iTSpdf.PdfPCell HeaderCell(string label, iTS.Font font)
         {

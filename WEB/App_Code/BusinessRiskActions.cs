@@ -10,27 +10,22 @@ namespace GISOWeb
     using System.Text;
     using System.Web.Script.Services;
     using System.Web.Services;
-    using GisoFramework.Item;
-    using GisoFramework.Activity;
     using GisoFramework;
+    using GisoFramework.Activity;
+    using GisoFramework.Item;
 
-    /// <summary>
-    /// Webservice to receive the AJAX queries for BusinessRisk
-    /// </summary>
+    /// <summary>Webservice to receive the AJAX queries for BusinessRisk</summary>
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ScriptService]
     public class BusinessRiskActions : WebService
     {
+        /// <summary>Initializes a new instance of the BusinessRiskActions class.</summary>
         public BusinessRiskActions()
         {
-            //
-            // TODO: Add constructor logic here
-            //
         }
-        /// <summary>
-        /// Deactivate item in database
-        /// </summary>
+
+        /// <summary>Deactivate item in database</summary>
         /// <param name="businessRiskId">Object identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">User identifier</param>
@@ -42,14 +37,13 @@ namespace GISOWeb
             ActionResult res = BusinessRisk.Delete(businessRiskId, string.Empty, companyId, userId);
             if (res.Success)
             {
-                Session["Company"] = new Company(companyId);
+                this.Session["Company"] = new Company(companyId);
             }
 
             return res;
         }
-        /// <summary>
-        /// Activate item in database
-        /// </summary>
+
+        /// <summary>Activate item in database</summary>
         /// <param name="businessRiskId">Object identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">User identifier</param>
@@ -61,16 +55,14 @@ namespace GISOWeb
             ActionResult res = BusinessRisk.Activate(businessRiskId, string.Empty, companyId, userId);
             if (res.Success)
             {
-                Session["Company"] = new Company(companyId);
+                this.Session["Company"] = new Company(companyId);
             }
 
             return res;
         }
-        /// <summary>
-        /// Update item in database
-        /// </summary>
-        /// <param name="newBusinessRisk"></param>
-        /// <param name="oldBusinessRisk"></param>
+
+        /// <summary>Update item in database</summary>
+        /// <param name="newBusinessRisk">Risk to update</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">User identifier</param>
         /// <returns>Result of action</returns>
@@ -81,7 +73,7 @@ namespace GISOWeb
             ActionResult res = newBusinessRisk.Update(userId);
             if (res.Success)
             {
-                if(newBusinessRisk.FinalDate.HasValue && newBusinessRisk.FinalAction == 3)
+                if (newBusinessRisk.FinalDate.HasValue && newBusinessRisk.FinalAction == 3)
                 {
                     BusinessRisk newBusinessRiskEvaluated = new BusinessRisk()
                     {
@@ -131,15 +123,14 @@ namespace GISOWeb
                     newAction.Insert(userId);
                 }
 
-                Session["Company"] = new Company(companyId);
+                this.Session["Company"] = new Company(companyId);
             }
 
             return res;
         }
-        /// <summary>
-        /// Insert item in database
-        /// </summary>
-        /// <param name="businessRiskId">Object identifier</param>
+
+        /// <summary>Insert item in database</summary>
+        /// <param name="businessRisk">Risk to insert</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">User identifier</param>
         /// <returns>Result of action</returns>
@@ -150,13 +141,22 @@ namespace GISOWeb
             ActionResult res = businessRisk.Insert(userId);
             if (res.Success)
             {
-                //string differences = businessRisk.Differences(BusinessRisk.Empty);
-                //ActionResult logRes = ActivityLog.BusinessRisk(Convert.ToInt64(res.MessageError), userId, companyId, DepartmentLogActions.Create, differences);
-                Session["Company"] = new Company(companyId);
+                //// string differences = businessRisk.Differences(BusinessRisk.Empty);
+                //// ActionResult logRes = ActivityLog.BusinessRisk(Convert.ToInt64(res.MessageError), userId, companyId, DepartmentLogActions.Create, differences);
+                this.Session["Company"] = new Company(companyId);
             }
+
             return res;
         }
 
+        /// <summary>Obtain risk by filter</summary>
+        /// <param name="companyId">Company identifier</param>
+        /// <param name="from">Date from</param>
+        /// <param name="to">Date to</param>
+        /// <param name="rulesId">Rules identifier</param>
+        /// <param name="processId">Process identifier</param>
+        /// <param name="type">Risk type</param>
+        /// <returns>Risk compliant by filter</returns>
         [WebMethod(EnableSession = true)]
         [ScriptMethod]
         public string GetFilter(int companyId, DateTime? from, DateTime? to, long rulesId, long processId, int type)
@@ -168,7 +168,7 @@ namespace GISOWeb
             filter.Append(Tools.JsonPair("rulesId", rulesId)).Append(",");
             filter.Append(Tools.JsonPair("processId", processId)).Append(",");
             filter.Append(Tools.JsonPair("type", type)).Append("}");
-            Session["BusinessRiskFilter"] = filter.ToString();
+            this.Session["BusinessRiskFilter"] = filter.ToString();
 
             return BusinessRisk.FilterList(companyId, from, to, rulesId, processId, type);
         }

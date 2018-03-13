@@ -291,7 +291,7 @@ public partial class Export_DocumentExportList : Page
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = rowEven,
-            Colspan = 4
+            Colspan = 5
         });
 
         pdfDoc.Add(criteriatable);

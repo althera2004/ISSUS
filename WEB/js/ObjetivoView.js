@@ -579,10 +579,10 @@ function Export(fileType) {
             link.download = msg.d.MessageError;
             link.target = '_blank';
             document.body.appendChild(link);
-            document.body.removeChild(link);
             $('#download').trigger('click');
             window.open(msg.d.MessageError);
             $("#dialogAddAddress").dialog('close');
+            document.body.removeChild(link);
         },
         error: function (msg) {
             LoadingHide();

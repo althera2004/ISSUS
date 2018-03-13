@@ -25,6 +25,7 @@ namespace PDF_Tests
         DateTime PrintTime = DateTime.Now;
         #region Properties
         public string Title { get; set; }
+        public List<string> Titles;
         public string HeaderLeft { get; set; }
         public string HeaderRight { get; set; }
         public Font HeaderFont { get; set; }
@@ -73,8 +74,15 @@ namespace PDF_Tests
             base.OnStartPage(writer, document);
             Rectangle pageSize = document.PageSize;
 
+            var title = this.Title;
+
+            if(this.Titles != null && this.Titles.Count > 1 && writer.PageNumber > 1)
+            {
+                title = this.Titles[writer.PageNumber - 1];
+            }
+
             // Lineas
-            cb.SetLineWidth(0.5f);
+                cb.SetLineWidth(0.5f);
             cb.MoveTo(40f, document.PageSize.Height -30f);
             cb.LineTo(document.PageSize.Width - 40f, document.PageSize.Height - 30f);
             cb.Stroke();
@@ -86,7 +94,7 @@ namespace PDF_Tests
             cb.BeginText();
             cb.SetFontAndSize(this.bf, 14);
             cb.ShowTextAligned(PdfContentByte.ALIGN_CENTER,
-                this.Title,
+                title,
                 pageSize.GetRight(document.PageSize.Width / 2),
                 pageSize.GetTop(50), 0);
             cb.EndText();
