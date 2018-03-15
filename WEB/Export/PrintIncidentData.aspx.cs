@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.UI;
 using GisoFramework;
@@ -17,29 +18,28 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PDF_Tests;
 
-public partial class Export_PrintIncidentData : Page
+public partial class ExportPrintIncidentData : Page
 {
     BaseFont headerFont = null;
     BaseFont arial = null;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        long incidentId = Convert.ToInt64(Request.QueryString["id"].ToString());
-        int companyId = Convert.ToInt32(Request.QueryString["companyId"].ToString());
-        Company company = new Company(companyId);
-        ActionResult res = ActionResult.NoAction;
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
-        Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        Incident incident = Incident.GetById(incidentId, user.CompanyId);
-
-        string path = HttpContext.Current.Request.PhysicalApplicationPath;
+        var incidentId = Convert.ToInt64(Request.QueryString["id"]);
+        var companyId = Convert.ToInt32(Request.QueryString["companyId"]);
+        var company = new Company(companyId);
+        var res = ActionResult.NoAction;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+        var incident = Incident.GetById(incidentId, user.CompanyId);
+        var path = HttpContext.Current.Request.PhysicalApplicationPath;
 
         if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
         {
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        string fileName = string.Format(
+        var fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_Data_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_Incident"],
@@ -47,7 +47,7 @@ public partial class Export_PrintIncidentData : Page
             DateTime.Now);
 
         // FONTS
-        string pathFonts = HttpContext.Current.Request.PhysicalApplicationPath;
+        var pathFonts = HttpContext.Current.Request.PhysicalApplicationPath;
         if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
         {
             pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
@@ -69,28 +69,25 @@ public partial class Export_PrintIncidentData : Page
         if (incident.Department.Id > 0)
         {
             reporterType = dictionary["Item_Incident_Origin1"];
-            Department department = Department.GetById(incident.Department.Id, incident.CompanyId);
-            reporter = department.Description;
+            reporter = Department.GetById(incident.Department.Id, incident.CompanyId).Description;
         }
         else if(incident.Provider.Id > 0)
         {
             reporterType = dictionary["Item_Incident_Origin2"];
-            Provider provider = Provider.GetById(incident.Provider.Id, incident.CompanyId);
-            reporter = provider.Description;
+            reporter = Provider.GetById(incident.Provider.Id, incident.CompanyId).Description;
         }
         else if (incident.Customer.Id > 0)
-        { 
-                reporterType = dictionary["Item_Incident_Origin3"];
-                Customer customer = Customer.GetById(incident.Customer.Id, incident.CompanyId);
-                reporter = customer.Description;
+        {
+            reporterType = dictionary["Item_Incident_Origin3"];
+            reporter = Customer.GetById(incident.Customer.Id, incident.CompanyId).Description;
         }
 
         string status = string.Empty;
 
-        iTextSharp.text.Document document = new iTextSharp.text.Document(PageSize.A4, 30, 30, 65, 55);
+        var document = new iTextSharp.text.Document(PageSize.A4, 30, 30, 65, 55);
 
-        PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(Request.PhysicalApplicationPath + "\\Temp\\" + fileName, FileMode.Create));
-        TwoColumnHeaderFooter PageEventHandler = new TwoColumnHeaderFooter()
+        var writer = PdfWriter.GetInstance(document, new FileStream(Request.PhysicalApplicationPath + "\\Temp\\" + fileName, FileMode.Create));
+        var pageEventHandler = new TwoColumnHeaderFooter()
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, companyId),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
@@ -101,26 +98,21 @@ public partial class Export_PrintIncidentData : Page
             Title = dictionary["Item_Incident"]
         };
 
-        PageEventHandler.Titles = new List<string>
+        pageEventHandler.Titles = new List<string>
         {
             dictionary["Item_IncidentAction"]
         };
 
-        writer.PageEvent = PageEventHandler;
-
+        writer.PageEvent = pageEventHandler;
         document.Open();
-        iTextSharp.text.html.simpleparser.StyleSheet styles = new iTextSharp.text.html.simpleparser.StyleSheet();
-        iTextSharp.text.html.simpleparser.HTMLWorker hw = new iTextSharp.text.html.simpleparser.HTMLWorker(document);
 
-        PdfPTable table = new PdfPTable(4)
+        var table = new PdfPTable(4)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 0
         };
 
-        //relative col widths in proportions - 1/3 and 2/3
-        float[] widths = new float[] { 15f, 30f, 15f, 30f };
-        table.SetWidths(widths);
+        table.SetWidths(new float[] { 15f, 30f, 15f, 30f });
 
         var borderNone = Rectangle.NO_BORDER;
         var borderSides = Rectangle.RIGHT_BORDER + Rectangle.LEFT_BORDER;
@@ -133,8 +125,8 @@ public partial class Export_PrintIncidentData : Page
         var alignLeft = Element.ALIGN_LEFT;
         var alignRight = Element.ALIGN_RIGHT;
 
-        Font labelFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.DARK_GRAY);
-        Font valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
+        var labelFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.DARK_GRAY);
+        var valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
 
         // Descripción
         table.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Description"], Rectangle.NO_BORDER));
@@ -188,15 +180,13 @@ public partial class Export_PrintIncidentData : Page
         var action = IncidentAction.GetByIncidentId(incident.Id, companyId);
         if(action.Id > 0)
         {
-            PdfPTable tableAction = new PdfPTable(4)
+            var tableAction = new PdfPTable(4)
             {
                 WidthPercentage = 100,
                 HorizontalAlignment = 0
             };
 
-            //relative col widths in proportions - 1/3 and 2/3
-            float[] widthsAction = new float[] { 15f, 30f, 15f, 30f };
-            tableAction.SetWidths(widthsAction);
+            tableAction.SetWidths(new float[] { 15f, 30f, 15f, 30f });
 
             // Descripción
             //tableAction.AddCell(valueCell(dictionary["Item_Incident_PDF_ActionPageTitle"]+"*", borderNone, alignLeft, 4));
@@ -275,6 +265,196 @@ public partial class Export_PrintIncidentData : Page
             document.Add(tableAction);
         }
 
+        // Costes
+        var costs = IncidentCost.AllCosts(incidentId, companyId);
+        if(costs.Count > 0)
+        {
+            var times = new Font(arial, 8, Font.NORMAL, BaseColor.BLACK);
+            var fontSummary = new Font(arial, 9, Font.BOLD, BaseColor.BLACK);
+            var headerFontFinal = new Font(headerFont, 9, Font.NORMAL, BaseColor.BLACK);
+            var tableCosts = new PdfPTable(5)
+            {
+                WidthPercentage = 100,
+                HorizontalAlignment = 1,
+                SpacingBefore = 20f,
+                SpacingAfter = 30f
+            };
+
+            tableCosts.SetWidths(new float[] { 35f, 10f, 10f, 10f, 20f });
+
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Description"], headerFontFinal));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Amount"], headerFontFinal));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Quantity"], headerFontFinal));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Total"], headerFontFinal));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_ReportedBy"], headerFontFinal));
+
+            decimal total = 0;
+            decimal totalIncidencia = 0;
+            decimal totalAccion = 0;
+            int cont = 0;
+            int contIncidencia = 0;
+            int contAccion = 0;
+            foreach (var cost in costs.Where(c => c.Source == "I"))
+            {
+                tableCosts.AddCell(ToolsPdf.DataCell(cost.Description, times));
+                tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Amount, times));
+                tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Quantity, times));
+                tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Quantity * cost.Amount, times));
+                tableCosts.AddCell(ToolsPdf.DataCellCenter(cost.Responsible.FullName, times));
+                total += cost.Amount * cost.Quantity;
+                totalIncidencia += cost.Amount * cost.Quantity;
+                cont++;
+                contIncidencia++;
+            }
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(
+               CultureInfo.InvariantCulture,
+               @"{0} {2}: {1}",
+               dictionary["Common_RegisterCount"],
+               contIncidencia,
+               dictionary["Item_Incident"]), times))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 2
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(dictionary["Common_Total"], times))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1,
+                HorizontalAlignment = Rectangle.ALIGN_RIGHT,
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(Tools.PdfMoneyFormat(totalIncidencia), times))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1,
+                HorizontalAlignment = Rectangle.ALIGN_RIGHT,
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(string.Empty, times)))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1
+            });
+
+            // Acciones
+            foreach (var cost in costs.Where(c => c.Source == "A"))
+            {
+                tableCosts.AddCell(ToolsPdf.DataCell(cost.Description, times));
+                tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Amount, times));
+                tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Quantity, times));
+                tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Quantity * cost.Amount, times));
+                tableCosts.AddCell(ToolsPdf.DataCellCenter(cost.Responsible.FullName, times));
+                total += cost.Amount * cost.Quantity;
+                totalAccion = cost.Amount * cost.Quantity;
+                cont++;
+                contAccion++;
+            }
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(
+                CultureInfo.InvariantCulture,
+                @"{0} {2}: {1}",
+                dictionary["Common_RegisterCount"],
+                contAccion,
+               dictionary["Item_IncidentAction"]), times))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 2
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(dictionary["Common_Total"], times))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1,
+                HorizontalAlignment = Rectangle.ALIGN_RIGHT
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(Tools.PdfMoneyFormat(totalAccion), times))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1,
+                HorizontalAlignment = Rectangle.ALIGN_RIGHT,
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(string.Empty, times)))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1
+            });
+
+            // resumen
+            tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(
+                CultureInfo.InvariantCulture,
+                @"{0}: {1}",
+                dictionary["Common_RegisterCount"],
+                cont), fontSummary))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 2
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(dictionary["Common_Total"], fontSummary))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1,
+                HorizontalAlignment = Rectangle.ALIGN_RIGHT
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(Tools.PdfMoneyFormat(total), fontSummary))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1,
+                HorizontalAlignment = Rectangle.ALIGN_RIGHT,
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(string.Empty, fontSummary)))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1
+            });
+
+            document.SetPageSize(PageSize.A4.Rotate());
+            document.NewPage();
+            document.Add(tableCosts);
+        }
+
         document.Close();
         Response.ClearContent();
         Response.ClearHeaders();
@@ -287,8 +467,7 @@ public partial class Export_PrintIncidentData : Page
 
     private PdfPCell LabelCell(string label, int borders)
     {
-        Font labelFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.DARK_GRAY);
-        return new PdfPCell(new Phrase(label + ":", labelFont))
+        return new PdfPCell(new Phrase(label + ":", new Font(this.arial, 10, Font.NORMAL, BaseColor.DARK_GRAY)))
         {
             Border = borders,
             HorizontalAlignment = 2
@@ -297,8 +476,7 @@ public partial class Export_PrintIncidentData : Page
 
     private PdfPCell ValueCell(string value, int borders, int align, int colSpan)
     {
-        Font valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
-        return new PdfPCell(new Phrase(value, valueFont))
+        return new PdfPCell(new Phrase(value, new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK)))
         {
             Colspan = colSpan,
             Border = borders,
@@ -308,8 +486,7 @@ public partial class Export_PrintIncidentData : Page
 
     private PdfPCell TextAreaCell(string value, int borders, int align, int colSpan)
     {
-        Font valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
-        return new PdfPCell(new Phrase(value, valueFont))
+        return new PdfPCell(new Phrase(value, new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK)))
         {
             Colspan = colSpan,
             Border = borders,
@@ -321,8 +498,7 @@ public partial class Export_PrintIncidentData : Page
 
     private PdfPCell TitleCell(string value)
     {
-        Font valueFont = new Font(this.headerFont, 11, Font.NORMAL, BaseColor.BLACK);
-        return new PdfPCell(new Phrase(value, valueFont))
+        return new PdfPCell(new Phrase(value, new Font(this.headerFont, 11, Font.NORMAL, BaseColor.BLACK)))
         {
             Colspan = 4,
             HorizontalAlignment = Element.ALIGN_CENTER,

@@ -24,15 +24,15 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PDF_Tests;
 
-public partial class Export_PrintFormacionData : Page
+public partial class ExportPrintFormacionData : Page
 {
     BaseFont headerFont = null;
     BaseFont arial = null;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        var learningId = Convert.ToInt32(Request.QueryString["id"].ToString());
-        var companyId = Convert.ToInt32(Request.QueryString["companyId"].ToString());
+        var learningId = Convert.ToInt32(Request.QueryString["id"]);
+        var companyId = Convert.ToInt32(Request.QueryString["companyId"]);
         var company = new Company(companyId);
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -65,10 +65,10 @@ public partial class Export_PrintFormacionData : Page
         this.arial = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         var descriptionFont = new Font(this.headerFont, 12, Font.BOLD, BaseColor.BLACK);
 
-        iTextSharp.text.Document document = new iTextSharp.text.Document(PageSize.A4, 40, 40, 65, 55);
+        var document = new iTextSharp.text.Document(PageSize.A4, 40, 40, 65, 55);
 
         var writer = PdfWriter.GetInstance(document, new FileStream(Request.PhysicalApplicationPath + "\\Temp\\" + fileName, FileMode.Create));
-        var PageEventHandler = new TwoColumnHeaderFooter()
+        var pageEventHandler = new TwoColumnHeaderFooter()
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, companyId),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
@@ -79,14 +79,12 @@ public partial class Export_PrintFormacionData : Page
             Title = dictionary["Item_Learning"]
         };
 
-        writer.PageEvent = PageEventHandler;
+        writer.PageEvent = pageEventHandler;
 
         var borderSides = Rectangle.RIGHT_BORDER + Rectangle.LEFT_BORDER + Rectangle.BOTTOM_BORDER;
 
 
         document.Open();
-        iTextSharp.text.html.simpleparser.StyleSheet styles = new iTextSharp.text.html.simpleparser.StyleSheet();
-        iTextSharp.text.html.simpleparser.HTMLWorker hw = new iTextSharp.text.html.simpleparser.HTMLWorker(document);
 
         #region Dades bàsiques
         // Ficha pincipal
@@ -118,9 +116,9 @@ public partial class Export_PrintFormacionData : Page
         string statusText = string.Empty;
         switch (learning.Status)
         {
-            case 0: statusText = dictionary["Item_Learning_Status_InProgress"]; break;
             case 1: statusText = dictionary["Item_Learning_Status_Finished"]; break;
             case 2: statusText = dictionary["Item_Learning_Status_Evaluated"]; break;
+            default: statusText = dictionary["Item_Learning_Status_InProgress"]; break;
         }
 
         table.AddCell(TitleLabel(dictionary["Item_Learning_ListHeader_Status"]));
@@ -165,19 +163,15 @@ public partial class Export_PrintFormacionData : Page
         #endregion
 
         #region Asistentes
-        /*var borderNone = iTS.Rectangle.NO_BORDER;
-        var borderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
-        var borderTBL = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.LEFT_BORDER;
-        var borderTBR = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.RIGHT_BORDER;*/
-        iTS.BaseColor backgroundColor = new iTS.BaseColor(225, 225, 225);
-        iTS.BaseColor rowPair = new iTS.BaseColor(255, 255, 255);
-        iTS.BaseColor rowEven = new iTS.BaseColor(240, 240, 240);
-        iTS.Font headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var backgroundColor = new iTS.BaseColor(225, 225, 225);
+        var rowPair = new iTS.BaseColor(255, 255, 255);
+        var rowEven = new iTS.BaseColor(240, 240, 240);
+        var headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
 
         document.SetPageSize(PageSize.A4.Rotate());
         document.NewPage();
 
-        iTSpdf.PdfPTable tableMaintenance = new iTSpdf.PdfPTable(3)
+        var tableMaintenance = new iTSpdf.PdfPTable(3)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 1,
@@ -200,16 +194,16 @@ public partial class Export_PrintFormacionData : Page
         tableMaintenance.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistant_Status_Evaluated"].ToUpperInvariant(), headerFontFinal));
 
         int cont = 0;
-        ReadOnlyCollection<Equipment> data = Equipment.GetList(companyId);
+        var data = Equipment.GetList(companyId);
         bool pair = false;
-        iTS.Font times = new iTS.Font(arial, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font timesBold = new iTS.Font(arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        var times = new iTS.Font(arial, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var timesBold = new iTS.Font(arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
         learning.ObtainAssistance();
         foreach (var assistance in learning.Assistance)
         {
 
             int border = 0;
-            BaseColor lineBackground = pair ? rowEven : rowPair;
+            var lineBackground = pair ? rowEven : rowPair;
 
             tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(assistance.Employee.FullName, times))
             {
@@ -298,8 +292,7 @@ public partial class Export_PrintFormacionData : Page
 
     private PdfPCell TitleCell(string value, int colSpan)
     {
-        Font valueFont = new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK);
-        return new PdfPCell(new Phrase(value.ToUpperInvariant(), valueFont))
+        return new PdfPCell(new Phrase(value.ToUpperInvariant(), new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK)))
         {
             Colspan = colSpan,
             HorizontalAlignment = Element.ALIGN_LEFT,
@@ -311,8 +304,7 @@ public partial class Export_PrintFormacionData : Page
 
     private PdfPCell TitleLabel(string value)
     {
-        Font valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
-        return new PdfPCell(new Phrase(string.Format(CultureInfo.InvariantCulture, "{0}:", value.ToUpperInvariant()), valueFont))
+        return new PdfPCell(new Phrase(string.Format(CultureInfo.InvariantCulture, "{0}:", value.ToUpperInvariant()), new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK)))
         {
             Colspan = 1,
             HorizontalAlignment = Element.ALIGN_RIGHT,
@@ -329,8 +321,7 @@ public partial class Export_PrintFormacionData : Page
 
     private PdfPCell TitleData(string value, int colsPan)
     {
-        Font valueFont = new Font(this.arial, 10, Font.BOLD, BaseColor.BLACK);
-        return new PdfPCell(new Phrase(value, valueFont))
+        return new PdfPCell(new Phrase(value, new Font(this.arial, 10, Font.BOLD, BaseColor.BLACK)))
         {
             Colspan = colsPan,
             HorizontalAlignment = Element.ALIGN_LEFT,
@@ -342,8 +333,7 @@ public partial class Export_PrintFormacionData : Page
 
     private PdfPCell TextAreaCell(string value, int borders, int align, int colSpan)
     {
-        Font valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
-        return new PdfPCell(new Phrase(value, valueFont))
+        return new PdfPCell(new Phrase(value, new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK)))
         {
             Colspan = colSpan,
             Border = borders,
@@ -355,8 +345,7 @@ public partial class Export_PrintFormacionData : Page
 
     private PdfPCell TitleAreaCell(string value)
     {
-        Font valueFont = new Font(this.headerFont, 11, Font.NORMAL, BaseColor.BLACK);
-        return new PdfPCell(new Phrase(value, valueFont))
+        return new PdfPCell(new Phrase(value, new Font(this.headerFont, 11, Font.NORMAL, BaseColor.BLACK)))
         {
             Colspan = 6,
             HorizontalAlignment = Element.ALIGN_CENTER,

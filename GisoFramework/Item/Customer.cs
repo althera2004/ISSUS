@@ -19,9 +19,7 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary>Implements customer item</summary>
     public class Customer : BaseItem
     {
         public static Customer Empty
@@ -66,7 +64,7 @@ namespace GisoFramework.Item
                         ""CompanyId"": {4}
                       }}";
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Id,
                     this.Description.Replace("\"", "\\\""),
@@ -81,7 +79,7 @@ namespace GisoFramework.Item
             get
             {
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     @"<a href=""CustomersView.aspx?id={0}"">{1}</a>",
                     this.Id,
                     this.Description);
@@ -104,50 +102,55 @@ namespace GisoFramework.Item
         {
             /* CREATE PROCEDURE Customer_GetByCompany
              *   @CompanyId int */
-            List<Customer> res = new List<Customer>();
-            using (SqlCommand cmd = new SqlCommand("Customer_GetByCompany"))
+            var res = new List<Customer>();
+            using (var cmd = new SqlCommand("Customer_GetByCompany"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        bool deletable = true;
-                        if (rdr.GetInt32(ColumnsCustomerGetByCompany.InIncident) == 1)
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsCustomerGetByCompany.InActionIncident) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        res.Add(new Customer()
-                        {
-                            Id = rdr.GetInt64(ColumnsCustomerGetByCompany.Id),
-                            CompanyId = rdr.GetInt32(ColumnsCustomerGetByCompany.CompanyId),
-                            Description = rdr.GetString(ColumnsCustomerGetByCompany.Description),
-                            Active = rdr.GetBoolean(ColumnsCustomerGetByCompany.Active),
-                            ModifiedBy = new ApplicationUser()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsCustomerGetBy.ModifiedByUserId),
-                                UserName = rdr.GetString(ColumnsCustomerGetByCompany.ModifiedByUserName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsCustomerGetBy.ModifiedOn),
-                            CanBeDeleted = deletable
-                        });
+                                var deletable = true;
+                                if (rdr.GetInt32(ColumnsCustomerGetByCompany.InIncident) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                if (rdr.GetInt32(ColumnsCustomerGetByCompany.InActionIncident) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                res.Add(new Customer()
+                                {
+                                    Id = rdr.GetInt64(ColumnsCustomerGetByCompany.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsCustomerGetByCompany.CompanyId),
+                                    Description = rdr.GetString(ColumnsCustomerGetByCompany.Description),
+                                    Active = rdr.GetBoolean(ColumnsCustomerGetByCompany.Active),
+                                    ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsCustomerGetBy.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsCustomerGetByCompany.ModifiedByUserName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsCustomerGetBy.ModifiedOn),
+                                    CanBeDeleted = deletable
+                                });
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -157,9 +160,9 @@ namespace GisoFramework.Item
 
         public static string GetByCompanyJson(int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (Customer customer in GetByCompany(companyId))
+            foreach (var customer in GetByCompany(companyId))
             {
                 if (customer.Active)
                 {
@@ -182,42 +185,47 @@ namespace GisoFramework.Item
 
         public static Customer GetById(long id, int companyId)
         {
-            Customer res = new Customer();
-            using (SqlCommand cmd = new SqlCommand("Customer_GetById"))
+            var res = new Customer();
+            using (var cmd = new SqlCommand("Customer_GetById"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CustomerId", id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        rdr.Read();
-                        res =  new Customer()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CustomerId", id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt64(ColumnsCustomerGetBy.Id),
-                            CompanyId = rdr.GetInt32(ColumnsCustomerGetBy.CompanyId),
-                            Description = rdr.GetString(ColumnsCustomerGetBy.Description),
-                            Active = rdr.GetBoolean(ColumnsCustomerGetBy.Active),
-                            ModifiedBy = new ApplicationUser()
+                            if (rdr.HasRows)
                             {
-                                Id = rdr.GetInt32(ColumnsCustomerGetBy.ModifiedByUserId),
-                                UserName = rdr.GetString(ColumnsCustomerGetBy.ModifiedByUserName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsCustomerGetBy.ModifiedOn)
-                        };
+                                rdr.Read();
+                                res = new Customer()
+                                {
+                                    Id = rdr.GetInt64(ColumnsCustomerGetBy.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsCustomerGetBy.CompanyId),
+                                    Description = rdr.GetString(ColumnsCustomerGetBy.Description),
+                                    Active = rdr.GetBoolean(ColumnsCustomerGetBy.Active),
+                                    ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsCustomerGetBy.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsCustomerGetBy.ModifiedByUserName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsCustomerGetBy.ModifiedOn)
+                                };
 
-                        res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                                res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -237,13 +245,13 @@ namespace GisoFramework.Item
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
 
-            bool grantWrite = UserGrant.HasWriteGrant(grants, ApplicationGrant.Customer);
-            bool grantDelete = UserGrant.HasDeleteGrant(grants, ApplicationGrant.Customer);
+            var grantWrite = UserGrant.HasWriteGrant(grants, ApplicationGrant.Customer);
+            var grantDelete = UserGrant.HasDeleteGrant(grants, ApplicationGrant.Customer);
 
-            string iconDelete = string.Empty;
+            var iconDelete = string.Empty;
             if (grantDelete)
             {
-                string deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "CustomerDelete({0},'{1}');", this.Id, this.Description);
+                var deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "CustomerDelete({0},'{1}');", this.Id, this.Description);
                 if (!this.CanBeDeleted)
                 {
                     deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "warningInfoUI('{0}', null, 400);", dictionary["Common_Warning_Undelete"]);
@@ -258,7 +266,7 @@ namespace GisoFramework.Item
 
             }
 
-            string iconEdit = string.Format(
+            var iconEdit = string.Format(
                 CultureInfo.InvariantCulture,
                 @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-info"" onclick=""document.location='CustomersView.aspx?id={0}';""><i class=""icon-eye-open bigger-120""></i></span>",
                 this.Id,
@@ -275,23 +283,10 @@ namespace GisoFramework.Item
                 this.Description);
             }
 
-            /*if (grantWrite)
-            {
-                string validDescription = Tools.LiteralQuote(Tools.JsonCompliant(this.Description));
-                string deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "CustomerDelete({0},'{1}');", this.Id, this.Description);
-                if (!this.CanBeDeleted)
-                {
-                    deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "warningInfoUI('{0}', null, 400);", dictionary["Common_Warning_Undelete"]);
-                }
-
-                iconEdit = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""document.location='CustomersView.aspx?id={0}';""><i class=""icon-edit bigger-120""></i></span>", this.Id, validDescription, Tools.JsonCompliant(dictionary["Common_Edit"]));
-                iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-danger"" onclick=""{0}""><i class=""icon-trash bigger-120""></i></span>", deleteFunction, validDescription, Tools.JsonCompliant(dictionary["Common_Delete"]));
-            }*/
-
-            string pattenr = @"<tr><td>{0}</td><td style=""width:90px;"">{1}&nbsp;{2}</td></tr>";
+            string pattern = @"<tr><td>{0}</td><td style=""width:90px;"">{1}&nbsp;{2}</td></tr>";
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
-                pattenr,
+                CultureInfo.InvariantCulture,
+                pattern,
                 this.Link,
                 iconEdit,
                 iconDelete);
@@ -299,37 +294,40 @@ namespace GisoFramework.Item
 
         public ActionResult Insert(int userId)
         {
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Customer_Insert"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Customer_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.OutputInt("@CustomerId"));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@CustomerId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                    result.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
-                }
-                catch (SqlException ex)
-                {
-                    result.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Customer::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "Customer::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.OutputInt("@CustomerId"));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@CustomerId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        result.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
+                    }
+                    catch (SqlException ex)
+                    {
+                        result.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Customer::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "Customer::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -339,36 +337,39 @@ namespace GisoFramework.Item
 
         public ActionResult Update(int userId)
         {
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Customer_Update"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Customer_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    result.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Customer::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "Customer::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        result.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Customer::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "Customer::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -378,35 +379,38 @@ namespace GisoFramework.Item
 
         public ActionResult Delete(int userId)
         {
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Customer_Delete"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Customer_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    result.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Customer::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "Customer::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        result.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Customer::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "Customer::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

@@ -1,1 +1,1 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="BusinessRiskExportList.aspx.cs" Inherits="Export_BusinessRiskExportList" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="BusinessRiskExportList.aspx.cs" Inherits="ExportBusinessRiskExportList" %>

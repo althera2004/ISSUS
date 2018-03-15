@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="PrintEquipmentData.aspx.cs" Inherits="Export_PrintEquipmentData" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="PrintEquipmentData.aspx.cs" Inherits="ExportPrintEquipmentData" %>
 
 <!DOCTYPE html>
 
