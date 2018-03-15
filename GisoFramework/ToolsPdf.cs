@@ -37,9 +37,19 @@ namespace GisoFramework
             return DataCell(value.ToString(CultureInfo.InvariantCulture), font, iTS.Rectangle.ALIGN_RIGHT);
         }
 
+        public static iTSpdf.PdfPCell DataCellRight(long value, iTS.Font font)
+        {
+            return DataCell(value.ToString(CultureInfo.InvariantCulture), font, iTS.Rectangle.ALIGN_RIGHT);
+        }
+
         public static iTSpdf.PdfPCell DataCell(string value, iTS.Font font)
         {
             return DataCell(value, font, iTS.Rectangle.ALIGN_LEFT);
+        }
+
+        public static iTSpdf.PdfPCell DataCell(long value, iTS.Font font)
+        {
+            return DataCell(value.ToString(CultureInfo.InvariantCulture), font, iTS.Rectangle.ALIGN_LEFT);
         }
 
         public static iTSpdf.PdfPCell DataCellMoney(decimal? value, iTS.Font font)

@@ -288,9 +288,8 @@ public partial class EquipmentView : Page
             return this.returnScript;
         }
     }
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
+
+    /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
     {
         get

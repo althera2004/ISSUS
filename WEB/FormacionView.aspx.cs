@@ -193,6 +193,7 @@ public partial class FormacionView : Page
         this.company = Session["company"] as Company;
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.formFooter = new FormFooter();
+        this.formFooter.AddButton(new UIButton() { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
         this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
         this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
