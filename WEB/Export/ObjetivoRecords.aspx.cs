@@ -178,6 +178,7 @@ public partial class Export_ObjetivoRecords : Page
         }
 
         int countRow = 4;
+
         if (dateFrom.HasValue)
         {
             registros = registros.Where(r => r.Date >= dateFrom.Value).ToList();
@@ -1091,6 +1092,8 @@ public partial class Export_ObjetivoRecords : Page
         }
 
         // Aplicar filtro
+        registros = registros.Where(r => r.Date >= objetivo.StartDate).ToList();
+
         if (dateFrom.HasValue)
         {
             registros = registros.Where(r => r.Date >= dateFrom.Value).ToList();

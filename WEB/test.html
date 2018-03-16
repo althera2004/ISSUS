@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="/assets/js/jquery-2.0.3.min.js"></script>
+    <script>
+        var filterData =
+                    {
+                        "owners": true,
+                        "others": true
+                    };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Async/DashBoardActions.asmx/SetFilter",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(filterData, null, 2),
+                    success: function (msg) {
+                        alert("OK");
+                    },
+                    error: function (msg) {
+                        alertUI(msg.responseText);
+                    }
+                });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

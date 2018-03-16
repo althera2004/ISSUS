@@ -22,5 +22,6 @@ namespace GisoFramework.Item.Binding
         public const int StartAction = 12;
         public const int FinalAction = 13;
         public const int Assumed = 14;
+        public const int Status = 15;
     }
 }

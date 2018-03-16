@@ -47,7 +47,7 @@ namespace GISOWeb
             {
                 LogOnObject logon = res.ReturnValue as LogOnObject;
                 int userId = logon.Id;
-                Session["UniqueSessionId"] = UniqueSession.SetSession(userId, ip);
+                HttpContext.Current.Session["UniqueSessionId"] = UniqueSession.SetSession(userId, ip);
             }
 
             return res;

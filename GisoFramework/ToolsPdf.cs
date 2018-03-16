@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iTextSharp.text;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,9 +11,12 @@ namespace GisoFramework
 {
     public static class ToolsPdf
     {
+        public static readonly BaseColor SummaryBackgroundColor = new BaseColor(240, 240, 240);
+
         public static readonly iTS.BaseColor HeaderBackgroundColor = new iTS.BaseColor(220, 220, 220);
         public const int BorderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
         public const int BorderNone = iTS.Rectangle.NO_BORDER;
+        public const int BorderBottom = iTS.Rectangle.BOTTOM_BORDER;
 
         public static iTSpdf.PdfPCell HeaderCell(string label, iTS.Font font)
         {
@@ -36,9 +40,19 @@ namespace GisoFramework
             return DataCell(value.ToString(CultureInfo.InvariantCulture), font, iTS.Rectangle.ALIGN_RIGHT);
         }
 
+        public static iTSpdf.PdfPCell DataCellRight(long value, iTS.Font font)
+        {
+            return DataCell(value.ToString(CultureInfo.InvariantCulture), font, iTS.Rectangle.ALIGN_RIGHT);
+        }
+
         public static iTSpdf.PdfPCell DataCell(string value, iTS.Font font)
         {
             return DataCell(value, font, iTS.Rectangle.ALIGN_LEFT);
+        }
+
+        public static iTSpdf.PdfPCell DataCell(long value, iTS.Font font)
+        {
+            return DataCell(value.ToString(CultureInfo.InvariantCulture), font, iTS.Rectangle.ALIGN_LEFT);
         }
 
         public static iTSpdf.PdfPCell DataCellMoney(decimal? value, iTS.Font font)
@@ -75,7 +89,7 @@ namespace GisoFramework
 
         public static iTSpdf.PdfPCell DataCellCenter(DateTime? value, iTS.Font font)
         {
-            if (!value.HasValue)
+            if (value == null)
             {
                 return DataCell(string.Empty, font, iTS.Rectangle.ALIGN_CENTER);
             }
@@ -85,7 +99,7 @@ namespace GisoFramework
 
         public static iTSpdf.PdfPCell DataCell(DateTime? value, iTS.Font font)
         {
-            if (!value.HasValue)
+            if (value == null)
             {
                 return DataCell(string.Empty, font, iTS.Rectangle.ALIGN_LEFT);
             }
@@ -95,7 +109,7 @@ namespace GisoFramework
 
         public static iTSpdf.PdfPCell DataCell(DateTime? value, iTS.Font font, int alignment)
         {
-            if (!value.HasValue)
+            if (value == null)
             {
                 return DataCell(string.Empty, font, iTS.Rectangle.ALIGN_LEFT);
             }

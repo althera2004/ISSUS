@@ -94,7 +94,7 @@
                                                                 <div class="col-sm-2">
                                                                     <input type="radio" value="1" id="RType2" name="RType" /><%=this.Dictionary["Item_IncidentAction_Type2"] %></div>
                                                                 <div class="col-sm-2">
-                                                                    <input type="radio" value="2" id="RType3" name="Rtype" /><%=this.Dictionary["Item_IncidentAction_Type3"] %></div>
+                                                                    <input type="radio" value="2" id="RType3" name="RType" /><%=this.Dictionary["Item_IncidentAction_Type3"] %></div>
                                                                 <div class="col-sm-2">
                                                                     <span class="ErrorMessage" id="RTypeErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"]%></span>
                                                                 </div>

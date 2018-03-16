@@ -1318,9 +1318,7 @@ namespace GisoFramework.Item
                 this.LinkCode);
         }
 
-        /// <summary>
-        /// Gets a Json containing all the items filtered
-        /// </summary>
+        /// <summary>Gets a Json containing all the items filtered</summary>
         /// <param name="companyId">Company identifier</param>
         /// <param name="from">Start date to filter</param>
         /// <param name="to">Final date to filter</param>
@@ -1364,9 +1362,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Gets a List containing all the items filtered
-        /// </summary>
+        /// <summary>Gets a List containing all the items filtered</summary>
         /// <param name="companyId">Company identifier</param>
         /// <param name="from">Start date to filter</param>
         /// <param name="to">Final date to filter</param>
@@ -1433,6 +1429,7 @@ namespace GisoFramework.Item
                     {
                         cmd.Parameters.Add(DataParameter.Input("@RulesId", rulesId));
                     }
+
                     if (processId == 0)
                     {
                         cmd.Parameters.Add(DataParameter.InputNull("@ProcessId"));
@@ -1441,6 +1438,7 @@ namespace GisoFramework.Item
                     {
                         cmd.Parameters.Add(DataParameter.Input("@ProcessId", processId));
                     }
+
                     if (type == 0)
                     {
                         cmd.Parameters.Add(DataParameter.InputNull("@Type"));
@@ -1449,6 +1447,7 @@ namespace GisoFramework.Item
                     {
                         cmd.Parameters.Add(DataParameter.Input("@Type", type));
                     }
+
                     cmd.Connection.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
@@ -1462,7 +1461,8 @@ namespace GisoFramework.Item
                             FinalResult = rdr.GetInt32(ColumnsBusinessRiskFilterGet.FinalResult),
                             StartAction = rdr.GetInt32(ColumnsBusinessRiskFilterGet.StartAction),
                             FinalAction = rdr.GetInt32(ColumnsBusinessRiskFilterGet.FinalAction),
-                            Assumed = rdr.GetBoolean(ColumnsBusinessRiskFilterGet.Assumed)
+                            Assumed = rdr.GetBoolean(ColumnsBusinessRiskFilterGet.Assumed),
+                            Status = rdr.GetInt32(ColumnsBusinessRiskFilterGet.Status)
                         };
 
                         if (!rdr.IsDBNull(ColumnsBusinessRiskFilterGet.RuleId))
@@ -1506,9 +1506,13 @@ namespace GisoFramework.Item
                 }
             }
 
+            if(type > 0)
+            {
+                res = res.Where(br => br.Status == type).ToList();
+            }
+
             HttpContext.Current.Session["BusinessRiskFilterData"] = res;
             return new ReadOnlyCollection<BusinessRiskFilterItem>(res);
         }
     }
 }
-

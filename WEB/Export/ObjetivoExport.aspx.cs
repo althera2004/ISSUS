@@ -22,6 +22,8 @@ using GisoFramework.Item;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PDF_Tests;
+using System.Web.UI.DataVisualization.Charting;
+using DR = System.Drawing;
 
 public partial class Export_ObjetivoExport : Page
 {
@@ -302,6 +304,7 @@ public partial class Export_ObjetivoExport : Page
         table.AddCell(blankCell);
 
         pdfDoc.Add(table);
+
         pdfDoc.CloseDocument();
         res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
         return res;

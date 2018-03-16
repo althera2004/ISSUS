@@ -16,7 +16,7 @@
         
     void Application_Error(object sender, EventArgs e) 
     {
-        Exception exception = Server.GetLastError();
+        /*Exception exception = Server.GetLastError();
         if (exception != null)
         {
             //Log
@@ -29,7 +29,7 @@
                 
                 HttpContext.Current.Response.Redirect("/siteerror.aspx");
             }
-        }
+        }*/
     }
 
     void Session_Start(object sender, EventArgs e) 

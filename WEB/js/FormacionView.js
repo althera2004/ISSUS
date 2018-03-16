@@ -1027,7 +1027,7 @@ if (formacion.Id > 0)
     if (document.getElementById("CmbFechaPrevistaMes") !== null) {
         document.getElementById("CmbFechaPrevistaMes").value = formacion.EstimatedMonthId;
     }
-
+    $("#BtnPrint").on("click", PrintData);
     console.log(formacion.EstimatedMonthId);
 }
 else {
@@ -1044,4 +1044,9 @@ if (typeof user.Grants.Learning === "undefined" || user.Grants.Learning.Write ==
     $("textarea").attr("disabled", true);
     $("select").attr("disabled", true);
     $("#BtnSave").hide();
+}
+
+function PrintData() {
+    window.open("/export/PrintFormacionData.aspx?id=" + formacion.Id + "&companyId=" + Company.Id);
+    return false;
 }

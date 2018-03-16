@@ -34,7 +34,7 @@
                                         <tr>
                                             <td style="width: 200px;">
                                                 <div class="row">
-                                                    <label id="TxtDateFromLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_IncidentAction_List_Filter_From"] %></label>
+                                                    <label id="TxtDateFromLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Indicador_Filter_From"] %></label>
                                                     <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtDateFromDiv">
                                                         <div class="input-group">
                                                             <input class="form-control date-picker" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
@@ -68,7 +68,7 @@
                                         <tr>
                                             <td style="width:200px;">
                                                 <div class="row">
-                                                    <label id="TxtDateToLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_IncidentAction_List_Filter_To"] %></label>										
+                                                    <label id="TxtDateToLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Indicador_Filter_To"] %></label>										
                                                     <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtDateToDiv">
                                                         <div class="input-group">
                                                             <input class="form-control date-picker" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
