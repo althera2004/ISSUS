@@ -14,25 +14,16 @@ namespace GisoFramework
     using System.Text;
     using System.Web;
 
-    /// <summary>
-    /// Implements dictionary class
-    /// </summary>
-    public sealed class ApplicationDictionary
+    /// <summary>Implements dictionary class</summary>
+    public static class ApplicationDictionary
     {
-        /// <summary>Prevents a default instance of the ApplicationDictionary class from being created.</summary>
-        private ApplicationDictionary()
-        {
-        }
-
-        /// <summary>
-        /// Loads the new language.
-        /// </summary>
+        /// <summary>Loads the new language.</summary>
         /// <param name="language">Language code</param>
-        /// <returns></returns>
+        /// <returns>A dictionary class with text for fixed labels</returns>
         public static Dictionary<string, string> LoadNewLanguage(string language)
         {
-            Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-            using (StreamReader input = new StreamReader(string.Format(CultureInfo.GetCultureInfo("en-us"), @"{0}\\dicc\\{1}.dicc", HttpContext.Current.Request.PhysicalApplicationPath, language)))
+            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+            using (var input = new StreamReader(string.Format(CultureInfo.GetCultureInfo("en-us"), @"{0}\\dicc\\{1}.dicc", HttpContext.Current.Request.PhysicalApplicationPath, language)))
             {
                 string linea = input.ReadLine();
                 while (!string.IsNullOrEmpty(linea))
@@ -65,7 +56,7 @@ namespace GisoFramework
             var items = from pair in dictionary
                         orderby pair.Key ascending
                         select pair;
-            Dictionary<string, string> dictionaryFinal = new Dictionary<string, string>();
+            var dictionaryFinal = new Dictionary<string, string>();
             foreach (KeyValuePair<string, string> item in items)
             {
                 dictionaryFinal.Add(item.Key, item.Value);
@@ -75,17 +66,15 @@ namespace GisoFramework
             return dictionaryFinal;
         }
 
-        /// <summary>
-        /// Load a dictionary
-        /// </summary>
+        /// <summary>Load a dictionary</summary>
         /// <param name="language">Code of language</param>
         /// <returns>A dictionary class with text for fixed labels</returns>
         public static Dictionary<string, string> Load(string language)
         {
             // Carga de diccionario
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            var dictionary = new Dictionary<string, string>();
             string fileName = string.Format(CultureInfo.GetCultureInfo("en-us"), @"{0}\\dicc\\{1}.dicc", HttpContext.Current.Request.PhysicalApplicationPath, language);
-            using (StreamReader input = new StreamReader(fileName, Encoding.UTF7))
+            using (var input = new StreamReader(fileName, Encoding.UTF7))
             {
                 string linea = input.ReadLine();
                 while (!string.IsNullOrEmpty(linea))
@@ -114,7 +103,7 @@ namespace GisoFramework
             var items = from pair in dictionary
                         orderby pair.Key ascending
                         select pair;
-            Dictionary<string, string> dictionaryFinal = new Dictionary<string, string>();
+           var dictionaryFinal = new Dictionary<string, string>();
             foreach (KeyValuePair<string, string> item in items)
             {
                 dictionaryFinal.Add(item.Key, item.Value);

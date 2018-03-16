@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="EquipmentRecords.aspx.cs" Inherits="Export_EquipmentRecords" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="EquipmentRecords.aspx.cs" Inherits="ExportEquipmentRecords" %>
 
 <!DOCTYPE html>
 

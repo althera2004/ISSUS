@@ -12,7 +12,7 @@ namespace GisoFramework
     public static class ToolsPdf
     {
         public static readonly BaseColor SummaryBackgroundColor = new BaseColor(240, 240, 240);
-
+        public static readonly iTS.BaseColor LineBackgroundColor = new iTS.BaseColor(255, 255, 255);
         public static readonly iTS.BaseColor HeaderBackgroundColor = new iTS.BaseColor(220, 220, 220);
         public const int BorderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
         public const int BorderNone = iTS.Rectangle.NO_BORDER;
@@ -27,6 +27,18 @@ namespace GisoFramework
                 HorizontalAlignment = iTS.Element.ALIGN_CENTER,
                 Padding = 8f,
                 PaddingTop = 6f
+            };
+        }
+
+        public static iTSpdf.PdfPCell CellTable(string value, iTS.Font font)
+        {
+            return new iTSpdf.PdfPCell(new iTS.Phrase(value, font))
+            {
+                Border = iTS.Rectangle.TOP_BORDER,
+                BackgroundColor = LineBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                HorizontalAlignment = 2
             };
         }
 

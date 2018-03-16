@@ -23,10 +23,10 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PDF_Tests;
 
-public partial class Export_IncidentExportList : Page
+public partial class ExportIncidentExportList : Page
 {
-    BaseFont headerFont = null;
-    BaseFont arial = null;
+    BaseFont HeaderFont = null;
+    BaseFont Arial = null;
 
     public static Font criteriaFont;
     public static Dictionary<string, string> dictionary;
@@ -81,7 +81,7 @@ public partial class Export_IncidentExportList : Page
         var arial = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
         var pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
-        iTSpdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
+        var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
            new FileStream(
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
@@ -114,8 +114,7 @@ public partial class Export_IncidentExportList : Page
 
         var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         fontAwe = new Font(fontAwesomeIcon, 10);
-        // -------------------        
-
+        // -------------------
 
         var titleTable = new iTSpdf.PdfPTable(1);
         titleTable.SetWidths(new float[] { 50f });
@@ -142,8 +141,8 @@ public partial class Export_IncidentExportList : Page
         {
             if (departmentId > 0)
             {
-                var d = Department.GetById(departmentId, companyId);
-                criteriaOrigin = string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Incident_Origin1"], d.Description);
+                var department = Department.GetById(departmentId, companyId);
+                criteriaOrigin = string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Incident_Origin1"], department.Description);
             }
             else
             {
@@ -154,8 +153,8 @@ public partial class Export_IncidentExportList : Page
         {
             if (providerId > 0)
             {
-                var p = Provider.GetById(providerId, companyId);
-                criteriaOrigin = string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Incident_Origin2"], p.Description);
+                var provider = Provider.GetById(providerId, companyId);
+                criteriaOrigin = string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Incident_Origin2"], provider.Description);
             }
             else
             {
@@ -166,8 +165,8 @@ public partial class Export_IncidentExportList : Page
         {
             if (customerId > 0)
             {
-                var c = Customer.GetById(customerId, companyId);
-                criteriaOrigin = string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Incident_Origin3"], c.Description);
+                var customer = Customer.GetById(customerId, companyId);
+                criteriaOrigin = string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Incident_Origin3"], customer.Description);
             }
             else
             {
@@ -354,7 +353,7 @@ public partial class Export_IncidentExportList : Page
 
         int cont = 0;
         decimal totalCost = 0;
-        List<IncidentFilterItem> data = HttpContext.Current.Session["IncidentFilterData"] as List<IncidentFilterItem>;
+        var data = HttpContext.Current.Session["IncidentFilterData"] as List<IncidentFilterItem>;
         bool pair = false;
 
         foreach(IncidentFilterItem item in data)
@@ -493,7 +492,7 @@ public partial class Export_IncidentExportList : Page
 
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();
-        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
+        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
         return res;
     }
 }

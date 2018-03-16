@@ -317,7 +317,7 @@ namespace GisoFramework.Item
         /// <returns>JSON structure of a departments list</returns>
         public static string GetByCompanyJsonList(int companyId)
         {
-            var departments = GetByCompany(companyId);
+            var departments = ByCompany(companyId);
             var res = new StringBuilder("[");
             bool first = true;
             foreach (var department in departments)
@@ -348,7 +348,7 @@ namespace GisoFramework.Item
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (var department in GetByCompany(companyId))
+            foreach (var department in ByCompany(companyId))
             {
                 if (!department.deleted)
                 {
@@ -783,8 +783,8 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
         {
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Department_Insert"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Department_Insert"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -828,8 +828,8 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
         {
-            ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
-            using (SqlCommand cmd = new SqlCommand("Department_Update"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Department_Update"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -874,9 +874,7 @@ namespace GisoFramework.Item
             return result;
         }
 
-        /// <summary>
-        /// Adds an employee into department
-        /// </summary>
+        /// <summary>Adds an employee into department</summary>
         /// <param name="employee">Employee to add</param>
         public void AddEmployee(Employee employee)
         {
