@@ -20,9 +20,7 @@ public partial class EmployeeNew : Page
     /// <summary>Company of session</summary>
     private Company company;
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
+    /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -40,7 +38,7 @@ public partial class EmployeeNew : Page
     {
         if (this.Session["User"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
 

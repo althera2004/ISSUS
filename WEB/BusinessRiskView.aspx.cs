@@ -740,17 +740,17 @@ public partial class BusinessRiskView : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
@@ -758,7 +758,7 @@ public partial class BusinessRiskView : Page
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
@@ -1142,10 +1142,10 @@ public partial class BusinessRiskView : Page
 
     private void RenderRemainder()
     {
-        ReadOnlyCollection<ProbabilitySeverityRange> probabilitySeverityCollection = ProbabilitySeverityRange.GetActive(this.company.Id);
-        StringBuilder severityList = new StringBuilder();
-        StringBuilder probabilityList = new StringBuilder();
-        foreach (ProbabilitySeverityRange probabilitySeverity in probabilitySeverityCollection.OrderBy(probabilitySeverity => probabilitySeverity.Code))
+        var probabilitySeverityCollection = ProbabilitySeverityRange.GetActive(this.company.Id);
+        var severityList = new StringBuilder();
+        var probabilityList = new StringBuilder();
+        foreach (var probabilitySeverity in probabilitySeverityCollection.OrderBy(probabilitySeverity => probabilitySeverity.Code))
         {
             if (probabilitySeverity.Type == ProbabilitySeverityRange.ProbabilitySeverityType.Severity)
             {
@@ -1172,11 +1172,11 @@ public partial class BusinessRiskView : Page
 
     private void RenderActionHistory()
     {
-        ReadOnlyCollection<IncidentAction> incidentActionCollection = BusinessRisk.GetHistoryAction(businessRisk.Code, this.company.Id);
-        StringBuilder res = new StringBuilder();
-        List<string> s = new List<string>();
+        var incidentActionCollection = BusinessRisk.GetHistoryAction(businessRisk.Code, this.company.Id);
+        var res = new StringBuilder();
+        var s = new List<string>();
         int order = 0;
-        foreach (IncidentAction incidentAction in incidentActionCollection.OrderBy(incidentAction => incidentAction.WhatHappenedOn))
+        foreach (var incidentAction in incidentActionCollection.OrderBy(incidentAction => incidentAction.WhatHappenedOn))
         {
 
             if (!s.Contains(incidentAction.Description))
@@ -1202,18 +1202,18 @@ public partial class BusinessRiskView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        List<UploadFile> files = UploadFile.GetByItem(18, this.businessRiskId, this.company.Id).ToList();
+        var files = UploadFile.GetByItem(18, this.businessRiskId, this.company.Id).ToList();
 
         if (this.incidentAction.Id > 0)
         {
             files.AddRange(UploadFile.GetByItem(13, this.incidentAction.Id, this.company.Id));
         }
 
-        StringBuilder res = new StringBuilder();
-        StringBuilder resList = new StringBuilder();
+        var res = new StringBuilder();
+        var resList = new StringBuilder();
         int contCells = 0;
-        ReadOnlyCollection<string> extensions = ToolsFile.ExtensionToShow;
-        foreach (UploadFile file in files)
+        var extensions = ToolsFile.ExtensionToShow;
+        foreach (var file in files)
         {
             decimal finalSize = ToolsFile.FormatSize((decimal)file.Size);
             string fileShowed = string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description;

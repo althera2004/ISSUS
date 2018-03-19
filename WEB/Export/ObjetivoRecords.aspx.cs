@@ -31,7 +31,7 @@ using NPOI.SS.Util;
 /// <summary>
 /// Implements reporting in PDF and Excel for "objetivo" records
 /// </summary>
-public partial class Export_ObjetivoRecords : Page
+public partial class ExportObjetivoRecords : Page
 {
     public static Font criteriaFont;
     public static Dictionary<string, string> dictionary;
@@ -47,16 +47,15 @@ public partial class Export_ObjetivoRecords : Page
     {
         if (indicadorId > 0)
         {
-            Indicador indicador = Indicador.GetById(indicadorId, companyId);
+            var indicador = Indicador.GetById(indicadorId, companyId);
             return ExcelIndicador(companyId, dateFrom, dateTo, indicador.Description, indicadorId, objetivoName, listOrder);
         }
 
-        ActionResult res = ActionResult.NoAction;
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var res = ActionResult.NoAction;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        Company company = new Company(companyId);
-
-        List<ObjetivoRegistro> registros = ObjetivoRegistro.GetByObjetivo(objetivoId, companyId).ToList();
+        var company = new Company(companyId);
+        var registros = ObjetivoRegistro.GetByObjetivo(objetivoId, companyId).ToList();
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -72,12 +71,12 @@ public partial class Export_ObjetivoRecords : Page
             objetivoName,
             DateTime.Now);
 
-        HSSFWorkbook wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
-        HSSFSheet sh = (HSSFSheet)wb.CreateSheet(dictionary["Item_Objetivo_RecordsReportTitle"]);
-        HSSFSheet shCriteria = (HSSFSheet)wb.CreateSheet(dictionary["Common_SearchCriteria"]);
+        var wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
+        var sh = (HSSFSheet)wb.CreateSheet(dictionary["Item_Objetivo_RecordsReportTitle"]);
+        var shCriteria = (HSSFSheet)wb.CreateSheet(dictionary["Common_SearchCriteria"]);
 
-        ICellStyle moneyCellStyle = wb.CreateCellStyle();
-        IDataFormat hssfDataFormat = wb.CreateDataFormat();
+        var moneyCellStyle = wb.CreateCellStyle();
+        var hssfDataFormat = wb.CreateDataFormat();
         moneyCellStyle.DataFormat = hssfDataFormat.GetFormat("#,##0.00");
 
         var headerCellStyle = wb.CreateCellStyle();
@@ -105,21 +104,20 @@ public partial class Export_ObjetivoRecords : Page
         titleFont.FontHeight = 400;
         titleCellStyle.SetFont(titleFont);
 
-        ICellStyle decimalFormat = wb.CreateCellStyle();
+        var decimalFormat = wb.CreateCellStyle();
         decimalFormat.DataFormat = wb.CreateDataFormat().GetFormat("#.00");
 
-        ICellStyle integerformat = wb.CreateCellStyle();
+        var integerformat = wb.CreateCellStyle();
         integerformat.DataFormat = wb.CreateDataFormat().GetFormat("#0");
 
-        CellRangeAddress cra = new CellRangeAddress(0, 1, 0, 4);
+        var cra = new CellRangeAddress(0, 1, 0, 4);
         sh.AddMergedRegion(cra);
         if (sh.GetRow(0) == null) { sh.CreateRow(0); }
         sh.GetRow(0).CreateCell(0);
         sh.GetRow(0).GetCell(0).SetCellValue(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Indicador_RecordsReportTitle"], objetivoName));
         sh.GetRow(0).GetCell(0).CellStyle = titleCellStyle;
 
-
-        IDataFormat dataFormatCustom = wb.CreateDataFormat();
+        var dataFormatCustom = wb.CreateDataFormat();
 
         // Condiciones del filtro
         if (shCriteria.GetRow(1) == null) { shCriteria.CreateRow(1); }
@@ -154,7 +152,7 @@ public partial class Export_ObjetivoRecords : Page
         shCriteria.GetRow(3).GetCell(2).SetCellValue(toValue);
 
         // Crear Cabecera
-        List<string> headers = new List<string>() {
+        var headers = new List<string>() {
             dictionary["Item_Objetivo_TableRecords_Header_Status"].ToUpperInvariant(),
             dictionary["Item_Objetivo_TableRecords_Header_Value"].ToUpperInvariant(),
             dictionary["Item_Objetivo_TableRecords_Header_Date"].ToUpperInvariant(),
@@ -223,15 +221,15 @@ public partial class Export_ObjetivoRecords : Page
                 break;
         }
 
-        foreach (ObjetivoRegistro r in registros)
+        foreach (var registroObjetivo in registros)
         {
             if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
-            string metaText = IndicadorRegistro.ComparerLabel(r.MetaComparer, dictionary); string statusLabel = dictionary["Item_Objetivo_StatusLabelWithoutMeta"];
-            if (metaText == "eq" && r.Value == r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "gt" && r.Value > r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "eqgt" && r.Value >= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "lt" && r.Value < r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "eqlt" && r.Value <= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            string metaText = IndicadorRegistro.ComparerLabel(registroObjetivo.MetaComparer, dictionary); string statusLabel = dictionary["Item_Objetivo_StatusLabelWithoutMeta"];
+            if (metaText == "eq" && registroObjetivo.Value == registroObjetivo.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "gt" && registroObjetivo.Value > registroObjetivo.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "eqgt" && registroObjetivo.Value >= registroObjetivo.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "lt" && registroObjetivo.Value < registroObjetivo.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "eqlt" && registroObjetivo.Value <= registroObjetivo.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
             else
             {
                 statusLabel = dictionary["Item_Objetivo_StatusLabelNoMeta"];
@@ -245,25 +243,25 @@ public partial class Export_ObjetivoRecords : Page
             if (sh.GetRow(countRow).GetCell(1) == null) { sh.GetRow(countRow).CreateCell(1); }
             sh.GetRow(countRow).GetCell(1).SetCellType(CellType.Numeric);
             sh.GetRow(countRow).GetCell(1).CellStyle = moneyCellStyle;
-            sh.GetRow(countRow).GetCell(1).SetCellValue(Convert.ToDouble(r.Value));
+            sh.GetRow(countRow).GetCell(1).SetCellValue(Convert.ToDouble(registroObjetivo.Value));
 
             // Date
             if (sh.GetRow(countRow).GetCell(2) == null) { sh.GetRow(countRow).CreateCell(2); }
             sh.GetRow(countRow).GetCell(2).CellStyle.DataFormat = dataFormatCustom.GetFormat("dd/MM/yyyy");
-            sh.GetRow(countRow).GetCell(2).SetCellValue(r.Date);
+            sh.GetRow(countRow).GetCell(2).SetCellValue(registroObjetivo.Date);
 
             // Comments
             if (sh.GetRow(countRow).GetCell(3) == null) { sh.GetRow(countRow).CreateCell(3); }
-            sh.GetRow(countRow).GetCell(3).SetCellValue(r.Comments);
+            sh.GetRow(countRow).GetCell(3).SetCellValue(registroObjetivo.Comments);
 
             // Meta
-            if (!r.Meta.HasValue)
+            if (!registroObjetivo.Meta.HasValue)
             {
                 metaText = string.Empty;
             }
             else
             {
-                metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, r.Meta.Value);
+                metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, registroObjetivo.Meta.Value);
             }
 
             if (sh.GetRow(countRow).GetCell(4) == null) { sh.GetRow(countRow).CreateCell(4); }
@@ -277,7 +275,7 @@ public partial class Export_ObjetivoRecords : Page
 
             // Responsible
             if (sh.GetRow(countRow).GetCell(5) == null) { sh.GetRow(countRow).CreateCell(5); }
-            sh.GetRow(countRow).GetCell(5).SetCellValue(r.Responsible.FullName);
+            sh.GetRow(countRow).GetCell(5).SetCellValue(registroObjetivo.Responsible.FullName);
 
             countRow++;
         }
@@ -311,13 +309,11 @@ public partial class Export_ObjetivoRecords : Page
     [ScriptMethod]
     public static ActionResult ExcelIndicador(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId, string objetivoName, string listOrder)
     {
-        ActionResult res = ActionResult.NoAction;
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var res = ActionResult.NoAction;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        Company company = new Company(companyId);
-
-        List<IndicadorRegistro> registros = IndicadorRegistro.GetByIndicador(indicadorId, companyId).ToList();
-
+        var company = new Company(companyId);
+        var registros = IndicadorRegistro.GetByIndicador(indicadorId, companyId).ToList();
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
         if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
@@ -332,12 +328,12 @@ public partial class Export_ObjetivoRecords : Page
             indicadorName,
             DateTime.Now);
 
-        HSSFWorkbook wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
-        HSSFSheet sh = (HSSFSheet)wb.CreateSheet(dictionary["Item_Indicador_RecordsReportTitle"]);
-        HSSFSheet shCriteria = (HSSFSheet)wb.CreateSheet(dictionary["Common_SearchCriteria"]);
+        var wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
+        var sh = (HSSFSheet)wb.CreateSheet(dictionary["Item_Indicador_RecordsReportTitle"]);
+        var shCriteria = (HSSFSheet)wb.CreateSheet(dictionary["Common_SearchCriteria"]);
 
-        ICellStyle moneyCellStyle = wb.CreateCellStyle();
-        IDataFormat hssfDataFormat = wb.CreateDataFormat();
+        var moneyCellStyle = wb.CreateCellStyle();
+        var hssfDataFormat = wb.CreateDataFormat();
         moneyCellStyle.DataFormat = hssfDataFormat.GetFormat("#,##0.00");
 
         var headerCellStyle = wb.CreateCellStyle();
@@ -365,21 +361,20 @@ public partial class Export_ObjetivoRecords : Page
         titleFont.FontHeight = 400;
         titleCellStyle.SetFont(titleFont);
 
-        ICellStyle decimalFormat = wb.CreateCellStyle();
+        var decimalFormat = wb.CreateCellStyle();
         decimalFormat.DataFormat = wb.CreateDataFormat().GetFormat("#.00");
 
-        ICellStyle integerformat = wb.CreateCellStyle();
+        var integerformat = wb.CreateCellStyle();
         integerformat.DataFormat = wb.CreateDataFormat().GetFormat("#0");
 
-        CellRangeAddress cra = new CellRangeAddress(0, 1, 0, 4);
+        var cra = new CellRangeAddress(0, 1, 0, 4);
         sh.AddMergedRegion(cra);
         if (sh.GetRow(0) == null) { sh.CreateRow(0); }
         sh.GetRow(0).CreateCell(0);
         sh.GetRow(0).GetCell(0).SetCellValue(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Objetivo_RecordsReportTitle"], indicadorName));
         sh.GetRow(0).GetCell(0).CellStyle = titleCellStyle;
 
-
-        IDataFormat dataFormatCustom = wb.CreateDataFormat();
+        var dataFormatCustom = wb.CreateDataFormat();
 
         // Condiciones del filtro
         if (shCriteria.GetRow(1) == null) { shCriteria.CreateRow(1); }
@@ -414,7 +409,7 @@ public partial class Export_ObjetivoRecords : Page
         shCriteria.GetRow(3).GetCell(2).SetCellValue(toValue);
 
         // Crear Cabecera
-        List<string> headers = new List<string>() {
+        var headers = new List<string>() {
             dictionary["Item_Indicador_TableRecords_Header_Status"].ToUpperInvariant(),
             dictionary["Item_Indicador_TableRecords_Header_Value"].ToUpperInvariant(),
             dictionary["Item_Indicador_TableRecords_Header_Date"].ToUpperInvariant(),
@@ -492,28 +487,28 @@ public partial class Export_ObjetivoRecords : Page
                 break;
         }
 
-        foreach (IndicadorRegistro r in registros)
+        foreach (var registro in registros)
         {
             if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
-            string metaText = IndicadorRegistro.ComparerLabelSign(r.MetaComparer, dictionary);
-            string alarmText = IndicadorRegistro.ComparerLabelSign(r.AlarmaComparer, dictionary);
+            string metaText = IndicadorRegistro.ComparerLabelSign(registro.MetaComparer, dictionary);
+            string alarmText = IndicadorRegistro.ComparerLabelSign(registro.AlarmaComparer, dictionary);
 
             string statusLabel = dictionary["Item_Objetivo_StatusLabelWithoutMeta"];
-            if (metaText == "=" && r.Value == r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == ">" && r.Value > r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == ">=" && r.Value >= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "<" && r.Value < r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "<=" && r.Value <= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == ">" && r.Value > r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == ">=" && r.Value >= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "<" && r.Value < r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "<=" && r.Value <= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            if (metaText == "=" && registro.Value == registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == ">" && registro.Value > registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == ">=" && registro.Value >= registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "<" && registro.Value < registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "<=" && registro.Value <= registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == ">" && registro.Value > registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == ">=" && registro.Value >= registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "<" && registro.Value < registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "<=" && registro.Value <= registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
             else if (!string.IsNullOrEmpty(alarmText))
             {
-                if (alarmText == ">" && r.Value > r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == ">=" && r.Value >= r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == "<" && r.Value < r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == "<=" && r.Value <= r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                if (alarmText == ">" && registro.Value > registro.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == ">=" && registro.Value >= registro.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == "<" && registro.Value < registro.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == "<=" && registro.Value <= registro.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
                 else
                 {
                     statusLabel = dictionary["Item_Objetivo_StatusLabelNoMeta"];
@@ -532,26 +527,26 @@ public partial class Export_ObjetivoRecords : Page
             if (sh.GetRow(countRow).GetCell(1) == null) { sh.GetRow(countRow).CreateCell(1); }
             sh.GetRow(countRow).GetCell(1).SetCellType(CellType.Numeric);
             sh.GetRow(countRow).GetCell(1).CellStyle = moneyCellStyle;
-            sh.GetRow(countRow).GetCell(1).SetCellValue(Convert.ToDouble(r.Value));
+            sh.GetRow(countRow).GetCell(1).SetCellValue(Convert.ToDouble(registro.Value));
 
             // Date
             if (sh.GetRow(countRow).GetCell(2) == null) { sh.GetRow(countRow).CreateCell(2); }
             sh.GetRow(countRow).GetCell(2).CellStyle.DataFormat = dataFormatCustom.GetFormat("dd/MM/yyyy");
-            sh.GetRow(countRow).GetCell(2).SetCellValue(r.Date);
+            sh.GetRow(countRow).GetCell(2).SetCellValue(registro.Date);
 
             // Comments
             if (sh.GetRow(countRow).GetCell(3) == null) { sh.GetRow(countRow).CreateCell(3); }
-            sh.GetRow(countRow).GetCell(3).SetCellValue(r.Comments);
+            sh.GetRow(countRow).GetCell(3).SetCellValue(registro.Comments);
 
             // Meta
-            metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, r.Meta);
+            metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, registro.Meta);
             if (sh.GetRow(countRow).GetCell(4) == null) { sh.GetRow(countRow).CreateCell(4); }
             sh.GetRow(countRow).GetCell(4).SetCellValue(metaText);
 
             // Alarm
             if (!string.IsNullOrEmpty(alarmText))
             {
-                alarmText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", alarmText, r.Alarma);
+                alarmText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", alarmText, registro.Alarma);
             }
             else
             {
@@ -563,7 +558,7 @@ public partial class Export_ObjetivoRecords : Page
 
             // Responsible
             if (sh.GetRow(countRow).GetCell(6) == null) { sh.GetRow(countRow).CreateCell(6); }
-            sh.GetRow(countRow).GetCell(6).SetCellValue(r.Responsible.FullName);
+            sh.GetRow(countRow).GetCell(6).SetCellValue(registro.Responsible.FullName);
 
             countRow++;
         }
@@ -598,21 +593,18 @@ public partial class Export_ObjetivoRecords : Page
     [ScriptMethod]
     public static ActionResult PDF(int companyId, DateTime? dateFrom, DateTime? dateTo, string objetivoName, int objetivoId, int indicadorId, string listOrder)
     {
-        ActionResult res = ActionResult.NoAction;
+        var res = ActionResult.NoAction;
 
         if (indicadorId > 0)
         {
-            Indicador indicador = Indicador.GetById(indicadorId, companyId);
+            var indicador = Indicador.GetById(indicadorId, companyId);
             return PDFIndicador(companyId, dateFrom, dateTo, indicador.Description, indicadorId, objetivoName, objetivoId, listOrder);
         }
 
-
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        Company company = new Company(companyId);
-
-        List<ObjetivoRegistro> registros = ObjetivoRegistro.GetByObjetivo(objetivoId, companyId).ToList();
-
+        var company = new Company(companyId);
+        var registros = ObjetivoRegistro.GetByObjetivo(objetivoId, companyId).ToList();
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
         if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
@@ -627,8 +619,8 @@ public partial class Export_ObjetivoRecords : Page
             objetivoName,
             DateTime.Now);
 
-        iTS.Document pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
-        iTSpdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
+        var pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
+        var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
            new FileStream(
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
@@ -646,7 +638,7 @@ public partial class Export_ObjetivoRecords : Page
 
         pdfDoc.Open();
 
-        iTS.BaseColor backgroundColor = new iTS.BaseColor(220, 220, 220);
+        var backgroundColor = new iTS.BaseColor(220, 220, 220);
 
         // ------------ FONTS 
         string pathFonts = System.Web.HttpContext.Current.Request.PhysicalApplicationPath;
@@ -655,14 +647,14 @@ public partial class Export_ObjetivoRecords : Page
             pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
         }
 
-        iTSpdf.BaseFont awesomeFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        iTSpdf.BaseFont dataFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\calibri.ttf", pathFonts), BaseFont.CP1250, BaseFont.EMBEDDED);
-        iTS.Font times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font timesBold = new iTS.Font(dataFont, 10, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font headerFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var awesomeFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        var dataFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\calibri.ttf", pathFonts), BaseFont.CP1250, BaseFont.EMBEDDED);
+        var times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var timesBold = new iTS.Font(dataFont, 10, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        var headerFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         criteriaFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font titleFont = new iTS.Font(dataFont, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var titleFont = new iTS.Font(dataFont, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        var symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
 
         var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         fontAwe = new Font(fontAwesomeIcon, 10);
@@ -705,29 +697,29 @@ public partial class Export_ObjetivoRecords : Page
         }
 
         var borderNone = iTS.Rectangle.NO_BORDER;
+
+        var criteriatable = new iTSpdf.PdfPTable(2)
+        {
+            WidthPercentage = 100
+        };
+
+        criteriatable.SetWidths(new float[] { 25f, 250f });
         
-        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(2);
-        float[] cirteriaWidths = new float[] { 25f, 250f };
-        criteriatable.SetWidths(cirteriaWidths);
-        criteriatable.WidthPercentage = 100;
-
-        iTSpdf.PdfPCell criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold))
         {
             Border = borderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria2Label);
+        });
 
-        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
         {
             Border = borderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria2);
+        });
 
         string typeText = string.Empty;
 
@@ -870,14 +862,13 @@ public partial class Export_ObjetivoRecords : Page
     [ScriptMethod]
     public static ActionResult PDFIndicador(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId, string objetivoName, int objetivoId, string listOrder)
     {
-        ActionResult res = ActionResult.NoAction;
-        Objetivo objetivo = Objetivo.GetById(objetivoId, companyId);
-        DateTime fechaInicio = objetivo.StartDate;
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var res = ActionResult.NoAction;
+        var objetivo = Objetivo.GetById(objetivoId, companyId);
+        var fechaInicio = objetivo.StartDate;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        Company company = new Company(companyId);
-
-        List<IndicadorRegistro> registros = IndicadorRegistro.GetByIndicador(indicadorId, companyId).ToList();
+        var company = new Company(companyId);
+        var registros = IndicadorRegistro.GetByIndicador(indicadorId, companyId).ToList();
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -893,8 +884,8 @@ public partial class Export_ObjetivoRecords : Page
             indicadorName,
             DateTime.Now);
 
-        iTS.Document pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
-        iTSpdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
+        var pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
+        var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
            new FileStream(
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
@@ -912,7 +903,7 @@ public partial class Export_ObjetivoRecords : Page
 
         pdfDoc.Open();
 
-        iTS.BaseColor backgroundColor = new iTS.BaseColor(220, 220, 220);
+        var backgroundColor = new iTS.BaseColor(220, 220, 220);
 
         // ------------ FONTS 
         string pathFonts = System.Web.HttpContext.Current.Request.PhysicalApplicationPath;
@@ -921,15 +912,14 @@ public partial class Export_ObjetivoRecords : Page
             pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
         }
 
-        iTSpdf.BaseFont awesomeFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        iTSpdf.BaseFont dataFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\calibri.ttf", pathFonts), BaseFont.CP1250, BaseFont.EMBEDDED);
-        iTS.Font times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font timesBold = new iTS.Font(dataFont, 10, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font headerFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var awesomeFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        var dataFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\calibri.ttf", pathFonts), BaseFont.CP1250, BaseFont.EMBEDDED);
+        var times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var timesBold = new iTS.Font(dataFont, 10, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        var headerFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         criteriaFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font titleFont = new iTS.Font(dataFont, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-
+        var titleFont = new iTS.Font(dataFont, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        var symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         fontAwe = new Font(fontAwesomeIcon, 10);
         // -------------------        
@@ -972,35 +962,32 @@ public partial class Export_ObjetivoRecords : Page
 
         periode += listOrder;
 
-        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(2)
+        var criteriatable = new iTSpdf.PdfPTable(2)
         {
             WidthPercentage = 100
         };
 
-        float[] cirteriaWidths = new float[] { 25f, 250f };
-        criteriatable.SetWidths(cirteriaWidths);
-
-        iTSpdf.PdfPCell criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold))
+        criteriatable.SetWidths(new float[] { 25f, 250f });
+        
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria2Label);
+        });
 
-        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria2);
+        });
 
         string typeText = string.Empty;
 
-        iTSpdf.PdfPCell criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(typeText, times))
+        var criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(typeText, times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -1014,28 +1001,27 @@ public partial class Export_ObjetivoRecords : Page
             "{0} {1}",
             dictionary["Item_Objetivo_Tab_RecordsFromIndicator"],
             indicadorName);
-        iTSpdf.PdfPCell criteria4 = new iTSpdf.PdfPCell(new iTS.Phrase(warningText, times))
+
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(warningText, times))
         {
             Colspan = 2,
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria4);
+        });
 
         pdfDoc.Add(criteriatable);
 
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(7)
+        var table = new iTSpdf.PdfPTable(7)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 0,
             SpacingBefore = 20f,
             SpacingAfter = 30f
         };
-        
-        float[] widths = new float[] { 15f, 10f, 10f, 15f, 20f, 20f, 30f };
-        table.SetWidths(widths);
+
+        table.SetWidths(new float[] { 15f, 10f, 10f, 15f, 20f, 20f, 30f });
 
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Status"].ToUpperInvariant(), headerFont));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Value"].ToUpperInvariant(), headerFont));
@@ -1168,5 +1154,4 @@ public partial class Export_ObjetivoRecords : Page
         res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
         return res;
     }
-
 }

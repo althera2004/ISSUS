@@ -239,17 +239,17 @@ public partial class ActionView : Page
 
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
@@ -257,7 +257,7 @@ public partial class ActionView : Page
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
@@ -276,7 +276,7 @@ public partial class ActionView : Page
     {
         if (this.Request.QueryString["id"] != null)
         {
-            this.IncidentActionId = Convert.ToInt64(this.Request.QueryString["id"].ToString());
+            this.IncidentActionId = Convert.ToInt64(this.Request.QueryString["id"]);
         }
 
         if (this.Request.QueryString["New"] != null)
@@ -304,7 +304,7 @@ public partial class ActionView : Page
             this.IncidentAction = IncidentAction.GetById(this.IncidentActionId, this.company.Id);
             if (this.IncidentAction.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
                 this.IncidentAction = IncidentAction.Empty;
             }
@@ -464,22 +464,22 @@ public partial class ActionView : Page
             DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        long WhatHappenrdResponsibleId = this.IncidentAction.WhatHappenedBy == null ? 0 : this.IncidentAction.WhatHappenedBy.Id;
-        long CausesResponsibleId = this.IncidentAction.CausesBy == null ? 0 : this.IncidentAction.CausesBy.Id;
-        long ActionsResponsibleId = this.IncidentAction.ActionsBy == null ? 0 : this.IncidentAction.ActionsBy.Id;
-        long ActionsExecuterId = this.IncidentAction.ActionsExecuter == null ? 0 : this.IncidentAction.ActionsExecuter.Id;
-        long ClosedResponsibleId = this.IncidentAction.ClosedBy == null ? 0 : this.IncidentAction.ClosedBy.Id;
-        long ClosedExecutorId = this.IncidentAction.ClosedExecutor == null ? 0 : this.IncidentAction.ClosedExecutor.Id;
+        long whatHappenrdResponsibleId = this.IncidentAction.WhatHappenedBy == null ? 0 : this.IncidentAction.WhatHappenedBy.Id;
+        long causesResponsibleId = this.IncidentAction.CausesBy == null ? 0 : this.IncidentAction.CausesBy.Id;
+        long actionsResponsibleId = this.IncidentAction.ActionsBy == null ? 0 : this.IncidentAction.ActionsBy.Id;
+        long actionsExecuterId = this.IncidentAction.ActionsExecuter == null ? 0 : this.IncidentAction.ActionsExecuter.Id;
+        long closedResponsibleId = this.IncidentAction.ClosedBy == null ? 0 : this.IncidentAction.ClosedBy.Id;
+        long closedExecutorId = this.IncidentAction.ClosedExecutor == null ? 0 : this.IncidentAction.ClosedExecutor.Id;
 
-        foreach (Employee e in this.company.Employees)
+        foreach (var e in this.company.Employees)
         {
             if (e.Active && e.DisabledDate == null)
             {
-                this.CmbWhatHappenedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == WhatHappenrdResponsibleId });
-                this.CmbCausesResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == CausesResponsibleId });
-                this.CmbActionsResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == ActionsResponsibleId });
-                this.CmbActionsExecuter.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == ActionsExecuterId });
-                this.CmbClosedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == ClosedResponsibleId });
+                this.CmbWhatHappenedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == whatHappenrdResponsibleId });
+                this.CmbCausesResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == causesResponsibleId });
+                this.CmbActionsResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == actionsResponsibleId });
+                this.CmbActionsExecuter.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == actionsExecuterId });
+                this.CmbClosedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == closedResponsibleId });
             }
             else
             {
@@ -626,12 +626,12 @@ public partial class ActionView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        ReadOnlyCollection<UploadFile> files = UploadFile.GetByItem(13, this.IncidentActionId, this.company.Id);
-        StringBuilder res = new StringBuilder();
-        StringBuilder resList = new StringBuilder();
+        var files = UploadFile.GetByItem(13, this.IncidentActionId, this.company.Id);
+        var res = new StringBuilder();
+        var resList = new StringBuilder();
         int contCells = 0;
-        ReadOnlyCollection<string> extensions = ToolsFile.ExtensionToShow;
-        foreach (UploadFile file in files)
+        var extensions = ToolsFile.ExtensionToShow;
+        foreach (var file in files)
         {
             decimal finalSize = ToolsFile.FormatSize((decimal)file.Size);
             string fileShowed = string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description;

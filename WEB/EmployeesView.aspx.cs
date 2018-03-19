@@ -398,7 +398,7 @@ public partial class EmployeesView : Page
         this.active = true;
         if (Session["User"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else

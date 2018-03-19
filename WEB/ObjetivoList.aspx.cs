@@ -67,7 +67,7 @@ public partial class ObjetivoList : Page
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", true);
@@ -80,9 +80,7 @@ public partial class ObjetivoList : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)Session["User"];

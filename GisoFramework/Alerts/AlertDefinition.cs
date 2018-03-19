@@ -18,14 +18,10 @@ namespace GisoFramework.Alerts
     using System.Web;
     using Newtonsoft.Json;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary>Implements alert definition</summary>
     public class AlertDefinition
     {
-        /// <summary>
-        /// Gets or sets de company identifier
-        /// </summary>
+        /// <summary>Gets or sets de company identifier</summary>
         [JsonProperty("CompanyId")]
         public int CompanyId { get; set; }
 
@@ -35,58 +31,44 @@ namespace GisoFramework.Alerts
         [JsonProperty("ItemType")]
         public int ItemType { get; set; }
 
-        /// <summary>
-        /// Gets or sets the alert description
-        /// </summary>
+        /// <summary>Gets or sets the alert description</summary>
         [JsonProperty("AlertDescription")]
         public string AlertDescription { get; set; }
 
-        /// <summary>
-        /// Gets or sets the query to extract alert occurrences
-        /// </summary>
+        /// <summary>Gets or sets the query to extract alert occurrences</summary>
         [JsonProperty("Query")]
         public string Query { get; set; }
 
-        /// <summary>
-        /// Gets or sets the HTML template for alert menu tag
-        /// </summary>
+        /// <summary>Gets or sets the HTML template for alert menu tag</summary>
         [JsonProperty("Tag")]
         public string Tag { get; set; }
 
-        /// <summary>
-        /// Gets or sets the HTML template for alert list row
-        /// </summary>
+        /// <summary>Gets or sets the HTML template for alert list row</summary>
         [JsonProperty("Row")]
         public string Row { get; set; }
 
-        /// <summary>
-        /// Gets or sets the url of affected item
-        /// </summary>
+        /// <summary>Gets or sets the url of affected item</summary>
         [JsonProperty("ItemUrl")]
         public string ItemUrl { get; set; }
 
-        /// <summary>
-        /// Gets or sets the index of field positions
-        /// </summary>
+        /// <summary>Gets or sets the index of field positions</summary>
         [JsonProperty("Index")]
         private FieldPosition[] Index { get; set; }
 
-        /// <summary>
-        /// Read alert definition from disk
-        /// </summary>
+        /// <summary>Read alert definition from disk</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <returns>Alert definition structure</returns>
         public static ReadOnlyCollection<AlertDefinition> GetFromDisk(Dictionary<string, string> dictionary)
         {
             int companyId = Convert.ToInt32(HttpContext.Current.Session["CompanyId"], CultureInfo.GetCultureInfo("en-us"));
-            List<AlertDefinition> res = new List<AlertDefinition>();
+            var res = new List<AlertDefinition>();
             string path = HttpContext.Current.Request.PhysicalApplicationPath + "Alerts";
             if (!path.EndsWith(@"\", StringComparison.Ordinal))
             {
                 path += @"\";
             }
 
-            List<string> myFiles = Directory.GetFiles(path, "*.json", SearchOption.TopDirectoryOnly).ToList();
+            var myFiles = Directory.GetFiles(path, "*.json", SearchOption.TopDirectoryOnly).ToList();
 
             foreach (string fileName in myFiles)
             {
@@ -96,9 +78,7 @@ namespace GisoFramework.Alerts
             return new ReadOnlyCollection<AlertDefinition>(res);
         }
 
-        /// <summary>
-        /// Read alert definition from file
-        /// </summary>
+        /// <summary>Read alert definition from file</summary>
         /// <param name="companyId">Company identifier</param>
         /// <param name="fileName">File name of alert</param>
         /// <param name="dictionary">Dictionary for fixed labels</param>
@@ -112,10 +92,10 @@ namespace GisoFramework.Alerts
 
             string userid = HttpContext.Current.Session["UserId"].ToString();
 
-            AlertDefinition alert = new AlertDefinition();
+            var alert = new AlertDefinition();
             if (File.Exists(fileName))
             {
-                using (StreamReader input = new StreamReader(fileName))
+                using (var input = new StreamReader(fileName))
                 {
                     alert = JsonConvert.DeserializeObject<AlertDefinition>(input.ReadToEnd());
 
@@ -136,9 +116,7 @@ namespace GisoFramework.Alerts
             return alert;
         }
 
-        /// <summary>
-        /// Creates a HTML code for a alert row of alerts page
-        /// </summary>
+        /// <summary>Creates a HTML code for a alert row of alerts page</summary>
         /// <param name="dictionary">Dictionary for fixed label</param>
         /// <returns>HTML code for a alert row of alerts page</returns>
         public ReadOnlyCollection<string> RenderRow(Dictionary<string, string> dictionary)
@@ -148,44 +126,49 @@ namespace GisoFramework.Alerts
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
 
-            List<string> res = new List<string>();
-            List<string> columns = new List<string>();
-            foreach (FieldPosition position in this.Index.OrderBy(x => x.Position))
+            var res = new List<string>();
+            var columns = new List<string>();
+            foreach (var position in this.Index.OrderBy(x => x.Position))
             {
                 columns.Add(position.FieldName);
             }
 
             using (SqlCommand cmd = new SqlCommand(this.Query))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.Text;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.Text;
+                    try
                     {
-                        List<string> data = new List<string>();
-                        foreach (string columnName in columns)
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            data.Add(rdr[columnName].ToString());
-                        }
+                            while (rdr.Read())
+                            {
+                                var data = new List<string>();
+                                foreach (string columnName in columns)
+                                {
+                                    data.Add(rdr[columnName].ToString());
+                                }
 
-                        if (!string.IsNullOrEmpty(this.Row))
-                        {
-                            res.Add(string.Format(CultureInfo.GetCultureInfo("en-us"), this.Row.Replace("#AlertDescription#", this.AlertDescription), data.ToArray()));
-                        }
-                        else
-                        {
-                            res.Add("<tr><td>" + this.AlertDescription + "</td><td>" + data[1] + "</td><td><span class=\"btn btn-xs btn-info\" onclick=\"document.location='" + this.ItemUrl + data[0] + "';\"><i class=\"icon-edit bigger-1202\"></i></span></td></tr>");
+                                if (!string.IsNullOrEmpty(this.Row))
+                                {
+                                    res.Add(string.Format(CultureInfo.InvariantCulture, this.Row.Replace("#AlertDescription#", this.AlertDescription), data.ToArray()));
+                                }
+                                else
+                                {
+                                    res.Add("<tr><td>" + this.AlertDescription + "</td><td>" + data[1] + "</td><td><span class=\"btn btn-xs btn-info\" onclick=\"document.location='" + this.ItemUrl + data[0] + "';\"><i class=\"icon-edit bigger-1202\"></i></span></td></tr>");
+                                }
+                            }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -193,44 +176,46 @@ namespace GisoFramework.Alerts
             return new ReadOnlyCollection<string>(res);
         }
 
-        /// <summary>
-        /// Extract alert ocurrences
-        /// </summary>
+        /// <summary>Extract alert ocurrences</summary>
         /// <returns>A list of alert ocurrences</returns>
         public ReadOnlyCollection<string> Extract()
         {
-            List<string> res = new List<string>();
-
-            List<string> columns = new List<string>();
-            foreach (FieldPosition position in this.Index.OrderBy(x => x.Position))
+            var res = new List<string>();
+            var columns = new List<string>();
+            foreach (var position in this.Index.OrderBy(x => x.Position))
             {
                 columns.Add(position.FieldName);
             }
 
-            using (SqlCommand cmd = new SqlCommand(this.Query))
+            using (var cmd = new SqlCommand(this.Query))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.Text;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.Text;
+                    try
                     {
-                        List<string> data = new List<string>();
-                        foreach (string columnName in columns)
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            data.Add(rdr[columnName].ToString());
-                        }
+                            while (rdr.Read())
+                            {
+                                var data = new List<string>();
+                                foreach (string columnName in columns)
+                                {
+                                    data.Add(rdr[columnName].ToString());
+                                }
 
-                        res.Add(string.Format(CultureInfo.GetCultureInfo("en-us"), this.Tag.Replace("#AlertDescription#", this.AlertDescription), data.ToArray()));
+                                res.Add(string.Format(CultureInfo.GetCultureInfo("en-us"), this.Tag.Replace("#AlertDescription#", this.AlertDescription), data.ToArray()));
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

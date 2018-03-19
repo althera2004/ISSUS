@@ -235,7 +235,7 @@ namespace GisoFramework
         {
             get
             {
-                Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+                var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
                 string toolTip = dictionary["Common_Edit"];
                 return string.Format(CultureInfo.GetCultureInfo("en-us"), "<a href=\"UserView.aspx?id={0}\" title=\"{2} {1}\">{1}</a>", this.id, this.userName, toolTip);
             }
@@ -685,59 +685,63 @@ namespace GisoFramework
         /// <returns>Result of action</returns>
         public static ActionResult ChangeUserName(int applicationUserId, int companyId, int userId, string newUserName, int employeeId)
         {
-            ActionResult res = ActionResult.NoAction;
+            string source = string.Format(CultureInfo.GetCultureInfo("en-us"), @"ApplicationUser::ChangeUserName({0}, {1}, {2}, ""{3}"")", applicationUserId, companyId, userId, newUserName);
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE ApplicationUser_ChangeUserName
              * @ApplicationUserId int,
              * @CompanyId int,
              * @UserName nvarchar(50),
              * @extraData nvarchar(200),
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("ApplicationUser_ChangeUserName"))
+            using (var cmd = new SqlCommand("ApplicationUser_ChangeUserName"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserName", Tools.LimitedText(newUserName, 50)));
-                    cmd.Parameters.Add(DataParameter.Input("@extraData", Tools.LimitedText(string.Format(CultureInfo.GetCultureInfo("en-us"), "UserName:{0}", newUserName), 200)));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"ApplicationUser::ChangeUserName({0}, {1}, {2}, ""{3}"")", applicationUserId, companyId, userId, newUserName));
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"ApplicationUser::ChangeUserName({0}, {1}, {2}, ""{3}"")", applicationUserId, companyId, userId, newUserName));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"ApplicationUser::ChangeUserName({0}, {1}, {2}, ""{3}"")", applicationUserId, companyId, userId, newUserName));
-                }
-                catch (ArgumentException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"ApplicationUser::ChangeUserName({0}, {1}, {2}, ""{3}"")", applicationUserId, companyId, userId, newUserName));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"ApplicationUser::ChangeUserName({0}, {1}, {2}, ""{3}"")", applicationUserId, companyId, userId, newUserName));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserName", Tools.LimitedText(newUserName, 50)));
+                        cmd.Parameters.Add(DataParameter.Input("@extraData", Tools.LimitedText(string.Format(CultureInfo.GetCultureInfo("en-us"), "UserName:{0}", newUserName), 200)));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -755,47 +759,46 @@ namespace GisoFramework
         /// <returns>Result of action</returns>
         public static ActionResult RevokeGrant(int applicationUserId, int companyId, int grant, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE ApplicationUser_RevokeGrant
              * @ApplicationUserId int,
              * @CompanyId int,
              * @SecurityGroupId int,
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("ApplicationUser_RevokeGrant"))
+            using (var cmd = new SqlCommand("ApplicationUser_RevokeGrant"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@ApplicationUserId", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters.Add("@SecurityGroupId", SqlDbType.Int);
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters["@ApplicationUserId"].Value = applicationUserId;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Parameters["@SecurityGroupId"].Value = grant;
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@SecurityGroupId", grant));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -921,37 +924,42 @@ namespace GisoFramework
         /// <returns>result of action</returns>
         public static ApplicationUser GetByEmployee(long employeeId, int companyId)
         {
-            ApplicationUser res = ApplicationUser.Empty;
+            var res = ApplicationUser.Empty;
             res.groups = new List<ApplicationLogOn.SecurityGroup>();
             /* ALTER PROCEDURE ApplicationUser_ByEmployee
              * @EmployeeId bigint,
              * @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("ApplicationUser_ByEmployee"))
+            using (var cmd = new SqlCommand("ApplicationUser_ByEmployee"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@EmployeeId", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters["@EmployeeId"].Value = employeeId;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        res.id = rdr.GetInt32(0);
-                        res.userName = rdr.GetString(1);
-                        res.status = ApplicationLogOn.IntegerToLogOnResult(rdr.GetInt32(3));
-                        res.groups.Add(ApplicationLogOn.IntegerToSecurityGroup(rdr.GetInt32(4)));
-                        res.PrimaryUser = rdr.GetBoolean(6);
+                        cmd.Parameters.Add("@EmployeeId", SqlDbType.Int);
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters["@EmployeeId"].Value = employeeId;
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                res.id = rdr.GetInt32(0);
+                                res.userName = rdr.GetString(1);
+                                res.status = ApplicationLogOn.IntegerToLogOnResult(rdr.GetInt32(3));
+                                res.groups.Add(ApplicationLogOn.IntegerToSecurityGroup(rdr.GetInt32(4)));
+                                res.PrimaryUser = rdr.GetBoolean(6);
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -959,9 +967,7 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Change user's password
-        /// </summary>
+        /// <summary>Change user's password</summary>
         /// <param name="userId">User identifier</param>
         /// <param name="oldPassword">Old password</param>
         /// <param name="newPassword">New password</param>
@@ -969,7 +975,7 @@ namespace GisoFramework
         /// <returns>Result of action</returns>
         public static ActionResult ChangePassword(int userId, string oldPassword, string newPassword, int companyId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
 
             /* CREATE PROCEDURE ApplicationUser_ChangePassword
              * @UserId int,
@@ -977,44 +983,47 @@ namespace GisoFramework
              * @NewPassword nvarchar(50),
              * @CompanyId int,
              * @Result int out */
-            using (SqlCommand cmd = new SqlCommand("ApplicationUser_ChangePassword"))
+            using (var cmd = new SqlCommand("ApplicationUser_ChangePassword"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters.Add("@OldPassword", SqlDbType.NVarChar);
-                    cmd.Parameters.Add("@NewPassword", SqlDbType.NVarChar);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters.Add("@Result", SqlDbType.Int);
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Parameters["@OldPassword"].Value = oldPassword;
-                    cmd.Parameters["@NewPassword"].Value = newPassword;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Parameters["@Result"].Value = DBNull.Value;
-                    cmd.Parameters["@Result"].Direction = ParameterDirection.Output;
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    if (cmd.Parameters["@Result"].Value.ToString().Trim() == "1")
+                    cmd.Connection = cnn;
+                    try
                     {
-                        res.SetSuccess();
-                    }
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                        cmd.Parameters.Add("@OldPassword", SqlDbType.NVarChar);
+                        cmd.Parameters.Add("@NewPassword", SqlDbType.NVarChar);
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters.Add("@Result", SqlDbType.Int);
+                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.Parameters["@OldPassword"].Value = oldPassword;
+                        cmd.Parameters["@NewPassword"].Value = newPassword;
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Parameters["@Result"].Value = DBNull.Value;
+                        cmd.Parameters["@Result"].Direction = ParameterDirection.Output;
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        if (cmd.Parameters["@Result"].Value.ToString().Trim() == "1")
+                        {
+                            res.SetSuccess();
+                        }
 
-                    if (cmd.Parameters["@Result"].Value.ToString().Trim() == "0")
-                    {
-                        res.SetFail(IncorrectPassword);
+                        if (cmd.Parameters["@Result"].Value.ToString().Trim() == "0")
+                        {
+                            res.SetFail(IncorrectPassword);
+                        }
                     }
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1191,46 +1200,47 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Change user's avatar
-        /// </summary>
+        /// <summary>Change user's avatar</summary>
         /// <param name="userId">User identifier</param>
         /// <param name="avatar">Avatar image filename</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>Result of action</returns>
         public static ActionResult ChangeAvatar(int userId, string avatar, int companyId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
 
             /* CREATE PROCEDURE [dbo].[ApplicationUser_ChangeAvatar]
              * @UserId int,
              * @Avatar nvarchar(50),
              * @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("ApplicationUser_ChangeAvatar"))
+            using (var cmd = new SqlCommand("ApplicationUser_ChangeAvatar"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters.Add("@Avatar", SqlDbType.NVarChar);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Parameters["@Avatar"].Value = avatar;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                        cmd.Parameters.Add("@Avatar", SqlDbType.NVarChar);
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.Parameters["@Avatar"].Value = avatar;
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

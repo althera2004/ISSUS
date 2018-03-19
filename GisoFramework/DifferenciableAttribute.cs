@@ -8,37 +8,27 @@ namespace GisoFramework
 {
     using System;
 
-    /// <summary>
-    /// Implementation of the Differenciable attribute for class properties
-    /// </summary>
+    /// <summary>Implementation of the Differenciable attribute for class properties</summary>
     [AttributeUsage(AttributeTargets.Property)]
     public class DifferenciableAttribute : Attribute
     {
-        /// <summary>
-        /// Indicates if apply
-        /// </summary>
+        /// <summary>Indicates if apply</summary>
         private bool apply;
 
-        /// <summary>
-        /// Initializes a new instance of the DifferenciableAttribute class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the DifferenciableAttribute class.</summary>
         /// <param name="apply">Indicates if apply</param>
         public DifferenciableAttribute(bool apply)
         {
             this.apply = apply;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the DifferenciableAttribute class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the DifferenciableAttribute class.</summary>
         public DifferenciableAttribute()
         {
             this.apply = true;
         }
 
-        /// <summary>
-        /// Gets a value indicating whether if apply
-        /// </summary>
+        /// <summary>Gets a value indicating whether if apply</summary>
         public bool Apply
         {
             get

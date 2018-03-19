@@ -120,23 +120,21 @@ public partial class ProcesosView : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", true);
@@ -147,7 +145,7 @@ public partial class ProcesosView : Page
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
@@ -159,9 +157,7 @@ public partial class ProcesosView : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = Session["User"] as ApplicationUser;
@@ -170,7 +166,7 @@ public partial class ProcesosView : Page
 
         if (this.Request.QueryString["id"] != null)
         {
-            this.processId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
+            this.processId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
         string label = this.processId == -1 ? "Item_Process_Button_New" : "Item_Process_Button_Edit";
@@ -215,8 +211,8 @@ public partial class ProcesosView : Page
 
     private void RenderIndicatorsData()
     {
-        StringBuilder res = new StringBuilder();
-        ReadOnlyCollection<Indicador> indicators = Indicador.GetByProcess(this.processId, this.company.Id);
+        var res = new StringBuilder();
+        var indicators = Indicador.GetByProcess(this.processId, this.company.Id);
         foreach (Indicador indicadtor in indicators)
         {
             res.Append(indicadtor.ListRowProcessTab(this.dictionary, this.user.Grants));
@@ -227,8 +223,8 @@ public partial class ProcesosView : Page
 
     private void RenderProcesosData()
     {
-        ReadOnlyCollection<Process> procesos = Process.GetByCompany(this.company.Id);
-        StringBuilder res = new StringBuilder();
+        var procesos = Process.GetByCompany(this.company.Id);
+        var res = new StringBuilder();
         bool first = true;
         foreach (Process process in procesos)
         {
@@ -252,11 +248,11 @@ public partial class ProcesosView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        ReadOnlyCollection<UploadFile> files = UploadFile.GetByItem(9, this.processId, this.company.Id);
-        StringBuilder res = new StringBuilder();
-        StringBuilder resList = new StringBuilder();
+        var files = UploadFile.GetByItem(9, this.processId, this.company.Id);
+        var res = new StringBuilder();
+        var resList = new StringBuilder();
         int contCells = 0;
-        ReadOnlyCollection<string> extensions = ToolsFile.ExtensionToShow;
+        var extensions = ToolsFile.ExtensionToShow;
         foreach (UploadFile file in files)
         {
             decimal finalSize = ToolsFile.FormatSize((decimal)file.Size);
