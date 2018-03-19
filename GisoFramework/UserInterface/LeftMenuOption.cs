@@ -6,18 +6,13 @@
 // --------------------------------
 namespace GisoFramework.UserInterface
 {
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Web;
 
-    /// <summary>
-    /// Implements a class of options of left menu
-    /// </summary>
+    /// <summary>Implements a class of options of left menu</summary>
     public static class LeftMenuOption
     {
-        /// <summary>
-        /// Render a option in the left menu
-        /// </summary>
+        /// <summary>Render a option in the left menu</summary>
         /// <param name="text">Label of option</param>
         /// <param name="link">Url of option</param>
         /// <param name="current">The current url of page</param>

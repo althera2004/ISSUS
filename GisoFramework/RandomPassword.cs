@@ -22,22 +22,22 @@ namespace GisoFramework
     public static class RandomPassword
     {
         /// <summary>Minimum password length</summary>
-        private static int defaultMinPasswordLength = 8;
+        private static int DefaultMinPasswordLength = 8;
 
         /// <summary>Maximum password length</summary>
-        private static int defaultMaxPasswordLength = 10;
+        private static int DefaultMaxPasswordLength = 10;
 
         /// <summary>Lowercase characters</summary>
-        private static string passwordCharsLowercase = "abcdefgijkmnopqrstwxyz";
+        private static string PasswordCharsLowercase = "abcdefgijkmnopqrstwxyz";
 
         /// <summary>Uppercase characters</summary>
-        private static string passwordCharsUppercase = "ABCDEFGHJKLMNPQRSTWXYZ";
+        private static string PasswordCharsUppercase = "ABCDEFGHJKLMNPQRSTWXYZ";
 
         /// <summary>Numeric characters</summary>
-        private static string passwordCharsNumeric = "23456789";
+        private static string PasswordCharsNumeric = "23456789";
 
         /// <summary>Special characters</summary>
-        private static string passwordCharsSpecial = "*$-+?_&=!%{}/";
+        private static string PasswordCharsSpecial = "*$-+?_&=!%{}/";
 
         /// <summary>
         /// Generates a random password.
@@ -52,7 +52,7 @@ namespace GisoFramework
         /// </remarks>
         public static string Generate()
         {
-            return Generate(defaultMinPasswordLength, defaultMaxPasswordLength);
+            return Generate(DefaultMinPasswordLength, DefaultMaxPasswordLength);
         }
 
         /// <summary>
@@ -97,12 +97,12 @@ namespace GisoFramework
             // Create a local array containing supported password characters
             // grouped by types. You can remove character groups from this
             // array, but doing so will weaken the password strength.
-            char[][] charGroups = new char[][] 
+            var charGroups = new char[][] 
             {
-                passwordCharsLowercase.ToCharArray(),
-                passwordCharsUppercase.ToCharArray(),
-                passwordCharsNumeric.ToCharArray(),
-                passwordCharsSpecial.ToCharArray()
+                PasswordCharsLowercase.ToCharArray(),
+                PasswordCharsUppercase.ToCharArray(),
+                PasswordCharsNumeric.ToCharArray(),
+                PasswordCharsSpecial.ToCharArray()
             };
 
             // Use this array to track the number of unused characters in each
@@ -131,17 +131,17 @@ namespace GisoFramework
 
             // Use a 4-byte array to fill it with random bytes and convert it then
             // to an integer value.
-            byte[] randomBytes = new byte[4];
+            var randomBytes = new byte[4];
 
             // Generate 4 random bytes.
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            var rng = new RNGCryptoServiceProvider();
             rng.GetBytes(randomBytes);
 
             // Convert 4 bytes into a 32-bit integer value.
             int seed = BitConverter.ToInt32(randomBytes, 0);
 
             // Now, this is real randomization.
-            Random random = new Random(seed);
+            var random = new Random(seed);
 
             // This array will hold password characters.
             char[] password = null;

@@ -79,9 +79,7 @@ public partial class UserProfileView : Page
         }
     }
 
-    /// <summary>
-    /// Gets a value indicating if user has Admin privileges in Company
-    /// </summary>
+    /// <summary>Gets a value indicating if user has Admin privileges in Company</summary>
     public bool Admin
     {
         get
@@ -138,9 +136,7 @@ public partial class UserProfileView : Page
         }
     }
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
+    /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -149,9 +145,7 @@ public partial class UserProfileView : Page
         }
     }
 
-    /// <summary>
-    /// Gets code of company
-    /// </summary>
+    /// <summary>Gets code of company</summary>
     public string CompanyCode
     {
         get
@@ -160,25 +154,23 @@ public partial class UserProfileView : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -188,9 +180,7 @@ public partial class UserProfileView : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = Session["User"] as ApplicationUser;
@@ -207,7 +197,7 @@ public partial class UserProfileView : Page
         this.CmbShorcuts.Items.Add(new ListItem(this.dictionary["Common_None"], "0"));
         bool first = true;
         this.shortcutsJson = new StringBuilder("[");
-        foreach (Shortcut shortcut in Shortcut.Available(this.user.Id))
+        foreach (var shortcut in Shortcut.Available(this.user.Id))
         {
             if (first)
             {
@@ -230,13 +220,13 @@ public partial class UserProfileView : Page
             this.CmbShorcuts.Attributes.Add("onchange", "CmbShortcutsChanged(this.value);");
         }
 
-        StringBuilder avatars = new StringBuilder();
-        string[] filePaths = Directory.GetFiles(string.Format(CultureInfo.GetCultureInfo("es-es"), @"{0}/assets/avatars/", this.Request.PhysicalApplicationPath));
+        var avatars = new StringBuilder();
+        var filePaths = Directory.GetFiles(string.Format(CultureInfo.InvariantCulture, @"{0}/assets/avatars/", this.Request.PhysicalApplicationPath));
         foreach (string fileName in filePaths)
         {
             string title = this.dictionary["Common_SelectAll"];
             string color = "avatar";
-            string action = string.Format(CultureInfo.GetCultureInfo("es-es"), @"SelectAvatar('{0}');", Path.GetFileName(fileName));
+            string action = string.Format(CultureInfo.InvariantCulture, @"SelectAvatar('{0}');", Path.GetFileName(fileName));
             if (fileName.IndexOf(this.user.Avatar) != -1)
             {
                 color = "avatarSelected";
@@ -256,9 +246,9 @@ public partial class UserProfileView : Page
 
     private void RenderShortCuts()
     {
-        StringBuilder res = new StringBuilder(@"<div class=""sidebar-shortcuts"" id=""sidebar-shortcuts"">");
-        StringBuilder big = new StringBuilder(@"<div class=""sidebar-shortcuts-large"" id=""sidebar-shortcuts-large"">");
-        StringBuilder small = new StringBuilder(@"<div class=""sidebar-shortcuts-mini"" id=""sidebar-shortcuts-mini"">");
+        var res = new StringBuilder(@"<div class=""sidebar-shortcuts"" id=""sidebar-shortcuts"">");
+        var big = new StringBuilder(@"<div class=""sidebar-shortcuts-large"" id=""sidebar-shortcuts-large"">");
+        var small = new StringBuilder(@"<div class=""sidebar-shortcuts-mini"" id=""sidebar-shortcuts-mini"">");
         this.userShortcuts = new StringBuilder("[");
 
         if (this.user.MenuShortcuts != null)

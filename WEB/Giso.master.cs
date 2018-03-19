@@ -19,9 +19,7 @@ using GisoFramework.Item;
 using GisoFramework.UserInterface;
 using SbrinnaCoreFramework.UI;
 
-/// <summary>
-/// Implements the master page of application
-/// </summary>
+/// <summary>Implements the master page of application</summary>
 public partial class Giso : MasterPage
 {
     /// <summary>Title of page</summary>
@@ -44,7 +42,7 @@ public partial class Giso : MasterPage
     {
         get
         {
-            return ConfigurationManager.AppSettings["issusversion"].ToString();
+            return ConfigurationManager.AppSettings["issusversion"];
         }
     }
 
@@ -61,7 +59,7 @@ public partial class Giso : MasterPage
     {
         get
         {
-            StringBuilder res = new StringBuilder(Environment.NewLine).Append("<!-- Havigation history -->").Append(Environment.NewLine);
+            var res = new StringBuilder(Environment.NewLine).Append("<!-- Havigation history -->").Append(Environment.NewLine);
             foreach(string link in this.navigation)
             {
                 res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "    {0}{1}<br />", link, Environment.NewLine));
@@ -133,7 +131,7 @@ public partial class Giso : MasterPage
 
             if(actual.ToUpperInvariant().IndexOf("DASHBOARD.ASPX") != -1)
             {
-                List<string> newNavigation = new List<string>
+                var newNavigation = new List<string>
                 {
                     "Dashboard.aspx"
                 };
@@ -194,14 +192,10 @@ public partial class Giso : MasterPage
         }
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether if is an administration page
-    /// </summary>
+    /// <summary>Gets or sets a value indicating whether if is an administration page</summary>
     public bool AdminPage { get; set; }
 
-    /// <summary>
-    /// Gets the avatar of logged user
-    /// </summary>
+    /// <summary>Gets the avatar of logged user</summary>
     public string Avatar
     {
         get
@@ -210,9 +204,7 @@ public partial class Giso : MasterPage
         }
     }
 
-    /// <summary>
-    /// Gets a value indicating whether if the actual user has adminitration grants
-    /// </summary>
+    /// <summary>Gets a value indicating whether if the actual user has adminitration grants</summary>
     public bool IsAdmin
     {
         get
@@ -221,9 +213,7 @@ public partial class Giso : MasterPage
         }
     }
 
-    /// <summary>
-    /// Gets de breadcrumb elements
-    /// </summary>
+    /// <summary>Gets de breadcrumb elements</summary>
     public Collection<BreadcrumbItem> BreadCrumb
     {
         get
@@ -232,9 +222,7 @@ public partial class Giso : MasterPage
         }
     }
 
-    /// <summary>
-    /// Gets a value indicating whether if the text of title is translatable
-    /// </summary>
+    /// <summary>Gets a value indicating whether if the text of title is translatable</summary>
     public bool TitleInvariant
     {
         get
@@ -248,9 +236,7 @@ public partial class Giso : MasterPage
         }
     }
 
-    /// <summary>
-    /// Gets a value indicating whether the company name
-    /// </summary>
+    /// <summary>Gets a value indicating whether the company name</summary>
     public string CompanyName
     {
         get
@@ -264,8 +250,7 @@ public partial class Giso : MasterPage
     {
         get
         {
-            StringBuilder res = new StringBuilder("<li><i class=\"icon-cog home-icon\"></i><a href=\"").Append(Session["home"].ToString()).Append("\">").Append(this.dictionary["Common_Home"]).Append("</a></li>");
-
+            var res = new StringBuilder("<li><i class=\"icon-cog home-icon\"></i><a href=\"").Append(Session["home"].ToString()).Append("\">").Append(this.dictionary["Common_Home"]).Append("</a></li>");
             foreach (BreadcrumbItem item in this.breadCrumb)
             {
                 string label = item.Invariant ? item.Label : this.dictionary[item.Label];
@@ -386,7 +371,7 @@ public partial class Giso : MasterPage
             this.breadCrumb = new Collection<BreadcrumbItem>();
         }
 
-        BreadcrumbItem newBreadCrumb = new BreadcrumbItem() { Link = "#", Label = label, Leaf = true };
+        var newBreadCrumb = new BreadcrumbItem() { Link = "#", Label = label, Leaf = true };
         this.breadCrumb.Add(newBreadCrumb);
     }
 
@@ -397,7 +382,7 @@ public partial class Giso : MasterPage
             this.breadCrumb = new Collection<BreadcrumbItem>();
         }
 
-        BreadcrumbItem newBreadCrumb = new BreadcrumbItem() { Link = "#", Label = label, Leaf = true, Invariant = true };
+        var newBreadCrumb = new BreadcrumbItem() { Link = "#", Label = label, Leaf = true, Invariant = true };
         this.breadCrumb.Add(newBreadCrumb);
     }
 
@@ -408,7 +393,7 @@ public partial class Giso : MasterPage
             this.breadCrumb = new Collection<BreadcrumbItem>();
         }
 
-        BreadcrumbItem newBreadCrumb = new BreadcrumbItem() { Link = "#", Label = label, Leaf = leaf };
+        var newBreadCrumb = new BreadcrumbItem() { Link = "#", Label = label, Leaf = leaf };
         this.breadCrumb.Add(newBreadCrumb);
     }
 
@@ -419,21 +404,19 @@ public partial class Giso : MasterPage
             this.breadCrumb = new Collection<BreadcrumbItem>();
         }
 
-        BreadcrumbItem newBreadCrumb = new BreadcrumbItem() { Link = link, Label = label, Leaf = leaf };
+        var newBreadCrumb = new BreadcrumbItem() { Link = link, Label = label, Leaf = leaf };
         this.breadCrumb.Add(newBreadCrumb);
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        this.LtBuild.Text = ConfigurationManager.AppSettings["issusVersion"].ToString();
+        this.LtBuild.Text = ConfigurationManager.AppSettings["issusVersion"];
         if (this.Session["User"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
 
@@ -458,19 +441,16 @@ public partial class Giso : MasterPage
         this.ImgCompany.ImageUrl = string.Format("/images/Logos/{0}?ac={1}", logo, Guid.NewGuid());
         this.ImgCompany.Attributes.Add("height", "30");
 
-        List<ScheduledTask> tasks = ScheduledTask.GetByEmployee(this.user.Employee.Id, this.company.Id).Where(t => t.Expiration >= DateTime.Now.AddYears(-1)).ToList();
-        this.PendentTasks = tasks.Where(t => t.Expiration <= DateTime.Now).Count();
-
+        var tasks = ScheduledTask.GetByEmployee(this.user.Employee.Id, this.company.Id).Where(t => t.Expiration >= DateTime.Now.AddYears(-1)).ToList();
+        this.PendentTasks = tasks.Count(t => t.Expiration <= DateTime.Now);
     }
 
     private void RenderShortCuts()
     {
-        StringBuilder res = new StringBuilder(@"<div class=""sidebar-shortcuts"" id=""sidebar-shortcuts"">");        
-        StringBuilder big = new StringBuilder(@"<div class=""sidebar-shortcuts-large"" id=""sidebar-shortcuts-large"">");
-        StringBuilder small = new StringBuilder(@"<div class=""sidebar-shortcuts-mini"" id=""sidebar-shortcuts-mini"">");
-
+        var res = new StringBuilder(@"<div class=""sidebar-shortcuts"" id=""sidebar-shortcuts"">");        
+        var big = new StringBuilder(@"<div class=""sidebar-shortcuts-large"" id=""sidebar-shortcuts-large"">");
+        var small = new StringBuilder(@"<div class=""sidebar-shortcuts-mini"" id=""sidebar-shortcuts-mini"">");
         bool showShortCuts = false;
-
         if (this.user.MenuShortcuts != null)
         {
             if (this.user.MenuShortcuts.Blue != null && !string.IsNullOrEmpty(this.user.MenuShortcuts.Blue.Label))
@@ -520,28 +500,27 @@ public partial class Giso : MasterPage
         this.Alerts();
     }
 
-    /// <summary>
-    /// Render alerts items on top menu
-    /// </summary>
+    /// <summary>Render alerts items on top menu</summary>
     private void Alerts()
     {
         int cont = 0;
-        StringBuilder res = new StringBuilder();
-
-        ReadOnlyCollection<AlertDefinition> show = Session["AlertsDefinition"] as ReadOnlyCollection<AlertDefinition>;
-        List<string> alertsTags = new List<string>();
+        var res = new StringBuilder();
+        var show = Session["AlertsDefinition"] as ReadOnlyCollection<AlertDefinition>;
+        var alertsTags = new List<string>();
         foreach (AlertDefinition alertDefinition in show)
         {
-            if (this.user.HasGrantToRead(alertDefinition.ItemType))
+            if (!this.user.HasGrantToRead(alertDefinition.ItemType))
             {
-                ReadOnlyCollection<string> alerts = alertDefinition.Extract();
-                foreach (string result in alerts)
-                {
-                    alertsTags.Add(result);
-                }
-
-                cont += alerts.Count;
+                continue;
             }
+
+            var alerts = alertDefinition.Extract();
+            foreach (string result in alerts)
+            {
+                alertsTags.Add(result);
+            }
+
+            cont += alerts.Count;
         }
 
         foreach(string tag in alertsTags.Take(8))

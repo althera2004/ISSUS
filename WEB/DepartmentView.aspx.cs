@@ -86,9 +86,9 @@ public partial class DepartmentView : Page
     {
         get
         {
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             bool first = true;
-            foreach (Department department in Department.GetByCompany(((Company)Session["Company"]).Id))
+            foreach (var department in Department.ByCompany(((Company)Session["Company"]).Id))
             {
                 if (!department.Deleted)
                 {
@@ -166,17 +166,17 @@ public partial class DepartmentView : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
@@ -184,7 +184,7 @@ public partial class DepartmentView : Page
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
@@ -196,9 +196,7 @@ public partial class DepartmentView : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.company = this.Session["company"] as Company;
@@ -207,7 +205,7 @@ public partial class DepartmentView : Page
 
         if (this.Request.QueryString["id"] != null)
         {
-            this.departmentId = Convert.ToInt64(this.Request.QueryString["id"].ToString());
+            this.departmentId = Convert.ToInt64(this.Request.QueryString["id"]);
         }
 
         string label = "Item_Department_Title_DepartmentDetails";
@@ -239,7 +237,7 @@ public partial class DepartmentView : Page
 
             this.formFooter.ModifiedBy = this.department.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.department.ModifiedOn;
-            StringBuilder tableEmployees = new StringBuilder();
+            var tableEmployees = new StringBuilder();
             foreach (Employee employee in this.department.Employees)
             {
                 tableEmployees.Append(employee.DepartmentListRow(this.dictionary, this.departmentId));
@@ -247,7 +245,7 @@ public partial class DepartmentView : Page
 
             this.TableEmployees.Text = tableEmployees.ToString();
 
-            StringBuilder tableJobPosition = new StringBuilder();
+            var tableJobPosition = new StringBuilder();
             foreach (JobPosition jobPosition in this.department.JobPositions)
             {
                 tableJobPosition.Append(jobPosition.EmployeeRow(this.dictionary));

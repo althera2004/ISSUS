@@ -6,14 +6,10 @@
 // --------------------------------
 namespace GisoFramework
 {
-    /// <summary>
-    /// Implements ApplicationGrant
-    /// </summary>
+    /// <summary>Implements ApplicationGrant</summary>
     public sealed class ApplicationGrant
     {
-        /// <summary>
-        /// Initializes a new instance of the ApplicationGrant class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ApplicationGrant class.</summary>
         public ApplicationGrant()
         {
         }
@@ -147,19 +143,13 @@ namespace GisoFramework
         /// <summary>Gets or sets the code of item</summary>
         public int Code { get; set; }
 
-        /// <summary>
-        /// Gets or sets the description of item
-        /// </summary>
+        /// <summary>Gets or sets the description of item</summary>
         public string Description { get; set; }
 
-        /// <summary>
-        /// Gets or sets the page of item
-        /// </summary>
+        /// <summary>Gets or sets the page of item</summary>
         public string Page { get; set; }
 
-        /// <summary>
-        /// Gets a grant from item code
-        /// </summary>
+        /// <summary>Gets a grant from item code</summary>
         /// <param name="value">Item code</param>
         /// <returns>Grant for item based on code</returns>
         public static ApplicationGrant FromInteger(int value)
@@ -167,9 +157,7 @@ namespace GisoFramework
             return new ApplicationGrant() { Code = value, Description = GetLabel(value) };
         }
 
-        /// <summary>
-        /// Gets a grant from code and url
-        /// </summary>
+        /// <summary>Gets a grant from code and url</summary>
         /// <param name="value">Item code</param>
         /// <param name="listPage">Item page url</param>
         /// <returns>Grant for item based on code and url</returns>
@@ -183,9 +171,7 @@ namespace GisoFramework
             };
         }
 
-        /// <summary>
-        /// Gets the label of an item
-        /// </summary>
+        /// <summary>Gets the label of an item</summary>
         /// <param name="value">Code of item</param>
         /// <returns>The label of an item based on code</returns>
         public static string GetLabel(int value)

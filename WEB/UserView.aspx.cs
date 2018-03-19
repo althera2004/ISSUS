@@ -16,9 +16,7 @@ using GisoFramework.Item;
 using SbrinnaCoreFramework.UI;
 using SbrinnaCoreFramework;
 
-/// <summary>
-/// Implements user view page
-/// </summary>
+/// <summary>Implements user view page</summary>
 public partial class UserView : Page
 {
     /// <summary> Master of page</summary>
@@ -59,8 +57,8 @@ public partial class UserView : Page
     {
         get
         {
-            StringBuilder res = new StringBuilder("[");
-            ReadOnlyCollection<ApplicationUser> users = ApplicationUser.CompanyUsers(this.company.Id);
+            var res = new StringBuilder("[");
+            var users = ApplicationUser.CompanyUsers(this.company.Id);
             bool first = true;
             foreach (ApplicationUser userItem in users)
             {
@@ -81,9 +79,7 @@ public partial class UserView : Page
         }
     }
 
-    /// <summary>
-    /// Gets country data for icon combo
-    /// </summary>
+    /// <summary>Gets country data for icon combo</summary>
     public string CountryData
     {
         get
@@ -92,9 +88,7 @@ public partial class UserView : Page
         }
     }
 
-    /// <summary>
-    /// Gets a value indicating whether company identifier
-    /// </summary>
+    /// <summary>Gets a value indicating whether company identifier</summary>
     public string CompanyId
     {
         get
@@ -138,9 +132,7 @@ public partial class UserView : Page
         }
     }
 
-    /// <summary>
-    /// Gets a value indicating whether if user show help in interface
-    /// </summary>
+    /// <summary>Gets a value indicating whether if user show help in interface</summary>
     public bool ShowHelp
     {
         get
@@ -157,9 +149,7 @@ public partial class UserView : Page
         }
     }
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
+    /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -179,7 +169,6 @@ public partial class UserView : Page
     private FormFooter formFooter;
     private FormFooter formFooterLearning;
 
-
     public string FormFooter
     {
         get
@@ -196,9 +185,7 @@ public partial class UserView : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
@@ -206,17 +193,17 @@ public partial class UserView : Page
         this.active = true;
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
@@ -224,7 +211,7 @@ public partial class UserView : Page
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
@@ -236,16 +223,14 @@ public partial class UserView : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.TabTrazas.Visible = ((ApplicationUser)Session["user"]).Admin;
 
         if (this.Request.QueryString["id"] != null)
         {
-            this.userItemId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
+            this.userItemId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
         if (this.Request.QueryString["New"] != null)
@@ -282,9 +267,9 @@ public partial class UserView : Page
 
             string grants = "|";
 
-            StringBuilder res = new StringBuilder();
-            List<UserGrant> permisos = this.userItem.EffectiveGrants.OrderBy(o => o.Item.Description).ToList();
-            foreach (UserGrant grant in permisos)
+            var res = new StringBuilder();
+            var permisos = this.userItem.EffectiveGrants.OrderBy(o => o.Item.Description).ToList();
+            foreach (var grant in permisos)
             {
                 res.Append(grant.Render());
                 if (grant.GrantToRead)
@@ -308,8 +293,8 @@ public partial class UserView : Page
         {
             this.userItem = ApplicationUser.Empty;
             string grants = "|";
-            StringBuilder res = new StringBuilder();
-            List<UserGrant> permisos = this.user.EffectiveGrants.OrderBy(o => o.Item.Description).ToList();
+            var res = new StringBuilder();
+            var permisos = this.user.EffectiveGrants.OrderBy(o => o.Item.Description).ToList();
             foreach (UserGrant grant in permisos)
             {
                 grant.GrantToDelete = false;
@@ -318,11 +303,11 @@ public partial class UserView : Page
                 res.Append(grant.Render());
                 if (grant.GrantToRead)
                 {
-                    grants += string.Format(CultureInfo.GetCultureInfo("en-us"), "R{0}|", grant.Item.Code);
+                    grants += string.Format(CultureInfo.InvariantCulture, "R{0}|", grant.Item.Code);
                 }
                 if (grant.GrantToWrite)
                 {
-                    grants += string.Format(CultureInfo.GetCultureInfo("en-us"), "W{0}|", grant.Item.Code);
+                    grants += string.Format(CultureInfo.InvariantCulture, "W{0}|", grant.Item.Code);
                 }
 
                 this.Grants.InnerText = grants;
@@ -349,17 +334,17 @@ public partial class UserView : Page
         }
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         this.RenderCmbEmployeeData();
     }
 
     private void RenderCmbEmployeeData()
     {
-        StringBuilder res = new StringBuilder();
-        ReadOnlyCollection<Employee> employees = this.company.EmployessWithoutUser;
-        List<Employee> employeesSorted = employees.ToList();
+        var res = new StringBuilder();
+        var employees = this.company.EmployessWithoutUser;
+        var employeesSorted = employees.ToList();
 
         bool hasEmployee = false;
         if (this.userItem.Id > 0)
@@ -381,7 +366,7 @@ public partial class UserView : Page
         }
 
         employeesSorted = employeesSorted.OrderBy(e => e.FullName).ToList();
-        foreach (Employee employee in employeesSorted)
+        foreach (var employee in employeesSorted)
         {
             res.AppendFormat(
                 CultureInfo.GetCultureInfo("en-us"),

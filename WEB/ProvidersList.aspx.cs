@@ -13,9 +13,7 @@ using GisoFramework.Item;
 using SbrinnaCoreFramework;
 using SbrinnaCoreFramework.UI;
 
-/// <summary>
-/// Implements a class for the "ProvidersList" page
-/// </summary>
+/// <summary>Implements a class for the "ProvidersList" page</summary>
 public partial class ProvidersList : Page
 {
     /// <summary> Master of page</summary>
@@ -26,9 +24,7 @@ public partial class ProvidersList : Page
 
     private ApplicationUser user;
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -37,9 +33,7 @@ public partial class ProvidersList : Page
         }
     }
 
-    /// <summary>
-    /// Gets the dictionary for interface texts
-    /// </summary>
+    /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -50,9 +44,7 @@ public partial class ProvidersList : Page
 
     public UIDataHeader DataHeader { get; set; }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
@@ -65,7 +57,7 @@ public partial class ProvidersList : Page
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", true);
@@ -78,9 +70,7 @@ public partial class ProvidersList : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)Session["User"];
@@ -111,29 +101,31 @@ public partial class ProvidersList : Page
 
     private void RenderProvidersData()
     {
-        StringBuilder res = new StringBuilder();
-        StringBuilder sea = new StringBuilder();
-        List<string> s = new List<string>();
+        var res = new StringBuilder();
+        var sea = new StringBuilder();
+        var searchedItem = new List<string>();
         bool first = true;
         int contData = 0;
         foreach (Provider provider in Provider.GetByCompany(((Company)Session["Company"]).Id))
         {
-            if (provider.Active)
+            if (!provider.Active)
             {
-                if (!s.Contains(provider.Description))
-                {
-                    s.Add(provider.Description);
-                }
-
-                res.Append(provider.ListRow(this.dictionary, this.user.Grants));
-                contData++;
+                continue;
             }
+
+            if (!searchedItem.Contains(provider.Description))
+            {
+                searchedItem.Add(provider.Description);
+            }
+
+            res.Append(provider.ListRow(this.dictionary, this.user.Grants));
+            contData++;
         }
 
         this.ProviderDataTotal.Text = contData.ToString();
 
-        s.Sort();
-        foreach (string item in s)
+        searchedItem.Sort();
+        foreach (string item in searchedItem)
         {
             if (first)
             {

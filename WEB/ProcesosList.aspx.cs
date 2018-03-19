@@ -14,9 +14,7 @@ using GisoFramework;
 using GisoFramework.Item;
 using SbrinnaCoreFramework;
 
-/// <summary>
-/// Implements Process list page
-/// </summary>
+/// <summary>Implements Process list page</summary>
 public partial class ProcesosList : Page
 {
     /// <summary> Master of page</summary>
@@ -31,9 +29,7 @@ public partial class ProcesosList : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -42,9 +38,7 @@ public partial class ProcesosList : Page
         }
     }
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
+    /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -53,9 +47,7 @@ public partial class ProcesosList : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
@@ -68,10 +60,10 @@ public partial class ProcesosList : Page
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -81,9 +73,7 @@ public partial class ProcesosList : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)Session["User"];
@@ -108,21 +98,19 @@ public partial class ProcesosList : Page
         }
     }
 
-    /// <summary>
-    /// Render HTML code for process list content
-    /// </summary>
+    /// <summary>Render HTML code for process list content</summary>
     private void RenderProcesosData()
     {
-        ReadOnlyCollection<ProcessType> procesos = ProcessType.ObtainByCompany(this.company.Id, this.dictionary);
-        StringBuilder res = new StringBuilder();
-        ReadOnlyCollection<Process> processList = Process.GetByCompany(((Company)Session["Company"]).Id);
-        List<string> s = new List<string>();
+        var procesos = ProcessType.ObtainByCompany(this.company.Id, this.dictionary);
+        var res = new StringBuilder();
+        var processList = Process.GetByCompany(((Company)Session["Company"]).Id);
+        var searchedItem = new List<string>();
         bool first = true;
         this.ProcesosDataTotal.Text = processList.Count.ToString();
 
-        
-            bool grantWrite = UserGrant.HasWriteGrant(this.user.Grants, ApplicationGrant.Process);
-            bool grantDelete = UserGrant.HasDeleteGrant(this.user.Grants, ApplicationGrant.Process);
+
+        bool grantWrite = UserGrant.HasWriteGrant(this.user.Grants, ApplicationGrant.Process);
+        bool grantDelete = UserGrant.HasDeleteGrant(this.user.Grants, ApplicationGrant.Process);
 
         foreach (Process process in processList)
         {
@@ -141,9 +129,9 @@ public partial class ProcesosList : Page
             {
                 resposableDescription = process.JobPosition.Link;
 
-                if (!s.Contains(process.JobPosition.Description))
+                if (!searchedItem.Contains(process.JobPosition.Description))
                 {
-                    s.Add(process.JobPosition.Description);
+                    searchedItem.Add(process.JobPosition.Description);
                 }
             }
             else
@@ -202,14 +190,14 @@ public partial class ProcesosList : Page
                 iconDelete,
                 process.JobPosition.Description));
 
-            s.Add(process.Description);
+            searchedItem.Add(process.Description);
         }
 
-        s.Sort();
+        searchedItem.Sort();
         first = true;
 
-        StringBuilder sea = new StringBuilder();
-        foreach (string item in s)
+        var sea = new StringBuilder();
+        foreach (string item in searchedItem)
         {
             if (!string.IsNullOrEmpty(item))
             {

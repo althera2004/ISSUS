@@ -203,7 +203,7 @@ using GisoFramework.Item;
         /// <returns>Sql parameter</returns>
         public static SqlParameter Input(string name, DateTime? value)
         {
-            if (!value.HasValue)
+            if (value == null)
             {
                 return InputNull(name);
             }

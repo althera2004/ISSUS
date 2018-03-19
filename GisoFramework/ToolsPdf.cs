@@ -1,14 +1,17 @@
 ﻿using iTextSharp.text;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using iTS = iTextSharp.text;
-using iTSpdf = iTextSharp.text.pdf;
-
+// --------------------------------
+// <copyright file="ToolsPdf.cs" company="Sbrinna">
+//     Copyright (c) Sbrinna. All rights reserved.
+// </copyright>
+// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// --------------------------------
 namespace GisoFramework
 {
+    using iTS = iTextSharp.text;
+    using iTSpdf = iTextSharp.text.pdf;
+    using System.Globalization;
+
     public static class ToolsPdf
     {
         public static readonly BaseColor SummaryBackgroundColor = new BaseColor(240, 240, 240);

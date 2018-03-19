@@ -71,9 +71,7 @@ namespace GisoFramework.Activity
         Rules = 19
     }
 
-    /// <summary>
-    /// Implements Activity log class
-    /// </summary>
+    /// <summary>Implements Activity log class</summary>
     public static class ActivityLog
     {
         /// <summary>
@@ -283,7 +281,7 @@ namespace GisoFramework.Activity
         /// <returns>Return of the action</returns>
         public static ActionResult InsertLogActivity(TargetType targetType, int targetId, int userId, int companyId, int actionId, string extraData)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             string storedProcedureName = string.Empty;
 
             switch (targetType)
@@ -381,7 +379,7 @@ namespace GisoFramework.Activity
         /// <returns>Return of the action</returns>
         public static ActionResult InsertLogActivity(TargetType targetType, long targetId, int userId, int companyId, int actionId, string extraData)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             string storedProcedureName = string.Empty;
 
             switch (targetType)
@@ -478,7 +476,7 @@ namespace GisoFramework.Activity
         /// <returns>Return a list of log activity matching filter conditions, ordered from most recent</returns>
         public static ReadOnlyCollection<ActivityTrace> GetActivity(int itemId, TargetType targetType, int companyId, DateTime? from, DateTime? to)
         {
-            List<ActivityTrace> res = new List<ActivityTrace>();
+            var res = new List<ActivityTrace>();
             /* ALTER PROCEDURE [dbo].[Get_Activity]
              * @CompanyId int,
              * @TargetType int,
@@ -486,36 +484,41 @@ namespace GisoFramework.Activity
              * @From date,
              * @To date */
 
-            using (SqlCommand cmd = new SqlCommand("Get_Activity"))
+            using (var cmd = new SqlCommand("Get_Activity"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                cmd.Parameters.Add(DataParameter.Input("@TargetType", (int)targetType));
-                cmd.Parameters.Add(DataParameter.Input("@ItemId", itemId));
-                cmd.Parameters.Add(DataParameter.Input("@From", from));
-                cmd.Parameters.Add(DataParameter.Input("@To", to));
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Parameters.Add(DataParameter.Input("@TargetType", (int)targetType));
+                    cmd.Parameters.Add(DataParameter.Input("@ItemId", itemId));
+                    cmd.Parameters.Add(DataParameter.Input("@From", from));
+                    cmd.Parameters.Add(DataParameter.Input("@To", to));
+                    try
                     {
-                        res.Add(new ActivityTrace()
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Date = rdr.GetDateTime(1),
-                            Target = rdr.GetString(4),
-                            Changes = rdr.GetString(6),
-                            ActionEmployee = rdr.GetString(7),
-                            Action = rdr.GetString(5)
-                        });
+                            while (rdr.Read())
+                            {
+                                res.Add(new ActivityTrace()
+                                {
+                                    Date = rdr.GetDateTime(1),
+                                    Target = rdr.GetString(4),
+                                    Changes = rdr.GetString(6),
+                                    ActionEmployee = rdr.GetString(7),
+                                    Action = rdr.GetString(5)
+                                });
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -586,38 +589,43 @@ namespace GisoFramework.Activity
         /// <returns>List of actions</returns>
         public static ReadOnlyCollection<ActivityTrace> GetActivity24H(int companyId)
         {
-            List<ActivityTrace> res = new List<ActivityTrace>();
+            var res = new List<ActivityTrace>();
             /* ALTER PROCEDURE Get_ActivityLastDay
              * @CompanyId int */
 
-            using (SqlCommand cmd = new SqlCommand("Get_ActivityLastDay"))
+            using (var cmd = new SqlCommand("Get_ActivityLastDay"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        res.Add(new ActivityTrace()
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Date = rdr.GetDateTime(1),
-                            Target = rdr.GetString(4),
-                            Changes = rdr.GetString(6),
-                            ActionEmployee = rdr.GetString(7),
-                            Action = rdr.GetString(5),
-                            TargetId = Convert.ToInt32(rdr["TargetId"].ToString(), CultureInfo.GetCultureInfo("en-us")),
-                            Description = rdr["Description"].ToString()
-                        });
+                            while (rdr.Read())
+                            {
+                                res.Add(new ActivityTrace()
+                                {
+                                    Date = rdr.GetDateTime(1),
+                                    Target = rdr.GetString(4),
+                                    Changes = rdr.GetString(6),
+                                    ActionEmployee = rdr.GetString(7),
+                                    Action = rdr.GetString(5),
+                                    TargetId = Convert.ToInt32(rdr["TargetId"].ToString(), CultureInfo.GetCultureInfo("en-us")),
+                                    Description = rdr["Description"].ToString()
+                                });
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

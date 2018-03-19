@@ -51,7 +51,7 @@ public partial class Agreement : Page
 
             path = string.Format(CultureInfo.InvariantCulture, @"{0}WelcomeBackgrounds\", path);
 
-            string[] files = Directory.GetFiles(path);
+            var files = Directory.GetFiles(path);
             Random rnd = new Random();
             int index = rnd.Next(0, files.Count() - 1);
             string res = Path.GetFileName(files[index]);
@@ -68,15 +68,12 @@ public partial class Agreement : Page
         }
     }
 
-
     public string IP
     {
         get { return this.ip; }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
@@ -122,9 +119,7 @@ public partial class Agreement : Page
         this.LtAgreement.Text = "<p>" + text;
     }
 
-    /// <summary>
-    /// Creates agreement document
-    /// </summary>
+    /// <summary>Creates agreement document</summary>
     /// <param name="companyId">Company identifier</param>
     /// <param name="userId">User identifier</param>
     /// <returns>Result of action</returns>
@@ -132,10 +127,10 @@ public partial class Agreement : Page
     [ScriptMethod]
     public static ActionResult CreateDocument(int companyId, int userId)
     {
-        ActionResult res = ActionResult.NoAction;
-        Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
-        Company company = HttpContext.Current.Session["Company"] as Company;
+        var res = ActionResult.NoAction;
+        var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var company = HttpContext.Current.Session["Company"] as Company;
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -157,11 +152,11 @@ public partial class Agreement : Page
             pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
         }
 
-        BaseFont headerFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        BaseFont arial = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        var headerFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        var arial = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
-        iTS.Document pdfDoc = new iTS.Document(iTS.PageSize.A4, 40, 40, 80, 50);
-        iTSpdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
+        var pdfDoc = new iTS.Document(iTS.PageSize.A4, 40, 40, 80, 50);
+        var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
            new FileStream(
                string.Format(CultureInfo.InvariantCulture, @"{0}DOCS\{1}", path, fileName),
                FileMode.Create));
@@ -197,7 +192,7 @@ public partial class Agreement : Page
         }
 
         string text = string.Empty;
-        using (StreamReader rdr = new StreamReader(templatepath))
+        using (var rdr = new StreamReader(templatepath))
         {
             text = rdr.ReadToEnd();
         }
@@ -208,7 +203,7 @@ public partial class Agreement : Page
         text = text.Replace("\r", string.Empty);
         text = text.Replace("#DATE#", string.Format(CultureInfo.InvariantCulture, @"{0:dd/MM/yyyy}", DateTime.Now));
 
-        string[] paragraphs = text.Split('\n');
+        var paragraphs = text.Split('\n');
 
         foreach (string paragraph in paragraphs) {
             pdfDoc.Add(new Paragraph(paragraph));
@@ -222,10 +217,10 @@ public partial class Agreement : Page
             fileText.Write(HttpContext.Current.Request.ToString());
         }*/
 
-        using(SqlCommand cmd = new SqlCommand("UPDATE Company SET Agreement = 1 WHERE Id = " + company.Id.ToString()))
+        using(var cmd = new SqlCommand("UPDATE Company SET Agreement = 1 WHERE Id = " + company.Id.ToString()))
         {
             cmd.CommandType = CommandType.Text;
-            using(SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+            using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
             {
                 cmd.Connection = cnn;
                 try

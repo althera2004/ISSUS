@@ -6,9 +6,7 @@
 // --------------------------------
 namespace GisoFramework.UserInterface
 {
-    /// <summary>
-    /// Implements then BreadCrumbItem class
-    /// </summary>
+    /// <summary>Implements then BreadCrumbItem class</summary>
     public class BreadcrumbItem
     {
         /// <summary>Link of breadcrumb item</summary>
@@ -23,9 +21,7 @@ namespace GisoFramework.UserInterface
         /// <summary>Indicates if prevents text translation</summary>
         private bool invariant;
 
-        /// <summary>
-        /// Initializes a new instance of the BreadcrumbItem class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the BreadcrumbItem class.</summary>
         public BreadcrumbItem()
         {
         }
