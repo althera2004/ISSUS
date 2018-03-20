@@ -771,20 +771,21 @@ public partial class BusinessRiskView : Page
     }
 
     private BusinessRisk GetById(int companyId, long id)
-        {
-            BusinessRisk res = BusinessRisk.Empty;
+    {
+            var res = BusinessRisk.Empty;
             string query = "BusinessRisk_GetById";
-            using (SqlCommand cmd = new SqlCommand(query))
+        using (var cmd = new SqlCommand(query))
+        {
+            cmd.CommandType = CommandType.StoredProcedure;
+            using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                cmd.Connection = cnn;
                 cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                 cmd.Parameters.Add(DataParameter.Input("@Id", id));
-
                 try
                 {
                     cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (var rdr = cmd.ExecuteReader())
                     {
                         if (rdr.HasRows)
                         {
@@ -872,13 +873,12 @@ public partial class BusinessRiskView : Page
                     }
                 }
             }
-
-            return res;
         }
+
+        return res;
+    }
     
-    /// <summary>
-    /// Main action to load page elements
-    /// </summary>
+    /// <summary>Main action to load page elements</summary>
     private void Go()
     {
         this.company = this.Session["company"] as Company;
@@ -888,7 +888,7 @@ public partial class BusinessRiskView : Page
 
         if (this.Request.QueryString["id"] != null)
         {
-            this.businessRiskId = Convert.ToInt64(this.Request.QueryString["id"].ToString());
+            this.businessRiskId = Convert.ToInt64(this.Request.QueryString["id"]);
         }
 
         string label = "Item_BusinessRisk_Title_BusinessRiskDetails";
@@ -902,6 +902,7 @@ public partial class BusinessRiskView : Page
         {
             //this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.businessRisk, TargetTypes.BusinessRisk);
         }
+
         this.formFooter = new FormFooter();
         this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
         this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
@@ -951,42 +952,39 @@ public partial class BusinessRiskView : Page
         //RenderRemainder();
     }
 
-    /// <summary>
-    /// Renders the selectable Processes
-    /// </summary>
+    /// <summary>Renders the selectable Processes</summary>
     private void RenderProcess()
     {
-        ReadOnlyCollection<Process> processeCollection = Process.GetByCompany(this.company.Id);
-        StringBuilder processList = new StringBuilder();
+        var processeCollection = Process.GetByCompany(this.company.Id);
+        var processList = new StringBuilder();
         processList.Append(string.Format(CultureInfo.GetCultureInfo("en-us"),@"<option value=""0"">{0}</option>",this.Dictionary["Common_SelectOne"]));
-        foreach (Process process in processeCollection.OrderBy(process => process.Description))
+        foreach (var process in processeCollection.OrderBy(process => process.Description))
         {
-            processList.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"<option value=""{0}"">{1}</option>", process.Id, process.Description));
+            processList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""{0}"">{1}</option>", process.Id, process.Description));
         }
+
         this.LTProcess.Text = processList.ToString();
     }
 
-    /// <summary>
-    /// Renders the selectable Rules
-    /// </summary>
+    /// <summary>Renders the selectable Rules</summary>
     private void RenderLimit()
     {
-        ReadOnlyCollection<ProbabilitySeverityRange> limitCollection = ProbabilitySeverityRange.GetAll(this.company.Id);
-        StringBuilder limitList = new StringBuilder();
-        StringBuilder probabilityList = new StringBuilder();
-        StringBuilder severityList = new StringBuilder();
-        probabilityList.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"<option value=""0"">{0}</option>", this.Dictionary["Common_SelectOne"]));
-        probabilityList.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"<optgroup label=""Probability"">", this.Dictionary["Common_SelectOne"]));
-        severityList.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"<optgroup label=""Severity"">", this.Dictionary["Common_SelectOne"]));
-        foreach (ProbabilitySeverityRange limit in limitCollection.OrderBy(limit => limit.Code))
+        var limitCollection = ProbabilitySeverityRange.GetAll(this.company.Id);
+        var limitList = new StringBuilder();
+        var probabilityList = new StringBuilder();
+        var severityList = new StringBuilder();
+        probabilityList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""0"">{0}</option>", this.Dictionary["Common_SelectOne"]));
+        probabilityList.Append(string.Format(CultureInfo.InvariantCulture, @"<optgroup label=""Probability"">", this.Dictionary["Common_SelectOne"]));
+        severityList.Append(string.Format(CultureInfo.InvariantCulture, @"<optgroup label=""Severity"">", this.Dictionary["Common_SelectOne"]));
+        foreach (var limit in limitCollection.OrderBy(limit => limit.Code))
         {
             if(limit.Type == ProbabilitySeverityRange.ProbabilitySeverityType.Probability) 
             {
-                probabilityList.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"<option value=""{0}"">{1}</option>", limit.Id, limit.Description));
+                probabilityList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""{0}"">{1}</option>", limit.Id, limit.Description));
             }
             else
             {
-                severityList.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"<option value=""{0}"">{1}</option>", limit.Id, limit.Description));
+                severityList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""{0}"">{1}</option>", limit.Id, limit.Description));
             }
         }
 
@@ -994,25 +992,23 @@ public partial class BusinessRiskView : Page
         limitList.Append(severityList);
     }
 
-    /// <summary>
-    /// Renders the selectable ProbabilitySeverityRanges
-    /// </summary>
+    /// <summary>Renders the selectable ProbabilitySeverityRanges</summary>
     private void RenderProbabilitySeverity()
     {
-        ReadOnlyCollection<ProbabilitySeverityRange> probabilitySeverityCollection = ProbabilitySeverityRange.GetActive(this.company.Id);
-        StringBuilder severityList = new StringBuilder();
-        severityList.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"<option value=""0"">{0}</option>", this.Dictionary["Common_SelectOne"]));
-        StringBuilder probabilityList = new StringBuilder();
-        probabilityList.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"<option value=""0"">{0}</option>", this.Dictionary["Common_SelectOne"]));
-        foreach (ProbabilitySeverityRange probabilitySeverity in probabilitySeverityCollection.OrderBy(probabilitySeverity => probabilitySeverity.Code))
+        var probabilitySeverityCollection = ProbabilitySeverityRange.GetActive(this.company.Id);
+        var severityList = new StringBuilder();
+        severityList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""0"">{0}</option>", this.Dictionary["Common_SelectOne"]));
+        var probabilityList = new StringBuilder();
+        probabilityList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""0"">{0}</option>", this.Dictionary["Common_SelectOne"]));
+        foreach (var probabilitySeverity in probabilitySeverityCollection.OrderBy(probabilitySeverity => probabilitySeverity.Code))
         {
             if (probabilitySeverity.Type == ProbabilitySeverityRange.ProbabilitySeverityType.Severity)
             {
-                severityList.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"<option value=""{0}"">{0} - {1}</option>",probabilitySeverity.Code, probabilitySeverity.Description));
+                severityList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""{0}"">{0} - {1}</option>",probabilitySeverity.Code, probabilitySeverity.Description));
             }
             else
             {
-                probabilityList.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"<option value=""{0}"">{0} - {1}</option>",probabilitySeverity.Code, probabilitySeverity.Description));
+                probabilityList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""{0}"">{0} - {1}</option>",probabilitySeverity.Code, probabilitySeverity.Description));
             }
         }
     }
@@ -1166,6 +1162,7 @@ public partial class BusinessRiskView : Page
                     probabilitySeverity.Code == businessRisk.Probability ? " style=\"font-weight:bold;\"" : string.Empty));
             }
         }
+
         this.LTProbabilityData.Text = probabilityList.ToString();
         this.LTSeverityData.Text = severityList.ToString();
     }
@@ -1174,14 +1171,14 @@ public partial class BusinessRiskView : Page
     {
         var incidentActionCollection = BusinessRisk.GetHistoryAction(businessRisk.Code, this.company.Id);
         var res = new StringBuilder();
-        var s = new List<string>();
+        var searchItem = new List<string>();
         int order = 0;
         foreach (var incidentAction in incidentActionCollection.OrderBy(incidentAction => incidentAction.WhatHappenedOn))
         {
 
-            if (!s.Contains(incidentAction.Description))
+            if (!searchItem.Contains(incidentAction.Description))
             {
-                s.Add(incidentAction.Description);
+                searchItem.Add(incidentAction.Description);
             }
 
             res.Append(incidentAction.ListBusinessRiskRow(this.dictionary, this.user.Grants, order));

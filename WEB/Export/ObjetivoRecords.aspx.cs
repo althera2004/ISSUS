@@ -170,7 +170,7 @@ public partial class ExportObjetivoRecords : Page
             {
                 sh.GetRow(3).CreateCell(countColumns);
             }
-            sh.GetRow(3).GetCell(countColumns).SetCellValue(headerLabel.ToString());
+            sh.GetRow(3).GetCell(countColumns).SetCellValue(headerLabel);
             sh.GetRow(3).GetCell(countColumns).CellStyle = headerCellStyle;
             countColumns++;
         }
@@ -437,7 +437,7 @@ public partial class ExportObjetivoRecords : Page
             {
                 sh.GetRow(5).CreateCell(countColumns);
             }
-            sh.GetRow(5).GetCell(countColumns).SetCellValue(headerLabel.ToString());
+            sh.GetRow(5).GetCell(countColumns).SetCellValue(headerLabel);
             sh.GetRow(5).GetCell(countColumns).CellStyle = headerCellStyle;
             countColumns++;
         }
@@ -674,7 +674,7 @@ public partial class ExportObjetivoRecords : Page
                 dictionary["Common_To"].ToLowerInvariant());
 
         }
-        else if (dateFrom.HasValue && !dateTo.HasValue)
+        else if (dateFrom.HasValue && dateTo == null)
         {
             periode = string.Format(
                 CultureInfo.InvariantCulture,
@@ -682,7 +682,7 @@ public partial class ExportObjetivoRecords : Page
                 dateFrom.Value,
                 dictionary["Common_From"]);
         }
-        else if (!dateFrom.HasValue && dateTo.HasValue)
+        else if (dateFrom == null && dateTo.HasValue)
         {
             periode = string.Format(
                 CultureInfo.InvariantCulture,
@@ -854,7 +854,7 @@ public partial class ExportObjetivoRecords : Page
 
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();
-        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
+        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
         return res;
     }
     
@@ -938,7 +938,7 @@ public partial class ExportObjetivoRecords : Page
                 dictionary["Common_To"].ToLowerInvariant());
 
         }
-        else if (dateFrom.HasValue && !dateTo.HasValue)
+        else if (dateFrom.HasValue && dateTo == null)
         {
             periode = string.Format(
                 CultureInfo.InvariantCulture,
@@ -946,7 +946,7 @@ public partial class ExportObjetivoRecords : Page
                 dateFrom.Value,
                 dictionary["Common_From"]);
         }
-        else if (!dateFrom.HasValue && dateTo.HasValue)
+        else if (dateFrom == null && dateTo.HasValue)
         {
             periode = string.Format(
                 CultureInfo.InvariantCulture,
@@ -1151,7 +1151,7 @@ public partial class ExportObjetivoRecords : Page
 
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();
-        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
+        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
         return res;
     }
 }

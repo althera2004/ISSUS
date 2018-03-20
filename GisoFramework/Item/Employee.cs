@@ -408,47 +408,52 @@ namespace GisoFramework.Item
         {
             get
             {
-                StringBuilder res = new StringBuilder("[");
+                var res = new StringBuilder("[");
                 /* CREATE PROCEDURE Employee_GetActions
                  *   @EmployeeId bigint,
                  *   @CompanyId int */
                 using (SqlCommand cmd = new SqlCommand())
                 {
-                    cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "Employee_GetActions";
-                    try
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", this.Id));
-                        cmd.Connection.Open();
-                        SqlDataReader rdr = cmd.ExecuteReader();
-                        bool first = true;
-                        while (rdr.Read())
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "Employee_GetActions";
+                        try
                         {
-                            if (first)
+                            cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                            cmd.Parameters.Add(DataParameter.Input("@EmployeeId", this.Id));
+                            cmd.Connection.Open();
+                            using (var rdr = cmd.ExecuteReader())
                             {
-                                first = false;
-                            }
-                            else
-                            {
-                                res.Append(",");
-                            }
+                                bool first = true;
+                                while (rdr.Read())
+                                {
+                                    if (first)
+                                    {
+                                        first = false;
+                                    }
+                                    else
+                                    {
+                                        res.Append(",");
+                                    }
 
-                            res.Append(Environment.NewLine);
-                            res.Append("\t{");
-                            res.Append("\"AssignationType\":\"").Append(Tools.JsonCompliant(rdr.GetString(0))).Append("\",");
-                            res.Append("\"ItemTypePage\":").Append(rdr.GetInt64(1)).Append(",");
-                            res.Append("\"ItemId\":").Append(rdr.GetInt64(2)).Append(",");
-                            res.Append("\"Description\":\"").Append(Tools.JsonCompliant(rdr.GetString(3))).Append("\"");
-                            res.Append("}");
+                                    res.Append(Environment.NewLine);
+                                    res.Append("\t{");
+                                    res.Append("\"AssignationType\":\"").Append(Tools.JsonCompliant(rdr.GetString(0))).Append("\",");
+                                    res.Append("\"ItemTypePage\":").Append(rdr.GetInt64(1)).Append(",");
+                                    res.Append("\"ItemId\":").Append(rdr.GetInt64(2)).Append(",");
+                                    res.Append("\"Description\":\"").Append(Tools.JsonCompliant(rdr.GetString(3))).Append("\"");
+                                    res.Append("}");
+                                }
+                            }
                         }
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
+                        finally
                         {
-                            cmd.Connection.Close();
+                            if (cmd.Connection.State != ConnectionState.Closed)
+                            {
+                                cmd.Connection.Close();
+                            }
                         }
                     }
                 }
@@ -466,25 +471,28 @@ namespace GisoFramework.Item
                 /* CREATE PROCEDURE Employee_GetActions
                  *   @EmployeeId bigint,
                  *   @CompanyId int */
-                using (SqlCommand cmd = new SqlCommand())
+                using (var cmd = new SqlCommand())
                 {
-                    cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "Employee_GetActions";
-                    try
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", this.Id));
-                        cmd.Connection.Open();
-                        SqlDataReader rdr = cmd.ExecuteReader();
-                        res = rdr.HasRows;
-                        rdr.Close();
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "Employee_GetActions";
+                        try
                         {
-                            cmd.Connection.Close();
+                            cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                            cmd.Parameters.Add(DataParameter.Input("@EmployeeId", this.Id));
+                            cmd.Connection.Open();
+                            using (var rdr = cmd.ExecuteReader())
+                            {
+                                res = rdr.HasRows;
+                            }
+                        }
+                        finally
+                        {
+                            if (cmd.Connection.State != ConnectionState.Closed)
+                            {
+                                cmd.Connection.Close();
+                            }
                         }
                     }
                 }
@@ -571,9 +579,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets or sets the name of employee
-        /// </summary>
+        /// <summary>Gets or sets the name of employee</summary>
         public string Name
         {
             get
@@ -650,9 +656,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets or sets the date of employee deactivation
-        /// </summary>
+        /// <summary>Gets or sets the date of employee deactivation</summary>
         public DateTime? DisabledDate
         {
             get
@@ -666,9 +670,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets or sets the address of employee
-        /// </summary>
+        /// <summary>Gets or sets the address of employee</summary>
         public EmployeeAddress Address
         {
             get
@@ -682,9 +684,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets the job positions of employee
-        /// </summary>
+        /// <summary>Gets the job positions of employee</summary>
         public ReadOnlyCollection<JobPosition> JobPositionsList
         {
             get
@@ -693,14 +693,12 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets the HTML code to a employee row in the job position profile
-        /// </summary>
+        /// <summary>Gets the HTML code to a employee row in the job position profile</summary>
         public string JobPositionListRow
         {
             get
             {
-                ApplicationUser user = (ApplicationUser)HttpContext.Current.Session["User"];
+                var user = (ApplicationUser)HttpContext.Current.Session["User"];
                 string text = this.FullName;
                 if (user.HasGrantToRead(ApplicationGrant.Employee))
                 {
@@ -796,15 +794,16 @@ namespace GisoFramework.Item
                 return "[]";
             }
 
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
             foreach(Employee employee in list)
             {
-                if(first)
+                if (first)
                 {
-                    first=false;
+                    first = false;
                 }
-                else{
+                else
+                {
                     res.Append(",");
                 }
 
@@ -830,7 +829,7 @@ namespace GisoFramework.Item
                     this.jobPositions = new List<JobPosition>();
                 }
 
-                StringBuilder res = new StringBuilder();
+                var res = new StringBuilder();
                 res.Append(Environment.NewLine);
                 res.Append("\t\t\t{").Append(Environment.NewLine);
                 res.Append("\t\t\t\t\"Id\":").Append(this.Id).Append(",").Append(Environment.NewLine);
@@ -875,9 +874,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets the HTML code for the link to Employee view page
-        /// </summary>
+        /// <summary>Gets the HTML code for the link to Employee view page</summary>
         public override string Link
         {
             get
@@ -886,14 +883,10 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a list of job position assginmets of employee
-        /// </summary>
+        /// <summary>Gets a list of job position assginmets of employee</summary>
         public Collection<JobPositionAsigment> JobPositionAssignment { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the application user linked to employee
-        /// </summary>
+        /// <summary>Gets or sets the application user linked to employee</summary>
         public ApplicationUser User { get; set; }
 
         public ReadOnlyCollection<Department> Departments
@@ -914,33 +907,36 @@ namespace GisoFramework.Item
         {
             /* CREATE PROCEDURE Employee_WithoutUser
              *   @CompanyId int */
-            List<Employee> res = new List<Employee>();
-            using (SqlCommand cmd = new SqlCommand("Employee_WithoutUser"))
+            var res = new List<Employee>();
+            using (var cmd = new SqlCommand("Employee_WithoutUser"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    try
                     {
-                        while (rdr.Read())
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            res.Add(new Employee()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(0),
-                                name = rdr.GetString(1),
-                                lastName = rdr.GetString(2)
-                            });
+                                res.Add(new Employee()
+                                {
+                                    Id = rdr.GetInt32(0),
+                                    name = rdr.GetString(1),
+                                    lastName = rdr.GetString(2)
+                                });
+                            }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -950,45 +946,48 @@ namespace GisoFramework.Item
 
         public static Employee GetByUserId(int userId)
         {
-            Employee res = Employee.Empty;
-            using (SqlCommand cmd = new SqlCommand("Employee_GetByUserId"))
+            var res = Employee.Empty;
+            using (var cmd = new SqlCommand("Employee_GetByUserId"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        if (rdr.HasRows)
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            rdr.Read();
-                            res = new Employee()
+                            if (rdr.HasRows)
                             {
-                                Id = rdr.GetInt32(ColumnsEmployeeGetByUserId.Id),
-                                name = rdr.GetString(ColumnsEmployeeGetByUserId.Name),
-                                lastName = rdr.GetString(ColumnsEmployeeGetByUserId.LastName),
-                                email = rdr.GetString(ColumnsEmployeeGetByUserId.Email),
-                                nif = rdr.GetString(ColumnsEmployeeGetByUserId.Nif),
-                                phone = rdr.GetString(ColumnsEmployeeGetByUserId.Phone),
-                                address = new EmployeeAddress()
+                                rdr.Read();
+                                res = new Employee()
                                 {
-                                    Address = rdr.GetString(ColumnsEmployeeGetByUserId.Address),
-                                    City = rdr.GetString(ColumnsEmployeeGetByUserId.City),
-                                    Country = rdr.GetString(ColumnsEmployeeGetByUserId.Country),
-                                    PostalCode = rdr.GetString(ColumnsEmployeeGetByUserId.PostalCode),
-                                    Province = rdr.GetString(ColumnsEmployeeGetByUserId.Province)
-                                }
-                            };
+                                    Id = rdr.GetInt32(ColumnsEmployeeGetByUserId.Id),
+                                    name = rdr.GetString(ColumnsEmployeeGetByUserId.Name),
+                                    lastName = rdr.GetString(ColumnsEmployeeGetByUserId.LastName),
+                                    email = rdr.GetString(ColumnsEmployeeGetByUserId.Email),
+                                    nif = rdr.GetString(ColumnsEmployeeGetByUserId.Nif),
+                                    phone = rdr.GetString(ColumnsEmployeeGetByUserId.Phone),
+                                    address = new EmployeeAddress()
+                                    {
+                                        Address = rdr.GetString(ColumnsEmployeeGetByUserId.Address),
+                                        City = rdr.GetString(ColumnsEmployeeGetByUserId.City),
+                                        Country = rdr.GetString(ColumnsEmployeeGetByUserId.Country),
+                                        PostalCode = rdr.GetString(ColumnsEmployeeGetByUserId.PostalCode),
+                                        Province = rdr.GetString(ColumnsEmployeeGetByUserId.Province)
+                                    }
+                                };
+                            }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1000,58 +999,61 @@ namespace GisoFramework.Item
         {
             /* CREATE PROCEDURE Employee_GetByCompany
              *   @CompanyId int */
-            List<Employee> res = new List<Employee>();
-            using (SqlCommand cmd = new SqlCommand("Employee_GetByCompany"))
+            var res = new List<Employee>();
+            using (var cmd = new SqlCommand("Employee_GetByCompany"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        while (rdr.Read())
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (SqlDataReader rdr = cmd.ExecuteReader())
                         {
-                            bool exists = false;
-                            long employeeId = rdr.GetInt32(ColumnsEmployeeGetByCompany.Id);
-                            foreach (Employee employee in res)
+                            while (rdr.Read())
                             {
-                                if (employee.Id == employeeId)
+                                bool exists = false;
+                                long employeeId = rdr.GetInt32(ColumnsEmployeeGetByCompany.Id);
+                                foreach (Employee employee in res)
                                 {
-                                    exists = true;
-                                    break;
-                                }
-                            }
-
-                            if (!exists)
-                            {
-                                Employee newEmployee = new Employee()
-                                {
-                                    Id = employeeId,
-                                    name = rdr.GetString(ColumnsEmployeeGetByCompany.Name),
-                                    lastName = rdr.GetString(ColumnsEmployeeGetByCompany.LastName),
-                                    email = rdr.GetString(ColumnsEmployeeGetByCompany.Email),
-                                    phone = rdr.GetString(ColumnsEmployeeGetByCompany.Phone),
-                                    nif = rdr.GetString(ColumnsEmployeeGetByCompany.Nif),
-                                    Active = rdr.GetBoolean(ColumnsEmployeeGetByCompany.Active)
-                                };
-
-                                if (!rdr.IsDBNull(ColumnsEmployeeGetByCompany.FechaBaja))
-                                {
-                                    newEmployee.disabledDate = rdr.GetDateTime(ColumnsEmployeeGetByCompany.FechaBaja);
+                                    if (employee.Id == employeeId)
+                                    {
+                                        exists = true;
+                                        break;
+                                    }
                                 }
 
-                                res.Add(newEmployee);
+                                if (!exists)
+                                {
+                                    var newEmployee = new Employee()
+                                    {
+                                        Id = employeeId,
+                                        name = rdr.GetString(ColumnsEmployeeGetByCompany.Name),
+                                        lastName = rdr.GetString(ColumnsEmployeeGetByCompany.LastName),
+                                        email = rdr.GetString(ColumnsEmployeeGetByCompany.Email),
+                                        phone = rdr.GetString(ColumnsEmployeeGetByCompany.Phone),
+                                        nif = rdr.GetString(ColumnsEmployeeGetByCompany.Nif),
+                                        Active = rdr.GetBoolean(ColumnsEmployeeGetByCompany.Active)
+                                    };
+
+                                    if (!rdr.IsDBNull(ColumnsEmployeeGetByCompany.FechaBaja))
+                                    {
+                                        newEmployee.disabledDate = rdr.GetDateTime(ColumnsEmployeeGetByCompany.FechaBaja);
+                                    }
+
+                                    res.Add(newEmployee);
+                                }
                             }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1063,58 +1065,61 @@ namespace GisoFramework.Item
         {
             /* CREATE PROCEDURE Employee_GetByCompany
              *   @CompanyId int */
-            List<Employee> res = new List<Employee>();
-            using (SqlCommand cmd = new SqlCommand("Employee_GetByCompany"))
+            var res = new List<Employee>();
+            using (var cmd = new SqlCommand("Employee_GetByCompany"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        while (rdr.Read())
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            bool exists = false;
-                            long employeeId = rdr.GetInt32(ColumnsEmployeeGetByCompany.Id);
-                            foreach (Employee employee in res)
+                            while (rdr.Read())
                             {
-                                if (employee.Id == employeeId)
+                                bool exists = false;
+                                long employeeId = rdr.GetInt32(ColumnsEmployeeGetByCompany.Id);
+                                foreach (var employee in res)
                                 {
-                                    exists = true;
-                                    break;
-                                }
-                            }
-
-                            if (!exists)
-                            {
-                                Employee newEmployee = new Employee()
-                                {
-                                    Id = employeeId,
-                                    name = rdr.GetString(ColumnsEmployeeGetByCompany.Name),
-                                    lastName = rdr.GetString(ColumnsEmployeeGetByCompany.LastName),
-                                    email = rdr.GetString(ColumnsEmployeeGetByCompany.Email),
-                                    phone = rdr.GetString(ColumnsEmployeeGetByCompany.Phone),
-                                    nif = rdr.GetString(ColumnsEmployeeGetByCompany.Nif),
-                                    Active = rdr.GetBoolean(ColumnsEmployeeGetByCompany.Active)
-                                };
-
-                                if (!rdr.IsDBNull(ColumnsEmployeeGetByCompany.FechaBaja))
-                                {
-                                    newEmployee.disabledDate = rdr.GetDateTime(ColumnsEmployeeGetByCompany.FechaBaja);
+                                    if (employee.Id == employeeId)
+                                    {
+                                        exists = true;
+                                        break;
+                                    }
                                 }
 
-                                res.Add(newEmployee);
+                                if (!exists)
+                                {
+                                    var newEmployee = new Employee()
+                                    {
+                                        Id = employeeId,
+                                        name = rdr.GetString(ColumnsEmployeeGetByCompany.Name),
+                                        lastName = rdr.GetString(ColumnsEmployeeGetByCompany.LastName),
+                                        email = rdr.GetString(ColumnsEmployeeGetByCompany.Email),
+                                        phone = rdr.GetString(ColumnsEmployeeGetByCompany.Phone),
+                                        nif = rdr.GetString(ColumnsEmployeeGetByCompany.Nif),
+                                        Active = rdr.GetBoolean(ColumnsEmployeeGetByCompany.Active)
+                                    };
+
+                                    if (!rdr.IsDBNull(ColumnsEmployeeGetByCompany.FechaBaja))
+                                    {
+                                        newEmployee.disabledDate = rdr.GetDateTime(ColumnsEmployeeGetByCompany.FechaBaja);
+                                    }
+
+                                    res.Add(newEmployee);
+                                }
                             }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1124,9 +1129,9 @@ namespace GisoFramework.Item
 
         public static string GetByCompanyJson(int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (Employee employee in GetByCompany(companyId).OrderBy(e => e.FullName))
+            foreach (var employee in GetByCompany(companyId).OrderBy(e => e.FullName))
             {
                 if (first)
                 {
@@ -1153,29 +1158,32 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult Restore(int employeeId, int companyId, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Employee_Restore
              * @EmployeeId int,
              * @CompanyId int,
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("Employee_Restore"))
+            using (var cmd = new SqlCommand("Employee_Restore"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserID", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserID", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1193,31 +1201,34 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult Disable(long employeeId, int companyId, int userId, DateTime endDate)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Employee_Disable
              * @EmployeeId bigint,
              * @CompanyId int,
              * @UserId int,
              * @FechaBaja date */
-            using (SqlCommand cmd = new SqlCommand("Employee_Disable"))
+            using (var cmd = new SqlCommand("Employee_Disable"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserID", userId));
-                    cmd.Parameters.Add(DataParameter.Input("@FechaBaja", endDate));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserID", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@FechaBaja", endDate));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1225,9 +1236,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Gets a jon structur of an employee
-        /// </summary>
+        /// <summary>Gets a jon structure of an employee</summary>
         /// <param name="employee">Employee to extract data</param>
         /// <returns>JSON structure</returns>
         public static string ToJson(Employee employee)
@@ -1260,43 +1269,44 @@ namespace GisoFramework.Item
                 employee.address.Json);
         }
 
-        /// <summary>
-        /// Unlink from a department
-        /// </summary>
+        /// <summary>Unlink from a department</summary>
         /// <param name="companyId">Company identifier</param>
         /// <param name="employeeId">Employee identifier</param>
         /// <param name="departmentId">Department identifier</param>
         /// <returns>Result of action</returns>
         public static ActionResult DisassociateToDepartment(int companyId, int employeeId, int departmentId)
         {
-            ActionResult result = new ActionResult();
+            var result = new ActionResult();
             /* CREATE PROCEDURE Employee_DesassociateToDepartment
              * @EmployeeId int,
              * @DepartmentId int,
              * @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("Employee_DesassociateToDepartment"))
+            using (var cmd = new SqlCommand("Employee_DesassociateToDepartment"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@EmployeeId", SqlDbType.Int);
-                    cmd.Parameters.Add("@DepartmentId", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters["@EmployeeId"].Value = employeeId;
-                    cmd.Parameters["@DepartmentId"].Value = departmentId;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    ActivityLog.Employee(employeeId, Convert.ToInt32(HttpContext.Current.Session["UserId"], CultureInfo.GetCultureInfo("en-us")), companyId, EmployeeLogActions.DisassociateDepartment, string.Format(CultureInfo.GetCultureInfo("en-us"), "DepartmentId:{0}", departmentId));
-                    result.Success = true;
-                    result.MessageError = string.Empty;
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add("@EmployeeId", SqlDbType.Int);
+                        cmd.Parameters.Add("@DepartmentId", SqlDbType.Int);
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters["@EmployeeId"].Value = employeeId;
+                        cmd.Parameters["@DepartmentId"].Value = departmentId;
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        ActivityLog.Employee(employeeId, Convert.ToInt32(HttpContext.Current.Session["UserId"], CultureInfo.GetCultureInfo("en-us")), companyId, EmployeeLogActions.DisassociateDepartment, string.Format(CultureInfo.GetCultureInfo("en-us"), "DepartmentId:{0}", departmentId));
+                        result.Success = true;
+                        result.MessageError = string.Empty;
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1304,43 +1314,44 @@ namespace GisoFramework.Item
             return result;
         }
 
-        /// <summary>
-        /// Link to a department
-        /// </summary>
+        /// <summary>Link to a department</summary>
         /// <param name="companyId">Company identifier</param>
         /// <param name="employeeId">Employee identifier</param>
         /// <param name="departmentId">Department identifier</param>
         /// <returns>Result of action</returns>
         public static ActionResult AssociateToDepartment(int companyId, int employeeId, int departmentId)
         {
-            ActionResult result = new ActionResult();
+            var result = new ActionResult();
             /* CREATE PROCEDURE Employee_AssociateToDepartment
              * @EmployeeId int,
              * @DepartmentId int,
              * @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("Employee_AssociateToDepartment"))
+            using (var cmd = new SqlCommand("Employee_AssociateToDepartment"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@EmployeeId", SqlDbType.Int);
-                    cmd.Parameters.Add("@DepartmentId", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters["@EmployeeId"].Value = employeeId;
-                    cmd.Parameters["@DepartmentId"].Value = departmentId;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    ActivityLog.Employee(employeeId, Convert.ToInt32(HttpContext.Current.Session["UserId"], CultureInfo.GetCultureInfo("en-us")), companyId, EmployeeLogActions.AssociateToDepartment, string.Format(CultureInfo.InstalledUICulture, "DepartmentId:{0}", departmentId));
-                    result.Success = true;
-                    result.MessageError = string.Empty;
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add("@EmployeeId", SqlDbType.Int);
+                        cmd.Parameters.Add("@DepartmentId", SqlDbType.Int);
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters["@EmployeeId"].Value = employeeId;
+                        cmd.Parameters["@DepartmentId"].Value = departmentId;
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        ActivityLog.Employee(employeeId, Convert.ToInt32(HttpContext.Current.Session["UserId"], CultureInfo.GetCultureInfo("en-us")), companyId, EmployeeLogActions.AssociateToDepartment, string.Format(CultureInfo.InstalledUICulture, "DepartmentId:{0}", departmentId));
+                        result.Success = true;
+                        result.MessageError = string.Empty;
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1348,9 +1359,7 @@ namespace GisoFramework.Item
             return result;
         }
 
-        /// <summary>
-        /// Delete an employee
-        /// </summary>
+        /// <summary>Delete an employee</summary>
         /// <param name="employeeId">Employee identifier</param>
         /// <param name="reason">Reason to delete</param>
         /// <param name="companyId">Company identifier</param>
@@ -1358,35 +1367,38 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult Delete(int employeeId, string reason, int companyId, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Employee_Delete
              * @EmployeeId int,
              * @CompanyId int,
              * @Reason nvarchar(200),
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("Employee_Delete"))
+            using (var cmd = new SqlCommand("Employee_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Reason", reason, 200));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Reason", reason, 200));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1394,9 +1406,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Assignate job position to an employee
-        /// </summary>
+        /// <summary>Assignate job position to an employee</summary>
         /// <param name="employeeId">Employee identifier</param>
         /// <param name="jobPositionId">Job position identifier</param>
         /// <param name="companyId">Compnay identifier</param>
@@ -1404,35 +1414,38 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult AssignateJobPosition(int employeeId, long jobPositionId, int companyId, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Employee_AsignateJobPosition
              * @EmployeeId int,
              * @JobPosition bigint,
              * @CompanyId int,
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("Employee_AsignateJobPosition"))
+            using (var cmd = new SqlCommand("Employee_AsignateJobPosition"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
-                    cmd.Parameters.Add(DataParameter.Input("@JobPositionId", jobPositionId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Parameters.Add(DataParameter.Input("@JobPositionId", jobPositionId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1440,9 +1453,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Unassignate job position to an employee
-        /// </summary>
+        /// <summary>Unassignate job position to an employee</summary>
         /// <param name="employeeId">Employee identifier</param>
         /// <param name="jobPositionId">Job position identifier</param>
         /// <param name="date">Date of effective unassignation</param>
@@ -1451,31 +1462,34 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult UnassignateJobPosition(int employeeId, long jobPositionId,DateTime date, int companyId, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Employee_UnasignateJobPosition"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Employee_UnasignateJobPosition"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
-                    cmd.Parameters.Add(DataParameter.Input("@JobPositionId", jobPositionId));
-                    cmd.Parameters.Add(DataParameter.Input("@Date", date));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Parameters.Add(DataParameter.Input("@JobPositionId", jobPositionId));
+                        cmd.Parameters.Add(DataParameter.Input("@Date", date));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1485,31 +1499,34 @@ namespace GisoFramework.Item
 
         public static ActionResult DeleteJobPosition(int employeeId, int jobPositionId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Employee_DeleteJobPosition
              *   @EmployeeId bigint,
              *   @JobPositionId bigint */
-            using (SqlCommand cmd = new SqlCommand("Employee_DeleteJobPosition"))
+            using (var cmd = new SqlCommand("Employee_DeleteJobPosition"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EmployeeId", Convert.ToInt64(employeeId)));
-                    cmd.Parameters.Add(DataParameter.Input("@JobPositionId", Convert.ToInt64(jobPositionId)));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", Convert.ToInt64(employeeId)));
+                        cmd.Parameters.Add(DataParameter.Input("@JobPositionId", Convert.ToInt64(jobPositionId)));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1529,8 +1546,8 @@ namespace GisoFramework.Item
 
         public static string CompanyListJson(int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
-            ReadOnlyCollection<Employee> employees = GetList(companyId);
+            var res = new StringBuilder("[");
+            var employees = GetList(companyId);
             bool first = true;
             foreach (Employee employee in employees.OrderBy(e => e.FullName))
             {
@@ -1552,61 +1569,65 @@ namespace GisoFramework.Item
 
         public static ReadOnlyCollection<Employee> GetList(int companyId)
         {
-            List<Employee> res = new List<Employee>();
-            using (SqlCommand cmd = new SqlCommand("Company_GetEmployees"))
+            string source = string.Format(CultureInfo.InvariantCulture, "Compnay::ObtainEmployees() . CompanyId:{0}", companyId);
+            var res = new List<Employee>();
+            using (var cmd = new SqlCommand("Company_GetEmployees"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        while (rdr.Read())
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Employee newEmployee = new Employee()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsCompanyGetEmployees.Id),
-                                CompanyId = companyId,
-                                Name = rdr.GetString(ColumnsCompanyGetEmployees.Name),
-                                LastName = rdr.GetString(ColumnsCompanyGetEmployees.LastName),
-                                Active = rdr.GetBoolean(ColumnsCompanyGetEmployees.Active),
-                                nif = rdr.GetString(ColumnsCompanyGetEmployees.Nif),
-                                email = rdr.GetString(ColumnsCompanyGetEmployees.Email),
-                                jobPositions = new List<JobPosition>(),
-                                departments = new List<Department>(),
-                                HasUserAssigned = rdr.GetInt32(ColumnsCompanyGetEmployees.HasUserAssigned) == 1,
-                                HasActionAssigned = rdr.GetInt32(ColumnsCompanyGetEmployees.HasActionAssignated) == 1
-                            };
+                                var newEmployee = new Employee()
+                                {
+                                    Id = rdr.GetInt32(ColumnsCompanyGetEmployees.Id),
+                                    CompanyId = companyId,
+                                    Name = rdr.GetString(ColumnsCompanyGetEmployees.Name),
+                                    LastName = rdr.GetString(ColumnsCompanyGetEmployees.LastName),
+                                    Active = rdr.GetBoolean(ColumnsCompanyGetEmployees.Active),
+                                    nif = rdr.GetString(ColumnsCompanyGetEmployees.Nif),
+                                    email = rdr.GetString(ColumnsCompanyGetEmployees.Email),
+                                    jobPositions = new List<JobPosition>(),
+                                    departments = new List<Department>(),
+                                    HasUserAssigned = rdr.GetInt32(ColumnsCompanyGetEmployees.HasUserAssigned) == 1,
+                                    HasActionAssigned = rdr.GetInt32(ColumnsCompanyGetEmployees.HasActionAssignated) == 1
+                                };
 
-                            if (!rdr.IsDBNull(ColumnsCompanyGetEmployees.EndDate))
-                            {
-                                newEmployee.disabledDate = rdr.GetDateTime(ColumnsCompanyGetEmployees.EndDate);
+                                if (!rdr.IsDBNull(ColumnsCompanyGetEmployees.EndDate))
+                                {
+                                    newEmployee.disabledDate = rdr.GetDateTime(ColumnsCompanyGetEmployees.EndDate);
+                                }
+
+                                newEmployee.GetJobPositions();
+                                res.Add(newEmployee);
                             }
-
-                            newEmployee.GetJobPositions();
-                            res.Add(newEmployee);
                         }
                     }
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Compnay::ObtainEmployees() . CompanyId:{0}", companyId));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Compnay::ObtainEmployees() . CompanyId:{0}", companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Compnay::ObtainEmployees() . CompanyId:{0}", companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1716,64 +1737,67 @@ namespace GisoFramework.Item
              *   @CompanyId int */
             this.jobPositions = new List<JobPosition>();
             this.departments = new List<Department>();
-            using (SqlCommand cmd = new SqlCommand("Employee_GetJobPositions"))
+            using (var cmd = new SqlCommand("Employee_GetJobPositions"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EmployeeId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        while (rdr.Read())
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.IsDBNull(1))
+                            while (rdr.Read())
                             {
-                                JobPosition item = new JobPosition()
+                                if (rdr.IsDBNull(1))
                                 {
-                                    Id = rdr.GetInt32(2),
-                                    Description = rdr.GetString(4),
-                                    Department = new Department()
+                                    var item = new JobPosition()
                                     {
-                                        Id = rdr.GetInt32(3),
-                                        Description = rdr.GetString(9)
-                                    }
-                                };
+                                        Id = rdr.GetInt32(2),
+                                        Description = rdr.GetString(4),
+                                        Department = new Department()
+                                        {
+                                            Id = rdr.GetInt32(3),
+                                            Description = rdr.GetString(9)
+                                        }
+                                    };
 
-                                bool found = false;
-                                foreach (Department department in this.departments)
-                                {
-                                    if (department.Id == item.Department.Id)
+                                    bool found = false;
+                                    foreach (var department in this.departments)
                                     {
-                                        found = true;
-                                        break;
+                                        if (department.Id == item.Department.Id)
+                                        {
+                                            found = true;
+                                            break;
+                                        }
                                     }
-                                }
 
-                                if (!found)
-                                {
-                                    this.departments.Add(item.Department);
-                                }
+                                    if (!found)
+                                    {
+                                        this.departments.Add(item.Department);
+                                    }
 
-                                this.jobPositions.Add(item);
+                                    this.jobPositions.Add(item);
+                                }
                             }
                         }
                     }
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, "Employee::GetJosPoisitions");
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        ExceptionManager.Trace(ex, "Employee::GetJosPoisitions");
                     }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
 
-                    cmd.Connection.Dispose();
+                        cmd.Connection.Dispose();
+                    }
                 }
             }
         }
@@ -1837,7 +1861,7 @@ namespace GisoFramework.Item
 
             bool firstDepartment = true;
 
-            StringBuilder departmentsList = new StringBuilder();
+            var departmentsList = new StringBuilder();
             if (this.departments != null)
             {
                 foreach (Department deparment in this.departments)
@@ -1855,9 +1879,9 @@ namespace GisoFramework.Item
                 }
             }
 
-            StringBuilder cargosList = new StringBuilder();
+            var cargosList = new StringBuilder();
             bool firstJobPosition = true;
-            foreach (JobPosition jobPositionItem in this.jobPositions)
+            foreach (var jobPositionItem in this.jobPositions)
             {
                 if (firstJobPosition)
                 {
@@ -1996,68 +2020,71 @@ namespace GisoFramework.Item
             this.learningAssistance = new List<LearningAssistance>();
             using (var cmd = new SqlCommand("Employee_GetLearningAssitance"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@EmployeeId", SqlDbType.Int);
-                    cmd.Parameters["@EmployeeId"].Value = this.Id;
-                    cmd.Connection.Open();
-                    using (var rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        while (rdr.Read())
+                        cmd.Parameters.Add("@EmployeeId", SqlDbType.Int);
+                        cmd.Parameters["@EmployeeId"].Value = this.Id;
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            var newJobPosition = JobPosition.Empty;
-
-                            // Hay que asegurarse que exista el cargo
-                            if (!rdr.IsDBNull(ColumnsGetLearningAssistance.JobPositionId))
+                            while (rdr.Read())
                             {
-                                newJobPosition = new JobPosition()
+                                var newJobPosition = JobPosition.Empty;
+
+                                // Hay que asegurarse que exista el cargo
+                                if (!rdr.IsDBNull(ColumnsGetLearningAssistance.JobPositionId))
                                 {
-                                    Id = rdr.GetInt32(ColumnsGetLearningAssistance.JobPositionId),
-                                    Description = rdr.GetString(ColumnsGetLearningAssistance.JobPositionDescription)
+                                    newJobPosition = new JobPosition()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsGetLearningAssistance.JobPositionId),
+                                        Description = rdr.GetString(ColumnsGetLearningAssistance.JobPositionDescription)
+                                    };
+                                }
+
+                                var newAssistance = new LearningAssistance()
+                                {
+                                    Id = rdr.GetInt32(ColumnsGetLearningAssistance.AssistanceId),
+                                    CompanyId = this.CompanyId,
+                                    Date = rdr.GetDateTime(ColumnsGetLearningAssistance.EstimatedDate),
+                                    Learning = new Learning()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsGetLearningAssistance.LearningId),
+                                        Description = rdr.GetString(ColumnsGetLearningAssistance.LearningDescription),
+                                        Status = rdr.GetInt32(ColumnsGetLearningAssistance.LearningStatus)
+                                    },
+                                    Employee = this,
+                                    JobPosition = newJobPosition
                                 };
-                            }
 
-                            var newAssistance = new LearningAssistance()
-                            {
-                                Id = rdr.GetInt32(ColumnsGetLearningAssistance.AssistanceId),
-                                CompanyId = this.CompanyId,
-                                Date = rdr.GetDateTime(ColumnsGetLearningAssistance.EstimatedDate),
-                                Learning = new Learning()
+                                if (!rdr.IsDBNull(ColumnsGetLearningAssistance.LearningFinishDate))
                                 {
-                                    Id = rdr.GetInt32(ColumnsGetLearningAssistance.LearningId),
-                                    Description = rdr.GetString(ColumnsGetLearningAssistance.LearningDescription),
-                                    Status = rdr.GetInt32(ColumnsGetLearningAssistance.LearningStatus)
-                                },
-                                Employee = this,
-                                JobPosition = newJobPosition
-                            };
+                                    newAssistance.Learning.RealFinish = rdr.GetDateTime(ColumnsGetLearningAssistance.LearningFinishDate);
+                                }
 
-                            if (!rdr.IsDBNull(ColumnsGetLearningAssistance.LearningFinishDate))
-                            {
-                                newAssistance.Learning.RealFinish = rdr.GetDateTime(ColumnsGetLearningAssistance.LearningFinishDate);
+                                if (!rdr.IsDBNull(ColumnsGetLearningAssistance.Completed))
+                                {
+                                    newAssistance.Completed = rdr.GetBoolean(ColumnsGetLearningAssistance.Completed);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsGetLearningAssistance.Success))
+                                {
+                                    newAssistance.Success = rdr.GetBoolean(ColumnsGetLearningAssistance.Success);
+                                }
+
+                                this.learningAssistance.Add(newAssistance);
                             }
-
-                            if (!rdr.IsDBNull(ColumnsGetLearningAssistance.Completed))
-                            {
-                                newAssistance.Completed = rdr.GetBoolean(ColumnsGetLearningAssistance.Completed);
-                            }
-
-                            if (!rdr.IsDBNull(ColumnsGetLearningAssistance.Success))
-                            {
-                                newAssistance.Success = rdr.GetBoolean(ColumnsGetLearningAssistance.Success);
-                            }
-
-                            this.learningAssistance.Add(newAssistance);
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -2336,7 +2363,7 @@ namespace GisoFramework.Item
              *   @EmployeeId bigint,
              *   @UserId bigint,
              *   @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("Employee_SetUser"))
+            using (var cmd = new SqlCommand("Employee_SetUser"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))

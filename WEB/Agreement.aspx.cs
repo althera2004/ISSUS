@@ -217,10 +217,10 @@ public partial class Agreement : Page
             fileText.Write(HttpContext.Current.Request.ToString());
         }*/
 
-        using(var cmd = new SqlCommand("UPDATE Company SET Agreement = 1 WHERE Id = " + company.Id.ToString()))
+        using (var cmd = new SqlCommand(string.Format(CultureInfo.InvariantCulture, "UPDATE Company SET Agreement = 1 WHERE Id = {0}", company.Id)))
         {
             cmd.CommandType = CommandType.Text;
-            using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+            using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
             {
                 cmd.Connection = cnn;
                 try
@@ -229,13 +229,13 @@ public partial class Agreement : Page
                     cmd.ExecuteNonQuery();
                     res.SetSuccess();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     res.SetFail(ex);
                 }
                 finally
                 {
-                    if(cmd.Connection.State != ConnectionState.Closed)
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
                         cmd.Connection.Close();
                     }

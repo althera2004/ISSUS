@@ -63,7 +63,7 @@ namespace GisoFramework.UserInterface
             }
 
             var res = new StringBuilder();
-            foreach (MenuOption option in options)
+            foreach (var option in options)
             {
                 res.Append(option.Render());
             }
@@ -215,13 +215,13 @@ namespace GisoFramework.UserInterface
                 return string.Empty;
             }
 
-            Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-            ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
-            StringBuilder res = new StringBuilder();
+            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+            var user = HttpContext.Current.Session["User"] as ApplicationUser;
+            var res = new StringBuilder();
             bool selected = false;
             var actualUrl = HttpContext.Current.Request.Url.AbsoluteUri.ToUpperInvariant();
 
-            foreach (ApplicationItem option in this.Children)
+            foreach (var option in this.Children)
             {
                 res.Append(option.Render());
                 if (option.Url != null && !selected)
@@ -242,9 +242,9 @@ namespace GisoFramework.UserInterface
                         </li>";
 
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattern,
-                res.ToString(),
+                res,
                 dictionary[this.Item.Description],
                 selected ? " open" : string.Empty,
                 selected ? "block" : "none");
@@ -256,8 +256,7 @@ namespace GisoFramework.UserInterface
         /// <returns>HTML code for a menu</returns>
         public string RenderLevel0()
         {
-            Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-
+            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             var actualUrl = HttpContext.Current.Request.Url.AbsoluteUri;
             if (HttpContext.Current.Request.Url.LocalPath != "/")
             {
