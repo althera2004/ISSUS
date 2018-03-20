@@ -2,7 +2,7 @@
   "Items": [
     {
       "Analyzer": "ObjectInitializerAnalyzer",
-      "OccurrenceCount": 2,
+      "OccurrenceCount": 3,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "SERVER_GISO"

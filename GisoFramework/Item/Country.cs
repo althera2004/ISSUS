@@ -11,7 +11,6 @@ namespace GisoFramework.Item
     using System.Configuration;
     using System.Data;
     using System.Data.SqlClient;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using GisoFramework.Activity;
     using GisoFramework.DataAccess;
@@ -44,7 +43,7 @@ namespace GisoFramework.Item
                     </div>";
 
                 return string.Format(
-                    CultureInfo.GetCultureInfo("es-es"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Id,
                     this.Description,
@@ -58,41 +57,41 @@ namespace GisoFramework.Item
             get
             {
                 string pattern = @"<div class=""col-sm-3"" id=""CT{0}""><input type=""checkbox"" id=""{0}"" onclick=""SelectCountry(this);"" /><img src=""assets/flags/{0}.png"" /><span id=""name"">{1}</span></div>";
-
                 return string.Format(
-                    CultureInfo.GetCultureInfo("es-es"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Id,
                     this.Description);
             }
         }
 
-        /// <summary>
-        /// Add a country to compnay's selected countries
-        /// </summary>
+        /// <summary>Add a country to compnay's selected countries</summary>
         /// <param name="countryId">Country identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>Result of action</returns>
         public static ActionResult CompanyAddCountry(int countryId, int companyId)
         {
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Company_SetCountry"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Company_SetCountry"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CountryId", countryId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CountryId", countryId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -100,32 +99,33 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Discard a country of company's selected countries
-        /// </summary>
+        /// <summary>Discard a country of company's selected countries</summary>
         /// <param name="countryId">Country identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>Result of action</returns>
         public static ActionResult CompanyDiscardCountry(int countryId, int companyId)
         {
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Company_UnSetCountry"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Company_UnSetCountry"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CountryId", countryId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CountryId", countryId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -133,39 +133,42 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Obtain all countries of the company
-        /// </summary>
+        /// <summary>Obtain all countries of the company</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>A list of countries</returns>
         public static ReadOnlyCollection<Country> GetAll(int companyId)
         {
-            List<Country> res = new List<Country>();
-            using (SqlCommand cmd = new SqlCommand("Countries_GetAll"))
+            var res = new List<Country>();
+            using (var cmd = new SqlCommand("Countries_GetAll"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        res.Add(new Country()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt32(0),
-                            Description = rdr.GetString(1),
-                            Selected = rdr.GetInt32(2) == 1,
-                            CanBeDelete = rdr.GetInt32(3) == 1
-                        });
+                            while (rdr.Read())
+                            {
+                                res.Add(new Country()
+                                {
+                                    Id = rdr.GetInt32(0),
+                                    Description = rdr.GetString(1),
+                                    Selected = rdr.GetInt32(2) == 1,
+                                    CanBeDelete = rdr.GetInt32(3) == 1
+                                });
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

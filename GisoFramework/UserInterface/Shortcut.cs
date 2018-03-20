@@ -6,21 +6,15 @@
 // --------------------------------
 namespace GisoFramework.UserInterface
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Configuration;
     using System.Data;
     using System.Data.SqlClient;
     using System.Globalization;
-    using System.Text;
     using System.Web;
-    using GisoFramework.Activity;
-    using GisoFramework.Item;
 
-    /// <summary>
-    /// Class that implements a class for menu's shortcuts
-    /// </summary>
+    /// <summary>Class that implements a class for menu's shortcuts</summary>
     public class Shortcut
     {
         /// <summary>ShortCut's identifier</summary>
@@ -91,40 +85,43 @@ namespace GisoFramework.UserInterface
             }
         }
 
-        /// <summary>
-        /// Obtain the availables shorcuts actions by user
-        /// </summary>
+        /// <summary>Obtain the availables shorcuts actions by user</summary>
         /// <param name="applicationUserId">User identifier</param>
         /// <returns>List of shorcuts actions by user</returns>
         public static ReadOnlyCollection<Shortcut> Available(int applicationUserId)
         {
-            List<Shortcut> res = new List<Shortcut>();
-            using (SqlCommand cmd = new SqlCommand("ApplicationUser_GetShortcutAvailables"))
+            var res = new List<Shortcut>();
+            using (var cmd = new SqlCommand("ApplicationUser_GetShortcutAvailables"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters["@UserId"].Value = applicationUserId;
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        res.Add(new Shortcut()
+                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                        cmd.Parameters["@UserId"].Value = applicationUserId;
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            id = rdr.GetInt32(0),
-                            label = rdr.GetString(1),
-                            link = rdr.GetString(2),
-                            icon = rdr.GetString(3)
-                        });
+                            while (rdr.Read())
+                            {
+                                res.Add(new Shortcut()
+                                {
+                                    id = rdr.GetInt32(0),
+                                    label = rdr.GetString(1),
+                                    link = rdr.GetString(2),
+                                    icon = rdr.GetString(3)
+                                });
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -132,9 +129,7 @@ namespace GisoFramework.UserInterface
             return new ReadOnlyCollection<Shortcut>(res);
         }
 
-        /// <summary>
-        /// Render the HTML code for a shortcut on user's menu
-        /// </summary>
+        /// <summary>Render the HTML code for a shortcut on user's menu</summary>
         /// <param name="dictionary">Dictionary for fixed text labels</param>
         /// <returns>HTML code for a shortcut on user's menu</returns>
         public string Selector(Dictionary<string, string> dictionary)
@@ -147,9 +142,7 @@ namespace GisoFramework.UserInterface
             return string.Format(CultureInfo.GetCultureInfo("en-us"), @"<button class=""btn btn-info"" style=""height:32px;"" onclick=""alert('{0}');"" title=""{0}""><i class=""{1}""></i></button>", dictionary[this.label], this.icon);
         }
 
-        /// <summary>
-        /// Gets a Json structure of shortcut
-        /// </summary>
+        /// <summary>Gets a Json structure of shortcut</summary>
         /// <param name="dictionary">Dictionary of fixed labels</param>
         /// <returns>Json structure of shortcut</returns>
         public string Json(Dictionary<string, string> dictionary)
