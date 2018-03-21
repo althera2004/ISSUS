@@ -15,6 +15,12 @@ namespace GisoFramework
     /// <summary>Implements Tools class.</summary>
     public static class Tools
     {
+        public const string EmptyJsonList = "[]";
+
+        public const string EmptyJsonObject = "{}";
+
+        public const bool NotLeaft = false;
+
         public static DateTime? TextToDate(string text)
         {
             var parts = text.Split('/');

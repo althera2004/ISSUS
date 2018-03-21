@@ -1173,6 +1173,7 @@ namespace GisoFramework
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -1945,9 +1946,9 @@ namespace GisoFramework
                     cmd.Connection = cnn;
                     cmd.Parameters.Add(DataParameter.OutputInt("@Id"));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Login", this.UserName, 50));
-                    cmd.Parameters.Add(DataParameter.Input("@Email", this.Email, 50));
-                    cmd.Parameters.Add(DataParameter.Input("@Language", this.Language, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Login", this.UserName, DataParameter.DefaultTextLength));
+                    cmd.Parameters.Add(DataParameter.Input("@Email", this.Email, DataParameter.DefaultTextLength));
+                    cmd.Parameters.Add(DataParameter.Input("@Language", this.Language, DataParameter.DefaultTextLength));
                     cmd.Parameters.Add(DataParameter.Input("@Admin", this.Admin));
                     cmd.Parameters.Add(DataParameter.Input("@Password", userpass));
                     try

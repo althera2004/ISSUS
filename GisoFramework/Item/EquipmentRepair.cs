@@ -171,7 +171,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                var equipmentRepair = new EquipmentRepair()
+                                var equipmentRepair = new EquipmentRepair
                                 {
                                     Id = rdr.GetInt64(ColumnsEquipmentRepairGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsEquipmentRepairGet.CompanyId),

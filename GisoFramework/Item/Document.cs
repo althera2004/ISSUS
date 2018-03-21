@@ -445,6 +445,7 @@ namespace GisoFramework.Item
                 {
                     using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
+                        cmd.Connection = cnn;
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
                         cmd.Parameters["@CompanyId"].Value = companyId;
@@ -566,6 +567,7 @@ namespace GisoFramework.Item
                 {
                     using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
+                        cmd.Connection = cnn;
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
