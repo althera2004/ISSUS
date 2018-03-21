@@ -252,7 +252,7 @@ public partial class UserView : Page
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Users", "UserList.aspx", false);
+        this.master.AddBreadCrumb("Item_Users", "UserList.aspx", GisoFramework.Tools.NotLeaft);
         this.master.AddBreadCrumb(label);
         this.master.Titulo = "Item_User";
 

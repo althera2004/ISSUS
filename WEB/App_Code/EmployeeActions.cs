@@ -81,10 +81,10 @@ public class EmployeeActions : WebService {
     [ScriptMethod]
     public ActionResult Disable(int employeeId, int companyId, int userId, DateTime endDate)
     {
-        ActionResult res = Employee.Disable(employeeId, companyId, userId, endDate); ;
+        var res = Employee.Disable(employeeId, companyId, userId, endDate); ;
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
@@ -207,22 +207,27 @@ public class EmployeeActions : WebService {
         var res = ActionResult.NoAction;
         var subs = substitutions.Split('#');
 
-        using (SqlCommand cmd = new SqlCommand())
+        using (var cmd = new SqlCommand())
         {
-            cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(DataParameter.Input("@CompanyId", Convert.ToInt32(companyId)));
-            cmd.Parameters.Add(DataParameter.Input("@UserId", Convert.ToInt32(userId)));
-            cmd.Parameters.Add(DataParameter.Input("@NewEmployee", Convert.ToInt64("0")));
-            cmd.Parameters.Add(DataParameter.Input("@ItemId", Convert.ToInt64("0")));
-            try
+            using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
             {
-                cmd.Connection.Open();
-                string procedure = string.Empty;
-                foreach (string action in subs)
+                cmd.Connection = cnn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(DataParameter.Input("@CompanyId", Convert.ToInt32(companyId)));
+                cmd.Parameters.Add(DataParameter.Input("@UserId", Convert.ToInt32(userId)));
+                cmd.Parameters.Add(DataParameter.Input("@NewEmployee", Convert.ToInt64("0")));
+                cmd.Parameters.Add(DataParameter.Input("@ItemId", Convert.ToInt64("0")));
+                try
                 {
-                    if (!string.IsNullOrEmpty(action))
+                    cmd.Connection.Open();
+                    string procedure = string.Empty;
+                    foreach (string action in subs)
                     {
+                        if (string.IsNullOrEmpty(action))
+                        {
+                            continue;
+                        }
+
                         string item = action.Split('-')[0];
                         string itemId = action.Split('-')[1].Split('|')[0];
                         string newEmployeeId = action.Split('|')[1];
@@ -247,20 +252,19 @@ public class EmployeeActions : WebService {
                             cmd.ExecuteNonQuery();
                         }
                     }
-                }
 
-                //// res = Employee.Delete(Convert.ToInt32(actualEmployee), string.Empty, Convert.ToInt32(companyId), Convert.ToInt32(userId));
-                res = Employee.Disable(actualEmployee, companyId, userId, endDate);
-            }
-            catch (Exception ex)
-            {
-                res.SetFail(ex);
-            }
-            finally
-            {
-                if (cmd.Connection.State != ConnectionState.Closed)
+                    res = Employee.Disable(actualEmployee, companyId, userId, endDate);
+                }
+                catch (Exception ex)
                 {
-                    cmd.Connection.Close();
+                    res.SetFail(ex);
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
                 }
             }
         }

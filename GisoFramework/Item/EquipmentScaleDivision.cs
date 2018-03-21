@@ -18,16 +18,14 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements EquipmentScaleDivision class
-    /// </summary>
+    /// <summary>Implements EquipmentScaleDivision class</summary>
     public class EquipmentScaleDivision : BaseItem
     {
         public static EquipmentScaleDivision Empty
         {
             get
             {
-                return new EquipmentScaleDivision()
+                return new EquipmentScaleDivision
                 {
                     Id = 0
                 };
@@ -83,11 +81,11 @@ namespace GisoFramework.Item
 
         public static string JsonList(string name, ReadOnlyCollection<EquipmentScaleDivision> list)
         {
-            StringBuilder res = new StringBuilder("var ").Append(name).Append("=[");
+            var res = new StringBuilder("var ").Append(name).Append("=[");
             bool first = true;
             if (list != null)
             {
-                foreach (EquipmentScaleDivision item in list)
+                foreach (var item in list)
                 {
                     if (first)
                     {
@@ -129,45 +127,48 @@ namespace GisoFramework.Item
              *   @EquipmentScaleDivisionId bigint,
              *   @CompanyId int,
              *   @UserId int*/
-            ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
-            using (SqlCommand cmd = new SqlCommand("EquipmentScaleDivision_Delete"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("EquipmentScaleDivision_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentScaleDivisionId", equipmentScaleDivisionId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Delete Id:{0} User:{1} Company:{2}", equipmentScaleDivisionId, userId, companyId));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Delete Id:{0} User:{1} Company:{2}", equipmentScaleDivisionId, userId, companyId));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Delete Id:{0} User:{1} Company:{2}", equipmentScaleDivisionId, userId, companyId));
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Delete Id:{0} User:{1} Company:{2}", equipmentScaleDivisionId, userId, companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Delete Id:{0} User:{1} Company:{2}", equipmentScaleDivisionId, userId, companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentScaleDivisionId", equipmentScaleDivisionId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Delete Id:{0} User:{1} Company:{2}", equipmentScaleDivisionId, userId, companyId));
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Delete Id:{0} User:{1} Company:{2}", equipmentScaleDivisionId, userId, companyId));
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Delete Id:{0} User:{1} Company:{2}", equipmentScaleDivisionId, userId, companyId));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Delete Id:{0} User:{1} Company:{2}", equipmentScaleDivisionId, userId, companyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Delete Id:{0} User:{1} Company:{2}", equipmentScaleDivisionId, userId, companyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -177,54 +178,59 @@ namespace GisoFramework.Item
 
         public static ReadOnlyCollection<EquipmentScaleDivision> GetByCompany(int companyId)
         {
-            List<EquipmentScaleDivision> res = new List<EquipmentScaleDivision>();
-            using (SqlCommand cmd = new SqlCommand("EquipmentScaleDivision_GetByCompany"))
+            var res = new List<EquipmentScaleDivision>();
+            using (var cmd = new SqlCommand("EquipmentScaleDivision_GetByCompany"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    try
                     {
-                        bool deletable = true;
-                        if (rdr.GetInt32(ColumnsEquipmentScaleDivisionGetByCompany.InEquipment) == 1)
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            deletable = false;
-                        }
-
-                        res.Add(new EquipmentScaleDivision()
-                        {
-                            Id = rdr.GetInt64(ColumnsEquipmentScaleDivisionGetByCompany.Id),
-                            CompanyId = companyId,
-                            Description = rdr.GetString(ColumnsEquipmentScaleDivisionGetByCompany.Description),
-                            Active = rdr.GetBoolean(ColumnsEquipmentScaleDivisionGetByCompany.Active),
-                            ModifiedBy = new ApplicationUser()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsEquipmentScaleDivisionGetByCompany.ModifiedByUserId),
-                                UserName = rdr.GetString(ColumnsEquipmentScaleDivisionGetByCompany.ModifiedByUserName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsEquipmentScaleDivisionGetByCompany.ModifiedOn),
-                            CanBeDeleted = deletable
-                        });
+                                bool deletable = true;
+                                if (rdr.GetInt32(ColumnsEquipmentScaleDivisionGetByCompany.InEquipment) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                res.Add(new EquipmentScaleDivision()
+                                {
+                                    Id = rdr.GetInt64(ColumnsEquipmentScaleDivisionGetByCompany.Id),
+                                    CompanyId = companyId,
+                                    Description = rdr.GetString(ColumnsEquipmentScaleDivisionGetByCompany.Description),
+                                    Active = rdr.GetBoolean(ColumnsEquipmentScaleDivisionGetByCompany.Active),
+                                    ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsEquipmentScaleDivisionGetByCompany.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsEquipmentScaleDivisionGetByCompany.ModifiedByUserName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentScaleDivisionGetByCompany.ModifiedOn),
+                                    CanBeDeleted = deletable
+                                });
+                            }
+                        }
                     }
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, "EqupimentScaleDivision::GetByCompany", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0}", companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "EqupimentScaleDivision::GetByCompany", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0}", companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        ExceptionManager.Trace(ex, "EqupimentScaleDivision::GetByCompany", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0}", companyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "EqupimentScaleDivision::GetByCompany", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0}", companyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -232,45 +238,46 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<EquipmentScaleDivision>(res);
         }
 
-        /// <summary>
-        /// Insert an equipment scale division
-        /// </summary>
+        /// <summary>Insert an equipment scale division</summary>
         /// <param name="userId">Identifier of user that performs the action</param>
         /// <returns>Restult of action</returns>
         public ActionResult Insert(int userId)
         {
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("EquipmentScaleDivision_Insert"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("EquipmentScaleDivision_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentScaleDivisionId"));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@EquipmentScaleDivisionId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                    result.Success = true;
-                    result.MessageError = this.Id.ToString(CultureInfo.InvariantCulture);
-                }
-                catch (SqlException ex)
-                {
-                    result.SetFail(ex);
-                    ExceptionManager.Trace(ex, "EqupimentScaleDivision::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "EqupimentScaleDivision::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentScaleDivisionId"));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@EquipmentScaleDivisionId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        result.Success = true;
+                        result.MessageError = this.Id.ToString(CultureInfo.InvariantCulture);
+                    }
+                    catch (SqlException ex)
+                    {
+                        result.SetFail(ex);
+                        ExceptionManager.Trace(ex, "EqupimentScaleDivision::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "EqupimentScaleDivision::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -278,9 +285,7 @@ namespace GisoFramework.Item
             return result;
         }
         
-        /// <summary>
-        /// Update an equipment scale division
-        /// </summary>
+        /// <summary>Update an equipment scale division</summary>
         /// <param name="userId">Identifier of user that performs the action</param>
         /// <returns>Restult of action</returns>
         public ActionResult Update(int userId)
@@ -290,46 +295,49 @@ namespace GisoFramework.Item
              *   @Description nvarchar(20),
              *   @CompanyId int,
              *   @UserId int  */
-            ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
-            using (SqlCommand cmd = new SqlCommand("EquipmentScaleDivision_Update"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("EquipmentScaleDivision_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentScaleDivisionId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentScaleDivisionId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

@@ -133,7 +133,7 @@ namespace GisoFramework.Alerts
                 columns.Add(position.FieldName);
             }
 
-            using (SqlCommand cmd = new SqlCommand(this.Query))
+            using (var cmd = new SqlCommand(this.Query))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {

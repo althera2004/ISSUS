@@ -229,145 +229,147 @@ namespace GisoFramework.Item
         {
             this.departments = new List<Department>();
             this.jobPositions = new List<JobPosition>();
-            using (SqlCommand cmd = new SqlCommand("Employee_GetById"))
+            using (var cmd = new SqlCommand("Employee_GetById"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    bool first = true;
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        if (first)
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            first = false;
-                            this.Id = rdr.GetInt32(ColumnsEmployeeGetById.Id);
-                            this.CompanyId = rdr.GetInt32(ColumnsEmployeeGetById.CompanyId);
-                            this.name = rdr.GetString(ColumnsEmployeeGetById.Name);
-                            this.lastName = rdr.GetString(ColumnsEmployeeGetById.LastName);
-                            this.email = rdr.GetString(ColumnsEmployeeGetById.Email);
-                            this.phone = rdr.GetString(ColumnsEmployeeGetById.Phone);
-                            this.nif = rdr.GetString(ColumnsEmployeeGetById.Nif);
-                            this.notes = rdr.GetString(ColumnsEmployeeGetById.Notes);
-                            this.address = new EmployeeAddress()
+                            bool first = true;
+                            while (rdr.Read())
                             {
-                                Address = rdr.GetString(ColumnsEmployeeGetById.Address),
-                                PostalCode = rdr.GetString(ColumnsEmployeeGetById.PostalCode),
-                                City = rdr.GetString(ColumnsEmployeeGetById.City),
-                                Province = rdr.GetString(ColumnsEmployeeGetById.Province),
-                                Country = rdr.GetString(ColumnsEmployeeGetById.Country)
-                            };
-
-                            if (!rdr.IsDBNull(ColumnsEmployeeGetById.ModifiedByUserId))
-                            {
-                                this.ModifiedBy = new ApplicationUser()
+                                if (first)
                                 {
-                                    Id = rdr.GetInt32(ColumnsEmployeeGetById.ModifiedByUserId),
-                                    UserName = rdr.GetString(ColumnsEmployeeGetById.ModifiedByUserName)
-                                };
-                            }
+                                    first = false;
+                                    this.Id = rdr.GetInt32(ColumnsEmployeeGetById.Id);
+                                    this.CompanyId = rdr.GetInt32(ColumnsEmployeeGetById.CompanyId);
+                                    this.name = rdr.GetString(ColumnsEmployeeGetById.Name);
+                                    this.lastName = rdr.GetString(ColumnsEmployeeGetById.LastName);
+                                    this.email = rdr.GetString(ColumnsEmployeeGetById.Email);
+                                    this.phone = rdr.GetString(ColumnsEmployeeGetById.Phone);
+                                    this.nif = rdr.GetString(ColumnsEmployeeGetById.Nif);
+                                    this.notes = rdr.GetString(ColumnsEmployeeGetById.Notes);
+                                    this.address = new EmployeeAddress()
+                                    {
+                                        Address = rdr.GetString(ColumnsEmployeeGetById.Address),
+                                        PostalCode = rdr.GetString(ColumnsEmployeeGetById.PostalCode),
+                                        City = rdr.GetString(ColumnsEmployeeGetById.City),
+                                        Province = rdr.GetString(ColumnsEmployeeGetById.Province),
+                                        Country = rdr.GetString(ColumnsEmployeeGetById.Country)
+                                    };
 
-                            if (!rdr.IsDBNull(ColumnsEmployeeGetById.ModifiedOn))
-                            {
-                                this.ModifiedOn = rdr.GetDateTime(ColumnsEmployeeGetById.ModifiedOn);
-                            }
+                                    if (!rdr.IsDBNull(ColumnsEmployeeGetById.ModifiedByUserId))
+                                    {
+                                        this.ModifiedBy = new ApplicationUser()
+                                        {
+                                            Id = rdr.GetInt32(ColumnsEmployeeGetById.ModifiedByUserId),
+                                            UserName = rdr.GetString(ColumnsEmployeeGetById.ModifiedByUserName)
+                                        };
+                                    }
 
-                            if (!rdr.IsDBNull(ColumnsEmployeeGetById.InactivationDate))
-                            {
-                                this.disabledDate = rdr.GetDateTime(ColumnsEmployeeGetById.InactivationDate);
+                                    if (!rdr.IsDBNull(ColumnsEmployeeGetById.ModifiedOn))
+                                    {
+                                        this.ModifiedOn = rdr.GetDateTime(ColumnsEmployeeGetById.ModifiedOn);
+                                    }
+
+                                    if (!rdr.IsDBNull(ColumnsEmployeeGetById.InactivationDate))
+                                    {
+                                        this.disabledDate = rdr.GetDateTime(ColumnsEmployeeGetById.InactivationDate);
+                                    }
+                                }
+
+                                /*if (!rdr.IsDBNull(ColumnsEmployeeGetById.JobPositionId))
+                                {
+                                    int jobPositionId = rdr.GetInt32(ColumnsEmployeeGetById.JobPositionId);
+                                    bool jobPositionExists = false;
+                                    foreach (JobPosition jobPosition in this.jobPositions)
+                                    {
+                                        if (jobPosition.Id == jobPositionId)
+                                        {
+                                            jobPositionExists = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!jobPositionExists)
+                                    {
+                                        this.jobPositions.Add(new JobPosition()
+                                        {
+                                            Id = jobPositionId,
+                                            CompanyId = this.CompanyId,
+                                            Description = rdr.GetString(ColumnsEmployeeGetById.JobPositionName)
+                                        });
+                                    }
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsEmployeeGetById.DepartmentId))
+                                {
+                                    int departmentId = rdr.GetInt32(ColumnsEmployeeGetById.DepartmentId);
+                                    bool departmentExists = false;
+                                    foreach (Department department in this.departments)
+                                    {
+                                        if (department.Id == departmentId)
+                                        {
+                                            departmentExists = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!departmentExists)
+                                    {
+                                        this.departments.Add(new Department()
+                                        {
+                                            Id = departmentId,
+                                            CompanyId = this.CompanyId,
+                                            Description = rdr.GetString(ColumnsEmployeeGetById.DepartmentName)
+                                        });
+                                    }
+                                }*/
+
+                                this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
                             }
                         }
-
-                        /*if (!rdr.IsDBNull(ColumnsEmployeeGetById.JobPositionId))
+                        if (complete)
                         {
-                            int jobPositionId = rdr.GetInt32(ColumnsEmployeeGetById.JobPositionId);
-                            bool jobPositionExists = false;
-                            foreach (JobPosition jobPosition in this.jobPositions)
-                            {
-                                if (jobPosition.Id == jobPositionId)
-                                {
-                                    jobPositionExists = true;
-                                    break;
-                                }
-                            }
-
-                            if (!jobPositionExists)
-                            {
-                                this.jobPositions.Add(new JobPosition()
-                                {
-                                    Id = jobPositionId,
-                                    CompanyId = this.CompanyId,
-                                    Description = rdr.GetString(ColumnsEmployeeGetById.JobPositionName)
-                                });
-                            }
+                            this.ObtainJobPositionsHistoric();
                         }
-
-                        if (!rdr.IsDBNull(ColumnsEmployeeGetById.DepartmentId))
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employee({0},{1})", this.Id, complete));
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employee({0},{1})", this.Id, complete));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employee({0},{1})", this.Id, complete));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
                         {
-                            int departmentId = rdr.GetInt32(ColumnsEmployeeGetById.DepartmentId);
-                            bool departmentExists = false;
-                            foreach (Department department in this.departments)
-                            {
-                                if (department.Id == departmentId)
-                                {
-                                    departmentExists = true;
-                                    break;
-                                }
-                            }
-
-                            if (!departmentExists)
-                            {
-                                this.departments.Add(new Department()
-                                {
-                                    Id = departmentId,
-                                    CompanyId = this.CompanyId,
-                                    Description = rdr.GetString(ColumnsEmployeeGetById.DepartmentName)
-                                });
-                            }
-                        }*/
-
-                        this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
-                    }
-
-                    if (complete)
-                    {
-                        this.ObtainJobPositionsHistoric();
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employee({0},{1})", this.Id, complete));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employee({0},{1})", this.Id, complete));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employee({0},{1})", this.Id, complete));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
-                    {
-                        cmd.Connection.Close();
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
         }
 
         #region Properties
-        /// <summary>
-        /// Gets an empty employee with basic data
-        /// </summary>
+        /// <summary>Gets an empty employee with basic data</summary>
         public static Employee EmptySimple
         {
             get
             {
-                return new Employee()
+                return new Employee
                 {
                     Id = -1,
                     name = string.Empty,
@@ -378,14 +380,12 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets an empty employee
-        /// </summary>
+        /// <summary>Gets an empty employee</summary>
         public static Employee Empty
         {
             get
             {
-                return new Employee()
+                return new Employee
                 {
                     Id = -1,
                     name = string.Empty,
@@ -412,7 +412,7 @@ namespace GisoFramework.Item
                 /* CREATE PROCEDURE Employee_GetActions
                  *   @EmployeeId bigint,
                  *   @CompanyId int */
-                using (SqlCommand cmd = new SqlCommand())
+                using (var cmd = new SqlCommand())
                 {
                     using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
@@ -475,6 +475,7 @@ namespace GisoFramework.Item
                 {
                     using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
+                        cmd.Connection = cnn;
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.CommandText = "Employee_GetActions";
                         try
@@ -505,9 +506,7 @@ namespace GisoFramework.Item
 
         public bool HasActionAssigned { get; set; }
 
-        /// <summary>
-        /// Gets or sets the employee's skills
-        /// </summary>
+        /// <summary>Gets or sets the employee's skills</summary>
         public EmployeeSkills EmployeeSkills
         {
             get
@@ -521,9 +520,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets Learning assistance list
-        /// </summary>
+        /// <summary>Gets Learning assistance list</summary>
         public ReadOnlyCollection<LearningAssistance> LearningAssistance
         {
             get
@@ -705,7 +702,13 @@ namespace GisoFramework.Item
                     text = this.Link;
                 }
 
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"<tr><td>{0}</td><td class=""hidden-480"">{1}</td><td>{2}</td><td class=""hidden-480"">{3}</td></tr>", text, this.nif, this.email, this.phone);
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"<tr><td>{0}</td><td class=""hidden-480"">{1}</td><td>{2}</td><td class=""hidden-480"">{3}</td></tr>",
+                    text,
+                    this.nif,
+                    this.email,
+                    this.phone);
             }
         }
 
@@ -761,6 +764,7 @@ namespace GisoFramework.Item
                 {
                     endDate = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.disabledDate.Value);
                 }
+
                 return string.Format(
                     CultureInfo.InvariantCulture,
                     @"{{""Id"":{0},""CompanyId"":{1},""FullName"":""{2}"",""HasUserAssigned"":{3},""Active"":{4},""DisabledDate"":{5}}}",
@@ -791,7 +795,7 @@ namespace GisoFramework.Item
         {
             if(list == null)
             {
-                return "[]";
+                return Tools.EmptyJsonList;
             }
 
             var res = new StringBuilder("[");
@@ -1010,7 +1014,7 @@ namespace GisoFramework.Item
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Connection.Open();
-                        using (SqlDataReader rdr = cmd.ExecuteReader())
+                        using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
                             {
@@ -1149,9 +1153,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Restore a employee
-        /// </summary>
+        /// <summary>Restore a employee</summary>
         /// <param name="employeeId">Employee identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">Identifier of user that performs the actions</param>
@@ -1191,9 +1193,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Disable a employee
-        /// </summary>
+        /// <summary>Disable a employee</summary>
         /// <param name="employeeId">Employee identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">Identifier of user that performs the actions</param>
@@ -1243,7 +1243,7 @@ namespace GisoFramework.Item
         {
             if (employee == null)
             {
-                return "{}";
+                return Tools.EmptyJsonObject;
             }
 
             string pattern = @"
@@ -1258,7 +1258,7 @@ namespace GisoFramework.Item
                 }}";
 
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattern,
                 employee.Id,
                 employee.CompanyId,
@@ -1538,7 +1538,7 @@ namespace GisoFramework.Item
         {
             if(company == null)
             {
-                return "[]";
+                return Tools.EmptyJsonList;
             }
 
             return CompanyListJson(company.Id);
@@ -1646,7 +1646,15 @@ namespace GisoFramework.Item
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
 
-            string link = admin ? string.Format(CultureInfo.GetCultureInfo("en-us"), @" onclick=""document.location='EmployeesView.aspx?id={0}'"";", this.Id) : string.Empty;
+            string link = string.Empty;
+            if (admin)
+            {
+                string.Format(
+                    CultureInfo.InvariantCulture,
+                    @" onclick=""document.location='EmployeesView.aspx?id={0}'"";",
+                    this.Id);
+            }
+
             string cursor = admin ? @" style=""cursor:pointer;""" : string.Empty;
             string pattern = @"<span class=""tag"" _title=""{3}""{4} id=""{0}""{2}>{1}</span>";
             return string.Format(
@@ -1706,9 +1714,7 @@ namespace GisoFramework.Item
             }
 
             bool grantWrite = UserGrant.HasWriteGrant(grants, ApplicationGrant.Employee);
-
-            string iconRestore = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""Restore({0},'{1}');""><i class=""icon-undo bigger-120""></i></span>", this.Id, this.FullName, dictionary["Item_Employee_Button_Restore"]);
-
+            string iconRestore = string.Format(CultureInfo.InvariantCulture, @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""Restore({0},'{1}');""><i class=""icon-undo bigger-120""></i></span>", this.Id, this.FullName, dictionary["Item_Employee_Button_Restore"]);
             string pattern = @" <tr><td>{0}</td><td style=""width:120px;"">{1}</td><td style=""width:300px;"">{2}</td><td style=""width:90px;"">{3:dd/MM/yyyy}</td><td style=""width:90px;"">{4}</td></tr>";
             return string.Format(
                 CultureInfo.GetCultureInfo("en-us"),
@@ -1758,7 +1764,7 @@ namespace GisoFramework.Item
                                     {
                                         Id = rdr.GetInt32(2),
                                         Description = rdr.GetString(4),
-                                        Department = new Department()
+                                        Department = new Department
                                         {
                                             Id = rdr.GetInt32(3),
                                             Description = rdr.GetString(9)
@@ -1821,10 +1827,10 @@ namespace GisoFramework.Item
             string iconDelete = string.Empty;
             if (grantEmployeeDelete)
             {
-                string deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "ProviderDelete({0},'{1}');", this.Id, this.Description);
+                string deleteFunction = string.Format(CultureInfo.InvariantCulture, "ProviderDelete({0},'{1}');", this.Id, this.Description);
                 string deleteAction = this.HasActions ? "EmployeeDeleteAlert" : "EmployeeDelete";
                 iconDelete = string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     @"<span title=""{2} {1}"" class=""btn btn-xs btn-danger"" onclick=""{3}({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>",
                     this.Id,
                     this.FullName,
@@ -1864,7 +1870,7 @@ namespace GisoFramework.Item
             var departmentsList = new StringBuilder();
             if (this.departments != null)
             {
-                foreach (Department deparment in this.departments)
+                foreach (var deparment in this.departments)
                 {
                     if (firstDepartment)
                     {
@@ -1925,10 +1931,10 @@ namespace GisoFramework.Item
             string iconDelete = string.Empty;
             if (grantEmployeeDelete)
             {
-                string deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "ProviderDelete({0},'{1}');", this.Id, this.Description);
+                string deleteFunction = string.Format(CultureInfo.InvariantCulture, "ProviderDelete({0},'{1}');", this.Id, this.Description);
                 string deleteAction = this.HasActions ? "EmployeeDeleteAlert" : "EmployeeDelete";
                 iconDelete = string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     @"<span title=""{2} {1}"" class=""btn btn-xs btn-danger"" onclick=""{3}({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>",
                     this.Id,
                     this.FullName,
@@ -1985,7 +1991,7 @@ namespace GisoFramework.Item
 
             var cargosList = new StringBuilder();
             bool firstJobPosition = true;
-            foreach (JobPosition jobPositionItem in this.jobPositions)
+            foreach (var jobPositionItem in this.jobPositions)
             {
                 if (firstJobPosition)
                 {
@@ -2001,7 +2007,7 @@ namespace GisoFramework.Item
 
             string pattern = @"{{""Id"":{0},""Link"":""{1}"",""FullName"":""{7}"",""Cargos"":""{2}"",""Departamentos"":""{3}"",""Editable"":{4},""Deletable"":{5},""HasActions"":{8}, ""Baja"":{6}}}";
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattern,
                 this.Id,
                 Tools.JsonCompliant(grantEmployee ? this.Link : this.FullName),
@@ -2295,7 +2301,7 @@ namespace GisoFramework.Item
              * @Country nvarchar(50),
              * @Notes text,
              * @ModifiedBy int */
-            using (SqlCommand cmd = new SqlCommand("Employee_Update"))
+            using (var cmd = new SqlCommand("Employee_Update"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
