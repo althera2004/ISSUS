@@ -52,8 +52,7 @@ public partial class Agreement : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}WelcomeBackgrounds\", path);
 
             var files = Directory.GetFiles(path);
-            Random rnd = new Random();
-            int index = rnd.Next(0, files.Count() - 1);
+            int index = new Random().Next(0, files.Count() - 1);
             string res = Path.GetFileName(files[index]);
             Session["BK"] = res;
             return res;

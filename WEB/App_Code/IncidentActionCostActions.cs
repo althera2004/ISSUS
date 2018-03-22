@@ -43,4 +43,3 @@ public class IncidentActionCostActions : WebService {
         return IncidentActionCost.Delete(incidentId, userId, companyId);
     }
 }
-

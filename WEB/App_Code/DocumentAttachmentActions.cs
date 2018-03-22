@@ -16,12 +16,10 @@ using GisoFramework.Item;
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
 [ScriptService]
-public class DocumentAttachmentActions : System.Web.Services.WebService {
+public class DocumentAttachmentActions : WebService {
 
-    public DocumentAttachmentActions () {
-
-        //Uncomment the following line if using designed components 
-        //InitializeComponent(); 
+    public DocumentAttachmentActions ()
+    {
     }
 
     [WebMethod(EnableSession = true)]

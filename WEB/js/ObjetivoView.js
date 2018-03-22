@@ -996,20 +996,20 @@ function DrawGraphics(stop) {
 
         // ---------- BARRAS
         var barOptions = {
-            scaleBeginAtZero: true,
-            scaleShowGridLines: true,
-            scaleGridLineColor: "rgba(0,0,0,.05)",
-            scaleGridLineWidth: 1,
-            barShowStroke: false,
-            barStrokeWidth: 1,
-            barValueSpacing: 5,
-            barDatasetSpacing: 10,
-            responsive: true,
-            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-            legend: {
-                display: true,
-                labels: {
-                    fontColor: 'rgb(255, 99, 132)'
+            "scaleBeginAtZero": true,
+            "scaleShowGridLines": true,
+            "scaleGridLineColor": "rgba(0,0,0,.05)",
+            "scaleGridLineWidth": 1,
+            "barShowStroke": false,
+            "barStrokeWidth": 1,
+            "barValueSpacing": 5,
+            "barDatasetSpacing": 10,
+            "responsive": true,
+            "legendTemplate": "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+            "legend": {
+                "display": true,
+                "labels": {
+                    fontColor: "rgb(255, 99, 132)"
                 }
             }
         }
@@ -1023,6 +1023,11 @@ function DrawGraphics(stop) {
         var lastMeta = null;
         var lastAlarm = null;
         var lastLabel = "";
+
+        Registros = Registros.sort(function (a, b) {
+            var x = a["Date"]; var y = b["Date"];
+             return ((x < y) ? -1 : ((x > y) ? 1 : 0)); 
+        });
 
         for (var x = 0; x < Registros.length; x++) {
             labels.push(Registros[x].Date);

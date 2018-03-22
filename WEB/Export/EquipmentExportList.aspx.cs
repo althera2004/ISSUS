@@ -29,7 +29,7 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using System.Text;
 
-public partial class Export_EquipmentList : Page
+public partial class ExportEquipmentList : Page
 {
     BaseFont headerFont = null;
     BaseFont arial = null;
@@ -57,10 +57,10 @@ public partial class Export_EquipmentList : Page
     [ScriptMethod]
     public static ActionResult PDF(int companyId, string listOrder)
     {
-        ActionResult res = ActionResult.NoAction;
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var res = ActionResult.NoAction;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        Company company = new Company(companyId);
+        var company = new Company(companyId);
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
         if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
@@ -82,11 +82,11 @@ public partial class Export_EquipmentList : Page
             pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
         }
 
-        BaseFont headerFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        BaseFont arial = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        var headerFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        var arial = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
-        iTS.Document pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
-        iTSpdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
+        var pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
+        var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
            new FileStream(
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
@@ -104,47 +104,47 @@ public partial class Export_EquipmentList : Page
 
         pdfDoc.Open();
 
-        iTS.BaseColor backgroundColor = new iTS.BaseColor(225, 225, 225);
-        iTS.BaseColor rowPair = new iTS.BaseColor(255, 255, 255);
-        iTS.BaseColor rowEven = new iTS.BaseColor(240, 240, 240);
+        var backgroundColor = new iTS.BaseColor(225, 225, 225);
+        var rowPair = new iTS.BaseColor(255, 255, 255);
+        var rowEven = new iTS.BaseColor(240, 240, 240);
 
         // ------------ FONTS 
-        iTSpdf.BaseFont awesomeFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        iTS.Font times = new iTS.Font(arial, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font timesBold = new iTS.Font(arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var awesomeFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        var times = new iTS.Font(arial, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var timesBold = new iTS.Font(arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        var headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         criteriaFont = new iTS.Font(arial, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font titleFont = new iTS.Font(arial, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var titleFont = new iTS.Font(arial, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        var symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
 
         var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         fontAwe = new Font(fontAwesomeIcon, 10);
         // -------------------        
 
 
-        iTSpdf.PdfPTable titleTable = new iTSpdf.PdfPTable(1);
-        float[] titleWidths = new float[] { 50f };
-        titleTable.SetWidths(titleWidths);
-        iTSpdf.PdfPCell titleCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont));
-        titleCell.HorizontalAlignment = iTS.Element.ALIGN_CENTER;
-        titleCell.Border = iTS.Rectangle.NO_BORDER;
+        var titleTable = new iTSpdf.PdfPTable(1);
+        titleTable.SetWidths(new float[] { 50f });
+        var titleCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont))
+        {
+            HorizontalAlignment = iTS.Element.ALIGN_CENTER,
+            Border = iTS.Rectangle.NO_BORDER
+        };
+
         titleTable.AddCell(titleCell);
 
         var borderNone = iTS.Rectangle.NO_BORDER;
         var borderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
         var borderTBL = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.LEFT_BORDER;
         var borderTBR = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.RIGHT_BORDER;
-
-
-        float[] widths = new float[] { 20f, 10f, 5f, 15f };
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(4)
+        
+        var table = new iTSpdf.PdfPTable(4)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 1,
             SpacingBefore = 20f,
             SpacingAfter = 30f
         };
-        table.SetWidths(widths);
+        table.SetWidths(new float[] { 20f, 10f, 5f, 15f });
 
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Code"].ToUpperInvariant() + " - " + dictionary["Item_Equipment_Header_Description"].ToUpperInvariant(), headerFontFinal));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Location"].ToUpperInvariant(), headerFontFinal));
@@ -152,7 +152,7 @@ public partial class Export_EquipmentList : Page
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Responsible"].ToUpperInvariant(), headerFontFinal));
 
         int cont = 0;
-        List<Equipment> data = Equipment.GetList(companyId).ToList();
+        var data = Equipment.GetList(companyId).ToList();
 
         string filter = GetFilter();
         if (filter.IndexOf("1", StringComparison.OrdinalIgnoreCase) != -1)
@@ -165,26 +165,26 @@ public partial class Export_EquipmentList : Page
             data = data.Where(d => d.EndDate.HasValue).ToList();
         }
 
-        List<Equipment> dataC = new List<Equipment>();
+        var dataC = new List<Equipment>();
         if (filter.IndexOf("C", StringComparison.OrdinalIgnoreCase) != -1)
         {
-            dataC = data.Where(d => d.IsCalibration == true).ToList();
+            dataC = data.Where(d => d.IsCalibration).ToList();
         }
 
-        List<Equipment> dataV = new List<Equipment>();
+        var dataV = new List<Equipment>();
         if (filter.IndexOf("V", StringComparison.OrdinalIgnoreCase) != -1)
         {
-            dataV = data.Where(d => d.IsVerification == true).ToList();
+            dataV = data.Where(d => d.IsVerification).ToList();
         }
 
-        List<Equipment> dataM = new List<Equipment>();
+        var dataM = new List<Equipment>();
         if (filter.IndexOf("M", StringComparison.OrdinalIgnoreCase) != -1)
         {
-            dataM = data.Where(d => d.IsMaintenance == true).ToList();
+            dataM = data.Where(d => d.IsMaintenance).ToList();
         }
 
         data = dataC;
-        foreach (Equipment equipmentV in dataV)
+        foreach (var equipmentV in dataV)
         {
             if (!data.Any(d => d.Id == equipmentV.Id))
             {
@@ -192,7 +192,7 @@ public partial class Export_EquipmentList : Page
             }
         }
 
-        foreach (Equipment equipmentM in dataM)
+        foreach (var equipmentM in dataM)
         {
             if (!data.Any(d => d.Id == equipmentM.Id))
             {
@@ -203,11 +203,12 @@ public partial class Export_EquipmentList : Page
         // aplicar filtros
 
         //------ CRITERIA
-        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(2);
-        float[] cirteriaWidths = new float[] { 8f, 50f };
-        criteriatable.SetWidths(cirteriaWidths);
-        criteriatable.WidthPercentage = 100;
+        var criteriatable = new iTSpdf.PdfPTable(2)
+        {
+            WidthPercentage = 100
+        };
 
+        criteriatable.SetWidths(new float[] { 8f, 50f });
 
         string statusText = string.Empty;
         string operativaText = string.Empty;
@@ -244,34 +245,37 @@ public partial class Export_EquipmentList : Page
             operativaText += dictionary["Item_Equipment_List_Filter_ShowMaintenance"];
         }
 
-        iTSpdf.PdfPCell criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_List_Filter_ShowByOperation"] + " :", timesBold));
-        criteria1Label.Border = borderNone;
-        criteria1Label.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria1Label.Padding = 6f;
-        criteria1Label.PaddingTop = 4f;
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_List_Filter_ShowByOperation"] + " :", timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        });
 
-        iTSpdf.PdfPCell criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(operativaText, times));
-        criteria1.Border = borderNone;
-        criteria1.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria1.Padding = 6f;
-        criteria1.PaddingTop = 4f;
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(operativaText, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        });
 
-        iTSpdf.PdfPCell criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_List_Filter_ShowByStatus"] + " :", timesBold));
-        criteria2Label.Border = borderNone;
-        criteria2Label.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria2Label.Padding = 6f;
-        criteria2Label.PaddingTop = 4f;
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_List_Filter_ShowByStatus"] + " :", timesBold))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        });
 
-        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times));
-        criteria2.Border = borderNone;
-        criteria2.HorizontalAlignment = iTS.Element.ALIGN_LEFT;
-        criteria2.Padding = 6f;
-        criteria2.PaddingTop = 4f;
-
-        criteriatable.AddCell(criteria1Label);
-        criteriatable.AddCell(criteria1);
-        criteriatable.AddCell(criteria2Label);
-        criteriatable.AddCell(criteria2);
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times))
+        {
+            Border = borderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = 6f,
+            PaddingTop = 4f
+        });
 
         bool pair = false;
         decimal total = 0;
@@ -312,37 +316,41 @@ public partial class Export_EquipmentList : Page
         {
             total += equipment.TotalCost;
 
-            BaseColor lineBackground = pair ? rowEven : rowPair;
-
-            iTSpdf.PdfPCell typeCell = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Code + " - " + equipment.Description, times));
-            typeCell.Border = border;
-            typeCell.BackgroundColor = lineBackground;
-            typeCell.Padding = 6f;
-            typeCell.PaddingTop = 4f;
-            table.AddCell(typeCell);
-
-            iTSpdf.PdfPCell operationCell = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Location, times));
-            operationCell.Border = border;
-            operationCell.BackgroundColor = lineBackground;
-            operationCell.Padding = 6f;
-            operationCell.PaddingTop = 4f;
-            table.AddCell(operationCell);
+            var lineBackground = pair ? rowEven : rowPair;
+            
+            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Code + " - " + equipment.Description, times))
+            {
+                Border = border,
+                BackgroundColor = lineBackground,
+                Padding = 6f,
+                PaddingTop = 4f
+            });
+            
+            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Location, times))
+            {
+                Border = border,
+                BackgroundColor = lineBackground,
+                Padding = 6f,
+                PaddingTop = 4f
+            });
 
             string totalCost = string.Format("{0:#,##0.00}", equipment.TotalCost);
-            iTSpdf.PdfPCell cellDate = new iTSpdf.PdfPCell(new iTS.Phrase(totalCost, times));
-            cellDate.Border = border;
-            cellDate.BackgroundColor = lineBackground;
-            cellDate.Padding = 6f;
-            cellDate.PaddingTop = 4f;
-            cellDate.HorizontalAlignment = 2;
-            table.AddCell(cellDate);
-
-            iTSpdf.PdfPCell responsibleCell = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Responsible.FullName, times));
-            responsibleCell.Border = border;
-            responsibleCell.BackgroundColor = lineBackground;
-            responsibleCell.Padding = 6f;
-            responsibleCell.PaddingTop = 4f;
-            table.AddCell(responsibleCell);
+            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(totalCost, times))
+            {
+                Border = border,
+                BackgroundColor = lineBackground,
+                Padding = 6f,
+                PaddingTop = 4f,
+                HorizontalAlignment = 2
+            });
+            
+            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Responsible.FullName, times))
+            {
+                Border = border,
+                BackgroundColor = lineBackground,
+                Padding = 6f,
+                PaddingTop = 4f
+            });
 
             cont++;
         }
@@ -352,29 +360,32 @@ public partial class Export_EquipmentList : Page
             @"{0}: {1}",
             dictionary["Common_RegisterCount"],
             cont);
-        iTSpdf.PdfPCell totalRegistrosCell = new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, times));
-        totalRegistrosCell.Border = iTS.Rectangle.TOP_BORDER;
-        totalRegistrosCell.BackgroundColor = rowEven;
-        totalRegistrosCell.Padding = 6f;
-        totalRegistrosCell.PaddingTop = 4f;
-        table.AddCell(totalRegistrosCell);
-
-        iTSpdf.PdfPCell totalLabelCell = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant(), times));
-        totalLabelCell.Border = iTS.Rectangle.TOP_BORDER;
-        totalLabelCell.BackgroundColor = rowEven;
-        totalLabelCell.Padding = 6f;
-        totalLabelCell.PaddingTop = 4f;
-        totalLabelCell.HorizontalAlignment = 2;
-        table.AddCell(totalLabelCell);
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, times))
+        {
+            Border = iTS.Rectangle.TOP_BORDER,
+            BackgroundColor = rowEven,
+            Padding = 6f,
+            PaddingTop = 4f
+        });
+        
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant(), times))
+        {
+            Border = iTS.Rectangle.TOP_BORDER,
+            BackgroundColor = rowEven,
+            Padding = 6f,
+            PaddingTop = 4f,
+            HorizontalAlignment = 2
+        });
 
         string totalText = string.Format("{0:#,##0.00}", total);
-        iTSpdf.PdfPCell totalCell = new iTSpdf.PdfPCell(new iTS.Phrase(totalText, times));
-        totalCell.Border = iTS.Rectangle.TOP_BORDER;
-        totalCell.BackgroundColor = rowEven;
-        totalCell.Padding = 6f;
-        totalCell.PaddingTop = 4f;
-        totalCell.HorizontalAlignment = 2;
-        table.AddCell(totalCell);
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(totalText, times))
+        {
+            Border = iTS.Rectangle.TOP_BORDER,
+            BackgroundColor = rowEven,
+            Padding = 6f,
+            PaddingTop = 4f,
+            HorizontalAlignment = 2
+        });
 
         table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
         {
@@ -386,7 +397,7 @@ public partial class Export_EquipmentList : Page
         pdfDoc.Add(criteriatable);
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();
-        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
+        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
         return res;
     }
 }

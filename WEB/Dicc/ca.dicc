@@ -913,6 +913,8 @@ Item_Incident_ErrorMessage_WhatHappenedResponsibleRequired::Indicar qui ha regis
 Item_Incident_AnulateMessageTile::Incidència tancada
 Item_Incident_Btn_Restaurar::Reobrir
 Item_Incident_Btn_Anular::Tancar
+Item_Incident_Btn_RestaurarAction::Reobrir acció
+Item_Incident_Btn_AnularAction::Tancar acció
 Item_Incident_Cost_IncidentCheck::Costos propis incidència
 Item_Incident_Cost_IncidentActionCheck::Costos propis acció						   
 Item_Incident_Field_Actions::Actuacions

@@ -31,7 +31,7 @@ public class ObjetivoActions : WebService {
     [ScriptMethod]
     public string GetFilter(int companyId, DateTime? from, DateTime? to, int status)
     {
-        StringBuilder filter = new StringBuilder("{");
+        var filter = new StringBuilder("{");
         filter.Append(Tools.JsonPair("companyId", companyId)).Append(",");
         filter.Append(Tools.JsonPair("from", from)).Append(",");
         filter.Append(Tools.JsonPair("to", to)).Append(",");

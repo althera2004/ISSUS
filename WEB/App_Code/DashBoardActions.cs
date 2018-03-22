@@ -1,11 +1,13 @@
-﻿using GisoFramework.Activity;
-using System;
-using System.Collections.Generic;
+﻿// --------------------------------
+// <copyright file="DashBoardActions.cs" company="Sbrinna">
+//     Copyright (c) Sbrinna. All rights reserved.
+// </copyright>
+// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// --------------------------------
 using System.Globalization;
-using System.Linq;
-using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
+using GisoFramework.Activity;
 
 /// <summary>
 /// Descripción breve de DashBoardActions
@@ -24,7 +26,7 @@ public class DashBoardActions : System.Web.Services.WebService
     [ScriptMethod]
     public ActionResult SetFilter(bool owners, bool others)
     {
-        ActionResult res = ActionResult.NoAction;
+        var res = ActionResult.NoAction;
         string filter = string.Format(
             CultureInfo.InvariantCulture,
             @"{{""Owners"":{0},""Others"":{1}}}",

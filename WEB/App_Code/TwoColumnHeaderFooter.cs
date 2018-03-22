@@ -72,7 +72,7 @@ namespace PDF_Tests
         public override void OnStartPage(PdfWriter writer, Document document)
         {
             base.OnStartPage(writer, document);
-            Rectangle pageSize = document.PageSize;
+            var pageSize = document.PageSize;
 
             var title = this.Title;
 
@@ -132,7 +132,7 @@ namespace PDF_Tests
             base.OnEndPage(writer, document);
             int pageN = writer.PageNumber;
             var text = pageN + " de ";
-            float len = bf.GetWidthPoint(text, 8);
+            var len = bf.GetWidthPoint(text, 8);
             var pageSize = document.PageSize;
             
             // Numero de pagina

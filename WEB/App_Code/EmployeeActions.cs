@@ -105,7 +105,6 @@ public class EmployeeActions : WebService {
             result = Employee.AssociateToDepartment(companyId, employeeId, departmentId);
             if (result.Success)
             {
-
                 result = ActivityLog.Employee(employeeId, 1, companyId, EmployeeLogActions.AssociateToDepartment, string.Empty);
             }
 
@@ -132,13 +131,7 @@ public class EmployeeActions : WebService {
     [ScriptMethod]
     public ActionResult DesassociateDepartment(int employeeId, int companyId, int departmentId)
     {
-        var res = Employee.DisassociateToDepartment(companyId, employeeId, departmentId);
-        if (res.Success)
-        {
-            res = ActivityLog.Employee(employeeId, 1, companyId, EmployeeLogActions.DisassociateDepartment, string.Empty);
-        }
-
-        return res;
+        return Employee.DisassociateToDepartment(companyId, employeeId, departmentId);
     }
 
     [WebMethod(EnableSession = true)]

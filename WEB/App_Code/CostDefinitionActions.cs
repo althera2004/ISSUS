@@ -15,9 +15,7 @@ using GisoFramework.Activity;
 using GisoFramework.LogOn;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for CostDefinitionActions
-/// </summary>
+/// <summary>Implements actions for CostDefinition</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]

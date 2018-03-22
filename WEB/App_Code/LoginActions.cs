@@ -40,12 +40,10 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult GetLogin(string email, string password, string ip)
         {
-            ActionResult res = ActionResult.NoAction;
-            res = ApplicationLogOn.GetApplicationAccess(email, password, ip);
-
+            var res = ApplicationLogOn.GetApplicationAccess(email, password, ip);
             if (res.Success)
             {
-                LogOnObject logon = res.ReturnValue as LogOnObject;
+                var logon = res.ReturnValue as LogOnObject;
                 int userId = logon.Id;
                 HttpContext.Current.Session["UniqueSessionId"] = UniqueSession.SetSession(userId, ip);
             }
@@ -57,12 +55,12 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult ChangeAvatar(int userId, string avatar, int companyId)
         {
-            ActionResult res = ApplicationUser.ChangeAvatar(userId, avatar, companyId);
+            var res = ApplicationUser.ChangeAvatar(userId, avatar, companyId);
             if (res.Success)
             {
                 if (res.Success)
                 {
-                    ApplicationUser user = Session["User"] as ApplicationUser;
+                    var user = Session["User"] as ApplicationUser;
                     HttpContext.Current.Session["User"] = new ApplicationUser(userId);
                 }
             }
@@ -74,17 +72,13 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult InsertUser(ApplicationUser itemUser, long employeeId, int userId)
         {
-            //itemUser.UserName = itemUser.UserName.Replace(" ", string.Empty).ToUpperInvariant();
-            ActionResult res = itemUser.Insert(userId);
+            var res = itemUser.Insert(userId);
             if(res.Success && employeeId > 0)
             {
                 var id = Convert.ToInt32(res.MessageError);
-                Employee employee = new Employee() { Id = employeeId, UserId = id, CompanyId = itemUser.CompanyId };
+                var employee = new Employee { Id = employeeId, UserId = id, CompanyId = itemUser.CompanyId };
                 res = employee.SetUser();
             }
-
-            /*Company companySession = new Company(itemUser.CompanyId);
-            HttpContext.Current.Session["Company"] = companySession;*/
 
             return res;
         }
@@ -93,13 +87,12 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult ChangeUserName(ApplicationUser itemUser, long employeeId, int userId)
         {
-            //itemUser.UserName = itemUser.UserName.Replace(" ", string.Empty).ToUpperInvariant();
-            ActionResult res = itemUser.Update(userId);
+            var res = itemUser.Update(userId);
             if (res.Success)
             {
                 if (employeeId > 0)
                 {
-                    Employee employee = new Employee() { Id = employeeId, UserId = itemUser.Id, CompanyId = itemUser.CompanyId };
+                    var employee = new Employee { Id = employeeId, UserId = itemUser.Id, CompanyId = itemUser.CompanyId };
                     res = employee.SetUser();
                 }
                 else
@@ -108,9 +101,6 @@ namespace GISOWeb
                 }
             }
 
-            /*Company companySession = new Company(itemUser.CompanyId);
-            HttpContext.Current.Session["Company"] = companySession;
-            HttpContext.Current.Session["User"] = ApplicationUser.GetById(itemUser.Id, itemUser.CompanyId);*/
             return res;
         }
 
@@ -118,10 +108,10 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult ChangePassword(int userId, string oldPassword, string newPassword, int companyId)
         {
-            ActionResult res = ApplicationUser.ChangePassword(userId, oldPassword, newPassword, companyId);
+            var res = ApplicationUser.ChangePassword(userId, oldPassword, newPassword, companyId);
             if (res.MessageError == "NOPASS")
             {
-                Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+                var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
                 if (dictionary != null)
                 {
                     res.MessageError = dictionary["Common_Error_IncorrectPassword"];
@@ -132,8 +122,8 @@ namespace GISOWeb
                 }
             }
 
-            ApplicationUser userFromDB = ApplicationUser.GetById(userId, companyId);
-            Company company = new Company(companyId);
+            var userFromDB = ApplicationUser.GetById(userId, companyId);
+            var company = new Company(companyId);
             if (userFromDB.PrimaryUser)
             {
                 SendMailUserMother(userFromDB.UserName, company.Name);
@@ -152,16 +142,16 @@ namespace GISOWeb
         [WebMethod(EnableSession = true)]
         public ActionResult SaveProfile(int userId, int companyId, string language, bool showHelp, int? blue, int? green, int? yellow, int? red)
         {
-            ActionResult res = ApplicationUser.UpdateInterfaceProfile(userId, companyId, language, showHelp);
+            var res = ApplicationUser.UpdateInterfaceProfile(userId, companyId, language, showHelp);
             if (res.Success)
             {
                 res = ApplicationUser.UpdateShortcuts(userId, companyId, green, blue, yellow, red);
                 if (res.Success)
                 {
-                    ApplicationUser user = Session["User"] as ApplicationUser;
+                    var user = Session["User"] as ApplicationUser;
                     user.Language = language;
                     HttpContext.Current.Session["User"] = new ApplicationUser(userId);
-                    Dictionary<string, string> dictionary = ApplicationDictionary.Load("ca");
+                    var dictionary = ApplicationDictionary.Load("ca");
                     if (user.Language != "ca")
                     {
                         dictionary = ApplicationDictionary.LoadNewLanguage(language);
@@ -175,19 +165,18 @@ namespace GISOWeb
         [WebMethod(EnableSession = true)]
         public ActionResult Grants(string grants, int itemUserId, int userId)
         {
-            string[] grantList = grants.Split('|');
-            List<UserGrant> userGrants = new List<UserGrant>();
-
+            var grantList = grants.Split('|');
+            var userGrants = new List<UserGrant>();
             foreach (string grant in grantList)
             {
                 if (!string.IsNullOrEmpty(grant))
                 {
                     string action = grant.Substring(0, 1);
                     string code = grant.Substring(1);
-                    UserGrant item = new UserGrant()
+                    var item = new UserGrant
                     {
                         UserId = itemUserId,
-                        Item = new ApplicationGrant()
+                        Item = new ApplicationGrant
                         {
                             Code = Convert.ToInt32(code)
                         },
@@ -214,12 +203,12 @@ namespace GISOWeb
                 }
             }
 
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             res.SetSuccess();
             ApplicationUser.ClearGrant(itemUserId);
             foreach (UserGrant ug in userGrants)
             {
-                ActionResult resTemp = ApplicationUser.SaveGrant(ug, userId);
+                var resTemp = ApplicationUser.SaveGrant(ug, userId);
                 if (!resTemp.Success)
                 {
                     res.SetFail(string.Empty);
@@ -234,11 +223,10 @@ namespace GISOWeb
         {
             string sender = ConfigurationManager.AppSettings["mailaddress"];
             string pass = ConfigurationManager.AppSettings["mailpass"];
+            var senderMail = new MailAddress(sender, "ISSUS");
+            var to = new MailAddress(ConfigurationManager.AppSettings["mailaddress"]);
 
-            MailAddress senderMail = new MailAddress(sender, "ISSUS");
-            MailAddress to = new MailAddress(ConfigurationManager.AppSettings["mailaddress"].ToString());
-
-            SmtpClient client = new SmtpClient()
+            var client = new SmtpClient()
             {
                 Host = "smtp.scrambotika.com",
                 Credentials = new System.Net.NetworkCredential(sender, pass),
@@ -246,7 +234,7 @@ namespace GISOWeb
                 DeliveryMethod = SmtpDeliveryMethod.Network
             };
 
-            MailMessage mail = new MailMessage(senderMail, to)
+            var mail = new MailMessage(senderMail, to)
             {
                 IsBodyHtml = true
             };            
@@ -256,7 +244,6 @@ namespace GISOWeb
                 "Se ha reestablecido la contraseña en ISSUS de un administrador primario.<br />User:<b>{0}</b><br/>Empresa:<b>{1}</b>",
                 userName,
                 companyName);
-
 
             mail.Subject = "Reinicio de contraseña en ISSUS de usuario primario";
             mail.Body = body;

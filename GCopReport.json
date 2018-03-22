@@ -9,14 +9,14 @@
     },
     {
       "Analyzer": "ConstantVariableAnalyzer",
-      "OccurrenceCount": 32,
+      "OccurrenceCount": 33,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "SERVER_GISO"
     },
     {
       "Analyzer": "LongMethodAnalyzer",
-      "OccurrenceCount": 3,
+      "OccurrenceCount": 5,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "SERVER_GISO"

@@ -881,6 +881,7 @@ namespace GisoFramework
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
                     try
                     {
@@ -1249,9 +1250,7 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Gets a text representative of group
-        /// </summary>
+        /// <summary>Gets a text representative of group</summary>
         /// <param name="group">Security group</param>
         /// <returns>A text representative of group</returns>
         public static string GrantToText(ApplicationLogOn.SecurityGroup group)
@@ -1291,9 +1290,7 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Update the shorcuts of application user
-        /// </summary>
+        /// <summary>Update the shorcuts of application user</summary>
         /// <param name="userId">Application user identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="green">Green shortcut</param>
@@ -1372,7 +1369,6 @@ namespace GisoFramework
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();
-                        cmd.Connection.Close();
                     }
                 }
                 catch (SqlException ex)

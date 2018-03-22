@@ -343,7 +343,7 @@ namespace GisoFramework.Item
                 @"GetAll({0}, {1})",
                 companyId,
                 isOnlyActive);
-            List<BusinessRisk> res = new List<BusinessRisk>();
+           var res = new List<BusinessRisk>();
             string query = "BusinessRisk_GetAll";
             using (SqlCommand cmd = new SqlCommand(query))
             {
@@ -357,26 +357,26 @@ namespace GisoFramework.Item
                     {
                         while (rdr.Read())
                         {
-                            BusinessRisk newRisk = new BusinessRisk()
+                            var newRisk = new BusinessRisk
                             {
                                 Id = rdr.GetInt64(ColumnsBusinessRiskGetAll.Id),
                                 Description = rdr.GetString(ColumnsBusinessRiskGetAll.Description),
                                 Notes = rdr.GetString(ColumnsBusinessRiskGetAll.Notes),
                                 CompanyId = companyId,
                                 CreatedOn = rdr.GetDateTime(ColumnsBusinessRiskGetAll.CreatedOn),
-                                CreatedBy = new ApplicationUser()
+                                CreatedBy = new ApplicationUser
                                 {
                                     Id = rdr.GetInt32(ColumnsBusinessRiskGetAll.CreatedBy),
                                     UserName = rdr.GetString(ColumnsBusinessRiskGetAll.CreatedByName)
                                 },
                                 ModifiedOn = rdr.GetDateTime(ColumnsBusinessRiskGetAll.ModifiedOn),
-                                ModifiedBy = new ApplicationUser()
+                                ModifiedBy = new ApplicationUser
                                 {
                                     Id = rdr.GetInt32(ColumnsBusinessRiskGetAll.ModifiedBy),
                                     UserName = rdr.GetString(ColumnsBusinessRiskGetAll.ModifiedByName)
                                 },
                                 Code = rdr.GetInt64(ColumnsBusinessRiskGetAll.Code),
-                                Rules = new Rules()
+                                Rules = new Rules
                                 {
                                     Id = rdr.GetInt64(ColumnsBusinessRiskGetAll.RuleId),
                                     Description = rdr.GetString(ColumnsBusinessRiskGetAll.RuleDescription),
@@ -480,16 +480,13 @@ namespace GisoFramework.Item
             return GetAll(companyId, true);
         }
 
-        /// <summary>
-        /// Get Active BusinessRisk objects from database by Rules Id
-        /// </summary>
-        /// <param name="rulesId"></param>
-        /// <param name="companyId"></param>
+        /// <summary>Get Active BusinessRisk objects from database by Rules Id</summary>
+        /// <param name="rulesId">Rule identifier</param>
+        /// <param name="companyId">Company identifier</param>
         /// <returns></returns>
         public static ReadOnlyCollection<BusinessRisk> GetByRulesId(long rulesId, int companyId)
         {
-            ReadOnlyCollection<BusinessRisk> risks = GetAll(companyId, true);
-            return new ReadOnlyCollection<BusinessRisk>(risks.Where(r => r.Rules.Id == rulesId).ToList());
+            return new ReadOnlyCollection<BusinessRisk>(GetAll(companyId, true).Where(r => r.Rules.Id == rulesId).ToList());
         }
 
         public static void Foo(long rulesId, int companyId)
@@ -499,7 +496,7 @@ namespace GisoFramework.Item
                 @"GetByRulesId({0}, {1})",
                 rulesId,
                 companyId);
-            List<BusinessRisk> res = new List<BusinessRisk>();
+            var res = new List<BusinessRisk>();
             string query = "BusinessRisk_GetByRules";
             using (SqlCommand cmd = new SqlCommand(query))
             {
@@ -514,26 +511,26 @@ namespace GisoFramework.Item
                     {
                         while (rdr.Read())
                         {
-                            BusinessRisk newRisk = new BusinessRisk()
+                            var newRisk = new BusinessRisk
                             {
                                 Id = rdr.GetInt64(ColumnsBusinessRiskGetAll.Id),
                                 Description = rdr.GetString(ColumnsBusinessRiskGetAll.Description),
                                 Notes = rdr.GetString(ColumnsBusinessRiskGetAll.Notes),
                                 CompanyId = companyId,
                                 CreatedOn = rdr.GetDateTime(ColumnsBusinessRiskGetAll.CreatedOn),
-                                CreatedBy = new ApplicationUser()
+                                CreatedBy = new ApplicationUser
                                 {
                                     Id = rdr.GetInt32(ColumnsBusinessRiskGetAll.CreatedBy),
                                     UserName = rdr.GetString(ColumnsBusinessRiskGetAll.CreatedByName)
                                 },
                                 ModifiedOn = rdr.GetDateTime(ColumnsBusinessRiskGetAll.ModifiedOn),
-                                ModifiedBy = new ApplicationUser()
+                                ModifiedBy = new ApplicationUser
                                 {
                                     Id = rdr.GetInt32(ColumnsBusinessRiskGetAll.ModifiedBy),
                                     UserName = rdr.GetString(ColumnsBusinessRiskGetAll.ModifiedByName)
                                 },
                                 Code = rdr.GetInt64(ColumnsBusinessRiskGetAll.Code),
-                                Rules = new Rules()
+                                Rules = new Rules
                                 {
                                     Id = rdr.GetInt64(ColumnsBusinessRiskGetAll.RuleId),
                                     Description = rdr.GetString(ColumnsBusinessRiskGetAll.RuleDescription),
@@ -617,7 +614,7 @@ namespace GisoFramework.Item
         /// <returns>ReadOnlyCollection of BusinessRisk items</returns>
         public static ReadOnlyCollection<IncidentAction> GetHistoryAction(long code, int companyId)
         {
-            List<IncidentAction> res = new List<IncidentAction>();
+            var res = new List<IncidentAction>();
             string query = "IncidentAction_GetByBusinessRiskCode";
             using (SqlCommand cmd = new SqlCommand(query))
             {
@@ -633,7 +630,7 @@ namespace GisoFramework.Item
                     {
                         while (rdr.Read())
                         {
-                            IncidentAction newAction = new IncidentAction()
+                            var newAction = new IncidentAction
                             {
                                 Id = rdr.GetInt64(0),
                                 Description = rdr.GetString(1),
@@ -671,60 +668,62 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<IncidentAction>(res);
         }
 
-        /// <summary>
-        /// Return an historical list of a businessRisk
-        /// </summary>
+        /// <summary>Return an historical list of a businessRisk</summary>
         /// <param name="code">Code identifier of the BusinessRisk</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>ReadOnlyCollection of BusinessRisk items</returns>
         public static ReadOnlyCollection<BusinessRisk> GetByHistory(long code, int companyId)
         {
-            List<BusinessRisk> res = new List<BusinessRisk>();
+            var res = new List<BusinessRisk>();
             string query = "BusinessRisk_GetHistory";
-            using (SqlCommand cmd = new SqlCommand(query))
+            using (var cmd = new SqlCommand(query))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.Parameters.Add(DataParameter.Input("@Code", code));
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
-                    {
-                        while (rdr.Read())
-                        {
-                            BusinessRisk newRisk = new BusinessRisk()
-                            {
-                                Id = rdr.GetInt64(1),
-                                DateStart = rdr.GetDateTime(3),
-                                StartResult = rdr.GetInt32(5),
-                                StartAction = rdr.GetInt32(6)
-                            };
-                            //// Field can be Null in Database (no link to a previous BusinessRisk)
-                            if (!rdr.IsDBNull(2))
-                            {
-                                newRisk.PreviousBusinessRiskId = rdr.GetInt64(2);
-                            }
-                            else
-                            {
-                                //// The previous BusinessRisk does not exist
-                                newRisk.PreviousBusinessRiskId = -1;
-                            }
+                    cmd.Connection = cnn;
+                    cmd.Parameters.Add(DataParameter.Input("@Code", code));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
 
-                            res.Add(newRisk);
+                    try
+                    {
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                var newRisk = new BusinessRisk
+                                {
+                                    Id = rdr.GetInt64(1),
+                                    DateStart = rdr.GetDateTime(3),
+                                    StartResult = rdr.GetInt32(5),
+                                    StartAction = rdr.GetInt32(6)
+                                };
+
+                                //// Field can be Null in Database (no link to a previous BusinessRisk)
+                                if (!rdr.IsDBNull(2))
+                                {
+                                    newRisk.PreviousBusinessRiskId = rdr.GetInt64(2);
+                                }
+                                else
+                                {
+                                    //// The previous BusinessRisk does not exist
+                                    newRisk.PreviousBusinessRiskId = -1;
+                                }
+
+                                res.Add(newRisk);
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    catch (Exception ex)
                     {
-                        cmd.Connection.Close();
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -732,111 +731,112 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<BusinessRisk>(res);
         }
 
-        /// <summary>
-        /// Gets a BusinessRisk object from database
-        /// </summary>
+        /// <summary>Gets a BusinessRisk object from database</summary>
         /// <param name="companyId">Company identifier</param>
         /// <param name="id">BusinessRisk identifier</param>
         /// <returns>BusinessRisk object</returns>
         public static BusinessRisk GetById(int companyId, long id)
         {
-            BusinessRisk res = BusinessRisk.Empty;
+            var res = BusinessRisk.Empty;
             string query = "BusinessRisk_GetById";
-            using (SqlCommand cmd = new SqlCommand(query))
+            using (var cmd = new SqlCommand(query))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                cmd.Parameters.Add(DataParameter.Input("@Id", id));
-
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Parameters.Add(DataParameter.Input("@Id", id));
+
+                    try
                     {
-                        if (rdr.HasRows)
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            rdr.Read();
-                            res = new BusinessRisk()
+                            if (rdr.HasRows)
                             {
-                                Id = rdr.GetInt64(ColumnsBusinessRiskGetAll.Id),
-                                Description = rdr.GetString(ColumnsBusinessRiskGetAll.Description),
-                                Notes = rdr.GetString(ColumnsBusinessRiskGetAll.Notes),
-                                CompanyId = companyId,
-                                CreatedOn = rdr.GetDateTime(ColumnsBusinessRiskGetAll.CreatedOn),
-                                CreatedBy = new ApplicationUser()
+                                rdr.Read();
+                                res = new BusinessRisk
                                 {
-                                    Id = rdr.GetInt32(ColumnsBusinessRiskGetAll.CreatedBy),
-                                    UserName = rdr.GetString(ColumnsBusinessRiskGetAll.CreatedByName)
-                                },
-                                ModifiedOn = rdr.GetDateTime(ColumnsBusinessRiskGetAll.ModifiedOn),
-                                ModifiedBy = new ApplicationUser()
+                                    Id = rdr.GetInt64(ColumnsBusinessRiskGetAll.Id),
+                                    Description = rdr.GetString(ColumnsBusinessRiskGetAll.Description),
+                                    Notes = rdr.GetString(ColumnsBusinessRiskGetAll.Notes),
+                                    CompanyId = companyId,
+                                    CreatedOn = rdr.GetDateTime(ColumnsBusinessRiskGetAll.CreatedOn),
+                                    CreatedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsBusinessRiskGetAll.CreatedBy),
+                                        UserName = rdr.GetString(ColumnsBusinessRiskGetAll.CreatedByName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsBusinessRiskGetAll.ModifiedOn),
+                                    ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsBusinessRiskGetAll.ModifiedBy),
+                                        UserName = rdr.GetString(ColumnsBusinessRiskGetAll.ModifiedByName)
+                                    },
+                                    Code = rdr.GetInt64(ColumnsBusinessRiskGetAll.Code),
+                                    Rules = new Rules()
+                                    {
+                                        Id = rdr.GetInt64(ColumnsBusinessRiskGetAll.RuleId),
+                                        Description = rdr.GetString(ColumnsBusinessRiskGetAll.RuleDescription),
+                                        Limit = rdr.GetInt64(ColumnsBusinessRiskGetAll.RuleRangeId)
+                                    },
+                                    ItemDescription = rdr.GetString(ColumnsBusinessRiskGetAll.ItemDescription),
+                                    StartControl = rdr.GetString(ColumnsBusinessRiskGetAll.StartControl)
+                                };
+
+                                res.Active = rdr.GetBoolean(ColumnsBusinessRiskGetAll.Active);
+                                //res.InitialValue = rdr.GetInt32(ColumnsBusinessRiskGetAll.InitialValue);
+                                res.DateStart = rdr.GetDateTime(ColumnsBusinessRiskGetAll.DateStart);
+                                res.ProcessId = rdr.GetInt64(ColumnsBusinessRiskGetAll.ProcessId);
+                                res.Assumed = rdr.GetBoolean(ColumnsBusinessRiskGetAll.Assumed);
+
+                                res.StartAction = rdr.GetInt32(ColumnsBusinessRiskGetAll.StartAction);
+                                res.StartProbability = rdr.GetInt32(ColumnsBusinessRiskGetAll.ProbabilityId);
+                                res.StartSeverity = rdr.GetInt32(ColumnsBusinessRiskGetAll.Severity);
+                                res.StartResult = rdr.GetInt32(ColumnsBusinessRiskGetAll.StartResult);
+
+                                res.FinalProbability = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalProbability);
+                                res.FinalSeverity = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalSeverity);
+                                res.FinalResult = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalResult);
+                                res.FinalAction = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalAction);
+
+                                if (!rdr.IsDBNull(ColumnsBusinessRiskGetAll.FinalDate))
                                 {
-                                    Id = rdr.GetInt32(ColumnsBusinessRiskGetAll.ModifiedBy),
-                                    UserName = rdr.GetString(ColumnsBusinessRiskGetAll.ModifiedByName)
-                                },
-                                Code = rdr.GetInt64(ColumnsBusinessRiskGetAll.Code),
-                                Rules = new Rules()
+                                    res.FinalDate = rdr.GetDateTime(ColumnsBusinessRiskGetAll.FinalDate);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsBusinessRiskGetAll.Causes))
                                 {
-                                    Id = rdr.GetInt64(ColumnsBusinessRiskGetAll.RuleId),
-                                    Description = rdr.GetString(ColumnsBusinessRiskGetAll.RuleDescription),
-                                    Limit = rdr.GetInt64(ColumnsBusinessRiskGetAll.RuleRangeId)
-                                },
-                                ItemDescription = rdr.GetString(ColumnsBusinessRiskGetAll.ItemDescription),
-                                StartControl = rdr.GetString(ColumnsBusinessRiskGetAll.StartControl)
-                            };
+                                    res.Causes = rdr.GetString(ColumnsBusinessRiskGetAll.Causes);
+                                }
 
-                            res.Active = rdr.GetBoolean(ColumnsBusinessRiskGetAll.Active);
-                            //res.InitialValue = rdr.GetInt32(ColumnsBusinessRiskGetAll.InitialValue);
-                            res.DateStart = rdr.GetDateTime(ColumnsBusinessRiskGetAll.DateStart);
-                            res.ProcessId = rdr.GetInt64(ColumnsBusinessRiskGetAll.ProcessId);
-                            res.Assumed = rdr.GetBoolean(ColumnsBusinessRiskGetAll.Assumed);
+                                //// Field can be Null in Database (no link to a previous BusinessRisk)
+                                if (!rdr.IsDBNull(ColumnsBusinessRiskGetAll.PreviousBusinessRiskId))
+                                {
+                                    res.PreviousBusinessRiskId = rdr.GetInt64(ColumnsBusinessRiskGetAll.PreviousBusinessRiskId);
+                                }
+                                else
+                                {
+                                    //// The previous BusinessRisk does not exist
+                                    res.PreviousBusinessRiskId = -1;
+                                }
 
-                            res.StartAction = rdr.GetInt32(ColumnsBusinessRiskGetAll.StartAction);
-                            res.StartProbability = rdr.GetInt32(ColumnsBusinessRiskGetAll.ProbabilityId);
-                            res.StartSeverity = rdr.GetInt32(ColumnsBusinessRiskGetAll.Severity);
-                            res.StartResult = rdr.GetInt32(ColumnsBusinessRiskGetAll.StartResult);
-
-                            res.FinalProbability = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalProbability);
-                            res.FinalSeverity = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalSeverity);
-                            res.FinalResult = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalResult);
-                            res.FinalAction = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalAction);
-
-                            if (!rdr.IsDBNull(ColumnsBusinessRiskGetAll.FinalDate))
-                            {
-                                res.FinalDate = rdr.GetDateTime(ColumnsBusinessRiskGetAll.FinalDate);
+                                res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
                             }
-
-                            if (!rdr.IsDBNull(ColumnsBusinessRiskGetAll.Causes))
-                            {
-                                res.Causes = rdr.GetString(ColumnsBusinessRiskGetAll.Causes);
-                            }
-
-                            //// Field can be Null in Database (no link to a previous BusinessRisk)
-                            if (!rdr.IsDBNull(ColumnsBusinessRiskGetAll.PreviousBusinessRiskId))
-                            {
-                                res.PreviousBusinessRiskId = rdr.GetInt64(ColumnsBusinessRiskGetAll.PreviousBusinessRiskId);
-                            }
-                            else
-                            {
-                                //// The previous BusinessRisk does not exist
-                                res.PreviousBusinessRiskId = -1;
-                            }
-
-                            res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
                         }
-                    }
 
-                    res.Process = new Process(res.ProcessId, companyId);
-                }
-                catch (Exception ex)
-                {
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                        res.Process = new Process(res.ProcessId, companyId);
+                    }
+                    catch (Exception ex)
                     {
-                        cmd.Connection.Close();
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -844,9 +844,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Gets a descriptive string with the differences between two BusinessRisks
-        /// </summary>
+        /// <summary>Gets a descriptive string with the differences between two BusinessRisks</summary>
         /// <param name="businessRisk1">First BusinessRisks to compare</param>
         /// <param name="businessRisk2">Second BusinessRisks to compare</param>
         /// <returns>A descriptive string</returns>
@@ -857,7 +855,7 @@ namespace GisoFramework.Item
                 return string.Empty;
             }
 
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             bool first = true;
             if (businessRisk1.Description != businessRisk2.Description)
             {
@@ -1009,9 +1007,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Delete a BusinessRisk in database
-        /// </summary>
+        /// <summary>Delete a BusinessRisk in database</summary>
         /// <param name="businessRiskId">Business Risk identifier</param>
         /// <param name="reason">Reason for delete</param>
         /// <param name="companyId">Company identifier</param>
@@ -1019,30 +1015,32 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult Delete(long businessRiskId, string reason, int companyId, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("BusinessRisk_Delete"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("BusinessRisk_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", businessRiskId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Reason", reason, 200));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", businessRiskId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Reason", reason, 200));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1050,9 +1048,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Activate a BusinessRisk in database
-        /// </summary>
+        /// <summary>Activate a BusinessRisk in database</summary>
         /// <param name="businessRiskId">Business Risk identifier</param>
         /// <param name="reason">Reason for activation</param>
         /// <param name="companyId">Company identifier</param>
@@ -1060,30 +1056,33 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult Activate(long businessRiskId, string reason, int companyId, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("BusinessRisk_Activate"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("BusinessRisk_Activate"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", businessRiskId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Reason", reason, 200));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", businessRiskId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Reason", reason, 200));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1091,9 +1090,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Update a BusinessRisk in database
-        /// </summary>
+        /// <summary>Update a BusinessRisk in database</summary>
         /// <param name="userId">User identifier</param>
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
@@ -1121,59 +1118,62 @@ namespace GisoFramework.Item
              *   @FinalAction int,
              *   @FinalDate datetime,
              *   @UserId int */
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("BusinessRisk_Update"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("BusinessRisk_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@Id", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                    cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
-                    cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rules.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Parameters.Add(DataParameter.Input("@InitialValue", this.InitialValue));
-                    cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, 2000));
-
-                    cmd.Parameters.Add(DataParameter.Input("@StartProbability", this.StartProbability));
-                    cmd.Parameters.Add(DataParameter.Input("@StartSeverity", this.StartSeverity));
-                    cmd.Parameters.Add(DataParameter.Input("@startResult", this.StartResult));
-                    cmd.Parameters.Add(DataParameter.Input("@StartAction", this.StartAction));
-                    cmd.Parameters.Add(DataParameter.Input("@DateStart", this.DateStart));
-
-                    cmd.Parameters.Add(DataParameter.Input("@FinalProbability", this.FinalProbability));
-                    cmd.Parameters.Add(DataParameter.Input("@FinalSeverity", this.FinalSeverity));
-                    cmd.Parameters.Add(DataParameter.Input("@FinalResult", this.FinalResult));
-                    cmd.Parameters.Add(DataParameter.Input("@FinalAction", this.FinalAction));
-                    cmd.Parameters.Add(DataParameter.Input("@FinalDate", this.FinalDate));
-                    cmd.Parameters.Add(DataParameter.Input("@Assumed", this.Assumed));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess(cmd.Parameters["@Id"].Value.ToString());
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@Id", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
+                        cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rules.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@InitialValue", this.InitialValue));
+                        cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, 2000));
+
+                        cmd.Parameters.Add(DataParameter.Input("@StartProbability", this.StartProbability));
+                        cmd.Parameters.Add(DataParameter.Input("@StartSeverity", this.StartSeverity));
+                        cmd.Parameters.Add(DataParameter.Input("@startResult", this.StartResult));
+                        cmd.Parameters.Add(DataParameter.Input("@StartAction", this.StartAction));
+                        cmd.Parameters.Add(DataParameter.Input("@DateStart", this.DateStart));
+
+                        cmd.Parameters.Add(DataParameter.Input("@FinalProbability", this.FinalProbability));
+                        cmd.Parameters.Add(DataParameter.Input("@FinalSeverity", this.FinalSeverity));
+                        cmd.Parameters.Add(DataParameter.Input("@FinalResult", this.FinalResult));
+                        cmd.Parameters.Add(DataParameter.Input("@FinalAction", this.FinalAction));
+                        cmd.Parameters.Add(DataParameter.Input("@FinalDate", this.FinalDate));
+                        cmd.Parameters.Add(DataParameter.Input("@Assumed", this.Assumed));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess(cmd.Parameters["@Id"].Value.ToString());
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1181,9 +1181,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Insert a BusinessRisk in database
-        /// </summary>
+        /// <summary>Insert a BusinessRisk in database</summary>
         /// <param name="userId">User identifier</param>
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
@@ -1206,69 +1204,72 @@ namespace GisoFramework.Item
              *   @StartAction bit,
              *   @UserId int,
              *   @DateStart datetime */
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("BusinessRisk_Insert"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("BusinessRisk_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    long auxiliarInitialValue = this.InitialValue;
-                    if (this.PreviousBusinessRiskId > 0)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        auxiliarInitialValue = this.Result;
+                        long auxiliarInitialValue = this.InitialValue;
+                        if (this.PreviousBusinessRiskId > 0)
+                        {
+                            auxiliarInitialValue = this.Result;
+                        }
+
+                        cmd.Parameters.Add(DataParameter.OutputLong("@Id"));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", Tools.LimitedText(this.Description, 100)));
+                        cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
+                        cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rules.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@PreviousBusinessRiskId", this.PreviousBusinessRiskId));
+                        cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, 2000));
+                        //cmd.Parameters.Add(DataParameter.Input("@InitialValue", auxiliarInitialValue));
+
+                        cmd.Parameters.Add(DataParameter.Input("@StartProbability", this.StartProbability));
+                        cmd.Parameters.Add(DataParameter.Input("@StartSeverity", this.StartSeverity));
+                        cmd.Parameters.Add(DataParameter.Input("@StartResult", this.StartResult));
+                        cmd.Parameters.Add(DataParameter.Input("@StartAction", this.StartAction));
+                        cmd.Parameters.Add(DataParameter.Input("@DateStart", this.DateStart));
+                        cmd.Parameters.Add(DataParameter.Input("@Assumed", this.Assumed));
+
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+
+
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess(cmd.Parameters["@Id"].Value.ToString());
+                        this.Id = Convert.ToInt64(cmd.Parameters["@Id"].Value.ToString(), CultureInfo.GetCultureInfo("en-us"));
+
+                        if (this.PreviousBusinessRiskId > 0)
+                        {
+                            BusinessRisk.Delete(this.PreviousBusinessRiskId, string.Empty, this.CompanyId, userId);
+                        }
                     }
-
-                    cmd.Parameters.Add(DataParameter.OutputLong("@Id"));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", Tools.LimitedText(this.Description, 100)));
-                    cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
-                    cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rules.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@PreviousBusinessRiskId", this.PreviousBusinessRiskId));
-                    cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, 2000));
-                    //cmd.Parameters.Add(DataParameter.Input("@InitialValue", auxiliarInitialValue));
-
-                    cmd.Parameters.Add(DataParameter.Input("@StartProbability", this.StartProbability));
-                    cmd.Parameters.Add(DataParameter.Input("@StartSeverity", this.StartSeverity));
-                    cmd.Parameters.Add(DataParameter.Input("@StartResult", this.StartResult));
-                    cmd.Parameters.Add(DataParameter.Input("@StartAction", this.StartAction));
-                    cmd.Parameters.Add(DataParameter.Input("@DateStart", this.DateStart));
-                    cmd.Parameters.Add(DataParameter.Input("@Assumed", this.Assumed));
-
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-
-
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess(cmd.Parameters["@Id"].Value.ToString());
-                    this.Id = Convert.ToInt64(cmd.Parameters["@Id"].Value.ToString(), CultureInfo.GetCultureInfo("en-us"));
-
-                    if (this.PreviousBusinessRiskId > 0)
+                    catch (SqlException ex)
                     {
-                        BusinessRisk.Delete(this.PreviousBusinessRiskId, string.Empty, this.CompanyId, userId);
+                        res.SetFail(ex);
                     }
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    catch (FormatException ex)
                     {
-                        cmd.Connection.Close();
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1276,9 +1277,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// HTML Table containing fields to be showed
-        /// </summary>
+        /// <summary>HTML Table containing fields to be showed</summary>
         /// <param name="dictionary">Dictionary containing terms to be showed</param>
         /// <param name="grants">Gets the grants of the user</param>
         /// <returns>String containing HTML table</returns>
@@ -1328,8 +1327,8 @@ namespace GisoFramework.Item
         /// <returns>String containing a Json</returns>
         public static string FilterList(int companyId, DateTime? from, DateTime? to, long rulesId, long processId, int type)
         {
-            ReadOnlyCollection<BusinessRiskFilterItem> items = Filter(companyId, from, to, rulesId, processId, type);
-            StringBuilder res = new StringBuilder("[");
+            var items = Filter(companyId, from, to, rulesId, processId, type);
+            var res = new StringBuilder("[");
             bool first = true;
             foreach (BusinessRiskFilterItem item in items)
             {
@@ -1371,17 +1370,17 @@ namespace GisoFramework.Item
         /// <param name="type">Type to filter</param>
         public static ReadOnlyCollection<BusinessRiskFilterItem> NewFilter(int companyId, DateTime? from, DateTime? to, long rulesId, long processId, int type)
         {
-            List<BusinessRiskFilterItem> res = new List<BusinessRiskFilterItem>();
-            List<BusinessRisk> risks = BusinessRisk.GetActive(companyId).ToList();
+            var res = new List<BusinessRiskFilterItem>();
+            var risks = BusinessRisk.GetActive(companyId).ToList();
 
             if (from.HasValue)
             {
-                risks = risks.Where(r => r.DateStart >= from.Value).ToList();
+                risks = risks.Where(r => r.DateStart >= from).ToList();
             }
 
             if (to.HasValue)
             {
-                risks = risks.Where(r => r.FinalDate >= to.Value).ToList();
+                risks = risks.Where(r => r.FinalDate >= to).ToList();
             }
 
             if (rulesId > 0)
@@ -1396,7 +1395,7 @@ namespace GisoFramework.Item
 
             if (type == 1)
             {
-                risks = risks.Where(r => r.Assumed == true).ToList();
+                risks = risks.Where(r => r.Assumed).ToList();
             }
 
             return new ReadOnlyCollection<BusinessRiskFilterItem>(res);
@@ -1411,97 +1410,102 @@ namespace GisoFramework.Item
              *   @RulesId bigint,
              *   @ProcessId bigint,
              *   @Type int */
-            List<BusinessRiskFilterItem> res = new List<BusinessRiskFilterItem>();
-            using (SqlCommand cmd = new SqlCommand("BusinessRisk_Filter"))
+            var res = new List<BusinessRiskFilterItem>();
+            using (var cmd = new SqlCommand("BusinessRisk_Filter"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@DateFrom", from));
-                    cmd.Parameters.Add(DataParameter.Input("@DateTo", to));
-                    if (rulesId == 0)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        cmd.Parameters.Add(DataParameter.InputNull("@RulesId"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@RulesId", rulesId));
-                    }
-
-                    if (processId == 0)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@ProcessId"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@ProcessId", processId));
-                    }
-
-                    if (type == 0)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@Type"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@Type", type));
-                    }
-
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        BusinessRiskFilterItem item = new BusinessRiskFilterItem()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@DateFrom", from));
+                        cmd.Parameters.Add(DataParameter.Input("@DateTo", to));
+                        if (rulesId == 0)
                         {
-                            Id = rdr.GetInt64(ColumnsBusinessRiskFilterGet.BusinessRiskId),
-                            Description = rdr.GetString(ColumnsBusinessRiskFilterGet.Description),
-                            Code = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}", rdr.GetInt64(ColumnsBusinessRiskFilterGet.Code)),
-                            InitialResult = rdr.GetInt32(ColumnsBusinessRiskFilterGet.StartResult),
-                            FinalResult = rdr.GetInt32(ColumnsBusinessRiskFilterGet.FinalResult),
-                            StartAction = rdr.GetInt32(ColumnsBusinessRiskFilterGet.StartAction),
-                            FinalAction = rdr.GetInt32(ColumnsBusinessRiskFilterGet.FinalAction),
-                            Assumed = rdr.GetBoolean(ColumnsBusinessRiskFilterGet.Assumed),
-                            Status = rdr.GetInt32(ColumnsBusinessRiskFilterGet.Status)
-                        };
-
-                        if (!rdr.IsDBNull(ColumnsBusinessRiskFilterGet.RuleId))
+                            cmd.Parameters.Add(DataParameter.InputNull("@RulesId"));
+                        }
+                        else
                         {
-                            item.Rule = new Rules()
+                            cmd.Parameters.Add(DataParameter.Input("@RulesId", rulesId));
+                        }
+
+                        if (processId == 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@ProcessId"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@ProcessId", processId));
+                        }
+
+                        if (type == 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@Type"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@Type", type));
+                        }
+
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt64(ColumnsBusinessRiskFilterGet.RuleId),
-                                Description = rdr.GetString(ColumnsBusinessRiskFilterGet.RuleDescription),
-                                Limit = rdr.GetInt64(ColumnsBusinessRiskFilterGet.Limit)
-                            };
-                        }
+                                var item = new BusinessRiskFilterItem
+                                {
+                                    Id = rdr.GetInt64(ColumnsBusinessRiskFilterGet.BusinessRiskId),
+                                    Description = rdr.GetString(ColumnsBusinessRiskFilterGet.Description),
+                                    Code = string.Format(CultureInfo.InvariantCulture, "{0}", rdr.GetInt64(ColumnsBusinessRiskFilterGet.Code)),
+                                    InitialResult = rdr.GetInt32(ColumnsBusinessRiskFilterGet.StartResult),
+                                    FinalResult = rdr.GetInt32(ColumnsBusinessRiskFilterGet.FinalResult),
+                                    StartAction = rdr.GetInt32(ColumnsBusinessRiskFilterGet.StartAction),
+                                    FinalAction = rdr.GetInt32(ColumnsBusinessRiskFilterGet.FinalAction),
+                                    Assumed = rdr.GetBoolean(ColumnsBusinessRiskFilterGet.Assumed),
+                                    Status = rdr.GetInt32(ColumnsBusinessRiskFilterGet.Status)
+                                };
 
-                        if (!rdr.IsDBNull(ColumnsBusinessRiskFilterGet.ProcessId))
-                        {
-                            item.Process = new Process()
-                            {
-                                Id = rdr.GetInt64(ColumnsBusinessRiskFilterGet.ProcessId),
-                                Description = rdr.GetString(ColumnsBusinessRiskFilterGet.ProcessDescription)
-                            };
-                        }
+                                if (!rdr.IsDBNull(ColumnsBusinessRiskFilterGet.RuleId))
+                                {
+                                    item.Rule = new Rules
+                                    {
+                                        Id = rdr.GetInt64(ColumnsBusinessRiskFilterGet.RuleId),
+                                        Description = rdr.GetString(ColumnsBusinessRiskFilterGet.RuleDescription),
+                                        Limit = rdr.GetInt64(ColumnsBusinessRiskFilterGet.Limit)
+                                    };
+                                }
 
-                        if (!rdr.IsDBNull(ColumnsBusinessRiskFilterGet.OpenDate))
-                        {
-                            item.OpenDate = rdr.GetDateTime(ColumnsBusinessRiskFilterGet.OpenDate);
-                        }
+                                if (!rdr.IsDBNull(ColumnsBusinessRiskFilterGet.ProcessId))
+                                {
+                                    item.Process = new Process
+                                    {
+                                        Id = rdr.GetInt64(ColumnsBusinessRiskFilterGet.ProcessId),
+                                        Description = rdr.GetString(ColumnsBusinessRiskFilterGet.ProcessDescription)
+                                    };
+                                }
 
-                        if (!rdr.IsDBNull(ColumnsBusinessRiskFilterGet.CloseDate))
-                        {
-                            item.CloseDate = rdr.GetDateTime(ColumnsBusinessRiskFilterGet.CloseDate);
-                        }
+                                if (!rdr.IsDBNull(ColumnsBusinessRiskFilterGet.OpenDate))
+                                {
+                                    item.OpenDate = rdr.GetDateTime(ColumnsBusinessRiskFilterGet.OpenDate);
+                                }
 
-                        res.Add(item);
+                                if (!rdr.IsDBNull(ColumnsBusinessRiskFilterGet.CloseDate))
+                                {
+                                    item.CloseDate = rdr.GetDateTime(ColumnsBusinessRiskFilterGet.CloseDate);
+                                }
+
+                                res.Add(item);
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

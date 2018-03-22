@@ -738,6 +738,7 @@ namespace GisoFramework.Item
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
