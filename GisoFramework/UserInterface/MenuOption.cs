@@ -19,19 +19,13 @@ namespace GisoFramework.UserInterface
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements MenuOption class
-    /// </summary>
+    /// <summary>Implements MenuOption class</summary>
     public class MenuOption
     {
-        /// <summary>
-        /// Menu options
-        /// </summary>
+        /// <summary>Menu options</summary>
         private List<ApplicationItem> children;
 
-        /// <summary>
-        /// Gets or sets the option's item
-        /// </summary>
+        /// <summary>Gets or sets the option's item</summary>
         public ApplicationItem Item { get; set; }
 
         /// <summary>Gets option children</summary>
@@ -58,9 +52,7 @@ namespace GisoFramework.UserInterface
             this.children.Add(item);
         }
  
-        /// <summary>
-        /// Render the HTML code for an menu option
-        /// </summary>
+        /// <summary>Render the HTML code for an menu option</summary>
         /// <param name="options">Menu options</param>
         /// <returns>HTML code for an menu option</returns>
         public static string RenderMenu(ReadOnlyCollection<MenuOption> options)
@@ -70,8 +62,8 @@ namespace GisoFramework.UserInterface
                 return string.Empty;
             }
 
-            StringBuilder res = new StringBuilder();
-            foreach (MenuOption option in options)
+            var res = new StringBuilder();
+            foreach (var option in options)
             {
                 res.Append(option.Render());
             }
@@ -79,52 +71,88 @@ namespace GisoFramework.UserInterface
             return res.ToString();
         }
 
-        /// <summary>
-        /// Creates the menu structure for an user
-        /// </summary>
-        /// <param name="applicationUserId">User identifier</param>
+        /// <summary>Creates the menu structure for an user</summary>
+        /// <param name="applicationUserId">User identifier</param>+
+        /// <param name="admin">Indicates if user is administrator</param>
         /// <returns>Menu structure for an user</returns>
         public static ReadOnlyCollection<MenuOption> GetMenu(int applicationUserId, bool admin)
         {
-            List<MenuOption> res = new List<MenuOption>();
+            var res = new List<MenuOption>();
 
             /* ALTER PROCEDURE Application_GetMenu
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Application_GetMenu"))
+            using (var cmd = new SqlCommand("Application_GetMenu"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
-                    {
-                        ApplicationItem item = new ApplicationItem()
-                        {
-                            Id = rdr.GetInt32(ColumnsApplicationGetMenu.ItemId),
-                            Icon = rdr.GetString(ColumnsApplicationGetMenu.Icon),
-                            Description = rdr.GetString(ColumnsApplicationGetMenu.Description),
-                            Parent = rdr.GetInt32(ColumnsApplicationGetMenu.Parent),
-                            Container = rdr.GetBoolean(ColumnsApplicationGetMenu.Container)
-                        };
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
 
-                        if (!item.Container)
+                    try
+                    {
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            item.UserGrant = new UserGrant()
+                            while (rdr.Read())
                             {
-                                Item = ApplicationGrant.FromInteger(rdr.GetInt32(ColumnsApplicationGetMenu.ItemId)),
-                                UserId = applicationUserId,
-                                GrantToRead = rdr.GetInt32(ColumnsApplicationGetMenu.GrantToRead) == 1,
-                                GrantToWrite = rdr.GetInt32(ColumnsApplicationGetMenu.GrantToWrite) == 1,
-                                GrantToDelete = rdr.GetInt32(ColumnsApplicationGetMenu.GrantToDelete) == 1
-                            };
+                                var item = new ApplicationItem()
+                                {
+                                    Id = rdr.GetInt32(ColumnsApplicationGetMenu.ItemId),
+                                    Icon = rdr.GetString(ColumnsApplicationGetMenu.Icon),
+                                    Description = rdr.GetString(ColumnsApplicationGetMenu.Description),
+                                    Parent = rdr.GetInt32(ColumnsApplicationGetMenu.Parent),
+                                    Container = rdr.GetBoolean(ColumnsApplicationGetMenu.Container)
+                                };
+
+                                if (!item.Container)
+                                {
+                                    item.UserGrant = new UserGrant()
+                                    {
+                                        Item = ApplicationGrant.FromInteger(rdr.GetInt32(ColumnsApplicationGetMenu.ItemId)),
+                                        UserId = applicationUserId,
+                                        GrantToRead = rdr.GetInt32(ColumnsApplicationGetMenu.GrantToRead) == 1,
+                                        GrantToWrite = rdr.GetInt32(ColumnsApplicationGetMenu.GrantToWrite) == 1,
+                                        GrantToDelete = rdr.GetInt32(ColumnsApplicationGetMenu.GrantToDelete) == 1
+                                    };
+                                }
+
+                                string url = rdr.GetString(ColumnsApplicationGetMenu.Url);
+                                if (!string.IsNullOrEmpty(url))
+                                {
+                                    string temp = HttpContext.Current.Request.Url.AbsoluteUri.Replace(HttpContext.Current.Request.Url.AbsolutePath, string.Empty);
+                                    if (!temp.EndsWith("/", StringComparison.Ordinal))
+                                    {
+                                        temp += "/";
+                                    }
+
+                                    item.Url = new Uri(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}{1}", temp, url));
+                                }
+
+                                var option = new MenuOption()
+                                {
+                                    Item = item,
+                                    children = new List<ApplicationItem>()
+                                };
+
+                                if (item.Parent == 0)
+                                {
+                                    res.Add(option);
+                                }
+                                else
+                                {
+                                    foreach (MenuOption options in res)
+                                    {
+                                        if (options.Item.Id == item.Parent)
+                                        {
+                                            options.children.Add(item);
+                                        }
+                                    }
+                                }
+                            }
                         }
 
-                        string url = rdr.GetString(ColumnsApplicationGetMenu.Url);
-                        if (!string.IsNullOrEmpty(url))
+                        if (admin)
                         {
                             string temp = HttpContext.Current.Request.Url.AbsoluteUri.Replace(HttpContext.Current.Request.Url.AbsolutePath, string.Empty);
                             if (!temp.EndsWith("/", StringComparison.Ordinal))
@@ -132,69 +160,34 @@ namespace GisoFramework.UserInterface
                                 temp += "/";
                             }
 
-                            item.Url = new Uri(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}{1}", temp, url));
-                        }
-
-                        MenuOption option = new MenuOption()
-                        {
-                            Item = item
-                        };
-
-                        option.children = new List<ApplicationItem>();
-
-                        if (item.Parent == 0)
-                        {
-                            res.Add(option);
-                        }
-                        else
-                        {
-                            foreach (MenuOption options in res)
+                            var config = res.First(o => o.Item.Description == "Common_Configuration");
+                            config.AddChild(new ApplicationItem()
                             {
-                                if (options.Item.Id == item.Parent)
-                                {
-                                    options.children.Add(item);
-                                }
-                            }
+                                Id = 0,
+                                Description = "Item_Backup",
+                                Icon = "icon-gear",
+                                Container = false,
+                                Parent = 0,
+                                Url = new Uri(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}BackUp.aspx", temp))
+                            });
                         }
                     }
-
-                    if (admin)
+                    finally
                     {
-                        string temp = HttpContext.Current.Request.Url.AbsoluteUri.Replace(HttpContext.Current.Request.Url.AbsolutePath, string.Empty);
-                        if (!temp.EndsWith("/", StringComparison.Ordinal))
+                        if (cmd.Connection.State != ConnectionState.Closed)
                         {
-                            temp += "/";
+                            cmd.Connection.Close();
                         }
 
-                        MenuOption config = res.Where(o => o.Item.Description == "Common_Configuration").First();
-                        config.AddChild(new ApplicationItem()
-                        {
-                            Id = 0,
-                            Description = "Item_Backup",
-                            Icon = "icon-gear",
-                            Container = false,
-                            Parent = 0,
-                            Url = new Uri(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}BackUp.aspx", temp))
-                        });
+                        cmd.Connection.Dispose();
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
-                    {
-                        cmd.Connection.Close();
-                    }
-
-                    cmd.Connection.Dispose();
                 }
             }
 
             return new ReadOnlyCollection<MenuOption>(res);
         }
  
-        /// <summary>
-        /// Render the HTML code for a menu
-        /// </summary>
+        /// <summary>Render the HTML code for a menu</summary>
         /// <returns>HTML code for a menu</returns>
         public string Render()
         {
@@ -222,13 +215,13 @@ namespace GisoFramework.UserInterface
                 return string.Empty;
             }
 
-            Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-            ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
-            StringBuilder res = new StringBuilder();
+            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+            var user = HttpContext.Current.Session["User"] as ApplicationUser;
+            var res = new StringBuilder();
             bool selected = false;
             var actualUrl = HttpContext.Current.Request.Url.AbsoluteUri.ToUpperInvariant();
 
-            foreach (ApplicationItem option in this.Children)
+            foreach (var option in this.Children)
             {
                 res.Append(option.Render());
                 if (option.Url != null && !selected)
@@ -249,9 +242,9 @@ namespace GisoFramework.UserInterface
                         </li>";
 
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattern,
-                res.ToString(),
+                res,
                 dictionary[this.Item.Description],
                 selected ? " open" : string.Empty,
                 selected ? "block" : "none");
@@ -263,8 +256,7 @@ namespace GisoFramework.UserInterface
         /// <returns>HTML code for a menu</returns>
         public string RenderLevel0()
         {
-            Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-
+            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             var actualUrl = HttpContext.Current.Request.Url.AbsoluteUri;
             if (HttpContext.Current.Request.Url.LocalPath != "/")
             {

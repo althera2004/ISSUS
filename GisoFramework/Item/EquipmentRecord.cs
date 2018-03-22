@@ -17,9 +17,7 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements EquipmentRecord class
-    /// </summary>
+    /// <summary>Implements EquipmentRecord class</summary>
     public class EquipmentRecord
     {
         public DateTime Date { get; set; }
@@ -40,9 +38,9 @@ namespace GisoFramework.Item
         {
             get
             {
-                Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+                var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
                 string itemType = dictionary[this.Item + "-" + (this.RecordType == 0 ? "Int" : "Ext")];
-                StringBuilder res = new StringBuilder("{");
+                var res = new StringBuilder("{");
                 res.Append(Tools.JsonPair("Date", this.Date)).Append(",");
                 res.Append(Tools.JsonPair("Type", itemType)).Append(",");
                 res.Append(Tools.JsonPair("Operation", this.Operation)).Append(",");
@@ -54,10 +52,10 @@ namespace GisoFramework.Item
 
         public static string EquipmentRecordJsonList(long equipmentId, int companyId, bool calibrationInternal, bool calibrationExternal, bool verificationInternal, bool verificationExternal, bool maintenanceInternal, bool maintenanceExternal, bool repairInternal, bool repairExternal, DateTime? dateFrom, DateTime? dateTo)
         {
-            bool first = true;
-            ReadOnlyCollection<EquipmentRecord> records = GetFilter(equipmentId, companyId, calibrationInternal, calibrationExternal, verificationInternal, verificationExternal, maintenanceInternal, maintenanceExternal, repairInternal, repairExternal, dateFrom, dateTo);
-            StringBuilder res = new StringBuilder("[");
-            foreach (EquipmentRecord record in records)
+            var first = true;
+            var records = GetFilter(equipmentId, companyId, calibrationInternal, calibrationExternal, verificationInternal, verificationExternal, maintenanceInternal, maintenanceExternal, repairInternal, repairExternal, dateFrom, dateTo);
+            var res = new StringBuilder("[");
+            foreach (var record in records)
             {
                 if (first)
                 {
@@ -90,47 +88,49 @@ namespace GisoFramework.Item
              *   @RepairExt bit,
              *   @DateFrom datetime,
              *   @DateTo datetime */
-            List<EquipmentRecord> res = new List<EquipmentRecord>();
-            using (SqlCommand cmd = new SqlCommand("Equipment_GetRecords"))
+            var res = new List<EquipmentRecord>();
+            using (var cmd = new SqlCommand("Equipment_GetRecords"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@CalibrationInt", calibrationInternal));
-                    cmd.Parameters.Add(DataParameter.Input("@CalibrationExt", calibrationExternal));
-                    cmd.Parameters.Add(DataParameter.Input("@VerificationInt", verificationInternal));
-                    cmd.Parameters.Add(DataParameter.Input("@VerificationExt", verificationExternal));
-                    cmd.Parameters.Add(DataParameter.Input("@MaintenanceInt", maintenanceInternal));
-                    cmd.Parameters.Add(DataParameter.Input("@MaintenanceExt", maintenanceExternal));
-                    cmd.Parameters.Add(DataParameter.Input("@RepairInt", repairInternal));
-                    cmd.Parameters.Add(DataParameter.Input("@RepairExt", repairExternal));
-                    if (dateFrom.HasValue)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        cmd.Parameters.Add(DataParameter.Input("@DateFrom", dateFrom.Value));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@DateFrom"));
-                    }
-
-                    if (dateTo.HasValue)
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@DateTo", dateTo.Value));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@DateTo"));
-                    }
-
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
-                    {
-                        while (rdr.Read())
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@CalibrationInt", calibrationInternal));
+                        cmd.Parameters.Add(DataParameter.Input("@CalibrationExt", calibrationExternal));
+                        cmd.Parameters.Add(DataParameter.Input("@VerificationInt", verificationInternal));
+                        cmd.Parameters.Add(DataParameter.Input("@VerificationExt", verificationExternal));
+                        cmd.Parameters.Add(DataParameter.Input("@MaintenanceInt", maintenanceInternal));
+                        cmd.Parameters.Add(DataParameter.Input("@MaintenanceExt", maintenanceExternal));
+                        cmd.Parameters.Add(DataParameter.Input("@RepairInt", repairInternal));
+                        cmd.Parameters.Add(DataParameter.Input("@RepairExt", repairExternal));
+                        if (dateFrom.HasValue)
                         {
-                            EquipmentRecord record = new EquipmentRecord()
+                            cmd.Parameters.Add(DataParameter.Input("@DateFrom", dateFrom.Value));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@DateFrom"));
+                        }
+
+                        if (dateTo.HasValue)
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@DateTo", dateTo.Value));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@DateTo"));
+                        }
+
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                var record = new EquipmentRecord()
                                 {
                                     Date = rdr.GetDateTime(ColumnsEquipmentRecordGet.Date),
                                     Item = rdr.GetString(ColumnsEquipmentRecordGet.Item),
@@ -144,24 +144,25 @@ namespace GisoFramework.Item
                                     }
                                 };
 
-                            if (!rdr.IsDBNull(ColumnsEquipmentRecordGet.Cost))
-                            {
-                                record.Cost = rdr.GetDecimal(ColumnsEquipmentRecordGet.Cost);
-                            }
-                            else
-                            {
-                                record.Cost = null;
-                            }
+                                if (!rdr.IsDBNull(ColumnsEquipmentRecordGet.Cost))
+                                {
+                                    record.Cost = rdr.GetDecimal(ColumnsEquipmentRecordGet.Cost);
+                                }
+                                else
+                                {
+                                    record.Cost = null;
+                                }
 
-                            res.Add(record);
+                                res.Add(record);
+                            }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

@@ -25,6 +25,7 @@ namespace PDF_Tests
         DateTime PrintTime = DateTime.Now;
         #region Properties
         public string Title { get; set; }
+        public List<string> Titles;
         public string HeaderLeft { get; set; }
         public string HeaderRight { get; set; }
         public Font HeaderFont { get; set; }
@@ -47,8 +48,8 @@ namespace PDF_Tests
                 //cb = writer.DirectContent;
                 //template = cb.CreateTemplate(50, 50);
                 // ------------ FONTS 
-                string path = HttpContext.Current.Request.PhysicalApplicationPath;
-                string pathFonts = HttpContext.Current.Request.PhysicalApplicationPath;
+                var path = HttpContext.Current.Request.PhysicalApplicationPath;
+                var pathFonts = HttpContext.Current.Request.PhysicalApplicationPath;
                 if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
                 {
                     pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
@@ -71,7 +72,14 @@ namespace PDF_Tests
         public override void OnStartPage(PdfWriter writer, Document document)
         {
             base.OnStartPage(writer, document);
-            Rectangle pageSize = document.PageSize;
+            var pageSize = document.PageSize;
+
+            var title = this.Title;
+
+            if(this.Titles != null && this.Titles.Count > 1 && writer.PageNumber > 1)
+            {
+                title = this.Titles[writer.PageNumber - 1];
+            }
 
             // Lineas
             cb.SetLineWidth(0.5f);
@@ -86,7 +94,7 @@ namespace PDF_Tests
             cb.BeginText();
             cb.SetFontAndSize(this.bf, 14);
             cb.ShowTextAligned(PdfContentByte.ALIGN_CENTER,
-                this.Title,
+                title,
                 pageSize.GetRight(document.PageSize.Width / 2),
                 pageSize.GetTop(50), 0);
             cb.EndText();
@@ -117,21 +125,15 @@ namespace PDF_Tests
                 pageSize.GetRight(40),
                 pageSize.GetTop(53), 0);
             cb.EndText();
-
-            // Logo empresa
-            /*Image tif = Image.GetInstance(this.CompanyLogo);
-            tif.ScalePercent(33f);
-            tif.SetAbsolutePosition(40f, document.PageSize.Height - 36f);
-            document.Add(tif);*/
         }
 
         public override void OnEndPage(PdfWriter writer, Document document)
         {
             base.OnEndPage(writer, document);
             int pageN = writer.PageNumber;
-            String text = pageN + " de ";
-            float len = bf.GetWidthPoint(text, 8);
-            Rectangle pageSize = document.PageSize;
+            var text = pageN + " de ";
+            var len = bf.GetWidthPoint(text, 8);
+            var pageSize = document.PageSize;
             
             // Numero de pagina
             // Add a unique (empty) template for each page here
@@ -142,7 +144,7 @@ namespace PDF_Tests
             cb.EndText();
             cb.AddTemplate(template, (pageSize.Width / 2), pageSize.GetBottom(30));
 
-            Image logoIssus = Image.GetInstance(this.IssusLogo);
+            var logoIssus = Image.GetInstance(this.IssusLogo);
             logoIssus.ScalePercent(20f);
             logoIssus.SetAbsolutePosition(40f, 24f);
             document.Add(logoIssus);            

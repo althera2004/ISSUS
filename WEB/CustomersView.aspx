@@ -88,10 +88,10 @@
     <script type="text/javascript">
         function Save() {
             var ok = true;
-            document.getElementById('TxtNameLabel').style.color = '#000';
-            document.getElementById('TxtNameErrorRequired').style.display = 'none';            
-            document.getElementById('TxtNameErrorDuplicated').style.display = 'none';
-            if (!RequiredFieldText('TxtName')) { ok = false; }            
+            document.getElementById("TxtNameLabel").style.color = "#000";
+            document.getElementById("TxtNameErrorRequired").style.display = "none";            
+            document.getElementById("TxtNameErrorDuplicated").style.display = "none";
+            if (!RequiredFieldText("TxtName")) { ok = false; }            
             else
             {
                 var duplicated = false;
@@ -125,37 +125,37 @@
             else {
                 var newCustomer = 
                 {
-                    Id: customer.Id,
-                    Description: document.getElementById('TxtName').value,
-                    Active: customer.Active,
-                    Deletable: customer.Deletable,
-                    CompanyId: customer.CompanyId
+                    "Id": customer.Id,
+                    "Description": document.getElementById("TxtName").value,
+                    "Active": customer.Active,
+                    "Deletable": customer.Deletable,
+                    "CompanyId": customer.CompanyId
                 }
                 var webMethod = "/Async/CustomerActions.asmx/Update";
                 var data = {
-                    'oldCustomer': customer,
-                    'newCustomer': newCustomer,
-                    'userId': user.Id
+                    "oldCustomer": customer,
+                    "newCustomer": newCustomer,
+                    "userId": user.Id
                 };
 
                 if(itemId === -1)
                 {
                     webMethod = "/Async/CustomerActions.asmx/Insert"
                     var data = {
-                    'description': document.getElementById('TxtName').value,
-                    'companyId': Company.Id,
-                    'userId': user.Id
+                        "description": document.getElementById("TxtName").value,
+                        "companyId": Company.Id,
+                        "userId": user.Id
                     };
                 }                
 
                 LoadingShow(Dictionary.Common_Message_Saving);
                 $.ajax({
-                    type: "POST",
-                    url: webMethod,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(data, null, 2),
-                    success: function (response) {
+                    "type": "POST",
+                    "url": webMethod,
+                    "contentType": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "data": JSON.stringify(data, null, 2),
+                    "success": function (response) {
                         LoadingHide();
                         if (response.d.Success !== true) {
                             alertUI(response.d.MessageError);
@@ -165,7 +165,7 @@
                             document.location = referrer;
                         }
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
+                    "error": function (jqXHR, textStatus, errorThrown) {
                         LoadingHide();
                         alertUI(jqXHR.responseText);
                     }

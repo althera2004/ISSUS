@@ -19,9 +19,7 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements department class
-    /// </summary>
+    /// <summary>Implements department class</summary>
     public class Department : BaseItem
     {
         #region Fields
@@ -63,69 +61,72 @@ namespace GisoFramework.Item
         public Department(long id, int companyId)
         {
             this.employees = new List<Employee>();
-            using (SqlCommand cmd = new SqlCommand("Department_GetById"))
+            using (var cmd = new SqlCommand("Department_GetById"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@Id", id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        bool first = true;
-                        while (rdr.Read())
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@Id", id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            if (first)
+                            bool first = true;
+                            while (rdr.Read())
                             {
-                                first = false;
-                                this.Id = id;
-                                this.CompanyId = companyId;
-                                this.Description = rdr.GetString(ColumnsDepartmentGetById.DepartmentDescription);
-                                this.ModifiedOn = rdr.GetDateTime(ColumnsDepartmentGetById.ModifiedOn);
-                                this.ModifiedBy = new ApplicationUser()
+                                if (first)
                                 {
-                                    Id = rdr.GetInt32(ColumnsDepartmentGetById.ModifiedByUserId),
-                                    UserName = rdr.GetString(ColumnsDepartmentGetById.ModifiedByUserName)
-                                };
+                                    first = false;
+                                    this.Id = id;
+                                    this.CompanyId = companyId;
+                                    this.Description = rdr.GetString(ColumnsDepartmentGetById.DepartmentDescription);
+                                    this.ModifiedOn = rdr.GetDateTime(ColumnsDepartmentGetById.ModifiedOn);
+                                    this.ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsDepartmentGetById.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsDepartmentGetById.ModifiedByUserName)
+                                    };
 
-                                this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
+                                    this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
+                                }
                             }
                         }
-                    }
 
-                    this.ObtainEmployees();
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Department({0},{1})", id, companyId));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Department({0},{1})", id, companyId));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Department({0},{1})", id, companyId));
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Department({0},{1})", id, companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Department({0},{1})", id, companyId));
-                }
-                catch (InvalidCastException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Department({0},{1})", id, companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                        this.ObtainEmployees();
+                    }
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Department({0},{1})", id, companyId));
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Department({0},{1})", id, companyId));
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Department({0},{1})", id, companyId));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Department({0},{1})", id, companyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Department({0},{1})", id, companyId));
+                    }
+                    catch (InvalidCastException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Department({0},{1})", id, companyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -316,10 +317,10 @@ namespace GisoFramework.Item
         /// <returns>JSON structure of a departments list</returns>
         public static string GetByCompanyJsonList(int companyId)
         {
-            ReadOnlyCollection<Department> departments = GetByCompany(companyId);
-            StringBuilder res = new StringBuilder("[");
+            var departments = ByCompany(companyId);
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (Department department in departments)
+            foreach (var department in departments)
             {
                 if (!department.deleted)
                 {
@@ -340,16 +341,14 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Creates a JSON structure with the departmens of a company
-        /// </summary>
+        /// <summary>Creates a JSON structure with the departmens of a company</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>JSON structure of a departments list</returns>
         public static string GetByCompanyJson(int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (Department department in GetByCompany(companyId))
+            foreach (var department in ByCompany(companyId))
             {
                 if (!department.deleted)
                 {
@@ -370,9 +369,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Delete a departent in database
-        /// </summary>
+        /// <summary>Delete a departent in database</summary>
         /// <param name="departmentId">Department identifier</param>
         /// <param name="reason">Reason for delete</param>
         /// <param name="companyId">Company identifier</param>
@@ -380,39 +377,38 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult Delete(int departmentId, string reason, int companyId, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Department_Delete
              * @DepartmentId int,
              * @CompanyId int,
              * @Reason nvarchar(200),
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("Department_Delete"))
+            using (var cmd = new SqlCommand("Department_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@DepartmentId", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters.Add("@Reason", SqlDbType.NVarChar);
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters["@DepartmentId"].Value = departmentId;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Parameters["@Reason"].Value = Tools.LimitedText(reason, 200);
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", departmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Reason", Tools.LimitedText(reason, 200)));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -420,54 +416,54 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Get a row delete Departament
-        /// </summary>
+        /// <summary>Get a row delete Departament</summary>
         /// <param name="companyId">Type of companyId</param>
         /// <param name="departmentId">Type of depatamentId</param>
         /// <returns>Restult of action</returns>
         public static ActionResult Delete(int companyId, int departmentId)
         {
-            ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
-            using (SqlCommand cmd = new SqlCommand("Department_Delete"))
+            var source = string.Format(CultureInfo.InvariantCulture, @"Department::Delete {0}", departmentId);
+            var result = new ActionResult() { Success = false, MessageError = "No action" };
+            using (var cmd = new SqlCommand("Department_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@DepartmentId", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters["@DepartmentId"].Value = departmentId;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result = ActivityLog.Department(departmentId, Convert.ToInt32(HttpContext.Current.Session["UserId"], CultureInfo.GetCultureInfo("en-us")), companyId, DepartmentLogActions.Delete, departmentId.ToString(CultureInfo.InvariantCulture));
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Department::Delete {0}", departmentId));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Department::Delete {0}", departmentId));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Department::Delete {0}", departmentId));
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Department::Delete {0}", departmentId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Department::Delete {0}", departmentId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", departmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result = ActivityLog.Department(departmentId, Convert.ToInt32(HttpContext.Current.Session["UserId"], CultureInfo.GetCultureInfo("en-us")), companyId, DepartmentLogActions.Delete, departmentId.ToString(CultureInfo.InvariantCulture));
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -475,194 +471,153 @@ namespace GisoFramework.Item
             return result;
         }
 
-        /// <summary>
-        /// Get a row GetByCompany
-        /// </summary>
+        /// <summary>Get a row GetByCompany</summary>
         /// <param name="companyId">Type companyId</param>
         /// <returns>Return of action</returns>
-        public static ReadOnlyCollection<Department> GetByCompany(int companyId)
+        public static ReadOnlyCollection<Department> ByCompany(int companyId)
         {
-            List<Department> res = new List<Department>();
-            using (SqlCommand cmd = new SqlCommand("Departments_GetByCompany"))
+            var res = new List<Department>();
+            using (var cmd = new SqlCommand("Departments_GetByCompany"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        Department newDepartment = Department.Empty;
-                        while (rdr.Read())
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            if (newDepartment.Id != rdr.GetInt32(0))
+                            var newDepartment = Department.Empty;
+                            while (rdr.Read())
                             {
-                                newDepartment = new Department()
+                                if (newDepartment.Id != rdr.GetInt32(0))
                                 {
-                                    Id = rdr.GetInt32(0),
-                                    CompanyId = companyId,
-                                    Description = rdr.GetString(1),
-                                    deleted = rdr.GetBoolean(3),
-                                    employees = new List<Employee>(),
-                                    jobPositionAssigned = rdr.GetInt32(4) == 1
-                                };
+                                    newDepartment = new Department()
+                                    {
+                                        Id = rdr.GetInt32(0),
+                                        CompanyId = companyId,
+                                        Description = rdr.GetString(1),
+                                        deleted = rdr.GetBoolean(3),
+                                        employees = new List<Employee>(),
+                                        jobPositionAssigned = rdr.GetInt32(4) == 1
+                                    };
 
-                                newDepartment.ObtainEmployees();
-                                res.Add(newDepartment);
+                                    newDepartment.ObtainEmployees();
+                                    res.Add(newDepartment);
+                                }
                             }
                         }
                     }
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, "Deparment::GetByCompany", companyId.ToString(CultureInfo.InvariantCulture));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        ExceptionManager.Trace(ex, "Deparment::GetByCompany", companyId.ToString(CultureInfo.InvariantCulture));
                     }
-                }
-            }
-
-            return new ReadOnlyCollection<Department>(res);
-        }
-
-        /// <summary>
-        /// Get a row GetByCompany
-        /// </summary>
-        /// <param name="companyId">Type companyId</param>
-        /// <returns>Return of action</returns>
-        public static ReadOnlyCollection<Department> Alert(long companyId)
-        {
-            List<Department> res = new List<Department>();
-            return new ReadOnlyCollection<Department>(res);
-            /*
-            using (SqlCommand cmd = new SqlCommand("Alert_Department"))
-            {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
-                {
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    finally
                     {
-                        while (rdr.Read())
+                        if (cmd.Connection.State != ConnectionState.Closed)
                         {
-                            res.Add(new Department() { Id = rdr.GetInt32(0), Description = rdr.GetString(1) });
+                            cmd.Connection.Close();
                         }
                     }
                 }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, "Deparment::Alert", companyId.ToString(CultureInfo.GetCultureInfo("en-us")));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
-                    {
-                        cmd.Connection.Close();
-                    }
-                }
             }
 
             return new ReadOnlyCollection<Department>(res);
-            */
         }
 
-        /// <summary>
-        /// Obtain the employess of department
-        /// </summary>
+        /// <summary>Obtain the employess of department</summary>
         public void ObtainEmployees()
         {
             this.jobPositions = new List<JobPosition>();
             this.employees = new List<Employee>();
-            using (SqlCommand cmd = new SqlCommand("Department_GetEmployess"))
+            using (var cmd = new SqlCommand("Department_GetEmployess"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        while (rdr.Read())
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            JobPosition newJobPosition = new JobPosition()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(0),
-                                CompanyId = this.CompanyId,
-                                Description = rdr.GetString(1)
-                            };
-
-                            if (!rdr.IsDBNull(2))
-                            {
-                                JobPosition responsible = new JobPosition()
+                                var newJobPosition = new JobPosition()
                                 {
-                                    Id = rdr.GetInt32(2),
+                                    Id = rdr.GetInt32(0),
                                     CompanyId = this.CompanyId,
-                                    Description = rdr.GetString(3)
-                                };
-                                newJobPosition.Responsible = responsible;
-                            }
-
-                            bool jobPositionExists = false;
-                            foreach (JobPosition jobPosition in this.jobPositions)
-                            {
-                                if (jobPosition.Id == newJobPosition.Id)
-                                {
-                                    jobPositionExists = true;
-                                    break;
-                                }
-                            }
-
-                            if (!jobPositionExists)
-                            {
-                                this.jobPositions.Add(newJobPosition);
-                            }
-
-                            if (!rdr.IsDBNull(4))
-                            {
-                                Employee newEmployee = new Employee()
-                                {
-                                    Id = rdr.GetInt32(4),
-                                    CompanyId = this.CompanyId,
-                                    Name = rdr.GetString(5),
-                                    LastName = rdr.GetString(6),
-                                    Nif = rdr.GetString(7),
-                                    Email = rdr.GetString(8),
-                                    Phone = rdr.GetString(9)
+                                    Description = rdr.GetString(1)
                                 };
 
-                                bool employeeExists = false;
-                                foreach (Employee employee in this.employees)
+                                if (!rdr.IsDBNull(2))
                                 {
-                                    if (employee.Id == newEmployee.Id)
+                                    var responsible = new JobPosition()
                                     {
-                                        employeeExists = true;
+                                        Id = rdr.GetInt32(2),
+                                        CompanyId = this.CompanyId,
+                                        Description = rdr.GetString(3)
+                                    };
+                                    newJobPosition.Responsible = responsible;
+                                }
+
+                                bool jobPositionExists = false;
+                                foreach (var jobPosition in this.jobPositions)
+                                {
+                                    if (jobPosition.Id == newJobPosition.Id)
+                                    {
+                                        jobPositionExists = true;
                                         break;
                                     }
                                 }
 
-                                if (!employeeExists)
+                                if (!jobPositionExists)
                                 {
-                                    this.employees.Add(newEmployee);
+                                    this.jobPositions.Add(newJobPosition);
+                                }
+
+                                if (!rdr.IsDBNull(4))
+                                {
+                                    var newEmployee = new Employee()
+                                    {
+                                        Id = rdr.GetInt32(4),
+                                        CompanyId = this.CompanyId,
+                                        Name = rdr.GetString(5),
+                                        LastName = rdr.GetString(6),
+                                        Nif = rdr.GetString(7),
+                                        Email = rdr.GetString(8),
+                                        Phone = rdr.GetString(9)
+                                    };
+
+                                    bool employeeExists = false;
+                                    foreach (var employee in this.employees)
+                                    {
+                                        if (employee.Id == newEmployee.Id)
+                                        {
+                                            employeeExists = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!employeeExists)
+                                    {
+                                        this.employees.Add(newEmployee);
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -828,8 +783,8 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
         {
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Department_Insert"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Department_Insert"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -873,8 +828,8 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
         {
-            ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
-            using (SqlCommand cmd = new SqlCommand("Department_Update"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Department_Update"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -919,9 +874,7 @@ namespace GisoFramework.Item
             return result;
         }
 
-        /// <summary>
-        /// Adds an employee into department
-        /// </summary>
+        /// <summary>Adds an employee into department</summary>
         /// <param name="employee">Employee to add</param>
         public void AddEmployee(Employee employee)
         {

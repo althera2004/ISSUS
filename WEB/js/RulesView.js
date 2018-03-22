@@ -76,7 +76,7 @@ function Save() {
     else {
         webMethod = "/Async/RulesActions.asmx/RulesInsert";
         data = {
-            "Rules":
+            "rules":
             {
                 "Id": rule.Id,
                 "Description": document.getElementById('TxtName').value.trim(),
@@ -91,13 +91,13 @@ function Save() {
 
     $("#DepartmentDesassociationDialog").dialog("close");
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
-            if(msg.d.Success===false)
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            if(msg.d.Success === false)
             {
                 alertUI(msg.d.MessageError);
             }
@@ -106,7 +106,7 @@ function Save() {
                 document.location = referrer;
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
@@ -114,25 +114,25 @@ function Save() {
 
 jQuery(function ($) {
 
-    $('#BtnSave').click(Save);
-    $('#BtnCancel').click(function (e) {
+    $("#BtnSave").click(Save);
+    $("#BtnCancel").click(function (e) {
         //document.location = document.referrer;
         document.location = referrer;
     });
 
-    //override dialog's title function to allow for HTML titles
+    //override dialog"s title function to allow for HTML titles
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || '&nbsp;'
-            if (("title_html" in this.options) && this.options.title_html == true)
+            var $title = this.options.title || "&nbsp;"
+            if (("title_html" in this.options) && this.options.title_html === true)
                 title.html($title);
             else title.text($title);
         }
     }));
 
     if (ApplicationUser.ShowHelp === true) {
-        SetToolTip('TxtName', Dictionary.Item_Department_Help_Field_Name);
-        $('[data-rel=tooltip]').tooltip();
+        SetToolTip("TxtName", Dictionary.Item_Department_Help_Field_Name);
+        $("[data-rel=tooltip]").tooltip();
     }
 });
 
@@ -140,32 +140,32 @@ RenderStepsSliders();
 
 function RenderStepsSliders() {
     $("#input-span-slider-limit").slider({
-        value: rule.Limit,
-        range: "min",
-        min: MinStepValue,
-        max: 25,
-        step: 1,
-        slide: function (event, ui) {
+        "value": rule.Limit,
+        "range": "min",
+        "min": MinStepValue,
+        "max": 25,
+        "step": 1,
+        "slide": function (event, ui) {
             var val = parseInt(ui.value);
             if (val === 0) {
                 return false;
             }
             $("#input-span-slider-probability").slider({ value: this.id });
             rule.Limit = val;
-            $('#TxtLimit').val(rule.Limit);
+            $("#TxtLimit").val(rule.Limit);
         }
     });
 
-    VoidTable('stepsLimit')
+    VoidTable("stepsLimit")
     for (var x = MinStepValue; x < 26; x++) {
-        var span = document.createElement('span');
+        var span = document.createElement("span");
         span.id = x;
-        span.className = 'tick';
+        span.className = "tick";
         span.appendChild(document.createTextNode(x));
-        span.appendChild(document.createElement('BR'));
-        span.appendChild(document.createTextNode('|'));
-        span.style.left = ((100 / (25 - MinStepValue)) * (x - MinStepValue)) + '%';
-        document.getElementById('stepsLimit').appendChild(span);
+        span.appendChild(document.createElement("BR"));
+        span.appendChild(document.createTextNode("|"));
+        span.style.left = ((100 / (25 - MinStepValue)) * (x - MinStepValue)) + "%";
+        document.getElementById("stepsLimit").appendChild(span);
         if (x > 0) {
             span.onclick = function () {
                 $("#input-span-slider-limit").slider({ value: this.id });
@@ -179,13 +179,13 @@ function RenderStepsSliders() {
 $('#TxtName').focus();
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
+    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
     var finalHeigth = containerHeight - 720;
     if (finalHeigth < 160) {
         finalHeigth = 160;
     }
-    listTable.style.height = (finalHeigth) + 'px';
+    listTable.style.height = (finalHeigth) + "px";
 }
 
 if (typeof ApplicationUser.Grants.Rules === "undefined" || ApplicationUser.Grants.Rules.Write === false) {

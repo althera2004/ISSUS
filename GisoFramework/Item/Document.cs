@@ -12,7 +12,6 @@ namespace GisoFramework.Item
     using System.Configuration;
     using System.Data;
     using System.Data.SqlClient;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Text;
@@ -21,20 +20,13 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements document class
-    /// </summary>
-    [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1127:AvoidStringFormatUseStringInterpolation", Justification = "Reviewed.")]
+    /// <summary>Implements document class</summary>
     public class Document : BaseItem
     {
-        /// <summary>
-        /// Versions of document
-        /// </summary>
+        /// <summary>Versions of document</summary>
         private List<DocumentVersion> versions;
 
-        /// <summary>
-        /// Initializes a new instance of the Document class
-        /// </summary>
+        /// <summary>Initializes a new instance of the Document class</summary>
         public Document()
         {
             this.versions = new List<DocumentVersion>();
@@ -43,63 +35,43 @@ namespace GisoFramework.Item
             this.Source = true;
         }
 
-        /// <summary>
-        /// Gets or sets the code of document
-        /// </summary>
+        /// <summary>Gets or sets the code of document</summary>
         [DifferenciableAttribute]
         public string Code { get; set; }
 
-        /// <summary>
-        /// Gets or sets the category of document
-        /// </summary>
+        /// <summary>Gets or sets the category of document</summary>
         [DifferenciableAttribute]
         public DocumentCategory Category { get; set; }
 
-        /// <summary>
-        /// Gets or sets the origin of document
-        /// </summary>
+        /// <summary>Gets or sets the origin of document</summary>
         [DifferenciableAttribute]
         public DocumentOrigin Origin { get; set; }
 
-        /// <summary>
-        /// Gets or sets the location of document
-        /// </summary>
+        /// <summary>Gets or sets the location of document</summary>
         [DifferenciableAttribute]
         public string Location { get; set; }
 
-        /// <summary>
-        /// Gets or sets the record date of document
-        /// </summary>
+        /// <summary>Gets or sets the record date of document</summary>
         [DifferenciableAttribute]
         public DateTime StartDate { get; set; }
 
-        /// <summary>
-        /// Gets or sets the disabling date of document
-        /// </summary>
+        /// <summary>Gets or sets the disabling date of document</summary>
         [DifferenciableAttribute]
         public DateTime? EndDate { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the source of document
-        /// </summary>
+        /// <summary>Gets or sets a value indicating whether the source of document</summary>
         [DifferenciableAttribute]
         public bool Source { get; set; }
 
-        /// <summary>
-        /// Gets or sets the quantity of document conservation
-        /// </summary>
+        /// <summary>Gets or sets the quantity of document conservation</summary>
         [DifferenciableAttribute]
         public int Conservation { get; set; }
 
-        /// <summary>
-        /// Gets or sets the time unity of document conservation
-        /// </summary>
+        /// <summary>Gets or sets the time unity of document conservation</summary>
         [DifferenciableAttribute]
         public int ConservationType { get; set; }
 
-        /// <summary>
-        /// Gets the versions of document
-        /// </summary>
+        /// <summary>Gets the versions of document</summary>
         public ReadOnlyCollection<DocumentVersion> Versions
         {
             get
@@ -108,9 +80,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets the HTML code for a document link
-        /// </summary>
+        /// <summary>Gets the HTML code for a document link</summary>
         public override string Link
         {
             get
@@ -128,9 +98,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets the JSON strucutre with basic data
-        /// </summary>
+        /// <summary>Gets the JSON strucutre with basic data</summary>
         public string JsonSimple
         {
             get
@@ -146,7 +114,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                DocumentVersion actual = this.LastVersion;
+                var actual = this.LastVersion;
                 string fechaBaja = string.Empty;
                 if (this.EndDate.HasValue)
                 {
@@ -196,14 +164,12 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets the last version
-        /// </summary>
+        /// <summary>Gets the last version</summary>
         public DocumentVersion LastVersion
         {
             get
             {
-                DocumentVersion res = new DocumentVersion();
+                var res = new DocumentVersion();
                 foreach (DocumentVersion version in this.Versions)
                 {
                     if (res.Date == null || version.Date >= res.Date)
@@ -222,7 +188,7 @@ namespace GisoFramework.Item
             get
             {
                 int res = 0;
-                foreach (DocumentVersion version in this.Versions)
+                foreach (var version in this.Versions)
                 {
                     if (version.Version > res)
                     {
@@ -234,9 +200,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether if document is active
-        /// </summary>
+        /// <summary>Gets a value indicating whether if document is active</summary>
         public new bool Active
         {
             get
@@ -245,9 +209,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets the HTML code for a document in the table of inactive documents
-        /// </summary>
+        /// <summary>Gets the HTML code for a document in the table of inactive documents</summary>
         public string RowInactive
         {
             get
@@ -278,10 +240,10 @@ namespace GisoFramework.Item
         /// <returns>JSON array of documents</returns>
         public static string GetAllJson(int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
-            bool first = true;
-            ReadOnlyCollection<Document> documents = GetByCompany(companyId);
-            foreach (Document document in documents)
+            var res = new StringBuilder("[");
+            var first = true;
+            var documents = GetByCompany(companyId);
+            foreach (var document in documents)
             {
                 if (first)
                 {
@@ -299,57 +261,60 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Filter the inactive documents from company's documents
-        /// </summary>
+        /// <summary>Filter the inactive documents from company's documents</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>A list of documents</returns>
         public static ReadOnlyCollection<Document> LastModified(int companyId)
         {
-            List<Document> res = new List<Document>();
+            var res = new List<Document>();
             /* CREATE PROCEDURE Documents_GetInactive
              * @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("Documents_LastModified"))
+            using (var cmd = new SqlCommand("Documents_LastModified"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        Document newDocument = new Document()
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt64(ColumnsDocumentsLastModified.Id),
-                            Code = rdr.GetString(ColumnsDocumentsLastModified.Code),
-                            Description = rdr.GetString(ColumnsDocumentsLastModified.Description),
-                            CompanyId = companyId,
-                            ModifiedBy = new ApplicationUser()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsDocumentsLastModified.ModifiedByUserId),
-                                UserName = rdr.GetString(ColumnsDocumentsLastModified.ModifiedByUserName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsDocumentsLastModified.ModifiedOn)
-                        };
+                                var newDocument = new Document()
+                                {
+                                    Id = rdr.GetInt64(ColumnsDocumentsLastModified.Id),
+                                    Code = rdr.GetString(ColumnsDocumentsLastModified.Code),
+                                    Description = rdr.GetString(ColumnsDocumentsLastModified.Description),
+                                    CompanyId = companyId,
+                                    ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsDocumentsLastModified.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsDocumentsLastModified.ModifiedByUserName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsDocumentsLastModified.ModifiedOn)
+                                };
 
-                        newDocument.AddVersion(new DocumentVersion()
-                        {
-                            Company = new Company() { Id = companyId },
-                            DocumentId = rdr.GetInt64(ColumnsDocumentsLastModified.Id),
-                            Version = rdr.GetInt32(ColumnsDocumentsLastModified.ActualVersion)
-                        });
+                                newDocument.AddVersion(new DocumentVersion()
+                                {
+                                    Company = new Company() { Id = companyId },
+                                    DocumentId = rdr.GetInt64(ColumnsDocumentsLastModified.Id),
+                                    Version = rdr.GetInt32(ColumnsDocumentsLastModified.ActualVersion)
+                                });
 
-                        res.Add(newDocument);
+                                res.Add(newDocument);
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -357,67 +322,68 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Document>(res);
         }
 
-        /// <summary>
-        /// Gets the inactive documents of company
-        /// </summary>
+        /// <summary>Gets the inactive documents of company</summary>
         /// <param name="company">Company to search in</param>
         /// <returns>A list of documents</returns>
         public static ReadOnlyCollection<Document> GetByCompanyInactive(Company company)
         {
-            List<Document> res = new List<Document>();
+            var res = new List<Document>();
             if (company != null)
             {
-                using (SqlCommand cmd = new SqlCommand("Company_GetDocumentsInactive"))
+                using (var cmd = new SqlCommand("Company_GetDocumentsInactive"))
                 {
                     try
                     {
-                        cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters["@CompanyId"].Value = company.Id;
-                        Document newDocument = new Document();
-                        cmd.Connection.Open();
-                        using (SqlDataReader rdr = cmd.ExecuteReader())
+                        using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                         {
-                            while (rdr.Read())
+                            cmd.Connection = cnn;
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                            cmd.Parameters["@CompanyId"].Value = company.Id;
+                            var newDocument = new Document();
+                            cmd.Connection.Open();
+                            using (var rdr = cmd.ExecuteReader())
                             {
-                                if (newDocument.Id != rdr.GetInt64(ColumnsCompanyGetDocuments.DocumentId))
+                                while (rdr.Read())
                                 {
-                                    newDocument = new Document()
+                                    if (newDocument.Id != rdr.GetInt64(ColumnsCompanyGetDocuments.DocumentId))
                                     {
-                                        Id = rdr.GetInt64(ColumnsCompanyGetDocuments.DocumentId),
-                                        CompanyId = company.Id,
-                                        Description = rdr.GetString(ColumnsCompanyGetDocuments.Description),
-                                        Code = rdr.GetString(ColumnsCompanyGetDocuments.Code),
-                                        Category = new DocumentCategory() { Description = rdr.GetString(ColumnsCompanyGetDocuments.CategoryName), Id = rdr.GetInt32(ColumnsCompanyGetDocuments.CategoryId) },
-                                        Origin = new DocumentOrigin() { Description = rdr.GetString(ColumnsCompanyGetDocuments.SourceName), Id = rdr.GetInt32(ColumnsCompanyGetDocuments.SourceId) },
-                                        ModifiedOn = rdr.GetDateTime(ColumnsCompanyGetDocuments.ModifiedOn),
-                                        ModifiedBy = new ApplicationUser()
+                                        newDocument = new Document()
                                         {
-                                            Id = rdr.GetInt32(ColumnsCompanyGetDocuments.ModifiedById),
-                                            UserName = rdr.GetString(ColumnsCompanyGetDocuments.ModifiedByUserName)
-                                        }
-                                    };
+                                            Id = rdr.GetInt64(ColumnsCompanyGetDocuments.DocumentId),
+                                            CompanyId = company.Id,
+                                            Description = rdr.GetString(ColumnsCompanyGetDocuments.Description),
+                                            Code = rdr.GetString(ColumnsCompanyGetDocuments.Code),
+                                            Category = new DocumentCategory() { Description = rdr.GetString(ColumnsCompanyGetDocuments.CategoryName), Id = rdr.GetInt32(ColumnsCompanyGetDocuments.CategoryId) },
+                                            Origin = new DocumentOrigin() { Description = rdr.GetString(ColumnsCompanyGetDocuments.SourceName), Id = rdr.GetInt32(ColumnsCompanyGetDocuments.SourceId) },
+                                            ModifiedOn = rdr.GetDateTime(ColumnsCompanyGetDocuments.ModifiedOn),
+                                            ModifiedBy = new ApplicationUser()
+                                            {
+                                                Id = rdr.GetInt32(ColumnsCompanyGetDocuments.ModifiedById),
+                                                UserName = rdr.GetString(ColumnsCompanyGetDocuments.ModifiedByUserName)
+                                            }
+                                        };
 
-                                    res.Add(newDocument);
-                                }
+                                        res.Add(newDocument);
+                                    }
 
-                                newDocument.AddVersion(new DocumentVersion()
-                                {
-                                    DocumentId = rdr.GetInt64(ColumnsCompanyGetDocuments.DocumentId),
-                                    Date = rdr.GetDateTime(ColumnsCompanyGetDocuments.DocumentDateVersion),
-                                    Company = company,
-                                    Id = rdr.GetInt64(ColumnsCompanyGetDocuments.VersionId),
-                                    State = DocumentVersion.IntegerToStatus(rdr.GetInt32(ColumnsCompanyGetDocuments.Status)),
-                                    User = new ApplicationUser()
+                                    newDocument.AddVersion(new DocumentVersion()
                                     {
-                                        Id = rdr.GetInt32(ColumnsCompanyGetDocuments.UserCreate),
-                                        UserName = rdr.GetString(ColumnsCompanyGetDocuments.ModifiedByUserName)
-                                    },
-                                    Version = rdr.GetInt32(ColumnsCompanyGetDocuments.Version),
-                                    Reason = rdr.GetString(ColumnsCompanyGetDocuments.Reason),
-                                    UserCreateName = rdr.GetString(10)
-                                });
+                                        DocumentId = rdr.GetInt64(ColumnsCompanyGetDocuments.DocumentId),
+                                        Date = rdr.GetDateTime(ColumnsCompanyGetDocuments.DocumentDateVersion),
+                                        Company = company,
+                                        Id = rdr.GetInt64(ColumnsCompanyGetDocuments.VersionId),
+                                        State = DocumentVersion.IntegerToStatus(rdr.GetInt32(ColumnsCompanyGetDocuments.Status)),
+                                        User = new ApplicationUser()
+                                        {
+                                            Id = rdr.GetInt32(ColumnsCompanyGetDocuments.UserCreate),
+                                            UserName = rdr.GetString(ColumnsCompanyGetDocuments.ModifiedByUserName)
+                                        },
+                                        Version = rdr.GetInt32(ColumnsCompanyGetDocuments.Version),
+                                        Reason = rdr.GetString(ColumnsCompanyGetDocuments.Reason),
+                                        UserCreateName = rdr.GetString(10)
+                                    });
+                                }
                             }
                         }
                     }
@@ -454,9 +420,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Document>(res);
         }
 
-        /// <summary>
-        /// Get all document of company from data base
-        /// </summary>
+        /// <summary>Get all document of company from data base</summary>
         /// <param name="company">Company to search in</param>
         /// <returns>A list of documents</returns>
         public static ReadOnlyCollection<Document> GetByCompany(Company company)
@@ -469,71 +433,74 @@ namespace GisoFramework.Item
             return GetByCompany(company.Id);
         }
 
-        /// <summary>
-        /// Get all document of company from data base
-        /// </summary>
+        /// <summary>Get all document of company from data base</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>A list of documents</returns>
         public static ReadOnlyCollection<Document> GetByCompany(int companyId)
         {
-            List<Document> res = new List<Document>();
-            using (SqlCommand cmd = new SqlCommand("Company_GetDocuments"))
+            var res = new List<Document>();
+            using (var cmd = new SqlCommand("Company_GetDocuments"))
             {
                 try
                 {
-                    cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    Document newDocument = new Document();
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
-                        if (newDocument.Id != rdr.GetInt64(ColumnsCompanyGetDocuments.DocumentId))
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        var newDocument = new Document();
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            newDocument = new Document()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt64(ColumnsCompanyGetDocuments.DocumentId),
-                                CompanyId = companyId,
-                                Description = rdr.GetString(ColumnsCompanyGetDocuments.Description),
-                                Code = rdr.GetString(ColumnsCompanyGetDocuments.Code),
-                                Category = new DocumentCategory()
+                                if (newDocument.Id != rdr.GetInt64(ColumnsCompanyGetDocuments.DocumentId))
                                 {
-                                    Description = rdr.GetString(ColumnsCompanyGetDocuments.CategoryName),
-                                    Id = rdr.GetInt32(ColumnsCompanyGetDocuments.CategoryId)
-                                },
-                                Origin = new DocumentOrigin()
-                                {
-                                    Description = rdr.GetString(ColumnsCompanyGetDocuments.SourceName),
-                                    Id = rdr.GetInt32(ColumnsCompanyGetDocuments.SourceId)
-                                },
-                                Location = rdr.GetString(ColumnsCompanyGetDocuments.Location)
-                            };
+                                    newDocument = new Document()
+                                    {
+                                        Id = rdr.GetInt64(ColumnsCompanyGetDocuments.DocumentId),
+                                        CompanyId = companyId,
+                                        Description = rdr.GetString(ColumnsCompanyGetDocuments.Description),
+                                        Code = rdr.GetString(ColumnsCompanyGetDocuments.Code),
+                                        Category = new DocumentCategory()
+                                        {
+                                            Description = rdr.GetString(ColumnsCompanyGetDocuments.CategoryName),
+                                            Id = rdr.GetInt32(ColumnsCompanyGetDocuments.CategoryId)
+                                        },
+                                        Origin = new DocumentOrigin()
+                                        {
+                                            Description = rdr.GetString(ColumnsCompanyGetDocuments.SourceName),
+                                            Id = rdr.GetInt32(ColumnsCompanyGetDocuments.SourceId)
+                                        },
+                                        Location = rdr.GetString(ColumnsCompanyGetDocuments.Location)
+                                    };
 
-                            if (!rdr.IsDBNull(ColumnsCompanyGetDocuments.EndDate))
-                            {
-                                newDocument.EndDate = rdr.GetDateTime(ColumnsCompanyGetDocuments.EndDate);
+                                    if (!rdr.IsDBNull(ColumnsCompanyGetDocuments.EndDate))
+                                    {
+                                        newDocument.EndDate = rdr.GetDateTime(ColumnsCompanyGetDocuments.EndDate);
+                                    }
+
+                                    res.Add(newDocument);
+                                }
+
+                                newDocument.AddVersion(new DocumentVersion()
+                                {
+                                    DocumentId = rdr.GetInt64(ColumnsCompanyGetDocuments.DocumentId),
+                                    Date = rdr.GetDateTime(ColumnsCompanyGetDocuments.DocumentDateVersion),
+                                    Company = new Company() { Id = companyId },
+                                    Id = rdr.GetInt64(ColumnsCompanyGetDocuments.VersionId),
+                                    State = DocumentVersion.IntegerToStatus(rdr.GetInt32(ColumnsCompanyGetDocuments.Status)),
+                                    User = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsCompanyGetDocuments.UserCreate)
+                                    },
+                                    Version = rdr.GetInt32(ColumnsCompanyGetDocuments.Version),
+                                    Reason = rdr.GetString(ColumnsCompanyGetDocuments.Reason),
+                                    UserCreateName = rdr.GetString(10)
+                                });
                             }
-
-                            res.Add(newDocument);
                         }
-
-                        newDocument.AddVersion(new DocumentVersion()
-                        {
-                            DocumentId = rdr.GetInt64(ColumnsCompanyGetDocuments.DocumentId),
-                            Date = rdr.GetDateTime(ColumnsCompanyGetDocuments.DocumentDateVersion),
-                            Company = new Company() { Id = companyId },
-                            Id = rdr.GetInt64(ColumnsCompanyGetDocuments.VersionId),
-                            State = DocumentVersion.IntegerToStatus(rdr.GetInt32(ColumnsCompanyGetDocuments.Status)),
-                            User = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsCompanyGetDocuments.UserCreate)
-                            },
-                            Version = rdr.GetInt32(ColumnsCompanyGetDocuments.Version),
-                            Reason = rdr.GetString(ColumnsCompanyGetDocuments.Reason),
-                            UserCreateName = rdr.GetString(10)
-                        });
                     }
                 }
                 catch (SqlException ex)
@@ -572,9 +539,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Document>(res);
         }
 
-        /// <summary>
-        /// Get a document from data base
-        /// </summary>
+        /// <summary>Get a document from data base</summary>
         /// <param name="documentId">Document identifier</param>
         /// <param name="company">Company to search in</param>
         /// <returns>Document objet</returns>
@@ -588,88 +553,85 @@ namespace GisoFramework.Item
             return GetById(documentId, company.Id);
         }
 
-        /// <summary>
-        /// Get a document from data base
-        /// </summary>
+        /// <summary>Get a document from data base</summary>
         /// <param name="documentId">Document identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>Document objet</returns>
         public static Document GetById(long documentId, int companyId)
         {
-            Document res = new Document();
-
-            Company company = new Company(companyId);
-
-            using (SqlCommand cmd = new SqlCommand("Document_GetById"))
+            var res = new Document();
+            var company = new Company(companyId);
+            using (var cmd = new SqlCommand("Document_GetById"))
             {
                 try
                 {
-                    cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@DocumentId", SqlDbType.BigInt);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters["@DocumentId"].Value = documentId;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
-                        bool first = true;
-                        while (rdr.Read())
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            if (first)
+                            bool first = true;
+                            while (rdr.Read())
                             {
-                                first = false;
-                                res.Id = documentId;
-                                res.CompanyId = company.Id;
-                                res.Description = rdr.GetString(ColumnsDocumentGetById.Description);
-                                res.Category = new DocumentCategory()
+                                if (first)
                                 {
-                                    Id = rdr.GetInt32(ColumnsDocumentGetById.CategoryId),
-                                    Description = rdr.GetString(ColumnsDocumentGetById.CategoryName),
-                                    CompanyId = company.Id
-                                };
+                                    first = false;
+                                    res.Id = documentId;
+                                    res.CompanyId = company.Id;
+                                    res.Description = rdr.GetString(ColumnsDocumentGetById.Description);
+                                    res.Category = new DocumentCategory()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsDocumentGetById.CategoryId),
+                                        Description = rdr.GetString(ColumnsDocumentGetById.CategoryName),
+                                        CompanyId = company.Id
+                                    };
 
-                                res.Origin = new DocumentOrigin()
-                                {
-                                    Id = rdr.GetInt32(ColumnsDocumentGetById.SourceId),
-                                    Description = rdr.GetString(ColumnsDocumentGetById.SourceName),
-                                    CompanyId = company.Id
-                                };
+                                    res.Origin = new DocumentOrigin()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsDocumentGetById.SourceId),
+                                        Description = rdr.GetString(ColumnsDocumentGetById.SourceName),
+                                        CompanyId = company.Id
+                                    };
 
-                                res.Code = rdr.GetString(ColumnsDocumentGetById.Code);
-                                res.StartDate = rdr.GetDateTime(ColumnsDocumentGetById.StartDate);
-                                if (!rdr.IsDBNull(ColumnsDocumentGetById.EndDate))
-                                {
-                                    res.EndDate = rdr.GetDateTime(ColumnsDocumentGetById.EndDate);
+                                    res.Code = rdr.GetString(ColumnsDocumentGetById.Code);
+                                    res.StartDate = rdr.GetDateTime(ColumnsDocumentGetById.StartDate);
+                                    if (!rdr.IsDBNull(ColumnsDocumentGetById.EndDate))
+                                    {
+                                        res.EndDate = rdr.GetDateTime(ColumnsDocumentGetById.EndDate);
+                                    }
+
+                                    res.Conservation = rdr.GetInt32(ColumnsDocumentGetById.Conservation);
+                                    res.ConservationType = rdr.GetInt32(ColumnsDocumentGetById.ConservationType);
+                                    res.Source = rdr.GetInt32(ColumnsDocumentGetById.Origen) == 1;
+                                    res.Location = rdr.GetString(ColumnsDocumentGetById.Location);
+                                    res.ModifiedOn = rdr.GetDateTime(ColumnsDocumentGetById.ModifiedOn);
+                                    res.ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsDocumentGetById.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsDocumentGetById.ModifiedByUserName)
+                                    };
+
+                                    res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                                    res.EndReason = rdr.GetString(ColumnsDocumentGetById.EndReason);
                                 }
 
-                                res.Conservation = rdr.GetInt32(ColumnsDocumentGetById.Conservation);
-                                res.ConservationType = rdr.GetInt32(ColumnsDocumentGetById.ConservationType);
-                                res.Source = rdr.GetInt32(ColumnsDocumentGetById.Origen) == 1;
-                                res.Location = rdr.GetString(ColumnsDocumentGetById.Location);
-                                res.ModifiedOn = rdr.GetDateTime(ColumnsDocumentGetById.ModifiedOn);
-                                res.ModifiedBy = new ApplicationUser()
+                                res.AddVersion(new DocumentVersion()
                                 {
-                                    Id = rdr.GetInt32(ColumnsDocumentGetById.ModifiedByUserId),
-                                    UserName = rdr.GetString(ColumnsDocumentGetById.ModifiedByUserName)
-                                };
-
-                                res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
-                                res.EndReason = rdr.GetString(ColumnsDocumentGetById.EndReason);
+                                    Id = rdr.GetInt64(ColumnsDocumentGetById.VersionId),
+                                    Company = company,
+                                    DocumentId = documentId,
+                                    User = new ApplicationUser(rdr.GetInt32(ColumnsDocumentGetById.UserCreate)),
+                                    Version = rdr.GetInt32(ColumnsDocumentGetById.Version),
+                                    Date = rdr.GetDateTime(ColumnsDocumentGetById.VersionDate),
+                                    State = DocumentVersion.IntegerToStatus(rdr.GetInt32(ColumnsDocumentGetById.Status)),
+                                    Reason = rdr.GetString(ColumnsDocumentGetById.Reason),
+                                    UserCreateName = rdr.GetString(ColumnsDocumentGetById.ModifiedByUserName)
+                                });
                             }
-
-                            res.AddVersion(new DocumentVersion()
-                            {
-                                Id = rdr.GetInt64(ColumnsDocumentGetById.VersionId),
-                                Company = company,
-                                DocumentId = documentId,
-                                User = new ApplicationUser(rdr.GetInt32(ColumnsDocumentGetById.UserCreate)),
-                                Version = rdr.GetInt32(ColumnsDocumentGetById.Version),
-                                Date = rdr.GetDateTime(ColumnsDocumentGetById.VersionDate),
-                                State = DocumentVersion.IntegerToStatus(rdr.GetInt32(ColumnsDocumentGetById.Status)),
-                                Reason = rdr.GetString(ColumnsDocumentGetById.Reason),
-                                UserCreateName = rdr.GetString(ColumnsDocumentGetById.ModifiedByUserName)
-                            });
                         }
                     }
                 }
@@ -709,17 +671,15 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Filter drafts documents in company documents
-        /// </summary>
+        /// <summary>Filter drafts documents in company documents</summary>
         /// <param name="documents">List of documents</param>
         /// <returns>List of documents in draft mode</returns>
         public static ReadOnlyCollection<Document> Drafts(ReadOnlyCollection<Document> documents)
         {
-            List<Document> res = new List<Document>();
+            var res = new List<Document>();
             if (documents != null)
             {
-                foreach (Document document in documents)
+                foreach (var document in documents)
                 {
                     if (document.LastVersion.State == DocumentStatus.Draft)
                     {
@@ -731,17 +691,15 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Document>(res);
         }
 
-        /// <summary>
-        /// Gets recent documents
-        /// </summary>
+        /// <summary>Gets recent documents</summary>
         /// <param name="documents">List of documents</param>
         /// <returns>Filtered list of documents</returns>
         public static ReadOnlyCollection<Document> Recent(ReadOnlyCollection<Document> documents)
         {
-            List<Document> res = new List<Document>();
+            var res = new List<Document>();
             if (documents != null)
             {
-                foreach (Document document in documents)
+                foreach (var document in documents)
                 {
                     if (document.LastVersion.Date > DateTime.Now.AddDays(-7))
                     {
@@ -753,9 +711,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Document>(res);
         }
 
-        /// <summary>
-        /// Set a version of document
-        /// </summary>
+        /// <summary>Set a version of document</summary>
         /// <param name="documentId">Document identifier</param>
         /// <param name="userId">Identifier of user that performs the action</param>
         /// <param name="companyId">Identifier of company</param>
@@ -764,45 +720,48 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult Versioned(int documentId, int userId, int companyId, int version, string reason)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Document_Versioned
              * @DocumentId int,
              * @CompanyId int,
              * @Version int,
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("Document_Versioned"))
+            using (var cmd = new SqlCommand("Document_Versioned"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                cmd.Parameters.Add(DataParameter.Input("@Version", version));
-                cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                cmd.Parameters.Add(DataParameter.Input("@Reason", Tools.LimitedText(reason, 100)));
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Parameters.Add(DataParameter.Input("@Version", version));
+                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                    cmd.Parameters.Add(DataParameter.Input("@Reason", Tools.LimitedText(reason, 100)));
 
-                try
-                {
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}", version));
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}", version));
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -810,9 +769,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Delete a document
-        /// </summary>
+        /// <summary>Delete a document</summary>
         /// <param name="documentId">Document identifier</param>
         /// <param name="companyId">Identifier of company</param>
         /// <param name="userId">Identifier of user that performs the action</param>
@@ -820,35 +777,34 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult Delete(int documentId, int companyId, int userId, string reason)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Document_Delete
              * @DocumentId bigint,
              * @CompanyId int,
              * @UserId int,
              * @ExtraData nvarchar(200) */
-            using (SqlCommand cmd = new SqlCommand("Document_Delete"))
+            using (var cmd = new SqlCommand("Document_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@DocumentId", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters.Add("@ExtraData", SqlDbType.NVarChar);
-                    cmd.Parameters["@DocumentId"].Value = documentId;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Parameters["@ExtraData"].Value = Tools.LimitedText(reason, 200);
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@ExtraData", Tools.LimitedText(reason, 200)));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -856,16 +812,14 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Restore a document
-        /// </summary>
+        /// <summary>Restore a document</summary>
         /// <param name="documentId">Document identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">Identifier of user that performs the actions</param>
         /// <returns>Result of action</returns>
         public static ActionResult Restore(int documentId, int companyId, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Document_Restore
              * @DocumentId int,
              * @CompanyId int,
@@ -897,7 +851,7 @@ namespace GisoFramework.Item
 
         public static ActionResult Anulate(int documentId, DateTime endDate, string endReason, int companyId, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE [dbo].[Document_Anulate]
              *   @DocumentId int,
              *   @CompanyId int,
@@ -957,7 +911,7 @@ namespace GisoFramework.Item
 
             string iconDelete = grantDelete ? string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""DocumentDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), dictionary["Common_Delete"]) : string.Empty;
 
-            DocumentVersion actual = this.LastVersion;
+            var actual = this.LastVersion;
             return string.Format(
                 CultureInfo.GetCultureInfo("en-us"),
                 @"<tr><td>{0}</td><td class=""hidden-480"" style=""width:110px;"">{1}</td><td class=""hidden-480"" align=""right"" style=""width:110px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</td<</tr>",
@@ -982,7 +936,7 @@ namespace GisoFramework.Item
                 return string.Empty;
             }
 
-            DocumentVersion actual = this.LastVersion;
+            var actual = this.LastVersion;
             string pattern = @"
                 <tr>
                     <td>{0}</td>
@@ -1024,11 +978,13 @@ namespace GisoFramework.Item
                 try
                 {
                     cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
+                    using (var rdr = cmd.ExecuteReader())
                     {
-                        rdr.Read();
-                        res = rdr.GetInt32(0);
+                        if (rdr.HasRows)
+                        {
+                            rdr.Read();
+                            res = rdr.GetInt32(0);
+                        }
                     }
                 }
                 finally
@@ -1051,7 +1007,7 @@ namespace GisoFramework.Item
         /// <returns>Result of action with new document identifier if success</returns>
         public ActionResult Insert(int userId, int version)
         {
-            ActionResult res = new ActionResult() { Success = false, MessageError = "No action" };
+            var res = new ActionResult() { Success = false, MessageError = "No action" };
             /* CREATE PROCEDURE Document_Insert
              * @DocumentId bigint out,
              * @CompanyId int,
@@ -1133,7 +1089,7 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Document_Update
              * @DocumentId bigint,
              * @CompanyId int,
@@ -1207,9 +1163,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Add a version to document
-        /// </summary>
+        /// <summary>Add a version to document</summary>
         /// <param name="version">Document version</param>
         public void AddVersion(DocumentVersion version)
         {

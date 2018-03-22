@@ -53,7 +53,7 @@ public partial class ItemList : Page
     {
         if (this.Session["User"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else

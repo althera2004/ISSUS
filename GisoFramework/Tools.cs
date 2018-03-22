@@ -12,17 +12,14 @@ namespace GisoFramework
     using System.Web;
     using GisoFramework.Item;
 
-    /// <summary>
-    /// Implements Tools class.
-    /// </summary>
-    public sealed class Tools
+    /// <summary>Implements Tools class.</summary>
+    public static class Tools
     {
-        /// <summary>
-        /// Prevents a default instance of the Tools class from being created.
-        /// </summary>
-        private Tools()
-        {
-        }
+        public const string EmptyJsonList = "[]";
+
+        public const string EmptyJsonObject = "{}";
+
+        public const bool NotLeaft = false;
 
         public static DateTime? TextToDate(string text)
         {
@@ -40,9 +37,7 @@ namespace GisoFramework
             return string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", value).Replace(",", "*").Replace(".", ",").Replace("*", ".");
         }
 
-        /// <summary>
-        /// Make a string with decimal format
-        /// </summary>
+        /// <summary>Make a string with decimal format</summary>
         /// <param name="value">Decimal value</param>
         /// <returns>String with decimal format</returns>
         public static string NumberFormat(decimal? value)
@@ -55,9 +50,7 @@ namespace GisoFramework
             return string.Empty;
         }
 
-        /// <summary>
-        /// Make a string with decimal format
-        /// </summary>
+        /// <summary>Make a string with decimal format</summary>
         /// <param name="value">Decimal value</param>
         /// <returns>String with decimal format</returns>
         public static string NumberFormat(decimal value)
@@ -76,9 +69,7 @@ namespace GisoFramework
             return res.Replace(".", ",");
         }
 
-        /// <summary>
-        /// Creates resume for a text
-        /// </summary>
+        /// <summary>Creates resume for a text</summary>
         /// <param name="text">Text to resume</param>
         /// <param name="length">Maximum length</param>
         /// <returns>Resume of text</returns>
@@ -101,12 +92,10 @@ namespace GisoFramework
                 text = text.Substring(0, pos);
             }
 
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}...", text);
+            return string.Format(CultureInfo.InvariantCulture, "{0}...", text);
         }
 
-        /// <summary>
-        /// Prepare a texto to be HTML compliant
-        /// </summary>
+        /// <summary>Prepare a texto to be HTML compliant</summary>
         /// <param name="text">Text to Htmlize</param>
         /// <returns>Html compliant text</returns>
         public static string SetHtml(string text)
@@ -121,9 +110,7 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Prepares a text to be a tooltip
-        /// </summary>
+        /// <summary>Prepares a text to be a tooltip</summary>
         /// <param name="text">Texto to prepare</param>
         /// <returns>Text ready for to be a tooltip</returns>
         public static string SetTooltip(string text)
@@ -136,9 +123,7 @@ namespace GisoFramework
             return text.Replace("\"", "˝");
         }
 
-        /// <summary>
-        /// Create a JSON pair key/value from a BaseItem value
-        /// </summary>
+        /// <summary>Create a JSON pair key/value from a BaseItem value</summary>
         /// <param name="key">Name of the key</param>
         /// <param name="value">BaseItem value</param>
         /// <returns>Json representation of key/value pair</returns>
@@ -152,75 +137,61 @@ namespace GisoFramework
             return "\"" + key + "\":" + value.JsonKeyValue;
         }
 
-        /// <summary>
-        /// Create a JSON pair key/value from a string value
-        /// </summary>
+        /// <summary>Create a JSON pair key/value from a string value</summary>
         /// <param name="key">Name of the key</param>
         /// <param name="value">String value</param>
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, string value)
         {
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":""{1}""", key, JsonCompliant(value));
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":""{1}""", key, JsonCompliant(value));
         }
 
-        /// <summary>
-        /// Create a JSON pair key/value from a string value
-        /// </summary>
+        /// <summary>Create a JSON pair key/value from a string value</summary>
         /// <param name="key">Name of the key</param>
         /// <param name="value">String value</param>
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, bool value)
         {
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":{1}", key, value == true ? "true" : "false");
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1}", key, value == true ? "true" : "false");
         }
 
-        /// <summary>
-        /// Create a JSON pair key/value from a DateTime value
-        /// </summary>
+        /// <summary>Create a JSON pair key/value from a DateTime value</summary>
         /// <param name="key">Name of the key</param>
         /// <param name="value">DateTime value</param>
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, DateTime value)
         {
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":{1:yyyyMMdd}", key, value);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1:yyyyMMdd}", key, value);
         }
 
-        /// <summary>
-        /// Create a JSON pair key/value from a integer value
-        /// </summary>
+        /// <summary>Create a JSON pair key/value from a integer value</summary>
         /// <param name="key">Name of the key</param>
-        /// <param name="value">INteger value</param>
+        /// <param name="value">Integer value</param>
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, int value)
         {
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":{1}", key, value);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1}", key, value);
         }
 
-        /// <summary>
-        /// Create a JSON pair key/value from a long value
-        /// </summary>
+        /// <summary>Create a JSON pair key/value from a long value</summary>
         /// <param name="key">Name of the key</param>
         /// <param name="value">Long value</param>
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, long value)
         {
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":{1}", key, value);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1}", key, value);
         }
 
-        /// <summary>
-        /// Create a JSON pair key/value from a decimal value
-        /// </summary>
+        /// <summary>Create a JSON pair key/value from a decimal value</summary>
         /// <param name="key">Name of the key</param>
         /// <param name="value">Decimal value</param>
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, decimal value)
         {
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":{1:#0.00}", key, value);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1:#0.00}", key, value);
         }
 
-        /// <summary>
-        /// Create a JSON pair key/value from a decimal value
-        /// </summary>
+        /// <summary>Create a JSON pair key/value from a decimal value</summary>
         /// <param name="key">Name of the key</param>
         /// <param name="value">Decimal value</param>
         /// <param name="decimals">Number of decimals</param>
@@ -234,12 +205,10 @@ namespace GisoFramework
             }
 
             pattern += "}";
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), pattern, key, value);
+            return string.Format(CultureInfo.InvariantCulture, pattern, key, value);
         }
 
-        /// <summary>
-        /// Create a JSON pair key/value from a decimal nullable value
-        /// </summary>
+        /// <summary>Create a JSON pair key/value from a decimal nullable value</summary>
         /// <param name="key">Name of the key</param>
         /// <param name="value">Decimal value</param>
         /// <returns>Json representation of key/value pair</returns>
@@ -247,15 +216,13 @@ namespace GisoFramework
         {
             if (value.HasValue)
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":{1:#0.00}", key, value);
+                return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1:#0.00}", key, value);
             }
 
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":null", key);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":null", key);
         }
 
-        /// <summary>
-        /// Create a JSON pair key/value from a decimal nullable value
-        /// </summary>
+        /// <summary>Create a JSON pair key/value from a decimal nullable value</summary>
         /// <param name="key">Name of the key</param>
         /// <param name="value">Decimal value</param>
         /// <param name="decimals">Number of decimals</param>
@@ -271,15 +238,13 @@ namespace GisoFramework
                 }
 
                 pattern += "}";
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), pattern, key, value);
+                return string.Format(CultureInfo.InvariantCulture, pattern, key, value);
             }
 
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":null", key);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":null", key);
         }
 
-        /// <summary>
-        /// Create a JSON pair key/value from a Double value
-        /// </summary>
+        /// <summary>Create a JSON pair key/value from a Double value</summary>
         /// <param name="key">Name of the key</param>
         /// <param name="value">Double value</param>
         /// <returns>Json representation of key/value pair</returns>
@@ -288,25 +253,21 @@ namespace GisoFramework
             return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":{1:#0.00}", key, value);
         }
 
-        /// <summary>
-        /// Create a JSON pair key/value from a string value
-        /// </summary>
+        /// <summary>Create a JSON pair key/value from a string value</summary>
         /// <param name="key">Name of the key</param>
         /// <param name="value">String value</param>
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, DateTime? value)
         {
-            if (!value.HasValue)
+            if (value == null)
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":null", key);
+                return string.Format(CultureInfo.InvariantCulture, @"""{0}"":null", key);
             }
 
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":{1:yyyyMMdd}", key, value);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1:yyyyMMdd}", key, value);
         }
 
-        /// <summary>
-        /// Replace quote for literal quote
-        /// </summary>
+        /// <summary>Replace quote for literal quote</summary>
         /// <param name="text">Original text</param>
         /// <returns>Text with literal quotes</returns>
         public static string LiteralQuote(string text)
@@ -319,9 +280,7 @@ namespace GisoFramework
             return text.Replace('\'', '´');
         }
 
-        /// <summary>
-        /// Create a JSON compliant text
-        /// </summary>
+        /// <summary>Create a JSON compliant text</summary>
         /// <param name="text">Original text</param>
         /// <returns>JSON compliant text</returns>
         public static string JsonCompliant(string text)
@@ -335,9 +294,7 @@ namespace GisoFramework
             return text.Replace("\"", "\\\"");
         }
 
-        /// <summary>
-        /// Gets a limited length string
-        /// </summary>
+        /// <summary>Gets a limited length string</summary>
         /// <param name="text">Original string</param>
         /// <param name="length">Maximum length</param>
         /// <returns>A limited length string</returns>
@@ -356,9 +313,7 @@ namespace GisoFramework
             return text.Substring(0, length);
         }
 
-        /// <summary>
-        /// Gets trasnlated month name
-        /// </summary>
+        /// <summary>Gets trasnlated month name</summary>
         /// <param name="monthNumber">Month number</param>
         /// <param name="dictionary">Dictionary for month names</param>
         /// <returns>Translated month name</returns>
@@ -369,53 +324,38 @@ namespace GisoFramework
                 return string.Empty;
             }
 
-            string month = string.Empty;
             switch (monthNumber)
             {
                 case 1:
-                    month = dictionary["Common_MonthName_January"];
-                    break;
+                    return dictionary["Common_MonthName_January"];
                 case 2:
-                    month = dictionary["Common_MonthName_February"];
-                    break;
+                    return dictionary["Common_MonthName_February"];
                 case 3:
-                    month = dictionary["Common_MonthName_March"];
-                    break;
+                    return dictionary["Common_MonthName_March"];
                 case 4:
-                    month = dictionary["Common_MonthName_April"];
-                    break;
+                    return dictionary["Common_MonthName_April"];
                 case 5:
-                    month = dictionary["Common_MonthName_May"];
-                    break;
+                    return dictionary["Common_MonthName_May"];
                 case 6:
-                    month = dictionary["Common_MonthName_June"];
-                    break;
+                    return dictionary["Common_MonthName_June"];
                 case 7:
-                    month = dictionary["Common_MonthName_July"];
-                    break;
+                    return dictionary["Common_MonthName_July"];
                 case 8:
-                    month = dictionary["Common_MonthName_August"];
-                    break;
+                    return dictionary["Common_MonthName_August"];
                 case 9:
-                    month = dictionary["Common_MonthName_September"];
-                    break;
+                    return dictionary["Common_MonthName_September"];
                 case 10:
-                    month = dictionary["Common_MonthName_October"];
-                    break;
+                    return dictionary["Common_MonthName_October"];
                 case 11:
-                    month = dictionary["Common_MonthName_November"];
-                    break;
+                    return dictionary["Common_MonthName_November"];
                 case 12:
-                    month = dictionary["Common_MonthName_December"];
-                    break;
+                    return dictionary["Common_MonthName_December"];
+                default:
+                    return string.Empty;
             }
-
-            return month;
         }
 
-        /// <summary>
-        /// Search the text on dictionary
-        /// </summary>
+        /// <summary>Search the text on dictionary
         /// <param name="text">Dictionary key</param>
         /// <returns>Translated text by dictionary, or original text if not found</returns>
         public static string Translate(string text)
@@ -425,7 +365,7 @@ namespace GisoFramework
                 return text;
             }
 
-            Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             if (dictionary.ContainsKey(text))
             {
                 return dictionary[text];

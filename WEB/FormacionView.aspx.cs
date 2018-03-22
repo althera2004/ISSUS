@@ -32,9 +32,7 @@ public partial class FormacionView : Page
     private Dictionary<string, string> dictionary;
 
     private FormFooter formFooter;
-
-
-
+    
     /// <summary>
     /// Gets a random value to prevents static cache files
     /// </summary>
@@ -53,6 +51,7 @@ public partial class FormacionView : Page
             return this.formFooter.Render(this.dictionary);
         }
     }
+
     private int learningId;
     private Learning learning;
     private StringBuilder jsonAssistance;
@@ -134,9 +133,7 @@ public partial class FormacionView : Page
         }
     }
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
+    /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -145,26 +142,24 @@ public partial class FormacionView : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
@@ -172,7 +167,7 @@ public partial class FormacionView : Page
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
@@ -184,21 +179,20 @@ public partial class FormacionView : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = Session["User"] as ApplicationUser;
         this.company = Session["company"] as Company;
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.Request.QueryString["id"] != null)
         {
-            this.learningId = Convert.ToInt32(this.Request.QueryString["id"].ToString());               
+            this.learningId = Convert.ToInt32(this.Request.QueryString["id"]);               
         }
 
         if (this.learningId != -1)
@@ -223,7 +217,12 @@ public partial class FormacionView : Page
         }
 
 
-        string label = this.learningId == -1 ? "Item_Learning_ToolTip_New" : string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Learning"], this.learning.Description);
+        string label =  string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Learning"], this.learning.Description);
+        if (this.learningId == -1)
+        {
+            label = "Item_Learning_ToolTip_New";
+        }
+
         this.master = this.Master as Giso;
         this.master.TitleInvariant = this.learningId != -1;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
@@ -231,7 +230,7 @@ public partial class FormacionView : Page
         this.master.AddBreadCrumb("Item_Learning_Edit");
         this.master.Titulo = label;
 
-        StringBuilder tableAssistance = new StringBuilder();
+        var tableAssistance = new StringBuilder();
         jsonAssistance = new StringBuilder("[");
         this.assistans = new StringBuilder();
         bool first = true;
@@ -257,7 +256,7 @@ public partial class FormacionView : Page
 
         this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.learningId, TargetType.Learning);
 
-        this.LtYearPrevistos.Text = string.Format(CultureInfo.GetCultureInfo("es-es"), @"<option value="""">{0}</option>", this.dictionary["Common_Year"]);
+        this.LtYearPrevistos.Text = string.Format(CultureInfo.InvariantCulture, @"<option value="""">{0}</option>", this.dictionary["Common_Year"]);
 
         for (int x = DateTime.Now.Year; x < DateTime.Now.Year + 3; x++)
         {
@@ -278,11 +277,11 @@ public partial class FormacionView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        ReadOnlyCollection<UploadFile> files = UploadFile.GetByItem(10, this.learningId, this.company.Id);
-        StringBuilder res = new StringBuilder();
-        StringBuilder resList = new StringBuilder();
+        var files = UploadFile.GetByItem(10, this.learningId, this.company.Id);
+        var res = new StringBuilder();
+        var resList = new StringBuilder();
         int contCells = 0;
-        ReadOnlyCollection<string> extensions = ToolsFile.ExtensionToShow;
+        var extensions = ToolsFile.ExtensionToShow;
         foreach (UploadFile file in files)
         {
             decimal finalSize = ToolsFile.FormatSize((decimal)file.Size);
@@ -330,7 +329,7 @@ public partial class FormacionView : Page
                         </div>
                     </div>",
                     file.Id,
-                    string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
+                    fileShowed, //string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
                     file.Extension,
                     this.company.Id,
                     file.FileName,
@@ -358,7 +357,7 @@ public partial class FormacionView : Page
                     </td>
                 </tr>",
                 file.FileName,
-                string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
+                fileShowed,// string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
                 file.Id,
                 this.company.Id,
                 file.CreatedOn,

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using GisoFramework.Item;
 using SbrinnaCoreFramework.UI;
@@ -17,9 +15,7 @@ public partial class FrameworkTest : Page
     /// <summary>Company of session</summary>
     private Company company;
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
+    /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -28,16 +24,14 @@ public partial class FrameworkTest : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
 
@@ -50,7 +44,7 @@ public partial class FrameworkTest : Page
         this.master.AddBreadCrumb(label);
         this.master.Titulo = label;
 
-        UIButton bt = new UIButton()
+        var bt = new UIButton()
         {
             Icon = "icon-plus-sign",
              Id = "01",
@@ -58,7 +52,7 @@ public partial class FrameworkTest : Page
              Action ="success"
         };
 
-        TextBox tx = new TextBox()
+        var tx = new TextBox()
         {
             Label = this.Dictionary["Item_Document"],
             Name = "TxtDocumento",

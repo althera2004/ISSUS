@@ -38,5 +38,7 @@ namespace GisoFramework.Item
         public int FinalAction { get; set; }
 
         public bool Assumed { get; set; }
+
+        public int Status { get; set; }
     }
 }

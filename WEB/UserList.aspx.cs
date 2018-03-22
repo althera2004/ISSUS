@@ -29,9 +29,7 @@ public partial class UserList : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -85,25 +83,23 @@ public partial class UserList : Page
         get { return this.company; }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -113,9 +109,7 @@ public partial class UserList : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.master = this.Master as Giso;
@@ -142,35 +136,35 @@ public partial class UserList : Page
 
     private void RenderUserData()
     {
-        StringBuilder active = new StringBuilder();
-        StringBuilder sea = new StringBuilder();
-        List<string> s = new List<string>();
+        var active = new StringBuilder();
+        var sea = new StringBuilder();
+        var searchedItem = new List<string>();
         bool first = true;
-        ReadOnlyCollection<ApplicationUser> users =  ApplicationUser.CompanyUsers(this.company.Id);
+        var users =  ApplicationUser.CompanyUsers(this.company.Id);
         int contData = 0;
         foreach (ApplicationUser userItem in users)
         {
             active.Append(userItem.ListRow(this.dictionary, this.user.Grants));
-            if(!s.Contains(userItem.UserName))
+            if(!searchedItem.Contains(userItem.UserName))
             {
-                s.Add(userItem.UserName);
+                searchedItem.Add(userItem.UserName);
             }
 
-            if (!s.Contains(userItem.Email))
+            if (!searchedItem.Contains(userItem.Email))
             {
-                s.Add(userItem.Email);
+                searchedItem.Add(userItem.Email);
             }
 
-            if(!s.Contains(userItem.Employee.FullName))
+            if(!searchedItem.Contains(userItem.Employee.FullName))
             {
-                s.Add(userItem.Employee.FullName);
+                searchedItem.Add(userItem.Employee.FullName);
             }
 
             contData++;
         }
 
-        s.Sort();
-        foreach(string s1 in s)
+        searchedItem.Sort();
+        foreach(string s1 in searchedItem)
         {
             if (!string.IsNullOrEmpty(s1))
             {

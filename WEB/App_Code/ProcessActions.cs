@@ -29,12 +29,11 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult DesactiveProcessType(int processTypeId, string description, int companyId, int userId)
     {
-        ProcessType victim = new ProcessType() { Id = processTypeId, CompanyId = companyId, Description = description };
-        ActionResult res = victim.Deactive(userId);
-
+        var victim = new ProcessType { Id = processTypeId, CompanyId = companyId, Description = description };
+        var res = victim.Deactive(userId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
@@ -45,12 +44,11 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult UpdateProcessType(int processTypeId, string description, int companyId, int userId)
     {
-        ProcessType victim = new ProcessType() { Id = processTypeId, CompanyId = companyId, Description = description, Active = true };
-        ActionResult res = victim.Update(userId);
-
+        var victim = new ProcessType { Id = processTypeId, CompanyId = companyId, Description = description, Active = true };
+        var res = victim.Update(userId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
@@ -61,12 +59,11 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult InsertProcessType(string description, int companyId, int userId)
     {
-        ProcessType newProcessType = new ProcessType() { CompanyId = companyId, Description = description, Active = true };
-        ActionResult res = newProcessType.Insert(userId);
-
+        var newProcessType = new ProcessType { CompanyId = companyId, Description = description, Active = true };
+        var res = newProcessType.Insert(userId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
@@ -83,12 +80,12 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult Insert(Process newProcess, int userId)
     {
-        ActionResult res = newProcess.Insert(userId);
+        var res = newProcess.Insert(userId);
         if (res.Success)
         {
             res = ActivityLog.Process(newProcess.Id, userId, newProcess.CompanyId, ProcessLogActions.Create, newProcess.ToString());
             res.SetSuccess(newProcess.Id.ToString());
-            Company companySession = new Company(newProcess.CompanyId);
+            var companySession = new Company(newProcess.CompanyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
@@ -106,13 +103,13 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult Update(Process oldProcess, Process newProcess, int userId)
     {
-        ActionResult res = ActionResult.NoAction;
+        var res = ActionResult.NoAction;
         string extraData = Process.Differences(oldProcess, newProcess);
         if (!string.IsNullOrEmpty(extraData))
         {
             res = newProcess.Update(userId);
-            Company companySession = new Company(newProcess.CompanyId);
-                HttpContext.Current.Session["Company"] = companySession;
+            var companySession = new Company(newProcess.CompanyId);
+            HttpContext.Current.Session["Company"] = companySession;
 
             if (res.Success)
             {
@@ -131,11 +128,10 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult DesactiveProcess(int processId, int companyId, int userId)
     {
-        ActionResult res = Process.Deactive(processId, companyId, userId);
-
+        var res = Process.Deactive(processId, companyId, userId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 

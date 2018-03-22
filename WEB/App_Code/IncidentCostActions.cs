@@ -17,10 +17,8 @@ using GisoFramework.Item;
 [ScriptService]
 public class IncidentCostActions : WebService {
 
-    public IncidentCostActions () {
-
-        //Uncomment the following line if using designed components 
-        //InitializeComponent(); 
+    public IncidentCostActions ()
+    { 
     }
 
     [WebMethod(EnableSession = true)]

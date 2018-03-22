@@ -1,19 +1,22 @@
 ﻿var UnidadSelected;
 function UnidadDeleteAction() {
-    var webMethod = "/Async/UnidadActions.asmx/Delete";
-    var data = { unidadId: UnidadSelected, companyId: Company.Id, userId: user.Id };
+    var data = {
+        "unidadId": UnidadSelected,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
     $("#UnidadDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
-            document.location = document.location + '';
+        "type": "POST",
+        "url": "/Async/UnidadActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            document.location = document.location + "";
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -21,25 +24,25 @@ function UnidadDeleteAction() {
 }
 
 function UnidadDelete(id, name) {
-    $('#UnidadName').html(name);
+    $("#UnidadName").html(name);
     UnidadSelected = id;
-    var dialog = $("#UnidadDeleteDialog").removeClass('hide').dialog({
+    var dialog = $("#UnidadDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Unidad_Popup_Delete_Title + '</h4>',
+        title: '<h4 class="smaller">' + Dictionary.Item_Unidad_Popup_Delete_Title + "</h4>",
         title_html: true,
         buttons: [
                 {
-                    html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                    "html": "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
-                    click: function () {
+                    "click": function () {
                         UnidadDeleteAction();
                     }
                 },
                 {
-                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                    "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
                     "class": "btn btn-xs",
-                    click: function () {
+                    "click": function () {
                         $(this).dialog("close");
                     }
                 }

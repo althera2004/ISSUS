@@ -19,43 +19,38 @@ using GisoFramework.Activity;
 [ScriptService]
 public class RulesActions : WebService
 {
-    public RulesActions () {
-
-        //Uncomment the following line if using designed components 
-        //InitializeComponent(); 
+    public RulesActions ()
+    {
     }
 
-    /// <summary>
-    /// Deactivate object in database
-    /// </summary>
-    /// <param name="RulesId">Object identifier</param>
+    /// <summary>Deactivate object in database</summary>
+    /// <param name="rulesId">Object identifier</param>
     /// <param name="companyId">Company identifier</param>
     /// <param name="userId">User identifier</param>
     /// <returns>Result of action</returns>
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult RulesDelete(int RulesId, int companyId, int userId)
+    public ActionResult RulesDelete(int rulesId, int companyId, int userId)
     {
-        ActionResult res = Rules.Delete(RulesId, string.Empty, companyId, userId);
+        var res = Rules.Delete(rulesId, string.Empty, companyId, userId);
         if (res.Success)
         {
             Session["Company"] = new Company(companyId);
         }
 
         return res;
-    }
-    /// <summary>
-    /// Activate item in database
-    /// </summary>
-    /// <param name="RulesId">Object identifier</param>
+    }    
+
+    /// <summary>Activate item in database</summary>
+    /// <param name="rulesId">Object identifier</param>
     /// <param name="companyId">Company identifier</param>
     /// <param name="userId">User identifier</param>
     /// <returns>Result of action</returns>
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult RulesActivate(int RulesId, int companyId, int userId)
+    public ActionResult RulesActivate(int rulesId, int companyId, int userId)
     {
-        ActionResult res = Rules.Activate(RulesId, string.Empty, companyId, userId);
+        var res = Rules.Activate(rulesId, string.Empty, companyId, userId);
         if (res.Success)
         {
             Session["Company"] = new Company(companyId);
@@ -75,43 +70,40 @@ public class RulesActions : WebService
     [ScriptMethod]
     public ActionResult RulesUpdate(Rules newRules, Rules oldRules, int companyId, int userId)
     {
-        ActionResult res = newRules.Update(userId);
+        var res = newRules.Update(userId);
         if (res.Success)
         {
-            //string differences = oldRules.Differences(newRules);
-            //res = ActivityLog.Department(Convert.ToInt32(RulesId), userId, companyId, DepartmentLogActions.Modify, differences);
             Session["Company"] = new Company(companyId);
         }
 
         return res;
     }
-    /// <summary>
-    /// Insert new item in database
-    /// </summary>
-    /// <param name="Rules">Object identifier</param>
+
+    /// <summary>Insert new item in database</summary>
+    /// <param name="rules">Object identifier</param>
     /// <param name="companyId">Company identifier</param>
     /// <param name="userId">User identifier</param>
     /// <returns>Result of action</returns>
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult RulesInsert(Rules Rules, int companyId, int userId)
+    public ActionResult RulesInsert(Rules rules, int companyId, int userId)
     {
-        ActionResult res = Rules.Insert(userId);
+        var res = rules.Insert(userId);
         if (res.Success)
         {
             //string differences = Rules.Differences(Rules.Empty);
             //ActionResult logRes = ActivityLog.Rules(Convert.ToInt64(res.MessageError), userId, companyId, DepartmentLogActions.Create, differences);
             Session["Company"] = new Company(companyId);
         }
+
         return res;
     }
-
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
     public ActionResult SetLimit(Rules rules, int companyId, int userId)
     {
-        ActionResult res = rules.SetLimit(userId);
+        var res = rules.SetLimit(userId);
         if (res.Success)
         {
             //string differences = oldRules.Differences(newRules);

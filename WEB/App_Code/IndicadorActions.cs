@@ -14,17 +14,15 @@ using GisoFramework.Item;
 [ScriptService]
 public class IndicadorActions : WebService {
 
-    public IndicadorActions () {
-
-        //Uncomment the following line if using designed components 
-        //InitializeComponent(); 
+    public IndicadorActions()
+    {
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
     public string GetFilter(int companyId, int indicatorType, DateTime? from, DateTime? to, int? processId, int? processTypeId, int? targetId, int status)
     {
-        StringBuilder filter = new StringBuilder("{");
+        var filter = new StringBuilder("{");
         filter.Append(Tools.JsonPair("companyId", companyId)).Append(",");
         filter.Append(Tools.JsonPair("indicatorType", indicatorType)).Append(",");
         filter.Append(Tools.JsonPair("from", from)).Append(",");
@@ -44,9 +42,7 @@ public class IndicadorActions : WebService {
         return Indicador.Inactivate(indicatorId, companyId, userId);
     }
 
-    /// <summary>
-    /// Asynchronous function to restore "indicador"
-    /// </summary>
+    /// <summary>Asynchronous function to restore "indicador"</summary>
     /// <param name="indicadorId">Indicador identifier</param>
     /// <param name="companyId">Company iientifier</param>
     /// <param name="applicationUserId">Identifier of user that performs action</param>
@@ -58,9 +54,7 @@ public class IndicadorActions : WebService {
         return Indicador.Restore(indicadorId, companyId, applicationUserId);
     }
 
-    /// <summary>
-    /// Asynchronous function to anulate "indicador"
-    /// </summary>
+    /// <summary>Asynchronous function to anulate "indicador"</summary>
     /// <param name="indicadorId">Indicador identifier</param>
     /// <param name="companyId">Company identifier</param>
     /// <param name="applicationUserId">Identifier of user that performs action</param>

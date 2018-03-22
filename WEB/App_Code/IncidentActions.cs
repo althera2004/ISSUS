@@ -61,7 +61,7 @@ public class IncidentActions : WebService
     [ScriptMethod]
     public string GetFilter(int companyId, DateTime? from, DateTime? to, bool statusIdnetified, bool statusAnalyzed, bool statusInProgress, bool statusClose, int origin, int departmentId, int providerId, int customerId)
     {
-        StringBuilder filter = new StringBuilder("{");
+        var filter = new StringBuilder("{");
         filter.Append(Tools.JsonPair("companyId", companyId)).Append(",");
         filter.Append(Tools.JsonPair("from", from)).Append(",");
         filter.Append(Tools.JsonPair("to", to)).Append(",");

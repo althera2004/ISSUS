@@ -13,6 +13,8 @@ namespace SbrinnaCoreFramework
     /// <summary>Framweork tools</summary>
     public static class Tools
     {
+        public const bool OnlyFirstLetter = true;
+
         public static string Base64Decode(string base64EncodedData)
         {
             if (string.IsNullOrEmpty(base64EncodedData))
@@ -25,7 +27,7 @@ namespace SbrinnaCoreFramework
                 base64EncodedData = base64EncodedData.Replace("%3d", "=");
             }
 
-            byte[] base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
+            var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
             return Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
@@ -56,7 +58,7 @@ namespace SbrinnaCoreFramework
                 text = text.Substring(0, pos);
             }
 
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}...", text);
+            return string.Format(CultureInfo.InvariantCulture, "{0}...", text);
         }
 
         public static string JsonCompliant(string text)
@@ -86,7 +88,7 @@ namespace SbrinnaCoreFramework
 
         public static string Capitalize(string value)
         {
-            return Capitalize(value, true);
+            return Capitalize(value, OnlyFirstLetter);
         }
 
         public static string Capitalize(string value, bool onlyFirst)
@@ -114,7 +116,7 @@ namespace SbrinnaCoreFramework
                 return value.Substring(0, 1).ToUpperInvariant() + value.Substring(1).ToLowerInvariant();
             }
 
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             foreach (string word in value.Split(' '))
             {
                 res.Append(Capitalize(word)).Append(" ");

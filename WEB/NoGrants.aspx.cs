@@ -12,24 +12,16 @@ public partial class NoGrants : Page
     /// <summary> Master of page</summary>
     private Giso master;
 
-    /// <summary>
-    /// Application user logged in session
-    /// </summary>
+    /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    /// <summary>
-    /// Company of session
-    /// </summary>
+    /// <summary>Company of session</summary>
     public Company Company;
 
-    /// <summary>
-    /// Gets the dictionary for interface texts
-    /// </summary>
+    /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary { get; set; }
 
-    /// <summary>
-    /// Event load of page
-    /// </summary>
+    /// <summary>Event load of page</summary>
     /// <param name="sender">Page loades</param>
     /// <param name="e">Arguments of event</param>
     protected void Page_Load(object sender, EventArgs e)

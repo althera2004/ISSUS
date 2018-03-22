@@ -70,16 +70,16 @@ public partial class FormacionList : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -98,25 +98,25 @@ public partial class FormacionList : Page
 
         if (this.Request.QueryString["yearfrom"] != null)
         {
-            if (this.Request.QueryString["yearfrom"].ToString() != "0")
+            if (this.Request.QueryString["yearfrom"] != "0")
             {
-                yearFrom = GisoFramework.Tools.TextToDate(this.Request.QueryString["yearfrom"].ToString());
-                DateFrom = this.Request.QueryString["yearfrom"].ToString();
+                yearFrom = GisoFramework.Tools.TextToDate(this.Request.QueryString["yearfrom"]);
+                DateFrom = this.Request.QueryString["yearfrom"];
             }
         }
 
         if (this.Request.QueryString["yearto"] != null)
         {
-            if (this.Request.QueryString["yearto"].ToString() != "0")
+            if (this.Request.QueryString["yearto"] != "0")
             {
-                yearTo = GisoFramework.Tools.TextToDate(this.Request.QueryString["yearto"].ToString());
-                DateTo = this.Request.QueryString["yearto"].ToString();
+                yearTo = GisoFramework.Tools.TextToDate(this.Request.QueryString["yearto"]);
+                DateTo = this.Request.QueryString["yearto"];
             }
         }
 
         if (this.Request.QueryString["mode"] != null)
         {
-            mode = Convert.ToInt32(this.Request.QueryString["mode"], CultureInfo.GetCultureInfo("en-us"));
+            mode = Convert.ToInt32(this.Request.QueryString["mode"], CultureInfo.InvariantCulture);
         }
 
         this.user = (ApplicationUser)Session["User"];
@@ -137,7 +137,6 @@ public partial class FormacionList : Page
                 this.status3.Attributes.Add("checked", "cheked");
                 break;
         }
-
 
         if (!this.Page.IsPostBack)
         {
@@ -161,24 +160,24 @@ public partial class FormacionList : Page
     {
         decimal total = 0;
         int count = 0;
-        StringBuilder res = new StringBuilder();
-        List<string> s = new List<string>();
+        var res = new StringBuilder();
+        var searchedItems = new List<string>();
         foreach (Learning learning in this.learningFilter.Filter())
         {
             res.Append(learning.ListRow(this.dictionary, this.user.Admin));
-            if (!s.Contains(learning.Description))
+            if (!searchedItems.Contains(learning.Description))
             {
-                s.Add(learning.Description);
+                searchedItems.Add(learning.Description);
             }
 
             count++;
             total += learning.Amount;
         } 
 
-        s.Sort();
+        searchedItems.Sort();
         bool first = true;
-        StringBuilder sea = new StringBuilder();
-        foreach (string item in s)
+        var sea = new StringBuilder();
+        foreach (string item in searchedItems)
         {
             if (first)
             {

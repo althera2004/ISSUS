@@ -57,7 +57,7 @@ public partial class DepartmentsList : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
@@ -66,7 +66,7 @@ public partial class DepartmentsList : Page
             Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -108,7 +108,7 @@ public partial class DepartmentsList : Page
         List<string> s = new List<string>();
         bool first = true;
         int countData = 0;
-        foreach (Department department in Department.GetByCompany(((Company)Session["Company"]).Id))
+        foreach (Department department in Department.ByCompany(((Company)Session["Company"]).Id))
         {
             if (!department.Deleted)
             {

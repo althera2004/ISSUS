@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="UploadDocumentAttachment.aspx.cs" Inherits="Async_UploadDocumentAttachment" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="UploadDocumentAttachment.aspx.cs" Inherits="AsyncUploadDocumentAttachment" %>
 
 <!DOCTYPE html>
 

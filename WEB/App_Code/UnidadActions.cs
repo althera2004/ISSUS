@@ -18,17 +18,15 @@ using GisoFramework.Item;
 [ScriptService]
 public class UnidadActions : WebService {
 
-    public UnidadActions () {
-
-        //Uncomment the following line if using designed components 
-        //InitializeComponent(); 
+    public UnidadActions ()
+    {
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
     public ActionResult Insert(string description, int companyId, int userId)
     {
-        ActionResult res = new Unidad() { Description = description, CompanyId = companyId }.Insert(userId);
+        var res = new Unidad { Description = description, CompanyId = companyId }.Insert(userId);
         if (res.Success)
         {
             Session["Company"] = new Company(companyId);
@@ -41,10 +39,10 @@ public class UnidadActions : WebService {
     [ScriptMethod]
     public ActionResult Update(int unidadId, string description, int companyId, int userId)
     {
-        ActionResult res = new Unidad() { Id = unidadId, Description = description, CompanyId = companyId }.Update(userId);
+        var res = new Unidad { Id = unidadId, Description = description, CompanyId = companyId }.Update(userId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
@@ -55,10 +53,10 @@ public class UnidadActions : WebService {
     [ScriptMethod]
     public ActionResult Delete(int unidadId, int companyId, int userId)
     {
-        ActionResult res = Unidad.Inactivate(unidadId, companyId, userId);
+        var res = Unidad.Inactivate(unidadId, companyId, userId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 

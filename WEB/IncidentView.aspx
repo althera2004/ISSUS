@@ -170,13 +170,10 @@
                                                             </div>   
                                                             <hr />
                                                             <%=this.TxtActionMonitoring.Render%> 
-                                                            <div class="form-group">
-                                                                <%=this.CmbActionClosedResponsible.Render%>
-                                                                <%=this.TxtActionClosedDate.Render%>
-                                                            </div>
                                                             <%=this.TxtActionNotes.Render%>
                                                         </form>
-                                                    </div> 
+                                                    </div>
+                                                    <div id="AccionAnulada"></div>
                                                     <%=this.FormFooterAction %>
                                                 </div>
                                                 <div id="costes" class="tab-pane">
@@ -460,6 +457,17 @@
                                     </div>
                                 </form>
                             </div>
+
+                            <div id="dialogAnularAccion" class="hide" style="width: 400px;">
+                                <form class="form-horizontal" role="form" id="FormDialogAnularAccion">
+                                    <div class="form-group">                                        
+                                        <%=this.CmbActionClosedResponsible.Render %>
+                                    </div>
+                                    <div class="form-group">
+                                        <%=this.TxtActionClosedDate.Render %>
+                                    </div>
+                                </form>
+                            </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
@@ -477,7 +485,7 @@
         <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
         <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/CostBar.js?<%=this.AntiCache %>"></script>
-        <script type="text/javascript" src="/js/Incident.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/js/Incident.js"></script>
         <script type="text/javascript" src="/js/IncidentCost.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/IncidentProvider.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/IncidentCustomer.js?<%=this.AntiCache %>"></script>

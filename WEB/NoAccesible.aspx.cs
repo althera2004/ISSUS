@@ -9,9 +9,7 @@ using System.Collections.Generic;
 using System.Web.UI;
 using GisoFramework.Item;
 
-/// <summary>
-/// Implements NoAccesible page
-/// </summary>
+/// <summary>Implements NoAccesible page</summary>
 public partial class NoAccesible : Page
 {
     /// <summary> Master of page</summary>
@@ -32,14 +30,12 @@ public partial class NoAccesible : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        this.company = (Company)Session["company"];
+        this.company = Session["company"] as Company;
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);

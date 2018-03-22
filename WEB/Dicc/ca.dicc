@@ -912,6 +912,8 @@ Item_Incident_ErrorMessage_WhatHappenedResponsibleRequired::Indicar qui ha regis
 Item_Incident_AnulateMessageTile::Incidència tancada
 Item_Incident_Btn_Restaurar::Reobrir
 Item_Incident_Btn_Anular::Tancar
+Item_Incident_Btn_RestaurarAction::Reobrir acció
+Item_Incident_Btn_AnularAction::Tancar acció
 Item_Incident_Cost_IncidentCheck::Costos propis incidència
 Item_Incident_Cost_IncidentActionCheck::Costos propis acció						   
 Item_Incident_Field_Actions::Actuacions
@@ -977,6 +979,7 @@ Item_Incident_Tab_Basic::Dades bàsiques
 Item_Incident_Tab_Costs::Costos
 Item_Incident_Tab_Traces::Traces
 Item_Incident_Tab_UploadFiles::Adjunts
+Item_Incident_PDF_ActionPageTitle::Dades de l'acció
 Item_Incident_Warning_ActionSaveIncident::Per poder vincular una acció, primer desar la incidència
 Item_Incident_Warning_ActionTabAvailable::A la pestanya d'acció, entrar les dades
 Item_IncidentAction::Acció
@@ -1136,6 +1139,8 @@ Item_Indicador_Field_Responsible::Responsable
 Item_Indicador_Field_StartDate::Data inici
 Item_Indicador_Field_Unidad::Unitats
 Item_Indicador_Filter_Button::Filtrar
+Item_Indicador_Filter_From::Inici des de
+Item_Indicador_Filter_To::Inici fins
 Item_Indicador_GraphicsNoData::No hi ha registres al indicador
 Item_Indicador_Header_Description::Descripció
 Item_Indicador_Header_Objetivo::Objectiu

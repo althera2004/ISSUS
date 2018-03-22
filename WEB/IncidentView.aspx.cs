@@ -340,7 +340,7 @@ public partial class IncidentView : Page
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", true);
@@ -351,7 +351,7 @@ public partial class IncidentView : Page
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
@@ -363,14 +363,12 @@ public partial class IncidentView : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         if (this.Request.QueryString["id"] != null)
         {
-            this.IncidentId = Convert.ToInt64(this.Request.QueryString["id"].ToString());
+            this.IncidentId = Convert.ToInt64(this.Request.QueryString["id"]);
         }
 
         if (this.Request.QueryString["New"] != null)
@@ -410,20 +408,23 @@ public partial class IncidentView : Page
 
             this.formFooter.ModifiedBy = this.Incident.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Incident.ModifiedOn;
-            this.formFooter.AddButton(new UIButton() { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Incident_Btn_Restaurar"], Action = "primary", Hidden = !this.Incident.ClosedOn.HasValue });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Incident_Btn_Anular"], Action = "danger", Hidden = this.Incident.ClosedOn.HasValue });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
-
-            this.formFooterAction.ModifiedBy = this.Incident.ModifiedBy.Description;
-            this.formFooterAction.ModifiedOn = this.Incident.ModifiedOn;
-            this.formFooterAction.AddButton(new UIButton() { Id = "BtnSaveAction", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooterAction.AddButton(new UIButton() { Id = "BtnCancelAction", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
+            this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Incident_Btn_Restaurar"], Action = "primary", Hidden = !this.Incident.ClosedOn.HasValue });
+            this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Incident_Btn_Anular"], Action = "danger", Hidden = this.Incident.ClosedOn.HasValue });
+            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
             this.master.ItemCode = this.Incident.Description;
 
             this.IncidentAction = IncidentAction.GetByIncidentId(this.IncidentId, this.company.Id);
+
+            this.formFooterAction.ModifiedBy = this.Incident.ModifiedBy.Description;
+            this.formFooterAction.ModifiedOn = this.Incident.ModifiedOn;
+            this.formFooterAction.AddButton(new UIButton { Id = "BtnRestaurarAction", Icon = "icon-undo", Text = this.dictionary["Item_Incident_Btn_RestaurarAction"], Action = "primary" });
+            this.formFooterAction.AddButton(new UIButton { Id = "BtnAnularAction", Icon = "icon-ban-circle", Text = this.dictionary["Item_Incident_Btn_AnularAction"], Action = "danger" });
+            this.formFooterAction.AddButton(new UIButton { Id = "BtnSaveAction", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.formFooterAction.AddButton(new UIButton { Id = "BtnCancelAction", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+
             if (this.IncidentAction.Id == 0)
             {
                 DateTime? today = DateTime.Now.Date;
@@ -449,20 +450,20 @@ public partial class IncidentView : Page
             this.IncidentAction = IncidentAction.Empty;
             this.formFooter.ModifiedBy = this.dictionary["Common_New"];
             this.formFooter.ModifiedOn = DateTime.Now;
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
             this.formFooter.ModifiedBy = this.dictionary["Common_New"];
             this.formFooter.ModifiedOn = DateTime.Now;
-            this.formFooterAction.AddButton(new UIButton() { Id = "BtnSaveAction", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooterAction.AddButton(new UIButton() { Id = "BtnCancelAction", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            this.formFooterAction.AddButton(new UIButton { Id = "BtnSaveAction", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.formFooterAction.AddButton(new UIButton { Id = "BtnCancelAction", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
         }
 
-        this.tabBar.AddTab(new Tab() { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Incident_Tab_Basic"], Available = true });
-        this.tabBar.AddTab(new Tab() { Id = "accion", Available = this.user.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Label = this.dictionary["Item_Incident_Tab_Action"] });
-        this.tabBar.AddTab(new Tab() { Id = "costes", Available = this.user.HasGrantToRead(ApplicationGrant.Cost) && this.IncidentId > 0, Active = this.IncidentId > 0, Label = this.dictionary["Item_Incident_Tab_Costs"] });
-        this.tabBar.AddTab(new Tab() { Id = "uploadFiles", Available = true, Active = this.IncidentId > 0, Hidden = this.IncidentId < 1, Label = this.Dictionary["Item_Incident_Tab_UploadFiles"] });
-        //// this.tabBar.AddTab(new Tab() { Id = "trazas", Available = this.user.HasGrantToRead(ApplicationGrant.Trace) && this.IncidentId > 0, Active = this.IncidentId > 0, Label = this.dictionary["Item_Incident_Tab_Traces"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Incident_Tab_Basic"], Available = true });
+        this.tabBar.AddTab(new Tab { Id = "accion", Available = this.user.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Label = this.dictionary["Item_Incident_Tab_Action"] });
+        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.user.HasGrantToRead(ApplicationGrant.Cost) && this.IncidentId > 0, Active = this.IncidentId > 0, Label = this.dictionary["Item_Incident_Tab_Costs"] });
+        this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = this.IncidentId > 0, Hidden = this.IncidentId < 1, Label = this.Dictionary["Item_Incident_Tab_UploadFiles"] });
+        //// this.tabBar.AddTab(new Tab { Id = "trazas", Available = this.user.HasGrantToRead(ApplicationGrant.Trace) && this.IncidentId > 0, Active = this.IncidentId > 0, Label = this.dictionary["Item_Incident_Tab_Traces"] });
 
         this.RenderForm();
         this.RenderActionForm();
@@ -502,53 +503,53 @@ public partial class IncidentView : Page
 
     public void RenderForm()
     {
-        this.TxtWhatHappened = new FormTextArea() { Rows = 3, Value = this.Incident.WhatHappened, Name = "TxtWhatHappened", Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = 8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = 2000, GrantToWrite = this.grantToWrite };
-        this.TxtCauses = new FormTextArea() { Rows = 3, Value = this.Incident.Causes, Name = "TxtCauses", Label = this.dictionary["Item_Incident_Field_Causes"], ColumnsSpan = 8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = 2000, GrantToWrite = this.grantToWrite };
-        this.TxtActions = new FormTextArea() { Rows = 3, Value = this.Incident.Actions, Name = "TxtActions", Label = this.dictionary["Item_Incident_Field_Actions"], ColumnsSpan = 8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = 2000, GrantToWrite = this.grantToWrite };
-        this.TxtAnotations = new FormTextArea() { Rows = 3, Value = this.Incident.Annotations, Name = "TxtAnotations", Label = this.dictionary["Item_Incident_Field_Anotations"], MaxLength = 2000, GrantToWrite = this.grantToWrite };
-        this.TxtNotes = new FormTextArea() { Rows = 3, Value = this.Incident.Notes, Name = "TxtNotes", Label = this.dictionary["Item_Incident_Field_Notes"], ColumnsSpan = 12, ColumnsSpanLabel = 12, Embedded = true, MaxLength = 2000, GrantToWrite = this.grantToWrite };
+        this.TxtWhatHappened = new FormTextArea { Rows = 3, Value = this.Incident.WhatHappened, Name = "TxtWhatHappened", Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = 8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = 2000, GrantToWrite = this.grantToWrite };
+        this.TxtCauses = new FormTextArea { Rows = 3, Value = this.Incident.Causes, Name = "TxtCauses", Label = this.dictionary["Item_Incident_Field_Causes"], ColumnsSpan = 8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = 2000, GrantToWrite = this.grantToWrite };
+        this.TxtActions = new FormTextArea { Rows = 3, Value = this.Incident.Actions, Name = "TxtActions", Label = this.dictionary["Item_Incident_Field_Actions"], ColumnsSpan = 8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = 2000, GrantToWrite = this.grantToWrite };
+        this.TxtAnotations = new FormTextArea { Rows = 3, Value = this.Incident.Annotations, Name = "TxtAnotations", Label = this.dictionary["Item_Incident_Field_Anotations"], MaxLength = 2000, GrantToWrite = this.grantToWrite };
+        this.TxtNotes = new FormTextArea { Rows = 3, Value = this.Incident.Notes, Name = "TxtNotes", Label = this.dictionary["Item_Incident_Field_Notes"], ColumnsSpan = 12, ColumnsSpanLabel = 12, Embedded = true, MaxLength = 2000, GrantToWrite = this.grantToWrite };
 
-        this.CmbWhatHappenedResponsible = new FormSelect()
+        this.CmbWhatHappenedResponsible = new FormSelect
         {
             ColumnsSpanLabel = 4,
             Label = this.dictionary["Item_Incident_Field_WhatHappenedResponsible"],
             ColumnsSpan = 8,
             Name = "CmbWhatHappenedResponsible",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        this.CmbCausesResponsible = new FormSelect()
+        this.CmbCausesResponsible = new FormSelect
         {
             ColumnsSpanLabel = 4,
             Label = this.dictionary["Item_Incident_Field_CausesResponsible"],
             ColumnsSpan = 8,
             Name = "CmbCausesResponsible",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        this.CmbActionsResponsible = new FormSelect()
+        this.CmbActionsResponsible = new FormSelect
         {
             ColumnsSpanLabel = 4,
             Label = this.dictionary["Item_Incident_Field_ActionsResponsible"],
             ColumnsSpan = 8,
             Name = "CmbActionsResponsible",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        this.CmbActionsExecuter = new FormSelect()
+        this.CmbActionsExecuter = new FormSelect
         {
             ColumnsSpanLabel = 4,
             Label = this.dictionary["Item_Incident_Field_ActionsExecuter"],
             ColumnsSpan = 8,
             Name = "CmbActionsExecuter",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        this.CmbClosedResponsible = new FormSelect()
+        this.CmbClosedResponsible = new FormSelect
         {
             ColumnsSpanLabel = 4,
             Label = this.dictionary["Item_Incident_Field_CloseResponsible"],
@@ -556,8 +557,8 @@ public partial class IncidentView : Page
             Name = "CmbClosedResponsible",
             GrantToWrite = this.grantToWrite,
             RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" },
-            Required = true,
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" },
+            Required = true
         };
 
         long whatHappenedResponsibleId = this.Incident.WhatHappenedBy == null ? 0 : this.Incident.WhatHappenedBy.Id;
@@ -570,11 +571,11 @@ public partial class IncidentView : Page
         {
             if (e.Active && e.DisabledDate == null)
             {
-                this.CmbWhatHappenedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == whatHappenedResponsibleId });
-                this.CmbCausesResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == causesResponsibleId });
-                this.CmbActionsResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == actionsResponsibleId });
-                this.CmbActionsExecuter.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == actionsExecuterId });
-                this.CmbClosedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == closedResponsibleId });
+                this.CmbWhatHappenedResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == whatHappenedResponsibleId });
+                this.CmbCausesResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == causesResponsibleId });
+                this.CmbActionsResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == actionsResponsibleId });
+                this.CmbActionsExecuter.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == actionsExecuterId });
+                this.CmbClosedResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == closedResponsibleId });
             }
             else
             {
@@ -582,7 +583,7 @@ public partial class IncidentView : Page
                 {
                     if (e.Id == this.Incident.WhatHappenedBy.Id && (!e.Active || e.DisabledDate != null))
                     {
-                        this.CmbWhatHappenedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbWhatHappenedResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
 
@@ -590,7 +591,7 @@ public partial class IncidentView : Page
                 {
                     if (e.Id == this.Incident.CausesBy.Id && (!e.Active || e.DisabledDate != null))
                     {
-                        this.CmbCausesResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbCausesResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
 
@@ -598,7 +599,7 @@ public partial class IncidentView : Page
                 {
                     if (e.Id == this.Incident.ActionsBy.Id && (!e.Active || e.DisabledDate != null))
                     {
-                        this.CmbActionsResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbActionsResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
 
@@ -606,7 +607,7 @@ public partial class IncidentView : Page
                 {
                     if (e.Id == this.Incident.ActionsExecuter.Id && (!e.Active || e.DisabledDate != null))
                     {
-                        this.CmbActionsExecuter.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbActionsExecuter.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
 
@@ -614,37 +615,37 @@ public partial class IncidentView : Page
                 {
                     if (e.Id == this.Incident.ClosedBy.Id && (!e.Active || e.DisabledDate != null))
                     {
-                        this.CmbClosedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbClosedResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
             }
         }
 
-        this.CmbReporterDepartment = new FormSelect()
+        this.CmbReporterDepartment = new FormSelect
         {
             ColumnsSpan = 12,
             Name = "CmbReporterType1",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectOne"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectOne"], Value = "0" }
         };
 
-        this.CmbReporterProvider = new FormSelect()
+        this.CmbReporterProvider = new FormSelect
         {
             ColumnsSpan = 12,
             Name = "CmbReporterType2",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectOne"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectOne"], Value = "0" }
         };
 
-        this.CmbReporterCustomer = new FormSelect()
+        this.CmbReporterCustomer = new FormSelect
         {
             ColumnsSpan = 12,
             Name = "CmbReporterType3",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectOne"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectOne"], Value = "0" }
         };
 
-        this.TxtDescription = new FormText()
+        this.TxtDescription = new FormText
         {
             ColumnSpan = 11,
             ColumnSpanLabel = 1,
@@ -656,7 +657,7 @@ public partial class IncidentView : Page
             Value = this.Incident.Description
         };
 
-        this.WhatHappenedDate = new FormDatePicker()
+        this.WhatHappenedDate = new FormDatePicker
         {
             Id = "TxtWhatHappenedDate",
             Label = this.dictionary["Item_Incident_Field_WhatHappenedDate"],
@@ -666,7 +667,7 @@ public partial class IncidentView : Page
             GrantToWrite = this.grantToWrite
         };
 
-        this.CausesDate = new FormDatePicker()
+        this.CausesDate = new FormDatePicker
         {
             Id = "TxtCausesDate",
             Label = this.dictionary["Item_Incident_Field_CausesDate"],
@@ -676,7 +677,7 @@ public partial class IncidentView : Page
             GrantToWrite = this.grantToWrite
         };
 
-        this.ActionsDate = new FormDatePicker()
+        this.ActionsDate = new FormDatePicker
         {
             Id = "TxtActionsDate",
             Label = this.dictionary["Common_DateExecution"],
@@ -686,7 +687,7 @@ public partial class IncidentView : Page
             GrantToWrite = this.grantToWrite
         };
 
-        this.ActionsSchedule = new FormDatePicker()
+        this.ActionsSchedule = new FormDatePicker
         {
             Id = "TxtActionsSchedule",
             Label = this.dictionary["Item_Incident_Field_ActionsSchedule"],
@@ -696,7 +697,7 @@ public partial class IncidentView : Page
             GrantToWrite = this.grantToWrite
         };
 
-        this.ClosedDate = new FormDatePicker()
+        this.ClosedDate = new FormDatePicker
         {
             Id = "TxtClosedDate",
             Label = this.dictionary["Item_Incident_Field_CloseDate"],
@@ -710,13 +711,13 @@ public partial class IncidentView : Page
 
     public void RenderActionForm()
     {
-        this.TxtActionWhatHappened = new FormTextArea() { Rows = 3, Value = this.IncidentAction.WhatHappened, Name = "TxtActionWhatHappened", Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = 2000, Embedded = true };
-        this.TxtActionCauses = new FormTextArea() { Rows = 3, Value = this.IncidentAction.Causes, Name = "TxtActionCauses", Label = this.dictionary["Item_IncidentAction_Field_Causes"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = 2000, Embedded = true };
-        this.TxtActionActions = new FormTextArea() { Rows = 3, Value = this.IncidentAction.Actions, Name = "TxtActionActions", Label = this.dictionary["Item_IncidentAction_Field_Actions"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = 2000, Embedded = true };
-        this.TxtActionMonitoring = new FormTextArea() { Rows = 3, Value = this.IncidentAction.Monitoring, Name = "TxtActionMonitoring", Label = this.dictionary["Item_IncidentAction_Field_Monitoring"], MaxLength = 2000 };
-        this.TxtActionNotes = new FormTextArea() { Rows = 3, Value = this.IncidentAction.Notes, Name = "TxtActionNotes", Label = this.dictionary["Item_IncidentAction_Field_Notes"], MaxLength = 2000 };
+        this.TxtActionWhatHappened = new FormTextArea { Rows = 3, Value = this.IncidentAction.WhatHappened, Name = "TxtActionWhatHappened", Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = 2000, Embedded = true };
+        this.TxtActionCauses = new FormTextArea { Rows = 3, Value = this.IncidentAction.Causes, Name = "TxtActionCauses", Label = this.dictionary["Item_IncidentAction_Field_Causes"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = 2000, Embedded = true };
+        this.TxtActionActions = new FormTextArea { Rows = 3, Value = this.IncidentAction.Actions, Name = "TxtActionActions", Label = this.dictionary["Item_IncidentAction_Field_Actions"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = 2000, Embedded = true };
+        this.TxtActionMonitoring = new FormTextArea { Rows = 3, Value = this.IncidentAction.Monitoring, Name = "TxtActionMonitoring", Label = this.dictionary["Item_IncidentAction_Field_Monitoring"], MaxLength = 2000 };
+        this.TxtActionNotes = new FormTextArea { Rows = 3, Value = this.IncidentAction.Notes, Name = "TxtActionNotes", Label = this.dictionary["Item_IncidentAction_Field_Notes"], MaxLength = 2000 };
 
-        this.CmbActionWhatHappenedResponsible = new FormSelect()
+        this.CmbActionWhatHappenedResponsible = new FormSelect
         {
             ColumnsSpanLabel = 4,
             Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
@@ -725,10 +726,10 @@ public partial class IncidentView : Page
             GrantToWrite = this.grantToWrite,
             Required = true,
             RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        this.CmbActionCausesResponsible = new FormSelect()
+        this.CmbActionCausesResponsible = new FormSelect
         {
             ColumnsSpanLabel = 4,
             Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
@@ -737,10 +738,10 @@ public partial class IncidentView : Page
             GrantToWrite = this.grantToWrite,
             Required = true,
             RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        this.CmbActionActionsResponsible = new FormSelect()
+        this.CmbActionActionsResponsible = new FormSelect
         {
             ColumnsSpanLabel = 4,
             Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
@@ -749,10 +750,10 @@ public partial class IncidentView : Page
             GrantToWrite = this.grantToWrite,
             Required = true,
             RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        this.CmbActionActionsExecuter = new FormSelect()
+        this.CmbActionActionsExecuter = new FormSelect
         {
             ColumnsSpanLabel = 4,
             Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
@@ -761,10 +762,10 @@ public partial class IncidentView : Page
             GrantToWrite = this.grantToWrite,
             Required = true,
             RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        this.CmbActionClosedResponsible = new FormSelect()
+        this.CmbActionClosedResponsible = new FormSelect
         {
             ColumnsSpanLabel = 2,
             Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
@@ -773,7 +774,7 @@ public partial class IncidentView : Page
             GrantToWrite = this.grantToWrite,
             Required = true,
             RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
         long whatHappenedResponsibleId = this.IncidentAction.WhatHappenedBy == null ? 0 : this.IncidentAction.WhatHappenedBy.Id;
@@ -786,57 +787,57 @@ public partial class IncidentView : Page
         {
             if (e.Active && e.DisabledDate == null)
             {
-                this.CmbActionWhatHappenedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == whatHappenedResponsibleId });
-                this.CmbActionCausesResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == causesResponsibleId });
-                this.CmbActionActionsResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == actionsResponsibleId });
-                this.CmbActionActionsExecuter.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == actionsExecuterId });
-                this.CmbActionClosedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == closedResponsibleId });
+                this.CmbActionWhatHappenedResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == whatHappenedResponsibleId });
+                this.CmbActionCausesResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == causesResponsibleId });
+                this.CmbActionActionsResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == actionsResponsibleId });
+                this.CmbActionActionsExecuter.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == actionsExecuterId });
+                this.CmbActionClosedResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == closedResponsibleId });
             }
             else
             {
                 if (this.IncidentAction.WhatHappenedBy != null)
                 {
-                    if (e.Id == this.IncidentAction.WhatHappenedBy.Id && (!e.Active || e.DisabledDate != null))
+                    if (e.Id == this.IncidentAction.WhatHappenedBy.Id && (!e.Active || e.DisabledDate.HasValue))
                     {
-                        this.CmbActionWhatHappenedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbActionWhatHappenedResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
 
                 if (this.IncidentAction.CausesBy != null)
                 {
-                    if (e.Id == this.IncidentAction.CausesBy.Id && (!e.Active || e.DisabledDate != null))
+                    if (e.Id == this.IncidentAction.CausesBy.Id && (!e.Active || e.DisabledDate.HasValue))
                     {
-                        this.CmbActionCausesResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbActionCausesResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
 
                 if (this.IncidentAction.ActionsBy != null)
                 {
-                    if (e.Id == this.IncidentAction.ActionsBy.Id && (!e.Active || e.DisabledDate != null))
+                    if (e.Id == this.IncidentAction.ActionsBy.Id && (!e.Active || e.DisabledDate.HasValue))
                     {
-                        this.CmbActionActionsResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbActionActionsResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
 
                 if (this.IncidentAction.ActionsExecuter != null)
                 {
-                    if (e.Id == this.IncidentAction.ActionsExecuter.Id && (!e.Active || e.DisabledDate != null))
+                    if (e.Id == this.IncidentAction.ActionsExecuter.Id && (!e.Active || e.DisabledDate.HasValue))
                     {
-                        this.CmbActionActionsExecuter.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbActionActionsExecuter.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
 
                 if (this.IncidentAction.ClosedBy != null)
                 {
-                    if (e.Id == this.IncidentAction.ClosedBy.Id && (!e.Active || e.DisabledDate != null))
+                    if (e.Id == this.IncidentAction.ClosedBy.Id && (!e.Active || e.DisabledDate.HasValue))
                     {
-                        this.CmbActionClosedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbActionClosedResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
             }
         }
 
-        this.TxtActionDescription = new FormText()
+        this.TxtActionDescription = new FormText
         {
             ColumnSpan = 10,
             ColumnSpanLabel = 2,
@@ -850,7 +851,7 @@ public partial class IncidentView : Page
             Value = this.IncidentAction.Description
         };
 
-        this.TxtActionWhatHappenedDate = new FormDatePicker()
+        this.TxtActionWhatHappenedDate = new FormDatePicker
         {
             Id = "TxtActionWhatHappenedDate",
             Label = this.dictionary["Common_Date"],
@@ -859,7 +860,7 @@ public partial class IncidentView : Page
             Value = this.IncidentAction.WhatHappenedOn
         };
 
-        this.TxtActionCausesDate = new FormDatePicker()
+        this.TxtActionCausesDate = new FormDatePicker
         {
             Id = "TxtActionCausesDate",
             Label = this.dictionary["Common_Date"],
@@ -868,7 +869,7 @@ public partial class IncidentView : Page
             Value = this.IncidentAction.CausesOn
         };
 
-        this.TxtActionActionsDate = new FormDatePicker()
+        this.TxtActionActionsDate = new FormDatePicker
         {
             Id = "TxtActionActionsDate",
             Label = this.dictionary["Common_DateExecution"],
@@ -877,7 +878,7 @@ public partial class IncidentView : Page
             Value = this.IncidentAction.ActionsOn
         };
 
-        this.TxtActionActionsSchedule = new FormDatePicker()
+        this.TxtActionActionsSchedule = new FormDatePicker
         {
             Id = "TxtActionActionsSchedule",
             Label = this.dictionary["Common_Date"],
@@ -886,13 +887,14 @@ public partial class IncidentView : Page
             Value = this.IncidentAction.ActionsSchedule
         };
 
-        this.TxtActionClosedDate = new FormDatePicker()
+        this.TxtActionClosedDate = new FormDatePicker
         {
             Id = "TxtActionClosedDate",
             Label = this.dictionary["Common_Date"],
             ColumnsSpanLabel = 2,
             ColumnsSpan = 2,
-            Value = this.IncidentAction.ClosedOn
+            Value = this.IncidentAction.ClosedOn,
+            Required = true
         };
     }
 
@@ -901,12 +903,12 @@ public partial class IncidentView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        ReadOnlyCollection<UploadFile> files = UploadFile.GetByItem(12, this.IncidentId, this.company.Id);
-        StringBuilder res = new StringBuilder();
-        StringBuilder resList = new StringBuilder();
+        var files = UploadFile.GetByItem(12, this.IncidentId, this.company.Id);
+        var res = new StringBuilder();
+        var resList = new StringBuilder();
         int contCells = 0;
-        ReadOnlyCollection<string> extensions = ToolsFile.ExtensionToShow;
-        foreach (UploadFile file in files)
+        var extensions = ToolsFile.ExtensionToShow;
+        foreach (var file in files)
         {
             decimal finalSize = ToolsFile.FormatSize((decimal)file.Size);
             string fileShowed = string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description;
