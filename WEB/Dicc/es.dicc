@@ -375,7 +375,7 @@ Item_Customer_Header_Status::Estado
 Item_Customer_Header_Type::Tipo
 Item_Customer_Help_Name::Nombre del cliente
 Item_Customer_Label_Costs::Calibraciones / Mantenimientos / Reparaciones
-Item_Customer_ListHeader_Name::Nombre
+Item_Customer_ListHeader_Name::Cliente
 Item_Customer_Popup_Delete_Question::¿Eliminar el cliente?
 Item_Customer_Popup_Delete_Title::Eliminar cliente
 Item_Customer_Section_Incidents::Incidencias y acciones
@@ -390,14 +390,14 @@ Item_Department_Button_New::Añadir
 Item_Department_Help_Field_Name::Indicar el nombre del departamento
 Item_Department_ListEmployees::Empleados
 Item_Department_ListEmployees_Header_Email::Correo
-Item_Department_ListEmployees_Header_Name::Nombre
+Item_Department_ListEmployees_Header_Name::Empleado
 Item_Department_ListEmployees_Header_Nif::NIF
 Item_Department_ListEmployees_Header_Phone::Teléfono
-Item_Department_ListHeader_Name::Nombre
+Item_Department_ListHeader_Name::Departamento
 Item_Department_ListHeaderEmployees::Empleados
 Item_Department_ListHeaderJobPositions::Cargos
 Item_Department_ListJobPositions::Cargos
-Item_Department_ListJobPositions_Header_Name::Nombre
+Item_Department_ListJobPositions_Header_Name::Cargo
 Item_Department_Message_WithoutEmployees::Sin empleados/as
 Item_Department_Popup_Delete_Title::Eliminar departamento
 Item_Department_PopupAdd_Title::Añadir departamento
@@ -1188,7 +1188,7 @@ Item_JobPosition_ListEmployees_Header_Nif::NIF
 Item_JobPosition_ListEmployees_Header_Phone::Teléfono
 Item_JobPosition_ListEmployees_Title::Empleados/as
 Item_JobPosition_ListHeader_Department::Departamento
-Item_JobPosition_ListHeader_Name::Nombre
+Item_JobPosition_ListHeader_Name::Cargo
 Item_JobPosition_ListHeader_Responsible::Responsable
 Item_JobPosition_Message_WithoutEmployees::Cargo sin empleados/as
 Item_JobPosition_Message_WithoutResponsible::Cargo sin responsable
@@ -1359,7 +1359,7 @@ Item_Profile_FieldLabel_Language::Idioma
 Item_Profile_FieldLabel_Name::Nombre
 Item_Profile_FieldLabel_Phone::Teléfono
 Item_Profile_ShortCuts::Botones de ayuda rápida
-Item_Profile_ShowHelp::Activar ayuda en línea
+Item_Profile_ShowHelp::Ayuda en línea
 Item_Profile_Title_PersonalData::Datos personales
 Item_Provider::Proveedor
 Item_Provider_Btn_New::Añadir
@@ -1378,7 +1378,7 @@ Item_Provider_Help_Name::Nombre del proveedor
 Item_Provider_Label_Costs::Actuaciones a Calibraciones / Verificaciones / Mantenimientos / Reparaciones
 Item_Provider_Label_Definitions::Configurado en Calibraciones / Verificaciones / Mantenimientos
 Item_Provider_Label_Incidents::Incidencias y acciones
-Item_Provider_ListHeader_Name::Nombre
+Item_Provider_ListHeader_Name::Proveedor
 Item_Provider_Popup_Delete_Title::Eliminar proveedor
 Item_Provider_PopupTitle_Delete::¿Eliminar el proveedor?
 Item_Provider_Tab_Principal::Datos básicos
@@ -1425,10 +1425,10 @@ Item_Trace_Unactive::Desactivación
 Item_Trace_Update::Actualización
 Item_Trace_Updated::Actualización
 Item_Traces::Trazas
-Item_Unidad::Unidades
+Item_Unidad::Unidad
 Item_Unidad_Btn_New::Nueva unidad
 Item_Unidad_Help_Description::Descripción de la unidad
-Item_Unidad_ListHeader_Description::Descripción
+Item_Unidad_ListHeader_Description::Unidad
 Item_Unidad_Popup_Delete_Title::¿Quiere eliminar la unidad
 Item_Unidad_PopupTitle_Delete::Eliminar unidad
 Item_Unidad_Tab_Principal::Datos básicos

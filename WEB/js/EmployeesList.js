@@ -196,13 +196,13 @@ function RenderEmployeeRow(employee) {
     res += "  <td" + style + ">";
     res += "    "+ employee.Link;
     res += "  </td>";
-    res += "  <td style=\"width: 250px;\">" + employee.Cargos +"</td>";
-    res += "  <td style=\"width: 250px;\">" + employee.Departamentos +"</td>";
-    res += "  <td style=\"width: 90px;\">";
+    res += "  <td style=\"width: 500px;\">" + employee.Cargos +"</td>";
+    res += "  <td style=\"width: 500px;\">" + employee.Departamentos +"</td>";
+    res += "  <td style=\"width: 89px;\">";
     res += "    <span title=\"Editar " + employee.FullName + "\" class=\"btn btn-xs btn-info\" onclick=\"EmployeeUpdate(" + employee.Id +", 'Editar'); \">";
     res += "      <i class=\"icon-edit bigger-120\"></i>";
     res += "    </span>";
-    res += "    &nbsp;";
+    //res += "    &nbsp;";
     res += "    <span title=\"Eliminar " + employee.FullName + "\" class=\"btn btn-xs btn-danger\" onclick=\"EmployeeDelete(" + employee.Id + ", '" + employee.FullName + "'," + employee.HasActions + "); \">";
     res += "      <i class=\"icon-trash bigger-120\"></i>";
     res += "    </span>";

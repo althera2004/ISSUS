@@ -1003,7 +1003,7 @@ namespace GisoFramework.Item
 
             return string.Format(
                 CultureInfo.GetCultureInfo("en-us"),
-                @"<tr><td>{0}</td><td style=""width:200px;"">{1}</td><td style=""width:200px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</tr>",
+                @"<tr><td>{0}</td><td style=""width:400px;"">{1}</td><td style=""width:400px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</tr>",
                 this.Link,
                 responsibleName,
                 departmentName,

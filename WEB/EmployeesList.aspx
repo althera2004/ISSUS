@@ -32,10 +32,10 @@
                                 <div class="col-xs-12">
                                 <div class="row" style="padding-bottom:8px;" id="SelectRow">
                                     <div class="col-xs-12">
-                                        <div class="col-xs-3">
+                                        <div class="col-xs-1">
                                             <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Active_Plural"] %>
                                         </div>
-                                        <div class="col-xs-3">
+                                        <div class="col-xs-1">
                                             <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Inactive_Plural"] %>
                                         </div>
                                     </div>
@@ -57,9 +57,9 @@
                                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                                 <thead class="thin-border-bottom">
                                                                     <tr id="ListDataHeader">
-                                                                        <th id="th0" onclick="Sort(this,'ListDataTable');" class="search sort"><%=this.Dictionary["Common_Name"] %></th>
-                                                                        <th id="th1" class="search" style="width: 250px;"><%=this.Dictionary["Item_JobPosition"] %></th>
-                                                                        <th id="th2" class="search" style="width: 250px;"><%=this.Dictionary["Item_Departments"] %></th>
+                                                                        <th id="th0" onclick="Sort(this,'ListDataTable');" class="search sort"><%=this.Dictionary["Item_Employee"] %></th>
+                                                                        <th id="th1" class="search" style="width: 500px;"><%=this.Dictionary["Item_JobPosition"] %></th>
+                                                                        <th id="th2" class="search" style="width: 500px;"><%=this.Dictionary["Item_Department"] %></th>
                                                                         <th style="width: 106px;">&nbsp;</th>
                                                                     </tr>
                                                                 </thead>

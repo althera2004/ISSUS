@@ -28,10 +28,10 @@
                                             <table class="table table-bordered table-striped" style="margin:0">
                                                 <thead class="thin-border-bottom">
 		                                            <tr id="ListDataHeader">
-			                                            <th onclick="Sort(this,'ListDataTable');" id="th0" class="search sort" style="cursor:pointer;">Nom</th>
-			                                            <th style="width:200px;" id="th1" class="hidden-480">Import</th>
-			                                            <th style="width:106px;">&nbsp;</th>
-		                                            </tr>
+			                                            <th onclick="Sort(this,'ListDataTable');" id="th0" class="search sort" style="cursor:pointer;"><%=this.Dictionary["Item_CostDefinition_ListHeader_Name"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable','money',false);" id="th1" class="search sort" style="width:200px; text-align:right"><%=this.Dictionary["Item_CostDefinition_ListHeader_Amount"]%>&nbsp;&nbsp;</th>
+                                                        <th style="width:106px;">&nbsp;</th>
+                                                    </tr>
 	                                            </thead>
                                             </table>
                                             <div id="ListDataDiv" style="overflow:scroll;overflow-x:hidden;padding:0;">

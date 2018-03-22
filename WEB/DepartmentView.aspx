@@ -30,14 +30,14 @@
 
                                                         <% if (this.DepartmentId != -1)
                                                            { %>
-                                                        <h4><%=this.Dictionary["Item_Department_ListEmployees"]%></h4>											
+                                                        <h4><%=this.Dictionary["Item_Department_ListEmployees"]%></h4>											 
                                                         <table class="table table-bordered table-striped">
                                                             <thead class="thin-border-bottom">
                                                                 <tr>
                                                                     <th style="cursor:pointer;" onclick="Sort(this,'InternalLearningDataTable');" id="th0" class=""><%=this.Dictionary["Item_Department_ListEmployees_Header_Name"]%></th>
-                                                                    <th class="hidden-480" style="width:90px;"><%=this.Dictionary["Item_Department_ListEmployees_Header_Nif"]%></th>
+                                                                    <th class="hidden-480" style="width:150px;"><%=this.Dictionary["Item_Department_ListEmployees_Header_Nif"]%></th>
                                                                     <th class="hidden-480"><%=this.Dictionary["Item_Department_ListEmployees_Header_Email"]%></th>
-                                                                    <th class="hidden-480" style="width:120px;"><%=this.Dictionary["Item_Department_ListEmployees_Header_Phone"]%></th>
+                                                                    <th class="hidden-480" style="width:150px;"><%=this.Dictionary["Item_Department_ListEmployees_Header_Phone"]%></th>
                                                                     <th style="width:45px;">&nbsp;</th>						
                                                                 </tr>
                                                             </thead>

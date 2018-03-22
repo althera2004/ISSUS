@@ -129,7 +129,7 @@ public partial class js_Data : Page
 
         StringBuilder departmentsCompanyJson = new StringBuilder("[");
         bool firstDepartment = true;
-        foreach (Department department in Department.GetByCompany(company.Id))
+        foreach (Department department in Department.ByCompany(company.Id))
         {
             if (!department.Deleted)
             {

@@ -204,7 +204,7 @@ Item_Customer_Header_Status::Status
 Item_Customer_Header_Type::Type
 Item_Customer_Help_Name::Customer name
 Item_Customer_Label_Costs::Calibrations / Maintenance / Repair
-Item_Customer_ListHeader_Name::Name
+Item_Customer_ListHeader_Name::Customer
 Item_Customer_Popup_Delete_Question::Want to delete customer
 Item_Customer_Popup_Delete_Title::Delete customer
 Item_Customer_Section_Incidents::Indicents and actions
@@ -220,7 +220,7 @@ Item_Department_ListEmployees_Header_Email::Email
 Item_Department_ListEmployees_Header_Name::Name
 Item_Department_ListEmployees_Header_Nif::NIF
 Item_Department_ListEmployees_Header_Phone::Phone
-Item_Department_ListHeader_Name::Name
+Item_Department_ListHeader_Name::Department
 Item_Department_ListHeaderEmployees::Employees
 Item_Department_ListHeaderJobPositions::Positions
 Item_Department_ListJobPositions::Positions
@@ -832,7 +832,7 @@ Item_JobPosition_ListEmployees_Header_Nif::NIF
 Item_JobPosition_ListEmployees_Header_Phone::Teléfono
 Item_JobPosition_ListEmployees_Title::Empleados
 Item_JobPosition_ListHeader_Department::Departamento
-Item_JobPosition_ListHeader_Name::Name
+Item_JobPosition_ListHeader_Name::Position
 Item_JobPosition_ListHeader_Responsible::Responsible
 Item_JobPosition_Message_WithoutEmployees::Cargo sin empleados
 Item_JobPosition_Message_WithoutResponsible::Cargo sin responsable
@@ -935,7 +935,7 @@ Item_Profile_FieldLabel_Language::Language
 Item_Profile_FieldLabel_Name::Name
 Item_Profile_FieldLabel_Phone::Phone
 Item_Profile_ShortCuts::Shorcuts
-Item_Profile_ShowHelp::Activate online help
+Item_Profile_ShowHelp::Online help
 Item_Profile_Title_PersonalData::Personal data
 Item_Provider::Provider
 Item_Provider_Btn_New::Add provider
@@ -954,6 +954,7 @@ Item_Provider_Help_Name::Provider name
 Item_Provider_Label_Costs::Actions on Calibratioes / Verififcations / Maintenance / Repairs
 Item_Provider_Label_Definitions::Set on Calibrations / Verifications / Mantenance
 Item_Provider_Label_Incidents::Incidents and actions
+Item_Provider_ListHeader_Name::Provider
 Item_Provider_Popup_Delete_Title::Delete provider
 Item_Provider_PopupTitle_Delete::Do you want to delete the provider
 Item_Provider_Tab_Principal::Main data

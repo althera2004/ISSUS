@@ -356,9 +356,9 @@ Item_Cost::Cost habitual
 Item_CostDefinition::Costos habituals
 Item_CostDefinition_Button_New::Afegir
 Item_CostDefinition_Field_Amount::Import
-Item_CostDefinition_Field_Description::Nom
+Item_CostDefinition_Field_Description::Cost
 Item_CostDefinition_ListHeader_Amount::Import
-Item_CostDefinition_ListHeader_Name::Nom
+Item_CostDefinition_ListHeader_Name::Cost habitual
 Item_CostDefinition_Popup_AddCost_Title::Afegir un cost habitual
 Item_CostDefinition_Popup_Delete_Title::Eliminar el cost
 Item_CostDefinition_PopupDelete_Message::Vol eliminar el cost
@@ -377,7 +377,7 @@ Item_Customer_Header_Status::Estat
 Item_Customer_Header_Type::Tipus
 Item_Customer_Help_Name::Nom del client
 Item_Customer_Label_Costs::Calibratges / Manteniments / Reparacions
-Item_Customer_ListHeader_Name::Nom
+Item_Customer_ListHeader_Name::Client
 Item_Customer_Popup_Delete_Question::Vol eliminar el client
 Item_Customer_Popup_Delete_Title::Eliminar el client
 Item_Customer_Section_Incidents::Incidències i accions
@@ -392,14 +392,14 @@ Item_Department_Button_New::Afegir
 Item_Department_Help_Field_Name::Indicar el nom del departament
 Item_Department_ListEmployees::Empleats/des
 Item_Department_ListEmployees_Header_Email::Correu
-Item_Department_ListEmployees_Header_Name::Nom
+Item_Department_ListEmployees_Header_Name::Empleat
 Item_Department_ListEmployees_Header_Nif::NIF
 Item_Department_ListEmployees_Header_Phone::Telèfon
-Item_Department_ListHeader_Name::Nom
+Item_Department_ListHeader_Name::Departament
 Item_Department_ListHeaderEmployees::Empleats/des
 Item_Department_ListHeaderJobPositions::Càrrecs
 Item_Department_ListJobPositions::Càrrecs
-Item_Department_ListJobPositions_Header_Name::Nom
+Item_Department_ListJobPositions_Header_Name::Càrrec
 Item_Department_Message_WithoutEmployees::Sense empleats/des
 Item_Department_Popup_Delete_Title::Eliminar el departament
 Item_Department_PopupAdd_Title::Afegir un departament
@@ -1225,7 +1225,7 @@ Item_JobPosition_ListEmployees_Header_Nif::NIF
 Item_JobPosition_ListEmployees_Header_Phone::Telèfon
 Item_JobPosition_ListEmployees_Title::Empleats/des
 Item_JobPosition_ListHeader_Department::Departament
-Item_JobPosition_ListHeader_Name::Nom
+Item_JobPosition_ListHeader_Name::Càrrec
 Item_JobPosition_ListHeader_Responsible::Responsable
 Item_JobPosition_Message_WithoutEmployees::Càrrec sense empleats/des
 Item_JobPosition_Message_WithoutResponsible::Càrrec sense responsable
@@ -1430,7 +1430,7 @@ Item_Profile_FieldLabel_Language::Idioma
 Item_Profile_FieldLabel_Name::Nom
 Item_Profile_FieldLabel_Phone::Telèfon
 Item_Profile_ShortCuts::Butons d'acció ràpida
-Item_Profile_ShowHelp::Activar l'ajut en línia
+Item_Profile_ShowHelp::Ajuda en linia
 Item_Profile_Title_PersonalData::Dades personals
 Item_Provider::Proveïdor
 Item_Provider_Btn_New::Afegir
@@ -1449,7 +1449,7 @@ Item_Provider_Help_Name::Nom del proveïdor
 Item_Provider_Label_Costs::Actuacions a Calibratges / Verificacions / Manteniments / Reparacions
 Item_Provider_Label_Definitions::Configurat a Calibratges / Verificacions / Manteniments
 Item_Provider_Label_Incidents::Incidències i accions
-Item_Provider_ListHeader_Name::Nom
+Item_Provider_ListHeader_Name::Proveïdor
 Item_Provider_Popup_Delete_Title::Eliminar proveïdor
 Item_Provider_PopupTitle_Delete::Eliminar el proveïdor
 Item_Provider_Tab_Principal::Dades bàsiques
@@ -1497,10 +1497,10 @@ Item_Trace_Unactive::Desactivació
 Item_Trace_Update::Actualització
 Item_Trace_Updated::Actualització
 Item_Traces::Traces
-Item_Unidad::Unitats
+Item_Unidad::Unitat
 Item_Unidad_Btn_New::Afegir
 Item_Unidad_Help_Description::Descripció de l'unitat
-Item_Unidad_ListHeader_Description::Descripció
+Item_Unidad_ListHeader_Description::Unitat
 Item_Unidad_Popup_Delete_Title::Vol eliminar l'unitat
 Item_Unidad_PopupTitle_Delete::Eliminar unitat
 Item_Unidad_Tab_Principal::Dades bàsiques
@@ -1577,7 +1577,7 @@ Item_Employee_Warning_NoUser::Aquest/a empleat/ada no té usuari/a assignat/da i 
 User_PrimaryUser::Usuari/a primari/a
 User_Admin::Administrador
 Item_Backup::Back-Up
-Item_Backup_Explain::Explicar que es un backup para poder hacer una restauración o migrar datos a otra aplicación y tal...
+Item_Backup_Explain::Al fer clic al botó, es descarregarà una arxiu XLS amb les dades de l'aplicació. Aquest arxiu us permet, per exemple, mantenir una còpia de seguretat, fer una restauració i fins i tot, una migració de dades cap a una altra aplicació.
 Item_Backup_Btn_Go::Iniciar back-up
 Item_EquipmentScaleDivision::Divisió d'escala
 Item_EquipmentCalibrationDefinition::Definició de calibracions

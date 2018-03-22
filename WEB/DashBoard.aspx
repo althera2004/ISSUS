@@ -26,10 +26,10 @@
                                 <!-- PAGE CONTENT BEGINS -->
                                 <div class="row" style="padding-bottom:8px;" id="SelectRow">
                                     <div class="col-xs-12">
-                                        <div class="col-xs-3">
+                                        <div class="col-xs-2">
                                             <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["DashBoard_SelectOwner"] %>
                                         </div>
-                                        <div class="col-xs-3">
+                                        <div class="col-xs-2">
                                             <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["DashBoard_SelectOthers"] %>
                                         </div>
                                     </div>

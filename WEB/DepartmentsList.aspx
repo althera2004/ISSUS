@@ -30,8 +30,8 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
-                                                        <th style="width: 220px;" onclick="Sort(this,'ListDataTable', 'text');" id="th0" class="sort search"><%=this.Dictionary["Item_Department_ListHeader_Name"] %></th>
-                                                        <th style="width: 300px;" class="search"><%=this.Dictionary["Item_Department_ListHeaderJobPositions"] %></th>
+                                                        <th style="width: 300px;" onclick="Sort(this,'ListDataTable', 'text');" id="th0" class="sort search"><%=this.Dictionary["Item_Department_ListHeader_Name"] %></th>
+                                                        <th style="width: 400px;" class="search"><%=this.Dictionary["Item_Department_ListHeaderJobPositions"] %></th>
                                                         <th class="search"><%=this.Dictionary["Item_Department_ListHeaderEmployees"] %></th>
                                                         <th style="width: 106px;">&nbsp;</th>
                                                     </tr>

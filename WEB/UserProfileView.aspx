@@ -227,7 +227,7 @@
                                                                 </select>
                                                             </div>
                                                             <div class="col-xs-1">&nbsp;</div>
-                                                            <label class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Profile_ShowHelp"] %></label>
+                                                            <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Profile_ShowHelp"] %></label>
                                                             <div class="col-xs-3">
                                                                 <label>
                                                                     <input name="chkShowHelp" id="chkShowHelp" class="ace ace-switch ace-switch-4" type="checkbox" <%=this.ShowHelpChecked %> />
@@ -241,13 +241,13 @@
                                                     <div>
                                                         <h4><%=this.Dictionary["Item_Profile_ShortCuts"]%></h4>
                                                         <div class="form-group">
-                                                            <div class="col-sm-4">
+                                                            <div class="col-sm-2">
                                                                 <div class="sidebar1" id="sidebar1" style="width:250px;">
                                                                     <!-- #sidebar-shortcuts -->
                                                                     <asp:Literal runat="server" ID="LtMenuShortCuts"></asp:Literal>
                                                                 </div>
                                                             </div>
-                                                            <label class="col-sm-1" for="form-field-1" id="ColorSelectedSpan"></label>
+                                                            <label class="col-sm-1 control-label no-padding-right" for="form-field-1" id="ColorSelectedSpan"></label>
                                                             <div class="col-sm-4"><asp:DropDownList runat="server" ID="CmbShorcuts"></asp:DropDownList></div>
                                                         </div>
                                                     </div> 
