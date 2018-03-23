@@ -171,16 +171,15 @@ public partial class ExportPrintFormacionData : Page
         document.SetPageSize(PageSize.A4.Rotate());
         document.NewPage();
 
-        var tableMaintenance = new iTSpdf.PdfPTable(3)
+        var tableAssistants = new iTSpdf.PdfPTable(3)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 1,
             SpacingBefore = 20f
         };
 
-        tableMaintenance.SetWidths(new float[] { 90f, 20f, 20f });
-        
-        tableMaintenance.AddCell(new PdfPCell(new Phrase(learning.Description, descriptionFont))
+        tableAssistants.SetWidths(new float[] { 90f, 20f, 20f });        
+        tableAssistants.AddCell(new PdfPCell(new Phrase(learning.Description, descriptionFont))
         {
             Colspan = 5,
             Border = Rectangle.NO_BORDER,
@@ -189,9 +188,9 @@ public partial class ExportPrintFormacionData : Page
             HorizontalAlignment = Element.ALIGN_CENTER
         });
 
-        tableMaintenance.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistants"].ToUpperInvariant(), headerFontFinal));
-        tableMaintenance.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistant_Status_Done"].ToUpperInvariant(), headerFontFinal));
-        tableMaintenance.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistant_Status_Evaluated"].ToUpperInvariant(), headerFontFinal));
+        tableAssistants.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistants"].ToUpperInvariant(), headerFontFinal));
+        tableAssistants.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistant_Status_Done"].ToUpperInvariant(), headerFontFinal));
+        tableAssistants.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistant_Status_Evaluated"].ToUpperInvariant(), headerFontFinal));
 
         int cont = 0;
         var data = Equipment.GetList(companyId);
@@ -201,31 +200,30 @@ public partial class ExportPrintFormacionData : Page
         learning.ObtainAssistance();
         foreach (var assistance in learning.Assistance)
         {
-
             int border = 0;
             var lineBackground = pair ? rowEven : rowPair;
 
-            tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(assistance.Employee.FullName, times))
+            tableAssistants.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(assistance.Employee.FullName, times))
             {
                 Border = border,
                 BackgroundColor = lineBackground,
-                Padding = 6f,
-                PaddingTop = 4f
+                Padding = ToolsPdf.PaddingTableCell,
+                PaddingTop = ToolsPdf.PaddingTopTableCell
             });
 
-            string completedText = dictionary["Common_Internal"];
+            string completedText = string.Empty;
             if (assistance.Completed.HasValue)
             {
                 completedText = assistance.Completed.Value ? dictionary["Common_Yes"] : dictionary["Common_No"];
             }
 
-            tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(completedText, times))
+            tableAssistants.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(completedText, times))
             {
                 Border = border,
                 BackgroundColor = lineBackground,
                 HorizontalAlignment = Element.ALIGN_CENTER,
-                Padding = 6f,
-                PaddingTop = 4f
+                Padding = ToolsPdf.PaddingTableCell,
+                PaddingTop = ToolsPdf.PaddingTopTableCell
             });
 
             string successText = string.Empty;
@@ -234,13 +232,13 @@ public partial class ExportPrintFormacionData : Page
                 successText = assistance.Success.Value ? dictionary["Common_Yes"] : dictionary["Common_No"];
             }
             
-            tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(successText, times))
+            tableAssistants.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(successText, times))
             {
                 Border = border,
                 BackgroundColor = lineBackground,
                 HorizontalAlignment = Element.ALIGN_CENTER,
-                Padding = 6f,
-                PaddingTop = 4f
+                Padding = ToolsPdf.PaddingTableCell,
+                PaddingTop = ToolsPdf.PaddingTopTableCell
             });
             cont++;
         }
@@ -248,18 +246,18 @@ public partial class ExportPrintFormacionData : Page
         // TotalRow
         if(learning.Assistance.Count == 0)
         {
-            tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_LearningList_NoAssistants"], descriptionFont))
+            tableAssistants.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_LearningList_NoAssistants"], descriptionFont))
             {
                 Border = iTS.Rectangle.TOP_BORDER,
                 BackgroundColor = rowEven,
-                Padding = 6f,
-                PaddingTop = 4f,
+                Padding = ToolsPdf.PaddingTableCell,
+                PaddingTop = ToolsPdf.PaddingTopTableCell,
                 Colspan = 3,
                 HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
         }
 
-        tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(
+        tableAssistants.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(
             CultureInfo.InvariantCulture,
             @"{0}: {1}",
             dictionary["Common_RegisterCount"],
@@ -267,12 +265,12 @@ public partial class ExportPrintFormacionData : Page
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = rowEven,
-            Padding = 6f,
-            PaddingTop = 4f,
+            Padding = ToolsPdf.PaddingTableCell,
+            PaddingTop = ToolsPdf.PaddingTopTableCell,
             Colspan = 3
         });
 
-        document.Add(tableMaintenance);
+        document.Add(tableAssistants);
         #endregion
 
         document.Close();
@@ -296,8 +294,8 @@ public partial class ExportPrintFormacionData : Page
         {
             Colspan = colSpan,
             HorizontalAlignment = Element.ALIGN_LEFT,
-            Padding = 8,
-            PaddingTop = 6,
+            Padding = ToolsPdf.PaddingTableCell,
+            PaddingTop = ToolsPdf.PaddingTopTableCell,
             Border = Rectangle.BOTTOM_BORDER
         };
     }
@@ -308,8 +306,8 @@ public partial class ExportPrintFormacionData : Page
         {
             Colspan = 1,
             HorizontalAlignment = Element.ALIGN_RIGHT,
-            Padding = 8,
-            PaddingTop = 6,
+            Padding = ToolsPdf.PaddingTableCell,
+            PaddingTop = ToolsPdf.PaddingTopTableCell,
             Border = Rectangle.NO_BORDER
         };
     }
@@ -325,8 +323,8 @@ public partial class ExportPrintFormacionData : Page
         {
             Colspan = colsPan,
             HorizontalAlignment = Element.ALIGN_LEFT,
-            Padding = 8,
-            PaddingTop = 6,
+            Padding = ToolsPdf.PaddingTableCell,
+            PaddingTop = ToolsPdf.PaddingTopTableCell,
             Border = Rectangle.NO_BORDER
         };
     }
@@ -350,8 +348,8 @@ public partial class ExportPrintFormacionData : Page
             Colspan = 6,
             HorizontalAlignment = Element.ALIGN_CENTER,
             BackgroundColor = new BaseColor(225, 225, 225),
-            Padding = 8,
-            PaddingTop = 6
+            Padding = ToolsPdf.PaddingTableCell,
+            PaddingTop = ToolsPdf.PaddingTopTableCell
         };
     }
 

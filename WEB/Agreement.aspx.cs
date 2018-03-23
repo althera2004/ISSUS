@@ -113,7 +113,7 @@ public partial class Agreement : Page
         text = text.Replace("#EMAIL#", "<strong>" + this.User.Email + "</strong>");
         text = text.Replace("\r", "</p>");
         text = text.Replace("\n", string.Empty);
-        text = text.Replace("#DATE#", string.Format(CultureInfo.InvariantCulture, @"{0:dd/MM/yyyy}", DateTime.Now));
+        text = text.Replace("#DATE#", Constant.NowText);
 
         this.LtAgreement.Text = "<p>" + text;
     }
@@ -164,7 +164,7 @@ public partial class Agreement : Page
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, company.Id),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
-            Date = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", DateTime.Now),
+            Date = Constant.NowText,
             CreatedBy = user.UserName,
             CompanyId = company.Id,
             CompanyName = company.Name,
@@ -200,7 +200,7 @@ public partial class Agreement : Page
         text = text.Replace("#USER_NAME#", user.UserName);
         text = text.Replace("#EMAIL#", user.Email);
         text = text.Replace("\r", string.Empty);
-        text = text.Replace("#DATE#", string.Format(CultureInfo.InvariantCulture, @"{0:dd/MM/yyyy}", DateTime.Now));
+        text = text.Replace("#DATE#", Constant.NowText);
 
         var paragraphs = text.Split('\n');
 

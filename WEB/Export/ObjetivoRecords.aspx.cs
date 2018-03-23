@@ -27,6 +27,8 @@ using NPOI.HSSF.UserModel;
 using NPOI.HSSF.Model;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
+using System.Web.UI.DataVisualization.Charting;
+using DR = System.Drawing;
 
 /// <summary>
 /// Implements reporting in PDF and Excel for "objetivo" records
@@ -69,7 +71,7 @@ public partial class ExportObjetivoRecords : Page
             @"{0}_{1}_{2:yyyyMMddhhmmss}.xls",
             dictionary["Item_Objetivo_RecordsReportTitle"],
             objetivoName,
-            DateTime.Now);
+            Constant.Now);
 
         var wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
         var sh = (HSSFSheet)wb.CreateSheet(dictionary["Item_Objetivo_RecordsReportTitle"]);
@@ -189,6 +191,7 @@ public partial class ExportObjetivoRecords : Page
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH1|ASC":
                 registros = registros.OrderBy(d => d.Value).ToList();
                 break;
@@ -221,6 +224,8 @@ public partial class ExportObjetivoRecords : Page
                 break;
         }
 
+        int cont = 0;
+        var dataPoints = new List<PointData>();
         foreach (var registroObjetivo in registros)
         {
             if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
@@ -455,6 +460,7 @@ public partial class ExportObjetivoRecords : Page
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH1|ASC":
                 registros = registros.OrderBy(d => d.Value).ToList();
                 break;
@@ -762,6 +768,7 @@ public partial class ExportObjetivoRecords : Page
         
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH1|ASC":
                 registros = registros.OrderBy(d => d.Value).ToList();
                 break;
@@ -794,36 +801,48 @@ public partial class ExportObjetivoRecords : Page
                 break;
         }
 
-        foreach (var registroObjetivo in registros)
+
+        var dataPoints = new List<PointData>();
+        foreach (var registro in registros)
         {
+            var color = 0;
             string statusLabel = dictionary["Item_Objetivo_StatusLabelWithoutMeta"];            
-            if (registroObjetivo.MetaComparer == "eq" && registroObjetivo.Value == registroObjetivo.Meta) {  statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (registroObjetivo.MetaComparer == "gt" && registroObjetivo.Value > registroObjetivo.Meta) {  statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (registroObjetivo.MetaComparer == "eqgt" && registroObjetivo.Value >= registroObjetivo.Meta) {  statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (registroObjetivo.MetaComparer == "lt" && registroObjetivo.Value < registroObjetivo.Meta) {  statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (registroObjetivo.MetaComparer == "eqlt" && registroObjetivo.Value <= registroObjetivo.Meta) {  statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            if (registro.MetaComparer == "eq" && registro.Value == registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (registro.MetaComparer == "gt" && registro.Value > registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (registro.MetaComparer == "eqgt" && registro.Value >= registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (registro.MetaComparer == "lt" && registro.Value < registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (registro.MetaComparer == "eqlt" && registro.Value <= registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
             else
             {
                 statusLabel = dictionary["Item_Objetivo_StatusLabelNoMeta"];
             }
 
             table.AddCell(ToolsPdf.DataCell(statusLabel, times));
-            table.AddCell(ToolsPdf.DataCellMoney(registroObjetivo.Value, times));
-            table.AddCell(ToolsPdf.DataCell(registroObjetivo.Date, times));
-            table.AddCell(ToolsPdf.DataCell(registroObjetivo.Comments, times));
+            table.AddCell(ToolsPdf.DataCellMoney(registro.Value, times));
+            table.AddCell(ToolsPdf.DataCell(registro.Date, times));
+            table.AddCell(ToolsPdf.DataCell(registro.Comments, times));
 
-            string metaText = IndicadorRegistro.ComparerLabelSign(registroObjetivo.MetaComparer, dictionary);
-            if (!registroObjetivo.Meta.HasValue)
+            string metaText = IndicadorRegistro.ComparerLabelSign(registro.MetaComparer, dictionary);
+            if (!registro.Meta.HasValue)
             {
                 metaText = string.Empty;
             }
             else
             {
-                metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, registroObjetivo.Meta);
+                metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, registro.Meta);
             }
 
             table.AddCell(ToolsPdf.DataCell(metaText, times));
-            table.AddCell(ToolsPdf.DataCell(registroObjetivo.Responsible.FullName, times));
+            table.AddCell(ToolsPdf.DataCell(registro.Responsible.FullName, times));
+
+            dataPoints.Add(new PointData
+            {
+                Value = registro.Value,
+                Meta = registro.Meta ?? 0,
+                Alarma = 0,
+                Date = registro.Date,
+                Status = color
+            });
             cont++;
         }
 
@@ -846,6 +865,76 @@ public partial class ExportObjetivoRecords : Page
             BackgroundColor = backgroundColor,
             Colspan = 4
         });
+
+        string graphName = string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, "graph.jpg");
+        using (var ch = new Chart())
+        {
+            ch.ChartAreas.Add(new ChartArea("Valor"));
+            var series = new Series();
+            ch.Width = 800;
+            ch.Height = 350;
+            ch.Series.Add("Values");
+            ch.Series["Values"].ChartType = SeriesChartType.Column;
+            ch.Series["Values"].YValueType = ChartValueType.Double;
+
+            ch.Series.Add("Meta");
+            ch.Series["Meta"].ChartType = SeriesChartType.Line;
+            ch.Series["Meta"].BorderWidth = 3;
+            ch.Series["Meta"].BorderColor = DR.Color.Green;
+            ch.Series["Meta"].YValueType = ChartValueType.Double;
+
+            ch.Series.Add("Alarma");
+            ch.Series["Alarma"].ChartType = SeriesChartType.Line;
+            ch.Series["Alarma"].BorderWidth = 3;
+            ch.Series["Alarma"].BorderColor = DR.Color.Pink;
+            ch.Series["Alarma"].YValueType = ChartValueType.Double;
+
+            foreach (var dataPoint in dataPoints)
+            {
+                ch.Series["Values"].Points.AddXY(string.Format("{0:dd/MM/yyyy}", dataPoint.Date), dataPoint.Value);
+                ch.Series["Meta"].Points.AddY(dataPoint.Meta);
+                ch.Series["Alarma"].Points.AddY(dataPoint.Alarma ?? 0);
+            }
+
+            ch.Series["Values"].IsValueShownAsLabel = true;
+            ch.Series["Values"].Font = new DR.Font("Arial", 8, DR.FontStyle.Bold);
+
+            ch.Series["Values"].ChartArea = "Valor";
+            ch.Series["Meta"].ChartArea = "Valor";
+            ch.Series["Alarma"].ChartArea = "Valor";
+
+            ch.ChartAreas["Valor"].AxisX.LabelStyle.Font = new DR.Font("Arial", 8);
+            ch.ChartAreas["Valor"].AxisX.MajorGrid.Enabled = false;
+            ch.ChartAreas["Valor"].AxisX.LabelStyle.Angle = 75;
+            ch.ChartAreas["Valor"].AxisY.LabelStyle.Font = new DR.Font("Arial", 10);
+            ch.ChartAreas["Valor"].RecalculateAxesScale();
+
+            int cp = 0;
+            foreach (DataPoint Point in ch.Series["Values"].Points)
+            {
+                switch (dataPoints[cp].Status)
+                {
+                    default:
+                    case 0: Point.Color = DR.Color.DarkGray; break;
+                    case 1: Point.Color = DR.Color.Green; break;
+                    case 2: Point.Color = DR.Color.Red; break;
+                    case 3: Point.Color = DR.Color.Orange; break;
+                }
+
+                cp++;
+            }
+
+            ch.Series.Add(series);
+            ch.SaveImage(graphName, ChartImageFormat.Jpeg);
+        }
+
+        var tif = Image.GetInstance(graphName);
+        tif.ScalePercent(100);
+
+        pdfDoc.Add(table);
+        pdfDoc.NewPage();
+        pdfDoc.Add(new iTS.Phrase("Grafico", times));
+        pdfDoc.Add(tif);
 
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();
@@ -1040,6 +1129,7 @@ public partial class ExportObjetivoRecords : Page
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH1|ASC":
                 registros = registros.OrderBy(d => d.Value).ToList();
                 break;
@@ -1085,43 +1175,57 @@ public partial class ExportObjetivoRecords : Page
             registros = registros.Where(r => r.Date <= dateTo).ToList();
         }
 
-        foreach (var registroObjetivo in registros)
+        
+        var dataPoints = new List<PointData>();
+        foreach (var registro in registros)
         {
             cont++;
-            string metaText = IndicadorRegistro.ComparerLabelSign(registroObjetivo.MetaComparer, dictionary);
-            metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, registroObjetivo.Meta);
-            string alarmText = IndicadorRegistro.ComparerLabelSign(registroObjetivo.MetaComparer, dictionary);
-            alarmText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", alarmText, registroObjetivo.Meta);
+            string metaText = IndicadorRegistro.ComparerLabelSign(registro.MetaComparer, dictionary);
+            metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, registro.Meta);
+            string alarmText = IndicadorRegistro.ComparerLabelSign(registro.MetaComparer, dictionary);
+            alarmText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", alarmText, registro.Meta);
+            int color = 0;
 
             string statusLabel = dictionary["Item_Objetivo_StatusLabelWithoutMeta"];
-            if (metaText == "eq" && registroObjetivo.Value == registroObjetivo.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "gt" && registroObjetivo.Value > registroObjetivo.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "eqgt" && registroObjetivo.Value >= registroObjetivo.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "lt" && registroObjetivo.Value < registroObjetivo.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "eqlt" && registroObjetivo.Value <= registroObjetivo.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            if (metaText == "eq" && registro.Value == registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "gt" && registro.Value > registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "eqgt" && registro.Value >= registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "lt" && registro.Value < registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "eqlt" && registro.Value <= registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
             else if (!string.IsNullOrEmpty(alarmText))
             {
-                if (alarmText == "gt" && registroObjetivo.Value > registroObjetivo.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == "eqgt" && registroObjetivo.Value >= registroObjetivo.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == "lt" && registroObjetivo.Value < registroObjetivo.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == "eqlt" && registroObjetivo.Value <= registroObjetivo.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                if (alarmText == "gt" && registro.Value > registro.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == "eqgt" && registro.Value >= registro.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == "lt" && registro.Value < registro.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == "eqlt" && registro.Value <= registro.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
                 else
                 {
                     statusLabel = dictionary["Item_Objetivo_StatusLabelNoMeta"];
+                    color = 3;
                 }
             }
             else
             {
                 statusLabel = dictionary["Item_Objetivo_StatusLabelNoMeta"];
+                color = 3;
             }
 
             table.AddCell(ToolsPdf.DataCell(statusLabel, times));
-            table.AddCell(ToolsPdf.DataCellRight(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", registroObjetivo.Value), times));
-            table.AddCell(ToolsPdf.DataCellCenter(registroObjetivo.Date, times));
-            table.AddCell(ToolsPdf.DataCell(registroObjetivo.Comments, times));
+            table.AddCell(ToolsPdf.DataCellRight(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", registro.Value), times));
+            table.AddCell(ToolsPdf.DataCellCenter(registro.Date, times));
+            table.AddCell(ToolsPdf.DataCell(registro.Comments, times));
             table.AddCell(ToolsPdf.DataCell(metaText, times));
             table.AddCell(ToolsPdf.DataCell(alarmText, times));
-            table.AddCell(ToolsPdf.DataCell(registroObjetivo.Responsible.FullName, times));
+            table.AddCell(ToolsPdf.DataCell(registro.Responsible.FullName, times));
+
+            dataPoints.Add(new PointData
+            {
+                Value = registro.Value,
+                Meta = registro.Meta,
+                Alarma = registro.Alarma,
+                Date = registro.Date,
+                Status = color
+            });
         }
 
         table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(
@@ -1144,9 +1248,88 @@ public partial class ExportObjetivoRecords : Page
             Colspan = 4
         });
 
+        string graphName = string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, "graph.jpg");
+        using (var ch = new Chart())
+        {
+            ch.ChartAreas.Add(new ChartArea("Valor"));
+            var series = new Series();
+            ch.Width = 800;
+            ch.Height = 350;
+            ch.Series.Add("Values");
+            ch.Series["Values"].ChartType = SeriesChartType.Column;
+            ch.Series["Values"].YValueType = ChartValueType.Double;
+
+            ch.Series.Add("Meta");
+            ch.Series["Meta"].ChartType = SeriesChartType.Line;
+            ch.Series["Meta"].BorderWidth = 3;
+            ch.Series["Meta"].BorderColor = DR.Color.Green;
+            ch.Series["Meta"].YValueType = ChartValueType.Double;
+
+            ch.Series.Add("Alarma");
+            ch.Series["Alarma"].ChartType = SeriesChartType.Line;
+            ch.Series["Alarma"].BorderWidth = 3;
+            ch.Series["Alarma"].BorderColor = DR.Color.Pink;
+            ch.Series["Alarma"].YValueType = ChartValueType.Double;
+
+            foreach (var dataPoint in dataPoints)
+            {
+                ch.Series["Values"].Points.AddXY(string.Format("{0:dd/MM/yyyy}", dataPoint.Date), dataPoint.Value);
+                ch.Series["Meta"].Points.AddY(dataPoint.Meta);
+                ch.Series["Alarma"].Points.AddY(dataPoint.Alarma ?? 0);
+            }
+
+            ch.Series["Values"].IsValueShownAsLabel = true;
+            ch.Series["Values"].Font = new DR.Font("Arial", 8, DR.FontStyle.Bold);
+
+            ch.Series["Values"].ChartArea = "Valor";
+            ch.Series["Meta"].ChartArea = "Valor";
+            ch.Series["Alarma"].ChartArea = "Valor";
+
+            ch.ChartAreas["Valor"].AxisX.LabelStyle.Font = new DR.Font("Arial", 8);
+            ch.ChartAreas["Valor"].AxisX.MajorGrid.Enabled = false;
+            ch.ChartAreas["Valor"].AxisX.LabelStyle.Angle = 75;
+            ch.ChartAreas["Valor"].AxisY.LabelStyle.Font = new DR.Font("Arial", 10);
+            ch.ChartAreas["Valor"].RecalculateAxesScale();
+
+            int cp = 0;
+            foreach (DataPoint Point in ch.Series["Values"].Points)
+            {
+                switch (dataPoints[cp].Status)
+                {
+                    default:
+                    case 0: Point.Color = DR.Color.DarkGray; break;
+                    case 1: Point.Color = DR.Color.Green; break;
+                    case 2: Point.Color = DR.Color.Red; break;
+                    case 3: Point.Color = DR.Color.Orange; break;
+                }
+
+                cp++;
+            }
+
+            ch.Series.Add(series);
+            ch.SaveImage(graphName, ChartImageFormat.Jpeg);
+        }
+
+        var tif = Image.GetInstance(graphName);
+        tif.ScalePercent(100);
+
+        pdfDoc.Add(table);
+        pdfDoc.NewPage();
+        pdfDoc.Add(new iTS.Phrase("Grafico", times));
+        pdfDoc.Add(tif);
+
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();
         res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
         return res;
+    }
+
+    private struct PointData
+    {
+        public Decimal Value { get; set; }
+        public Decimal Meta { get; set; }
+        public Decimal? Alarma { get; set; }
+        public DateTime Date { get; set; }
+        public int Status { get; set; }
     }
 }

@@ -203,6 +203,7 @@ namespace GisoFramework.Item
 
         public static Equipment GetById(long equipmentId, int companyId)
         {
+            var source = string.Format(CultureInfo.InvariantCulture, "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId);
             /* CREATE PROCEDURE Equipment_GetById
              *   @EquipmentId bigint,
              *   @CompanyId int */
@@ -319,27 +320,27 @@ namespace GisoFramework.Item
                     }
                     catch (SqlException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentNullException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (InvalidCastException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -422,6 +423,7 @@ namespace GisoFramework.Item
         /// <returns></returns>
         public static ReadOnlyCollection<Equipment> GetList(int companyId)
         {
+            var source = string.Format(CultureInfo.InvariantCulture, "Equipment::GetList({0})", companyId);
             var res = new List<Equipment>();
             /* CREATE PROCEDURE Equipment_GetList
              *   @CompanyId int */
@@ -469,27 +471,27 @@ namespace GisoFramework.Item
                     }
                     catch (SqlException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentNullException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (InvalidCastException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -574,7 +576,6 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess(equipmentId);
@@ -1060,6 +1061,7 @@ namespace GisoFramework.Item
 
         public void GetCalibrationDefinitions()
         {
+            var source = string.Format(CultureInfo.InvariantCulture, "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId);
             /* CREATE PROCEDURE Equipment_GetCalibrationDefinition
              *   @EquipmentId bigint,
              *   @CompanyId int */
@@ -1140,27 +1142,27 @@ namespace GisoFramework.Item
                     }
                     catch (SqlException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentNullException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (InvalidCastException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -1206,7 +1208,7 @@ namespace GisoFramework.Item
             string iconEditFigure = grantWrite ? "icon-edit" : "icon-eye-open";
 
             string iconEdit = string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""document.location='EquipmentView.aspx?id={0}';""><i class=""{3} bigger-120""></i></span>",
                 this.Id,
                 Tools.SetTooltip(this.Description),
@@ -1217,7 +1219,7 @@ namespace GisoFramework.Item
             if (grantEquipment)
             {
                 iconDelete = string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     @"<span title=""{2} {1}"" class=""btn btn-xs btn-danger"" onclick=""EquipmentDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>",
                     this.Id,
                     Tools.SetTooltip(this.Description),
@@ -1225,7 +1227,7 @@ namespace GisoFramework.Item
             }
 
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<tr><td class=""hidden-480"" style=""width:110px;"">{0}</td><td>{1}</td><td class=""hidden-480"" style=""width:120px;"">{2}</td><td class=""hidden-480"" style=""width:250px;"">{3}</td><td class=""hidden-480"" style=""width:35px;text-align:center;"">{7}</td><td style=""width:90px;"">{4}&nbsp;{5}</td></tr>{6}",
                 this.CodeLink,
                 this.Link,

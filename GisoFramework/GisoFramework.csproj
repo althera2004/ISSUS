@@ -89,6 +89,7 @@
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="ApplicationItem.cs" />
+    <Compile Include="Constant.cs" />
     <Compile Include="DifferenciableAttribute.cs" />
     <Compile Include="Item\BaseItem.cs" />
     <Compile Include="Item\Binding\ColumnsBusinessRiskFilterGet.cs" />

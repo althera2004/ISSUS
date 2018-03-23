@@ -10,6 +10,7 @@ namespace PDF_Tests
     using System.Collections.Generic;
     using System.Globalization;
     using System.Web;
+    using GisoFramework;
     using iTextSharp.text;
     using iTextSharp.text.pdf;
 
@@ -22,7 +23,7 @@ namespace PDF_Tests
         BaseFont bf = null;
 
         // This keeps track of the creation time
-        DateTime PrintTime = DateTime.Now;
+        DateTime PrintTime = Constant.Now;
         #region Properties
         public string Title { get; set; }
         public List<string> Titles;
@@ -55,7 +56,7 @@ namespace PDF_Tests
                     pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
                 }
 
-                PrintTime = DateTime.Now;
+                PrintTime = Constant.Now;
                 //this.bf = BaseFont.CreateFont(BaseFont.Ar, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
                 this.bf = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                 cb = writer.DirectContent;

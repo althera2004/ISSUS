@@ -349,7 +349,7 @@ function BusinessRiskRenderTable(list) {
                 "Code": item.Code,
                 "Rules": item.Rules,
                 "Result": realResult,
-                "Assumed": realAction === 1,
+                "Assumed": item.Assumed, //realAction === 1,
                 "RuleLimit": item.RuleLimit
             });
         }

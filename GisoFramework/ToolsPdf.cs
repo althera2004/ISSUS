@@ -11,15 +11,45 @@ namespace GisoFramework
     using iTS = iTextSharp.text;
     using iTSpdf = iTextSharp.text.pdf;
     using System.Globalization;
+    using System.Web;
 
     public static class ToolsPdf
     {
+        public const float PaddingTableCell = 8;
+        public const float PaddingTopTableCell = 6;
+        public const float PaddingTopCriteriaCell = 4;
         public static readonly BaseColor SummaryBackgroundColor = new BaseColor(240, 240, 240);
         public static readonly iTS.BaseColor LineBackgroundColor = new iTS.BaseColor(255, 255, 255);
         public static readonly iTS.BaseColor HeaderBackgroundColor = new iTS.BaseColor(220, 220, 220);
         public const int BorderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
         public const int BorderNone = iTS.Rectangle.NO_BORDER;
         public const int BorderBottom = iTS.Rectangle.BOTTOM_BORDER;
+
+        public static string FontPath
+        {
+            get
+            {
+                string pathFonts = HttpContext.Current.Request.PhysicalApplicationPath;
+                return string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts);
+            }
+        }
+
+        public static readonly iTSpdf.BaseFont HeaderFont = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
+        public static readonly iTSpdf.BaseFont Arial = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
+        public static readonly iTSpdf.BaseFont AwesomeFont = iTSpdf.BaseFont.CreateFont(FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
+
+        public static readonly iTS.Font TimesBold = new iTS.Font(ToolsPdf.Arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+
+        public static iTSpdf.PdfPCell CriteriaCellLabel(string label)
+        {
+            return new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture,"{0} :", label), TimesBold))
+            {
+                Border = ToolsPdf.BorderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = ToolsPdf.PaddingTopTableCell,
+                PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+            };
+        }
 
         public static iTSpdf.PdfPCell HeaderCell(string label, iTS.Font font)
         {
@@ -28,8 +58,8 @@ namespace GisoFramework
                 Border = BorderAll,
                 BackgroundColor = HeaderBackgroundColor,
                 HorizontalAlignment = iTS.Element.ALIGN_CENTER,
-                Padding = 8f,
-                PaddingTop = 6f
+                Padding = PaddingTableCell,
+                PaddingTop = PaddingTopTableCell
             };
         }
 

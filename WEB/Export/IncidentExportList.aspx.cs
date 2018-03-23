@@ -377,6 +377,7 @@ public partial class ExportIncidentExportList : Page
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH0|ASC":
                 data = data.OrderBy(d => d.Description).ToList();
                 break;

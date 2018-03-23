@@ -469,7 +469,7 @@ function DepartmentInsertConfirmed(newDescription) {
     var newId = 0;
 
     $.ajax({
-        "type: "POST",
+        "type": "POST",
         "url": "/Async/DepartmentActions.asmx/DepartmentInsert",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",

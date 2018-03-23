@@ -41,9 +41,9 @@ public partial class AsyncUploadDocumentAttachment : Page
             Extension = extension,
             Active = true,
             CreatedBy = new ApplicationUser() { Id = applicationUserId },
-            CreatedOn = DateTime.Now,
+            CreatedOn = Constant.Now,
             ModifiedBy = new ApplicationUser() { Id = applicationUserId },
-            ModifiedOn = DateTime.Now
+            ModifiedOn = Constant.Now
         };
 
         var res = uploadFile.Insert(applicationUserId);
