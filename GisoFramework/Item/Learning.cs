@@ -593,7 +593,9 @@ namespace GisoFramework.Item
                 iconDeleteAction = "LearningDeleteDisabled";
             }
 
+            // @alex: al poner la descripcion sustiuir ' por \' para evitar un javascript mal formado 
             string iconUpdate = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-info"" onclick=""LearningUpdate({0});""><i class=""icon-edit bigger-120""></i></span>", this.Id, this.Description, dictionary["Common_Edit"]);
+            this.Description = this.Description.Replace('\'', '´');
             string iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""{3}({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, this.Description, dictionary["Common_Delete"], iconDeleteAction);
 
             res.Append("<tr>");

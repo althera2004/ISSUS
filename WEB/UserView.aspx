@@ -60,14 +60,15 @@
                                                                 <asp:Literal runat="server" ID="LtIdiomas"></asp:Literal>
                                                             </select>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-12">
-                                                        <label id="TxtPrimaryUserLabel" class="col-sm-1 control-label no-padding-right">&nbsp;</label>
-                                                        <div class="col-sm-5">
+                                                    <!--/div>
+                                                    <div class="form-group col-sm-12"-->
+                                                        <label id="" class="col-sm-2 control-label no-padding-right">&nbsp;</label>
+                                                        <label id="TxtPrimaryUserLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_User_Rol"] %></label>
+                                                        <div class="col-sm-1">
                                                             <input type="checkbox" id="ChkPrimaryUser" disabled="disabled" />&nbsp;<%=this.Dictionary["User_PrimaryUser"] %>
                                                         </div>
                                                         <label id="TxtAdminLabel" class="col-sm-1 control-label no-padding-right _emailed">&nbsp;</label>
-                                                        <div class="col-sm-5 _emailed">
+                                                        <div class="col-sm-1 _emailed">
                                                             <input type="checkbox" id="ChkAdmin" />&nbsp;<%=this.Dictionary["User_Admin"] %>
                                                         </div>
                                                     </div>

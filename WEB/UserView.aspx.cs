@@ -254,7 +254,7 @@ public partial class UserView : Page
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Users", "UserList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb(label);
-        this.master.Titulo = "Item_User";
+        this.master.Titulo = "Item_User_Title_Add";
 
         if (this.userItemId > 0)
         {
