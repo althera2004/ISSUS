@@ -625,7 +625,7 @@ Item_Employee_Popup_UnlinkJobPosition_Message2::Indicar la data de finalització
 Item_Employee_PopupDelete_Message::Vol eliminar l'empleat/da
 Item_Employee_SectionTitle_InternalLearning::Formació realitzada a l'empresa
 Item_Employee_SectionTitle_ProffesionalInfo::Informació professional
-Item_Employee_SectionTitle_Skills::Formació per l'empleat/da
+Item_Employee_SectionTitle_Skills::Formació de l'empleat/da
 Item_Employee_Skills_FieldLabel_DesiredHabilities::Habilitats demanades
 Item_Employee_Skills_FieldLabel_RealHabilities::Habilitats reals
 Item_Employee_Skills_Status_Undefined::Indefinit
@@ -1460,7 +1460,7 @@ Item_Review::Revisió direcció
 Item_Rule::Norma
 Item_Rules::Normes
 Item_Rules_Btn_New::Afegir
-Item_Rules_Button_New::Nova norma
+Item_Rules_Button_New::Fitxa de la Norma
 Item_Rules_Error_LimitOutOfRange::El límit ha d'estar entre 1 i 25
 Item_Rules_FieldLabel_Limit::Limit
 Item_Rules_FieldLabel_Name::Nom
@@ -1506,6 +1506,7 @@ Item_Unidad_PopupTitle_Delete::Eliminar unitat
 Item_Unidad_Tab_Principal::Dades bàsiques
 Item_Unidades::Unitats
 Item_User::Usuari/a
+Item_User_Title_Add::Fitxa de l'Usuari/a
 Item_User_ActualPassword::Contrasenya actual
 Item_User_Btn_ResetPassword::Restablir
 Item_User_Button_New::Afegir
@@ -1574,8 +1575,9 @@ MailTemplate_ResetPassword_Error::No s'ha reestabler la paraula de pas
 MailTemplate_ResetPassword_DefaultBody::Se h'reestablert la seva paraula de pas a ISSUS.<br />Accedir a la seqgüent url http://issus.scrambotika.com/ <br/> User:<b>{0}</b><br/>Password:<b>{1}</b>
 Item_Employee_PopupAnular_Title::Inactivar empleat/da
 Item_Employee_Warning_NoUser::Aquest/a empleat/ada no té usuari/a assignat/da i per tant no rebrà avisos del sistema.
-User_PrimaryUser::Usuari/a primari/a
+User_PrimaryUser::Super Usuari/a
 User_Admin::Administrador
+Item_User_Rol::Rol
 Item_Backup::Back-Up
 Item_Backup_Explain::Explicar que es un backup para poder hacer una restauración o migrar datos a otra aplicación y tal...
 Item_Backup_Btn_Go::Iniciar back-up

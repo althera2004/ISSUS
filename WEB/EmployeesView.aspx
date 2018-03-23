@@ -190,11 +190,11 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionAcademic"><%=this.JobPositionAcademic %></textarea></div>
-                                                            <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtAcademic" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Academic %></textarea></div>
-                                                            <div class="col-sm-2">
+                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtAcademic" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Academic %></textarea></div>
+                                                            <div class="col-sm-1">
                                                                 <table>
                                                                     <tr>
-                                                                        <td colspan="2"><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %><br /></td>
+                                                                        <td colspan="2"><label><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %></label><br /></td>
                                                                     </tr>
                                                                     <%if(this.Active) { %>
                                                                     <tr>
@@ -221,11 +221,11 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionSpecific"><%=this.JobPositionSpecific %></textarea></div>
-                                                            <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtSpecific" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Specific %></textarea></div>
-                                                            <div class="col-sm-2">
+                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtSpecific" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Specific %></textarea></div>
+                                                            <div class="col-sm-1">
                                                                 <table>
                                                                     <tr>
-                                                                        <td colspan="2"><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %><br /></td>
+                                                                        <td colspan="2"><label><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %></label><br /></td>
                                                                     </tr>
                                                                     <%if(this.Active) { %>
                                                                     <tr>
@@ -252,11 +252,11 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionWorkExperience"><%=this.JobPositionWorkExperience %></textarea></div>
-                                                            <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtWorkExperience" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.WorkExperience %></textarea></div>
-                                                            <div class="col-sm-2">
+                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtWorkExperience" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.WorkExperience %></textarea></div>
+                                                            <div class="col-sm-1">
                                                                 <table>
                                                                     <tr>
-                                                                        <td colspan="2"><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %><br /></td>
+                                                                        <td colspan="2"><label><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %></label><br /></td>
                                                                     </tr>
                                                                     <%if(this.Active) { %>
                                                                     <tr>
@@ -283,11 +283,11 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionHability"><%=this.JobPositionHability %></textarea></div>
-                                                            <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtHability" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Ability %></textarea></div>
-                                                            <div class="col-sm-2">
+                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtHability" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Ability %></textarea></div>
+                                                            <div class="col-sm-1">
                                                                 <table>
                                                                     <tr>
-                                                                        <td colspan="2"><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %><br /></td>
+                                                                        <td colspan="2"><label><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %></label><br /></td>
                                                                     </tr>
                                                                     <%if (this.Active)
                                                                       { %>

@@ -611,7 +611,7 @@ Item_Employee_Popup_UnlinkJobPosition_Message2::Indicar la fecha de finalizació
 Item_Employee_PopupDelete_Message::¿Eliminar el/la empleado/a
 Item_Employee_SectionTitle_InternalLearning::Formación realizada en la empresa
 Item_Employee_SectionTitle_ProffesionalInfo::Información profesional
-Item_Employee_SectionTitle_Skills::Formación para el/la empleado/a
+Item_Employee_SectionTitle_Skills::Formación del/la empleado/a
 Item_Employee_Skills_FieldLabel_DesiredHabilities::Habilidades solicitadas
 Item_Employee_Skills_FieldLabel_RealHabilities::Habilidades reales
 Item_Employee_Skills_Status_Undefined::Indefinido
@@ -1389,7 +1389,7 @@ Item_Review::Revisión dirección
 Item_Rule::Norma
 Item_Rules::Normas
 Item_Rules_Btn_New::Añadir
-Item_Rules_Button_New::Añadir
+Item_Rules_Button_New::Ficha de la Norma
 Item_Rules_Error_LimitOutOfRange::El límite debe estar entre 1 y 25
 Item_Rules_FieldLabel_Limit::Límite
 Item_Rules_FieldLabel_Name::Nombre
@@ -1434,6 +1434,11 @@ Item_Unidad_PopupTitle_Delete::Eliminar unidad
 Item_Unidad_Tab_Principal::Datos básicos
 Item_Unidades::Unidades
 Item_User::Usuario/a
+Item_User_Title_Add::Ficha del/la Usuari/a
+User_PrimaryUser::Super Usuario/a
+User_Admin::Administrador
+Item_User_Rol::Rol
+Item_Backup::Back-Up
 Item_User_ActualPassword::Contraseña actual
 Item_User_Btn_ResetPassword::Regenerar
 Item_User_Button_New::Añadir

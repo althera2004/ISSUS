@@ -411,7 +411,7 @@ Item_Employee_Popup_UnlinkJobPosition_Message empleado::Disassociate employee
 Item_Employee_Popup_UnlinkJobPosition_Message::Disassociate
 Item_Employee_PopupDelete_Message::Sure to delete employee
 Item_Employee_SectionTitle_ProffesionalInfo::Professional info
-Item_Employee_SectionTitle_Skills::Formación para el empleado
+Item_Employee_SectionTitle_Skills::Formación del empleado
 Item_Employee_Skills_FieldLabel_DesiredHabilities::Habilidades solicitadas
 Item_Employee_Skills_FieldLabel_RealHabilities::Habilidades reales
 Item_Employee_Tab_Delete::Participación del empleade en la apliación
@@ -976,6 +976,11 @@ Item_Trace_Update::Updated
 Item_Trace_Updated::Updated
 Item_Traces::Traces
 Item_User::User
+Item_User_Title_Add::Ficha del/la Usuari/a
+User_PrimaryUser::Super User
+User_Admin::Administrator
+Item_User_Rol::Rol
+Item_Backup::Back-Up
 Item_User_ActualPassword::Current password
 Item_User_Button_New::Add user
 Item_User_ChangePassword::Change password

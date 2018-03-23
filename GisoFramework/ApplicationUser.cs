@@ -1650,13 +1650,13 @@ namespace GisoFramework
             string iconAdmin = string.Empty;
             if (this.PrimaryUser)
             {
-                iconAdmin = "<i class=\"icon-star\" style=\"color:#0f0;\"></i>";
+                iconAdmin = "<i class=\"icon-star\" style=\"color:#87b87f;\"></i>";
             }
             else
             {
                 if (this.Admin)
                 {
-                    iconAdmin = iconAdmin = "<i class=\"icon-star\" style=\"color:#00f;\"></i>";
+                    iconAdmin = iconAdmin = "<i class=\"icon-star\" style=\"color:#5bc0de;\"></i>";
                 }
             }
 
