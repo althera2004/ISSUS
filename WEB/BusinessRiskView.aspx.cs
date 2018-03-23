@@ -284,7 +284,7 @@ public partial class BusinessRiskView : Page
         {
             if (this.businessRisk.Id == 0)
             {
-                return GisoFramework.Tools.EmptyJsonList;
+                return Constant.EmptyJsonList;
             }
 
             return IncidentActionCost.GetByBusinessRisk(this.businessRisk.Id, this.company.Id);
@@ -715,7 +715,7 @@ public partial class BusinessRiskView : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
@@ -725,17 +725,17 @@ public partial class BusinessRiskView : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -870,7 +870,7 @@ public partial class BusinessRiskView : Page
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_BusinessRisks", "BusinessRisksList.aspx", false);
+        this.master.AddBreadCrumb("Item_BusinessRisks", "BusinessRisksList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb(label);
         this.master.Titulo = label;
         if (!this.Page.IsPostBack)
@@ -892,7 +892,7 @@ public partial class BusinessRiskView : Page
             this.incidentAction = IncidentAction.GetByBusinessRiskId(this.businessRisk.Id, this.company.Id);
             if (this.businessRisk.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.businessRisk = BusinessRisk.Empty;
             }
@@ -1144,7 +1144,7 @@ public partial class BusinessRiskView : Page
 
     private void RenderActionHistory()
     {
-        var incidentActionCollection = BusinessRisk.GetHistoryAction(businessRisk.Code, this.company.Id);
+        var incidentActionCollection = BusinessRisk.FindHistoryAction(businessRisk.Code, this.company.Id);
         var res = new StringBuilder();
         var searchItem = new List<string>();
         int order = 0;

@@ -69,25 +69,27 @@
 
     // ISSUS-1
     // --------------------------------------------
-    $('#EquipmentImg').css('width', '');
-    $('#EquipmentImg').css('height', '');
-    $('#EquipmentImg').css('max-height', '30px');
+    $("#EquipmentImg").css("width", "");
+    $("#EquipmentImg").css("height", "");
+    $("#EquipmentImg").css("max-height", "30px");
     // --------------------------------------------
 
 
-    var placeholder = $('#piechart-placeholder').css({ 'width': '90%', 'min-height': '150px' });
+    var placeholder = $('#piechart-placeholder').css({ "width": "90%", "min-height": "150px" });
     var data = [
-      { label: Dictionary.Item_Document, data: diskQuote.Documents, color: "#68BC31" },
-      { label: Dictionary.Item_Equipment, data: diskQuote.Equipments, color: "#2091CF" },
-      { label: Dictionary.Item_Incident, data: diskQuote.Incidents, color: "#AF4E96" },
-      { label: Dictionary.Item_IncidentAction, data: diskQuote.IncidentActions, color: "#DA5430" },
-      { label: Dictionary.Item_Attach_FreeDisk, data: diskQuote.Free, color: "#DADADA" }
+      { "label": Dictionary.Item_Document, "data": diskQuote.Documents, "color": "#68BC31" },
+      { "label": Dictionary.Item_Equipment, "data": diskQuote.Equipments, "color": "#2091CF" },
+      { "label": Dictionary.Item_Incident, "data": diskQuote.Incidents, "color": "#AF4E96" },
+      { "label": Dictionary.Item_IncidentAction, "data": diskQuote.IncidentActions, "color": "#DA5430" },
+      { "label": Dictionary.Item_Attach_FreeDisk, "data": diskQuote.Free, "color": "#DADADA" }
     ]
 
     console.log("QuotePercentage", ToMoneyFormat(diskQuote[4].value, 2));
     $('#QuotePercentage').html(ToMoneyFormat(diskQuote[4].value, 2));
 
     function drawPieChart(placeholder, data, position) {
+
+        CmbAddressChanged();
         console.log("drawPieChart1", data);
         console.log("drawPieChart2", diskQuote);
         $.plot(placeholder, diskQuote, {
@@ -125,27 +127,27 @@
     we saved the drawing function and the data to redraw with different position later when switching to RTL mode dynamically
     so that's not needed actually.
     */
-    placeholder.data('chart', data);
-    placeholder.data('draw', drawPieChart);
+    placeholder.data("chart", data);
+    placeholder.data("draw", drawPieChart);
 });
 
 function AddAddressPopupRow(item, target) {
-    var tr = document.createElement('tr');
+    var tr = document.createElement("tr");
     tr.id = item.Id;
-    var td1 = document.createElement('td');
-    var td2 = document.createElement('td');
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
     if (addressSelected === item.Id) {
-        td1.style.fontWeight = 'bold';
+        td1.style.fontWeight = "bold";
     }
 
     td1.appendChild(document.createTextNode(item.Address + ", " + item.City));
 
-    var div = document.createElement('div');
-    var span1 = document.createElement('span');
-    span1.className = 'btn btn-xs btn-success';
+    var div = document.createElement("div");
+    var span1 = document.createElement("span");
+    span1.className = "btn btn-xs btn-success";
     span1.title = Dictionary.Common_SelectAll;
-    var i1 = document.createElement('i');
-    i1.className = 'icon-star bigger-120';
+    var i1 = document.createElement("i");
+    i1.className = "icon-star bigger-120";
     span1.appendChild(i1);
 
     if (addressSelected === item.Id) {
@@ -157,21 +159,21 @@ function AddAddressPopupRow(item, target) {
 
     div.appendChild(span1);
 
-    var span2 = document.createElement('span');
-    span2.className = 'btn btn-xs btn-info';
+    var span2 = document.createElement("span");
+    span2.className = "btn btn-xs btn-info";
     span2.onclick = function () { ShowAddAddressPopup(2, this); };
     span2.title = Dictionary.Common_Edit;
-    var i2 = document.createElement('i');
-    i2.className = 'icon-edit bigger-120';
+    var i2 = document.createElement("i");
+    i2.className = "icon-edit bigger-120";
     span2.appendChild(i2);
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span2);
 
-    var span3 = document.createElement('span');
-    span3.className = 'btn btn-xs btn-danger';
+    var span3 = document.createElement("span");
+    span3.className = "btn btn-xs btn-danger";
     span3.title = Dictionary.Common_Delete;
-    var i3 = document.createElement('i');
-    i3.className = 'icon-trash bigger-120';
+    var i3 = document.createElement("i");
+    i3.className = "icon-trash bigger-120";
     span3.appendChild(i3);
     if (addressSelected === item.Id || Company.DefaultAddress.Id === item.Id) {
         span3.onclick = function () { alertUI(Dictionary.Common_Error_NoDeletable); };
@@ -180,7 +182,7 @@ function AddAddressPopupRow(item, target) {
         span3.onclick = function () { CompanyAddressDelete(this); };
     }
 
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span3);
     td2.appendChild(div);
     tr.appendChild(td1);
@@ -189,10 +191,10 @@ function AddAddressPopupRow(item, target) {
 }
 
 function AddressChanged(sender) {
-    $('#dialogShowAddress').dialog('close');
+    $("#dialogShowAddress").dialog("close");
     var id = sender.parentNode.parentNode.parentNode.id;
     addressSelected = id * 1;
-    document.getElementById('CmbAddress').value = addressSelected;
+    document.getElementById("CmbAddress").value = addressSelected;
     FillAddressFields();
     CompanySetDefaultAddressAddress();
     FillCmbAddresses();
@@ -227,7 +229,7 @@ function GetCountryById(id)
 {
     for(var x=0; x <ddData.length; x++)
     {
-        if(ddData[x].value * 1 == id)
+        if(ddData[x].value * 1 === id)
         {
             return ddData[x].description;
         }
@@ -385,7 +387,7 @@ function AddressUpdate()
     var oldAddress = null;
     for(var x=0; x<addresses.length;x++)
     {
-        if(addresses[x].Id == actionAddress)
+        if(addresses[x].Id === actionAddress)
         {
             oldAddress = addresses[x];
             break;
@@ -428,30 +430,30 @@ function AddressUpdate()
 
                     for(var x=0;x<addresses.length;x++)
                     {
-                        if(addresses[x].Id == actionAddress)
+                        if(addresses[x].Id === actionAddress)
                         {
-                            addresses[x].Address = $('#TxtNewAddress').val();
-                            addresses[x].PostalCode = $('#TxtNewAddressPostalCode').val();
-                            addresses[x].City = $('#TxtNewAddressCity').val();
-                            addresses[x].Province = $('#TxtNewAddressProvince').val();
-                            addresses[x].Country = $('#TxtNewAddressCountry').val();
-                            addresses[x].Phone = $('#TxtNewAddressPhone').val();
-                            addresses[x].Mobile = $('#TxtNewAddressMobile').val();
-                            addresses[x].Fax = $('#TxtNewAddressFax').val();
-                            addresses[x].Email = $('#TxtNewAddressEmail').val();
+                            addresses[x].Address = $("#TxtNewAddress").val();
+                            addresses[x].PostalCode = $("#TxtNewAddressPostalCode").val();
+                            addresses[x].City = $("#TxtNewAddressCity").val();
+                            addresses[x].Province = $("#TxtNewAddressProvince").val();
+                            addresses[x].Country = $("#TxtNewAddressCountry").val();
+                            addresses[x].Phone = $("#TxtNewAddressPhone").val();
+                            addresses[x].Mobile = $("#TxtNewAddressMobile").val();
+                            addresses[x].Fax = $("#TxtNewAddressFax").val();
+                            addresses[x].Email = $("#TxtNewAddressEmail").val();
 
-                            if(addressSelected == actionAddress)
+                            if(addressSelected === actionAddress)
                             {
-                                var country = GetCountryById($('#TxtNewAddressCountry').val());
-                                $('#TxtDireccion').val($('#TxtNewAddress').val());
-                                $('#TxtPostalCode').val($('#TxtNewAddressPostalCode').val());
-                                $('#TxtCity').val($('#TxtNewAddressCity').val());
-                                $('#TxtProvince').val($('#TxtNewAddressProvince').val());
-                                $('#TxtCountry').val(country);
-                                $('#TxtPhone').val($('#TxtNewAddressPhone').val());
-                                $('#TxtMobile').val($('#TxtNewAddressMobile').val());
-                                $('#TxtFax').val($('#TxtNewAddressFax').val());
-                                $('#TxtEmail').val($('#TxtNewAddressEmail').val());
+                                var country = GetCountryById($("#TxtNewAddressCountry").val());
+                                $("#TxtDireccion").val($("#TxtNewAddress").val());
+                                $("#TxtPostalCode").val($("#TxtNewAddressPostalCode").val());
+                                $("#TxtCity").val($("#TxtNewAddressCity").val());
+                                $("#TxtProvince").val($("#TxtNewAddressProvince").val());
+                                $("#TxtCountry").val(country);
+                                $("#TxtPhone").val($("#TxtNewAddressPhone").val());
+                                $("#TxtMobile").val($("#TxtNewAddressMobile").val());
+                                $("#TxtFax").val($("#TxtNewAddressFax").val());
+                                $("#TxtEmail").val($("#TxtNewAddressEmail").val());
                             }
 
                             break;
@@ -502,20 +504,20 @@ function SaveCompany() {
     };
 
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             if (response.d.Success === true) {
-                document.location = 'DashBoard.aspx';
+                document.location = "DashBoard.aspx";
             }
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             alert(jqXHR.responseText);
         }
     });
@@ -526,7 +528,7 @@ function readURL(input) {
         var reader = new FileReader();
 
         reader.onload = function (e) {
-            $('#blah').attr('src', e.target.result);
+            $("#blah").attr("src", e.target.result);
         };
 
         reader.readAsDataURL(input.files[0]);
@@ -535,7 +537,6 @@ function readURL(input) {
 
 FillCmbAddresses();
 RenderCountries();
-
 if (ApplicationUser.Grants.CompanyProfile.Write === false) {
     $("#BtnShowAddress").hide();
     $("#BtnSave").hide();
@@ -546,5 +547,5 @@ if (ApplicationUser.Grants.CompanyProfile.Write === false) {
 }
 else {
     // ISSUS-190
-    document.getElementById('TxtName').focus();
+    document.getElementById("TxtName").focus();
 }

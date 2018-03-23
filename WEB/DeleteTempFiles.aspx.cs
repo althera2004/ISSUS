@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using GisoFramework;
 
-public partial class DeleteTempFiles : System.Web.UI.Page
+public partial class DeleteTempFiles : Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -20,12 +18,10 @@ public partial class DeleteTempFiles : System.Web.UI.Page
 
         path += "DOCS\\";
 
-        string[] files = Directory.GetFiles(path);
-
-        foreach (string file in files)
+        foreach (string file in Directory.GetFiles(path))
         {
-            FileInfo fi = new FileInfo(file);
-            if (fi.LastAccessTime < DateTime.Now.AddMonths(-3))
+            var fi = new FileInfo(file);
+            if (fi.LastAccessTime < Constant.Now.AddMonths(-3))
             {
                 this.ltfiles.Text += fi.Name + "<br />";
                 fi.Delete();

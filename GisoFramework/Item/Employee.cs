@@ -528,7 +528,7 @@ namespace GisoFramework.Item
         {
             if(list == null)
             {
-                return Tools.EmptyJsonList;
+                return Constant.EmptyJsonList;
             }
 
             var res = new StringBuilder("[");
@@ -976,7 +976,7 @@ namespace GisoFramework.Item
         {
             if (employee == null)
             {
-                return Tools.EmptyJsonObject;
+                return Constant.EmptyJsonObject;
             }
 
             string pattern = @"
@@ -1271,7 +1271,7 @@ namespace GisoFramework.Item
         {
             if(company == null)
             {
-                return Tools.EmptyJsonList;
+                return Constant.EmptyJsonList;
             }
 
             return CompanyListJson(company.Id);

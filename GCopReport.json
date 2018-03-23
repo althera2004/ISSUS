@@ -2,14 +2,14 @@
   "Items": [
     {
       "Analyzer": "ObjectInitializerAnalyzer",
-      "OccurrenceCount": 3,
+      "OccurrenceCount": 4,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "SERVER_GISO"
     },
     {
       "Analyzer": "ConstantVariableAnalyzer",
-      "OccurrenceCount": 33,
+      "OccurrenceCount": 34,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "SERVER_GISO"
@@ -24,6 +24,13 @@
     {
       "Analyzer": "UseStringCollectionIntersectsAnalyzer",
       "OccurrenceCount": 1,
+      "Exceptions": null,
+      "SentToServer": true,
+      "InstallationName": "SERVER_GISO"
+    },
+    {
+      "Analyzer": "PropertyToExpressionAnalyzer",
+      "OccurrenceCount": 3,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "SERVER_GISO"

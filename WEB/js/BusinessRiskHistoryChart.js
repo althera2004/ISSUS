@@ -44,7 +44,7 @@ function exampleData() {
     function y() {
         myColors = new Array();
         var y = new Array();
-        var diferenciador = ' ';
+        var diferenciador = " ";
         console.log(BusinessRiskHistory);
         for (var x = 0; x < BusinessRiskHistory.length; x++) {
             var label = BusinessRiskHistory[x].DateStart;
@@ -53,7 +53,7 @@ function exampleData() {
             for (var cont = 0; cont < BusinessRiskHistory.length; cont++) {
                 if (label === BusinessRiskHistory[cont].DateStart && x !== cont) {
                     label = label + diferenciador;
-                    diferenciador += ' ';
+                    diferenciador += " ";
                 }
             }
 
@@ -64,17 +64,17 @@ function exampleData() {
                 }
             );
 
-            var finalColor = '#ffb752';
+            var finalColor = "#ffb752";
             if (BusinessRiskHistory[x].Assumed === false) {
                 var limit = rule.Limit;
                 if (limit < 0) {
                     limit = 0;
                 }
                 if (BusinessRiskHistory[x].Result < limit) {
-                    finalColor = '#87b87f';
+                    finalColor = "#87b87f";
                 }
                 else {
-                    finalColor = '#d15b47';
+                    finalColor = "#d15b47";
                 }
             }
 

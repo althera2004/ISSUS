@@ -33,7 +33,7 @@ using DR = System.Drawing;
 /// <summary>
 /// Implements reporting in PDF and Excel for "indicador" records
 /// </summary>
-public partial class Export_IndicadorRecords : Page
+public partial class ExportIndicadorRecords : Page
 {
     public static Font criteriaFont;
     public static Dictionary<string, string> dictionary;
@@ -47,12 +47,11 @@ public partial class Export_IndicadorRecords : Page
     [ScriptMethod]
     public static ActionResult Excel(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId, string listOrder)
     {
-        ActionResult res = ActionResult.NoAction;
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var res = ActionResult.NoAction;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        Company company = new Company(companyId);
-
-        List<IndicadorRegistro> registros = IndicadorRegistro.GetByIndicador(indicadorId, companyId).ToList();
+        var company = new Company(companyId);
+        var registros = IndicadorRegistro.GetByIndicador(indicadorId, companyId).ToList();
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -68,12 +67,12 @@ public partial class Export_IndicadorRecords : Page
             indicadorName,
             DateTime.Now);
 
-        HSSFWorkbook wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
-        HSSFSheet sh = (HSSFSheet)wb.CreateSheet(dictionary["Item_Indicador_RecordsReportTitle"]);
-        HSSFSheet shCriteria = (HSSFSheet)wb.CreateSheet(dictionary["Common_SearchCriteria"]);
+        var wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
+        var sh = (HSSFSheet)wb.CreateSheet(dictionary["Item_Indicador_RecordsReportTitle"]);
+        var shCriteria = (HSSFSheet)wb.CreateSheet(dictionary["Common_SearchCriteria"]);
 
-        ICellStyle moneyCellStyle = wb.CreateCellStyle();
-        IDataFormat hssfDataFormat = wb.CreateDataFormat();
+        var moneyCellStyle = wb.CreateCellStyle();
+        var hssfDataFormat = wb.CreateDataFormat();
         moneyCellStyle.DataFormat = hssfDataFormat.GetFormat("#,##0.00");
 
         var headerCellStyle = wb.CreateCellStyle();
@@ -101,20 +100,20 @@ public partial class Export_IndicadorRecords : Page
         titleFont.FontHeight = 400;
         titleCellStyle.SetFont(titleFont);
 
-        ICellStyle decimalFormat = wb.CreateCellStyle();
+        var decimalFormat = wb.CreateCellStyle();
         decimalFormat.DataFormat = wb.CreateDataFormat().GetFormat("#.00");
 
-        ICellStyle integerformat = wb.CreateCellStyle();
+        var integerformat = wb.CreateCellStyle();
         integerformat.DataFormat = wb.CreateDataFormat().GetFormat("#0");
 
-        CellRangeAddress cra = new CellRangeAddress(0, 1, 0, 4);
+        var cra = new CellRangeAddress(0, 1, 0, 4);
         sh.AddMergedRegion(cra);
         if (sh.GetRow(0) == null) { sh.CreateRow(0); }
         sh.GetRow(0).CreateCell(0);
         sh.GetRow(0).GetCell(0).SetCellValue(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Indicador_RecordsReportTitle"], indicadorName));
         sh.GetRow(0).GetCell(0).CellStyle = titleCellStyle;
 
-        IDataFormat dataFormatCustom = wb.CreateDataFormat();
+        var dataFormatCustom = wb.CreateDataFormat();
 
         // Condiciones del filtro
         if (shCriteria.GetRow(1) == null) { shCriteria.CreateRow(1); }
@@ -149,7 +148,7 @@ public partial class Export_IndicadorRecords : Page
         shCriteria.GetRow(3).GetCell(2).SetCellValue(toValue);
 
         // Crear Cabecera
-        List<string> headers = new List<string>() { 
+        var headers = new List<string>() { 
             dictionary["Item_Indicador_TableRecords_Header_Status"].ToUpperInvariant(),
             dictionary["Item_Indicador_TableRecords_Header_Value"].ToUpperInvariant(),
             dictionary["Item_Indicador_TableRecords_Header_Date"].ToUpperInvariant(),
@@ -168,7 +167,7 @@ public partial class Export_IndicadorRecords : Page
             {
                 sh.GetRow(3).CreateCell(countColumns);
             }
-            sh.GetRow(3).GetCell(countColumns).SetCellValue(headerLabel.ToString());
+            sh.GetRow(3).GetCell(countColumns).SetCellValue(headerLabel);
             sh.GetRow(3).GetCell(countColumns).CellStyle = headerCellStyle;
             countColumns++;
         }
@@ -176,16 +175,17 @@ public partial class Export_IndicadorRecords : Page
         int countRow = 4;
         if (dateFrom.HasValue)
         {
-            registros = registros.Where(r => r.Date >= dateFrom.Value).ToList();
+            registros = registros.Where(r => r.Date >= dateFrom).ToList();
         }
 
         if (dateTo.HasValue)
         {
-            registros = registros.Where(r => r.Date <= dateTo.Value).ToList();
+            registros = registros.Where(r => r.Date <= dateTo).ToList();
         }
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH1|ASC":
                 registros = registros.OrderBy(d => d.Value).ToList();
                 break;
@@ -218,25 +218,25 @@ public partial class Export_IndicadorRecords : Page
                 break;
         }
 
-        foreach (IndicadorRegistro r in registros)
+        foreach (IndicadorRegistro registro in registros)
         {
             if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
-            string metaText = IndicadorRegistro.ComparerLabelSign(r.MetaComparer, dictionary);
-            metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, r.Meta);
-            string alarmText = IndicadorRegistro.ComparerLabelSign(r.AlarmaComparer, dictionary);
+            string metaText = IndicadorRegistro.ComparerLabelSign(registro.MetaComparer, dictionary);
+            metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, registro.Meta);
+            string alarmText = IndicadorRegistro.ComparerLabelSign(registro.AlarmaComparer, dictionary);
 
             string statusLabel = dictionary["Item_Objetivo_StatusLabelWithoutMeta"];
-            if (metaText == "=" && r.Value == r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == ">" && r.Value > r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == ">=" && r.Value >= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "<" && r.Value < r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "<=" && r.Value <= r.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            if (metaText == "=" && registro.Value == registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == ">" && registro.Value > registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == ">=" && registro.Value >= registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "<" && registro.Value < registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "<=" && registro.Value <= registro.Meta) { statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
             else if (!string.IsNullOrEmpty(alarmText))
             {
-                if (alarmText == ">" && r.Value > r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == ">=" && r.Value >= r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == "<" && r.Value < r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == "<=" && r.Value <= r.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                if (alarmText == ">" && registro.Value > registro.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == ">=" && registro.Value >= registro.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == "<" && registro.Value < registro.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == "<=" && registro.Value <= registro.Alarma) { statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
                 else
                 {
                     statusLabel = dictionary["Item_Objetivo_StatusLabelNoMeta"];
@@ -255,29 +255,29 @@ public partial class Export_IndicadorRecords : Page
             if (sh.GetRow(countRow).GetCell(1) == null) { sh.GetRow(countRow).CreateCell(1); }
             sh.GetRow(countRow).GetCell(1).SetCellType(CellType.Numeric);
             sh.GetRow(countRow).GetCell(1).CellStyle = moneyCellStyle;
-            sh.GetRow(countRow).GetCell(1).SetCellValue(Convert.ToDouble(r.Value));
+            sh.GetRow(countRow).GetCell(1).SetCellValue(Convert.ToDouble(registro.Value));
 
             // Date
             if (sh.GetRow(countRow).GetCell(2) == null) { sh.GetRow(countRow).CreateCell(2); }
             sh.GetRow(countRow).GetCell(2).CellStyle.DataFormat = dataFormatCustom.GetFormat("dd/MM/yyyy");
-            sh.GetRow(countRow).GetCell(2).SetCellValue(r.Date);
+            sh.GetRow(countRow).GetCell(2).SetCellValue(registro.Date);
 
             // Comments
             if (sh.GetRow(countRow).GetCell(3) == null) { sh.GetRow(countRow).CreateCell(3); }
-            sh.GetRow(countRow).GetCell(3).SetCellValue(r.Comments);
+            sh.GetRow(countRow).GetCell(3).SetCellValue(registro.Comments);
 
             // Meta
             if (sh.GetRow(countRow).GetCell(4) == null) { sh.GetRow(countRow).CreateCell(4); }
             sh.GetRow(countRow).GetCell(4).SetCellValue(metaText);
 
             // Alarm
-            if (!r.Alarma.HasValue)
+            if (!registro.Alarma.HasValue)
             {
                 alarmText = string.Empty;
             }
             else
             {
-                alarmText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", alarmText, r.Alarma);
+                alarmText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", alarmText, registro.Alarma);
             }
 
             if (sh.GetRow(countRow).GetCell(5) == null) { sh.GetRow(countRow).CreateCell(5); }
@@ -285,7 +285,7 @@ public partial class Export_IndicadorRecords : Page
 
             // Responsible
             if (sh.GetRow(countRow).GetCell(6) == null) { sh.GetRow(countRow).CreateCell(6); }
-            sh.GetRow(countRow).GetCell(6).SetCellValue(r.Responsible.FullName);
+            sh.GetRow(countRow).GetCell(6).SetCellValue(registro.Responsible.FullName);
 
             countRow++;
         }
@@ -320,12 +320,12 @@ public partial class Export_IndicadorRecords : Page
     [ScriptMethod]
     public static ActionResult PDF(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId, string listOrder)
     {
-        ActionResult res = ActionResult.NoAction;
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var res = ActionResult.NoAction;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        Company company = new Company(companyId);
+        var company = new Company(companyId);
 
-        List<IndicadorRegistro> registros = IndicadorRegistro.GetByIndicador(indicadorId, companyId).ToList();
+        var registros = IndicadorRegistro.GetByIndicador(indicadorId, companyId).ToList();
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -341,8 +341,8 @@ public partial class Export_IndicadorRecords : Page
             indicadorName,
             DateTime.Now);
 
-        iTS.Document pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
-        iTSpdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
+        var pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
+        var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
            new FileStream(
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
@@ -360,7 +360,7 @@ public partial class Export_IndicadorRecords : Page
 
         pdfDoc.Open();
 
-        iTS.BaseColor backgroundColor = new iTS.BaseColor(220, 220, 220);
+        var backgroundColor = new iTS.BaseColor(220, 220, 220);
 
         // ------------ FONTS 
         string pathFonts = System.Web.HttpContext.Current.Request.PhysicalApplicationPath;
@@ -369,19 +369,17 @@ public partial class Export_IndicadorRecords : Page
             pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
         }
 
-        iTSpdf.BaseFont awesomeFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        iTSpdf.BaseFont dataFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\calibri.ttf", pathFonts), BaseFont.CP1250, BaseFont.EMBEDDED);
-        iTS.Font times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font timesBold = new iTS.Font(dataFont, 10, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font headerFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var dataFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\calibri.ttf", pathFonts), BaseFont.CP1250, BaseFont.EMBEDDED);
+        var times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var timesBold = new iTS.Font(dataFont, 10, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        var headerFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         criteriaFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font titleFont = new iTS.Font(dataFont, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var titleFont = new iTS.Font(dataFont, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        var symbolFont = new iTS.Font(ToolsPdf.AwesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
 
         var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         fontAwe = new Font(fontAwesomeIcon, 10);
         // -------------------        
-
 
         string periode = string.Empty;
 
@@ -394,9 +392,8 @@ public partial class Export_IndicadorRecords : Page
                 dateTo.Value,
                 dictionary["Common_From"].ToLowerInvariant(),
                 dictionary["Common_To"].ToLowerInvariant());
-
         }
-        else if (dateFrom.HasValue && !dateTo.HasValue)
+        else if (dateFrom.HasValue && dateTo == null)
         {
             periode = string.Format(
                 CultureInfo.InvariantCulture,
@@ -404,7 +401,7 @@ public partial class Export_IndicadorRecords : Page
                 dateFrom.Value,
                 dictionary["Common_From"]);
         }
-        else if (!dateFrom.HasValue && dateTo.HasValue)
+        else if (dateFrom == null && dateTo.HasValue)
         {
             periode = string.Format(
                 CultureInfo.InvariantCulture,
@@ -417,48 +414,20 @@ public partial class Export_IndicadorRecords : Page
         {
             periode = dictionary["Common_PeriodAll"];
         }
-
-        var borderNone = iTS.Rectangle.NO_BORDER;
         
-        float[] cirteriaWidths = new float[] { 25f, 250f };
-        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(2)
+        var criteriatable = new iTSpdf.PdfPTable(2)
         {
             WidthPercentage = 100
         };
 
-        criteriatable.SetWidths(cirteriaWidths);
-        
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold))
-        {
-            Border = borderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
-        {
-            Border = borderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria2);
-
         string typeText = string.Empty;
-        iTSpdf.PdfPCell criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(typeText, times))
-        {
-            Border = borderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria3);
-
+        criteriatable.SetWidths(new float[] { 25f, 250f });
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(dictionary["Common_Period"]));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(periode));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(typeText));
         pdfDoc.Add(criteriatable);
 
-        float[] widths = new float[] { 15f, 10f, 15f, 15f, 20f, 20f, 30f };
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(7)
+        var table = new iTSpdf.PdfPTable(7)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 0,
@@ -466,7 +435,7 @@ public partial class Export_IndicadorRecords : Page
             SpacingAfter = 30f
         };
 
-        table.SetWidths(widths);
+        table.SetWidths(new float[] { 15f, 10f, 15f, 15f, 20f, 20f, 30f });
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Status"].ToUpperInvariant(), times));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Value"].ToUpperInvariant(), times));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Date"].ToUpperInvariant(), times));
@@ -478,16 +447,17 @@ public partial class Export_IndicadorRecords : Page
         // Aplicar filtro
         if (dateFrom.HasValue)
         {
-            registros = registros.Where(r => r.Date >= dateFrom.Value).ToList();
+            registros = registros.Where(r => r.Date >= dateFrom).ToList();
         }
 
         if (dateTo.HasValue)
         {
-            registros = registros.Where(r => r.Date <= dateTo.Value).ToList();
+            registros = registros.Where(r => r.Date <= dateTo).ToList();
         }
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH1|ASC":
                 registros = registros.OrderBy(d => d.Value).ToList();
                 break;
@@ -522,26 +492,26 @@ public partial class Export_IndicadorRecords : Page
 
         int cont = 0;
         var dataPoints = new List<PointData>();
-        foreach (IndicadorRegistro r in registros.OrderBy(r=>r.Date))
+        foreach (var registro in registros.OrderBy(r=>r.Date))
         {
             cont++;
-            string metaText = IndicadorRegistro.ComparerLabelSign(r.MetaComparer, dictionary);
-            string alarmText = IndicadorRegistro.ComparerLabelSign(r.AlarmaComparer, dictionary);
+            string metaText = IndicadorRegistro.ComparerLabelSign(registro.MetaComparer, dictionary);
+            string alarmText = IndicadorRegistro.ComparerLabelSign(registro.AlarmaComparer, dictionary);
             int color = 0;
 
             string statusLabel = dictionary["Item_Objetivo_StatusLabelWithoutMeta"];
-            if (metaText == "=" && r.Value == r.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == ">" && r.Value > r.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == ">=" && r.Value >= r.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "<" && r.Value < r.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "<=" && r.Value <= r.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            if (metaText == "=" && registro.Value == registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == ">" && registro.Value > registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == ">=" && registro.Value >= registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "<" && registro.Value < registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
+            else if (metaText == "<=" && registro.Value <= registro.Meta) { color = 1; statusLabel = dictionary["Item_Objetivo_StatusLabelMeta"]; }
             else if (!string.IsNullOrEmpty(alarmText))
             {
-                if (alarmText == "=" && r.Value == r.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == ">" && r.Value > r.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == ">=" && r.Value >= r.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == "<" && r.Value < r.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
-                else if (alarmText == "<=" && r.Value <= r.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                if (alarmText == "=" && registro.Value == registro.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == ">" && registro.Value > registro.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == ">=" && registro.Value >= registro.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == "<" && registro.Value < registro.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
+                else if (alarmText == "<=" && registro.Value <= registro.Alarma) { color = 2; statusLabel = dictionary["Item_Objetivo_StatusLabelWarning"]; }
                 else
                 {
                     statusLabel = dictionary["Item_Objetivo_StatusLabelNoMeta"];
@@ -556,21 +526,21 @@ public partial class Export_IndicadorRecords : Page
 
             table.AddCell(ToolsPdf.DataCell(statusLabel, times));
 
-            metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, r.Meta);
-            alarmText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", alarmText, r.Alarma);
-            table.AddCell(ToolsPdf.DataCellRight(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", r.Value), times));
-            table.AddCell(ToolsPdf.DataCell(r.Date, times));
-            table.AddCell(ToolsPdf.DataCell(r.Comments, times));
+            metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, registro.Meta);
+            alarmText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", alarmText, registro.Alarma);
+            table.AddCell(ToolsPdf.DataCellRight(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", registro.Value), times));
+            table.AddCell(ToolsPdf.DataCell(registro.Date, times));
+            table.AddCell(ToolsPdf.DataCell(registro.Comments, times));
             table.AddCell(ToolsPdf.DataCell(metaText, times));
             table.AddCell(ToolsPdf.DataCell(alarmText, times));
-            table.AddCell(ToolsPdf.DataCell(r.Responsible.FullName, times));
+            table.AddCell(ToolsPdf.DataCell(registro.Responsible.FullName, times));
 
             dataPoints.Add(new PointData()
             {
-                Value = r.Value,
-                Meta = r.Meta,
-                Alarma = r.Alarma,
-                Date = r.Date,
+                Value = registro.Value,
+                Meta = registro.Meta,
+                Alarma = registro.Alarma,
+                Date = registro.Date,
                 Status = color
             });
         }
@@ -596,53 +566,54 @@ public partial class Export_IndicadorRecords : Page
         });
 
         string graphName = string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, "graph.jpg");
-        using (var ch = new Chart())
+        using (var chart = new Chart())
         {
-            ch.ChartAreas.Add(new ChartArea("Valor"));
-            var s = new Series();
-            ch.Width = 800;
-            ch.Height = 350;
-            ch.Series.Add("Values");
-            ch.Series["Values"].ChartType = SeriesChartType.Column;
-            ch.Series["Values"].YValueType = ChartValueType.Double;
+            chart.ChartAreas.Add(new ChartArea("Valor"));
+            var series = new Series();
+            chart.Width = 800;
+            chart.Height = 350;
+            chart.Series.Add("Values");
+            chart.Series["Values"].ChartType = SeriesChartType.Column;
+            chart.Series["Values"].YValueType = ChartValueType.Double;
 
-            ch.Series.Add("Meta");
-            ch.Series["Meta"].ChartType = SeriesChartType.Line;
-            ch.Series["Meta"].BorderWidth = 3;
-            ch.Series["Meta"].BorderColor = DR.Color.Green;
-            ch.Series["Meta"].YValueType = ChartValueType.Double;
+            chart.Series.Add("Meta");
+            chart.Series["Meta"].ChartType = SeriesChartType.Line;
+            chart.Series["Meta"].BorderWidth = 3;
+            chart.Series["Meta"].BorderColor = DR.Color.Green;
+            chart.Series["Meta"].YValueType = ChartValueType.Double;
 
-            ch.Series.Add("Alarma");
-            ch.Series["Alarma"].ChartType = SeriesChartType.Line;
-            ch.Series["Alarma"].BorderWidth = 3;
-            ch.Series["Alarma"].BorderColor = DR.Color.Pink;
-            ch.Series["Alarma"].YValueType = ChartValueType.Double;
+            chart.Series.Add("Alarma");
+            chart.Series["Alarma"].ChartType = SeriesChartType.Line;
+            chart.Series["Alarma"].BorderWidth = 3;
+            chart.Series["Alarma"].BorderColor = DR.Color.Pink;
+            chart.Series["Alarma"].YValueType = ChartValueType.Double;
             
             foreach (var dataPoint in dataPoints)
             {
-                ch.Series["Values"].Points.AddXY(string.Format("{0:dd/MM/yyyy}", dataPoint.Date), dataPoint.Value);
-                ch.Series["Meta"].Points.AddY(dataPoint.Meta);
-                ch.Series["Alarma"].Points.AddY(dataPoint.Alarma ?? 0);
+                chart.Series["Values"].Points.AddXY(string.Format("{0:dd/MM/yyyy}", dataPoint.Date), dataPoint.Value);
+                chart.Series["Meta"].Points.AddY(dataPoint.Meta);
+                chart.Series["Alarma"].Points.AddY(dataPoint.Alarma ?? 0);
             }
 
-            ch.Series["Values"].IsValueShownAsLabel = true;
-            ch.Series["Values"].Font = new DR.Font("Arial", 8, DR.FontStyle.Bold);
+            chart.Series["Values"].IsValueShownAsLabel = true;
+            chart.Series["Values"].Font = new DR.Font("Arial", 8, DR.FontStyle.Bold);
 
-            ch.Series["Values"].ChartArea = "Valor";
-            ch.Series["Meta"].ChartArea = "Valor";
-            ch.Series["Alarma"].ChartArea = "Valor";
+            chart.Series["Values"].ChartArea = "Valor";
+            chart.Series["Meta"].ChartArea = "Valor";
+            chart.Series["Alarma"].ChartArea = "Valor";
             
-            ch.ChartAreas["Valor"].AxisX.LabelStyle.Font = new DR.Font("Arial", 8);
-            ch.ChartAreas["Valor"].AxisX.MajorGrid.Enabled = false;
-            ch.ChartAreas["Valor"].AxisX.LabelStyle.Angle = 75;
-            ch.ChartAreas["Valor"].AxisY.LabelStyle.Font = new DR.Font("Arial", 10);
-            ch.ChartAreas["Valor"].RecalculateAxesScale();
+            chart.ChartAreas["Valor"].AxisX.LabelStyle.Font = new DR.Font("Arial", 8);
+            chart.ChartAreas["Valor"].AxisX.MajorGrid.Enabled = false;
+            chart.ChartAreas["Valor"].AxisX.LabelStyle.Angle = 75;
+            chart.ChartAreas["Valor"].AxisY.LabelStyle.Font = new DR.Font("Arial", 10);
+            chart.ChartAreas["Valor"].RecalculateAxesScale();
 
             int cp = 0;
-            foreach (DataPoint Point in ch.Series["Values"].Points)
+            foreach (DataPoint Point in chart.Series["Values"].Points)
             {
                 switch(dataPoints[cp].Status)
                 {
+                    default:
                     case 0: Point.Color = DR.Color.DarkGray; break;
                     case 1: Point.Color = DR.Color.Green; break;
                     case 2: Point.Color = DR.Color.Red; break;
@@ -652,11 +623,11 @@ public partial class Export_IndicadorRecords : Page
                 cp++;
             }
 
-            ch.Series.Add(s);
-            ch.SaveImage(graphName, ChartImageFormat.Jpeg);
+            chart.Series.Add(series);
+            chart.SaveImage(graphName, ChartImageFormat.Jpeg);
         }
 
-        Image tif = Image.GetInstance(graphName);
+        var tif = Image.GetInstance(graphName);
         tif.ScalePercent(100);
 
         pdfDoc.Add(table);
@@ -664,13 +635,13 @@ public partial class Export_IndicadorRecords : Page
         pdfDoc.Add(new iTS.Phrase("Grafico", times));
         pdfDoc.Add(tif);
 
-        Image logoIssus = Image.GetInstance(string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path));
+        var logoIssus = Image.GetInstance(string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path));
         logoIssus.ScalePercent(20f);
         logoIssus.SetAbsolutePosition(40f, 24f);
         pdfDoc.Add(logoIssus);
 
         pdfDoc.CloseDocument();
-        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
+        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
         return res;
     }
 

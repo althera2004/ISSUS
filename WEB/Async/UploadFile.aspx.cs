@@ -70,9 +70,9 @@ public partial class AsyncUploadFile : Page
             ItemLinked = itemLinked,
             Active = true,
             CreatedBy = new ApplicationUser() { Id = applicationUserId },
-            CreatedOn = DateTime.Now,
+            CreatedOn = Constant.Now,
             ModifiedBy = new ApplicationUser() { Id = applicationUserId },
-            ModifiedOn = DateTime.Now,
+            ModifiedOn = Constant.Now,
             Size = length
         };
 

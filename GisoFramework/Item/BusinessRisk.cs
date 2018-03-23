@@ -22,6 +22,8 @@ namespace GisoFramework.Item
     /// <summary>Item representation of a Business Risk </summary>
     public class BusinessRisk : BaseItem
     {
+        public const bool OnlyActive = true;
+        public const bool ActiveAndInactive = false;
         #region Properties
 
         /// <summary>Gets a empty instance of BusinessRisk</summary>
@@ -29,15 +31,15 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new BusinessRisk()
+                return new BusinessRisk
                 {
                     Id = -1,
                     CompanyId = -1,
                     Description = string.Empty,
                     CreatedBy = ApplicationUser.Empty,
-                    CreatedOn = DateTime.Now,
+                    CreatedOn = Constant.Now,
                     ModifiedBy = ApplicationUser.Empty,
-                    ModifiedOn = DateTime.Now,
+                    ModifiedOn = Constant.Now,
                     Active = false,
                     Code = -1,
                     Rules = Rules.Empty,
@@ -50,7 +52,7 @@ namespace GisoFramework.Item
                     InitialValue = -1,
                     Result = -1,
                     ApplyAction = false,
-                    DateStart = DateTime.Now,
+                    DateStart = Constant.Now,
                     Process = Process.Empty,
                     Assumed = false,
                     PreviousBusinessRiskId = -1,
@@ -320,30 +322,26 @@ namespace GisoFramework.Item
 
         #endregion
 
-        /// <summary>
-        /// Get BusinessRisk objects from database
-        /// </summary>
+        /// <summary>Get BusinessRisk objects from database</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>Read-only list of BusinessRisk objects</returns>
         public static ReadOnlyCollection<BusinessRisk> GetAll(int companyId)
         {
-            return GetAll(companyId, false);
+            return GetAll(companyId, ActiveAndInactive);
         }
 
-        /// <summary>
-        /// Get BusinessRisk objects from database
-        /// </summary>
+        /// <summary>Get BusinessRisk objects from database</summary>
         /// <param name="companyId">Company identifier</param>
         /// <param name="isOnlyActive">Choose whether to return all objects (false) or active objects only (true)</param>
         /// <returns>Read-only list of BusinessRisk objects</returns>
         public static ReadOnlyCollection<BusinessRisk> GetAll(int companyId, bool isOnlyActive)
         {
             string source = string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"GetAll({0}, {1})",
                 companyId,
                 isOnlyActive);
-           var res = new List<BusinessRisk>();
+            var res = new List<BusinessRisk>();
             string query = "BusinessRisk_GetAll";
             using (SqlCommand cmd = new SqlCommand(query))
             {
@@ -430,7 +428,7 @@ namespace GisoFramework.Item
 
                     if (isOnlyActive)
                     {
-                        res = res.Where(br => br.Active == true).ToList();
+                        res = res.Where(br => br.Active).ToList();
                     }
 
                     foreach (BusinessRisk b in res)
@@ -470,14 +468,12 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<BusinessRisk>(res);
         }
 
-        /// <summary>
-        /// Get Active BusinessRisk objects from database
-        /// </summary>
+        /// <summary>Get Active BusinessRisk objects from database</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>Read-only list of active BusinessRisk objects</returns>
         public static ReadOnlyCollection<BusinessRisk> GetActive(int companyId)
         {
-            return GetAll(companyId, true);
+            return GetAll(companyId, OnlyActive);
         }
 
         /// <summary>Get Active BusinessRisk objects from database by Rules Id</summary>
@@ -486,10 +482,10 @@ namespace GisoFramework.Item
         /// <returns></returns>
         public static ReadOnlyCollection<BusinessRisk> GetByRulesId(long rulesId, int companyId)
         {
-            return new ReadOnlyCollection<BusinessRisk>(GetAll(companyId, true).Where(r => r.Rules.Id == rulesId).ToList());
+            return new ReadOnlyCollection<BusinessRisk>(GetAll(companyId, OnlyActive).Where(r => r.Rules.Id == rulesId).ToList());
         }
 
-        public static void Foo(long rulesId, int companyId)
+       /* public static void Foo(long rulesId, int companyId)
         {
             string source = string.Format(
                 CultureInfo.GetCultureInfo("en-us"),
@@ -604,63 +600,64 @@ namespace GisoFramework.Item
             }
 
             //return new ReadOnlyCollection<BusinessRisk>(res);
-        }
+        }*/
 
-        /// <summary>
-        /// Return an historical list of a businessRisk action
-        /// </summary>
+        /// <summary>Return an historical list of a businessRisk actions</summary>
         /// <param name="code">Code identifier of the BusinessRisk</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>ReadOnlyCollection of BusinessRisk items</returns>
-        public static ReadOnlyCollection<IncidentAction> GetHistoryAction(long code, int companyId)
+        public static ReadOnlyCollection<IncidentAction> FindHistoryAction(long code, int companyId)
         {
             var res = new List<IncidentAction>();
             string query = "IncidentAction_GetByBusinessRiskCode";
             using (SqlCommand cmd = new SqlCommand(query))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.Parameters.Add(DataParameter.Input("@BusinessRiskCode", code));
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    cmd.Parameters.Add(DataParameter.Input("@BusinessRiskCode", code));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+
+                    try
                     {
-                        while (rdr.Read())
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            var newAction = new IncidentAction
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt64(0),
-                                Description = rdr.GetString(1),
-                                BusinessRiskId = rdr.GetInt64(2),
-                                WhatHappenedOn = rdr.GetDateTime(3)
-                            };
-                            if (!rdr.IsDBNull(4))
-                            {
-                                newAction.CausesOn = rdr.GetDateTime(4);
+                                var newAction = new IncidentAction
+                                {
+                                    Id = rdr.GetInt64(0),
+                                    Description = rdr.GetString(1),
+                                    BusinessRiskId = rdr.GetInt64(2),
+                                    WhatHappenedOn = rdr.GetDateTime(3)
+                                };
+                                if (!rdr.IsDBNull(4))
+                                {
+                                    newAction.CausesOn = rdr.GetDateTime(4);
+                                }
+                                if (!rdr.IsDBNull(5))
+                                {
+                                    newAction.ActionsOn = rdr.GetDateTime(5);
+                                }
+                                if (!rdr.IsDBNull(6))
+                                {
+                                    newAction.ClosedOn = rdr.GetDateTime(6);
+                                }
+                                res.Add(IncidentAction.GetById(rdr.GetInt64(0), companyId));
                             }
-                            if (!rdr.IsDBNull(5))
-                            {
-                                newAction.ActionsOn = rdr.GetDateTime(5);
-                            }
-                            if (!rdr.IsDBNull(6))
-                            {
-                                newAction.ClosedOn = rdr.GetDateTime(6);
-                            }
-                            res.Add(IncidentAction.GetById(rdr.GetInt64(0), companyId));
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    catch (Exception ex)
                     {
-                        cmd.Connection.Close();
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -684,7 +681,6 @@ namespace GisoFramework.Item
                     cmd.Connection = cnn;
                     cmd.Parameters.Add(DataParameter.Input("@Code", code));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-
                     try
                     {
                         cmd.Connection.Open();
@@ -738,8 +734,7 @@ namespace GisoFramework.Item
         public static BusinessRisk GetById(int companyId, long id)
         {
             var res = BusinessRisk.Empty;
-            string query = "BusinessRisk_GetById";
-            using (var cmd = new SqlCommand(query))
+            using (var cmd = new SqlCommand("BusinessRisk_GetById"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -747,7 +742,6 @@ namespace GisoFramework.Item
                     cmd.Connection = cnn;
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                     cmd.Parameters.Add(DataParameter.Input("@Id", id));
-
                     try
                     {
                         cmd.Connection.Open();
@@ -782,24 +776,21 @@ namespace GisoFramework.Item
                                         Limit = rdr.GetInt64(ColumnsBusinessRiskGetAll.RuleRangeId)
                                     },
                                     ItemDescription = rdr.GetString(ColumnsBusinessRiskGetAll.ItemDescription),
-                                    StartControl = rdr.GetString(ColumnsBusinessRiskGetAll.StartControl)
+                                    StartControl = rdr.GetString(ColumnsBusinessRiskGetAll.StartControl),
+                                    Active = rdr.GetBoolean(ColumnsBusinessRiskGetAll.Active),
+                                    //InitialValue = rdr.GetInt32(ColumnsBusinessRiskGetAll.InitialValue);
+                                    DateStart = rdr.GetDateTime(ColumnsBusinessRiskGetAll.DateStart),
+                                    ProcessId = rdr.GetInt64(ColumnsBusinessRiskGetAll.ProcessId),
+                                    Assumed = rdr.GetBoolean(ColumnsBusinessRiskGetAll.Assumed),
+                                    StartAction = rdr.GetInt32(ColumnsBusinessRiskGetAll.StartAction),
+                                    StartProbability = rdr.GetInt32(ColumnsBusinessRiskGetAll.ProbabilityId),
+                                    StartSeverity = rdr.GetInt32(ColumnsBusinessRiskGetAll.Severity),
+                                    StartResult = rdr.GetInt32(ColumnsBusinessRiskGetAll.StartResult),
+                                    FinalProbability = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalProbability),
+                                    FinalSeverity = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalSeverity),
+                                    FinalResult = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalResult),
+                                    FinalAction = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalAction),
                                 };
-
-                                res.Active = rdr.GetBoolean(ColumnsBusinessRiskGetAll.Active);
-                                //res.InitialValue = rdr.GetInt32(ColumnsBusinessRiskGetAll.InitialValue);
-                                res.DateStart = rdr.GetDateTime(ColumnsBusinessRiskGetAll.DateStart);
-                                res.ProcessId = rdr.GetInt64(ColumnsBusinessRiskGetAll.ProcessId);
-                                res.Assumed = rdr.GetBoolean(ColumnsBusinessRiskGetAll.Assumed);
-
-                                res.StartAction = rdr.GetInt32(ColumnsBusinessRiskGetAll.StartAction);
-                                res.StartProbability = rdr.GetInt32(ColumnsBusinessRiskGetAll.ProbabilityId);
-                                res.StartSeverity = rdr.GetInt32(ColumnsBusinessRiskGetAll.Severity);
-                                res.StartResult = rdr.GetInt32(ColumnsBusinessRiskGetAll.StartResult);
-
-                                res.FinalProbability = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalProbability);
-                                res.FinalSeverity = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalSeverity);
-                                res.FinalResult = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalResult);
-                                res.FinalAction = rdr.GetInt32(ColumnsBusinessRiskGetAll.FinalAction);
 
                                 if (!rdr.IsDBNull(ColumnsBusinessRiskGetAll.FinalDate))
                                 {
@@ -1021,6 +1012,7 @@ namespace GisoFramework.Item
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = cnn;
                     try
                     {
                         cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", businessRiskId));
@@ -1330,7 +1322,7 @@ namespace GisoFramework.Item
             var items = Filter(companyId, from, to, rulesId, processId, type);
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (BusinessRiskFilterItem item in items)
+            foreach (var item in items)
             {
                 if (first)
                 {

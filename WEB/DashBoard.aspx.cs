@@ -4,20 +4,15 @@
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
-//using SbrinnaCoreFramework.Graph;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
-using GisoFramework.DataAccess;
 using GisoFramework.Item;
-using GisoFramework.Item.Binding;
 using SbrinnaCoreFramework;
 
 /// <summary>Implementation of DashBoard page</summary>
@@ -72,25 +67,23 @@ public partial class DashBoard : Page
 
     public string Tasks { get; private set; }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -118,13 +111,13 @@ public partial class DashBoard : Page
 
     private void RenderScheludedTasksList()
     {
-        List<string> searchItems = new List<string>();
-        StringBuilder tasksJson = new StringBuilder("[");
-        List<ScheduledTask> tasks = ScheduledTask.GetByEmployee(this.user.Employee.Id, this.company.Id).Where(t => t.Expiration >= DateTime.Now.AddYears(-1)).ToList();
-        StringBuilder res = new StringBuilder();
+        var searchItems = new List<string>();
+        var tasksJson = new StringBuilder("[");
+        var tasks = ScheduledTask.GetByEmployee(this.user.Employee.Id, this.company.Id).Where(t => t.Expiration >= Constant.Now.AddYears(-1)).ToList();
+        var res = new StringBuilder();
         tasks = tasks.OrderBy(t => t.Expiration).ToList();
         bool first = true;
-        foreach (ScheduledTask task in tasks)
+        foreach (var task in tasks)
         {
             res.Append(task.Row(this.dictionary));
             if (first)
@@ -167,6 +160,7 @@ public partial class DashBoard : Page
                     text = dictionary["Item_IncidentAction"];
                     break;
             }
+
             if (!searchItems.Contains(text)) { searchItems.Add(text); };
 
             tasksJson.Append(task.JsonRow(this.dictionary));
@@ -178,8 +172,7 @@ public partial class DashBoard : Page
         tasksJson.Append("]");
         this.Tasks = tasksJson.ToString();
 
-        StringBuilder sea = new StringBuilder();
-
+        var sea = new StringBuilder();
         first = true;
         foreach (string item in searchItems.OrderBy(s => s))
         {
