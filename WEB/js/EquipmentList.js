@@ -166,7 +166,7 @@ function RenderRow(equipment) {
     var tdAcciones = document.createElement("td");
 
     tdCodigo.style.width = "110px";
-    tdUbicacion.style.width = "250px";
+    tdUbicacion.style.width = "350px";
     tdResponsable.style.width = "250px";
     tdCoste.style.width = "120px";
     tdAdjuntos.style.width = "35px";

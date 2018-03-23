@@ -336,7 +336,7 @@ namespace GisoFramework.Item
                 iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-danger"" onclick=""{0}""><i class=""icon-trash bigger-120""></i></span>", deleteFunction, Tools.LiteralQuote(Tools.JsonCompliant(this.Description)), Tools.JsonCompliant(dictionary["Common_Delete"]));
             }*/
 
-            string pattenr = @"<tr><td>{0}</td><td style=""width:89px;"">{1}&nbsp;{2}</td></tr>";
+            string pattenr = @"<tr><td>{0}</td><td style=""width:90px;"">{1}&nbsp;{2}</td></tr>";
             return string.Format(
                 CultureInfo.GetCultureInfo("en-us"),
                 pattenr,

@@ -35,7 +35,7 @@
                                                         <th style="cursor:pointer;" onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="sort search"><%=this.Dictionary["Item_JobPosition_ListHeader_Name"] %></th>
                                                         <th style="cursor:pointer;width:400px;" onclick="Sort(this,'ListDataTable','text',false);" id="th1" class="sort search"><%=this.Dictionary["Item_JobPosition_ListHeader_Responsible"] %></th>
                                                         <th style="cursor:pointer;width:400px;" onclick="Sort(this,'ListDataTable','text',false);" id="th2" class="sort search hidden-480"><%=this.Dictionary["Item_JobPosition_ListHeader_Department"] %></th>
-                                                        <th style="width:106px;">&nbsp;</th></tr>
+                                                        <th style="width:107px;">&nbsp;</th></tr>
                                                 </thead>
                                             </table>
                                             <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">

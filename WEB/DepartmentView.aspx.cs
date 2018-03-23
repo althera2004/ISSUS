@@ -88,7 +88,7 @@ public partial class DepartmentView : Page
         {
             StringBuilder res = new StringBuilder();
             bool first = true;
-            foreach (Department department in Department.GetByCompany(((Company)Session["Company"]).Id))
+            foreach (Department department in Department.ByCompany(((Company)Session["Company"]).Id))
             {
                 if (!department.Deleted)
                 {

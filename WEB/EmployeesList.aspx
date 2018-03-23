@@ -60,7 +60,7 @@
                                                                         <th id="th0" onclick="Sort(this,'ListDataTable');" class="search sort"><%=this.Dictionary["Item_Employee"] %></th>
                                                                         <th id="th1" class="search" style="width: 500px;"><%=this.Dictionary["Item_JobPosition"] %></th>
                                                                         <th id="th2" class="search" style="width: 500px;"><%=this.Dictionary["Item_Department"] %></th>
-                                                                        <th style="width: 106px;">&nbsp;</th>
+                                                                        <th style="width: 107px;">&nbsp;</th>
                                                                     </tr>
                                                                 </thead>
                                                             </table>

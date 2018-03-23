@@ -629,7 +629,7 @@ using System.Text;
                 this.Description);
             }
 
-            string pattenr = @"<tr><td>{0}</td><td style=""width:89px;"">{1}&nbsp;{2}</td></tr>";
+            string pattenr = @"<tr><td>{0}</td><td style=""width:90px;"">{1}&nbsp;{2}</td></tr>";
             return string.Format(
                 CultureInfo.InvariantCulture,
                 pattenr,

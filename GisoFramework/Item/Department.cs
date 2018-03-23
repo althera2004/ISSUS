@@ -716,7 +716,7 @@ namespace GisoFramework.Item
 
             return string.Format(
                 CultureInfo.GetCultureInfo("en-us"),
-                @"<tr id=""{5}""><td style=""width:300px;padding-left:4px;"">{0}</td><td style=""width:400px;padding-left:4px;""class=""hidden-480"">({6})&nbsp;{7}</td><td class=""hidden-480"">({1})&nbsp;{2}</td><td style=""width:150px;"">{3}&nbsp;{4}</td></tr>",
+                @"<tr id=""{5}""><td style=""width:300px;padding-left:4px;"">{0}</td><td style=""width:400px;padding-left:4px;""class=""hidden-480"">({6})&nbsp;{7}</td><td class=""hidden-480"">({1})&nbsp;{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</td></tr>",
                 this.Link,
                 this.employees.Count,
                 employeesList,

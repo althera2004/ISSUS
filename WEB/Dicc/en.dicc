@@ -656,7 +656,7 @@ Item_Incident_FilterError_Status::Select minimum one satus
 Item_Incident_FilterError_Title::Check data in order to take search
 Item_Incident_Header_ActionNumber::#action
 Item_Incident_Header_Close::Cierre
-Item_Incident_Header_Description::Description
+Item_Incident_Header_Description::Incident
 Item_Incident_Header_Number::Number
 Item_Incident_Header_Open::Open on
 Item_Incident_Header_Origin::Origin
@@ -727,7 +727,7 @@ Item_IncidentAction_Field_Responsible::Responsible
 Item_IncidentAction_Field_Schelude::Date presvista
 Item_IncidentAction_Field_WhatHappened::What happend?
 Item_IncidentAction_Header_Close::Closing
-Item_IncidentAction_Header_Description::Problem
+Item_IncidentAction_Header_Description::Action
 Item_IncidentAction_Header_ImplementDate::Implementación prevista
 Item_IncidentAction_Header_Number::Number
 Item_IncidentAction_Header_Open::Openinig
@@ -863,6 +863,7 @@ Item_Learning_FieldLabel_StartDate::Real start date
 Item_Learning_FieldLabel_Year::Course year
 Item_Learning_Filter_FromYear::From year
 Item_Learning_Filter_ToYear::To year
+Item_Learning_ListHeader_EstimatedDate::Planned
 Item_Learning_Help_Coach::Indicar el formador
 Item_Learning_Help_FinalReal::Date real de finalización
 Item_Learning_Help_Horas::Horas del curso
@@ -901,7 +902,7 @@ Item_Process_Button_New::New process
 Item_Process_Button_ProcessTypeBAR::Process type management
 Item_Process_FieldLabel_Development::Develpment
 Item_Process_FieldLabel_End::Ending
-Item_Process_FieldLabel_Name::Name
+Item_Process_FieldLabel_Name::Process
 Item_Process_FieldLabel_Responsible::Responsible
 Item_Process_FieldLabel_Start::Starting
 Item_Process_FieldLabel_Type::Type
@@ -1015,7 +1016,7 @@ Item_Department_Message_WithoutEmployees::No employees
 SkillsFor::Formación para el empleado
 Item_Departmennt_ErrorMessage_HasEmployees::No se puede eliminar si tiene empleados o algún cargo asignado
 Tipo::Type
-Item_Proccess_ListHeader_Name::Name
+Item_Proccess_ListHeader_Name::Process
 Item_Proccess_ListHeader_Responsible::Responsible
 Item_Proccess_ListHeader_ProcessType::Type
 Item_IncidentAction_Tab_Traces::Traces

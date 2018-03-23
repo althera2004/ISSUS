@@ -281,7 +281,7 @@ namespace GisoFramework.Item
             }
 
             string import = string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.Amount).Replace(".", ",");
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"<tr id=""{0}""><td>{1}</td><td class=""hidden-480"" align=""right"" style=""padding-right:8px;width:200px;"">{2}</td><td style=""width:89px"">{3} {4}</td></tr>", this.Id, this.Link, import, iconRename, iconDelete);
+            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"<tr id=""{0}""><td>{1}</td><td class=""hidden-480"" align=""right"" style=""padding-right:8px;width:200px;"">{2}</td><td style=""width:90px"">{3} {4}</td></tr>", this.Id, this.Link, import, iconRename, iconDelete);
         }
 
         public ActionResult Insert(int applicationUserId)

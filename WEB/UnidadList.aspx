@@ -33,7 +33,7 @@
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
 			                                            <th onclick="Sort(this,'ListDataTable');" id="th0" class="search sort" style="cursor:pointer;"><%=this.Dictionary["Item_Unidad_ListHeader_Description"] %></th>
-			                                            <th style="width:106px;">&nbsp;</th>
+			                                            <th style="width:107px;">&nbsp;</th>
 		                                            </tr>
                                                 </thead>
                                             </table>

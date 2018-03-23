@@ -108,7 +108,7 @@ public partial class DepartmentsList : Page
         List<string> s = new List<string>();
         bool first = true;
         int countData = 0;
-        foreach (Department department in Department.GetByCompany(((Company)Session["Company"]).Id))
+        foreach (Department department in Department.ByCompany(((Company)Session["Company"]).Id))
         {
             if (!department.Deleted)
             {

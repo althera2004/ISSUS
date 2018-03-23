@@ -941,7 +941,7 @@ Item_Incident_FilterError_Title::Revisar les dades de la consulta
 Item_Incident_Header_ActionNumber::Acció
 Item_Incident_Header_Close::Tancament
 Item_Incident_Header_Cost::Cost
-Item_Incident_Header_Description::Problema
+Item_Incident_Header_Description::Incidència
 Item_Incident_Header_Number::Número
 Item_Incident_Header_Open::Obertura
 Item_Incident_Header_Origin::Origen
@@ -1031,7 +1031,7 @@ Item_IncidentAction_Field_ResponsibleWhatHappend::Responsable
 Item_IncidentAction_Field_Schelude::Data
 Item_IncidentAction_Field_WhatHappened::Què ha passat?
 Item_IncidentAction_Header_Close::Tancament
-Item_IncidentAction_Header_Description::Problema
+Item_IncidentAction_Header_Description::Acció
 Item_IncidentAction_Header_ImplementDate::D. prevista
 Item_IncidentAction_Header_ImplementDate_Tooltip::Data de implementació prevista
 Item_IncidentAction_Header_Cost::Cost
@@ -1141,7 +1141,7 @@ Item_Indicador_Filter_Button::Filtrar
 Item_Indicador_Filter_From::Inici des de
 Item_Indicador_Filter_To::Inici fins
 Item_Indicador_GraphicsNoData::No hi ha registres al indicador
-Item_Indicador_Header_Description::Descripció
+Item_Indicador_Header_Description::Indicador
 Item_Indicador_Header_Objetivo::Objectiu
 Item_Indicador_Header_ObjetivoResponsible::Responsable
 Item_Indicador_Header_Process::Procés
@@ -1260,10 +1260,10 @@ Item_Learning_FieldLabel_Year::Any de realització del curs
 Item_Learning_Filter_AllPeriode::Tots els anys
 Item_Learning_Filter_FromYear::Des de l'any
 Item_Learning_Filter_ToYear::Fins l'any
-Item_Learning_ListHeader_EstimatedDate::Data prevista
+Item_Learning_ListHeader_EstimatedDate::Previst
 Item_Learning_ListHeader_Cost::Cost
 Item_Learning_ListHeader_Assistants::Participants
-Item_Learning_ListHeader_DateComplete::Data realització
+Item_Learning_ListHeader_DateComplete::Realitzat
 Item_Learning_ListHeader_Status::Estat
 Item_Learning_ListHeader_Course::Curs
 Item_Learning_Help_Coach::Indicar formador/a
@@ -1378,7 +1378,7 @@ Item_ObjetivoRecord_FieldLabel_Reason::Motiu
 Item_Objetivos::Objectius
 Item_Objetivo_CustomLabelDays::dies segons indicador
 Item_Proccess::Procés
-Item_Proccess_ListHeader_Name::Nom
+Item_Proccess_ListHeader_Name::Procés
 Item_Proccess_ListHeader_ProcessType::Tipus
 Item_Proccess_ListHeader_Responsible::Responsable
 Item_Process::Procés
@@ -1388,7 +1388,7 @@ Item_Process_Button_New::Nou procés
 Item_Process_Button_ProcessTypeBAR::Gestió de tipus de procés
 Item_Process_FieldLabel_Development::Desenvolupament
 Item_Process_FieldLabel_End::Fi
-Item_Process_FieldLabel_Name::Nom
+Item_Process_FieldLabel_Name::Procés
 Item_Process_FieldLabel_Responsible::Responsable
 Item_Process_FieldLabel_Start::Inici
 Item_Process_FieldLabel_Type::Tipus

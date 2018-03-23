@@ -915,7 +915,7 @@ Item_Incident_FilterError_Status::Seleccionar un estado
 Item_Incident_FilterError_Title::Revisar los datos de la consulta
 Item_Incident_Header_ActionNumber::Acción
 Item_Incident_Header_Close::Cierre
-Item_Incident_Header_Description::Problema
+Item_Incident_Header_Description::Descripción
 Item_Incident_Header_Number::Número
 Item_Incident_Header_Open::Apertura
 Item_Incident_Header_Origin::Origen
@@ -1002,7 +1002,7 @@ Item_IncidentAction_Field_ResponsibleWhatHappend::Redactado
 Item_IncidentAction_Field_Schelude::Fecha
 Item_IncidentAction_Field_WhatHappened::¿Qué ha pasado?
 Item_IncidentAction_Header_Close::Cierre
-Item_IncidentAction_Header_Description::Problema
+Item_IncidentAction_Header_Description::Acció
 Item_IncidentAction_Header_ImplementDate::F. prevista
 Item_IncidentAction_Header_ImplementDate_Tooltip::Fecha de implementación prevista
 Item_IncidentAction_Header_Number::Número
@@ -1221,6 +1221,7 @@ Item_Learning_FieldLabel_Year::Año de realización del curso
 Item_Learning_Filter_AllPeriode::Todos los años
 Item_Learning_Filter_FromYear::Desde el año
 Item_Learning_Filter_ToYear::Hasta el año
+Item_Learning_ListHeader_EstimatedDate::Previsto
 Item_Learning_Help_Coach::Indicar formador/a
 Item_Learning_Help_FinalReal::Fecha real de finalización
 Item_Learning_Help_Horas::Horas del curso

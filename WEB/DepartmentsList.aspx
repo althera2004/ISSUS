@@ -33,7 +33,7 @@
                                                         <th style="width: 300px;" onclick="Sort(this,'ListDataTable', 'text');" id="th0" class="sort search"><%=this.Dictionary["Item_Department_ListHeader_Name"] %></th>
                                                         <th style="width: 400px;" class="search"><%=this.Dictionary["Item_Department_ListHeaderJobPositions"] %></th>
                                                         <th class="search"><%=this.Dictionary["Item_Department_ListHeaderEmployees"] %></th>
-                                                        <th style="width: 106px;">&nbsp;</th>
+                                                        <th style="width: 107px;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
                                             </table>

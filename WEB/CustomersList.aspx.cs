@@ -107,7 +107,7 @@ public partial class CustomersList : Page
             {
                 Text = this.dictionary["Item_Customer_Btn_New"],
                 Action = "success",
-                Icon = "icon-plus-sign",
+                Icon = "icon-plus",
                 Id = "BtnNewCustomer"
             };
         }

@@ -87,7 +87,7 @@ public partial class RulesList : Page
             {
                 Text = this.dictionary["Item_Rules_Btn_New"],
                 Action = "success",
-                Icon = "icon-plus-sign",
+                Icon = "icon-plus",
                 Id = "BtnNewRule"
             };
         }}
