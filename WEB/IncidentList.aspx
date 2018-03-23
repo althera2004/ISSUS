@@ -52,22 +52,22 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td style="width:25px;">&nbsp;</td>
-                                            <td><strong><%=this.Dictionary["Item_Incident_List_Filter_Status"] %>:</strong></td>
+                                            <!--td style="width:25px;">&nbsp;</!--td-->
+                                            <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_Incident_List_Filter_Status"] %>:</strong></td>
                                             <td><input type="checkbox" id="RIncidentStatus1" checked="checked" /><%=this.Dictionary["Item_Incident_Status1"] %></td>
                                             <td><input type="checkbox" id="RIncidentStatus2" checked="checked" /><%=this.Dictionary["Item_Incident_Status2"] %></td>
                                             <td><input type="checkbox" id="RIncidentStatus3" checked="checked" /><%=this.Dictionary["Item_Incident_Status3"] %></td>
                                             <td><input type="checkbox" id="RIncidentStatus4" /><%=this.Dictionary["Item_Incident_Status4"] %></td>
-                                            <td style="width:200px;">&nbsp;
-                                            
-                                            <div class="row">
+                                            <!--td style="width:200px;">&nbsp;-->
+                                            <td>
+                                            <!--div class="row">
                                                 <div class="col-sm-1"></div>                                        
-                                                <div class="col-sm-11" style="text-align:right">
+                                                <div class="col-sm-11" style="text-align:right"-->
                                                     <button style="width:100px;" class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></button>
                                                     <button style="width:100px;" class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i>Tots</button>
                                                     <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i>Cap</button>
-                                                </div>
-                                            </div>
+                                                <!--/div>
+                                            <div-->
                                             
                                             </td>
                                         </tr>
@@ -85,8 +85,8 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td style="width:25px;">&nbsp;</td>
-                                            <td><strong>Origen:</strong></td>
+                                            <!--td style="width:25px;">&nbsp;</!--td-->
+                                            <td style="width:100px;padding-left:20px;"><strong>Origen:</strong></td>
                                             <td><input type="radio" id="ROrigin0" name="ROrigin" onclick="ShowCombos(0);" checked="checked" /><%=this.Dictionary["Item_Incident_Origin0"] %></td>
                                             <td><input type="radio" id="ROrigin1" name="ROrigin" onclick="ShowCombos(1);" /><%=this.Dictionary["Item_Incident_Origin1"] %></td>
                                             <td><input type="radio" id="ROrigin2" name="ROrigin" onclick="ShowCombos(2);" /><%=this.Dictionary["Item_Incident_Origin2"] %></td>

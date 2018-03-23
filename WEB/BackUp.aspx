@@ -7,10 +7,10 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
-    <asp:Literal runat="server" ID="LtExplain"></asp:Literal>
+    <h4><i class="icon-save bigger-110"></i><asp:Literal runat="server" ID="LtExplain"></asp:Literal></h4>
     <div style="clear:both;">&nbsp;</div>
     <button class="btn btn-success" type="button" id="Button1" onclick="Go();">
-        <i class="icon-check bigger-110"></i>
+        <i class="icon-ok bigger-110"></i>
         <%=this.Dictionary["Item_Backup_Btn_Go"]%>
     </button>
 </asp:Content>

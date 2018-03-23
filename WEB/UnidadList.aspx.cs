@@ -100,7 +100,7 @@ public partial class UnidadList : Page
             {
                 Text = this.dictionary["Item_Unidad_Btn_New"],
                 Action = "success",
-                Icon = "icon-plus-sign",
+                Icon = "icon-plus",
                 Id = "BtnNewUnidad"
             };
         }

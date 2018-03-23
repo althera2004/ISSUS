@@ -46,12 +46,19 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td style="width:100px;">&nbsp;</td>
                                             <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Status"] %>:</strong></td>
                                             <td><input type="checkbox" id="chkStatus1" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status1"] %></td>
                                             <td><input type="checkbox" id="chkStatus2" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status2"] %></td>
                                             <td><input type="checkbox" id="chkStatus3" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status3"] %></td>
                                             <td><input type="checkbox" id="chkStatus4"/>&nbsp;<%=this.Dictionary["Item_IndicentAction_Status4"] %></td>                                        
-                                            </tr>
+                                            
+                                            <td>
+                                                <button class="btn btn-success" style="width:100px;" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
+                                                <button class="btn btn-success" style="width:100px;" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%= this.Dictionary["Common_All_Male_Plural"] %></button>
+                                                <button class="btn btn-success" style="width:100px;display:none;" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%= this.Dictionary["Common_None_Male"] %></button>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td style="width:250px;">
                                                 <div class="row">
@@ -66,6 +73,7 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td style="width:100px;">&nbsp;</td>
                                             <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Type"] %>:</strong></td>
                                             <td><input type="checkbox" id="RType1" name="Rtype" checked="checked" /><%=this.Dictionary["Item_IncidentAction_Type1"]%></td>
                                             <td><input type="checkbox" id="RType2" name="Rtype" checked="checked" /><%=this.Dictionary["Item_IncidentAction_Type2"]%></td>
@@ -76,7 +84,8 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>&nbsp;</td>
+                                            <td style="width:250px;">&nbsp;</td>
+                                            <td style="width:100px;">&nbsp;</td>
                                             <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Source"] %>:</strong></td>
                                             <td colspan="2">
                                                 <select id="CmbOrigin">
@@ -87,7 +96,7 @@
                                                     <option value="4"><%=this.Dictionary["Item_IncidentAction_Origin4"] %></option>
                                                 </select>  
                                             </td>
-                                            <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %>:</strong></td>
+                                            <td style="width:125px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %>:</strong></td>
                                             <td colspan="2">
                                                 <select id="CmbReporter">
                                                     <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>
@@ -96,11 +105,7 @@
                                                     <option value="3"><%=this.Dictionary["Item_IncidentAction_ReporterType3"] %></option>
                                                 </select>  
                                             </td>
-                                            <td>
-                                                <button class="btn btn-success" style="width:100px;" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
-                                                <button class="btn btn-success" style="width:100px;" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%= this.Dictionary["Common_All_Male_Plural"] %></button>
-                                                <button class="btn btn-success" style="width:100px;display:none;" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%= this.Dictionary["Common_None_Male"] %></button>
-                                            </td>
+                                            
                                         </tr>
                                     </table>
                                 </div> 

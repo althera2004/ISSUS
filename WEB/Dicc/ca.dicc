@@ -356,7 +356,7 @@ Item_Cost::Cost habitual
 Item_CostDefinition::Costos habituals
 Item_CostDefinition_Button_New::Afegir
 Item_CostDefinition_Field_Amount::Import
-Item_CostDefinition_Field_Description::Nom
+Item_CostDefinition_Field_Description::Cost
 Item_CostDefinition_ListHeader_Amount::Import
 Item_CostDefinition_ListHeader_Name::Nom
 Item_CostDefinition_Popup_AddCost_Title::Afegir un cost habitual
@@ -364,6 +364,7 @@ Item_CostDefinition_Popup_Delete_Title::Eliminar el cost
 Item_CostDefinition_PopupDelete_Message::Vol eliminar el cost
 Item_CostDefinition_Tab_Principal::Dades bàsiques
 Item_CostDefinitions::Costos habituals
+Item_CostDefinitions_Title::Fitxa de Costos habituals
 Item_Country_Message_NoDelete::No es pot eliminar perquè forma part d'una adreça
 Item_Country_Message_SaveWarning::Els països seleccionats estaran disponibles fins que es desin les dades de l'empresa
 Item_Country_WarningMessage::Els canvis als països seran efectius quan es desin les dades de l'empresa
@@ -422,6 +423,7 @@ Item_Document_PopupAnular_Title::Inactivar document
 Item_Document_Error_DeleteReasonRequired::Especificar el motiu de l'eliminació
 Item_Document_ErrorMessage_AlreadyExists::Ja existeix
 Item_Document_ErrorMessage_StartDatePreviousRevision::La data d'inici no pot posterior a la primera revisió
+Item_Document_ErrorMessage_CrossDate::CLG
 Item_Document_FieldLabel_Category::Categoria
 Item_Document_FieldLabel_Code::Codi
 Item_Document_FieldLabel_Conservation::Conservació
@@ -1505,6 +1507,7 @@ Item_Unidad_Popup_Delete_Title::Vol eliminar l'unitat
 Item_Unidad_PopupTitle_Delete::Eliminar unitat
 Item_Unidad_Tab_Principal::Dades bàsiques
 Item_Unidades::Unitats
+Item_Unidad_Title::Fitxa d'Unitats
 Item_User::Usuari/a
 Item_User_Title_Add::Fitxa de l'Usuari/a
 Item_User_ActualPassword::Contrasenya actual
@@ -1579,7 +1582,7 @@ User_PrimaryUser::Super Usuari/a
 User_Admin::Administrador
 Item_User_Rol::Rol
 Item_Backup::Back-Up
-Item_Backup_Explain::Explicar que es un backup para poder hacer una restauración o migrar datos a otra aplicación y tal...
+Item_Backup_Explain::Procediment per realitzar una còpia de seguretat de les dades existents a l'aplicació ISSUS.<br /><br />Confirmar que no hi ha ningú utilitzant l'aplicació abans de realitzar el procés de còpia de seguretat.<br /><br />
 Item_Backup_Btn_Go::Iniciar back-up
 Item_EquipmentScaleDivision::Divisió d'escala
 Item_EquipmentCalibrationDefinition::Definició de calibracions

@@ -218,7 +218,7 @@ public partial class CostDefinitionView : Page
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_CostDefinitions", "CostDefinitionList.aspx", false);
         this.master.AddBreadCrumb(label);
-        this.master.Titulo = label;
+        this.master.Titulo = "Item_CostDefinitions_Title";
 
         this.formFooter = new FormFooter();
         this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
@@ -237,7 +237,7 @@ public partial class CostDefinitionView : Page
             this.formFooter.ModifiedBy = this.CostDefinitionItem.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.CostDefinitionItem.ModifiedOn;
 
-            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Provider"], this.costDefinition.Description);
+            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_CostDefinitions"], this.costDefinition.Description);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
         }

@@ -54,7 +54,7 @@ public partial class UnidadView : Page
                 Name = "TxtName",
                 Value = this.unidad.Description,
                 ColumnSpan = 11,
-                Placeholder = this.dictionary["Common_Name"],
+                Placeholder = this.dictionary["Item_Unidades"],
                 Required = true,
                 RequiredMessage = this.dictionary["Common_Required"],
                 Duplicated = true,
@@ -227,7 +227,7 @@ public partial class UnidadView : Page
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Unidades", "UnidadList.aspx", false);
         this.master.AddBreadCrumb(label);
-        this.master.Titulo = label;
+        this.master.Titulo = "Item_Unidad_Title";
 
 
         this.formFooter = new FormFooter();
