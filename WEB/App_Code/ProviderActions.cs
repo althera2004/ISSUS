@@ -10,14 +10,12 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for ProviderActions
-/// </summary>
+/// <summary>Summary description for ProviderActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
-public class ProviderActions : WebService {
-
+public class ProviderActions : WebService
+{
     public ProviderActions()
     {
     }

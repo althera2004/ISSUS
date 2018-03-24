@@ -188,11 +188,11 @@ public partial class ExportFormacionExportList : Page
         };
 
         table.SetWidths(new float[] { 15f, 5f, 5f, 5f, 5f });
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Course"].ToUpperInvariant(), headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_ListHeader_DateComplete"].ToUpperInvariant(), headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Cost"].ToUpperInvariant(), headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Status"].ToUpperInvariant(), headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_EstimatedDate"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Course"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_ListHeader_DateComplete"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Cost"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Status"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_EstimatedDate"]));
         int cont = 0;
 
         DateTime? yFrom = null;

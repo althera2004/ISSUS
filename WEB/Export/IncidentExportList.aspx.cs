@@ -343,13 +343,13 @@ public partial class ExportIncidentExportList : Page
 
         table.SetWidths(new float[] { 35f, 10f, 10f, 20f, 8f, 10f, 10f });
 
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Description"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Open"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Status"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Origin"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_ActionNumber"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Cost"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Close"], headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Description"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Open"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Status"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Origin"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_ActionNumber"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Cost"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Close"]));
 
         int cont = 0;
         decimal totalCost = 0;

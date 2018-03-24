@@ -59,7 +59,7 @@ public partial class ExportEquipmentRecords : Page
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
         var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
         var equipment = Equipment.GetById(equipmentId, companyId);
-        var GetFilter = HttpContext.Current.Session["EquipmentFilter"] as List<EquipmentRecord>;
+        var getFilter = HttpContext.Current.Session["EquipmentFilter"] as List<EquipmentRecord>;
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
         if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
@@ -218,7 +218,7 @@ public partial class ExportEquipmentRecords : Page
         int countRow = 4;
         decimal total = 0;
 
-        var data = GetFilter;
+        var data = getFilter;
 
         // Poner el tipo de registro diccionarizado
         foreach (var record in data)
@@ -228,6 +228,7 @@ public partial class ExportEquipmentRecords : Page
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH0|ASC":
                 data = data.OrderBy(d => d.Date).ToList();
                 break;
@@ -444,7 +445,7 @@ public partial class ExportEquipmentRecords : Page
                 dateTo.Value);
                 
         }
-        else if(dateFrom.HasValue && !dateTo.HasValue)
+        else if(dateFrom.HasValue && dateTo == null)
         {
             periode = string.Format(
                 CultureInfo.InvariantCulture,
@@ -452,7 +453,7 @@ public partial class ExportEquipmentRecords : Page
                 dateFrom.Value,
                 dictionary["Common_From"]); 
         }
-        else if(!dateFrom.HasValue && dateTo.HasValue)
+        else if(dateFrom == null && dateTo.HasValue)
         {
             periode = string.Format(
                 CultureInfo.InvariantCulture,
@@ -620,11 +621,11 @@ public partial class ExportEquipmentRecords : Page
         //relative col widths in proportions - 1/3 and 2/3
         table.SetWidths(new float[] { 10f, 20f, 15f, 30f, 15f });
 
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Date"].ToUpperInvariant(), headerFont));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Type"].ToUpperInvariant(), headerFont));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Operation"].ToUpperInvariant(), headerFont));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Responsible"].ToUpperInvariant(), headerFont));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Cost"].ToUpperInvariant(), headerFont));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Date"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Type"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Operation"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Responsible"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Cost"]));
 
         decimal totalCost = 0;
         int cont=0;
@@ -637,6 +638,7 @@ public partial class ExportEquipmentRecords : Page
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH0|ASC":
                 data = data.OrderBy(d => d.Date).ToList();
                 break;

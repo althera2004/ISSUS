@@ -217,15 +217,16 @@ public partial class ExportDocumentExportList : Page
         };
 
         table.SetWidths(new float[] { 20f, 5f, 15f, 15f, 10f, 5f });
-        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Name"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Code"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Category"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Origin"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Location"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Revision"], headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Name"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Code"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Category"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Origin"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Location"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Revision"]));
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH0|ASC":
                 data = data.OrderBy(d => d.Description).ToList();
                 break;

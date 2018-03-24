@@ -11,9 +11,7 @@ using System.Web.Services;
 using GisoFramework.Item;
 using GisoFramework.Activity;
 
-/// <summary>
-/// Webservice to receive the AJAX queries for Rules
-/// </summary>
+/// <summary>Webservice to receive the AJAX queries for Rules</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
@@ -58,9 +56,8 @@ public class RulesActions : WebService
 
         return res;
     }
-    /// <summary>
-    /// Update item in database
-    /// </summary>
+
+    /// <summary>Update item in database</summary>
     /// <param name="newRules">New object identifier</param>
     /// <param name="oldRules">Old object identifier</param>
     /// <param name="companyId">Company identifier</param>

@@ -6,18 +6,14 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Web.UI;
-using GisoFramework.Item;
-using GisoFramework.Activity;
 using GisoFramework;
-using GisoFramework.DataAccess;
-using System.Collections.ObjectModel;
-using SbrinnaCoreFramework.UI;
+using GisoFramework.Activity;
+using GisoFramework.Item;
 using SbrinnaCoreFramework;
+using SbrinnaCoreFramework.UI;
 
 public partial class CargosView : Page
 {
@@ -33,14 +29,10 @@ public partial class CargosView : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
-    /// <summary>
-    /// Job position identifier
-    /// </summary>
+    /// <summary>Job position identifier</summary>
     private int jobPositionId;
 
-    /// <summary>
-    /// Job position
-    /// </summary>
+    /// <summary>Job position</summary>
     private JobPosition cargo;
 
     public bool ShowHelp
@@ -51,9 +43,7 @@ public partial class CargosView : Page
         }
     }
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -118,8 +108,8 @@ public partial class CargosView : Page
     {
         get
         {
-            ReadOnlyCollection<JobPosition> jobPositions = JobPosition.JobsPositionByCompany(this.company.Id);
-            FormSelect select = new FormSelect()
+            var jobPositions = JobPosition.JobsPositionByCompany(this.company.Id);
+            var select = new FormSelect()
             {
                 Name = "CmbResponsible",
                 ColumnsSpan = 4,
@@ -129,10 +119,10 @@ public partial class CargosView : Page
                 Required = false,
                 ToolTip = "Item_JobPosition_Help_Responsible",
                 Value = this.cargo.Responsible != null ? this.cargo.Responsible.Description : string.Empty,
-                DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectOne"] }
+                DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectOne"] }
             };
 
-            foreach (JobPosition jobPosition in jobPositions)
+            foreach (var jobPosition in jobPositions)
             {
                 bool selected = false;
                 if (this.cargo.Id != jobPosition.Id)
@@ -145,7 +135,7 @@ public partial class CargosView : Page
                             selected = true;
                         }
 
-                        select.AddOption(new FormSelectOption() { Selected = selected, Value = jobPosition.Id.ToString(), Text = jobPosition.Description });
+                        select.AddOption(new FormSelectOption { Selected = selected, Value = jobPosition.Id.ToString(), Text = jobPosition.Description });
                     }
                 }
             }
@@ -197,9 +187,7 @@ public partial class CargosView : Page
         }
     }
 
-    /// <summary>
-    /// Gets the dictionary for interface texts
-    /// </summary>
+    /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -208,36 +196,34 @@ public partial class CargosView : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -247,9 +233,7 @@ public partial class CargosView : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)Session["User"];
@@ -259,7 +243,7 @@ public partial class CargosView : Page
         // Security access control
         if (!this.user.HasGrantToRead(ApplicationGrant.JobPosition))
         {
-            this.Response.Redirect("NoPrivileges.aspx", false);
+            this.Response.Redirect("NoPrivileges.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
 
@@ -276,17 +260,17 @@ public partial class CargosView : Page
         this.formFooter = new FormFooter();
         if (this.user.HasGrantToWrite(ApplicationGrant.JobPosition))
         {
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
         }
 
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         if (jobPositionId > 0)
         {
             this.cargo = new JobPosition(this.jobPositionId, this.company.Id);
             if (this.cargo.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
 
@@ -311,15 +295,15 @@ public partial class CargosView : Page
         }
 
         string label = this.jobPositionId == -1 ? "Item_JobPosition_BreadCrumb_Edit" : string.Format("{0}: <strong>{1}</strong>", this.dictionary["Item_JobPosition"], this.cargo.Description);
-        this.master.AddBreadCrumb("Item_JobPositions", "CargosList.aspx", false);
+        this.master.AddBreadCrumb("Item_JobPositions", "CargosList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_JobPosition_BreadCrumb_Edit");
         this.master.Titulo = label;
     }
 
     private void RenderEmployees()
     {
-        StringBuilder res = new StringBuilder();        
-        foreach (Employee employee in this.cargo.Employees)
+        var res = new StringBuilder();        
+        foreach (var employee in this.cargo.Employees)
         {
             res.Append(employee.JobPositionListRow);
         }
@@ -329,7 +313,7 @@ public partial class CargosView : Page
 
     private bool IsBucle(long actualId, long id, ReadOnlyCollection<JobPosition> jobPositions)
     {
-        JobPosition parent = GetById(id, jobPositions);
+        var parent = GetById(id, jobPositions);
         if (parent == null)
         {
             return false;
@@ -350,7 +334,7 @@ public partial class CargosView : Page
 
     private JobPosition GetById(long id, ReadOnlyCollection<JobPosition> jobPositions)
     {
-        foreach(JobPosition jobPosition in jobPositions)
+        foreach(var jobPosition in jobPositions)
         {
             if(jobPosition.Id == id)
             {

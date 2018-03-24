@@ -9,9 +9,7 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for EquipmentVerificationAct
-/// </summary>
+/// <summary>Summary description for EquipmentVerificationAct</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
@@ -25,8 +23,7 @@ public class EquipmentVerificationActActions : WebService {
     [ScriptMethod]
     public ActionResult Insert(EquipmentVerificationAct equipmentVerificationAct, int userId)
     {
-        ActionResult res = equipmentVerificationAct.Insert(userId);
-
+        var res = equipmentVerificationAct.Insert(userId);
         if (res.Success)
         {
             Session["Company"] = new Company(equipmentVerificationAct.CompanyId);
@@ -48,5 +45,4 @@ public class EquipmentVerificationActActions : WebService {
     {
         return EquipmentVerificationAct.Delete(equipmentVerificationActId, userId, companyId);
     }
-
 }

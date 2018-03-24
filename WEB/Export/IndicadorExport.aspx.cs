@@ -347,12 +347,12 @@ public partial class ExportIndicadorExport : Page
 
         table.SetWidths(new float[] { 7f, 30f, 10f, 30f, 10f, 10f });;
 
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Common_Status"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Description"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_StartDate"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Process"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ProcessType"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ObjetivoResponsible"].ToUpperInvariant(), times));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Common_Status"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Description"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_StartDate"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Process"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ProcessType"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ObjetivoResponsible"]));
 
         int cont = 0;
         var data = Indicador.Filter(companyId, indicatorType, from, to, processId, processTypeId, targetId, status).ToList();

@@ -25,14 +25,13 @@ using PDF_Tests;
 using System.Web.UI.DataVisualization.Charting;
 using DR = System.Drawing;
 
-public partial class Export_ObjetivoExport : Page
+public partial class ExportObjetivoExport : Page
 {
     BaseFont headerFont = null;
     BaseFont arial = null;
 
     public static Font criteriaFont;
     public static Dictionary<string, string> dictionary;
-    public static Font fontAwe;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -94,43 +93,31 @@ public partial class Export_ObjetivoExport : Page
 
         pdfDoc.Open();
 
-        iTS.BaseColor backgroundColor = new iTS.BaseColor(225, 225, 225);
-        iTS.BaseColor rowPair = new iTS.BaseColor(255, 255, 255);
-        iTS.BaseColor rowEven = new iTS.BaseColor(240, 240, 240);
+        var backgroundColor = new iTS.BaseColor(225, 225, 225);
+        var rowPair = new iTS.BaseColor(255, 255, 255);
+        var rowEven = new iTS.BaseColor(240, 240, 240);
 
         // ------------ FONTS 
-        iTSpdf.BaseFont awesomeFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         iTS.Font times = new iTS.Font(arial, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         iTS.Font timesBold = new iTS.Font(arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        criteriaFont = new iTS.Font(arial, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         iTS.Font titleFont = new iTS.Font(arial, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-
-        var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        fontAwe = new Font(fontAwesomeIcon, 10);
         // -------------------        
-
-        float[] titleWidths = new float[] { 50f };
-        iTSpdf.PdfPTable titleTable = new iTSpdf.PdfPTable(1);
-        titleTable.SetWidths(titleWidths);
-
-        iTSpdf.PdfPCell titleCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont))
+        
+        var titleTable = new iTSpdf.PdfPTable(1);
+        titleTable.SetWidths(new float[] { 50f });
+        titleTable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont))
         {
             HorizontalAlignment = iTS.Element.ALIGN_CENTER,
             Border = iTS.Rectangle.NO_BORDER
-        };
-
-        titleTable.AddCell(titleCell);
+        });
 
 
         //------ CRITERIA
-        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(4);
-        float[] cirteriaWidths = new float[] { 20f, 50f, 20f, 150f };
-        criteriatable.SetWidths(cirteriaWidths);
+        var criteriatable = new iTSpdf.PdfPTable(4);
+        criteriatable.SetWidths(new float[] { 20f, 50f, 20f, 150f });
         criteriatable.WidthPercentage = 100;
 
-        iTSpdf.PdfPCell criteriaBlank = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
+        var criteriaBlank = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -139,11 +126,11 @@ public partial class Export_ObjetivoExport : Page
         };
 
         string periode = string.Empty;
-        if (from.HasValue && !to.HasValue)
+        if (from.HasValue && to == null)
         {
             periode = string.Format(CultureInfo.InvariantCulture, @"{0} {1:dd/MM/yyyy}", dictionary["Item_IncidentAction_List_Filter_From"], from);
         }
-        else if (!from.HasValue && to.HasValue)
+        else if (from == null && to.HasValue)
         {
             periode = string.Format(CultureInfo.InvariantCulture, @"{0} {1:dd/MM/yyyy}", dictionary["Item_IncidentAction_List_Filter_To"], to);
         }
@@ -155,33 +142,30 @@ public partial class Export_ObjetivoExport : Page
         {
             periode = dictionary["Common_All_Male"];
         }
-
-        iTSpdf.PdfPCell criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold))
+        
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria1Label);
+        });
 
-        iTSpdf.PdfPCell criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria1);
+        });
 
-        iTSpdf.PdfPCell criteriaStatusLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Status"] + " :", timesBold))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Status"] + " :", timesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteriaStatusLabel);
+        });
 
         string statusText = dictionary["Common_All"];
         if (status == 1)
@@ -194,20 +178,19 @@ public partial class Export_ObjetivoExport : Page
             statusText = dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"];
         }
 
-        iTSpdf.PdfPCell criteriaStatus = new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteriaStatus);
+        });
         criteriatable.AddCell(criteriaBlank);
 
         pdfDoc.Add(criteriatable);
         //---------------------------
 
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(5)
+        var table = new iTSpdf.PdfPTable(5)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 1,
@@ -215,19 +198,17 @@ public partial class Export_ObjetivoExport : Page
             SpacingAfter = 30f
         };
 
-        float[] widths = new float[] { 7f, 50f, 30f, 12f, 12f };
-        table.SetWidths(widths);
+        table.SetWidths(new float[] { 7f, 50f, 30f, 12f, 12f });
 
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Common_Status"].ToUpperInvariant(), headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_Header_Name"].ToUpperInvariant(), headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_Header_Responsible"].ToUpperInvariant(), headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_Header_StartDate"].ToUpperInvariant(), headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_Header_PreviewEndDate"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Common_Status"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_Header_Name"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_Header_Responsible"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_Header_StartDate"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_Header_PreviewEndDate"]));
 
         int cont = 0;
-        List<ObjetivoFilterItem> data = Objetivo.Filter(companyId,  from, to, status).ToList();
-
-        foreach(ObjetivoFilterItem item in data)
+        var data = Objetivo.Filter(companyId,  from, to, status).ToList();
+        foreach(var item in data)
         {
             if (!item.Objetivo.EndDate.HasValue)
             {
@@ -237,6 +218,7 @@ public partial class Export_ObjetivoExport : Page
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH0|ASC":
                 data = data.OrderBy(d => d.Objetivo.Name).ToList();
                 break;
@@ -264,7 +246,7 @@ public partial class Export_ObjetivoExport : Page
         }
 
         cont = 0;
-        foreach (ObjetivoFilterItem item in data)
+        foreach (var item in data)
         {
             string endDateText = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", item.Objetivo.PreviewEndDate);
             if (item.Objetivo.EndDate.HasValue)
@@ -284,29 +266,27 @@ public partial class Export_ObjetivoExport : Page
             @"{0}: {1}",
             dictionary["Common_RegisterCount"],
             cont);
-        iTSpdf.PdfPCell totalRegistrosCell = new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, times))
+
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = rowEven,
             Padding = 6f,
             PaddingTop = 4f,
             Colspan = 2
-        };
+        });
 
-        iTSpdf.PdfPCell blankCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = rowEven,
             Colspan = 3
-        };
-
-        table.AddCell(totalRegistrosCell);
-        table.AddCell(blankCell);
+        });
 
         pdfDoc.Add(table);
 
         pdfDoc.CloseDocument();
-        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
+        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
         return res;
     }
 }

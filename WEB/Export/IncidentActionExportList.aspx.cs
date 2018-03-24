@@ -329,14 +329,14 @@ public partial class ExportIncidentActionExportList : Page
         };
 
         table.SetWidths(new float[] { 30f, 10f, 10f, 10f, 10f, 10f, 10f, 10f });
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Type"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Origin"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Cost"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_ImplementDate"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Close"], headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Type"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Origin"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Cost"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_ImplementDate"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Close"]));
         
         int cont = 0;
         decimal totalCost = 0;
@@ -354,6 +354,7 @@ public partial class ExportIncidentActionExportList : Page
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH0|ASC":
                 data = data.OrderBy(d => d.Description).ToList();
                 break;
@@ -408,6 +409,7 @@ public partial class ExportIncidentActionExportList : Page
             string actionTypeText = string.Empty;
             switch (action.ActionType)
             {
+                default:
                 case 1: actionTypeText = dictionary["Item_IncidentAction_Type1"]; break;
                 case 2: actionTypeText = dictionary["Item_IncidentAction_Type2"]; break;
                 case 3: actionTypeText = dictionary["Item_IncidentAction_Type3"]; break;

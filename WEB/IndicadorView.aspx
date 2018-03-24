@@ -269,7 +269,7 @@
                                                         <h3 style="display: inline;"><%=this.Dictionary["Item_Indicador_GraphicsNoData"] %></h3>
                                                     </div>
                                                     <div id="barChartDiv" class="col col-sm-12"></div>
-                                                    <div id="circularGaugeContainer" style="height:200px;margin:0 auto"></div>
+                                                    <div id="circularGaugeContainer" style="display:none;height:200px;margin:0 auto"></div>
                                                 </div>
                                             </div>
                                         </div>

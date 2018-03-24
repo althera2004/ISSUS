@@ -146,10 +146,10 @@ public partial class ExportEquipmentList : Page
         };
         table.SetWidths(new float[] { 20f, 10f, 5f, 15f });
 
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Code"].ToUpperInvariant() + " - " + dictionary["Item_Equipment_Header_Description"].ToUpperInvariant(), headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Location"].ToUpperInvariant(), headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Cost"].ToUpperInvariant(), headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Responsible"].ToUpperInvariant(), headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Code"] + " - " + dictionary["Item_Equipment_Header_Description"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Location"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Cost"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Responsible"]));
 
         int cont = 0;
         var data = Equipment.GetList(companyId).ToList();
@@ -285,6 +285,7 @@ public partial class ExportEquipmentList : Page
         {
             switch (listOrder.ToUpperInvariant())
             {
+                default:
                 case "TH0|ASC":
                     data = data.OrderBy(d => d.Code).ToList();
                     break;

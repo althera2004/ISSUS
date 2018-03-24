@@ -14,9 +14,7 @@ using GisoFramework.Item;
 using SbrinnaCoreFramework.UI;
 using SbrinnaCoreFramework;
 
-/// <summary>
-/// Implements a class for the "CargosList" page
-/// </summary>
+/// <summary>Implements a class for the "CargosList" page</summary>
 public partial class CargosList : Page
 {
     /// <summary> Master of page</summary>
@@ -28,9 +26,7 @@ public partial class CargosList : Page
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    /// <summary>
-    /// Gets the dictionary for interface texts
-    /// </summary>
+    /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -41,9 +37,7 @@ public partial class CargosList : Page
 
     public UIDataHeader DataHeader { get; set; }
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -52,25 +46,23 @@ public partial class CargosList : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -80,9 +72,7 @@ public partial class CargosList : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)Session["User"];
@@ -91,7 +81,7 @@ public partial class CargosList : Page
         // Security access control
         if (!this.user.HasGrantToRead(ApplicationGrant.JobPosition))
         {
-            this.Response.Redirect("NoPrivileges.aspx", false);
+            this.Response.Redirect("NoPrivileges.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
 
@@ -108,31 +98,29 @@ public partial class CargosList : Page
         }
     }
 
-    /// <summary>
-    /// Generates the HTML code to show JobPosition list
-    /// </summary>
+    /// <summary>Generates the HTML code to show JobPosition list</summary>
     private void RenderJobPositionData()
     {
-        StringBuilder res = new StringBuilder();
-        StringBuilder sea = new StringBuilder();
-        List<string> s = new List<string>();
-        ReadOnlyCollection<JobPosition> cargos = JobPosition.JobsPositionByCompany((Company)Session["Company"]);
+        var res = new StringBuilder();
+        var sea = new StringBuilder();
+        var searchItems = new List<string>();
+        var cargos = JobPosition.JobsPositionByCompany((Company)Session["Company"]);
         int contData = 0;
-        foreach (JobPosition cargo in cargos)
+        foreach (var cargo in cargos)
         {
             res.Append(cargo.TableRow(this.dictionary, this.user.HasGrantToWrite(ApplicationGrant.JobPosition), this.user.HasGrantToRead(ApplicationGrant.Department)));
-            if(!s.Contains(cargo.Description))
+            if(!searchItems.Contains(cargo.Description))
             {
-                s.Add(cargo.Description);
+                searchItems.Add(cargo.Description);
                 contData++;
             }
         }
 
         this.CargosDataTotal.Text = contData.ToString();
 
-        s.Sort();
+        searchItems.Sort();
         bool first = true;
-        foreach (string item in s)
+        foreach (var item in searchItems)
         {
             if (first)
             {

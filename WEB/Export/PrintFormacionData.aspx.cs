@@ -188,9 +188,9 @@ public partial class ExportPrintFormacionData : Page
             HorizontalAlignment = Element.ALIGN_CENTER
         });
 
-        tableAssistants.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistants"].ToUpperInvariant(), headerFontFinal));
-        tableAssistants.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistant_Status_Done"].ToUpperInvariant(), headerFontFinal));
-        tableAssistants.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistant_Status_Evaluated"].ToUpperInvariant(), headerFontFinal));
+        tableAssistants.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistants"]));
+        tableAssistants.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistant_Status_Done"]));
+        tableAssistants.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistant_Status_Evaluated"]));
 
         int cont = 0;
         var data = Equipment.GetList(companyId);

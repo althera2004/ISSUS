@@ -6,7 +6,6 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
@@ -15,29 +14,25 @@ using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
 using System.Web.UI;
-using iTS = iTextSharp.text;
-using iTSpdf = iTextSharp.text.pdf;
+using System.Web.UI.DataVisualization.Charting;
 using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using PDF_Tests;
-using NPOI.HSSF.UserModel;
 using NPOI.HSSF.Model;
+using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
-using System.Web.UI.DataVisualization.Charting;
+using PDF_Tests;
 using DR = System.Drawing;
+using iTS = iTextSharp.text;
+using iTSpdf = iTextSharp.text.pdf;
 
-/// <summary>
-/// Implements reporting in PDF and Excel for "indicador" records
-/// </summary>
+/// <summary>Implements reporting in PDF and Excel for "indicador" records</summary>
 public partial class ExportIndicadorRecords : Page
 {
-    public static Font criteriaFont;
     public static Dictionary<string, string> dictionary;
-    public static Font fontAwe;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -373,12 +368,7 @@ public partial class ExportIndicadorRecords : Page
         var times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         var timesBold = new iTS.Font(dataFont, 10, iTS.Font.BOLD, iTS.BaseColor.BLACK);
         var headerFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        criteriaFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         var titleFont = new iTS.Font(dataFont, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        var symbolFont = new iTS.Font(ToolsPdf.AwesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-
-        var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        fontAwe = new Font(fontAwesomeIcon, 10);
         // -------------------        
 
         string periode = string.Empty;
@@ -436,13 +426,13 @@ public partial class ExportIndicadorRecords : Page
         };
 
         table.SetWidths(new float[] { 15f, 10f, 15f, 15f, 20f, 20f, 30f });
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Status"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Value"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Date"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Comments"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Meta"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Alarm"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Responsible"].ToUpperInvariant(), times));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Status"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Value"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Date"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Comments"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Meta"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Alarm"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Responsible"]));
 
         // Aplicar filtro
         if (dateFrom.HasValue)
@@ -492,7 +482,7 @@ public partial class ExportIndicadorRecords : Page
 
         int cont = 0;
         var dataPoints = new List<PointData>();
-        foreach (var registro in registros.OrderBy(r=>r.Date))
+        foreach (var registro in registros.OrderByDescending(r=>r.Date))
         {
             cont++;
             string metaText = IndicadorRegistro.ComparerLabelSign(registro.MetaComparer, dictionary);
@@ -566,6 +556,7 @@ public partial class ExportIndicadorRecords : Page
         });
 
         string graphName = string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, "graph.jpg");
+        dataPoints = dataPoints.OrderBy(dp => dp.Date).ToList();
         using (var chart = new Chart())
         {
             chart.ChartAreas.Add(new ChartArea("Valor"));
@@ -645,12 +636,22 @@ public partial class ExportIndicadorRecords : Page
         return res;
     }
 
+    /// <summary>Data that represents a record in chart</summary>
     private struct PointData
     {
-        public Decimal Value { get; set; }
-        public Decimal Meta { get; set; }
-        public Decimal? Alarma { get; set; }
+        /// <summary>Gets or sets value of record</summary>
+        public decimal Value { get; set; }
+
+        /// <summary>Gets or sets meta vlue assigned to record</summary>
+        public decimal Meta { get; set; }
+
+        /// <summary>Gets or sets alarm value assigned to record</summary>
+        public decimal? Alarma { get; set; }
+
+        /// <summary>Gets or sets date of record</summary>
         public DateTime Date { get; set; }
+
+        /// <summary>Gets or sets status from result or record</summary>
         public int Status { get; set; }
     }
 }

@@ -37,8 +37,10 @@ namespace GisoFramework
         public static readonly iTSpdf.BaseFont HeaderFont = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
         public static readonly iTSpdf.BaseFont Arial = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
         public static readonly iTSpdf.BaseFont AwesomeFont = iTSpdf.BaseFont.CreateFont(FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
+        public static readonly iTSpdf.BaseFont dataFont = iTSpdf.BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\calibri.ttf", FontPath), iTSpdf.BaseFont.CP1250, iTSpdf.BaseFont.EMBEDDED);
 
         public static readonly iTS.Font TimesBold = new iTS.Font(ToolsPdf.Arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        public static readonly iTS.Font times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
 
         public static iTSpdf.PdfPCell CriteriaCellLabel(string label)
         {
@@ -51,9 +53,9 @@ namespace GisoFramework
             };
         }
 
-        public static iTSpdf.PdfPCell HeaderCell(string label, iTS.Font font)
+        public static iTSpdf.PdfPCell HeaderCell(string label)
         {
-            return new iTSpdf.PdfPCell(new iTS.Phrase(label.ToUpperInvariant(), font))
+            return new iTSpdf.PdfPCell(new iTS.Phrase(label.ToUpperInvariant(), times))
             {
                 Border = BorderAll,
                 BackgroundColor = HeaderBackgroundColor,
