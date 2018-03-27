@@ -69,7 +69,7 @@ public partial class ItemList : Page
     {
         if (this.Page.Request.QueryString["ItemType"] != null)
         {
-            this.ItemType = Convert.ToInt32(this.Page.Request.QueryString["ItemType"].ToString());
+            this.ItemType = Convert.ToInt32(this.Page.Request.QueryString["ItemType"]);
         }
 
         this.user = (ApplicationUser)Session["User"];
@@ -77,7 +77,7 @@ public partial class ItemList : Page
         this.master = this.Master as Giso;
         this.master.AdminPage = this.AdminPage;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        Item item = Item.GetByCode(this.ItemType, this.dictionary);
+        var item = Item.GetByCode(this.ItemType, this.dictionary);
         this.ItemName = item.ItemType;
         this.master.AddBreadCrumbInvariant(item.NamePlural);
         this.master.Titulo = item.NamePlural;

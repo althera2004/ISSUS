@@ -16,9 +16,7 @@ namespace SbrinnaCoreFramework
     using Newtonsoft.Json;
     using SbrinnaCoreFramework.UI;
 
-    /// <summary>
-    /// Implements Item class
-    /// </summary>
+    /// <summary>Implements Item class</summary>
     public class Item
     {
         private List<UIDataHeader> headers;
@@ -69,7 +67,7 @@ namespace SbrinnaCoreFramework
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
             
-            Item deserializedProduct = new Item();
+            var deserializedProduct = new Item();
             string path = HttpContext.Current.Request.PhysicalApplicationPath + "ItemDefinition";
             if(!path.EndsWith(@"\", StringComparison.Ordinal))
             {

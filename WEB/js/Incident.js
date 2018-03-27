@@ -1567,12 +1567,23 @@ function AnulateLayoutAccion() {
         $("#AccionAnulada").html(message);
         $("#BtnAnularAction").hide();
         $("#BtnRestaurarAction").show();
+
+        $("#accion textarea").attr("disabled", true);
+        $("#accion input").attr("disabled", true);
+        $("#accion select").attr("disabled", true);
+
     }
     else {
         $("#DivAnulateMessageAccion").hide();
         $("#BtnAnularAction").show();
         $("#BtnRestaurarAction").hide();
+
+        $("#accion textarea").removeAttr("disabled");
+        $("#accion input").removeAttr("disabled");
+        $("#accion select").removeAttr("disabled");
     }
+
+    $("#TxtActionNotes").removeAttr("disabled");
 }
 
 function RestoreAccion() {

@@ -31,7 +31,6 @@ public class EmployeeActions : WebService {
     public ActionResult GrantChanged(int userTargetId, int companyId, int securityGroup, bool grant, int userId)
     {
         var res = ActionResult.NoAction;
-
         if (grant)
         {
             res = ApplicationUser.SetGrant(userTargetId, companyId, securityGroup, userId);
@@ -96,7 +95,7 @@ public class EmployeeActions : WebService {
     public ActionResult AsociateNewDepartment(int companyId, int employeeId, string departmentName, int userId)
     {
         var result = ActionResult.NoAction;
-        var department = new Department() { Id = -1, CompanyId = companyId, Description = departmentName };
+        var department = new Department { Id = -1, CompanyId = companyId, Description = departmentName };
         result = ActivityLog.Department(department.Id, 1, companyId, DepartmentLogActions.Create, string.Empty);
         result = department.Insert(userId);
         if (result.Success)
@@ -138,7 +137,7 @@ public class EmployeeActions : WebService {
     [ScriptMethod]
     public ActionResult AssociateJobPosition(int companyId, int employeeId, int jobPositionId, DateTime date, int userId)
     {
-        return Employee.AssignateJobPosition(employeeId, Convert.ToInt64(jobPositionId), companyId, userId);
+        return Employee.AssignateJobPosition(employeeId, Convert.ToInt64(jobPositionId), date, companyId, userId);
     }
 
     [WebMethod(EnableSession = true)]

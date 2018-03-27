@@ -250,7 +250,7 @@ public partial class CargosView : Page
         // Parameters control
         if (this.Request.QueryString["id"] != null)
         {
-            this.jobPositionId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
+            this.jobPositionId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
         this.master = this.Master as Giso;

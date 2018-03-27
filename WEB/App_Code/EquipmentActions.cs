@@ -5,19 +5,12 @@
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Web;
-using System.Web.Services;
 using System.Web.Script.Services;
+using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
-using System.Text;
 
-/// <summary>
-/// Summary description for EquipmentActions
-/// </summary>
+/// <summary>Summary description for EquipmentActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]

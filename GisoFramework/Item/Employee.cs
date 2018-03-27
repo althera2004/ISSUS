@@ -1145,7 +1145,7 @@ namespace GisoFramework.Item
         /// <param name="companyId">Compnay identifier</param>
         /// <param name="userId">Identifier of user taht performs the action</param>
         /// <returns>Result of action</returns>
-        public static ActionResult AssignateJobPosition(int employeeId, long jobPositionId, int companyId, int userId)
+        public static ActionResult AssignateJobPosition(int employeeId, long jobPositionId, DateTime date, int companyId, int userId)
         {
             var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Employee_AsignateJobPosition
@@ -1163,6 +1163,7 @@ namespace GisoFramework.Item
                     {
                         cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
                         cmd.Parameters.Add(DataParameter.Input("@JobPositionId", jobPositionId));
+                        cmd.Parameters.Add(DataParameter.Input("@Date", date));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();

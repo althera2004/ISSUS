@@ -485,7 +485,7 @@
         <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
         <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/CostBar.js?<%=this.AntiCache %>"></script>
-        <script type="text/javascript" src="/js/Incident.js"></script>
+        <script type="text/javascript" src="/js/Incident.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/IncidentCost.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/IncidentProvider.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/IncidentCustomer.js?<%=this.AntiCache %>"></script>

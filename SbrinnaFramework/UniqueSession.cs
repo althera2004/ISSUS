@@ -16,9 +16,7 @@ namespace SbrinnaCoreFramework
         /// <summary>Data of unique sessions active</summary>
         private static List<UniqueSessionData> data;
 
-        /// <summary>
-        /// Indicates if session toke is present on application
-        /// </summary>
+        /// <summary>Indicates if session toke is present on application</summary>
         /// <param name="token">Session's token</param>
         /// <param name="userId">User identififer</param>
         /// <returns></returns>
@@ -29,7 +27,7 @@ namespace SbrinnaCoreFramework
                 data = new List<UniqueSessionData>();
             }
 
-            if(data.Any(d=>d.Token == token && d.UserId == userId))
+            if (data.Any(d => d.Token == token && d.UserId == userId))
             {
                 return true;
             }
@@ -37,9 +35,7 @@ namespace SbrinnaCoreFramework
             return false;
         }
 
-        /// <summary>
-        /// Replace user session
-        /// </summary>
+        /// <summary>Replace user session</summary>
         /// <param name="oldUser">Old user session</param>
         /// <param name="newUser">New user seesion</param>
         /// <returns></returns>
@@ -53,8 +49,8 @@ namespace SbrinnaCoreFramework
             UnsetSession(newUser);
             if (data.Any(d => d.UserId == oldUser))
             {
-                data.Where(d => d.UserId == oldUser).First().UserId = newUser;
-                return data.Where(d => d.UserId == newUser).First().Token;
+                data.First(d => d.UserId == oldUser).UserId = newUser;
+                return data.First(d => d.UserId == newUser).Token;
             }
             else
             {
@@ -62,9 +58,7 @@ namespace SbrinnaCoreFramework
             }
         }
 
-        /// <summary>
-        /// Set session
-        /// </summary>
+        /// <summary>Set session</summary>
         /// <param name="userId">User identifier</param>
         /// <param name="ip">IP address of last connection</param>
         /// <returns>Token of session user</returns>
@@ -77,7 +71,7 @@ namespace SbrinnaCoreFramework
 
             UnsetSession(userId);
 
-            Guid token = Guid.NewGuid();
+            var token = Guid.NewGuid();
             data.Add(new UniqueSessionData()
             {
                 Token =token,
@@ -89,9 +83,7 @@ namespace SbrinnaCoreFramework
             return token;
         }
 
-        /// <summary>
-        /// Unset session of user
-        /// </summary>
+        /// <summary>Unset session of user</summary>
         /// <param name="userId">User identifier</param>
         public static void UnsetSession(int userId)
         {

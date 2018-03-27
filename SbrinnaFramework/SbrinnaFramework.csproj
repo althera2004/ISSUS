@@ -78,8 +78,8 @@
     <Compile Include="Graph\InfoBox.cs" />
     <Compile Include="Graph\InfoBoxBar.cs" />
     <Compile Include="ImageHelper.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomPassword.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="UI\AlertTag.cs" />
