@@ -34,9 +34,9 @@
                                                     <tr id="ListDataHeader">
                                                         <th id="th0" style="width:40px;">&nbsp;</th>
 			                                            <th onclick="Sort(this,'ListDataTable');" id="th1" class="search sort" style="cursor:pointer;"><%=this.Dictionary["Item_User_List_Header_UserName"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable');" id="th2" class="search sort" style="cursor:pointer;width:200px;"><%=this.Dictionary["Item_User_List_Header_EmployeeName"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable');" id="th2" class="search sort" style="cursor:pointer;width:300px;"><%=this.Dictionary["Item_User_List_Header_EmployeeName"] %></th>
 			                                            <th onclick="Sort(this,'ListDataTable');" id="th3" class="search sort" style="cursor:pointer;width:300px;"><%=this.Dictionary["Item_User_List_Header_Email"] %></th>
-			                                            <th style="width:106px;">&nbsp;</th>
+			                                            <th style="width:107px;">&nbsp;</th>
 		                                            </tr>
                                                 </thead>
                                             </table>

@@ -121,9 +121,9 @@ function ItemRenderTable(list) {
         tdPreviewEndDate.style.width = "100px";
 
         row.appendChild(tdObjetivo);
-        row.appendChild(tdObjetivoResponsible);
         row.appendChild(tdStartDate);
         row.appendChild(tdPreviewEndDate);
+        row.appendChild(tdObjetivoResponsible);
 
         var iconEdit = document.createElement("SPAN");
         iconEdit.className = "btn btn-xs btn-info";
@@ -154,7 +154,7 @@ function ItemRenderTable(list) {
 
 
         var tdActions = document.createElement("TD");
-        tdActions.style.width = "91px";
+        tdActions.style.width = "90px";
 
         tdActions.appendChild(iconEdit);
         if (ApplicationUser.Grants.Indicador.Delete) {

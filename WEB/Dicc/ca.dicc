@@ -358,7 +358,7 @@ Item_CostDefinition_Button_New::Afegir
 Item_CostDefinition_Field_Amount::Import
 Item_CostDefinition_Field_Description::Cost
 Item_CostDefinition_ListHeader_Amount::Import
-Item_CostDefinition_ListHeader_Name::Nom
+Item_CostDefinition_ListHeader_Name::Cost habitual
 Item_CostDefinition_Popup_AddCost_Title::Afegir un cost habitual
 Item_CostDefinition_Popup_Delete_Title::Eliminar el cost
 Item_CostDefinition_PopupDelete_Message::Vol eliminar el cost
@@ -378,7 +378,7 @@ Item_Customer_Header_Status::Estat
 Item_Customer_Header_Type::Tipus
 Item_Customer_Help_Name::Nom del client
 Item_Customer_Label_Costs::Calibratges / Manteniments / Reparacions
-Item_Customer_ListHeader_Name::Nom
+Item_Customer_ListHeader_Name::Client
 Item_Customer_Popup_Delete_Question::Vol eliminar el client
 Item_Customer_Popup_Delete_Title::Eliminar el client
 Item_Customer_Section_Incidents::Incidències i accions
@@ -393,14 +393,14 @@ Item_Department_Button_New::Afegir
 Item_Department_Help_Field_Name::Indicar el nom del departament
 Item_Department_ListEmployees::Empleats/des
 Item_Department_ListEmployees_Header_Email::Correu
-Item_Department_ListEmployees_Header_Name::Nom
+Item_Department_ListEmployees_Header_Name::Empleat
 Item_Department_ListEmployees_Header_Nif::NIF
 Item_Department_ListEmployees_Header_Phone::Telèfon
-Item_Department_ListHeader_Name::Nom
+Item_Department_ListHeader_Name::Departament
 Item_Department_ListHeaderEmployees::Empleats/des
 Item_Department_ListHeaderJobPositions::Càrrecs
 Item_Department_ListJobPositions::Càrrecs
-Item_Department_ListJobPositions_Header_Name::Nom
+Item_Department_ListJobPositions_Header_Name::Càrrec
 Item_Department_Message_WithoutEmployees::Sense empleats/des
 Item_Department_Popup_Delete_Title::Eliminar el departament
 Item_Department_PopupAdd_Title::Afegir un departament
@@ -944,7 +944,7 @@ Item_Incident_FilterError_Title::Revisar les dades de la consulta
 Item_Incident_Header_ActionNumber::Acció
 Item_Incident_Header_Close::Tancament
 Item_Incident_Header_Cost::Cost
-Item_Incident_Header_Description::Problema
+Item_Incident_Header_Description::Incidència
 Item_Incident_Header_Number::Número
 Item_Incident_Header_Open::Obertura
 Item_Incident_Header_Origin::Origen
@@ -1034,7 +1034,7 @@ Item_IncidentAction_Field_ResponsibleWhatHappend::Responsable
 Item_IncidentAction_Field_Schelude::Data
 Item_IncidentAction_Field_WhatHappened::Què ha passat?
 Item_IncidentAction_Header_Close::Tancament
-Item_IncidentAction_Header_Description::Problema
+Item_IncidentAction_Header_Description::Acció
 Item_IncidentAction_Header_ImplementDate::D. prevista
 Item_IncidentAction_Header_ImplementDate_Tooltip::Data de implementació prevista
 Item_IncidentAction_Header_Cost::Cost
@@ -1144,7 +1144,7 @@ Item_Indicador_Filter_Button::Filtrar
 Item_Indicador_Filter_From::Inici des de
 Item_Indicador_Filter_To::Inici fins
 Item_Indicador_GraphicsNoData::No hi ha registres al indicador
-Item_Indicador_Header_Description::Descripció
+Item_Indicador_Header_Description::Indicador
 Item_Indicador_Header_Objetivo::Objectiu
 Item_Indicador_Header_ObjetivoResponsible::Responsable
 Item_Indicador_Header_Process::Procés
@@ -1228,7 +1228,7 @@ Item_JobPosition_ListEmployees_Header_Nif::NIF
 Item_JobPosition_ListEmployees_Header_Phone::Telèfon
 Item_JobPosition_ListEmployees_Title::Empleats/des
 Item_JobPosition_ListHeader_Department::Departament
-Item_JobPosition_ListHeader_Name::Nom
+Item_JobPosition_ListHeader_Name::Càrrec
 Item_JobPosition_ListHeader_Responsible::Responsable
 Item_JobPosition_Message_WithoutEmployees::Càrrec sense empleats/des
 Item_JobPosition_Message_WithoutResponsible::Càrrec sense responsable
@@ -1263,10 +1263,10 @@ Item_Learning_FieldLabel_Year::Any de realització del curs
 Item_Learning_Filter_AllPeriode::Tots els anys
 Item_Learning_Filter_FromYear::Des de l'any
 Item_Learning_Filter_ToYear::Fins l'any
-Item_Learning_ListHeader_EstimatedDate::Data prevista
+Item_Learning_ListHeader_EstimatedDate::Previst
 Item_Learning_ListHeader_Cost::Cost
 Item_Learning_ListHeader_Assistants::Participants
-Item_Learning_ListHeader_DateComplete::Data realització
+Item_Learning_ListHeader_DateComplete::Realitzat
 Item_Learning_ListHeader_Status::Estat
 Item_Learning_ListHeader_Course::Curs
 Item_Learning_Help_Coach::Indicar formador/a
@@ -1380,7 +1380,7 @@ Item_ObjetivoList::Objectius
 Item_ObjetivoRecord_FieldLabel_Reason::Motiu
 Item_Objetivos::Objectius
 Item_Proccess::Procés
-Item_Proccess_ListHeader_Name::Nom
+Item_Proccess_ListHeader_Name::Procés
 Item_Proccess_ListHeader_ProcessType::Tipus
 Item_Proccess_ListHeader_Responsible::Responsable
 Item_Process::Procés
@@ -1390,7 +1390,7 @@ Item_Process_Button_New::Nou procés
 Item_Process_Button_ProcessTypeBAR::Gestió de tipus de procés
 Item_Process_FieldLabel_Development::Desenvolupament
 Item_Process_FieldLabel_End::Fi
-Item_Process_FieldLabel_Name::Nom
+Item_Process_FieldLabel_Name::Procés
 Item_Process_FieldLabel_Responsible::Responsable
 Item_Process_FieldLabel_Start::Inici
 Item_Process_FieldLabel_Type::Tipus
@@ -1432,7 +1432,7 @@ Item_Profile_FieldLabel_Language::Idioma
 Item_Profile_FieldLabel_Name::Nom
 Item_Profile_FieldLabel_Phone::Telèfon
 Item_Profile_ShortCuts::Butons d'acció ràpida
-Item_Profile_ShowHelp::Activar l'ajut en línia
+Item_Profile_ShowHelp::Ajuda en linia
 Item_Profile_Title_PersonalData::Dades personals
 Item_Provider::Proveïdor
 Item_Provider_Btn_New::Afegir
@@ -1451,7 +1451,7 @@ Item_Provider_Help_Name::Nom del proveïdor
 Item_Provider_Label_Costs::Actuacions a Calibratges / Verificacions / Manteniments / Reparacions
 Item_Provider_Label_Definitions::Configurat a Calibratges / Verificacions / Manteniments
 Item_Provider_Label_Incidents::Incidències i accions
-Item_Provider_ListHeader_Name::Nom
+Item_Provider_ListHeader_Name::Proveïdor
 Item_Provider_Popup_Delete_Title::Eliminar proveïdor
 Item_Provider_PopupTitle_Delete::Eliminar el proveïdor
 Item_Provider_Tab_Principal::Dades bàsiques
@@ -1499,10 +1499,10 @@ Item_Trace_Unactive::Desactivació
 Item_Trace_Update::Actualització
 Item_Trace_Updated::Actualització
 Item_Traces::Traces
-Item_Unidad::Unitats
+Item_Unidad::Unitat
 Item_Unidad_Btn_New::Afegir
 Item_Unidad_Help_Description::Descripció de l'unitat
-Item_Unidad_ListHeader_Description::Descripció
+Item_Unidad_ListHeader_Description::Unitat
 Item_Unidad_Popup_Delete_Title::Vol eliminar l'unitat
 Item_Unidad_PopupTitle_Delete::Eliminar unitat
 Item_Unidad_Tab_Principal::Dades bàsiques
@@ -1582,7 +1582,7 @@ User_PrimaryUser::Super Usuari/a
 User_Admin::Administrador
 Item_User_Rol::Rol
 Item_Backup::Back-Up
-Item_Backup_Explain::Procediment per realitzar una còpia de seguretat de les dades existents a l'aplicació ISSUS.<br /><br />Confirmar que no hi ha ningú utilitzant l'aplicació abans de realitzar el procés de còpia de seguretat.<br /><br />
+Item_Backup_Explain::Al fer clic al botó, es descarregarà una arxiu XLS amb les dades de l'aplicació. Aquest arxiu us permet, per exemple, mantenir una còpia de seguretat, fer una restauració i fins i tot, una migració de dades cap a una altra aplicació.
 Item_Backup_Btn_Go::Iniciar back-up
 Item_EquipmentScaleDivision::Divisió d'escala
 Item_EquipmentCalibrationDefinition::Definició de calibracions

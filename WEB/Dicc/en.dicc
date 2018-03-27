@@ -204,7 +204,7 @@ Item_Customer_Header_Status::Status
 Item_Customer_Header_Type::Type
 Item_Customer_Help_Name::Customer name
 Item_Customer_Label_Costs::Calibrations / Maintenance / Repair
-Item_Customer_ListHeader_Name::Name
+Item_Customer_ListHeader_Name::Customer
 Item_Customer_Popup_Delete_Question::Want to delete customer
 Item_Customer_Popup_Delete_Title::Delete customer
 Item_Customer_Section_Incidents::Indicents and actions
@@ -220,7 +220,7 @@ Item_Department_ListEmployees_Header_Email::Email
 Item_Department_ListEmployees_Header_Name::Name
 Item_Department_ListEmployees_Header_Nif::NIF
 Item_Department_ListEmployees_Header_Phone::Phone
-Item_Department_ListHeader_Name::Name
+Item_Department_ListHeader_Name::Department
 Item_Department_ListHeaderEmployees::Employees
 Item_Department_ListHeaderJobPositions::Positions
 Item_Department_ListJobPositions::Positions
@@ -657,7 +657,7 @@ Item_Incident_FilterError_Status::Select minimum one satus
 Item_Incident_FilterError_Title::Check data in order to take search
 Item_Incident_Header_ActionNumber::#action
 Item_Incident_Header_Close::Cierre
-Item_Incident_Header_Description::Description
+Item_Incident_Header_Description::Incident
 Item_Incident_Header_Number::Number
 Item_Incident_Header_Open::Open on
 Item_Incident_Header_Origin::Origin
@@ -728,7 +728,7 @@ Item_IncidentAction_Field_Responsible::Responsible
 Item_IncidentAction_Field_Schelude::Date presvista
 Item_IncidentAction_Field_WhatHappened::What happend?
 Item_IncidentAction_Header_Close::Closing
-Item_IncidentAction_Header_Description::Problem
+Item_IncidentAction_Header_Description::Action
 Item_IncidentAction_Header_ImplementDate::Implementación prevista
 Item_IncidentAction_Header_Number::Number
 Item_IncidentAction_Header_Open::Openinig
@@ -833,7 +833,7 @@ Item_JobPosition_ListEmployees_Header_Nif::NIF
 Item_JobPosition_ListEmployees_Header_Phone::Teléfono
 Item_JobPosition_ListEmployees_Title::Empleados
 Item_JobPosition_ListHeader_Department::Departamento
-Item_JobPosition_ListHeader_Name::Name
+Item_JobPosition_ListHeader_Name::Position
 Item_JobPosition_ListHeader_Responsible::Responsible
 Item_JobPosition_Message_WithoutEmployees::Cargo sin empleados
 Item_JobPosition_Message_WithoutResponsible::Cargo sin responsable
@@ -864,6 +864,7 @@ Item_Learning_FieldLabel_StartDate::Real start date
 Item_Learning_FieldLabel_Year::Course year
 Item_Learning_Filter_FromYear::From year
 Item_Learning_Filter_ToYear::To year
+Item_Learning_ListHeader_EstimatedDate::Planned
 Item_Learning_Help_Coach::Indicar el formador
 Item_Learning_Help_FinalReal::Date real de finalización
 Item_Learning_Help_Horas::Horas del curso
@@ -902,7 +903,7 @@ Item_Process_Button_New::New process
 Item_Process_Button_ProcessTypeBAR::Process type management
 Item_Process_FieldLabel_Development::Develpment
 Item_Process_FieldLabel_End::Ending
-Item_Process_FieldLabel_Name::Name
+Item_Process_FieldLabel_Name::Process
 Item_Process_FieldLabel_Responsible::Responsible
 Item_Process_FieldLabel_Start::Starting
 Item_Process_FieldLabel_Type::Type
@@ -936,7 +937,7 @@ Item_Profile_FieldLabel_Language::Language
 Item_Profile_FieldLabel_Name::Name
 Item_Profile_FieldLabel_Phone::Phone
 Item_Profile_ShortCuts::Shorcuts
-Item_Profile_ShowHelp::Activate online help
+Item_Profile_ShowHelp::Online help
 Item_Profile_Title_PersonalData::Personal data
 Item_Provider::Provider
 Item_Provider_Btn_New::Add provider
@@ -955,6 +956,7 @@ Item_Provider_Help_Name::Provider name
 Item_Provider_Label_Costs::Actions on Calibratioes / Verififcations / Maintenance / Repairs
 Item_Provider_Label_Definitions::Set on Calibrations / Verifications / Mantenance
 Item_Provider_Label_Incidents::Incidents and actions
+Item_Provider_ListHeader_Name::Provider
 Item_Provider_Popup_Delete_Title::Delete provider
 Item_Provider_PopupTitle_Delete::Do you want to delete the provider
 Item_Provider_Tab_Principal::Main data
@@ -1021,7 +1023,7 @@ Item_Department_Message_WithoutEmployees::No employees
 SkillsFor::Formación para el empleado
 Item_Departmennt_ErrorMessage_HasEmployees::No se puede eliminar si tiene empleados o algún cargo asignado
 Tipo::Type
-Item_Proccess_ListHeader_Name::Name
+Item_Proccess_ListHeader_Name::Process
 Item_Proccess_ListHeader_Responsible::Responsible
 Item_Proccess_ListHeader_ProcessType::Type
 Item_IncidentAction_Tab_Traces::Traces

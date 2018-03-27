@@ -34,7 +34,7 @@
                                                     <tr id="ListDataHeader">
                                                         <th onclick="Sort(this,'ListDataTable','text');" id="th0" class="sort search"><%=this.Dictionary["Item_Rules_Popup_Header"] %></th>
                                                         <th onclick="Sort(this,'ListDataTable','money');" id="th1" class="sort search" style="width: 100px;"><%=this.Dictionary["Item_Rules_Popup_HeaderLimit"] %></th>
-                                                        <th style="width:106px;" class="hidden-480">&nbsp;</th>
+                                                        <th style="width:107px;" class="hidden-480">&nbsp;</th>
                                                     </tr>
                                                 </thead>
                                             </table>

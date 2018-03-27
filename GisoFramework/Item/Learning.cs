@@ -601,6 +601,9 @@ namespace GisoFramework.Item
             res.Append("<tr>");
             res.Append("<td>").Append(this.Link).Append("</td>");
             res.Append("<td>");
+            res.AppendFormat(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.DateEstimated);
+            //res.Append("<td align=\"center\" class=\"hidden-480\">").Append(month).Append(" ").Append(this.DateEstimated.Year).Append("</td>");
+            res.Append("<td>");
             res.AppendFormat(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.RealFinish);
 
             /*bool existsAssistants = false;
@@ -640,7 +643,10 @@ namespace GisoFramework.Item
                     dictionary["Item_Learning_Message_NoAssistants"]);
             }*/
 
-            string amountText = string.Format(CultureInfo.InvariantCulture, @"{0:#0.00}", this.Amount).Replace(".", ",");
+            string amountText = string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.Amount).Replace(".", ",");
+
+            //string import = string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.Amount).Replace(".", ",");
+
 
             res.Append("</td>");
 
@@ -651,9 +657,8 @@ namespace GisoFramework.Item
                 case 1: statusText = dictionary["Item_Learning_Status_Finished"]; break;
                 case 2: statusText = dictionary["Item_Learning_Status_Evaluated"]; break;
             }
-            res.Append("<td align=\"center\" class=\"hidden-480\">").Append(statusText).Append("</td>");
 
-            res.Append("<td align=\"center\" class=\"hidden-480\">").Append(month).Append(" ").Append(this.DateEstimated.Year).Append("</td>");
+            res.Append("<td align=\"center\" class=\"hidden-480\">").Append(statusText).Append("</td>");
             res.Append("<td align=\"right\" class=\"hidden-480\">").Append(amountText).Append("</td>");
             res.Append("<td class=\"hidden-480\" style=\"width:90px;white-space: nowrap;\">");
             res.Append(iconUpdate).Append("&nbsp;").Append(iconDelete);

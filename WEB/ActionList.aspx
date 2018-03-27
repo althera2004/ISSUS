@@ -51,14 +51,14 @@
                                             <td><input type="checkbox" id="chkStatus1" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status1"] %></td>
                                             <td><input type="checkbox" id="chkStatus2" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status2"] %></td>
                                             <td><input type="checkbox" id="chkStatus3" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status3"] %></td>
-                                            <td><input type="checkbox" id="chkStatus4"/>&nbsp;<%=this.Dictionary["Item_IndicentAction_Status4"] %></td>                                        
+                                            <td><input type="checkbox" id="chkStatus4"/>&nbsp;<%=this.Dictionary["Item_IndicentAction_Status4"] %></td>
                                             
                                             <td>
                                                 <button class="btn btn-success" style="width:100px;" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
                                                 <button class="btn btn-success" style="width:100px;" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%= this.Dictionary["Common_All_Male_Plural"] %></button>
                                                 <button class="btn btn-success" style="width:100px;display:none;" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%= this.Dictionary["Common_None_Male"] %></button>
                                             </td>
-                                        </tr>
+                                            </tr>
                                         <tr>
                                             <td style="width:250px;">
                                                 <div class="row">
@@ -78,16 +78,18 @@
                                             <td><input type="checkbox" id="RType1" name="Rtype" checked="checked" /><%=this.Dictionary["Item_IncidentAction_Type1"]%></td>
                                             <td><input type="checkbox" id="RType2" name="Rtype" checked="checked" /><%=this.Dictionary["Item_IncidentAction_Type2"]%></td>
                                             <td><input type="checkbox" id="RType3" name="Rtype" checked="checked" /><%=this.Dictionary["Item_IncidentAction_Type3"]%></td>
-                                            <td>&nbsp;</td>
+                                            <!--td>&nbsp;</td-->
                                             <td>
                                                 
                                             </td>
                                         </tr>
+                                    </table>
+                                    <table style="width:100%;">
                                         <tr>
                                             <td style="width:250px;">&nbsp;</td>
                                             <td style="width:100px;">&nbsp;</td>
                                             <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Source"] %>:</strong></td>
-                                            <td colspan="2">
+                                            <td>
                                                 <select id="CmbOrigin">
                                                     <option value="-1"><%=this.Dictionary["Common_All_Female_Plural"] %></option>
                                                     <option value="1"><%=this.Dictionary["Item_IncidentAction_Origin1"] %></option>
@@ -97,7 +99,7 @@
                                                 </select>  
                                             </td>
                                             <td style="width:125px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %>:</strong></td>
-                                            <td colspan="2">
+                                            <td>
                                                 <select id="CmbReporter">
                                                     <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>
                                                     <option value="1"><%=this.Dictionary["Item_IncidentAction_ReporterType1"] %></option>
@@ -105,7 +107,7 @@
                                                     <option value="3"><%=this.Dictionary["Item_IncidentAction_ReporterType3"] %></option>
                                                 </select>  
                                             </td>
-                                            
+                                            <td style="width:40%;">&nbsp;</td>
                                         </tr>
                                     </table>
                                 </div> 
@@ -118,13 +120,14 @@
                                                     <tr id="ListDataHeader">
                                                         <!-- <th id="th0" class="search"><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th> -->
 														<th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="sort search"><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th>
-														<th onclick="Sort(this,'ListDataTable','text',false);" id="th1" class="sort search" style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_Type"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th2" class="sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
+														<th onclick="Sort(this,'ListDataTable','date',false);" id="th2" class="sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
                                                         <th id="th3" style="width:60px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"] %></th>
                                                         <!-- <th id="th4" class="search sort" style="width:150px;"><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %></th> -->
-														<th onclick="Sort(this,'ListDataTable','text',false);" id="th4" class="sort search" style="width:150px;"><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %></th>
+														<th onclick="Sort(this,'ListDataTable','text',false);" id="th4" class="sort search" style="width:250px;"><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th1" class="sort search" style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_Type"] %></th>
 														<th onclick="Sort(this,'ListDataTable','date',false);" id="th5" class="sort hidden-480 search" style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_ImplementDate"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th6" class="sort hidden-480 search" style="width:100px;text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Close"] %></th>
+                                                        <!-- <th onclick="Sort(this,'ListDataTable','date',false);" id="th6" class="sort hidden-480 search" style="width:100px;text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Close"] %></th> -->
+                                                        <th onclick="Sort(this,'ListDataTable','money',false);" id="th6" class="sort hidden-480 search" style="width:100px; text-align:center"><%=this.Dictionary["Item_IncidentAction_Header_Cost"] %></th>
                                                         <th class="hidden-480" style="width:107px !important;">&nbsp;</th>
                                                     </tr>
                                                 </thead>

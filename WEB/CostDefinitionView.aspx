@@ -23,7 +23,7 @@
                                                 <div id="home" class="tab-pane active">                                                
                                                     <form class="form-horizontal" role="form">
                                                         <div class="form-group">
-                                                            <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_CostDefinition_Field_Description"]%><span style="color:#f00">*</span></label>
+                                                            <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Cost"]%><span style="color:#f00">*</span></label>
                                                             <%=this.TxtName %>
                                                         </div>
                                                         <div class="form-group">
@@ -164,7 +164,7 @@
             }));                
 
                 <%if(this.ShowHelp) { %>
-                SetToolTip('TxtName',"<%=this.Dictionary["Item_Provider_Help_Name"] %>");
+                SetToolTip('TxtName',"<%=this.Dictionary["Item_CostDefinition_Field_Description"] %>");
                 $('[data-rel=tooltip]').tooltip();
                 <% } %>
             });

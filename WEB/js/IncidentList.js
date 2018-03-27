@@ -293,7 +293,7 @@ function ItemRenderTable(list) {
         var tdDescription = document.createElement("TD");
         var tdAction = document.createElement("TD");
         var tdAmount = document.createElement("TD");
-        var tdClose = document.createElement("TD");
+        //var tdClose = document.createElement("TD");
 
         var status = "";
         var colorStatus = "#fff;"
@@ -391,7 +391,7 @@ function ItemRenderTable(list) {
         incidentLinkDescription.appendChild(document.createTextNode(item.Description));
         tdDescription.appendChild(incidentLinkDescription);
 
-        tdClose.appendChild(document.createTextNode(FormatYYYYMMDD(item.Close, '/')));
+        //tdClose.appendChild(document.createTextNode(FormatYYYYMMDD(item.Close, '/')));
 
         tdAmount.appendChild(document.createTextNode(ToMoneyFormat(item.Amount, 2)));
 
@@ -399,13 +399,13 @@ function ItemRenderTable(list) {
 		tdOpen.align = "center"
 		tdStatus.style.width = "60px";
 		tdStatus.align = "center"
-        tdOrigin.style.width = "200px";
+        tdOrigin.style.width = "250px";
 		tdAction.style.width = "90px";
         tdAction.align = "center"
         tdAmount.style.width = "100px";
         tdAmount.align = "right";
-		tdClose.style.width = "100px";
-		tdClose.align = "center"
+		//tdClose.style.width = "100px";
+		//tdClose.align = "center"
 
         //row.appendChild(tdNumber);
         row.appendChild(tdDescription);
@@ -414,7 +414,7 @@ function ItemRenderTable(list) {
         row.appendChild(tdOrigin);
         row.appendChild(tdAction);
         row.appendChild(tdAmount);
-        row.appendChild(tdClose);
+        //row.appendChild(tdClose);
 
         var iconEdit = document.createElement('SPAN');
         iconEdit.className = 'btn btn-xs btn-info';
@@ -435,7 +435,7 @@ function ItemRenderTable(list) {
         }
 
         var tdActions = document.createElement('TD');
-        tdActions.style.width = "91px";
+        tdActions.style.width = "90px";
 
         tdActions.appendChild(iconEdit);
         if (ApplicationUser.Grants.Incident.Delete) {

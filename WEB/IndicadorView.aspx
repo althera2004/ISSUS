@@ -201,7 +201,7 @@
                                                                     <th id="th4" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th>
                                                                     <th id="th5" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Alarm"]%></th>
                                                                     <th id="th6" onclick="Sort(this,'IndicadorRegistrosTable','text',false);" class="sort" style="width: 175px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Responsible"]%></th>
-                                                                    <th style="width: 106px;">&nbsp;</th>
+                                                                    <th style="width: 107px;">&nbsp;</th>
                                                                 </tr>
                                                             </thead>
                                                         </table>

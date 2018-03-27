@@ -237,7 +237,7 @@ public partial class CostDefinitionView : Page
             this.formFooter.ModifiedBy = this.CostDefinitionItem.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.CostDefinitionItem.ModifiedOn;
 
-            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_CostDefinitions"], this.costDefinition.Description);
+            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Cost"], this.costDefinition.Description);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
         }

@@ -142,7 +142,7 @@
 			                                                        <th onclick="Sort(this,'ListDataTable');" id="th2" class="search sort" style="cursor:pointer;width:120px;"><%=this.Dictionary["Item_Process_ListIndicatorsHeader_Alarm"] %></th>
 			                                                        <th onclick="Sort(this,'ListDataTable');" id="th3" class="search sort" style="cursor:pointer;width:150px;"><%=this.Dictionary["Item_Process_ListIndicatorsHeader_Unit"] %></th>
 			                                                        <th onclick="Sort(this,'ListDataTable');" id="th4" class="search sort" style="cursor:pointer;width:150px;"><%=this.Dictionary["Item_Process_ListIndicatorsHeader_Responsible"] %></th>
-			                                                        <th style="width:106px;">&nbsp;</th>
+			                                                        <th style="width:107px;">&nbsp;</th>
 		                                                        </tr>
                                                             </thead>
                                                         </table>

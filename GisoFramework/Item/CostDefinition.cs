@@ -275,13 +275,14 @@ namespace GisoFramework.Item
             string iconRename = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""CostDefinitionUpdate({0});""><i class=""icon-edit bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Edit"]));
 
             string iconDelete = string.Empty;
+
             if (grantCostDefinition)
             {
                 string deleteAction = string.Format(CultureInfo.GetCultureInfo("en-us"), "CostDefinitionDelete('{0}', {1});", Tools.JsonCompliant(this.Description), this.Id);
                 iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{1} {2}"" class=""btn btn-xs btn-danger"" onclick=""{0}""><i class=""icon-trash bigger-120""></i></span>", deleteAction, Tools.JsonCompliant(dictionary["Common_Delete"]), Tools.SetTooltip(this.Description));
             }
 
-            string import = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:#,###,##0.00}", this.Amount).Replace(".", ",");
+            string import = string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.Amount).Replace(".", ",");
             return string.Format(CultureInfo.GetCultureInfo("en-us"), @"<tr id=""{0}""><td>{1}</td><td class=""hidden-480"" align=""right"" style=""padding-right:8px;width:200px;"">{2}</td><td style=""width:90px"">{3} {4}</td></tr>", this.Id, this.Link, import, iconRename, iconDelete);
         }
 

@@ -178,7 +178,7 @@ public partial class ProcesosList : Page
 
             }
 
-            string pattern = @"<tr id=""{0}""><td vertical-align=""middle""><a href=""ProcesosView.aspx?id={0}"">{1}</a></td><td style=""width:180px;padding-left:4px;""><div title='{6}' style=""width:165px;"" class=""truncate"">{2}</div></td><td style=""width:180px;padding-left:4px;""><div title='{3}' style=""width:165px;"" class=""truncate"">{3}</td><td style=""width:90px;"">{4}&nbsp;{5}</td></tr>";
+            string pattern = @"<tr id=""{0}""><td vertical-align=""middle""><a href=""ProcesosView.aspx?id={0}"">{1}</a></td><td style=""width:300px;padding-left:4px;""><div title='{6}' style=""width:165px;"" class=""truncate"">{2}</div></td><td style=""width:200px;text-align:center;""><div title='{3}' style=""width:165px;"" class=""truncate"">{3}</td><td style=""width:90px;"">{4}&nbsp;{5}</td></tr>";
             res.Append(string.Format(
                 CultureInfo.InvariantCulture,
                 pattern,

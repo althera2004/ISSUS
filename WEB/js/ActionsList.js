@@ -106,7 +106,8 @@ function ItemRenderTable(list) {
         var tdOrigin = document.createElement("TD");
         var tdDescription = document.createElement("TD");
         var tdAction = document.createElement("TD");
-        var tdClose = document.createElement("TD");
+        //var tdClose = document.createElement("TD");
+        var tdAmount = document.createElement("TD");
 
         total += list[x].Amount;
 
@@ -191,7 +192,8 @@ function ItemRenderTable(list) {
 
 
         tdAction.appendChild(document.createTextNode(FormatYYYYMMDD(item.ImplementationDate, "/")));
-        tdClose.appendChild(document.createTextNode(FormatYYYYMMDD(item.CloseDate, "/")));
+        //tdClose.appendChild(document.createTextNode(FormatYYYYMMDD(item.CloseDate, "/")));
+        tdAmount.appendChild(document.createTextNode(ToMoneyFormat(item.Amount, 2)));
 
         //tdDescription.style.width = "200px";
         tdType.style.width = "100px";
@@ -199,21 +201,23 @@ function ItemRenderTable(list) {
 		tdOpen.align = "center";
 		tdStatus.style.width = "60px";
 		tdStatus.align = "center";
-        tdOrigin.style.width = "150px";
+        tdOrigin.style.width = "250px";
         tdAction.style.width = "100px";
 		tdAction.align = "center";
-        tdClose.style.width = "100px";
-        tdClose.align = "center";
-		
+        //tdClose.style.width = "100px";
+        //tdClose.align = "center";
+        tdAmount.style.width = "100px";
+        tdAmount.align = "right";
 
         //row.appendChild(tdNumber);
         row.appendChild(tdDescription);
-        row.appendChild(tdType);
         row.appendChild(tdOpen);
         row.appendChild(tdStatus);
         row.appendChild(tdOrigin);
+        row.appendChild(tdType);
         row.appendChild(tdAction);
-        row.appendChild(tdClose);
+        //row.appendChild(tdClose);
+        row.appendChild(tdAmount);
 
         var iconEdit = document.createElement("SPAN");
         iconEdit.className = "btn btn-xs btn-info";

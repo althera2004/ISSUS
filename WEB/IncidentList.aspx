@@ -52,7 +52,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <!--td style="width:25px;">&nbsp;</!--td-->
+                                            <td style="width:100px;">&nbsp;</td>
                                             <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_Incident_List_Filter_Status"] %>:</strong></td>
                                             <td><input type="checkbox" id="RIncidentStatus1" checked="checked" /><%=this.Dictionary["Item_Incident_Status1"] %></td>
                                             <td><input type="checkbox" id="RIncidentStatus2" checked="checked" /><%=this.Dictionary["Item_Incident_Status2"] %></td>
@@ -67,8 +67,7 @@
                                                     <button style="width:100px;" class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i>Tots</button>
                                                     <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i>Cap</button>
                                                 <!--/div>
-                                            <div-->
-                                            
+                                            </!--div-->
                                             </td>
                                         </tr>
                                         <tr>
@@ -85,8 +84,8 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <!--td style="width:25px;">&nbsp;</!--td-->
-                                            <td style="width:100px;padding-left:20px;"><strong>Origen:</strong></td>
+                                            <td style="width:100px;">&nbsp;</td>
+                                            <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %>:</strong></td>
                                             <td><input type="radio" id="ROrigin0" name="ROrigin" onclick="ShowCombos(0);" checked="checked" /><%=this.Dictionary["Item_Incident_Origin0"] %></td>
                                             <td><input type="radio" id="ROrigin1" name="ROrigin" onclick="ShowCombos(1);" /><%=this.Dictionary["Item_Incident_Origin1"] %></td>
                                             <td><input type="radio" id="ROrigin2" name="ROrigin" onclick="ShowCombos(2);" /><%=this.Dictionary["Item_Incident_Origin2"] %></td>
@@ -118,10 +117,10 @@
                                                         <th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="sort search"><%=this.Dictionary["Item_Incident_Header_Description"] %></th>
                                                         <th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="sort search"  style="width:100px; text-align:center"><%=this.Dictionary["Item_Incident_Header_Open"] %></th>
 														<th style="width:60px;"><%=this.Dictionary["Item_Incident_Header_Status"] %></th>
-														<th style="width:200px;" onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="sort search" ><%=this.Dictionary["Item_Incident_Header_Origin"] %></th>
+														<th style="width:250px;" onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="sort search" ><%=this.Dictionary["Item_Incident_Header_Origin"] %></th>
                                                         <th onclick="Sort(this,'ListDataTable','text',false);" id="th4" class="sort hidden-480 search" style="width:90px; text-align:center"><%=this.Dictionary["Item_Incident_Header_ActionNumber"] %></th>
                                                         <th onclick="Sort(this,'ListDataTable','money',false);" id="th5" class="sort hidden-480 search" style="width:100px; text-align:center"><%=this.Dictionary["Item_Incident_Header_Cost"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th6" class="sort hidden-480 search" style="width:100px !important; text-align:center"><%=this.Dictionary["Item_Incident_Header_Close"] %></th>
+                                                        <!-- <th onclick="Sort(this,'ListDataTable','date',false);" id="th6" class="sort hidden-480 search" style="width:100px !important; text-align:center"><%=this.Dictionary["Item_Incident_Header_Close"] %></th> IKEA 090318-->
                                                         <th class="hidden-480" style="width:107px !important;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
