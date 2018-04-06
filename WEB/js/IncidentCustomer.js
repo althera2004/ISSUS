@@ -207,7 +207,7 @@ function CustomerUpdate(sender) {
 function CustomerUpdateConfirmed(id, newDescription) {
     // 1.- Modificar en la BBDD
     var webMethod = "/Async/" + itemName + "Actions.asmx/Update";
-    var description = '';
+    var description = "";
     for (var x = 0; x < Customers.length; x++) {
         if (Customers[x].Id === id) {
             description = Customers[x].Description;
@@ -215,10 +215,10 @@ function CustomerUpdateConfirmed(id, newDescription) {
         }
     }
     var data = {
-        'customerId': id,
-        'description': newDescription,
-        'companyId': Company.Id,
-        'userId': user.Id
+        "customerId": id,
+        "description": newDescription,
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
@@ -258,7 +258,7 @@ function CustomerUpdateConfirmed(id, newDescription) {
     }
 
     // 3.- Modificar la fila de la tabla del popup
-    var target = document.getElementById('SelectableCustomer');
+    var target = document.getElementById("SelectableCustomer");
     for (var x4 = 0; x4 < target.childNodes.length; x4++) {
         if (target.childNodes[x4].id == ItemIdUpdate) {
             target.childNodes[x4].childNodes[0].innerHTML = newDescription;
@@ -277,27 +277,27 @@ function CustomerUpdateConfirmed(id, newDescription) {
 
 // Delete functions for bar item Customer
 function CustomerDelete(sender) {
-    $('#CustomerName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    $("#CustomerName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     ItemIdDelete = sender.parentNode.parentNode.parentNode.id * 1;
     var dialog = $(popupDeleteDialogId).removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                     CustomerDeleteConfirmed(ItemIdDelete);
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () { $(this).dialog("close"); }
+                "click": function () { $(this).dialog("close"); }
             }
         ]
     });
@@ -305,8 +305,8 @@ function CustomerDelete(sender) {
 
 function CustomerDeleteConfirmed(id) {
     // 1.- Desactivar en la BBDD
-    var webMethod = '/Async/' + itemName + 'Actions.asmx/Delete';
-    var description = '';
+    var webMethod = "/Async/" + itemName + "Actions.asmx/Delete";
+    var description = "";
     for (var x = 0; x < sourceList.length; x++) {
         if (sourceList[x].Id === id) {
             description = sourceList[x].Description;
@@ -315,24 +315,24 @@ function CustomerDeleteConfirmed(id) {
     }
 
     var data = {
-        'CustomerId': id,
-        'description': description,
-        'companyId': Company.Id,
-        'userId': user.Id
+        "customerId": id,
+        "description": description,
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: 'POST',
-        url: webMethod,
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) { alertUI(response.d.MessageError); }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -350,10 +350,10 @@ function CustomerDeleteConfirmed(id) {
     }
 
     // 3.- Eliminar la fila de la tabla del popup
-    var target = document.getElementById('Selectable' + itemName);
+    var target = document.getElementById("Selectable" + itemName);
     for (var x3 = 0; x3 < target.childNodes.length; x3++) {
         if (target.childNodes[x3].id == id) {
-            target.childNodes[x3].style.display = 'none';
+            target.childNodes[x3].style.display = "none";
             break;
         }
     }

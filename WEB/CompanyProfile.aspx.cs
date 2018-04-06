@@ -229,7 +229,7 @@ public partial class CompanyProfile : Page
 
     private void RenderCountries()
     {
-        StringBuilder res = new StringBuilder();
+        var res = new StringBuilder();
         string countryCompare = this.company.Id < 0 ? this.dictionary["Common_None"] : this.company.DefaultAddress.Country;
         res.Append(string.Format(@"{{
             ""text"": ""{0}"",
@@ -266,7 +266,7 @@ public partial class CompanyProfile : Page
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Euskal Herria", "Euskal Herria", 46);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "França", "Francia", 7);
             //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Italia" ? "true" : "false", "Italia", "Italia", 5);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Gran Bretanya", "Great Britain", 12);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Gran Bretanya", "Gran Bretanya", 12);
             //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Portugal" ? "true" : "false", "Portugal", "Portugal", 2);
         }
 

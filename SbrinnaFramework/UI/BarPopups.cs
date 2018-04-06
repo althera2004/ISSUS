@@ -6,13 +6,10 @@
 // --------------------------------
 namespace SbrinnaCoreFramework.UI
 {
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
 
-    /// <summary>
-    /// Implements BarPopup control
-    /// </summary>
+    /// <summary>Implements BarPopup control</summary>
     public class BarPopup
     {
         public string Id { get; set; }
@@ -98,13 +95,13 @@ namespace SbrinnaCoreFramework.UI
             get
             {
                 string pattern = string.Empty;
-                using (StreamReader input = new StreamReader(System.Web.HttpContext.Current.Request.PhysicalApplicationPath + "pattern\\BarScripts.txt"))
+                using (var input = new StreamReader(System.Web.HttpContext.Current.Request.PhysicalApplicationPath + "pattern\\BarScripts.txt"))
                 {
                     pattern = input.ReadToEnd();
                 }
 
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Id,
                     this.BarTitle,

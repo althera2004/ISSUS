@@ -274,8 +274,14 @@ window.onload = function () {
 	$("#TxtDateTo").val(dateTo);
 	
 	$("#TxtDateFrom").on("change", DateChange);
-	$("#TxtDateTo").on("change", DateChange);
+    $("#TxtDateTo").on("change", DateChange);
+
+    Resize();
 };
+
+window.onresize = function () {
+    Resize();
+}
 
 function DateChange(){
 	$("#TxtDateFromErrorDateRange").hide();
@@ -299,4 +305,10 @@ function DateChange(){
 	}
 	
 	Go();
+}
+
+function Resize() {
+    var listTable = document.getElementById("ListDataDiv");
+    var containerHeight = $(window).height();
+    listTable.style.height = (containerHeight - 410) + "px";
 }

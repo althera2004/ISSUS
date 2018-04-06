@@ -50,9 +50,7 @@ public partial class FormacionList : Page
 
     private LearningFilter learningFilter;
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
+    /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -61,16 +59,14 @@ public partial class FormacionList : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
@@ -79,7 +75,7 @@ public partial class FormacionList : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -162,7 +158,7 @@ public partial class FormacionList : Page
         int count = 0;
         var res = new StringBuilder();
         var searchedItems = new List<string>();
-        foreach (Learning learning in this.learningFilter.Filter())
+        foreach (var learning in this.learningFilter.Filter())
         {
             res.Append(learning.ListRow(this.dictionary, this.user.Admin));
             if (!searchedItems.Contains(learning.Description))

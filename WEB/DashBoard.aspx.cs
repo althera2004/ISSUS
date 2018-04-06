@@ -114,11 +114,18 @@ public partial class DashBoard : Page
         var searchItems = new List<string>();
         var tasksJson = new StringBuilder("[");
         var tasks = ScheduledTask.GetByEmployee(this.user.Employee.Id, this.company.Id).Where(t => t.Expiration >= Constant.Now.AddYears(-1)).ToList();
+        var printedTasks = new List<ScheduledTask>();
         var res = new StringBuilder();
-        tasks = tasks.OrderBy(t => t.Expiration).ToList();
+        tasks = tasks.OrderByDescending(t => t.Expiration).ToList();
         bool first = true;
         foreach (var task in tasks)
         {
+            if(printedTasks.Any(t=> t.Description.Equals(task.Description) && t.Equipment.Id == task.Equipment.Id && task.TaskType == t.TaskType))
+            {
+                continue;
+            }
+
+            printedTasks.Add(task);
             res.Append(task.Row(this.dictionary));
             if (first)
             {

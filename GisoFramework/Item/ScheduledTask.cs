@@ -18,9 +18,7 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements ScheduledTask class
-    /// </summary>
+    /// <summary>Implements ScheduledTask class</summary>
     public class ScheduledTask
     {
         public long OperationId { get; set; }
@@ -94,82 +92,86 @@ namespace GisoFramework.Item
 
         public static ReadOnlyCollection<ScheduledTask> GetByEmployee(long employeeId, int companyId)
         {
-            ApplicationUser user = ApplicationUser.GetByEmployee(employeeId, companyId);
-
-            List<ScheduledTask> res = new List<ScheduledTask>();
-            using (SqlCommand cmd = new SqlCommand("ScheduleTask_GetByEmployee"))
+            var user = ApplicationUser.GetByEmployee(employeeId, companyId);
+            var res = new List<ScheduledTask>();
+            using (var cmd = new SqlCommand("ScheduleTask_GetByEmployee"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        if (user.PrimaryUser || rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId) == employeeId)
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            ScheduledTask newTask = new ScheduledTask()
+                            while (rdr.Read())
                             {
-                                OperationId = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.OperationId),
-                                Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.Operation),
-                                Equipment = new Equipment()
+                                if (user.PrimaryUser || rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId) == employeeId)
                                 {
-                                    Id = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.EquipmentId),
-                                    Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.Description)
-                                },
-                                Expiration = rdr.GetDateTime(ColumnsScheduleTaskGetByEmployee.Expiration),
-                                TaskType = rdr.GetString(ColumnsScheduleTaskGetByEmployee.OperationType),
-                                Responsible = new Employee()
-                                {
-                                    Id = rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId),
-                                    Name = rdr.GetString(ColumnsScheduleTaskGetByEmployee.EmployeeName),
-                                    LastName = rdr.GetString(ColumnsScheduleTaskGetByEmployee.EmployeeLastName)
-                                },
-                                Action = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.Action),
-                                Internal = rdr[ColumnsScheduleTaskGetByEmployee.Type].ToString() == "0" ? "I" : "E"
-                            };
-
-                            if (!rdr.IsDBNull(ColumnsScheduleTaskGetByEmployee.ProviderName))
-                            {
-                                newTask.Provider = new Provider()
-                                {
-                                    Id = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.ProviderId),
-                                    Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.ProviderName)
-                                };
-                            }
-
-                            bool exists = false;
-                            foreach (ScheduledTask task in res)
-                            {
-                                if (newTask.Equipment.Id == task.Equipment.Id &&
-                                newTask.OperationId == task.OperationId &&
-                                newTask.TaskType == task.TaskType &&
-                                task.Internal == newTask.Internal)
-                                {
-                                    if (task.Expiration < newTask.Expiration)
+                                    ScheduledTask newTask = new ScheduledTask()
                                     {
-                                        task.Expiration = newTask.Expiration;
+                                        OperationId = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.OperationId),
+                                        Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.Operation),
+                                        Equipment = new Equipment()
+                                        {
+                                            Id = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.EquipmentId),
+                                            Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.Description)
+                                        },
+                                        Expiration = rdr.GetDateTime(ColumnsScheduleTaskGetByEmployee.Expiration),
+                                        TaskType = rdr.GetString(ColumnsScheduleTaskGetByEmployee.OperationType),
+                                        Responsible = new Employee()
+                                        {
+                                            Id = rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId),
+                                            Name = rdr.GetString(ColumnsScheduleTaskGetByEmployee.EmployeeName),
+                                            LastName = rdr.GetString(ColumnsScheduleTaskGetByEmployee.EmployeeLastName)
+                                        },
+                                        Action = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.Action),
+                                        Internal = rdr[ColumnsScheduleTaskGetByEmployee.Type].ToString() == "0" ? "I" : "E"
+                                    };
+
+                                    if (!rdr.IsDBNull(ColumnsScheduleTaskGetByEmployee.ProviderName))
+                                    {
+                                        newTask.Provider = new Provider()
+                                        {
+                                            Id = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.ProviderId),
+                                            Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.ProviderName)
+                                        };
                                     }
 
-                                    exists = true;
-                                }
-                            }
+                                    bool exists = false;
+                                    foreach (ScheduledTask task in res)
+                                    {
+                                        if (newTask.Equipment.Id == task.Equipment.Id &&
+                                        newTask.OperationId == task.OperationId &&
+                                        newTask.TaskType == task.TaskType &&
+                                        task.Internal == newTask.Internal)
+                                        {
+                                            if (task.Expiration < newTask.Expiration)
+                                            {
+                                                task.Expiration = newTask.Expiration;
+                                            }
 
-                            if (!exists)
-                            {
-                                res.Add(newTask);
+                                            exists = true;
+                                        }
+                                    }
+
+                                    if (!exists)
+                                    {
+                                        res.Add(newTask);
+                                    }
+                                }
                             }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -312,7 +314,7 @@ namespace GisoFramework.Item
                 pattern,
                 this.Equipment.Id,
                 Tools.JsonCompliant(this.Equipment.Description),
-                this.Description,
+                Tools.JsonCompliant(this.Description),
                 this.Expiration,
                 labelType,
                 tooltip,

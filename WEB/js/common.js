@@ -836,8 +836,11 @@ function ParseInputValueToNumber(value, nullable) {
         return "";
     }
 
-    value = value.split(Dictionary.NumericMilesSeparator).join("");
-    value = value.split(Dictionary.NumericDecimalSeparator).join(".");
+    //value = value.split(Dictionary.NumericMilesSeparator).join("");
+    //value = value.split(Dictionary.NumericDecimalSeparator).join(".");
+
+    value = value.split(".").join("");
+    value = value.split(",").join(".");
     return value * 1;
 }
 

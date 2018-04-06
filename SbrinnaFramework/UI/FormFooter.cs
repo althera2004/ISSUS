@@ -13,9 +13,7 @@ namespace SbrinnaCoreFramework.UI
     using System.Text;
     using System.Web;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary></summary>
     public class FormFooter
     {
         private List<UIButton> buttons;
@@ -96,12 +94,12 @@ namespace SbrinnaCoreFramework.UI
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
 
-            StringBuilder buttonsHtml = new StringBuilder();
-            StringBuilder iconsHtml = new StringBuilder();
+            var buttonsHtml = new StringBuilder();
+            var iconsHtml = new StringBuilder();
             bool first = true;
             if (this.buttons != null)
             {
-                foreach (UIButton button in this.buttons)
+                foreach (var button in this.buttons)
                 {
                     if (first)
                     {
@@ -122,7 +120,7 @@ namespace SbrinnaCoreFramework.UI
             if (!string.IsNullOrEmpty(this.ModifiedBy))
             {
                 modifiedBy = string.Format(
-                    CultureInfo.GetCultureInfo("es-es"),
+                    CultureInfo.InvariantCulture,
                     "{0}:&nbsp;<strong>{1}</strong><br /><i>{2:dd/MM/yyyy}</i>",
                     dictionary["Common_ModifiedBy"],
                     this.ModifiedBy,
@@ -130,7 +128,7 @@ namespace SbrinnaCoreFramework.UI
             }
 
             return string.Format(
-                CultureInfo.GetCultureInfo("es-es"),
+                CultureInfo.InvariantCulture,
                     @"
                     <!-- Form footer -->
                     <div id=""oldFormFooter"" class=""clearfix form-actions"" style=""margin-bottom:50px;"">

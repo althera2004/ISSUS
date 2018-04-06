@@ -284,11 +284,10 @@
         <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>  
         <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/BusinessRiskList.js?<%=this.AntiCache %>"></script>
-        <script src="//d3js.org/d3.v3.min.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="//d3js.org/d3.v3.min.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/nv.d3.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/BusinessRiskChart.js?<%=this.AntiCache %>"></script>
-        <script type="text/javascript">
-            
+        <script type="text/javascript">            
             var currentMousePos = { x: -1, y: -1 };
             jQuery(function ($) {
                 $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
@@ -312,42 +311,42 @@
                 $(".date-picker").datepicker(options);
                 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
-                $("#BtnNewBusinessRisk").on('click', function (e) {
-                    document.location = 'BusinessRiskView.aspx?id=-1';
+                $("#BtnNewBusinessRisk").on("click", function (e) {
+                    document.location = "BusinessRiskView.aspx?id=-1";
                     return false;
                 });
 
-                $("#BtnSearch").on('click', function (e) {
+                $("#BtnSearch").on("click", function (e) {
                     e.preventDefault();
                     BusinessRiskGetFilter();
                 });
 
-                $('#BtnRecordShowAll').on('click', function (e) {
+                $("#BtnRecordShowAll").on("click", function (e) {
                     e.preventDefault();
                     BussinesRiskListGetAll();
                 });
 
-                $('#BtnRecordShowNone').on('click', function (e) {
+                $("#BtnRecordShowNone").on("click", function (e) {
                     e.preventDefault();
                     BusinessRiskListGetNone();
                 });
 
-                $('#BtnRecordShowNone').on('click', function (e) {
+                $("#BtnRecordShowNone").on("click", function (e) {
                     e.preventDefault();
                     BusinessRiskListGetNone();
                 });
 
-                $('#tabgraficos').on('click', resizegrafico);
-                $('#tabbasic').on('click', unresizegrafico);
+                $("#tabgraficos").on("click", resizegrafico);
+                $("#tabbasic").on("click", unresizegrafico);
             });
             
             $("#input-span-slider").slider({
-                value: RuleLimitFromDB,
-                range: "min",
-                min: 1,
-                max: 25,
-                step: 1,
-                slide: function (event, ui) {
+                "value": RuleLimitFromDB,
+                "range": "min",
+                "min": 1,
+                "max": 25,
+                "step": 1,
+                "slide": function (event, ui) {
                     var val = parseInt(ui.value);
                     SetRule(val);
                 }
@@ -356,9 +355,8 @@
             $(document).mousemove(function(event) {
                 currentMousePos.x = event.pageX;
                 currentMousePos.y = event.pageY;
-                var position = $('#svggrafic').offset();
-                $('.xy-tooltip').css({top: currentMousePos.y - position.top - 30, left: currentMousePos.x - position.left + 10});
+                var position = $("#svggrafic").offset();
+                $(".xy-tooltip").css({top: currentMousePos.y - position.top - 30, left: currentMousePos.x - position.left + 10});
             });
         </script>
 </asp:Content>
-

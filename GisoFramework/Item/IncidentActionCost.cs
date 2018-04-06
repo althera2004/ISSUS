@@ -18,16 +18,14 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements IncidentActionCost class
-    /// </summary>
+    /// <summary>Implements IncidentActionCost class</summary>
     public class IncidentActionCost : BaseItem
     {
         public static IncidentActionCost Empty
         {
             get
             {
-                return new IncidentActionCost()
+                return new IncidentActionCost
                 {
                     Id = 0,
                     IncidentActionId = 0,
@@ -41,29 +39,19 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets or sets the action identifier
-        /// </summary>
+        /// <summary>Gets or sets the action identifier</summary>
         public long IncidentActionId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the amount of cost
-        /// </summary>
+        /// <summary>Gets or sets the amount of cost</summary>
         public decimal Amount { get; set; }
 
-        /// <summary>
-        /// Gets or sets the quantity of cost
-        /// </summary>
+        /// <summary>Gets or sets the quantity of cost</summary>
         public decimal Quantity { get; set; }
 
-        /// <summary>
-        /// Gets or sets the responsible of cost
-        /// </summary>
+        /// <summary>Gets or sets the responsible of cost</summary>
         public Employee Responsible { get; set; }
 
-        /// <summary>
-        /// Create a link for the cost
-        /// </summary>
+        /// <summary>Create a link for the cost</summary>
         public override string Link
         {
             get { return string.Empty; }
@@ -74,7 +62,11 @@ namespace GisoFramework.Item
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"{{""Id"":{0}, ""Description"":""{1}""}}", 
+                    this.Id, 
+                    Tools.JsonCompliant(this.Description));
             }
         }
 
@@ -83,7 +75,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                StringBuilder res = new StringBuilder("{");
+                var res = new StringBuilder("{");
                 res.Append(Tools.JsonPair("Id", this.Id)).Append(",");
                 res.Append(Tools.JsonPair("IncidentActionId", this.IncidentActionId)).Append(",");
                 res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(",");
@@ -96,17 +88,15 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Get the costs of action
-        /// </summary>
+        /// <summary>Get the costs of action</summary>
         /// <param name="incidentActionId">Incident action identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>A list of cost of the action</returns>
         public static string GetByIncidentAction(long incidentActionId, int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            ReadOnlyCollection<IncidentActionCost> costs = IncidentActionCost.GetByIncidentActionId(incidentActionId, companyId);
+            var costs = IncidentActionCost.GetByIncidentActionId(incidentActionId, companyId);
             foreach (IncidentActionCost cost in costs)
             {
                 if (first)
@@ -125,17 +115,15 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Get the cost of company
-        /// </summary>
+        /// <summary>Get the costs of company</summary>
         /// <param name="companyId">Company identififer</param>
         /// <returns>A list of cost of the company</returns>
         public static string GetByCompany(int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            ReadOnlyCollection<IncidentActionCost> costs = IncidentActionCost.GetByCompanyId(companyId);
-            foreach (IncidentActionCost cost in costs)
+            var costs = IncidentActionCost.GetByCompanyId(companyId);
+            foreach (var cost in costs)
             {
                 if (first)
                 {
@@ -153,9 +141,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Gets the differences between tow costs
-        /// </summary>
+        /// <summary>Gets the differences between tow costs</summary>
         /// <param name="item1">Cost for compare</param>
         /// <param name="item2">Cost to compare</param>
         /// <returns></returns>
@@ -166,7 +152,7 @@ namespace GisoFramework.Item
                 return string.Empty;
             }
 
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
 
             if (item1.Description != item2.Description)
             {
@@ -186,9 +172,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Delete a cost on database
-        /// </summary>
+        /// <summary>Delete a cost on database</summary>
         /// <param name="incidentCostId">Cost identifier</param>
         /// <param name="userId">Identifier of user thats performs the action</param>
         /// <param name="companyId">Company identifier</param>
@@ -199,36 +183,39 @@ namespace GisoFramework.Item
              *   @IncidentActionCostId bigint,
              *   @CompanyId int,
              *   @UserId int */
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("IncidentActionCost_Delete"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("IncidentActionCost_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentActionCostId", incidentCostId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "IncidentActionCost::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentCostId, userId, companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "IncidentActionCost::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentCostId, userId, companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentActionCostId", incidentCostId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "IncidentActionCost::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentCostId, userId, companyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "IncidentActionCost::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentCostId, userId, companyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -236,9 +223,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Insert a cost into database
-        /// </summary>
+        /// <summary>Insert a cost into database</summary>
         /// <param name="userId">Identifier of user that performs the action</param>
         /// <returns>The result of action</returns>
         public ActionResult Insert(int userId)
@@ -252,42 +237,45 @@ namespace GisoFramework.Item
              *   @Quantity numeric(18,3),
              *   @ResponsablebleId int,
              *   @UserId int */
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("IncidentActionCost_Insert"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("IncidentActionCost_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.OutputInt("@IncidentActionCostId"));
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", this.IncidentActionId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                    cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
-                    cmd.Parameters.Add(DataParameter.Input("@Quantity", this.Quantity));
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@IncidentActionCostId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                    res.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.OutputInt("@IncidentActionCostId"));
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", this.IncidentActionId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
+                        cmd.Parameters.Add(DataParameter.Input("@Quantity", this.Quantity));
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@IncidentActionCostId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        res.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -295,9 +283,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Update a cost on database
-        /// </summary>
+        /// <summary>Update a cost on database</summary>
         /// <param name="userId">Identifier of user that peforms the action</param>
         /// <param name="differences">Differences with previous costs data</param>
         /// <returns>Result of action</returns>
@@ -313,42 +299,45 @@ namespace GisoFramework.Item
              *   @ResponsableId int,
              *   @UserId int,
              *   @Differences text */
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("IncidentActionCost_Update"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("IncidentActionCost_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentActionCostId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", this.IncidentActionId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                    cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
-                    cmd.Parameters.Add(DataParameter.Input("@Quantity", this.Quantity));
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Parameters.Add(DataParameter.Input("@Differences", differences));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "IncidentActionCost::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "IncidentActionCost::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentActionCostId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", this.IncidentActionId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
+                        cmd.Parameters.Add(DataParameter.Input("@Quantity", this.Quantity));
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@Differences", differences));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "IncidentActionCost::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "IncidentActionCost::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -356,9 +345,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Delete a cost on database
-        /// </summary>
+        /// <summary>Delete a cost on database</summary>
         /// <param name="userId">Identifier of user that performs the action</param>
         /// <returns>Result of action</returns>
         public ActionResult Delete(int userId)
@@ -371,42 +358,47 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE IndecidentActionCost_GetByIndicentActionId
              *   @IncidentId bigint,
              *   @CompanyId int */
-            List<IncidentActionCost> res = new List<IncidentActionCost>();
-            using (SqlCommand cmd = new SqlCommand("IndecidentActionCost_GetByIndicentActionId"))
+            var res = new List<IncidentActionCost>();
+            using (var cmd = new SqlCommand("IndecidentActionCost_GetByIndicentActionId"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", incidentActionId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        res.Add(new IncidentActionCost()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", incidentActionId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
-                            CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
-                            IncidentActionId = rdr.GetInt64(ColumnsIncidentCostGet.IncidentActionId),
-                            Description = rdr.GetString(ColumnsIncidentCostGet.Description),
-                            Amount = rdr.GetDecimal(ColumnsIncidentCostGet.Amount),
-                            Quantity = rdr.GetDecimal(ColumnsIncidentCostGet.Quantity),
-                            Responsible = new Employee()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt64(ColumnsIncidentCostGet.ResponsibleId),
-                                Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
-                                LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
-                            },
-                            Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
-                        });
+                                res.Add(new IncidentActionCost()
+                                {
+                                    Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
+                                    IncidentActionId = rdr.GetInt64(ColumnsIncidentCostGet.IncidentActionId),
+                                    Description = rdr.GetString(ColumnsIncidentCostGet.Description),
+                                    Amount = rdr.GetDecimal(ColumnsIncidentCostGet.Amount),
+                                    Quantity = rdr.GetDecimal(ColumnsIncidentCostGet.Quantity),
+                                    Responsible = new Employee()
+                                    {
+                                        Id = rdr.GetInt64(ColumnsIncidentCostGet.ResponsibleId),
+                                        Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
+                                        LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
+                                    },
+                                    Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
+                                });
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -418,41 +410,46 @@ namespace GisoFramework.Item
         {
             /* CREATE PROCEDURE IndecidentActionCost_GetByCompanyId
              *   @CompanyId int */
-            List<IncidentActionCost> res = new List<IncidentActionCost>();
-            using (SqlCommand cmd = new SqlCommand("IndecidentActionCost_GetByCompanyId"))
+            var res = new List<IncidentActionCost>();
+            using (var cmd = new SqlCommand("IndecidentActionCost_GetByCompanyId"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        res.Add(new IncidentActionCost()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
-                            CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
-                            IncidentActionId = rdr.GetInt64(ColumnsIncidentCostGet.IncidentActionId),
-                            Description = rdr.GetString(ColumnsIncidentCostGet.Description),
-                            Amount = rdr.GetDecimal(ColumnsIncidentCostGet.Amount),
-                            Quantity = rdr.GetDecimal(ColumnsIncidentCostGet.Quantity),
-                            Responsible = new Employee()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsIncidentCostGet.ResponsibleId),
-                                Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
-                                LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
-                            },
-                            Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
-                        });
+                                res.Add(new IncidentActionCost()
+                                {
+                                    Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
+                                    IncidentActionId = rdr.GetInt64(ColumnsIncidentCostGet.IncidentActionId),
+                                    Description = rdr.GetString(ColumnsIncidentCostGet.Description),
+                                    Amount = rdr.GetDecimal(ColumnsIncidentCostGet.Amount),
+                                    Quantity = rdr.GetDecimal(ColumnsIncidentCostGet.Quantity),
+                                    Responsible = new Employee()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentCostGet.ResponsibleId),
+                                        Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
+                                        LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
+                                    },
+                                    Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
+                                });
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -462,10 +459,10 @@ namespace GisoFramework.Item
 
         public static string GetByBusinessRisk(long businessRiskId, int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            ReadOnlyCollection<IncidentActionCost> costs = IncidentActionCost.GetByBusinessRiskId(businessRiskId, companyId);
-            foreach (IncidentActionCost cost in costs)
+            var costs = IncidentActionCost.GetByBusinessRiskId(businessRiskId, companyId);
+            foreach (var cost in costs)
             {
                 if (first)
                 {
@@ -485,42 +482,47 @@ namespace GisoFramework.Item
 
         public static ReadOnlyCollection<IncidentActionCost> GetByBusinessRiskId(long businessRiskId, int companyId)
         {
-            List<IncidentActionCost> res = new List<IncidentActionCost>();
-            using (SqlCommand cmd = new SqlCommand("IndecidentCost_GetByBusinessRiskId"))
+            var res = new List<IncidentActionCost>();
+            using (var cmd = new SqlCommand("IndecidentCost_GetByBusinessRiskId"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", businessRiskId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        res.Add(new IncidentActionCost()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", businessRiskId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
-                            CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
-                            IncidentActionId = rdr.GetInt64(ColumnsIncidentCostGet.IncidentActionId),
-                            Description = rdr.GetString(ColumnsIncidentCostGet.Description),
-                            Amount = rdr.GetDecimal(ColumnsIncidentCostGet.Amount),
-                            Quantity = rdr.GetDecimal(ColumnsIncidentCostGet.Quantity),
-                            Responsible = new Employee()
+                            while (rdr.Read())
                             {
-                                Id = Convert.ToInt64(rdr.GetInt32(ColumnsIncidentCostGet.ResponsibleId)),
-                                Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
-                                LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
-                            },
-                            Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
-                        });
+                                res.Add(new IncidentActionCost()
+                                {
+                                    Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
+                                    IncidentActionId = rdr.GetInt64(ColumnsIncidentCostGet.IncidentActionId),
+                                    Description = rdr.GetString(ColumnsIncidentCostGet.Description),
+                                    Amount = rdr.GetDecimal(ColumnsIncidentCostGet.Amount),
+                                    Quantity = rdr.GetDecimal(ColumnsIncidentCostGet.Quantity),
+                                    Responsible = new Employee()
+                                    {
+                                        Id = Convert.ToInt64(rdr.GetInt32(ColumnsIncidentCostGet.ResponsibleId)),
+                                        Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
+                                        LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
+                                    },
+                                    Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
+                                });
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

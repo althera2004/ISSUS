@@ -4,6 +4,9 @@ var VerificationInternalExists = false;
 var VerificationExternalExists = false;
 var EquipmentNewId;
 
+var initialDateText = Dictionary.Item_EquipmentErrorInitialDate + " " + limitInitialDate
+$("#TxtStartDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtStartDatePostInitial\" style=\"display:none;\">" + initialDateText + "</span>");
+$("#TxtScaleDivision").val(ToMoneyFormat(Equipment.ScaleDivision,4));
 function CalibrationCheckChanged() {
     if (Equipment.Id === 0) {
         return;
@@ -279,7 +282,7 @@ window.onload = function () {
 
 function ValidateForm(form) {
     var result = new Array();
-
+    $("#TxtStartDatePostInitial").hide();
     for (var x = 0; x < form.RequiredFields.length; x++) {
         if (RequiredFieldText(form.RequiredFields[x]) === false) { result.push('Revise los campos obligatorios del equipo.'); }
     }
@@ -367,6 +370,17 @@ function ValidateForm(form) {
         if (MaintenanceSet === true) {
             if (EquipmentMaintenanceDefinitionList.length === 0) {
                 result.push(Dictionary.Item_EquipmentMaintenance_Required)
+            }
+        }
+
+        if ($("#TxtStartDate").val() !== "") {
+            if (limitInitialDate !== "") {
+                var date1 = GetDate($("#TxtStartDate").val(), "/", false);
+                var date2 = GetDate(limitInitialDate, "/", false);
+                if (date1 > date2) {
+                    $("#TxtStartDatePostInitial").show();
+                    result.push(Dictionary.Item_EquipmentErrorInitialDate + " " + limitInitialDate);
+                }
             }
         }
     }

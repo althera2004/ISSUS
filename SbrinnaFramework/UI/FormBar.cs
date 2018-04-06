@@ -8,9 +8,7 @@ namespace SbrinnaCoreFramework.UI
 {
     using System.Globalization;
 
-    /// <summary>
-    /// Implements FormBar control
-    /// </summary>
+    /// <summary>Implements FormBar control</summary>
     public class FormBar
     {
         public int ColumnSpan { get; set; }
@@ -35,9 +33,7 @@ namespace SbrinnaCoreFramework.UI
 
         public bool GrantToEdit { get; set; }
 
-        /// <summary>
-        /// Return the HTML code for FormBar component
-        /// </summary>
+        /// <summary>Return the HTML code for FormBar component</summary>
         public string Render
         {
             get
@@ -68,7 +64,7 @@ namespace SbrinnaCoreFramework.UI
                         {4}";
 
                     return string.Format(
-                        CultureInfo.GetCultureInfo("en-us"),
+                        CultureInfo.InvariantCulture,
                         pattern,
                         this.Name,
                         this.ColumnSpan,
@@ -78,7 +74,7 @@ namespace SbrinnaCoreFramework.UI
                 }
                 else
                 {
-                    return string.Format(CultureInfo.GetCultureInfo("en-us"), @"<label class=""col-sm-{1}"">{0}</label>", this.Value, this.ColumnSpan);
+                    return string.Format(CultureInfo.InvariantCulture, @"<label class=""col-sm-{1}"">{0}</label>", this.Value, this.ColumnSpan);
                 }
             }
         }
@@ -137,9 +133,7 @@ namespace SbrinnaCoreFramework.UI
             return this.Name == other.Name;
         }
 
-        /// <summary>
-        /// Get the hash code of object
-        /// </summary>
+        /// <summary>Get the hash code of object</summary>
         /// <returns>Hash code of object</returns>
         public override int GetHashCode()
         {

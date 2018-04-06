@@ -8,9 +8,7 @@ namespace SbrinnaCoreFramework.Graph
 {
     using System.Globalization;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary></summary>
     public class InfoBox
     {
         public string Color { get; set; }
@@ -36,7 +34,7 @@ namespace SbrinnaCoreFramework.Graph
                 }
 
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     @"<div class=""infobox infobox-{0}"">
                                             <div class=""infobox-icon"">
                                                 <i class=""icon-{1}""></i>

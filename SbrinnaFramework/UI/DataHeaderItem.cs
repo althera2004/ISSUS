@@ -8,9 +8,7 @@ namespace SbrinnaCoreFramework.UI
 {
     using System.Globalization;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary></summary>
     public class UIDataHeaderItem
     {
         public string Text { get; set; }
@@ -28,7 +26,6 @@ namespace SbrinnaCoreFramework.UI
             get
             {
                 string cssClass = this.Class;
-
                 if (this.Filterable)
                 {
                     if (!string.IsNullOrEmpty(cssClass))
@@ -54,7 +51,7 @@ namespace SbrinnaCoreFramework.UI
                 string sortAction = string.Empty;
                 if(this.Sortable)
                 {
-                    sortAction = string.Format(CultureInfo.GetCultureInfo("en-us"), "onclick=\"Sort(this,'{0}');\" ", this.DataId);
+                    sortAction = string.Format(CultureInfo.InvariantCulture, "onclick=\"Sort(this,'{0}');\" ", this.DataId);
                     style = "cursor:pointer;";
                     if (!string.IsNullOrEmpty(cssClass))
                     {
@@ -66,13 +63,13 @@ namespace SbrinnaCoreFramework.UI
 
                 if(this.Width>0)
                 {
-                    style+= string.Format(CultureInfo.GetCultureInfo("en-us"),"width:{0}px;", this.Width);
+                    style+= string.Format(CultureInfo.InvariantCulture,"width:{0}px;", this.Width);
                 }
 
                 string pattern = @"<th {1}id=""{2}"" class=""{3}"" style=""{4}"">{0}</th>";
 
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Text,
                     sortAction,

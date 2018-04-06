@@ -32,9 +32,7 @@ public partial class EmployeesList : Page
 
     public string EmployeesJson { get; private set; }
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -43,9 +41,7 @@ public partial class EmployeesList : Page
         }
     }
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
+    /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -95,25 +91,23 @@ public partial class EmployeesList : Page
 
     public Company Company { get { return this.company; } }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -150,12 +144,12 @@ public partial class EmployeesList : Page
 
     private void RenderEmployeeData()
     {
-        StringBuilder active = new StringBuilder();
-        StringBuilder sea = new StringBuilder();
+        var active = new StringBuilder();
+        var sea = new StringBuilder();
         bool first = true;
         int contData = 0;
-        ReadOnlyCollection<Employee> employees = Employee.GetList(this.company.Id);
-        foreach (Employee employee in employees)
+        var employees = Employee.GetList(this.company.Id);
+        foreach (var employee in employees)
         {
             if (employee.Active)
             {

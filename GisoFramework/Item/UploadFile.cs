@@ -439,7 +439,7 @@ namespace GisoFramework.Item
                 cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                 try
                 {
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cnn.Open();
@@ -497,7 +497,7 @@ namespace GisoFramework.Item
              *   @Id bigint,
              *   @CompanyId bigint */
 
-            UploadFile uploadFile = GetById(attachId, companyId);
+            var uploadFile = GetById(attachId, companyId);
             string path = HttpContext.Current.Request.PhysicalApplicationPath;
             if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
             {
@@ -505,12 +505,12 @@ namespace GisoFramework.Item
             }
 
             path = string.Format(CultureInfo.InvariantCulture, @"{0}DOCS\{1}\", path, companyId);
-            using (SqlCommand cmd = new SqlCommand("UploadFiled_Inactive"))
+            using (var cmd = new SqlCommand("UploadFiled_Inactive"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@Id", attachId));
                 cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                using(SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     try

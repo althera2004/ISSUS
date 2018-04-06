@@ -49,76 +49,80 @@ namespace GisoFramework.Item
         {
             this.Hours = 0;
             this.Amount = 0;
-            using (SqlCommand cmd = new SqlCommand("Learning_GetById"))
+            using (var cmd = new SqlCommand("Learning_GetById"))
             {
                 /* CREATE PROCEDURE Learning_GetById
                  * @LearningId int,
                  * @CompanyId int */
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@LearningId", learningId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        rdr.Read();
-                        this.Id = learningId;
-                        this.CompanyId = companyId;
-                        this.Amount = rdr.GetDecimal(ColumnsLearningGetById.Amount);
-                        this.Description = rdr.GetString(ColumnsLearningGetById.Description);
-                        this.Notes = rdr.GetString(ColumnsLearningGetById.Notes);
-                        this.DateEstimated = rdr.GetDateTime(ColumnsLearningGetById.DateStimatedDate);
-                        this.Hours = rdr.GetInt64(ColumnsLearningGetById.Hours);
-                        this.Master = rdr.GetString(ColumnsLearningGetById.Master);
-                        this.Year = rdr.GetInt32(ColumnsLearningGetById.Year);
-                        this.Status = rdr.GetInt32(ColumnsLearningGetById.Status);
-                        this.Objective = rdr.GetString(ColumnsLearningGetById.Objective);
-                        this.Methodology = rdr.GetString(ColumnsLearningGetById.Methodology);
-                        this.ModifiedOn = rdr.GetDateTime(ColumnsLearningGetById.ModifiedOn);
-                        this.ModifiedBy = new ApplicationUser()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@LearningId", learningId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt32(ColumnsLearningGetById.ModifiedByUserId),
-                            UserName = rdr.GetString(ColumnsLearningGetById.ModifiedByUserName)
-                        };
+                            if (rdr.HasRows)
+                            {
+                                rdr.Read();
+                                this.Id = learningId;
+                                this.CompanyId = companyId;
+                                this.Amount = rdr.GetDecimal(ColumnsLearningGetById.Amount);
+                                this.Description = rdr.GetString(ColumnsLearningGetById.Description);
+                                this.Notes = rdr.GetString(ColumnsLearningGetById.Notes);
+                                this.DateEstimated = rdr.GetDateTime(ColumnsLearningGetById.DateStimatedDate);
+                                this.Hours = rdr.GetInt64(ColumnsLearningGetById.Hours);
+                                this.Master = rdr.GetString(ColumnsLearningGetById.Master);
+                                this.Year = rdr.GetInt32(ColumnsLearningGetById.Year);
+                                this.Status = rdr.GetInt32(ColumnsLearningGetById.Status);
+                                this.Objective = rdr.GetString(ColumnsLearningGetById.Objective);
+                                this.Methodology = rdr.GetString(ColumnsLearningGetById.Methodology);
+                                this.ModifiedOn = rdr.GetDateTime(ColumnsLearningGetById.ModifiedOn);
+                                this.ModifiedBy = new ApplicationUser()
+                                {
+                                    Id = rdr.GetInt32(ColumnsLearningGetById.ModifiedByUserId),
+                                    UserName = rdr.GetString(ColumnsLearningGetById.ModifiedByUserName)
+                                };
 
-                        if (!rdr.IsDBNull(ColumnsLearningGetById.RealStart))
-                        {
-                            this.RealStart = rdr.GetDateTime(ColumnsLearningGetById.RealStart);
+                                if (!rdr.IsDBNull(ColumnsLearningGetById.RealStart))
+                                {
+                                    this.RealStart = rdr.GetDateTime(ColumnsLearningGetById.RealStart);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsLearningGetById.RealFinish))
+                                {
+                                    this.RealFinish = rdr.GetDateTime(ColumnsLearningGetById.RealFinish);
+                                }
+
+                                this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
+                            }
                         }
-
-                        if (!rdr.IsDBNull(ColumnsLearningGetById.RealFinish))
-                        {
-                            this.RealFinish = rdr.GetDateTime(ColumnsLearningGetById.RealFinish);
-                        }
-
-                        this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// Gets a empty learning with default values
-        /// </summary>
+        /// <summary>Gets a empty learning with default values</summary>
         public static Learning Empty
         {
             get
             {
-                Learning res = new Learning();
-                res.ModifiedBy = ApplicationUser.Empty;
-                res.Hours = 0;
-                res.Amount = 0;
-                return res;
+                return new Learning
+                {
+                    ModifiedBy = ApplicationUser.Empty,
+                    Hours = 0,
+                    Amount = 0
+                };
             }
         }
 
@@ -207,9 +211,9 @@ namespace GisoFramework.Item
         {
             get
             {
-                StringBuilder assistanceString = new StringBuilder("[");
+                var assistanceString = new StringBuilder("[");
                 bool first = true;
-                foreach (LearningAssistance item in this.assistance)
+                foreach (var item in this.assistance)
                 {
                     if (first)
                     {
@@ -306,7 +310,7 @@ namespace GisoFramework.Item
                 return string.Empty;
             }
 
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             bool first = true;
             if (oldLearning.Description != newLearning.Description)
             {
@@ -438,15 +442,13 @@ namespace GisoFramework.Item
                     res.Append(",");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"Year:{0}", newLearning.Year));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"Year:{0}", newLearning.Year));
             }
 
             return res.ToString();
         }
 
-        /// <summary>
-        /// Delete the learning
-        /// </summary>
+        /// <summary>Delete the learning</summary>
         /// <param name="learningId">Learning identififer</param>
         /// <param name="companyId">Identifier of learning's compnay</param>
         /// <param name="userId">Identifier of user that performs action</param>
@@ -454,43 +456,46 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult Delete(int learningId, int companyId, int userId, string reason)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE Learning_Delete
              * @LearningId int,
              * @CompanyId int,
              * @Reason nvarchar(200),
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("Learning_Delete"))
+            using (var cmd = new SqlCommand("Learning_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@LearningId", learningId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Parameters.Add(DataParameter.Input("@Reason", reason, 200));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@LearningId", learningId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@Reason", reason, 200));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -498,9 +503,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Gets a row of learning for learnings list table
-        /// </summary>
+        /// <summary>Gets a row of learning for learnings list table</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="admin">Indicates if user that views table has administration role</param>
         /// <returns>Html code to render learning row</returns>
@@ -511,11 +514,11 @@ namespace GisoFramework.Item
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
 
-            this.ObtainAssistance();
+            // this.ObtainAssistance();
 
             string month = Tools.TranslatedMonth(this.DateEstimated.Month, dictionary);
 
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             /*List<LearningAssistance> succededAssistants = new List<LearningAssistance>();
             List<LearningAssistance> completedAssistants = new List<LearningAssistance>();
             List<LearningAssistance> uncompletesAssistants = new List<LearningAssistance>();
@@ -600,10 +603,10 @@ namespace GisoFramework.Item
 
             res.Append("<tr>");
             res.Append("<td>").Append(this.Link).Append("</td>");
-            res.Append("<td>");
+            res.Append("<td align=\"center\" style=\"width:100px;white-space: nowrap;\">");
             res.AppendFormat(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.DateEstimated);
             //res.Append("<td align=\"center\" class=\"hidden-480\">").Append(month).Append(" ").Append(this.DateEstimated.Year).Append("</td>");
-            res.Append("<td>");
+            res.Append("<td align=\"center\" style=\"width:100px;white-space: nowrap;\">");
             res.AppendFormat(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.RealFinish);
 
             /*bool existsAssistants = false;
@@ -653,13 +656,22 @@ namespace GisoFramework.Item
             string statusText = string.Empty;
             switch (this.Status)
             {
-                case 0: statusText = dictionary["Item_Learning_Status_InProgress"]; break;
-                case 1: statusText = dictionary["Item_Learning_Status_Finished"]; break;
-                case 2: statusText = dictionary["Item_Learning_Status_Evaluated"]; break;
+                case 0:
+                    statusText = dictionary["Item_Learning_Status_InProgress"];
+                    break;
+                case 1:
+                    statusText = dictionary["Item_Learning_Status_Finished"];
+                    break;
+                case 2:
+                    statusText = dictionary["Item_Learning_Status_Evaluated"];
+                    break;
+                default:
+                    statusText = string.Empty;
+                    break;
             }
 
-            res.Append("<td align=\"center\" class=\"hidden-480\">").Append(statusText).Append("</td>");
-            res.Append("<td align=\"right\" class=\"hidden-480\">").Append(amountText).Append("</td>");
+            res.Append("<td align=\"center\" class=\"hidden-480\" style=\"width:100px;white-space: nowrap;\">").Append(statusText).Append("</td>");
+            res.Append("<td align=\"right\" class=\"hidden-480\" style=\"width:150px;white-space: nowrap;\">").Append(amountText).Append("</td>");
             res.Append("<td class=\"hidden-480\" style=\"width:90px;white-space: nowrap;\">");
             res.Append(iconUpdate).Append("&nbsp;").Append(iconDelete);
             res.Append("</td>");
@@ -674,7 +686,7 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Learning_Insert
              * @LearningId int out,
              * @CompanyId int,
@@ -689,73 +701,76 @@ namespace GisoFramework.Item
              * @Notes text,
              * @UserId int,
              * @Year int */
-            using (SqlCommand cmd = new SqlCommand("Learning_Insert"))
+            using (var cmd = new SqlCommand("Learning_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@LearningId", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
-                    cmd.Parameters.Add("@Status", SqlDbType.Int);
-                    cmd.Parameters.Add("@DateStimatedDate", SqlDbType.Date);
-                    cmd.Parameters.Add("@RealStart", SqlDbType.Date);
-                    cmd.Parameters.Add("@RealFinish", SqlDbType.Date);
-                    cmd.Parameters.Add("@Master", SqlDbType.NVarChar);
-                    cmd.Parameters.Add("@Hours", SqlDbType.Int);
-                    cmd.Parameters.Add("@Amount", SqlDbType.Decimal);
-                    cmd.Parameters.Add("@Notes", SqlDbType.Text);
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters.Add("@Year", SqlDbType.Int);
-                    cmd.Parameters.Add("@Objetivo", SqlDbType.Text);
-                    cmd.Parameters.Add("@Metodologia", SqlDbType.Text);
-                    cmd.Parameters["@LearningId"].Value = DBNull.Value;
-                    cmd.Parameters["@LearningId"].Direction = ParameterDirection.Output;
-                    cmd.Parameters["@CompanyId"].Value = this.CompanyId;
-                    cmd.Parameters["@Description"].Value = Tools.LimitedText(this.Description, 100);
-                    cmd.Parameters["@Status"].Value = this.Status;
-                    cmd.Parameters["@DateStimatedDate"].Value = this.DateEstimated;
-                    cmd.Parameters["@Master"].Value = Tools.LimitedText(this.Master, 100);
-                    cmd.Parameters["@Hours"].Value = this.Hours;
-                    cmd.Parameters["@Amount"].Value = this.Amount;
-                    cmd.Parameters["@Notes"].Value = Tools.LimitedText(this.Notes, 2000);
-                    cmd.Parameters["@Year"].Value = this.Year;
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Parameters["@Objetivo"].Value = Tools.LimitedText(this.Objective, 2000);
-                    cmd.Parameters["@Metodologia"].Value = Tools.LimitedText(this.Methodology, 2000);
-                    if (this.RealStart.HasValue)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        cmd.Parameters["@RealStart"].Value = this.RealStart.Value;
-                    }
-                    else
-                    {
-                        cmd.Parameters["@RealStart"].Value = DBNull.Value;
-                    }
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@LearningId", SqlDbType.Int);
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
+                        cmd.Parameters.Add("@Status", SqlDbType.Int);
+                        cmd.Parameters.Add("@DateStimatedDate", SqlDbType.Date);
+                        cmd.Parameters.Add("@RealStart", SqlDbType.Date);
+                        cmd.Parameters.Add("@RealFinish", SqlDbType.Date);
+                        cmd.Parameters.Add("@Master", SqlDbType.NVarChar);
+                        cmd.Parameters.Add("@Hours", SqlDbType.Int);
+                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal);
+                        cmd.Parameters.Add("@Notes", SqlDbType.Text);
+                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                        cmd.Parameters.Add("@Year", SqlDbType.Int);
+                        cmd.Parameters.Add("@Objetivo", SqlDbType.Text);
+                        cmd.Parameters.Add("@Metodologia", SqlDbType.Text);
+                        cmd.Parameters["@LearningId"].Value = DBNull.Value;
+                        cmd.Parameters["@LearningId"].Direction = ParameterDirection.Output;
+                        cmd.Parameters["@CompanyId"].Value = this.CompanyId;
+                        cmd.Parameters["@Description"].Value = Tools.LimitedText(this.Description, 100);
+                        cmd.Parameters["@Status"].Value = this.Status;
+                        cmd.Parameters["@DateStimatedDate"].Value = this.DateEstimated;
+                        cmd.Parameters["@Master"].Value = Tools.LimitedText(this.Master, 100);
+                        cmd.Parameters["@Hours"].Value = this.Hours;
+                        cmd.Parameters["@Amount"].Value = this.Amount;
+                        cmd.Parameters["@Notes"].Value = Tools.LimitedText(this.Notes, 2000);
+                        cmd.Parameters["@Year"].Value = this.Year;
+                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.Parameters["@Objetivo"].Value = Tools.LimitedText(this.Objective, 2000);
+                        cmd.Parameters["@Metodologia"].Value = Tools.LimitedText(this.Methodology, 2000);
+                        if (this.RealStart.HasValue)
+                        {
+                            cmd.Parameters["@RealStart"].Value = this.RealStart.Value;
+                        }
+                        else
+                        {
+                            cmd.Parameters["@RealStart"].Value = DBNull.Value;
+                        }
 
-                    if (this.RealFinish.HasValue)
-                    {
-                        cmd.Parameters["@RealFinish"].Value = this.RealFinish.Value;
-                    }
-                    else
-                    {
-                        cmd.Parameters["@RealFinish"].Value = DBNull.Value;
-                    }
+                        if (this.RealFinish.HasValue)
+                        {
+                            cmd.Parameters["@RealFinish"].Value = this.RealFinish.Value;
+                        }
+                        else
+                        {
+                            cmd.Parameters["@RealFinish"].Value = DBNull.Value;
+                        }
 
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@LearningId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                    res.SetSuccess(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}", cmd.Parameters["@LearningId"].Value.ToString()));
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@LearningId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, "{0}", cmd.Parameters["@LearningId"].Value.ToString()));
+                    }
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -763,14 +778,12 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Update learning data in database
-        /// </summary>
+        /// <summary>Update learning data in database</summary>
         /// <param name="userId">Identifier of user that makes actions</param>
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Learning_Update
              * @CompanyId int,
              * @Description nvarchar(100),
@@ -784,67 +797,70 @@ namespace GisoFramework.Item
              * @Notes text,
              * @UserId int,
              * @Year int */
-            using (SqlCommand cmd = new SqlCommand("Learning_Update"))
+            using (var cmd = new SqlCommand("Learning_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@LearningId", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
-                    cmd.Parameters.Add("@Status", SqlDbType.Int);
-                    cmd.Parameters.Add("@DateStimatedDate", SqlDbType.Date);
-                    cmd.Parameters.Add("@RealStart", SqlDbType.Date);
-                    cmd.Parameters.Add("@RealFinish", SqlDbType.Date);
-                    cmd.Parameters.Add("@Master", SqlDbType.NVarChar);
-                    cmd.Parameters.Add("@Hours", SqlDbType.Int);
-                    cmd.Parameters.Add("@Amount", SqlDbType.Decimal);
-                    cmd.Parameters.Add("@Notes", SqlDbType.Text);
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters.Add("@Year", SqlDbType.Int);
-                    cmd.Parameters.Add("@Objetivo", SqlDbType.Text);
-                    cmd.Parameters.Add("@Metodologia", SqlDbType.Text);
-                    cmd.Parameters["@LearningId"].Value = this.Id;
-                    cmd.Parameters["@CompanyId"].Value = this.CompanyId;
-                    cmd.Parameters["@Description"].Value = Tools.LimitedText(this.Description, 2000);
-                    cmd.Parameters["@Status"].Value = this.Status;
-                    cmd.Parameters["@DateStimatedDate"].Value = this.DateEstimated;
-                    cmd.Parameters["@Master"].Value = Tools.LimitedText(this.Master, 100);
-                    cmd.Parameters["@Hours"].Value = this.Hours;
-                    cmd.Parameters["@Amount"].Value = this.Amount;
-                    cmd.Parameters["@Notes"].Value = this.Notes;
-                    cmd.Parameters["@Year"].Value = this.Year;
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Parameters["@Objetivo"].Value = Tools.LimitedText(this.Objective, 2000);
-                    cmd.Parameters["@Metodologia"].Value = Tools.LimitedText(this.Methodology, 2000);
-                    if (this.RealStart.HasValue)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        cmd.Parameters["@RealStart"].Value = this.RealStart.Value;
-                    }
-                    else
-                    {
-                        cmd.Parameters["@RealStart"].Value = DBNull.Value;
-                    }
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@LearningId", SqlDbType.Int);
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
+                        cmd.Parameters.Add("@Status", SqlDbType.Int);
+                        cmd.Parameters.Add("@DateStimatedDate", SqlDbType.Date);
+                        cmd.Parameters.Add("@RealStart", SqlDbType.Date);
+                        cmd.Parameters.Add("@RealFinish", SqlDbType.Date);
+                        cmd.Parameters.Add("@Master", SqlDbType.NVarChar);
+                        cmd.Parameters.Add("@Hours", SqlDbType.Int);
+                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal);
+                        cmd.Parameters.Add("@Notes", SqlDbType.Text);
+                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                        cmd.Parameters.Add("@Year", SqlDbType.Int);
+                        cmd.Parameters.Add("@Objetivo", SqlDbType.Text);
+                        cmd.Parameters.Add("@Metodologia", SqlDbType.Text);
+                        cmd.Parameters["@LearningId"].Value = this.Id;
+                        cmd.Parameters["@CompanyId"].Value = this.CompanyId;
+                        cmd.Parameters["@Description"].Value = Tools.LimitedText(this.Description, 2000);
+                        cmd.Parameters["@Status"].Value = this.Status;
+                        cmd.Parameters["@DateStimatedDate"].Value = this.DateEstimated;
+                        cmd.Parameters["@Master"].Value = Tools.LimitedText(this.Master, 100);
+                        cmd.Parameters["@Hours"].Value = this.Hours;
+                        cmd.Parameters["@Amount"].Value = this.Amount;
+                        cmd.Parameters["@Notes"].Value = this.Notes;
+                        cmd.Parameters["@Year"].Value = this.Year;
+                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.Parameters["@Objetivo"].Value = Tools.LimitedText(this.Objective, 2000);
+                        cmd.Parameters["@Metodologia"].Value = Tools.LimitedText(this.Methodology, 2000);
+                        if (this.RealStart.HasValue)
+                        {
+                            cmd.Parameters["@RealStart"].Value = this.RealStart.Value;
+                        }
+                        else
+                        {
+                            cmd.Parameters["@RealStart"].Value = DBNull.Value;
+                        }
 
-                    if (this.RealFinish.HasValue)
-                    {
-                        cmd.Parameters["@RealFinish"].Value = this.RealFinish.Value;
-                    }
-                    else
-                    {
-                        cmd.Parameters["@RealFinish"].Value = DBNull.Value;
-                    }
+                        if (this.RealFinish.HasValue)
+                        {
+                            cmd.Parameters["@RealFinish"].Value = this.RealFinish.Value;
+                        }
+                        else
+                        {
+                            cmd.Parameters["@RealFinish"].Value = DBNull.Value;
+                        }
 
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -852,63 +868,66 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Obtain assistance of learning
-        /// </summary>
+        /// <summary>Obtain assistance of learning</summary>
         public void ObtainAssistance()
         {
             this.assistance = new List<LearningAssistance>();
-            using (SqlCommand cmd = new SqlCommand("Learning_GetAssistance"))
+            using (var cmd = new SqlCommand("Learning_GetAssistance"))
             {
                 /* CREATE PROCEDURE [dbo].[Learning_GetAssistance]
                  * @LearningId int,
                  * @CompanyId int */
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@LearningId", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters["@LearningId"].Value = this.Id;
-                    cmd.Parameters["@CompanyId"].Value = this.CompanyId;
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        JobPosition jobPosition = JobPosition.Empty;
-                        if (rdr.GetInt32(ColumnsLearningGetAssistance.JobPositionId) != 0)
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@LearningId", SqlDbType.Int);
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters["@LearningId"].Value = this.Id;
+                        cmd.Parameters["@CompanyId"].Value = this.CompanyId;
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            jobPosition.Id = rdr.GetInt32(ColumnsLearningGetAssistance.JobPositionId);
-                            jobPosition.Description = rdr.GetString(ColumnsLearningGetAssistance.JobPositionDescription);
-                        }
-
-                        LearningAssistance newAssistance = new LearningAssistance()
-                        {
-                            CompanyId = this.CompanyId,
-                            Id = rdr.GetInt32(ColumnsLearningGetAssistance.LearningAssistanceId),                          
-                            Date = rdr.GetDateTime(ColumnsLearningGetAssistance.DateEstimatedDate),
-                            JobPosition = jobPosition,
-                            Employee = new Employee() { Id = rdr.GetInt32(ColumnsLearningGetAssistance.EmployeeId), Name = rdr.GetString(ColumnsLearningGetAssistance.Name), LastName = rdr.GetString(ColumnsLearningGetAssistance.LastName) },
-                            Learning = this
-                        };
-
-                        if (!rdr.IsDBNull(ColumnsLearningGetAssistance.Completed))
-                        {
-                            newAssistance.Completed = rdr.GetBoolean(ColumnsLearningGetAssistance.Completed);
-                            if (!rdr.IsDBNull(ColumnsLearningGetAssistance.Success))
+                            while (rdr.Read())
                             {
-                                newAssistance.Success = rdr.GetBoolean(ColumnsLearningGetAssistance.Success);
+                                var jobPosition = JobPosition.Empty;
+                                if (rdr.GetInt32(ColumnsLearningGetAssistance.JobPositionId) != 0)
+                                {
+                                    jobPosition.Id = rdr.GetInt32(ColumnsLearningGetAssistance.JobPositionId);
+                                    jobPosition.Description = rdr.GetString(ColumnsLearningGetAssistance.JobPositionDescription);
+                                }
+
+                                var newAssistance = new LearningAssistance
+                                {
+                                    CompanyId = this.CompanyId,
+                                    Id = rdr.GetInt32(ColumnsLearningGetAssistance.LearningAssistanceId),
+                                    Date = rdr.GetDateTime(ColumnsLearningGetAssistance.DateEstimatedDate),
+                                    JobPosition = jobPosition,
+                                    Employee = new Employee() { Id = rdr.GetInt32(ColumnsLearningGetAssistance.EmployeeId), Name = rdr.GetString(ColumnsLearningGetAssistance.Name), LastName = rdr.GetString(ColumnsLearningGetAssistance.LastName) },
+                                    Learning = this
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsLearningGetAssistance.Completed))
+                                {
+                                    newAssistance.Completed = rdr.GetBoolean(ColumnsLearningGetAssistance.Completed);
+                                    if (!rdr.IsDBNull(ColumnsLearningGetAssistance.Success))
+                                    {
+                                        newAssistance.Success = rdr.GetBoolean(ColumnsLearningGetAssistance.Success);
+                                    }
+                                }
+
+                                this.assistance.Add(newAssistance);
                             }
                         }
-
-                        this.assistance.Add(newAssistance);
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

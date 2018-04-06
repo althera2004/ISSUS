@@ -11,9 +11,7 @@ namespace GisoFramework.Item
     using System.Linq;
     using System.Text;
 
-    /// <summary>
-    /// Implements IncidentActionFilterItem class
-    /// </summary>
+    /// <summary>Implements IncidentActionFilterItem class</summary>
     public class IncidentActionFilterItem
     {
         public long IncidentActionId { get; set; }

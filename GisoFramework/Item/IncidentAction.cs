@@ -688,13 +688,16 @@ namespace GisoFramework.Item
                                     if (!rdr.IsDBNull(ColumnsIncidentActionGet.ActionsId))
                                     {
                                         res.Actions = rdr.GetString(ColumnsIncidentActionGet.Actions);
-                                        res.ActionsOn = rdr.GetDateTime(ColumnsIncidentActionGet.ActionsOn);
-                                        res.ActionsBy = new Employee
+                                        if (!string.IsNullOrEmpty(res.Actions))
                                         {
-                                            Id = rdr.GetInt32(ColumnsIncidentActionGet.ActionsId),
-                                            Name = rdr.GetString(ColumnsIncidentActionGet.ActionsName),
-                                            LastName = rdr.GetString(ColumnsIncidentActionGet.ActionsLastName)
-                                        };
+                                            res.ActionsOn = rdr.GetDateTime(ColumnsIncidentActionGet.ActionsOn);
+                                            res.ActionsBy = new Employee
+                                            {
+                                                Id = rdr.GetInt32(ColumnsIncidentActionGet.ActionsId),
+                                                Name = rdr.GetString(ColumnsIncidentActionGet.ActionsName),
+                                                LastName = rdr.GetString(ColumnsIncidentActionGet.ActionsLastName)
+                                            };
+                                        }
                                     }
 
                                     if (!rdr.IsDBNull(ColumnsIncidentActionGet.ClosedId))
@@ -895,7 +898,7 @@ namespace GisoFramework.Item
         {
             var res = new List<IncidentAction>();
             string query = "IncidentAction_GetByBusinessRiskCode";
-            using (SqlCommand cmd = new SqlCommand(query))
+            using (var cmd = new SqlCommand(query))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -937,6 +940,7 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name:{1}", this.Id, this.Description);
             /* CREATE PROCEDURE IncidentAction_Insert
              *   @IncidentActionId bigint output,
              *   @CompanyId int,
@@ -1023,11 +1027,12 @@ namespace GisoFramework.Item
                     catch (SqlException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "IncidentAction::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "IncidentAction::Insert", source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, "IncidentAction::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        result.SetFail(ex);
+                        ExceptionManager.Trace(ex, "IncidentAction::Insert", source);
                     }
                     finally
                     {
@@ -1049,6 +1054,7 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name:{1}", this.Id, this.Description);
             /* CREATE PROCEDURE IncidentAction_Update
              *   @IncidentActionId bigint,
              *   @CompanyId int,
@@ -1132,27 +1138,27 @@ namespace GisoFramework.Item
                     catch (SqlException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "IncidentAction::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "IncidentAction::Update", source);
                     }
                     catch (NullReferenceException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "IncidentAction::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "IncidentAction::Update", source);
                     }
                     catch (InvalidCastException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "IncidentAction::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "IncidentAction::Update", source);
                     }
                     catch (FormatException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "IncidentAction::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "IncidentAction::Update", source);
                     }
                     catch (NotSupportedException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "IncidentAction::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "IncidentAction::Update", source);
                     }
                     finally
                     {
@@ -1174,6 +1180,7 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public ActionResult Delete(int userId)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description);
             /* CREATE PROCEDURE IncidentAction_Delete
              *   @IncidentActionId bigint,
              *   @CompanyId int,
@@ -1198,27 +1205,27 @@ namespace GisoFramework.Item
                     catch (SqlException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "IncidentAction::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "IncidentAction::Delete", source);
                     }
                     catch (NullReferenceException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "IncidentAction::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "IncidentAction::Delete", source);
                     }
                     catch (InvalidCastException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "IncidentAction::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "IncidentAction::Delete", source);
                     }
                     catch (FormatException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "IncidentAction::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "IncidentAction::Delete", source);
                     }
                     catch (NotSupportedException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "IncidentAction::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "IncidentAction::Delete", source);
                     }
                     finally
                     {
@@ -1239,7 +1246,7 @@ namespace GisoFramework.Item
         /// <param name="dictionary">Dictionary containing terms to be showed</param>
         /// <param name="grants">Gets the grants of the user</param>
         /// <returns>String containing HTML table</returns>
-        public string ListBusinessRiskRow(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> grants, int order)
+        public string ListBusinessRiskRow(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> grants)
         {
             if (dictionary == null)
             {
@@ -1249,7 +1256,7 @@ namespace GisoFramework.Item
             bool grantIncidentActions = UserGrant.HasWriteGrant(grants, ApplicationGrant.IncidentActions);
             bool grantIncidentActionsDelete = UserGrant.HasDeleteGrant(grants, ApplicationGrant.IncidentActions);
 
-            string iconView = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""ActionsDialog(this);""><i class=""icon-edit bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Edit"]));
+            string iconView = string.Format(CultureInfo.InvariantCulture, @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""ActionsDialog(this);""><i class=""icon-edit bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Edit"]));
 
             if (this.WhatHappenedOn.HasValue)
             {
@@ -1272,7 +1279,7 @@ namespace GisoFramework.Item
             }
 
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<tr id=""{1}""><td>{0:dd/MM/yyyy}</td><td>{2}</td><td class=""hidden-480"">{3}</td><td class=""hidden-480""> {4:dd/MM/yyyy}</td><td class=""hidden-480"">{5:dd/MM/yyyy}</td><td>{6}</td></tr>",
                 this.WhatHappenedOn,
                 this.Id,

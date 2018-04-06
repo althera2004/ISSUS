@@ -29,15 +29,16 @@ namespace GisoFramework
         {
             get
             {
-                string pathFonts = HttpContext.Current.Request.PhysicalApplicationPath;
-                return string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts);
+                //return pathFonts = ;
+                //return string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts);
+                return string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", HttpContext.Current.Request.PhysicalApplicationPath);
             }
         }
 
         public static readonly iTSpdf.BaseFont HeaderFont = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
         public static readonly iTSpdf.BaseFont Arial = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
-        public static readonly iTSpdf.BaseFont AwesomeFont = iTSpdf.BaseFont.CreateFont(FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
-        public static readonly iTSpdf.BaseFont dataFont = iTSpdf.BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\calibri.ttf", FontPath), iTSpdf.BaseFont.CP1250, iTSpdf.BaseFont.EMBEDDED);
+        public static readonly iTSpdf.BaseFont AwesomeFont = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
+        public static readonly iTSpdf.BaseFont dataFont = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.CP1250, iTSpdf.BaseFont.EMBEDDED);
 
         public static readonly iTS.Font TimesBold = new iTS.Font(ToolsPdf.Arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
         public static readonly iTS.Font times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);

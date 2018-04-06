@@ -49,7 +49,7 @@ public class EquipmentActions : WebService
         var res = ActionResult.NoAction;
         if(!string.IsNullOrEmpty(scaleDivision))
         {
-            newItem.ScaleDivisionValue = Convert.ToDecimal(scaleDivision.Replace('.', ','));
+            newItem.ScaleDivisionValue = Convert.ToDecimal(scaleDivision);//.Replace('.', ','));
         }
 
         string trace = newItem.Differences(oldItem);

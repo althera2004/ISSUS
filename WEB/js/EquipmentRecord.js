@@ -1,5 +1,6 @@
 ﻿var lockOrderList = false;
 function EquipmentRecordGetFilter(filterData, exportType) {
+    console.log("exportType", exportType);
     $.ajax({
         "type": "POST",
         "url": "/Async/EquipmentActions.asmx/GetFilter",
@@ -20,7 +21,7 @@ function EquipmentRecordGetFilter(filterData, exportType) {
                 }
 
                 if (exportType === "Excel") {
-                    ExportExcel;
+                    ExportExcel();
                 }
             }
         },
@@ -31,8 +32,8 @@ function EquipmentRecordGetFilter(filterData, exportType) {
 }
 
 function EquipmentRecordGetNone() {
-    document.getElementById("BtnRecordShowAll").style.display = "";
-    document.getElementById("BtnRecordShowNone").style.display = "none";
+    $("#BtnRecordShowAll").show();
+    $("#BtnRecordShowNone").hide();
 
     document.getElementById("CalInt").checked = false;
     document.getElementById("CalExt").checked = false;
@@ -47,26 +48,26 @@ function EquipmentRecordGetNone() {
 
     var filterData =
     {
-        equipmentId: Equipment.Id,
-        companyId: Company.Id,
-        calibrationInternal: false,
-        calibrationExternal: false,
-        verificationInternal: false,
-        verificationExternal: false,
-        maintenanceInternal: false,
-        maintenanceExternal: false,
-        repairInternal: false,
-        repairExternal: false,
-        dateFrom: null,
-        dateTo: null
-        };
+        "equipmentId": Equipment.Id,
+        "companyId": Company.Id,
+        "calibrationInternal": false,
+        "calibrationExternal": false,
+        "verificationInternal": false,
+        "verificationExternal": false,
+        "maintenanceInternal": false,
+        "maintenanceExternal": false,
+        "repairInternal": false,
+        "repairExternal": false,
+        "dateFrom": null,
+        "dateTo": null
+    };
 
     VoidTable("EquipmentRecordTable");
 }
 
 function EquipmentRecordGetAll() {
-    document.getElementById("BtnRecordShowAll").style.display = "none";
-    document.getElementById("BtnRecordShowNone").style.display = "";
+    $("#BtnRecordShowAll").hide();
+    $("#BtnRecordShowNone").show();
 
     document.getElementById("CalInt").checked = true;
     document.getElementById("CalExt").checked = true;
@@ -81,36 +82,36 @@ function EquipmentRecordGetAll() {
 
     var filterData =
     {
-        equipmentId: Equipment.Id,
-        companyId: Company.Id,
-        calibrationInternal : true,
-        calibrationExternal : true,
-        verificationInternal : true,
-        verificationExternal : true,
-        maintenanceInternal : true,
-        maintenanceExternal : true,
-        repairInternal : true,
-        repairExternal : true,
-        dateFrom : null,
-        dateTo : null
-        };
+        "equipmentId": Equipment.Id,
+        "companyId": Company.Id,
+        "calibrationInternal" : true,
+        "calibrationExternal" : true,
+        "verificationInternal" : true,
+        "verificationExternal" : true,
+        "maintenanceInternal" : true,
+        "maintenanceExternal" : true,
+        "repairInternal" : true,
+        "repairExternal" : true,
+        "dateFrom" : null,
+        "dateTo" : null
+    };
 
     EquipmentRecordGetFilter(filterData);
 }
 
 function EquipmentRecordGetFromFilter(exportType) {
     var ok = true;
-    document.getElementById("ErrorItem").style.display = 'none';
-    document.getElementById("ErrorDate").style.display = 'none';
-    document.getElementById('ErrorDateMalformedFrom').style.display = 'none';
-    document.getElementById('ErrorDateMalformedTo').style.display = 'none';
+    $("#ErrorItem").hide();
+    $("#ErrorDate").hide();
+    $("#ErrorDateMalformedFrom").hide();
+    $("#ErrorDateMalformedTo").hide();
 
     var dateFrom = null;
-    if (document.getElementById("TxtRecordsFromDate").value !== "") {
+    if ($("#TxtRecordsFromDate").val() !== "") {
 
         if (!RequiredDateValue("TxtRecordsFromDate")) {
             ok = false;
-            document.getElementById("ErrorDateMalformedFrom").style.display = "";
+            $("#ErrorDateMalformedFrom").show();
         }
         else {
             dateFrom = GetDate($("#TxtRecordsFromDate").val(), "-");
@@ -118,10 +119,10 @@ function EquipmentRecordGetFromFilter(exportType) {
     }
 
     var dateTo = null;
-    if (document.getElementById("TxtRecordsToDate").value !== "") {
+    if ($("#TxtRecordsToDate").val() !== "") {
         if (!RequiredDateValue("TxtRecordsToDate")) {
             ok = false;
-            document.getElementById("ErrorDateMalformedTo").style.display = "";
+            $("#ErrorDateMalformedTo").show();
         }
         else {
             dateTo = GetDate($("#TxtRecordsToDate").val(), "-");
@@ -139,20 +140,20 @@ function EquipmentRecordGetFromFilter(exportType) {
         document.getElementById("RepExt").checked === false
     ) {
         ok = false;
-        document.getElementById("ErrorItem").style.display = "";
+        $("#ErrorItem").show();
     }
 
     if (dateFrom !== null && dateTo !== null) {
         if (dateFrom > dateTo) {
             ok = false;
-            document.getElementById("ErrorDate").style.display = "";
+            $("#ErrorDate").show();
         }
     }
 
     if (ok === false) {
-        document.getElementById("EquipmentRecordTable").style.display = "none";
-        document.getElementById("ItemTableError").style.display = "";
-        document.getElementById("ItemTableVoid").style.display = "none";
+        $("#EquipmentRecordTable").hide();
+        $("#ItemTableError").show();
+        $("#ItemTableVoid").hide();
         return false;
     }
     var filterData =
@@ -180,8 +181,8 @@ function EquipmentRecordRenderTable(EquipmentRecordList) {
 
     // Ocultar los footers antes de mostrar el resultado
     target.style.display = "none";
-    document.getElementById("ItemTableError").style.display = "none";
-    document.getElementById("ItemTableVoid").style.display = "none";
+    $("#ItemTableError").hide();
+    $("#ItemTableVoid").hide();
 
     if (EquipmentRecordList.length === 0)
     {
@@ -315,7 +316,7 @@ function ExportPDF() {
 
         if (!RequiredDateValue("TxtRecordsFromDate")) {
             ok = false;
-            document.getElementById("ErrorDateMalformedFrom").style.display = "";
+            $("#ErrorDateMalformedFrom").show();
         }
         else {
             dateFrom = GetDate($("#TxtRecordsFromDate").val(), "-");
@@ -326,7 +327,7 @@ function ExportPDF() {
     if (document.getElementById("TxtRecordsToDate").value !== "") {
         if (!RequiredDateValue("TxtRecordsToDate")) {
             ok = false;
-            document.getElementById("ErrorDateMalformedTo").style.display = "";
+            $("#ErrorDateMalformedTo").show();
         }
         else {
             dateTo = GetDate($("#TxtRecordsToDate").val(), "-");
@@ -354,7 +355,7 @@ function ExportPDF() {
 }
 
 function Export(data) {
-    console.log("Export", "data.fileType");
+    console.log("Export", data.fileType);
     var webMethod = "/Export/EquipmentRecords.aspx/" + data.fileType;
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({

@@ -99,7 +99,7 @@ public partial class Agreement : Page
         // Si no existiera la plantilla se genera el path completo de la plantilla sin traducir
         if(!File.Exists(path))
         {
-            path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement.tpl", path);
+            path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement.tpl", this.Request.PhysicalApplicationPath);
         }
 
         string text = string.Empty;

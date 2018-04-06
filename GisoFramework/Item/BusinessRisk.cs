@@ -276,20 +276,22 @@ namespace GisoFramework.Item
                         ""Assumed"": {4},
                         ""RuleLimit"": {5},
                         ""Probability"": {6},
-                        ""Severity"": {7}                     
+                        ""Severity"": {7},
+                        ""FinalAction"": {8}
                     }}";
 
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     formattedJson,
                     this.Id,
                     this.Code,
                     this.Rules.Json,
-                    this.Result,
+                    this.FinalDate.HasValue ? this.FinalResult : this.StartResult,
                     this.Assumed ? "true" : "false",
                     this.Rules.Limit,
                     this.Probability,
-                    this.Severity
+                    this.Severity,
+                    this.FinalAction
                 );
             }
         }
@@ -420,6 +422,11 @@ namespace GisoFramework.Item
                             {
                                 //// The previous BusinessRisk does not exist
                                 newRisk.PreviousBusinessRiskId = -1;
+                            }
+
+                            if (!rdr.IsDBNull(30))
+                            {
+                                newRisk.FinalDate = rdr.GetDateTime(30);
                             }
 
                             res.Add(newRisk);
@@ -1011,8 +1018,8 @@ namespace GisoFramework.Item
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
                     try
                     {
                         cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", businessRiskId));

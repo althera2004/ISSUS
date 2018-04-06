@@ -26,18 +26,18 @@ public partial class ChangeLogo : Page
 
         string fileName = string.Format(@"{0}images\Logos\{1}.jpg", path, Session["CompanyId"].ToString());
 
-        int cont = 0;
+        /*int cont = 0;
         while (File.Exists(fileName))
         {
             cont++;
             fileName = string.Format(@"{0}images\Logos\{1} ({2}).jpg", path, Session["CompanyId"].ToString(), cont);
-        }
+        }*/
 
         file.SaveAs(fileName);
-        System.Drawing.Image logo = System.Drawing.Image.FromFile(fileName);
-        logo = ScaleImage(logo, 1000, 60);
-        Bitmap logob = new Bitmap(logo);
-        logob.Save(fileName);
+        //System.Drawing.Image logo = System.Drawing.Image.FromFile(fileName);
+        //logo = ScaleImage(logo, 1000, 60);
+        //Bitmap logob = new Bitmap(logo);
+        //logob.Save(fileName);
 
         this.Response.Clear();
         this.Response.ContentType = "application/json";

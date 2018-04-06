@@ -61,12 +61,12 @@ function IncidentActionGetFilter(exportType) {
     };
 
     $.ajax({
-        type: "POST",
-        url: "/Async/IncidentActionsActions.asmx/GetFilter",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/IncidentActionsActions.asmx/GetFilter",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             eval("IncidentActionlist=" + msg.d + ";");
             ItemRenderTable(IncidentActionlist);
             if (exportType !== "undefined") {
@@ -75,7 +75,7 @@ function IncidentActionGetFilter(exportType) {
                 }
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
@@ -305,8 +305,9 @@ function ItemRenderTable(list) {
 }
 
 function IncidentActionDelete(sender) {
-    IncidentActionSelectedId = sender.parentNode.parentNode.id;
+    IncidentActionSelectedId = sender.parentNode.parentNode.id * 1;
     IncidentActionSelected = IncidentActiongetById(IncidentActionSelectedId);
+    console.log("IncidentActionDelete", IncidentActionSelectedId);
     if (IncidentActionSelected === null) { return false; }
     $('#IncidentActionDeleteName').html(IncidentActionSelected.Description);
     var dialog = $("#IncidentActionDeleteDialog").removeClass('hide').dialog({

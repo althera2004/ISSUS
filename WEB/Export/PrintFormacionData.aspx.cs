@@ -46,12 +46,19 @@ public partial class ExportPrintFormacionData : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+        string formatedDescription = learning.Description.Replace("?", string.Empty);
+        formatedDescription = formatedDescription.Replace("#", string.Empty);
+        formatedDescription = formatedDescription.Replace("/", string.Empty);
+        formatedDescription = formatedDescription.Replace("\\", string.Empty);
+        formatedDescription = formatedDescription.Replace(":", string.Empty);
+        formatedDescription = formatedDescription.Replace(";", string.Empty);
+        formatedDescription = formatedDescription.Replace(".", string.Empty);
 
         var fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_Data_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_Learning"],
-            learning.Description,
+            formatedDescription,
             DateTime.Now);
 
         // FONTS

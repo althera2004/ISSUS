@@ -73,55 +73,7 @@
                                                         </div>
                                                         <div class="space-4"></div>
 														
-                                                        <!-- GTK AQUI -->
-																							 
-																   
-																																	
-																										 
-																													   
-																	 
-																																																												  
-																   
-																														  
-																		 
-																				   
-																							  
-																													  
-																												  
-																						
-																														 
-																							   
-																																																										   
-																							   
-																																				 
-
-																														   
-																																				  
-																									  
-																																																   
-																																																	   
-																							   
-																						 
-																						
-																																														  
-																					
-																								 
-																				
-																								  
-																				   
-																																					
-																						   
-																															   
-																		 
-																					
-																																																				
-																						   
-																																	
-																		 
-																  
-																   
-																			
-																				   
+                                                        <!-- GTK AQUI -->  
 															  
                                                         <div class="form-group">
                                                             <label id="TxtFechaPrevistaLabel" class="col-sm-1 control-label no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Learning_FieldLabel_EstimatedDate"] %><span style="color:#f00;">*</span></label>
@@ -130,7 +82,7 @@
                                                                     <div class="col-xs-12 col-sm-12">
                                                                         <div class="input-group">
                                                                             <input <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control <% if (this.Learning.Status == 2) { %>_<% } %>date-picker" id="TxtFechaPrevista" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                                            <span  <% if (this.Learning.Status == 2) { %>style="display:none;" <% } %>class="input-group-addon" onclick="document.getElementById('TxtRealStart').focus();" id="BtnFechaPrevista">
+                                                                            <span  <% if (this.Learning.Status == 2) { %>style="display:none;" <% } %>class="input-group-addon" onclick="document.getElementById('TxtFechaPrevista').focus();" id="BtnFechaPrevista">
                                                                                 <i class="icon-calendar bigger-110"></i>
                                                                             </span>
                                                                         </div>

@@ -350,7 +350,8 @@ function BusinessRiskRenderTable(list) {
                 "Rules": item.Rules,
                 "Result": realResult,
                 "Assumed": item.Assumed, //realAction === 1,
-                "RuleLimit": item.RuleLimit
+                "RuleLimit": item.RuleLimit,
+                "FinalAction": item.FinalAction
             });
         }
 

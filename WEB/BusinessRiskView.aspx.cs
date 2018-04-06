@@ -530,7 +530,7 @@ public partial class BusinessRiskView : Page
                 ColumnSpanLabel = 2,
                 GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
                 Label = this.Dictionary["Item_IncidentAction_Label_Description"],
-                MaximumLength = DataParameter.DefaultTextLength,
+                MaximumLength = 100,
                 Name = "TxtActionDescription",
                 Placeholder = this.Dictionary["Item_IncidentAction_Label_Description"],
                 Required = true,
@@ -546,13 +546,14 @@ public partial class BusinessRiskView : Page
         {
             return new FormTextArea
             {
-                Rows = 3,
+                Rows = 5,
                 Value = this.IncidentAction.WhatHappened,
                 Name = "TxtActionWhatHappened",
                 Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"],
                 ColumnsSpan = 8,
                 ColumnsSpanLabel = 12,
-                Embedded = true
+                Embedded = true,
+                MaxLength = 2000
             }.Render;
         }   
     }
@@ -563,13 +564,14 @@ public partial class BusinessRiskView : Page
         {
             return new FormTextArea
             {
-                Rows = 3,
+                Rows = 5,
                 Value = this.IncidentAction.Causes,
                 Name = "TxtActionCauses",
                 Label = this.dictionary["Item_IncidentAction_Field_Causes"],
                 ColumnsSpan = 8,
                 ColumnsSpanLabel = 12,
-                Embedded = true
+                Embedded = true,
+                MaxLength = 2000
             }.Render;
         }
     }
@@ -580,13 +582,14 @@ public partial class BusinessRiskView : Page
         {
             return new FormTextArea
             {
-                Rows = 3,
+                Rows = 5,
                 Value = this.IncidentAction.Actions,
                 Name = "TxtActionActions",
                 Label = this.dictionary["Item_IncidentAction_Field_Actions"],
                 ColumnsSpan = 8,
                 ColumnsSpanLabel = 12,
-                Embedded = true
+                Embedded = true,
+                MaxLength = 2000
             }.Render;
         }
     }
@@ -597,10 +600,11 @@ public partial class BusinessRiskView : Page
         {
             return new FormTextArea
             {
-                Rows = 3,
+                Rows = 5,
                 Value = this.IncidentAction.Monitoring,
                 Name = "TxtActionMonitoring",
-                Label = this.dictionary["Item_IncidentAction_Field_Monitoring"]
+                Label = this.dictionary["Item_IncidentAction_Field_Monitoring"],
+                MaxLength = 2000
             }.Render;
         }
     }
@@ -611,10 +615,11 @@ public partial class BusinessRiskView : Page
         {
             return new FormTextArea
             {
-                Rows = 3,
+                Rows = 5,
                 Value = this.IncidentAction.Notes,
                 Name = "TxtActionNotes",
-                Label = this.dictionary["Item_IncidentAction_Field_Notes"]
+                Label = this.dictionary["Item_IncidentAction_Field_Notes"],
+                MaxLength = 2000
             }.Render;
         }
     }
@@ -1058,7 +1063,7 @@ public partial class BusinessRiskView : Page
 
         foreach (Employee e in this.company.Employees)
         {
-            if (e.Active)
+            if (e.Active && e.DisabledDate == null)
             {
                 this.ComboActionWhatHappenedResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == whatHappenedResponsibleId });
                 this.ComboActionCausesResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = e.Id == causesResponsibleId });
@@ -1147,7 +1152,6 @@ public partial class BusinessRiskView : Page
         var incidentActionCollection = BusinessRisk.FindHistoryAction(businessRisk.Code, this.company.Id);
         var res = new StringBuilder();
         var searchItem = new List<string>();
-        int order = 0;
         foreach (var incidentAction in incidentActionCollection.OrderBy(incidentAction => incidentAction.WhatHappenedOn))
         {
             if (!searchItem.Contains(incidentAction.Description))
@@ -1155,8 +1159,7 @@ public partial class BusinessRiskView : Page
                 searchItem.Add(incidentAction.Description);
             }
 
-            res.Append(incidentAction.ListBusinessRiskRow(this.dictionary, this.user.Grants, order));
-            order++;
+            res.Append(incidentAction.ListBusinessRiskRow(this.dictionary, this.user.Grants));
 
             if (incidentAction.BusinessRiskId != businessRisk.Id)
             {

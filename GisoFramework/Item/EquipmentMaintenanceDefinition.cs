@@ -18,9 +18,7 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements EquipmentMaintenanceDefinition class
-    /// </summary>
+    /// <summary>Implements EquipmentMaintenanceDefinition class</summary>
     public class EquipmentMaintenanceDefinition : BaseItem
     {
         public long EquipmentId { get; set; }
@@ -49,7 +47,11 @@ namespace GisoFramework.Item
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"{{""Id"":{0}, ""Description"":""{1}""}}",
+                    this.Id,
+                    Tools.JsonCompliant(this.Description));
             }
         }
 
@@ -58,7 +60,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                StringBuilder res = new StringBuilder("{");
+                var res = new StringBuilder("{");
                 res.Append(Tools.JsonPair("Id", this.Id)).Append(",");
                 res.Append(Tools.JsonPair("EquipmentId", this.EquipmentId)).Append(",");
                 res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(",");
@@ -93,8 +95,8 @@ namespace GisoFramework.Item
 
         public static string JsonList(long equipmentId, int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
-            ReadOnlyCollection<EquipmentMaintenanceDefinition> maintenance = GetByCompany(equipmentId, companyId);
+            var res = new StringBuilder("[");
+            var maintenance = GetByCompany(equipmentId, companyId);
             bool first = true;
             foreach (EquipmentMaintenanceDefinition item in maintenance)
             {
@@ -155,61 +157,66 @@ namespace GisoFramework.Item
             /*CREATE PROCEDURE EquipmentMaintenance_GetByEquipmentId
              *   @EquipmentId bigint,
              *   @CompanyId int */
-            List<EquipmentMaintenanceDefinition> res = new List<EquipmentMaintenanceDefinition>();
-            using (SqlCommand cmd = new SqlCommand("EquipmentMaintenance_GetByEquipmentId"))
+            var res = new List<EquipmentMaintenanceDefinition>();
+            using (var cmd = new SqlCommand("EquipmentMaintenance_GetByEquipmentId"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        EquipmentMaintenanceDefinition newEquipmentMaintenanceDefinition = new EquipmentMaintenanceDefinition()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt64(ColumnsEquipmentMaintenanceGetByEquipmentId.Id),
-                            CompanyId = rdr.GetInt32(ColumnsEquipmentMaintenanceGetByEquipmentId.CompanyId),
-                            EquipmentId = rdr.GetInt64(ColumnsEquipmentMaintenanceGetByEquipmentId.EquipmentId),
-                            Description = rdr.GetString(ColumnsEquipmentMaintenanceGetByEquipmentId.Operation),
-                            Accessories = rdr.GetString(ColumnsEquipmentMaintenanceGetByEquipmentId.Accessories),
-                            MaintenanceType = rdr.GetInt32(ColumnsEquipmentMaintenanceGetByEquipmentId.Type),
-                            Periodicity = rdr.GetInt32(ColumnsEquipmentMaintenanceGetByEquipmentId.Periodicity),
-                            Active = rdr.GetBoolean(ColumnsEquipmentMaintenanceGetByEquipmentId.Active),
-                            Provider = new Provider()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt64(ColumnsEquipmentMaintenanceGetByEquipmentId.ProviderId),
-                                Description = rdr.GetString(ColumnsEquipmentMaintenanceGetByEquipmentId.ProviderDescription)
-                            },
-                            Responsible = new Employee()
-                            {
-                                Id = rdr.GetInt32(ColumnsEquipmentMaintenanceGetByEquipmentId.ResponsibleId),
-                                Name = rdr.GetString(ColumnsEquipmentMaintenanceGetByEquipmentId.ResponsibleName),
-                                LastName = rdr.GetString(ColumnsEquipmentMaintenanceGetByEquipmentId.ResponsibleLastName)
-                            },
-                            ModifiedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsEquipmentMaintenanceGetByEquipmentId.ModifiedByUserId),
-                                UserName = rdr.GetString(ColumnsEquipmentMaintenanceGetByEquipmentId.ModifiedByUserName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsEquipmentMaintenanceGetByEquipmentId.ModifiedOn)
-                        };
+                                EquipmentMaintenanceDefinition newEquipmentMaintenanceDefinition = new EquipmentMaintenanceDefinition()
+                                {
+                                    Id = rdr.GetInt64(ColumnsEquipmentMaintenanceGetByEquipmentId.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsEquipmentMaintenanceGetByEquipmentId.CompanyId),
+                                    EquipmentId = rdr.GetInt64(ColumnsEquipmentMaintenanceGetByEquipmentId.EquipmentId),
+                                    Description = rdr.GetString(ColumnsEquipmentMaintenanceGetByEquipmentId.Operation),
+                                    Accessories = rdr.GetString(ColumnsEquipmentMaintenanceGetByEquipmentId.Accessories),
+                                    MaintenanceType = rdr.GetInt32(ColumnsEquipmentMaintenanceGetByEquipmentId.Type),
+                                    Periodicity = rdr.GetInt32(ColumnsEquipmentMaintenanceGetByEquipmentId.Periodicity),
+                                    Active = rdr.GetBoolean(ColumnsEquipmentMaintenanceGetByEquipmentId.Active),
+                                    Provider = new Provider()
+                                    {
+                                        Id = rdr.GetInt64(ColumnsEquipmentMaintenanceGetByEquipmentId.ProviderId),
+                                        Description = rdr.GetString(ColumnsEquipmentMaintenanceGetByEquipmentId.ProviderDescription)
+                                    },
+                                    Responsible = new Employee()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsEquipmentMaintenanceGetByEquipmentId.ResponsibleId),
+                                        Name = rdr.GetString(ColumnsEquipmentMaintenanceGetByEquipmentId.ResponsibleName),
+                                        LastName = rdr.GetString(ColumnsEquipmentMaintenanceGetByEquipmentId.ResponsibleLastName)
+                                    },
+                                    ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsEquipmentMaintenanceGetByEquipmentId.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsEquipmentMaintenanceGetByEquipmentId.ModifiedByUserName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentMaintenanceGetByEquipmentId.ModifiedOn)
+                                };
 
-                        if (!rdr.IsDBNull(ColumnsEquipmentMaintenanceGetByEquipmentId.Cost))
-                        {
-                            newEquipmentMaintenanceDefinition.Cost = rdr.GetDecimal(ColumnsEquipmentMaintenanceGetByEquipmentId.Cost);
+                                if (!rdr.IsDBNull(ColumnsEquipmentMaintenanceGetByEquipmentId.Cost))
+                                {
+                                    newEquipmentMaintenanceDefinition.Cost = rdr.GetDecimal(ColumnsEquipmentMaintenanceGetByEquipmentId.Cost);
+                                }
+
+                                res.Add(newEquipmentMaintenanceDefinition);
+                            }
                         }
-
-                        res.Add(newEquipmentMaintenanceDefinition);
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -223,45 +230,48 @@ namespace GisoFramework.Item
              *   @EquipmentMaintenanceDefinitionId bigint,
              *   @CompanyId int,
              *   @UserId int*/
-            ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
-            using (SqlCommand cmd = new SqlCommand("EquipmentMaintenanceDefinition_Delete"))
+            var result = new ActionResult() { Success = false, MessageError = "No action" };
+            using (var cmd = new SqlCommand("EquipmentMaintenanceDefinition_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentMaintenanceDefinitionId", equipmentMaintenanceDefinitionId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceDefinitionId, userId, companyId));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceDefinitionId, userId, companyId));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceDefinitionId, userId, companyId));
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceDefinitionId, userId, companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceDefinitionId, userId, companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentMaintenanceDefinitionId", equipmentMaintenanceDefinitionId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceDefinitionId, userId, companyId));
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceDefinitionId, userId, companyId));
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceDefinitionId, userId, companyId));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceDefinitionId, userId, companyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceDefinitionId, userId, companyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -339,53 +349,56 @@ namespace GisoFramework.Item
              *   @ProviderId bigint,
              *   @ResponsableId int,
              *   @UserId int	*/
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("EquipmentMaintenance_Insert"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("EquipmentMaintenance_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentMaintenanceId"));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
-                    cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentMaintenanceType", this.MaintenanceType));
-                    cmd.Parameters.Add(DataParameter.Input("@Periodicity", this.Periodicity));
-                    cmd.Parameters.Add(DataParameter.Input("@Accessories", this.Accessories == null ? string.Empty : this.Accessories));
-                    cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
-                    if (this.Provider == null)
+                    try
                     {
-                        cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
-                    }
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentMaintenanceId"));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentMaintenanceType", this.MaintenanceType));
+                        cmd.Parameters.Add(DataParameter.Input("@Periodicity", this.Periodicity));
+                        cmd.Parameters.Add(DataParameter.Input("@Accessories", this.Accessories == null ? string.Empty : this.Accessories));
+                        cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
+                        if (this.Provider == null)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                        }
 
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@EquipmentMaintenanceId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                    result.Success = true;
-                    result.MessageError = this.Id.ToString(CultureInfo.InvariantCulture);
-                }
-                catch (SqlException ex)
-                {
-                    result.SetFail(ex);
-                    ExceptionManager.Trace(ex, "EqupimentScaleDivision::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "EqupimentScaleDivision::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@EquipmentMaintenanceId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        result.Success = true;
+                        result.MessageError = this.Id.ToString(CultureInfo.InvariantCulture);
+                    }
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        result.SetFail(ex);
+                        ExceptionManager.Trace(ex, "EqupimentScaleDivision::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "EqupimentScaleDivision::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -408,63 +421,65 @@ namespace GisoFramework.Item
              *   @ResponsableId int,
              *   @Differences text,
              *   @UserId int */
-            ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
-            using (SqlCommand cmd = new SqlCommand("EquipmentMaintnanceDefinition_Update"))
+            var result = new ActionResult() { Success = false, MessageError = "No action" };
+            using (var cmd = new SqlCommand("EquipmentMaintnanceDefinition_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentMaintenanceDefinitionId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description));
-                    cmd.Parameters.Add(DataParameter.Input("@MaintenanceType", this.MaintenanceType));
-                    cmd.Parameters.Add(DataParameter.Input("@Periodicity", this.Periodicity));
-                    cmd.Parameters.Add(DataParameter.Input("@Accessories", this.Accessories));
-                    cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentMaintenanceDefinitionId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@MaintenanceType", this.MaintenanceType));
+                        cmd.Parameters.Add(DataParameter.Input("@Periodicity", this.Periodicity));
+                        cmd.Parameters.Add(DataParameter.Input("@Accessories", this.Accessories));
+                        cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
 
-                    if (this.Responsible == null)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
-                    }
+                        if (this.Responsible == null)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                        }
 
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@Differences", differences));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Differences", differences));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceDefinition::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

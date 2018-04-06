@@ -89,16 +89,16 @@ public partial class Export_ExportBackUp : System.Web.UI.Page
         {
             HSSFSheet sh = (HSSFSheet)wb.CreateSheet(dictionary["Item_" + item.ItemName].Replace('/','-'));
             string query = "Select * from " + item.ItemTable + " WHERE CompanyId = " + companyId.ToString();
-            using(SqlCommand cmd = new SqlCommand(query))
+            using(var cmd = new SqlCommand(query))
             {
                 cmd.CommandType = CommandType.Text;
-                using(SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     try
                     {
                         cmd.Connection.Open();
-                        using (SqlDataReader rdr = cmd.ExecuteReader())
+                        using (var rdr = cmd.ExecuteReader())
                         {
                             bool first = true;
                             int row = 1;

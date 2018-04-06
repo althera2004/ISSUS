@@ -251,7 +251,7 @@ public partial class Giso : MasterPage
         get
         {
             var res = new StringBuilder("<li><i class=\"icon-cog home-icon\"></i><a href=\"").Append(Session["home"].ToString()).Append("\">").Append(this.dictionary["Common_Home"]).Append("</a></li>");
-            foreach (BreadcrumbItem item in this.breadCrumb)
+            foreach (var item in this.breadCrumb)
             {
                 string label = item.Invariant ? item.Label : this.dictionary[item.Label];
                 if (item.Leaf)
@@ -371,7 +371,13 @@ public partial class Giso : MasterPage
             this.breadCrumb = new Collection<BreadcrumbItem>();
         }
 
-        var newBreadCrumb = new BreadcrumbItem() { Link = "#", Label = label, Leaf = true };
+        var newBreadCrumb = new BreadcrumbItem
+        {
+            Link = "#",
+            Label = label,
+            Leaf = true
+        };
+
         this.breadCrumb.Add(newBreadCrumb);
     }
 
@@ -382,7 +388,14 @@ public partial class Giso : MasterPage
             this.breadCrumb = new Collection<BreadcrumbItem>();
         }
 
-        var newBreadCrumb = new BreadcrumbItem() { Link = "#", Label = label, Leaf = true, Invariant = true };
+        var newBreadCrumb = new BreadcrumbItem
+        {
+            Link = "#",
+            Label = label,
+            Leaf = true,
+            Invariant = true
+        };
+
         this.breadCrumb.Add(newBreadCrumb);
     }
 
@@ -393,7 +406,13 @@ public partial class Giso : MasterPage
             this.breadCrumb = new Collection<BreadcrumbItem>();
         }
 
-        var newBreadCrumb = new BreadcrumbItem() { Link = "#", Label = label, Leaf = leaf };
+        var newBreadCrumb = new BreadcrumbItem
+        {
+            Link = "#",
+            Label = label,
+            Leaf = leaf
+        };
+
         this.breadCrumb.Add(newBreadCrumb);
     }
 
@@ -404,7 +423,13 @@ public partial class Giso : MasterPage
             this.breadCrumb = new Collection<BreadcrumbItem>();
         }
 
-        var newBreadCrumb = new BreadcrumbItem() { Link = link, Label = label, Leaf = leaf };
+        var newBreadCrumb = new BreadcrumbItem
+        {
+            Link = link,
+            Label = label,
+            Leaf = leaf
+        };
+
         this.breadCrumb.Add(newBreadCrumb);
     }
 
@@ -416,7 +441,7 @@ public partial class Giso : MasterPage
         this.LtBuild.Text = ConfigurationManager.AppSettings["issusVersion"];
         if (this.Session["User"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
 
@@ -442,7 +467,19 @@ public partial class Giso : MasterPage
         this.ImgCompany.Attributes.Add("height", "30");
 
         var tasks = ScheduledTask.GetByEmployee(this.user.Employee.Id, this.company.Id).Where(t => t.Expiration >= DateTime.Now.AddYears(-1)).ToList();
-        this.PendentTasks = tasks.Count(t => t.Expiration <= DateTime.Now);
+        tasks = tasks.OrderByDescending(t => t.Expiration).ToList();
+        var printedTasks = new List<ScheduledTask>();
+        foreach (var task in tasks)
+        {
+            if (printedTasks.Any(t => t.Description.Equals(task.Description) && t.Equipment.Id == task.Equipment.Id && task.TaskType == t.TaskType))
+            {
+                continue;
+            }
+
+            printedTasks.Add(task);
+        }
+
+        this.PendentTasks = printedTasks.Count(t => t.Expiration <= DateTime.Now);
     }
 
     private void RenderShortCuts()
@@ -507,7 +544,7 @@ public partial class Giso : MasterPage
         var res = new StringBuilder();
         var show = Session["AlertsDefinition"] as ReadOnlyCollection<AlertDefinition>;
         var alertsTags = new List<string>();
-        foreach (AlertDefinition alertDefinition in show)
+        foreach (var alertDefinition in show)
         {
             if (!this.user.HasGrantToRead(alertDefinition.ItemType))
             {

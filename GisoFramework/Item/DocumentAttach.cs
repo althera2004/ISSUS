@@ -479,8 +479,8 @@ namespace GisoFramework.Item
                 "UploadFile.RestoreName(id:{0}, name: {1}",
                 this.Id,
                 name);
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("DocumentAttach_RestoreName"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("DocumentAttach_RestoreName"))
             {
                 /* CREATE PROCEDURE DocumentAttach_RestoreName
                  *   @Id bigint
@@ -490,7 +490,7 @@ namespace GisoFramework.Item
                 cmd.Parameters.Add(DataParameter.Input("@Name", name));
                 try
                 {
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cnn.Open();

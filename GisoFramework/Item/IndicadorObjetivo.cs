@@ -21,20 +21,20 @@ namespace GisoFramework.Item
 
         public static ActionResult Save(int indicadorId, int objetivoId, int companyId, int applicatioUserId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE IndicadorObjetivo_Save
              * @ObjetivoId int,
              * @IndicadorId int,
              * @CompanyId int,
              * @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("IndicadorObjetivo_Save"))
+            using (var cmd = new SqlCommand("IndicadorObjetivo_Save"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", objetivoId));
                 cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
                 cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                 cmd.Parameters.Add(DataParameter.Input("@ApplicatoinUserId", applicatioUserId));
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     try

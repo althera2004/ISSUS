@@ -61,7 +61,7 @@ namespace GisoFramework.Item
              * @Id int,
              * @CompanyId int */
 
-            using (SqlCommand cmd = new SqlCommand("Process_GetById"))
+            using (var cmd = new SqlCommand("Process_GetById"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -72,28 +72,30 @@ namespace GisoFramework.Item
                 try
                 {
                     cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
+                    using (var rdr = cmd.ExecuteReader())
                     {
-                        rdr.Read();
-                        this.Id = id;
-                        this.CompanyId = companyId;
-                        this.processType = rdr.GetInt32(ColumnsProcessGetById.Type);
-                        this.start = rdr.GetString(ColumnsProcessGetById.Start);
-                        this.work = rdr.GetString(ColumnsProcessGetById.Work);
-                        this.end = rdr.GetString(ColumnsProcessGetById.End);
-                        this.jobPosition = new JobPosition(Convert.ToInt32(rdr.GetInt64(ColumnsProcessGetById.JobPositionId)), companyId);
-                        this.ModifiedOn = rdr.GetDateTime(ColumnsProcessGetById.ModifiedOn);
-                        this.Description = rdr.GetString(ColumnsProcessGetById.Description);
-                        this.Active = rdr.GetBoolean(ColumnsProcessGetById.Active);
-                        this.CanBeDeleted = rdr.GetInt32(ColumnsProcessGetById.Deletable) == 1;
-                        this.ModifiedBy = new ApplicationUser()
+                        if (rdr.HasRows)
                         {
-                            Id = rdr.GetInt32(ColumnsProcessGetById.ModifiedByUserId),
-                            UserName = rdr.GetString(ColumnsProcessGetById.ModifiedByUserName)
-                        };
+                            rdr.Read();
+                            this.Id = id;
+                            this.CompanyId = companyId;
+                            this.processType = rdr.GetInt32(ColumnsProcessGetById.Type);
+                            this.start = rdr.GetString(ColumnsProcessGetById.Start);
+                            this.work = rdr.GetString(ColumnsProcessGetById.Work);
+                            this.end = rdr.GetString(ColumnsProcessGetById.End);
+                            this.jobPosition = new JobPosition(Convert.ToInt32(rdr.GetInt64(ColumnsProcessGetById.JobPositionId)), companyId);
+                            this.ModifiedOn = rdr.GetDateTime(ColumnsProcessGetById.ModifiedOn);
+                            this.Description = rdr.GetString(ColumnsProcessGetById.Description);
+                            this.Active = rdr.GetBoolean(ColumnsProcessGetById.Active);
+                            this.CanBeDeleted = rdr.GetInt32(ColumnsProcessGetById.Deletable) == 1;
+                            this.ModifiedBy = new ApplicationUser()
+                            {
+                                Id = rdr.GetInt32(ColumnsProcessGetById.ModifiedByUserId),
+                                UserName = rdr.GetString(ColumnsProcessGetById.ModifiedByUserName)
+                            };
 
-                        this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
+                            this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
+                        }
                     }
                 }
                 finally
@@ -275,16 +277,14 @@ namespace GisoFramework.Item
             return string.Empty;
         }*/
 
-        /// <summary>
-        /// Gets a JSON list of compnay's process
-        /// </summary>
+        /// <summary>Gets a JSON list of compnay's process</summary>
         /// <param name="companyId">Identifier of company</param>
         /// <returns>JSON list of compnay's process</returns>
         public static string GetByCompanyJsonList(int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (Process process in GetByCompany(companyId))
+            foreach (var process in GetByCompany(companyId))
             {
                 if (first)
                 {
@@ -302,21 +302,19 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Deactive process
-        /// </summary>
+        /// <summary>Deactive process</summary>
         /// <param name="processId">Process identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">Identifier of users that performs the action</param>
         /// <returns>Action result</returns>
         public static ActionResult Deactive(int processId, int companyId, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Process_Desactive
              * @Id int out,
              * @CompanyId int,
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("Process_Desactive"))
+            using (var cmd = new SqlCommand("Process_Desactive"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;

@@ -1,13 +1,24 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Giso.master" AutoEventWireup="true" CodeFile="FormacionList.aspx.cs" Inherits="FormacionList" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" runat="server">
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
     <style type="text/css">
-        .tags
-        {
-            display:block !important;
-            width:100% !important;
+        #scrollTableDiv{
+            background-color:#fafaff;
+            border:1px solid #e0e0e0;
+            border-top:none;
+            display:block;
         }
+
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding:0;
+            margin:0;
+        }
+
+        TR:first-child{border-left:none;}
     </style>
 	<script>
 		var userLanguage = "<%=this.UserLanguage %>";
@@ -60,32 +71,37 @@
                             <div class="col-xs-12">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-striped">
-                                                        <thead class="thin-border-bottom">
-                                                            <tr id="ListDataHeader">
-                                                                <th onclick="Sort(this,'ListDataTable');" id="th0" class="sort search" style="cursor:pointer;"><%=this.Dictionary["Item_Learning_ListHeader_Course"] %></th>
-                                                                <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_DateComplete"] %></th>
-                                                                <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_Status"] %></th>
-                                                                <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_EstimatedDate"] %></th>
-                                                                <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_Cost"] %></th>
-                                                                <th class="hidden-480" style="width:90px !important;">&nbsp;</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="ListDataTable">
-                                                            <asp:Literal runat="server" ID="LtLearningTable"></asp:Literal>
-                                                        </tbody>
-                                                        <tfoot class="thin-border-bottom">
-                                                            <tr id="ListDataFooter">
-                                                                <td style="color:#333;" colspan="3"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="LtCount"></asp:Literal></i></td>
-                                                                <td style="color:#333;" align="right"><strong><%=this.Dictionary["Common_Total"] %>:&nbsp</strong></td>
-                                                                <td style="color:#333;" align="right"><strong><asp:Literal runat="server" ID="LtTotal"></asp:Literal></strong></td>
-                                                                <td style="color:#333;"></td>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                            <br />
-                                            <br />
+                                        <div class="table-responsive" id="scrollTableDiv">
+                                            <table class="table table-bordered table-striped" style="margin: 0">
+                                                <thead class="thin-border-bottom">
+                                                    <tr id="ListDataHeader">
+                                                        <th onclick="Sort(this,'ListDataTable');" id="th0" class="sort search" style="cursor:pointer;"><%=this.Dictionary["Item_Learning_ListHeader_Course"] %></th>
+                                                        <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_DateComplete"] %></th>
+                                                        <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_Status"] %></th>
+                                                        <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_EstimatedDate"] %></th>
+                                                        <th class="hidden-480" style="width:150px;"><%=this.Dictionary["Item_Learning_ListHeader_Cost"] %></th>
+                                                        <th class="hidden-480" style="width:106px !important;">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>                                            
+                                            <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                <table class="table table-bordered table-striped" style="border-top: none;">
+                                                    <tbody id="ListDataTable">
+                                                        <asp:Literal runat="server" ID="LtLearningTable"></asp:Literal>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            
+                                            <table class="table table-bordered table-striped" style="margin: 0">
+                                                <thead class="thin-border-bottom">
+                                                    <tr id="ListDataFooter">
+                                                        <th style="color:#333;" colspan="3"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="LtCount"></asp:Literal></i></th>
+                                                        <th style="color:#333;width:100px;" align="right"><strong><%=this.Dictionary["Common_Total"] %>:&nbsp</strong></th>
+                                                        <th style="color:#333;width:150px;" align="right"><strong><asp:Literal runat="server" ID="LtTotal"></asp:Literal></strong></th>
+                                                        <th style="color:#333;width:107px !important;">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
                                         </div><!-- /.table-responsive -->
                                     </div><!-- /span -->
                                 </div><!-- /row -->						

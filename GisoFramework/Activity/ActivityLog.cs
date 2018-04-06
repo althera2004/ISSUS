@@ -301,7 +301,7 @@ namespace GisoFramework.Activity
                 res.MessageError = "No valid item";
             }
 
-            using (SqlCommand cmd = new SqlCommand(storedProcedureName))
+            using (var cmd = new SqlCommand(storedProcedureName))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -397,7 +397,7 @@ namespace GisoFramework.Activity
                 res.MessageError = "No valid item";
             }
 
-            using (SqlCommand cmd = new SqlCommand(storedProcedureName))
+            using (var cmd = new SqlCommand(storedProcedureName))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;

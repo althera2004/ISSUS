@@ -5,10 +5,7 @@
 // -----------------------------------------------------------------------
 namespace SbrinnaCoreFramework.UI
 {
-
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary></summary>
     public abstract class Element
     {
         public int Expand { get; set; }

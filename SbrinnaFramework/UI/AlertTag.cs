@@ -10,9 +10,7 @@ namespace SbrinnaCoreFramework.UI
     using System.Globalization;
     using System.Web;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary></summary>
     public class AlertTag
     {
         public long ItemId { get; set; }
@@ -42,7 +40,12 @@ namespace SbrinnaCoreFramework.UI
                                         </div>
                                     </a>
                                 </li>";
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), pattern, this.ItemId, this.ItemDescription, dictionary[this.AlertDescription]);
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                pattern, 
+                this.ItemId,
+                this.ItemDescription, 
+                dictionary[this.AlertDescription]);
         }
     }
 }

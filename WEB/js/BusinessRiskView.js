@@ -9,11 +9,18 @@ var MinStepValueFinalProbability = 1;
 var MinStepValueFinalSeverity = 1;
 var SlidersStartActive = true;
 
+$("#Tabhome").on("click", function () { $("#oldFormFooter").show(); });
+$("#Tabaccion").on("click", function () { $("#oldFormFooter").show(); });
+$("#Tabcostes").on("click", function () { $("#oldFormFooter").show(); });
+$("#Tabgraphic").on("click", function () { $("#oldFormFooter").show(); });
+$("#TabhistoryActions").on("click", function () { $("#oldFormFooter").show(); });
+$("#TabuploadFiles").on("click", function () { $("#oldFormFooter").hide(); });
+
 jQuery(function ($) {
     // Posibilidad de poner HTML en los títulos de los popup
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || '&nbsp;';
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true) {
                 title.html($title);
             }
@@ -35,18 +42,18 @@ jQuery(function ($) {
         RulesRenderPopup();
 
         var dialog = $("#dialogRules").removeClass('hide').dialog({
-            resizable: false,
-            modal: true,
-            title: Dictionary.Item_BusinessRisk_SelectRuleType,
-            title_html: true,
-            width: 800,
-            buttons:
+            "resizable": false,
+            "modal": true,
+            "title": Dictionary.Item_BusinessRisk_SelectRuleType,
+            "title_html": true,
+            "width": 800,
+            "buttons":
             [
                 {
-                    id: 'BtnNewAddresSave',
-                    html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                    "id": "BtnNewAddresSave",
+                    "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
                     "class": "btn btn-success btn-xs",
-                    click: function () {
+                    "click": function () {
                         RulesInsert();
                     }
                 },
@@ -496,7 +503,7 @@ function BusinessRiskInsert(previousId) {
                 if (newRisk === true) {
                     businessRisk.Id = response.d.MessageError * 1;
                     if (SaveAction === true) {
-                        console.log('risk+action');
+                        console.log("risk+action");
                         SaveIncidentAction(businessRisk.Id, response.d.MessageError * 1, true);
                     }
 
@@ -639,16 +646,16 @@ function SaveIncidentAction(businessRiskId, newBusinessRiskId, reload) {
             "IncidentId": -1,
             "WhatHappened": $('#TxtActionWhatHappened').val(),
             "WhatHappenedBy": { "Id": $('#CmbActionWhatHappenedResponsible').val() },
-            "WhatHappenedOn": GetDate($('#TxtActionWhatHappenedDate').val()),
+            "WhatHappenedOn": GetDate($('#TxtActionWhatHappenedDate').val(), "/", false),
             "Causes": $('#TxtActionCauses').val(),
             "CausesBy": { "Id": $('#CmbActionCausesResponsible').val() },
-            "CausesOn": GetDate($('#TxtActionCausesDate').val()),
+            "CausesOn": GetDate($('#TxtActionCausesDate').val(), "/", false),
             "Actions": $('#TxtActionActions').val(),
             "ActionsBy": { "Id": $('#CmbActionActionsResponsible').val() },
-            "ActionsOn": GetDate($('#TxtActionActionsDate').val()),
+            "ActionsOn": GetDate($('#TxtActionActionsDate').val(), "/", false),
             "Monitoring": $('#TxtActionMonitoring').val(),
             "ClosedBy": { "Id": $('#CmbActionClosedResponsible').val() },
-            "ClosedOn": GetDate($('#TxtActionClosedDate').val()),
+            "ClosedOn": GetDate($('#TxtActionClosedDate').val(), "/", false),
             "Notes": $('#TxtActionNotes').val(),
             "Active": true
         };

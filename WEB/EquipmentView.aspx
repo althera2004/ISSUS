@@ -22,7 +22,8 @@
     <script type="text/javascript" src="/Document-Viewer/yepnope.1.5.3-min.js"></script>
     <script type="text/javascript" src="/Document-Viewer/ttw-document-viewer.min.js"></script>
     <script type="text/javascript">
-        scaleImages=true;
+        scaleImages = true;
+        var limitInitialDate = "<%=this.LimitInitialDate %>";
         var GrantToWrite = <%=this.GrantToWrite %>;
         var Equipment = <%=this.Equipment.Json %>;
         <%=EquipmentScaleDivisionList %>

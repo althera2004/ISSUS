@@ -88,7 +88,7 @@ function exampleData() {
 
             var finalColor = "#ffb752";
             console.log(BusinessRiskGraph[x].Description, BusinessRiskGraph[x].Assumed);
-            if (BusinessRiskGraph[x].Assumed === false) {
+            if (BusinessRiskGraph[x].Assumed === false && BusinessRiskGraph[x].FinalAction !== 1) {
                 var limit = typeof actualRuleLimit === "undefined" ? 0 : actualRuleLimit;
                 if (limit < 0 ) {
                     limit = BusinessRiskGraph[x].RuleLimit;

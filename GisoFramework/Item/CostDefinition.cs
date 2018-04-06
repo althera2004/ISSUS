@@ -212,6 +212,7 @@ namespace GisoFramework.Item
                 cmd.CommandType = CommandType.StoredProcedure;
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.Parameters.Add(DataParameter.Input("@CostDefinitionId", costDefinitionId));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
@@ -300,6 +301,7 @@ namespace GisoFramework.Item
                 cmd.CommandType = CommandType.StoredProcedure;
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     try
                     {
                         cmd.Parameters.Add(DataParameter.OutputLong("@CostDefinitionId"));

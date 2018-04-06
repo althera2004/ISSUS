@@ -60,9 +60,7 @@ public partial class DocumentView : Page
 
     #region Properties
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -87,9 +85,7 @@ public partial class DocumentView : Page
         }
     }
 
-    /// <summary>
-    /// Gets a value indicating if user has Admin privileges in Company
-    /// </summary>
+    /// <summary>Gets a value indicating if user has Admin privileges in Company</summary>
     public bool Admin
     {
         get
@@ -128,10 +124,10 @@ public partial class DocumentView : Page
     {
         get
         {
-            ReadOnlyCollection<DocumentCategory> categories = DocumentCategory.GetByCompany(this.company.Id);
-            StringBuilder res = new StringBuilder("[");
+            var categories = DocumentCategory.GetByCompany(this.company.Id);
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (DocumentCategory category in categories)
+            foreach (var category in categories)
             {
                 if (first)
                 {
@@ -144,6 +140,7 @@ public partial class DocumentView : Page
 
                 res.Append(category.Json);
             }
+
             return res.Append("]").ToString();
         }
     }
@@ -160,10 +157,10 @@ public partial class DocumentView : Page
     {
         get
         {
-            ReadOnlyCollection<DocumentOrigin> origins = DocumentOrigin.GetByCompany(this.company.Id);
-            StringBuilder res = new StringBuilder("[");
+            var origins = DocumentOrigin.GetByCompany(this.company.Id);
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (DocumentOrigin origin in origins)
+            foreach (var origin in origins)
             {
                 if (first)
                 {
@@ -176,6 +173,7 @@ public partial class DocumentView : Page
 
                 res.Append(origin.Json);
             }
+
             return res.Append("]").ToString();
         }
     }
@@ -213,9 +211,9 @@ public partial class DocumentView : Page
     {
         get
         {
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             bool first = true;
-            foreach (Document document in Document.GetByCompany(this.company))
+            foreach (var document in Document.GetByCompany(this.company))
             {
                 if (first)
                 {
@@ -229,15 +227,14 @@ public partial class DocumentView : Page
                 res.Append(document.JsonSimple);
 
             }
+
             return res.ToString();
         }
     }
 
     public string FirstVersionDate { get; set; }
 
-    /// <summary>
-    /// Gets the dictionary for interface texts
-    /// </summary>
+    /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -247,36 +244,34 @@ public partial class DocumentView : Page
     }
     #endregion
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -286,9 +281,7 @@ public partial class DocumentView : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.company = (Company)Session["company"];
@@ -346,25 +339,21 @@ public partial class DocumentView : Page
         this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
     }
 
-    /// <summary>
-    /// Generates HTML code for historical changes table
-    /// </summary>
+    /// <summary>Generates HTML code for historical changes table</summary>
     private void RenderHistorico()
     {
         this.DocumentAttachActual = "null";
-        DateTime firstDate = DateTime.Now;
-
-        List<DocumentVersionRow> rows = new List<DocumentVersionRow>();
-
-        List<DocumentAttach> attachs = DocumentAttach.GetByDocument(this.documentId, this.company.Id).Where(d=>d.Active == true).ToList();
-        foreach (DocumentVersion version in this.documento.Versions)
+        var firstDate = DateTime.Now;
+        var rows = new List<DocumentVersionRow>();
+        var attachs = DocumentAttach.GetByDocument(this.documentId, this.company.Id).Where(d=>d.Active == true).ToList();
+        foreach (var version in this.documento.Versions)
         {
             string fileName = string.Empty;
             long documentId = 0;
             string extension = string.Empty;
             if(attachs.Any(f=>f.Version == version.Version))
             {
-                DocumentAttach attach = attachs.Where(f => f.Version == version.Version).First();
+                var attach = attachs.First(f => f.Version == version.Version);
                 fileName = attach.Description;
                 documentId = attach.Id;
                 extension = attach.Extension;
@@ -375,7 +364,7 @@ public partial class DocumentView : Page
                 }
             }
 
-            rows.Add(new DocumentVersionRow()
+            rows.Add(new DocumentVersionRow
             {
                 Id = this.documentId,
                 DocumentId = documentId,
@@ -389,8 +378,8 @@ public partial class DocumentView : Page
             });
         }
 
-        StringBuilder res = new StringBuilder();
-        foreach(DocumentVersionRow row in rows.OrderByDescending(r=>r.Version).ThenByDescending(r=>r.Date))
+        var res = new StringBuilder();
+        foreach(var row in rows.OrderByDescending(r=>r.Version).ThenByDescending(r=>r.Date))
         {
             firstDate = row.Date;
             string rowText = row.Render(this.dictionary, this.user.Grants);
@@ -434,7 +423,7 @@ public partial class DocumentView : Page
                 <option value=""3"" {5}>{2}</option>
             ";
         this.LtConservacion.Text = string.Format(
-            CultureInfo.GetCultureInfo("en-us"),
+            CultureInfo.InvariantCulture,
             pattern,
             this.dictionary["Common_Years"],
             this.dictionary["Common_Months"],

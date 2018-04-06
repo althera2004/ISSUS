@@ -378,11 +378,11 @@ public partial class ActionView : Page
 
     public void RenderForm()
     {
-        this.TxtWhatHappened = new FormTextArea() { TitleLabel=true,  Rows = 3, Value = this.IncidentAction.WhatHappened, Name = "TxtWhatHappened", Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = 8, ColumnsSpanLabel = 12,MaxLength=500, Embedded = true };
-        this.TxtCauses = new FormTextArea() { TitleLabel = true, Rows = 3, Value = this.IncidentAction.Causes, Name = "TxtCauses", Label = this.dictionary["Item_IncidentAction_Field_Causes"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = 500, Embedded = true };
-        this.TxtActions = new FormTextArea() { TitleLabel = true, Rows = 3, Value = this.IncidentAction.Actions, Name = "TxtActions", Label = this.dictionary["Item_IncidentAction_Field_Actions"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = 500, Embedded = true };
-        this.TxtMonitoring = new FormTextArea() { TitleLabel = true, Rows = 3, Value = this.IncidentAction.Monitoring, Name = "TxtMonitoring", Label = this.dictionary["Item_IncidentAction_Field_Monitoring"], ColumnsSpan = 12, ColumnsSpanLabel = 12, MaxLength = 500, Embedded = true };
-        this.TxtNotes = new FormTextArea() { TitleLabel = true, Rows = 3, Value = this.IncidentAction.Notes, Name = "TxtNotes", Label = this.dictionary["Item_IncidentAction_Field_Notes"], ColumnsSpan = 12, ColumnsSpanLabel = 12, MaxLength = 500, Embedded = true };
+        this.TxtWhatHappened = new FormTextArea() { TitleLabel=true,  Rows = 5, Value = this.IncidentAction.WhatHappened, Name = "TxtWhatHappened", Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = 8, ColumnsSpanLabel = 12,MaxLength= 2000, Embedded = true };
+        this.TxtCauses = new FormTextArea() { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Causes, Name = "TxtCauses", Label = this.dictionary["Item_IncidentAction_Field_Causes"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = 2000, Embedded = true };
+        this.TxtActions = new FormTextArea() { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Actions, Name = "TxtActions", Label = this.dictionary["Item_IncidentAction_Field_Actions"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = 2000, Embedded = true };
+        this.TxtMonitoring = new FormTextArea() { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Monitoring, Name = "TxtMonitoring", Label = this.dictionary["Item_IncidentAction_Field_Monitoring"], ColumnsSpan = 12, ColumnsSpanLabel = 12, MaxLength = 2000, Embedded = true };
+        this.TxtNotes = new FormTextArea() { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Notes, Name = "TxtNotes", Label = this.dictionary["Item_IncidentAction_Field_Notes"], ColumnsSpan = 12, ColumnsSpanLabel = 12, MaxLength = 2000, Embedded = true };
 
         this.CmbWhatHappenedResponsible = new FormSelect()
         {

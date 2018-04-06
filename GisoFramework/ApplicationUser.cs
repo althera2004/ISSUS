@@ -88,7 +88,7 @@ namespace GisoFramework
             this.id = -1;
             this.Employee = Employee.Empty;
             this.userName = string.Empty;
-            using (SqlCommand cmd = new SqlCommand("User_GetById"))
+            using (var cmd = new SqlCommand("User_GetById"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;

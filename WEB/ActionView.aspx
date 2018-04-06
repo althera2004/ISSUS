@@ -32,10 +32,8 @@
         TR:first-child{border-left:none;}
     </style>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
-</asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
-    <link rel="stylesheet" href="/Document-Viewer/style.css" />
+    <link type="text/css" rel="stylesheet" href="/Document-Viewer/style.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript" src="/Document-Viewer/yepnope.1.5.3-min.js"></script>
     <script type="text/javascript" src="/Document-Viewer/ttw-document-viewer.min.js"></script>
@@ -499,257 +497,257 @@
                     ShowNewCostPopup(0);
                 });   
 
-                $("#CmbReporterType2Bar").on("click", function (e){
+                $("#CmbReporterType2Bar").on("click", function (e) {
                     e.preventDefault();
                     ShowProviderBarPopup($("#CmbReporterType2"));
                 });                
 
-                $('#CmbReporterType3Bar').on('click', function (e){
+                $("#CmbReporterType3Bar").on("click", function (e) {
                     e.preventDefault();
-                    ShowCustomerBarPopup($('#CmbReporterType3'));
+                    ShowCustomerBarPopup($("#CmbReporterType3"));
                 });
 
-                $('#BtnCostBAR').on('click', function (e){
+                $("#BtnCostBAR").on("click", function (e){
                     e.preventDefault();
-                    ShowCostBarPopup($('#TxtCostDescription'));
+                    ShowCostBarPopup($("#TxtCostDescription"));
                 });
 
                 // Control wizard de la acción
-                $('#TxtWhatHappened').on('keyup', function (e) { e.preventDefault(); TxtWhatHappenedChanged(); });
-                $('#TxtCauses').on('keyup', function (e) { e.preventDefault(); TxtCausesChanged(); });
-                $('#TxtActions').on('keyup', function (e) { e.preventDefault(); TxtActionsChanged(); });            
-                $('#CmbClosedResponsible').on('change', function (e) { e.preventDefault(); SetCloseRequired(); });
-                // $('#TxtClosedDate').on('change', function (e) { e.preventDefault(); SetCloseRequired(); });
-                // $('#CmbClosedExecutor').on('change', function (e) { e.preventDefault(); SetCloseRequired(); });
-                // $('#TxtClosedExecutorDate').on('change', function (e) { e.preventDefault(); SetCloseRequired(); });
+                $("#TxtWhatHappened").on("keyup", function (e) { e.preventDefault(); TxtWhatHappenedChanged(); });
+                $("#TxtCauses").on("keyup", function (e) { e.preventDefault(); TxtCausesChanged(); });
+                $("#TxtActions").on("keyup", function (e) { e.preventDefault(); TxtActionsChanged(); });            
+                $("#CmbClosedResponsible").on("change", function (e) { e.preventDefault(); SetCloseRequired(); });
+                // $("#TxtClosedDate").on("change", function (e) { e.preventDefault(); SetCloseRequired(); });
+                // $("#CmbClosedExecutor").on("change", function (e) { e.preventDefault(); SetCloseRequired(); });
+                // $("#TxtClosedExecutorDate").on("change", function (e) { e.preventDefault(); SetCloseRequired(); });
             });
 
             function SaveAction() {
-                ClearFieldTextMessages('TxtDescription');
-                ClearFieldTextMessages('ROrigin');
-                ClearFieldTextMessages('RType');
-                ClearFieldTextMessages('RReporterType');
-                ClearFieldTextMessages('TxtWhatHappened');
-                ClearFieldTextMessages('TxtWhatHappenedResponsible');
-                ClearFieldTextMessages('TxtWhatHappenedDate');
+                ClearFieldTextMessages("TxtDescription");
+                ClearFieldTextMessages("ROrigin");
+                ClearFieldTextMessages("RType");
+                ClearFieldTextMessages("RReporterType");
+                ClearFieldTextMessages("TxtWhatHappened");
+                ClearFieldTextMessages("TxtWhatHappenedResponsible");
+                ClearFieldTextMessages("TxtWhatHappenedDate");
                 var ok = true;
                 var ErrorMessage = new Array();
 
-                var dateWhatHappened=null;
-                var dateCauses=null;
-                var dateActions=null;
-                var dateActionsExecution=null;
-                var dateClose=null;
-                var dateCloseExecution=null;
+                var dateWhatHappened = null;
+                var dateCauses = null;
+                var dateActions = null;
+                var dateActionsExecution = null;
+                var dateClose = null;
+                var dateCloseExecution = null;
 
-                if (document.getElementById('TxtDescription').value === '') {
+                if (document.getElementById("TxtDescription").value === "") {
                     ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_DescriptionRequired);                
-                    SetFieldTextMessages('TxtDescription');
+                    SetFieldTextMessages("TxtDescription");
                     ok = false;
                 }
 
                 if(IncidentAction.IncidentId < 1 && IncidentAction.BusinessRiskId < 1)
                 {
-                    if (!document.getElementById('ROrigin1').checked && !document.getElementById('ROrigin2').checked) {
+                    if (!document.getElementById("ROrigin1").checked && !document.getElementById("ROrigin2").checked) {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_OriginRequired);
-                        document.getElementById('ROriginLabel').style.color = '#f00';
-                        //document.getElementById('ROriginErrorRequired').style.display = '';
+                        document.getElementById("ROriginLabel").style.color = "#f00";
+                        //document.getElementById("ROriginErrorRequired").style.display = "";
                     } else {
-                        document.getElementById('ROriginLabel').style.color = '#000';
-                        //document.getElementById('ROriginErrorRequired').style.display = 'none';
+                        document.getElementById("ROriginLabel").style.color = "#000";
+                        //document.getElementById("ROriginErrorRequired").style.display = "none";
                     }
 
-                    if (!document.getElementById('RType1').checked && !document.getElementById('RType2').checked && !document.getElementById('RType3').checked) {
+                    if (!document.getElementById("RType1").checked && !document.getElementById("RType2").checked && !document.getElementById("RType3").checked) {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_TypeRequired);
-                        document.getElementById('RTypeLabel').style.color = '#f00';
-                        //document.getElementById('RTypeErrorRequired').style.display = '';
+                        document.getElementById("RTypeLabel").style.color = "#f00";
+                        //document.getElementById("RTypeErrorRequired").style.display = "";
                     } else {
-                        document.getElementById('RTypeLabel').style.color = '#000';
-                        //document.getElementById('RTypeErrorRequired').style.display = 'none';
+                        document.getElementById("RTypeLabel").style.color = "#000";
+                        //document.getElementById("RTypeErrorRequired").style.display = "none";
                     }
 
-                    if (!document.getElementById('RReporterType1').checked && !document.getElementById('RReporterType2').checked && !document.getElementById('RReporterType3').checked) {
+                    if (!document.getElementById("RReporterType1").checked && !document.getElementById("RReporterType2").checked && !document.getElementById("RReporterType3").checked) {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ReportedByRequired);
-                        document.getElementById('RReporterTypeLabel').style.color = '#f00';
-                        //document.getElementById('RReporterTypeErrorRequired').style.display = '';
+                        document.getElementById("RReporterTypeLabel").style.color = "#f00";
+                        //document.getElementById("RReporterTypeErrorRequired").style.display = "";
                     } else {
                         var origin = true;
-                        if (document.getElementById('RReporterType1').checked && $('#CmbReporterType1').val() * 1 === 0) { origin = false; }
-                        if (document.getElementById('RReporterType2').checked && $('#CmbReporterType2').val() * 1 === 0) { origin = false; }
-                        if (document.getElementById('RReporterType3').checked && $('#CmbReporterType3').val() * 1 === 0) { origin = false; }
+                        if (document.getElementById("RReporterType1").checked && $("#CmbReporterType1").val() * 1 === 0) { origin = false; }
+                        if (document.getElementById("RReporterType2").checked && $("#CmbReporterType2").val() * 1 === 0) { origin = false; }
+                        if (document.getElementById("RReporterType3").checked && $("#CmbReporterType3").val() * 1 === 0) { origin = false; }
                         if (origin === true) {
-                            document.getElementById('RReporterTypeLabel').style.color = '#000';
-                           // document.getElementById('RReporterTypeErrorRequired').style.display = 'none';
+                            document.getElementById("RReporterTypeLabel").style.color = "#000";
+                           // document.getElementById("RReporterTypeErrorRequired").style.display = "none";
                         } else {
                             ok = false;
                             ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ReportedByRequired);
-                            document.getElementById('RReporterTypeLabel').style.color = '#f00';
-                           // document.getElementById('RReporterTypeErrorRequired').style.display = '';
+                            document.getElementById("RReporterTypeLabel").style.color = "#f00";
+                           // document.getElementById("RReporterTypeErrorRequired").style.display = "";
                         }
                     }
                 }
 
                 var state = 1;
-                if ($('#TxtWhatHappened').val() === '') 
+                if ($("#TxtWhatHappened").val() === "") 
                 {
                     ok=false;
                     ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequired);
-                    SetFieldTextMessages('TxtWhatHappened');
+                    SetFieldTextMessages("TxtWhatHappened");
                 }
                 
-                if (document.getElementById('CmbWhatHappenedResponsible').value * 1 === 0) {
+                if (document.getElementById("CmbWhatHappenedResponsible").value * 1 === 0) {
                     ok = false;
                     ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequiredResponsible);
-                    SetFieldTextMessages('CmbWhatHappenedResponsible');
+                    SetFieldTextMessages("CmbWhatHappenedResponsible");
                 }
 
-                if ($('#TxtWhatHappenedDate').val() === '') {
+                if ($("#TxtWhatHappenedDate").val() === "") {
                     ok = false;
                     ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRquiredDate);
-                    SetFieldTextMessages('TxtWhatHappenedDate');
+                    SetFieldTextMessages("TxtWhatHappenedDate");
                 }
                 else
                 {
-                    if(!RequiredDateValue('TxtWhatHappenedDate'))
+                    if(!RequiredDateValue("TxtWhatHappenedDate"))
                     {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_Error_DateMalformed_WhatHappened);
                     }
                     else
                     {
-                        dateWhatHappened = GetDate($('#TxtWhatHappenedDate').val(), '/', false);
+                        dateWhatHappened = GetDate($("#TxtWhatHappenedDate").val(), "/", false);
                     }
                 }
 
                 if(IncidentCausesRequired===true)
                 {
-                    if ($('#TxtCauses').val() === '') {
+                    if ($("#TxtCauses").val() === "") {
                         ok=false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequired);
-                        SetFieldTextMessages('TxtCauses');
+                        SetFieldTextMessages("TxtCauses");
 
                     }
-                    if (document.getElementById('CmbCausesResponsible').value * 1 === 0) {
+                    if (document.getElementById("CmbCausesResponsible").value * 1 === 0) {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequiredResponsible);
-                        SetFieldTextMessages('CmbCausesResponsible');
+                        SetFieldTextMessages("CmbCausesResponsible");
                     }
 
-                    if ($('#TxtCausesDate').val() === '') {
+                    if ($("#TxtCausesDate").val() === "") {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequiredDate);
-                        SetFieldTextMessages('TxtCausesDate');
+                        SetFieldTextMessages("TxtCausesDate");
                     }
                     else
                     {
-                        if(!RequiredDateValue('TxtCausesDate'))
+                        if(!RequiredDateValue("TxtCausesDate"))
                         {
                             ok = false;
                             ErrorMessage.push(Dictionary.Item_IncidentAction_Error_DateMalformed_Causes);
                         }
                         else
                         {
-                            dateCauses = GetDate($('#TxtCausesDate').val(), '/', false);
+                            dateCauses = GetDate($("#TxtCausesDate").val(), "/", false);
                         }
                     }
                 }
 
                 if(IncidentActionsRequired===true)
                 {
-                    if ($('#TxtActions').val() === '') 
+                    if ($("#TxtActions").val() === "") 
                     {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequired);
-                        SetFieldTextMessages('TxtActions');
+                        SetFieldTextMessages("TxtActions");
                     }
 
-                    if (document.getElementById('CmbActionsResponsible').value * 1 === 0) {
+                    if (document.getElementById("CmbActionsResponsible").value * 1 === 0) {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredResponsible);
-                        SetFieldTextMessages('CmbActionsResponsible');
+                        SetFieldTextMessages("CmbActionsResponsible");
                     }
 
-                    if ($('#TxtActionsDate').val() === '') {
+                    if ($("#TxtActionsDate").val() === "") {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredDate);
-                        SetFieldTextMessages('TxtActionsDate');
+                        SetFieldTextMessages("TxtActionsDate");
                     }
                     else
                     {
-                        if(!RequiredDateValue('TxtActionsDate'))
+                        if(!RequiredDateValue("TxtActionsDate"))
                         {
                             ok = false;
                             ErrorMessage.push(Dictionary.Item_IncidentAction_Error_DateMalformed_Actions);
                         }
                         else
                         {
-                            dateActions = GetDate($('#TxtActionsDate').val(), '/', false);
+                            dateActions = GetDate($("#TxtActionsDate").val(), "/", false);
                         }
                     }
 
                     /* ISSUS-10
-                    if (document.getElementById('CmbActionsExecuter').value * 1 === 0) {
+                    if (document.getElementById("CmbActionsExecuter").value * 1 === 0) {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredExecutor);
-                        SetFieldTextMessages('CmbActionsExecuter');
+                        SetFieldTextMessages("CmbActionsExecuter");
                     }
 
-                    if ($('#TxtActionsSchedule').val() === '') {
+                    if ($("#TxtActionsSchedule").val() === "") {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredSchedule);
-                        SetFieldTextMessages('TxtActionsSchedule');
+                        SetFieldTextMessages("TxtActionsSchedule");
                     }
                     else{
-                        dateActionsExecution = GetDate($('#TxtActionsSchedule').val(), '/', false);
+                        dateActionsExecution = GetDate($("#TxtActionsSchedule").val(), "/", false);
                     }*/
                 }
 
                 if(IncidentClosedRequired===true)
                 {
 
-                    if (document.getElementById('CmbClosedResponsible').value * 1 === 0) {
+                    if (document.getElementById("CmbClosedResponsible").value * 1 === 0) {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseResponsibleRequired);
-                        SetFieldTextMessages('CmbClosedResponsible');
+                        SetFieldTextMessages("CmbClosedResponsible");
                     }
 
                     /* ISSUS-10 
-                    if (document.getElementById('CmbClosedExecutor').value * 1 === 0) {
+                    if (document.getElementById("CmbClosedExecutor").value * 1 === 0) {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseExecutor);
-                        SetFieldTextMessages('CmbClosedExecutor');
+                        SetFieldTextMessages("CmbClosedExecutor");
                     }
                     */
 
-                    if ($('#TxtClosedDate').val() === '') {
+                    if ($("#TxtClosedDate").val() === "") {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseDate);
-                        SetFieldTextMessages('TxtClosedDate');
+                        SetFieldTextMessages("TxtClosedDate");
                     }
                     else
                     {
-                        if(!RequiredDateValue('TxtClosedDate'))
+                        if(!RequiredDateValue("TxtClosedDate"))
                         {
                             ok = false;
                             ErrorMessage.push(Dictionary.Item_IncidentAction_Error_DateMalformed_Close);
                         }
                         else
                         {
-                            dateClose = GetDate($('#TxtClosedDate').val(), '/', false);
+                            dateClose = GetDate($("#TxtClosedDate").val(), "/", false);
                         }
                     }
 
                     /* ISSUS-10
-                    if ($('#TxtClosedExecutorDate').val() === '') {
+                    if ($("#TxtClosedExecutorDate").val() === "") {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseExecutorDate);
-                        SetFieldTextMessages('TxtClosedExecutorDate');
+                        SetFieldTextMessages("TxtClosedExecutorDate");
                     }
                     else{
-                        dateCloseExecution = GetDate($('#TxtClosedExecutorDate').val(), '/', false);
+                        dateCloseExecution = GetDate($("#TxtClosedExecutorDate").val(), "/", false);
                     } */
                 }
 
@@ -760,32 +758,32 @@
                     if(dateCauses !== null && dateWhatHappened > dateCauses)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtWhatHappenedDate');
-                        SetFieldTextMessages('TxtCausesDate');
+                        SetFieldTextMessages("TxtWhatHappenedDate");
+                        SetFieldTextMessages("TxtCausesDate");
                     }
                     if(dateActions !== null && dateWhatHappened > dateActions)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtWhatHappenedDate');
-                        SetFieldTextMessages('TxtActionsDate');
+                        SetFieldTextMessages("TxtWhatHappenedDate");
+                        SetFieldTextMessages("TxtActionsDate");
                     }
                     /* ISSUS-10 if(dateActionsExecution !== null && dateWhatHappened > dateActionsExecution)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtWhatHappenedDate');
-                        SetFieldTextMessages('TxtActionsSchedule');
+                        SetFieldTextMessages("TxtWhatHappenedDate");
+                        SetFieldTextMessages("TxtActionsSchedule");
                     } */
                     if(dateClose !== null && dateWhatHappened > dateClose)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtWhatHappenedDate');
-                        SetFieldTextMessages('TxtClosedDate');
+                        SetFieldTextMessages("TxtWhatHappenedDate");
+                        SetFieldTextMessages("TxtClosedDate");
                     }
                     /* ISSUS- 10 if(dateCloseExecution !== null && dateWhatHappened > dateCloseExecution)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtWhatHappenedDate');
-                        SetFieldTextMessages('TxtClosedExecutorDate');
+                        SetFieldTextMessages("TxtWhatHappenedDate");
+                        SetFieldTextMessages("TxtClosedExecutorDate");
                     } */
                 }
 
@@ -794,28 +792,28 @@
                     if(dateActions !== null && dateCauses > dateActions)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtActionsDate');
-                        SetFieldTextMessages('TxtCausesDate');
+                        SetFieldTextMessages("TxtActionsDate");
+                        SetFieldTextMessages("TxtCausesDate");
                     }
                     /* ISSUS-10 
                     if(dateActionsExecution !== null && dateCauses > dateActionsExecution)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtCausesDate');
-                        SetFieldTextMessages('TxtActionsSchedule');
+                        SetFieldTextMessages("TxtCausesDate");
+                        SetFieldTextMessages("TxtActionsSchedule");
                     } */
                     if(dateClose !== null && dateCauses > dateClose)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtCausesDate');
-                        SetFieldTextMessages('TxtClosedDate');
+                        SetFieldTextMessages("TxtCausesDate");
+                        SetFieldTextMessages("TxtClosedDate");
                     }
                     /* ISSUS-10
                     if(dateCloseExecution !== null && dateCauses > dateCloseExecution)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtCausesDate');
-                        SetFieldTextMessages('TxtClosedExecutorDate');
+                        SetFieldTextMessages("TxtCausesDate");
+                        SetFieldTextMessages("TxtClosedExecutorDate");
                     } */
                 }
 
@@ -825,21 +823,21 @@
                     if(dateActionsExecution !== null && dateActions > dateActionsExecution)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtActionsDate');
-                        SetFieldTextMessages('TxtActionsSchedule');
+                        SetFieldTextMessages("TxtActionsDate");
+                        SetFieldTextMessages("TxtActionsSchedule");
                     } */
                     if(dateClose !== null && dateActions > dateClose)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtActionsDate');
-                        SetFieldTextMessages('TxtClosedDate');
+                        SetFieldTextMessages("TxtActionsDate");
+                        SetFieldTextMessages("TxtClosedDate");
                     }
                     /* ISSUS-10
                     if(dateCloseExecution !== null && dateActions > dateCloseExecution)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtActionsDate');
-                        SetFieldTextMessages('TxtClosedExecutorDate');
+                        SetFieldTextMessages("TxtActionsDate");
+                        SetFieldTextMessages("TxtClosedExecutorDate");
                     } */
                 }
             
@@ -849,15 +847,15 @@
                     if(dateClose !== null && dateActionsExecution > dateClose)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtActionsSchedule');
-                        SetFieldTextMessages('TxtClosedDate');
+                        SetFieldTextMessages("TxtActionsSchedule");
+                        SetFieldTextMessages("TxtClosedDate");
                     }
                 
                     if(dateCloseExecution !== null && dateActionsExecution > dateCloseExecution)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtActionsSchedule');
-                        SetFieldTextMessages('TxtClosedExecutorDate');
+                        SetFieldTextMessages("TxtActionsSchedule");
+                        SetFieldTextMessages("TxtClosedExecutorDate");
                     } 
                 }
                 */
@@ -868,8 +866,8 @@
                     if(dateCloseExecution !== null && dateClose > dateCloseExecution)
                     {
                         okDates = false;
-                        SetFieldTextMessages('TxtClosedDate');
-                        SetFieldTextMessages('TxtClosedExecutorDate');
+                        SetFieldTextMessages("TxtClosedDate");
+                        SetFieldTextMessages("TxtClosedExecutorDate");
                     }
                 } */
 
@@ -880,33 +878,33 @@
                 }
 
                 if (ok === false) {
-                    var ErrorContent = '<ul>';
+                    var ErrorContent = "<ul>";
                     for(var x=0; x<ErrorMessage.length; x++)
                     {
-                        ErrorContent+= '<li>' + ErrorMessage[x] + '</li>';
+                        ErrorContent+= "<li>" + ErrorMessage[x] + "</li>";
                     }
-                    ErrorContent+='</ul>';
+                    ErrorContent+="</ul>";
                     warningInfoUI("<strong>" + Dictionary.Common_Message_FormErrors + "</strong><br />" + ErrorContent, null, 600);
                     return false;
                 }
 
                 var ROrigin = 0;
-                if (document.getElementById('ROrigin1').checked) { ROrigin = 1; }
-                if (document.getElementById('ROrigin2').checked) { ROrigin = 2; }
+                if (document.getElementById("ROrigin1").checked) { ROrigin = 1; }
+                if (document.getElementById("ROrigin2").checked) { ROrigin = 2; }
 
                 var Rtype = 0;
-                if (document.getElementById('RType1').checked) { Rtype = 1; }
-                if (document.getElementById('RType2').checked) { Rtype = 2; }
-                if (document.getElementById('RType3').checked) { Rtype = 3; }
+                if (document.getElementById("RType1").checked) { Rtype = 1; }
+                if (document.getElementById("RType2").checked) { Rtype = 2; }
+                if (document.getElementById("RType3").checked) { Rtype = 3; }
 
                 var RReporter = 0;
-                if (document.getElementById('RReporterType1').checked) { RReporter = 1; }
-                if (document.getElementById('RReporterType2').checked) { RReporter = 2; }
-                if (document.getElementById('RReporterType3').checked) { RReporter = 3; }
+                if (document.getElementById("RReporterType1").checked) { RReporter = 1; }
+                if (document.getElementById("RReporterType2").checked) { RReporter = 2; }
+                if (document.getElementById("RReporterType3").checked) { RReporter = 3; }
 
-                var Department = { Id: RReporter == 1 ? $('#CmbReporterType1').val() * 1 : 0};
-                var Provider = { Id: RReporter == 2 ? $('#CmbReporterType2').val() * 1: 0 };
-                var Customer = { Id: RReporter == 3 ? $('#CmbReporterType3').val() * 1: 0 };
+                var Department = { "Id": RReporter == 1 ? $("#CmbReporterType1").val() * 1 : 0};
+                var Provider = { "Id": RReporter == 2 ? $("#CmbReporterType2").val() * 1: 0 };
+                var Customer = { "Id": RReporter == 3 ? $("#CmbReporterType3").val() * 1: 0 };
 
                 if (IncidentAction.IncidentId > 0) {
                     RReporter = IncidentAction.ReporterType;
@@ -934,59 +932,59 @@
                     Rtype = 3;
                 }
 
-                var whatHappenedOn = GetDate($('#TxtWhatHappenedDate').val(), '-');
-                var causesOn = GetDate($('#TxtCausesDate').val(), '-');
-                var actionsOn = GetDate($('#TxtActionsDate').val(), '-');
-                var actionsSchedule = null; // ISSUS-10 GetDate($('#TxtActionsSchedule').val(), '-');
-                var closedOn = GetDate($('#TxtClosedDate').val(), '-');
-                var closedExecutorOn = null; // ISSUS-10 GetDate($('#TxtClosedExecutorDate').val(), '-');
+                var whatHappenedOn = GetDate($("#TxtWhatHappenedDate").val(), "-");
+                var causesOn = GetDate($("#TxtCausesDate").val(), "-");
+                var actionsOn = GetDate($("#TxtActionsDate").val(), "-");
+                var actionsSchedule = null; // ISSUS-10 GetDate($("#TxtActionsSchedule").val(), "-");
+                var closedOn = GetDate($("#TxtClosedDate").val(), "-");
+                var closedExecutorOn = null; // ISSUS-10 GetDate($("#TxtClosedExecutorDate").val(), "-");
 
                 var action =
                 {
-                    Id: IncidentActionId,
-                    CompanyId: Company.Id,
-                    ActionType: Rtype,
-                    Description: $('#TxtDescription').val(),
-                    Origin: ROrigin,
-                    ReporterType: RReporter,
-                    Department: Department,
-                    Provider: Provider,
-                    Customer: Customer,
-                    Number: IncidentAction.Number,
-                    IncidentId: IncidentAction.IncidentId,
-                    BusinessRiskId: IncidentAction.BusinessRiskId,
-                    WhatHappened: $('#TxtWhatHappened').val(),
-                    WhatHappenedBy: { Id: $('#CmbWhatHappenedResponsible').val() },
-                    WhatHappenedOn: whatHappenedOn,
-                    Causes: $('#TxtCauses').val(),
-                    CausesBy: { Id: $('#CmbCausesResponsible').val() },
-                    CausesOn: causesOn,
-                    Actions: $('#TxtActions').val(),
-                    ActionsBy: { Id: $('#CmbActionsResponsible').val() },
-                    ActionsOn: actionsOn,
-                    ActionsExecuter: {Id: 0}, // ISSUS-10 { Id: $('#CmbActionsExecuter').val() },
-                    ActionsSchedule: actionsSchedule,
-                    Monitoring: $('#TxtMonitoring').val(),
-                    ClosedBy: { Id: $('#CmbClosedResponsible').val() },
-                    ClosedOn: closedOn,
-                    ClosedExecutor: {Id: 0}, // ISSUS-10{ Id: $('#CmbClosedExecutor').val() },
-                    ClosedExecutorOn : closedExecutorOn,
-                    Notes: $('#TxtNotes').val()
+                    "Id": IncidentActionId,
+                    "CompanyId": Company.Id,
+                    "ActionType": Rtype,
+                    "Description": $("#TxtDescription").val(),
+                    "Origin": ROrigin,
+                    "ReporterType": RReporter,
+                    "Department": Department,
+                    "Provider": Provider,
+                    "Customer": Customer,
+                    "Number": IncidentAction.Number,
+                    "IncidentId": IncidentAction.IncidentId,
+                    "BusinessRiskId": IncidentAction.BusinessRiskId,
+                    "WhatHappened": $("#TxtWhatHappened").val(),
+                    "WhatHappenedBy": { "Id": $("#CmbWhatHappenedResponsible").val() },
+                    "WhatHappenedOn": whatHappenedOn,
+                    "Causes": $("#TxtCauses").val(),
+                    "CausesBy": { "Id": $("#CmbCausesResponsible").val() },
+                    "CausesOn": causesOn,
+                    "Actions": $("#TxtActions").val(),
+                    "ActionsBy": { "Id": $("#CmbActionsResponsible").val() },
+                    "ActionsOn": actionsOn,
+                    "ActionsExecuter": { "Id": 0 },
+                    "ActionsSchedule": actionsSchedule,
+                    "Monitoring": $("#TxtMonitoring").val(),
+                    "ClosedBy": { "Id": $("#CmbClosedResponsible").val() },
+                    "ClosedOn": closedOn,
+                    "ClosedExecutor": {"Id": 0 },
+                    "ClosedExecutorOn": closedExecutorOn,
+                    "Notes": $("#TxtNotes").val()
                 };
 
                 var webMethod = "/Async/IncidentActionsActions.asmx/Save";
-                var data = { incidentAction: action,  userId: user.Id };
+                var data = { "incidentAction": action, "userId": user.Id };
                 $.ajax({
-                    type: "POST",
-                    url: webMethod,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(data, null, 2),
-                    success: function (msg) {
+                    "type": "POST",
+                    "url": webMethod,
+                    "contentType": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "data": JSON.stringify(data, null, 2),
+                    "success": function (msg) {
                         document.location = referrer;
 
                     },
-                    error: function (msg) {
+                    "error": function (msg) {
                         alertUI(msg.responseText);
                     }
                 });
@@ -994,9 +992,9 @@
             }
 
             function CmbReporterDepartmentsFill() {
-                var target = document.getElementById('CmbReporterType1');
+                var target = document.getElementById("CmbReporterType1");
                 for (var x = 0; x < Departments.length; x++) {
-                    var option = document.createElement('OPTION');
+                    var option = document.createElement("OPTION");
                     option.value = Departments[x].Id;
                     option.appendChild(document.createTextNode(Departments[x].Description));
                     target.appendChild(option);
@@ -1004,16 +1002,16 @@
             }
 
             function CmbReporterProvidersFill() {
-                VoidTable('CmbReporterType2');
-                var target = document.getElementById('CmbReporterType2');
+                VoidTable("CmbReporterType2");
+                var target = document.getElementById("CmbReporterType2");
 
-                var optionDefault = document.createElement('OPTION');
+                var optionDefault = document.createElement("OPTION");
                 optionDefault.value = 0;
                 optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectOne));
                 target.appendChild(optionDefault);
 
                 for (var x = 0; x < Providers.length; x++) {
-                    var option = document.createElement('OPTION');
+                    var option = document.createElement("OPTION");
                     option.value = Providers[x].Id;
                     option.appendChild(document.createTextNode(Providers[x].Description));
                     target.appendChild(option);
@@ -1021,16 +1019,16 @@
             }
 
             function CmbReporterCustomersFill() {
-                VoidTable('CmbReporterType3');
-                var target = document.getElementById('CmbReporterType3');
+                VoidTable("CmbReporterType3");
+                var target = document.getElementById("CmbReporterType3");
 
-                var optionDefault = document.createElement('OPTION');
+                var optionDefault = document.createElement("OPTION");
                 optionDefault.value = 0;
                 optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectOne));
                 target.appendChild(optionDefault);
 
                 for (var x = 0; x < Customers.length; x++) {
-                    var option = document.createElement('OPTION');
+                    var option = document.createElement("OPTION");
                     option.value = Customers[x].Id;
                     option.appendChild(document.createTextNode(Customers[x].Description));
                     target.appendChild(option);
@@ -1042,76 +1040,79 @@
             CmbReporterDepartmentsFill();
 
             function RReporterTypeChanged() {
-                document.getElementById('RReporterTypeCmb').style.display = '';
-                document.getElementById('DivCmbReporterType1').style.display = document.getElementById('RReporterType1').checked ? '' : 'none';
-                document.getElementById('DivCmbReporterType2').style.display = document.getElementById('RReporterType2').checked ? '' : 'none';
-                document.getElementById('DivCmbReporterType3').style.display = document.getElementById('RReporterType3').checked ? '' : 'none';
+                document.getElementById("RReporterTypeCmb").style.display = "";
+                document.getElementById("DivCmbReporterType1").style.display = document.getElementById("RReporterType1").checked ? "" : "none";
+                document.getElementById("DivCmbReporterType2").style.display = document.getElementById("RReporterType2").checked ? "" : "none";
+                document.getElementById("DivCmbReporterType3").style.display = document.getElementById("RReporterType3").checked ? "" : "none";
 
                 /* ISSUS-91
-                if (document.getElementById('RReporterType1').checked) {
-                    document.getElementById('CmbReporterType2').value = 0;
-                    document.getElementById('CmbReporterType3').value = 0;
+                if (document.getElementById("RReporterType1").checked) {
+                    document.getElementById("CmbReporterType2").value = 0;
+                    document.getElementById("CmbReporterType3").value = 0;
                 }
 
-                if (document.getElementById('RReporterType2').checked) {
-                    document.getElementById('CmbReporterType1').value = 0;
-                    document.getElementById('CmbReporterType3').value = 0;
+                if (document.getElementById("RReporterType2").checked) {
+                    document.getElementById("CmbReporterType1").value = 0;
+                    document.getElementById("CmbReporterType3").value = 0;
                 }
 
-                if (document.getElementById('RReporterType3').checked) {
-                    document.getElementById('CmbReporterType1').value = 0;
-                    document.getElementById('CmbReporterType2').value = 0;
+                if (document.getElementById("RReporterType3").checked) {
+                    document.getElementById("CmbReporterType1").value = 0;
+                    document.getElementById("CmbReporterType2").value = 0;
                 }
                 */
             }
 
-            if (IncidentAction.Origin == 1) { document.getElementById('ROrigin1').checked = true; }
-            if (IncidentAction.Origin == 2) { document.getElementById('ROrigin2').checked = true; }
+            if (IncidentAction.Origin == 1) { document.getElementById("ROrigin1").checked = true; }
+            if (IncidentAction.Origin == 2) { document.getElementById("ROrigin2").checked = true; }
 
             if (IncidentAction.Origin == 3) {
-                document.getElementById('ROriginDiv').style.display = 'none';
-                document.getElementById('RTypeDiv').style.display = 'none';
-                document.getElementById('RReporterDiv').style.display = 'none';
-                document.getElementById('IncidentDiv').style.display = '';
-                document.getElementById('BusinessRiskDiv').style.display = 'none';
+                $("#ROriginDiv").hide();
+                $("#RTypeDiv").hide();
+                $("#RReporterDiv").hide();
+                $("#IncidentDiv").show();
+                $("#BusinessRiskDiv").hide();
             }
             if (IncidentAction.Origin == 4) {
-                document.getElementById('ROriginDiv').style.display = 'none';
-                document.getElementById('RTypeDiv').style.display = 'none';
-                document.getElementById('RReporterDiv').style.display = 'none';
-                document.getElementById('IncidentDiv').style.display = 'none';
-                document.getElementById('BusinessRiskDiv').style.display = '';
+                $("#ROriginDiv").hide();
+                $("#RTypeDiv").hide();
+                $("#RReporterDiv").hide();
+                $("#IncidentDiv").hide();
+                $("#BusinessRiskDiv").show(;)
             }
             else {
                 if (IncidentAction.ReporterType == 1) {
-                    document.getElementById('RReporterType1').checked = true;
-                    $('#CmbReporterType1').val(IncidentAction.Department.Id);
+                    document.getElementById("RReporterType1").checked = true;
+                    $("#CmbReporterType1").val(IncidentAction.Department.Id);
                 }
+
                 if (IncidentAction.ReporterType == 2) {
-                    document.getElementById('RReporterType2').checked = true;
-                    $('#CmbReporterType2').val(IncidentAction.Provider.Id);
+                    document.getElementById("RReporterType2").checked = true;
+                    $("#CmbReporterType2").val(IncidentAction.Provider.Id);
                 }
+
                 if (IncidentAction.ReporterType == 3) {
-                    document.getElementById('RReporterType3').checked = true;
-                    $('#CmbReporterType3').val(IncidentAction.Customer.Id);
+                    document.getElementById("RReporterType3").checked = true;
+                    $("#CmbReporterType3").val(IncidentAction.Customer.Id);
                 }
-                if (IncidentAction.ActionType == 1) { document.getElementById('RType1').checked = true; }
-                if (IncidentAction.ActionType == 2) { document.getElementById('RType2').checked = true; }
-                if (IncidentAction.ActionType == 3) { document.getElementById('RType3').checked = true; }
+
+                if (IncidentAction.ActionType == 1) { document.getElementById("RType1").checked = true; }
+                if (IncidentAction.ActionType == 2) { document.getElementById("RType2").checked = true; }
+                if (IncidentAction.ActionType == 3) { document.getElementById("RType3").checked = true; }
                 RReporterTypeChanged();
             }
 
             FormLoad();
-            if(document.getElementById('IncidentActionCostsTableData')!=null)
+            if(document.getElementById("IncidentActionCostsTableData")!=null)
             {
-                IncidentActionCostRenderTable('IncidentActionCostsTableData');
+                IncidentActionCostRenderTable("IncidentActionCostsTableData");
             }
 
             // ISSUS-190
-            document.getElementById('TxtDescription').focus();
+            document.getElementById("TxtDescription").focus();
 
             function PrintData() {
-                window.open('/export/PrintActionData.aspx?id=' + IncidentAction.Id + '&companyId=' + IncidentAction.CompanyId);
+                window.open("/export/PrintActionData.aspx?id=" + IncidentAction.Id + "&companyId=" + IncidentAction.CompanyId);
             }
 
             // Control de permisos
@@ -1129,9 +1130,9 @@
             }
 
             function Resize() {
-                var listTable = document.getElementById('ListDataDiv');
+                var listTable = document.getElementById("ListDataDiv");
                 var containerHeight = $(window).height();
-                listTable.style.height = (containerHeight - 450) + 'px';
+                listTable.style.height = (containerHeight - 450) + "px";
             }
 
             window.onload = function () {
@@ -1156,4 +1157,3 @@
             window.onresize = function () { Resize(); }
         </script>
 </asp:Content>
-

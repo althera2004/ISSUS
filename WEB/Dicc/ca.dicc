@@ -878,6 +878,7 @@ Item_EquipmentVerification_Popup_Delete_Title::Eliminar una verificació
 Item_EquipmentVerification_PopupDelete_Title::Eliminar la verificació
 Item_EquipmentVerification_PopupNew_Title::Registrar una verificació
 Item_EquipmentVerification_PopupUpdate_Title::Modificar la verificació
+Item_EquipmentErrorInitialDate::La data d´inici no pot ser posterior a
 Item_Incident::Incidència
 Item_Incident_Button_New::Afegir
 Item_Incident_Button_Print::Imprimir

@@ -12,9 +12,7 @@ namespace SbrinnaCoreFramework.UI
     using System.Linq;
     using System.Text;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary></summary>
     public class Form
     {
         private List<Element> elements;
@@ -25,7 +23,7 @@ namespace SbrinnaCoreFramework.UI
         {
             get
             {
-                StringBuilder res = new StringBuilder("<!-- Rendered form -->").Append(Environment.NewLine);
+                var res = new StringBuilder("<!-- Rendered form -->").Append(Environment.NewLine);
                 if (!string.IsNullOrEmpty(this.Title))
                 {
                     res.Append("<h4>").Append(this.Title).Append("</h4>").Append(Environment.NewLine);
@@ -35,7 +33,7 @@ namespace SbrinnaCoreFramework.UI
                                                 <div id=""home"" class=""tab-pane active"">                                                
                                                     <form class=""form-horizontal"" role=""form"">");
 
-                foreach (Element element in this.elements)
+                foreach (var element in this.elements)
                 {
                     res.Append(element.Html);
                 }

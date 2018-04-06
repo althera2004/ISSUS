@@ -17,22 +17,22 @@ function ShowUploadSelect() {
 }
 
 // Add events
-$('#fileName').on('change', ShowSelected);
+$("#fileName").on("change", ShowSelected);
 
-$('#UploadMessage').on('click', ShowUploadSelect);
+$("#UploadMessage").on("click", ShowUploadSelect);
 
 function documentsModeView(x) {
     if (x == 0) {
-        document.getElementById('BtnModeList').className = 'btn btn-info';
-        document.getElementById('BtnModeGrid').className = 'btn';
-        document.getElementById('UploadFilesContainer').style.display = 'none';
-        document.getElementById('UploadFilesList').style.display = '';
+        document.getElementById("BtnModeList").className = "btn btn-info";
+        document.getElementById("BtnModeGrid").className = "btn";
+        document.getElementById("UploadFilesContainer").style.display = "none";
+        document.getElementById("UploadFilesList").style.display = "";
     }
     else {
-        document.getElementById('BtnModeList').className = 'btn';
-        document.getElementById('BtnModeGrid').className = 'btn btn-info';
-        document.getElementById('UploadFilesContainer').style.display = '';
-        document.getElementById('UploadFilesList').style.display = 'none';
+        document.getElementById("BtnModeList").className = "btn";
+        document.getElementById("BtnModeGrid").className = "btn btn-info";
+        document.getElementById("UploadFilesContainer").style.display = "";
+        document.getElementById("UploadFilesList").style.display = "none";
     }
 }
 
@@ -206,6 +206,9 @@ function UploadFileGo() {
 function RenderNewUploadFile(id, description, extension, fileName, date, size) {
     var target = document.getElementById('UploadFilesContainer');
 
+    console.log("Desc", description);
+    console.log("filename", fileName);
+
     var fileNameToShow = fileName.split('_')[2];
 
     var finalSize = (size / 1024 / 1024);
@@ -244,6 +247,21 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
                         </div>
                     </div>*/
 
+    /*<div id="216" class="col-sm-3 document-container">
+                        <div class="col-sm-6">&nbsp;</div>
+                        <div class="col-sm-2">&nbsp;</div>
+                        <div class="col-sm-2 btn-info"><a class="icon-download bigger-120" href="/DOCS/12/Processes_17_estado issus.docx" target="_blank" style="color:#fff;"></a></div>
+                        <div class="col-sm-2 btn-danger" onclick="DeleteUploadFile(216,'Processes_17_estado issus.docx');"><i class="icon-trash bigger-120"></i></div>
+                        <div class="col-sm-12 iconfile" style="max-width: 100%;">
+                            <div class="col-sm-4"><img src="/images/FileIcons/nofile.png"></div>
+                            <div class="col-sm-8 document-name">
+                                <strong title="Processes_17_estado issus.docx">Processes_17_es...</strong><br>
+                                Pujat el: 24/11/2017
+                                Mida: 0.01 MB
+                            </div>
+                        </div>
+                    </div>*/
+
 
     if (description === "") {
         description = fileNameToShow;
@@ -255,90 +273,31 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
     }
     console.log(description, descriptionFicha);
 
-    var div = document.createElement('DIV');
+    var div = document.createElement("DIV");
     div.id = id;
-    div.className = 'col-sm-3 document-container';
+    div.className = "col-sm-3 document-container";
 
-    var divIcon0 = document.createElement('DIV');
-    divIcon0.className = 'col-sm-6';
-    divIcon0.appendChild(document.createTextNode(' '));
 
-    var divIcon1 = document.createElement('DIV');
-    divIcon1.className = 'col-sm-2 btn-success';
-    var icon1 = document.createElement('I');
-    icon1.className = 'icon-eye-open bigger-120';
-    divIcon1.appendChild(icon1);
-    divIcon1.onclick = function () { ShowPDF(fileName); };
-
+    var res = "<div class=\"col-sm-6\">&nbsp;</div>";
     if (extension !== "txt" && extension !== "png" && extension !== "gif" && extension !== "jpg") {
-        divIcon1.style.visibility = "hidden";
+        res += "    <div class=\"col-sm-2\">&nbsp;</div>";
     }
-
-    var divIcon2 = document.createElement('DIV');
-    divIcon2.className = 'col-sm-2 btn-info';
-    var icon2 = document.createElement('A');
-    icon2.className = 'icon-download bigger-120';
-    icon2.style.color = '#fff';
-    icon2.target = '_blank';
-    icon2.href = '/DOCS/' + ApplicationUser.CompanyId + '/' + fileName;
-    divIcon2.appendChild(icon2);
-
-
-    var divIcon3 = document.createElement('DIV');
-    divIcon3.className = 'col-sm-2 btn-danger';
-    var icon3 = document.createElement('I');
-    icon3.className = 'icon-trash bigger-120';
-    divIcon3.appendChild(icon3);
-    divIcon3.onclick = function () { DeleteUploadFile(id, description); };
-
-
-    var div4 = document.createElement('DIV');
-    div4.className = 'col-sm-12 iconfile';
-
-    var div4b = document.createElement('DIV');
-    div4b.className = 'col-sm-12';
-    div4.style.marginBottom= "8px";
-
-    var descriptionSPAN = document.createElement('STRONG');
-    descriptionSPAN.title = description;
-    descriptionSPAN.appendChild(document.createTextNode(descriptionFicha));
-    div4b.appendChild(descriptionSPAN);
-
-
-    
-    div4.appendChild(div4b);
-
-
-
-    var div4a = document.createElement('DIV');
-    div4a.className = 'col-sm-4';
-    var iconFile = document.createElement('IMG');
-    iconFile.src = '/images/FileIcons/' + extension + '.png';
-    div4a.appendChild(iconFile);
-    div4.appendChild(div4a);
-
-    var div4c = document.createElement("DIV");
-    div4c.className = "col-sm-8 document-name";
-    div4c.style.fontSize = "12px";
-    div4c.appendChild(document.createTextNode(Dictionary.Item_Attachment_CreateDate + ': '));
-    var div4c1 = document.createElement("STRONG");
-    div4c1.appendChild(document.createTextNode(date));
-    div4c.appendChild(div4c1);
-    div4c.appendChild(document.createElement('BR'));
-    div4c.appendChild(document.createTextNode(Dictionary.Item_Attachment_Size + ': '));
-    div4c2 = document.createElement("STRONG");
-    div4c2.appendChild(document.createTextNode(ToMoneyFormat(finalSize, 2) + " MB"));
-    div4c.appendChild(div4c2);
-    div4.appendChild(div4c);
-
-
-    div.appendChild(divIcon0);
-    div.appendChild(divIcon1);
-    div.appendChild(divIcon2);
-    div.appendChild(divIcon3);
-    div.appendChild(div4);
+    else {
+        res += "    <div class=\"col-sm-2 btn-success\" onclick=\"ShowPDF('" + fileName + "');\"><i class=\"icon-eye-open bigger-120\"></i></div>";
+    }
+    res += "    <div class=\"col-sm-2 btn-info\"><a class=\"icon-download bigger-120\" href=\"/DOCS/" + Company.Id + "/" + fileName + "\" target=\"_blank\" style=\"color:#fff;\"></a></div>";
+    res += "    <div class=\"col-sm-2 btn-danger\" onclick=\"DeleteUploadFile(" + id + ",'" + fileName + "');\"><i class=\"icon-trash bigger-120\"></i></div>";
+    res += "    <div class=\"col-sm-12 iconfile\" style=\"max-width: 100%;\">";
+    res += "        <div class=\"col-sm-4\"><img src=\"/images/FileIcons/" + extension + ".png\"></div>";
+    res += "            <div class=\"col-sm-8 document-name\">";
+    res += "                <strong title=\"Processes_17_estado issus.docx\">" + description + "</strong><br>";
+    res += "                    " + Dictionary.Item_Attachment_CreateDate + ": " + date;
+    res += "                            " + Dictionary.Item_Attachment_Size + ": " + ToMoneyFormat(finalSize, 2) + " MB";
+    res += "                        </div>";
+    res += "            </div>";
 
     target.appendChild(div);
+    $("#" + id).html(res);
 
     /*<tr>
                     <td>logo.jpg</td>
@@ -421,5 +380,5 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
     document.getElementById('TBodyDocumentsList').appendChild(tr);
 
 
-    $("#PopupUploadFile").dialog('close');
+    $("#PopupUploadFile").dialog("close");
 }

@@ -571,7 +571,7 @@ public partial class EmployeesView : Page
                 this.companyUserNames.Append(string.Format(@"{{""UserName"":""{0}"",""EmployeeId"":{1}}}", userName.Key, userName.Value));
             }
 
-            StringBuilder tableAssistance = new StringBuilder();
+            var tableAssistance = new StringBuilder();
             this.employee.ObtainLearningAssistance();
             foreach (LearningAssistance assistance in this.employee.LearningAssistance)
             {
@@ -618,26 +618,26 @@ public partial class EmployeesView : Page
         {
             if (employeeId > 0)
             {
-                this.formFooter.AddButton(new UIButton() { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Employee_Btn_Inactive"], Action = "danger" });
+                this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Employee_Btn_Inactive"], Action = "danger" });
             }
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
         }
         else
         {
-            this.formFooter.AddButton(new UIButton() { Id = "BtnRestore", Icon = "icon-undo", Text = this.dictionary["Item_Employee_Button_Restore"], Action = "primary" });
-            //this.formFooter.AddButton(new UIButton() { Id = "BtnRestore", Icon = "icon-ok", Text = this.dictionary["Item_Employee_Button_Restore"], Action = "success" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnRestore", Icon = "icon-undo", Text = this.dictionary["Item_Employee_Button_Restore"], Action = "primary" });
+            //this.formFooter.AddButton(new UIButton { Id = "BtnRestore", Icon = "icon-ok", Text = this.dictionary["Item_Employee_Button_Restore"], Action = "success" });
         }
 
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         if (this.active)
         {
             this.formFooterInternalLearning.ModifiedBy = this.formFooter.ModifiedBy;
             this.formFooterInternalLearning.ModifiedOn = this.formFooter.ModifiedOn;
-            this.formFooterLearning.AddButton(new UIButton() { Id = "BtnSaveFormacion", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooterLearning.AddButton(new UIButton() { Id = "BtnCancelFormacion", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
-            this.formFooterInternalLearning.AddButton(new UIButton() { Id = "BtnSaveInternalLearning", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooterInternalLearning.AddButton(new UIButton() { Id = "BtnCancelInternalLearning", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            this.formFooterLearning.AddButton(new UIButton { Id = "BtnSaveFormacion", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.formFooterLearning.AddButton(new UIButton { Id = "BtnCancelFormacion", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            this.formFooterInternalLearning.AddButton(new UIButton { Id = "BtnSaveInternalLearning", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.formFooterInternalLearning.AddButton(new UIButton { Id = "BtnCancelInternalLearning", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
         }
 
         this.SelectedTab = "home";
@@ -646,11 +646,11 @@ public partial class EmployeesView : Page
             SelectedTab = this.Request.QueryString["Tab"].ToString().Trim().ToLowerInvariant();
         }
 
-        this.tabBar.AddTab(new Tab() { Id = "home", Selected = SelectedTab == "home", Active = true, Label = this.dictionary["Item_Employee_Tab_Principal"], Available = true });
-        this.tabBar.AddTab(new Tab() { Id = "formacion", Available = true, Active = this.employeeId > 0, Hidden = this.employeeId <1, Label = this.Dictionary["Item_Employee_Tab_Learning"] });
-        this.tabBar.AddTab(new Tab() { Id = "formacionInterna", Selected = SelectedTab == "formacioninterna", Available = true, Active = this.employeeId > 0, Hidden = this.employeeId < 1, Label = this.Dictionary["Item_Employee_Tab_InternalLearning"] });
-        this.tabBar.AddTab(new Tab() { Id = "uploadFiles", Selected = SelectedTab == "uploadfiles", Available = true, Active = this.employeeId > 0, Hidden = this.employeeId < 1, Label = this.Dictionary["Item_Employee_Tab_UploadFiles"] });
-        //// this.tabBar.AddTab(new Tab() { Id = "trazas", Available = this.user.HasTraceGrant() && this.employeeId > 0, Active = this.employeeId > 0, Label = this.dictionary["Item_Employee_Tab_Traces"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Selected = SelectedTab == "home", Active = true, Label = this.dictionary["Item_Employee_Tab_Principal"], Available = true });
+        this.tabBar.AddTab(new Tab { Id = "formacion", Available = true, Active = this.employeeId > 0, Hidden = this.employeeId <1, Label = this.Dictionary["Item_Employee_Tab_Learning"] });
+        this.tabBar.AddTab(new Tab { Id = "formacionInterna", Selected = SelectedTab == "formacioninterna", Available = true, Active = this.employeeId > 0, Hidden = this.employeeId < 1, Label = this.Dictionary["Item_Employee_Tab_InternalLearning"] });
+        this.tabBar.AddTab(new Tab { Id = "uploadFiles", Selected = SelectedTab == "uploadfiles", Available = true, Active = this.employeeId > 0, Hidden = this.employeeId < 1, Label = this.Dictionary["Item_Employee_Tab_UploadFiles"] });
+        //// this.tabBar.AddTab(new Tab { Id = "trazas", Available = this.user.HasTraceGrant() && this.employeeId > 0, Active = this.employeeId > 0, Label = this.dictionary["Item_Employee_Tab_Traces"] });
     }
 
     private void RenderDocuments()
@@ -658,12 +658,12 @@ public partial class EmployeesView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        ReadOnlyCollection<UploadFile> files = UploadFile.GetByItem(5, this.employeeId, this.company.Id);
-        StringBuilder res = new StringBuilder();
-        StringBuilder resList = new StringBuilder();
+        var files = UploadFile.GetByItem(5, this.employeeId, this.company.Id);
+        var res = new StringBuilder();
+        var resList = new StringBuilder();
         int contCells = 0;
-        ReadOnlyCollection<string> extensions = ToolsFile.ExtensionToShow;
-        foreach (UploadFile file in files)
+        var extensions = ToolsFile.ExtensionToShow;
+        foreach (var file in files)
         {
             decimal finalSize = ToolsFile.FormatSize((decimal)file.Size);
             string fileShowed = string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description;
@@ -762,7 +762,7 @@ public partial class EmployeesView : Page
     /// </summary>
     private void RenderCountries()
     {
-        StringBuilder res = new StringBuilder();
+        var res = new StringBuilder();
         string countryCompare = this.employee.Id < 0 ? this.dictionary["Common_None"] : this.employee.Address.Country;
         res.Append(string.Format(@"{{""text"":""{0}"",""value"":0,""selected"":{1},""description"":""{0}""}}", this.dictionary["Common_None"], countryCompare == this.dictionary["Common_None"] ? "true" : "false"));
         /*foreach (Country country in this.company.Countries)
@@ -772,47 +772,50 @@ public partial class EmployeesView : Page
 
         if (this.user.Language == "es")
         {
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Alemania" ? "true" : "false", "Alemania", "Alemania", 8);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Argentina" ? "true" : "false", "Argentina", "Argentina", 18);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Brasil" ? "true" : "false", "Brasil", "Brasil", 20);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Cataluña", "Cataluña", 45);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "España", "España", 1);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Euskal Herria", "Euskal Herria", 46);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "Francia", "Francia", 7);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Italia" ? "true" : "false", "Italia", "Italia", 5);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Portugal" ? "true" : "false", "Portugal", "Portugal", 2);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Alemania" ? "true" : "false", "Alemania", "Alemania", 8);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Argentina" ? "true" : "false", "Argentina", "Argentina", 18);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Brasil" ? "true" : "false", "Brasil", "Brasil", 20);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Cataluña", "Cataluña", 45);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "España", "España", 1);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Euskal Herria", "Euskal Herria", 46);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "Francia", "Francia", 7);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Italia" ? "true" : "false", "Italia", "Italia", 5);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Gran Bretaña", "Great Britain", 12);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Portugal" ? "true" : "false", "Portugal", "Portugal", 2);
         }
 
         if (this.user.Language == "ca")
         {
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Alemania" ? "true" : "false", "Alemanya", "Alemania", 8);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Argentina" ? "true" : "false", "Argentina", "Argentina", 18);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Brasil" ? "true" : "false", "Brasil", "Brasil", 20);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Catalunya", "Cataluña", 45);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "Espanya", "España", 1);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Euskal Herria", "Euskal Herria", 46);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "França", "Francia", 7);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Italia" ? "true" : "false", "Italia", "Italia", 5);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Portugal" ? "true" : "false", "Portugal", "Portugal", 2);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Alemania" ? "true" : "false", "Alemanya", "Alemania", 8);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Argentina" ? "true" : "false", "Argentina", "Argentina", 18);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Brasil" ? "true" : "false", "Brasil", "Brasil", 20);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Catalunya", "Cataluña", 45);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "Espanya", "España", 1);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Euskal Herria", "Euskal Herria", 46);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "França", "Francia", 7);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Italia" ? "true" : "false", "Italia", "Italia", 5);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Gran Bretanya", "Gran Bretanya", 12);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Portugal" ? "true" : "false", "Portugal", "Portugal", 2);
         }
 
         if (this.user.Language == "en")
         {
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Argentina" ? "true" : "false", "Argentina", "Argentina", 18);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Basque Country", "Euskal Herria", 46);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Brasil" ? "true" : "false", "Brazil", "Brasil", 20);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Catalonia", "Cataluña", 45);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "France", "Francia", 7);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Alemania" ? "true" : "false", "Germany", "Alemania", 8);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Italia" ? "true" : "false", "Italy", "Italia", 5);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Portugal" ? "true" : "false", "Portugal", "Portugal", 2);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "Spain", "España", 1);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Alemania" ? "true" : "false", "Germany", "Alemania", 8);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Argentina" ? "true" : "false", "Argentina", "Argentina", 18);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Brasil" ? "true" : "false", "Brazil", "Brasil", 20);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Catalonia", "Cataluña", 45);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "Spain", "España", 1);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Basque Country", "Euskal Herria", 46);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "France", "Francia", 7);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Italia" ? "true" : "false", "Italia", "Italia", 5);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Great Britain", "Great Britain", 12);
+            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Portugal" ? "true" : "false", "Portugal", "Portugal", 2);
         }
 
         this.countryData = res.ToString();

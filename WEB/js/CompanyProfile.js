@@ -482,6 +482,8 @@ function SaveCompany() {
         return false;
     }
 
+    var language = Company.Language === "es" ? 1 : 2;
+
     var webMethod = "/Async/CompanyActions.asmx/Save";
     var data = {
         "oldCompany":
@@ -498,10 +500,12 @@ function SaveCompany() {
             "Name": $("#TxtName").val(),
             "FiscalNumber": $("#TxtNif").val(),
             "DefaultAddress": { Id: addressSelected },
-            "Language": $("#CmbIdioma").val()
+            "Language": Company.Language
         },
         "userId": user.Id
     };
+
+    console.log(data);
 
     $.ajax({
         "type": "POST",

@@ -47,11 +47,20 @@ public partial class ExportPrintEquipmentData : Page
         }
 
 
+
+        string formatedDescription = equipment.Description.Replace("?", string.Empty);
+        formatedDescription = formatedDescription.Replace("#", string.Empty);
+        formatedDescription = formatedDescription.Replace("/", string.Empty);
+        formatedDescription = formatedDescription.Replace("\\", string.Empty);
+        formatedDescription = formatedDescription.Replace(":", string.Empty);
+        formatedDescription = formatedDescription.Replace(";", string.Empty);
+        formatedDescription = formatedDescription.Replace(".", string.Empty);
+
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_Data_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_Equipment"],
-            equipment.Description,
+            formatedDescription,
             DateTime.Now);
 
         // FONTS

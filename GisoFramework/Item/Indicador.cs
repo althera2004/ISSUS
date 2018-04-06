@@ -968,17 +968,17 @@ namespace GisoFramework.Item
                 @"Indicador::Activate({0}, {1})",
                 indicadorId,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Indicador_Activate]
              *   @IndicadorId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Indicador_Activate"))
+            using (var cmd = new SqlCommand("Indicador_Activate"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
@@ -1032,17 +1032,17 @@ namespace GisoFramework.Item
                @"Indicador::Restore({0}, {1})",
                indicadorId,
                applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE [dbo].[Indicador_Restore]
              *   @IndicadorId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Indicador_Restore"))
+            using (var cmd = new SqlCommand("Indicador_Restore"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
@@ -1251,12 +1251,12 @@ namespace GisoFramework.Item
              *   @EndResponsible int,
              *   @UnidadId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Indicador_Insert"))
+            using (var cmd = new SqlCommand("Indicador_Insert"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.OutputInt("@IndicadorId"));
@@ -1351,12 +1351,12 @@ namespace GisoFramework.Item
              *   @EndResponsable int,
              *   @UnidadId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Indicador_Update"))
+            using (var cmd = new SqlCommand("Indicador_Update"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@IndicadorId", this.Id));
@@ -1465,8 +1465,8 @@ namespace GisoFramework.Item
              *   @ProcessTypeId int,
              *   @ObjetivoId int
              *   @Closed bit */
-            List<IndicadorFilterItem> res = new List<IndicadorFilterItem>();
-            using (SqlCommand cmd = new SqlCommand("Indicator_Filter"))
+            var res = new List<IndicadorFilterItem>();
+            using (var cmd = new SqlCommand("Indicator_Filter"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;

@@ -460,18 +460,18 @@ namespace GisoFramework.Item
                  * @JobPositionId int,
                  * @CompanyId int */
 
-                using (SqlCommand cmd = new SqlCommand("JobPosition_GetEmployeesHistorical"))
+                using (var cmd = new SqlCommand("JobPosition_GetEmployeesHistorical"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     try
                     {
-                        using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString()))
+                        using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString()))
                         {
                             cmd.Connection = cnn;
                             cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.Id));
                             cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                             cmd.Connection.Open();
-                            using (SqlDataReader rdr = cmd.ExecuteReader())
+                            using (var rdr = cmd.ExecuteReader())
                             {
                                 while (rdr.Read())
                                 {
@@ -822,24 +822,22 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<JobPosition>(res);
         }
 
-        /// <summary>
-        /// Unlinks the specified employee identifier from Job position.
-        /// </summary>
+        /// <summary>Unlinks the specified employee identifier from Job position.</summary>
         /// <param name="employeeId">The employee identifier.</param>
         /// <param name="jobPositionId">The job position identifier.</param>
         /// <returns></returns>
         public static ActionResult Unlink(int employeeId, int jobPositionId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE JobPosition_Unlink
              *  @EmployeeId int,
              *  @JobPositionId int */
-            using (SqlCommand cmd = new SqlCommand("JobPosition_Unlink"))
+            using (var cmd = new SqlCommand("JobPosition_Unlink"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 try
                 {
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
@@ -893,45 +891,48 @@ namespace GisoFramework.Item
              * @CompanyId int,
              * @Extradata nvarchar(200),
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("JobPosition_Delete"))
+            using (var cmd = new SqlCommand("JobPosition_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@JobPositionId", SqlDbType.BigInt);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters.Add("@ExtraData", SqlDbType.NVarChar);
-                    cmd.Parameters["@JobPositionId"].Value = Convert.ToInt64(jobPositionId);
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Parameters["@ExtraData"].Value = Tools.LimitedText(reason, 200);
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NotSupportedException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add("@JobPositionId", SqlDbType.BigInt);
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                        cmd.Parameters.Add("@ExtraData", SqlDbType.NVarChar);
+                        cmd.Parameters["@JobPositionId"].Value = Convert.ToInt64(jobPositionId);
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.Parameters["@ExtraData"].Value = Tools.LimitedText(reason, 200);
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -939,9 +940,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Render HTML code in order to get a row into the job positions table
-        /// </summary>
+        /// <summary>Render HTML code in order to get a row into the job positions table</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="grantToWritePositon">Indicates if has write permission for job positions</param>
         /// <param name="grantToReadDepartments">Indicates if has read permission for departments</param>
@@ -960,6 +959,7 @@ namespace GisoFramework.Item
                 this.Description, 
                 dictionary["Common_Edit"],
                 grantToWritePositon ? "icon-edit" : "icon-eye-open");
+
             string iconDelete = string.Format(
                 CultureInfo.GetCultureInfo("en-us"),
                 @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""JobPositionDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", 
@@ -1011,9 +1011,7 @@ namespace GisoFramework.Item
                 iconDelete);
         }
 
-        /// <summary>
-        /// Render HTML code to get a row for the job position table of employee profile
-        /// </summary>
+        /// <summary>Render HTML code to get a row for the job position table of employee profile</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <returns>HTML code</returns>
         public string EmployeeRow(Dictionary<string, string> dictionary)
@@ -1029,6 +1027,7 @@ namespace GisoFramework.Item
                 this.Id, 
                 this.Description,
                 dictionary["Common_Edit"]);
+
             return string.Format(
                 CultureInfo.GetCultureInfo("en-us"),
                 @"<tr><td>{0}</td><td>{1}</td></tr>",
@@ -1036,14 +1035,12 @@ namespace GisoFramework.Item
                 iconRename);
         }
 
-        /// <summary>
-        /// Update job position data in data base
-        /// </summary>
+        /// <summary>Update job position data in data base</summary>
         /// <param name="userId">Identifier of user that updates job position</param>
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE JobPosition_Update
              * @JobPositionId bigint,
              * @CompanyId int,
@@ -1057,49 +1054,52 @@ namespace GisoFramework.Item
              * @ExperienciaLaboralDeseada text,
              * @HabilidadesDeseadas text,
              * @ModifiedBy int */
-            using (SqlCommand cmd = new SqlCommand("JobPosition_Update"))
+            using (var cmd = new SqlCommand("JobPosition_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.department.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.responsible));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                    cmd.Parameters.Add(DataParameter.Input("@Responsabilidades", this.responsibilities, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Notas", this.notes, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@FormacionAcademicaDeseada", this.academicSkills, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDesdeada", this.specificSkills, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.workExperience, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.abilities, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@ModifiedBy", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NotSupportedException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.department.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.responsible));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Responsabilidades", this.responsibilities, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Notas", this.notes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@FormacionAcademicaDeseada", this.academicSkills, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDesdeada", this.specificSkills, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.workExperience, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.abilities, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@ModifiedBy", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1107,14 +1107,12 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Insert a job position into database
-        /// </summary>
+        /// <summary>Insert a job position into database</summary>
         /// <param name="userId">Identifier of user that performs the action</param>
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE JobPosition_Insert
              * @JobPositionId bigint out,
              * @CompanyId int,
@@ -1128,50 +1126,53 @@ namespace GisoFramework.Item
              * @ExperienciaLaboralDeseada text,
              * @HabilidadesDeseadas text,
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("JobPosition_Insert"))
+            using (var cmd = new SqlCommand("JobPosition_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.OutputLong("@JobPositionId"));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.department.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.responsible));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                    cmd.Parameters.Add(DataParameter.Input("@Responsabilidades", this.responsibilities, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Notas", this.notes, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@FormacionAcademicaDeseada", this.academicSkills, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDeseada", this.specificSkills, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.workExperience, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.abilities, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@JobPositionId"].Value.ToString(), CultureInfo.GetCultureInfo("en-us"));
-                    res.SetSuccess(this.Id.ToString(CultureInfo.GetCultureInfo("en-us")));
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NotSupportedException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.OutputLong("@JobPositionId"));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.department.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.responsible));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Responsabilidades", this.responsibilities, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Notas", this.notes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@FormacionAcademicaDeseada", this.academicSkills, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDeseada", this.specificSkills, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.workExperience, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.abilities, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@JobPositionId"].Value.ToString(), CultureInfo.GetCultureInfo("en-us"));
+                        res.SetSuccess(this.Id.ToString(CultureInfo.GetCultureInfo("en-us")));
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
