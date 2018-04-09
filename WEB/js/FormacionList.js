@@ -5,7 +5,7 @@ function LearningUpdate(id) {
 }
 
 function LearningDeleteDisabled() {
-    alert(Dictionary.Common_ErrorMessage_CanNotDelete);
+    alertUI(Dictionary.Common_ErrorMessage_CanNotDelete);
 }
 
 function selectRow(sender) {
@@ -106,7 +106,7 @@ function LearningDeleteConfirmed(id) {
             }
         },
         "error": function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.responseText);
+            alertUI(jqXHR.responseText);
         }
     });
 }
@@ -148,7 +148,7 @@ jQuery(function ($) {
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                alertUI(jqXHR.responseText);
             }
         });
     });
@@ -176,7 +176,7 @@ jQuery(function ($) {
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                alertUI(jqXHR.responseText);
             }
         });
     });
@@ -203,7 +203,7 @@ jQuery(function ($) {
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                alertUI(jqXHR.responseText);
             }
         });
     });
@@ -303,8 +303,10 @@ function DateChange(){
 			ok = false;
 		}
 	}
-	
-	Go();
+
+    if (ok === true) {
+        Go();
+    }
 }
 
 function Resize() {

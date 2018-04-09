@@ -352,7 +352,7 @@ function CustomerDeleteConfirmed(id) {
     // 3.- Eliminar la fila de la tabla del popup
     var target = document.getElementById("Selectable" + itemName);
     for (var x3 = 0; x3 < target.childNodes.length; x3++) {
-        if (target.childNodes[x3].id == id) {
+        if (target.childNodes[x3].id *1  == id * 1) {
             target.childNodes[x3].style.display = "none";
             break;
         }

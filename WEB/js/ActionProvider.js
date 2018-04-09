@@ -305,7 +305,7 @@ function ProviderDeleteConfirmed(id) {
     }
 
     var data = {
-        'ProviderId': id,
+        'providerId': id,
         'description': description,
         'companyId': Company.Id,
         'userId': user.Id
@@ -342,7 +342,7 @@ function ProviderDeleteConfirmed(id) {
     // 3.- Eliminar la fila de la tabla del popup
     var target = document.getElementById("SelectableProvider");
     for (var x = 0; x < target.childNodes.length; x++) {
-        if (target.childNodes[x].id === id) {
+        if (target.childNodes[x].id * 1 === id * 1) {
             target.childNodes[x].style.display = "none";
             break;
         }

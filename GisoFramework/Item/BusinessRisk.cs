@@ -1011,7 +1011,7 @@ namespace GisoFramework.Item
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">User identifier</param>
         /// <returns>Result of action</returns>
-        public static ActionResult Delete(long businessRiskId, string reason, int companyId, int userId)
+        public static ActionResult Delete(long businessRiskId, string reason, int companyId, int userId, bool deleteAction = true)
         {
             var res = ActionResult.NoAction;
             using (var cmd = new SqlCommand("BusinessRisk_Delete"))
@@ -1029,6 +1029,12 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();
+
+                        if (deleteAction)
+                        {
+                            var victim = IncidentAction.GetByBusinessRiskId(businessRiskId, companyId);
+                            victim.Delete(userId);
+                        }
                     }
                     catch (SqlException ex)
                     {
@@ -1248,7 +1254,7 @@ namespace GisoFramework.Item
 
                         if (this.PreviousBusinessRiskId > 0)
                         {
-                            BusinessRisk.Delete(this.PreviousBusinessRiskId, string.Empty, this.CompanyId, userId);
+                            BusinessRisk.Delete(this.PreviousBusinessRiskId, string.Empty, this.CompanyId, userId, false);
                         }
                     }
                     catch (SqlException ex)

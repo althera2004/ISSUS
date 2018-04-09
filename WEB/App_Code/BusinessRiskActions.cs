@@ -81,6 +81,7 @@ namespace GISOWeb
                         Code = newBusinessRisk.Code,
                         DateStart = newBusinessRisk.FinalDate.Value,
                         Notes = newBusinessRisk.Notes,
+                        ItemDescription = newBusinessRisk.ItemDescription,
                         Causes = newBusinessRisk.Causes,
                         FinalSeverity = 0,
                         FinalProbability = 0,
