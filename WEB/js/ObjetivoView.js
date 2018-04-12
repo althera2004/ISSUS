@@ -1122,12 +1122,12 @@ function DrawGraphics(stop) {
 
         $("#circularGaugeContainer").dxCircularGauge({
             "width": 10,
-            rangeContainer: {
-                offset: 10,
-                width: 20,
-                ranges: [
-                    { startValue: 0, endValue: lastAlarm, color: '#f00' },
-                    { startValue: lastMeta, endValue: maxValue, color: '#0f0' }
+            "rangeContainer": {
+                "offset": 10,
+                "width": 20,
+                "ranges": [
+                    { "startValue": 0, "endValue": lastAlarm, "color": "#f00" },
+                    { "startValue": lastMeta, "endValue": maxValue, "color": "#0f0" }
                 ]
             },
             "scale": {
@@ -1184,20 +1184,20 @@ function AnularPopup() {
     $("#TxtAnularComments").html("");
     $("#CmbEndResponsible").val(user.Employee.Id);
     var dialog = $("#dialogAnular").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Item_Objetivo_PopupAnular_Title,
-        width: 600,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Objetivo_PopupAnular_Title,
+        "width": 600,
+        "buttons":
         [
             {
                 "id": "BtnAnujlarSave",
-                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Item_Indicador_Btn_Anular,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Indicador_Btn_Anular,
                 "class": "btn btn-success btn-xs",
                 "click": function () { AnularConfirmed(); }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
@@ -1306,7 +1306,6 @@ function AnulateLayout() {
 }
 
 function Restore() {
-    var webMethod = "/Async/ObjetivoActions.asmx/Restore";
     var data = {
         "objetivoId": ItemData.Id,
         "companyId": Company.Id,
@@ -1314,17 +1313,17 @@ function Restore() {
     };
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/ObjetivoActions.asmx/Restore",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             ItemData.EndDate = null;
             AnulateLayout();
             EnableLayout();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }

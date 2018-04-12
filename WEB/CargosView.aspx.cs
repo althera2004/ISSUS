@@ -68,7 +68,7 @@ public partial class CargosView : Page
     {
         get
         {
-            return new SbrinnaCoreFramework.UI.FormText()
+            return new FormText
             {
                 Name = "TxtName",
                 Value = this.cargo.Description,
@@ -88,7 +88,7 @@ public partial class CargosView : Page
     {
         get
         {
-            return new SbrinnaCoreFramework.UI.FormBar()
+            return new FormBar
             {
                 Name = "Department",
                 ValueName = "TxtDepartmentName",
@@ -109,7 +109,7 @@ public partial class CargosView : Page
         get
         {
             var jobPositions = JobPosition.JobsPositionByCompany(this.company.Id);
-            var select = new FormSelect()
+            var select = new FormSelect
             {
                 Name = "CmbResponsible",
                 ColumnsSpan = 4,
@@ -176,9 +176,7 @@ public partial class CargosView : Page
         }
     }
 
-    /// <summary>
-    /// Gets a Json structure of job position
-    /// </summary>
+    /// <summary>Gets a Json structure of job position</summary>
     public string CargoJson
     {
         get

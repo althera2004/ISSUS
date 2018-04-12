@@ -14,9 +14,7 @@ using GisoFramework;
 using GisoFramework.Item;
 using SbrinnaCoreFramework.UI;
 
-/// <summary>
-/// Implements page for cost definition view
-/// </summary>
+/// <summary>Implements page for cost definition view</summary>
 public partial class CostDefinitionView : Page
 {
     /// <summary> Master of page</summary>
@@ -44,7 +42,7 @@ public partial class CostDefinitionView : Page
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    private TabBar tabBar = new TabBar() { Id = "CostDefinitionTabBar" };
+    private TabBar tabBar = new TabBar { Id = "CostDefinitionTabBar" };
 
     public bool IsActual
     {
@@ -58,7 +56,7 @@ public partial class CostDefinitionView : Page
     {
         get
         {
-            return new FormText()
+            return new FormText
             {
                 Name = "TxtName",
                 Value = this.costDefinition.Description,
@@ -94,9 +92,9 @@ public partial class CostDefinitionView : Page
     {
         get
         {
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             bool first = true;
-            foreach (CostDefinition costDefinition in CostDefinition.GetByCompany(((Company)Session["Company"]).Id).Where(cd => cd.Active == true))
+            foreach (var costDefinition in CostDefinition.GetByCompany(((Company)Session["Company"]).Id).Where(cd => cd.Active == true))
             {
                 if (costDefinition.Active)
                 {
@@ -165,23 +163,21 @@ public partial class CostDefinitionView : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -189,7 +185,7 @@ public partial class CostDefinitionView : Page
                 int test = 0;
                 if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
                 {
-                    this.Response.Redirect("NoAccesible.aspx", true);
+                    this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                     Context.ApplicationInstance.CompleteRequest();
                 }
             }
@@ -198,9 +194,7 @@ public partial class CostDefinitionView : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.company = (Company)Session["company"];
@@ -221,8 +215,8 @@ public partial class CostDefinitionView : Page
         this.master.Titulo = "Item_CostDefinitions_Title";
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         if (this.costDefinitionId != -1)
         {
@@ -246,6 +240,6 @@ public partial class CostDefinitionView : Page
             this.costDefinition = CostDefinition.Empty;
         }
 
-        this.tabBar.AddTab(new Tab() { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_CostDefinition_Tab_Principal"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_CostDefinition_Tab_Principal"] });
     }
 }

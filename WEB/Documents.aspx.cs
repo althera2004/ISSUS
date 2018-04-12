@@ -75,25 +75,23 @@ public partial class Documents : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -122,9 +120,9 @@ public partial class Documents : Page
 
     private void RenderDocumentData()
     {
-        StringBuilder sea = new StringBuilder(@"""""");
-        ReadOnlyCollection<Document> documents = Document.GetByCompany((Company)Session["Company"]);
-        foreach (Document document in documents)
+        var sea = new StringBuilder(@"""""");
+        var documents = Document.GetByCompany((Company)Session["Company"]);
+        foreach (var document in documents)
         {
             if (document.Code.IndexOf("\"") != -1)
             {

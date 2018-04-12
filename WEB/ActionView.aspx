@@ -1077,7 +1077,7 @@
                 $("#RTypeDiv").hide();
                 $("#RReporterDiv").hide();
                 $("#IncidentDiv").hide();
-                $("#BusinessRiskDiv").show(;)
+                $("#BusinessRiskDiv").show();
             }
             else {
                 if (IncidentAction.ReporterType == 1) {

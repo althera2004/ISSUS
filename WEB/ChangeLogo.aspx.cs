@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using SbrinnaCoreFramework.UI;
+using System;
+using System.Drawing;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using SbrinnaCoreFramework.UI;
-using System.Drawing;
-using System.IO;
 
 public partial class ChangeLogo : Page
 {
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        HttpPostedFile file = this.Request.Files[0];
+        var file = this.Request.Files[0];
         string path = Request.PhysicalApplicationPath;
         if (!path.EndsWith("\\"))
         {
@@ -45,7 +39,7 @@ public partial class ChangeLogo : Page
         this.Response.End();
     }
 
-    public static System.Drawing.Image ScaleImage(System.Drawing.Image image, int maxWidth, int maxHeight)
+    /* public static System.Drawing.Image ScaleImage(System.Drawing.Image image, int maxWidth, int maxHeight)
     {
         var ratioX = (decimal)((decimal)maxWidth / (decimal)image.Width);
         var ratioY = (decimal)((decimal)maxHeight / (decimal)image.Height);
@@ -60,5 +54,5 @@ public partial class ChangeLogo : Page
             graphics.DrawImage(image, 0, 0, newWidth, newHeight);
 
         return newImage;
-    }
+    }*/
 }

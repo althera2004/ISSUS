@@ -18,9 +18,7 @@ public partial class CostDefinitionList : Page
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    /// <summary>
-    /// Gets the dictionary for interface texts
-    /// </summary>
+    /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -29,9 +27,7 @@ public partial class CostDefinitionList : Page
         }
     }
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -42,25 +38,23 @@ public partial class CostDefinitionList : Page
 
     public UIDataHeader DataHeader { get; set; }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", true);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", true);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -70,9 +64,7 @@ public partial class CostDefinitionList : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)this.Session["User"];
@@ -96,18 +88,18 @@ public partial class CostDefinitionList : Page
 
     private void RenderDepartmentData()
     {
-        StringBuilder res = new StringBuilder();
-        StringBuilder sea = new StringBuilder();
-        List<string> s = new List<string>();
+        var res = new StringBuilder();
+        var sea = new StringBuilder();
+        var searchItems = new List<string>();
         bool first = true;
         int cont = 0;
-        foreach (CostDefinition cost in CostDefinition.GetByCompany(((Company)Session["Company"]).Id))
+        foreach (var cost in CostDefinition.GetByCompany(((Company)Session["Company"]).Id))
         {
             if (cost.Active)
             {
-                if (!s.Contains(cost.Description))
+                if (!searchItems.Contains(cost.Description))
                 {
-                    s.Add(cost.Description);
+                    searchItems.Add(cost.Description);
                 }
 
                 res.Append(cost.ListRow(this.dictionary, this.user.Grants));
@@ -115,8 +107,8 @@ public partial class CostDefinitionList : Page
             }
         }
 
-        s.Sort();
-        foreach (string item in s)
+        searchItems.Sort();
+        foreach (string item in searchItems)
         {
             if (first)
             {

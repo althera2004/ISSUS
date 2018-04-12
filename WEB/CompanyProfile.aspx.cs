@@ -32,9 +32,7 @@ public partial class CompanyProfile : Page
         }
     }
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -106,9 +104,7 @@ public partial class CompanyProfile : Page
     public string CountryData { get; private set; }
     public string Countries { get; private set; }
 
-    /// <summary>
-    /// Gets the dictionary for interface texts
-    /// </summary>
+    /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -145,9 +141,9 @@ public partial class CompanyProfile : Page
     {
         get
         {
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (CompanyAddress address in this.master.Company.Addresses)
+            foreach (var address in this.master.Company.Addresses)
             {
                 if (first)
                 {
@@ -165,9 +161,7 @@ public partial class CompanyProfile : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
@@ -180,7 +174,7 @@ public partial class CompanyProfile : Page
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                  this.Response.Redirect("MultipleSession.aspx", true);
@@ -193,9 +187,7 @@ public partial class CompanyProfile : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = Session["User"] as ApplicationUser;
@@ -210,8 +202,8 @@ public partial class CompanyProfile : Page
         this.RenderCountries();
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Action = "success", Icon = "icon-ok", Text = this.dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Action = "success", Icon = "icon-ok", Text = this.dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         this.ImgLogo = new ImageSelector()
         {
@@ -302,11 +294,11 @@ public partial class CompanyProfile : Page
 
     private void RenderCountriesTab()
     {
-        StringBuilder selected = new StringBuilder();
-        StringBuilder availables = new StringBuilder();
-        StringBuilder countries = new StringBuilder(Environment.NewLine).Append("        [");
+        var selected = new StringBuilder();
+        var availables = new StringBuilder();
+        var countries = new StringBuilder(Environment.NewLine).Append("        [");
         bool first = true;
-        foreach (Country country in Country.GetAll(this.company.Id))
+        foreach (var country in Country.GetAll(this.company.Id))
         {
             if (country.Selected)
             {

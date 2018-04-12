@@ -24,11 +24,9 @@ public partial class DepartmentView : Page
     private Department department;
     private FormFooter formFooter;
 
-    private TabBar tabBar = new TabBar() { Id = "DepartmentTabBar" };
+    private TabBar tabBar = new TabBar { Id = "DepartmentTabBar" };
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -41,7 +39,7 @@ public partial class DepartmentView : Page
     {
         get
         {
-            return new FormText()
+            return new FormText
             {
                 Name = "TxtName",
                 Value = this.department.Description,
@@ -157,16 +155,14 @@ public partial class DepartmentView : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
@@ -176,12 +172,12 @@ public partial class DepartmentView : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (!int.TryParse(this.Request.QueryString["id"], out test))
@@ -222,8 +218,8 @@ public partial class DepartmentView : Page
         }
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         if (this.departmentId != -1)
         {
@@ -238,7 +234,7 @@ public partial class DepartmentView : Page
             this.formFooter.ModifiedBy = this.department.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.department.ModifiedOn;
             var tableEmployees = new StringBuilder();
-            foreach (Employee employee in this.department.Employees)
+            foreach (var employee in this.department.Employees)
             {
                 tableEmployees.Append(employee.DepartmentListRow(this.dictionary, this.departmentId));
             }
@@ -246,7 +242,7 @@ public partial class DepartmentView : Page
             this.TableEmployees.Text = tableEmployees.ToString();
 
             var tableJobPosition = new StringBuilder();
-            foreach (JobPosition jobPosition in this.department.JobPositions)
+            foreach (var jobPosition in this.department.JobPositions)
             {
                 tableJobPosition.Append(jobPosition.EmployeeRow(this.dictionary));
             }

@@ -34,13 +34,13 @@ public partial class CustomersView : Page
         }
     }
 
-    private TabBar tabBar = new TabBar() { Id = "CustomerTabBar" };
+    private TabBar tabBar = new TabBar { Id = "CustomerTabBar" };
 
     public string TxtName
     {
         get
         {
-            return new FormText()
+            return new FormText
             {
                 Name = "TxtName",
                 Value = this.customer.Description,
@@ -85,7 +85,7 @@ public partial class CustomersView : Page
     {
         get
         {
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             bool first = true;
             foreach (var customer in Customer.GetByCompany(((Company)Session["Company"]).Id))
             {
@@ -156,36 +156,34 @@ public partial class CustomersView : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -195,9 +193,7 @@ public partial class CustomersView : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.company = this.Session["company"] as Company;
@@ -218,8 +214,8 @@ public partial class CustomersView : Page
         this.master.Titulo = label;
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         if (this.customerId != -1)
         {
@@ -234,9 +230,9 @@ public partial class CustomersView : Page
             this.formFooter.ModifiedBy = this.customer.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.customer.ModifiedOn;
 
-            StringBuilder tableActions = new StringBuilder();
-            ReadOnlyCollection<CustomerIncidentActions> actions = CustomerIncidentActions.GetByCustomer(this.customer);
-            foreach (CustomerIncidentActions action in actions)
+            var tableActions = new StringBuilder();
+            var actions = CustomerIncidentActions.GetByCustomer(this.customer);
+            foreach (var action in actions)
             {
                 tableActions.Append(action.Row(this.dictionary, this.user.Grants));
             }
@@ -253,7 +249,7 @@ public partial class CustomersView : Page
             this.TableActions.Text = string.Empty;
         }
 
-        this.tabBar.AddTab(new Tab() { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Customers_Tab_Principal"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Customers_Tab_Principal"] });
         //// this.tabBar.AddTab(new Tab() { Id = "trazas", Label = this.dictionary["Item_Customers_Tab_Traces"], Active = this.customerId > 0, Available = this.user.HasTraceGrant() });
     }
 }

@@ -39,9 +39,7 @@ public partial class DashBoard : Page
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    /// <summary>
-    /// Gets the dictionary for interface texts
-    /// </summary>
+    /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -74,7 +72,7 @@ public partial class DashBoard : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", Constant.EndResponse);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
@@ -83,7 +81,7 @@ public partial class DashBoard : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -93,9 +91,7 @@ public partial class DashBoard : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)Session["User"];
@@ -199,96 +195,5 @@ public partial class DashBoard : Page
         }
 
         this.master.SearcheableItems = sea.ToString();
-    }
-
-    private void _RenderScheludedTasksList()
-    {
-        /*List<ScheduledTask> res = new List<ScheduledTask>();
-        using (SqlCommand cmd = new SqlCommand("ScheduleTask_GetByEmployee"))
-        {
-            cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-            try
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(DataParameter.Input("@EmployeeId", this.user.Employee.Id));
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.company.Id));
-                cmd.Connection.Open();
-                SqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
-                {
-                    if (user.PrimaryUser || rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId) == this.user.Employee.Id)
-                    {
-                        ScheduledTask newTask = new ScheduledTask()
-                        {
-                            OperationId = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.OperationId),
-                            Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.Operation),
-                            Equipment = new Equipment()
-                            {
-                                Id = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.EquipmentId),
-                                Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.Description)
-                            },
-                            Expiration = rdr.GetDateTime(ColumnsScheduleTaskGetByEmployee.Expiration),
-                            TaskType = rdr.GetString(ColumnsScheduleTaskGetByEmployee.OperationType),
-                            Responsible = new Employee()
-                            {
-                                Id = rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId),
-                                Name = rdr.GetString(ColumnsScheduleTaskGetByEmployee.EmployeeName),
-                                LastName = rdr.GetString(ColumnsScheduleTaskGetByEmployee.EmployeeLastName)
-                            },
-                            Action = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.Action),
-                            Internal = rdr[ColumnsScheduleTaskGetByEmployee.Type].ToString() == "0" ? "I" : "E"
-                        };
-
-                        if (!rdr.IsDBNull(ColumnsScheduleTaskGetByEmployee.ProviderName))
-                        {
-                            newTask.Provider = new Provider()
-                            {
-                                Id = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.ProviderId),
-                                Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.ProviderName)
-                            };
-                        }
-
-                        bool exists = false;
-                        foreach (ScheduledTask task in res)
-                        {
-                            if (newTask.Equipment.Id == task.Equipment.Id &&
-                            newTask.OperationId == task.OperationId &&
-                            newTask.TaskType == task.TaskType &&
-                            task.Internal == newTask.Internal)
-                            {
-                                if (task.Expiration < newTask.Expiration)
-                                {
-                                    task.Expiration = newTask.Expiration;
-                                }
-
-                                exists = true;
-                            }
-                        }
-
-                        if (!exists)
-                        {
-                            res.Add(newTask);
-                        }
-                    }
-                }
-            }
-            finally
-            {
-                if (cmd.Connection.State != ConnectionState.Closed)
-                {
-                    cmd.Connection.Close();
-                }
-            }
-        }
-
-        StringBuilder text = new StringBuilder();
-        res = res.OrderBy(t => t.Expiration).ToList();
-        foreach (ScheduledTask task in res)
-        {
-            text.Append(task.Row(this.dictionary));
-        }
-
-        this.DataTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0}", res.Count);
-        this.LtScheduledTasks.Text = text.ToString();*/
     }
 }
