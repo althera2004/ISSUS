@@ -1,10 +1,4 @@
-﻿using GisoFramework;
-using GisoFramework.Activity;
-using GisoFramework.Item;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using PDF_Tests;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -18,7 +12,12 @@ using System.Web.Script.Services;
 using System.Web.Services;
 using System.Web.UI;
 using iTS = iTextSharp.text;
-using iTSpdf = iTextSharp.text.pdf;
+using GisoFramework;
+using GisoFramework.Activity;
+using GisoFramework.Item;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using PDF_Tests;
 
 public partial class Agreement : Page
 {
@@ -50,7 +49,6 @@ public partial class Agreement : Page
             }
 
             path = string.Format(CultureInfo.InvariantCulture, @"{0}WelcomeBackgrounds\", path);
-
             var files = Directory.GetFiles(path);
             int index = new Random().Next(0, files.Count() - 1);
             string res = Path.GetFileName(files[index]);

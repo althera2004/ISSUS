@@ -1016,7 +1016,7 @@ function DrawGraphics(stop) {
 
         $("#barChartDiv").html("");
         this.div = document.getElementById("barChartDiv");
-        this.div.style.height = "300px";
+        this.div.style.height = "500px";
         this.chartCanvas = document.createElement("canvas");
         this.div.appendChild(this.chartCanvas);
         this.chartCanvas.style.width = $("#barChartDiv").width() + "px";

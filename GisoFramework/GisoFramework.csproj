@@ -178,10 +178,12 @@
     <Compile Include="Item\IncidentFilterItem.cs" />
     <Compile Include="Item\Indicador.cs" />
     <Compile Include="Item\IndicadorFilterItem.cs" />
+    <Compile Include="Item\IndicadorHistorico.cs" />
     <Compile Include="Item\IndicadorObjetivo.cs" />
     <Compile Include="Item\IndicadorRegistro.cs" />
     <Compile Include="Item\Objetivo.cs" />
     <Compile Include="Item\ObjetivoFilterItem.cs" />
+    <Compile Include="Item\ObjetivoHistorico.cs" />
     <Compile Include="Item\ObjetivoRegistro.cs">
       <SubType>Code</SubType>
     </Compile>

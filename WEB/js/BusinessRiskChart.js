@@ -48,25 +48,24 @@ function RenderChart() {
                 }
             });
 
-        chart.yAxis.tickFormat(d3.format(',.0f'));
+        chart.yAxis.tickFormat(d3.format(",.0f"));
         chart.yAxis.tickValues([5, 10, 15, 20]);
-        chart.valueFormat(d3.format('d'));
+        chart.valueFormat(d3.format("d"));
 
         //Add data to BarChart
-        chartData = d3.select('#chart svg').datum(graphicdata);
+        chartData = d3.select("#chart svg").datum(graphicdata);
         chartData.call(chart);
 
         nv.utils.windowResize(chart.update);
         return chart;
     }, function () {
         console.log("callback");
-        d3.selectAll(".discreteBar").on('click',
+        d3.selectAll(".discreteBar").on("click",
             function (e) {
                 document.location = "/BusinessRiskView.aspx?id=" + e.label;
             });
     });
 }
-
 
 function exampleData() {
     function y() {
@@ -142,8 +141,7 @@ function resizegrafico(transparent)
     if (width3 !== null) { if (width < width3) { width = width3; } }
     if (width4 !== null) { if (width < width4) { width = width4; } }
 
-
-    var width = $("#widthTest").width() - 100;
+    width = $("#widthTest").width() - 100;
     if (typeof width !== "undefined" && typeof chart !=="undefined") {
         chart.width(width);
         chart.update();
@@ -151,19 +149,19 @@ function resizegrafico(transparent)
     
     var canvas = document.getElementById("svggrafic");
     var height = $("#svggrafic").height() - 50;
-    if (height == null)
+    if (height === null)
     {
         height = 500;
     }
 
-    d3.select('#chart svg').append("line")
+    d3.select("#chart svg").append("line")
     .style("stroke", "gray")
     .attr("x1", 65)
     .attr("y1", height)
     .attr("x2", width)
     .attr("y2", height);
 
-    d3.select('#chart svg').append("line")
+    d3.select("#chart svg").append("line")
     .style("stroke", "gray")
     .attr("x1", 65)
     .attr("y1", 0)
@@ -209,6 +207,3 @@ function unresizegrafico()
 {
     graphicshow = false;
 }
-
-/*exampleData();
-RenderChart();*/

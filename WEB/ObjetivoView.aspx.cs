@@ -42,6 +42,14 @@ public partial class ObjetivoView : Page
 
     private TabBar tabBar = new TabBar() { Id = "EquipmentTabBar" };
 
+    public string Historic
+    {
+        get
+        {
+            return ObjetivoHistorico.ByObjetivoIdJsonList(this.objetivoId);
+        }
+    }
+
     public string ItemData
     {
         get
@@ -288,7 +296,7 @@ public partial class ObjetivoView : Page
         this.tabBar.AddTab(new Tab() { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Objetivo_TabBasic"], Available = true });
         this.tabBar.AddTab(new Tab() { Id = "records", Available = true, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabRecords"] });
         this.tabBar.AddTab(new Tab() { Id = "graphics", Available = true, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabGraphics"] });
-        
+        this.tabBar.AddTab(new Tab() { Id = "historic", Available = true, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabHistoric"] });
 
         this.RenderForm();
     }
@@ -322,7 +330,7 @@ public partial class ObjetivoView : Page
             GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo)
         };
 
-        this.CmbResponsible = new FormSelect()
+        this.CmbResponsible = new FormSelect
         {
             ColumnsSpanLabel = 1,
             Label = this.dictionary["Item_Objetivo_FieldLabel_Responsible"],
@@ -334,7 +342,7 @@ public partial class ObjetivoView : Page
             DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        this.CmbResponsibleClose = new FormSelect()
+        this.CmbResponsibleClose = new FormSelect
         {
             ColumnsSpanLabel = 3,
             Label = this.dictionary["Item_Objetivo_FieldLabel_CloseResponsible"],
@@ -346,7 +354,7 @@ public partial class ObjetivoView : Page
             Required = true
         };
 
-        this.CmbResponsibleRecord = new FormSelect()
+        this.CmbResponsibleRecord = new FormSelect
         {
             ColumnsSpanLabel = 3,
             Label = this.dictionary["Item_IndicatorRecord_FieldLabel_Responsible"],

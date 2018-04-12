@@ -80,14 +80,18 @@ window.onload = function () {
 
     $("#CmbResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsible").val() * 1, Employees); });
     $("#CmbResponsibleRecord").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsibleRecord").val() * 1, Employees); });
+
+    RenderTableHistorico();
 }
 
 window.onresize = function () { Resize(); }
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
+    var listTable = document.getElementById("ListDataDiv");
+    var histTable = document.getElementById("ListDataDivHistorico");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 500) + 'px';
+    listTable.style.height = (containerHeight - 500) + "px";
+    histTable.style.height = (containerHeight - 370) + "px";
 }
 
 function IndicatorVinculatedLayout() {
@@ -144,7 +148,7 @@ function CmbIndicadorChanged() {
 
 function Save() {
     var validationResult = Validate();
-    if (validationResult != '') {
+    if (validationResult != "") {
         warningInfoUI(validationResult, null, 300);
         return false;
     }
@@ -488,6 +492,12 @@ function ObjetivoRegistroFilter(exportType) {
     $("#ItemTableError").hide();
     $("#ItemTableVoid").hide();
     var count = 0;
+
+    // Poner fecha real en los registros
+    for (var x = 0; x < Registros.length; x++) {
+        Registros[x].RealDate = GetDate(Registros[x].Date, "/", false);
+    }
+
     for (var x = 0; x < Registros.length; x++) {
         var dateFrom = GetDate($("#TxtRecordsFromDate").val(), "/", false);
         var dateTo = GetDate($("#TxtRecordsToDate").val(), "/", false);
@@ -664,25 +674,24 @@ function RecordEdit(id) {
     FillFormRegistro(selectedRecordId);
     var title = selectedRecordId == -1 ? Dictionary.Item_IndicatorRecord_PopupTitle_Insert : Dictionary.Item_IndicatorRecord_PopupTitle_Update;
     var dialog = $("#dialogNewRecord").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: title,
-        width: 500,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": title,
+        "width": 500,
+        "buttons":
         [
             {
                 "id": "BtnNewRegistroSave",
-                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + (selectedRecordId > 0 ? Dictionary.Common_Change : Dictionary.Common_Add),
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + (selectedRecordId > 0 ? Dictionary.Common_Change : Dictionary.Common_Add),
                 "class": "btn btn-success btn-xs",
                 "click": function () { ObjetivoRegistroSave(); }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
         ]
-
     });
 }
 
@@ -914,23 +923,23 @@ function RecordDelete(id) {
         $("#dialogDeleteName").html(Dictionary.Item_Indicador_Popup_DeleteRecord_Message);
     }
     var dialog = $("#dialogDeleteRecord").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     RecordDeleteConfirmed();
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -951,12 +960,12 @@ function RecordDeleteConfirmed() {
     $("#dialogDeleteRecord").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             var temp = new Array();
             for (var x = 0; x < Registros.length; x++) {
                 if (Registros[x].Id !== selectedRecordId) {
@@ -965,6 +974,12 @@ function RecordDeleteConfirmed() {
             }
 
             Registros = temp;
+
+            // Poner fecha real en los registros
+            for (var x = 0; x < Registros.length; x++) {
+                Registros[x].RealDate = GetDate(Registros[x].Date, "/", false);
+            }
+
             ObjetivoRegistroFilter();
         },
         error: function (msg) {
@@ -1025,8 +1040,9 @@ function DrawGraphics(stop) {
         var lastLabel = "";
 
         Registros = Registros.sort(function (a, b) {
-            var x = a["Date"]; var y = b["Date"];
-             return ((x < y) ? -1 : ((x > y) ? 1 : 0)); 
+            var x = a["RealDate"];
+            var y = b["RealDate"];
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
         });
 
         for (var x = 0; x < Registros.length; x++) {
@@ -1074,26 +1090,23 @@ function DrawGraphics(stop) {
 
         $("#barChartDiv").html("");
         this.div = document.getElementById("barChartDiv");
-        //this.div.style.width = "100%";
-        this.div.style.height = "300px";
+        this.div.style.height = "500px";
         this.chartCanvas = document.createElement("canvas");
         this.div.appendChild(this.chartCanvas);
-        //this.chartCanvas.style.height = "300px";
         this.chartCanvas.style.width = $("#barChartDiv").width() + "px";
-        this.chartCanvas.width = $("#barChartDiv").width();
-        //this.chartCanvas.height = 480;
+        this.chartCanvas.style.heitgh = $("#barChartDiv").height();
         this.chartCanvas.id = "canvas";
 
-        this.ctx = this.chartCanvas.getContext('2d');
+        this.ctx = this.chartCanvas.getContext("2d");
         this.chart = new Chart(this.ctx).Overlay(overlayData, {
             populateSparseData: true,
             overlayBars: false,
             datasetFill: true,
-        });;
-        this.div.style.display = 'none';
+        });
+        this.div.style.display = "none";
 
         setTimeout(function () {
-            this.div.style.display = 'block';
+            this.div.style.display = "block";
             if (stop !== true) {
                 if ($("#canvas").css("width") === "0px") { DrawGraphics(true); }
             }
@@ -1346,4 +1359,47 @@ function EnableLayout() {
     $("#CmbIndicador").prop("disabled", false).trigger("chosen:updated");
 
     $("#BtnUnitsBAR").show();
+}
+
+function RenderTableHistorico() {
+    $("#ObjetivoHistoricoTable").html("");
+    for (var x = 0; x < Historic.length; x++) {
+        RenderHistoricoRow(Historic[x]);
+    }
+
+    $("#NumberHistoric").html(Historic.length);
+}
+
+function RenderHistoricoRow(data) {
+    var target = document.getElementById("ObjetivoHistoricoTable");
+
+    var tr = document.createElement("TR");
+
+    var tdAction = document.createElement("TD");
+    var tdDate = document.createElement("TD");
+    var tdReason = document.createElement("TD");
+    var tdEmployee = document.createElement("TD");
+
+    tdAction.style.width = "100px";
+    tdDate.style.width = "95px";
+    tdEmployee.style.width = "240px";
+
+    var actionText = "Anular";
+    var reason = data.Reason;
+    if (data.Reason === "Restore") {
+        actionText = "Restaurar"
+        reason = "";
+    }
+
+    tdAction.appendChild(document.createTextNode(actionText));
+    tdDate.appendChild(document.createTextNode(data.Date));
+    tdReason.appendChild(document.createTextNode(reason));
+    tdEmployee.appendChild(document.createTextNode(data.Employee.Value));
+
+    tr.appendChild(tdAction);
+    tr.appendChild(tdDate);
+    tr.appendChild(tdReason);
+    tr.appendChild(tdEmployee);
+
+    target.appendChild(tr);
 }
