@@ -251,11 +251,6 @@
                                                             </div>   
                                                             <hr />
                                                             <%=this.TxtActionMonitoring%> 
-                                                            <div class="form-group">
-                                                                <label class="col-sm-2" id="TxtActionClosedLabel"><%=this.Dictionary["Item_IncidentAction_Field_Close"] %></label>
-                                                                <%=this.ComboActionClosedResponsible.Render%>
-                                                                <%=this.TxtActionClosedDate%>
-                                                            </div>
                                                             <%=this.TxtActionNotes%>
                                                         </form>
                                                     </div> 
@@ -900,6 +895,17 @@
                                         </div>-->
                                 </div><!-- /.table-responsive -->
                             </div><!-- #dialog-message -->
+
+                           <div id="dialogAnular" class="hide" style="width: 400px;">
+                                <form class="form-horizontal" role="form" id="FormDialogAnular">
+                                    <div class="form-group">                                        
+                                        <%=this.ComboActionClosedResponsible.Render %>
+                                    </div>
+                                    <div class="form-group">
+                                        <%=this.TxtActionClosedDate %>
+                                    </div>
+                                </form>
+                            </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
     <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>

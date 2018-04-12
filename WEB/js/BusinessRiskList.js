@@ -213,7 +213,7 @@ function BusinessRiskRenderTable(list) {
         var objRules = eval("(" + item.Rules + ")");
 
         if (objProcess.Id > 0) {
-            if (user.Grants.Proccess.Read === false) {
+            if (typeof user.Grants.Process === "undefined" || user.Grants.Proccess.Read === false) {
                 tdProcess.appendChild(document.createTextNode(objProcess.Description));
             }
             else {
@@ -225,7 +225,7 @@ function BusinessRiskRenderTable(list) {
         }
         if (objRules.Id > 0) {
 
-            if (user.Grants.Rules === null || user.Grants.Rules.Read === false || user.Grants.Rules.Write === false) {
+            if (typeof user.Grants.Rules === "undefined" || user.Grants.Rules === null || user.Grants.Rules.Read === false || user.Grants.Rules.Write === false) {
                 tdRules.appendChild(document.createTextNode(objRules.Description));
             }
             else {

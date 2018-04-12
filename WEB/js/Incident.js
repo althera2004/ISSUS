@@ -873,8 +873,7 @@ function SaveIncident() {
         //        }
         //    });
         //}
-
-        webMethod = "/Async/IncidentActions.asmx/Update";
+        
         Incident.WhatHappenedOn = GetDate(FormatYYYYMMDD(Incident.WhatHappenedOn), "-", true);
         Incident.CausesOn = GetDate(FormatYYYYMMDD(Incident.CausesOn), "-", true);
         Incident.ActionsOn = GetDate(FormatYYYYMMDD(Incident.ActionsOn), "-", true);
@@ -882,7 +881,7 @@ function SaveIncident() {
         var dataIncident = { newIncident: incident, oldIncident: Incident, userId: user.Id };
         $.ajax({
             "type": "POST",
-            "url": webMethod,
+            "url": "/Async/IncidentActions.asmx/Update",
             "contentType": "application/json; charset=utf-8",
             "dataType": "json",
             "data": JSON.stringify(dataIncident, null, 2),

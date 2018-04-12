@@ -392,13 +392,13 @@ namespace GisoFramework.Item
                     ""SpecificSkills"": ""{6}"",
                     ""WorkExperience"": ""{7}"",
                     ""Abilities"": ""{8}"",
-                    ""Department"": {{ ""Id"": {9} }},
-                    ""Responsible"": {{ ""Id"": {10} }}
+                    ""Department"": {9},
+                    ""Responsible"": {10}
                     }}";
                 if (this.Id > 0)
                 {
                     return string.Format(
-                        CultureInfo.GetCultureInfo("en-us"),
+                        CultureInfo.InvariantCulture,
                         pattern,
                         this.Id,
                         this.Description.Replace("\"", "\\\""),
@@ -409,8 +409,8 @@ namespace GisoFramework.Item
                         Tools.JsonCompliant(this.specificSkills),
                         Tools.JsonCompliant(this.workExperience),
                         Tools.JsonCompliant(this.abilities),
-                        this.department.Id,
-                        this.responsible == null ? 0 : this.responsible.Id);
+                        this.department.JsonKeyValue,
+                        this.responsible == null ? "null" : this.responsible.JsonKeyValue);
                 }
 
                 return @"{
@@ -732,6 +732,31 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
+        /// <summary>Obtains a list of job positions by company</summary>
+        /// <param name="companyId">Company identifier</param>
+        /// <returns>List in JSON format of job positions</returns>
+        public static string ByCompanyJson(int companyId)
+        {
+            var res = new StringBuilder("[");
+            bool first = true;
+            foreach(var jobPosition in JobsPositionByCompany(companyId))
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    res.Append(",");
+                }
+
+                res.Append(jobPosition.Json);
+            }
+
+            res.Append("]");
+            return res.ToString();
+        }
+
         /// <summary>
         /// Gets all job positions of company
         /// </summary>
@@ -747,54 +772,55 @@ namespace GisoFramework.Item
             return JobsPositionByCompany(company.Id);
         }
 
-        /// <summary>
-        /// Gets all job positions of company
-        /// </summary>
+        /// <summary>Gets all job positions of company</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>A list of job positions</returns>
         public static ReadOnlyCollection<JobPosition> JobsPositionByCompany(int companyId)
         {
-            List<JobPosition> res = new List<JobPosition>();
+            var res = new List<JobPosition>();
             try
             {
-                using (SqlCommand cmd = new SqlCommand("JobPosition_GetByCompany"))
+                using (var cmd = new SqlCommand("JobPosition_GetByCompany"))
                 {
-                    cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString());
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString()))
                     {
-                        while (rdr.Read())
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            res.Add(new JobPosition()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsJobPositionGetAll.Id),
-                                Description = rdr.GetString(ColumnsJobPositionGetAll.Description),
-                                responsibilities = rdr.GetString(ColumnsJobPositionGetAll.Responsibilities),
-                                notes = rdr.GetString(ColumnsJobPositionGetAll.Notes),
-                                academicSkills = rdr.GetString(ColumnsJobPositionGetAll.AcademicSkills),
-                                specificSkills = rdr.GetString(ColumnsJobPositionGetAll.SpecificSkills),
-                                workExperience = rdr.GetString(ColumnsJobPositionGetAll.WorkExperience),
-                                abilities = rdr.GetString(ColumnsJobPositionGetAll.Abilities),
-                                department = new Department()
+                                res.Add(new JobPosition()
                                 {
-                                    Id = rdr.GetInt32(ColumnsJobPositionGetAll.DepartmentId),
-                                    Description = rdr.GetString(ColumnsJobPositionGetAll.DepartmentName),
-                                    Deleted = rdr.GetBoolean(ColumnsJobPositionGetAll.DepartmentDeleted),
+                                    Id = rdr.GetInt32(ColumnsJobPositionGetAll.Id),
+                                    Description = rdr.GetString(ColumnsJobPositionGetAll.Description),
+                                    responsibilities = rdr.GetString(ColumnsJobPositionGetAll.Responsibilities),
+                                    notes = rdr.GetString(ColumnsJobPositionGetAll.Notes),
+                                    academicSkills = rdr.GetString(ColumnsJobPositionGetAll.AcademicSkills),
+                                    specificSkills = rdr.GetString(ColumnsJobPositionGetAll.SpecificSkills),
+                                    workExperience = rdr.GetString(ColumnsJobPositionGetAll.WorkExperience),
+                                    abilities = rdr.GetString(ColumnsJobPositionGetAll.Abilities),
+                                    department = new Department()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsJobPositionGetAll.DepartmentId),
+                                        Description = rdr.GetString(ColumnsJobPositionGetAll.DepartmentName),
+                                        Deleted = rdr.GetBoolean(ColumnsJobPositionGetAll.DepartmentDeleted),
+                                        CompanyId = companyId
+                                    },
+                                    responsible = new JobPosition()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsJobPositionGetAll.ResponsibleId),
+                                        Description = rdr.GetString(ColumnsJobPositionGetAll.ResponsibleFullName),
+                                        CompanyId = companyId
+                                    },
                                     CompanyId = companyId
-                                },
-                                responsible = new JobPosition()
-                                {
-                                    Id = rdr.GetInt32(ColumnsJobPositionGetAll.ResponsibleId),
-                                    Description = rdr.GetString(ColumnsJobPositionGetAll.ResponsibleFullName),
-                                    CompanyId = companyId
-                                },
-                                CompanyId = companyId
-                            });
-                        }
+                                });
+                            }
 
-                        cmd.Connection.Close();
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

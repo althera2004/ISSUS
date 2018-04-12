@@ -30,15 +30,15 @@
         var jobPositionEmployee = <%= this.JobPositionEmployeeJson %>
         var ddData = [<%=this.CountryData %>];
         var EmployeeUserId = <%=this.EmployeeUserId %>;
-        var EmployeeUserName = '<%=this.UserName %>';
+        var EmployeeUserName = "<%=this.UserName %>";
         var SecurityGroups = <%=this.GroupsJson %>;
         var CompanyUserNames = [<%=this.CompanyUserNames %>];
-        var newDepartmentDescription = '';
+        var newDepartmentDescription = "";
         var DepartmentSelected;
         var JobPositionSelected;
         var typeItemId = 5;
         var itemId = employeeId;
-        
+        var JobPositionCompany = <%=JobsPositionCompany %>;
         var SkillWorkExperienceValid = <%=this.SkillWorkExperienceValid %>;
         var SkillAcademicValid = <%=this.SkillAcademicValid %>;
         var SkillSpecificValid = <%=this.SkillSpecificValid %>;
@@ -538,13 +538,13 @@
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server"> 
-        <script type="text/javascript" src="assets/js/jquery-ui-1.10.3.full.min.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.ui.touch-punch.min.js"></script>
-        <script type="text/javascript" src="assets/js/chosen.jquery.min.js"></script>
-        <script type="text/javascript" src="assets/js/fuelux/fuelux.spinner.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/bootstrap-timepicker.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/moment.min.js"></script>
-        <script type="text/javascript" src="assets/js/date-time/daterangepicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+        <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>
+        <script type="text/javascript" src="/assets/js/chosen.jquery.min.js"></script>
+        <script type="text/javascript" src="/assets/js/fuelux/fuelux.spinner.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/bootstrap-timepicker.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/moment.min.js"></script>
+        <script type="text/javascript" src="/assets/js/date-time/daterangepicker.min.js"></script>
         <script type="text/javascript" src="/js/EmployeeDepartments.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/EmployeeJobPosition.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/EmployeesView.js?<%=this.AntiCache %>"></script>

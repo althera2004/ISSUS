@@ -303,7 +303,7 @@ function ItemRenderTable(list) {
         if (item.Status === 4) { status = Dictionary.Item_Incident_Status4; colorStatus = "#000"; }
 
         if (item.Department.Id > 0) {
-            if (user.Grants.Department.Read === false) {
+            if (typeof user.Grants.Department === "undefined" || user.Grants.Department.Read === false) {
                 tdOrigin.appendChild(document.createTextNode(item.Department.Name));
             }
             else {
@@ -315,7 +315,7 @@ function ItemRenderTable(list) {
         }
 
         if (item.Provider.Id > 0) {
-            if (user.Grants.Provider === false) {
+            if (typeof user.Grants.Provider === "undefined" || user.Grants.Provider.Read === false) {
                 tdOrigin.appendChild(document.createTextNode(item.Provider.Description));
             }
             else {
@@ -327,7 +327,7 @@ function ItemRenderTable(list) {
         }
 
         if (item.Customer.Id > 0) {
-            if (user.Grants.Customer.Read === false) {
+            if (typeof user.Grants.Customer === "undefined" || user.Grants.Customer.Read === false) {
                 tdOrigin.appendChild(document.createTextNode(item.Customer.Description));
             }
             else {
@@ -342,7 +342,7 @@ function ItemRenderTable(list) {
             tdAction.appendChild(document.createTextNode(' '));
         }
         else {
-            if (user.Grants.IncidentActions.Read === false) {
+            if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
                 //tdAction.appendChild(document.createTextNode(item.Action.Description));
 				tdAction.appendChild(document.createTextNode(Dictionary.Common_View));
             }

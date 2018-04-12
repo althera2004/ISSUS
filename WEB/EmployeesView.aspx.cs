@@ -19,34 +19,22 @@ using System.IO;
 
 public partial class EmployeesView : Page
 {
-    /// <summary>
-    /// Master of page
-    /// </summary>
+    /// <summary>Master of page</summary>
     private Giso master;
 
-    /// <summary>
-    /// Company of session
-    /// </summary>
+    /// <summary>Company of session</summary>
     private Company company;
 
-    /// <summary>
-    /// Application user logged in session
-    /// </summary>
+    /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    /// <summary>
-    /// Dictionary for fixed labels
-    /// </summary>
+    /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
-    /// <summary>
-    /// Indicates if employee is active
-    /// </summary>
+    /// <summary>Indicates if employee is active</summary>
     private bool active;
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -55,14 +43,20 @@ public partial class EmployeesView : Page
         }
     }
 
-    /// <summary>
-    /// Gets or sets if user show help in interface
-    /// </summary>
+    /// <summary>Gets or sets if user show help in interface</summary>
     public bool ShowHelp
     {
         get
         {
             return this.user.ShowHelp;
+        }
+    }
+
+    public string JobsPositionCompany
+    {
+        get
+        {
+            return JobPosition.ByCompanyJson(this.company.Id);
         }
     }
 

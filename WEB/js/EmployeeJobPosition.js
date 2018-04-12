@@ -5,17 +5,17 @@ function ShowJobPositionAsociationPopup()
 {
     JobPositionSelected = -1;
     RenderJobPositionPopup();
-    $("#JobPositionAssociationDialog").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">&nbsp;' + Dictionary.Item_Employee_Popup_LinkJobPosition_Message + '</h4>',
-        width: 800,
-        title_html: true,
-        buttons: [
+    $("#JobPositionAssociationDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Employee_Popup_LinkJobPosition_Message,
+        "width": 800,
+        "title_html": true,
+        "buttons": [
             {
-                html: '<i class="icon-remove bigger-110"></i>&nbsp;' + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": 'btn btn-xs',
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -26,6 +26,7 @@ function ShowJobPositionAsociationPopup()
 var DeletableJobPostionRow = null;
 
 function UnassociatedJobPosition(sender) {
+    console.log("UnassociatedJobPosition");
     document.getElementById("TxtFinishDateErrorMaximumToday").style.display = "none";
     var id = sender.parentNode.parentNode.id * 1;
     var jobPosition = GetJobPositionById(id);
@@ -35,29 +36,29 @@ function UnassociatedJobPosition(sender) {
     }
 
     console.log(sender);
-    $('#BtnStartCopyDate').val(sender.parentNode.parentNode.childNodes[3].innerHTML);
-    $('#TxtFinishDate').val('');
+    $("#BtnStartCopyDate").val(sender.parentNode.parentNode.childNodes[3].innerHTML);
+    $("#TxtFinishDate").val("");
     DeletableJobPostionRow = sender;
     
     var jobPosition = GetJobPositionById(id);
     $("#JobPositionDesassociationText").html(jobPosition.Description);
-    var dialog = $("#JobPositionDesassociationDialog").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Item_Employee_Button_Unlink,
-        title_html: true,
-        buttons: [
+    var dialog = $("#JobPositionDesassociationDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Employee_Button_Unlink,
+        "title_html": true,
+        "buttons": [
                 {
-                    html: "<i class='icon-trash bigger-110'></i>&nbsp; " + Dictionary.Common_Yes,
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp; " + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
-                    click: function () {
+                    "click": function () {
                         UnassociatedJobPositionConfirmed(id);
                     }
                 },
                 {
-                    html: "<i class='icon-remove bigger-110'></i>&nbsp; " + Dictionary.Common_No,
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp; " + Dictionary.Common_No,
                     "class": "btn btn-xs",
-                    click: function () {
+                    "click": function () {
                         $(this).dialog("close");
                     }
                 }
@@ -67,48 +68,47 @@ function UnassociatedJobPosition(sender) {
 }
 
 function UnassociatedJobPositionConfirmed(id) {
-    document.getElementById('TxtFinishDateErrorRequired').style.display = 'none';
-    document.getElementById('TxtFinishDateErrorMaximumToday').style.display = 'none';
-    document.getElementById('TxtFinishDateErrorBeforeStart').style.display = 'none';
+    $("#TxtFinishDateErrorRequired").hide();
+    $("#TxtFinishDateErrorMaximumToday").hide();
+    $("#TxtFinishDateErrorBeforeStart").hide();
 
     if ($('#TxtFinishDate').val() === '')
     {
-        document.getElementById('TxtFinishDateErrorRequired').style.display = 'block';
+        $("#TxtFinishDateErrorRequired").show();
         return false;
     }
 
     var finishDate = GetDate($('#TxtFinishDate').val(), '/', false);
     if(finishDate > new Date())
     {
-        document.getElementById('TxtFinishDateErrorMaximumToday').style.display = 'block';
+        $("#TxtFinishDateErrorMaximumToday").show();
         return false;
     }
 
     var startDate = GetDate($('#BtnStartCopyDate').val(), '/', false);
     if (startDate > finishDate)
     {
-        document.getElementById('TxtFinishDateErrorBeforeStart').style.display = 'block';
+        $("#TxtFinishDateErrorBeforeStart").show();
         return false;
     }
 
     SelectedFinishDate = finishDate;
-    var webMethod = "/Async/EmployeeActions.asmx/DesassociateJobPosition";
     var data = {
-        'employeeId': employee.Id,
-        'companyId': Company.Id,
-        'date': finishDate,
-        'jobPositionId': id,
-        'userId': user.Id
+        "employeeId": employee.Id,
+        "companyId": Company.Id,
+        "date": finishDate,
+        "jobPositionId": id,
+        "userId": user.Id
     };
     $("#JobPositionDesassociationDialog").dialog("close");
-    LoadingShow('');
+    LoadingShow("");
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/EmployeeActions.asmx/DesassociateJobPosition",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
             // delete to actual jobpositions
             for (var x = 0; x < jobPositionEmployee.length; x++) {
@@ -119,10 +119,9 @@ function UnassociatedJobPositionConfirmed(id) {
 
             // hide hitorical row
             DeletableJobPostionRow.parentNode.appendChild(document.createTextNode(FormatDate(SelectedFinishDate, '/')));
-            DeletableJobPostionRow.parentNode.align = 'center';
-            // DeletableJobPostionRow.parentNode.parentNode.lastChild.innerHTML = '';
+            DeletableJobPostionRow.parentNode.align = "center";
             DeletableJobPostionRow.parentNode.removeChild(DeletableJobPostionRow);
-
+            UpdateSkillProfile();
         },
         error: function (msg) {
             LoadingHide();
@@ -139,7 +138,7 @@ function RenderJobPositionPopup() {
         index.push({ Key: x, Value: value });
     }
 
-    index.sort(sort_by('Value', true, function (a) { return a.toUpperCase(); }));
+    index.sort(sort_by("Value", true, function (a) { return a.toUpperCase(); }));
 
     for (var x2 = 0; x2 < index.length; x2++) {
         targetList.push(jobPositionCompany[index[x2].Key]);
@@ -150,10 +149,9 @@ function RenderJobPositionPopup() {
         jobPositionCompany.push(targetList[x3]);
     }
 
-
     // 1.- Crear la lista de departamentos
-    VoidTable('JobPositionAssociationDialogTable');
-    var target = document.getElementById('JobPositionAssociationDialogTable');
+    VoidTable("JobPositionAssociationDialogTable");
+    var target = document.getElementById("JobPositionAssociationDialogTable");
     for (var x4 = 0; x4 < jobPositionCompany.length; x4++) {
         JobPositionPopupRow(jobPositionCompany[x4], target);
     }
@@ -162,32 +160,32 @@ function RenderJobPositionPopup() {
 function JobPositionPopupRow(jobPosition, target) {
     var selected = JobPositionIsSelected(jobPosition.Id);
 
-    var tr = document.createElement('tr');
+    var tr = document.createElement("tr");
     tr.id = jobPosition.Id;
 
-    var td1 = document.createElement('td');
+    var td1 = document.createElement("td");
     td1.appendChild(document.createTextNode(jobPosition.Description));
     if (selected === true) {
-        td1.style.fontWeight = 'bold';
+        td1.style.fontWeight = "bold";
     }
 
-    var tdDept = document.createElement('td');
+    var tdDept = document.createElement("td");
     tdDept.appendChild(document.createTextNode(jobPosition.Department.Name));
     if (selected === true) {
-        tdDept.style.fontWeight = 'bold';
+        tdDept.style.fontWeight = "bold";
     }
 
-    var td2 = document.createElement('td');
-    var div = document.createElement('div');
-    var span1 = document.createElement('span');
-    span1.className = 'btn btn-xs btn-success';
+    var td2 = document.createElement("td");
+    var div = document.createElement("div");
+    var span1 = document.createElement("span");
+    span1.className = "btn btn-xs btn-success";
     span1.title = Dictionary.Common_SelectAll;
-    var i1 = document.createElement('i');
-    i1.className = 'icon-star bigger-120';
+    var i1 = document.createElement("i");
+    i1.className = "icon-star bigger-120";
     span1.appendChild(i1);
 
     if (selected === true) {
-        span1.onclick = function () { alertUI(Dictionary.Common_Selected, 'JobPositionAssociationDialog'); };
+        span1.onclick = function () { alertUI(Dictionary.Common_Selected, "JobPositionAssociationDialog"); };
     }
     else {
         span1.onclick = function () { JobPositionAssociationAction(this); };
@@ -202,8 +200,8 @@ function JobPositionPopupRow(jobPosition, target) {
     target.appendChild(tr);
 }
 
-$('#JobPositionAssociationDateDialog').on('dialogclose', function (event) {
-    $('#JobPositionAssociationDialog').dialog('open');
+$("#JobPositionAssociationDateDialog").on("dialogclose", function (event) {
+    $("#JobPositionAssociationDialog").dialog("open");
 });
 
 function JobPositionAssociationAction(sender) {
@@ -240,64 +238,65 @@ function JobPositionAssociationActionConfirmed(id)
     document.getElementById('TxtStartDateErrorRequired').style.display = 'none';
     document.getElementById('TxtStartDateErrorMaximumToday').style.display = 'none';
 
-    if ($('#TxtStartDate').val() === '') {
-        document.getElementById('TxtStartDateErrorRequired').style.display = 'block';
+    if ($("#TxtStartDate").val() === "") {
+        document.getElementById("TxtStartDateErrorRequired").style.display = "block";
         return false;
     }
 
-    var StartDate = GetDate($('#TxtStartDate').val(), '/', false);
+    var StartDate = GetDate($("#TxtStartDate").val(), "/", false);
     if (StartDate > new Date()) {
-        document.getElementById('TxtStartDateErrorMaximumToday').style.display = 'block';
+        document.getElementById("TxtStartDateErrorMaximumToday").style.display = "block";
         return false;
     }
 
     SelectedStartDate = StartDate;
-    $("#JobPositionAssociationDateDialog").dialog('close');
-    var webMethod = "/Async/EmployeeActions.asmx/AssociateJobPosition";
+    $("#JobPositionAssociationDateDialog").dialog("close");
     var data = {
-        'employeeId': employee.Id,
-        'companyId': Company.Id,
-        'date': StartDate,
-        'jobPositionId': id,
-        'userId': user.Id
+        "employeeId": employee.Id,
+        "companyId": Company.Id,
+        "date": StartDate,
+        "jobPositionId": id,
+        "userId": user.Id
     };
     $("#JobPositionAssociationDialog").dialog("close");
-    LoadingShow('');
+    LoadingShow("");
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/EmployeeActions.asmx/AssociateJobPosition",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
+
             // add to actual jobpositions
             var jobposition = GetJobPositionById(id);
             jobPositionEmployee.push({ "Id": id, "Description": jobposition.Description, "EndDate": false });
+
             // render hitorical row
             var target = document.getElementById('WorkExperienceDataTable');
 
-            var jobPositionLink = document.createElement('a');
-            jobPositionLink.title = Dictionary.Common_Edit + ' ' + jobposition.Description;
+            var jobPositionLink = document.createElement("a");
+            jobPositionLink.title = Dictionary.Common_Edit + " " + jobposition.Description;
             jobPositionLink.appendChild(document.createTextNode(jobposition.Description));
-            jobPositionLink.href = 'CargosView.aspx?id=' + id;
+            jobPositionLink.href = "CargosView.aspx?id=" + id;
 
-            var departmentLink = document.createElement('a');
-            departmentLink.title = Dictionary.Common_Edit + ' ' + jobposition.Department.Name;
-            departmentLink.appendChild(document.createTextNode(jobposition.Department.Name));
-            departmentLink.href = 'DepartmentView.aspx?id=' + jobposition.Department.Id;
+            var departmentLink = document.createElement("a");
+            departmentLink.title = Dictionary.Common_Edit + " " + jobposition.Department.Description;
+            departmentLink.appendChild(document.createTextNode(jobposition.Department.Description));
+            departmentLink.href = "DepartmentView.aspx?id=" + jobposition.Department.Id;
 
-            var tr = document.createElement('tr');
+            var tr = document.createElement("tr");
             tr.id = id;
-            var td1 = document.createElement('td');
+            var td1 = document.createElement("td");
             td1.appendChild(jobPositionLink);
 
-            var td2 = document.createElement('td');
+            var td2 = document.createElement("td");
             td2.appendChild(departmentLink);
 
-            var td3 = document.createElement('td');
+            var td3 = document.createElement("td");
             if (jobposition.Responsible === null) {
-                td3.appendChild(document.createTextNode(' '));
+                td3.appendChild(document.createTextNode(" "));
             }
             else {
                 td3.appendChild(document.createTextNode(jobposition.Responsible.Description));
@@ -321,6 +320,8 @@ function JobPositionAssociationActionConfirmed(id)
             tr.appendChild(td5);
             tr.appendChild(td6);
             target.appendChild(tr);
+
+            UpdateSkillProfile();
         },
         error: function (msg) {
             LoadingHide();
@@ -329,14 +330,14 @@ function JobPositionAssociationActionConfirmed(id)
     });
 }
 
-function GetJobPositionById(id) {
+/*function GetJobPositionById(id) {
     for (var x = 0; x < jobPositionCompany.length; x++) {
         if (jobPositionCompany[x].Id === id) {
             return jobPositionCompany[x];
         }
     }
     return Dictionary.NoDefinido;
-}
+}*/
 
 function JobPositionIsSelected(id) {
     for (var x = 0; x < jobPositionEmployee.length; x++) {
