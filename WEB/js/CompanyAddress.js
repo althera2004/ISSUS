@@ -167,7 +167,7 @@ function ShowAddressPopup() {
         AddAddressPopupRow(addresses[x], target);
     }
 
-    var dialog = $("#dialogShowAddress").removeClass('hide').dialog({
+    var dialog = $("#dialogShowAddress").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Item_CompanyAddress_PopupTitle,

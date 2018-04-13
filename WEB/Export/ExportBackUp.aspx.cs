@@ -24,7 +24,7 @@ using System.Text;
 using System.Data.SqlClient;
 using System.Data;
 
-public partial class Export_ExportBackUp : System.Web.UI.Page
+public partial class Export_ExportBackUp : Page
 {
     private struct ItemConfiguration
     {
@@ -41,9 +41,9 @@ public partial class Export_ExportBackUp : System.Web.UI.Page
     [ScriptMethod]
     public static ActionResult Go(int companyId)
     {
-        ActionResult res = ActionResult.NoAction;
-        Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        Company company = new Company(companyId);
+        var res = ActionResult.NoAction;
+        var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+        var company = new Company(companyId);
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.xls",
@@ -51,43 +51,45 @@ public partial class Export_ExportBackUp : System.Web.UI.Page
             company.Name,
             DateTime.Now);
 
-        HSSFWorkbook wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
+        var wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
 
-        List<ItemConfiguration> items = new List<ItemConfiguration>();
-        items.Add(new ItemConfiguration() { ItemName = "User", ItemTable = "ApplicationUser" });
-        items.Add(new ItemConfiguration() { ItemName = "Process", ItemTable = "Proceso" });
-        items.Add(new ItemConfiguration() { ItemName = "Department", ItemTable = "Department" });
-        items.Add(new ItemConfiguration() { ItemName = "Employee", ItemTable = "Employee" });
-        items.Add(new ItemConfiguration() { ItemName = "EmployeeSkills", ItemTable = "EmployeeSkills" });
-        items.Add(new ItemConfiguration() { ItemName = "Learning", ItemTable = "Learning" });
-        items.Add(new ItemConfiguration() { ItemName = "LearningAssistant", ItemTable = "LearningAssistant" });
-        items.Add(new ItemConfiguration() { ItemName = "Customer", ItemTable = "Customer" });
-        items.Add(new ItemConfiguration() { ItemName = "Provider", ItemTable = "Provider" });
-        items.Add(new ItemConfiguration() { ItemName = "Unidad", ItemTable = "Unidad" });
-        items.Add(new ItemConfiguration() { ItemName = "CostDefinition", ItemTable = "CostDefinition" });
-        items.Add(new ItemConfiguration() { ItemName = "Equipment", ItemTable = "Equipment" });
-        items.Add(new ItemConfiguration() { ItemName = "EquipmentScaleDivision", ItemTable = "EquipmentScaleDivision" });
-        items.Add(new ItemConfiguration() { ItemName = "EquipmentCalibrationDefinition", ItemTable = "EquipmentCalibrationDefinition" });
-        items.Add(new ItemConfiguration() { ItemName = "EquipmentCalibrationAct", ItemTable = "EquipmentCalibrationAct" });
-        items.Add(new ItemConfiguration() { ItemName = "EquipmentVerificationDefinition", ItemTable = "EquipmentVerificationDefinition" });
-        items.Add(new ItemConfiguration() { ItemName = "EquipmentVerificationAct", ItemTable = "EquipmentVerificationAct" });
-        items.Add(new ItemConfiguration() { ItemName = "EquipmentMaintenanceDefinition", ItemTable = "EquipmentMaintenanceDefinition" });
-        items.Add(new ItemConfiguration() { ItemName = "EquipmentMaintenanceAct", ItemTable = "EquipmentMaintenanceAct" });
-        items.Add(new ItemConfiguration() { ItemName = "EquipmentRepair", ItemTable = "EquipmentRepair" });
-        items.Add(new ItemConfiguration() { ItemName = "JobPosition", ItemTable = "Cargos" });
-        items.Add(new ItemConfiguration() { ItemName = "Document", ItemTable = "Document" });
-        items.Add(new ItemConfiguration() { ItemName = "Document_Category", ItemTable = "Document_Category" });
-        items.Add(new ItemConfiguration() { ItemName = "Incident", ItemTable = "Incident" });
-        items.Add(new ItemConfiguration() { ItemName = "IncidentCost", ItemTable = "IncidentCost" });
-        items.Add(new ItemConfiguration() { ItemName = "IncidentAction", ItemTable = "IncidentAction" });
-        items.Add(new ItemConfiguration() { ItemName = "IncidentActionCost", ItemTable = "IncidentActionCost" });
-        items.Add(new ItemConfiguration() { ItemName = "BusinessRisk", ItemTable = "BusinessRisk3" });
-        items.Add(new ItemConfiguration() { ItemName = "Indicador", ItemTable = "Indicador" });
-        items.Add(new ItemConfiguration() { ItemName = "Objetivo", ItemTable = "Objetivo" });
-
-        foreach (ItemConfiguration item in items)
+        var items = new List<ItemConfiguration>
         {
-            HSSFSheet sh = (HSSFSheet)wb.CreateSheet(dictionary["Item_" + item.ItemName].Replace('/','-'));
+            new ItemConfiguration() { ItemName = "User", ItemTable = "ApplicationUser" },
+            new ItemConfiguration() { ItemName = "Process", ItemTable = "Proceso" },
+            new ItemConfiguration() { ItemName = "Department", ItemTable = "Department" },
+            new ItemConfiguration() { ItemName = "Employee", ItemTable = "Employee" },
+            new ItemConfiguration() { ItemName = "EmployeeSkills", ItemTable = "EmployeeSkills" },
+            new ItemConfiguration() { ItemName = "Learning", ItemTable = "Learning" },
+            new ItemConfiguration() { ItemName = "LearningAssistant", ItemTable = "LearningAssistant" },
+            new ItemConfiguration() { ItemName = "Customer", ItemTable = "Customer" },
+            new ItemConfiguration() { ItemName = "Provider", ItemTable = "Provider" },
+            new ItemConfiguration() { ItemName = "Unidad", ItemTable = "Unidad" },
+            new ItemConfiguration() { ItemName = "CostDefinition", ItemTable = "CostDefinition" },
+            new ItemConfiguration() { ItemName = "Equipment", ItemTable = "Equipment" },
+            new ItemConfiguration() { ItemName = "EquipmentScaleDivision", ItemTable = "EquipmentScaleDivision" },
+            new ItemConfiguration() { ItemName = "EquipmentCalibrationDefinition", ItemTable = "EquipmentCalibrationDefinition" },
+            new ItemConfiguration() { ItemName = "EquipmentCalibrationAct", ItemTable = "EquipmentCalibrationAct" },
+            new ItemConfiguration() { ItemName = "EquipmentVerificationDefinition", ItemTable = "EquipmentVerificationDefinition" },
+            new ItemConfiguration() { ItemName = "EquipmentVerificationAct", ItemTable = "EquipmentVerificationAct" },
+            new ItemConfiguration() { ItemName = "EquipmentMaintenanceDefinition", ItemTable = "EquipmentMaintenanceDefinition" },
+            new ItemConfiguration() { ItemName = "EquipmentMaintenanceAct", ItemTable = "EquipmentMaintenanceAct" },
+            new ItemConfiguration() { ItemName = "EquipmentRepair", ItemTable = "EquipmentRepair" },
+            new ItemConfiguration() { ItemName = "JobPosition", ItemTable = "Cargos" },
+            new ItemConfiguration() { ItemName = "Document", ItemTable = "Document" },
+            new ItemConfiguration() { ItemName = "Document_Category", ItemTable = "Document_Category" },
+            new ItemConfiguration() { ItemName = "Incident", ItemTable = "Incident" },
+            new ItemConfiguration() { ItemName = "IncidentCost", ItemTable = "IncidentCost" },
+            new ItemConfiguration() { ItemName = "IncidentAction", ItemTable = "IncidentAction" },
+            new ItemConfiguration() { ItemName = "IncidentActionCost", ItemTable = "IncidentActionCost" },
+            new ItemConfiguration() { ItemName = "BusinessRisk", ItemTable = "BusinessRisk3" },
+            new ItemConfiguration() { ItemName = "Indicador", ItemTable = "Indicador" },
+            new ItemConfiguration() { ItemName = "Objetivo", ItemTable = "Objetivo" }
+        };
+
+        foreach (var item in items)
+        {
+            var sh = (HSSFSheet)wb.CreateSheet(dictionary["Item_" + item.ItemName].Replace('/','-'));
             string query = "Select * from " + item.ItemTable + " WHERE CompanyId = " + companyId.ToString();
             using(var cmd = new SqlCommand(query))
             {

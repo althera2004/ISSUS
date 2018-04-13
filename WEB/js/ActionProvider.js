@@ -42,7 +42,7 @@ function ProviderInsert(sender) {
     document.getElementById("TxtProviderNewNameErrorDuplicated").style.display = "none";
     $("#TxtProviderNewName").val("");
     var Selected = 0;
-    var dialog = $("#ProviderInsertDialog").removeClass('hide').dialog({
+    var dialog = $("#ProviderInsertDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -182,7 +182,7 @@ function ProviderUpdate(sender) {
                 }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
@@ -269,7 +269,7 @@ function ProviderUpdateConfirmed(id, newDescription) {
 function ProviderDelete(sender) {
     $('#ProviderName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $('#ProviderDeleteDialog').removeClass('hide').dialog({
+    var dialog = $('#ProviderDeleteDialog').removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Common_Delete,
@@ -285,7 +285,7 @@ function ProviderDelete(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () { $(this).dialog("close"); }
             }

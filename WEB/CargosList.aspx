@@ -74,7 +74,7 @@
         <script type="text/javascript">
             function JobPositionDelete(id, description) {
                 document.getElementById('JobPositionName').innerHTML = description;
-                var dialog = $("#JobPositionDeleteDialog").removeClass('hide').dialog({
+                var dialog = $("#JobPositionDeleteDialog").removeClass("hide").dialog({
                     resizable: false,
                     modal: true,
                     title: Dictionary.Common_Delete,
@@ -90,7 +90,7 @@
                             }
                         },
                         {
-                            html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                            html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                             "class": "btn btn-xs",
                             click: function () {
                                 ClearFieldTextMessages('TxtNewReason');

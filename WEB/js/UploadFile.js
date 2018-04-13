@@ -78,7 +78,7 @@ function DeleteUploadFileConfirmed() {
 function DeleteUploadFile(id, description) {
     $('#AttachName').html(description);
     AttachSelected = id;
-    var dialog = $("#DeleteAttachDialog").removeClass('hide').dialog({
+    var dialog = $("#DeleteAttachDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_Attach_Popup_Delete_Title + '</h4>',
@@ -93,7 +93,7 @@ function DeleteUploadFile(id, description) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -109,7 +109,7 @@ function UploadFile() {
     if (document.getElementById("BtnUploadOk") !== null) {
         document.getElementById("BtnUploadOk").disabled = false;
     }
-    var dialog = $("#PopupUploadFile").removeClass('hide').dialog({
+    var dialog = $("#PopupUploadFile").removeClass("hide").dialog({
         modal: true,
         title: '<h4 class="smaller">&nbsp;' + Dictionary.Item_DocumentAttachment_AddFile + '</h4>',
         title_html: true,

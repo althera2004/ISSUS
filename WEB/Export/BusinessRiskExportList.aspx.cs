@@ -82,9 +82,6 @@ public partial class ExportBusinessRiskExportList : Page
         var headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         CriteriaFont = new iTS.Font(arial, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         var titleFont = new iTS.Font(arial, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        var symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        FontAwe = new Font(fontAwesomeIcon, 10);
         #endregion
 
         var pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
@@ -170,78 +167,69 @@ public partial class ExportBusinessRiskExportList : Page
         }
         #endregion
 
-        var criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Common_Period"] + " :", timesBold))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Common_Period"] + " :", timesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
+        });
 
-        var criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
+        });
 
-        var criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_BusinesRisk_ListHeader_Process"] + " :", timesBold))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_BusinesRisk_ListHeader_Process"] + " :", timesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
+        });
 
-        var criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(typetext, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(typetext, times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
+        });
 
-        var criteria3Label = new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_BusinesRisk_ListHeader_Rule"] + " :", timesBold))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_BusinesRisk_ListHeader_Rule"] + " :", timesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
+        });
 
-        var criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(ruleDescription, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(ruleDescription, times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
+        });
 
-        var criteria4Label = new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_BusinesRisk_ListHeader_Type"] + " :", timesBold))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_BusinesRisk_ListHeader_Type"] + " :", timesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
+        });
 
-        var criteria4 = new iTSpdf.PdfPCell(new iTS.Phrase(criteriaProccess, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(criteriaProccess, times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-
-        criteriatable.AddCell(criteria1Label);
-        criteriatable.AddCell(criteria1);
-        criteriatable.AddCell(criteria2Label);
-        criteriatable.AddCell(criteria2);
-        criteriatable.AddCell(criteria3Label);
-        criteriatable.AddCell(criteria3);
-        criteriatable.AddCell(criteria4Label);
-        criteriatable.AddCell(criteria4);
+        });
 
         pdfDoc.Add(criteriatable);
         //---------------------------

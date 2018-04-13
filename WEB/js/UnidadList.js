@@ -40,7 +40,7 @@ function UnidadDelete(id, name) {
                     }
                 },
                 {
-                    "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                     "class": "btn btn-xs",
                     "click": function () {
                         $(this).dialog("close");

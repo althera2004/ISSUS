@@ -73,9 +73,9 @@
             var Tasks = <%=this.Tasks %>;
 
             function Resize() {
-                var listTable = document.getElementById('ListDataDiv');
+                var listTable = document.getElementById("ListDataDiv");
                 var containerHeight = $(window).height();
-                listTable.style.height = (containerHeight - 350) + 'px';
+                listTable.style.height = (containerHeight - 350) + "px";
             }
 
             window.onload = function () {
@@ -101,14 +101,13 @@
                     };
 
                 $.ajax({
-                    type: "POST",
-                    url: "/Async/DashBoardActions.asmx/SetFilter",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(filterData, null, 2),
-                    success: function (msg) {
-                    },
-                    error: function (msg) {
+                    "type": "POST",
+                    "url": "/Async/DashBoardActions.asmx/SetFilter",
+                    "contentType": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "data": JSON.stringify(filterData, null, 2),
+                    "success": function (msg) { },
+                    "error": function (msg) {
                         alertUI(msg.responseText);
                     }
                 });
@@ -138,6 +137,7 @@
                         }
                     }
                 }
+
                 $("#TotalRows").html(count);
             }
 
@@ -192,8 +192,6 @@
                     bold.appendChild(document.createTextNode(task.Provider));
                     tdResponsible.appendChild(bold);
                 }
-
-
 
                 tr.appendChild(tdName);
                 tr.appendChild(tdTarget);

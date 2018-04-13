@@ -145,7 +145,7 @@ function ProcedenciaDelete(sender) {
     document.getElementById('dialogProcedencia').parentNode.style.cssText += 'z-Index:1039 !important';
     $('#ProcedenciaName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#ProcedenciaDeleteDialog").removeClass('hide').dialog({
+    var dialog = $("#ProcedenciaDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_DocumentSource_Popup_Delete_Title + '</h4>',
@@ -161,7 +161,7 @@ function ProcedenciaDelete(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -240,7 +240,7 @@ function ProcedenciaUpdate(sender) {
     document.getElementById('TxtProcedenciaNewNameErrorRequired').style.display = 'none';
     document.getElementById('TxtProcedenciaNewNameErrorDuplicated').style.display = 'none';
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#ProcedenciaUpdateDialog").removeClass('hide').dialog({
+    var dialog = $("#ProcedenciaUpdateDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         width: 500,
@@ -249,7 +249,7 @@ function ProcedenciaUpdate(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     document.getElementById('TxtProcedenciaNameErrorRequired').style.display = 'none';
@@ -295,7 +295,7 @@ function ProcedenciaUpdate(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     document.getElementById('TxtProcedenciaNameErrorRequired').style.display = 'none';
@@ -378,7 +378,7 @@ function ProcedenciaInsert(sender) {
     document.getElementById('TxtProcedenciaNewNameErrorDuplicated').style.display = 'none';
     Selected = 0;
 
-    var dialog = $("#ProcedenciaInsertDialog").removeClass('hide').dialog({
+    var dialog = $("#ProcedenciaInsertDialog").removeClass("hide").dialog({
         resizable: false,
         width: 500,
         modal: true,
@@ -388,7 +388,7 @@ function ProcedenciaInsert(sender) {
         [
             {
                 id: "BtnNewProcedenciaAccept",
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     if (document.getElementById('TxtProcedenciaNewName').value == '') {
@@ -424,7 +424,7 @@ function ProcedenciaInsert(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     document.getElementById('TxtProcedenciaNewNameErrorRequired').style.display = 'none';

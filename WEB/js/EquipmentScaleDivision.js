@@ -7,7 +7,7 @@
 // Bar popup for bar item EquipmentScaleDivision
 function ShowEquipmentScaleDivisionBarPopup() {
     EquipmentScaleDivisionRenderPopup();
-    var dialog = $("#dialogEquipmentScaleDivision").removeClass('hide').dialog({
+    var dialog = $("#dialogEquipmentScaleDivision").removeClass("hide").dialog({
         id: 'dialogEquipmentScaleDivision',
         resizable: false,
         modal: true,
@@ -80,7 +80,7 @@ function EquipmentScaleDivisionInsert(sender) {
     document.getElementById('TxtEquipmentScaleDivisionNewNameErrorDuplicated').style.display = 'none';
     $('#TxtEquipmentScaleDivisionNewName').val('');
     var Selected = 0;
-    var dialog = $("#EquipmentScaleDivisionInsertDialog").removeClass('hide').dialog({
+    var dialog = $("#EquipmentScaleDivisionInsertDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -89,7 +89,7 @@ function EquipmentScaleDivisionInsert(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
@@ -125,7 +125,7 @@ function EquipmentScaleDivisionInsert(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -337,7 +337,7 @@ function EquipmentScaleDivisionDelete(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () { $(this).dialog("close"); }
             }

@@ -5,7 +5,7 @@ var newAmount;
 // Bar popup for bar item Provider
 function ShowCostBarPopup(cmb) {
     CostRenderPopup();
-    var dialog = $("#dialogCost").removeClass('hide').dialog({
+    var dialog = $("#dialogCost").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Item_CostDefinitions,
@@ -15,12 +15,12 @@ function ShowCostBarPopup(cmb) {
         [
             {
                 id: 'BtnCostSave',
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
                 click: function () { CostInsert(); }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () { $(this).dialog("close"); }
             }
@@ -137,7 +137,7 @@ function CostInsert(sender) {
     $('#TxtCostNewName').val('');
     $('#TxtCostNewAmount').val('');
     var Selected = 0;
-    var dialog = $("#CostInsertDialog").removeClass('hide').dialog({
+    var dialog = $("#CostInsertDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -146,7 +146,7 @@ function CostInsert(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
@@ -190,7 +190,7 @@ function CostInsert(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () { $(this).dialog("close"); }
             }
@@ -260,7 +260,7 @@ function CostUpdate(sender) {
     $('#TxtCostName').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     $('#TxtCostAmount').val(sender.parentNode.parentNode.parentNode.childNodes[1].innerHTML);
     CostSelected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#CostUpdateDialog").removeClass('hide').dialog({
+    var dialog = $("#CostUpdateDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -268,7 +268,7 @@ function CostUpdate(sender) {
         title_html: true,
         buttons: [
                 {
-                    html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                    html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                     "class": "btn btn-success btn-xs",
                     click: function () {
                         var ok = true;
@@ -311,7 +311,7 @@ function CostUpdate(sender) {
                     }
                 },
                 {
-                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                    html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     click: function () {
                         $(this).dialog("close");
@@ -382,7 +382,7 @@ function CostUpdateConfirmed(id, newDescription) {
 function CostDelete(sender) {
     $('#CostName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $('#CostDeleteDialog').removeClass('hide').dialog({
+    var dialog = $('#CostDeleteDialog').removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Common_Delete,
@@ -398,7 +398,7 @@ function CostDelete(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () { $(this).dialog("close"); }
             }

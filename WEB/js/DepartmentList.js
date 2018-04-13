@@ -23,7 +23,7 @@ function DepartmentDeleteAction() {
 function DepartmentDelete(id, name) {
     $('#DepartmentName').html(name);
     DepartmentSelected = id;
-    var dialog = $("#DepartmentDeleteDialog").removeClass('hide').dialog({
+    var dialog = $("#DepartmentDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_Department_Popup_Delete_Title+'</h4>',
@@ -38,7 +38,7 @@ function DepartmentDelete(id, name) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");

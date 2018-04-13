@@ -1444,7 +1444,7 @@
                 FillCmbEquipmentCalibrationActResponsible();
                 FillCmbEquipmentCalibrationActProvider();
                 EquipmentCalibrationActEditFormFill(SelectedEquipmentCalibrationAct);
-                var dialog = $("#dialogEquipmentCalibrationForm").removeClass('hide').dialog({
+                var dialog = $("#dialogEquipmentCalibrationForm").removeClass("hide").dialog({
                 resizable: false,
                 modal: true,
                 title: '<h4 class="smaller">' + Dictionary.Item_EquipmentCalibrationAct_PopupUpdate_Title + '</h4>',
@@ -1460,7 +1460,7 @@
                                     }
                                 },
                                 {
-                                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                                    html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                                     "class": "btn btn-xs",
                                     click: function () {
                                         $(this).dialog("close");
@@ -1482,7 +1482,7 @@
 
                 document.getElementById('dialogEquipmentCalibrationActDeleteName').innerHTML = ' la calibración?';
 
-                var dialog = $("#dialogEquipmentCalibrationActDelete").removeClass('hide').dialog({
+                var dialog = $("#dialogEquipmentCalibrationActDelete").removeClass("hide").dialog({
                         resizable: false,
                         modal: true,
                         title: '<h4 class="smaller">' + Dictionary.Item_EquipmentCalibrationAct_PopupDelete_Title + '</h4>',
@@ -1498,7 +1498,7 @@
                             }
                         },
                         {
-                            html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                            html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                             "class": "btn btn-xs",
                             click: function () {
                                 $(this).dialog("close");
@@ -1515,7 +1515,7 @@
                 FillCmbEquipmentVerificationActResponsible();
                 FillCmbEquipmentVerificationActProvider();
                 EquipmentVerificationActEditFormFill(SelectedEquipmentVerificationAct);
-                var dialog = $("#dialogEquipmentVerificacionForm").removeClass('hide').dialog({
+                var dialog = $("#dialogEquipmentVerificacionForm").removeClass("hide").dialog({
                     resizable: false,
                     modal: true,
                     title: '<h4 class="smaller">' + Dictionary.Item_EquipmentVerification_PopupUpdate_Title + '</h4>',
@@ -1531,7 +1531,7 @@
                                         }
                                     },
                                     {
-                                        html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                                        html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                                         "class": "btn btn-xs",
                                         click: function () {
                                             $(this).dialog("close");
@@ -1552,7 +1552,7 @@
                 if(SelectedEquipmentVerificationAct==null){return false;}
 
                 document.getElementById('dialogEquipmentVerificationActDeleteName').innerHTML = ' la verificación?';
-                var dialog = $("#dialogEquipmentVerificationActDelete").removeClass('hide').dialog({
+                var dialog = $("#dialogEquipmentVerificationActDelete").removeClass("hide").dialog({
                         resizable: false,
                         modal: true,
                         title: '<h4 class="smaller">' + Dictionary.Item_EquipmentVerification_Popup_Delete_Title + '</h4>',
@@ -1568,7 +1568,7 @@
                             }
                         },
                         {
-                            html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                            html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                             "class": "btn btn-xs",
                             click: function () {
                                 $(this).dialog("close");

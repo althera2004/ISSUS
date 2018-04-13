@@ -56,7 +56,7 @@
 function CompanyChangeImage(actionSelected) {
     document.getElementById('actual').src = document.getElementById('EquipmentImg').src;
     document.getElementById('blah').src = '/images/noimage.jpg';
-    var dialog = $("#ChangeImageDialog").removeClass('hide').dialog({
+    var dialog = $("#ChangeImageDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Item_Company_Logo,
@@ -66,14 +66,14 @@ function CompanyChangeImage(actionSelected) {
         [
             {
                 id: 'BtnNewAddresSave',
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     CompanyChangeImageConfirmed();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -150,7 +150,7 @@ function _CompanyChangeImageConfirmed() {
 }
 
 function CompanyDeleteImage() {
-    var dialog = $("#DeleteImageDialog").removeClass('hide').dialog({
+    var dialog = $("#DeleteImageDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">'+Dictionary.Item_CompanyData_Popup_ImageDelete_Title+'</h4>',
@@ -167,7 +167,7 @@ function CompanyDeleteImage() {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");

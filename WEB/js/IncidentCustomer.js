@@ -15,7 +15,7 @@ function ShowCustomerBarPopup(cmb) {
     Cmb = cmb;
     CustomerSelected = cmb.val() * 1;
     CustomerRenderPopup();
-    var dialog = $(popupDialogId).removeClass('hide').dialog({
+    var dialog = $(popupDialogId).removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: eval("Dictionary.Item_" + itemName + "s"),
@@ -25,12 +25,12 @@ function ShowCustomerBarPopup(cmb) {
         [
             {
                 id: 'Btn'+ itemName +'Save',
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
                 click: function () { CustomerInsert(); }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () { $(this).dialog("close"); }
             }
@@ -51,7 +51,7 @@ function CustomerInsert(sender) {
     document.getElementById('TxtCustomerNewNameErrorDuplicated').style.display = 'none';
     $('#TxtCustomerNewName').val('');
     var Selected = 0;
-    var dialog = $(popupInsertDialogId).removeClass('hide').dialog({
+    var dialog = $(popupInsertDialogId).removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -60,7 +60,7 @@ function CustomerInsert(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
@@ -89,7 +89,7 @@ function CustomerInsert(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () { $(this).dialog("close"); }
             }
@@ -146,7 +146,7 @@ function CustomerUpdate(sender) {
     document.getElementById('TxtCustomerNameErrorDuplicated').style.display = 'none';
     $('#TxtCustomerName').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     ItemIdUpdate = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $(popupUpdateDialogId).removeClass('hide').dialog({
+    var dialog = $(popupUpdateDialogId).removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -155,7 +155,7 @@ function CustomerUpdate(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
@@ -193,7 +193,7 @@ function CustomerUpdate(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -279,7 +279,7 @@ function CustomerUpdateConfirmed(id, newDescription) {
 function CustomerDelete(sender) {
     $("#CustomerName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     ItemIdDelete = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $(popupDeleteDialogId).removeClass('hide').dialog({
+    var dialog = $(popupDeleteDialogId).removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_Delete,

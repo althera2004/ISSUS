@@ -3,7 +3,7 @@ function Show{0}BarPopup()
 {{
     {0}RenderPopup();
 
-    var dialog = $("#dialog{0}").removeClass('hide').dialog({{
+    var dialog = $("#dialog{0}").removeClass("hide").dialog({{
         resizable: false,
         modal: true,
         title: '{1}',
@@ -82,7 +82,7 @@ function {0}Insert(sender) {{
     document.getElementById('Txt{0}NewNameErrorDuplicated').style.display = 'none';
     $('#Txt{0}NewName').val('');
     var Selected = 0;
-    var dialog = $("#{0}InsertDialog").removeClass('hide').dialog({{
+    var dialog = $("#{0}InsertDialog").removeClass("hide").dialog({{
         resizable: false,
         width: 600,
         modal: true,
@@ -90,7 +90,7 @@ function {0}Insert(sender) {{
         title_html: true,
         buttons: [
                 {{
-                    html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                    html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                     "class": "btn btn-success btn-xs",
                     click: function () {{
                         var ok = true;
@@ -133,7 +133,7 @@ function {0}Insert(sender) {{
                     }}
                 }},
                 {{
-                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                    html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     click: function () {{ $(this).dialog("close"); }}
                 }}
@@ -193,7 +193,7 @@ function {0}Update(sender)
     document.getElementById('Txt{0}NameErrorDuplicated').style.display='none';
     $('#Txt{0}Name').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#{0}UpdateDialog").removeClass('hide').dialog({{
+    var dialog = $("#{0}UpdateDialog").removeClass("hide").dialog({{
         resizable: false,
         width: 600,
         modal: true,
@@ -201,7 +201,7 @@ function {0}Update(sender)
         title_html: true,
         buttons: [
                 {{
-                    html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                    html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                     "class": "btn btn-success btn-xs",
                     click: function () {{
                         var ok = true;
@@ -245,7 +245,7 @@ function {0}Update(sender)
                     }}
                 }},
                 {{
-                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                    html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     click: function () {{
                         $(this).dialog("close");
@@ -341,7 +341,7 @@ function {0}Delete(sender)
 {{
     $('#{0}Name').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $('#{0}DeleteDialog').removeClass('hide').dialog({{
+    var dialog = $('#{0}DeleteDialog').removeClass("hide").dialog({{
         resizable: false,
         modal: true,
         title: Dictionary.Common_Delete,
@@ -357,7 +357,7 @@ function {0}Delete(sender)
                 }}
             }},
             {{
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {{ $(this).dialog("close"); }}
             }}

@@ -7,7 +7,7 @@
         lockedPopupId = '';
     }
     $('#AlertUIMessage').html(message);
-    var dialog = $("#AlertUIDialog").removeClass('hide').dialog({
+    var dialog = $("#AlertUIDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Aviso,
@@ -15,7 +15,7 @@
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-xs btn-success",
                 click: function () {
                     $(this).dialog("close");
@@ -39,7 +39,7 @@ function alertInfoUI(message, action, blockPopup) {
         lockedPopupId = '';
     }
     $('#InfoUIMessage').html(message);
-    var dialog = $("#InfoUIDialog").removeClass('hide').dialog({
+    var dialog = $("#InfoUIDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Aviso,
@@ -47,7 +47,7 @@ function alertInfoUI(message, action, blockPopup) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-xs btn-success",
                 click: function () {
                     $(this).dialog("close");
@@ -72,7 +72,7 @@ function warningInfoUI(message, action, width, blockPopup) {
         lockedPopupId = '';
     }
     $('#WarningUIMessage').html(message);
-    var dialog = $("#WarningUIDialog").removeClass('hide').dialog({
+    var dialog = $("#WarningUIDialog").removeClass("hide").dialog({
         resizable: false,
         width: width === null ? 300 : width,
         modal: true,
@@ -82,7 +82,7 @@ function warningInfoUI(message, action, width, blockPopup) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-xs btn-success",
                 click: function () {
                     $(this).dialog("close");
@@ -109,7 +109,7 @@ function successInfoUI(message, action, width) {
         lockedPopupId = '';
     }
     $('#SuccessUIMessage').html(message);
-    var dialog = $("#SuccessUIDialog").removeClass('hide').dialog({
+    var dialog = $("#SuccessUIDialog").removeClass("hide").dialog({
         resizable: false,
         width: width === null ? 300 : width,
         modal: true,
@@ -118,7 +118,7 @@ function successInfoUI(message, action, width) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-xs btn-success",
                 click: function () {
                     $(this).dialog("close");
@@ -138,7 +138,7 @@ function successInfoUI(message, action, width) {
 
 function promptInfoUI(message, width, actionYes, actionNo) {
     $('#PromptUIMessage').html(message);
-    var dialog = $("#PromptUIDialog").removeClass('hide').dialog({
+    var dialog = $("#PromptUIDialog").removeClass("hide").dialog({
         resizable: false,
         width: width === null ? 300 : width,
         modal: true,
@@ -147,7 +147,7 @@ function promptInfoUI(message, width, actionYes, actionNo) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-xs btn-success",
                 click: function () {
                     $(this).dialog("close");
@@ -157,7 +157,7 @@ function promptInfoUI(message, width, actionYes, actionNo) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs btn-danger",
                 click: function () {
                     $(this).dialog("close");
@@ -174,7 +174,7 @@ function promptInfoUI(message, width, actionYes, actionNo) {
 function LoadingShow(message) {
     return;
     /* $('#LoadingMessage').html(message);
-    var dialog = $("#LoadingDialog").removeClass('hide').dialog({
+    var dialog = $("#LoadingDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Common_Working,

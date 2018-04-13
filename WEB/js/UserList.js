@@ -15,7 +15,7 @@ function UserDelete(id, description) {
     }
 
     document.getElementById('UserName').innerHTML = description;
-    var dialog = $("#UserDeleteDialog").removeClass('hide').dialog({
+    var dialog = $("#UserDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Common_Delete,
@@ -31,7 +31,7 @@ function UserDelete(id, description) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     ClearFieldTextMessages('TxtNewReason');

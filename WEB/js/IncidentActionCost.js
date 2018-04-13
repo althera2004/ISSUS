@@ -431,7 +431,7 @@ function IncidentActionCostDelete(id) {
     SelectedIncidentActionCost = IncidentActionCostGetById(SelectedIncidentActionCostId, IncidentActionCosts);
     if (SelectedIncidentActionCost === null) { return false; }
     document.getElementById('dialogIncidentActionCostDeleteName').innerHTML = SelectedIncidentActionCost.Description + ' - ' + decimalFormat(SelectedIncidentActionCost.Amount);
-    var dialog = $("#dialogIncidentActionCostDelete").removeClass('hide').dialog({
+    var dialog = $("#dialogIncidentActionCostDelete").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_IncidentActionCost_PopupTitle_Delete + '</h4>',
@@ -448,7 +448,7 @@ function IncidentActionCostDelete(id) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");

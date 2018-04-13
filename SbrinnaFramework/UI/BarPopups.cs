@@ -143,9 +143,9 @@ namespace SbrinnaCoreFramework.UI
                             title_html: true,
                             buttons: [
                                     {{
-                                        html: ""<i class='icon-ok bigger-110'></i>&nbsp;"" + Dictionary.Common_Accept,
+                                        ""html"": ""<i class=\\""icon-ok bigger-110\\""></i>&nbsp;"" + Dictionary.Common_Accept,
                                         ""class"": ""btn btn-success btn-xs"",
-                                        click: function () {{
+                                        ""click"": function () {{
                                             var ok = true;
                                             if(document.getElementById('Txt{0}}}Name').value == '')
                                             {{
@@ -169,28 +169,28 @@ namespace SbrinnaCoreFramework.UI
 
                                             if(duplicated === true)
                                             {{
-                                                document.getElementById('Txt{0}}}NameErrorDuplicated').style.display='block';
+                                                $(""#Txt{0}}}NameErrorDuplicated"").hide();
                                                 ok = false;
                                             }}
                                             else
                                             {{
-                                                document.getElementById('Txt{0}}}NameErrorDuplicated').style.display='none';
+                                                $(""#Txt{0}}}NameErrorDuplicated"").hide();
                                             }}
 
 
                                             if(ok === false) {{ window.scrollTo(0, 0); return false; }}
 
-                                            document.getElementById('Txt{0}}}NameErrorRequired').style.display='none';
-                                            document.getElementById('Txt{0}}}NameErrorDuplicated').style.display='none';
+                                            $(""#Txt{0}}}NameErrorRequired"").hide();
+                                            $(""#Txt{0}}}NameErrorDuplicated"").hide();
                                             $(this).dialog('close');
-                                            ProcessTypeUpdateConfirmed(Selected, document.getElementById('Txt{0}}}Name').value);
+                                            ProcessTypeUpdateConfirmed(Selected, $(""#Txt{0}}}Name"").val());
                                         }}
                                     }},
                                     {{
-                                        html: ""<i class='icon-remove bigger-110'></i>&nbsp;"" + Dictionary.Common_Cancel,
+                                        ""html"": ""<i class=\\""icon-remove bigger-110\\""></i>&nbsp;"" + Dictionary.Common_Cancel,
                                         ""class"": ""btn btn-xs"",
-                                        click: function () {{
-                                            $(this).dialog('close');
+                                        ""click"": function () {{
+                                            $(this).dialog(""close"");
                                         }}
                                     }}
                                 ]

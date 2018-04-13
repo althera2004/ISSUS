@@ -194,7 +194,7 @@ function RenderRow(equipment) {
     tdDescripcion.appendChild(linkDescripcion);
 
     tdUbicacion.appendChild(document.createTextNode(equipment.Ubicacion));
-    if (user.Grants["Employee"].Write === true) {
+    if (typeof user.Grants.Employee !== "undefined" && user.Grants.Employee.Write === true) {
         var LinkResponsable = document.createElement("a");
         LinkResponsable.href = "EmployeesView.aspx?id=" + equipment.Responsable.Id;
         LinkResponsable.title = equipment.Responsable.FullName;

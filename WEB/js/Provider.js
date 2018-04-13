@@ -321,7 +321,7 @@ function ProviderUpdate(sender) {
     document.getElementById('TxtProviderNameErrorDuplicated').style.display = 'none';
     $('#TxtProviderName').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#ProviderUpdateDialog").removeClass('hide').dialog({
+    var dialog = $("#ProviderUpdateDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 600,
         "modal": true,

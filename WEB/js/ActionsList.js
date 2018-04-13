@@ -310,7 +310,7 @@ function IncidentActionDelete(sender) {
     console.log("IncidentActionDelete", IncidentActionSelectedId);
     if (IncidentActionSelected === null) { return false; }
     $('#IncidentActionDeleteName').html(IncidentActionSelected.Description);
-    var dialog = $("#IncidentActionDeleteDialog").removeClass('hide').dialog({
+    var dialog = $("#IncidentActionDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Common_Delete,
@@ -325,7 +325,7 @@ function IncidentActionDelete(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");

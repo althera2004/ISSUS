@@ -152,7 +152,7 @@ function CategoryDelete(sender) {
     document.getElementById('dialogCategory').parentNode.style.cssText += 'z-Index:1039 !important';
     $('#CategoryName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#CategoryDeleteDialog").removeClass('hide').dialog({
+    var dialog = $("#CategoryDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_DocumentCategory_Popup_Delete_Title + '</h4>',
@@ -243,7 +243,7 @@ function CategoryUpdate(sender) {
     document.getElementById('dialogCategory').parentNode.style.cssText += 'z-Index:1039 !important';
     $('#TxtCategoryName').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#CategoryUpdateDialog").removeClass('hide').dialog({
+    var dialog = $("#CategoryUpdateDialog").removeClass("hide").dialog({
         resizable: false,
         width: 500,
         modal: true,
@@ -252,7 +252,7 @@ function CategoryUpdate(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
@@ -292,7 +292,7 @@ function CategoryUpdate(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     document.getElementById('TxtCategoryNameErrorRequired').style.display = 'none';
@@ -372,7 +372,7 @@ function CategoryInsert(sender) {
     document.getElementById('dialogCategory').parentNode.style.cssText += 'z-Index:1039 !important';
     document.getElementById('TxtCategoryNewName').value = '';
     Selected = 0;
-    var dialog = $("#CategoryInsertDialog").removeClass('hide').dialog({
+    var dialog = $("#CategoryInsertDialog").removeClass("hide").dialog({
         resizable: false,
         width: 500,
         modal: true,
@@ -381,7 +381,7 @@ function CategoryInsert(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;

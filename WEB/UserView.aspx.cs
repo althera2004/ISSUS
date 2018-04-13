@@ -267,10 +267,22 @@ public partial class UserView : Page
 
             string grants = "|";
 
+            var grantsException = new List<int>
+            {
+                1,
+                2,
+                6
+            };
+
             var res = new StringBuilder();
             var permisos = this.userItem.EffectiveGrants.OrderBy(o => o.Item.Description).ToList();
             foreach (var grant in permisos)
             {
+                if(grantsException.Contains(grant.Item.Code))
+                {
+                    continue;
+                }
+
                 res.Append(grant.Render());
                 if (grant.GrantToRead)
                 {

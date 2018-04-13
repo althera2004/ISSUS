@@ -112,7 +112,7 @@ function UnassociatedJobPositionConfirmed(id) {
             LoadingHide();
             // delete to actual jobpositions
             for (var x = 0; x < jobPositionEmployee.length; x++) {
-                if (jobPositionEmployee[x].Id == id) {
+                if (jobPositionEmployee[x].Id === id) {
                     jobPositionEmployee[x].EndDate = true;
                 }
             }
@@ -208,7 +208,7 @@ function JobPositionAssociationAction(sender) {
     var id = sender.parentNode.parentNode.parentNode.id * 1;
     $('#JobPositionAssociationDialog').dialog('close');
     $('#TxtStartDate').val('');
-    var dialog = $("#JobPositionAssociationDateDialog").removeClass('hide').dialog({
+    var dialog = $("#JobPositionAssociationDateDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Item_Employee_Button_LinkJobPosition,
@@ -341,7 +341,7 @@ function JobPositionAssociationActionConfirmed(id)
 
 function JobPositionIsSelected(id) {
     for (var x = 0; x < jobPositionEmployee.length; x++) {
-        if (jobPositionEmployee[x].Id == id && jobPositionEmployee[x].EndDate === false) {
+        if (jobPositionEmployee[x].Id === id && jobPositionEmployee[x].EndDate === false) {
             return true;
         }
     }

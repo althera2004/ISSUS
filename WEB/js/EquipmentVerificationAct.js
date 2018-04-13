@@ -502,7 +502,7 @@ function ShowDialogEquipmentVerificacionPopup(actionSelected) {
         return false;
     }
 
-    var dialog = $("#dialogEquipmentVerificacionForm").removeClass('hide').dialog({
+    var dialog = $("#dialogEquipmentVerificacionForm").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_EquipmentVerification_PopupNew_Title + '</h4>',
@@ -511,14 +511,14 @@ function ShowDialogEquipmentVerificacionPopup(actionSelected) {
         buttons: [
                         {
                             id: 'BtnNewAddresSave',
-                            html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                            html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                             "class": "btn btn-success btn-xs",
                             click: function () {
                                 EquipmentVerificationSave();
                             }
                         },
                         {
-                            html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                            html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                             "class": "btn btn-xs",
                             click: function () {
                                 $(this).dialog("close");

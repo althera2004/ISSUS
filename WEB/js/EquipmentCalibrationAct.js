@@ -508,7 +508,7 @@ function ShowDialogNewCalibrationPopup(actionSelected) {
         return false;
     }
 
-    var dialog = $("#dialogEquipmentCalibrationForm").removeClass('hide').dialog({
+    var dialog = $("#dialogEquipmentCalibrationForm").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_EquipmentCalibrationAct_PopupNew_Title + '</h4></div>',
@@ -517,14 +517,14 @@ function ShowDialogNewCalibrationPopup(actionSelected) {
         buttons: [
                         {
                             id: 'BtnNewAddresSave',
-                            html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                            html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                             "class": "btn btn-success btn-xs",
                             click: function () {
                                 EquipmentCalibrationSave();
                             }
                         },
                         {
-                            html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                            html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                             "class": "btn btn-xs",
                             click: function () {
                                 $(this).dialog("close");

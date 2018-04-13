@@ -29,8 +29,6 @@ namespace GisoFramework
         {
             get
             {
-                //return pathFonts = ;
-                //return string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts);
                 return string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", HttpContext.Current.Request.PhysicalApplicationPath);
             }
         }
@@ -38,10 +36,11 @@ namespace GisoFramework
         public static readonly iTSpdf.BaseFont HeaderFont = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
         public static readonly iTSpdf.BaseFont Arial = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
         public static readonly iTSpdf.BaseFont AwesomeFont = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
-        public static readonly iTSpdf.BaseFont dataFont = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.CP1250, iTSpdf.BaseFont.EMBEDDED);
+        public static readonly iTSpdf.BaseFont DataFont = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.CP1250, iTSpdf.BaseFont.EMBEDDED);
 
         public static readonly iTS.Font TimesBold = new iTS.Font(ToolsPdf.Arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        public static readonly iTS.Font times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        public static readonly iTS.Font Times = new iTS.Font(DataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        public static readonly iTS.Font TitleFont = new iTS.Font(Arial, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
 
         public static iTSpdf.PdfPCell CriteriaCellLabel(string label)
         {
@@ -56,7 +55,7 @@ namespace GisoFramework
 
         public static iTSpdf.PdfPCell HeaderCell(string label)
         {
-            return new iTSpdf.PdfPCell(new iTS.Phrase(label.ToUpperInvariant(), times))
+            return new iTSpdf.PdfPCell(new iTS.Phrase(label.ToUpperInvariant(), Times))
             {
                 Border = BorderAll,
                 BackgroundColor = HeaderBackgroundColor,

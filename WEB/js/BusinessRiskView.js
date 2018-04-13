@@ -41,7 +41,7 @@ jQuery(function ($) {
 
         RulesRenderPopup();
 
-        var dialog = $("#dialogRules").removeClass('hide').dialog({
+        var dialog = $("#dialogRules").removeClass("hide").dialog({
             "resizable": false,
             "modal": true,
             "title": Dictionary.Item_BusinessRisk_SelectRuleType,
@@ -1373,7 +1373,7 @@ if (businessRisk.Id > 0) {
 
 function ActionsDialog(sender) {
     var id = sender.parentNode.parentNode.id * 1;
-    var dialog = $("#dialogActionDetails").removeClass('hide').dialog({
+    var dialog = $("#dialogActionDetails").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Item_Action_Popup_Details_Title,

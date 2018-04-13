@@ -23,7 +23,7 @@ function CostDefinitionDeleteAction() {
 function CostDefinitionDelete(name, id) {
     $('#CostDefinitionName').html(name);
     CostDefinitionSelected = id;
-    var dialog = $("#CostDefinitionDeleteDialog").removeClass('hide').dialog({
+    var dialog = $("#CostDefinitionDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_CostDefinition_Popup_Delete_Title + '</h4>',
@@ -38,7 +38,7 @@ function CostDefinitionDelete(name, id) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");

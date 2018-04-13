@@ -97,7 +97,7 @@ function RulesDelete(sender) {
     document.getElementById('dialogRules').parentNode.style.cssText += 'z-Index:1039 !important';
     $('#RuleName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#RuleDeleteDialog").removeClass('hide').dialog({
+    var dialog = $("#RuleDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_Rules_Popup_DeleteProcessType_Title + '</h4>',
@@ -113,7 +113,7 @@ function RulesDelete(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -134,7 +134,7 @@ function RulesInsert(sender) {
     $('#TxtNewRulesNotes').val('');
     $('#CmbNewLimit').val('');
     var Selected = 0;
-    var dialog = $("#RulesInsertDialog").removeClass('hide').dialog({
+    var dialog = $("#RulesInsertDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -143,7 +143,7 @@ function RulesInsert(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
@@ -194,7 +194,7 @@ function RulesInsert(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -219,7 +219,7 @@ function RulesUpdate(sender) {
     $('#TxtRulesName').val(rule.Description);
     $('#TxtRulesNotes').val(rule.Notes);
     $('#CmbUpdateLimit').val(rule.Limit);
-    var dialog = $("#RulesUpdateDialog").removeClass('hide').dialog({
+    var dialog = $("#RulesUpdateDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -228,7 +228,7 @@ function RulesUpdate(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
@@ -280,7 +280,7 @@ function RulesUpdate(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");

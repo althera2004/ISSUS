@@ -54,7 +54,7 @@ namespace GisoFramework.Item
                     ""OperationId"": {7}
                 }}";
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Equipment.Id,
                     Tools.LiteralQuote(Tools.JsonCompliant(this.Equipment.Description)),
@@ -69,10 +69,10 @@ namespace GisoFramework.Item
 
         public static string GetByEmployeeJson(int employeeId, int companyId)
         {
-            ReadOnlyCollection<ScheduledTask> tasks = GetByEmployee(employeeId, companyId);
-            StringBuilder res = new StringBuilder("[");
+            var tasks = GetByEmployee(employeeId, companyId);
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (ScheduledTask task in tasks)
+            foreach (var task in tasks)
             {
                 if (first)
                 {
@@ -231,7 +231,7 @@ namespace GisoFramework.Item
 
             string pattern = @"<tr style=""cursor:pointer;"" onclick=""document.location='{6}.aspx?id={0}{9}{10}{11}'""><td title=""{5}"" style=""color:{8};"">{4} / {2}{7}</td><td style=""color:{8};width:350px;""><div title=""{1}"" style=""text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:320px;"">{1}</div></td><td style=""width:250px;padding-lewft:4px;"">{12}{13}</td><td style=""color:{8};width:90px;"">{3:dd/MM/yyyy}</td></tr>";
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattern,
                 this.Equipment.Id,
                 this.Equipment.Description,
@@ -267,21 +267,21 @@ namespace GisoFramework.Item
                 case "M":
                     tooltip = dictionary["Item_Equipment_Tab_Maintenance"];
                     tab = "&Tab=mantenimiento";
-                    operationId = string.Format(CultureInfo.GetCultureInfo("en-us"), "&OperationId={0}", this.OperationId);
+                    operationId = string.Format(CultureInfo.InvariantCulture, "&OperationId={0}", this.OperationId);
                     action = string.Format(CultureInfo.GetCultureInfo("en-us"), "&Action={0}&Type={1}", this.Action, this.Internal);
                     labelType = this.Internal == "I" ? dictionary["Item_EquipmentMaintenance_Label_Internal"] : dictionary["Item_EquipmentMaintenance_Label_External"];
                     break;
                 case "V":
                     tooltip = dictionary["Item_Equipment_Tab_Verification"];
                     tab = "&Tab=verificacion";
-                    operationId = string.Format(CultureInfo.GetCultureInfo("en-us"), "&OperationId={0}", this.OperationId);
+                    operationId = string.Format(CultureInfo.InvariantCulture, "&OperationId={0}", this.OperationId);
                     action = string.Format(CultureInfo.GetCultureInfo("en-us"), "&Action={0}&Type={1}", this.Action, this.Internal);
                     labelType = this.Internal == "I" ? dictionary["Item_EquipmentVerification_Label_Internal"] : dictionary["Item_EquipmentVerification_Label_External"];
                     break;
                 case "C":
                     tooltip = dictionary["Item_Equipment_Tab_Calibration"];
                     tab = "&Tab=calibracion";
-                    operationId = string.Format(CultureInfo.GetCultureInfo("en-us"), "&OperationId={0}", this.OperationId);
+                    operationId = string.Format(CultureInfo.InvariantCulture, "&OperationId={0}", this.OperationId);
                     action = string.Format(CultureInfo.GetCultureInfo("en-us"), "&Action={0}&Type={1}", this.Action, this.Internal);
                     labelType = this.Internal == "I" ? dictionary["Item_EquipmentCalibration_Label_Internal"] : dictionary["Item_EquipmentCalibration_Label_External"];
                     break;
@@ -310,7 +310,7 @@ namespace GisoFramework.Item
                 ""Provider"":""{13}"",
                 ""Date"":""{3:dd/MM/yyyy}""}}";
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattern,
                 this.Equipment.Id,
                 Tools.JsonCompliant(this.Equipment.Description),

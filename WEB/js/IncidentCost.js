@@ -159,7 +159,7 @@ function CmbIncidentCostDescriptionChanged() {
 function IncidentCostEdit(id) {
     SelectedIncidentCostId = id * 1;
     IncidentCostSetPopupFormFill();
-    var dialog = $("#dialogNewCost").removeClass('hide').dialog({
+    var dialog = $("#dialogNewCost").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_IncidentCost_PopupTitle_Update + "</h4>",

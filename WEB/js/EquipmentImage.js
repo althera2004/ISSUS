@@ -6,7 +6,7 @@
 
     document.getElementById('actual').src = document.getElementById('EquipmentImg').src;
     document.getElementById('blah').src = '/images/noimage.jpg';
-    var dialog = $("#ChangeImageDialog").removeClass('hide').dialog({
+    var dialog = $("#ChangeImageDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_Equipment_Field_Image + '</h4>',
@@ -15,14 +15,14 @@
         buttons: [
         {
             id: 'BtnNewAddresSave',
-            html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+            html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
             "class": "btn btn-success btn-xs",
             click: function () {
                 EquipmentChangeImageConfirmed();
             }
         },
         {
-            html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+            html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
             "class": "btn btn-xs",
             click: function () {
                 $(this).dialog("close");
@@ -90,7 +90,7 @@ function _EquipmentChangeImageConfirmed() {
 }
 
 function EquipmentDeleteImage() {
-    var dialog = $("#DeleteImageDialog").removeClass('hide').dialog({
+    var dialog = $("#DeleteImageDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">'+Dictionary.Item_Equipment_Popup_ImageDelete_Title+'</h4>',
@@ -106,7 +106,7 @@ function EquipmentDeleteImage() {
             }
         },
         {
-            html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+            html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
             "class": "btn btn-xs",
             click: function () {
                 $(this).dialog("close");

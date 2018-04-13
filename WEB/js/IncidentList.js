@@ -530,7 +530,7 @@ function IncidentDelete(sender) {
     IncidentSelected = IncidentGetById(IncidentSelectedId);
     if (IncidentSelected === null) { return false; }
     $('#IncidentDeleteName').html(IncidentSelected.Description);
-    var dialog = $("#IncidentDeleteDialog").removeClass('hide').dialog({
+    var dialog = $("#IncidentDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_Incident_Popup_Delete_Title+'</h4>',
@@ -545,7 +545,7 @@ function IncidentDelete(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");

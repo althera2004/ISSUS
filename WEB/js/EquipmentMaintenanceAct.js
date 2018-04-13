@@ -108,7 +108,7 @@ function EquipmentMaintenanceActRenderRow(equipmentMaintenanceAct, targetName) {
 
 function EquipmentMaintenanceActgetById(id) {
     for (var x = 0; x < EquipmentMaintenanceActList.length; x++) {
-        if (EquipmentMaintenanceActList[x].Id == id) {
+        if (EquipmentMaintenanceActList[x].Id === id) {
             return EquipmentMaintenanceActList[x];
         }
     }
@@ -120,7 +120,7 @@ function EquipmentMaintenanceActRemoveFromList(id) {
     var temp = new Array();
 
     for (var x = 0; x < EquipmentMaintenanceActList.length; x++) {
-        if (EquipmentMaintenanceActList[x].Id != id) {
+        if (EquipmentMaintenanceActList[x].Id !== id) {
             temp.push(EquipmentMaintenanceActList[x]);
         }
     }
@@ -134,7 +134,7 @@ function EquipmentMaintenanceActRemoveFromList(id) {
 
 function EquipmentMaintenanceActListUpdate(equipmentMaintenanceAct) {
     for (var x = 0; x < EquipmentMaintenanceActList.length; x++) {
-        if (EquipmentMaintenanceActList[x].Id == equipmentMaintenanceAct.Id) {
+        if (EquipmentMaintenanceActList[x].Id === equipmentMaintenanceAct.Id) {
             EquipmentMaintenanceActList[x] = equipmentMaintenanceAct;
         }
     }
@@ -296,30 +296,30 @@ function FillCmbEquipmentMaintainmentActResponsible() {
 function EquipmentMaintananceActDelete(sender) {
     SelectedEquipmentMaintenanceActId = sender.parentNode.parentNode.id.substring(23);
     var EquipmentMaintenanceAct = EquipmentMaintenanceActgetById(SelectedEquipmentMaintenanceActId);
-    if (EquipmentMaintenanceAct == null) { return false; }
-    document.getElementById('dialogDeleteEquipmentMaintenanceActName').innerHTML = EquipmentMaintenanceAct.Description;
-    var dialog = $("#dialogEquipmentMaintananceActDelete").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_EquipmentMaintenance_Popup_DeleteAct_Title + '</h4></div>',
-        title_html: true,
-        width: 500,
-        buttons: [
-        {
-            id: 'BtnEquipmentMaintananceActDelete',
-            html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
-            "class": "btn btn-danger btn-xs",
-            click: function () {
-                dialogEquipmentMaintananceActDeleteConfirmed();
+    if (EquipmentMaintenanceAct === null) { return false; }
+    $("#dialogDeleteEquipmentMaintenanceActName").html(EquipmentMaintenanceAct.Description);
+    var dialog = $("#dialogEquipmentMaintananceActDelete").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_EquipmentMaintenance_Popup_DeleteAct_Title,
+        "title_html": true,
+        "width": 500,
+        "buttons": [
+            {
+                "id": "BtnEquipmentMaintananceActDelete",
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
+                "class": "btn btn-danger btn-xs",
+                "click": function () {
+                    dialogEquipmentMaintananceActDeleteConfirmed();
+                }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () {
+                    $(this).dialog("close");
+                }
             }
-        },
-        {
-            html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
-            "class": "btn btn-xs",
-            click: function () {
-                $(this).dialog("close");
-            }
-        }
         ]
     });
 }
@@ -346,44 +346,44 @@ function dialogEquipmentMaintananceActDeleteConfirmed() {
 }
 
 function EquipmentMaintenanceActEdit(sender) {
-    SelectedEquipmentMaintenanceActAction = 'Update';
+    SelectedEquipmentMaintenanceActAction = "Update";
     SelectedEquipmentMaintenanceActId = sender.parentNode.parentNode.id.substring(23) * 1;
     SelectedEquipmentMaintenanceAct = EquipmentMaintenanceActgetById(SelectedEquipmentMaintenanceActId);
-    if (SelectedEquipmentMaintenanceAct == null) { return false; }
+    if (SelectedEquipmentMaintenanceAct === null) { return false; }
 
     SelectedEquipmentDefinitionSelectedId = SelectedEquipmentMaintenanceAct.EquipmentMaintenanceDefinitionId;
     SelectedEquipmentMaintenanceDefinition = EquipmentMaintenanceDefinitiongetById(SelectedEquipmentDefinitionSelectedId);
-    if (SelectedEquipmentMaintenanceDefinition == null) { return false; }
+    if (SelectedEquipmentMaintenanceDefinition === null) { return false; }
 
     FillCmbEquipmentMaintainmentType();
     FillCmbEquipmentMaintainmentActProvider();
     FillCmbEquipmentMaintainmentActResponsible();
     
-    document.getElementById('CmbEquipmentMaintenanceType').value = SelectedEquipmentMaintenanceDefinition.Id;
+    $("#CmbEquipmentMaintenanceType").val(SelectedEquipmentMaintenanceDefinition.Id);
     EquipmentMaintenanceActEditFormFill(SelectedEquipmentMaintenanceAct, SelectedEquipmentMaintenanceDefinition.MaintenanceType);
-    $('#dialogNewEquipmentMaintenanceActOperation').html(SelectedEquipmentMaintenanceDefinition.Description + '&nbsp;<i>(' + (SelectedEquipmentMaintenanceDefinition.MaintenanceType == 0 ? Dictionary.Common_Internal : Dictionary.Common_External) + ')</i>');
-    var dialog = $("#dialogNewEquipmentMaintenanceAct").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: "<h4 class='smaller'>" + Dictionary.Item_EquipmentMaintenance_PopupInterventionUpdate + "</h4>",
-        title_html: true,
-        width: 500,
-        buttons: [
-        {
-            id: 'BtnEquipmentMaintenanceActUpdate',
-            html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
-            "class": "btn btn-success btn-xs",
-            click: function () {
-                EquipmentMaintainmentActSave();
+    $("#dialogNewEquipmentMaintenanceActOperation").html(SelectedEquipmentMaintenanceDefinition.Description + "&nbsp;<i>(" + (SelectedEquipmentMaintenanceDefinition.MaintenanceType === 0 ? Dictionary.Common_Internal : Dictionary.Common_External) + ")</i>");
+    var dialog = $("#dialogNewEquipmentMaintenanceAct").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_EquipmentMaintenance_PopupInterventionUpdate,
+        "title_html": true,
+        "width": 500,
+        "buttons": [
+            {
+                "id": "BtnEquipmentMaintenanceActUpdate",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                "class": "btn btn-success btn-xs",
+                "click": function () {
+                    EquipmentMaintainmentActSave();
+                }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () {
+                    $(this).dialog("close");
+                }
             }
-        },
-        {
-            html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
-            "class": "btn btn-xs",
-            click: function () {
-                $(this).dialog("close");
-            }
-        }
         ]
 
     });
@@ -396,8 +396,8 @@ function EquipmentMaintenanceActEdit(sender) {
 function EquipmentMaintenanceDefinitionRegister(sender) {
     console.log("EquipmentMaintenanceDefinitionRegister", sender);
     SelectedEquipmentMaintenanceActAction = "New";
-    document.getElementById("CmbEquipmentMaintenanceTypeErrorRequired").style.display = "none";
-    if (EquipmentMaintenanceDefinitionList.length == 0) {
+    $("#CmbEquipmentMaintenanceTypeErrorRequired").hide();
+    if (EquipmentMaintenanceDefinitionList.length === 0) {
         warningInfoUI(Dictionary.Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitions, null);
         return false;
     }
@@ -408,46 +408,46 @@ function EquipmentMaintenanceDefinitionRegister(sender) {
 
     if (sender === null) {
         SelectedEquipmentDefinitionSelectedId = mantenimientoLaunchId;
-        if (SelectedEquipmentDefinitionSelectedId == 0) {
+        if (SelectedEquipmentDefinitionSelectedId === 0) {
             SelectedEquipmentMaintenanceDefinition = null;
             EquipmentMaintenanceActNewFormReset(SelectedEquipmentMaintenanceDefinition);
         }
         else {
             SelectedEquipmentMaintenanceDefinition = EquipmentMaintenanceDefinitiongetById(SelectedEquipmentDefinitionSelectedId);
-            if (SelectedEquipmentMaintenanceDefinition == null) { return false; }
+            if (SelectedEquipmentMaintenanceDefinition === null) { return false; }
             EquipmentMaintenanceActNewFormReset(SelectedEquipmentMaintenanceDefinition);
             $("#CmbEquipmentMaintenanceType").val(mantenimientoLaunchId);
-            $("#dialogNewEquipmentMaintenanceActOperation").html(SelectedEquipmentMaintenanceDefinition.Description + '&nbsp;<i>(' + (SelectedEquipmentMaintenanceDefinition.MaintenanceType == 0 ? Dictionary.Common_Internal : Dictionary.Common_External) + ')</i>');
+            $("#dialogNewEquipmentMaintenanceActOperation").html(SelectedEquipmentMaintenanceDefinition.Description + "&nbsp;<i>(" + (SelectedEquipmentMaintenanceDefinition.MaintenanceType === 0 ? Dictionary.Common_Internal : Dictionary.Common_External) + ")</i>");
         }
     }
     else {
         SelectedEquipmentDefinitionSelectedId = sender.parentNode.parentNode.id.substring(30) * 1;
         SelectedEquipmentMaintenanceDefinition = EquipmentMaintenanceDefinitiongetById(SelectedEquipmentDefinitionSelectedId);
-        if (SelectedEquipmentMaintenanceDefinition == null) { return false; }
+        if (SelectedEquipmentMaintenanceDefinition === null) { return false; }
         EquipmentMaintenanceActNewFormReset(SelectedEquipmentMaintenanceDefinition);
-        $("#dialogNewEquipmentMaintenanceActOperation").html(SelectedEquipmentMaintenanceDefinition.Description + '&nbsp;<i>(' + (SelectedEquipmentMaintenanceDefinition.MaintenanceType == 0 ? Dictionary.Common_Internal : Dictionary.Common_External) + ')</i>');
+        $("#dialogNewEquipmentMaintenanceActOperation").html(SelectedEquipmentMaintenanceDefinition.Description + "&nbsp;<i>(" + (SelectedEquipmentMaintenanceDefinition.MaintenanceType === 0 ? Dictionary.Common_Internal : Dictionary.Common_External) + ")</i>");
     }
 
-    var dialog = $("#dialogNewEquipmentMaintenanceAct").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: "<h4 class='smaller'>" + Dictionary.Item_EquipmentMaintenance_PopupIntervention + "</h4>",
-        title_html: true,
-        width: 500,
-        buttons:
+    var dialog = $("#dialogNewEquipmentMaintenanceAct").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_EquipmentMaintenance_PopupIntervention,
+        "title_html": true,
+        "width": 500,
+        "buttons":
         [
             {
-                id: 'BtnNewAddresSave',
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                "id": "BtnNewAddresSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     EquipmentMaintainmentActSave();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -493,41 +493,39 @@ function EquipmentMaintainmentActSave() {
         Responsible: { Id: $('#CmbEquipmentMaintenanceActResponsible').val() * 1, Value: $("#CmbEquipmentMaintenanceActResponsible option:selected").text() }
     };
 
-    if (SelectedEquipmentMaintenanceActAction === 'New') {
-        var webMethod = "/Async/EquipmentMaintenanceActActions.asmx/Insert";
-        var data = { equipmentMaintenanceAct: SelectedEquipmentMaintenanceAct, userId: user.Id };
+    if (SelectedEquipmentMaintenanceActAction === "New") {
+        var data = { "equipmentMaintenanceAct": SelectedEquipmentMaintenanceAct, "userId": user.Id };
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentMaintenanceActActions.asmx/Insert",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 SelectedEquipmentMaintenanceAct.Id = msg.d.MessageError * 1;
                 EquipmentMaintenanceActList.push(SelectedEquipmentMaintenanceAct);
-                EquipmentMaintenanceActRenderTable('TableEquipmentMaintenanceAct');
-                $('#dialogNewEquipmentMaintenanceAct').dialog('close');
+                EquipmentMaintenanceActRenderTable("TableEquipmentMaintenanceAct");
+                $("#dialogNewEquipmentMaintenanceAct").dialog("close");
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
     }
     else {
-        var webMethod = "/Async/EquipmentMaintenanceActActions.asmx/Update";
-        var data = { equipmentMaintenanceAct: SelectedEquipmentMaintenanceAct, userId: user.Id };
+        var data = { "equipmentMaintenanceAct": SelectedEquipmentMaintenanceAct, "userId": user.Id };
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentMaintenanceActActions.asmx/Update",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 EquipmentMaintenanceActListUpdate(SelectedEquipmentMaintenanceAct);
-                EquipmentMaintenanceActRenderTable('TableEquipmentMaintenanceAct');
-                $('#dialogNewEquipmentMaintenanceAct').dialog('close');
+                EquipmentMaintenanceActRenderTable("TableEquipmentMaintenanceAct");
+                $("#dialogNewEquipmentMaintenanceAct").dialog("close");
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
@@ -540,38 +538,42 @@ function MaintainmentNewSave() {
         return false;
     }
 
-    var periodicity = ParseInputValueToNumber($('#TxtNewMaintainmentPeriodicity').val());
-    var cost = ParseInputValueToNumber($('#TxtNewMaintainmentCost').val());
+    var periodicity = ParseInputValueToNumber($("#TxtNewMaintainmentPeriodicity").val());
+    var cost = ParseInputValueToNumber($("#TxtNewMaintainmentCost").val());
 
     var webMethod = "/Async/EquipmentMaintenanceActions.asmx/Insert";
     SelectedEquipmentMaintenanceDefinition = {
-        Id: -1,
-        CompanyId: Company.Id,
-        EquipmentId: Equipment.Id,
-        MaintenanceType: document.getElementById('RMaintainmentTypeInternal').checked ? 0 : 1,
-        Description: $('#TxtNewMaintainmentOperation').val(),
-        Periodicity: periodicity,
-        Accessories: $('#TxtNewMaintainmentAccessories').val(),
-        Cost: cost,
-        Provider: { Id: $('#CmbNewMaintainmentProvider').val() },
-        Responsible: { Id: $('#CmbNewMaintainmentResponsible').val() }
+        "Id": -1,
+        "CompanyId": Company.Id,
+        "EquipmentId": Equipment.Id,
+        "MaintenanceType": document.getElementById("RMaintainmentTypeInternal").checked ? 0 : 1,
+        "Description": $("#TxtNewMaintainmentOperation").val(),
+        "Periodicity": periodicity,
+        "Accessories": $("#TxtNewMaintainmentAccessories").val(),
+        "Cost": cost,
+        "Provider": { Id: $("#CmbNewMaintainmentProvider").val() },
+        "Responsible": { Id: $("#CmbNewMaintainmentResponsible").val() }
     };
 
-    var data = { equipmentMaintenance: SelectedEquipmentMaintenanceDefinition, companyId: Company.Id, userId: user.Id };
+    var data = {
+        "equipmentMaintenance": SelectedEquipmentMaintenanceDefinition,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             SelectedEquipmentMaintenanceDefinition.Id = msg.d.MessageError * 1;
             EquipmentMaintenanceDefinitionList.push(SelectedEquipmentMaintenanceDefinition);
-            EquipmentMaintenanceDefinitionRenderTable('TableEquipmentMaintenanceDefinition');
+            EquipmentMaintenanceDefinitionRenderTable("TableEquipmentMaintenanceDefinition");
             $("#dialogNewMaintaiment").dialog("close");
 
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
@@ -579,28 +581,28 @@ function MaintainmentNewSave() {
 
 function ShowMaintaimentRecordPopup(actionSelected) {
     console.log("ShowMaintaimentRecordPopup", actionSelected);
-    var dialog = $("#dialogNewMaintaimentRecord").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">'+Dictionary.Item_EquipmentMaintenance_Popup_NewAct_Title+'</h4>',
-        title_html: true,
-        width: 500,
-        buttons: [
-        {
-            id: 'BtnNewAddresSave',
-            html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
-            "class": "btn btn-success btn-xs",
-            click: function () {
-                ShowAddAddressPopup(1);
+    var dialog = $("#dialogNewMaintaimentRecord").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_EquipmentMaintenance_Popup_NewAct_Title,
+        "title_html": true,
+        "width": 500,
+        "buttons": [
+            {
+                "id": "BtnNewAddresSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
+                "class": "btn btn-success btn-xs",
+                "click": function () {
+                    ShowAddAddressPopup(1);
+                }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () {
+                    $(this).dialog("close");
+                }
             }
-        },
-        {
-            html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
-            "class": "btn btn-xs",
-            click: function () {
-                $(this).dialog("close");
-            }
-        }
         ]
 
     });
