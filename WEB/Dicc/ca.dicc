@@ -1610,3 +1610,5 @@ Item_IncidentAction_AnulateMessageTile::Acció tancada
 Item_IncidentAction_Label_EndDate::Data
 Item_IncidentAction_Label_EndResponsible::Responsable
 Item_Objetivo_FieldLabel_Action::Acció
+Item_Learning_ErrorMessage_NoDeleteFinished:: No es pot eliminar una formació realitzada
+Item_Learning_ErrorMessage_NoDeleteEvaluated:: No es pot eliminar una formació evaluada

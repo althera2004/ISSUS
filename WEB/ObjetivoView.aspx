@@ -15,7 +15,7 @@
             padding-bottom:4px !important;
             margin-bottom:12px !important;
         }
-        #scrollTableDiv,#scrollTableDivHistorico{
+        #scrollTableDiv, #scrollTableDivHistorico{
             background-color:#fafaff;
             border:1px solid #e0e0e0;
             border-top:none;

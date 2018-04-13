@@ -593,13 +593,24 @@ namespace GisoFramework.Item
 
             if (this.Status > 0)
             {
-                iconDeleteAction = "LearningDeleteDisabled";
+                switch (this.Status)
+                {
+                    case 1:
+                        iconDeleteAction = "LearningDeleteDisabled1";
+                        break;
+                    case 2:
+                        iconDeleteAction = "LearningDeleteDisabled2";
+                        break;
+                    default:
+                        iconDeleteAction = "LearningDeleteDisabled";
+                        break;
+                }
             }
 
             // @alex: al poner la descripcion sustiuir ' por \' para evitar un javascript mal formado 
-            string iconUpdate = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-info"" onclick=""LearningUpdate({0});""><i class=""icon-edit bigger-120""></i></span>", this.Id, this.Description, dictionary["Common_Edit"]);
+            string iconUpdate = string.Format(CultureInfo.InvariantCulture, @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-info"" onclick=""LearningUpdate({0});""><i class=""icon-edit bigger-120""></i></span>", this.Id, this.Description, dictionary["Common_Edit"]);
             this.Description = this.Description.Replace('\'', '´');
-            string iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""{3}({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, this.Description, dictionary["Common_Delete"], iconDeleteAction);
+            string iconDelete = string.Format(CultureInfo.InvariantCulture, @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""{3}({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, this.Description, dictionary["Common_Delete"], iconDeleteAction);
 
             res.Append("<tr>");
             res.Append("<td>").Append(this.Link).Append("</td>");

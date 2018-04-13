@@ -131,7 +131,7 @@ namespace GisoFramework.Item
              *   @Reason nvarchar(500),
              *   @EmployeeId int,
              *   @ApplicationUserId int */
-            using(var cmd = new SqlCommand("IndicadorHistorico_Insert"))
+            using (var cmd = new SqlCommand("IndicadorHistorico_Insert"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -151,13 +151,13 @@ namespace GisoFramework.Item
                         var id = Convert.ToInt32(cmd.Parameters["@Id"].Value);
                         res.SetSuccess(id);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         res.SetFail(ex);
                     }
                     finally
                     {
-                        if(cmd.Connection.State != ConnectionState.Closed)
+                        if (cmd.Connection.State != ConnectionState.Closed)
                         {
                             cmd.Connection.Close();
                         }

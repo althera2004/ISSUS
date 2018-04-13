@@ -88,6 +88,8 @@ window.onload = function () {
 
     $("#CmbResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsible").val() * 1, Employees); });
     $("#CmbResponsibleRecord").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsibleRecord").val() * 1, Employees); });
+
+    RenderTableHistorico();
 }
 
 window.onresize = function () { Resize(); }
@@ -104,9 +106,11 @@ function CmbProcessChanged() {
 }
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
+    var listTable = document.getElementById("ListDataDiv");
+    var histTable = document.getElementById("ListDataDivHistorico");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 480) + 'px';
+    listTable.style.height = (containerHeight - 480) + "px";
+    histTable.style.height = (containerHeight - 370) + "px";
 }
 
 function IndicadorTypeLayout() {
@@ -1551,4 +1555,47 @@ function EnableLayout() {
     $("#RActionYes").removeAttr("disabled");
     $("#RActionNo").removeAttr("disabled");
     $("#BtnUnitsBAR").show();
+}
+
+function RenderTableHistorico() {
+    $("#ObjetivoHistoricoTable").html("");
+    for (var x = 0; x < Historic.length; x++) {
+        RenderHistoricoRow(Historic[x]);
+    }
+
+    $("#NumberHistoric").html(Historic.length);
+}
+
+function RenderHistoricoRow(data) {
+    var target = document.getElementById("ObjetivoHistoricoTable");
+
+    var tr = document.createElement("TR");
+
+    var tdAction = document.createElement("TD");
+    var tdDate = document.createElement("TD");
+    var tdReason = document.createElement("TD");
+    var tdEmployee = document.createElement("TD");
+
+    tdAction.style.width = "100px";
+    tdDate.style.width = "95px";
+    tdEmployee.style.width = "240px";
+
+    var actionText = "Anular";
+    var reason = data.Reason;
+    if (data.Reason === "Restore") {
+        actionText = "Restaurar"
+        reason = "";
+    }
+
+    tdAction.appendChild(document.createTextNode(actionText));
+    tdDate.appendChild(document.createTextNode(data.Date));
+    tdReason.appendChild(document.createTextNode(reason));
+    tdEmployee.appendChild(document.createTextNode(data.Employee.Value));
+
+    tr.appendChild(tdAction);
+    tr.appendChild(tdDate);
+    tr.appendChild(tdReason);
+    tr.appendChild(tdEmployee);
+
+    target.appendChild(tr);
 }

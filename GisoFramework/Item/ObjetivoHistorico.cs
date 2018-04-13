@@ -56,7 +56,7 @@ namespace GisoFramework.Item
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach(var historico in ByObjetivoId(objetivoId))
+            foreach (var historico in ByObjetivoId(objetivoId))
             {
                 if (first)
                 {
@@ -87,7 +87,7 @@ namespace GisoFramework.Item
                     try
                     {
                         cmd.Connection.Open();
-                        using(var rdr = cmd.ExecuteReader())
+                        using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
                             {
@@ -109,7 +109,7 @@ namespace GisoFramework.Item
                     }
                     finally
                     {
-                        if(cmd.Connection.State == ConnectionState.Closed)
+                        if (cmd.Connection.State == ConnectionState.Closed)
                         {
                             cmd.Connection.Close();
                         }
