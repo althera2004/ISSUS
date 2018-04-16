@@ -18,41 +18,20 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements Process class
-    /// </summary>
+    /// <summary>Implements Process class</summary>
     public class Process : BaseItem
     {
-        #region Fields
-
-        /// <summary>Identifier of proccess</summary>
-        private int processType;
-
-        /// <summary>Identifier of proccess</summary>
-        private string work;
-
-        /// <summary>Identifier of proccess</summary>
-        private string start;
-
-        /// <summary>Identifier of proccess</summary>
-        private string end;
-
-        /// <summary>Job position of process</summary>
-        private JobPosition jobPosition;
-        #endregion
 
         /// <summary>
         /// Initializes a new instance of the Process class.
         /// </summary>
         public Process()
         {
-            this.jobPosition = JobPosition.Empty;
+            this.JobPosition = JobPosition.Empty;
             this.ModifiedBy = ApplicationUser.Empty;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the Process class. Search the data proccess on database
-        /// </summary>
+        /// <summary>Initializes a new instance of the Process class. Search the data proccess on database</summary>
         /// <param name="id">Proccess identifier</param>
         /// <param name="companyId">Process's company identifier</param>
         public Process(long id, int companyId)
@@ -79,11 +58,11 @@ namespace GisoFramework.Item
                             rdr.Read();
                             this.Id = id;
                             this.CompanyId = companyId;
-                            this.processType = rdr.GetInt32(ColumnsProcessGetById.Type);
-                            this.start = rdr.GetString(ColumnsProcessGetById.Start);
-                            this.work = rdr.GetString(ColumnsProcessGetById.Work);
-                            this.end = rdr.GetString(ColumnsProcessGetById.End);
-                            this.jobPosition = new JobPosition(Convert.ToInt32(rdr.GetInt64(ColumnsProcessGetById.JobPositionId)), companyId);
+                            this.ProcessType = rdr.GetInt32(ColumnsProcessGetById.Type);
+                            this.Start = rdr.GetString(ColumnsProcessGetById.Start);
+                            this.Work = rdr.GetString(ColumnsProcessGetById.Work);
+                            this.End = rdr.GetString(ColumnsProcessGetById.End);
+                            this.JobPosition = new JobPosition(Convert.ToInt32(rdr.GetInt64(ColumnsProcessGetById.JobPositionId)), companyId);
                             this.ModifiedOn = rdr.GetDateTime(ColumnsProcessGetById.ModifiedOn);
                             this.Description = rdr.GetString(ColumnsProcessGetById.Description);
                             this.Active = rdr.GetBoolean(ColumnsProcessGetById.Active);
@@ -94,7 +73,7 @@ namespace GisoFramework.Item
                                 UserName = rdr.GetString(ColumnsProcessGetById.ModifiedByUserName)
                             };
 
-                            this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
+                            this.ModifiedBy.Employee = Employee.ByUserId(this.ModifiedBy.Id);
                         }
                     }
                 }
@@ -109,101 +88,38 @@ namespace GisoFramework.Item
         }
 
         #region Properties
-        /// <summary>
-        /// Gets a empty process
-        /// </summary>
+        /// <summary>Gets a empty process</summary>
         public static Process Empty
         {
             get
             {
-                Process res = new Process()
+                return new Process
                 {
                     Description = string.Empty,
                     ModifiedBy = ApplicationUser.Empty,
-                    jobPosition = new JobPosition() { Id = -1, Description = string.Empty }
+                    JobPosition = new JobPosition
+                    {
+                        Id = -1,
+                        Description = string.Empty
+                    }
                 };
-
-                return res;
             }
         }
 
-        /// <summary>
-        /// Gets or sets the type of proccess
-        /// </summary>
-        public int ProcessType
-        {
-            get
-            {
-                return this.processType;
-            }
+        /// <summary>Gets or sets the type of proccess</summary>
+        public int ProcessType { get; set; }
 
-            set
-            {
-                this.processType = value;
-            }
-        }
+        /// <summary>Gets or sets the text for the work phase</summary>
+        public string Work { get; set; }
 
-        /// <summary>
-        /// Gets or sets the text for the work phase
-        /// </summary>
-        public string Work
-        {
-            get
-            {
-                return this.work;
-            }
+        /// <summary>Gets or sets the text for the start phase</summary>
+        public string Start { get; set; }
 
-            set
-            {
-                this.work = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the text for the start phase
-        /// </summary>
-        public string Start
-        {
-            get
-            {
-                return this.start;
-            }
-
-            set
-            {
-                this.start = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the text for the finish phase
-        /// </summary>
-        public string End
-        {
-            get
-            {
-                return this.end;
-            }
-
-            set
-            {
-                this.end = value;
-            }
-        }
+        /// <summary>Gets or sets the text for the finish phase</summary>
+        public string End { get; set; }
 
         /// <summary>Gets or sets the job position linked to process</summary>
-        public JobPosition JobPosition
-        {
-            get
-            {
-                return this.jobPosition;
-            }
-
-            set
-            {
-                this.jobPosition = value;
-            }
-        }
+        public JobPosition JobPosition { get; set; }
 
         /// <summary>Gets an identifier/description json item</summary>
         public override string JsonKeyValue
@@ -216,7 +132,7 @@ namespace GisoFramework.Item
                     this.Id,
                     Tools.JsonCompliant(this.Description),
                     this.Active ? "true" : "false",
-                    this.processType,
+                    this.ProcessType,
                     this.CanBeDeleted ? "true" : "false");
             }
         }
@@ -239,29 +155,27 @@ namespace GisoFramework.Item
                         ""Deletable"":{9}
                     }}";
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Id,
                     this.Description.Replace("\"", "\\\""),
                     this.CompanyId,
-                    this.jobPosition.Id,
-                    this.processType,
-                    Tools.JsonCompliant(this.start),
-                    Tools.JsonCompliant(this.work),
-                    Tools.JsonCompliant(this.end),
+                    this.JobPosition.Id,
+                    this.ProcessType,
+                    Tools.JsonCompliant(this.Start),
+                    Tools.JsonCompliant(this.Work),
+                    Tools.JsonCompliant(this.End),
                     this.Active ? "true" : "false",
                     this.CanBeDeleted ? "true" : "false");
             }
         }
 
-        /// <summary>
-        /// Gets a hyper link to process profile page
-        /// </summary>
+        /// <summary>Gets a hyper link to process profile page</summary>
         public override string Link
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"<a href=""ProcesosView.aspx?id={0}"" title=""{1}"">{1}</a>", this.Id, this.Description);
+                return string.Format(CultureInfo.InvariantCulture, @"<a href=""ProcesosView.aspx?id={0}"" title=""{1}"">{1}</a>", this.Id, this.Description);
             }
         }
         #endregion
@@ -284,7 +198,7 @@ namespace GisoFramework.Item
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (var process in GetByCompany(companyId))
+            foreach (var process in ByCompany(companyId))
             {
                 if (first)
                 {
@@ -342,9 +256,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Gets a descriptive string with the differences between tow process
-        /// </summary>
+        /// <summary>Gets a descriptive string with the differences between tow process</summary>
         /// <param name="process1">First process to compare</param>
         /// <param name="process2">Second process to compare</param>
         /// <returns>A descriptive string</returns>
@@ -363,69 +275,67 @@ namespace GisoFramework.Item
                 first = false;
             }
 
-            if (process1.jobPosition.Id != process2.jobPosition.Id)
+            if (process1.JobPosition.Id != process2.JobPosition.Id)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("JobPosition:").Append(process2.jobPosition.Id);
+                res.Append("JobPosition:").Append(process2.JobPosition.Id);
                 first = false;
             }
 
-            if (process1.processType != process2.processType)
+            if (process1.ProcessType != process2.ProcessType)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("ProcessType:").Append(process2.processType);
+                res.Append("ProcessType:").Append(process2.ProcessType);
             }
 
-            if (process1.start != process2.start)
+            if (process1.Start != process2.Start)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Start:").Append(process2.start);
+                res.Append("Start:").Append(process2.Start);
                 first = false;
             }
 
-            if (process1.work != process2.work)
+            if (process1.Work != process2.Work)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Work:").Append(process2.work);
+                res.Append("Work:").Append(process2.Work);
                 first = false;
             }
 
-            if (process1.end != process2.end)
+            if (process1.End != process2.End)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("End:").Append(process2.end);
+                res.Append("End:").Append(process2.End);
                 first = false;
             }
 
             return res.ToString();
         }
 
-        /// <summary>
-        /// Obtain all process of a company
-        /// </summary>
+        /// <summary>Obtain all process of a company</summary>
         /// <param name="companyId">Compnay identifier</param>
         /// <returns>A list of process</returns>
-        public static ReadOnlyCollection<Process> GetByCompany(int companyId)
+        public static ReadOnlyCollection<Process> ByCompany(int companyId)
         {
             List<Process> res = new List<Process>();
 
@@ -454,19 +364,19 @@ namespace GisoFramework.Item
                             {
                                 Id = actualProcessId,
                                 CompanyId = companyId,
-                                processType = rdr.GetInt32(2),
-                                start = rdr.GetString(3),
-                                work = rdr.GetString(4),
-                                end = rdr.GetString(5),
+                                ProcessType = rdr.GetInt32(2),
+                                Start = rdr.GetString(3),
+                                Work = rdr.GetString(4),
+                                End = rdr.GetString(5),
                                 Description = rdr.GetString(6),
-                                jobPosition = JobPosition.Empty,
+                                JobPosition = JobPosition.Empty,
                                 Active = true,
                                 CanBeDeleted = rdr.GetBoolean(9)
                             };
 
                             if (!rdr.IsDBNull(7))
                             {
-                                newProcess.jobPosition = new JobPosition()
+                                newProcess.JobPosition = new JobPosition()
                                 {
                                     Id = rdr.GetInt32(7),
                                     Description = rdr.GetString(8)
@@ -489,18 +399,14 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a string to identificate process
-        /// </summary>
+        /// <summary>Gets a string to identificate process</summary>
         /// <returns>String to identificate process</returns>
         public override string ToString()
         {
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), "[{0}] {1}", this.Id, this.Description);
+            return string.Format(CultureInfo.InvariantCulture, "[{0}] {1}", this.Id, this.Description);
         }
 
-        /// <summary>
-        /// Insert the process into data base
-        /// </summary>
+        /// <summary>Insert the process into data base</summary>
         /// <param name="userId">Identifier of user that performs the action</param>
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
@@ -525,11 +431,11 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.OutputInt("@Id"));
                     cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.jobPosition.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@Type", this.processType));
-                    cmd.Parameters.Add(DataParameter.Input("@Start", this.start, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Work", this.work, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@End", this.end, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.JobPosition.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@Type", this.ProcessType));
+                    cmd.Parameters.Add(DataParameter.Input("@Start", this.Start, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Work", this.Work, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@End", this.End, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
@@ -560,9 +466,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Update the process in data base
-        /// </summary>
+        /// <summary>Update the process in data base</summary>
         /// <param name="userId">Identifier of user that performs the action</param>
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
@@ -587,11 +491,11 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Id", this.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.jobPosition.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@Type", this.processType));
-                    cmd.Parameters.Add(DataParameter.Input("@Start", this.start, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Work", this.work, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@End", this.end, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.JobPosition.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@Type", this.ProcessType));
+                    cmd.Parameters.Add(DataParameter.Input("@Start", this.Start, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Work", this.Work, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@End", this.End, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();

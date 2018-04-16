@@ -153,7 +153,7 @@ public partial class ExportIncidentExportList : Page
         {
             if (providerId > 0)
             {
-                var provider = Provider.GetById(providerId, companyId);
+                var provider = Provider.ById(providerId, companyId);
                 criteriaOrigin = string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Incident_Origin2"], provider.Description);
             }
             else
@@ -165,7 +165,7 @@ public partial class ExportIncidentExportList : Page
         {
             if (customerId > 0)
             {
-                var customer = Customer.GetById(customerId, companyId);
+                var customer = Customer.ById(customerId, companyId);
                 criteriaOrigin = string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Incident_Origin3"], customer.Description);
             }
             else
@@ -421,7 +421,7 @@ public partial class ExportIncidentExportList : Page
             cont++;
             totalCost += incidentFilter.Amount;
             var incident = Incident.GetById(incidentFilter.Id, companyId);
-            var action = IncidentAction.GetByIncidentId(incident.Id, companyId);
+            var action = IncidentAction.ByIncidentId(incident.Id, companyId);
 
             var lineBackground = pair ? rowEven : rowPair;
             // pair = !pair;

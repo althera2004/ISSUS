@@ -652,7 +652,7 @@ namespace GisoFramework.Item
                                 {
                                     newAction.ClosedOn = rdr.GetDateTime(6);
                                 }
-                                res.Add(IncidentAction.GetById(rdr.GetInt64(0), companyId));
+                                res.Add(IncidentAction.ById(rdr.GetInt64(0), companyId));
                             }
                         }
                     }
@@ -820,7 +820,7 @@ namespace GisoFramework.Item
                                     res.PreviousBusinessRiskId = -1;
                                 }
 
-                                res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                                res.ModifiedBy.Employee = Employee.ByUserId(res.ModifiedBy.Id);
                             }
                         }
 
@@ -1032,7 +1032,7 @@ namespace GisoFramework.Item
 
                         if (deleteAction)
                         {
-                            var victim = IncidentAction.GetByBusinessRiskId(businessRiskId, companyId);
+                            var victim = IncidentAction.ByBusinessRiskId(businessRiskId, companyId);
                             victim.Delete(userId);
                         }
                     }

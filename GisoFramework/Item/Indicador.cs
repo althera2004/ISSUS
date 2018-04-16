@@ -171,12 +171,12 @@ namespace GisoFramework.Item
             }
         }
 
-        public static ReadOnlyCollection<Indicador> GetByCompany(Company company)
+        public static ReadOnlyCollection<Indicador> ByCompany(Company company)
         {
-            return GetByCompany(company.Id);
+            return ByCompany(company.Id);
         }
 
-        public static ReadOnlyCollection<Indicador> GetByCompany(int companyId)
+        public static ReadOnlyCollection<Indicador> ByCompany(int companyId)
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */
@@ -298,7 +298,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Indicador>(res);
         }
 
-        public static string GetPeriodicityByCompany(int companyId)
+        public static string PeriodicityByCompany(int companyId)
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */
@@ -344,7 +344,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static ReadOnlyCollection<Indicador> GetAvailablesForObjetivo(int companyId)
+        public static ReadOnlyCollection<Indicador> AvailablesByObjetivo(int companyId)
         {
             /* CREATE PROCEDURE Indicador_GetByCompany
              *   @CompanyId int */
@@ -592,7 +592,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Indicador>(res);
         }
 
-        public static ReadOnlyCollection<Indicador> GetByProcess(int processId, int companyId)
+        public static ReadOnlyCollection<Indicador> ByProcessId(int processId, int companyId)
         {
             /* CREATE PROCEDURE [dbo].[Indicador_GetByProcessId]
              *   @CompanyId int,
@@ -750,11 +750,11 @@ namespace GisoFramework.Item
             return string.Empty;
         }
 
-        public static string GetByCompanyJson(int companyId)
+        public static string ByCompanyJson(int companyId)
         {
             StringBuilder res = new StringBuilder("[");
             bool first = true;
-            foreach (Indicador objetivo in GetByCompany(companyId))
+            foreach (Indicador objetivo in ByCompany(companyId))
             {
                 if (objetivo.Active)
                 {
@@ -781,7 +781,7 @@ namespace GisoFramework.Item
         /// <param name="indicadorId"></param>
         /// <param name="companyId"></param>
         /// <returns></returns>
-        public static Indicador GetById(int indicadorId, int companyId)
+        public static Indicador ById(int indicadorId, int companyId)
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */

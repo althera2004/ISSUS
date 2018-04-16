@@ -1052,6 +1052,7 @@ Item_IncidentAction_Label_ApplyAction::Aplicar acció correctiva?
 Item_IncidentAction_Label_BusinessRisk::Anàlisi de risc
 Item_IncidentAction_Label_Description::Descripció
 Item_IncidentAction_Label_Incident::Incidència
+Item_IncidentAction_Label_Objetivo::Objectiu
 Item_IncidentAction_Label_Origin::Origen
 Item_IncidentAction_Label_Reporter::Reportat per
 Item_IncidentAction_Label_Type::Tipus
@@ -1068,6 +1069,7 @@ Item_IncidentAction_Origin1::Auditoria
 Item_IncidentAction_Origin2::Proposat per direcció
 Item_IncidentAction_Origin3::Incidència
 Item_IncidentAction_Origin4::Anàlisi de risc
+Item_IncidentAction_Origin5::Objectiu
 Item_IncidentAction_ReporterType1::Interna
 Item_IncidentAction_ReporterType2::Proveïdor
 Item_IncidentAction_ReporterType3::Client
@@ -1378,6 +1380,7 @@ Item_Objetivo_TableRecords_Header_Meta::Meta
 Item_Objetivo_TableRecords_Header_Responsible::Responsable
 Item_Objetivo_TableRecords_Header_Value::Valor
 Item_Objetivo_TabRecords::Registres
+Item_Objetivo_TabActions::Accions
 Item_Objetivo_TitleClose::Tancament real
 Item_ObjetivoAction_List_Filter_From::Des de
 Item_ObjetivoAction_List_Filter_ShowActive::Actius

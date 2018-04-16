@@ -93,7 +93,7 @@ public partial class CostDefinitionList : Page
         var searchItems = new List<string>();
         bool first = true;
         int cont = 0;
-        foreach (var cost in CostDefinition.GetByCompany(((Company)Session["Company"]).Id))
+        foreach (var cost in CostDefinition.ByCompany(((Company)Session["Company"]).Id))
         {
             if (cost.Active)
             {

@@ -97,7 +97,7 @@ namespace GisoFramework.Item
                                     this.RealFinish = rdr.GetDateTime(ColumnsLearningGetById.RealFinish);
                                 }
 
-                                this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
+                                this.ModifiedBy.Employee = Employee.ByUserId(this.ModifiedBy.Id);
                             }
                         }
                     }

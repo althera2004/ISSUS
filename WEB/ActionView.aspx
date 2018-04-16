@@ -74,6 +74,10 @@
                                                                 <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>                                                                
                                                                 <label class="col-sm-11"><%=this.Dictionary["Item_IncidentAction_Label_BusinessRisk"] %>&nbsp;<%=this.BusinessRisk.Link %></label>
                                                             </div>
+                                                            <div class="form-group" id="ObjetivoDiv" style="display: none;">
+                                                                <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>                                                                
+                                                                <label class="col-sm-11"><%=this.Dictionary["Item_IncidentAction_Label_Objetivo"] %>&nbsp;<%=this.Objetivo.Link %></label>
+                                                            </div>
                                                             <div class="form-group" id="ROriginDiv">
                                                                 <label id="ROriginLabel" class="col-sm-2"><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %><span style="color: #f00;">*</span></label>
                                                                 <div class="col-sm-2">
@@ -1071,6 +1075,7 @@
                 $("#RReporterDiv").hide();
                 $("#IncidentDiv").show();
                 $("#BusinessRiskDiv").hide();
+                $("#ObjetivoDiv").hide();
             }
             if (IncidentAction.Origin == 4) {
                 $("#ROriginDiv").hide();
@@ -1078,6 +1083,15 @@
                 $("#RReporterDiv").hide();
                 $("#IncidentDiv").hide();
                 $("#BusinessRiskDiv").show();
+                $("#ObjetivoDiv").hide();
+            }
+            if (IncidentAction.Origin == 5) {
+                $("#ROriginDiv").hide();
+                $("#RTypeDiv").hide();
+                $("#RReporterDiv").hide();
+                $("#IncidentDiv").hide();
+                $("#BusinessRiskDiv").hide();
+                $("#ObjetivoDiv").show();
             }
             else {
                 if (IncidentAction.ReporterType == 1) {

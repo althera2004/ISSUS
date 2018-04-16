@@ -897,7 +897,7 @@ namespace GisoFramework
                                 res.status = ApplicationLogOn.IntegerToLogOnResult(rdr.GetInt32(3));
                                 res.Email = rdr.GetString(9);
                                 res.GetGrants();
-                                res.Employee = Employee.GetByUserId(res.id);
+                                res.Employee = Employee.ByUserId(res.id);
                                 res.PrimaryUser = rdr.GetBoolean(10);
                                 res.Admin = rdr.GetBoolean(11);
                                 res.Language = rdr.GetString(12);

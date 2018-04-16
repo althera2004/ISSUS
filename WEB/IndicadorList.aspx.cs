@@ -150,7 +150,7 @@ public partial class IndicadorList : Page
     private void RenderProcessList()
     {
         StringBuilder res = new StringBuilder();
-        foreach (Process process in Process.GetByCompany(this.company.Id))
+        foreach (Process process in Process.ByCompany(this.company.Id))
         {
             res.AppendFormat(
                 CultureInfo.InvariantCulture,

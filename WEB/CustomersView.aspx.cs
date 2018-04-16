@@ -87,7 +87,7 @@ public partial class CustomersView : Page
         {
             var res = new StringBuilder();
             bool first = true;
-            foreach (var customer in Customer.GetByCompany(((Company)Session["Company"]).Id))
+            foreach (var customer in Customer.ByCompany(((Company)Session["Company"]).Id))
             {
                 if (customer.Active)
                 {
@@ -219,7 +219,7 @@ public partial class CustomersView : Page
 
         if (this.customerId != -1)
         {
-            this.customer = Customer.GetById(this.customerId, this.company.Id);
+            this.customer = Customer.ById(this.customerId, this.company.Id);
             if (this.customer.CompanyId != this.company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", false);

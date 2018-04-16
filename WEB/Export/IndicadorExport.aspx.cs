@@ -313,7 +313,7 @@ public partial class ExportIndicadorExport : Page
                 string objetivoText = dictionary["Common_All_Male_Plural"];
                 if (targetId.HasValue)
                 {
-                    objetivoText = Objetivo.GetById(targetId.Value, companyId).Name;
+                    objetivoText = Objetivo.ById(targetId.Value, companyId).Name;
                 }
 
                 /*criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Objetivo"] + " :", timesBold))

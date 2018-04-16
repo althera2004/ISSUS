@@ -46,7 +46,7 @@ public partial class ExportIndicadorRecords : Page
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
         var company = new Company(companyId);
-        var registros = IndicadorRegistro.GetByIndicador(indicadorId, companyId).ToList();
+        var registros = IndicadorRegistro.ByIndicadorId(indicadorId, companyId).ToList();
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -320,7 +320,7 @@ public partial class ExportIndicadorRecords : Page
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
         var company = new Company(companyId);
 
-        var registros = IndicadorRegistro.GetByIndicador(indicadorId, companyId).ToList();
+        var registros = IndicadorRegistro.ByIndicadorId(indicadorId, companyId).ToList();
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -342,7 +342,7 @@ public partial class ExportIndicadorRecords : Page
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
 
-        writer.PageEvent = new TwoColumnHeaderFooter()
+        writer.PageEvent = new TwoColumnHeaderFooter
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, companyId),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),

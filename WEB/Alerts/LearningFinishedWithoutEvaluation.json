@@ -2,7 +2,7 @@
     "CompanyId": 0,
     "ItemType": 10,
     "ItemUrl": "FormacionView.aspx?id=",
-    "AlertDescription": "Cargos sin responsable",
+    "AlertDescription": "Curso finalizado sin evaluar",
     "Query": "select distinct
     L.Id,
     L.Description

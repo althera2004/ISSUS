@@ -62,7 +62,7 @@ public partial class ObjetivoView : Page
     {
         get
         {
-            return Indicador.GetPeriodicityByCompany(this.company.Id);
+            return Indicador.PeriodicityByCompany(this.company.Id);
         }
     }
 
@@ -72,11 +72,19 @@ public partial class ObjetivoView : Page
         {
             if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId.Value > 0)
             {
-                Indicador indicador = Indicador.GetById(this.Objetivo.IndicatorId.Value, this.company.Id);
+                Indicador indicador = Indicador.ById(this.Objetivo.IndicatorId.Value, this.company.Id);
                 return indicador.Description;
             }
 
             return string.Empty;
+        }
+    }
+
+    public string ActionsList
+    {
+        get
+        {
+            return IncidentAction.JsonList(IncidentAction.ByObjetivoId(this.objetivoId, this.company.Id));
         }
     }
 
@@ -86,7 +94,7 @@ public partial class ObjetivoView : Page
         {
             if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId.Value > 0)
             {
-                Indicador indicador = Indicador.GetById(this.Objetivo.IndicatorId.Value, this.company.Id);
+                Indicador indicador = Indicador.ById(this.Objetivo.IndicatorId.Value, this.company.Id);
                 return indicador.Json;
             }
 
@@ -98,7 +106,7 @@ public partial class ObjetivoView : Page
     {
         get
         {
-            return Objetivo.GetByCompanyJsonList(this.company.Id);
+            return Objetivo.ByCompanyJsonList(this.company.Id);
         }
     }
 
@@ -156,7 +164,7 @@ public partial class ObjetivoView : Page
         {
             if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId.Value > 0)
             {
-                return IndicadorRegistro.GetByIndicadorJson(this.Objetivo.IndicatorId.Value, this.company.Id);
+                return IndicadorRegistro.ByIndicadorJson(this.Objetivo.IndicatorId.Value, this.company.Id);
             }
 
             return ObjetivoRegistro.GetByObjetivoJson(this.objetivoId, this.company.Id);
@@ -260,7 +268,7 @@ public partial class ObjetivoView : Page
         if (this.objetivoId > 0)
         {
             this.Session["EquipmentId"] = this.objetivoId;
-            this.Objetivo = Objetivo.GetById(this.objetivoId, this.company.Id);
+            this.Objetivo = Objetivo.ById(this.objetivoId, this.company.Id);
             if (this.Objetivo.CompanyId != this.company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", false);
@@ -290,7 +298,8 @@ public partial class ObjetivoView : Page
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Objetivo_TabBasic"], Available = true });
-        this.tabBar.AddTab(new Tab { Id = "records", Available = true, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabRecords"] });
+        this.tabBar.AddTab(new Tab { Id = "actions", Selected = true, Active = true, Label = this.dictionary["Item_Objetivo_TabBasic"], Available = true });
+        this.tabBar.AddTab(new Tab { Id = "records", Available = true, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabActions"] });
         this.tabBar.AddTab(new Tab { Id = "graphics", Available = true, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabGraphics"] });
         this.tabBar.AddTab(new Tab { Id = "historic", Available = true, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabHistoric"] });
 
@@ -374,7 +383,7 @@ public partial class ObjetivoView : Page
             DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        foreach (var indicador in Indicador.GetByCompany(this.company.Id))
+        foreach (var indicador in Indicador.ByCompany(this.company.Id))
         {
             if (indicador.Active || indicador.Id == this.Objetivo.IndicatorId)
             {

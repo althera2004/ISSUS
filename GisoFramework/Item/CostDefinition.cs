@@ -96,9 +96,9 @@ namespace GisoFramework.Item
             }
         }
 
-        public static CostDefinition GetById(long costDefinitionId, int companyId)
+        public static CostDefinition ById(long costDefinitionId, int companyId)
         {
-            var costs = GetByCompany(companyId);
+            var costs = ByCompany(companyId);
             if (costs.Any(cd => cd.Id == costDefinitionId))
             {
                 return costs.First(cd => cd.Id == costDefinitionId);
@@ -109,13 +109,13 @@ namespace GisoFramework.Item
 
         public static ReadOnlyCollection<CostDefinition> GetActive(int companyId)
         {
-            return new ReadOnlyCollection<CostDefinition>(GetByCompany(companyId).Where(cd => cd.Active).ToList());
+            return new ReadOnlyCollection<CostDefinition>(ByCompany(companyId).Where(cd => cd.Active).ToList());
         }
 
-        public static string GetByCompanyJson(int companyId)
+        public static string ByCompanyJson(int companyId)
         {
             var res = new StringBuilder("[");
-            var costs = GetByCompany(companyId);
+            var costs = ByCompany(companyId);
             bool first = true;
             foreach (var cost in costs)
             {
@@ -135,7 +135,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static ReadOnlyCollection<CostDefinition> GetByCompany(int companyId)
+        public static ReadOnlyCollection<CostDefinition> ByCompany(int companyId)
         {
             /* CREATE PROCEDURE Customer_GetByCompany
              *   @CompanyId int */
@@ -176,7 +176,7 @@ namespace GisoFramework.Item
                                     CompanyId = rdr.GetInt32(ColumnsCostDefinitionGet.CompanyId)
                                 };
 
-                                newCost.ModifiedBy.Employee = Employee.GetByUserId(newCost.ModifiedBy.Id);
+                                newCost.ModifiedBy.Employee = Employee.ByUserId(newCost.ModifiedBy.Id);
                                 res.Add(newCost);
                             }
                         }

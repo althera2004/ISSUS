@@ -517,12 +517,12 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Objetivo>(res);
         }
 
-        public static ReadOnlyCollection<Objetivo> GetByCompany(Company company)
+        public static ReadOnlyCollection<Objetivo> ByCompany(Company company)
         {
-            return GetByCompany(company.Id);
+            return ByCompany(company.Id);
         }
 
-        public static ReadOnlyCollection<Objetivo> GetByCompany(int companyId)
+        public static ReadOnlyCollection<Objetivo> ByCompany(int companyId)
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */
@@ -698,11 +698,11 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Objetivo>(res);
         }
 
-        public static string GetByCompanyJsonList(int companyId)
+        public static string ByCompanyJsonList(int companyId)
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (var objetivo in GetByCompany(companyId))
+            foreach (var objetivo in ByCompany(companyId))
             {
                 if (objetivo.Active)
                 {
@@ -729,7 +729,7 @@ namespace GisoFramework.Item
         /// <param name="objetivoId"></param>
         /// <param name="companyId"></param>
         /// <returns></returns>
-        public static Objetivo GetById(int objetivoId, int companyId)
+        public static Objetivo ById(int objetivoId, int companyId)
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */

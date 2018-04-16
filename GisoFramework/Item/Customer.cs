@@ -98,7 +98,7 @@ namespace GisoFramework.Item
             return string.Empty;
         }*/
 
-        public static ReadOnlyCollection<Customer> GetByCompany(int companyId)
+        public static ReadOnlyCollection<Customer> ByCompany(int companyId)
         {
             /* CREATE PROCEDURE Customer_GetByCompany
              *   @CompanyId int */
@@ -158,11 +158,11 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Customer>(res);
         }
 
-        public static string GetByCompanyJson(int companyId)
+        public static string ByCompanyJson(int companyId)
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (var customer in GetByCompany(companyId))
+            foreach (var customer in ByCompany(companyId))
             {
                 if (customer.Active)
                 {
@@ -183,7 +183,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static Customer GetById(long id, int companyId)
+        public static Customer ById(long id, int companyId)
         {
             var res = new Customer();
             using (var cmd = new SqlCommand("Customer_GetById"))
@@ -216,7 +216,7 @@ namespace GisoFramework.Item
                                     ModifiedOn = rdr.GetDateTime(ColumnsCustomerGetBy.ModifiedOn)
                                 };
 
-                                res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                                res.ModifiedBy.Employee = Employee.ByUserId(res.ModifiedBy.Id);
                             }
                         }
                     }

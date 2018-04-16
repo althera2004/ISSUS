@@ -76,7 +76,7 @@ public partial class IncidentView : Page
                 return "[]";
             }
 
-            return IncidentCost.GetByIncident(this.IncidentId, this.company.Id);
+            return IncidentCost.ByIncident(this.IncidentId, this.company.Id);
         }
     }
 
@@ -84,7 +84,7 @@ public partial class IncidentView : Page
     {
         get
         {
-            return CostDefinition.GetByCompanyJson(this.company.Id);
+            return CostDefinition.ByCompanyJson(this.company.Id);
         }
     }
 
@@ -97,7 +97,7 @@ public partial class IncidentView : Page
                 return "[]";
             }
 
-            return IncidentCost.GetByCompany(this.company.Id);
+            return IncidentCost.ByCompany(this.company.Id);
         }
     }
 
@@ -295,7 +295,7 @@ public partial class IncidentView : Page
     {
         get
         {
-            return Provider.GetByCompanyJson(this.company.Id);
+            return Provider.ByCompanyJson(this.company.Id);
         }
     }
 
@@ -303,7 +303,7 @@ public partial class IncidentView : Page
     {
         get
         {
-            return Customer.GetByCompanyJson(this.company.Id);
+            return Customer.ByCompanyJson(this.company.Id);
         }
     }
 
@@ -416,7 +416,7 @@ public partial class IncidentView : Page
 
             this.master.ItemCode = this.Incident.Description;
 
-            this.IncidentAction = IncidentAction.GetByIncidentId(this.IncidentId, this.company.Id);
+            this.IncidentAction = IncidentAction.ByIncidentId(this.IncidentId, this.company.Id);
 
             this.formFooterAction.ModifiedBy = this.Incident.ModifiedBy.Description;
             this.formFooterAction.ModifiedOn = this.Incident.ModifiedOn;

@@ -58,7 +58,7 @@ public partial class IncidentList : Page
     {
         get
         {
-            return Provider.GetByCompanyJson(this.company.Id);
+            return Provider.ByCompanyJson(this.company.Id);
         }
     }
 
@@ -66,7 +66,7 @@ public partial class IncidentList : Page
     {
         get
         {
-            return Customer.GetByCompanyJson(this.company.Id);
+            return Customer.ByCompanyJson(this.company.Id);
         }
     }
 

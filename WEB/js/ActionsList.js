@@ -1,14 +1,14 @@
 ﻿var lockOrderList = false;
 
 function IncidentActionGetFilter(exportType) {
-    document.getElementById("nav-search-input").value = "";
     var ok = true;
-    document.getElementById("ListDataTable").style.display = "none";
-    document.getElementById("ItemTableError").style.display = "none";
-    document.getElementById("ItemTableVoid").style.display = "none";
-    document.getElementById("ErrorDate").style.display = "none";
-    document.getElementById("ErrorStatus").style.display = "none";
-    document.getElementById("ErrorType").style.display = "none";
+    $("#nav-search-input").val();
+    $("#ListDataTable").hide();
+    $("#ItemTableError").hide();
+    $("#ItemTableVoid").hide();
+    $("#ErrorDate").hide();
+    $("#rrorStatus").hide();
+    $("#ErrorType").hide();
     var from = GetDate($("#TxtDateFrom").val(), "-");
     var to = GetDate($("#TxtDateTo").val(), "-");
 
@@ -24,23 +24,22 @@ function IncidentActionGetFilter(exportType) {
     if (from !== null && to !== null) {
         if (from > to) {
             ok = false;
-            document.getElementById("ErrorDate").style.display = "";
+            $("#ErrorDate").show();
         }
     }
 
     if (!status1 && !status2 && !status3 && !status4) {
         ok = false;
-        document.getElementById("ErrorStatus").style.display = "";
+        $("#ErrorStatus").show();
     }
 
     if (!type1 && !type2 && !type3) {
         ok = false;
-        document.getElementById("ErrorType").style.display = "";
+        $("#ErrorType").show();
     }
 
-
     if (ok === false) {
-        document.getElementById("ItemTableError").style.display = "";
+        $("#ItemTableError").show();
         return false;
     }
 
@@ -148,6 +147,18 @@ function ItemRenderTable(list) {
             origin.appendChild(spantext2);
             //origin.title = Dictionary.Item_IncidentAction_Origin4 + " \"" + item.Associated.Description + "\"";
 			origin.title = item.Associated.Description;
+        }
+
+        if (item.Origin === 5) {
+            origin = document.createElement("A");
+            origin.href = "ObjetivoView.aspx?id=" + item.Associated.Id;
+            origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin5));
+            var spantext2 = document.createElement("span");
+            spantext2.style.display = "none";
+            spantext2.appendChild(document.createTextNode(item.Associated.Description));
+            origin.appendChild(spantext2);
+            //origin.title = Dictionary.Item_IncidentAction_Origin4 + " \"" + item.Associated.Description + "\"";
+            origin.title = item.Associated.Description;
         }
 
         var actionLink = document.createElement("A");
@@ -309,25 +320,25 @@ function IncidentActionDelete(sender) {
     IncidentActionSelected = IncidentActiongetById(IncidentActionSelectedId);
     console.log("IncidentActionDelete", IncidentActionSelectedId);
     if (IncidentActionSelected === null) { return false; }
-    $('#IncidentActionDeleteName').html(IncidentActionSelected.Description);
+    $("#IncidentActionDeleteName").html(IncidentActionSelected.Description);
     var dialog = $("#IncidentActionDeleteDialog").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     IncidentActionDeleteConfirmed();
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -336,20 +347,19 @@ function IncidentActionDelete(sender) {
 }
 
 function IncidentActionDeleteConfirmed() {
-    var webMethod = "/Async/IncidentActionsActions.asmx/Delete";
-    var data = { incidentActionId: IncidentActionSelectedId, companyId: Company.Id, userId: user.Id };
+    var data = { "incidentActionId": IncidentActionSelectedId, "companyId": Company.Id, "userId": user.Id };
     $("#IncidentActionDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/IncidentActionsActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             IncidentActionGetFilter();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -423,15 +433,14 @@ function ExportPDF() {
         "listOrder": listOrder
     };
 
-    var webMethod = "/Export/IncidentActionExportList.aspx/PDF";
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Export/IncidentActionExportList.aspx/PDF",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
             //successInfoUI(msg.d.MessageError, Go, 200);
             var link = document.createElement("a");
@@ -445,7 +454,7 @@ function ExportPDF() {
             window.open(msg.d.MessageError);
             $("#dialogAddAddress").dialog("close");
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI("error:" + msg.responseText);
         }

@@ -103,18 +103,18 @@ namespace GisoFramework.Item
             return res;
         }
 
-        public static ReadOnlyCollection<IndicadorObjetivo> GetByIndicador(int indicadorId,int companyId)
+        public static ReadOnlyCollection<IndicadorObjetivo> ByIndicadorId(int indicadorId,int companyId)
         {
-            List<IndicadorObjetivo> res = new List<IndicadorObjetivo>();
+            var res = new List<IndicadorObjetivo>();
             /* CREATE PROCEDURE IndicadorObjetivo_GetByIndicadorId
              *   @IndicadorId int,
              *   @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("IndicadorObjetivo_GetByIndicadorId"))
+            using (var cmd = new SqlCommand("IndicadorObjetivo_GetByIndicadorId"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
                 cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     try
@@ -152,28 +152,28 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<IndicadorObjetivo>(res);
         }
 
-        public static ReadOnlyCollection<IndicadorObjetivo> GetByObjetivo(int objetivoId, int companyId)
+        public static ReadOnlyCollection<IndicadorObjetivo> ByObjetivoId(int objetivoId, int companyId)
         {
-            List<IndicadorObjetivo> res = new List<IndicadorObjetivo>();
+            var res = new List<IndicadorObjetivo>();
             /* CREATE PROCEDURE IndicadorObjetivo_GetByObjetivoId
              *   @IndicadorId int,
              *   @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("IndicadorObjetivo_GetByObjetivoId"))
+            using (var cmd = new SqlCommand("IndicadorObjetivo_GetByObjetivoId"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", objetivoId));
                 cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     try
                     {
                         cmd.Connection.Open();
-                        using (SqlDataReader rdr = cmd.ExecuteReader())
+                        using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new IndicadorObjetivo()
+                                res.Add(new IndicadorObjetivo
                                 {
                                     IndicadorId = rdr.GetInt32(0),
                                     ObjetivoId = rdr.GetInt32(1),
@@ -208,9 +208,9 @@ namespace GisoFramework.Item
                 return "[]";
             }
 
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (IndicadorObjetivo item in list)
+            foreach (var item in list)
             {
                 if (first)
                 {

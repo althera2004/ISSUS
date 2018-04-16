@@ -37,7 +37,7 @@ public partial class ExportPrintEquipmentData : Page
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
         var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        var equipment = Equipment.GetById(equipmentId, user.CompanyId);
+        var equipment = Equipment.ById(equipmentId, user.CompanyId);
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -494,7 +494,7 @@ public partial class ExportPrintEquipmentData : Page
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
         var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        var equipment = Equipment.GetById(equipmentId, companyId);
+        var equipment = Equipment.ById(equipmentId, companyId);
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 

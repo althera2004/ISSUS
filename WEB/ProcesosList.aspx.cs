@@ -103,7 +103,7 @@ public partial class ProcesosList : Page
     {
         var procesos = ProcessType.ObtainByCompany(this.company.Id, this.dictionary);
         var res = new StringBuilder();
-        var processList = Process.GetByCompany(((Company)Session["Company"]).Id);
+        var processList = Process.ByCompany(((Company)Session["Company"]).Id);
         var searchedItem = new List<string>();
         bool first = true;
         this.ProcesosDataTotal.Text = processList.Count.ToString();

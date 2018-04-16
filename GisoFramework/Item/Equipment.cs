@@ -28,7 +28,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new Equipment()
+                return new Equipment
                 {
                     Id = 0,
                     Responsible = Employee.EmptySimple,
@@ -120,7 +120,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
+                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
             }
         }
 
@@ -169,7 +169,7 @@ namespace GisoFramework.Item
             get
             {
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     @"<a href=""EquipmentView.aspx?id={0}"">{1}</a>",
                     this.Id,
                     this.Code);
@@ -181,7 +181,7 @@ namespace GisoFramework.Item
             get
             {
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     @"<a href=""EquipmentView.aspx?id={0}"">{1}</a>",
                     this.Id,
                     this.Description);
@@ -192,16 +192,16 @@ namespace GisoFramework.Item
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), "{0} - {1}", this.Code, this.Description);
+                return string.Format(CultureInfo.InvariantCulture, "{0} - {1}", this.Code, this.Description);
             }
         }
 
-        public static Equipment GetById(long equipmentId, Company company)
+        public static Equipment ById(long equipmentId, Company company)
         {
-            return GetById(equipmentId, company.Id);
+            return ById(equipmentId, company.Id);
         }
 
-        public static Equipment GetById(long equipmentId, int companyId)
+        public static Equipment ById(long equipmentId, int companyId)
         {
             var source = string.Format(CultureInfo.InvariantCulture, "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId);
             /* CREATE PROCEDURE Equipment_GetById
@@ -224,7 +224,7 @@ namespace GisoFramework.Item
                             if (rdr.HasRows)
                             {
                                 rdr.Read();
-                                res = new Equipment()
+                                res = new Equipment
                                 {
                                     Id = equipmentId,
                                     CompanyId = rdr.GetInt32(ColumnsEquipmentGetById.CompanyId),
@@ -240,7 +240,7 @@ namespace GisoFramework.Item
                                         Id = rdr.GetInt64(ColumnsEquipmentGetById.ScaleDivisionId),
                                         Description = rdr.GetString(ColumnsEquipmentGetById.ScaleDivisionDescription),
                                     },
-                                    Responsible = new Employee()
+                                    Responsible = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentGetById.ResponsibleId),
                                         Name = rdr[ColumnsEquipmentGetById.ResponsibleName].ToString(),
@@ -252,7 +252,7 @@ namespace GisoFramework.Item
                                     IsMaintenance = rdr.GetBoolean(ColumnsEquipmentGetById.IsMaintenance),
                                     Notes = rdr.GetString(ColumnsEquipmentGetById.Notes),
                                     Observations = rdr[ColumnsEquipmentGetById.Observations].ToString(),
-                                    ModifiedBy = new ApplicationUser()
+                                    ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentGetById.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsEquipmentGetById.ModifiedByUserName)
@@ -314,7 +314,7 @@ namespace GisoFramework.Item
                                 res.GetCalibrationDefinitions();
                                 res.GetVerificationDefinitions();
 
-                                res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                                res.ModifiedBy.Employee = Employee.ByUserId(res.ModifiedBy.Id);
                             }
                         }
                     }
@@ -545,7 +545,7 @@ namespace GisoFramework.Item
             }
 
             var res = new StringBuilder();
-            foreach (Equipment equipment in list)
+            foreach (var equipment in list)
             {
                 res.Append(equipment.ListRow(dictionary, grantWrite, grantDelete, grantEmployee));
             }
@@ -647,7 +647,6 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@EndReason", reason, 500));
                         cmd.Parameters.Add(DataParameter.Input("@EndResponsible", responsible));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess(equipmentId);
@@ -971,20 +970,20 @@ namespace GisoFramework.Item
                                     Pattern = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.Pattern),
                                     Range = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.Range),
                                     Notes = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.Notes),
-                                    Responsible = new Employee()
+                                    Responsible = new Employee
                                     {
                                         CompanyId = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.CompanyId),
                                         Id = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.ResponsibleId),
                                         Name = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.ResponsibleName),
                                         LastName = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.ResponsibleLastName)
                                     },
-                                    Provider = new Provider()
+                                    Provider = new Provider
                                     {
                                         CompanyId = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.CompanyId),
                                         Id = rdr.GetInt64(ColumnsEquipmentGetVerificationDefinition.ProviderId),
                                         Description = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.ProviderDescription)
                                     },
-                                    ModifiedBy = new ApplicationUser()
+                                    ModifiedBy = new ApplicationUser
                                     {
                                         CompanyId = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.CompanyId),
                                         Id = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.ModifiedByUserId),
@@ -1092,20 +1091,20 @@ namespace GisoFramework.Item
                                     Range = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.Range),
                                     Uncertainty = rdr.GetDecimal(ColumnsEquipmentGetCalibrationDefinition.Uncertainty),
                                     Notes = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.Notes),
-                                    Provider = new Provider()
+                                    Provider = new Provider
                                     {
                                         CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
                                         Id = rdr.GetInt64(ColumnsEquipmentGetCalibrationDefinition.ProviderId),
                                         Description = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ProviderDescription)
                                     },
-                                    Responsible = new Employee()
+                                    Responsible = new Employee
                                     {
                                         CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
                                         Id = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.ResponsibleId),
                                         Name = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ResponsibleName),
                                         LastName = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ResponsibleLastName)
                                     },
-                                    ModifiedBy = new ApplicationUser()
+                                    ModifiedBy = new ApplicationUser
                                     {
                                         CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
                                         Id = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.ModifiedByUserId),

@@ -65,7 +65,7 @@ public partial class IndicadorView : Page
                 return "[]";
             }
 
-            return IndicadorObjetivo.JsonList(IndicadorObjetivo.GetByIndicador(this.IndicadorId, this.company.Id));
+            return IndicadorObjetivo.JsonList(IndicadorObjetivo.ByIndicadorId(this.IndicadorId, this.company.Id));
         }
     }
 
@@ -89,7 +89,7 @@ public partial class IndicadorView : Page
     {
         get
         {
-            return IndicadorRegistro.GetByIndicadorJson(this.IndicadorId, this.company.Id);
+            return IndicadorRegistro.ByIndicadorJson(this.IndicadorId, this.company.Id);
         }
     }
 
@@ -207,7 +207,7 @@ public partial class IndicadorView : Page
     {
         get
         {
-            return Objetivo.GetByCompanyJsonList(this.company.Id);
+            return Objetivo.ByCompanyJsonList(this.company.Id);
         }
     }
 
@@ -286,7 +286,7 @@ public partial class IndicadorView : Page
 
         if (this.IndicadorId > 0)
         {
-            this.Indicador = Indicador.GetById(this.IndicadorId, this.company.Id);
+            this.Indicador = Indicador.ById(this.IndicadorId, this.company.Id);
             this.master.AddBreadCrumbInvariant(this.Indicador.Description);
             if (this.Indicador.CompanyId != this.company.Id)
             {
@@ -344,7 +344,7 @@ public partial class IndicadorView : Page
     public void RenderRegistrosData()
     {
         var res = new StringBuilder();
-        foreach (var registro in IndicadorRegistro.GetByIndicador(this.IndicadorId, this.company.Id))
+        foreach (var registro in IndicadorRegistro.ByIndicadorId(this.IndicadorId, this.company.Id))
         {
             res.Append(registro.ListRow(this.dictionary, this.user.Grants));
         }
@@ -542,7 +542,7 @@ public partial class IndicadorView : Page
 
         foreach (Unidad unidad in Unidad.GetActive(this.company.Id))
         {
-            this.CmbUnidad.AddOption(new FormSelectOption() 
+            this.CmbUnidad.AddOption(new FormSelectOption
                 { 
                     Text = unidad.Description, 
                     Value = unidad.Id.ToString(), 
@@ -560,9 +560,9 @@ public partial class IndicadorView : Page
         //        });
         //}
 
-        foreach (var proceso in Process.GetByCompany(this.company.Id).Where(p => p.Active == true))
+        foreach (var proceso in Process.ByCompany(this.company.Id).Where(p => p.Active == true))
         {
-            this.CmbProcess.AddOption(new FormSelectOption()
+            this.CmbProcess.AddOption(new FormSelectOption
                 {
                     Value = proceso.Id.ToString(),
                     Text = proceso.Description,

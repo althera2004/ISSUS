@@ -21,17 +21,9 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
     
-    /// <summary>
-    /// Implements Company class
-    /// </summary>
+    /// <summary>Implements Company class</summary>
     public class Company
     {
-        /// <summary> Company default language </summary>
-        private string language;
-
-        /// <summary> Company nif </summary>
-        private string fiscalNumber;
-
         /// <summary> Company departments </summary>
         private Collection<Department> departments;
 
@@ -52,8 +44,7 @@ namespace GisoFramework.Item
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the Company class.
+        /// <summary>Initializes a new instance of the Company class.
         /// Company data is searched on database based in company identifier
         /// </summary>
         /// <param name="companyId">Company identifier</param>
@@ -65,107 +56,110 @@ namespace GisoFramework.Item
             this.SubscriptionEnd = DateTime.Now;
             this.SubscriptionStart = DateTime.Now;
             this.Name = string.Empty;
-            this.language = "es";
+            this.Language = "es";
             this.DiskQuote = 0;
 
             string source = string.Format(CultureInfo.InvariantCulture, "cto::Company({0})", companyId);
-            using (SqlCommand cmd = new SqlCommand("Company_GetById"))
+            using (var cmd = new SqlCommand("Company_GetById"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                cmd.Parameters["@CompanyId"].Value = companyId;
-
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    using (var rdr = cmd.ExecuteReader())
-                    {
-                        if (rdr.HasRows)
-                        {
-                            rdr.Read();
-                            this.Id = rdr.GetInt32(0);
-                            this.Name = rdr[1].ToString();
-                            this.MailContact = string.Empty;
-                            this.Web = string.Empty;
-                            this.SubscriptionStart = rdr.GetDateTime(2);
-                            this.SubscriptionEnd = rdr.GetDateTime(3);
-                            this.language = Convert.ToString(rdr[4], CultureInfo.GetCultureInfo("en-us"));
-                            this.fiscalNumber = rdr[5].ToString();
-                            this.Code = rdr[6].ToString();
-                            this.DiskQuote = rdr.GetInt64(8);
-                            this.Agreement = rdr.GetBoolean(9);
-                        }
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                    cmd.Parameters["@CompanyId"].Value = companyId;
 
-                        this.departments = Company.GetDepartments(this.Id);
-                        this.addresses = CompanyAddress.GetAddressByCompanyId(this);
-                        foreach (CompanyAddress address in this.addresses)
+                    try
+                    {
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            if (address.DefaultAddress)
+                            if (rdr.HasRows)
                             {
-                                this.defaultAddress = address;
-                                break;
+                                rdr.Read();
+                                this.Id = rdr.GetInt32(0);
+                                this.Name = rdr[1].ToString();
+                                this.MailContact = string.Empty;
+                                this.Web = string.Empty;
+                                this.SubscriptionStart = rdr.GetDateTime(2);
+                                this.SubscriptionEnd = rdr.GetDateTime(3);
+                                this.Language = Convert.ToString(rdr[4], CultureInfo.InvariantCulture);
+                                this.FiscalNumber = rdr[5].ToString();
+                                this.Code = rdr[6].ToString();
+                                this.DiskQuote = rdr.GetInt64(8);
+                                this.Agreement = rdr.GetBoolean(9);
                             }
-                        }
 
-                        this.ObtainEmployees();
+                            this.departments = Company.GetDepartments(this.Id);
+                            this.addresses = CompanyAddress.GetAddressByCompanyId(this);
+                            foreach (var address in this.addresses)
+                            {
+                                if (address.DefaultAddress)
+                                {
+                                    this.defaultAddress = address;
+                                    break;
+                                }
+                            }
+
+                            this.ObtainEmployees();
+                        }
                     }
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.InstalledUICulture, "cto::Company({0})", companyId));
-                    this.Id = -1;
-                    this.MailContact = string.Empty;
-                    this.Web = string.Empty;
-                    this.SubscriptionEnd = DateTime.Now;
-                    this.SubscriptionStart = DateTime.Now;
-                    this.Name = string.Empty;
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.InstalledUICulture, "cto::Company({0})", companyId));
-                    this.Id = -1;
-                    this.MailContact = string.Empty;
-                    this.Web = string.Empty;
-                    this.SubscriptionEnd = DateTime.Now;
-                    this.SubscriptionStart = DateTime.Now;
-                    this.Name = string.Empty;
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.InstalledUICulture, "cto::Company({0})", companyId));
-                    this.Id = -1;
-                    this.MailContact = string.Empty;
-                    this.Web = string.Empty;
-                    this.SubscriptionEnd = DateTime.Now;
-                    this.SubscriptionStart = DateTime.Now;
-                    this.Name = string.Empty;
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.InvariantCulture, "cto::Company({0})", companyId));
-                    this.Id = -1;
-                    this.MailContact = string.Empty;
-                    this.Web = string.Empty;
-                    this.SubscriptionEnd = DateTime.Now;
-                    this.SubscriptionStart = DateTime.Now;
-                    this.Name = string.Empty;
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.InvariantCulture, "cto::Company({0})", companyId));
-                    this.Id = -1;
-                    this.MailContact = string.Empty;
-                    this.Web = string.Empty;
-                    this.SubscriptionEnd = DateTime.Now;
-                    this.SubscriptionStart = DateTime.Now;
-                    this.Name = string.Empty;
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.InstalledUICulture, "cto::Company({0})", companyId));
+                        this.Id = -1;
+                        this.MailContact = string.Empty;
+                        this.Web = string.Empty;
+                        this.SubscriptionEnd = DateTime.Now;
+                        this.SubscriptionStart = DateTime.Now;
+                        this.Name = string.Empty;
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.InstalledUICulture, "cto::Company({0})", companyId));
+                        this.Id = -1;
+                        this.MailContact = string.Empty;
+                        this.Web = string.Empty;
+                        this.SubscriptionEnd = DateTime.Now;
+                        this.SubscriptionStart = DateTime.Now;
+                        this.Name = string.Empty;
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.InstalledUICulture, "cto::Company({0})", companyId));
+                        this.Id = -1;
+                        this.MailContact = string.Empty;
+                        this.Web = string.Empty;
+                        this.SubscriptionEnd = DateTime.Now;
+                        this.SubscriptionStart = DateTime.Now;
+                        this.Name = string.Empty;
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.InvariantCulture, "cto::Company({0})", companyId));
+                        this.Id = -1;
+                        this.MailContact = string.Empty;
+                        this.Web = string.Empty;
+                        this.SubscriptionEnd = DateTime.Now;
+                        this.SubscriptionStart = DateTime.Now;
+                        this.Name = string.Empty;
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.InvariantCulture, "cto::Company({0})", companyId));
+                        this.Id = -1;
+                        this.MailContact = string.Empty;
+                        this.Web = string.Empty;
+                        this.SubscriptionEnd = DateTime.Now;
+                        this.SubscriptionStart = DateTime.Now;
+                        this.Name = string.Empty;
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -181,7 +175,7 @@ namespace GisoFramework.Item
                     {
                         cmdCountries.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmdCountries.Connection.Open();
-                        using (SqlDataReader rdrCountries = cmdCountries.ExecuteReader())
+                        using (var rdrCountries = cmdCountries.ExecuteReader())
                         {
                             while (rdrCountries.Read())
                             {
@@ -225,7 +219,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new Company()
+                return new Company
                 {
                     Id = -1,
                     addresses = new Collection<CompanyAddress>(),
@@ -233,10 +227,10 @@ namespace GisoFramework.Item
                     defaultAddress = CompanyAddress.Empty,
                     departments = new Collection<Department>(),
                     employees = new Collection<Employee>(),
-                    language = string.Empty,
+                    Language = string.Empty,
                     MailContact = string.Empty,
                     Name = string.Empty,
-                    fiscalNumber = string.Empty,
+                    FiscalNumber = string.Empty,
                     Web = string.Empty
                 };
             }
@@ -247,16 +241,16 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new Company()
+                return new Company
                 {
                     Id = -1,
                     Code = string.Empty,
                     departments = new Collection<Department>(),
                     employees = new Collection<Employee>(),
-                    language = string.Empty,
+                    Language = string.Empty,
                     MailContact = string.Empty,
                     Name = string.Empty,
-                    fiscalNumber = string.Empty,
+                    FiscalNumber = string.Empty,
                     Web = string.Empty
                 };
             }
@@ -268,25 +262,19 @@ namespace GisoFramework.Item
         public bool Agreement { get; set; }
 
         #region Properties
-        /// <summary>
-        /// Gets a JSON key/value stucture of the company
-        /// </summary>
+        /// <summary>Gets a JSON key/value stucture of the company</summary>
         public string JsonKeyValue
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0},""Value"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Name));
+                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0},""Value"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Name));
             }
         }
 
-        /// <summary>
-        /// Gets or sets the company's logo
-        /// </summary>
+        /// <summary>Gets or sets the company's logo</summary>
         public string Logo { get; set; }
 
-        /// <summary>
-        /// Gets a list of countries available for the company
-        /// </summary>
+        /// <summary>Gets a list of countries available for the company</summary>
         public ReadOnlyCollection<Country> Countries
         {
             get
@@ -300,76 +288,34 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets or sets the company identifier
-        /// </summary>
+        /// <summary>Gets or sets the company identifier</summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the code of company
-        /// </summary>
+        /// <summary>Gets or sets the code of company</summary>
         public string Code { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of company
-        /// </summary>
+        /// <summary>Gets or sets the name of company</summary>
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the date of starting subscription
-        /// </summary>
+        /// <summary>Gets or sets the date of starting subscription</summary>
         public DateTime SubscriptionStart { get; set; }
 
-        /// <summary>
-        /// Gets or sets the date of finishing subscription
-        /// </summary>
+        /// <summary>Gets or sets the date of finishing subscription</summary>
         public DateTime SubscriptionEnd { get; set; }
 
-        /// <summary>
-        /// Gets or sets de email contacto of company
-        /// </summary>
+        /// <summary>Gets or sets de email contacto of company</summary>
         public string MailContact { get; set; }
 
-        /// <summary>
-        /// Gets or sets de web address of company
-        /// </summary>
+        /// <summary>Gets or sets de web address of company</summary>
         public string Web { get; set; }
 
-        /// <summary>
-        /// Gets or sets the default language of company
-        /// </summary>
-        public string Language
-        {
-            get
-            {
-                return this.language;
-            }
+        /// <summary>Gets or sets the default language of company</summary>
+        public string Language { get; set; }
 
-            set
-            {
-                this.language = value;
-            }
-        }
+        /// <summary>Gets or sets the NIF of company</summary>
+        public string FiscalNumber { get; set; }
 
-        /// <summary>
-        /// Gets or sets the NIF of company
-        /// </summary>
-        public string FiscalNumber
-        {
-            get
-            {
-                return this.fiscalNumber;
-            }
-
-            set
-            {
-                this.fiscalNumber = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets a list of compnay's departments
-        /// </summary>
+        /// <summary>Gets a list of compnay's departments</summary>
         public ReadOnlyCollection<Department> Departments
         {
             get
@@ -378,9 +324,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a list of company's employees
-        /// </summary>
+        /// <summary>Gets a list of company's employees</summary>
         public ReadOnlyCollection<Employee> Employees
         {
             get
@@ -389,9 +333,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a list of company's employees with user associated
-        /// </summary>
+        /// <summary>Gets a list of company's employees with user associated</summary>
         public ReadOnlyCollection<Employee> EmployessWithUser
         {
             get
@@ -411,9 +353,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a list of company's addresses
-        /// </summary>
+        /// <summary>Gets a list of company's addresses</summary>
         public ReadOnlyCollection<CompanyAddress> Addresses
         {
             get
@@ -422,9 +362,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets or sets the default address of company
-        /// </summary>
+        /// <summary>Gets or sets the default address of company</summary>
         public CompanyAddress DefaultAddress
         {
             get
@@ -494,9 +432,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Gets a descriptive text with the differences between two companies
-        /// </summary>
+        /// <summary>Gets a descriptive text with the differences between two companies</summary>
         /// <param name="item1">First company to compare</param>
         /// <param name="item2">Second company to capmpare</param>
         /// <returns>The description of differences between two companies</returns>
@@ -516,25 +452,25 @@ namespace GisoFramework.Item
                 first = false;
             }
 
-            if (item1.fiscalNumber != item2.fiscalNumber)
+            if (item1.FiscalNumber != item2.FiscalNumber)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Nif:").Append(item2.fiscalNumber);
+                res.Append("Nif:").Append(item2.FiscalNumber);
                 first = false;
             }
 
-            if (item1.language != item2.language)
+            if (item1.Language != item2.Language)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Language:").Append(item2.language);
+                res.Append("Language:").Append(item2.Language);
                 first = false;
             }
 
@@ -571,12 +507,9 @@ namespace GisoFramework.Item
                     cmd.CommandType = CommandType.StoredProcedure;
                     try
                     {
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters.Add("@AddressId", SqlDbType.Int);
-                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                        cmd.Parameters["@CompanyId"].Value = companyId;
-                        cmd.Parameters["@AddressId"].Value = addressId;
-                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@AddressId", addressId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();
@@ -622,12 +555,12 @@ namespace GisoFramework.Item
             var res = new StringBuilder("{").Append(Environment.NewLine);
             res.Append("\t\t\"Id\":").Append(company.Id).Append(",").Append(Environment.NewLine);
             res.Append("\t\t\"Name\":\"").Append(company.Name).Append("\",").Append(Environment.NewLine);
-            res.Append("\t\t\"Nif\":\"").Append(company.fiscalNumber).Append("\",").Append(Environment.NewLine);
+            res.Append("\t\t\"Nif\":\"").Append(company.FiscalNumber).Append("\",").Append(Environment.NewLine);
             res.Append("\t\t\"MailContact\":\"").Append(company.MailContact).Append("\",").Append(Environment.NewLine);
             res.Append("\t\t\"Web\":\"").Append(company.Web).Append("\",").Append(Environment.NewLine);
             res.Append("\t\t\"SubscriptionStart\":\"").Append(company.SubscriptionStart.ToShortDateString()).Append("\",").Append(Environment.NewLine);
             res.Append("\t\t\"SubscriptionEnd\":\"").Append(company.SubscriptionEnd.ToShortDateString()).Append("\",").Append(Environment.NewLine);
-            res.Append("\t\t\"Language\":\"").Append(company.language).Append("\",").Append(Environment.NewLine);
+            res.Append("\t\t\"Language\":\"").Append(company.Language).Append("\",").Append(Environment.NewLine);
             res.Append("\t\t\"Departments\":").Append(Environment.NewLine);
             res.Append("\t\t[");
             bool firstDepartment = true;
@@ -814,18 +747,12 @@ namespace GisoFramework.Item
                     cmd.CommandType = CommandType.StoredProcedure;
                     try
                     {
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters.Add("@Name", SqlDbType.Text);
-                        cmd.Parameters.Add("@Nif", SqlDbType.Text);
-                        cmd.Parameters.Add("@DefaultAddress", SqlDbType.Int);
-                        cmd.Parameters.Add("@Language", SqlDbType.NVarChar);
-                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                        cmd.Parameters["@CompanyId"].Value = this.Id;
-                        cmd.Parameters["@Name"].Value = this.Name;
-                        cmd.Parameters["@Nif"].Value = this.fiscalNumber;
-                        cmd.Parameters["@DefaultAddress"].Value = this.defaultAddress.Id;
-                        cmd.Parameters["@Language"].Value = this.language;
-                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Name", this.Name));
+                        cmd.Parameters.Add(DataParameter.Input("@Nif", this.FiscalNumber));
+                        cmd.Parameters.Add(DataParameter.Input("@DefaultAddress", this.defaultAddress.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Language", this.Language));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.Success = true;
@@ -869,8 +796,7 @@ namespace GisoFramework.Item
                     cmd.CommandType = CommandType.StoredProcedure;
                     try
                     {
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters["@CompanyId"].Value = this.Id;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.Id));
                         cmd.Connection.Open();
                         using (var rdr = cmd.ExecuteReader())
                         {

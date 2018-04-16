@@ -113,7 +113,7 @@ public partial class CustomersList : Page
         var searchItems = new List<string>();
         bool first = true;
         int contData = 0;
-        foreach (var customer in Customer.GetByCompany(((Company)Session["Company"]).Id))
+        foreach (var customer in Customer.ByCompany(((Company)Session["Company"]).Id))
         {
             if (customer.Active)
             {

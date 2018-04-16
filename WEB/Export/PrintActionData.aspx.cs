@@ -30,7 +30,7 @@ public partial class Export_PrintActionData : Page
         ActionResult res = ActionResult.NoAction;
         ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
         Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        IncidentAction action = IncidentAction.GetById(actionId, user.CompanyId);
+        IncidentAction action = IncidentAction.ById(actionId, user.CompanyId);
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -95,12 +95,12 @@ public partial class Export_PrintActionData : Page
                     break;
                 case 2:
                     reporterType = dictionary["Item_IncidentAction_ReporterType2"];
-                    Provider provider = Provider.GetById(action.Provider.Id, action.CompanyId);
+                    Provider provider = Provider.ById(action.Provider.Id, action.CompanyId);
                     reporter = provider.Description;
                     break;
                 case 3:
                     reporterType = dictionary["Item_IncidentAction_ReporterType3"];
-                    Customer customer = Customer.GetById(action.Customer.Id, action.CompanyId);
+                    Customer customer = Customer.ById(action.Customer.Id, action.CompanyId);
                     reporter = customer.Description;
                     break;
             }

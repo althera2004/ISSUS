@@ -36,6 +36,7 @@
         var ItemData = <%= this.ItemData %>;
         var Objetivos = <%= this.Objetivos %>;
         var Registros = <%=this.Registros %>;
+        var Actions = <%=this.ActionsList %>;
         var Employees = <%= this.Employees %>;
         var IndicadorObjetivo = <%=this.IndicadoresObjetivo %>;
         var IndicadorName = "<%=this.IndicadorName %>";
@@ -166,6 +167,126 @@
                                                         <%=this.FormFooter %>
                                                     </div>
                                                 </div>
+
+                                                <div id="actions" class="tab-pane">
+                                                    <h4 id="ActionsListTitle"><%=this.Dictionary["Item_Objetivo_Tab_Actions"] %></h4>
+                                                    <div class="row">
+                                                        <label id="TxtActionsFromDateLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_From"] %></label>
+                                                        <div class="col-sm-2">
+                                                            <div class="row">
+                                                                <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtActionsFromDateDiv">
+                                                                    <div class="input-group">
+                                                                        <input class="form-control date-picker" id="TxtActionsFromDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                                        <span id="TxtActionsFromDateBtn" class="input-group-addon" onclick="document.getElementById('TxtActionsFromDate').focus();">
+                                                                            <i class="icon-calendar bigger-110"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <label id="TxtActionsToDateLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_To"] %></label>
+                                                        <div class="col-sm-2">
+                                                            <div class="row">
+                                                                <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtActionsToDateDiv">
+                                                                    <div class="input-group">
+                                                                        <input class="form-control date-picker" id="TxtActionsToDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                                        <span id="TxtActionsToDateBtn" class="input-group-addon" onclick="document.getElementById('TxtActionsToDate').focus();">
+                                                                            <i class="icon-calendar bigger-110"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6" style="text-align: right;">
+                                                            <button class="btn btn-success" type="button" id="BtnActionsNew"><i class="icon-plus bigger-110"></i><%=this.Dictionary["Item_Indicador_New_Button"] %></button>
+                                                            <button class="btn btn-success" type="button" id="BtnActionsFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_Indicador_Filter_Button"] %></button>
+                                                            <button class="btn btn-success" type="button" id="BtnActionsShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
+                                                            <button class="btn btn-success" type="button" id="BtnActionsShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-responsive" id="scrollTableDivActions">
+                                                        <table class="table table-bordered table-striped" style="margin-top: 4px; margin-bottom: 0;">
+                                                            <thead class="thin-border-bottom" id="RegistrosTHeadActions">
+                                                                <tr>
+                                                                    <td colspan="8" style="text-align: right;">
+                                                                        <span title="<%=this.Dictionary["Common_PrintPdf"] %>" class="btn btn-xs btn-info" onclick="lockOrderList=true;ObjetivoActionsFilter('PDF');"><i class="icon-file-pdf bigger-120"></i>&nbsp;PDF</span>
+                                                                        &nbsp;
+                                                                        <span title="<%=this.Dictionary["Common_PrintExcel"] %>" class="btn btn-xs btn-info" onclick="lockOrderList=true;ObjetivoActionsFilter('Excel');"><i class="icon-file-excel bigger-120"></i>&nbsp;Excel</span>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th id="th0" style="width: 35px;"></th>
+                                                                    <th id="th1" onclick="Sort(this,'ObjetivoActionsTable','money',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Value"]%></th>
+                                                                    <th id="th2" onclick="Sort(this,'ObjetivoActionsTable','date',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Date"]%></th>
+                                                                    <th id="th3"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Comments"]%></th>
+                                                                    <th id="th4" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th>
+                                                                    <!--th id="th4" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></!--th>
+                                                                    <!--<th id="th5" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Alarm"]%></th>-->
+                                                                    <th id="th5" onclick="Sort(this,'ObjetivoActionsTable','text',false);" class="sort" style="width: 175px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Responsible"]%></th>
+                                                                    <th style="width: 107px;">&nbsp;</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                        <div id="ListDataDivActions" style="overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                            <table class="table table-bordered table-striped" style="border-top: none;">
+                                                                <tbody id="ObjetivoActionsTable">
+                                                                    <asp:Literal runat="server" ID="Literal1"></asp:Literal>
+                                                                </tbody>
+                                                                <tfoot id="ItemTableVoidActions" style="display: none; height: 100%;">
+                                                                    <tr>
+                                                                        <td colspan="10" align="center" style="background-color: #ddddff; color: #0000aa;">
+                                                                            <table style="border: none;">
+                                                                                <tr>
+                                                                                    <td rowspan="2" style="border: none;" class="NoData"><i class="icon-info-sign" style="font-size: 48px;"></i></td>
+                                                                                    <td style="border: none;">
+                                                                                        <h4 class="NoData" style="font-size: 24px;"><%=this.Dictionary["Common_VoidSearchResult"] %></h4>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tfoot>
+                                                                <tfoot id="ItemTableErrorActions" style="display: none; height: 100%;">
+                                                                    <tr>
+                                                                        <td colspan="10" align="center" style="background-color: #ffffdd; color: #aa0000;">
+                                                                            <table style="border: none;">
+                                                                                <tr>
+                                                                                    <td rowspan="2" style="border: none;"><i class="icon-warning-sign" style="font-size: 48px;"></i></td>
+                                                                                    <td style="border: none;">
+                                                                                        <h4><%=this.Dictionary["Item_EquipmentRecords_FilterError_Title"] %></h4>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td style="border: none;">
+                                                                                        <ul>
+                                                                                            <li id="ActionsErrorDate"><%=this.Dictionary["Item_EquipmentRecords_FilterError_Dates"]%></li>
+                                                                                            <li id="ActionsErrorDateMalformedFrom"><%=this.Dictionary["Item_EquipmentRecord_Error_FilterDateFromMalformed"]%></li>
+                                                                                            <li id="ActionsErrorDateMalformedTo"><%=this.Dictionary["Item_EquipmentRecord_Error_FilterDateToMalformed"]%></li>
+                                                                                        </ul>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>                                                                                      
+                                                        <table class="table table-bordered table-striped" style="margin: 0">
+                                                            <thead class="thin-border-bottom">
+                                                                <tr id="ListDataFooterActions">
+                                                                    <th style="color:#aaa;">
+															            <i>
+																            <%=this.Dictionary["Common_RegisterCount"] %>:
+																            &nbsp;
+																            <span id="NumberCostsActions"></span>
+															            </i>
+														            </th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
                                                 <div id="records" class="tab-pane">
                                                     <h4 id="RecordListTitle"><%=this.Dictionary["Item_Objetivo_Tab_Records"] %></h4>
                                                     <div class="alert alert-info" style="display: none;" id="DivIndicadorRecordsMessage">

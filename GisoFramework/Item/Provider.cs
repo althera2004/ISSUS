@@ -19,9 +19,7 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements Provider class
-    /// </summary>
+    /// <summary>Implements Provider class</summary>
     public class Provider : BaseItem
     {
         public static Provider Empty
@@ -87,81 +85,86 @@ namespace GisoFramework.Item
             }
         }
 
-        public static Provider GetById(long id, int companyId)
+        public static Provider ById(long id, int companyId)
         {
-            Provider res = new Provider();
-            using (SqlCommand cmd = new SqlCommand("Provider_GetById"))
+            var res = new Provider();
+            using (var cmd = new SqlCommand("Provider_GetById"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@ProviderId", id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        rdr.Read();
-                        bool deletable = true;
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.CalibrationAct) == 1)
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.CalibrationDefinition) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.MaintenanceAct) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.MaintenanceDefinition) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.EquipmentRepair) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.Incident) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.IncidentAction) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        res = new Provider()
-                        {
-                            Id = rdr.GetInt64(ColumnsProviderGetByCompany.Id),
-                            CompanyId = rdr.GetInt32(ColumnsProviderGetByCompany.CompanyId),
-                            Description = rdr.GetString(ColumnsProviderGetByCompany.Description),
-                            Active = rdr.GetBoolean(ColumnsProviderGetByCompany.Active),
-                            ModifiedBy = new ApplicationUser()
+                            if (rdr.HasRows)
                             {
-                                Id = rdr.GetInt32(ColumnsProviderGetByCompany.ModifiedByUserId),
-                                UserName = rdr.GetString(ColumnsProviderGetByCompany.ModifiedByUserName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsProviderGetByCompany.ModifiedOn),
-                            CanBeDeleted = deletable
-                        };
+                                rdr.Read();
+                                bool deletable = true;
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.CalibrationAct) == 1)
+                                {
+                                    deletable = false;
+                                }
 
-                        res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.CalibrationDefinition) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.MaintenanceAct) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.MaintenanceDefinition) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.EquipmentRepair) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.Incident) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.IncidentAction) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                res = new Provider()
+                                {
+                                    Id = rdr.GetInt64(ColumnsProviderGetByCompany.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsProviderGetByCompany.CompanyId),
+                                    Description = rdr.GetString(ColumnsProviderGetByCompany.Description),
+                                    Active = rdr.GetBoolean(ColumnsProviderGetByCompany.Active),
+                                    ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsProviderGetByCompany.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsProviderGetByCompany.ModifiedByUserName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsProviderGetByCompany.ModifiedOn),
+                                    CanBeDeleted = deletable
+                                };
+
+                                res.ModifiedBy.Employee = Employee.ByUserId(res.ModifiedBy.Id);
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -169,79 +172,84 @@ namespace GisoFramework.Item
             return res;
         }
 
-        public static ReadOnlyCollection<Provider> GetByCompany(int companyId)
+        public static ReadOnlyCollection<Provider> ByCompany(int companyId)
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */
-            List<Provider> res = new List<Provider>();
-            using (SqlCommand cmd = new SqlCommand("Provider_GetByCompany"))
+            var res = new List<Provider>();
+            using (var cmd = new SqlCommand("Provider_GetByCompany"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        bool deletable = true;
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.CalibrationAct) == 1)
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.CalibrationDefinition) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.MaintenanceAct) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.MaintenanceDefinition) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.EquipmentRepair) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.Incident) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        if (rdr.GetInt32(ColumnsProviderGetByCompany.IncidentAction) == 1)
-                        {
-                            deletable = false;
-                        }
-
-                        res.Add(new Provider()
-                        {
-                            Id = rdr.GetInt64(ColumnsProviderGetByCompany.Id),
-                            CompanyId = rdr.GetInt32(ColumnsProviderGetByCompany.CompanyId),
-                            Description = rdr.GetString(ColumnsProviderGetByCompany.Description),
-                            Active = rdr.GetBoolean(ColumnsProviderGetByCompany.Active),
-                            ModifiedBy = new ApplicationUser()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsProviderGetByCompany.ModifiedByUserId),
-                                UserName = rdr.GetString(ColumnsProviderGetByCompany.ModifiedByUserName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsProviderGetByCompany.ModifiedOn),
-                            CanBeDeleted = deletable
-                        });
+                                bool deletable = true;
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.CalibrationAct) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.CalibrationDefinition) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.MaintenanceAct) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.MaintenanceDefinition) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.EquipmentRepair) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.Incident) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                if (rdr.GetInt32(ColumnsProviderGetByCompany.IncidentAction) == 1)
+                                {
+                                    deletable = false;
+                                }
+
+                                res.Add(new Provider()
+                                {
+                                    Id = rdr.GetInt64(ColumnsProviderGetByCompany.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsProviderGetByCompany.CompanyId),
+                                    Description = rdr.GetString(ColumnsProviderGetByCompany.Description),
+                                    Active = rdr.GetBoolean(ColumnsProviderGetByCompany.Active),
+                                    ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsProviderGetByCompany.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsProviderGetByCompany.ModifiedByUserName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsProviderGetByCompany.ModifiedOn),
+                                    CanBeDeleted = deletable
+                                });
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -249,11 +257,11 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Provider>(res);
         }
 
-        public static string GetByCompanyJson(int companyId)
+        public static string ByCompanyJson(int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (Provider provider in GetByCompany(companyId))
+            foreach (var provider in ByCompany(companyId))
             {
                 if (provider.Active)
                 {
@@ -347,37 +355,40 @@ namespace GisoFramework.Item
 
         public ActionResult Insert(int userId)
         {
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Provider_Insert"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Provider_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.OutputInt("@ProviderId"));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@ProviderId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                    result.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
-                }
-                catch (SqlException ex)
-                {
-                    result.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Provider::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "Provider::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.OutputInt("@ProviderId"));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@ProviderId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        result.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
+                    }
+                    catch (SqlException ex)
+                    {
+                        result.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Provider::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "Provider::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -387,36 +398,39 @@ namespace GisoFramework.Item
 
         public ActionResult Update(int userId)
         {
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Provider_Update"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Provider_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    result.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Provider::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "Provider::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        result.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Provider::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "Provider::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -426,35 +440,38 @@ namespace GisoFramework.Item
 
         public ActionResult Delete(int userId)
         {
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Provider_Delete"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Provider_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    result.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Provider::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "Provider::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        result.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Provider::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "Provider::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

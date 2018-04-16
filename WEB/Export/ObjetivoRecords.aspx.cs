@@ -46,7 +46,7 @@ public partial class ExportObjetivoRecords : Page
     {
         if (indicadorId > 0)
         {
-            var indicador = Indicador.GetById(indicadorId, companyId);
+            var indicador = Indicador.ById(indicadorId, companyId);
             return ExcelIndicador(companyId, dateFrom, dateTo, indicador.Description, indicadorId, objetivoName, listOrder);
         }
 
@@ -315,7 +315,7 @@ public partial class ExportObjetivoRecords : Page
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
         Dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
         var company = new Company(companyId);
-        var registros = IndicadorRegistro.GetByIndicador(indicadorId, companyId).ToList();
+        var registros = IndicadorRegistro.ByIndicadorId(indicadorId, companyId).ToList();
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
         if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
@@ -600,7 +600,7 @@ public partial class ExportObjetivoRecords : Page
 
         if (indicadorId > 0)
         {
-            var indicador = Indicador.GetById(indicadorId, companyId);
+            var indicador = Indicador.ById(indicadorId, companyId);
             return PDFIndicador(companyId, dateFrom, dateTo, indicador.Description, indicadorId, objetivoName, objetivoId, listOrder);
         }
 
@@ -937,12 +937,12 @@ public partial class ExportObjetivoRecords : Page
     public static ActionResult PDFIndicador(int companyId, DateTime? dateFrom, DateTime? dateTo, string indicadorName, int indicadorId, string objetivoName, int objetivoId, string listOrder)
     {
         var res = ActionResult.NoAction;
-        var objetivo = Objetivo.GetById(objetivoId, companyId);
+        var objetivo = Objetivo.ById(objetivoId, companyId);
         var fechaInicio = objetivo.StartDate;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
         Dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
         var company = new Company(companyId);
-        var registros = IndicadorRegistro.GetByIndicador(indicadorId, companyId).ToList();
+        var registros = IndicadorRegistro.ByIndicadorId(indicadorId, companyId).ToList();
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 

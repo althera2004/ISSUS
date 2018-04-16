@@ -6,7 +6,6 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
@@ -20,23 +19,14 @@ using iTSpdf = iTextSharp.text.pdf;
 using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
-using NPOI.HSSF.Model;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
-using NPOI.SS.Util;
-using PDF_Tests;
-using iTextSharp.text.pdf;
 using iTextSharp.text;
-using System.Text;
+using iTextSharp.text.pdf;
+using PDF_Tests;
 
 public partial class ExportIncidentActionExportList : Page
 {
-    BaseFont HeaderFont = null;
-    BaseFont Arial = null;
-
     public static Font criteriaFont;
     public static Dictionary<string, string> dictionary;
-    public static Font fontAwe;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -118,9 +108,6 @@ public partial class ExportIncidentActionExportList : Page
         criteriaFont = new iTS.Font(arial, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         var titleFont = new iTS.Font(arial, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
         var symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-
-        var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        fontAwe = new Font(fontAwesomeIcon, 10);
         // -------------------
 
         var titleTable = new iTSpdf.PdfPTable(1);

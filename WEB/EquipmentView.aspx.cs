@@ -315,7 +315,7 @@ public partial class EquipmentView : Page
         }
     }
 
-    TabBar tabBar = new TabBar() { Id = "EquipmentTabBar" };
+    TabBar tabBar = new TabBar { Id = "EquipmentTabBar" };
 
     public string TabBar
     {
@@ -329,7 +329,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return Provider.GetByCompanyJson(this.company.Id);
+            return Provider.ByCompanyJson(this.company.Id);
         }
     }
 
@@ -337,7 +337,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return Customer.GetByCompanyJson(this.company.Id);
+            return Customer.ByCompanyJson(this.company.Id);
         }
     }
 
@@ -496,7 +496,7 @@ public partial class EquipmentView : Page
         if (this.equipmentId > 0)
         {
             this.Session["EquipmentId"] = this.equipmentId;
-            this.Equipment = Equipment.GetById(this.equipmentId, this.company);
+            this.Equipment = Equipment.ById(this.equipmentId, this.company);
             if (this.Equipment.CompanyId != this.company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", false);
@@ -912,7 +912,7 @@ public partial class EquipmentView : Page
             }
         }
 
-        foreach (var provider in Provider.GetByCompany(this.company.Id))
+        foreach (var provider in Provider.ByCompany(this.company.Id))
         {
             if (provider.Active)
             {

@@ -85,9 +85,9 @@ namespace GisoFramework.Item
 
         public static ReadOnlyCollection<IncidentCost> AllCosts(long incidentId, int companyId)
         {
-            var costs = GetByIncidentId(incidentId, companyId).ToList();
+            var costs = ByIncidentId(incidentId, companyId).ToList();
             var actionCosts = new ReadOnlyCollection<IncidentActionCost>(new List<IncidentActionCost>());
-            var action = IncidentAction.GetByIncidentId(incidentId, companyId);
+            var action = IncidentAction.ByIncidentId(incidentId, companyId);
             if (action.Id > 0)
             {
                 actionCosts = IncidentActionCost.GetByIncidentActionId(action.Id, companyId);
@@ -112,7 +112,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<IncidentCost>(costs);
         }
 
-        public static string GetByIncident(long incidentId, int companyId)
+        public static string ByIncident(long incidentId, int companyId)
         {
             var res = new StringBuilder("[");
             var first = true;
@@ -159,11 +159,11 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static string GetByCompany(int companyId)
+        public static string ByCompany(int companyId)
         {
             var res = new StringBuilder("[");
             var first = true;
-            var costs = GetByCompanyId(companyId);
+            var costs = ByCompanyId(companyId);
             foreach (var cost in costs)
             {
                 if (first)
@@ -182,11 +182,11 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static string GetByBusinessRisk(long businessRiskId, int companyId)
+        public static string ByBusinessRisk(long businessRiskId, int companyId)
         {
             var res = new StringBuilder("[");
             var first = true;
-            var costs = GetByBusinessRiskId(businessRiskId, companyId);
+            var costs = ByBusinessRiskId(businessRiskId, companyId);
             foreach (var cost in costs)
             {
                 if (first)
@@ -205,7 +205,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static ReadOnlyCollection<IncidentCost> GetByIncidentId(long incidentId, int companyId)
+        public static ReadOnlyCollection<IncidentCost> ByIncidentId(long incidentId, int companyId)
         {
             /* CREATE PROCEDURE IndecidentCost_GetByIndicentId
              *   @IncidentId bigint,
@@ -259,7 +259,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<IncidentCost>(res);
         }
 
-        private static ReadOnlyCollection<IncidentCost> GetByCompanyId(int companyId)
+        private static ReadOnlyCollection<IncidentCost> ByCompanyId(int companyId)
         {
             /* CREATE PROCEDURE IndecidentCost_GetByCompanyId
              *   @CompanyId int */
@@ -310,7 +310,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<IncidentCost>(res);
         }
 
-        public static ReadOnlyCollection<IncidentCost> GetByBusinessRiskId(long businessRiskId, int companyId)
+        public static ReadOnlyCollection<IncidentCost> ByBusinessRiskId(long businessRiskId, int companyId)
         {
             var res = new List<IncidentCost>();
             using (var cmd = new SqlCommand("IndecidentCost_GetByBusinessRiskId"))

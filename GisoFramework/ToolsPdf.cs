@@ -1,5 +1,4 @@
-﻿using iTextSharp.text;
-using System;
+﻿
 // --------------------------------
 // <copyright file="ToolsPdf.cs" company="Sbrinna">
 //     Copyright (c) Sbrinna. All rights reserved.
@@ -8,10 +7,11 @@ using System;
 // --------------------------------
 namespace GisoFramework
 {
-    using iTS = iTextSharp.text;
-    using iTSpdf = iTextSharp.text.pdf;
+    using System;
     using System.Globalization;
     using System.Web;
+    using iTextSharp.text;
+    using iTextSharp.text.pdf;
 
     public static class ToolsPdf
     {
@@ -19,11 +19,11 @@ namespace GisoFramework
         public const float PaddingTopTableCell = 6;
         public const float PaddingTopCriteriaCell = 4;
         public static readonly BaseColor SummaryBackgroundColor = new BaseColor(240, 240, 240);
-        public static readonly iTS.BaseColor LineBackgroundColor = new iTS.BaseColor(255, 255, 255);
-        public static readonly iTS.BaseColor HeaderBackgroundColor = new iTS.BaseColor(220, 220, 220);
-        public const int BorderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
-        public const int BorderNone = iTS.Rectangle.NO_BORDER;
-        public const int BorderBottom = iTS.Rectangle.BOTTOM_BORDER;
+        public static readonly BaseColor LineBackgroundColor = new BaseColor(255, 255, 255);
+        public static readonly BaseColor HeaderBackgroundColor = new BaseColor(220, 220, 220);
+        public const int BorderAll = Rectangle.RIGHT_BORDER + Rectangle.TOP_BORDER + Rectangle.LEFT_BORDER + Rectangle.BOTTOM_BORDER;
+        public const int BorderNone = Rectangle.NO_BORDER;
+        public const int BorderBottom = Rectangle.BOTTOM_BORDER;
 
         public static string FontPath
         {
@@ -33,43 +33,43 @@ namespace GisoFramework
             }
         }
 
-        public static readonly iTSpdf.BaseFont HeaderFont = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
-        public static readonly iTSpdf.BaseFont Arial = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
-        public static readonly iTSpdf.BaseFont AwesomeFont = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.IDENTITY_H, iTSpdf.BaseFont.EMBEDDED);
-        public static readonly iTSpdf.BaseFont DataFont = iTSpdf.BaseFont.CreateFont(ToolsPdf.FontPath, iTSpdf.BaseFont.CP1250, iTSpdf.BaseFont.EMBEDDED);
+        public static readonly BaseFont HeaderFont = BaseFont.CreateFont(ToolsPdf.FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        public static readonly BaseFont Arial = BaseFont.CreateFont(ToolsPdf.FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        public static readonly BaseFont AwesomeFont = BaseFont.CreateFont(ToolsPdf.FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        public static readonly BaseFont DataFont = BaseFont.CreateFont(ToolsPdf.FontPath, BaseFont.CP1250, BaseFont.EMBEDDED);
 
-        public static readonly iTS.Font TimesBold = new iTS.Font(ToolsPdf.Arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        public static readonly iTS.Font Times = new iTS.Font(DataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        public static readonly iTS.Font TitleFont = new iTS.Font(Arial, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        public static readonly Font TimesBold = new Font(ToolsPdf.Arial, 8, Font.BOLD, BaseColor.BLACK);
+        public static readonly Font Times = new Font(DataFont, 10, Font.NORMAL, BaseColor.BLACK);
+        public static readonly Font TitleFont = new Font(Arial, 18, Font.BOLD, BaseColor.BLACK);
 
-        public static iTSpdf.PdfPCell CriteriaCellLabel(string label)
+        public static PdfPCell CriteriaCellLabel(string label)
         {
-            return new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture,"{0} :", label), TimesBold))
+            return new PdfPCell(new Phrase(string.Format(CultureInfo.InvariantCulture,"{0} :", label), TimesBold))
             {
                 Border = ToolsPdf.BorderNone,
-                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                HorizontalAlignment = Element.ALIGN_LEFT,
                 Padding = ToolsPdf.PaddingTopTableCell,
                 PaddingTop = ToolsPdf.PaddingTopCriteriaCell
             };
         }
 
-        public static iTSpdf.PdfPCell HeaderCell(string label)
+        public static PdfPCell HeaderCell(string label)
         {
-            return new iTSpdf.PdfPCell(new iTS.Phrase(label.ToUpperInvariant(), Times))
+            return new PdfPCell(new Phrase(label.ToUpperInvariant(), Times))
             {
                 Border = BorderAll,
                 BackgroundColor = HeaderBackgroundColor,
-                HorizontalAlignment = iTS.Element.ALIGN_CENTER,
+                HorizontalAlignment = Element.ALIGN_CENTER,
                 Padding = PaddingTableCell,
                 PaddingTop = PaddingTopTableCell
             };
         }
 
-        public static iTSpdf.PdfPCell CellTable(string value, iTS.Font font)
+        public static PdfPCell CellTable(string value, Font font)
         {
-            return new iTSpdf.PdfPCell(new iTS.Phrase(value, font))
+            return new PdfPCell(new Phrase(value, font))
             {
-                Border = iTS.Rectangle.TOP_BORDER,
+                Border = Rectangle.TOP_BORDER,
                 BackgroundColor = LineBackgroundColor,
                 Padding = 6f,
                 PaddingTop = 4f,
@@ -77,32 +77,32 @@ namespace GisoFramework
             };
         }
 
-        public static iTSpdf.PdfPCell DataCellRight(string value, iTS.Font font)
+        public static PdfPCell DataCellRight(string value, Font font)
         {
-            return DataCell(value, font, iTS.Rectangle.ALIGN_RIGHT);
+            return DataCell(value, font, Rectangle.ALIGN_RIGHT);
         }
 
-        public static iTSpdf.PdfPCell DataCellRight(int value, iTS.Font font)
+        public static PdfPCell DataCellRight(int value, Font font)
         {
-            return DataCell(value.ToString(CultureInfo.InvariantCulture), font, iTS.Rectangle.ALIGN_RIGHT);
+            return DataCell(value.ToString(CultureInfo.InvariantCulture), font, Rectangle.ALIGN_RIGHT);
         }
 
-        public static iTSpdf.PdfPCell DataCellRight(long value, iTS.Font font)
+        public static PdfPCell DataCellRight(long value, Font font)
         {
-            return DataCell(value.ToString(CultureInfo.InvariantCulture), font, iTS.Rectangle.ALIGN_RIGHT);
+            return DataCell(value.ToString(CultureInfo.InvariantCulture), font, Rectangle.ALIGN_RIGHT);
         }
 
-        public static iTSpdf.PdfPCell DataCell(string value, iTS.Font font)
+        public static PdfPCell DataCell(string value, Font font)
         {
-            return DataCell(value, font, iTS.Rectangle.ALIGN_LEFT);
+            return DataCell(value, font, Rectangle.ALIGN_LEFT);
         }
 
-        public static iTSpdf.PdfPCell DataCell(long value, iTS.Font font)
+        public static PdfPCell DataCell(long value, Font font)
         {
-            return DataCell(value.ToString(CultureInfo.InvariantCulture), font, iTS.Rectangle.ALIGN_LEFT);
+            return DataCell(value.ToString(CultureInfo.InvariantCulture), font, Rectangle.ALIGN_LEFT);
         }
 
-        public static iTSpdf.PdfPCell DataCellMoney(decimal? value, iTS.Font font)
+        public static PdfPCell DataCellMoney(decimal? value, Font font)
         {
             string valueText = string.Empty;
             if (value.HasValue)
@@ -113,63 +113,63 @@ namespace GisoFramework
             return DataCellRight(valueText, font);
         }
 
-        public static iTSpdf.PdfPCell DataCellMoney(decimal value, iTS.Font font)
+        public static PdfPCell DataCellMoney(decimal value, Font font)
         {
             string valueText = Tools.PdfMoneyFormat(value);
             return DataCellRight(valueText, font);
         }
 
-        public static iTSpdf.PdfPCell DataCell(DateTime value, iTS.Font font)
+        public static PdfPCell DataCell(DateTime value, Font font)
         {
             return DataCell(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), font);
         }
 
-        public static iTSpdf.PdfPCell DataCell(DateTime value, iTS.Font font, int alignment)
+        public static PdfPCell DataCell(DateTime value, Font font, int alignment)
         {
             return DataCell(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), font, alignment);
         }
 
-        public static iTSpdf.PdfPCell DataCellCenter(string value, iTS.Font font)
+        public static PdfPCell DataCellCenter(string value, Font font)
         {
-            return DataCell(value, font, iTS.Rectangle.ALIGN_CENTER);
+            return DataCell(value, font, Rectangle.ALIGN_CENTER);
         }
 
-        public static iTSpdf.PdfPCell DataCellCenter(DateTime? value, iTS.Font font)
+        public static PdfPCell DataCellCenter(DateTime? value, Font font)
         {
             if (value == null)
             {
-                return DataCell(string.Empty, font, iTS.Rectangle.ALIGN_CENTER);
+                return DataCell(string.Empty, font, Rectangle.ALIGN_CENTER);
             }
 
-            return DataCell(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), font, iTS.Rectangle.ALIGN_CENTER);
+            return DataCell(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), font, Rectangle.ALIGN_CENTER);
         }
 
-        public static iTSpdf.PdfPCell DataCell(DateTime? value, iTS.Font font)
+        public static PdfPCell DataCell(DateTime? value, Font font)
         {
             if (value == null)
             {
-                return DataCell(string.Empty, font, iTS.Rectangle.ALIGN_LEFT);
+                return DataCell(string.Empty, font, Rectangle.ALIGN_LEFT);
             }
 
             return DataCell(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), font);
         }
 
-        public static iTSpdf.PdfPCell DataCell(DateTime? value, iTS.Font font, int alignment)
+        public static PdfPCell DataCell(DateTime? value, Font font, int alignment)
         {
             if (value == null)
             {
-                return DataCell(string.Empty, font, iTS.Rectangle.ALIGN_LEFT);
+                return DataCell(string.Empty, font, Rectangle.ALIGN_LEFT);
             }
 
             return DataCell(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), font, alignment);
         }
 
-        public static iTSpdf.PdfPCell DataCell(string value, iTS.Font font, int alignment)
+        public static PdfPCell DataCell(string value, Font font, int alignment)
         {
-            return new iTSpdf.PdfPCell(new iTS.Phrase(value, font))
+            return new PdfPCell(new Phrase(value, font))
             {
                 Border = 0,
-                BackgroundColor = new iTS.BaseColor(255, 255, 255),
+                BackgroundColor = new BaseColor(255, 255, 255),
                 Padding = 6f,
                 PaddingTop = 4f,
                 HorizontalAlignment = alignment

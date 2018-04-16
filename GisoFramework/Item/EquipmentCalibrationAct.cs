@@ -56,7 +56,10 @@ namespace GisoFramework.Item
 
         public override string Link
         {
-            get { return string.Empty; }
+            get
+            {
+                return string.Empty;
+            }
         }
 
         /// <summary>Gets an identifier/description json item</summary>
@@ -166,18 +169,18 @@ namespace GisoFramework.Item
                                     Expiration = rdr.GetDateTime(5),
                                     EquipmentCalibrationType = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.EquipmentCalibrationType),
                                     Active = rdr.GetBoolean(ColumnsEquipmentCalibrationActGet.Active),
-                                    Provider = new Provider()
+                                    Provider = new Provider
                                     {
                                         Id = rdr.GetInt64(ColumnsEquipmentCalibrationActGet.ProviderId),
                                         Description = rdr.GetString(ColumnsEquipmentCalibrationActGet.ProviderDescription)
                                     },
-                                    Responsible = new Employee()
+                                    Responsible = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.ResponsibleId),
                                         Name = rdr.GetString(ColumnsEquipmentCalibrationActGet.ResponsibleName),
                                         LastName = rdr.GetString(ColumnsEquipmentCalibrationActGet.ResponsibleLastName)
                                     },
-                                    ModifiedBy = new ApplicationUser()
+                                    ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsEquipmentCalibrationActGet.ModifiedByUserName)

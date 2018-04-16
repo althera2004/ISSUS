@@ -208,7 +208,7 @@ public partial class BusinessRiskView : Page
                 return "[]";
             }
 
-            return IncidentCost.GetByCompany(this.company.Id);
+            return IncidentCost.ByCompany(this.company.Id);
         }
     }
 
@@ -216,7 +216,7 @@ public partial class BusinessRiskView : Page
     {
         get
         {
-            return CostDefinition.GetByCompanyJson(this.company.Id);
+            return CostDefinition.ByCompanyJson(this.company.Id);
         }
     }
 
@@ -348,7 +348,7 @@ public partial class BusinessRiskView : Page
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (var IncidentActionHistory in IncidentAction.GetByBusinessRiskCode(businessRisk.Code, Company.Id))
+            foreach (var IncidentActionHistory in IncidentAction.ByBusinessRiskCode(businessRisk.Code, Company.Id))
             {
                 if (first)
                 {
@@ -838,7 +838,7 @@ public partial class BusinessRiskView : Page
                                 res.PreviousBusinessRiskId = -1;
                             }
 
-                            res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                            res.ModifiedBy.Employee = Employee.ByUserId(res.ModifiedBy.Id);
                         }
                     }
 
@@ -896,7 +896,7 @@ public partial class BusinessRiskView : Page
         if (this.businessRiskId != -1)
         {
             this.businessRisk = GetById(this.company.Id, this.businessRiskId);
-            this.incidentAction = IncidentAction.GetByBusinessRiskId(this.businessRisk.Id, this.company.Id);
+            this.incidentAction = IncidentAction.ByBusinessRiskId(this.businessRisk.Id, this.company.Id);
             if (this.businessRisk.CompanyId != this.company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
@@ -937,9 +937,9 @@ public partial class BusinessRiskView : Page
     /// <summary>Renders the selectable Processes</summary>
     private void RenderProcess()
     {
-        var processeCollection = Process.GetByCompany(this.company.Id);
+        var processeCollection = Process.ByCompany(this.company.Id);
         var processList = new StringBuilder();
-        processList.Append(string.Format(CultureInfo.GetCultureInfo("en-us"),@"<option value=""0"">{0}</option>",this.Dictionary["Common_SelectOne"]));
+        processList.Append(string.Format(CultureInfo.InvariantCulture,@"<option value=""0"">{0}</option>",this.Dictionary["Common_SelectOne"]));
         foreach (var process in processeCollection.OrderBy(process => process.Description))
         {
             processList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""{0}"">{1}</option>", process.Id, process.Description));

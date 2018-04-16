@@ -94,7 +94,7 @@ public partial class CostDefinitionView : Page
         {
             var res = new StringBuilder();
             bool first = true;
-            foreach (var costDefinition in CostDefinition.GetByCompany(((Company)Session["Company"]).Id).Where(cd => cd.Active == true))
+            foreach (var costDefinition in CostDefinition.ByCompany(((Company)Session["Company"]).Id).Where(cd => cd.Active == true))
             {
                 if (costDefinition.Active)
                 {
@@ -220,7 +220,7 @@ public partial class CostDefinitionView : Page
 
         if (this.costDefinitionId != -1)
         {
-            this.costDefinition = CostDefinition.GetById(this.costDefinitionId, this.company.Id);
+            this.costDefinition = CostDefinition.ById(this.costDefinitionId, this.company.Id);
             if (this.costDefinition.CompanyId != this.company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", false);

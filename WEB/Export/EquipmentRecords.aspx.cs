@@ -58,7 +58,7 @@ public partial class ExportEquipmentRecords : Page
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
         var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        var equipment = Equipment.GetById(equipmentId, companyId);
+        var equipment = Equipment.ById(equipmentId, companyId);
         var getFilter = HttpContext.Current.Session["EquipmentFilter"] as List<EquipmentRecord>;
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -375,7 +375,7 @@ public partial class ExportEquipmentRecords : Page
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        var equipment = Equipment.GetById(equipmentId, companyId);
+        var equipment = Equipment.ById(equipmentId, companyId);
         var company = new Company(equipment.CompanyId);
         var data = HttpContext.Current.Session["EquipmentFilter"] as List<EquipmentRecord>;
         

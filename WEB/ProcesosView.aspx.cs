@@ -212,8 +212,8 @@ public partial class ProcesosView : Page
     private void RenderIndicatorsData()
     {
         var res = new StringBuilder();
-        var indicators = Indicador.GetByProcess(this.processId, this.company.Id);
-        foreach (Indicador indicadtor in indicators)
+        var indicators = Indicador.ByProcessId(this.processId, this.company.Id);
+        foreach (var indicadtor in indicators)
         {
             res.Append(indicadtor.ListRowProcessTab(this.dictionary, this.user.Grants));
         }
@@ -223,10 +223,10 @@ public partial class ProcesosView : Page
 
     private void RenderProcesosData()
     {
-        var procesos = Process.GetByCompany(this.company.Id);
+        var procesos = Process.ByCompany(this.company.Id);
         var res = new StringBuilder();
         bool first = true;
-        foreach (Process process in procesos)
+        foreach (var process in procesos)
         {
             if(first)
             {
@@ -253,7 +253,7 @@ public partial class ProcesosView : Page
         var resList = new StringBuilder();
         int contCells = 0;
         var extensions = ToolsFile.ExtensionToShow;
-        foreach (UploadFile file in files)
+        foreach (var file in files)
         {
             decimal finalSize = ToolsFile.FormatSize((decimal)file.Size);
             string fileShowed = string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description;

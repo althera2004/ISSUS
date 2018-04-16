@@ -89,16 +89,15 @@ namespace GisoFramework.Item
 
         }
 
-        public static ReadOnlyCollection<ProviderIncidentActions> GetByProvider(Provider provider)
+        public static ReadOnlyCollection<ProviderIncidentActions> ByProvider(Provider provider)
         {
-            List<ProviderIncidentActions> res = new List<ProviderIncidentActions>();
-
+            var res = new List<ProviderIncidentActions>();
             if (provider == null)
             {
                 return new ReadOnlyCollection<ProviderIncidentActions>(res);
             }
 
-            using (SqlCommand cmd = new SqlCommand("Provider_GetIncidentActions"))
+            using (var cmd = new SqlCommand("Provider_GetIncidentActions"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 try
@@ -110,7 +109,7 @@ namespace GisoFramework.Item
                     SqlDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        ProviderIncidentActions newItem = new ProviderIncidentActions()
+                        var newItem = new ProviderIncidentActions
                         {
                             Provider = provider
                         };
@@ -119,7 +118,7 @@ namespace GisoFramework.Item
                         switch(itemType)
                         {
                             case "Incident":
-                                newItem.Incident = new Incident()
+                                newItem.Incident = new Incident
                                 {
                                     Id = rdr.GetInt64(ColumnsProviderIncidentActionsGet.Id),
                                     Description = rdr.GetString(ColumnsProviderIncidentActionsGet.Description),
@@ -127,7 +126,7 @@ namespace GisoFramework.Item
                                 };
                                 break;
                             case "Action":
-                                newItem.Action = new IncidentAction()
+                                newItem.Action = new IncidentAction
                                 {
                                     Id = rdr.GetInt64(ColumnsProviderIncidentActionsGet.Id),
                                     Description = rdr.GetString(ColumnsProviderIncidentActionsGet.Description),
@@ -159,7 +158,7 @@ namespace GisoFramework.Item
                         {
                             if (newItem.Action != null)
                             {
-                                newItem.Incident = new Incident()
+                                newItem.Incident = new Incident
                                 {
                                     Id = rdr.GetInt64(ColumnsProviderIncidentActionsGet.AssociatedId),
                                     Description = rdr.GetString(ColumnsProviderIncidentActionsGet.AssociatedDescription),
@@ -171,7 +170,7 @@ namespace GisoFramework.Item
                             else
                             {
 
-                                newItem.Action = new IncidentAction()
+                                newItem.Action = new IncidentAction
                                 {
                                     Id = rdr.GetInt64(ColumnsProviderIncidentActionsGet.AssociatedId),
                                     Description = rdr.GetString(ColumnsProviderIncidentActionsGet.AssociatedDescription),

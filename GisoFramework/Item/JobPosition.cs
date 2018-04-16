@@ -18,61 +18,16 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements JobPosition class.
-    /// </summary>
+    /// <summary>Implements JobPosition class.</summary>
     public class JobPosition : BaseItem
     {
-        #region Fields
-
-        /// <summary>
-        /// Department of job position
-        /// </summary>
-        private Department department;
-
-        /// <summary>
-        /// Responsabiliteis of job position
-        /// </summary>
-        private string responsibilities;
-
-        /// <summary>
-        /// Notes of job position
-        /// </summary>
-        private string notes;
-
-        /// <summary>
-        /// Academic skills for job position
-        /// </summary>
-        private string academicSkills;
-
-        /// <summary>
-        /// Specific skills for job position
-        /// </summary>
-        private string specificSkills;
-
-        /// <summary>
-        /// Work experience required to job position
-        /// </summary>
-        private string workExperience;
-
-        /// <summary>
-        /// Habilities required to job position
-        /// </summary>
-        private string abilities;
-
-        /// <summary>
-        /// Job position responsible of job position
-        /// </summary>
-        private JobPosition responsible;
-        #endregion
-
         /// <summary>
         /// Initializes a new instance of the JobPosition class.
         /// </summary>
         public JobPosition()
         {
             this.Id = -1;
-            this.department = Department.Empty;
+            this.Department = Department.Empty;
             this.ModifiedBy = ApplicationUser.Empty;
         }
 
@@ -100,23 +55,23 @@ namespace GisoFramework.Item
                             rdr.Read();
                             this.Id = rdr.GetInt32(ColumnsJobPositionGetById.Id);
                             this.Description = rdr.GetString(ColumnsJobPositionGetById.Description);
-                            this.responsibilities = rdr.GetString(ColumnsJobPositionGetById.Responsibilities);
-                            this.notes = rdr.GetString(ColumnsJobPositionGetById.Notes);
-                            this.academicSkills = rdr.GetString(ColumnsJobPositionGetById.AcademicSkills);
-                            this.specificSkills = rdr.GetString(ColumnsJobPositionGetById.SpecificSkills);
-                            this.workExperience = rdr.GetString(ColumnsJobPositionGetById.ProfessionalExperience);
-                            this.abilities = rdr.GetString(ColumnsJobPositionGetById.Skills);
+                            this.Responsibilities = rdr.GetString(ColumnsJobPositionGetById.Responsibilities);
+                            this.Notes = rdr.GetString(ColumnsJobPositionGetById.Notes);
+                            this.AcademicSkills = rdr.GetString(ColumnsJobPositionGetById.AcademicSkills);
+                            this.SpecificSkills = rdr.GetString(ColumnsJobPositionGetById.SpecificSkills);
+                            this.WorkExperience = rdr.GetString(ColumnsJobPositionGetById.ProfessionalExperience);
+                            this.Habilities = rdr.GetString(ColumnsJobPositionGetById.Skills);
                             this.CompanyId = companyId;
                             this.ModifiedOn = rdr.GetDateTime(ColumnsJobPositionGetById.ModifiedOn);
 
-                            this.department = new Department()
+                            this.Department = new Department
                             {
                                 Id = rdr.GetInt32(ColumnsJobPositionGetById.DepartmentId),
                                 CompanyId = companyId,
                                 Description = rdr.GetString(ColumnsJobPositionGetById.DepartmentName)
                             };
 
-                            this.ModifiedBy = new ApplicationUser()
+                            this.ModifiedBy = new ApplicationUser
                             {
                                 Id = rdr.GetInt32(ColumnsJobPositionGetById.ModifiedByUserId),
                                 UserName = rdr.GetString(ColumnsJobPositionGetById.ModifiedByUserName)
@@ -124,14 +79,14 @@ namespace GisoFramework.Item
 
                             if (rdr.GetInt32(ColumnsJobPositionGetById.ResponsibleId) != 0)
                             {
-                                this.responsible = new JobPosition()
+                                this.Responsible = new JobPosition
                                 {
                                     Id = rdr.GetInt32(ColumnsJobPositionGetById.ResponsibleId),
                                     Description = rdr.GetString(ColumnsJobPositionGetById.ResponsibleName)
                                 };
                             }
 
-                            this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
+                            this.ModifiedBy.Employee = Employee.ByUserId(this.ModifiedBy.Id);
                         }
                     }
 
@@ -164,36 +119,31 @@ namespace GisoFramework.Item
             }
         }
 
-        #region Properties
-        /// <summary>
-        /// Gets an empty job position object
-        /// </summary>
+        /// <summary>Gets an empty job position object</summary>
         public static JobPosition Empty
         {
             get
             {
-                return new JobPosition()
+                return new JobPosition
                 {
                     Id = 0,
                     CompanyId = 0,
-                    academicSkills = string.Empty,
-                    department = Department.Empty,
+                    AcademicSkills = string.Empty,
+                    Department = Department.Empty,
                     Description = string.Empty,
-                    abilities = string.Empty,
+                    Habilities = string.Empty,
                     ModifiedBy = null,
-                    responsible = JobPosition.EmptySimple
+                    Responsible = JobPosition.EmptySimple
                 };
             }
         }
 
-        /// <summary>
-        /// Gets an empty simple job position object
-        /// </summary>
+        /// <summary>Gets an empty simple job position object</summary>
         public static JobPosition EmptySimple
         {
             get
             {
-                return new JobPosition()
+                return new JobPosition
                 {
                     Id = 0,
                     Description = string.Empty
@@ -201,133 +151,29 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets or sets the job position responsible of the job position
-        /// </summary>
-        public JobPosition Responsible
-        {
-            get
-            {
-                return this.responsible;
-            }
+        /// <summary>Gets or sets the job position responsible of the job position</summary>
+        public JobPosition Responsible { get; set; }
 
-            set
-            {
-                this.responsible = value;
-            }
-        }
+        /// <summary>Gets or sets de job position departemnt linked</summary>
+        public Department Department { get; set; }
 
-        /// <summary>
-        /// Gets or sets de job position departemnt linked
-        /// </summary>
-        public Department Department
-        {
-            get 
-            {
-                return this.department; 
-            }
+        /// <summary>Gets or sets a text description for resposabilities of job position</summary>
+        public string Responsibilities { get; set; }
 
-            set
-            {
-                this.department = value;
-            }
-        }
+        /// <summary>Gets or sets a text for the notes of job position</summary>
+        public string Notes { get; set; }
 
-        /// <summary>
-        /// Gets or sets a text description for resposabilities of job position
-        /// </summary>
-        public string Responsibilities
-        {
-            get
-            {
-                return this.responsibilities; 
-            }
+        /// <summary>Gets or sets a text for the academics skills of job position</summary>
+        public string AcademicSkills { get; set; }
 
-            set 
-            {
-                this.responsibilities = value;
-            }
-        }
+        /// <summary>Gets or sets a text for the specific skills of job position</summary>
+        public string SpecificSkills { get; set; }
 
-        /// <summary>
-        /// Gets or sets a text for the notes of job position
-        /// </summary>
-        public string Notes
-        {
-            get 
-            {
-                return this.notes; 
-            }
+        /// <summary>Gets or sets a text for the work experience required for the job position</summary>
+        public string WorkExperience { get; set; }
 
-            set 
-            {
-                this.notes = value; 
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a text for the academics skills of job position
-        /// </summary>
-        public string AcademicSkills
-        {
-            get 
-            {
-                return this.academicSkills;
-            }
-
-            set
-            {
-                this.academicSkills = value; 
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a text for the specific skills of job position
-        /// </summary>
-        public string SpecificSkills
-        {
-            get
-            {
-                return this.specificSkills; 
-            }
-
-            set 
-            {
-                this.specificSkills = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a text for the work experience required for the job position
-        /// </summary>
-        public string WorkExperience
-        {
-            get 
-            {
-                return this.workExperience; 
-            }
-
-            set 
-            {
-                this.workExperience = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a text for the habilities required for the job position
-        /// </summary>
-        public string Habilities
-        {
-            get 
-            {
-                return this.abilities; 
-            }
-
-            set
-            { 
-                this.abilities = value;
-            }
-        }
+        /// <summary>Gets or sets a text for the habilities required for the job position</summary>
+        public string Habilities { get; set; }
 
         /// <summary>Gets an identifier/description json item</summary>
         public override string JsonKeyValue
@@ -339,24 +185,22 @@ namespace GisoFramework.Item
                     return "null";
                 }
 
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, this.Description.Replace("\"", "\\\""));
+                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, this.Description.Replace("\"", "\\\""));
             }
         }
 
-        /// <summary>
-        /// Gets a simple Json structure of job position
-        /// </summary>
+        /// <summary>Gets a simple Json structure of job position</summary>
         public string JsonSimple
         {
             get
             {
                 string pattern = @"
-    {{
-        ""Id"": {0},
-        ""Description"": ""{1}"",
-        ""Department"":{{""Id"": {2}, ""Name"": ""{4}""}},
-        ""Responsible"": {3}
-    }}";
+                    {{
+                        ""Id"": {0},
+                        ""Description"": ""{1}"",
+                        ""Department"":{{""Id"": {2}, ""Name"": ""{4}""}},
+                        ""Responsible"": {3}
+                    }}";
                 if (this.Id > 0)
                 {
                     return string.Format(
@@ -364,16 +208,12 @@ namespace GisoFramework.Item
                         pattern,
                         this.Id,
                         this.Description.Replace("\"", "\\\""),
-                        this.department.Id,
-                        this.responsible.JsonKeyValue,
-                        this.department.Description.Replace("\"", "\\\""));
+                        this.Department.Id,
+                        this.Responsible.JsonKeyValue,
+                        this.Department.Description.Replace("\"", "\\\""));
                 }
 
-                return @"{
-                    ""Id"":0,
-                    ""Description"":"""",
-                    ""Department"":{""Id"":0}
-                    }";
+                return @"{""Id"":0 ,""Description"":"""", ""Department"":{""Id"":0}}";
             }
         }
 
@@ -403,14 +243,14 @@ namespace GisoFramework.Item
                         this.Id,
                         this.Description.Replace("\"", "\\\""),
                         this.CompanyId,
-                        Tools.JsonCompliant(this.responsibilities),
-                        Tools.JsonCompliant(this.notes),
-                        Tools.JsonCompliant(this.academicSkills),
-                        Tools.JsonCompliant(this.specificSkills),
-                        Tools.JsonCompliant(this.workExperience),
-                        Tools.JsonCompliant(this.abilities),
-                        this.department.JsonKeyValue,
-                        this.responsible == null ? "null" : this.responsible.JsonKeyValue);
+                        Tools.JsonCompliant(this.Responsibilities),
+                        Tools.JsonCompliant(this.Notes),
+                        Tools.JsonCompliant(this.AcademicSkills),
+                        Tools.JsonCompliant(this.SpecificSkills),
+                        Tools.JsonCompliant(this.WorkExperience),
+                        Tools.JsonCompliant(this.Habilities),
+                        this.Department.JsonKeyValue,
+                        this.Responsible == null ? "null" : this.Responsible.JsonKeyValue);
                 }
 
                 return @"{
@@ -430,27 +270,22 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a HTML code for the link to the job position profile page
-        /// </summary>
+        /// <summary>Gets a HTML code for the link to the job position profile page</summary>
         public override string Link
         {
             get
             {
                 string pattern = @"<a href=""CargosView.aspx?id={0}"" title=""{2} {1}"">{1}</a>";
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Id,
                     this.Description,
                     ((Dictionary<string, string>)HttpContext.Current.Session["Dictionary"])["Common_Edit"]);
             }
         }
-        #endregion
 
-        /// <summary>
-        /// Gets a value indicating whether job positions has employees in historial
-        /// </summary>
+        /// <summary>Gets a value indicating whether job positions has employees in historial</summary>
         public bool HasEmployeesHistorical
         {
             get
@@ -517,9 +352,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets employees linked to job position
-        /// </summary>
+        /// <summary>Gets employees linked to job position</summary>
         public ReadOnlyCollection<Employee> Employees
         {
             get
@@ -591,9 +424,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a descriptive text with the differences between two job position objects
-        /// </summary>
+        /// <summary>Gets a descriptive text with the differences between two job position objects</summary>
         /// <param name="jobPosition1">First job position object</param>
         /// <param name="jobPosition2">Second job position object</param>
         /// <returns>Descriptive text with the differences between two job position objects</returns>
@@ -609,33 +440,33 @@ namespace GisoFramework.Item
 
             if (jobPosition1.Description != jobPosition2.Description)
             {
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "description:{0}", jobPosition2.Description));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "description:{0}", jobPosition2.Description));
                 first = false;
             }
 
-            if (jobPosition1.responsible != null && jobPosition2.responsible != null && jobPosition2.responsible.Id != jobPosition1.responsible.Id)
+            if (jobPosition1.Responsible != null && jobPosition2.Responsible != null && jobPosition2.Responsible.Id != jobPosition1.Responsible.Id)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "responsible{0}", jobPosition2.responsible.Id));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "responsible{0}", jobPosition2.Responsible.Id));
                 first = false;
             }
             
-            if (jobPosition1.responsible == null && jobPosition2.responsible != null)
+            if (jobPosition1.Responsible == null && jobPosition2.Responsible != null)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "responsible{0}", jobPosition2.responsible.Id));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "responsible{0}", jobPosition2.Responsible.Id));
                 first = false;
             }
 
-            if (jobPosition1.responsible != null)
+            if (jobPosition1.Responsible != null)
             {
                 if (!first)
                 {
@@ -643,89 +474,89 @@ namespace GisoFramework.Item
                 }
 
                 string resposibleId = "null";
-                if (jobPosition2.responsible != null)
+                if (jobPosition2.Responsible != null)
                 {
-                    resposibleId = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}", jobPosition2.responsible.Id);
+                    resposibleId = string.Format(CultureInfo.InvariantCulture, "{0}", jobPosition2.Responsible.Id);
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "responsible{0}", resposibleId));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "responsible{0}", resposibleId));
                 first = false;
             }
             
-            if (jobPosition1.department.Id != jobPosition2.department.Id)
+            if (jobPosition1.Department.Id != jobPosition2.Department.Id)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "department:{0}", jobPosition2.department.Id));
+                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "department:{0}", jobPosition2.Department.Id));
                 first = false;
             }
 
-            if (jobPosition1.responsibilities != jobPosition2.responsibilities)
+            if (jobPosition1.Responsibilities != jobPosition2.Responsibilities)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "responsibilities:{0}", jobPosition2.responsibilities));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "responsibilities:{0}", jobPosition2.Responsibilities));
                 first = false;
             }
 
-            if (jobPosition1.notes != jobPosition2.notes)
+            if (jobPosition1.Notes != jobPosition2.Notes)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "notes:{0}", jobPosition2.notes));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "notes:{0}", jobPosition2.Notes));
                 first = false;
             }
 
-            if (jobPosition1.academicSkills != jobPosition2.academicSkills)
+            if (jobPosition1.AcademicSkills != jobPosition2.AcademicSkills)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "academicSkills:{0}", jobPosition2.academicSkills));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "academicSkills:{0}", jobPosition2.AcademicSkills));
                 first = false;
             }
 
-            if (jobPosition1.specificSkills != jobPosition2.specificSkills)
+            if (jobPosition1.SpecificSkills != jobPosition2.SpecificSkills)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "specificSkills:{0}", jobPosition2.specificSkills));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "specificSkills:{0}", jobPosition2.SpecificSkills));
                 first = false;
             }
 
-            if (jobPosition1.abilities != jobPosition2.abilities)
+            if (jobPosition1.Habilities != jobPosition2.Habilities)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "Habilities:{0}", jobPosition2.abilities));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "Habilities:{0}", jobPosition2.Habilities));
                 first = false;
             }
 
-            if (jobPosition1.workExperience != jobPosition2.workExperience)
+            if (jobPosition1.WorkExperience != jobPosition2.WorkExperience)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "Experience:{0}", jobPosition2.workExperience));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "Experience:{0}", jobPosition2.WorkExperience));
                 first = false;
             }
 
@@ -757,9 +588,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Gets all job positions of company
-        /// </summary>
+        /// <summary>Gets all job positions of company</summary>
         /// <param name="company">Company to search in</param>
         /// <returns>A list of job positions</returns>
         public static ReadOnlyCollection<JobPosition> JobsPositionByCompany(Company company)
@@ -796,20 +625,20 @@ namespace GisoFramework.Item
                                 {
                                     Id = rdr.GetInt32(ColumnsJobPositionGetAll.Id),
                                     Description = rdr.GetString(ColumnsJobPositionGetAll.Description),
-                                    responsibilities = rdr.GetString(ColumnsJobPositionGetAll.Responsibilities),
-                                    notes = rdr.GetString(ColumnsJobPositionGetAll.Notes),
-                                    academicSkills = rdr.GetString(ColumnsJobPositionGetAll.AcademicSkills),
-                                    specificSkills = rdr.GetString(ColumnsJobPositionGetAll.SpecificSkills),
-                                    workExperience = rdr.GetString(ColumnsJobPositionGetAll.WorkExperience),
-                                    abilities = rdr.GetString(ColumnsJobPositionGetAll.Abilities),
-                                    department = new Department()
+                                    Responsibilities = rdr.GetString(ColumnsJobPositionGetAll.Responsibilities),
+                                    Notes = rdr.GetString(ColumnsJobPositionGetAll.Notes),
+                                    AcademicSkills = rdr.GetString(ColumnsJobPositionGetAll.AcademicSkills),
+                                    SpecificSkills = rdr.GetString(ColumnsJobPositionGetAll.SpecificSkills),
+                                    WorkExperience = rdr.GetString(ColumnsJobPositionGetAll.WorkExperience),
+                                    Habilities = rdr.GetString(ColumnsJobPositionGetAll.Abilities),
+                                    Department = new Department
                                     {
                                         Id = rdr.GetInt32(ColumnsJobPositionGetAll.DepartmentId),
                                         Description = rdr.GetString(ColumnsJobPositionGetAll.DepartmentName),
                                         Deleted = rdr.GetBoolean(ColumnsJobPositionGetAll.DepartmentDeleted),
                                         CompanyId = companyId
                                     },
-                                    responsible = new JobPosition()
+                                    Responsible = new JobPosition
                                     {
                                         Id = rdr.GetInt32(ColumnsJobPositionGetAll.ResponsibleId),
                                         Description = rdr.GetString(ColumnsJobPositionGetAll.ResponsibleFullName),
@@ -901,9 +730,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Delete a job position in data base
-        /// </summary>
+        /// <summary>Delete a job position in data base</summary>
         /// <param name="jobPositionId">Job position identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">Identifier of user that performs action</param>
@@ -979,7 +806,7 @@ namespace GisoFramework.Item
             }
 
             string iconEdit = string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-info"" onclick=""document.location='CargosView.aspx?id={0}';""><i class=""{3} bigger-120""></i></span>", 
                 this.Id, 
                 this.Description, 
@@ -987,7 +814,7 @@ namespace GisoFramework.Item
                 grantToWritePositon ? "icon-edit" : "icon-eye-open");
 
             string iconDelete = string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""JobPositionDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", 
                 this.Id, 
                 this.Description, 
@@ -995,11 +822,21 @@ namespace GisoFramework.Item
 
             if (this.Employees != null && this.Employees.Count > 0)
             {
-                iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-danger"" onclick=""alertUI('{0}');""><i class=""icon-trash bigger-120""></i></span>", dictionary["Item_JobPosition_ErrorMessage_HasEmployees"], dictionary["Common_Delete"], this.Description);
+                iconDelete = string.Format(
+                    CultureInfo.InvariantCulture, 
+                    @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-danger"" onclick=""alertUI('{0}');""><i class=""icon-trash bigger-120""></i></span>", 
+                    dictionary["Item_JobPosition_ErrorMessage_HasEmployees"], 
+                    dictionary["Common_Delete"], 
+                    this.Description);
             }
             else if (this.HasEmployeesHistorical)
             {
-                iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-danger"" onclick=""alertUI('{0}');""><i class=""icon-trash bigger-120""></i></span>", dictionary["Item_JobPosition_ErrorMessage_HasEmployeesHistoric"], dictionary["Common_Delete"], this.Description);
+                iconDelete = string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-danger"" onclick=""alertUI('{0}');""><i class=""icon-trash bigger-120""></i></span>", 
+                    dictionary["Item_JobPosition_ErrorMessage_HasEmployeesHistoric"], 
+                    dictionary["Common_Delete"], 
+                    this.Description);
             }
 
             if (!grantToWritePositon)
@@ -1007,28 +844,35 @@ namespace GisoFramework.Item
                 iconDelete = string.Empty;
             }
 
-            string responsibleName = this.responsible.Description;
+            string responsibleName = this.Responsible.Description;
             if (string.IsNullOrEmpty(responsibleName))
             {
-                responsibleName = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span style=""color:#000"">{0}</span>", dictionary["Item_JobPosition_Message_WithoutResponsible"]);
+                responsibleName = string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"<span style=""color:#000"">{0}</span>", 
+                    dictionary["Item_JobPosition_Message_WithoutResponsible"]);
             }
             else
             {
-                responsibleName = this.responsible.Link;
+                responsibleName = this.Responsible.Link;
             }
 
             string departmentName = string.Empty;
-            if (this.department.Deleted)
+            if (this.Department.Deleted)
             {
-                departmentName = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<a href=""#"" style=""color:#f00"" onclick=""alert('{1}');"">{0}</a>", this.department.Description, dictionary["Item_Department_Status_Deleted"]);
+                departmentName = string.Format(
+                    CultureInfo.InvariantCulture, 
+                    @"<a href=""#"" style=""color:#f00"" onclick=""alert('{1}');"">{0}</a>", 
+                    this.Department.Description, 
+                    dictionary["Item_Department_Status_Deleted"]);
             }
             else
             {
-                departmentName = grantToReadDepartments ? this.department.Link : this.department.Description;
+                departmentName = grantToReadDepartments ? this.Department.Link : this.Department.Description;
             }
 
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<tr><td>{0}</td><td style=""width:400px;"">{1}</td><td style=""width:400px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</tr>",
                 this.Link,
                 responsibleName,
@@ -1048,14 +892,14 @@ namespace GisoFramework.Item
             }
 
             string iconRename = string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""JobPositionUpdate({0});""><i class=""icon-edit bigger-120""></i></span>",
                 this.Id, 
                 this.Description,
                 dictionary["Common_Edit"]);
 
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<tr><td>{0}</td><td>{1}</td></tr>",
                 this.Link,
                 iconRename);
@@ -1090,15 +934,15 @@ namespace GisoFramework.Item
                     {
                         cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.Id));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.department.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.responsible));
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.Department.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible));
                         cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                        cmd.Parameters.Add(DataParameter.Input("@Responsabilidades", this.responsibilities, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@Notas", this.notes, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@FormacionAcademicaDeseada", this.academicSkills, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDesdeada", this.specificSkills, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.workExperience, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.abilities, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Responsabilidades", this.Responsibilities, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Notas", this.Notes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@FormacionAcademicaDeseada", this.AcademicSkills, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDesdeada", this.SpecificSkills, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.WorkExperience, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.Habilities, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@ModifiedBy", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
@@ -1162,15 +1006,15 @@ namespace GisoFramework.Item
                     {
                         cmd.Parameters.Add(DataParameter.OutputLong("@JobPositionId"));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.department.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.responsible));
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.Department.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible));
                         cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                        cmd.Parameters.Add(DataParameter.Input("@Responsabilidades", this.responsibilities, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@Notas", this.notes, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@FormacionAcademicaDeseada", this.academicSkills, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDeseada", this.specificSkills, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.workExperience, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.abilities, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Responsabilidades", this.Responsibilities, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Notas", this.Notes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@FormacionAcademicaDeseada", this.AcademicSkills, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDeseada", this.SpecificSkills, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.WorkExperience, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.Habilities, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();

@@ -124,7 +124,7 @@ public partial class DocumentView : Page
     {
         get
         {
-            var categories = DocumentCategory.GetByCompany(this.company.Id);
+            var categories = DocumentCategory.ByCompany(this.company.Id);
             var res = new StringBuilder("[");
             bool first = true;
             foreach (var category in categories)
@@ -149,7 +149,7 @@ public partial class DocumentView : Page
     {
         get
         {
-            return DocumentAttach.JsonList(new ReadOnlyCollection<DocumentAttach>(DocumentAttach.GetByDocument(this.documentId, this.company.Id).Where(d => d.Active == true).ToList()));
+            return DocumentAttach.JsonList(new ReadOnlyCollection<DocumentAttach>(DocumentAttach.ByDocument(this.documentId, this.company.Id).Where(d => d.Active == true).ToList()));
         }
     }
 
@@ -157,7 +157,7 @@ public partial class DocumentView : Page
     {
         get
         {
-            var origins = DocumentOrigin.GetByCompany(this.company.Id);
+            var origins = DocumentOrigin.ByCompany(this.company.Id);
             var res = new StringBuilder("[");
             bool first = true;
             foreach (var origin in origins)
@@ -345,7 +345,7 @@ public partial class DocumentView : Page
         this.DocumentAttachActual = "null";
         var firstDate = DateTime.Now;
         var rows = new List<DocumentVersionRow>();
-        var attachs = DocumentAttach.GetByDocument(this.documentId, this.company.Id).Where(d=>d.Active == true).ToList();
+        var attachs = DocumentAttach.ByDocument(this.documentId, this.company.Id).Where(d=>d.Active == true).ToList();
         foreach (var version in this.documento.Versions)
         {
             string fileName = string.Empty;

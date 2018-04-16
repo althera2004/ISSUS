@@ -44,6 +44,7 @@ public partial class ActionView : Page
     public IncidentAction IncidentAction { get; set; }
     public Incident Incident { get; set; }
     public BusinessRisk BusinessRisk { get; set; }
+    public Objetivo Objetivo { get; set; }
 
     TabBar tabBar = new TabBar() { Id = "IncidentActionTabBar" };
 
@@ -181,7 +182,7 @@ public partial class ActionView : Page
     {
         get
         {
-            return Provider.GetByCompanyJson(this.company.Id);
+            return Provider.ByCompanyJson(this.company.Id);
         }
     }
 
@@ -189,7 +190,7 @@ public partial class ActionView : Page
     {
         get
         {
-            return Customer.GetByCompanyJson(this.company.Id);
+            return Customer.ByCompanyJson(this.company.Id);
         }
     }
 
@@ -197,7 +198,7 @@ public partial class ActionView : Page
     {
         get
         {
-            return CostDefinition.GetByCompanyJson(this.company.Id);
+            return CostDefinition.ByCompanyJson(this.company.Id);
         }
     }
 
@@ -225,10 +226,11 @@ public partial class ActionView : Page
         this.active = true;
         this.Incident = Incident.Empty;
         this.BusinessRisk = BusinessRisk.Empty;
+        this.Objetivo = Objetivo.Empty;
 
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", Constant.EndResponse);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
@@ -288,7 +290,7 @@ public partial class ActionView : Page
 
         if (this.IncidentActionId > 0)
         {
-            this.IncidentAction = IncidentAction.GetById(this.IncidentActionId, this.company.Id);
+            this.IncidentAction = IncidentAction.ById(this.IncidentActionId, this.company.Id);
             if (this.IncidentAction.CompanyId != this.company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
@@ -318,9 +320,14 @@ public partial class ActionView : Page
                 this.Incident = Incident.GetById(this.IncidentAction.IncidentId, this.company.Id);
             }
 
-            if(this.IncidentAction.BusinessRiskId>0)
+            if (this.IncidentAction.BusinessRiskId > 0)
             {
                 this.BusinessRisk = BusinessRisk.GetById(this.company.Id, this.IncidentAction.BusinessRiskId);
+            }
+
+            if(this.IncidentAction.Objetivo.Id > 0)
+            {
+                this.Objetivo = this.IncidentAction.Objetivo;
             }
 
             this.RenderDocuments();

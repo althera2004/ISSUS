@@ -106,7 +106,7 @@ public partial class ProvidersList : Page
         var searchedItem = new List<string>();
         bool first = true;
         int contData = 0;
-        foreach (Provider provider in Provider.GetByCompany(((Company)Session["Company"]).Id))
+        foreach (Provider provider in Provider.ByCompany(((Company)Session["Company"]).Id))
         {
             if (!provider.Active)
             {

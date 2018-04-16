@@ -28,7 +28,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new DocumentAttach()
+                return new DocumentAttach
                 {
                     Id = -1,
                     Description = string.Empty,
@@ -47,12 +47,7 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets document identifier</summary>
         public long DocumentId { get; set; }
 
-        /// <summary>Gets or sets attachment description</summary>
-        public string Description { get; set; }
-
-        /// <summary>
-        /// Gets or sets attachment extension
-        /// </summary>
+        /// <summary>Gets or sets attachment extension</summary>
         public string Extension { get; set; }
 
         /// <summary>Gets or sets attachment version</summary>
@@ -113,9 +108,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets the html code for row of document's version table
-        /// </summary>
+        /// <summary>Gets the html code for row of document's version table</summary>
         public string TableRow
         {
             get
@@ -123,23 +116,21 @@ namespace GisoFramework.Item
                 string pattern = @"
                                 <tr>
                                     <td style=""width:80px;"">{0}</td>
-                                    <td style=""width:80px;"">{1}</td>
+                                    <td style=""width:80px;"">{1:dd/MM/yyyy}</td>
                                     <td>{2}</td>
                                     <td style=""width:150px;"">{3}</td>
                                 </tr>";
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Version,
-                    string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:dd/MM/yyyy}", this.ModifiedOn),
+                    this.ModifiedOn,
                     this.Description,
                     this.ModifiedBy.UserName);
             }
         }
 
-        /// <summary>
-        /// Creates a JSON list of dicument attachments
-        /// </summary>
+        /// <summary>Creates a JSON list of dicument attachments</summary>
         /// <param name="attachs">List of attachments</param>
         /// <returns>JSON list of dicument attachments</returns>
         public static string JsonList(ReadOnlyCollection<DocumentAttach> attachs)
@@ -149,9 +140,9 @@ namespace GisoFramework.Item
                 return "[]";
             }
 
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (DocumentAttach attach in attachs)
+            foreach (var attach in attachs)
             {
                 if (first)
                 {
@@ -169,7 +160,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static ReadOnlyCollection<DocumentAttach> GetByDocument(long documentId, int companyId)
+        public static ReadOnlyCollection<DocumentAttach> ByDocument(long documentId, int companyId)
         {
             string path = HttpContext.Current.Request.PhysicalApplicationPath;
             if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
@@ -178,21 +169,21 @@ namespace GisoFramework.Item
             }
 
             path = string.Format(CultureInfo.InvariantCulture, @"{0}DOCS\{1}\", path, companyId);
-            List<DocumentAttach> res = new List<DocumentAttach>();
-            using (SqlCommand cmd = new SqlCommand("DocumentAttach_GetByDoumentId"))
+            var res = new List<DocumentAttach>();
+            using (var cmd = new SqlCommand("DocumentAttach_GetByDoumentId"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
                 cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (var rdr = cmd.ExecuteReader())
                     {
                         while (rdr.Read())
                         {
-                            DocumentAttach attach = new DocumentAttach()
+                            var attach = new DocumentAttach
                             {
                                 Id = rdr.GetInt64(ColumnsDocumentAttachGet.Id),
                                 DocumentId = rdr.GetInt64(ColumnsDocumentAttachGet.DocumentId),
@@ -200,13 +191,13 @@ namespace GisoFramework.Item
                                 Extension = rdr.GetString(ColumnsDocumentAttachGet.Extension),
                                 Version = rdr.GetInt32(ColumnsDocumentAttachGet.Version),
                                 CompanyId = rdr.GetInt32(ColumnsDocumentAttachGet.CompanyId),
-                                CreatedBy = new ApplicationUser()
+                                CreatedBy = new ApplicationUser
                                 {
                                     Id = rdr.GetInt32(ColumnsDocumentAttachGet.CreatedBy),
                                     UserName = rdr.GetString(ColumnsDocumentAttachGet.CreatedByName)
                                 },
                                 CreatedOn = rdr.GetDateTime(ColumnsDocumentAttachGet.CreatedOn),
-                                ModifiedBy = new ApplicationUser()
+                                ModifiedBy = new ApplicationUser
                                 {
                                     Id = rdr.GetInt32(ColumnsDocumentAttachGet.ModifiedBy),
                                     UserName = rdr.GetString(ColumnsDocumentAttachGet.ModifiedByName)
@@ -224,19 +215,19 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<DocumentAttach>(res);
         }
 
-        public static DocumentAttach GetById(long id, int companyId)
+        public static DocumentAttach ById(long id, int companyId)
         {
-            DocumentAttach res = DocumentAttach.Empty;
-            using (SqlCommand cmd = new SqlCommand("DocumentAttach_GetById"))
+            var res = DocumentAttach.Empty;
+            using (var cmd = new SqlCommand("DocumentAttach_GetById"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@Id", id));
                 cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (var rdr = cmd.ExecuteReader())
                     {
                         while (rdr.Read())
                         {
@@ -246,13 +237,13 @@ namespace GisoFramework.Item
                             res.Extension = rdr.GetString(ColumnsDocumentAttachGet.Extension);
                             res.Version = rdr.GetInt32(ColumnsDocumentAttachGet.Version);
                             res.CompanyId = rdr.GetInt32(ColumnsDocumentAttachGet.CompanyId);
-                            res.CreatedBy = new ApplicationUser()
+                            res.CreatedBy = new ApplicationUser
                             {
                                 Id = rdr.GetInt32(ColumnsDocumentAttachGet.CreatedBy),
                                 UserName = rdr.GetString(ColumnsDocumentAttachGet.CreatedByName)
                             };
                             res.CreatedOn = rdr.GetDateTime(ColumnsDocumentAttachGet.CreatedOn);
-                            res.ModifiedBy = new ApplicationUser()
+                            res.ModifiedBy = new ApplicationUser
                             {
                                 Id = rdr.GetInt32(ColumnsDocumentAttachGet.ModifiedBy),
                                 UserName = rdr.GetString(ColumnsDocumentAttachGet.ModifiedByName)
@@ -269,16 +260,16 @@ namespace GisoFramework.Item
 
         public static ActionResult Activate(long id, int applicationUserId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [issususer].[DocumentAttach_Active]
              *   @Id bigint,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("DocumentAttach_Active"))
+            using (var cmd = new SqlCommand("DocumentAttach_Active"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@Id", id));
                 cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     try
@@ -306,16 +297,16 @@ namespace GisoFramework.Item
 
         public static ActionResult Inactivate(long id, int applicationUserId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [issususer].[DocumentAttach_Inactivate]
              *   @Id bigint,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("DocumentAttach_Inactivate"))
+            using (var cmd = new SqlCommand("DocumentAttach_Inactivate"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@Id", id));
                 cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     try
@@ -343,16 +334,16 @@ namespace GisoFramework.Item
 
         public static ActionResult Delete(long id, int companyId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [issususer].[DocumentAttach_Inactivate]
              *   @Id bigint,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("DocumentAttach_Delete"))
+            using (var cmd = new SqlCommand("DocumentAttach_Delete"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@Id", id));
                 cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     try
@@ -380,7 +371,7 @@ namespace GisoFramework.Item
 
         public ActionResult Insert(int applicationUserId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [issususer].[DocumentAttach_Insert]
              *   @Id bigint output,
              *   @DocumentId bigint,
@@ -389,7 +380,7 @@ namespace GisoFramework.Item
              *   @Description nvarchar(50),
              *   @Extension nvarchar(10),
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("DocumentAttach_Insert"))
+            using (var cmd = new SqlCommand("DocumentAttach_Insert"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.OutputLong("@Id"));
@@ -399,7 +390,7 @@ namespace GisoFramework.Item
                 cmd.Parameters.Add(DataParameter.Input("@Extension", this.Extension, 10));
                 cmd.Parameters.Add(DataParameter.Input("@Version", this.Version));
                 cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     try
@@ -432,20 +423,20 @@ namespace GisoFramework.Item
 
         public ActionResult Update(int applicationUserId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [issususer].[DocumentAttach_Update]
              *   @Id bigint,
              *   @Description nvarchar(50),
              *   @Extension nvarchar(10),
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("DocumentAttach_Update"))
+            using (var cmd = new SqlCommand("DocumentAttach_Update"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@Id", this.Id));
                 cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 50));
                 cmd.Parameters.Add(DataParameter.Input("@Extension", this.Extension, 10));
                 cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     try

@@ -155,7 +155,7 @@ public partial class ExportDocumentExportList : Page
         if (parts[1] != "-1")
         {
             data = data.Where(d => d.Category.Id == Convert.ToInt32(parts[1])).ToList();
-            var cats = DocumentCategory.GetByCompany(companyId);
+            var cats = DocumentCategory.ByCompany(companyId);
             var cat = cats.First(c => c.Id == Convert.ToInt32(parts[1]));
             category = cat.Description;
         }

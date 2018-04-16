@@ -12,7 +12,6 @@ namespace GisoFramework.Item
     /// <summary>Implements EmployeeAddress class</summary>
     public class EmployeeAddress
     {
-        #region Properties
         /// <summary>Gets a empty address</summary>
         public static EmployeeAddress Empty
         {
@@ -49,17 +48,9 @@ namespace GisoFramework.Item
         {
             get
             {
-                string pattern = @"
-                                {{
-                                    ""Address"":""{0}"",
-                                    ""PostalCode"":""{1}"",
-                                    ""City"":""{2}"",
-                                    ""Province"":""{3}"",
-                                    ""Country"":{4}
-                                }}";
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
-                    pattern,
+                    CultureInfo.InvariantCulture,
+                    @"{{ ""Address"":""{0}"", ""PostalCode"":""{1}"", ""City"":""{2}"", ""Province"":""{3}"", ""Country"":{4} }}",
                     Tools.JsonCompliant(this.Address),
                     this.PostalCode,
                     Tools.JsonCompliant(this.City),
@@ -67,7 +58,6 @@ namespace GisoFramework.Item
                     string.IsNullOrEmpty(this.Country) ? "0" : Tools.JsonCompliant(this.Country));
             }
         }
-        #endregion
 
         /// <summary>Generates a representative string of address's data</summary>
         /// <returns>Representative string of address's data</returns>

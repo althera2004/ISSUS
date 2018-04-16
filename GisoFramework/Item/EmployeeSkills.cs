@@ -46,10 +46,8 @@ namespace GisoFramework.Item
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@EmployeeId", SqlDbType.Int);
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters["@EmployeeId"].Value = employeeId;
-                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Connection.Open();
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -57,7 +55,12 @@ namespace GisoFramework.Item
                             {
                                 rdr.Read();
                                 this.Id = rdr.GetInt32(ColumnsGetSkillByEmployee.Id);
-                                this.Employee = new Employee() { Id = rdr.GetInt32(ColumnsGetSkillByEmployee.EmployeeId), CompanyId = rdr.GetInt32(ColumnsGetSkillByEmployee.CompanyId) };
+                                this.Employee = new Employee()
+                                {
+                                    Id = rdr.GetInt32(ColumnsGetSkillByEmployee.EmployeeId),
+                                    CompanyId = rdr.GetInt32(ColumnsGetSkillByEmployee.CompanyId)
+                                };
+
                                 this.Academic = rdr.GetString(ColumnsGetSkillByEmployee.Academic);
                                 this.Specific = rdr.GetString(ColumnsGetSkillByEmployee.Specific);
                                 this.WorkExperience = rdr.GetString(ColumnsGetSkillByEmployee.WorkExperience);
@@ -84,13 +87,13 @@ namespace GisoFramework.Item
                                 }
 
                                 this.ModifiedOn = rdr.GetDateTime(ColumnsGetSkillByEmployee.ModifiedOn);
-                                this.ModifiedBy = new ApplicationUser()
+                                this.ModifiedBy = new ApplicationUser
                                 {
                                     Id = rdr.GetInt32(ColumnsGetSkillByEmployee.ModifiedByUserId),
                                     UserName = rdr.GetString(ColumnsGetSkillByEmployee.ModifiedByUserName)
                                 };
 
-                                this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
+                                this.ModifiedBy.Employee = Employee.ByUserId(this.ModifiedBy.Id);
                             }
                         }
                     }
@@ -152,7 +155,10 @@ namespace GisoFramework.Item
         /// <summary>Gets link to Employee Skill page</summary>
         public override string Link
         {
-            get { return string.Empty; }
+            get
+            {
+                return string.Empty;
+            }
         }
 
         /// <summary>Gets an identifier/description json item</summary>

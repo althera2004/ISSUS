@@ -98,7 +98,7 @@ public partial class ProvidersView : Page
         {
             StringBuilder res = new StringBuilder();
             bool first = true;
-            foreach (Provider provider in Provider.GetByCompany(((Company)Session["Company"]).Id))
+            foreach (Provider provider in Provider.ByCompany(((Company)Session["Company"]).Id))
             {
 
                 if (provider.Active)
@@ -230,12 +230,12 @@ public partial class ProvidersView : Page
 
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         if (this.providerId != -1)
         {
-            this.provider = Provider.GetById(this.providerId, this.company.Id);
+            this.provider = Provider.ById(this.providerId, this.company.Id);
             if (this.provider.CompanyId != this.company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", false);
@@ -261,16 +261,16 @@ public partial class ProvidersView : Page
             this.TableActions.Text = string.Empty;
         }
 
-        this.tabBar.AddTab(new Tab() { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Provider_Tab_Principal"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Provider_Tab_Principal"] });
         //// this.tabBar.AddTab(new Tab() { Id = "trazas", Label = this.dictionary["Item_Provider_Tab_Traces"], Active = this.ProviderId > 0, Available = this.user.HasTraceGrant() });
     }
 
     public void RenderTableCost()
     {
-        StringBuilder tableCosts = new StringBuilder();
-        ReadOnlyCollection<ProviderCost> costs = ProviderCost.GetByProvider(this.provider);
+        var tableCosts = new StringBuilder();
+        var costs = ProviderCost.GetByProvider(this.provider);
         decimal total = 0;
-        foreach (ProviderCost cost in costs)
+        foreach (var cost in costs)
         {
             tableCosts.Append(cost.Row(this.dictionary, this.user.Grants));
             if (cost.Calibration != null)
@@ -299,9 +299,9 @@ public partial class ProvidersView : Page
 
     public void RenderTableActions()
     {
-        StringBuilder tableActions = new StringBuilder();
-        ReadOnlyCollection<ProviderIncidentActions> actions = ProviderIncidentActions.GetByProvider(this.provider);
-        foreach (ProviderIncidentActions action in actions)
+        var tableActions = new StringBuilder();
+        var actions = ProviderIncidentActions.ByProvider(this.provider);
+        foreach (var action in actions)
         {
             tableActions.Append(action.Row(this.dictionary, this.user.Grants));
         }
