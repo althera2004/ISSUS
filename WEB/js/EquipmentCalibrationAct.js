@@ -315,7 +315,7 @@ function EquipmentCalibrationActListUpdate(equipmentCalibrationAct) {
 
 function EquipmentCalibrationActNewFormReset(EquipmentCalibrationDefinition) {
 
-    document.getElementById('REquipmentCalibrationActTypeErrorRequired').style.display = 'none';
+    $("#REquipmentCalibrationActTypeErrorRequired").hide();
     var internal = document.getElementById('CalibrationInternalActive').checked;
     var external = document.getElementById('CalibrationExternalActive').checked;
 
@@ -480,13 +480,21 @@ function FillCmbEquipmentCalibrationActResponsible() {
 
 function REquipmentCalibrationActTypeChanged() {
     if (document.getElementById('REquipmentCalibrationActTypeExternal').checked === true) {
-        document.getElementById('CmbEquipmentCalibrationActProviderRow').style.display = '';
+        $("#CmbEquipmentCalibrationActProviderRow").show();
+        $("#TxtEquipmentCalibrationActCost").val($("#TxtCalibrationExternalCost").val());
     } else {
-        document.getElementById('CmbEquipmentCalibrationActProviderRow').style.display = 'none';
+        $("#CmbEquipmentCalibrationActProviderRow").hide();
+        $("#TxtEquipmentCalibrationActCost").val($("#TxtCalibrationInternalCost").val());
     }
 }
 
 function ShowDialogNewCalibrationPopup(actionSelected) {
+    if (ToMoneyFormat(Equipment.InternalCalibration.Cost, 2) != $("#TxtCalibrationInternalCost").val() ||
+        ToMoneyFormat(Equipment.ExternalCalibration.Cost, 2) != $("#TxtCalibrationExternalCost").val()) {
+        alertUI(Dictionary.Item_Equipment_Message_CalibrationChanged);
+        return false;
+    }
+
     FillCmbEquipmentCalibrationActProvider();
     FillCmbEquipmentCalibrationActResponsible();
     EquipmentCalibrationActNewFormReset();
@@ -509,30 +517,33 @@ function ShowDialogNewCalibrationPopup(actionSelected) {
     }
 
     var dialog = $("#dialogEquipmentCalibrationForm").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_EquipmentCalibrationAct_PopupNew_Title + '</h4></div>',
-        title_html: true,
-        width: 400,
-        buttons: [
-                        {
-                            id: 'BtnNewAddresSave',
-                            html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
-                            "class": "btn btn-success btn-xs",
-                            click: function () {
-                                EquipmentCalibrationSave();
-                            }
-                        },
-                        {
-                            html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                            "class": "btn btn-xs",
-                            click: function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    ]
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentCalibrationAct_PopupNew_Title + "</h4>",
+        "title_html": true,
+        "width": 400,
+        "buttons":
+        [
+            {
+                "id": "BtnNewAddresSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
+                "class": "btn btn-success btn-xs",
+                "click": function () {
+                    EquipmentCalibrationSave();
+                }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () {
+                    $(this).dialog("close");
+                }
+            }
+        ]
 
     });
+
+    REquipmentCalibrationActTypeChanged();
 }
 
 function EquipmentCalibrationSave() {

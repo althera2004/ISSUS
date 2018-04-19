@@ -6,11 +6,6 @@
 // --------------------------------
 namespace GisoFramework.Item
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     public class ObjetivoFilterItem
     {
         public Objetivo Objetivo { get; set; }

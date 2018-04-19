@@ -30,7 +30,7 @@
     },
     {
       "Analyzer": "PropertyToExpressionAnalyzer",
-      "OccurrenceCount": 3,
+      "OccurrenceCount": 4,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "SERVER_GISO"

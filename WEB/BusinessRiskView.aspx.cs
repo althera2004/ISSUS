@@ -432,7 +432,7 @@ public partial class BusinessRiskView : Page
                 Name = "StartControl",
                 Value = this.businessRisk.StartControl,
                 ColumnsSpan = 12,
-                MaxLength = 2000
+                MaxLength = Constant.MaximumTextAreaLength
             }.Render;
         }
     }
@@ -447,7 +447,7 @@ public partial class BusinessRiskView : Page
                 Name = "Description",
                 Value = this.businessRisk.ItemDescription,
                 ColumnsSpan = 12,
-                MaxLength = 2000
+                MaxLength = Constant.MaximumTextAreaLength
             }.Render;
         }
     }
@@ -462,7 +462,7 @@ public partial class BusinessRiskView : Page
                 Name = "Notes",
                 Value = this.businessRisk.Notes,
                 ColumnsSpan = 12,
-                MaxLength = 2000
+                MaxLength = Constant.MaximumTextAreaLength
             }.Render;
         }
     }
@@ -477,7 +477,7 @@ public partial class BusinessRiskView : Page
                 Name = "Causes",
                 Value = this.businessRisk.Causes,
                 ColumnsSpan = 12,
-                MaxLength = 2000
+                MaxLength = Constant.MaximumTextAreaLength
             }.Render;
         }
     }
@@ -554,7 +554,7 @@ public partial class BusinessRiskView : Page
                 ColumnsSpan = 8,
                 ColumnsSpanLabel = 12,
                 Embedded = true,
-                MaxLength = 2000
+                MaxLength = Constant.MaximumTextAreaLength
             }.Render;
         }   
     }
@@ -572,7 +572,7 @@ public partial class BusinessRiskView : Page
                 ColumnsSpan = 8,
                 ColumnsSpanLabel = 12,
                 Embedded = true,
-                MaxLength = 2000
+                MaxLength = Constant.MaximumTextAreaLength
             }.Render;
         }
     }
@@ -590,7 +590,7 @@ public partial class BusinessRiskView : Page
                 ColumnsSpan = 8,
                 ColumnsSpanLabel = 12,
                 Embedded = true,
-                MaxLength = 2000
+                MaxLength = Constant.MaximumTextAreaLength
             }.Render;
         }
     }
@@ -605,7 +605,7 @@ public partial class BusinessRiskView : Page
                 Value = this.IncidentAction.Monitoring,
                 Name = "TxtActionMonitoring",
                 Label = this.dictionary["Item_IncidentAction_Field_Monitoring"],
-                MaxLength = 2000
+                MaxLength = Constant.MaximumTextAreaLength
             }.Render;
         }
     }
@@ -620,7 +620,7 @@ public partial class BusinessRiskView : Page
                 Value = this.IncidentAction.Notes,
                 Name = "TxtActionNotes",
                 Label = this.dictionary["Item_IncidentAction_Field_Notes"],
-                MaxLength = 2000
+                MaxLength = Constant.MaximumTextAreaLength
             }.Render;
         }
     }

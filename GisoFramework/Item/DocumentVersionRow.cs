@@ -10,33 +10,38 @@ namespace GisoFramework.Item
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Globalization;
-    using System.Linq;
-    using System.Text;
     using System.Web;
 
     public class DocumentVersionRow
     {
+        /// <summary>Gets or sets document version identifier</summary>
         public long Id { get; set; }
 
+        /// <summary>Gets or sets document identifier</summary>
         public long DocumentId { get; set; }
 
+        /// <summary>Gets or sets document version</summary>
         public int Version { get; set; }
 
+        /// <summary>Gets or sets date of version change </summary>
         public DateTime Date { get; set; }
 
+        /// <summary>Gets or sets reason of chane</summary>
         public string Reason { get; set; }
 
+        /// <summary>Gets or sets document attach</summary>
         public string Attach { get; set; }
 
+        /// <summary>Gets or sets who aproves document version</summary>
         public string AprovedBy { get; set; }
 
+        /// <summary>Gets or sets company identifier</summary>
         public int CompanyId { get; set; }
 
+        /// <summary>Gets or sets document extension</summary>
         public string Extension { get; set; }
 
-        /// <summary>
-        /// Gets the html code for row of document's version table
-        /// </summary>
+        /// <summary>Gets the html code for row of document's version table</summary>
         public string Render(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> grants)
         {
             if (grants == null)
@@ -80,17 +85,17 @@ namespace GisoFramework.Item
             string pattern = @"
                                 <tr>
                                     <td style=""width:80px;"">{0}{8}</td>
-                                    <td style=""width:90px;"">{1}</td>
+                                    <td style=""width:90px;"">{1:dd/MM/yyyy}</td>
                                     <td>{2}</td>
                                     <td style=""width:120px;"" id=""DOC{0}"">{3}</td>
                                     <td style=""width:80px;"">{4}</td>
                                     <td style=""width:150px;"" id=""Icons{0}"">{5}&nbsp;{6}&nbsp;{7}</td>
                                 </tr>";
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattern,
                 this.Version,
-                string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:dd/MM/yyyy}", this.Date),
+                this.Date,
                 this.Reason,
                 this.Attach,
                 this.AprovedBy,

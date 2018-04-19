@@ -208,10 +208,10 @@
                                                             <h4><strong><%=this.Dictionary["Item_BusinessRisk_Title_StartResult"] %></strong></h4>
                                                             <div class="form-group" id="ActionActivator">
                                                                 <div class="col-sm-3">
-                                                                    <input type="radio" value="0" id="StartApplyActionAssumed" name="ApplyAction" onclick="ApplyActionRadio()" />&nbsp;<%=this.Dictionary["Item_BusinessRisk_LabelField_Assumed"] %>
-                                                                </div>
-                                                                <div class="col-sm-3">
                                                                     <input type="radio" value="1" id="StartApplyActionYes" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_BusinessRisk_LabelField_ApplyAction"] %>
+                                                                </div>
+                                                                <div class="col-sm-3" id="ApplyActionAsumed">
+                                                                    <input type="radio" value="0" id="StartApplyActionAssumed" name="ApplyAction" onclick="ApplyActionRadio()" />&nbsp;<%=this.Dictionary["Item_BusinessRisk_LabelField_Assumed"] %>
                                                                 </div>
                                                                 <div class="col-sm-3" id="ApplyActionNoStart">
                                                                     <input type="radio" value="2" id="StartApplyActionNo" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_BusinessRisk_LabelField_ApplyActionNo"] %>

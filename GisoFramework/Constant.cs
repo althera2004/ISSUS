@@ -6,6 +6,8 @@ namespace GisoFramework
 
     public static class Constant
     {
+        public const int MaximumTextAreaLength = 2000;
+
         public const string EmptyJsonList = "[]";
 
         public const string EmptyJsonObject = "{}";

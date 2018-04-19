@@ -400,8 +400,7 @@ function RulesInsertConfirmed(newDescription, newNotes, newLimit) {
 
 function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/RulesActions.asmx/RulesUpdate";
-    var description = '';
+    var description = "";
     for (var x = 0; x < RulesCompany.length; x++) {
         if (RulesCompany[x].Id == id) {
             description = RulesCompany[x].Description;
@@ -411,38 +410,38 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
         }
     }
     var data = {
-        'newRules': {
-            'Id': id,
-            'CompanyId': Company.Id,
-            'Description': newDescription,
-            'Notes': newNotes,
-            'Limit': newLimit
+        "newRules": {
+            "Id": id,
+            "CompanyId": Company.Id,
+            "Description": newDescription,
+            "Notes": newNotes,
+            "Limit": newLimit
         },
-        'oldRules': {
-            'Id': id,
-            'CompanyId': Company.Id,
-            'Description': description,
-            'Notes': notes,
-            'Limit': limit
+        "oldRules": {
+            "Id": id,
+            "CompanyId": Company.Id,
+            "Description": description,
+            "Notes": notes,
+            "Limit": limit
         },
-        'companyId': Company.Id,
-        'userId': user.Id
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/RulesActions.asmx/RulesUpdate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -507,7 +506,7 @@ function FillCmbRules() {
             option.selected = true;
         }
 
-        document.getElementById('CmbRules').appendChild(option);
+        document.getElementById("CmbRules").appendChild(option);
     }
 
     CmbRulesChanged();
@@ -515,12 +514,12 @@ function FillCmbRules() {
 
 function RulesChanged(sender) {
     var id = sender.parentNode.parentNode.parentNode.id * 1;
-    $("#dialogRules").dialog('close');
+    $("#dialogRules").dialog("close");
     for (var x = 0; x < RulesCompany.length; x++) {
         if (RulesCompany[x].Id === id) {
             RulesSelected = id;
-            document.getElementById('TxtRules').value = RulesCompany[x].Description;
-            document.getElementById('IPR').value = RulesCompany[x].Limit;
+            $("#TxtRules").val(RulesCompany[x].Description);
+            $("#IPR").val(RulesCompany[x].Limit);
             break;
         }
     }
@@ -529,17 +528,19 @@ function RulesChanged(sender) {
 }
 
 function CmbRulesChanged() {
-    RulesSelected = document.getElementById('CmbRules').value * 1;
-    var text = '';
+    RulesSelected = $("#CmbRules").val() * 1;
+    var text = "";
     var ipr = 0;
     for (var x = 0; x < RulesCompany.length; x++) {
         if (RulesSelected == RulesCompany[x].Id) {
             text = RulesCompany[x].Description;
             ipr = RulesCompany[x].Limit;
+            rule = RulesCompany[x];
             break;
         }
     }
 
-    document.getElementById('TxtRules').value = text;
+    $("#TxtRules").val(text);
     $("#IPR").html(ipr);
+    UpdateResult();
 }

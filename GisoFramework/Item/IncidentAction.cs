@@ -678,7 +678,7 @@ namespace GisoFramework.Item
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                        cmd.Parameters.Add(DataParameter.Input("@IncidentId", objetivoId));
+                        cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", objetivoId));
                         cmd.Connection.Open();
                         using (var rdr = cmd.ExecuteReader())
                         {

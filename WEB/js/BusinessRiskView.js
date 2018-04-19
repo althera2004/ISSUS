@@ -92,8 +92,8 @@ jQuery(function ($) {
         // Si el riesgo es significativo no se puede elegir "NO" en aplicar acción
         if (businessRisk.StartProbability * businessRisk.StartSeverity >= rule.Limit)
         {
-            document.getElementById('ApplyActionNoStart').style.visibility = 'hidden';
-            document.getElementById('ApplyActionNoStart').checked = false;
+            document.getElementById("ApplyActionNoStart").style.visibility = 'hidden';
+            $("#ApplyActionNoStart").removeAttr("checked");
         }
 
         if (businessRisk.Assumed === true) {
@@ -103,10 +103,10 @@ jQuery(function ($) {
         }
         else {
             if (businessRisk.ApplyAction === true) {
-                $("#ApplyActionYesStart").prop('checked', 1);
+                $("#ApplyActionYesStart").prop("checked", 1);
                 ApplyActionTrue();
             }
-            IncidentActionCostRenderTable('IncidentActionCostsTableData');
+            IncidentActionCostRenderTable("IncidentActionCostsTableData");
 
             if (typeof ApplicationUser.Grants.BusinessRisk === "undefined" || ApplicationUser.Grants.BusinessRisk.Write === false) {
                 $("#costes .btn-info").hide();
@@ -206,9 +206,9 @@ function UpdateStartLabels() {
 }
 
 function UpdateResult() {
+    console.log("UpdateResult");
     //Si hay una acción indica que la pestaña inicial está bloqueada
     if (Action.Id > 0) { UpdateStartLabels(); }
-
     
     var probability = businessRisk.StartProbability;
     var severity = businessRisk.StartSeverity;
@@ -232,16 +232,19 @@ function UpdateResult() {
         $("#Result").css("color", probability * severity < rule.Limit ? '#3f3' : '#f33');
     }
     else {
-        $("#Result").html('-');
-        $("#Result").css("color", '#fff');
+        $("#Result").html("-");
+        $("#Result").css("color", "#fff");
     }
 
     if (probability * severity < rule.Limit) {
-        document.getElementById('ApplyActionNoStart').style.visibility = 'visible';
+        $("#ApplyActionNoStart").show();
+        $("#ApplyActionAsumed").hide();
+        $("#StartApplyActionAssumed").attr("checked", false);
     }
     else {
-        document.getElementById('ApplyActionNoStart').style.visibility = 'hidden';
-        document.getElementById('ApplyActionNoStart').checked = false;
+        $("#ApplyActionAsumed").show();
+        $("#ApplyActionNoStart").hide();
+        $("#StartApplyActionNo").attr("checked", false);
     }
 }
 
@@ -458,8 +461,8 @@ function BusinessRiskInsert(previousId) {
     if (document.getElementById('StartApplyActionYes').checked === true) { startAction = 3; }
 
     var result = 0;
-    if (document.getElementById("Result").value !== '' && document.getElementById("Result").value !== '-') {
-        result = document.getElementById("Result").value * 1;
+    if ($("#Result").val() !== "" && $("#Result").val() !== "-") {
+        result = $("#Result").val() * 1;
     }
 
     var data = {
@@ -1453,21 +1456,21 @@ function RenderStartSliders() {
 
     if (Action.Id > 0)
     {
-        $('#StartProbabilityRange').hide();
-        $('#StartSeverityRange').hide();
+        $("#StartProbabilityRange").hide();
+        $("#StartSeverityRange").hide();
     }
 
-    VoidTable('stepsStartProbability');
-    VoidTable('stepsStartSeverity');
+    VoidTable("stepsStartProbability");
+    VoidTable("stepsStartSeverity");
 
     for (var x = MinStepValue; x < 6; x++) {
-        var span = document.createElement('span');
+        var span = document.createElement("span");
         span.id = x;
         span.className = 'tick';
         span.appendChild(document.createTextNode(x));
-        span.appendChild(document.createElement('BR'));
+        span.appendChild(document.createElement("BR"));
         span.appendChild(document.createTextNode('|'));
-        span.style.left = ((100 / (5 - MinStepValue)) * (x - MinStepValue)) + '%';
+        span.style.left = ((100 / (5 - MinStepValue)) * (x - MinStepValue)) + "%";
         document.getElementById('stepsStartProbability').appendChild(span);
         if (Action.Id < 1) {
             span.onclick = function () {
@@ -1477,7 +1480,7 @@ function RenderStartSliders() {
                     UpdateResult();
                 }
             };
-            span.style.cursor = 'default';
+            span.style.cursor = "default";
         }
     }
 

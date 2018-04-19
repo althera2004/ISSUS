@@ -97,7 +97,7 @@ namespace GisoFramework.Item
                                     ObjetivoId = rdr.GetInt32(1),
                                     Date = rdr.GetDateTime(2),
                                     Reason = rdr.GetString(3),
-                                    Employee = new Employee()
+                                    Employee = new Employee
                                     {
                                         Id = rdr.GetInt32(4),
                                         Name = rdr.GetString(5),

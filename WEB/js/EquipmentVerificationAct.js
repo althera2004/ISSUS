@@ -475,14 +475,22 @@ function FillCmbEquipmentVerificationActResponsible() {
 }
 
 function REquipmentVerificationActTypeChanged() {
-    if (document.getElementById('REquipmentVerificationActTypeExternal').checked === true) {
-        document.getElementById('CmbEquipmentVerificationActProviderRow').style.display = '';
+    if (document.getElementById("REquipmentVerificationActTypeExternal").checked === true) {
+        $("CmbEquipmentVerificationActProviderRow").show();
+        $("#TxtEquipmentVerificationActCost").val($("#TxtVerificationExternalCost").val());
     } else {
-        document.getElementById('CmbEquipmentVerificationActProviderRow').style.display = 'none';
+        $("CmbEquipmentVerificationActProviderRow").hide();
+        $("#TxtEquipmentVerificationActCost").val($("#TxtVerificationInternalCost").val());
     }
 }
 
 function ShowDialogEquipmentVerificacionPopup(actionSelected) {
+    if (ToMoneyFormat(Equipment.InternalVerification.Cost, 2) != $("#TxtVerificationInternalCost").val() ||
+        ToMoneyFormat(Equipment.ExternalVerification.Cost, 2) != $("#TxtVerificationExternalCost").val()) {
+        alertUI(Dictionary.Item_Equipment_Message_VerificationChanged);
+        return false;
+    }
+
     FillCmbEquipmentVerificationActProvider();
     FillCmbEquipmentVerificationActResponsible();
     EquipmentVerificationActNewFormReset();
@@ -503,81 +511,82 @@ function ShowDialogEquipmentVerificacionPopup(actionSelected) {
     }
 
     var dialog = $("#dialogEquipmentVerificacionForm").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_EquipmentVerification_PopupNew_Title + '</h4>',
-        title_html: true,
-        width: 400,
-        buttons: [
-                        {
-                            id: 'BtnNewAddresSave',
-                            html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
-                            "class": "btn btn-success btn-xs",
-                            click: function () {
-                                EquipmentVerificationSave();
-                            }
-                        },
-                        {
-                            html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                            "class": "btn btn-xs",
-                            click: function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    ]
-
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentVerification_PopupNew_Title + "</h4>",
+        "title_html": true,
+        "width": 400,
+        "buttons":
+        [
+            {
+                "id": "BtnNewAddresSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
+                "class": "btn btn-success btn-xs",
+                "click": function () {
+                    EquipmentVerificationSave();
+                }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () {
+                    $(this).dialog("close");
+                }
+            }
+        ]
     });
+
+    REquipmentVerificationActTypeChanged();
 }
 
 function EquipmentVerificationSave() {
     var ok = EquipmentVerificationActValidateForm();
     if (ok === false) { return false; }
 
-    var expiration = GetDate($('#TxtEquipmentVerificationActDate').val(), '-');
+    var expiration = GetDate($("#TxtEquipmentVerificationActDate").val(), "-");
     var range = document.getElementById('REquipmentVerificationActTypeInternal').checked ? ($('#TxtVerificationInternalPeriodicity').val() * 1) : ($('#TxtVerificationExternalPeriodicity').val() * 1);
     var uncertainty = document.getElementById('REquipmentVerificationActTypeInternal').checked ? (ParseInputValueToNumber($('#TxtVerificationInternalUncertainty').val())) : (ParseInputValueToNumber($('#TxtVerificationExternalUncertainty').val()));
     SelectedEquipmentVerificationActOperation = document.getElementById('REquipmentVerificationActTypeInternal').checked ? ($('#TxtVerificationInternalOperation').val()) : ($('#TxtVerificationExternalOperation').val());
     expiration.setDate(expiration.getDate() + range * 1);
 
     var cost = null;
-    if ($('#TxtEquipmentVerificationActCost').val() !== '') {
-        cost = ParseInputValueToNumber($('#TxtEquipmentVerificationActCost').val());
+    if ($("#TxtEquipmentVerificationActCost").val() !== "") {
+        cost = ParseInputValueToNumber($("#TxtEquipmentVerificationActCost").val());
     }
-    var result = ParseInputValueToNumber($('#TxtEquipmentVerificationActResult').val());
+    var result = ParseInputValueToNumber($("#TxtEquipmentVerificationActResult").val());
 
     SelectedEquipmentVerificationAct = {
-        Id: SelectedEquipmentVerificationActId,
-        CompanyId: Company.Id,
-        EquipmentId: Equipment.Id,
-        EquipmentVerificationType: document.getElementById('REquipmentVerificationActTypeInternal').checked ? 0 : 1,
-        Result: result,
-        MaxResult: uncertainty,
-        Description: SelectedEquipmentVerificationActOperation,
-        Date: GetDate($('#TxtEquipmentVerificationActDate').val(), '-'),
-        Expiration: expiration,
-        Active: true,
-        Cost: cost,
-        Provider: { Id: $('#CmbEquipmentVerificationActProvider').val() },
-        Responsible: {
-            Id: $('#CmbEquipmentVerificationActResponsible').val(),
-            Value: $("#CmbEquipmentVerificationActResponsible option:selected").text()
+        "Id": SelectedEquipmentVerificationActId,
+        "CompanyId": Company.Id,
+        "EquipmentId": Equipment.Id,
+        "EquipmentVerificationType": document.getElementById("REquipmentVerificationActTypeInternal").checked ? 0 : 1,
+        "Result": result,
+        "MaxResult": uncertainty,
+        "Description": SelectedEquipmentVerificationActOperation,
+        "Date": GetDate($("#TxtEquipmentVerificationActDate").val(), "-"),
+        "Expiration": expiration,
+        "Active": true,
+        "Cost": cost,
+        "Provider": { "Id": $("#CmbEquipmentVerificationActProvider").val() },
+        "Responsible": {
+            "Id": $("#CmbEquipmentVerificationActResponsible").val(),
+            "Value": $("#CmbEquipmentVerificationActResponsible option:selected").text()
         }
     };
 
     if (SelectedEquipmentVerificationActId < 1) {
-        var webMethod = "/Async/EquipmentVerificationActActions.asmx/Insert";
-        var data = { equipmentVerificationAct: SelectedEquipmentVerificationAct, userId: user.Id };
+        var data = { "equipmentVerificationAct": SelectedEquipmentVerificationAct, "userId": user.Id };
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentVerificationActActions.asmx/Insert",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 SelectedEquipmentVerificationAct.Id = msg.d.MessageError * 1;
                 EquipmentVerificationActList.push(SelectedEquipmentVerificationAct);
-                EquipmentVerificationActRenderTable('TableEquipmentVerificationAct');
-                $('#dialogEquipmentVerificacionForm').dialog('close');
+                EquipmentVerificationActRenderTable("TableEquipmentVerificationAct");
+                $("#dialogEquipmentVerificacionForm").dialog("close");
             },
             error: function (msg) {
                 alertUI(msg.responseText);
@@ -585,20 +594,19 @@ function EquipmentVerificationSave() {
         });
     }
     else {
-        var webMethod = "/Async/EquipmentVerificationActActions.asmx/Update";
-        var data = { equipmentVerificationAct: SelectedEquipmentVerificationAct, userId: user.Id };
+        var data = { "equipmentVerificationAct": SelectedEquipmentVerificationAct, "userId": user.Id };
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentVerificationActActions.asmx/Update",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 EquipmentVerificationActListUpdate(SelectedEquipmentVerificationAct);
                 EquipmentVerificationActRenderTable('TableEquipmentVerificationAct');
                 $('#dialogEquipmentVerificacionForm').dialog('close');
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
@@ -607,7 +615,7 @@ function EquipmentVerificationSave() {
 
 function VerificationInternalSave() {
     var validationResult = VerificationInternalValidateForm();
-    if (validationResult != '') {
+    if (validationResult !== "") {
         warningInfoUI(validationResult, null, 300);
         return false;
     }
@@ -617,7 +625,7 @@ function VerificationInternalSave() {
 
 function VerificationExternalSave() {
     var validationResult = VerificationExternalValidateForm();
-    if (validationResult != '') {
+    if (validationResult !== "") {
         warningInfoUI(validationResult, null, 300);
         return false;
     }
@@ -657,7 +665,7 @@ function VerificationInternalValidateForm() {
         return Dictionary.Common_Form_Errors;
     }
 
-    return '';
+    return "";
 }
 
 function VerificationExternalValidateForm() {
@@ -695,7 +703,7 @@ function VerificationExternalValidateForm() {
         return Dictionary.Common_Form_Errors;
     }
 
-    return '';
+    return "";
 }
 
 function EquipmentVerificationInternalDefinitionSave() {
@@ -714,51 +722,48 @@ function EquipmentVerificationInternalDefinitionSave() {
         "Cost": cost,
         "Notes": $("#TxtVerificationInternalNotes").val(),
         "Provider": null,
-        "Responsible": { Id: $("#CmbVerificationInternalResponsible").val() }
+        "Responsible": { "Id": $("#CmbVerificationInternalResponsible").val() }
     }
 
     console.log("EquipmentVerificationInternalDefinitionSave", VerificationInternalDefinition);
 
     if (Equipment.InternalVerification.Id < 1) {
-        var webMethod = "/Async/EquipmentVerificationDefinitionActions.asmx/Insert";
         var data = { equipmentVerificationDefinition: VerificationInternalDefinition, userId: user.Id };
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentVerificationDefinitionActions.asmx/Insert",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 VerificationInternalDefinition.Id = msg.d.MessageError * 1;
                 Equipment.InternalVerification = VerificationInternalDefinition;
                 VerificationInternalExists = true;
                 ShowNewVerificationButton();
                 successInfoUI(Dictionary.Common_Action_Success);
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
     }
     else {
-        var webMethod = "/Async/EquipmentVerificationDefinitionActions.asmx/Update";
-        var data = { equipmentVerificationDefinition: VerificationInternalDefinition, userId: user.Id };
+        var data = { "equipmentVerificationDefinition": VerificationInternalDefinition, "userId": user.Id };
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentVerificationDefinitionActions.asmx/Update",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 Equipment.InternalVerification = VerificationInternalDefinition;
                 successInfoUI(Dictionary.Common_Action_Success);
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
     }
-
 }
 
 function EquipmentVerificationExternalDefinitionSave() {

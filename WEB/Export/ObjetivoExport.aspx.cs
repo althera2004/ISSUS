@@ -22,8 +22,6 @@ using GisoFramework.Item;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PDF_Tests;
-using System.Web.UI.DataVisualization.Charting;
-using DR = System.Drawing;
 
 public partial class ExportObjetivoExport : Page
 {
@@ -113,8 +111,10 @@ public partial class ExportObjetivoExport : Page
 
 
         //------ CRITERIA
-        var criteriatable = new iTSpdf.PdfPTable(4);
-        criteriatable.WidthPercentage = 100;
+        var criteriatable = new iTSpdf.PdfPTable(4)
+        {
+            WidthPercentage = 100
+        };
         criteriatable.SetWidths(new float[] { 20f, 50f, 20f, 150f });
 
         var criteriaBlank = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))

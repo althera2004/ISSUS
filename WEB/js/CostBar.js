@@ -30,8 +30,8 @@ function ShowCostBarPopup(cmb) {
 
 // Common scripts
 function CostRenderPopup() {
-    VoidTable('SelectableCost');
-    var target = document.getElementById('SelectableCost');
+    VoidTable("SelectableCost");
+    var target = document.getElementById("SelectableCost");
     Costs.sort(CompareCosts);
     for (var x = 0; x < Costs.length; x++) {
         CostPopupRow(Costs[x], target)
@@ -46,26 +46,26 @@ function CompareCosts(a, b) {
 
 function CostPopupRow(item, target) {
     if (item.Active === false) return;
-    var tr = document.createElement('tr');
+    var tr = document.createElement("tr");
     tr.id = item.Id;
-    var td1 = document.createElement('td');
-    var td2 = document.createElement('td');
-    td2.align = 'right';
-    var tdActions = document.createElement('td');
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
+    td2.align = "right";
+    var tdActions = document.createElement("td");
     if (CostSelected === item.Id) {
-        td1.style.fontWeight = 'bold';
-        td2.style.fontWeight = 'bold';
+        td1.style.fontWeight = "bold";
+        td2.style.fontWeight = "bold";
     }
 
     td1.appendChild(document.createTextNode(item.Description));
     td2.appendChild(document.createTextNode(ToMoneyFormat(item.Amount, 2)));
 
-    var div = document.createElement('div');
-    var span1 = document.createElement('span');
-    span1.className = 'btn btn-xs btn-success';
+    var div = document.createElement("div");
+    var span1 = document.createElement("span");
+    span1.className = "btn btn-xs btn-success";
     span1.title = Dictionary.Common_SelectAll;
-    var i1 = document.createElement('i');
-    i1.className = 'icon-star bigger-120';
+    var i1 = document.createElement("i");
+    i1.className = "icon-star bigger-120";
     span1.appendChild(i1);
 
     if (CostSelected === item.Id && 1 === 2) {
@@ -466,9 +466,10 @@ function CostChanged(sender) {
     var id = sender.parentNode.parentNode.parentNode.id * 1;
     var cost = GetCostById(id);
     if (cost !== null) {
-        $('#TxtIncidentActionCostDescription').val(cost.Description);
-        $('#TxtIncidentActionCostAmount').val(cost.Amount);
-        $('#TxtIncidentActionCostAmount').focus();
+        console.log("Cost", cost);
+        $("#TxtIncidentActionCostDescription").val(cost.Description);
+        $("#TxtIncidentActionCostAmount").val(ToMoneyFormat(cost.Amount,2));
+        //$("#TxtIncidentActionCostAmount").focus();
     }
 
     $("#dialogCost").dialog('close');
