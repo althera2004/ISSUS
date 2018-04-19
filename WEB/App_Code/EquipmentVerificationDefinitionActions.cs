@@ -43,11 +43,12 @@ public class EquipmentVerificationDefinitionActions : WebService {
     [ScriptMethod]
     public ActionResult Delete(int equipmentVerificationDefinitionId, int companyId, int userId)
     {
-        var victim = new EquipmentVerificationDefinition()
+        var victim = new EquipmentVerificationDefinition
         {
             Id = equipmentVerificationDefinitionId,
             CompanyId = companyId
         };
+
         return victim.Delete(userId);
     }
 }

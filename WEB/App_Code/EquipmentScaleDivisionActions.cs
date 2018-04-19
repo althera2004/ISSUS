@@ -24,7 +24,7 @@ public class EquipmentScaleDivisionActions : WebService {
     [ScriptMethod]
     public ActionResult Insert(string description, int companyId, int userId)
     {
-        var res = new EquipmentScaleDivision()
+        var res = new EquipmentScaleDivision
         {
             Description = description,
             CompanyId = companyId
@@ -42,7 +42,7 @@ public class EquipmentScaleDivisionActions : WebService {
     [ScriptMethod]
     public ActionResult Update(int EquipmentScaleDivisionId, string description, int companyId, int userId)
     {
-        var res = new EquipmentScaleDivision()
+        var res = new EquipmentScaleDivision
         {
             Id = EquipmentScaleDivisionId,
             Description = description,

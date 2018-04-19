@@ -18,6 +18,7 @@ using GisoFramework.Item;
 [ScriptService]
 public class IncidentActionsActions : WebService
 {
+    /// <summary>Initializes a new instance of the IndicentActionActions class</summary>
     public IncidentActionsActions()
     {
     }

@@ -12,17 +12,13 @@ using System.Text;
 using GisoFramework;
 using System;
 
-/// <summary>
-/// Implements asynchronous actions for objetivo
-/// </summary>
+/// <summary>Implements asynchronous actions for objetivo</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
 public class ObjetivoActions : WebService {
 
-    /// <summary>
-    /// Initializes a new instance of the ObjetivoActions class
-    /// </summary>
+    /// <summary>Initializes a new instance of the ObjetivoActions class</summary>
     public ObjetivoActions()
     {
     }

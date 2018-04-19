@@ -163,9 +163,7 @@ namespace GISOWeb
             return res;
         }
 
-        /// <summary>
-        /// Asynchronous action to call source delete
-        /// </summary>
+        /// <summary>Asynchronous action to call source delete</summary>
         /// <param name="procedenciaId">Source identifier</param>
         /// <param name="description">Source description</param>
         /// <param name="companyId">Identifier of source's company</param>
@@ -184,9 +182,7 @@ namespace GISOWeb
             return res;
         }
 
-        /// <summary>
-        /// Asynchronous action to call document update
-        /// </summary>
+        /// <summary>Asynchronous action to call document update</summary>
         /// <param name="oldDocument">Old document data</param>
         /// <param name="newDocument">New document data</param>
         /// <param name="reason">Reason of change</param>

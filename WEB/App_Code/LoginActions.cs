@@ -226,7 +226,7 @@ namespace GISOWeb
             var senderMail = new MailAddress(sender, "ISSUS");
             var to = new MailAddress(ConfigurationManager.AppSettings["mailaddress"]);
 
-            var client = new SmtpClient()
+            var client = new SmtpClient
             {
                 Host = "smtp.scrambotika.com",
                 Credentials = new System.Net.NetworkCredential(sender, pass),
@@ -240,7 +240,7 @@ namespace GISOWeb
             };            
 
             string body = string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 "Se ha reestablecido la contraseña en ISSUS de un administrador primario.<br />User:<b>{0}</b><br/>Empresa:<b>{1}</b>",
                 userName,
                 companyName);

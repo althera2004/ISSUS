@@ -10,9 +10,7 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for LearningActions
-/// </summary>
+/// <summary>Summary description for LearningActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
@@ -25,6 +23,7 @@ public class LearningActions : WebService {
         public int EmployeeId { get; set; }
     }
 
+    /// <summary>Initializes a new instance of the LearningActions class</summary>
     public LearningActions ()
     {
     }
@@ -56,7 +55,7 @@ public class LearningActions : WebService {
                     CompanyId = companyId,
                     Completed = null,
                     Success = null,
-                    Learning = new Learning() { Id = newLearning.Id },
+                    Learning = new Learning { Id = newLearning.Id },
                     Employee = new Employee(assistant.EmployeeId, true)
                 };
 
@@ -97,7 +96,7 @@ public class LearningActions : WebService {
                 CompanyId = companyId,
                 Completed = null,
                 Success = null,
-                Learning = new Learning() { Id = newLearning.Id },
+                Learning = new Learning { Id = newLearning.Id },
                 Employee = new Employee(assistantId, true)
             };
 
@@ -146,7 +145,7 @@ public class LearningActions : WebService {
     public ActionResult Complete(int companyId, AssistantData[] assistants, int userId)
     {
         var res = ActionResult.NoAction;
-        foreach (AssistantData assitant in assistants)
+        foreach (var assitant in assistants)
         {
             res = Assistant.Complete(assitant.AssistantId, companyId, userId);
             if (!res.Success)
@@ -159,7 +158,7 @@ public class LearningActions : WebService {
         {
             string message = "[";
             bool first = true;
-            foreach (AssistantData data in assistants)
+            foreach (var data in assistants)
             {
                 if (first)
                 {
@@ -185,7 +184,7 @@ public class LearningActions : WebService {
     public ActionResult CompleteFail(int companyId, AssistantData[] assistants, int userId)
     {
         var res = ActionResult.NoAction;
-        foreach (AssistantData assitant in assistants)
+        foreach (var assitant in assistants)
         {
             res = Assistant.CompleteFail(assitant.AssistantId, companyId, userId);
             if (!res.Success)
@@ -198,7 +197,7 @@ public class LearningActions : WebService {
         {
             string message = "[";
             bool first = true;
-            foreach (AssistantData data in assistants)
+            foreach (var data in assistants)
             {
                 if (first)
                 {
@@ -209,7 +208,7 @@ public class LearningActions : WebService {
                     message += ",";
                 }
 
-                message += string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
+                message += string.Format(CultureInfo.InvariantCulture, @"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
             }
 
             message += "]";
@@ -237,7 +236,7 @@ public class LearningActions : WebService {
         {
             string message = "[";
             bool first = true;
-            foreach (AssistantData data in assistants)
+            foreach (var data in assistants)
             {
                 if (first)
                 {
@@ -248,7 +247,7 @@ public class LearningActions : WebService {
                     message += ",";
                 }
 
-                message += string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
+                message += string.Format(CultureInfo.InvariantCulture, @"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
             }
 
             message += "]";
@@ -315,7 +314,7 @@ public class LearningActions : WebService {
         {
             string message = "[";
             bool first = true;
-            foreach (AssistantData data in assistants)
+            foreach (var data in assistants)
             {
                 if (first)
                 {
@@ -326,7 +325,7 @@ public class LearningActions : WebService {
                     message += ",";
                 }
 
-                message += string.Format(@"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
+                message += string.Format(CultureInfo.InvariantCulture, @"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
             }
 
             message += "]";

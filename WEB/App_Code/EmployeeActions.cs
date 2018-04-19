@@ -22,6 +22,7 @@ using GisoFramework.Item;
 [ScriptService]
 public class EmployeeActions : WebService {
 
+    /// <summary>Initializes a new instance of the EmployeeActions class</summary>
     public EmployeeActions()
     {
     }

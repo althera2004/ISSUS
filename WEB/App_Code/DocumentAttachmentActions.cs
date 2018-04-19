@@ -15,6 +15,7 @@ using GisoFramework.Item;
 [ScriptService]
 public class DocumentAttachmentActions : WebService {
 
+    /// <summary>Initializes a new instance of the DocumentAttachActions class</summary>
     public DocumentAttachmentActions ()
     {
     }

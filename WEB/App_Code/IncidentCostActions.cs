@@ -9,14 +9,13 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for IncidentCostActions
-/// </summary>
+/// <summary>Summary description for IncidentCostActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
 public class IncidentCostActions : WebService {
 
+    /// <summary>Initializes a new instance of the IncidentCostActions class</summary>
     public IncidentCostActions ()
     { 
     }

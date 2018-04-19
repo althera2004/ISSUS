@@ -6,14 +6,13 @@ using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for IncidentActionsActions
-/// </summary>
+/// <summary>Summary description for IncidentActionsActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
 public class IndicadorActions : WebService {
 
+    /// <summary>Initializes a new instance of the IncidentActionActions class</summary>
     public IndicadorActions()
     {
     }
