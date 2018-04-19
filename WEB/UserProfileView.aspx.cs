@@ -22,9 +22,7 @@ public partial class UserProfileView : Page
     /// <summary> Master of page</summary>
     private Giso master;
 
-    /// <summary>
-    /// User logged in session
-    /// </summary>
+    /// <summary>User logged in session</summary>
     private ApplicationUser user;
 
     /// <summary>Company of session</summary>
@@ -161,8 +159,7 @@ public partial class UserProfileView : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
-            Context.ApplicationInstance.CompleteRequest();
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
@@ -170,14 +167,15 @@ public partial class UserProfileView : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
@@ -240,8 +238,8 @@ public partial class UserProfileView : Page
         this.LtAvatar.Text = avatars.ToString();
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton() { Id = "BtnSave", Text = this.dictionary["Common_Accept"], Icon = "icon-ok", Action = "success" });
-        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton() { Id = "BtnCancel", Text = this.dictionary["Common_Cancel"], Icon = "icon-undo" });
+        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton { Id = "BtnSave", Text = this.dictionary["Common_Accept"], Icon = "icon-ok", Action = "success" });
+        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton { Id = "BtnCancel", Text = this.dictionary["Common_Cancel"], Icon = "icon-undo" });
     }
 
     private void RenderShortCuts()

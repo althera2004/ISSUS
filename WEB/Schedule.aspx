@@ -402,7 +402,7 @@
         }
 
         function FillCalendar() {
-            document.getElementById('ActualMonthLabel').innerHTML = MonthName[referenceDate.getMonth()] + '  ' + referenceDate.getFullYear();
+            $("#ActualMonthLabel").html(MonthName[referenceDate.getMonth()] + " " + referenceDate.getFullYear());
 
             FirstDayOfMonth();
 
@@ -431,18 +431,18 @@
 
 
                 var idCell = x - (idRow - 1) * 7;
-                var id = ('w' + idRow + 'd' + idCell);
+                var id = ("w" + idRow + "d" + idCell);
 
-                if (document.getElementById('w' + idRow + 'd' + idCell + 'n') != null) {
-                    document.getElementById('w' + idRow + 'd' + idCell + 'n').innerHTML = x - firstWeekDay + 1;
-                    document.getElementById('w' + idRow + 'd' + idCell + 'n').className = 'fc-day-number';
+                if (document.getElementById("w" + idRow + "d" + idCell + "n") != null) {
+                    document.getElementById("w" + idRow + "d" + idCell + "n").innerHTML = x - firstWeekDay + 1;
+                    document.getElementById("w" + idRow + "d" + idCell + "n").className = "fc-day-number";
                 }
 
-                if (document.getElementById('w' + idRow + 'd' + idCell + 'd') != null) {
+                if (document.getElementById("w" + idRow + "d" + idCell + "d") != null) {
                     var task = GetTask(referenceDate, (x - firstWeekDay + 1));
-                    document.getElementById('w' + idRow + 'd' + idCell + 'd').innerHTML = '';
+                    document.getElementById("w" + idRow + "d" + idCell + "d").innerHTML = "";
                     if (task != null) {
-                        document.getElementById('w' + idRow + 'd' + idCell + 'd').appendChild(task);
+                        document.getElementById("w" + idRow + "d" + idCell + "d").appendChild(task);
                     }
                 }
             }
@@ -465,18 +465,17 @@
             }
         }
 
-
         function GetTask(day, counter) {
             var dayCode = referenceDate.getFullYear().toString();
             var month = referenceDate.getMonth() + 1
             if (month < 10) {
-                dayCode += '0';
+                dayCode += "0";
             }
 
             dayCode += month.toString();
 
             if (counter < 10) {
-                dayCode += '0';
+                dayCode += "0";
             }
 
             dayCode += (counter).toString();
@@ -491,7 +490,6 @@
         }
 
         function RenderTask(task) {
-
             var href = "EquipmentView";
             switch (task.Type)
             {
@@ -517,63 +515,60 @@
                     break;
             }
 
-            var link = document.createElement('A');
+            var link = document.createElement("A");
             link.href = href;
 
-            //id=1&Tab=calibracion&OperationId=17&Action=27&Type=E
-
-            if (task.Type == 'M') {
-                link.className = 'fc-day-grid-event fc-event';
+            if (task.Type == "M") {
+                link.className = "fc-day-grid-event fc-event";
             }
-            if (task.Type == 'R') {
-                link.className = 'fc-day-grid-event fc-event label-important';
+            if (task.Type == "R") {
+                link.className = "fc-day-grid-event fc-event";
             }
-            if (task.Type == 'C' || task.Type == 'V') {
-                link.className = 'fc-day-grid-event fc-event label-success';
+            if (task.Type == "C" || task.Type == "V") {
+                link.className = "fc-day-grid-event fc-event";
             }
-            if (task.Type == 'I' || task.Type == 'A') {
-                link.className = 'fc-day-grid-event fc-event label-warning';
+            if (task.Type == "I" || task.Type == "A") {
+                link.className = "fc-day-grid-event fc-event";
             }
 
-            var div = document.createElement('DIV');
-            div.className = 'fc-content';
+            var div = document.createElement("DIV");
+            div.className = "fc-content";
             
-            var span1 = document.createElement('SPAN');
-            span1.className = 'fc-time';
-            if (task.Type.charAt(0) == 'M') {
-                span1.innerHTML = '<i class="icon-laptop"></i>&nbsp;';
+            var span1 = document.createElement("SPAN");
+            span1.className = "fc-time";
+            if (task.Type.charAt(0) == "M") {
+                span1.innerHTML = "<i class=\"icon-laptop\"></i>&nbsp;";
                 span1.appendChild(document.createTextNode(Dictionary.Item_EquipmentMaintenance));
             }
-            if (task.Type == 'R') {
-                span1.innerHTML = '<i class="icon-laptop"></i>&nbsp;';
+            if (task.Type == "R") {
+                span1.innerHTML = "<i class=\"icon-laptop\"></i>&nbsp;";
                 span1.appendChild(document.createTextNode(Dictionary.Item_EquipmentRepair));
             }
-            if (task.Type.charAt(0) == 'C') {
-                span1.innerHTML = '<i class="icon-laptop"></i>&nbsp;';
+            if (task.Type.charAt(0) == "C") {
+                span1.innerHTML = "<i class=\"icon-laptop\"></i>&nbsp;";
                 span1.appendChild(document.createTextNode(Dictionary.Item_EquipmentCalibration));
             }
-            if (task.Type.charAt(0) == 'V') {
-                span1.innerHTML = '<i class="icon-laptop"></i>&nbsp;';
+            if (task.Type.charAt(0) == "V") {
+                span1.innerHTML = "<i class=\"icon-laptop\"></i>&nbsp;";
                 span1.appendChild(document.createTextNode(Dictionary.Item_EquipmentVerification));
             }
-            if (task.Type == 'I') {
-                span1.innerHTML = '<i class="icon-warning-sign"></i>&nbsp;';
+            if (task.Type == "I") {
+                span1.innerHTML = "<i class=\"icon-warning-sign\"></i>&nbsp;";
                 span1.appendChild(document.createTextNode(Dictionary.Item_Incident));
             }
-            if (task.Type == 'A') {
-                span1.innerHTML = '<i class="icon-tags"></i>&nbsp;';
+            if (task.Type == "A") {
+                span1.innerHTML = "<i class=\"icon-tags\"></i>&nbsp;";
                 span1.appendChild(document.createTextNode(Dictionary.Item_IncidentAction));
             }
 
-            var span2 = document.createElement('SPAN');
-            span2.className = 'fc-title';
+            var span2 = document.createElement("SPAN");
+            span2.className = "fc-title";
             span2.innerHTML = task.Equipment.Description;
 
             div.appendChild(span1);
-            div.appendChild(document.createElement('BR'));
+            div.appendChild(document.createElement("BR"));
             div.appendChild(span2);
             link.appendChild(div);
-
             return link;
         }
 

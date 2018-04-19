@@ -51,7 +51,7 @@ public partial class ProvidersList : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
@@ -60,7 +60,7 @@ public partial class ProvidersList : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -79,7 +79,7 @@ public partial class ProvidersList : Page
         // Security access control
         if (!this.user.HasGrantToRead(ApplicationGrant.Provider))
         {
-            this.Response.Redirect("NoPrivileges.aspx", false);
+            this.Response.Redirect("NoPrivileges.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
 
@@ -95,8 +95,21 @@ public partial class ProvidersList : Page
             this.master.ButtonNewItem = UIButton.NewItemButton("Item_Provider_Btn_New", "ProvidersView.aspx");
         }
 
-        this.DataHeader = new UIDataHeader() { Id = "ListDataHeader", ActionsItem = 2 };
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Customer_ListHeader_Name"], Sortable = true, Filterable = true });
+        this.DataHeader = new UIDataHeader
+        {
+            Id = "ListDataHeader",
+            ActionsItem = 2
+        };
+
+        this.DataHeader.AddItem(new UIDataHeaderItem
+        {
+            Id = "th0",
+            HeaderId = "ListDataHeader",
+            DataId = "ListDataTable",
+            Text = this.dictionary["Item_Customer_ListHeader_Name"],
+            Sortable = true,
+            Filterable = true
+        });
     }
 
     private void RenderProvidersData()
@@ -106,7 +119,7 @@ public partial class ProvidersList : Page
         var searchedItem = new List<string>();
         bool first = true;
         int contData = 0;
-        foreach (Provider provider in Provider.ByCompany(((Company)Session["Company"]).Id))
+        foreach (var provider in Provider.ByCompany(((Company)Session["Company"]).Id))
         {
             if (!provider.Active)
             {

@@ -112,7 +112,7 @@ public partial class CargosView : Page
             var select = new FormSelect
             {
                 Name = "CmbResponsible",
-                ColumnsSpan = 4,
+                ColumnsSpan = Constant.ColumnSpan4,
                 GrantToWrite = this.GrantToWrite,
                 ChangeEvent = "SelectedResponsible = this.value;",
                 Placeholder = this.dictionary["Common_Responsible"],

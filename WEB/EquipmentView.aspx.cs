@@ -1368,7 +1368,7 @@ public partial class EquipmentView : Page
 
         this.CmbResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 2,
+            ColumnsSpanLabel = Constant.ColumnSpan2,
             Label = this.dictionary["Item_Equipment_Field_Responsible_Label"],
             ColumnsSpan = 3,
             Name = "CmbResponsible",

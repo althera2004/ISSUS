@@ -27,7 +27,7 @@ public partial class UnidadView : Page
         }
     }
 
-    private TabBar tabBar = new TabBar() { Id = "UnidadTabBar" };
+    private TabBar tabBar = new TabBar { Id = "UnidadTabBar" };
 
     public bool IsActual
     {
@@ -49,7 +49,7 @@ public partial class UnidadView : Page
     {
         get
         {
-            return new FormText()
+            return new FormText
             {
                 Name = "TxtName",
                 Value = this.unidad.Description,
@@ -87,20 +87,17 @@ public partial class UnidadView : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
-    /// <summary>
-    /// User logged in session
-    /// </summary>
+    /// <summary>User logged in session</summary>
     private ApplicationUser user;
 
     public string Unidades
     {
         get
         {
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             bool first = true;
-            foreach (Unidad unidad in Unidad.GetActive(((Company)Session["Company"]).Id))
+            foreach (var unidad in Unidad.GetActive(((Company)Session["Company"]).Id))
             {
-
                 if (unidad.Active)
                 {
                     if (first)
@@ -168,48 +165,42 @@ public partial class UnidadView : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
-            Context.ApplicationInstance.CompleteRequest();
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.company = (Company)Session["company"];
@@ -218,28 +209,28 @@ public partial class UnidadView : Page
 
         if (this.Request.QueryString["id"] != null)
         {
-            this.unidadId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
+            this.unidadId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
         string label = "Item_Unidad";
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Unidades", "UnidadList.aspx", false);
+        this.master.AddBreadCrumb("Item_Unidades", "UnidadList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb(label);
         this.master.Titulo = "Item_Unidad_Title";
 
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         if (this.unidadId != -1)
         {
             this.unidad = Unidad.GetById(this.unidadId, this.company.Id);
             if (this.unidad.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.unidad = Unidad.Empty;
             }
@@ -255,9 +246,7 @@ public partial class UnidadView : Page
             this.unidad = Unidad.Empty;
         }
 
-        this.tabBar.AddTab(new Tab() { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Unidad_Tab_Principal"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Unidad_Tab_Principal"] });
         //// this.tabBar.AddTab(new Tab() { Id = "trazas", Label = this.dictionary["Item_Provider_Tab_Traces"], Active = this.ProviderId > 0, Available = this.user.HasTraceGrant() });
-    }
-
-    
+    }    
 }

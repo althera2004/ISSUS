@@ -1373,14 +1373,13 @@ Item_Objetivo_Tab_RecordsFromIndicatorMessage::Els registres pertanyen a l'indic
 Item_Objetivo_TabBasic::Dades bàsiques
 Item_Objetivo_TabGraphics::Gràfics
 Item_Objetivo_TabHistoric::Històric
+Item_Objetivo_TabActions::Accions
 Item_Objetivo_TableRecords_Header_Status::Estat
 Item_Objetivo_TableRecords_Header_Comments::Comentaris
 Item_Objetivo_TableRecords_Header_Date::Data
 Item_Objetivo_TableRecords_Header_Meta::Meta
 Item_Objetivo_TableRecords_Header_Responsible::Responsable
 Item_Objetivo_TableRecords_Header_Value::Valor
-Item_Objetivo_TabRecords::Registres
-Item_Objetivo_TabActions::Accions
 Item_Objetivo_TitleClose::Tancament real
 Item_ObjetivoAction_List_Filter_From::Des de
 Item_ObjetivoAction_List_Filter_ShowActive::Actius

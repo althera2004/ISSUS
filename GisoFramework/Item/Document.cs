@@ -548,14 +548,14 @@ namespace GisoFramework.Item
                 return new Document();
             }
 
-            return GetById(documentId, company.Id);
+            return ById(documentId, company.Id);
         }
 
         /// <summary>Get a document from data base</summary>
         /// <param name="documentId">Document identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>Document objet</returns>
-        public static Document GetById(long documentId, int companyId)
+        public static Document ById(long documentId, int companyId)
         {
             var res = new Document();
             var company = new Company(companyId);
@@ -905,7 +905,7 @@ namespace GisoFramework.Item
                 grantWrite ? dictionary["Common_Edit"] : dictionary["Common_View"],
                 iconRenameFigure);
 
-            string iconDelete = grantDelete ? string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""DocumentDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), dictionary["Common_Delete"]) : string.Empty;
+            string iconDelete = grantDelete ? string.Format(CultureInfo.InvariantCulture, @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""DocumentDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), dictionary["Common_Delete"]) : string.Empty;
 
             var actual = this.LastVersion;
             return string.Format(
@@ -959,29 +959,32 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE Document_LastVersion
              * @DocumentId bigint,
              * @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("Document_LastVersion"))
+            using (var cmd = new SqlCommand("Document_LastVersion"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(DataParameter.Input("@DocumentId", this.Id));
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    using (var rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@DocumentId", this.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    try
                     {
-                        if (rdr.HasRows)
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            rdr.Read();
-                            res = rdr.GetInt32(0);
+                            if (rdr.HasRows)
+                            {
+                                rdr.Read();
+                                res = rdr.GetInt32(0);
+                            }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -995,7 +998,7 @@ namespace GisoFramework.Item
         /// <returns>Result of action with new document identifier if success</returns>
         public ActionResult Insert(int userId, int version)
         {
-            var res = new ActionResult() { Success = false, MessageError = "No action" };
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Document_Insert
              * @DocumentId bigint out,
              * @CompanyId int,

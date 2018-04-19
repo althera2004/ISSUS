@@ -6,20 +6,16 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
-using SbrinnaCoreFramework.UI;
 using SbrinnaCoreFramework;
-using System.IO;
+using SbrinnaCoreFramework.UI;
 
 public partial class ObjetivoView : Page
 {
-    /// <summary>Gets a random value to prevents static cache files/summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -70,9 +66,9 @@ public partial class ObjetivoView : Page
     {
         get
         {
-            if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId.Value > 0)
+            if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId > 0)
             {
-                Indicador indicador = Indicador.ById(this.Objetivo.IndicatorId.Value, this.company.Id);
+                var indicador = Indicador.ById(this.Objetivo.IndicatorId.Value, this.company.Id);
                 return indicador.Description;
             }
 
@@ -84,7 +80,7 @@ public partial class ObjetivoView : Page
     {
         get
         {
-            return IncidentAction.JsonList(IncidentAction.ByObjetivoId(this.objetivoId, this.company.Id));
+            return IncidentAction.ByObjetivoIdJsonList(this.objetivoId, this.company.Id, this.dictionary);
         }
     }
 
@@ -92,9 +88,9 @@ public partial class ObjetivoView : Page
     {
         get
         {
-            if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId.Value > 0)
+            if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId > 0)
             {
-                Indicador indicador = Indicador.ById(this.Objetivo.IndicatorId.Value, this.company.Id);
+                var indicador = Indicador.ById(this.Objetivo.IndicatorId.Value, this.company.Id);
                 return indicador.Json;
             }
 
@@ -162,7 +158,7 @@ public partial class ObjetivoView : Page
     {
         get
         {
-            if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId.Value > 0)
+            if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId > 0)
             {
                 return IndicadorRegistro.ByIndicadorJson(this.Objetivo.IndicatorId.Value, this.company.Id);
             }
@@ -178,7 +174,6 @@ public partial class ObjetivoView : Page
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
@@ -188,23 +183,22 @@ public partial class ObjetivoView : Page
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     private int objetivoId;
@@ -242,7 +236,7 @@ public partial class ObjetivoView : Page
     {
         if (this.Request.QueryString["id"] != null)
         {
-            this.objetivoId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
+            this.objetivoId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
         if (this.Request.QueryString["New"] != null)
@@ -260,7 +254,7 @@ public partial class ObjetivoView : Page
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Objetivos", "ObjetivoList.aspx", false);
+        this.master.AddBreadCrumb("Item_Objetivos", "ObjetivoList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_Objetivo");
         this.master.Titulo = "Item_Objetivo";
         this.formFooter = new FormFooter();
@@ -271,7 +265,7 @@ public partial class ObjetivoView : Page
             this.Objetivo = Objetivo.ById(this.objetivoId, this.company.Id);
             if (this.Objetivo.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.NotLeaft);
                 Context.ApplicationInstance.CompleteRequest();
                 this.Objetivo = Objetivo.Empty;
             }
@@ -293,15 +287,15 @@ public partial class ObjetivoView : Page
             this.Objetivo = Objetivo.Empty;
             this.formFooter.ModifiedBy = this.dictionary["Common_New"];
             this.formFooter.ModifiedOn = DateTime.Now;
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Objetivo_TabBasic"], Available = true });
-        this.tabBar.AddTab(new Tab { Id = "actions", Selected = true, Active = true, Label = this.dictionary["Item_Objetivo_TabBasic"], Available = true });
-        this.tabBar.AddTab(new Tab { Id = "records", Available = true, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabActions"] });
-        this.tabBar.AddTab(new Tab { Id = "graphics", Available = true, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabGraphics"] });
-        this.tabBar.AddTab(new Tab { Id = "historic", Available = true, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabHistoric"] });
+        this.tabBar.AddTab(new Tab { Id = "actions", Available = this.objetivoId > 0, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.dictionary["Item_Objetivo_TabActions"] });
+        this.tabBar.AddTab(new Tab { Id = "records", Available = this.objetivoId > 0, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_Tab_Records"] });
+        this.tabBar.AddTab(new Tab { Id = "graphics", Available = this.objetivoId > 0, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabGraphics"] });
+        this.tabBar.AddTab(new Tab { Id = "historic", Available = this.objetivoId > 0, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabHistoric"] });
 
         this.RenderForm();
     }
@@ -427,8 +421,8 @@ public partial class ObjetivoView : Page
         {
             Id = "TxtFechaCierrePrevista",
             Value = this.Objetivo.PreviewEndDate,
-            ColumnsSpan = 4,
-            ColumnsSpanLabel = 2,
+            ColumnsSpan = Constant.ColumnSpan4,
+            ColumnsSpanLabel = Constant.ColumnSpan2,
             Label = this.dictionary["Item_Objetivo_FieldLabel_ClosePreviewDate"]
         };
 
@@ -436,8 +430,8 @@ public partial class ObjetivoView : Page
         {
             Id = "TxtFechaCierreReal",
             Value = this.Objetivo.EndDate,
-            ColumnsSpan = 4,
-            ColumnsSpanLabel = 2,
+            ColumnsSpan = Constant.ColumnSpan4,
+            ColumnsSpanLabel = Constant.ColumnSpan2,
             Label = this.dictionary["Item_Objetivo_FieldLabel_CloseRealDate"]
         };
     }

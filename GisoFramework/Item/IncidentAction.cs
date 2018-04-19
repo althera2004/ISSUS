@@ -19,9 +19,7 @@ namespace GisoFramework.Item
     using GisoFramework.Item.Binding;
     using System.Web;
 
-    /// <summary>
-    /// Implements IncidentAction class
-    /// </summary>
+    /// <summary>Implements IncidentAction class</summary>
     public class IncidentAction : BaseItem
     {
         #region Fields
@@ -644,6 +642,71 @@ namespace GisoFramework.Item
             return res;
         }
 
+        public static string ByObjetivoIdJsonList(int objetivoId, int companyId, Dictionary<string, string> dictionary)
+        {
+            var res = new StringBuilder("[");
+            bool first = true;
+            foreach (var action in ByObjetivoId(objetivoId, companyId))
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    res.Append(",");
+                }
+
+                decimal total = 0;
+                foreach (var cost in IncidentActionCost.GetByIncidentActionId(action.Id, companyId))
+                {
+                    total += cost.Amount * cost.Quantity;
+                }
+
+                string statusIcon = string.Empty;
+
+                if (action.WhatHappenedOn.HasValue)
+                {
+                    statusIcon = @"<i class=*fa icon-pie-chart* style=*color: rgb(255, 0, 0);* title=*" + dictionary["Item_Incident_Status1"] + "*></i>";
+                }
+
+                if (action.CausesOn.HasValue)
+                {
+                    statusIcon = @"<i class=*fa icon-pie-chart* style=*color: rgb(221, 221, 0);* title=*" + dictionary["Item_Incident_Status2"] + "*></i>";
+                }
+
+                if (action.ActionsOn.HasValue)
+                {
+                    statusIcon = @"<i class=*fa icon-play* style=*color: rgb(0, 119, 0);* title=*" + dictionary["Item_Incident_Status3"] +"*></i>";
+                }
+
+                if (action.ClosedOn.HasValue)
+                {
+                    statusIcon = @"<i class=*fa icon-lock* style=*color: rgb(0, 0, 0);* title=*" + dictionary["Item_Incident_Status4"] + "*></i>";
+                }
+
+                res.AppendFormat(
+                    CultureInfo.InvariantCulture,
+                    @"{{
+                        ""Id"":{0},
+                        ""Description"":""{1}"",
+                        ""Status"": ""{2}"",
+                        ""OpenDate"":""{3:dd/MM/yyyy}"",
+                        ""PreviewDate"":""{4:dd/MM/yyyy}"",
+                        ""Cost"":{5}
+                       }}",
+                    action.Id,
+                    Tools.JsonCompliant(action.Description),
+                    statusIcon,
+                    action.WhatHappenedOn,
+                    action.ActionsOn,
+                    total);
+            }
+
+            res.Append("]");
+            return res.ToString();
+        }
+
         public static string JsonList(ReadOnlyCollection<IncidentAction> list)
         {
             var res = new StringBuilder("[");
@@ -710,7 +773,11 @@ namespace GisoFramework.Item
                                         Id = rdr.GetInt32(ColumnsIncidentActionGet.ModifiedBy),
                                         UserName = rdr.GetString(ColumnsIncidentActionGet.ModifiedByName)
                                     },
-                                    ModifiedOn = rdr.GetDateTime(ColumnsIncidentActionGet.ModifiedOn)
+                                    ModifiedOn = rdr.GetDateTime(ColumnsIncidentActionGet.ModifiedOn),
+                                    Objetivo = new Objetivo
+                                    {
+                                        Id = Convert.ToInt64(objetivoId)
+                                    }
                                 };
 
                                 if (!rdr.IsDBNull(ColumnsIncidentActionGet.CausesId))
@@ -761,17 +828,17 @@ namespace GisoFramework.Item
 
                                 if (newIncidentAction.ReporterType == 1 && !rdr.IsDBNull(ColumnsIncidentActionGet.DepartmentId))
                                 {
-                                    newIncidentAction.Department = new Department() { Id = rdr.GetInt32(ColumnsIncidentActionGet.DepartmentId) };
+                                    newIncidentAction.Department = new Department { Id = rdr.GetInt32(ColumnsIncidentActionGet.DepartmentId) };
                                 }
 
                                 if (newIncidentAction.ReporterType == 2 && !rdr.IsDBNull(ColumnsIncidentActionGet.ProviderId))
                                 {
-                                    newIncidentAction.Provider = new Provider() { Id = rdr.GetInt64(ColumnsIncidentActionGet.ProviderId) };
+                                    newIncidentAction.Provider = new Provider { Id = rdr.GetInt64(ColumnsIncidentActionGet.ProviderId) };
                                 }
 
                                 if (newIncidentAction.ReporterType == 3 && !rdr.IsDBNull(ColumnsIncidentActionGet.CustomerId))
                                 {
-                                    newIncidentAction.Customer = new Customer() { Id = rdr.GetInt64(ColumnsIncidentActionGet.CustomerId) };
+                                    newIncidentAction.Customer = new Customer { Id = rdr.GetInt64(ColumnsIncidentActionGet.CustomerId) };
                                 }
 
                                 res.Add(newIncidentAction);

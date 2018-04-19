@@ -731,7 +731,7 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
         {
-            var res = new ActionResult() { Success = false, MessageError = "no action" };
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Company_Update
              *   @CompanyId int,
              *   @Name nvarchar(50),
@@ -748,10 +748,10 @@ namespace GisoFramework.Item
                     try
                     {
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@Name", this.Name));
-                        cmd.Parameters.Add(DataParameter.Input("@Nif", this.FiscalNumber));
+                        cmd.Parameters.Add(DataParameter.Input("@Name", this.Name, 50));
+                        cmd.Parameters.Add(DataParameter.Input("@Nif", this.FiscalNumber, 15));
                         cmd.Parameters.Add(DataParameter.Input("@DefaultAddress", this.defaultAddress.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@Language", this.Language));
+                        cmd.Parameters.Add(DataParameter.Input("@Language", this.Language, 2));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
@@ -786,7 +786,7 @@ namespace GisoFramework.Item
         /// <summary>Obtain the employees of company</summary>
         public void ObtainEmployees()
         {
-            var source = string.Format(CultureInfo.GetCultureInfo("en-us"), "Compnay::ObtainEmployees() . CompanyId:{0}", this.Id);
+            var source = string.Format(CultureInfo.InvariantCulture, "Company::ObtainEmployees() . CompanyId:{0}", this.Id);
             this.employees = new Collection<Employee>();
             using (var cmd = new SqlCommand("Company_GetEmployees"))
             {

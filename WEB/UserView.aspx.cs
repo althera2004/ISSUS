@@ -60,7 +60,7 @@ public partial class UserView : Page
             var res = new StringBuilder("[");
             var users = ApplicationUser.CompanyUsers(this.company.Id);
             bool first = true;
-            foreach (ApplicationUser userItem in users)
+            foreach (var userItem in users)
             {
                 if(first)
                 {
@@ -193,8 +193,7 @@ public partial class UserView : Page
         this.active = true;
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
-            Context.ApplicationInstance.CompleteRequest();
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
@@ -203,24 +202,23 @@ public partial class UserView : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
             else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
@@ -286,11 +284,11 @@ public partial class UserView : Page
                 res.Append(grant.Render());
                 if (grant.GrantToRead)
                 {
-                    grants += string.Format(CultureInfo.GetCultureInfo("en-us"), "R{0}|", grant.Item.Code);
+                    grants += string.Format(CultureInfo.InvariantCulture, "R{0}|", grant.Item.Code);
                 }
                 if (grant.GrantToWrite)
                 {
-                    grants += string.Format(CultureInfo.GetCultureInfo("en-us"), "W{0}|", grant.Item.Code);
+                    grants += string.Format(CultureInfo.InvariantCulture, "W{0}|", grant.Item.Code);
                 }
 
                 this.Grants.InnerText = grants;
@@ -307,7 +305,7 @@ public partial class UserView : Page
             string grants = "|";
             var res = new StringBuilder();
             var permisos = this.user.EffectiveGrants.OrderBy(o => o.Item.Description).ToList();
-            foreach (UserGrant grant in permisos)
+            foreach (var grant in permisos)
             {
                 grant.GrantToDelete = false;
                 grant.GrantToRead = false;
@@ -331,7 +329,7 @@ public partial class UserView : Page
 
         this.companyUserNames = new StringBuilder();
         bool firstUserName = true;
-        foreach (KeyValuePair<string, int> userName in ApplicationUser.CompanyUserNames(this.company.Id))
+        foreach (var userName in ApplicationUser.CompanyUserNames(this.company.Id))
         {
             if (firstUserName)
             {
@@ -358,30 +356,20 @@ public partial class UserView : Page
         var employees = this.company.EmployessWithoutUser;
         var employeesSorted = employees.ToList();
 
-        bool hasEmployee = false;
         if (this.userItem.Id > 0)
         {
             if (this.userItem.Employee.Id > 0)
             {
                 employeesSorted.Add(this.userItem.Employee);
-                hasEmployee = true;
             }
         }
 
-        if (!hasEmployee)
-        {
-            res.Append(@"<option value=""0"">").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
-        }
-        else
-        {
-            res.Append(@"<option value=""0"">").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
-        }
-
+        res.Append(@"<option value=""0"">").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
         employeesSorted = employeesSorted.OrderBy(e => e.FullName).ToList();
         foreach (var employee in employeesSorted)
         {
             res.AppendFormat(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<option value=""{0}""{2}>{1}</option>",
                 employee.Id,
                 employee.FullName,

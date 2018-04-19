@@ -18,7 +18,7 @@ using SbrinnaCoreFramework.UI;
 public partial class ActionView : Page
 {
     /// <summary> Master of page</summary>
-    private Giso Master;
+    private Giso master;
 
     /// <summary>Company of session</summary>
     private Company Company;
@@ -214,7 +214,7 @@ public partial class ActionView : Page
     {
         get
         {
-            return this.grantToWrite ? "true" : "false";
+            return this.grantToWrite ? Constant.JavascriptTrue : Constant.JavascriptFalse;
         }
     }
 
@@ -231,7 +231,6 @@ public partial class ActionView : Page
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
@@ -241,23 +240,22 @@ public partial class ActionView : Page
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
@@ -280,11 +278,11 @@ public partial class ActionView : Page
         this.user = (ApplicationUser)Session["User"];
         this.Company = (Company)Session["company"];
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
-        this.Master = this.Master as Giso;
-        this.Master.AdminPage = true;
+        this.master = this.Master as Giso;
+        this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.Master.AddBreadCrumb("Item_IncidentActions", "ActionList.aspx", Constant.NotLeaft);
-        this.Master.AddBreadCrumb("Item_IncidentActions_Detail");
+        this.master.AddBreadCrumb("Item_IncidentActions", "ActionList.aspx", Constant.NotLeaft);
+        this.master.AddBreadCrumb("Item_IncidentActions_Detail");
         this.grantToWrite = this.user.HasGrantToWrite(ApplicationGrant.IncidentActions);
         this.Incident = Incident.Empty;
 
@@ -298,8 +296,8 @@ public partial class ActionView : Page
                 this.IncidentAction = IncidentAction.Empty;
             }
 
-            this.Master.TitleInvariant = true;
-            this.Master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_IncidentAction"], this.IncidentAction.Description);
+            this.master.TitleInvariant = true;
+            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_IncidentAction"], this.IncidentAction.Description);
 
             this.formFooter = new FormFooter
             {
@@ -313,7 +311,7 @@ public partial class ActionView : Page
             this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success", ColumnsSpan = 12 });
             this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"], ColumnsSpan = 12 });
 
-            this.Master.ItemCode = this.IncidentAction.Description;
+            this.master.ItemCode = this.IncidentAction.Description;
 
             if (this.IncidentAction.IncidentId > 0)
             {
@@ -334,7 +332,7 @@ public partial class ActionView : Page
         }
         else
         {
-            this.Master.Titulo = "Item_IncidentActions_New_Label";
+            this.master.Titulo = "Item_IncidentActions_New_Label";
             this.IncidentAction = IncidentAction.Empty;
             /*this.formFooter.ModifiedBy = this.dictionary["Nuevo"];
             this.formFooter.ModifiedOn = DateTime.Now;
@@ -385,17 +383,17 @@ public partial class ActionView : Page
 
     public void RenderForm()
     {
-        this.TxtWhatHappened = new FormTextArea { TitleLabel=true,  Rows = 5, Value = this.IncidentAction.WhatHappened, Name = "TxtWhatHappened", Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = 8, ColumnsSpanLabel = 12,MaxLength= Constant.MaximumTextAreaLength, Embedded = true };
-        this.TxtCauses = new FormTextArea { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Causes, Name = "TxtCauses", Label = this.dictionary["Item_IncidentAction_Field_Causes"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
-        this.TxtActions = new FormTextArea { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Actions, Name = "TxtActions", Label = this.dictionary["Item_IncidentAction_Field_Actions"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
+        this.TxtWhatHappened = new FormTextArea { TitleLabel=true,  Rows = 5, Value = this.IncidentAction.WhatHappened, Name = "TxtWhatHappened", Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12,MaxLength= Constant.MaximumTextAreaLength, Embedded = true };
+        this.TxtCauses = new FormTextArea { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Causes, Name = "TxtCauses", Label = this.dictionary["Item_IncidentAction_Field_Causes"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
+        this.TxtActions = new FormTextArea { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Actions, Name = "TxtActions", Label = this.dictionary["Item_IncidentAction_Field_Actions"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
         this.TxtMonitoring = new FormTextArea { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Monitoring, Name = "TxtMonitoring", Label = this.dictionary["Item_IncidentAction_Field_Monitoring"], ColumnsSpan = 12, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
         this.TxtNotes = new FormTextArea { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Notes, Name = "TxtNotes", Label = this.dictionary["Item_IncidentAction_Field_Notes"], ColumnsSpan = 12, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
 
         this.CmbWhatHappenedResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_ResponsibleWhatHappend"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbWhatHappenedResponsible",
             GrantToWrite = this.grantToWrite,
             RequiredMessage = this.dictionary["Common_Required"],
@@ -404,9 +402,9 @@ public partial class ActionView : Page
 
         this.CmbCausesResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_ResponsibleCauses"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbCausesResponsible",
             GrantToWrite = this.grantToWrite,
             RequiredMessage = this.dictionary["Common_Required"],
@@ -415,9 +413,9 @@ public partial class ActionView : Page
 
         this.CmbActionsResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_ResponsibleActions"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionsResponsible",
             GrantToWrite = this.grantToWrite,
             RequiredMessage = this.dictionary["Common_Required"],
@@ -426,9 +424,9 @@ public partial class ActionView : Page
 
         this.CmbActionsExecuter = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_Executer"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionsExecuter",
             GrantToWrite = this.grantToWrite,
             RequiredMessage = this.dictionary["Common_Required"],
@@ -437,9 +435,9 @@ public partial class ActionView : Page
 
         this.CmbClosedResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_ResponsibleClose"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbClosedResponsible",
             GrantToWrite = this.grantToWrite,
             RequiredMessage = this.dictionary["Common_Required"],
@@ -449,7 +447,7 @@ public partial class ActionView : Page
 
         this.CmbClosedExecutor = new FormSelect
         {
-            ColumnsSpanLabel = 2,
+            ColumnsSpanLabel = Constant.ColumnSpan2,
             Label = this.dictionary["Item_IncidentAction_Field_Executer"],
             ColumnsSpan = 3,
             Name = "CmbClosedExecutor",
@@ -562,8 +560,8 @@ public partial class ActionView : Page
         {
             Id = "TxtWhatHappenedDate",
             Label = this.dictionary["Item_IncidentAction_Field_Date"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.IncidentAction.WhatHappenedOn
         };
 
@@ -571,8 +569,8 @@ public partial class ActionView : Page
         {
             Id = "TxtCausesDate",
             Label = this.dictionary["Item_IncidentAction_Field_Date"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.IncidentAction.CausesOn
         };
 
@@ -580,8 +578,8 @@ public partial class ActionView : Page
         {
             Id = "TxtActionsDate",
             Label = this.dictionary["Common_DateExecution"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.IncidentAction.ActionsOn
         };
 
@@ -589,8 +587,8 @@ public partial class ActionView : Page
         {
             Id = "TxtActionsSchedule",
             Label = this.dictionary["Item_IncidentAction_Field_Date"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.IncidentAction.ActionsSchedule
         };
 
@@ -598,8 +596,8 @@ public partial class ActionView : Page
         {
             Id = "TxtClosedDate",
             Label = this.dictionary["Item_IncidentAction_Field_Date"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 6,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan6,
             Value = this.IncidentAction.ClosedOn,
             GrantToWrite = this.grantToWrite,
             Required = true
@@ -609,8 +607,8 @@ public partial class ActionView : Page
         {
             Id = "TxtClosedExecutorDate",
             Label = this.dictionary["Item_IncidentAction_Field_Date"],
-            ColumnsSpanLabel = 2,
-            ColumnsSpan = 2,
+            ColumnsSpanLabel = Constant.ColumnSpan2,
+            ColumnsSpan = Constant.ColumnSpan2,
             Value = this.IncidentAction.ClosedExecutorOn
         };
     }

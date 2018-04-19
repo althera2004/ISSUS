@@ -83,16 +83,16 @@ public partial class IndicadorList : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -134,8 +134,8 @@ public partial class IndicadorList : Page
 
     private void RenderObjetivoList()
     {
-        StringBuilder res = new StringBuilder();
-        foreach (Objetivo objetivo in Objetivo.GetActive(this.company.Id))
+        var res = new StringBuilder();
+        foreach (var objetivo in Objetivo.GetActive(this.company.Id))
         {
             res.AppendFormat(
                 CultureInfo.InvariantCulture,
@@ -149,8 +149,8 @@ public partial class IndicadorList : Page
 
     private void RenderProcessList()
     {
-        StringBuilder res = new StringBuilder();
-        foreach (Process process in Process.ByCompany(this.company.Id))
+        var res = new StringBuilder();
+        foreach (var process in Process.ByCompany(this.company.Id))
         {
             res.AppendFormat(
                 CultureInfo.InvariantCulture,
@@ -164,7 +164,7 @@ public partial class IndicadorList : Page
 
     private void RenderProcessTypeList()
     {
-        StringBuilder res = new StringBuilder();
+        var res = new StringBuilder();
         foreach (ProcessType processType in ProcessType.ObtainByCompany(this.company.Id, this.dictionary))
         {
             res.AppendFormat(

@@ -80,7 +80,7 @@ public partial class CustomersList : Page
         // Security access control
         if (!this.user.HasGrantToRead(ApplicationGrant.Customer))
         {
-            this.Response.Redirect("NoPrivileges.aspx", false);
+            this.Response.Redirect("NoPrivileges.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
 

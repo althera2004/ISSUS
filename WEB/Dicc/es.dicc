@@ -1296,12 +1296,12 @@ Item_Objetivo_Tab_RecordsFromIndicator::Registros del indicador vinculat
 Item_Objetivo_Tab_RecordsFromIndicatorMessage::Los registros pertenecen al indicador ##
 Item_Objetivo_TabBasic::Datos básicos
 Item_Objetivo_TabGraphics::Gráficos
+Item_Objetivo_TabActions::Acciones
 Item_Objetivo_TableRecords_Header_Comments::Comentarios
 Item_Objetivo_TableRecords_Header_Date::Fecha
 Item_Objetivo_TableRecords_Header_Meta::Meta
 Item_Objetivo_TableRecords_Header_Responsible::Responsable
 Item_Objetivo_TableRecords_Header_Value::Valor
-Item_Objetivo_TabRecords::Registros
 Item_Objetivo_TitleClose::Cierre real
 Item_ObjetivoAction_List_Filter_From::Desde
 Item_ObjetivoAction_List_Filter_ShowActive::Activos

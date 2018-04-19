@@ -62,7 +62,7 @@ public partial class Giso : MasterPage
             var res = new StringBuilder(Environment.NewLine).Append("<!-- Havigation history -->").Append(Environment.NewLine);
             foreach(string link in this.navigation)
             {
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "    {0}{1}<br />", link, Environment.NewLine));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "    {0}{1}<br />", link, Environment.NewLine));
             }
 
             res.Append("<!-- -->").Append(Environment.NewLine);
@@ -73,14 +73,8 @@ public partial class Giso : MasterPage
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
-    /// <summary>Indicates if the title of page is translatable</summary>
-    private bool titleInvariant;
-
-    /// <summary>Company of session</summary>
-    private Company company;
-
     /// <summary>Application user logged in session</summary>
-    private ApplicationUser user;
+    public ApplicationUser ApplicationUser { get; set; }
 
     private Collection<BreadcrumbItem> breadCrumb;
 
@@ -90,31 +84,13 @@ public partial class Giso : MasterPage
     {
         get
         {
-            string customCss = string.Format(CultureInfo.GetCultureInfo("en-us"), @"customization/{0}.css", this.company.Id);
+            string customCss = string.Format(CultureInfo.InvariantCulture, @"customization/{0}.css", this.Company.Id);
             if (File.Exists(this.Request.PhysicalApplicationPath + customCss))
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"<link rel=""stylesheet"" href=""{0}"" />", customCss);
+                return string.Format(CultureInfo.InvariantCulture, @"<link rel=""stylesheet"" href=""{0}"" />", customCss);
             }
 
             return "<link rel=\"stylesheet\" href=\"assets/css/ace.min.css\" />";
-        }
-    }
-
-    /// <summary>Gets the JSON representation of company object</summary>
-    public string CompanyJson
-    {
-        get
-        {
-            return this.company.JsonKeyValue;
-        }
-    }
-
-    /// <summary>Gets the JSON representation of appliction logged user</summary>
-    public string ApplicationUserJson
-    {
-        get
-        {
-            return this.user.Json;
         }
     }
 
@@ -195,24 +171,6 @@ public partial class Giso : MasterPage
     /// <summary>Gets or sets a value indicating whether if is an administration page</summary>
     public bool AdminPage { get; set; }
 
-    /// <summary>Gets the avatar of logged user</summary>
-    public string Avatar
-    {
-        get
-        {
-            return this.user.AvatarImage;
-        }
-    }
-
-    /// <summary>Gets a value indicating whether if the actual user has adminitration grants</summary>
-    public bool IsAdmin
-    {
-        get
-        {
-            return this.user.Admin;
-        }
-    }
-
     /// <summary>Gets de breadcrumb elements</summary>
     public Collection<BreadcrumbItem> BreadCrumb
     {
@@ -223,27 +181,7 @@ public partial class Giso : MasterPage
     }
 
     /// <summary>Gets a value indicating whether if the text of title is translatable</summary>
-    public bool TitleInvariant
-    {
-        get
-        {
-            return this.titleInvariant;
-        }
-
-        set
-        {
-            this.titleInvariant = value;
-        }
-    }
-
-    /// <summary>Gets a value indicating whether the company name</summary>
-    public string CompanyName
-    {
-        get
-        {
-            return this.company.Name;
-        }
-    }
+    public bool TitleInvariant { get; set; }
 
     /// <summary>Gets the HTML code for breadcrumb object</summary>
     public string RenderBreadCrumb
@@ -281,20 +219,12 @@ public partial class Giso : MasterPage
     {
         get
         {
-            if(!string.IsNullOrEmpty(this.user.Description))
+            if(!string.IsNullOrEmpty(this.ApplicationUser.Description))
             {
-                return this.user.Description;
+                return this.ApplicationUser.Description;
             }
 
-            return this.user.UserName;
-        }
-    }
-
-    public string UserId
-    {
-        get
-        {
-            return this.user.Id.ToString(CultureInfo.InvariantCulture);
+            return this.ApplicationUser.UserName;
         }
     }
 
@@ -311,31 +241,17 @@ public partial class Giso : MasterPage
     {
         get
         {
-            return this.user.Language;
+            return this.ApplicationUser.Language;
         }
     }
 
-    public string CompanyId
-    {
-        get
-        {
-            return this.company.Id.ToString();
-        }
-    }
-
-    public Company Company
-    {
-        get
-        {
-            return this.company;
-        }
-    }
+    public Company Company { get; private set; }
 
     public string Titulo
     {
         get
         {
-            if (this.titleInvariant)
+            if (this.TitleInvariant)
             {
                 return this.titulo;
             }
@@ -441,32 +357,32 @@ public partial class Giso : MasterPage
         this.LtBuild.Text = ConfigurationManager.AppSettings["issusVersion"];
         if (this.Session["User"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
 
         this.Session["LastTime"] = DateTime.Now;
         this.navigation = Session["Navigation"] as List<string>;
 
-        this.user = Session["User"] as ApplicationUser;
-        this.company = Session["Company"] as Company;
+        this.ApplicationUser = Session["User"] as ApplicationUser;
+        this.Company = Session["Company"] as Company;
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
 
         // Renew session
         //// ---------------------------------
-        this.Session["User"] = this.user;
-        this.Session["Company"] = this.company;
+        this.Session["User"] = this.ApplicationUser;
+        this.Session["Company"] = this.Company;
         this.Session["Dictionary"] = this.dictionary;
         //// ---------------------------------
 
         this.LeftMenu.Text += MenuOption.RenderMenu((ReadOnlyCollection<MenuOption>)Session["Menu"]);
         this.RenderShortCuts();
 
-        string logo = Company.GetLogoFileName(this.company.Id);
+        string logo = Company.GetLogoFileName(this.Company.Id);
         this.ImgCompany.ImageUrl = string.Format("/images/Logos/{0}?ac={1}", logo, Guid.NewGuid());
         this.ImgCompany.Attributes.Add("height", "30");
 
-        var tasks = ScheduledTask.GetByEmployee(this.user.Employee.Id, this.company.Id).Where(t => t.Expiration >= DateTime.Now.AddYears(-1)).ToList();
+        var tasks = ScheduledTask.ByEmployee(this.ApplicationUser.Employee.Id, this.Company.Id).Where(t => t.Expiration >= DateTime.Now.AddYears(-1)).ToList();
         tasks = tasks.OrderByDescending(t => t.Expiration).ToList();
         var printedTasks = new List<ScheduledTask>();
         foreach (var task in tasks)
@@ -488,33 +404,33 @@ public partial class Giso : MasterPage
         var big = new StringBuilder(@"<div class=""sidebar-shortcuts-large"" id=""sidebar-shortcuts-large"">");
         var small = new StringBuilder(@"<div class=""sidebar-shortcuts-mini"" id=""sidebar-shortcuts-mini"">");
         bool showShortCuts = false;
-        if (this.user.MenuShortcuts != null)
+        if (this.ApplicationUser.MenuShortcuts != null)
         {
-            if (this.user.MenuShortcuts.Blue != null && !string.IsNullOrEmpty(this.user.MenuShortcuts.Blue.Label))
+            if (this.ApplicationUser.MenuShortcuts.Blue != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Blue.Label))
             {
                 showShortCuts = true;
-                big.Append(string.Format(@"<button type=""button"" class=""btn btn-info"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.user.MenuShortcuts.Blue.Link, this.Dictionary[this.user.MenuShortcuts.Blue.Label], this.user.MenuShortcuts.Blue.Icon));
+                big.Append(string.Format(@"<button type=""button"" class=""btn btn-info"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Blue.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Blue.Label], this.ApplicationUser.MenuShortcuts.Blue.Icon));
                 small.Append(@"<span class=""btn btn-info""></span>");
             }
 
-            if (this.user.MenuShortcuts.Green != null && !string.IsNullOrEmpty(this.user.MenuShortcuts.Green.Label))
+            if (this.ApplicationUser.MenuShortcuts.Green != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Green.Label))
             {
                 showShortCuts = true;
-                big.Append(string.Format(@"<button type=""button"" class=""btn btn-success"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.user.MenuShortcuts.Green.Link, this.Dictionary[this.user.MenuShortcuts.Green.Label], this.user.MenuShortcuts.Green.Icon));
+                big.Append(string.Format(@"<button type=""button"" class=""btn btn-success"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Green.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Green.Label], this.ApplicationUser.MenuShortcuts.Green.Icon));
                 small.Append(@"<span class=""btn btn-success""></span>");
             }
 
-            if (this.user.MenuShortcuts.Red != null && !string.IsNullOrEmpty(this.user.MenuShortcuts.Red.Label))
+            if (this.ApplicationUser.MenuShortcuts.Red != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Red.Label))
             {
                 showShortCuts = true;
-                big.Append(string.Format(@"<button type=""button"" class=""btn btn-danger"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.user.MenuShortcuts.Red.Link, this.Dictionary[this.user.MenuShortcuts.Red.Label], this.user.MenuShortcuts.Red.Icon));
+                big.Append(string.Format(@"<button type=""button"" class=""btn btn-danger"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Red.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Red.Label], this.ApplicationUser.MenuShortcuts.Red.Icon));
                 small.Append(@"<span class=""btn btn-danger""></span>");
             }
 
-            if (this.user.MenuShortcuts.Yellow != null && !string.IsNullOrEmpty(this.user.MenuShortcuts.Yellow.Label))
+            if (this.ApplicationUser.MenuShortcuts.Yellow != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Yellow.Label))
             {
                 showShortCuts = true;
-                big.Append(string.Format(@"<button type=""button"" class=""btn btn-warning"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.user.MenuShortcuts.Yellow.Link, this.Dictionary[this.user.MenuShortcuts.Yellow.Label], this.user.MenuShortcuts.Yellow.Icon));
+                big.Append(string.Format(@"<button type=""button"" class=""btn btn-warning"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Yellow.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Yellow.Label], this.ApplicationUser.MenuShortcuts.Yellow.Icon));
                 small.Append(@"<span class=""btn btn-warning""></span>");
             }
         }
@@ -546,7 +462,7 @@ public partial class Giso : MasterPage
         var alertsTags = new List<string>();
         foreach (var alertDefinition in show)
         {
-            if (!this.user.HasGrantToRead(alertDefinition.ItemType))
+            if (!this.ApplicationUser.HasGrantToRead(alertDefinition.ItemType))
             {
                 continue;
             }

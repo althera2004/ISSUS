@@ -418,7 +418,7 @@ public partial class BusinessRiskView : Page
             {
                 Id = "DateStart",
                 Value = this.businessRisk.DateStart,
-                ColumnsSpan = 2
+                ColumnsSpan = Constant.ColumnSpan2
             }.Render;
         }
     }
@@ -510,7 +510,7 @@ public partial class BusinessRiskView : Page
             return new FormDatePicker
             { 
                 Id = "TxtFinalDate",
-                ColumnsSpan = 6,
+                ColumnsSpan = Constant.ColumnSpan6,
                 GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
                 Value = this.businessRisk.FinalDate
             }.Render;
@@ -551,7 +551,7 @@ public partial class BusinessRiskView : Page
                 Value = this.IncidentAction.WhatHappened,
                 Name = "TxtActionWhatHappened",
                 Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"],
-                ColumnsSpan = 8,
+                ColumnsSpan = Constant.ColumnSpan8,
                 ColumnsSpanLabel = 12,
                 Embedded = true,
                 MaxLength = Constant.MaximumTextAreaLength
@@ -569,7 +569,7 @@ public partial class BusinessRiskView : Page
                 Value = this.IncidentAction.Causes,
                 Name = "TxtActionCauses",
                 Label = this.dictionary["Item_IncidentAction_Field_Causes"],
-                ColumnsSpan = 8,
+                ColumnsSpan = Constant.ColumnSpan8,
                 ColumnsSpanLabel = 12,
                 Embedded = true,
                 MaxLength = Constant.MaximumTextAreaLength
@@ -587,7 +587,7 @@ public partial class BusinessRiskView : Page
                 Value = this.IncidentAction.Actions,
                 Name = "TxtActionActions",
                 Label = this.dictionary["Item_IncidentAction_Field_Actions"],
-                ColumnsSpan = 8,
+                ColumnsSpan = Constant.ColumnSpan8,
                 ColumnsSpanLabel = 12,
                 Embedded = true,
                 MaxLength = Constant.MaximumTextAreaLength
@@ -643,8 +643,8 @@ public partial class BusinessRiskView : Page
             {
                 Id = "TxtActionWhatHappenedDate",
                 Label = this.dictionary["Common_Date"],
-                ColumnsSpanLabel = 4,
-                ColumnsSpan = 8,
+                ColumnsSpanLabel = Constant.ColumnSpan4,
+                ColumnsSpan = Constant.ColumnSpan8,
                 Value = this.IncidentAction.WhatHappenedOn
             }.Render;
         }
@@ -658,8 +658,8 @@ public partial class BusinessRiskView : Page
             {
                 Id = "TxtActionCausesDate",
                 Label = this.dictionary["Common_Date"],
-                ColumnsSpanLabel = 4,
-                ColumnsSpan = 8,
+                ColumnsSpanLabel = Constant.ColumnSpan4,
+                ColumnsSpan = Constant.ColumnSpan8,
                 Value = this.IncidentAction.CausesOn
             }.Render;
         }
@@ -673,8 +673,8 @@ public partial class BusinessRiskView : Page
             {
                 Id = "TxtActionActionsDate",
                 Label = this.dictionary["Common_DateExecution"],
-                ColumnsSpanLabel = 4,
-                ColumnsSpan = 8,
+                ColumnsSpanLabel = Constant.ColumnSpan4,
+                ColumnsSpan = Constant.ColumnSpan8,
                 Value = this.IncidentAction.ActionsOn
             }.Render;
         }
@@ -688,8 +688,8 @@ public partial class BusinessRiskView : Page
             {
                 Id = "TxtActionActionsSchedule",
                 Label = this.dictionary["Common_Date"],
-                ColumnsSpanLabel = 4,
-                ColumnsSpan = 8,
+                ColumnsSpanLabel = Constant.ColumnSpan4,
+                ColumnsSpan = Constant.ColumnSpan8,
                 Value = this.IncidentAction.ActionsSchedule
             }.Render;
         }
@@ -703,8 +703,8 @@ public partial class BusinessRiskView : Page
             {
                 Id = "TxtActionClosedDate",
                 Label = this.dictionary["Common_Date"],
-                ColumnsSpanLabel = 4,
-                ColumnsSpan = 6,
+                ColumnsSpanLabel = Constant.ColumnSpan4,
+                ColumnsSpan = Constant.ColumnSpan6,
                 Value = this.IncidentAction.ClosedOn,
                 Required = true
             }.Render;
@@ -999,9 +999,9 @@ public partial class BusinessRiskView : Page
     {
         this.ComboActionWhatHappenedResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_ResponsibleWhatHappend"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionWhatHappenedResponsible",
             GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
             Required = true,
@@ -1011,9 +1011,9 @@ public partial class BusinessRiskView : Page
 
         this.ComboActionCausesResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_ResponsibleCauses"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionCausesResponsible",
             GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
             Required = true,
@@ -1023,9 +1023,9 @@ public partial class BusinessRiskView : Page
 
         this.ComboActionActionsResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_ResponsibleActions"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionActionsResponsible",
             GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
             Required = true,
@@ -1035,9 +1035,9 @@ public partial class BusinessRiskView : Page
 
         this.ComboActionActionsExecuter = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionActionsExecuter",
             GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
             Required = true,
@@ -1047,9 +1047,9 @@ public partial class BusinessRiskView : Page
 
         this.ComboActionClosedResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_ResponsibleClose"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionClosedResponsible",
             GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
             Required = true,

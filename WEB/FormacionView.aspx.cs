@@ -162,7 +162,7 @@ public partial class FormacionView : Page
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (!int.TryParse(this.Request.QueryString["id"], out test))
@@ -198,7 +198,7 @@ public partial class FormacionView : Page
             this.learning = new Learning(this.learningId, this.company.Id);
             if (this.learning.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.learning = Learning.Empty;
             }
@@ -223,7 +223,7 @@ public partial class FormacionView : Page
         this.master = this.Master as Giso;
         this.master.TitleInvariant = this.learningId != -1;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Learnings", "FormacionList.aspx", false);
+        this.master.AddBreadCrumb("Item_Learnings", "FormacionList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_Learning_Edit");
         this.master.Titulo = label;
 

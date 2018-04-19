@@ -109,7 +109,7 @@ public partial class DashBoard : Page
     {
         var searchItems = new List<string>();
         var tasksJson = new StringBuilder("[");
-        var tasks = ScheduledTask.GetByEmployee(this.user.Employee.Id, this.company.Id).Where(t => t.Expiration >= Constant.Now.AddYears(-1)).ToList();
+        var tasks = ScheduledTask.ByEmployee(this.user.Employee.Id, this.company.Id).Where(t => t.Expiration >= Constant.Now.AddYears(-1)).ToList();
         var printedTasks = new List<ScheduledTask>();
         var res = new StringBuilder();
         tasks = tasks.OrderByDescending(t => t.Expiration).ToList();

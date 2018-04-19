@@ -101,7 +101,7 @@ public partial class Agreement : Page
         }
 
         string text = string.Empty;
-        using(StreamReader rdr = new StreamReader(path))
+        using(var rdr = new StreamReader(path))
         {
             text = rdr.ReadToEnd();
         }

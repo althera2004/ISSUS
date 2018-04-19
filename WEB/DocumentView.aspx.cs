@@ -29,23 +29,15 @@ public partial class DocumentView : Page
     private Giso master;
 
     /// <summary>Application user logged in session</summary>
-    private ApplicationUser user;
+    public ApplicationUser ApplicationUser { get; private set; }
 
     /// <summary>Company of session</summary>
-    private Company company;
+    public Company Company { get; private set; }
 
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
     private FormFooter formFooter;
-
-    public string UserLanguage
-    {
-        get
-        {
-            return this.user.Language;
-        }
-    }
 
     public string FormFooter
     {
@@ -69,62 +61,21 @@ public partial class DocumentView : Page
         }
     }
 
-    public bool ShowHelp
-    {
-        get
-        {
-            return this.user.ShowHelp;
-        }
-    }
-
     public bool Trace
     {
         get
         {
-            return this.user.HasGrantToRead(ApplicationGrant.Trace);
-        }
-    }
-
-    /// <summary>Gets a value indicating if user has Admin privileges in Company</summary>
-    public bool Admin
-    {
-        get
-        {
-            return this.user.Admin;
+            return this.ApplicationUser.HasGrantToRead(ApplicationGrant.Trace);
         }
     }
 
     public string DocumentAttachActual { get; set; }
 
-    public string CompanyId
-    {
-        get
-        {
-            return this.company.Id.ToString(CultureInfo.GetCultureInfo("en-us"));
-        }
-    }
-
-    public string UserId
-    {
-        get
-        {
-            return this.master.UserId;
-        }
-    }
-
-    public string UserName
-    {
-        get
-        {
-            return this.master.UserName;
-        }
-    }
-
     public string CategoriasJson
     {
         get
         {
-            var categories = DocumentCategory.ByCompany(this.company.Id);
+            var categories = DocumentCategory.ByCompany(this.Company.Id);
             var res = new StringBuilder("[");
             bool first = true;
             foreach (var category in categories)
@@ -149,7 +100,7 @@ public partial class DocumentView : Page
     {
         get
         {
-            return DocumentAttach.JsonList(new ReadOnlyCollection<DocumentAttach>(DocumentAttach.ByDocument(this.documentId, this.company.Id).Where(d => d.Active == true).ToList()));
+            return DocumentAttach.JsonList(new ReadOnlyCollection<DocumentAttach>(DocumentAttach.ByDocument(this.documentId, this.Company.Id).Where(d => d.Active == true).ToList()));
         }
     }
 
@@ -157,7 +108,7 @@ public partial class DocumentView : Page
     {
         get
         {
-            var origins = DocumentOrigin.ByCompany(this.company.Id);
+            var origins = DocumentOrigin.ByCompany(this.Company.Id);
             var res = new StringBuilder("[");
             bool first = true;
             foreach (var origin in origins)
@@ -213,7 +164,7 @@ public partial class DocumentView : Page
         {
             var res = new StringBuilder();
             bool first = true;
-            foreach (var document in Document.GetByCompany(this.company))
+            foreach (var document in Document.GetByCompany(this.Company))
             {
                 if (first)
                 {
@@ -252,61 +203,59 @@ public partial class DocumentView : Page
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             int test = 0;
-            this.user = this.Session["User"] as ApplicationUser;
+            this.ApplicationUser = this.Session["User"] as ApplicationUser;
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
-            if (!UniqueSession.Exists(token, this.user.Id))
+            if (!UniqueSession.Exists(token, this.ApplicationUser.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
-        this.company = (Company)Session["company"];
+        this.Company = (Company)Session["company"];
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
-        this.user = Session["User"] as ApplicationUser;
+        this.ApplicationUser = Session["User"] as ApplicationUser;
 
         if (this.Request.QueryString["id"] != null)
         {
-            this.documentId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
+            this.documentId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
         string label = this.documentId == -1 ? "Item_Document_Button_New" : "Item_Document_Tab_Details";
         this.master = this.Master as Giso;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Documents", "Documents.aspx", false);
+        this.master.AddBreadCrumb("Item_Documents", "Documents.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb(label);
         this.master.Titulo = label;
         this.formFooter = new FormFooter();
 
         if (this.documentId != -1)
         {
-            this.documento = Document.GetById(this.documentId, this.company.Id);
+            this.documento = Document.ById(this.documentId, this.Company.Id);
             if (this.documento.Id == 0)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.documento = new Document();
             }
@@ -345,7 +294,7 @@ public partial class DocumentView : Page
         this.DocumentAttachActual = "null";
         var firstDate = DateTime.Now;
         var rows = new List<DocumentVersionRow>();
-        var attachs = DocumentAttach.ByDocument(this.documentId, this.company.Id).Where(d=>d.Active == true).ToList();
+        var attachs = DocumentAttach.ByDocument(this.documentId, this.Company.Id).Where(d=>d.Active == true).ToList();
         foreach (var version in this.documento.Versions)
         {
             string fileName = string.Empty;
@@ -374,7 +323,7 @@ public partial class DocumentView : Page
                 Extension = extension,
                 Reason = version.Reason,
                 AprovedBy = version.UserCreateName,
-                CompanyId = this.company.Id
+                CompanyId = this.Company.Id
             });
         }
 
@@ -382,7 +331,7 @@ public partial class DocumentView : Page
         foreach(var row in rows.OrderByDescending(r=>r.Version).ThenByDescending(r=>r.Date))
         {
             firstDate = row.Date;
-            string rowText = row.Render(this.dictionary, this.user.Grants);
+            string rowText = row.Render(this.dictionary, this.ApplicationUser.Grants);
 
             string extension = rowText.Replace("window.open(", "^"); ;
             if (extension.IndexOf("^") != -1)
@@ -411,7 +360,7 @@ public partial class DocumentView : Page
         }
 
         this.LtHistorico.Text = res.ToString();
-        this.FirstVersionDate = string.Format(CultureInfo.GetCultureInfo("en-us"), "new Date({0:yyyy}, {0:MM} - 1, {0:dd})", firstDate);
+        this.FirstVersionDate = string.Format(CultureInfo.InvariantCulture, "new Date({0:yyyy}, {0:MM} - 1, {0:dd})", firstDate);
     }
 
     private void FillCmbConservacion()

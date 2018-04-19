@@ -389,7 +389,7 @@ public partial class IncidentView : Page
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Incidents", "IncidentList.aspx", false);
+        this.master.AddBreadCrumb("Item_Incidents", "IncidentList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_Incident_Detail");
         this.grantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Incident);
 
@@ -398,7 +398,7 @@ public partial class IncidentView : Page
             this.Incident = Incident.GetById(this.IncidentId, this.company.Id);
             if (this.Incident.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.Incident = Incident.Empty;
             }
@@ -503,61 +503,61 @@ public partial class IncidentView : Page
 
     public void RenderForm()
     {
-        this.TxtWhatHappened = new FormTextArea { Rows = 3, Value = this.Incident.WhatHappened, Name = "TxtWhatHappened", Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = 8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
-        this.TxtCauses = new FormTextArea { Rows = 3, Value = this.Incident.Causes, Name = "TxtCauses", Label = this.dictionary["Item_Incident_Field_Causes"], ColumnsSpan = 8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
-        this.TxtActions = new FormTextArea { Rows = 3, Value = this.Incident.Actions, Name = "TxtActions", Label = this.dictionary["Item_Incident_Field_Actions"], ColumnsSpan = 8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
+        this.TxtWhatHappened = new FormTextArea { Rows = 3, Value = this.Incident.WhatHappened, Name = "TxtWhatHappened", Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
+        this.TxtCauses = new FormTextArea { Rows = 3, Value = this.Incident.Causes, Name = "TxtCauses", Label = this.dictionary["Item_Incident_Field_Causes"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
+        this.TxtActions = new FormTextArea { Rows = 3, Value = this.Incident.Actions, Name = "TxtActions", Label = this.dictionary["Item_Incident_Field_Actions"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
         this.TxtAnotations = new FormTextArea { Rows = 3, Value = this.Incident.Annotations, Name = "TxtAnotations", Label = this.dictionary["Item_Incident_Field_Anotations"], MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
         this.TxtNotes = new FormTextArea { Rows = 3, Value = this.Incident.Notes, Name = "TxtNotes", Label = this.dictionary["Item_Incident_Field_Notes"], ColumnsSpan = 12, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
 
         this.CmbWhatHappenedResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_Incident_Field_WhatHappenedResponsible"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbWhatHappenedResponsible",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = FormSelectOption.DefaultOption(this.dictionary)
         };
 
         this.CmbCausesResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_Incident_Field_CausesResponsible"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbCausesResponsible",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = FormSelectOption.DefaultOption(this.dictionary)
         };
 
         this.CmbActionsResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_Incident_Field_ActionsResponsible"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionsResponsible",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = FormSelectOption.DefaultOption(this.dictionary)
         };
 
         this.CmbActionsExecuter = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_Incident_Field_ActionsExecuter"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionsExecuter",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = FormSelectOption.DefaultOption(this.dictionary)
         };
 
         this.CmbClosedResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_Incident_Field_CloseResponsible"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbClosedResponsible",
             GrantToWrite = this.grantToWrite,
             RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" },
+            DefaultOption = FormSelectOption.DefaultOption(this.dictionary),
             Required = true
         };
 
@@ -626,7 +626,7 @@ public partial class IncidentView : Page
             ColumnsSpan = 12,
             Name = "CmbReporterType1",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectOne"], Value = "0" }
+            DefaultOption = FormSelectOption.DefaultOption(this.dictionary)
         };
 
         this.CmbReporterProvider = new FormSelect
@@ -634,7 +634,7 @@ public partial class IncidentView : Page
             ColumnsSpan = 12,
             Name = "CmbReporterType2",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectOne"], Value = "0" }
+            DefaultOption = FormSelectOption.DefaultOption(this.dictionary)
         };
 
         this.CmbReporterCustomer = new FormSelect
@@ -642,7 +642,7 @@ public partial class IncidentView : Page
             ColumnsSpan = 12,
             Name = "CmbReporterType3",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectOne"], Value = "0" }
+            DefaultOption = FormSelectOption.DefaultOption(this.dictionary)
         };
 
         this.TxtDescription = new FormText
@@ -661,8 +661,8 @@ public partial class IncidentView : Page
         {
             Id = "TxtWhatHappenedDate",
             Label = this.dictionary["Item_Incident_Field_WhatHappenedDate"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.Incident.WhatHappenedOn,
             GrantToWrite = this.grantToWrite
         };
@@ -671,8 +671,8 @@ public partial class IncidentView : Page
         {
             Id = "TxtCausesDate",
             Label = this.dictionary["Item_Incident_Field_CausesDate"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.Incident.CausesOn,
             GrantToWrite = this.grantToWrite
         };
@@ -681,8 +681,8 @@ public partial class IncidentView : Page
         {
             Id = "TxtActionsDate",
             Label = this.dictionary["Common_DateExecution"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.Incident.ActionsOn,
             GrantToWrite = this.grantToWrite
         };
@@ -691,8 +691,8 @@ public partial class IncidentView : Page
         {
             Id = "TxtActionsSchedule",
             Label = this.dictionary["Item_Incident_Field_ActionsSchedule"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.Incident.ActionsSchedule,
             GrantToWrite = this.grantToWrite
         };
@@ -701,8 +701,8 @@ public partial class IncidentView : Page
         {
             Id = "TxtClosedDate",
             Label = this.dictionary["Item_Incident_Field_CloseDate"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 6,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan6,
             Value = this.Incident.ClosedOn,
             GrantToWrite = this.grantToWrite,
             Required = true
@@ -711,17 +711,17 @@ public partial class IncidentView : Page
 
     public void RenderActionForm()
     {
-        this.TxtActionWhatHappened = new FormTextArea { Rows = 5, Value = this.IncidentAction.WhatHappened, Name = "TxtActionWhatHappened", Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
-        this.TxtActionCauses = new FormTextArea { Rows = 5, Value = this.IncidentAction.Causes, Name = "TxtActionCauses", Label = this.dictionary["Item_IncidentAction_Field_Causes"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
-        this.TxtActionActions = new FormTextArea { Rows = 5, Value = this.IncidentAction.Actions, Name = "TxtActionActions", Label = this.dictionary["Item_IncidentAction_Field_Actions"], ColumnsSpan = 8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
+        this.TxtActionWhatHappened = new FormTextArea { Rows = 5, Value = this.IncidentAction.WhatHappened, Name = "TxtActionWhatHappened", Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
+        this.TxtActionCauses = new FormTextArea { Rows = 5, Value = this.IncidentAction.Causes, Name = "TxtActionCauses", Label = this.dictionary["Item_IncidentAction_Field_Causes"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
+        this.TxtActionActions = new FormTextArea { Rows = 5, Value = this.IncidentAction.Actions, Name = "TxtActionActions", Label = this.dictionary["Item_IncidentAction_Field_Actions"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
         this.TxtActionMonitoring = new FormTextArea { Rows = 5, Value = this.IncidentAction.Monitoring, Name = "TxtActionMonitoring", Label = this.dictionary["Item_IncidentAction_Field_Monitoring"], MaxLength = Constant.MaximumTextAreaLength };
         this.TxtActionNotes = new FormTextArea { Rows = 5, Value = this.IncidentAction.Notes, Name = "TxtActionNotes", Label = this.dictionary["Item_IncidentAction_Field_Notes"], MaxLength = Constant.MaximumTextAreaLength };
 
         this.CmbActionWhatHappenedResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionWhatHappenedResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
@@ -731,9 +731,9 @@ public partial class IncidentView : Page
 
         this.CmbActionCausesResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionCausesResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
@@ -743,9 +743,9 @@ public partial class IncidentView : Page
 
         this.CmbActionActionsResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionActionsResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
@@ -755,9 +755,9 @@ public partial class IncidentView : Page
 
         this.CmbActionActionsExecuter = new FormSelect
         {
-            ColumnsSpanLabel = 4,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
-            ColumnsSpan = 8,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionActionsExecuter",
             GrantToWrite = this.grantToWrite,
             Required = true,
@@ -767,9 +767,9 @@ public partial class IncidentView : Page
 
         this.CmbActionClosedResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 2,
+            ColumnsSpanLabel = Constant.ColumnSpan2,
             Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
-            ColumnsSpan = 6,
+            ColumnsSpan = Constant.ColumnSpan6,
             Name = "CmbActionClosedResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
@@ -855,8 +855,8 @@ public partial class IncidentView : Page
         {
             Id = "TxtActionWhatHappenedDate",
             Label = this.dictionary["Common_Date"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.IncidentAction.WhatHappenedOn
         };
 
@@ -864,8 +864,8 @@ public partial class IncidentView : Page
         {
             Id = "TxtActionCausesDate",
             Label = this.dictionary["Common_Date"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.IncidentAction.CausesOn
         };
 
@@ -873,8 +873,8 @@ public partial class IncidentView : Page
         {
             Id = "TxtActionActionsDate",
             Label = this.dictionary["Common_DateExecution"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.IncidentAction.ActionsOn
         };
 
@@ -882,8 +882,8 @@ public partial class IncidentView : Page
         {
             Id = "TxtActionActionsSchedule",
             Label = this.dictionary["Common_Date"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.IncidentAction.ActionsSchedule
         };
 
@@ -891,8 +891,8 @@ public partial class IncidentView : Page
         {
             Id = "TxtActionClosedDate",
             Label = this.dictionary["Common_Date"],
-            ColumnsSpanLabel = 2,
-            ColumnsSpan = 2,
+            ColumnsSpanLabel = Constant.ColumnSpan2,
+            ColumnsSpan = Constant.ColumnSpan2,
             Value = this.IncidentAction.ClosedOn,
             Required = true
         };

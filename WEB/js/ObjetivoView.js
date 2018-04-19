@@ -28,6 +28,8 @@ window.onload = function () {
 
         $("#BtnAnular").on("click", AnularPopup);
         $("#BtnRestaurar").on("click", Restore);
+
+        RenderActionsTable();
     }
 
 
@@ -87,11 +89,14 @@ window.onload = function () {
 window.onresize = function () { Resize(); }
 
 function Resize() {
+    console.log("Resize");
     var listTable = document.getElementById("ListDataDiv");
     var histTable = document.getElementById("ListDataDivHistorico");
+    var acctTable = document.getElementById("ListDataDivActions");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 500) + "px";
+    listTable.style.height = (containerHeight - 494) + "px";
     histTable.style.height = (containerHeight - 370) + "px";
+    acctTable.style.height = (containerHeight - 451) + "px";
 }
 
 function IndicatorVinculatedLayout() {
@@ -146,6 +151,7 @@ function CmbIndicadorChanged() {
     }
 }
 
+var newObjetivo = ItemData.Id < 1;
 function Save() {
     var validationResult = Validate();
     if (validationResult != "") {
@@ -205,11 +211,17 @@ function Save() {
         data: JSON.stringify(data, null, 2),
         success: function (response) {
             LoadingHide();
+            console.log(response.d);
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
             else {
-                document.location = referrer;
+                if (newObjetivo === true) {
+                    document.location = "ObjetivoView.aspx?id=" + response.d.MessageError;
+                }
+                else {
+                    document.location = referrer;
+                }
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -623,9 +635,7 @@ function ObjetivoRegistroNone() {
 
 var selectedRecordId = null;
 
-function PreRecordNew() {
-    
-}
+function PreRecordNew() { }
 
 function RecordNew() {
     // TRELLO "El lado oscuro"
@@ -1401,4 +1411,35 @@ function RenderHistoricoRow(data) {
     tr.appendChild(tdEmployee);
 
     target.appendChild(tr);
+}
+
+var totalCostActions = 0;
+function RenderActionsTable() {
+    $("#NumberCostsActions").html(Actions.length);
+    totalCostActions = 0;
+    if (Actions.length > 0) {
+        var res = "";
+        for (var x = 0; x < Actions.length; x++) {
+            res += RenderActionsRow(Actions[x]);
+        }
+        $("#ObjetivoActionsTable").html(res);
+        $("#NumberCostsActionsTotal").html(ToMoneyFormat(totalCostActions,2));
+    }
+    else {
+        $("#NumberCostsActionsTotal").html(ToMoneyFormat(0, 2));
+    }
+}
+
+function RenderActionsRow(actionData) {
+    totalCostActions += actionData.Cost;
+    var res = "<tr id=\"" + actionData.Id + "\">";
+    res += "<td><a href=\"ActionView.aspx?id=" + actionData.Id + "\">" + actionData.Description + "</a></td>";
+    res += "<td align=\"center\" style=\"width: 100px;\">" + actionData.OpenDate + "</td>";
+    res += "<td align=\"center\" style=\"width:60px;\">" + actionData.Status.split('*').join('"') + "</td>";
+    res += "<td align=\"center\" style=\"width: 100px;\">" + actionData.PreviewDate + "</td>";
+    res += "<td align=\"right\" style=\"width:150px;\">" + ToMoneyFormat(actionData.Cost, 2) + "</td>";
+    res += "<td style=\"width:45px;\">";
+    res += "    <span class=\"btn btn-xs btn-info\" id=\"00001\"><i class=\"icon-edit bigger- 120\"></i></span>";
+    res += "</td></tr>";
+    return res;
 }

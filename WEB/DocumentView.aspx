@@ -8,15 +8,15 @@
     <script type="text/javascript">
         var documento = <%=this.DocumentoJson %>;
         var documentId = <%=this.DocumentId %>;
-        var companyId = <%=this.CompanyId %>;
-        var userId = <%=this.UserId %>;
-        var userName = '<%=this.UserName %>';
+        var companyId = <%=this.Company.Id %>;
+        var userId = <%=this.ApplicationUser.Id %>;
+        var userName = "<%=this.ApplicationUser.UserName %>";
         var categorias = <%= this.CategoriasJson %>;
         var procedencias = <%= this.ProcedenciasJson %>;
         var sourceSelected = documentId === -1 ? false : documento.Source ? 2 : 1;
         var categorySelected = documentId === -1 ? 0 : documento.Category.Id;
         var procedenciaSelected = documentId === -1 ? 0 : documento.Origin.Id;
-        var selectedReason = '';
+        var selectedReason = "";
         var companyDocuments = [<%=this.CompanyDocuments %>];
         var firstDate = <%=this.FirstVersionDate%>;
         var attachs = <%=this.Attachs%>;
@@ -515,11 +515,11 @@
                 $("#TxtRevision").css("text-align", "right");
                 $("#TxtConservacion").css("text-align", "right");
                
-                var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true });
+                var options = $.extend({}, $.datepicker.regional["<%=this.ApplicationUser.Language %>"], { autoclose: true, todayHighlight: true });
                 $("#TxtEndDate").datepicker(options);
                 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
-                var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true, maxDate: firstDate });
+                var options = $.extend({}, $.datepicker.regional["<%=this.ApplicationUser.Language %>"], { autoclose: true, todayHighlight: true, maxDate: firstDate });
                 $(".date-picker_start").datepicker(options);
                 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 

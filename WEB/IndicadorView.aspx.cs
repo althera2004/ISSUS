@@ -370,7 +370,7 @@ public partial class IndicadorView : Page
         {
             ColumnsSpanLabel = 1,
             Label = this.dictionary["Item_Indicador_Field_Unidad"],
-            ColumnsSpan = 2,
+            ColumnsSpan = Constant.ColumnSpan2,
             Name = "CmdUnidad",
             GrantToWrite = this.grantToWrite,
             DefaultOption = new FormSelectOption() { Text = "...", Value = "0" }
@@ -534,8 +534,8 @@ public partial class IndicadorView : Page
         {
             Id = "TxtEndDate",
             Label = this.dictionary["Item_Indicador_Field_EndDate"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.Indicador.EndDate,
             GrantToWrite = this.grantToWrite
         };

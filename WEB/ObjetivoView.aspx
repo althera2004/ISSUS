@@ -15,7 +15,7 @@
             padding-bottom:4px !important;
             margin-bottom:12px !important;
         }
-        #scrollTableDiv, #scrollTableDivHistorico{
+        #scrollTableDiv, #scrollTableDivHistorico, #scrollTableDivActions{
             background-color:#fafaff;
             border:1px solid #e0e0e0;
             border-top:none;
@@ -169,7 +169,7 @@
                                                 </div>
 
                                                 <div id="actions" class="tab-pane">
-                                                    <h4 id="ActionsListTitle"><%=this.Dictionary["Item_Objetivo_Tab_Actions"] %></h4>
+                                                    <h4 id="ActionsListTitle"><%=this.Dictionary["Item_Objetivo_TabActions"] %></h4>
                                                     <div class="row">
                                                         <label id="TxtActionsFromDateLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_From"] %></label>
                                                         <div class="col-sm-2">
@@ -208,29 +208,19 @@
                                                         <table class="table table-bordered table-striped" style="margin-top: 4px; margin-bottom: 0;">
                                                             <thead class="thin-border-bottom" id="RegistrosTHeadActions">
                                                                 <tr>
-                                                                    <td colspan="8" style="text-align: right;">
-                                                                        <span title="<%=this.Dictionary["Common_PrintPdf"] %>" class="btn btn-xs btn-info" onclick="lockOrderList=true;ObjetivoActionsFilter('PDF');"><i class="icon-file-pdf bigger-120"></i>&nbsp;PDF</span>
-                                                                        &nbsp;
-                                                                        <span title="<%=this.Dictionary["Common_PrintExcel"] %>" class="btn btn-xs btn-info" onclick="lockOrderList=true;ObjetivoActionsFilter('Excel');"><i class="icon-file-excel bigger-120"></i>&nbsp;Excel</span>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <th id="th0" style="width: 35px;"></th>
-                                                                    <th id="th1" onclick="Sort(this,'ObjetivoActionsTable','money',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Value"]%></th>
-                                                                    <th id="th2" onclick="Sort(this,'ObjetivoActionsTable','date',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Date"]%></th>
-                                                                    <th id="th3"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Comments"]%></th>
-                                                                    <th id="th4" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th>
-                                                                    <!--th id="th4" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></!--th>
-                                                                    <!--<th id="th5" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Alarm"]%></th>-->
-                                                                    <th id="th5" onclick="Sort(this,'ObjetivoActionsTable','text',false);" class="sort" style="width: 175px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Responsible"]%></th>
-                                                                    <th style="width: 107px;">&nbsp;</th>
+                                                                    <th id="th0" onclick="Sort(this,'ObjetivoActionsTable','text',false);" class="sort" ><%=this.Dictionary["Item_IncidentAction_Header_Description"]%></th>
+                                                                    <th id="th1" onclick="Sort(this,'ObjetivoActionsTable','date',false);" class="sort" style="width: 100px;"><%=this.Dictionary["Item_IncidentAction_Header_Open"]%></th>
+                                                                    <th id="th2" onclick="Sort(this,'ObjetivoActionsTable','text',false);" class="sort" style="width: 60px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"]%></th>
+                                                                    <th id="th3" onclick="Sort(this,'ObjetivoActionsTable','date',false);" class="sort"  style="width: 100px;"><%=this.Dictionary["Item_IncidentAction_Header_ImplementDate"]%></th>
+                                                                    <th id="th4" onclick="Sort(this,'ObjetivoActionsTable','money',false);" class="sort" style="width: 150px;"><%=this.Dictionary["Item_IncidentAction_Header_Cost"]%></th>
+                                                                    <th style="width: 63px;">&nbsp;</th>
                                                                 </tr>
                                                             </thead>
                                                         </table>
                                                         <div id="ListDataDivActions" style="overflow: scroll; overflow-x: hidden; padding: 0;">
                                                             <table class="table table-bordered table-striped" style="border-top: none;">
                                                                 <tbody id="ObjetivoActionsTable">
-                                                                    <asp:Literal runat="server" ID="Literal1"></asp:Literal>
+                                                                    <asp:Literal runat="server" ID="LtAccionesData"></asp:Literal>
                                                                 </tbody>
                                                                 <tfoot id="ItemTableVoidActions" style="display: none; height: 100%;">
                                                                     <tr>
@@ -281,6 +271,17 @@
 																            <span id="NumberCostsActions"></span>
 															            </i>
 														            </th>
+                                                                    <th style="color:#aaa;text-align:right;">
+															            <i>
+																            <%=this.Dictionary["Common_Total"] %>:
+															            </i>
+														            </th>
+                                                                    <th style="color:#aaa;width:150px;text-align:right;">
+															            <i>
+																            <span id="NumberCostsActionsTotal"></span>
+															            </i>
+														            </th>
+                                                                    <th style="width:63px;">&nbsp;</th>
                                                                 </tr>
                                                             </thead>
                                                         </table>
@@ -558,6 +559,6 @@
         <script type="text/javascript" src="/assets/js/dx.chartjs.js"></script>
         <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/Chart.js?ac=<%=this.AntiCache %>"></script>
-        <script type="text/javascript" src="/js/ObjetivoView.js"></script>
+        <script type="text/javascript" src="/js/ObjetivoView.js?ac=<%=this.AntiCache %>"></script>
 </asp:Content>
 

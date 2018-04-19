@@ -392,14 +392,14 @@ public partial class EmployeesView : Page
         this.active = true;
         if (Session["User"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -407,7 +407,7 @@ public partial class EmployeesView : Page
                 int test = 0;
                 if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
                 {
-                    this.Response.Redirect("NoAccesible.aspx", true);
+                    this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                     Context.ApplicationInstance.CompleteRequest();
                 }
             }
