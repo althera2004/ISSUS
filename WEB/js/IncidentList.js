@@ -39,8 +39,8 @@ jQuery(function ($) {
 });
 
 function IncidentListGetAll() {
-    document.getElementById("BtnRecordShowAll").style.display = "none";
-    document.getElementById("BtnRecordShowNone").style.display = "";
+    //document.getElementById("BtnRecordShowAll").style.display = "none";
+    //document.getElementById("BtnRecordShowNone").style.display = "";
     var ok = true;
     VoidTable("ListDataTable");
 
@@ -259,7 +259,7 @@ function IncidentGetFilter(exportType) {
         "success": function (msg) {
             eval("IncidentList=" + msg.d + ";");
             ItemRenderTable(IncidentList);
-            if (typeof exportType !== "undefined" && exportType !== "null") {
+            if (typeof exportType !== "undefined" && exportType !== "null" && exportType === "PDF") {
                 ExportPDF();
             }
         },
@@ -600,6 +600,20 @@ function Resize() {
 window.onload = function () {
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
     Resize();
+
+    $("#ROrigin0").on("click", IncidentGetFilter);
+    $("#ROrigin1").on("click", IncidentGetFilter);
+    $("#ROrigin2").on("click", IncidentGetFilter);
+    $("#ROrigin3").on("click", IncidentGetFilter);
+    $("#CmbOrigin1").on("click", IncidentGetFilter);
+    $("#CmbOrigin2").on("click", IncidentGetFilter);
+    $("#CmbOrigin3").on("click", IncidentGetFilter);
+    $("#RIncidentStatus1").on("click", IncidentGetFilter);
+    $("#RIncidentStatus2").on("click", IncidentGetFilter);
+    $("#RIncidentStatus3").on("click", IncidentGetFilter);
+    $("#RIncidentStatus4").on("click", IncidentGetFilter);
+    $("#TxtDateFrom").on("change", IncidentGetFilter);
+    $("#TxtDateTo").on("change", IncidentGetFilter);
 }
 
 window.onresize = function () { Resize(); }

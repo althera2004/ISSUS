@@ -480,7 +480,9 @@ function REquipmentVerificationActTypeChanged() {
         $("#TxtEquipmentVerificationActCost").val($("#TxtVerificationExternalCost").val());
     } else {
         $("CmbEquipmentVerificationActProviderRow").hide();
-        $("#TxtEquipmentVerificationActCost").val($("#TxtVerificationInternalCost").val());
+        if (document.getElementById("REquipmentVerificationActTypeInternal").checked === true) {
+            $("#TxtEquipmentVerificationActCost").val($("#TxtVerificationInternalCost").val());
+        }
     }
 }
 
@@ -496,13 +498,13 @@ function ShowDialogEquipmentVerificacionPopup(actionSelected) {
     EquipmentVerificationActNewFormReset();
 
     if (actionSelected == "-1") {
-        document.getElementById('REquipmentVerificationActTypeInternal').checked = true;
-        document.getElementById('REquipmentVerificationActTypeExternal').disabled = true;
+        document.getElementById("REquipmentVerificationActTypeInternal").checked = true;
+        document.getElementById("REquipmentVerificationActTypeExternal").disabled = true;
     }
 
     if (actionSelected == "-2") {
-        document.getElementById('REquipmentVerificationActTypeExternal').checked = true;
-        document.getElementById('REquipmentVerificationActTypeInternal').disabled = true;
+        document.getElementById("REquipmentVerificationActTypeExternal").checked = true;
+        document.getElementById("REquipmentVerificationActTypeInternal").disabled = true;
     }
 
     if (!document.getElementById('VerificationInternalActive').checked && !document.getElementById('VerificationExternalActive').checked) {
@@ -536,6 +538,7 @@ function ShowDialogEquipmentVerificacionPopup(actionSelected) {
         ]
     });
 
+    $("#TxtEquipmentVerificationActCost").val("");
     REquipmentVerificationActTypeChanged();
 }
 

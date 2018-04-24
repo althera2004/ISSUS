@@ -54,7 +54,7 @@
                                             <td><input type="checkbox" id="chkStatus4"/>&nbsp;<%=this.Dictionary["Item_IndicentAction_Status4"] %></td>
                                             
                                             <td>
-                                                <button class="btn btn-success" style="width:100px;" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
+                                                <button class="btn btn-success" style="width:100px;display:none;" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
                                                 <button class="btn btn-success" style="width:100px;" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%= this.Dictionary["Common_All_Male_Plural"] %></button>
                                                 <button class="btn btn-success" style="width:100px;display:none;" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%= this.Dictionary["Common_None_Male"] %></button>
                                             </td>
@@ -244,16 +244,16 @@
 
             $('#BtnRecordShowAll').on('click', function (e) {
                 e.preventDefault();
-                EquipmentRecordGetAll();
+                IncidentActionGetAll();
             });
 
             $('#BtnRecordShowNone').on('click', function (e){
                 e.preventDefault();
-                EquipmentRecordGetNone();
+                IncidentActionGetNone();
             });
         });
 
-        function EquipmentRecordGetNone() {
+        function IncidentActionGetNone() {
             document.getElementById('BtnRecordShowAll').style.display = '';
             document.getElementById('BtnRecordShowNone').style.display = 'none';
             
@@ -271,9 +271,9 @@
             VoidTable('ListDataTable');
         }
 
-        function EquipmentRecordGetAll() {
-            document.getElementById('BtnRecordShowAll').style.display = 'none';
-            document.getElementById('BtnRecordShowNone').style.display = '';
+        function IncidentActionGetAll() {
+            //document.getElementById('BtnRecordShowAll').style.display = 'none';
+            //document.getElementById('BtnRecordShowNone').style.display = '';
 
             document.getElementById('TxtDateFrom').value = '';
             document.getElementById('TxtDateTo').value = '';

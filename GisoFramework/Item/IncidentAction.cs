@@ -117,6 +117,27 @@ namespace GisoFramework.Item
         {
             get
             {
+                long objetivoId = 0;
+                if(this.Objetivo != null)
+                {
+                    objetivoId = this.Objetivo.Id;
+                }
+
+                if(this.Department == null)
+                {
+                    this.Department = Department.Empty;
+                }
+
+                if(this.Provider == null)
+                {
+                    this.Provider = Provider.Empty;
+                }
+
+                if(this.Customer == null)
+                {
+                    this.Customer = Customer.Empty;
+                }
+
                 var res = new StringBuilder("{").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("Id", this.Id)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(",").Append(Environment.NewLine).Append("\t");
@@ -130,7 +151,7 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("Number", this.Number)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("IncidentId", this.IncidentId)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("BusinessRiskId", this.BusinessRiskId)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("ObjetivoId", this.Objetivo.Id)).Append(",").Append(Environment.NewLine).Append("\t");
+                res.Append(Tools.JsonPair("ObjetivoId", objetivoId)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("WhatHappened", this.WhatHappened)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("WhatHappenedBy", this.WhatHappenedBy)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("WhatHappenedOn", this.WhatHappenedOn)).Append(",").Append(Environment.NewLine).Append("\t");

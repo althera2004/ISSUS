@@ -46,25 +46,43 @@ function ObjetivoGetFilter(exportType) {
     console.log(filterData);
 
     $.ajax({
-        type: "POST",
-        url: "/Async/ObjetivoActions.asmx/GetFilter",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(filterData, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/ObjetivoActions.asmx/GetFilter",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(filterData, null, 2),
+        "success": function (msg) {
             eval("ObjetivosList=" + msg.d + ";");
             console.log(msg.d);
             ItemRenderTable(ObjetivosList);
-            if (exportType !== "undefined") {
+            if (exportType !== "undefined" && exportType !== null) {
                 if (exportType === "PDF") {
                     ExportPDF();
                 }
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
+}
+
+function ObjetivoGetNone() {
+    document.getElementById("BtnRecordShowAll").style.display = "";
+    document.getElementById("BtnRecordShowNone").style.display = "none";
+    document.getElementById("RBStatus1").checked = true;
+    document.getElementById("TxtDateFrom").value = "";
+    document.getElementById("TxtDateTo").value = "";
+    VoidTable("ListDataTable");
+}
+
+function ObjetivoGetAll() {
+    //document.getElementById("BtnRecordShowAll").style.display = "none";
+    //document.getElementById("BtnRecordShowNone").style.display = "";
+    document.getElementById("RBStatus0").checked = true;
+    document.getElementById("TxtDateFrom").value = "";
+    document.getElementById("TxtDateTo").value = "";
+    ObjetivoGetFilter();
 }
 
 function ItemRenderTable(list) {
@@ -288,6 +306,29 @@ window.onload = function () {
     // Descomentar si se imprimie lista
     Resize();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;")
+
+    $("#TxtDateFrom").on("change", ObjetivoGetFilter);
+    $("#TxtDateTo").on("change", ObjetivoGetFilter);
+    $("#RBStatus0").on("click", ObjetivoGetFilter);
+    $("#RBStatus1").on("click", ObjetivoGetFilter);
+    $("#RBStatus2").on("click", ObjetivoGetFilter);
+
+    if (Filter != null) {
+        console.log("Filter", Filter);
+        document.getElementById("TxtDateFrom").value = GetDateYYYYMMDDText(Filter.from, "/", false);
+        document.getElementById("TxtDateTo").value = GetDateYYYYMMDDText(Filter.to, "/", false);
+        if (Filter.status === 0) { document.getElementById("RBStatus0").checked = true; }
+        if (Filter.status === 1) { document.getElementById("RBStatus1").checked = true; }
+        if (Filter.status === 2) { document.getElementById("RBStatus2").checked = true; }
+    }
+    else {
+
+        document.getElementById("RBStatus1").checked = true;
+    }
+
+    console.log("Filter", Filter);
+
+    ObjetivoGetFilter();
 }
 
 window.onresize = function () { Resize(); }

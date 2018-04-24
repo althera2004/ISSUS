@@ -55,10 +55,6 @@
                                             </td>
                                             <td colspan="2">
                                                 <div class="row">
-                                                    <!--<label id="ChkClosedLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %></label>										
-                                                    <div class="col-xs-9 col-sm-9 tooltip-info">
-                                                        <input type="checkbox" id="ChkClosed" />
-                                                    </div>-->
                                                     <input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %>
                                                     <input type="radio" name="RBStatus" id="RBStatus1" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowActive"] %>
                                                     <input type="radio" name="RBStatus" id="RBStatus2" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %>
@@ -95,13 +91,13 @@
                                             <td style="width:250px;padding-left:20px;display:none;">  
                                             </td>
                                             <td>
-                                                <select id="CmbProcessType" class="col-sm-12" style="display:none;max-width:300px;">
+                                                <select id="CmbProcessType" class="col-sm-12" style="display:none;max-width:300px;" onchange="CmbProcessTypeChanged();">
                                                     <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>
                                                     <asp:Literal runat="server" ID="LtProcessTypeList"></asp:Literal>
                                                 </select> 
                                             </td>
                                             <td colspan="2" align="right">
-                                                <button style="width:100px;" class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
+                                                <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
                                                 <button style="width:100px;" class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%= this.Dictionary["Common_All_Male_Plural"] %></button>
                                                 <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%= this.Dictionary["Common_None_Male"] %></button>
                                             </td>

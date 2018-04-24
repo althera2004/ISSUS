@@ -58,8 +58,8 @@ function BusinessRiskUpdate(id, name) {
 }
 
 function BussinesRiskListGetAll() {
-    document.getElementById("BtnRecordShowAll").style.display = "none";
-    document.getElementById("BtnRecordShowNone").style.display = "";
+    //document.getElementById("BtnRecordShowAll").style.display = "none";
+    //document.getElementById("BtnRecordShowNone").style.display = "";
     var ok = true;
     VoidTable("ItemTableData");
     $("#CmbRules").val(0);
@@ -84,6 +84,7 @@ function BusinessRiskListGetNone() {
 }
 
 function BusinessRiskGetFilter(exportType) {
+    console.log("BusinessRiskGetFilter", exportType);
     var ok = true;
     VoidTable("ListDataTable");
 
@@ -427,28 +428,6 @@ function BusinessRiskRenderTable(list) {
     }
 }
 
-window.onload = function () {
-    if (Filter !== null) {
-        if (Filter.rulesId !== null) {
-            $("#CmbRules").val(Filter.rulesId);
-        }
-        if (Filter.processId !== null) {
-            $("#CmbProcess").val(Filter.processId);
-        }
-        if (Filter.type !== null) {
-            $("#CmbType").val(Filter.type);
-        }
-        if (Filter.from !== null) {
-            $("#TxtDateFrom").val(GetDateYYYYMMDDText(Filter.from, '/', false));
-        }
-        if (Filter.to !== null) {
-            $("#TxtDateTo").val(GetDateYYYYMMDDText(Filter.to, '/', false));
-        }
-    }
-
-        BusinessRiskGetFilter();
-}
-
 function RuleGetById(id)
 {
     for(var x=0;x<CompanyRules.length;x++)
@@ -584,9 +563,37 @@ function Resize() {
 }
 
 window.onload = function () {
-    Resize();
     $("#BtnRecordShowAll").click();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
+    if (Filter !== null) {
+        if (Filter.rulesId !== null) {
+            $("#CmbRules").val(Filter.rulesId);
+        }
+
+        if (Filter.processId !== null) {
+            $("#CmbProcess").val(Filter.processId);
+        }
+
+        if (Filter.type !== null) {
+            $("#CmbType").val(Filter.type);
+        }
+
+        if (Filter.from !== null) {
+            $("#TxtDateFrom").val(GetDateYYYYMMDDText(Filter.from, '/', false));
+        }
+
+        if (Filter.to !== null) {
+            $("#TxtDateTo").val(GetDateYYYYMMDDText(Filter.to, '/', false));
+        }
+    }
+
+    $("#CmbRules").on("change", BusinessRiskGetFilter);
+    $("#CmbProcess").on("change", BusinessRiskGetFilter);
+    $("#TxtDateFrom").on("change", BusinessRiskGetFilter);
+    $("#TxtDateTo").on("change", BusinessRiskGetFilter);
+
+    BusinessRiskGetFilter();
+    Resize();
 }
 window.onresize = function () { Resize(); }
 

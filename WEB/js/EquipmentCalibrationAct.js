@@ -479,12 +479,14 @@ function FillCmbEquipmentCalibrationActResponsible() {
 }
 
 function REquipmentCalibrationActTypeChanged() {
-    if (document.getElementById('REquipmentCalibrationActTypeExternal').checked === true) {
+    if (document.getElementById("REquipmentCalibrationActTypeExternal").checked === true) {
         $("#CmbEquipmentCalibrationActProviderRow").show();
         $("#TxtEquipmentCalibrationActCost").val($("#TxtCalibrationExternalCost").val());
     } else {
         $("#CmbEquipmentCalibrationActProviderRow").hide();
-        $("#TxtEquipmentCalibrationActCost").val($("#TxtCalibrationInternalCost").val());
+        if (document.getElementById("REquipmentCalibrationActTypeInternal").checked === true) {
+            $("#TxtEquipmentCalibrationActCost").val($("#TxtCalibrationInternalCost").val());
+        }
     }
 }
 
@@ -543,6 +545,7 @@ function ShowDialogNewCalibrationPopup(actionSelected) {
 
     });
 
+    $("#TxtEquipmentCalibrationActCost").val();
     REquipmentCalibrationActTypeChanged();
 }
 

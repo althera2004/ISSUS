@@ -146,7 +146,7 @@
                                             <td style="width: 25px;">&nbsp;</td>
                                             <td style="width: 25px;">&nbsp;</td>
                                             <td style="width:180px;">
-                                                <div class="col-sm-3" style="text-align:right;">
+                                                <div class="col-sm-3" style="text-align:right;display:none;">
                                             <button class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></button>                                        
                                         </div>
                                         <div class="col-sm-2" style="text-align:right;">&nbsp;</div>
@@ -157,14 +157,6 @@
                                             </td> 
                                         </tr>
                                     </table>
-                                    <!--div class="row">
-                                        <div class="col-sm-6"></div>
-                                        <div class="col-sm-6" style="text-align:right;">
-                                            <button class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></button>                                        
-                                            <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
-                                            <button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
-                                        </div>
-                                    </div-->
                                 </div> 
                                 <div style="height:8px;clear:both;"></div>
                                 <div class="tabbable">
@@ -324,11 +316,6 @@
                 $("#BtnRecordShowAll").on("click", function (e) {
                     e.preventDefault();
                     BussinesRiskListGetAll();
-                });
-
-                $("#BtnRecordShowNone").on("click", function (e) {
-                    e.preventDefault();
-                    BusinessRiskListGetNone();
                 });
 
                 $("#BtnRecordShowNone").on("click", function (e) {

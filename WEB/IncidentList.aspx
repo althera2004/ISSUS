@@ -63,8 +63,8 @@
                                             <!--div class="row">
                                                 <div class="col-sm-1"></div>                                        
                                                 <div class="col-sm-11" style="text-align:right"-->
-                                                    <button style="width:100px;" class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></button>
-                                                    <button style="width:100px;" class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i>Tots</button>
+                                                    <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></button>
+                                                    <button style="width:100px;" class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Female_Plural"] %></button>
                                                     <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i>Cap</button>
                                                 <!--/div>
                                             </!--div-->

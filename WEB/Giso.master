@@ -679,6 +679,12 @@
             if (PendentTasks > 0) {
                 $("#menuoption-1 i").append("<span class=\"badge badge-primary\" style=\"margin-right:8px;font-family:Arial;\">" + PendentTasks + "</span>");
             }
+
+            if (user.Admin !== true) {
+                $("#menuoption-2").hide();
+                $("#menuoption-6").hide();
+                $("#menuoption-0").hide();
+            }
         </script>
     </body>
 </html>

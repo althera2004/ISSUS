@@ -68,7 +68,7 @@ function IncidentActionGetFilter(exportType) {
         "success": function (msg) {
             eval("IncidentActionlist=" + msg.d + ";");
             ItemRenderTable(IncidentActionlist);
-            if (exportType !== "undefined") {
+            if (exportType !== "undefined" && exportType !== null) {
                 if (exportType === "PDF") {
                     ExportPDF();
                 }
@@ -394,6 +394,18 @@ function Resize() {
 window.onload = function () {
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
     Resize();
+
+    $("#chkStatus1").on("click", IncidentActionGetFilter);
+    $("#chkStatus2").on("click", IncidentActionGetFilter);
+    $("#chkStatus3").on("click", IncidentActionGetFilter);
+    $("#chkStatus4").on("click", IncidentActionGetFilter);
+    $("#CmbOrigin").on("click", IncidentActionGetFilter);
+    $("#CmbReporter").on("click", IncidentActionGetFilter);
+    $("#RType1").on("click", IncidentActionGetFilter);
+    $("#RType2").on("click", IncidentActionGetFilter);
+    $("#Rtype3").on("click", IncidentActionGetFilter);
+    $("#TxtDateFrom").on("change", IncidentActionGetFilter);
+    $("#TxtDateTo").on("change", IncidentActionGetFilter);
 };
 
 window.onresize = function () { Resize(); };
