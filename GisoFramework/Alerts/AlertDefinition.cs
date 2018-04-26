@@ -25,9 +25,7 @@ namespace GisoFramework.Alerts
         [JsonProperty("CompanyId")]
         public int CompanyId { get; set; }
 
-        /// <summary>
-        /// Gets or sets de item type
-        /// </summary>
+        /// <summary>Gets or sets de item type</summary>
         [JsonProperty("ItemType")]
         public int ItemType { get; set; }
 

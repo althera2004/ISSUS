@@ -187,10 +187,10 @@ function BusinessRiskRenderTable(list) {
     // Establecer el valor de la norma actual si la hay
     RuleLimitFromDB = -1;
     actualRuleLimit = -1;
-    if (document.getElementById('CmbRules').value > 0) {
+    if (document.getElementById("CmbRules").value > 0) {
         actualRuleLimit = list[0].RuleLimit;
         RuleLimitFromDB = actualRuleLimit;
-        $("#input-span-slider").slider({ value: RuleLimitFromDB });
+        $("#input-span-slider").slider({ "value": RuleLimitFromDB });
         RenderSteps();
     }
 
@@ -393,21 +393,21 @@ function BusinessRiskRenderTable(list) {
     }
 
     if (items.length === 0) {
-        document.getElementById('nav-search').style.display = 'none';
+        document.getElementById("nav-search").style.display = "none";
     }
     else {
-        document.getElementById('nav-search').style.display = '';
+        document.getElementById("nav-search").style.display = "";
 
         items.sort(function (a, b) {
             if (a < b) return -1;
             if (a > b) return 1;
             return 0;
         })
-        var autocomplete = $('.nav-search-input').typeahead();
+        var autocomplete = $(".nav-search-input").typeahead();
         autocomplete.data('typeahead').source = items;
 
-        $('#nav-search-input').keyup(FilterList);
-        $('#nav-search-input').change(FilterList);
+        $("#nav-search-input").keyup(FilterList);
+        $("#nav-search-input").change(FilterList);
     }
 
     $("#NumberCosts").html(list.length);
@@ -449,12 +449,12 @@ function SetRule(id)
     }
 
     actualRuleLimit = id;
-    console.log("id:"+id);
+    console.log("id:" + id);
     d3.selectAll("svg > *").remove();
     exampleData();
     RenderChart();
     DrawRuleLine();
-    $("#input-span-slider").slider({ value: id });
+    $("#input-span-slider").slider({ "value": id });
     $(".discreteBar").on("click", function (e) { console.log(e) });
 }
 
@@ -477,7 +477,7 @@ function NewIpr()
 
     if(candidate.length>0)
     {
-        message = Dictionary.Item_BusinessRisk_Message_IPR.replace('#', candidate.length);
+        message = Dictionary.Item_BusinessRisk_Message_IPR.replace("#", candidate.length);
         promptInfoUI(message, 450, NewIprConfirmed, null);
         return;
     }
@@ -495,7 +495,7 @@ function NewIpr()
 
     if(candidate.length>0)
     {
-        message = Dictionary.Item_BusinessRisk_Message_IPR_2.replace('#', candidate.length);
+        message = Dictionary.Item_BusinessRisk_Message_IPR_2.replace("#", candidate.length);
         promptInfoUI(message, 450, NewIprConfirmed, null);
         return;
     }
@@ -506,7 +506,6 @@ function NewIpr()
 
 function NewIprConfirmed()
 {
-    var webMethod = "/Async/RulesActions.asmx/SetLimit";
     var data = {
         "rules":
             {
@@ -518,15 +517,15 @@ function NewIprConfirmed()
         "userId": user.Id
     };
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/RulesActions.asmx/SetLimit",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             BusinessRiskGetFilter();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -579,11 +578,11 @@ window.onload = function () {
         }
 
         if (Filter.from !== null) {
-            $("#TxtDateFrom").val(GetDateYYYYMMDDText(Filter.from, '/', false));
+            $("#TxtDateFrom").val(GetDateYYYYMMDDText(Filter.from, "/", false));
         }
 
         if (Filter.to !== null) {
-            $("#TxtDateTo").val(GetDateYYYYMMDDText(Filter.to, '/', false));
+            $("#TxtDateTo").val(GetDateYYYYMMDDText(Filter.to, "/", false));
         }
     }
 
@@ -595,6 +594,7 @@ window.onload = function () {
     BusinessRiskGetFilter();
     Resize();
 }
+
 window.onresize = function () { Resize(); }
 
 function Export() {
@@ -623,12 +623,12 @@ function ExportPDF() {
 
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
-        type: "POST",
-        url: "/Export/BusinessriskExportList.aspx/PDF",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Export/BusinessriskExportList.aspx/PDF",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
             //successInfoUI(msg.d.MessageError, Go, 200);
             var link = document.createElement("a");
@@ -642,7 +642,7 @@ function ExportPDF() {
             window.open(msg.d.MessageError);
             $("#dialogAddAddress").dialog("close");
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI("error:" + msg.responseText);
         }

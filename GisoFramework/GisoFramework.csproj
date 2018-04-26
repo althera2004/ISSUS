@@ -94,6 +94,7 @@
     <Compile Include="Item\BaseItem.cs" />
     <Compile Include="Item\Binding\ColumnsBusinessRiskFilterGet.cs" />
     <Compile Include="Item\Binding\ColumnsBusinessRiskGetAll.cs" />
+    <Compile Include="Item\Binding\ColumnsCompanyAddressGet.cs" />
     <Compile Include="Item\Binding\ColumnsCompanyGetEmployees.cs" />
     <Compile Include="Item\Binding\ColumnsCostDefinitionGet.cs" />
     <Compile Include="Item\Binding\ColumnsCustomerGetByCompany.cs" />

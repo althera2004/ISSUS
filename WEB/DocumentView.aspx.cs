@@ -24,7 +24,6 @@ using SbrinnaCoreFramework;
 [ScriptService]
 public partial class DocumentView : Page
 {
-    #region Fields
     /// <summary> Master of page</summary>
     private Giso master;
 
@@ -46,11 +45,6 @@ public partial class DocumentView : Page
             return this.formFooter.Render(this.dictionary);
         }
     }
-    private int documentId;
-    private Document documento;
-    #endregion
-
-    #region Properties
 
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
@@ -100,7 +94,7 @@ public partial class DocumentView : Page
     {
         get
         {
-            return DocumentAttach.JsonList(new ReadOnlyCollection<DocumentAttach>(DocumentAttach.ByDocument(this.documentId, this.Company.Id).Where(d => d.Active == true).ToList()));
+            return DocumentAttach.JsonList(new ReadOnlyCollection<DocumentAttach>(DocumentAttach.ByDocument(this.DocumentId, this.Company.Id).Where(d => d.Active == true).ToList()));
         }
     }
 
@@ -133,30 +127,18 @@ public partial class DocumentView : Page
     {
         get
         {
-            if (this.documentId == -1)
+            if (this.DocumentId == -1)
             {
                 return "{}";
             }
 
-            return this.documento.Json;
+            return this.Document.Json;
         }
     }
 
-    public int DocumentId
-    {
-        get
-        {
-            return this.documentId;
-        }
-    }
+    public int DocumentId { get; private set; }
 
-    public DocumentVersion LastVersion
-    {
-        get
-        {
-            return this.documento.LastVersion;
-        }
-    }
+    public Document Document { get; private set; }
 
     public string CompanyDocuments
     {
@@ -176,7 +158,6 @@ public partial class DocumentView : Page
                 }
 
                 res.Append(document.JsonSimple);
-
             }
 
             return res.ToString();
@@ -193,7 +174,6 @@ public partial class DocumentView : Page
             return this.dictionary;
         }
     }
-    #endregion
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -239,10 +219,10 @@ public partial class DocumentView : Page
 
         if (this.Request.QueryString["id"] != null)
         {
-            this.documentId = Convert.ToInt32(this.Request.QueryString["id"]);
+            this.DocumentId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
-        string label = this.documentId == -1 ? "Item_Document_Button_New" : "Item_Document_Tab_Details";
+        string label = this.DocumentId == -1 ? "Item_Document_Button_New" : "Item_Document_Tab_Details";
         this.master = this.Master as Giso;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Documents", "Documents.aspx", Constant.NotLeaft);
@@ -250,26 +230,26 @@ public partial class DocumentView : Page
         this.master.Titulo = label;
         this.formFooter = new FormFooter();
 
-        if (this.documentId != -1)
+        if (this.DocumentId != -1)
         {
-            this.documento = Document.ById(this.documentId, this.Company.Id);
-            if (this.documento.Id == 0)
+            this.Document = Document.ById(this.DocumentId, this.Company.Id);
+            if (this.Document.Id == 0)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
-                this.documento = new Document();
+                this.Document = new Document();
             }
 
-            this.formFooter.ModifiedBy = this.documento.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.documento.ModifiedOn;
+            this.formFooter.ModifiedBy = this.Document.ModifiedBy.Description;
+            this.formFooter.ModifiedOn = this.Document.ModifiedOn;
 
-            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Document"], this.documento.Description);
+            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Document"], this.Document.Description);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
         }
         else
         {
-            this.documento = new Document();
+            this.Document = new Document();
         }
 
         this.RenderHistorico();
@@ -279,11 +259,11 @@ public partial class DocumentView : Page
         {
             this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
             this.FillCmbConservacion();
-            this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.documentId, TargetType.Document);
+            this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.DocumentId, TargetType.Document);
         }
 
-        this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Document_Btn_Restaurar"], Action = "primary", Hidden = !this.documento.EndDate.HasValue });
-        this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Document_Btn_Anular"], Action = "danger", Hidden = this.documento.EndDate.HasValue });
+        this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Document_Btn_Restaurar"], Action = "primary", Hidden = !this.Document.EndDate.HasValue });
+        this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Document_Btn_Anular"], Action = "danger", Hidden = this.Document.EndDate.HasValue });
         this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
         this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
     }
@@ -294,8 +274,8 @@ public partial class DocumentView : Page
         this.DocumentAttachActual = "null";
         var firstDate = DateTime.Now;
         var rows = new List<DocumentVersionRow>();
-        var attachs = DocumentAttach.ByDocument(this.documentId, this.Company.Id).Where(d=>d.Active == true).ToList();
-        foreach (var version in this.documento.Versions)
+        var attachs = DocumentAttach.ByDocument(this.DocumentId, this.Company.Id).Where(d=>d.Active == true).ToList();
+        foreach (var version in this.Document.Versions)
         {
             string fileName = string.Empty;
             long documentId = 0;
@@ -307,7 +287,7 @@ public partial class DocumentView : Page
                 documentId = attach.Id;
                 extension = attach.Extension;
 
-                if (attach.Version == this.LastVersion.Version)
+                if (attach.Version == this.Document.LastVersion.Version)
                 {
                     this.DocumentAttachActual = attach.Json;
                 }
@@ -315,7 +295,7 @@ public partial class DocumentView : Page
 
             rows.Add(new DocumentVersionRow
             {
-                Id = this.documentId,
+                Id = this.DocumentId,
                 DocumentId = documentId,
                 Version = version.Version,
                 Date = version.Date,
@@ -377,8 +357,8 @@ public partial class DocumentView : Page
             this.dictionary["Common_Years"],
             this.dictionary["Common_Months"],
             this.dictionary["Common_Days"],
-            this.documento.ConservationType == 1 ? "selected=\"selected\"" : string.Empty, 
-            this.documento.ConservationType == 2 ? "selected=\"selected\"" : string.Empty,
-            this.documento.ConservationType == 3 ? "selected=\"selected\"" : string.Empty);
+            this.Document.ConservationType == 1 ? "selected=\"selected\"" : string.Empty, 
+            this.Document.ConservationType == 2 ? "selected=\"selected\"" : string.Empty,
+            this.Document.ConservationType == 3 ? "selected=\"selected\"" : string.Empty);
     }
 }

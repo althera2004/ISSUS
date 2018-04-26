@@ -6,12 +6,12 @@ function IncidentActionCostRenderTable(tableName) {
     var target = document.getElementById(tableName);
 
     if (IncidentActionCosts.length === 0) {
-        document.getElementById("IncidentActionCostsTableVoid").style.display = "";
-        target.style.display = "none";
+        $("#IncidentActionCostsTableVoid").show();
+        $("#" + tableName).parent().hide();
     }
     else {
-        document.getElementById("IncidentActionCostsTableVoid").style.display = "none";
-        target.style.display = "";
+        $("#IncidentActionCostsTableVoid").hide();
+        $("#" + tableName).parent().show();
     }
 
     var total = 0;

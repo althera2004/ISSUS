@@ -259,6 +259,7 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets company's disk quote</summary>
         public long DiskQuote { get; set; }
 
+        /// <summary>Gets or sets a valute indicating whether agreement document is accepted</summary>
         public bool Agreement { get; set; }
 
         #region Properties
@@ -267,7 +268,10 @@ namespace GisoFramework.Item
         {
             get
             {
-                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0},""Value"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Name));
+                return string.Format(
+                    CultureInfo.InvariantCulture, @"{{""Id"":{0},""Value"":""{1}""}}",
+                    this.Id, 
+                    Tools.JsonCompliant(this.Name));
             }
         }
 
@@ -342,9 +346,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a list of company's employees without user associated
-        /// </summary>
+        /// <summary>Gets a list of company's employees without user associated</summary>
         public ReadOnlyCollection<Employee> EmployessWithoutUser
         {
             get
@@ -436,7 +438,7 @@ namespace GisoFramework.Item
         /// <param name="item1">First company to compare</param>
         /// <param name="item2">Second company to capmpare</param>
         /// <returns>The description of differences between two companies</returns>
-        public static string GetDifferences(Company item1, Company item2)
+        public static string Differences(Company item1, Company item2)
         {
             if (item1 == null || item2 == null)
             {

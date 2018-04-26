@@ -131,20 +131,17 @@ public partial class DashBoard : Page
             {
                 tasksJson.Append(",");
             }
-
-            string text = task.Equipment.Description;
-            if (!searchItems.Contains(text)) { searchItems.Add(text); };
-
-            text = task.Responsible.FullName;
-            if (!searchItems.Contains(text)) { searchItems.Add(text); };
+            
+            if (!searchItems.Contains(task.Equipment.Description)) { searchItems.Add(task.Equipment.Description); };
+            
+            if (!searchItems.Contains(task.Responsible.FullName)) { searchItems.Add(task.Responsible.FullName); };
 
             if (task.Provider != null)
             {
-                text = task.Provider.Description;
-                if (!searchItems.Contains(text)) { searchItems.Add(text); };
+                if (!searchItems.Contains(task.Provider.Description)) { searchItems.Add(task.Provider.Description); };
             }
 
-            text = string.Empty;
+            var text = string.Empty;
             switch (task.TaskType)
             {
                 case "M":
@@ -162,6 +159,15 @@ public partial class DashBoard : Page
                 case "A":
                     text = dictionary["Item_IncidentAction"];
                     break;
+                case "X":
+                    text = dictionary["Item_Indicador"];
+                    break;
+                case "O":
+                    text = dictionary["Item_Objetivo"];
+                    break;
+                case "B":
+                    text = dictionary["Item_BusinessRisk"];
+                    break;
             }
 
             if (!searchItems.Contains(text)) { searchItems.Add(text); };
@@ -175,7 +181,7 @@ public partial class DashBoard : Page
         tasksJson.Append("]");
         this.Tasks = tasksJson.ToString();
 
-        var sea = new StringBuilder();
+        var searchItem = new StringBuilder();
         first = true;
         foreach (string item in searchItems.OrderBy(s => s))
         {
@@ -185,15 +191,15 @@ public partial class DashBoard : Page
             }
             else
             {
-                sea.Append(",");
+                searchItem.Append(",");
             }
 
-            sea.AppendFormat(
+            searchItem.AppendFormat(
                 CultureInfo.InvariantCulture,
                 @"""{0}""",
                 item);
         }
 
-        this.master.SearcheableItems = sea.ToString();
+        this.master.SearcheableItems = searchItem.ToString();
     }
 }

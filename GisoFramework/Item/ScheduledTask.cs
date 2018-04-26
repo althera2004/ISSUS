@@ -235,6 +235,24 @@ namespace GisoFramework.Item
                     tab = string.Empty;
                     labelType = dictionary["Item_IncidentAction"];
                     break;
+                case "X":
+                    tooltip = dictionary["Item_Indicador"];
+                    link = "ActionView";
+                    tab = string.Empty;
+                    labelType = dictionary["Item_Indicador"];
+                    break;
+                case "O":
+                    tooltip = dictionary["Item_Objetivo"];
+                    link = "ActionView";
+                    tab = string.Empty;
+                    labelType = dictionary["Item_Objetivo"];
+                    break;
+                case "B":
+                    tooltip = dictionary["Item_BusinessRisk"];
+                    link = "ActionView";
+                    tab = string.Empty;
+                    labelType = dictionary["Item_BusinessRisk"];
+                    break;
             }
 
             string pattern = @"<tr style=""cursor:pointer;"" onclick=""document.location='{6}.aspx?id={0}{9}{10}{11}'""><td title=""{5}"" style=""color:{8};"">{4} / {2}{7}</td><td style=""color:{8};width:350px;""><div title=""{1}"" style=""text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:320px;"">{1}</div></td><td style=""width:250px;padding-lewft:4px;"">{12}{13}</td><td style=""color:{8};width:90px;"">{3:dd/MM/yyyy}</td></tr>";
@@ -301,9 +319,27 @@ namespace GisoFramework.Item
                     break;
                 case "A":
                     tooltip = dictionary["Item_IncidentAction"];
-                    link = "ActionView";
+                    link = "IncidentView";
                     tab = string.Empty;
                     labelType = dictionary["Item_IncidentAction"];
+                    break;
+                case "X":
+                    tooltip = dictionary["Item_Indicador"];
+                    link = "IndicadorView";
+                    tab = string.Empty;
+                    labelType = dictionary["Item_Indicador"];
+                    break;
+                case "O":
+                    tooltip = dictionary["Item_Objetivo"];
+                    link = "ObjetivoView";
+                    tab = string.Empty;
+                    labelType = dictionary["Item_Objetivo"];
+                    break;
+                case "B":
+                    tooltip = dictionary["Item_BusinessRisk"];
+                    link = "BusinessRiskView";
+                    tab = string.Empty;
+                    labelType = dictionary["Item_BusinessRisk"];
                     break;
             }
 

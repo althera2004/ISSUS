@@ -197,7 +197,7 @@
                                                                     <table class="table table-bordered table-striped" style="border-top: none;">
                                                                         <tbody id="IncidentActionCostsTableData"></tbody>
                                                                     </table>
-                                                                    <table id="IncidentActionCostsTableVoid" style="display:none;">
+                                                                    <table id="IncidentActionCostsTableVoid" style="display:none;height:100%;width:100%;">
                                                                         <tr>
                                                                             <td colspan="10" align="center" style="background-color:#ddddff;color:#0000aa;">
                                                                                 <table style="border:none;">

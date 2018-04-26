@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="BusinessRisk.cs" company="Sbrinna">
-// TODO: Update copyright text.
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item
@@ -111,9 +111,16 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets the identifier of the risk that is inherited</summary>
         public long PreviousBusinessRiskId { get; set; }
 
+        /// <summary>Gets or sets the start probability</summary>
         public int StartProbability { get; set; }
+
+        /// <summary>Gets or sets the start severity</summary>
         public int StartSeverity { get; set; }
+
+        /// <summary>Gets or sets the start result</summary>
         public int StartResult { get; set; }
+
+        /// <summary>Gets or sets the start action</summary>
         public int StartAction { get; set; }
 
         /// <summary>Gets or sets the final probability of the risk</summary>
@@ -125,8 +132,8 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets the final result of the risk (probability times the severity)</summary>
         public int FinalResult { get; set; }
 
+        /// <summary>Gets or sets the indentifier of final action</summary>
         public int FinalAction { get; set; }
-
 
         /// <summary>Gets a hyper link to businessRisk profile page</summary>
         public string LinkList
@@ -317,8 +324,7 @@ namespace GisoFramework.Item
                     this.StartResult,
                     this.StartAction == 1 ? "true" : "false",
                     this.Id,
-                    this.Description
-                );
+                    Tools.JsonCompliant(this.Description));
             }
         }
 
@@ -327,16 +333,16 @@ namespace GisoFramework.Item
         /// <summary>Get BusinessRisk objects from database</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>Read-only list of BusinessRisk objects</returns>
-        public static ReadOnlyCollection<BusinessRisk> GetAll(int companyId)
+        public static ReadOnlyCollection<BusinessRisk> All(int companyId)
         {
-            return GetAll(companyId, ActiveAndInactive);
+            return All(companyId, ActiveAndInactive);
         }
 
         /// <summary>Get BusinessRisk objects from database</summary>
         /// <param name="companyId">Company identifier</param>
         /// <param name="isOnlyActive">Choose whether to return all objects (false) or active objects only (true)</param>
         /// <returns>Read-only list of BusinessRisk objects</returns>
-        public static ReadOnlyCollection<BusinessRisk> GetAll(int companyId, bool isOnlyActive)
+        public static ReadOnlyCollection<BusinessRisk> All(int companyId, bool isOnlyActive)
         {
             string source = string.Format(
                 CultureInfo.InvariantCulture,
@@ -424,9 +430,9 @@ namespace GisoFramework.Item
                                 newRisk.PreviousBusinessRiskId = -1;
                             }
 
-                            if (!rdr.IsDBNull(30))
+                            if (!rdr.IsDBNull(ColumnsBusinessRiskGetAll.FinalDate))
                             {
-                                newRisk.FinalDate = rdr.GetDateTime(30);
+                                newRisk.FinalDate = rdr.GetDateTime(ColumnsBusinessRiskGetAll.FinalDate);
                             }
 
                             res.Add(newRisk);
@@ -480,135 +486,18 @@ namespace GisoFramework.Item
         /// <returns>Read-only list of active BusinessRisk objects</returns>
         public static ReadOnlyCollection<BusinessRisk> GetActive(int companyId)
         {
-            return GetAll(companyId, OnlyActive);
+            return All(companyId, OnlyActive);
         }
 
         /// <summary>Get Active BusinessRisk objects from database by Rules Id</summary>
         /// <param name="rulesId">Rule identifier</param>
         /// <param name="companyId">Company identifier</param>
-        /// <returns></returns>
+        /// <returns>Active businessrisks by rule</returns>
         public static ReadOnlyCollection<BusinessRisk> GetByRulesId(long rulesId, int companyId)
         {
-            return new ReadOnlyCollection<BusinessRisk>(GetAll(companyId, OnlyActive).Where(r => r.Rules.Id == rulesId).ToList());
+            return new ReadOnlyCollection<BusinessRisk>(All(companyId, OnlyActive).Where(r => r.Rules.Id == rulesId).ToList());
         }
-
-       /* public static void Foo(long rulesId, int companyId)
-        {
-            string source = string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
-                @"GetByRulesId({0}, {1})",
-                rulesId,
-                companyId);
-            var res = new List<BusinessRisk>();
-            string query = "BusinessRisk_GetByRules";
-            using (SqlCommand cmd = new SqlCommand(query))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                cmd.Parameters.Add(DataParameter.Input("@RulesId", rulesId));
-                try
-                {
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
-                    {
-                        while (rdr.Read())
-                        {
-                            var newRisk = new BusinessRisk
-                            {
-                                Id = rdr.GetInt64(ColumnsBusinessRiskGetAll.Id),
-                                Description = rdr.GetString(ColumnsBusinessRiskGetAll.Description),
-                                Notes = rdr.GetString(ColumnsBusinessRiskGetAll.Notes),
-                                CompanyId = companyId,
-                                CreatedOn = rdr.GetDateTime(ColumnsBusinessRiskGetAll.CreatedOn),
-                                CreatedBy = new ApplicationUser
-                                {
-                                    Id = rdr.GetInt32(ColumnsBusinessRiskGetAll.CreatedBy),
-                                    UserName = rdr.GetString(ColumnsBusinessRiskGetAll.CreatedByName)
-                                },
-                                ModifiedOn = rdr.GetDateTime(ColumnsBusinessRiskGetAll.ModifiedOn),
-                                ModifiedBy = new ApplicationUser
-                                {
-                                    Id = rdr.GetInt32(ColumnsBusinessRiskGetAll.ModifiedBy),
-                                    UserName = rdr.GetString(ColumnsBusinessRiskGetAll.ModifiedByName)
-                                },
-                                Code = rdr.GetInt64(ColumnsBusinessRiskGetAll.Code),
-                                Rules = new Rules
-                                {
-                                    Id = rdr.GetInt64(ColumnsBusinessRiskGetAll.RuleId),
-                                    Description = rdr.GetString(ColumnsBusinessRiskGetAll.RuleDescription),
-                                    Limit = rdr.GetInt64(ColumnsBusinessRiskGetAll.RuleRangeId)
-                                },
-                                ItemDescription = rdr.GetString(ColumnsBusinessRiskGetAll.ItemDescription),
-                                StartControl = rdr.GetString(ColumnsBusinessRiskGetAll.StartControl),
-                                Probability = rdr.GetInt64(ColumnsBusinessRiskGetAll.ProbabilityId),
-                                Severity = rdr.GetInt64(ColumnsBusinessRiskGetAll.Severity),
-                                Result = rdr.GetInt32(ColumnsBusinessRiskGetAll.Result),
-                                ApplyAction = rdr.GetBoolean(ColumnsBusinessRiskGetAll.ApplyAction),
-                                Active = rdr.GetBoolean(ColumnsBusinessRiskGetAll.Active),
-                                InitialValue = rdr.GetInt32(ColumnsBusinessRiskGetAll.InitialValue),
-                                DateStart = rdr.GetDateTime(ColumnsBusinessRiskGetAll.DateStart),
-                                ProcessId = rdr.GetInt64(ColumnsBusinessRiskGetAll.ProcessId),
-                                Assumed = rdr.GetBoolean(ColumnsBusinessRiskGetAll.Assumed),
-                            };
-
-                            if (!rdr.IsDBNull(ColumnsBusinessRiskGetAll.Causes))
-                            {
-                                newRisk.Causes = rdr.GetString(ColumnsBusinessRiskGetAll.Causes);
-                            }
-
-                            //// Field can be Null in Database (no link to a previous BusinessRisk)
-                            if (!rdr.IsDBNull(ColumnsBusinessRiskGetAll.PreviousBusinessRiskId))
-                            {
-                                newRisk.PreviousBusinessRiskId = rdr.GetInt64(ColumnsBusinessRiskGetAll.PreviousBusinessRiskId);
-                            }
-                            else
-                            {
-                                //// The previous BusinessRisk does not exist
-                                newRisk.PreviousBusinessRiskId = -1;
-                            }
-
-                            res.Add(newRisk);
-                        }
-                    }
-
-                    foreach (BusinessRisk b in res)
-                    {
-                        b.Process = new Process(b.ProcessId, companyId);
-                    }
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (NotSupportedException ex)
-                {
-                    ExceptionManager.Trace(ex, source);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
-                    {
-                        cmd.Connection.Close();
-                    }
-                }
-            }
-
-            //return new ReadOnlyCollection<BusinessRisk>(res);
-        }*/
-
+        
         /// <summary>Return an historical list of a businessRisk actions</summary>
         /// <param name="code">Code identifier of the BusinessRisk</param>
         /// <param name="companyId">Company identifier</param>
@@ -1137,13 +1026,13 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
                         cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
                         cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rules.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Parameters.Add(DataParameter.Input("@InitialValue", this.InitialValue));
                         cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, Constant.MaximumTextAreaLength));
 
                         cmd.Parameters.Add(DataParameter.Input("@StartProbability", this.StartProbability));
                         cmd.Parameters.Add(DataParameter.Input("@StartSeverity", this.StartSeverity));
@@ -1231,10 +1120,10 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rules.Id));
                         cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
                         cmd.Parameters.Add(DataParameter.Input("@PreviousBusinessRiskId", this.PreviousBusinessRiskId));
-                        cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, Constant.MaximumTextAreaLength));
                         //cmd.Parameters.Add(DataParameter.Input("@InitialValue", auxiliarInitialValue));
 
                         cmd.Parameters.Add(DataParameter.Input("@StartProbability", this.StartProbability));
@@ -1243,14 +1132,13 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@StartAction", this.StartAction));
                         cmd.Parameters.Add(DataParameter.Input("@DateStart", this.DateStart));
                         cmd.Parameters.Add(DataParameter.Input("@Assumed", this.Assumed));
-
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
 
 
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess(cmd.Parameters["@Id"].Value.ToString());
-                        this.Id = Convert.ToInt64(cmd.Parameters["@Id"].Value.ToString(), CultureInfo.GetCultureInfo("en-us"));
+                        this.Id = Convert.ToInt64(cmd.Parameters["@Id"].Value.ToString(), CultureInfo.InvariantCulture);
 
                         if (this.PreviousBusinessRiskId > 0)
                         {
@@ -1296,13 +1184,13 @@ namespace GisoFramework.Item
             bool grantBusinessRisk = UserGrant.HasWriteGrant(grants, ApplicationGrant.BusinessRisk);
             bool grantBusinessRiskDelete = UserGrant.HasDeleteGrant(grants, ApplicationGrant.BusinessRisk);
 
-            string iconEdit = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""BusinessRiskUpdate({0},'{1}');""><i class=""icon-edit bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Edit"]));
+            string iconEdit = string.Format(CultureInfo.InvariantCulture, @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""BusinessRiskUpdate({0},'{1}');""><i class=""icon-edit bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Edit"]));
 
             string iconDelete = string.Empty;
             if (grantBusinessRiskDelete)
             {
                 string deleteAction = string.Empty;
-                iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-danger"" onclick=""BusinessRiskDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Delete"]));
+                iconDelete = string.Format(CultureInfo.InvariantCulture, @"<span title=""{2} {1}"" class=""btn btn-xs btn-danger"" onclick=""BusinessRiskDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Delete"]));
             }
 
             string initial = this.InitialValue == 0 ? string.Empty : this.InitialValue.ToString();

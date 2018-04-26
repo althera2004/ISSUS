@@ -293,7 +293,7 @@
                                                                 <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
                                                                     <table class="table table-bordered table-striped" style="border-top: none;">
                                                                         <tbody id="IncidentActionCostsTableData"></tbody>
-                                                                        <table id="IncidentActionCostsTableVoid" style="display:none;">
+                                                                        <table id="IncidentActionCostsTableVoid" style="display:none;height:100%;width:100%;">
                                                                             <tr>
                                                                                 <td colspan="10" align="center" style="background-color:#ddddff;color:#0000aa;">
                                                                                     <table style="border:none;">
