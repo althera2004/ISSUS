@@ -253,6 +253,12 @@ namespace GisoFramework.Item
                     tab = string.Empty;
                     labelType = dictionary["Item_BusinessRisk"];
                     break;
+                default:
+                    tooltip = string.Empty;
+                    link = "ActionView";
+                    tab = "home";
+                    labelType = string.Empty;
+                    break;
             }
 
             string pattern = @"<tr style=""cursor:pointer;"" onclick=""document.location='{6}.aspx?id={0}{9}{10}{11}'""><td title=""{5}"" style=""color:{8};"">{4} / {2}{7}</td><td style=""color:{8};width:350px;""><div title=""{1}"" style=""text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:320px;"">{1}</div></td><td style=""width:250px;padding-lewft:4px;"">{12}{13}</td><td style=""color:{8};width:90px;"">{3:dd/MM/yyyy}</td></tr>";
@@ -340,6 +346,12 @@ namespace GisoFramework.Item
                     link = "BusinessRiskView";
                     tab = string.Empty;
                     labelType = dictionary["Item_BusinessRisk"];
+                    break;
+                default:
+                    tooltip = string.Empty;
+                    link = "ActionView";
+                    tab = "home";
+                    labelType = string.Empty;
                     break;
             }
 

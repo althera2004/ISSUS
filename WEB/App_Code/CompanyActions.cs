@@ -149,7 +149,7 @@ namespace GISOWeb
         public ActionResult Save(Company oldCompany, Company newCompany, int userId)
         {
             var res = ActionResult.NoAction;
-            string extradata = Company.Differences(oldCompany, newCompany);
+            string extradata = oldCompany.Differences(newCompany);
             if (!string.IsNullOrEmpty(extradata))
             {
                 res = newCompany.Update(userId);

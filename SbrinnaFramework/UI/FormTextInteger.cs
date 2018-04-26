@@ -28,7 +28,6 @@ namespace SbrinnaCoreFramework.UI
                         this.RightAlign ? " control-label no-padding-right" : string.Empty);
                 }
 
-
                 string requiredLabel = string.Empty;
                 if (this.Required)
                 {

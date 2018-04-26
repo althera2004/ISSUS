@@ -73,7 +73,11 @@ namespace GisoFramework
         {
             // Carga de diccionario
             var dictionary = new Dictionary<string, string>();
-            string fileName = string.Format(CultureInfo.GetCultureInfo("en-us"), @"{0}\\dicc\\{1}.dicc", HttpContext.Current.Request.PhysicalApplicationPath, language);
+            string fileName = string.Format(
+                CultureInfo.InvariantCulture,
+                @"{0}\\dicc\\{1}.dicc",
+                HttpContext.Current.Request.PhysicalApplicationPath,
+                language);
             using (var input = new StreamReader(fileName, Encoding.UTF7))
             {
                 string linea = input.ReadLine();
@@ -104,7 +108,7 @@ namespace GisoFramework
                         orderby pair.Key ascending
                         select pair;
             var dictionaryFinal = new Dictionary<string, string>();
-            foreach (KeyValuePair<string, string> item in items)
+            foreach (var item in items)
             {
                 dictionaryFinal.Add(item.Key, item.Value);
             }

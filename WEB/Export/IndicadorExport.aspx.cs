@@ -75,7 +75,7 @@ public partial class ExportIndicadorExport : Page
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
 
-        writer.PageEvent = new TwoColumnHeaderFooter()
+        writer.PageEvent = new TwoColumnHeaderFooter
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, company.Id),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),

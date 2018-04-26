@@ -60,7 +60,7 @@ public partial class AsyncUploadFile : Page
 
         file.SaveAs(fileDisk);
         long length = new FileInfo(fileDisk).Length;
-        var uploadFile = new UploadFile()
+        var uploadFile = new UploadFile
         {
             FileName = fileName,
             Description = description,
@@ -69,9 +69,9 @@ public partial class AsyncUploadFile : Page
             ItemId = itemId,
             ItemLinked = itemLinked,
             Active = true,
-            CreatedBy = new ApplicationUser() { Id = applicationUserId },
+            CreatedBy = new ApplicationUser { Id = applicationUserId },
             CreatedOn = Constant.Now,
-            ModifiedBy = new ApplicationUser() { Id = applicationUserId },
+            ModifiedBy = new ApplicationUser { Id = applicationUserId },
             ModifiedOn = Constant.Now,
             Size = length
         };

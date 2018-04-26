@@ -291,23 +291,23 @@ namespace GisoFramework.Item
                                     Id = rdr.GetInt64(ColumnsIncidentFilterGet.IncidentId),
                                     Description = rdr.GetString(ColumnsIncidentFilterGet.IncidentDescription),
                                     Code = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:00000}", rdr.GetInt64(ColumnsIncidentFilterGet.Code)),
-                                    Action = new IncidentAction()
+                                    Action = new IncidentAction
                                     {
                                         Id = incidentActionId,
                                         Description = rdr.GetString(ColumnsIncidentFilterGet.IncidentDescription)
                                     },
                                     Origin = rdr.GetInt32(ColumnsIncidentFilterGet.Origin),
-                                    Department = new Department()
+                                    Department = new Department
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentFilterGet.DepartmentId),
                                         Description = rdr.GetString(ColumnsIncidentFilterGet.DepartmentName)
                                     },
-                                    Provider = new Provider()
+                                    Provider = new Provider
                                     {
                                         Id = rdr.GetInt64(ColumnsIncidentFilterGet.ProviderId),
                                         Description = rdr.GetString(ColumnsIncidentFilterGet.ProviderDescription)
                                     },
-                                    Customer = new Customer()
+                                    Customer = new Customer
                                     {
                                         Id = rdr.GetInt64(ColumnsIncidentFilterGet.CustomerId),
                                         Description = rdr.GetString(ColumnsIncidentFilterGet.CustomerDescription)
@@ -559,7 +559,7 @@ namespace GisoFramework.Item
                             if (rdr.HasRows)
                             {
                                 rdr.Read();
-                                res = new Incident()
+                                res = new Incident
                                 {
                                     Id = incidentId,
                                     Code = rdr.GetInt64(ColumnsIncidentGet.Code),
@@ -567,7 +567,7 @@ namespace GisoFramework.Item
                                     Description = rdr.GetString(ColumnsIncidentGet.Description),
                                     Origin = rdr.GetInt32(3),
                                     WhatHappened = rdr.GetString(ColumnsIncidentGet.WhatHappened),
-                                    WhatHappenedBy = new Employee()
+                                    WhatHappenedBy = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentGet.WhatHappenedById),
                                         Name = rdr.GetString(ColumnsIncidentGet.WhatHappenedByName),
@@ -583,17 +583,17 @@ namespace GisoFramework.Item
                                         UserName = rdr.GetString(ColumnsIncidentGet.ModifiedByUserName)
                                     },
                                     ModifiedOn = rdr.GetDateTime(ColumnsIncidentGet.ModifiedOn),
-                                    Department = new Department()
+                                    Department = new Department
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentGet.DepartmentId),
                                         Description = rdr.GetString(ColumnsIncidentGet.DepartmentName)
                                     },
-                                    Provider = new Provider()
+                                    Provider = new Provider
                                     {
                                         Id = rdr.GetInt64(ColumnsIncidentGet.ProviderId),
                                         Description = rdr.GetString(ColumnsIncidentGet.ProviderName)
                                     },
-                                    Customer = new Customer()
+                                    Customer = new Customer
                                     {
                                         Id = rdr.GetInt64(ColumnsIncidentGet.CustomerId),
                                         Description = rdr.GetString(ColumnsIncidentGet.CustomerName)
@@ -604,7 +604,7 @@ namespace GisoFramework.Item
                                 {
                                     res.Causes = rdr.GetString(ColumnsIncidentGet.Causes);
                                     res.CausesOn = rdr.GetDateTime(ColumnsIncidentGet.CausesOn);
-                                    res.CausesBy = new Employee()
+                                    res.CausesBy = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentGet.CausesById),
                                         Name = rdr.GetString(ColumnsIncidentGet.CausesByName),
@@ -620,7 +620,7 @@ namespace GisoFramework.Item
                                 {
                                     res.Actions = rdr.GetString(ColumnsIncidentGet.Actions);
                                     res.ActionsOn = rdr.GetDateTime(ColumnsIncidentGet.ActionsOn);
-                                    res.ActionsBy = new Employee()
+                                    res.ActionsBy = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentGet.ActionsById),
                                         Name = rdr.GetString(ColumnsIncidentGet.ActionsByName),
@@ -635,7 +635,7 @@ namespace GisoFramework.Item
                                 if (!rdr.IsDBNull(ColumnsIncidentGet.ActionsExecuterId))
                                 {
                                     res.ActionsSchedule = rdr.GetDateTime(ColumnsIncidentGet.ActionsSchedule);
-                                    res.ActionsExecuter = new Employee()
+                                    res.ActionsExecuter = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentGet.ActionsExecuterId),
                                         Name = rdr.GetString(ColumnsIncidentGet.ActionsExecuterName),
@@ -650,7 +650,7 @@ namespace GisoFramework.Item
                                 if (!rdr.IsDBNull(ColumnsIncidentGet.ClosedOn))
                                 {
                                     res.ClosedOn = rdr.GetDateTime(ColumnsIncidentGet.ClosedOn);
-                                    res.ClosedBy = new Employee()
+                                    res.ClosedBy = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentGet.ClosedById),
                                         Name = rdr.GetString(ColumnsIncidentGet.ClosedByName),
@@ -664,7 +664,7 @@ namespace GisoFramework.Item
 
                                 if (res.Origin == 1 && !rdr.IsDBNull(ColumnsIncidentGet.DepartmentId))
                                 {
-                                    res.Department = new Department()
+                                    res.Department = new Department
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentGet.DepartmentId),
                                         Description = rdr.GetString(ColumnsIncidentGet.DepartmentName)
@@ -673,7 +673,7 @@ namespace GisoFramework.Item
 
                                 if (res.Origin == 2 && !rdr.IsDBNull(ColumnsIncidentGet.ProviderId))
                                 {
-                                    res.Provider = new Provider()
+                                    res.Provider = new Provider
                                     {
                                         Id = rdr.GetInt64(ColumnsIncidentGet.ProviderId),
                                         Description = rdr.GetString(ColumnsIncidentGet.ProviderName)
@@ -682,7 +682,7 @@ namespace GisoFramework.Item
 
                                 if (res.Origin == 3 && !rdr.IsDBNull(ColumnsIncidentGet.CustomerId))
                                 {
-                                    res.Customer = new Customer()
+                                    res.Customer = new Customer
                                     {
                                         Id = rdr.GetInt64(ColumnsIncidentGet.CustomerId),
                                         Description = rdr.GetString(ColumnsIncidentGet.CustomerName)
@@ -804,6 +804,12 @@ namespace GisoFramework.Item
 
         public static ActionResult Delete(long incidentId, int userId, int companyId)
         {
+            var source = string.Format(
+                CultureInfo.InvariantCulture,
+                "Id:{0} - UserId:{1} - CompanyId:{2}",
+                incidentId,
+                userId,
+                companyId);
             /* CREATE PROCEDURE Incident_Delete
              *   @IncidentId bigint,
              *   @CompanyId int,
@@ -828,12 +834,12 @@ namespace GisoFramework.Item
                     catch (SqlException ex)
                     {
                         res.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Incident::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, userId, companyId));
+                        ExceptionManager.Trace(ex, "Incident::Delete", source);
                     }
                     catch (NullReferenceException ex)
                     {
                         res.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Incident::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, userId, companyId));
+                        ExceptionManager.Trace(ex, "Incident::Delete", source);
                     }
                     finally
                     {
@@ -850,6 +856,11 @@ namespace GisoFramework.Item
 
         public ActionResult Insert(int userId)
         {
+            var source =  string.Format(
+                CultureInfo.InvariantCulture,
+                "Id:{0} - Name{1}", 
+                this.Id,
+                this.Description);
             /* CREATE PROCEDURE Incident_Insert
              *   @IncidentId bigint output,
              *   @CompanyId int,
@@ -894,15 +905,15 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider));
                         cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer));
 
-                        cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy));
                         cmd.Parameters.Add(DataParameter.Input("@WhatHappendOn", this.WhatHappenedOn));
 
-                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy.Id));
                         cmd.Parameters.Add(DataParameter.Input("@CausesOn", this.CausesOn));
 
-                        cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy.Id));
                         cmd.Parameters.Add(DataParameter.Input("@ActionsOn", this.ActionsOn));
                         cmd.Parameters.Add(DataParameter.Input("@ActionsExecuter", this.ActionsExecuter.Id));
@@ -910,24 +921,24 @@ namespace GisoFramework.Item
 
                         cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy.Id));
                         cmd.Parameters.Add(DataParameter.Input("@ClosedOn", this.ClosedOn));
-                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@Anotations", this.Annotations ?? string.Empty, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Anotations", this.Annotations ?? string.Empty, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@ApplyAction", this.ApplyAction));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
-                        this.Id = Convert.ToInt32(cmd.Parameters["@IncidentId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        this.Id = Convert.ToInt32(cmd.Parameters["@IncidentId"].Value, CultureInfo.InvariantCulture);
                         res.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
                     }
                     catch (SqlException ex)
                     {
                         res.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Incident::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Incident::Insert", source);
                     }
                     catch (NullReferenceException ex)
                     {
                         res.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Incident::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Incident::Insert", source);
                     }
                     finally
                     {
@@ -944,6 +955,11 @@ namespace GisoFramework.Item
 
         public ActionResult Update(int userId, string differences)
         {
+            var source = string.Format(
+                CultureInfo.InvariantCulture,
+                "Id:{0} - Name{1}",
+                this.Id,
+                this.Description);
             /* CREATE PROCEDURE Incident_Update
              *   @IncidentId bigint,
              *   @CompanyId int,
@@ -995,15 +1011,15 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
                         cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer.Id));
 
-                        cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy.Id));
                         cmd.Parameters.Add(DataParameter.Input("@WhatHappendOn", this.WhatHappenedOn));
 
-                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy.Id));
                         cmd.Parameters.Add(DataParameter.Input("@CausesOn", this.CausesOn));
 
-                        cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy.Id));
                         cmd.Parameters.Add(DataParameter.Input("@ActionsOn", this.ActionsOn));
                         cmd.Parameters.Add(DataParameter.Input("@ActionsExecuter", this.ActionsExecuter.Id));
@@ -1012,8 +1028,8 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy.Id));
                         cmd.Parameters.Add(DataParameter.Input("@ClosedOn", this.ClosedOn));
 
-                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@Anotations", this.Annotations ?? string.Empty, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Anotations", this.Annotations ?? string.Empty, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Parameters.Add(DataParameter.Input("@Differences", differences));
                         cmd.Parameters.Add(DataParameter.Input("@ApplyAction", this.ApplyAction));
@@ -1024,12 +1040,12 @@ namespace GisoFramework.Item
                     catch (SqlException ex)
                     {
                         res.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Incident::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Incident::Update", source);
                     }
                     catch (NullReferenceException ex)
                     {
                         res.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Incident::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Incident::Update", source);
                     }
                     finally
                     {

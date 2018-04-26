@@ -32,7 +32,7 @@ public partial class AsyncUploadDocumentAttachment : Page
         int applicationUserId = Convert.ToInt32(this.Request.Form["ApplicationUserId"]);
         string extension = Path.GetExtension(file.FileName).Replace(".", string.Empty);
 
-        var uploadFile = new DocumentAttach()
+        var uploadFile = new DocumentAttach
         {
             DocumentId = itemId,
             Description = description,
@@ -40,9 +40,9 @@ public partial class AsyncUploadDocumentAttachment : Page
             Version = Convert.ToInt32(version),
             Extension = extension,
             Active = true,
-            CreatedBy = new ApplicationUser() { Id = applicationUserId },
+            CreatedBy = new ApplicationUser { Id = applicationUserId },
             CreatedOn = Constant.Now,
-            ModifiedBy = new ApplicationUser() { Id = applicationUserId },
+            ModifiedBy = new ApplicationUser { Id = applicationUserId },
             ModifiedOn = Constant.Now
         };
 
@@ -63,7 +63,6 @@ public partial class AsyncUploadDocumentAttachment : Page
         }
 
         file.SaveAs(string.Format(@"{0}DOCS\{1}\Document_{2}_V{3}_{4}.{5}", path, companyId, itemId, version, uploadFile.Id, extension));
-
         this.Response.Clear();
         this.Response.ContentType = "application/json";
         this.Response.Write(res.MessageError);

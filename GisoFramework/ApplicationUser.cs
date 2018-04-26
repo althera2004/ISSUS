@@ -30,41 +30,25 @@ namespace GisoFramework
         /// <summary>Value to indicate that an invalid password is send to change</summary>
         private const string IncorrectPassword = "NOPASS";
 
-        /// <summary>Application user identifier</summary>
-        private int id;
-
-        /// <summary>
-        /// User name
-        /// </summary>
-        private string userName;
-
-        /// <summary>
-        /// User groups
-        /// </summary>
+        /// <summary>User groups</summary>
         private List<ApplicationLogOn.SecurityGroup> groups;
 
-        /// <summary>
-        /// Collections of user grants
-        /// </summary>
+        /// <summary>Collections of user grants</summary>
         private List<UserGrant> grants;
 
-        /// <summary>
-        /// User account status
-        /// </summary>
+        /// <summary>User account status</summary>
         private ApplicationLogOn.LogOnResult status;
 
-        /// <summary>
-        /// Shortcuts for user interface
-        /// </summary>
+        /// <summary>Shortcuts for user interface</summary>
         private MenuShortcut menuShortcuts;
 
-        /// <summary>
-        /// Gets or sets user email
-        /// </summary>
+        /// <summary>Gets or sets user email</summary>
         public string Email { get; set; }
 
+        /// <summary>Gets a vlue indicating whether user is primmary user</summary>
         public bool PrimaryUser { get; set; }
 
+        /// <summary>Gets user description</summary>
         public string Description
         {
             get
@@ -74,7 +58,7 @@ namespace GisoFramework
                     return this.Employee.FullName;
                 }
 
-                return this.userName;
+                return this.UserName;
             }
         }
 
@@ -85,9 +69,9 @@ namespace GisoFramework
         /// <param name="userId">User identifier</param>
         public ApplicationUser(int userId)
         {
-            this.id = -1;
+            this.Id = -1;
             this.Employee = Employee.Empty;
-            this.userName = string.Empty;
+            this.UserName = string.Empty;
             using (var cmd = new SqlCommand("User_GetById"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
@@ -97,14 +81,14 @@ namespace GisoFramework
                 try
                 {
                     cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (var rdr = cmd.ExecuteReader())
                     {
                         while (rdr.Read())
                         {
                             this.groups = new List<ApplicationLogOn.SecurityGroup>();
                             this.grants = new List<UserGrant>();
-                            this.id = rdr.GetInt32(ColumnsApplicationUserGetById.Id);
-                            this.userName = rdr[ColumnsApplicationUserGetById.UserName].ToString();
+                            this.Id = rdr.GetInt32(ColumnsApplicationUserGetById.Id);
+                            this.UserName = rdr[ColumnsApplicationUserGetById.UserName].ToString();
                             this.status = ApplicationLogOn.IntegerToLogOnResult(rdr.GetInt32(ColumnsApplicationUserGetById.Status));
                             this.Language = rdr[ColumnsApplicationUserGetById.Language].ToString();
                             this.ShowHelp = rdr.GetBoolean(ColumnsApplicationUserGetById.ShowHelp);
@@ -117,7 +101,7 @@ namespace GisoFramework
 
                             if (!rdr.IsDBNull(ColumnsApplicationUserGetById.EmployeeId))
                             {
-                                this.Employee = new Employee()
+                                this.Employee = new Employee
                                 {
                                     Id = rdr.GetInt32(ColumnsApplicationUserGetById.EmployeeId),
                                     Name = rdr.GetString(ColumnsApplicationUserGetById.EmployeeName),
@@ -129,7 +113,7 @@ namespace GisoFramework
 
                             if (!string.IsNullOrEmpty(rdr.GetString(ColumnsApplicationUserGetById.GreenLabel)))
                             {
-                                this.menuShortcuts.Green = new Shortcut()
+                                this.menuShortcuts.Green = new Shortcut
                                 {
                                     Id = rdr.GetInt32(ColumnsApplicationUserGetById.GreenIdentifier),
                                     Label = rdr.GetString(ColumnsApplicationUserGetById.GreenLabel),
@@ -140,7 +124,7 @@ namespace GisoFramework
 
                             if (!string.IsNullOrEmpty(rdr.GetString(ColumnsApplicationUserGetById.BlueLabel)))
                             {
-                                this.menuShortcuts.Blue = new Shortcut()
+                                this.menuShortcuts.Blue = new Shortcut
                                 {
                                     Id = rdr.GetInt32(ColumnsApplicationUserGetById.BlueIdentifier),
                                     Label = rdr.GetString(ColumnsApplicationUserGetById.BlueLabel),
@@ -151,7 +135,7 @@ namespace GisoFramework
 
                             if (!string.IsNullOrEmpty(rdr.GetString(ColumnsApplicationUserGetById.RedLabel)))
                             {
-                                this.menuShortcuts.Red = new Shortcut()
+                                this.menuShortcuts.Red = new Shortcut
                                 {
                                     Id = rdr.GetInt32(ColumnsApplicationUserGetById.RedIdentifier),
                                     Label = rdr.GetString(ColumnsApplicationUserGetById.RedLabel),
@@ -162,7 +146,7 @@ namespace GisoFramework
 
                             if (!string.IsNullOrEmpty(rdr.GetString(ColumnsApplicationUserGetById.YellowLabel)))
                             {
-                                this.menuShortcuts.Yellow = new Shortcut()
+                                this.menuShortcuts.Yellow = new Shortcut
                                 {
                                     Id = rdr.GetInt32(ColumnsApplicationUserGetById.YellowIdentifier),
                                     Label = rdr.GetString(ColumnsApplicationUserGetById.YellowLabel),
@@ -190,8 +174,8 @@ namespace GisoFramework
         /// </summary>
         public ApplicationUser()
         {
-            this.id = -1;
-            this.userName = string.Empty;
+            this.Id = -1;
+            this.UserName = string.Empty;
             this.groups = new List<ApplicationLogOn.SecurityGroup>();
             this.Employee = Employee.EmptySimple;
         }
@@ -203,10 +187,10 @@ namespace GisoFramework
         {
             get
             {
-                return new ApplicationUser()
+                return new ApplicationUser
                 {
-                    id = -1,
-                    userName = string.Empty,
+                    Id = -1,
+                    UserName = string.Empty,
                     Employee = Employee.EmptySimple
                 };
             }
@@ -237,7 +221,12 @@ namespace GisoFramework
             {
                 var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
                 string toolTip = dictionary["Common_Edit"];
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), "<a href=\"UserView.aspx?id={0}\" title=\"{2} {1}\">{1}</a>", this.id, this.userName, toolTip);
+                return string.Format(
+                    CultureInfo.InvariantCulture, 
+                    "<a href=\"UserView.aspx?id={0}\" title=\"{2} {1}\">{1}</a>", 
+                    this.Id, 
+                    this.UserName, 
+                    toolTip);
             }
         }
 
@@ -245,7 +234,11 @@ namespace GisoFramework
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0},""Value"":""{1}""}}", this.id, Tools.JsonCompliant(this.userName));
+                return string.Format(
+                    CultureInfo.InvariantCulture, 
+                    @"{{""Id"":{0},""Value"":""{1}""}}", 
+                    this.Id, 
+                    Tools.JsonCompliant(this.UserName));
             }
         }
 
@@ -263,7 +256,7 @@ namespace GisoFramework
                     {
                         cmd.Connection = cnn;
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", this.id));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", this.Id));
                         try
                         {
                             cmd.Connection.Open();
@@ -274,9 +267,9 @@ namespace GisoFramework
                                     var item = ApplicationGrant.FromInteger(rdr.GetInt32(ColumnsApplicationUserGetEffectiveGrants.ItemId));
                                     item.Description = rdr[ColumnsApplicationUserGetEffectiveGrants.Description].ToString();
 
-                                    res.Add(new UserGrant()
+                                    res.Add(new UserGrant
                                     {
-                                        UserId = this.id,
+                                        UserId = this.Id,
                                         Item = item,
                                         GrantToRead = rdr.GetBoolean(ColumnsApplicationUserGetEffectiveGrants.GrantToRead),
                                         GrantToWrite = rdr.GetBoolean(ColumnsApplicationUserGetEffectiveGrants.GrantToWrite),
@@ -314,41 +307,18 @@ namespace GisoFramework
                     this.Avatar = "avatar2.png";
                 }
 
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"assets/avatars/{0}", this.Avatar);
+                return string.Format(
+                    CultureInfo.InvariantCulture, 
+                    @"assets/avatars/{0}", 
+                    this.Avatar);
             }
         }
 
-        /// <summary>
-        /// Gets or sets application user identifier
-        /// </summary>
-        public int Id
-        {
-            get
-            {
-                return this.id;
-            }
+        /// <summary>Gets or sets application user identifier</summary>
+        public int Id { get; set; }
 
-            set
-            {
-                this.id = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets application user name
-        /// </summary>
-        public string UserName
-        {
-            get
-            {
-                return this.userName;
-            }
-
-            set
-            {
-                this.userName = value;
-            }
-        }
+        /// <summary>Gets or sets application user name</summary>
+        public string UserName { get; set; }
 
         /// <summary>Gets or sets a value indicating whether if user show help in interface</summary>
         public bool ShowHelp { get; set; }
@@ -421,9 +391,9 @@ namespace GisoFramework
             get
             {
                 var res = new StringBuilder("{").Append(Environment.NewLine);
-                res.Append("    \"Id\":").Append(this.id).Append(",").Append(Environment.NewLine);
+                res.Append("    \"Id\":").Append(this.Id).Append(",").Append(Environment.NewLine);
                 res.Append("    \"CompanyId\":").Append(this.CompanyId).Append(",").Append(Environment.NewLine);
-                res.Append("    \"Login\":\"").Append(this.userName).Append("\",").Append(Environment.NewLine);
+                res.Append("    \"Login\":\"").Append(this.UserName).Append("\",").Append(Environment.NewLine);
                 res.Append("    \"PrimaryUser\":").Append(this.PrimaryUser ? "true" : "false").Append(",").Append(Environment.NewLine);
                 res.Append("    \"Admin\":").Append(this.Admin ? "true" : "false").Append(",").Append(Environment.NewLine);
                 res.Append("    \"Language\":\"").Append(this.Language).Append("\",").Append(Environment.NewLine);
@@ -538,10 +508,10 @@ namespace GisoFramework
                         {
                             while (rdr.Read())
                             {
-                                var newUser = new ApplicationUser()
+                                var newUser = new ApplicationUser
                                 {
-                                    id = rdr.GetInt32(ColumnsUserGetByCompanyId.Id),
-                                    userName = rdr.GetString(ColumnsUserGetByCompanyId.Login),
+                                    Id = rdr.GetInt32(ColumnsUserGetByCompanyId.Id),
+                                    UserName = rdr.GetString(ColumnsUserGetByCompanyId.Login),
                                     Email = rdr.GetString(ColumnsUserGetByCompanyId.UserEmail)
                                 };
 
@@ -552,7 +522,7 @@ namespace GisoFramework
 
                                 if (!rdr.IsDBNull(ColumnsUserGetByCompanyId.EmployeeId))
                                 {
-                                    newUser.Employee = new Employee()
+                                    newUser.Employee = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsUserGetByCompanyId.EmployeeId),
                                         Name = rdr.GetString(ColumnsUserGetByCompanyId.EmployeeName),
@@ -892,12 +862,12 @@ namespace GisoFramework
                         {
                             while (rdr.Read())
                             {
-                                res.id = rdr.GetInt32(0);
-                                res.userName = rdr.GetString(1);
+                                res.Id = rdr.GetInt32(0);
+                                res.UserName = rdr.GetString(1);
                                 res.status = ApplicationLogOn.IntegerToLogOnResult(rdr.GetInt32(3));
                                 res.Email = rdr.GetString(9);
                                 res.GetGrants();
-                                res.Employee = Employee.ByUserId(res.id);
+                                res.Employee = Employee.ByUserId(res.Id);
                                 res.PrimaryUser = rdr.GetBoolean(10);
                                 res.Admin = rdr.GetBoolean(11);
                                 res.Language = rdr.GetString(12);
@@ -947,8 +917,8 @@ namespace GisoFramework
                         {
                             while (rdr.Read())
                             {
-                                res.id = rdr.GetInt32(0);
-                                res.userName = rdr.GetString(1);
+                                res.Id = rdr.GetInt32(0);
+                                res.UserName = rdr.GetString(1);
                                 res.status = ApplicationLogOn.IntegerToLogOnResult(rdr.GetInt32(3));
                                 res.groups.Add(ApplicationLogOn.IntegerToSecurityGroup(rdr.GetInt32(4)));
                                 res.PrimaryUser = rdr.GetBoolean(6);
@@ -1623,7 +1593,7 @@ namespace GisoFramework
                 iconDelete = string.Format(
                     CultureInfo.InvariantCulture,
                     @"<span title=""{3} {2}"" class=""btn btn-xs btn-danger"" onclick=""UserDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>",
-                    this.id,
+                    this.Id,
                     this.Description,
                     Tools.LiteralQuote(Tools.JsonCompliant(this.Description)),
                     Tools.JsonCompliant(dictionary["Common_Delete"]));
@@ -1781,7 +1751,7 @@ namespace GisoFramework
                 {
                     cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", this.id));
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", this.Id));
                     try
                     {
                         cmd.Connection.Open();
@@ -1791,7 +1761,7 @@ namespace GisoFramework
                             {
                                 this.grants.Add(new UserGrant()
                                 {
-                                    UserId = this.id,
+                                    UserId = this.Id,
                                     Item = ApplicationGrant.FromIntegerUrl(rdr.GetInt32(ColumnsApplicationUserGetGrants.ItemId), rdr[ColumnsApplicationUserGetGrants.UrlList].ToString()),
                                     GrantToRead = rdr.GetBoolean(ColumnsApplicationUserGetGrants.GrantToRead),
                                     GrantToWrite = rdr.GetBoolean(ColumnsApplicationUserGetGrants.GrantToWrite),
@@ -1831,8 +1801,8 @@ namespace GisoFramework
                 cmd.CommandType = CommandType.StoredProcedure;
                 try
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", this.id));
-                    cmd.Parameters.Add(DataParameter.Input("@UserName", this.userName, DataParameter.DefaultTextLength));
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", this.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@UserName", this.UserName, DataParameter.DefaultTextLength));
                     cmd.Parameters.Add(DataParameter.Input("@Email", this.Email, DataParameter.DefaultTextLength));
                     cmd.Parameters.Add(DataParameter.Input("@Language", this.Language, DataParameter.DefaultTextLength));
                     cmd.Parameters.Add(DataParameter.Input("@Admin", this.Admin));

@@ -55,7 +55,7 @@ namespace GisoFramework.Item
                             {
                                 rdr.Read();
                                 this.Id = rdr.GetInt32(ColumnsGetSkillByEmployee.Id);
-                                this.Employee = new Employee()
+                                this.Employee = new Employee
                                 {
                                     Id = rdr.GetInt32(ColumnsGetSkillByEmployee.EmployeeId),
                                     CompanyId = rdr.GetInt32(ColumnsGetSkillByEmployee.CompanyId)
@@ -179,29 +179,29 @@ namespace GisoFramework.Item
         {
             get
             {
-                string academicValidText = "null";
-                string specificValidText = "null";
-                string workExperienceValidText = "null";
-                string abilityValidText = "null";
+                string academicValidText = Constant.JavascriptNull;
+                string specificValidText = Constant.JavascriptNull;
+                string workExperienceValidText = Constant.JavascriptNull;
+                string abilityValidText = Constant.JavascriptNull;
 
                 if (this.AcademicValid.HasValue)
                 {
-                    academicValidText = this.AcademicValid.Value ? "true" : "false";
+                    academicValidText = this.AcademicValid.Value ? Constant.JavascriptTrue : Constant.JavascriptFalse;
                 }
 
                 if (this.SpecificValid.HasValue)
                 {
-                    specificValidText = this.SpecificValid.Value ? "true" : "false";
+                    specificValidText = this.SpecificValid.Value ? Constant.JavascriptTrue : Constant.JavascriptFalse;
                 }
 
                 if (this.WorkExperienceValid.HasValue)
                 {
-                    workExperienceValidText = this.WorkExperienceValid.Value ? "true" : "false";
+                    workExperienceValidText = this.WorkExperienceValid.Value ? Constant.JavascriptTrue : Constant.JavascriptFalse;
                 }
 
                 if (this.AbilityValid.HasValue)
                 {
-                    abilityValidText = this.AbilityValid.Value ? "true" : "false";
+                    abilityValidText = this.AbilityValid.Value ? Constant.JavascriptTrue : Constant.JavascriptFalse;
                 }
 
                 string pattern = @"

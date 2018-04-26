@@ -10,17 +10,13 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for ProcessActions
-/// </summary>
+/// <summary>Summary description for ProcessActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
 public class ProcessActions : WebService {
 
-    /// <summary>
-    /// Initializes a new instance of the ProcessActions class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the ProcessActions class.</summary>
     public ProcessActions()
     { 
     }
@@ -29,8 +25,7 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult DesactiveProcessType(int processTypeId, string description, int companyId, int userId)
     {
-        var victim = new ProcessType { Id = processTypeId, CompanyId = companyId, Description = description };
-        var res = victim.Deactive(userId);
+        var res = new ProcessType { Id = processTypeId, CompanyId = companyId, Description = description }.Deactive(userId);
         if (res.Success)
         {
             var companySession = new Company(companyId);
@@ -44,8 +39,7 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult UpdateProcessType(int processTypeId, string description, int companyId, int userId)
     {
-        var victim = new ProcessType { Id = processTypeId, CompanyId = companyId, Description = description, Active = true };
-        var res = victim.Update(userId);
+        var res = new ProcessType { Id = processTypeId, CompanyId = companyId, Description = description, Active = true }.Update(userId);
         if (res.Success)
         {
             var companySession = new Company(companyId);
@@ -59,8 +53,7 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult InsertProcessType(string description, int companyId, int userId)
     {
-        var newProcessType = new ProcessType { CompanyId = companyId, Description = description, Active = true };
-        var res = newProcessType.Insert(userId);
+        var res = new ProcessType { CompanyId = companyId, Description = description, Active = true }.Insert(userId);
         if (res.Success)
         {
             var companySession = new Company(companyId);
@@ -70,9 +63,7 @@ public class ProcessActions : WebService {
         return res;
     }
 
-    /// <summary>
-    /// Call the process insert
-    /// </summary>
+    /// <summary>Call the process insert</summary>
     /// <param name="newProcess">New job position data</param>
     /// <param name="userId">Identifier of logged user</param>
     /// <returns>Result of action</returns>
@@ -92,9 +83,7 @@ public class ProcessActions : WebService {
         return res;
     }
 
-    /// <summary>
-    /// Call the process update
-    /// </summary>
+    /// <summary>Call the process update</summary>
     /// <param name="oldProcess">Old process data</param>
     /// <param name="newProcess">New process data</param>
     /// <param name="userId">Identifier of logged user</param>

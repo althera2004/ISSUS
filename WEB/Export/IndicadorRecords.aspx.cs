@@ -213,7 +213,7 @@ public partial class ExportIndicadorRecords : Page
                 break;
         }
 
-        foreach (IndicadorRegistro registro in registros)
+        foreach (var registro in registros)
         {
             if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
             string metaText = IndicadorRegistro.ComparerLabelSign(registro.MetaComparer, dictionary);
@@ -600,7 +600,7 @@ public partial class ExportIndicadorRecords : Page
             chart.ChartAreas["Valor"].RecalculateAxesScale();
 
             int cp = 0;
-            foreach (DataPoint Point in chart.Series["Values"].Points)
+            foreach (var Point in chart.Series["Values"].Points)
             {
                 switch(dataPoints[cp].Status)
                 {

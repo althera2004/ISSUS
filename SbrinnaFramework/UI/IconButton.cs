@@ -8,9 +8,7 @@ namespace SbrinnaCoreFramework.UI
 {
     using System.Globalization;
 
-    /// <summary>
-    /// Implements IconButton class
-    /// </summary>
+    /// <summary>Implements IconButton class</summary>
     public class IconButton : Element
     {
         public string Title { get; set; }
@@ -26,7 +24,7 @@ namespace SbrinnaCoreFramework.UI
             get
             {
                 return string.Format(
-                    CultureInfo.GetCultureInfo("es-es"),
+                    CultureInfo.InvariantCulture,
                     @"<span title=""{0}"" class=""btn btn-xs btn-{1}"" onclick=""{2}"">
                     <i class=""icon-{3} bigger-120""></i>
                 </span>",

@@ -16,7 +16,7 @@ namespace GisoFramework
     /// <summary>Implementation of CompnayCreate class.</summary>
     public static class CompanyCreate
     {
-        /// <summary>Char for separator</summary>
+        /// <summary>Character for separator</summary>
         private const string Separator = "|";
 
         /// <summary>Insert a new company in database</summary>
@@ -85,7 +85,7 @@ namespace GisoFramework
                         cmd.Parameters.Add(DataParameter.Input("@Fax", companyFax, DataParameter.DefaultTextLength));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
-                        res.SetSuccess(userName + Separator + companyEmail + Separator + cmd.Parameters["@Password"].Value.ToString());
+                        res.SetSuccess(userName + Separator + companyEmail + Separator + cmd.Parameters["@Password"].Value);
                     }
                     catch (SqlException ex)
                     {

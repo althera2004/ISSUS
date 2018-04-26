@@ -17,16 +17,12 @@ using System.Configuration;
 using System.Data;
 using GisoFramework.DataAccess;
 
-/// <summary>
-/// Summary description for CompanyCreation
-/// </summary>
+/// <summary>Summary description for CompanyCreation</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 public class CompanyCreation : WebService
 {
-    /// <summary>
-    /// Char for separator
-    /// </summary>
+    /// <summary>Character for separator</summary>
     private const string Separator = "|";
 
     public CompanyCreation()
@@ -70,34 +66,33 @@ public class CompanyCreation : WebService
             string destino = path;
             if (!path.EndsWith("\\", StringComparison.Ordinal))
             {
-                path = string.Format(CultureInfo.InstalledUICulture, @"{0}\images\noimage.jpg", path);
+                path = string.Format(CultureInfo.InvariantCulture, @"{0}\images\noimage.jpg", path);
             }
             else
             {
-                path = string.Format(CultureInfo.InstalledUICulture, @"{0}\images\noimage.jpg", path);
+                path = string.Format(CultureInfo.InvariantCulture, @"{0}\images\noimage.jpg", path);
             }
-
 
             if (!destino.EndsWith("\\", StringComparison.Ordinal))
             {
-                destino = string.Format(CultureInfo.InstalledUICulture, @"{0}\images\Logos\{1}.jpg", destino, res.MessageError.Split('|')[0]);
+                destino = string.Format(CultureInfo.InvariantCulture, @"{0}\images\Logos\{1}.jpg", destino, res.MessageError.Split('|')[0]);
             }
             else
             {
-                destino = string.Format(CultureInfo.InstalledUICulture, @"{0}\images\Logos\{1}.jpg", destino, res.MessageError.Split('|')[0]);
+                destino = string.Format(CultureInfo.InvariantCulture, @"{0}\images\Logos\{1}.jpg", destino, res.MessageError.Split('|')[0]);
             }
 
             //System.IO.File.Copy(path, destino);
 
             path = HttpContext.Current.Request.PhysicalApplicationPath;
-            if(!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
+            if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
             {
                 path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
             }
 
             path = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\WelcomeMail.tpl", path);
             string bodyPattern = string.Empty;
-            using(StreamReader rdr = new StreamReader(path))
+            using (var rdr = new StreamReader(path))
             {
                 bodyPattern = rdr.ReadToEnd();
                 bodyPattern = bodyPattern.Replace("#USERNAME#", "{2}");
@@ -112,27 +107,28 @@ public class CompanyCreation : WebService
                 res.MessageError.Split('|')[1],
                 res.MessageError.Split('|')[2],
                 res.MessageError.Split('|')[0]);
-            MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("mail.scrambotika.com");
-            mail.From = new MailAddress("issus@scrambotika.com", "ISSUS");
-            mail.IsBodyHtml = true;
+            var mail = new MailMessage
+            {
+                From = new MailAddress("issus@scrambotika.com", "ISSUS"),
+                IsBodyHtml = true,
+                Subject = subject,
+                Body = body
+            };
             mail.To.Add("hola@scrambotika.com");
             //mail.CC.Add(companyEmail);
 
-            mail.Subject = subject;
-            mail.Body = body;
-
-            SmtpServer.Port = 25;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "WSBhz7WB");
+            var SmtpServer = new SmtpClient("mail.scrambotika.com")
+            {
+                Port = 25,
+                Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "WSBhz7WB")
+            };
             SmtpServer.Send(mail);
         }
 
         return res.MessageError;
     }
 
-    /// <summary>
-    /// Insert a new compnay in database
-    /// </summary>
+    /// <summary>Insert a new compnay in database</summary>
     /// <param name="companyName">Company name</param>
     /// <param name="companyCode">Company code</param>
     /// <param name="companyNif">Company nif</param>

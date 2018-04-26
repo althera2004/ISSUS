@@ -58,7 +58,7 @@ namespace GisoFramework.Item
                         ""Deletable"":{3}
                       }}";
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Id,
                     this.Description,
@@ -200,13 +200,13 @@ namespace GisoFramework.Item
                                     deletable = false;
                                 }
 
-                                res.Add(new EquipmentScaleDivision()
+                                res.Add(new EquipmentScaleDivision
                                 {
                                     Id = rdr.GetInt64(ColumnsEquipmentScaleDivisionGetByCompany.Id),
                                     CompanyId = companyId,
                                     Description = rdr.GetString(ColumnsEquipmentScaleDivisionGetByCompany.Description),
                                     Active = rdr.GetBoolean(ColumnsEquipmentScaleDivisionGetByCompany.Active),
-                                    ModifiedBy = new ApplicationUser()
+                                    ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentScaleDivisionGetByCompany.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsEquipmentScaleDivisionGetByCompany.ModifiedByUserName)
@@ -290,6 +290,13 @@ namespace GisoFramework.Item
         /// <returns>Restult of action</returns>
         public ActionResult Update(int userId)
         {
+            string source = string.Format(
+                CultureInfo.InvariantCulture,
+                @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""",
+                this.Id,
+                userId, 
+                this.CompanyId, 
+                this.Description);
             /*CREATE PROCEDURE EquipmentScaleDivision_Update
              *   @EquipmentScaleDivisionId bigint,
              *   @Description nvarchar(20),
@@ -314,23 +321,23 @@ namespace GisoFramework.Item
                     }
                     catch (SqlException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentNullException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentScaleDivision::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {

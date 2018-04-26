@@ -4,22 +4,22 @@
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace SbrinnaCoreFramework
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>Implements UniqueSession class</summary>
     public static class UniqueSession
     {
         /// <summary>Data of unique sessions active</summary>
         private static List<UniqueSessionData> data;
 
-        /// <summary>Indicates if session toke is present on application</summary>
+        /// <summary>Indicates if session token is present on application</summary>
         /// <param name="token">Session's token</param>
         /// <param name="userId">User identififer</param>
-        /// <returns></returns>
+        /// <returns>Session token is present on application</returns>
         public static bool Exists(Guid token, int userId)
         {
             if(data == null)
@@ -38,24 +38,46 @@ namespace SbrinnaCoreFramework
         /// <summary>Replace user session</summary>
         /// <param name="oldUser">Old user session</param>
         /// <param name="newUser">New user seesion</param>
-        /// <returns></returns>
+        /// <returns>Indentifier of new user token</returns>
         public static Guid ReplaceUser(int oldUser, int newUser)
         {
+            var result = Guid.Empty;
             if (data == null)
             {
                 data = new List<UniqueSessionData>();
             }
 
             UnsetSession(newUser);
+            var newData = new List<UniqueSessionData>();
             if (data.Any(d => d.UserId == oldUser))
             {
-                data.First(d => d.UserId == oldUser).UserId = newUser;
-                return data.First(d => d.UserId == newUser).Token;
+                foreach(var item in data)
+                {
+                    if (item.UserId == oldUser)
+                    {
+                        newData.Add(new UniqueSessionData
+                        {
+                            IP = item.IP,
+                            LastConnection = item.LastConnection,
+                            Token = item.Token,
+                            UserId = newUser
+                        });
+                    }
+                    else
+                    {
+                        newData.Add(item);
+                    }
+                }
+
+                result = data.First(d => d.UserId == newUser).Token;
             }
             else
             {
-                return SetSession(newUser, string.Empty);
+                result = SetSession(newUser, string.Empty);
             }
+
+            data = newData;
+            return result;
         }
 
         /// <summary>Set session</summary>
@@ -72,7 +94,7 @@ namespace SbrinnaCoreFramework
             UnsetSession(userId);
 
             var token = Guid.NewGuid();
-            data.Add(new UniqueSessionData()
+            data.Add(new UniqueSessionData
             {
                 Token =token,
                 UserId = userId,

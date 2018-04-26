@@ -91,6 +91,7 @@
     <Compile Include="ApplicationItem.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="DifferenciableAttribute.cs" />
+    <Compile Include="ItemValues.cs" />
     <Compile Include="Item\BaseItem.cs" />
     <Compile Include="Item\Binding\ColumnsBusinessRiskFilterGet.cs" />
     <Compile Include="Item\Binding\ColumnsBusinessRiskGetAll.cs" />

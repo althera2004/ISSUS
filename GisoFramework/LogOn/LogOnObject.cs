@@ -50,9 +50,7 @@ namespace GisoFramework.LogOn
             }
         }
 
-        /// <summary>
-        /// Compare object with another
-        /// </summary>
+        /// <summary>Compare object with another</summary>
         /// <param name="logOnObject1">Object from compare</param>
         /// <param name="logOnObject2">Object to compare</param>
         /// <returns>Indicates if objects are equals</returns>
@@ -76,9 +74,7 @@ namespace GisoFramework.LogOn
             return logOnObject1.Equals(logOnObject2);
         }
 
-        /// <summary>
-        /// Compare object with another
-        /// </summary>
+        /// <summary>Compare object with another</summary>
         /// <param name="logOnObject1">Object from compare</param>
         /// <param name="logOnObject2">Object to compare</param>
         /// <returns>Indicates if objects are different</returns>
@@ -102,9 +98,7 @@ namespace GisoFramework.LogOn
             return !logOnObject1.Equals(logOnObject2);
         }
 
-        /// <summary>
-        /// Compare object with another
-        /// </summary>
+        /// <summary>Compare object with another</summary>
         /// <param name="obj">Object to compare</param>
         /// <returns>Indicates if objects are equals</returns>
         public override bool Equals(object obj)
@@ -117,9 +111,7 @@ namespace GisoFramework.LogOn
             return this.Equals((LogOnObject)obj);
         }
 
-        /// <summary>
-        /// Compare object with another
-        /// </summary>
+        /// <summary>Compare object with another</summary>
         /// <param name="other">Object to compare</param>
         /// <returns>Indicates if objects are equals</returns>
         public bool Equals(LogOnObject other)
@@ -137,16 +129,14 @@ namespace GisoFramework.LogOn
             return this.Result == other.Result;
         }
 
-        /// <summary>
-        /// Get the hash code of object
-        /// </summary>
+        /// <summary>Get the hash code of object</summary>
         /// <returns>Hash code of object</returns>
         public override int GetHashCode()
         {
-            int hash = 17;
-            hash = hash * (23 + this.Id.GetHashCode());
-            hash = hash * (23 + this.UserName.GetHashCode());
-            return hash;
+            int result = 17;
+            result = result * (23 + this.Id.GetHashCode());
+            result = result * (23 + this.UserName.GetHashCode());
+            return result;
         }        
     }
 }

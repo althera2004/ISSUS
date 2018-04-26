@@ -9,13 +9,11 @@ using System.Web.Script.Services;
 using System.Web.Services;
 using GisoFramework.Activity;
 
-/// <summary>
-/// Descripción breve de DashBoardActions
-/// </summary>
+/// <summary>Descripción breve de DashBoardActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
-public class DashBoardActions : System.Web.Services.WebService
+public class DashBoardActions : WebService
 {
 
     public DashBoardActions()

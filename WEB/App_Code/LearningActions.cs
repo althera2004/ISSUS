@@ -123,14 +123,12 @@ public class LearningActions : WebService {
     [ScriptMethod]
     public ActionResult InsertAssistant(int employeeId, int learningId, int companyId, int userId)
     {
-        var newAssistant = new Assistant
+        return new Assistant
         {
             CompanyId = companyId,
-            Employee = new Employee() { Id = employeeId },
-            Learning = new Learning() { Id = learningId }
-        };
-
-        return newAssistant.Insert(userId);
+            Employee = new Employee { Id = employeeId },
+            Learning = new Learning { Id = learningId }
+        }.Insert(userId);
     }
 
     [WebMethod(EnableSession = true)]

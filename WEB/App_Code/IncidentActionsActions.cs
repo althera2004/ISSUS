@@ -74,9 +74,7 @@ public class IncidentActionsActions : WebService
     [ScriptMethod]
     public ActionResult Delete(long incidentActionId, int companyId, int userId)
     {
-        var res = ActionResult.NoAction;
-        var action = new IncidentAction { Id = incidentActionId, CompanyId = companyId };
-        return action.Delete(userId);
+        return new IncidentAction { Id = incidentActionId, CompanyId = companyId }.Delete(userId);
     }
     
     [WebMethod(EnableSession = true)]

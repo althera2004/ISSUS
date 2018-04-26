@@ -69,14 +69,13 @@ namespace SbrinnaCoreFramework.UI
                     label = string.Format(@"<label id=""{2}Label"" class=""col-sm-{0} control-label no-padding-right"">{1}{3}</label>", this.ColumnsSpanLabel, this.Label, this.Name, requiredMark);
                 }
 
-
                 string requiredLabel = string.Empty;
                 if (this.Required)
                 {
                     requiredLabel = string.Format(@"<span class=""ErrorMessage"" id=""{0}ErrorRequired"" style=""display:none;"">{1}</span>", this.Name, this.RequiredMessage);
                 }
 
-                StringBuilder optionsList = new StringBuilder();
+                var optionsList = new StringBuilder();
                 if (!string.IsNullOrEmpty(this.DefaultOption.Text))
                 {
                     optionsList.Append(this.DefaultOption.Render);
@@ -103,7 +102,7 @@ namespace SbrinnaCoreFramework.UI
                     this.ToolTip,
                     this.Placeholder,
                     this.ChangeEvent,
-                    optionsList.ToString(),
+                    optionsList,
                     label,
                     (this.GrantToWrite.HasValue && this.GrantToWrite.Value == false) ? " disabled=\"disabled\"" : string.Empty);
             }

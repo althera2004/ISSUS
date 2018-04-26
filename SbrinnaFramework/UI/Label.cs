@@ -8,9 +8,7 @@ namespace SbrinnaCoreFramework.UI
 {
     using System.Globalization;
 
-    /// <summary>
-    /// Implements Label class
-    /// </summary>
+    /// <summary>Implements Label class</summary>
     public class Label : Element
     {
         public bool Right { get; set; }
@@ -28,7 +26,7 @@ namespace SbrinnaCoreFramework.UI
 
                 string pattern = "<label class=\"col-sm-{0} control-label{1}\" id=\"{2}\">{3}</label>";
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Expand,
                     this.Right ? " no-padding-right" : string.Empty,

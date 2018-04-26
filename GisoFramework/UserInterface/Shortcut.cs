@@ -6,6 +6,7 @@
 // --------------------------------
 namespace GisoFramework.UserInterface
 {
+    using GisoFramework.DataAccess;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Configuration;
@@ -17,73 +18,17 @@ namespace GisoFramework.UserInterface
     /// <summary>Class that implements a class for menu's shortcuts</summary>
     public class Shortcut
     {
-        /// <summary>ShortCut's identifier</summary>
-        private int id;
-
-        /// <summary>Shortcut's label</summary>
-        private string label;
-
-        /// <summary>Link address of shortcut</summary>
-        private string link;
-
-        /// <summary>Icon of shortcut</summary>
-        private string icon;
-
-        /// <summary>Gets or sets the shortCut's identifier</summary>
-        public int Id
-        {
-            get
-            {
-                return this.id;
-            }
-
-            set
-            {
-                this.id = value;
-            }
-        }
+        /// <summary>Gets or sets the shortcut's identifier</summary>
+        public int Id { get; set; }
 
         /// <summary>Gets or sets the shortcut's label text</summary>
-        public string Label
-        {
-            get 
-            { 
-                return this.label; 
-            }
-
-            set 
-            {
-                this.label = value;
-            }
-        }
+        public string Label { get; set; }
 
         /// <summary>Gets or sets the link address of shortcut</summary>
-        public string Link
-        {
-            get 
-            {
-                return this.link; 
-            }
-
-            set 
-            {
-                this.link = value; 
-            }
-        }
+        public string Link { get; set; }
 
         /// <summary>Gets or sets the icon of shortcut</summary>
-        public string Icon
-        {
-            get 
-            {
-                return this.icon; 
-            }
-
-            set 
-            {
-                this.icon = value;
-            }
-        }
+        public string Icon { get; set; }
 
         /// <summary>Obtain the availables shorcuts actions by user</summary>
         /// <param name="applicationUserId">User identifier</param>
@@ -99,19 +44,18 @@ namespace GisoFramework.UserInterface
                     cmd.CommandType = CommandType.StoredProcedure;
                     try
                     {
-                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                        cmd.Parameters["@UserId"].Value = applicationUserId;
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", applicationUserId));
                         cmd.Connection.Open();
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new Shortcut()
+                                res.Add(new Shortcut
                                 {
-                                    id = rdr.GetInt32(0),
-                                    label = rdr.GetString(1),
-                                    link = rdr.GetString(2),
-                                    icon = rdr.GetString(3)
+                                    Id = rdr.GetInt32(0),
+                                    Label = rdr.GetString(1),
+                                    Link = rdr.GetString(2),
+                                    Icon = rdr.GetString(3)
                                 });
                             }
                         }
@@ -139,7 +83,11 @@ namespace GisoFramework.UserInterface
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
 
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"<button class=""btn btn-info"" style=""height:32px;"" onclick=""alert('{0}');"" title=""{0}""><i class=""{1}""></i></button>", dictionary[this.label], this.icon);
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                @"<button class=""btn btn-info"" style=""height:32px;"" onclick=""alert('{0}');"" title=""{0}""><i class=""{1}""></i></button>",
+                dictionary[this.Label], 
+                this.Icon);
         }
 
         /// <summary>Gets a Json structure of shortcut</summary>
@@ -152,7 +100,12 @@ namespace GisoFramework.UserInterface
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
 
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0},""Label"":""{1}"",""Icon"":""{2}""}}", this.id, Tools.JsonCompliant(dictionary[this.label]), this.icon);
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                @"{{""Id"":{0},""Label"":""{1}"",""Icon"":""{2}""}}",
+                this.Id, 
+                Tools.JsonCompliant(dictionary[this.Label]), 
+                this.Icon);
         }
     }
 }

@@ -11,15 +11,13 @@ using System.Web.Services;
 using GisoFramework.Item;
 using GisoFramework.Activity;
 
-/// <summary>
-/// Summary description for DeparmentActions
-/// </summary>
+/// <summary>Summary description for DeparmentActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
 public class DepartmentActions : WebService
 {
-    public DepartmentActions () 
+    public DepartmentActions()
     {
     }
 
@@ -39,8 +37,8 @@ public class DepartmentActions : WebService
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
     public ActionResult DepartmentUpdate(int companyId, int departmentId, string name, int userId)
-    {        
-        var department = new Department() { Id = departmentId, CompanyId = companyId, Description = name };
+    {
+        var department = new Department { Id = departmentId, CompanyId = companyId, Description = name };
         var res = department.Update(userId);
         if (res.Success)
         {

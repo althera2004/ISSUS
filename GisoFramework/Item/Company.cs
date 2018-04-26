@@ -438,9 +438,9 @@ namespace GisoFramework.Item
         /// <param name="item1">First company to compare</param>
         /// <param name="item2">Second company to capmpare</param>
         /// <returns>The description of differences between two companies</returns>
-        public static string Differences(Company item1, Company item2)
+        public string Differences(Company item2)
         {
-            if (item1 == null || item2 == null)
+            if (this == null || item2 == null)
             {
                 return string.Empty;
             }
@@ -448,13 +448,13 @@ namespace GisoFramework.Item
             var res = new StringBuilder();
             bool first = true;
 
-            if (item1.Name != item2.Name)
+            if (this.Name != item2.Name)
             {
                 res.Append("Name:").Append(item2.Name);
                 first = false;
             }
 
-            if (item1.FiscalNumber != item2.FiscalNumber)
+            if (this.FiscalNumber != item2.FiscalNumber)
             {
                 if (!first)
                 {
@@ -465,7 +465,7 @@ namespace GisoFramework.Item
                 first = false;
             }
 
-            if (item1.Language != item2.Language)
+            if (this.Language != item2.Language)
             {
                 if (!first)
                 {
@@ -476,7 +476,7 @@ namespace GisoFramework.Item
                 first = false;
             }
 
-            if (item1.defaultAddress.Id != item2.defaultAddress.Id)
+            if (this.defaultAddress.Id != item2.defaultAddress.Id)
             {
                 if (!first)
                 {
@@ -544,7 +544,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>Generates a JSON strcuture of company</summary>
+        /*/// <summary>Generates a JSON strcuture of company</summary>
         /// <param name="company">Compnay to extract data</param>
         /// <returns>JSON structure</returns>
         public static string Json(Company company)
@@ -626,7 +626,7 @@ namespace GisoFramework.Item
             res.Append(Environment.NewLine).Append("\t\t]");
             res.Append(Environment.NewLine).Append("\t}");
             return res.ToString();
-        }
+        }*/
 
         /// <summary>Get a compnay from data base by code</summary>
         /// <param name="code">Company's code</param>

@@ -65,7 +65,7 @@ namespace SbrinnaCoreFramework
                 return (T)Convert.ChangeType(default(T), typeof(T), CultureInfo.InvariantCulture);
             }
 
-            foreach (CodedQueryItem pair in this.data)
+            foreach (var pair in this.data)
             {
                 if (pair.Key.Equals(key, StringComparison.OrdinalIgnoreCase))
                 {
@@ -81,8 +81,8 @@ namespace SbrinnaCoreFramework
         {
             if (this.data == null)
             {
-                List<CodedQueryItem> res = new List<CodedQueryItem>();
-                string[] parts = this.CleanQuery.Split('&');
+                var res = new List<CodedQueryItem>();
+                var parts = this.CleanQuery.Split('&');
                 foreach (string part in parts)
                 {
                     if (!string.IsNullOrEmpty(part))

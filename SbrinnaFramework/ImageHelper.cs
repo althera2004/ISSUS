@@ -148,8 +148,8 @@ namespace SbrinnaCoreFramework
         {
             while (binaryReader.ReadByte() == 0xff)
             {
-                byte marker = binaryReader.ReadByte();
-                short chunkLength = binaryReader.ReadLittleEndianInt16();
+                var marker = binaryReader.ReadByte();
+                var chunkLength = binaryReader.ReadLittleEndianInt16();
 
                 if (marker == 0xc0)
                 {

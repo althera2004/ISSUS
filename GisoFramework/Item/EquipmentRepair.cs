@@ -182,18 +182,18 @@ namespace GisoFramework.Item
                                     Date = rdr.GetDateTime(ColumnsEquipmentRepairGet.Date),
                                     Active = rdr.GetBoolean(ColumnsEquipmentRepairGet.Active),
                                     RepairType = rdr.GetInt32(ColumnsEquipmentRepairGet.RepairType),
-                                    Provider = new Provider()
+                                    Provider = new Provider
                                     {
                                         Id = rdr.GetInt64(ColumnsEquipmentRepairGet.ProviderId),
                                         Description = rdr.GetString(ColumnsEquipmentRepairGet.ProviderDescription)
                                     },
-                                    Responsible = new Employee()
+                                    Responsible = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentRepairGet.ResponsibleEmployeeId),
                                         Name = rdr.GetString(ColumnsEquipmentRepairGet.ResponsibleName),
                                         LastName = rdr.GetString(ColumnsEquipmentRepairGet.ResponsibleLastName)
                                     },
-                                    ModifiedBy = new ApplicationUser()
+                                    ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentRepairGet.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsEquipmentRepairGet.ModifiedByUserName)

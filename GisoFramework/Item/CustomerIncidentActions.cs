@@ -60,7 +60,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                CustomerIncidentActions newItem = new CustomerIncidentActions()
+                                var newItem = new CustomerIncidentActions
                                 {
                                     Customer = customer
                                 };
@@ -69,7 +69,7 @@ namespace GisoFramework.Item
                                 switch (itemType)
                                 {
                                     case "Incident":
-                                        newItem.Incident = new Incident()
+                                        newItem.Incident = new Incident
                                         {
                                             Id = rdr.GetInt64(ColumnsCustomerIncidentActionGet.Id),
                                             Description = rdr.GetString(ColumnsCustomerIncidentActionGet.Description),
@@ -77,7 +77,7 @@ namespace GisoFramework.Item
                                         };
                                         break;
                                     case "Action":
-                                        newItem.Action = new IncidentAction()
+                                        newItem.Action = new IncidentAction
                                         {
                                             Id = rdr.GetInt64(ColumnsCustomerIncidentActionGet.Id),
                                             Description = rdr.GetString(ColumnsCustomerIncidentActionGet.Description),
@@ -105,13 +105,14 @@ namespace GisoFramework.Item
                                 }
 
                                 newItem.Relation = 0;
-                                if (rdr.GetInt64(ColumnsCustomerIncidentActionGet.AssociatedId) != 0)
+                                long associatedId = rdr.GetInt64(ColumnsCustomerIncidentActionGet.AssociatedId);
+                                if (associatedId != 0)
                                 {
                                     if (newItem.Action != null)
                                     {
-                                        newItem.Incident = new Incident()
+                                        newItem.Incident = new Incident
                                         {
-                                            Id = rdr.GetInt64(ColumnsCustomerIncidentActionGet.AssociatedId),
+                                            Id = associatedId,
                                             Description = rdr.GetString(ColumnsCustomerIncidentActionGet.AssociatedDescription),
                                             Code = rdr.GetInt64(ColumnsCustomerIncidentActionGet.IncidentCode)
                                         };
@@ -120,9 +121,9 @@ namespace GisoFramework.Item
                                     }
                                     else
                                     {
-                                        newItem.Action = new IncidentAction()
+                                        newItem.Action = new IncidentAction
                                         {
-                                            Id = rdr.GetInt64(ColumnsCustomerIncidentActionGet.AssociatedId),
+                                            Id = associatedId,
                                             Description = rdr.GetString(ColumnsCustomerIncidentActionGet.AssociatedDescription),
                                             Number = rdr.GetInt64(ColumnsCustomerIncidentActionGet.ActionCode)
                                         };

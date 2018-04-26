@@ -49,7 +49,7 @@ namespace GisoFramework.UserInterface
 
             string currentText = current ? " class=\"active\"" : string.Empty;
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<li {2}><a href=""{1}""><i class=""{3}""></i><span class=""menu-text""> {0} </span></a></li>",
                 text,
                 link,

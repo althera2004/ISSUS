@@ -23,8 +23,7 @@ public class EquipmentCalibrationDefinitionActions : WebService
     [ScriptMethod]
     public ActionResult Insert(EquipmentCalibrationDefinition equipmentCalibrationDefinition, int userId)
     {
-        ActionResult res = equipmentCalibrationDefinition.Insert(userId);
-
+        var res = equipmentCalibrationDefinition.Insert(userId);
         if (res.Success)
         {
             Session["Company"] = new Company(equipmentCalibrationDefinition.CompanyId);
@@ -44,11 +43,10 @@ public class EquipmentCalibrationDefinitionActions : WebService
     [ScriptMethod]
     public ActionResult Delete(int equipmentCalibrationDefinitionId, int companyId, int userId)
     {
-        EquipmentCalibrationDefinition victim = new EquipmentCalibrationDefinition()
+        return new EquipmentCalibrationDefinition
         {
             Id = equipmentCalibrationDefinitionId,
             CompanyId = companyId
-        };
-        return victim.Delete(userId);
+        }.Delete(userId);
     }
 }

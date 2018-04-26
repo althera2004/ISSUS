@@ -1283,7 +1283,7 @@ public partial class ExportObjetivoRecords : Page
             ch.ChartAreas["Valor"].RecalculateAxesScale();
 
             int cp = 0;
-            foreach (DataPoint Point in ch.Series["Values"].Points)
+            foreach (var Point in ch.Series["Values"].Points)
             {
                 switch (dataPoints[cp].Status)
                 {

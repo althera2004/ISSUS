@@ -17,127 +17,127 @@ namespace GisoFramework
         /// <summary>Gets a Gets a grant for company</summary>
         public static ApplicationGrant CompanyProfile
         {
-            get { return new ApplicationGrant() { Code = 2 }; }
+            get { return new ApplicationGrant { Code = ItemValues.CompanyProfile }; }
         }
 
         /// <summary>Gets a grant for job position</summary>
         public static ApplicationGrant JobPosition
         {
-            get { return new ApplicationGrant() { Code = 3 }; }
+            get { return new ApplicationGrant { Code = ItemValues.JobPosition }; }
         }
 
         /// <summary>Gets a grant for department</summary>
         public static ApplicationGrant Department
         {
-            get { return new ApplicationGrant() { Code = 4 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Department }; }
         }
 
         /// <summary>Gets a grant for company</summary>
         public static ApplicationGrant Employee
         {
-            get { return new ApplicationGrant() { Code = 5 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Employee }; }
         }
 
         /// <summary>Gets a grant for user</summary>
         public static ApplicationGrant User
         {
-            get { return new ApplicationGrant() { Code = 6 }; }
+            get { return new ApplicationGrant { Code = ItemValues.User }; }
         }
 
         /// <summary>Gets a grant for trace</summary>
         public static ApplicationGrant Trace
         {
-            get { return new ApplicationGrant() { Code = 7 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Trace }; }
         }
 
         /// <summary>Gets a grant for document</summary>
         public static ApplicationGrant Document
         {
-            get { return new ApplicationGrant() { Code = 8 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Document }; }
         }
 
         /// <summary>Gets a grant for process</summary>
         public static ApplicationGrant Process
         {
-            get { return new ApplicationGrant() { Code = 9 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Proccess }; }
         }
 
         /// <summary>Gets a grant for learning</summary>
         public static ApplicationGrant Learning
         {
-            get { return new ApplicationGrant() { Code = 10 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Learning }; }
         }
 
         /// <summary>Gets a grant for equipment</summary>
         public static ApplicationGrant Equipment
         {
-            get { return new ApplicationGrant() { Code = 11 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Equipment }; }
         }
 
         /// <summary>Gets a grant for incident</summary>
         public static ApplicationGrant Incident
         {
-            get { return new ApplicationGrant() { Code = 12 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Incident }; }
         }
 
         /// <summary>Gets a grant for incident action</summary>
         public static ApplicationGrant IncidentActions
         {
-            get { return new ApplicationGrant() { Code = 13 }; }
+            get { return new ApplicationGrant { Code = ItemValues.IncidentActions }; }
         }
 
         /// <summary>Gets a grant for provider</summary>
         public static ApplicationGrant Provider
         {
-            get { return new ApplicationGrant() { Code = 14 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Provider }; }
         }
 
         /// <summary>Gets a grant for customer</summary>
         public static ApplicationGrant Customer
         {
-            get { return new ApplicationGrant() { Code = 15 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Customer }; }
         }
 
         /// <summary>Gets a grant for cost</summary>
         public static ApplicationGrant Cost
         {
-            get { return new ApplicationGrant() { Code = 16 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Cost }; }
         }
 
         /// <summary>Gets a grant for business risk</summary>
         public static ApplicationGrant BusinessRisk
         {
-            get { return new ApplicationGrant() { Code = 18 }; }
+            get { return new ApplicationGrant { Code = ItemValues.BusinessRisk }; }
         }
 
         /// <summary>Gets a grant for rule</summary>
         public static ApplicationGrant Rule
         {
-            get { return new ApplicationGrant() { Code = 19 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Rules }; }
         }
 
         /// <summary>Gets a grant for rule</summary>
         public static ApplicationGrant CostDefinition
         {
-            get { return new ApplicationGrant() { Code = 20 }; }
+            get { return new ApplicationGrant { Code = ItemValues.CostDefinition }; }
         }
 
         /// <summary>Gets a grant for objective</summary>
         public static ApplicationGrant Objetivo
         {
-            get { return new ApplicationGrant() { Code = 21 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Objetivo }; }
         }
 
         /// <summary>Gets a grant for Indicator</summary>
         public static ApplicationGrant Indicador
         {
-            get { return new ApplicationGrant() { Code = 22 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Indicador }; }
         }
 
         /// <summary>Gets a grant for Unidad</summary>
         public static ApplicationGrant Unidad
         {
-            get { return new ApplicationGrant() { Code = 23 }; }
+            get { return new ApplicationGrant { Code = ItemValues.Unidad }; }
         }
 
         /// <summary>Gets or sets the code of item</summary>
@@ -154,7 +154,7 @@ namespace GisoFramework
         /// <returns>Grant for item based on code</returns>
         public static ApplicationGrant FromInteger(int value)
         {
-            return new ApplicationGrant() { Code = value, Description = GetLabel(value) };
+            return new ApplicationGrant { Code = value, Description = GetLabel(value) };
         }
 
         /// <summary>Gets a grant from code and url</summary>
@@ -163,7 +163,7 @@ namespace GisoFramework
         /// <returns>Grant for item based on code and url</returns>
         public static ApplicationGrant FromIntegerUrl(int value, string listPage)
         {
-            return new ApplicationGrant()
+            return new ApplicationGrant
             {
                 Code = value,
                 Description = GetLabel(value),
@@ -178,27 +178,27 @@ namespace GisoFramework
         {
             switch (value)
             {
-                case 2: return "CompanyProfile";
-                case 3: return "JobPosition";
-                case 4: return "Department";
-                case 5: return "Employee";
-                case 6: return "User";
-                case 7: return "Trace";
-                case 8: return "Document";
-                case 9: return "Proccess";
-                case 10: return "Learning";
-                case 11: return "Equipment";
-                case 12: return "Incident";
-                case 13: return "IncidentActions";
-                case 14: return "Provider";
-                case 15: return "Customer";
-                case 16: return "Cost";
-                case 18: return "BusinessRisk";
-                case 19: return "Rules";
-                case 20: return "CostDefinition";
-                case 21: return "Objetivo";
-                case 22: return "Indicador";
-                case 23: return "Unidad";
+                case ItemValues.CompanyProfile: return "CompanyProfile";
+                case ItemValues.JobPosition: return "JobPosition";
+                case ItemValues.Department: return "Department";
+                case ItemValues.Employee: return "Employee";
+                case ItemValues.User: return "User";
+                case ItemValues.Trace: return "Trace";
+                case ItemValues.Document: return "Document";
+                case ItemValues.Proccess: return "Proccess";
+                case ItemValues.Learning: return "Learning";
+                case ItemValues.Equipment: return "Equipment";
+                case ItemValues.Incident: return "Incident";
+                case ItemValues.IncidentActions: return "IncidentActions";
+                case ItemValues.Provider: return "Provider";
+                case ItemValues.Customer: return "Customer";
+                case ItemValues.Cost: return "Cost";
+                case ItemValues.BusinessRisk: return "BusinessRisk";
+                case ItemValues.Rules: return "Rules";
+                case ItemValues.CostDefinition: return "CostDefinition";
+                case ItemValues.Objetivo: return "Objetivo";
+                case ItemValues.Indicador: return "Indicador";
+                case ItemValues.Unidad: return "Unidad";
                 default: return "undefined";
             }
         }

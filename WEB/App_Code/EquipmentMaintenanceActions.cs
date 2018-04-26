@@ -46,6 +46,5 @@ public class EquipmentMaintenanceActions : WebService
     public ActionResult Delete(int equipmentMaintenanceDefinitionId, int companyId, int userId)
     {
         return EquipmentMaintenanceDefinition.Delete(equipmentMaintenanceDefinitionId, userId, companyId);
-
     }
 }

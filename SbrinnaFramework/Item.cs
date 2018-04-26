@@ -74,12 +74,12 @@ namespace SbrinnaCoreFramework
                 path += @"\";
             }
 
-            var myFiles = Directory.GetFiles(path, string.Format(CultureInfo.CurrentCulture, "{0}-*.*", code), SearchOption.TopDirectoryOnly).ToList();
+            var myFiles = Directory.GetFiles(path, string.Format(CultureInfo.InvariantCulture, "{0}-*.*", code), SearchOption.TopDirectoryOnly).ToList();
 
             if (myFiles.Count > 0)
             {
                 string filename = myFiles[0];
-                using (StreamReader input = new StreamReader(filename))
+                using (var input = new StreamReader(filename))
                 {
                     deserializedProduct = JsonConvert.DeserializeObject<Item>(input.ReadToEnd());
 
