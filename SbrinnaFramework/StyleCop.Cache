@@ -628,73 +628,6 @@
   <project key="-563880437">
     <configuration>DEBUG;TRACE</configuration>
   </project>
-  <sourcecode name="UniqueSession.cs" parser="StyleCop.CSharp.CsParser">
-    <timestamps>
-      <styleCop>2018/02/06 15:53:01.366</styleCop>
-      <settingsFile>2018/02/06 15:53:01.343</settingsFile>
-      <sourceFile>2018/04/26 17:41:27.390</sourceFile>
-      <parser>2018/02/06 15:53:01.366</parser>
-      <StyleCop.CSharp.DocumentationRules>2018/02/06 15:53:01.366</StyleCop.CSharp.DocumentationRules>
-      <StyleCop.CSharp.DocumentationRules.FilesHashCode>0</StyleCop.CSharp.DocumentationRules.FilesHashCode>
-      <StyleCop.CSharp.LayoutRules>2018/02/06 15:53:01.366</StyleCop.CSharp.LayoutRules>
-      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
-      <StyleCop.CSharp.MaintainabilityRules>2018/02/06 15:53:01.366</StyleCop.CSharp.MaintainabilityRules>
-      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
-      <StyleCop.CSharp.NamingRules>2018/02/06 15:53:01.366</StyleCop.CSharp.NamingRules>
-      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
-      <StyleCop.CSharp.OrderingRules>2018/02/06 15:53:01.366</StyleCop.CSharp.OrderingRules>
-      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
-      <StyleCop.CSharp.ReadabilityRules>2018/02/06 15:53:01.366</StyleCop.CSharp.ReadabilityRules>
-      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
-      <StyleCop.CSharp.SpacingRules>2018/02/06 15:53:01.366</StyleCop.CSharp.SpacingRules>
-      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
-    </timestamps>
-    <violations>
-      <violation namespace="StyleCop.CSharp.SpacingRules" rule="KeywordsMustBeSpacedCorrectly" ruleCheckId="SA1000">
-        <context>The spacing around the keyword 'if' is invalid.</context>
-        <line>25</line>
-        <index>967</index>
-        <endIndex>968</endIndex>
-        <startLine>25</startLine>
-        <startColumn>13</startColumn>
-        <endLine>25</endLine>
-        <endColumn>14</endColumn>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="StyleCop.CSharp.SpacingRules" rule="KeywordsMustBeSpacedCorrectly" ruleCheckId="SA1000">
-        <context>The spacing around the keyword 'foreach' is invalid.</context>
-        <line>54</line>
-        <index>1892</index>
-        <endIndex>1898</endIndex>
-        <startLine>54</startLine>
-        <startColumn>17</startColumn>
-        <endLine>54</endLine>
-        <endColumn>23</endColumn>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="StyleCop.CSharp.SpacingRules" rule="SymbolsMustBeSpacedCorrectly" ruleCheckId="SA1003">
-        <context>The spacing around the symbol '=' is invalid.</context>
-        <line>99</line>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="StyleCop.CSharp.SpacingRules" rule="SymbolsMustBeSpacedCorrectly" ruleCheckId="SA1003">
-        <context>The spacing around the symbol '=&gt;' is invalid.</context>
-        <line>117</line>
-        <index>3830</index>
-        <endIndex>3831</endIndex>
-        <startLine>117</startLine>
-        <startColumn>32</startColumn>
-        <endLine>117</endLine>
-        <endColumn>33</endColumn>
-        <warning>False</warning>
-      </violation>
-      <violation namespace="StyleCop.CSharp.SpacingRules" rule="SymbolsMustBeSpacedCorrectly" ruleCheckId="SA1003">
-        <context>The spacing around the symbol '=&gt;' is invalid.</context>
-        <line>117</line>
-        <warning>False</warning>
-      </violation>
-    </violations>
-  </sourcecode>
   <sourcecode name="CodedQueryItem.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2018/02/06 15:53:01.366</styleCop>
@@ -718,14 +651,37 @@
     </timestamps>
     <violations />
   </sourcecode>
-  <project key="1210055205">
-    <configuration>DEBUG;TRACE</configuration>
-  </project>
   <sourcecode name="UIButton.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2018/02/06 15:53:01.366</styleCop>
       <settingsFile>2018/02/06 15:53:01.343</settingsFile>
       <sourceFile>2018/04/26 17:57:18.628</sourceFile>
+      <parser>2018/02/06 15:53:01.366</parser>
+      <StyleCop.CSharp.DocumentationRules>2018/02/06 15:53:01.366</StyleCop.CSharp.DocumentationRules>
+      <StyleCop.CSharp.DocumentationRules.FilesHashCode>0</StyleCop.CSharp.DocumentationRules.FilesHashCode>
+      <StyleCop.CSharp.LayoutRules>2018/02/06 15:53:01.366</StyleCop.CSharp.LayoutRules>
+      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
+      <StyleCop.CSharp.MaintainabilityRules>2018/02/06 15:53:01.366</StyleCop.CSharp.MaintainabilityRules>
+      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
+      <StyleCop.CSharp.NamingRules>2018/02/06 15:53:01.366</StyleCop.CSharp.NamingRules>
+      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
+      <StyleCop.CSharp.OrderingRules>2018/02/06 15:53:01.366</StyleCop.CSharp.OrderingRules>
+      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
+      <StyleCop.CSharp.ReadabilityRules>2018/02/06 15:53:01.366</StyleCop.CSharp.ReadabilityRules>
+      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
+      <StyleCop.CSharp.SpacingRules>2018/02/06 15:53:01.366</StyleCop.CSharp.SpacingRules>
+      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
+    </timestamps>
+    <violations />
+  </sourcecode>
+  <project key="1210055205">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="UniqueSession.cs" parser="StyleCop.CSharp.CsParser">
+    <timestamps>
+      <styleCop>2018/02/06 15:53:01.366</styleCop>
+      <settingsFile>2018/02/06 15:53:01.343</settingsFile>
+      <sourceFile>2018/05/03 11:38:14.850</sourceFile>
       <parser>2018/02/06 15:53:01.366</parser>
       <StyleCop.CSharp.DocumentationRules>2018/02/06 15:53:01.366</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>0</StyleCop.CSharp.DocumentationRules.FilesHashCode>

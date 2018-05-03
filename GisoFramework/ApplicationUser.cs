@@ -13,6 +13,7 @@ namespace GisoFramework
     using System.Data;
     using System.Data.SqlClient;
     using System.Globalization;
+    using System.IO;
     using System.Net.Mail;
     using System.Text;
     using System.Web;
@@ -22,7 +23,6 @@ namespace GisoFramework
     using GisoFramework.Item.Binding;
     using GisoFramework.LogOn;
     using GisoFramework.UserInterface;
-    using System.IO;
 
     /// <summary>Implements ApplicationUser class.</summary>
     public class ApplicationUser
@@ -41,26 +41,6 @@ namespace GisoFramework
 
         /// <summary>Shortcuts for user interface</summary>
         private MenuShortcut menuShortcuts;
-
-        /// <summary>Gets or sets user email</summary>
-        public string Email { get; set; }
-
-        /// <summary>Gets a vlue indicating whether user is primmary user</summary>
-        public bool PrimaryUser { get; set; }
-
-        /// <summary>Gets user description</summary>
-        public string Description
-        {
-            get
-            {
-                if (this.Employee != null && !string.IsNullOrEmpty(this.Employee.FullName))
-                {
-                    return this.Employee.FullName;
-                }
-
-                return this.UserName;
-            }
-        }
 
         /// <summary>
         /// Initializes a new instance of the ApplicationUser class.
@@ -169,9 +149,7 @@ namespace GisoFramework
             }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the ApplicationUser class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the ApplicationUser class.</summary>
         public ApplicationUser()
         {
             this.Id = -1;
@@ -179,8 +157,6 @@ namespace GisoFramework
             this.groups = new List<ApplicationLogOn.SecurityGroup>();
             this.Employee = Employee.EmptySimple;
         }
-
-        public int CompanyId { get; set; }
 
         /// <summary>Gets a empty user</summary>
         public static ApplicationUser Empty
@@ -191,14 +167,88 @@ namespace GisoFramework
                 {
                     Id = -1,
                     UserName = string.Empty,
-                    Employee = Employee.EmptySimple
+                    Employee = Employee.EmptySimple,
+                    Admin = false,
+                    PrimaryUser = false,
+                    Email = string.Empty,
+                    ShowHelp = false,
+                    Avatar = string.Empty
                 };
             }
         }
 
+        /// <summary>Gets empty grants for user</summary>
+        public static ReadOnlyCollection<UserGrant> GetEmptyGrants
+        {
+            get
+            {
+                var res = new List<UserGrant>();
+                using (var cmd = new SqlCommand("ApplicationUser_GetGrants"))
+                {
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    {
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", DataParameter.DefaultTextLength));
+                        try
+                        {
+                            cmd.Connection.Open();
+                            using (var rdr = cmd.ExecuteReader())
+                            {
+                                while (rdr.Read())
+                                {
+                                    res.Add(new UserGrant()
+                                    {
+                                        UserId = -1,
+                                        Item = ApplicationGrant.FromIntegerUrl(rdr.GetInt32(ColumnsApplicationUserGetGrants.ItemId), rdr[ColumnsApplicationUserGetGrants.UrlList].ToString()),
+                                        GrantToRead = false,
+                                        GrantToWrite = false,
+                                        GrantToDelete = false
+                                    });
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            if (cmd.Connection.State != ConnectionState.Closed)
+                            {
+                                cmd.Connection.Close();
+                            }
+                        }
+                    }
+                }
+
+                return new ReadOnlyCollection<UserGrant>(res);
+            }
+        }
+
+        /// <summary>Gets or sets user email</summary>
+        public string Email { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether user is primmary user</summary>
+        public bool PrimaryUser { get; set; }
+
+        /// <summary>Gets user description</summary>
+        public string Description
+        {
+            get
+            {
+                if (this.Employee != null && !string.IsNullOrEmpty(this.Employee.FullName))
+                {
+                    return this.Employee.FullName;
+                }
+
+                return this.UserName;
+            }
+        }
+
+        /// <summary>Gets or sets the company identifier</summary>
+        public int CompanyId { get; set; }
+
         /// <summary>Gets or sets employee linked to user</summary>
         public Employee Employee { get; set; }
 
+        /// <summary>Gets grants of user</summary>
         public ReadOnlyCollection<UserGrant> Grants
         {
             get
@@ -212,9 +262,7 @@ namespace GisoFramework
             }
         }
 
-        /// <summary>
-        /// Gets the HTML code for the link to Employee view page
-        /// </summary>
+        /// <summary>Gets the HTML code for the link to Employee view page</summary>
         public string Link
         {
             get
@@ -222,26 +270,28 @@ namespace GisoFramework
                 var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
                 string toolTip = dictionary["Common_Edit"];
                 return string.Format(
-                    CultureInfo.InvariantCulture, 
-                    "<a href=\"UserView.aspx?id={0}\" title=\"{2} {1}\">{1}</a>", 
-                    this.Id, 
-                    this.UserName, 
+                    CultureInfo.InvariantCulture,
+                    "<a href=\"UserView.aspx?id={0}\" title=\"{2} {1}\">{1}</a>",
+                    this.Id,
+                    this.UserName,
                     toolTip);
             }
         }
 
+        /// <summary>Gets a JSON structure compossed by key and value of application user</summary>
         public string JsonKeyValue
         {
             get
             {
                 return string.Format(
-                    CultureInfo.InvariantCulture, 
-                    @"{{""Id"":{0},""Value"":""{1}""}}", 
-                    this.Id, 
+                    CultureInfo.InvariantCulture,
+                    @"{{""Id"":{0},""Value"":""{1}""}}",
+                    this.Id,
                     Tools.JsonCompliant(this.UserName));
             }
         }
 
+        /// <summary>Gets the effective grants of user</summary>
         public ReadOnlyCollection<UserGrant> EffectiveGrants
         {
             get
@@ -249,7 +299,6 @@ namespace GisoFramework
                 /* ALTER PROCEDURE ApplicationUser_GetEffectiveGrants
                  *   @ApplicationUserId int */
                 var res = new List<UserGrant>();
-
                 using (var cmd = new SqlCommand("ApplicationUser_GetEffectiveGrants"))
                 {
                     using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -295,9 +344,7 @@ namespace GisoFramework
         /// <summary>Gets or sets the user avatar</summary>
         public string Avatar { get; set; }
 
-        /// <summary>
-        /// Gets the name file of avatar image
-        /// </summary>
+        /// <summary>Gets the name file of avatar image</summary>
         public string AvatarImage
         {
             get
@@ -308,8 +355,8 @@ namespace GisoFramework
                 }
 
                 return string.Format(
-                    CultureInfo.InvariantCulture, 
-                    @"assets/avatars/{0}", 
+                    CultureInfo.InvariantCulture,
+                    @"assets/avatars/{0}",
                     this.Avatar);
             }
         }
@@ -354,7 +401,7 @@ namespace GisoFramework
             }
         }
 
-        /// <summary>Gets a value indicating whether user has admin role</summary>
+        /// <summary>Gets or sets a value indicating whether user has admin role</summary>
         public bool Admin { get; set; }
 
         /// <summary>Gets a json structure of user's groups</summary>
@@ -368,10 +415,10 @@ namespace GisoFramework
                 }
 
                 var res = new StringBuilder("{");
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"""Administration"":{0},", this.groups.Contains(ApplicationLogOn.SecurityGroup.Company) ? "true" : "false"));
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"""Process"":{0},", this.groups.Contains(ApplicationLogOn.SecurityGroup.Process) ? "true" : "false"));
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"""Documents"":{0},", this.groups.Contains(ApplicationLogOn.SecurityGroup.Documents) ? "true" : "false"));
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"""Learning"":{0}", this.groups.Contains(ApplicationLogOn.SecurityGroup.Learning) ? "true" : "false"));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"""Administration"":{0},", this.groups.Contains(ApplicationLogOn.SecurityGroup.Company) ? "true" : "false"));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"""Process"":{0},", this.groups.Contains(ApplicationLogOn.SecurityGroup.Process) ? "true" : "false"));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"""Documents"":{0},", this.groups.Contains(ApplicationLogOn.SecurityGroup.Documents) ? "true" : "false"));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"""Learning"":{0}", this.groups.Contains(ApplicationLogOn.SecurityGroup.Learning) ? "true" : "false"));
                 return res.Append("}").ToString();
             }
         }
@@ -448,16 +495,20 @@ namespace GisoFramework
             }
         }
 
+        /// <summary>Set user's password</summary>
+        /// <param name="applicationUserId">User identifier</param>
+        /// <param name="password">Password to set</param>
+        /// <returns>Result of action</returns>
         public static ActionResult SetPassword(int applicationUserId, string password)
         {
             var res = ActionResult.NoAction;
             /* CREATE PROCEDURE [dbo].[ApplicationUser_SetPassword]
              *   UserId int,
              *   @Password nvarchar(50) */
-            using(var cmd = new SqlCommand("ApplicationUser_SetPassword"))
+            using (var cmd = new SqlCommand("ApplicationUser_SetPassword"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     try
@@ -466,13 +517,13 @@ namespace GisoFramework
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         res.SetFail(ex);
                     }
                     finally
                     {
-                        if(cmd.Connection.State != ConnectionState.Closed)
+                        if (cmd.Connection.State != ConnectionState.Closed)
                         {
                             cmd.Connection.Close();
                         }
@@ -483,9 +534,7 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Obtains user of a company
-        /// </summary>
+        /// <summary>Obtains user of a company</summary>
         /// <param name="companyId">The company identifier.</param>
         /// <returns>List of users of a company</returns>
         public static ReadOnlyCollection<ApplicationUser> CompanyUsers(int companyId)
@@ -558,9 +607,7 @@ namespace GisoFramework
             return new ReadOnlyCollection<ApplicationUser>(res);
         }
 
-        /// <summary>
-        /// Gets the usernames of company users
-        /// </summary>
+        /// <summary>Gets the usernames of company users</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>List of usernames of company users</returns>
         public static Dictionary<string, int> CompanyUserNames(int companyId)
@@ -568,31 +615,33 @@ namespace GisoFramework
             Dictionary<string, int> res = new Dictionary<string, int>();
             /* CREATE PROCEDURE Company_GetUserNames
              * @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("Company_GetUserNames"))
+            using (var cmd = new SqlCommand("Company_GetUserNames"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString());
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString()))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        while (rdr.Read())
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            if (!res.ContainsKey(rdr[0].ToString()))
+                            while (rdr.Read())
                             {
-                                res.Add(rdr[0].ToString(), rdr.GetInt32(1));
+                                if (!res.ContainsKey(rdr[0].ToString()))
+                                {
+                                    res.Add(rdr[0].ToString(), rdr.GetInt32(1));
+                                }
                             }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -600,9 +649,7 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Seta new user name into data base
-        /// </summary>
+        /// <summary>Set a new user name into data base</summary>
         /// <param name="proposedUserName">New user name</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>String With the new name saved</returns>
@@ -615,13 +662,13 @@ namespace GisoFramework
 
             proposedUserName = proposedUserName.ToUpper(CultureInfo.GetCultureInfo("en-us")).Replace("Á", "A").Replace("É", "E").Replace("Í", "I").Replace("Ó", "O").Replace("Ú", "U");
             string res = proposedUserName;
-            Dictionary<string, int> userNames = ApplicationUser.CompanyUserNames(companyId);
+            var userNames = ApplicationUser.CompanyUserNames(companyId);
             int cont = 1;
             bool ok = false;
             while (!ok)
             {
                 bool found = false;
-                foreach (KeyValuePair<string, int> userName in userNames)
+                foreach (var userName in userNames)
                 {
                     if (userName.Key.ToUpperInvariant() == res.ToUpperInvariant())
                     {
@@ -632,7 +679,7 @@ namespace GisoFramework
 
                 if (found)
                 {
-                    res = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}{1}", proposedUserName, cont);
+                    res = string.Format(CultureInfo.InvariantCulture, "{0}{1}", proposedUserName, cont);
                     cont++;
                 }
                 else
@@ -644,9 +691,7 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Change the user name
-        /// </summary>
+        /// <summary>Change the user name</summary>
         /// <param name="applicationUserId">User identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">Identifier of user that performs actions</param>
@@ -719,9 +764,7 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Revoke a user privilege
-        /// </summary>
+        /// <summary>Revoke a user privilege</summary>
         /// <param name="applicationUserId">User identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="grant">Privilege identifier</param>
@@ -776,9 +819,7 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Grant a user privilege
-        /// </summary>
+        /// <summary>Grant a user privilege</summary>
         /// <param name="applicationUserId">User identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="grant">Privilege identifier</param>
@@ -794,39 +835,42 @@ namespace GisoFramework
              * @UserId int */
             using (var cmd = new SqlCommand("ApplicationUser_SetGrant"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@ApplicationUserId", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters.Add("@SecurityGroupId", SqlDbType.Int);
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters["@ApplicationUserId"].Value = applicationUserId;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Parameters["@SecurityGroupId"].Value = grant;
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add("@ApplicationUserId", SqlDbType.Int);
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters.Add("@SecurityGroupId", SqlDbType.Int);
+                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                        cmd.Parameters["@ApplicationUserId"].Value = applicationUserId;
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Parameters["@SecurityGroupId"].Value = grant;
+                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -834,9 +878,7 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Gets user the by identifier.
-        /// </summary>
+        /// <summary>Gets user the by identifier.</summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="companyId">The company identifier.</param>
         /// <returns>Data of application user</returns>
@@ -887,9 +929,7 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Get a user by employee identifier
-        /// </summary>
+        /// <summary>Get a user by employee identifier</summary>
         /// <param name="employeeId">Employee identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>result of action</returns>
@@ -1002,9 +1042,7 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Change user's password
-        /// </summary>
+        /// <summary>Change user's password</summary>
         /// <param name="userId">User identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>Result of action</returns>
@@ -1046,7 +1084,6 @@ namespace GisoFramework
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
 
-                        #region Send Mail
                         var company = new Company(companyId);
                         string userName = cmd.Parameters["@UserName"].Value as string;
                         string password = cmd.Parameters["@Password"].Value as string;
@@ -1060,55 +1097,61 @@ namespace GisoFramework
                         var senderMail = new MailAddress(sender, "ISSUS");
                         var to = new MailAddress(email);
 
-                        var client = new SmtpClient()
+                        using (var client = new SmtpClient
                         {
                             Host = "smtp.scrambotika.com",
                             Credentials = new System.Net.NetworkCredential(sender, pass),
-                            Port = 25,
+                            Port = Constant.SmtpPort,
                             DeliveryMethod = SmtpDeliveryMethod.Network
-                        };
-
-                        var mail = new MailMessage(senderMail, to)
+                        })
                         {
-                            IsBodyHtml = true,
-                            Subject = dictionary["MailTemplate_ResetPassword_DefaultBody"]
-                        };
-
-                        string templatePath = HttpContext.Current.Request.PhysicalApplicationPath;
-                        string translatedTemplate = string.Format(
-                            CultureInfo.InvariantCulture,
-                            @"ResetPassword_{0}.tpl",
-                            selectedUser.Language);
-                        if (!templatePath.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
-                        {
-                            templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\", templatePath);
-                        }
-
-                        if (!File.Exists(templatePath + "Templates\\" + translatedTemplate))
-                        {
-                            translatedTemplate = "ResetPassword.tpl";
-                        }
-
-                        string body = string.Format(
-                            CultureInfo.GetCultureInfo("en-us"),
-                            dictionary["MailTemplate_ResetPassword_DefaultBody"],
-                            userName,
-                            password);
-
-                        if (File.Exists(templatePath + "Templates\\" + translatedTemplate))
-                        {
-                            using (var input = new StreamReader(templatePath + "Templates\\" + translatedTemplate))
+                            var mail = new MailMessage(senderMail, to)
                             {
-                                body = input.ReadToEnd();
+                                IsBodyHtml = true,
+                                Subject = dictionary["MailTemplate_ResetPassword_DefaultBody"]
+                            };
+
+                            string templatePath = HttpContext.Current.Request.PhysicalApplicationPath;
+                            string translatedTemplate = string.Format(
+                                CultureInfo.InvariantCulture,
+                                @"ResetPassword_{0}.tpl",
+                                selectedUser.Language);
+                            if (!templatePath.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
+                            {
+                                templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\", templatePath);
                             }
 
-                            body = body.Replace("#USERNAME#", userName).Replace("#PASSWORD#", password).Replace("#EMAIL#", email).Replace("#EMPRESA#", company.Name);
-                        }
+                            if (!File.Exists(templatePath + "Templates\\" + translatedTemplate))
+                            {
+                                translatedTemplate = "ResetPassword.tpl";
+                            }
 
-                        mail.Subject = dictionary["MailTemplate_ResetPassword_Subject"];
-                        mail.Body = body;
-                        client.Send(mail);
-                        #endregion
+                            string body = string.Format(
+                                CultureInfo.GetCultureInfo("en-us"),
+                                dictionary["MailTemplate_ResetPassword_DefaultBody"],
+                                userName,
+                                password);
+
+                            string templateFileName = string.Format(
+                                CultureInfo.InvariantCulture,
+                                @"{0}Templates\{1}",
+                                templatePath,
+                                translatedTemplate);
+
+                            if (File.Exists(templateFileName))
+                            {
+                                using (var input = new StreamReader(templateFileName))
+                                {
+                                    body = input.ReadToEnd();
+                                }
+
+                                body = body.Replace("#USERNAME#", userName).Replace("#PASSWORD#", password).Replace("#EMAIL#", email).Replace("#EMPRESA#", company.Name);
+                            }
+
+                            mail.Subject = dictionary["MailTemplate_ResetPassword_Subject"];
+                            mail.Body = body;
+                            client.Send(mail);
+                        }
 
                         if (cmd.Parameters["@Result"].Value.ToString().Trim() == "1")
                         {
@@ -1133,6 +1176,11 @@ namespace GisoFramework
             return res;
         }
 
+        /// <summary>Delete user from database</summary>
+        /// <param name="userItemId">Identifier of user to delete</param>
+        /// <param name="companyId">Identifier of company</param>
+        /// <param name="userId">Identifier of user that performs the action</param>
+        /// <returns>Result of action</returns>
         public static ActionResult Delete(long userItemId, int companyId, long userId)
         {
             var res = ActionResult.NoAction;
@@ -1255,6 +1303,12 @@ namespace GisoFramework
                 case ApplicationLogOn.SecurityGroup.Incidence:
                     res = "Incidencias";
                     break;
+                case ApplicationLogOn.SecurityGroup.Departments:
+                    res = "Departamentos";
+                    break;
+                default:
+                    res = string.Empty;
+                    break;
             }
 
             return res;
@@ -1363,7 +1417,7 @@ namespace GisoFramework
                 }
                 finally
                 {
-                    if(cmd.Connection.State != ConnectionState.Closed)
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
                         cmd.Connection.Close();
                     }
@@ -1373,6 +1427,9 @@ namespace GisoFramework
             return res;
         }
 
+        /// <summary>Clear all user grants</summary>
+        /// <param name="userId">User identifier</param>
+        /// <returns>Result of action</returns>
         public static ActionResult ClearGrant(int userId)
         {
             /* CREATE PROCEDURE ApplicationUserGrant_Clear
@@ -1424,15 +1481,19 @@ namespace GisoFramework
             return res;
         }
 
+        /// <summary>Save user's specific grant</summary>
+        /// <param name="grant">Grant to save</param>
+        /// <param name="userId">User identifier</param>
+        /// <returns>Result of action</returns>
         public static ActionResult SaveGrant(UserGrant grant, int userId)
         {
-            if(grant == null)
+            if (grant == null)
             {
                 return ActionResult.NoAction;
             }
 
             string source = string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"ApplicationUser::SaveGrant({0},{1})",
                 grant.Item.Description,
                 userId);
@@ -1510,6 +1571,10 @@ namespace GisoFramework
             return res;
         }
 
+        /// <summary>Unset employee associtation of user</summary>
+        /// <param name="userId">User identifier</param>
+        /// <param name="companyId">Company identifier</param>
+        /// <returns>Result of action</returns>
         public static ActionResult UnsetEmployee(int userId, int companyId)
         {
             var res = ActionResult.NoAction;
@@ -1553,9 +1618,9 @@ namespace GisoFramework
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (ApplicationLogOn.SecurityGroup group in this.groups)
+            foreach (var group in this.groups)
             {
-                if (first == true)
+                if (first)
                 {
                     first = false;
                 }
@@ -1597,7 +1662,6 @@ namespace GisoFramework
                     this.Description,
                     Tools.LiteralQuote(Tools.JsonCompliant(this.Description)),
                     Tools.JsonCompliant(dictionary["Common_Delete"]));
-
             }
 
             string iconEdit = string.Format(
@@ -1695,48 +1759,6 @@ namespace GisoFramework
 
             return this.CalculateHasGrant(grant.Code, 3);
         }
-        
-        /// <summary>Gets empty grants for user</summary>
-        public static ReadOnlyCollection<UserGrant> GetEmptyGrants
-        {
-            get
-            {
-                var res = new List<UserGrant>();
-                using (SqlCommand cmd = new SqlCommand("ApplicationUser_GetGrants"))
-                {
-                    cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", DataParameter.DefaultTextLength));
-                    try
-                    {
-                        cmd.Connection.Open();
-                        using (var rdr = cmd.ExecuteReader())
-                        {
-                            while (rdr.Read())
-                            {
-                                res.Add(new UserGrant()
-                                {
-                                    UserId = -1,
-                                    Item = ApplicationGrant.FromIntegerUrl(rdr.GetInt32(ColumnsApplicationUserGetGrants.ItemId), rdr[ColumnsApplicationUserGetGrants.UrlList].ToString()),
-                                    GrantToRead = false,
-                                    GrantToWrite = false,
-                                    GrantToDelete = false
-                                });
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
-                    }
-                }
-
-                return new ReadOnlyCollection<UserGrant>(res);
-            }
-        }
 
         /// <summary>Obtain user grants from database</summary>
         public void GetGrants()
@@ -1744,7 +1766,6 @@ namespace GisoFramework
             /* ALTER PROCEDURE ApplicationUser_GetGrants
              * @ApplicationUserId int */
             this.grants = new List<UserGrant>();
-
             using (var cmd = new SqlCommand("ApplicationUser_GetGrants"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -1781,7 +1802,7 @@ namespace GisoFramework
             }
         }
 
-        /// <summary>Update application user in databasesummary>
+        /// <summary>Update application user in database</summary>
         /// <param name="userId">User identifier</param>
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
@@ -1797,54 +1818,57 @@ namespace GisoFramework
              *   @UserName nvarchar(50) */
             using (var cmd = new SqlCommand("ApplicationUser_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@UserName", this.UserName, DataParameter.DefaultTextLength));
-                    cmd.Parameters.Add(DataParameter.Input("@Email", this.Email, DataParameter.DefaultTextLength));
-                    cmd.Parameters.Add(DataParameter.Input("@Language", this.Language, DataParameter.DefaultTextLength));
-                    cmd.Parameters.Add(DataParameter.Input("@Admin", this.Admin));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res = this.Employee.Update(userId);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex.Message);
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex.Message);
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (ArgumentNullException ex)
-                {
-                    res.SetFail(ex.Message);
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (ArgumentException ex)
-                {
-                    res.SetFail(ex.Message);
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex.Message);
-                    ExceptionManager.Trace(ex, source);
-                }
-                catch (NotSupportedException ex)
-                {
-                    res.SetFail(ex.Message);
-                    ExceptionManager.Trace(ex, source);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@UserName", this.UserName, DataParameter.DefaultTextLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Email", this.Email, DataParameter.DefaultTextLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Language", this.Language, DataParameter.DefaultTextLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Admin", this.Admin));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res = this.Employee.Update(userId);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex.Message);
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex.Message);
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        res.SetFail(ex.Message);
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        res.SetFail(ex.Message);
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex.Message);
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        res.SetFail(ex.Message);
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1852,50 +1876,11 @@ namespace GisoFramework
             return res;
         }
 
-        /// <summary>
-        /// Determines if user has a grant over an item
-        /// </summary>
-        /// <param name="grant">Grant to determine</param>
-        /// <param name="grantType">Item affected</param>
-        /// <returns>If user has a grant over an item</returns>
-        private bool CalculateHasGrant(int grant, int grantType)
-        {
-            foreach (UserGrant userGrant in this.grants)
-            {
-                bool granted = false;
-                switch (grantType)
-                {
-                    case 1:
-                        granted = userGrant.GrantToRead;
-                        break;
-                    case 2:
-                        granted = userGrant.GrantToWrite;
-                        break;
-                    case 3:
-                        granted = userGrant.GrantToDelete;
-                        break;
-                }
-
-                if (userGrant.Item.Code == grant && granted)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         /// <summary>Insert user in database</summary>
         /// <param name="applicationUserId">Identifier of user that performs the action</param>
         /// <returns>Result action</returns>
         public ActionResult Insert(int applicationUserId)
         {
-            /*CREATE PROCEDURE ApplicationUser_Insert
-             *   @Id int output,
-             *   @CompanyId int,
-             *   @Login nvarchar(50),
-             *   @Email nvarchar(50),
-             *   @Password nvarchar(50) */
             /*CREATE PROCEDURE ApplicationUser_Insert
              *   @Id int output,
              *   @CompanyId int,
@@ -1929,59 +1914,61 @@ namespace GisoFramework
                         var senderMail = new MailAddress(sender, "ISSUS");
                         var to = new MailAddress(this.Email);
 
-                        var client = new SmtpClient()
+                        using (var client = new SmtpClient
                         {
                             Host = "smtp.scrambotika.com",
                             Credentials = new System.Net.NetworkCredential(sender, pass),
-                            Port = 25,
+                            Port = Constant.SmtpPort,
                             DeliveryMethod = SmtpDeliveryMethod.Network
-                        };
-
-                        string body = string.Format(
-                            CultureInfo.GetCultureInfo("en-us"),
-                            "Acceder a la siguiente url http://www.scrambotika.cat/Default.aspx?company={0} <br/> User:<b>{1}</b><br/>Password:<b>{2}</b>",
-                            company.Code,
-                            this.UserName,
-                            userpass);
-
-                        string templatePath = HttpContext.Current.Request.PhysicalApplicationPath;
-                        if (!templatePath.EndsWith("\\", StringComparison.OrdinalIgnoreCase))
+                        })
                         {
-                            templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\", templatePath);
-                        }
+                            string body = string.Format(
+                                CultureInfo.GetCultureInfo("en-us"),
+                                "Acceder a la siguiente url http://www.scrambotika.cat/Default.aspx?company={0} <br/> User:<b>{1}</b><br/>Password:<b>{2}</b>",
+                                company.Code,
+                                this.UserName,
+                                userpass);
 
-                        string translatedTemplate = string.Format(
-                            CultureInfo.InvariantCulture,
-                            @"NewUser_{0}.tpl",
-                            company.Language);
-
-                        if (!File.Exists(templatePath + "Templates\\" + translatedTemplate))
-                        {
-                            templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\NewUser.tpl", templatePath);
-                        }
-                        else
-                        {
-                            templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\{1}", templatePath, translatedTemplate);
-                        }
-
-                        if (File.Exists(templatePath))
-                        {
-                            using (StreamReader input = new StreamReader(templatePath))
+                            string templatePath = HttpContext.Current.Request.PhysicalApplicationPath;
+                            if (!templatePath.EndsWith("\\", StringComparison.OrdinalIgnoreCase))
                             {
-                                body = input.ReadToEnd();
+                                templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\", templatePath);
                             }
 
-                            body = body.Replace("#USERNAME#", this.UserName).Replace("#PASSWORD#", userpass).Replace("#EMAIL#", this.Email).Replace("#EMPRESA#", company.Name);
+                            string translatedTemplate = string.Format(
+                                CultureInfo.InvariantCulture,
+                                @"NewUser_{0}.tpl",
+                                company.Language);
+
+                            if (!File.Exists(templatePath + "Templates\\" + translatedTemplate))
+                            {
+                                templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\NewUser.tpl", templatePath);
+                            }
+                            else
+                            {
+                                templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\{1}", templatePath, translatedTemplate);
+                            }
+
+                            if (File.Exists(templatePath))
+                            {
+                                using (StreamReader input = new StreamReader(templatePath))
+                                {
+                                    body = input.ReadToEnd();
+                                }
+
+                                body = body.Replace("#USERNAME#", this.UserName).Replace("#PASSWORD#", userpass).Replace("#EMAIL#", this.Email).Replace("#EMPRESA#", company.Name);
+                            }
+
+                            var mail = new MailMessage(senderMail, to)
+                            {
+                                IsBodyHtml = true,
+                                Subject = "Benvingut/uda a ISSUS",
+                                Body = body
+                            };
+
+                            client.Send(mail);
                         }
 
-                        var mail = new MailMessage(senderMail, to)
-                        {
-                            IsBodyHtml = true,
-                            Subject = "Benvingut/uda a ISSUS",
-                            Body = body
-                        };
-
-                        client.Send(mail);
                         res.SetSuccess(Convert.ToInt32(cmd.Parameters["@Id"].Value));
                     }
                     catch (Exception ex)
@@ -1999,6 +1986,40 @@ namespace GisoFramework
             }
 
             return res;
+        }
+
+        /// <summary>Determines if user has a grant over an item</summary>
+        /// <param name="grant">Grant to determine</param>
+        /// <param name="grantType">Item affected</param>
+        /// <returns>If user has a grant over an item</returns>
+        private bool CalculateHasGrant(int grant, int grantType)
+        {
+            foreach (var userGrant in this.grants)
+            {
+                bool granted = false;
+                switch (grantType)
+                {
+                    case 1:
+                        granted = userGrant.GrantToRead;
+                        break;
+                    case 2:
+                        granted = userGrant.GrantToWrite;
+                        break;
+                    case 3:
+                        granted = userGrant.GrantToDelete;
+                        break;
+                    default:
+                        granted = false;
+                        break;
+                }
+
+                if (userGrant.Item.Code == grant && granted)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

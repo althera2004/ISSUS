@@ -287,7 +287,7 @@ public partial class IncidentView : Page
     {
         get
         {
-            return Department.GetByCompanyJsonList(this.company.Id);
+            return Department.ByCompanyJsonList(this.company.Id);
         }
     }
 

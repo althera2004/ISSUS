@@ -314,11 +314,11 @@ namespace GisoFramework.Item
         /// <summary>Obtain all address of a company</summary>
         /// <param name="company">Compnay to search in</param>
         /// <returns>List of address</returns>
-        public static Collection<CompanyAddress> GetAddressByCompanyId(Company company)
+        public static List<CompanyAddress> GetAddressByCompanyId(Company company)
         {
             if (company == null)
             {
-                return new Collection<CompanyAddress>();
+                return new List<CompanyAddress>();
             }
 
             string source = string.Format(
@@ -326,7 +326,7 @@ namespace GisoFramework.Item
                 "CompanyAddress::GetAddressByCompanyId({0})",
                 company.Id);
 
-            var res = new Collection<CompanyAddress>();
+            var res = new List<CompanyAddress>();
             using (var cmd = new SqlCommand("Company_GetAdress"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))

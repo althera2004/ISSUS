@@ -81,9 +81,9 @@ public partial class CostDefinitionList : Page
             this.master.ButtonNewItem = UIButton.NewItemButton("Item_CostDefinition_Button_New", "CostDefinitionView.aspx");
         }
 
-        this.DataHeader = new UIDataHeader() { Id = "ListDataHeader", ActionsItem = 2 };
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_CostDefinition_ListHeader_Name"], Sortable = true, Filterable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_CostDefinition_ListHeader_Amount"], HiddenMobile = true });
+        this.DataHeader = new UIDataHeader { Id = "ListDataHeader", ActionsItem = 2 };
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_CostDefinition_ListHeader_Name"], Sortable = true, Filterable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_CostDefinition_ListHeader_Amount"], HiddenMobile = true });
     }
 
     private void RenderDepartmentData()

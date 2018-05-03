@@ -627,7 +627,7 @@ namespace GisoFramework.Item
         /// <param name="companyId">Company identifier</param>
         /// <param name="id">BusinessRisk identifier</param>
         /// <returns>BusinessRisk object</returns>
-        public static BusinessRisk GetById(int companyId, long id)
+        public static BusinessRisk ById(int companyId, long id)
         {
             var res = BusinessRisk.Empty;
             using (var cmd = new SqlCommand("BusinessRisk_GetById"))
@@ -732,163 +732,162 @@ namespace GisoFramework.Item
         }
 
         /// <summary>Gets a descriptive string with the differences between two BusinessRisks</summary>
-        /// <param name="businessRisk1">First BusinessRisks to compare</param>
-        /// <param name="businessRisk2">Second BusinessRisks to compare</param>
+        /// <param name="other">BusinessRisks to compare</param>
         /// <returns>A descriptive string</returns>
-        public static string Differences(BusinessRisk businessRisk1, BusinessRisk businessRisk2)
+        public string Differences(BusinessRisk other)
         {
-            if (businessRisk1 == null || businessRisk2 == null)
+            if (this == null || other == null)
             {
                 return string.Empty;
             }
 
             var res = new StringBuilder();
             bool first = true;
-            if (businessRisk1.Description != businessRisk2.Description)
+            if (this.Description != other.Description)
             {
-                res.Append("Description:").Append(businessRisk2.Description);
+                res.Append("Description:").Append(other.Description);
                 first = false;
             }
 
-            if (businessRisk1.Code != businessRisk2.Code)
+            if (this.Code != other.Code)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Code:").Append(businessRisk2.Code);
+                res.Append("Code:").Append(other.Code);
                 first = false;
             }
 
-            if (businessRisk1.Rules.Id != businessRisk2.Rules.Id)
+            if (this.Rules.Id != other.Rules.Id)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Rules:").Append(businessRisk2.Rules.Id);
+                res.Append("Rules:").Append(other.Rules.Id);
             }
 
-            if (businessRisk1.ItemDescription != businessRisk2.ItemDescription)
+            if (this.ItemDescription != other.ItemDescription)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("ItemDescription:").Append(businessRisk2.ItemDescription);
+                res.Append("ItemDescription:").Append(other.ItemDescription);
             }
 
-            if (businessRisk1.Notes != businessRisk2.Notes)
+            if (this.Notes != other.Notes)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Notes:").Append(businessRisk2.Notes);
+                res.Append("Notes:").Append(other.Notes);
             }
 
-            if (businessRisk1.Causes != businessRisk2.Causes)
+            if (this.Causes != other.Causes)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Causes:").Append(businessRisk2.Causes);
+                res.Append("Causes:").Append(other.Causes);
             }
 
-            if (businessRisk1.Probability != businessRisk2.Probability)
+            if (this.Probability != other.Probability)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Probability:").Append(businessRisk2.Probability);
+                res.Append("Probability:").Append(other.Probability);
             }
 
-            if (businessRisk1.Severity != businessRisk2.Severity)
+            if (this.Severity != other.Severity)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Severity:").Append(businessRisk2.Severity);
+                res.Append("Severity:").Append(other.Severity);
             }
 
-            if (businessRisk1.Result != businessRisk2.Result)
+            if (this.Result != other.Result)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Result:").Append(businessRisk2.Result);
+                res.Append("Result:").Append(other.Result);
             }
 
-            if (businessRisk1.ApplyAction != businessRisk2.ApplyAction)
+            if (this.ApplyAction != other.ApplyAction)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("ApplyAction:").Append(businessRisk2.ApplyAction);
+                res.Append("ApplyAction:").Append(other.ApplyAction);
             }
 
-            if (businessRisk1.InitialValue != businessRisk2.InitialValue)
+            if (this.InitialValue != other.InitialValue)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("InitialValue:").Append(businessRisk2.InitialValue);
+                res.Append("InitialValue:").Append(other.InitialValue);
             }
 
-            if (businessRisk1.DateStart != businessRisk2.DateStart)
+            if (this.DateStart != other.DateStart)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("DateStart:").Append(businessRisk2.DateStart);
+                res.Append("DateStart:").Append(other.DateStart);
             }
 
-            if (businessRisk1.Process.Id != businessRisk2.Process.Id)
+            if (this.Process.Id != other.Process.Id)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("ProcessId:").Append(businessRisk2.Process.Id);
+                res.Append("ProcessId:").Append(other.Process.Id);
             }
 
-            if (businessRisk1.Assumed != businessRisk2.Assumed)
+            if (this.Assumed != other.Assumed)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Assumed:").Append(businessRisk2.Assumed);
+                res.Append("Assumed:").Append(other.Assumed);
             }
 
-            if (businessRisk1.PreviousBusinessRiskId != businessRisk2.PreviousBusinessRiskId)
+            if (this.PreviousBusinessRiskId != other.PreviousBusinessRiskId)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("PreviousBusinessRiskId:").Append(businessRisk2.PreviousBusinessRiskId);
+                res.Append("PreviousBusinessRiskId:").Append(other.PreviousBusinessRiskId);
             }
 
             return res.ToString();

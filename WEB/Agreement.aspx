@@ -84,7 +84,7 @@
 
         function Go() {
             var data = {                
-                "userId": <%=this.User.Id %>,
+                "userId": <%=this.ApplicationUser.Id %>,
                 "companyId": <%=this.Company.Id %>
             };
 
@@ -147,8 +147,8 @@
     </div>
     <form id="LoginForm" action="InitSession.aspx" method="post">
         <div style="display: none;">
-            <input type="text" name="LoginId" id="LoginId" value="<%=this.User.Id %>" />
-            <input type="text" name="UserId" id="UserId" value="<%=this.User.Id %>" />
+            <input type="text" name="LoginId" id="LoginId" value="<%=this.ApplicationUser.Id %>" />
+            <input type="text" name="UserId" id="UserId" value="<%=this.ApplicationUser.Id %>" />
             <input type="text" name="CompanyId" id="CompanyId" value="<%=this.Company.Id %>" />
         </div>
     </form>

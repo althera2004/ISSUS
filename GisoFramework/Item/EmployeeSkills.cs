@@ -179,29 +179,29 @@ namespace GisoFramework.Item
         {
             get
             {
-                string academicValidText = Constant.JavascriptNull;
-                string specificValidText = Constant.JavascriptNull;
-                string workExperienceValidText = Constant.JavascriptNull;
-                string abilityValidText = Constant.JavascriptNull;
+                string academicValidText = Constant.JavaScriptNull;
+                string specificValidText = Constant.JavaScriptNull;
+                string workExperienceValidText = Constant.JavaScriptNull;
+                string abilityValidText = Constant.JavaScriptNull;
 
                 if (this.AcademicValid.HasValue)
                 {
-                    academicValidText = this.AcademicValid.Value ? Constant.JavascriptTrue : Constant.JavascriptFalse;
+                    academicValidText = this.AcademicValid.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse;
                 }
 
                 if (this.SpecificValid.HasValue)
                 {
-                    specificValidText = this.SpecificValid.Value ? Constant.JavascriptTrue : Constant.JavascriptFalse;
+                    specificValidText = this.SpecificValid.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse;
                 }
 
                 if (this.WorkExperienceValid.HasValue)
                 {
-                    workExperienceValidText = this.WorkExperienceValid.Value ? Constant.JavascriptTrue : Constant.JavascriptFalse;
+                    workExperienceValidText = this.WorkExperienceValid.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse;
                 }
 
                 if (this.AbilityValid.HasValue)
                 {
-                    abilityValidText = this.AbilityValid.Value ? Constant.JavascriptTrue : Constant.JavascriptFalse;
+                    abilityValidText = this.AbilityValid.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse;
                 }
 
                 string pattern = @"

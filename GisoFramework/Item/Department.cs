@@ -112,14 +112,12 @@ namespace GisoFramework.Item
         }
 
         #region Properties
-        /// <summary>
-        /// Gets an empty object of Department class.
-        /// </summary>
+        /// <summary>Gets an empty object of Department class.</summary>
         public static Department Empty
         {
             get
             {
-                return new Department() 
+                return new Department
                 { 
                     Id = -1, 
                     CompanyId = -1, 
@@ -166,7 +164,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
+                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
             }
         }
 
@@ -245,7 +243,7 @@ namespace GisoFramework.Item
         /// <param name="id">Department identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>A department based on identifier</returns>
-        public static Department GetById(long id, int companyId)
+        public static Department ById(long id, int companyId)
         {
             return new Department(id, companyId);
         }
@@ -253,7 +251,7 @@ namespace GisoFramework.Item
         /// <summary>Creates a JSON structure with the departmens of a company</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>JSON structure of a departments list</returns>
-        public static string GetByCompanyJsonList(int companyId)
+        public static string ByCompanyJsonList(int companyId)
         {
             var departments = ByCompany(companyId);
             var res = new StringBuilder("[");
@@ -282,7 +280,7 @@ namespace GisoFramework.Item
         /// <summary>Creates a JSON structure with the departmens of a company</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>JSON structure of a departments list</returns>
-        public static string GetByCompanyJson(int companyId)
+        public static string ByCompanyJson(int companyId)
         {
             var res = new StringBuilder("[");
             bool first = true;
@@ -361,7 +359,7 @@ namespace GisoFramework.Item
         public static ActionResult Delete(int companyId, int departmentId)
         {
             var source = string.Format(CultureInfo.InvariantCulture, @"Department::Delete {0}", departmentId);
-            var result = new ActionResult() { Success = false, MessageError = "No action" };
+            var result = ActionResult.NoAction;
             using (var cmd = new SqlCommand("Department_Delete"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -433,7 +431,7 @@ namespace GisoFramework.Item
                             {
                                 if (newDepartment.Id != rdr.GetInt32(0))
                                 {
-                                    newDepartment = new Department()
+                                    newDepartment = new Department
                                     {
                                         Id = rdr.GetInt32(0),
                                         CompanyId = companyId,
@@ -486,7 +484,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                var newJobPosition = new JobPosition()
+                                var newJobPosition = new JobPosition
                                 {
                                     Id = rdr.GetInt32(0),
                                     CompanyId = this.CompanyId,
@@ -495,7 +493,7 @@ namespace GisoFramework.Item
 
                                 if (!rdr.IsDBNull(2))
                                 {
-                                    var responsible = new JobPosition()
+                                    var responsible = new JobPosition
                                     {
                                         Id = rdr.GetInt32(2),
                                         CompanyId = this.CompanyId,
@@ -521,7 +519,7 @@ namespace GisoFramework.Item
 
                                 if (!rdr.IsDBNull(4))
                                 {
-                                    var newEmployee = new Employee()
+                                    var newEmployee = new Employee
                                     {
                                         Id = rdr.GetInt32(4),
                                         CompanyId = this.CompanyId,
@@ -579,7 +577,7 @@ namespace GisoFramework.Item
 
             string employeesList = string.Empty;
             bool first = true;
-            foreach (Employee employee in this.employees)
+            foreach (var employee in this.employees)
             {
                 if (first)
                 {

@@ -18,6 +18,11 @@ namespace GisoFramework
 
         public static DateTime? TextToDate(string text)
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                return null;
+            }
+
             var parts = text.Split('/');
             if(parts.Length == 3)
             {
@@ -350,7 +355,7 @@ namespace GisoFramework
             }
         }
 
-        /// <summary>Search the text on dictionary
+        /// <summary>Search the text on dictionary</summary>
         /// <param name="text">Dictionary key</param>
         /// <returns>Translated text by dictionary, or original text if not found</returns>
         public static string Translate(string text)

@@ -57,7 +57,7 @@ namespace GisoFramework
                         orderby pair.Key ascending
                         select pair;
             var dictionaryFinal = new Dictionary<string, string>();
-            foreach (KeyValuePair<string, string> item in items)
+            foreach (var item in items)
             {
                 dictionaryFinal.Add(item.Key, item.Value);
             }

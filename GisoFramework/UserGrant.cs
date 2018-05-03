@@ -10,13 +10,9 @@ namespace GisoFramework
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Globalization;
-    using System.Linq;
-    using System.Text;
     using System.Web;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary>Implments user grants</summary>
     public class UserGrant
     {
         /// <summary>Gets or sets the user idetifier</summary>
@@ -57,7 +53,7 @@ namespace GisoFramework
                 return false;
             }
 
-            foreach (UserGrant g in grants)
+            foreach (var g in grants)
             {
                 if (grant.Code == g.Item.Code)
                 {

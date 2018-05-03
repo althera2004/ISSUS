@@ -21,10 +21,7 @@ namespace GisoFramework.Item
     /// <summary>Implements Process class</summary>
     public class Process : BaseItem
     {
-
-        /// <summary>
-        /// Initializes a new instance of the Process class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Process class.</summary>
         public Process()
         {
             this.JobPosition = JobPosition.Empty;
@@ -39,7 +36,6 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE Process_GetById
              * @Id int,
              * @CompanyId int */
-
             using (var cmd = new SqlCommand("Process_GetById"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
@@ -87,7 +83,6 @@ namespace GisoFramework.Item
             }
         }
 
-        #region Properties
         /// <summary>Gets a empty process</summary>
         public static Process Empty
         {
@@ -178,7 +173,6 @@ namespace GisoFramework.Item
                 return string.Format(CultureInfo.InvariantCulture, @"<a href=""ProcesosView.aspx?id={0}"" title=""{1}"">{1}</a>", this.Id, this.Description);
             }
         }
-        #endregion
         
         /*public override string Differences(BaseItem item1)
         {
@@ -219,7 +213,7 @@ namespace GisoFramework.Item
         /// <summary>Deactive process</summary>
         /// <param name="processId">Process identifier</param>
         /// <param name="companyId">Company identifier</param>
-        /// <param name="userId">Identifier of users that performs the action</param>
+        /// <param name="userId">Identifier of user that performs the action</param>
         /// <returns>Action result</returns>
         public static ActionResult Deactive(int processId, int companyId, int userId)
         {
@@ -234,12 +228,9 @@ namespace GisoFramework.Item
                 cmd.CommandType = CommandType.StoredProcedure;
                 try
                 {
-                    cmd.Parameters.Add("@Id", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters["@Id"].Value = processId;
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Parameters["@UserId"].Value = userId;
+                    cmd.Parameters.Add(DataParameter.Input("@Id", processId));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
                     res.SetSuccess();
@@ -257,75 +248,74 @@ namespace GisoFramework.Item
         }
 
         /// <summary>Gets a descriptive string with the differences between tow process</summary>
-        /// <param name="process1">First process to compare</param>
-        /// <param name="process2">Second process to compare</param>
+        /// <param name="other">Second process to compare</param>
         /// <returns>A descriptive string</returns>
-        public static string Differences(Process process1, Process process2)
+        public string Differences(Process other)
         {
-            if (process1 == null || process2 == null)
+            if (this == null || other == null)
             {
                 return string.Empty;
             }
 
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             bool first = true;
-            if (process1.Description != process2.Description)
+            if (this.Description != other.Description)
             {
-                res.Append("Description:").Append(process2.Description);
+                res.Append("Description:").Append(other.Description);
                 first = false;
             }
 
-            if (process1.JobPosition.Id != process2.JobPosition.Id)
+            if (this.JobPosition.Id != other.JobPosition.Id)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("JobPosition:").Append(process2.JobPosition.Id);
+                res.Append("JobPosition:").Append(other.JobPosition.Id);
                 first = false;
             }
 
-            if (process1.ProcessType != process2.ProcessType)
+            if (this.ProcessType != other.ProcessType)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("ProcessType:").Append(process2.ProcessType);
+                res.Append("ProcessType:").Append(other.ProcessType);
             }
 
-            if (process1.Start != process2.Start)
+            if (this.Start != other.Start)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Start:").Append(process2.Start);
+                res.Append("Start:").Append(other.Start);
                 first = false;
             }
 
-            if (process1.Work != process2.Work)
+            if (this.Work != other.Work)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("Work:").Append(process2.Work);
+                res.Append("Work:").Append(other.Work);
                 first = false;
             }
 
-            if (process1.End != process2.End)
+            if (this.End != other.End)
             {
                 if (!first)
                 {
                     res.Append(",");
                 }
 
-                res.Append("End:").Append(process2.End);
+                res.Append("End:").Append(other.End);
                 first = false;
             }
 
@@ -337,61 +327,67 @@ namespace GisoFramework.Item
         /// <returns>A list of process</returns>
         public static ReadOnlyCollection<Process> ByCompany(int companyId)
         {
-            List<Process> res = new List<Process>();
+            var res = new List<Process>();
 
             /* CREATE PROCEDURE Get_ProcesosById
              * @Id int,
              * @CompanyId int */
 
-            using (SqlCommand cmd = new SqlCommand("Get_Procesos"))
+            using (var cmd = new SqlCommand("Get_Procesos"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                cmd.Parameters["@CompanyId"].Value = companyId;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    long lastProcessId = 0;
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                    cmd.Parameters["@CompanyId"].Value = companyId;
+                    try
                     {
-                        long actualProcessId = rdr.GetInt64(0);
-                        if (actualProcessId != lastProcessId)
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            lastProcessId = actualProcessId;
-                            Process newProcess = new Process()
+                            long lastProcessId = 0;
+                            while (rdr.Read())
                             {
-                                Id = actualProcessId,
-                                CompanyId = companyId,
-                                ProcessType = rdr.GetInt32(2),
-                                Start = rdr.GetString(3),
-                                Work = rdr.GetString(4),
-                                End = rdr.GetString(5),
-                                Description = rdr.GetString(6),
-                                JobPosition = JobPosition.Empty,
-                                Active = true,
-                                CanBeDeleted = rdr.GetBoolean(9)
-                            };
-
-                            if (!rdr.IsDBNull(7))
-                            {
-                                newProcess.JobPosition = new JobPosition()
+                                long actualProcessId = rdr.GetInt64(0);
+                                if (actualProcessId != lastProcessId)
                                 {
-                                    Id = rdr.GetInt32(7),
-                                    Description = rdr.GetString(8)
-                                };
-                            }
+                                    lastProcessId = actualProcessId;
+                                    var newProcess = new Process
+                                    {
+                                        Id = actualProcessId,
+                                        CompanyId = companyId,
+                                        ProcessType = rdr.GetInt32(2),
+                                        Start = rdr.GetString(3),
+                                        Work = rdr.GetString(4),
+                                        End = rdr.GetString(5),
+                                        Description = rdr.GetString(6),
+                                        JobPosition = JobPosition.Empty,
+                                        Active = true,
+                                        CanBeDeleted = rdr.GetBoolean(9)
+                                    };
 
-                            res.Add(newProcess);
+                                    if (!rdr.IsDBNull(7))
+                                    {
+                                        newProcess.JobPosition = new JobPosition
+                                        {
+                                            Id = rdr.GetInt32(7),
+                                            Description = rdr.GetString(8),
+                                            CompanyId = companyId
+                                        };
+                                    }
+
+                                    res.Add(newProcess);
+                                }
+                            }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
 
@@ -411,7 +407,7 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Process_Insert
              * @Id int out,
              * @CompanyId int,
@@ -422,43 +418,46 @@ namespace GisoFramework.Item
              * @Work text,
              * @End text,
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("Process_Insert"))
+            using (var cmd = new SqlCommand("Process_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.OutputInt("@Id"));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.JobPosition.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@Type", this.ProcessType));
-                    cmd.Parameters.Add(DataParameter.Input("@Start", this.Start, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Work", this.Work, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@End", this.End, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess(cmd.Parameters["@Id"].Value.ToString());
-                    this.Id = Convert.ToInt64(cmd.Parameters["@Id"].Value.ToString(), CultureInfo.GetCultureInfo("en-us"));
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.OutputInt("@Id"));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.JobPosition.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Type", this.ProcessType));
+                        cmd.Parameters.Add(DataParameter.Input("@Start", this.Start, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Work", this.Work, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@End", this.End, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess(cmd.Parameters["@Id"].Value.ToString());
+                        this.Id = Convert.ToInt64(cmd.Parameters["@Id"].Value.ToString(), CultureInfo.InvariantCulture);
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -471,7 +470,7 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Process_Update
              *  @Id int,
              *  @Description nvarchar(100),
@@ -482,42 +481,45 @@ namespace GisoFramework.Item
              *  @Work text,
              *  @End text,
              *  @UserId int */
-            using (SqlCommand cmd = new SqlCommand("Process_Update"))
+            using (var cmd = new SqlCommand("Process_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@Id", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.JobPosition.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@Type", this.ProcessType));
-                    cmd.Parameters.Add(DataParameter.Input("@Start", this.Start, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Work", this.Work, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@End", this.End, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@Id", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.JobPosition.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Type", this.ProcessType));
+                        cmd.Parameters.Add(DataParameter.Input("@Start", this.Start, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Work", this.Work, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@End", this.End, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

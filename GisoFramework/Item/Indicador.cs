@@ -646,18 +646,21 @@ namespace GisoFramework.Item
                                     Unidad = new Unidad
                                     {
                                         Id = rdr.GetInt32(ColumnsIndicadorGet.UnidadId),
-                                        Description = rdr.GetString(ColumnsIndicadorGet.UnidadDescripcion)
+                                        Description = rdr.GetString(ColumnsIndicadorGet.UnidadDescripcion),
+                                        CompanyId = companyId
                                     },
                                     CreatedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsIndicadorGet.CreatedBy),
-                                        UserName = rdr.GetString(ColumnsIndicadorGet.CreatedByName)
+                                        UserName = rdr.GetString(ColumnsIndicadorGet.CreatedByName),
+                                        CompanyId = companyId
                                     },
                                     CreatedOn = rdr.GetDateTime(ColumnsIndicadorGet.CreatedOn),
                                     ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsIndicadorGet.ModifiedBy),
-                                        UserName = rdr.GetString(ColumnsIndicadorGet.ModifiedByName)
+                                        UserName = rdr.GetString(ColumnsIndicadorGet.ModifiedByName),
+                                        CompanyId = companyId
                                     },
                                     ModifiedOn = rdr.GetDateTime(ColumnsIndicadorGet.ModifiedOn),
                                     Active = rdr.GetBoolean(ColumnsIndicadorGet.Active),
@@ -667,10 +670,12 @@ namespace GisoFramework.Item
                                         Name = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeName),
                                         LastName = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeLastName),
                                         UserId = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
+                                        CompanyId = companyId,
                                         User = new ApplicationUser
                                         {
                                             Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
-                                            UserName = rdr.GetString(ColumnsIndicadorGet.ResponsibleLogin)
+                                            UserName = rdr.GetString(ColumnsIndicadorGet.ResponsibleLogin),
+                                            CompanyId = companyId
                                         }
                                     }
                                 };
@@ -685,7 +690,8 @@ namespace GisoFramework.Item
                                     indicador.Proceso = new Process
                                     {
                                         Id = rdr.GetInt32(ColumnsIndicadorGet.ProcessId),
-                                        Description = rdr.GetString(ColumnsIndicadorGet.ProcessDescription)
+                                        Description = rdr.GetString(ColumnsIndicadorGet.ProcessDescription),
+                                        CompanyId = companyId
                                     };
                                 }
 
@@ -710,10 +716,12 @@ namespace GisoFramework.Item
                                             Name = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeName),
                                             LastName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeLastName),
                                             UserId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
+                                            CompanyId = companyId,
                                             User = new ApplicationUser
                                             {
                                                 Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
-                                                UserName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleLogin)
+                                                UserName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleLogin),
+                                                CompanyId = companyId
                                             }
                                         };
                                     }

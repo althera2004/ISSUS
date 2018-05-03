@@ -199,7 +199,7 @@
                                                         </div>
                                                         <div class="col-sm-6" style="text-align: right;">
                                                             <button class="btn btn-success" type="button" id="BtnActionsNew"><i class="icon-plus bigger-110"></i><%=this.Dictionary["Item_Indicador_New_Button"] %></button>
-                                                            <button class="btn btn-success" type="button" id="BtnActionsFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_Indicador_Filter_Button"] %></button>
+                                                            <button class="btn btn-success" type="button" id="BtnActionsFilter" style="display: none;"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_Indicador_Filter_Button"] %></button>
                                                             <button class="btn btn-success" type="button" id="BtnActionsShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
                                                             <button class="btn btn-success" type="button" id="BtnActionsShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
                                                         </div>
@@ -323,7 +323,7 @@
                                                         </div>
                                                         <div class="col-sm-6" style="text-align: right;">
                                                             <button class="btn btn-success" type="button" id="BtnRecordNew"><i class="icon-plus bigger-110"></i><%=this.Dictionary["Item_Indicador_New_Button"] %></button>
-                                                            <button class="btn btn-success" type="button" id="BtnRecordFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_Indicador_Filter_Button"] %></button>
+                                                            <button class="btn btn-success" type="button" id="BtnRecordFilter" style="display:none;"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_Indicador_Filter_Button"] %></button>
                                                             <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
                                                             <button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
                                                         </div>

@@ -14,13 +14,13 @@ namespace GisoFramework
     using iTextSharp.text.pdf;
 
     public static class ToolsPdf
-    {
+    { 
         public const float PaddingTableCell = 8;
         public const float PaddingTopTableCell = 6;
         public const float PaddingTopCriteriaCell = 4;
-        public static readonly BaseColor SummaryBackgroundColor = new BaseColor(240, 240, 240);
-        public static readonly BaseColor LineBackgroundColor = new BaseColor(255, 255, 255);
-        public static readonly BaseColor HeaderBackgroundColor = new BaseColor(220, 220, 220);
+        public static readonly BaseColor SummaryBackgroundColor = BaseColor.LIGHT_GRAY;
+        public static readonly BaseColor LineBackgroundColor = BaseColor.WHITE;
+        public static readonly BaseColor HeaderBackgroundColor = BaseColor.LIGHT_GRAY;
         public const int BorderAll = Rectangle.RIGHT_BORDER + Rectangle.TOP_BORDER + Rectangle.LEFT_BORDER + Rectangle.BOTTOM_BORDER;
         public const int BorderNone = Rectangle.NO_BORDER;
         public const int BorderBottom = Rectangle.BOTTOM_BORDER;
@@ -44,7 +44,13 @@ namespace GisoFramework
 
         public static PdfPCell CriteriaCellLabel(string label)
         {
-            return new PdfPCell(new Phrase(string.Format(CultureInfo.InvariantCulture,"{0} :", label), TimesBold))
+            var finalLabel = string.Empty;
+            if (!string.IsNullOrEmpty(label))
+            {
+                finalLabel = label;
+            }
+
+            return new PdfPCell(new Phrase(string.Format(CultureInfo.InvariantCulture,"{0} :", finalLabel), TimesBold))
             {
                 Border = ToolsPdf.BorderNone,
                 HorizontalAlignment = Element.ALIGN_LEFT,
@@ -55,7 +61,13 @@ namespace GisoFramework
 
         public static PdfPCell HeaderCell(string label)
         {
-            return new PdfPCell(new Phrase(label.ToUpperInvariant(), Times))
+            var finalLabel = string.Empty;
+            if (!string.IsNullOrEmpty(label))
+            {
+                finalLabel = label;
+            }
+
+            return new PdfPCell(new Phrase(finalLabel.ToUpperInvariant(), Times))
             {
                 Border = BorderAll,
                 BackgroundColor = HeaderBackgroundColor,
@@ -67,7 +79,13 @@ namespace GisoFramework
 
         public static PdfPCell CellTable(string value, Font font)
         {
-            return new PdfPCell(new Phrase(value, font))
+            var finalValue = string.Empty;
+            if (!string.IsNullOrEmpty(value))
+            {
+                finalValue = value;
+            }
+
+            return new PdfPCell(new Phrase(finalValue, font))
             {
                 Border = Rectangle.TOP_BORDER,
                 BackgroundColor = LineBackgroundColor,
@@ -166,10 +184,16 @@ namespace GisoFramework
 
         public static PdfPCell DataCell(string value, Font font, int alignment)
         {
-            return new PdfPCell(new Phrase(value, font))
+            var finalValue = string.Empty;
+            if (!string.IsNullOrEmpty(value))
+            {
+                finalValue = value;
+            }
+
+            return new PdfPCell(new Phrase(finalValue, font))
             {
                 Border = 0,
-                BackgroundColor = new BaseColor(255, 255, 255),
+                BackgroundColor = BaseColor.WHITE,
                 Padding = 6f,
                 PaddingTop = 4f,
                 HorizontalAlignment = alignment

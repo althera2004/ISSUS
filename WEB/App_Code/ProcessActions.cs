@@ -93,7 +93,7 @@ public class ProcessActions : WebService {
     public ActionResult Update(Process oldProcess, Process newProcess, int userId)
     {
         var res = ActionResult.NoAction;
-        string extraData = Process.Differences(oldProcess, newProcess);
+        string extraData = oldProcess.Differences(newProcess);
         if (!string.IsNullOrEmpty(extraData))
         {
             res = newProcess.Update(userId);

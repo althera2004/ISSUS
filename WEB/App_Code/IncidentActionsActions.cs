@@ -56,7 +56,7 @@ public class IncidentActionsActions : WebService
 
         if (applyAction)
         {
-            var risk = BusinessRisk.GetById(incidentAction.CompanyId, businessRiskId);
+            var risk = BusinessRisk.ById(incidentAction.CompanyId, businessRiskId);
             incidentAction.BusinessRiskId = risk.Id;
             incidentAction.WhatHappenedOn = risk.DateStart;
             incidentAction.Causes = risk.Causes;

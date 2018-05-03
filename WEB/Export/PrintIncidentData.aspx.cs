@@ -69,7 +69,7 @@ public partial class ExportPrintIncidentData : Page
         if (incident.Department.Id > 0)
         {
             reporterType = dictionary["Item_Incident_Origin1"];
-            reporter = Department.GetById(incident.Department.Id, incident.CompanyId).Description;
+            reporter = Department.ById(incident.Department.Id, incident.CompanyId).Description;
         }
         else if(incident.Provider.Id > 0)
         {

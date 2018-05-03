@@ -56,7 +56,7 @@ namespace GisoFramework
                                 </li>";
 
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"), 
+                CultureInfo.InvariantCulture, 
                 pattern,
                 dictionary[this.Description],
                 this.Url,

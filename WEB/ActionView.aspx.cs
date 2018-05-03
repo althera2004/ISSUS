@@ -174,7 +174,7 @@ public partial class ActionView : Page
     {
         get
         {
-            return Department.GetByCompanyJsonList(this.Company.Id);
+            return Department.ByCompanyJsonList(this.Company.Id);
         }
     }
 
@@ -214,7 +214,7 @@ public partial class ActionView : Page
     {
         get
         {
-            return this.grantToWrite ? Constant.JavascriptTrue : Constant.JavascriptFalse;
+            return this.grantToWrite ? Constant.JavaScriptTrue : Constant.JavaScriptFalse;
         }
     }
 
@@ -320,7 +320,7 @@ public partial class ActionView : Page
 
             if (this.IncidentAction.BusinessRiskId > 0)
             {
-                this.BusinessRisk = BusinessRisk.GetById(this.Company.Id, this.IncidentAction.BusinessRiskId);
+                this.BusinessRisk = BusinessRisk.ById(this.Company.Id, this.IncidentAction.BusinessRiskId);
             }
 
             if(this.IncidentAction.Objetivo.Id > 0)

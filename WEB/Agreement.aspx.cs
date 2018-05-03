@@ -25,7 +25,7 @@ public partial class Agreement : Page
     private string ip;
     //private string companyCode;
 
-    public ApplicationUser User { get; private set; }
+    public ApplicationUser ApplicationUser { get; private set; }
     public Company Company { get; private set; }
 
     public string HomePage
@@ -75,7 +75,7 @@ public partial class Agreement : Page
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        this.User = this.Session["User"] as ApplicationUser;
+        this.ApplicationUser = this.Session["User"] as ApplicationUser;
         this.Company = this.Session["Company"] as Company;
         this.RenderAgreement();
     }
@@ -107,8 +107,8 @@ public partial class Agreement : Page
         }
 
         text = text.Replace("#COMPANY_NAME#", "<strong>" + this.Company.Name + "</strong>");
-        text = text.Replace("#USER_NAME#", "<strong>" + this.User.UserName + "</strong>");
-        text = text.Replace("#EMAIL#", "<strong>" + this.User.Email + "</strong>");
+        text = text.Replace("#USER_NAME#", "<strong>" + this.ApplicationUser.UserName + "</strong>");
+        text = text.Replace("#EMAIL#", "<strong>" + this.ApplicationUser.Email + "</strong>");
         text = text.Replace("\r", "</p>");
         text = text.Replace("\n", string.Empty);
         text = text.Replace("#DATE#", Constant.NowText);

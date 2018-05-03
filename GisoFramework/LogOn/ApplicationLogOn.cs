@@ -363,7 +363,7 @@ namespace GisoFramework.LogOn
                 }
                 else
                 {
-                    companyId = Company.GetByCode(companyCode);
+                    companyId = Company.ByCode(companyCode);
                     if (companyId == 0)
                     {
                         cmd.Parameters.Add(DataParameter.InputNull("@CompanyId"));

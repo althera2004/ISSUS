@@ -4,16 +4,15 @@
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
+using SbrinnaCoreFramework;
+using SbrinnaCoreFramework.UI;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
-using SbrinnaCoreFramework.UI;
-using SbrinnaCoreFramework;
 
 public partial class BusinessRisksList : Page
 {
@@ -179,7 +178,7 @@ public partial class BusinessRisksList : Page
 
         if (this.businessRiskId != -1)
         {
-            this.businessRisk = BusinessRisk.GetById(Company.Id, this.businessRiskId);
+            this.businessRisk = BusinessRisk.ById(Company.Id, this.businessRiskId);
             if (this.businessRisk.CompanyId != Company.Id)
             {
                 Context.ApplicationInstance.CompleteRequest();

@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using GisoFramework.Item;
-using System.Reflection;
 using System.Configuration;
-using System.IO;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Web.UI;
 
 public partial class _Default : Page
 {
     private string languageBrowser;
     private string ip;
-    private string companyCode;
 
     public string IssusVersion
     {
@@ -52,10 +46,10 @@ public partial class _Default : Page
         }
     }
 
-    public string CompanyCode
-    {
-        get { return this.companyCode; }
-    }
+    //public string CompanyCode
+    //{
+    //    get { return this.companyCode; }
+    //}
 
     public string LanguageBrowser
     {

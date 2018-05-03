@@ -7,7 +7,7 @@
 namespace GisoFramework
 {
     /// <summary>Implements Variance class</summary>
-    public class Variance
+    public struct Variance
     {
         /// <summary>Gets or sets the name of property</summary>
         public string PropertyName { get; set; }

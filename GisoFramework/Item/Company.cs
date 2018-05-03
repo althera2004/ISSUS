@@ -25,13 +25,13 @@ namespace GisoFramework.Item
     public class Company
     {
         /// <summary> Company departments </summary>
-        private Collection<Department> departments;
+        private List<Department> departments;
 
         /// <summary>Company's employees</summary>
-        private Collection<Employee> employees;
+        private List<Employee> employees;
 
         /// <summary>List of company's addresses</summary>
-        private Collection<CompanyAddress> addresses;
+        private List<CompanyAddress> addresses;
 
         /// <summary>Compnay's default address</summary>
         private CompanyAddress defaultAddress;
@@ -90,7 +90,7 @@ namespace GisoFramework.Item
                                 this.Agreement = rdr.GetBoolean(9);
                             }
 
-                            this.departments = Company.GetDepartments(this.Id);
+                            this.departments = Company.ObtainDepartments(this.Id);
                             this.addresses = CompanyAddress.GetAddressByCompanyId(this);
                             foreach (var address in this.addresses)
                             {
@@ -167,9 +167,9 @@ namespace GisoFramework.Item
             this.countries = new List<Country>();
             using (var cmdCountries = new SqlCommand("Company_GetCountries"))
             {
-                using (var ccCountry = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString()))
+                using (var cnnCountry = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString()))
                 {
-                    cmdCountries.Connection = ccCountry;
+                    cmdCountries.Connection = cnnCountry;
                     cmdCountries.CommandType = CommandType.StoredProcedure;
                     try
                     {
@@ -222,11 +222,11 @@ namespace GisoFramework.Item
                 return new Company
                 {
                     Id = -1,
-                    addresses = new Collection<CompanyAddress>(),
+                    addresses = new List<CompanyAddress>(),
                     Code = string.Empty,
                     defaultAddress = CompanyAddress.Empty,
-                    departments = new Collection<Department>(),
-                    employees = new Collection<Employee>(),
+                    departments = new List<Department>(),
+                    employees = new List<Employee>(),
                     Language = string.Empty,
                     MailContact = string.Empty,
                     Name = string.Empty,
@@ -245,8 +245,8 @@ namespace GisoFramework.Item
                 {
                     Id = -1,
                     Code = string.Empty,
-                    departments = new Collection<Department>(),
-                    employees = new Collection<Employee>(),
+                    departments = new List<Department>(),
+                    employees = new List<Employee>(),
                     Language = string.Empty,
                     MailContact = string.Empty,
                     Name = string.Empty,
@@ -259,7 +259,7 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets company's disk quote</summary>
         public long DiskQuote { get; set; }
 
-        /// <summary>Gets or sets a valute indicating whether agreement document is accepted</summary>
+        /// <summary>Gets or sets a value indicating whether agreement document is accepted</summary>
         public bool Agreement { get; set; }
 
         #region Properties
@@ -269,11 +269,47 @@ namespace GisoFramework.Item
             get
             {
                 return string.Format(
-                    CultureInfo.InvariantCulture, @"{{""Id"":{0},""Value"":""{1}""}}",
+                    CultureInfo.InvariantCulture, 
+                    @"{{""Id"":{0},""Value"":""{1}""}}",
                     this.Id, 
                     Tools.JsonCompliant(this.Name));
             }
         }
+
+        /*/// <summary>Gets a JSON stucture of the company</summary>
+        public string Json
+        {
+            get
+            {
+                string pattern = @"{{
+                            ""Id"":{0},
+                            ""Value"":""{1}"",
+                            ""Code"":""{2}"",
+                            ""Language"":""{3}"",
+                            ""Mail"":""{5}"",
+                            ""Employees"": {4},
+                            ""Departments"": {8},
+                            ""DefaultAddress"": {9},
+                            ""SubscriptionStart"":""{6:dd/MM/yyyy}"",
+                            ""SubscriptionEnd"":""{7:dd/MM/yyyy}"",
+                            ""Countries"": {10}
+                        }}";
+                return string.Format(
+                        CultureInfo.InvariantCulture, 
+                        pattern,
+                        this.Id,
+                        Tools.JsonCompliant(this.Name),
+                        this.Code,
+                        this.Language,
+                        Employee.JsonList(new ReadOnlyCollection<Employee>(this.employees)),
+                        this.defaultAddress.Email,
+                        this.SubscriptionStart,
+                        this.SubscriptionEnd,
+                        Department.GetByCompanyJsonList(this.Id),
+                        this.defaultAddress.Json,
+                        Country.JsonList(new ReadOnlyCollection<Country>(this.countries)));
+            }
+        }*/
 
         /// <summary>Gets or sets the company's logo</summary>
         public string Logo { get; set; }
@@ -377,15 +413,101 @@ namespace GisoFramework.Item
                 this.defaultAddress = value;
             }
         }
+
+        /// <summary>Gets a JSON structure of company</summary>
+        /// <returns>JSON structure</returns>
+        public string Json
+        {
+            get
+            {
+                if (this == null)
+                {
+                    return Constant.EmptyJsonObject;
+                }
+
+                var res = new StringBuilder("{").Append(Environment.NewLine);
+                res.Append("\t\t\"Id\":").Append(this.Id).Append(",").Append(Environment.NewLine);
+                res.Append("\t\t\"Name\":\"").Append(this.Name).Append("\",").Append(Environment.NewLine);
+                res.Append("\t\t\"Nif\":\"").Append(this.FiscalNumber).Append("\",").Append(Environment.NewLine);
+                res.Append("\t\t\"MailContact\":\"").Append(this.MailContact).Append("\",").Append(Environment.NewLine);
+                res.Append("\t\t\"Web\":\"").Append(this.Web).Append("\",").Append(Environment.NewLine);
+                res.Append("\t\t\"SubscriptionStart\":\"").Append(this.SubscriptionStart.ToShortDateString()).Append("\",").Append(Environment.NewLine);
+                res.Append("\t\t\"SubscriptionEnd\":\"").Append(this.SubscriptionEnd.ToShortDateString()).Append("\",").Append(Environment.NewLine);
+                res.Append("\t\t\"Language\":\"").Append(this.Language).Append("\",").Append(Environment.NewLine);
+                res.Append("\t\t\"Departments\":").Append(Environment.NewLine);
+                res.Append("\t\t[");
+                bool firstDepartment = true;
+                foreach (var department in this.departments)
+                {
+                    if (firstDepartment)
+                    {
+                        firstDepartment = false;
+                    }
+                    else
+                    {
+                        res.Append(",");
+                    }
+
+                    res.Append(Environment.NewLine).Append("\t\t\t").Append(department.Json);
+                }
+
+                res.Append(Environment.NewLine).Append("\t\t],").Append(Environment.NewLine);
+                res.Append("\t\t\"Employees\":").Append(Environment.NewLine);
+                res.Append("\t\t[");
+                bool firstEmployee = true;
+
+                this.ObtainEmployees();
+                foreach (var employee in this.employees)
+                {
+                    if (firstEmployee)
+                    {
+                        firstEmployee = false;
+                    }
+                    else
+                    {
+                        res.Append(",");
+                    }
+
+                    res.Append(employee.Json);
+                }
+
+                res.Append(Environment.NewLine).Append("\t\t]");
+
+                if (this.defaultAddress != null)
+                {
+                    res.Append(",").Append(Environment.NewLine).Append("\t\t\"DefaultAddress\":").Append(this.defaultAddress.Json);
+                }
+
+                bool firstCountry = true;
+                res.Append(",").Append(Environment.NewLine).Append("\t\t\"Countries\":").Append(Environment.NewLine).Append("\t\t[");
+                foreach (var country in this.Countries)
+                {
+                    if (firstCountry)
+                    {
+                        firstCountry = false;
+                    }
+                    else
+                    {
+                        res.Append(",");
+                    }
+
+                    res.Append(string.Format(CultureInfo.InvariantCulture, @"{2}                      {{""Id"":{0}, ""Name"":""{1}""}}", country.Id, Tools.JsonCompliant(country.Description), Environment.NewLine));
+                }
+
+                res.Append(Environment.NewLine).Append("\t\t]");
+                res.Append(Environment.NewLine).Append("\t}");
+                return res.ToString();
+            }
+        }
         #endregion
 
         /// <summary>Obtain the departments of a company</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>List of departments</returns>
-        public static Collection<Department> GetDepartments(int companyId)
+        public static List<Department> ObtainDepartments(int companyId)
         {
-            string source = string.Format(CultureInfo.InstalledUICulture, "GetDepartments({0})", companyId);
-            var res = new Collection<Department>();
+            string source = string.Format(CultureInfo.InstalledUICulture, "ObtainDepartments({0})", companyId);
+            var res = new List<Department>();
             using (var cmd = new SqlCommand("Company_GetDepartments"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -400,7 +522,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new Department()
+                                res.Add(new Department
                                 {
                                     CompanyId = companyId,
                                     Id = rdr.GetInt32(0),
@@ -434,61 +556,6 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>Gets a descriptive text with the differences between two companies</summary>
-        /// <param name="item1">First company to compare</param>
-        /// <param name="item2">Second company to capmpare</param>
-        /// <returns>The description of differences between two companies</returns>
-        public string Differences(Company item2)
-        {
-            if (this == null || item2 == null)
-            {
-                return string.Empty;
-            }
-
-            var res = new StringBuilder();
-            bool first = true;
-
-            if (this.Name != item2.Name)
-            {
-                res.Append("Name:").Append(item2.Name);
-                first = false;
-            }
-
-            if (this.FiscalNumber != item2.FiscalNumber)
-            {
-                if (!first)
-                {
-                    res.Append(",");
-                }
-
-                res.Append("Nif:").Append(item2.FiscalNumber);
-                first = false;
-            }
-
-            if (this.Language != item2.Language)
-            {
-                if (!first)
-                {
-                    res.Append(",");
-                }
-
-                res.Append("Language:").Append(item2.Language);
-                first = false;
-            }
-
-            if (this.defaultAddress.Id != item2.defaultAddress.Id)
-            {
-                if (!first)
-                {
-                    res.Append(",");
-                }
-
-                res.Append("defaultAddress:").Append(item2.defaultAddress.Address).Append(",").Append(item2.defaultAddress.City);
-            }
-
-            return res.ToString();
-        }
-
         /// <summary>Set the default address of a company</summary>
         /// <param name="companyId">Compnay identifier</param>
         /// <param name="addressId">Address identifier</param>
@@ -496,6 +563,7 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult SetDefaultAddress(int companyId, int addressId, int userId)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, "CompanyId:{0},AddressId{1},UserId{2}", companyId, addressId, userId);
             var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Company_SetDefaultAddress]
              * @CompanyId int,
@@ -519,17 +587,17 @@ namespace GisoFramework.Item
                     catch (SqlException ex)
                     {
                         res.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Company::SetDefaultAddress", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0},AddressId{1},UserId{2}", companyId, addressId, userId));
+                        ExceptionManager.Trace(ex, "Company::SetDefaultAddress", source);
                     }
                     catch (FormatException ex)
                     {
                         res.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Company::SetDefaultAddress", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0},AddressId{1},UserId{2}", companyId, addressId, userId));
+                        ExceptionManager.Trace(ex, "Company::SetDefaultAddress", source);
                     }
                     catch (NullReferenceException ex)
                     {
                         res.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Company::SetDefaultAddress", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0},AddressId{1},UserId{2}", companyId, addressId, userId));
+                        ExceptionManager.Trace(ex, "Company::SetDefaultAddress", source);
                     }
                     finally
                     {
@@ -544,102 +612,17 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /*/// <summary>Generates a JSON strcuture of company</summary>
-        /// <param name="company">Compnay to extract data</param>
-        /// <returns>JSON structure</returns>
-        public static string Json(Company company)
-        {
-            if (company == null)
-            {
-                return "{}";
-            }
-
-            var res = new StringBuilder("{").Append(Environment.NewLine);
-            res.Append("\t\t\"Id\":").Append(company.Id).Append(",").Append(Environment.NewLine);
-            res.Append("\t\t\"Name\":\"").Append(company.Name).Append("\",").Append(Environment.NewLine);
-            res.Append("\t\t\"Nif\":\"").Append(company.FiscalNumber).Append("\",").Append(Environment.NewLine);
-            res.Append("\t\t\"MailContact\":\"").Append(company.MailContact).Append("\",").Append(Environment.NewLine);
-            res.Append("\t\t\"Web\":\"").Append(company.Web).Append("\",").Append(Environment.NewLine);
-            res.Append("\t\t\"SubscriptionStart\":\"").Append(company.SubscriptionStart.ToShortDateString()).Append("\",").Append(Environment.NewLine);
-            res.Append("\t\t\"SubscriptionEnd\":\"").Append(company.SubscriptionEnd.ToShortDateString()).Append("\",").Append(Environment.NewLine);
-            res.Append("\t\t\"Language\":\"").Append(company.Language).Append("\",").Append(Environment.NewLine);
-            res.Append("\t\t\"Departments\":").Append(Environment.NewLine);
-            res.Append("\t\t[");
-            bool firstDepartment = true;
-            foreach (var department in company.departments)
-            {
-                if (firstDepartment)
-                {
-                    firstDepartment = false;
-                }
-                else
-                {
-                    res.Append(",");
-                }
-
-                res.Append(Environment.NewLine).Append("\t\t\t").Append(department.Json);
-            }
-
-            res.Append(Environment.NewLine).Append("\t\t],").Append(Environment.NewLine);
-            res.Append("\t\t\"Employees\":").Append(Environment.NewLine);
-            res.Append("\t\t[");
-            bool firstEmployee = true;
-
-            company.ObtainEmployees();
-            foreach (var employee in company.employees)
-            {
-                if (firstEmployee)
-                {
-                    firstEmployee = false;
-                }
-                else
-                {
-                    res.Append(",");
-                }
-
-                res.Append(employee.Json);
-            }
-
-            res.Append(Environment.NewLine).Append("\t\t]");
-
-            if (company.defaultAddress != null)
-            {
-                res.Append(",").Append(Environment.NewLine).Append("\t\t\"DefaultAddress\":").Append(company.defaultAddress.Json);
-            }
-
-            bool firstCountry = true;
-            res.Append(",").Append(Environment.NewLine).Append("\t\t\"Countries\":").Append(Environment.NewLine).Append("\t\t[");
-            foreach (var country in company.Countries)
-            {
-                if (firstCountry)
-                {
-                    firstCountry = false;
-                }
-                else
-                {
-                    res.Append(",");
-                }
-
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"{2}                      {{""Id"":{0}, ""Name"":""{1}""}}", country.Id, Tools.JsonCompliant(country.Description), Environment.NewLine));
-            }
-
-            res.Append(Environment.NewLine).Append("\t\t]");
-            res.Append(Environment.NewLine).Append("\t}");
-            return res.ToString();
-        }*/
-
-        /// <summary>Get a compnay from data base by code</summary>
+        /// <summary>Get a company from data base by code</summary>
         /// <param name="code">Company's code</param>
         /// <returns>Company object</returns>
-        public static int GetByCode(string code)
+        public static int ByCode(string code)
         {
             int res = 0;
-            using (var cmd = new SqlCommand("Company_GetByCode"))
+            using (var cmd = new SqlCommand("Company_ByCode"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@CompanyCode", SqlDbType.Text);
-                cmd.Parameters["@CompanyCode"].Value = code;
+                cmd.Parameters.Add(DataParameter.Input("@CompanyCode", code));
                 try
                 {
                     cmd.Connection.Open();
@@ -710,10 +693,63 @@ namespace GisoFramework.Item
             return res;
         }
 
+        /// <summary>Gets a descriptive text with the differences between two companies</summary>
+        /// <param name="item2">Company to compare</param>
+        /// <returns>The description of differences between two companies</returns>
+        public string Differences(Company item2)
+        {
+            if (this == null || item2 == null)
+            {
+                return string.Empty;
+            }
+
+            var res = new StringBuilder();
+            bool first = true;
+            if (this.Name != item2.Name)
+            {
+                res.Append("Name:").Append(item2.Name);
+                first = false;
+            }
+
+            if (this.FiscalNumber != item2.FiscalNumber)
+            {
+                if (!first)
+                {
+                    res.Append(",");
+                }
+
+                res.Append("Nif:").Append(item2.FiscalNumber);
+                first = false;
+            }
+
+            if (this.Language != item2.Language)
+            {
+                if (!first)
+                {
+                    res.Append(",");
+                }
+
+                res.Append("Language:").Append(item2.Language);
+                first = false;
+            }
+
+            if (this.defaultAddress.Id != item2.defaultAddress.Id)
+            {
+                if (!first)
+                {
+                    res.Append(",");
+                }
+
+                res.Append("defaultAddress:").Append(item2.defaultAddress.Address).Append(",").Append(item2.defaultAddress.City);
+            }
+
+            return res.ToString();
+        }
+
         /// <summary>Avoid company addresses</summary>
         public void AvoidAddress()
         {
-            this.addresses = new Collection<CompanyAddress>(new List<CompanyAddress>());
+            this.addresses = new List<CompanyAddress>(new List<CompanyAddress>());
         }
 
         /// <summary>Add an address in company addresses</summary>
@@ -722,7 +758,7 @@ namespace GisoFramework.Item
         {
             if (this.addresses == null)
             {
-                this.addresses = new Collection<CompanyAddress>(new List<CompanyAddress>());
+                this.addresses = new List<CompanyAddress>();
             }
 
             this.addresses.Add(address);
@@ -750,7 +786,7 @@ namespace GisoFramework.Item
                     try
                     {
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@Name", this.Name, 50));
+                        cmd.Parameters.Add(DataParameter.Input("@Name", this.Name, Constant.DefaultDatabaseVarChar));
                         cmd.Parameters.Add(DataParameter.Input("@Nif", this.FiscalNumber, 15));
                         cmd.Parameters.Add(DataParameter.Input("@DefaultAddress", this.defaultAddress.Id));
                         cmd.Parameters.Add(DataParameter.Input("@Language", this.Language, 2));
@@ -789,7 +825,7 @@ namespace GisoFramework.Item
         public void ObtainEmployees()
         {
             var source = string.Format(CultureInfo.InvariantCulture, "Company::ObtainEmployees() . CompanyId:{0}", this.Id);
-            this.employees = new Collection<Employee>();
+            this.employees = new List<Employee>();
             using (var cmd = new SqlCommand("Company_GetEmployees"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -804,7 +840,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                var newEmployee = new Employee()
+                                var newEmployee = new Employee
                                 {
                                     Id = rdr.GetInt32(ColumnsCompanyGetEmployees.Id),
                                     CompanyId = this.Id,
@@ -814,7 +850,7 @@ namespace GisoFramework.Item
                                     Nif = rdr.GetString(ColumnsCompanyGetEmployees.Nif),
                                     Email = rdr.GetString(ColumnsCompanyGetEmployees.Email),
                                     Phone = rdr.GetString(ColumnsCompanyGetEmployees.Phone),
-                                    Address = new EmployeeAddress()
+                                    Address = new EmployeeAddress
                                     {
                                         Address = rdr.GetString(ColumnsCompanyGetEmployees.Address),
                                         PostalCode = rdr.GetString(ColumnsCompanyGetEmployees.PostalCode),

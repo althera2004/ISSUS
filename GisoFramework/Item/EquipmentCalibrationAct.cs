@@ -158,10 +158,10 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                EquipmentCalibrationAct newEquipmentCalibrationAct = new EquipmentCalibrationAct()
+                                var newEquipmentCalibrationAct = new EquipmentCalibrationAct
                                 {
                                     Id = rdr.GetInt64(ColumnsEquipmentCalibrationActGet.Id),
-                                    CompanyId = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.CompanyId),
+                                    CompanyId = companyId,
                                     EquipmentId = rdr.GetInt64(ColumnsEquipmentCalibrationActGet.EquipmentId),
                                     Result = rdr.GetDecimal(ColumnsEquipmentCalibrationActGet.Result),
                                     MaxResult = rdr.GetDecimal(ColumnsEquipmentCalibrationActGet.MaxResult),
@@ -172,18 +172,21 @@ namespace GisoFramework.Item
                                     Provider = new Provider
                                     {
                                         Id = rdr.GetInt64(ColumnsEquipmentCalibrationActGet.ProviderId),
-                                        Description = rdr.GetString(ColumnsEquipmentCalibrationActGet.ProviderDescription)
+                                        Description = rdr.GetString(ColumnsEquipmentCalibrationActGet.ProviderDescription),
+                                        CompanyId = companyId
                                     },
                                     Responsible = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.ResponsibleId),
                                         Name = rdr.GetString(ColumnsEquipmentCalibrationActGet.ResponsibleName),
-                                        LastName = rdr.GetString(ColumnsEquipmentCalibrationActGet.ResponsibleLastName)
+                                        LastName = rdr.GetString(ColumnsEquipmentCalibrationActGet.ResponsibleLastName),
+                                        CompanyId = companyId
                                     },
                                     ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.ModifiedByUserId),
-                                        UserName = rdr.GetString(ColumnsEquipmentCalibrationActGet.ModifiedByUserName)
+                                        UserName = rdr.GetString(ColumnsEquipmentCalibrationActGet.ModifiedByUserName),
+                                        CompanyId = companyId
                                     },
                                     ModifiedOn = rdr.GetDateTime(ColumnsEquipmentCalibrationActGet.ModifiedOn)
                                 };
@@ -281,7 +284,7 @@ namespace GisoFramework.Item
              *   @ProviderId bigint,
              *   @ResponsableId int,
              *   @UserId int */
-            ActionResult result = ActionResult.NoAction;
+            var result = ActionResult.NoAction;
             using (var cmd = new SqlCommand("EquipmentCalibrationAct_Insert"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -344,7 +347,7 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE EquipmentCalibrationAct_Delete
              *   @EquipmentCalibrationActId bigint output,
              *   @UserId int  */
-            var result = new ActionResult() { Success = false, MessageError = "No action" };
+            var result = ActionResult.NoAction;
             using (var cmd = new SqlCommand("EquipmentCalibrationAct_Delete"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -407,7 +410,7 @@ namespace GisoFramework.Item
              *   @ProviderId bigint,
              *   @ResponsableId int,
              *   @UserId int  */
-            var result = new ActionResult() { Success = false, MessageError = "No action" };
+            var result = ActionResult.NoAction;
             using (var cmd = new SqlCommand("EquipmentCalibrationAct_Update"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))

@@ -233,6 +233,7 @@ namespace GisoFramework.Item
 
         public ActionResult Update(int userId)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, @"EquipmentCalibrationDefinition::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description);
             /* CREATE PROCEDURE EquipmentCalibrationDefinition_Update
              *   @EquipmentCalibrationDefinitionId bigint output,
              *   @EquipmentId bigint,
@@ -285,23 +286,23 @@ namespace GisoFramework.Item
                     }
                     catch (SqlException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationDefinition::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationDefinition::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentNullException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationDefinition::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationDefinition::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationDefinition::Update Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -318,6 +319,7 @@ namespace GisoFramework.Item
 
         public ActionResult Delete(int userId)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, @"EquipmentCalibrationDefinition::Delete Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description);
             /* CREATE PROCEDURE EquipmentCalibrationDefinition_Delete
              *   @EquipmentCalibrationDefinitionId bigint,
              *   @UserId int */
@@ -338,23 +340,23 @@ namespace GisoFramework.Item
                     }
                     catch (SqlException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationDefinition::Delete Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationDefinition::Delete Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentNullException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationDefinition::Delete Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationDefinition::Delete Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationDefinition::Delete Id:{0} User:{1} Company:{2} Description:""{3}""", this.Id, userId, this.CompanyId, this.Description));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {

@@ -31,8 +31,8 @@ namespace GisoFramework
         /// <param name="companyPhone">Company phone</param>
         /// <param name="companyMobile">Company mobile</param>
         /// <param name="companyFax">Company fax</param>
-        /// <param name="companyEmail">Company email</param>
         /// <param name="userName">User name</param>
+        /// <param name="companyEmail">Company email</param>
         /// <returns>Result of action</returns>
         public static ActionResult Create(string companyName, string companyCode, string companyNif, string companyAddress, string companyPostalCode, string companyCity, string companyProvince, string companyCountry, string companyPhone, string companyMobile, string companyFax, string userName, string companyEmail)
         {

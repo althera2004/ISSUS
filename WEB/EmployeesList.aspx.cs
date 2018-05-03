@@ -89,7 +89,7 @@ public partial class EmployeesList : Page
     {
         get
         {
-            return Company.Json(this.company);
+            return this.company.Json;
         }
     }
 
@@ -104,16 +104,16 @@ public partial class EmployeesList : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", Constant.EndResponse);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -123,9 +123,7 @@ public partial class EmployeesList : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = new ApplicationUser(Convert.ToInt32(Session["UserId"]));
@@ -142,20 +140,19 @@ public partial class EmployeesList : Page
             this.master.ButtonNewItem = UIButton.NewItemButton("Item_Employee_Button_New", "EmployeesView.aspx");
         }
 
-        this.DataHeader = new UIDataHeader() { Id = "ListDataHeader", ActionsItem = 2 }; ;
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Common_Name"], Sortable = true, Filterable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_JobPosition"] });
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Departments"] });
+        this.DataHeader = new UIDataHeader { Id = "ListDataHeader", ActionsItem = 2 }; ;
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Common_Name"], Sortable = true, Filterable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_JobPosition"] });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Departments"] });
     }
 
     private void RenderEmployeeData()
     {
-        StringBuilder active = new StringBuilder();
-        StringBuilder sea = new StringBuilder();
+        var active = new StringBuilder();
+        var sea = new StringBuilder();
         bool first = true;
         int contData = 0;
-        ReadOnlyCollection<Employee> employees = Employee.GetList(this.company.Id);
-        foreach (Employee employee in employees)
+        foreach (var employee in Employee.GetList(this.company.Id))
         {
             if (employee.Active)
             {

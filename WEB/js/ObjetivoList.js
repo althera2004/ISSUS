@@ -313,7 +313,7 @@ window.onload = function () {
     $("#RBStatus1").on("click", ObjetivoGetFilter);
     $("#RBStatus2").on("click", ObjetivoGetFilter);
 
-    if (Filter != null) {
+    if (Filter !== null) {
         console.log("Filter", Filter);
         document.getElementById("TxtDateFrom").value = GetDateYYYYMMDDText(Filter.from, "/", false);
         document.getElementById("TxtDateTo").value = GetDateYYYYMMDDText(Filter.to, "/", false);

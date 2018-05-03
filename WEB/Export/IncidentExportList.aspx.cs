@@ -141,7 +141,7 @@ public partial class ExportIncidentExportList : Page
         {
             if (departmentId > 0)
             {
-                var department = Department.GetById(departmentId, companyId);
+                var department = Department.ById(departmentId, companyId);
                 criteriaOrigin = string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Incident_Origin1"], department.Description);
             }
             else

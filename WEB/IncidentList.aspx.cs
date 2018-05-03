@@ -50,7 +50,7 @@ public partial class IncidentList : Page
     {
         get
         {
-            return Department.GetByCompanyJson(this.company.Id);
+            return Department.ByCompanyJson(this.company.Id);
         }
     }
 

@@ -72,7 +72,7 @@ public partial class UserList : Page
     {
         get
         {
-            return Company.Json(this.company);
+            return this.company.Json;
         }
     }
 

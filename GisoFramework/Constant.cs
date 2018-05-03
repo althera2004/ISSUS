@@ -13,13 +13,16 @@ namespace GisoFramework
     public static class Constant
     {
         /// <summary>Text for JavaScript true value</summary>
-        public const string JavascriptTrue = "true";
+        public const int SmtpPort = 25;
+
+        /// <summary>Text for JavaScript true value</summary>
+        public const string JavaScriptTrue = "true";
 
         /// <summary>Text for JavaScript false value</summary>
-        public const string JavascriptFalse = "false";
+        public const string JavaScriptFalse = "false";
 
         /// <summary>Text for JavaScript null value</summary>
-        public const string JavascriptNull = "null";
+        public const string JavaScriptNull = "null";
 
         /// <summary>Value for a two span division on bootstrap grid</summary>
         public const int ColumnSpan2 = 2;
@@ -41,6 +44,9 @@ namespace GisoFramework
 
         /// <summary>Maximum length for textarea fields in database</summary>
         public const int MaximumTextAreaLength = 2000;
+
+        /// <summary>Default length for nvarchar fields in SQL table</summary>
+        public const int DefaultDatabaseVarChar = 50;
 
         /// <summary>Text for JavaScript empty list value</summary>
         public const string EmptyJsonList = "[]";

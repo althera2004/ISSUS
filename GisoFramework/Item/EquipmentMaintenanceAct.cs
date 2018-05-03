@@ -153,7 +153,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                EquipmentMaintenanceAct newMaintenanceAct = new EquipmentMaintenanceAct()
+                                var newMaintenanceAct = new EquipmentMaintenanceAct
                                 {
                                     Id = rdr.GetInt64(ColumnsEquipmentMaintenanceActGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsEquipmentMaintenanceActGet.CompanyId),
@@ -164,18 +164,18 @@ namespace GisoFramework.Item
                                     EquipmentMaintenanceDefinitionId = rdr.GetInt64(ColumnsEquipmentMaintenanceActGet.EquipmentMaintenanceDefinitionId),
                                     Expiration = rdr.GetDateTime(ColumnsEquipmentMaintenanceActGet.Expiration),
                                     Active = rdr.GetBoolean(ColumnsEquipmentMaintenanceActGet.Active),
-                                    Provider = new Provider()
+                                    Provider = new Provider
                                     {
                                         Id = rdr.GetInt64(ColumnsEquipmentMaintenanceActGet.ProviderId),
                                         Description = rdr.GetString(ColumnsEquipmentMaintenanceActGet.ProviderDescription)
                                     },
-                                    Responsible = new Employee()
+                                    Responsible = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentMaintenanceActGet.ResponsibleId),
                                         Name = rdr.GetString(ColumnsEquipmentMaintenanceActGet.ResponsibleName),
                                         LastName = rdr.GetString(ColumnsEquipmentMaintenanceActGet.ResponsibleLastName)
                                     },
-                                    ModifiedBy = new ApplicationUser()
+                                    ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentMaintenanceActGet.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsEquipmentMaintenanceActGet.ModifiedByUserName)
@@ -264,11 +264,12 @@ namespace GisoFramework.Item
 
         public static ActionResult Delete(int equipmentMaintenanceActId, int userId, int companyId)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, @"EquipmentMaintenanceAct::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceActId, userId, companyId);
             /* CREATE PROCEDURE EquipmentMaintenanceAct_Delete
              *   @EquipmentMaintenanceActId bigint,
              *   @CompanyId int,
              *   @UserId int */
-            var result = new ActionResult() { Success = false, MessageError = "No action" };
+            var result = ActionResult.NoAction;
             using (var cmd = new SqlCommand("EquipmentMaintenanceAct_Delete"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -286,23 +287,23 @@ namespace GisoFramework.Item
                     }
                     catch (SqlException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceAct::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceActId, userId, companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceAct::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceActId, userId, companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentNullException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceAct::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceActId, userId, companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceAct::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceActId, userId, companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceAct::Delete Id:{0} User:{1} Company:{2}", equipmentMaintenanceActId, userId, companyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -392,6 +393,7 @@ namespace GisoFramework.Item
 
         public ActionResult Update(string differences, int userId)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, @"EquipmentMaintenanceAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId);
             /* CREATE PROCEDURE EquipmentMaintenanceAct_Update
              *   @EquipmentMaintenanceActId bigint,
              *   @CompanyId int,
@@ -437,23 +439,23 @@ namespace GisoFramework.Item
                     }
                     catch (SqlException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentNullException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentMaintenanceAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {

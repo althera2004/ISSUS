@@ -16,7 +16,7 @@
     },
     {
       "Analyzer": "LongMethodAnalyzer",
-      "OccurrenceCount": 7,
+      "OccurrenceCount": 8,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "SERVER_GISO"
@@ -30,7 +30,7 @@
     },
     {
       "Analyzer": "PropertyToExpressionAnalyzer",
-      "OccurrenceCount": 4,
+      "OccurrenceCount": 6,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "SERVER_GISO"

@@ -294,7 +294,7 @@ namespace GisoFramework.Item
 
                                 if (!rdr.IsDBNull(ColumnsEquipmentGetById.EndResponsible))
                                 {
-                                    res.EndResponsible = new Employee()
+                                    res.EndResponsible = new Employee
                                     {
                                         Id = Convert.ToInt64(rdr.GetInt32(ColumnsEquipmentGetById.EndResponsible)),
                                         Name = rdr.GetString(ColumnsEquipmentGetById.EndResponsibleName),
@@ -447,7 +447,7 @@ namespace GisoFramework.Item
                                     Code = rdr.GetString(ColumnsEquipmentGetList.Code),
                                     Description = rdr.GetString(ColumnsEquipmentGetList.Description),
                                     Location = rdr.GetString(ColumnsEquipmentGetList.Location),
-                                    Responsible = new Employee()
+                                    Responsible = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentGetList.ResponsibleId),
                                         Name = rdr.GetString(ColumnsEquipmentGetList.ResponsibleName),
@@ -690,6 +690,7 @@ namespace GisoFramework.Item
 
         public ActionResult Delete(int userId, string reason)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId);
             var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Equipment_Delete
              *   @EquipmentId bigint,
@@ -715,27 +716,27 @@ namespace GisoFramework.Item
                     catch (SqlException ex)
                     {
                         res.SetFail(ex.Message);
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
                         res.SetFail(ex.Message);
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentNullException ex)
                     {
                         res.SetFail(ex.Message);
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentException ex)
                     {
                         res.SetFail(ex.Message);
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
                         res.SetFail(ex.Message);
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -788,10 +789,10 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                         cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
                         cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
-                        cmd.Parameters.Add(DataParameter.Input("@TradeMark", this.Trademark, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@Model", this.Model, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@SerialNumber", this.SerialNumber, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@Location", this.Location, 50));
+                        cmd.Parameters.Add(DataParameter.Input("@TradeMark", this.Trademark, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Model", this.Model, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@SerialNumber", this.SerialNumber, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Location", this.Location, Constant.DefaultDatabaseVarChar));
                         cmd.Parameters.Add(DataParameter.Input("@MeasureRange", string.IsNullOrEmpty(this.MeasureRange) ? string.Empty : this.MeasureRange));
                         cmd.Parameters.Add(DataParameter.Input("@ScaleDivision", this.ScaleDivisionValue));
                         cmd.Parameters.Add(DataParameter.Input("@MeasureUnit", this.MeasureUnit.Id));
@@ -799,7 +800,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@IsCalibration", this.IsCalibration));
                         cmd.Parameters.Add(DataParameter.Input("@IsVerification", this.IsVerification));
                         cmd.Parameters.Add(DataParameter.Input("@IsMaintenance", this.IsMaintenance));
-                        cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 500));
                         cmd.Parameters.Add(DataParameter.Input("@Active", this.Active));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
@@ -862,10 +863,10 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                         cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
                         cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
-                        cmd.Parameters.Add(DataParameter.Input("@TradeMark", this.Trademark, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@Model", this.Model, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@SerialNumber", this.SerialNumber, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@Location", this.Location, 50));
+                        cmd.Parameters.Add(DataParameter.Input("@TradeMark", this.Trademark, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Model", this.Model, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@SerialNumber", this.SerialNumber, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Location", this.Location, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@MeasureRange", string.IsNullOrEmpty(this.MeasureRange) ? string.Empty : this.MeasureRange));
                         cmd.Parameters.Add(DataParameter.Input("@ScaleDivision", this.ScaleDivisionValue));
                         cmd.Parameters.Add(DataParameter.Input("@MeasureUnit", this.MeasureUnit.Id));
@@ -873,7 +874,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@IsCalibration", this.IsCalibration));
                         cmd.Parameters.Add(DataParameter.Input("@IsVerification", this.IsVerification));
                         cmd.Parameters.Add(DataParameter.Input("@IsMaintenance", this.IsMaintenance));
-                        cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 500));
                         cmd.Parameters.Add(DataParameter.Input("@StartDate", this.StartDate));
@@ -1079,11 +1080,12 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
+                                int companyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId);
                                 var calibration = new EquipmentCalibrationDefinition
                                 {
                                     Id = rdr.GetInt64(ColumnsEquipmentGetCalibrationDefinition.Id),
                                     EquipmentId = rdr.GetInt64(ColumnsEquipmentGetCalibrationDefinition.EquipmentId),
-                                    CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
+                                    CompanyId = companyId,
                                     CalibrationType = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CalibrationType),
                                     Description = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.Operation),
                                     Periodicity = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.Periodicity),
@@ -1093,20 +1095,20 @@ namespace GisoFramework.Item
                                     Notes = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.Notes),
                                     Provider = new Provider
                                     {
-                                        CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
+                                        CompanyId = companyId,
                                         Id = rdr.GetInt64(ColumnsEquipmentGetCalibrationDefinition.ProviderId),
                                         Description = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ProviderDescription)
                                     },
                                     Responsible = new Employee
                                     {
-                                        CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
+                                        CompanyId = companyId,
                                         Id = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.ResponsibleId),
                                         Name = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ResponsibleName),
                                         LastName = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ResponsibleLastName)
                                     },
                                     ModifiedBy = new ApplicationUser
                                     {
-                                        CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
+                                        CompanyId = companyId,
                                         Id = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ModifiedByUserName)
                                     },

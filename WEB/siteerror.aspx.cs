@@ -37,7 +37,7 @@ public partial class SiteError : Page
         this.company = this.Session["company"] as Company;
         this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
         this.user = this.Session["User"] as ApplicationUser;
-        Exception exception = Server.GetLastError();
+        var exception = Server.GetLastError();
 
         if (exception == null)
         {
@@ -47,7 +47,12 @@ public partial class SiteError : Page
             }
         }
 
-        this.ErrorMessage.Text = this.dictionary["Common_Error_Application"];
+        this.ErrorMessage.Text = "Application Error";
+        if (this.dictionary != null)
+        {
+            this.ErrorMessage.Text = this.dictionary["Common_Error_Application"];
+        }
+
         if (exception != null)
         {
             if (exception.InnerException != null)

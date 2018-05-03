@@ -18,23 +18,26 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements IncidentCost class
-    /// </summary>
+    /// <summary>Implements IncidentCost class</summary>
     public class IncidentCost : BaseItem
     {
         public long IncidentId { get; set; }
+
         public long BusinessRiskId { get; set; }
+
         public decimal Amount { get; set; }
+
         public decimal Quantity { get; set; }
+
         public Employee Responsible { get; set; }
+
         public string Source { get; set; }
 
         public static IncidentCost Empty
         {
             get
             {
-                return new IncidentCost()
+                return new IncidentCost
                 {
                     Id = 0,
                     IncidentId = 0,
@@ -59,7 +62,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
+                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
             }
         }
 
@@ -91,9 +94,9 @@ namespace GisoFramework.Item
             if (action.Id > 0)
             {
                 actionCosts = IncidentActionCost.GetByIncidentActionId(action.Id, companyId);
-                foreach (IncidentActionCost actionCost in actionCosts)
+                foreach (var actionCost in actionCosts)
                 {
-                    costs.Add(new IncidentCost()
+                    costs.Add(new IncidentCost
                     {
                         Id = actionCost.Id,
                         IncidentId = incidentId,
@@ -141,7 +144,7 @@ namespace GisoFramework.Item
                 }
             }*/
 
-            foreach (IncidentCost cost in costs)
+            foreach (var cost in costs)
             {
                 if (first)
                 {
@@ -226,7 +229,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new IncidentCost()
+                                res.Add(new IncidentCost
                                 {
                                     Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
@@ -234,7 +237,7 @@ namespace GisoFramework.Item
                                     Description = rdr.GetString(ColumnsIncidentCostGet.Description),
                                     Amount = rdr.GetDecimal(ColumnsIncidentCostGet.Amount),
                                     Quantity = rdr.GetDecimal(ColumnsIncidentCostGet.Quantity),
-                                    Responsible = new Employee()
+                                    Responsible = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentCostGet.ResponsibleId),
                                         Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
@@ -278,7 +281,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new IncidentCost()
+                                res.Add(new IncidentCost
                                 {
                                     Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
@@ -286,7 +289,7 @@ namespace GisoFramework.Item
                                     Description = rdr.GetString(ColumnsIncidentCostGet.Description),
                                     Amount = rdr.GetDecimal(ColumnsIncidentCostGet.Amount),
                                     Quantity = rdr.GetDecimal(ColumnsIncidentCostGet.Quantity),
-                                    Responsible = new Employee()
+                                    Responsible = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentCostGet.ResponsibleId),
                                         Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
@@ -328,7 +331,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new IncidentCost()
+                                res.Add(new IncidentCost
                                 {
                                     Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
@@ -337,7 +340,7 @@ namespace GisoFramework.Item
                                     Description = rdr.GetString(ColumnsIncidentCostGet.Description),
                                     Amount = rdr.GetDecimal(ColumnsIncidentCostGet.Amount),
                                     Quantity = rdr.GetDecimal(ColumnsIncidentCostGet.Quantity),
-                                    Responsible = new Employee()
+                                    Responsible = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentCostGet.ResponsibleId),
                                         Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
@@ -362,28 +365,28 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<IncidentCost>(res);
         }
 
-        public static string Differences(IncidentCost item1, IncidentCost item2)
+        public string Differences(IncidentCost other)
         {
-            if(item1==null || item2==null)
+            if (this == null || other == null)
             {
                 return string.Empty;
             }
 
             var res = new StringBuilder();
 
-            if (item1.Description != item2.Description)
+            if (this.Description != other.Description)
             {
-                res.Append("Description=>").Append(item2.Description).Append(";");
+                res.Append("Description=>").Append(other.Description).Append(";");
             }
 
-            if (item1.Amount != item2.Amount)
+            if (this.Amount != other.Amount)
             {
-                res.Append("Amount=>").Append(item2.Amount).Append(";");
+                res.Append("Amount=>").Append(other.Amount).Append(";");
             }
 
-            if (item1.Quantity != item2.Quantity)
+            if (this.Quantity != other.Quantity)
             {
-                res.Append("Quantity=>").Append(item2.Quantity).Append(";");
+                res.Append("Quantity=>").Append(other.Quantity).Append(";");
             }
 
             return res.ToString();
@@ -391,6 +394,7 @@ namespace GisoFramework.Item
 
         public ActionResult Insert(int userId)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name:{1}", this.Id, this.Description);
             /* CREATE PROCEDURE IncidentCost_Insert
              * @IncidentCostId bigint output,
              * @IncidentId bigint,
@@ -401,50 +405,55 @@ namespace GisoFramework.Item
              * @ResponsablebleId int,
              * @UserId int */
             var res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("IncidentCost_Insert"))
+            using (var cmd = new SqlCommand("IncidentCost_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.OutputInt("@IncidentCostId"));
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentId", this.IncidentId));
-                    cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", this.BusinessRiskId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description,100));
-                    cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
-                    cmd.Parameters.Add(DataParameter.Input("@Quantity", this.Quantity));
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@IncidentCostId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                    res.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.OutputInt("@IncidentCostId"));
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentId", this.IncidentId));
+                        cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", this.BusinessRiskId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
+                        cmd.Parameters.Add(DataParameter.Input("@Quantity", this.Quantity));
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@IncidentCostId"].Value, CultureInfo.InvariantCulture);
+                        res.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Insert", source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Insert", source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
+
             return res;
         }
 
         public ActionResult Update(int userId, string differences)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description);
             /* CREATE PROCEDURE IncidentCost_Update
              *   @IncidentCostId bigint,
              *   @IncidentId bigint,
@@ -458,40 +467,43 @@ namespace GisoFramework.Item
             var res = ActionResult.NoAction;
             using (var cmd = new SqlCommand("IncidentCost_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentCostId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentId", this.IncidentId));
-                    cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", this.BusinessRiskId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description,100));
-                    cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
-                    cmd.Parameters.Add(DataParameter.Input("@Quantity", this.Quantity));
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Parameters.Add(DataParameter.Input("@Differences", differences));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "IncidentCost::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "IncidentCost::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentCostId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentId", this.IncidentId));
+                        cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", this.BusinessRiskId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
+                        cmd.Parameters.Add(DataParameter.Input("@Quantity", this.Quantity));
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@Differences", differences));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "IncidentCost::Update", source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "IncidentCost::Update", source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -505,40 +517,44 @@ namespace GisoFramework.Item
 
         public static ActionResult Delete(long incidentCostId, int userId, int companyId)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, "Id:{0} - UserId:{1} - CompanyId:{2}", incidentCostId, userId, companyId);
             /* CREATE PROCEDURE IncidentCost_Delete
              *   @IncidentCostId bigint,
              *   @CompanyId int,
              *   @UserId int */
             var res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("IncidentCost_Delete"))
+            using (var cmd = new SqlCommand("IncidentCost_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentCostId", incidentCostId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "IncidentCost::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentCostId, userId, companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "IncidentCost::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentCostId, userId, companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentCostId", incidentCostId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "IncidentCost::Delete", source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "IncidentCost::Delete", source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

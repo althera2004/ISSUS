@@ -22,7 +22,7 @@ namespace SbrinnaCoreFramework
         /// <returns>Session token is present on application</returns>
         public static bool Exists(Guid token, int userId)
         {
-            if(data == null)
+            if (data == null)
             {
                 data = new List<UniqueSessionData>();
             }
@@ -51,7 +51,7 @@ namespace SbrinnaCoreFramework
             var newData = new List<UniqueSessionData>();
             if (data.Any(d => d.UserId == oldUser))
             {
-                foreach(var item in data)
+                foreach (var item in data)
                 {
                     if (item.UserId == oldUser)
                     {
@@ -69,6 +69,7 @@ namespace SbrinnaCoreFramework
                     }
                 }
 
+                data = newData;
                 result = data.First(d => d.UserId == newUser).Token;
             }
             else
@@ -76,7 +77,6 @@ namespace SbrinnaCoreFramework
                 result = SetSession(newUser, string.Empty);
             }
 
-            data = newData;
             return result;
         }
 
@@ -96,7 +96,7 @@ namespace SbrinnaCoreFramework
             var token = Guid.NewGuid();
             data.Add(new UniqueSessionData
             {
-                Token =token,
+                Token = token,
                 UserId = userId,
                 IP = ip,
                 LastConnection = DateTime.Now
@@ -114,7 +114,7 @@ namespace SbrinnaCoreFramework
                 data = new List<UniqueSessionData>();
             }
 
-            data = data.Where(d=>d.UserId != userId).ToList();
+            data = data.Where(d => d.UserId != userId).ToList();
         }
     }
 }

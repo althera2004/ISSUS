@@ -404,8 +404,8 @@ public partial class Giso : MasterPage
         var big = new StringBuilder(@"<div class=""sidebar-shortcuts-large"" id=""sidebar-shortcuts-large"">");
         var small = new StringBuilder(@"<div class=""sidebar-shortcuts-mini"" id=""sidebar-shortcuts-mini"">");
         bool showShortCuts = false;
-        if (this.ApplicationUser.MenuShortcuts != null)
-        {
+        //if (this.ApplicationUser.MenuShortcuts != null)
+        //{
             if (this.ApplicationUser.MenuShortcuts.Blue != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Blue.Label))
             {
                 showShortCuts = true;
@@ -433,7 +433,7 @@ public partial class Giso : MasterPage
                 big.Append(string.Format(@"<button type=""button"" class=""btn btn-warning"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Yellow.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Yellow.Label], this.ApplicationUser.MenuShortcuts.Yellow.Icon));
                 small.Append(@"<span class=""btn btn-warning""></span>");
             }
-        }
+        //}
         
         big.Append("</div>");
         small.Append("</div>");

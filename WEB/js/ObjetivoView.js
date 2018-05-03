@@ -1,6 +1,7 @@
 ﻿var lockOrderList = false;
 var firstChart = true;
 var CloseRequired = false;
+var recordsGraph = [];
 
 window.onload = function () {
     if (ItemData.Id < 1) {
@@ -29,11 +30,16 @@ window.onload = function () {
         $("#BtnAnular").on("click", AnularPopup);
         $("#BtnRestaurar").on("click", Restore);
 
+        $("#TxtActionsFromDate").on("change", RenderActionsTable);
+        $("#TxtActionsToDate").on("change", RenderActionsTable);
+        $("#TxtRecordsFromDate").on("change", ObjetivoRegistroFilter);
+        $("#TxtRecordsToDate").on("change", ObjetivoRegistroFilter);
         RenderActionsTable();
+        ObjetivoRegistroFilter();
     }
 
 
-    var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true });
+    var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { autoclose: true, todayHighlight: true });
     $(".date-picker").datepicker(options);
 
     $("#BtnRecordShowNone").on("click", ObjetivoRegistroNone);
@@ -89,7 +95,6 @@ window.onload = function () {
 window.onresize = function () { Resize(); }
 
 function Resize() {
-    console.log("Resize");
     var listTable = document.getElementById("ListDataDiv");
     var histTable = document.getElementById("ListDataDivHistorico");
     var acctTable = document.getElementById("ListDataDivActions");
@@ -488,6 +493,7 @@ function ObjetivoRegistroFilterValidate() {
 }
 
 function ObjetivoRegistroFilter(exportType) {
+    console.log("ObjetivoRegistroFilter", exportType)
     if (ObjetivoRegistroFilterValidate() === false) {
         $("#ObjetivoRegistrosTable").hide();
         $("#ItemTableError").show();
@@ -510,6 +516,7 @@ function ObjetivoRegistroFilter(exportType) {
         Registros[x].RealDate = GetDate(Registros[x].Date, "/", false);
     }
 
+    recordsGraph = [];
     for (var x = 0; x < Registros.length; x++) {
         var dateFrom = GetDate($("#TxtRecordsFromDate").val(), "/", false);
         var dateTo = GetDate($("#TxtRecordsToDate").val(), "/", false);
@@ -541,6 +548,7 @@ function ObjetivoRegistroFilter(exportType) {
         if (show === true) {
             count++;
             RenderRegistroRow(Registros[x]);
+            recordsGraph.push(Registros[x]);
         }
     }
 
@@ -553,23 +561,18 @@ function ObjetivoRegistroFilter(exportType) {
     if (lockOrderList) {
         var th = listOrder.split('|')[0];
         var sort = listOrder.split('|')[1];
-
         $("#" + th).click();
         if (document.getElementById(th).className.indexOf(sort) === -1) {
             $("#" + th).click();
         }
-
     }
 
     DisableVinculatedTo(count > 0);
 
     lockOrderList = false;
-    if (exportType === "PDF") {
-        Export("PDF");
-    }
-
-    if (exportType === "Excel") {
-        Export("Excel");
+    if (typeof exportType !== "undefined" && exportType !== null) {
+        if (exportType === "PDF") { Export("PDF"); }
+        if (exportType === "Excel") { Export("Excel"); }
     }
 }
 
@@ -615,8 +618,8 @@ function Export(fileType) {
 
 function ObjetivoRegistroAll() {
     ObjetivoRegistroFilter();
-    $("#BtnRecordShowAll").hide();
-    $("#BtnRecordShowNone").show();
+    //$("#BtnRecordShowAll").hide();
+    //$("#BtnRecordShowNone").show();
     $("#ObjetivoRegistrosTable").show();
     $("#ItemTableError").hide();
     $("#ItemTableVoid").hide();
@@ -1049,44 +1052,36 @@ function DrawGraphics(stop) {
         var lastAlarm = null;
         var lastLabel = "";
 
-        Registros = Registros.sort(function (a, b) {
+        recordsGraph = recordsGraph.sort(function (a, b) {
             var x = a["RealDate"];
             var y = b["RealDate"];
             return ((x < y) ? -1 : ((x > y) ? 1 : 0));
         });
 
-        for (var x = 0; x < Registros.length; x++) {
-            labels.push(Registros[x].Date);
-            values.push(Registros[x].Value);
-            metas.push(Registros[x].Meta);
-            alarmas.push(Registros[x].Alarma);
+        for (var x = 0; x < recordsGraph.length; x++) {
+            labels.push(recordsGraph[x].Date);
+            values.push(recordsGraph[x].Value);
+            metas.push(recordsGraph[x].Meta);
+            alarmas.push(recordsGraph[x].Alarma);
 
-            lastValue = Registros[x].Value * 1;
-            lastMeta = Registros[x].Meta * 1;
-            lastAlarm = Registros[x].Alarma * 1;
-            lastLabel = Registros[x].Date;
+            lastValue = recordsGraph[x].Value * 1;
+            lastMeta = recordsGraph[x].Meta * 1;
+            lastAlarm = recordsGraph[x].Alarma * 1;
+            lastLabel = recordsGraph[x].Date;
         }
 
         var overlayData = {
             labels: labels,
             datasets: [
-                /*{
-                    label: "Alarma",
-                    type: "line",
-                    fillColor: "rgba(244,210,210,0)",
-                    strokeColor: "rgba(216,33,0,0.8)",
-                    highlightFill: "rgba(151,187,205,0.75)",
-                    highlightStroke: "rgba(151,187,205,1)",
-                    data: alarmas
-                },*/ {
-                label: "Meta",
-                type: "line",
-                fillColor: "rgba(119,226,152,0)",
-                strokeColor: "rgba(59,183,38,0.8)",
-                highlightFill: "rgba(59,183,38,0.75)",
-                highlightStroke: "rgba(94,114,95,1)",
-                data: metas
-            },
+                {
+                    "label": "Meta",
+                    "type": "line",
+                    "fillColor": "rgba(119,226,152,0)",
+                    "strokeColor": "rgba(59,183,38,0.8)",
+                    "highlightFill": "rgba(59,183,38,0.75)",
+                    "highlightStroke": "rgba(94,114,95,1)",
+                    "data": metas
+                },
                {
                    "label": "Valor",
                    "fillColor": "#275b89",
@@ -1201,7 +1196,7 @@ function AnularPopup() {
         "buttons":
         [
             {
-                "id": "BtnAnujlarSave",
+                "id": "BtnAnularSave",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Indicador_Btn_Anular,
                 "class": "btn btn-success btn-xs",
                 "click": function () { AnularConfirmed(); }
@@ -1220,23 +1215,23 @@ function AnularConfirmed() {
     document.getElementById("TxtAnularCommentsLabel").style.color = "#000";
     document.getElementById("TxtFechaCierreRealLabel").style.color = "#000";
     document.getElementById("CmbEndResponsibleLabel").style.color = "#000";
-    document.getElementById("TxtAnularCommentsErrorRequired").style.display = "none";
-    document.getElementById("TxtFechaCierreRealErrorRequired").style.display = "none";
-    document.getElementById("TxtFechaCierreRealDateMalformed").style.display = "none";
-    document.getElementById("TxtFechaCierreRealCrossDate").style.display = "none";
-    document.getElementById("CmbEndResponsibleErrorRequired").style.display = "none";
+    $("#TxtAnularCommentsErrorRequired").hide();
+    $("#TxtFechaCierreRealErrorRequired").hide();
+    $("#TxtFechaCierreRealDateMalformed").hide();
+    $("#TxtFechaCierreRealCrossDate").hide();
+    $("#CmbEndResponsibleErrorRequired").hide();
 
     var ok = true;
     if ($("#TxtAnularComments").val() === "") {
         ok = false;
         document.getElementById("TxtAnularCommentsLabel").style.color = "#f00";
-        document.getElementById("TxtAnularCommentsErrorRequired").style.display = "";
+        $("#TxtAnularCommentsErrorRequired").show();
     }
 
     if ($("#TxtFechaCierreReal").val() === "") {
         ok = false;
         document.getElementById("TxtFechaCierreRealLabel").style.color = "#f00";
-        document.getElementById("TxtFechaCierreRealErrorRequired").style.display = "";
+        $("#TxtFechaCierreRealErrorRequired").show();
     }
     else {
         if (validateDate($("#TxtFechaCierreReal").val()) === false) {
@@ -1256,7 +1251,7 @@ function AnularConfirmed() {
     if ($("#CmbEndResponsible").val() * 1 < 1) {
         ok = false;
         document.getElementById("CmbEndResponsibleLabel").style.color = "#f00";
-        document.getElementById("CmbEndResponsibleErrorRequired").style.display = "";
+        $("#CmbEndResponsibleErrorRequired").show();
     }
 
     if (ok === false) {
@@ -1415,12 +1410,32 @@ function RenderHistoricoRow(data) {
 
 var totalCostActions = 0;
 function RenderActionsTable() {
-    $("#NumberCostsActions").html(Actions.length);
+    console.log("RenderActionsTable");
     totalCostActions = 0;
+    var totalActions = 0;
     if (Actions.length > 0) {
         var res = "";
         for (var x = 0; x < Actions.length; x++) {
-            res += RenderActionsRow(Actions[x]);
+            var show = true;
+            var dateAction = GetDate(Actions[x].OpenDate, "/", false);
+            if ($("#TxtActionsFromDate").val() !== "") {
+                var dateFrom = GetDate($("#TxtActionsFromDate").val(), "/", false);
+                if (dateAction < dateFrom) {
+                    show = false;
+                }
+            }
+
+            if ($("#TxtActionsToDate").val() !== "") {
+                var dateTo = GetDate($("#TxtActionsToDate").val(), "/", false);
+                if (dateAction > dateTo) {
+                    show = false;
+                }
+            }
+
+            if (show === true) {
+                res += RenderActionsRow(Actions[x]);
+                totalActions++;
+            }
         }
         $("#ObjetivoActionsTable").html(res);
         $("#NumberCostsActionsTotal").html(ToMoneyFormat(totalCostActions,2));
@@ -1428,6 +1443,8 @@ function RenderActionsTable() {
     else {
         $("#NumberCostsActionsTotal").html(ToMoneyFormat(0, 2));
     }
+
+    $("#NumberCostsActions").html(totalActions);
 }
 
 function RenderActionsRow(actionData) {

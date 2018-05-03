@@ -249,8 +249,8 @@ public partial class UserProfileView : Page
         var small = new StringBuilder(@"<div class=""sidebar-shortcuts-mini"" id=""sidebar-shortcuts-mini"">");
         this.userShortcuts = new StringBuilder("[");
 
-        if (this.user.MenuShortcuts != null)
-        {
+        //if (this.user.MenuShortcuts != null)
+        //{
             if (this.user.MenuShortcuts.Blue != null && !string.IsNullOrEmpty(this.user.MenuShortcuts.Blue.Label))
             {
                 big.AppendFormat(
@@ -326,7 +326,7 @@ public partial class UserProfileView : Page
                             </span>", string.Empty, string.Empty, string.Empty));
                 this.userShortcuts.Append(@"{""Color"":""Yellow"", ""Id"":null}");
             }
-        }
+        //}
 
         this.userShortcuts.Append("]");
         big.Append("</div>");

@@ -4,15 +4,14 @@
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
+using SbrinnaCoreFramework;
+using SbrinnaCoreFramework.UI;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
-using SbrinnaCoreFramework.UI;
-using SbrinnaCoreFramework;
 
 /// <summary>Implements equipments list page</summary>
 public partial class EquipmentList : Page
@@ -112,11 +111,11 @@ public partial class EquipmentList : Page
             this.master.ButtonNewItem = UIButton.NewItemButton("Item_Equipment_Button_New", "EquipmentView.aspx");
         }
 
-        this.DataHeader = new UIDataHeader() { Id = "ListDataHeader", ActionsItem = 2 };
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Equipment_Header_Code"], Sortable = true, Filterable = true, HiddenMobile = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Equipment_Header_Description"], Sortable = true, Filterable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Equipment_Header_Location"], Sortable = true, HiddenMobile = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th3", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Equipment_Header_Responsible"], Sortable = true, HiddenMobile = true });
+        this.DataHeader = new UIDataHeader { Id = "ListDataHeader", ActionsItem = 2 };
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Equipment_Header_Code"], Sortable = true, Filterable = true, HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Equipment_Header_Description"], Sortable = true, Filterable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Equipment_Header_Location"], Sortable = true, HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th3", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Equipment_Header_Responsible"], Sortable = true, HiddenMobile = true });
 
         bool grantWrite = UserGrant.HasWriteGrant(this.user.Grants, ApplicationGrant.Equipment);
         bool grantDelete = UserGrant.HasDeleteGrant(this.user.Grants, ApplicationGrant.Equipment);

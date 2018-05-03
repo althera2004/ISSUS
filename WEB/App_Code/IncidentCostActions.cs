@@ -31,7 +31,7 @@ public class IncidentCostActions : WebService {
     [ScriptMethod]
     public ActionResult Update(IncidentCost newIncidentCost, IncidentCost oldIncidentCost, int userId)
     {
-        return newIncidentCost.Update(userId, IncidentCost.Differences(oldIncidentCost, newIncidentCost));
+        return newIncidentCost.Update(userId, oldIncidentCost.Differences(newIncidentCost));
     }
 
     [WebMethod(EnableSession = true)]
