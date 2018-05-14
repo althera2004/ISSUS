@@ -210,7 +210,7 @@
     </Compile>
     <Compile Include="ApplicationUser.cs" />
     <Compile Include="CompanyCreate.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="DataAccess\Command.cs" />
     <Compile Include="DataAccess\DataParameter.cs" />

@@ -107,6 +107,7 @@ namespace GisoFramework.Item
             }
         }
 
+        /// <summary>Gets or sets the reason of inactivate document</summary>
         public string EndReason { get; set; }
 
         /// <summary>Gets the structure json item</summary>
@@ -847,6 +848,13 @@ namespace GisoFramework.Item
             return res;
         }
 
+        /// <summary>Anulates document</summary>
+        /// <param name="documentId">document identifier</param>
+        /// <param name="endDate">Date of anulation</param>
+        /// <param name="endReason">Reason for anulation</param>
+        /// <param name="companyId">Company identifier</param>
+        /// <param name="userId">Identifier of user that performs the action</param>
+        /// <returns>Result of action</returns>
         public static ActionResult Anulate(int documentId, DateTime endDate, string endReason, int companyId, int userId)
         {
             var res = ActionResult.NoAction;
@@ -856,26 +864,29 @@ namespace GisoFramework.Item
              *   @EndDate datetime,
              *   @EndReason nvarchar(500),
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Document_Anulate"))
+            using (var cmd = new SqlCommand("Document_Anulate"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@EndDate", endDate));
-                    cmd.Parameters.Add(DataParameter.Input("@EndReason", endReason, 500));
-                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EndDate", endDate));
+                        cmd.Parameters.Add(DataParameter.Input("@EndReason", endReason, 500));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1026,7 +1037,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@ProcedenciaId", this.Origin.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Conservacion", this.Conservation));
                     cmd.Parameters.Add(DataParameter.Input("@ConservacionType", this.ConservationType));
-                    cmd.Parameters.Add(DataParameter.Input("@Activo", true));
+                    cmd.Parameters.Add(DataParameter.Input("@Activo", Constant.DefaultActive));
                     cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code));
                     cmd.Parameters.Add(DataParameter.Input("@Ubicacion", this.Location));
                     cmd.Parameters.Add(DataParameter.Input("@Version", version));

@@ -1243,7 +1243,7 @@ function CmbResponsibleFill() {
         if (Employees[x].Active === true) {
             var option = document.createElement('OPTION');
             option.value = Employees[x].Id;
-            option.appendChild(document.createTextNode(Employees[x].Value));
+            option.appendChild(document.createTextNode(Employees[x].FullName));
             document.getElementById('CmdIncidentActionCostResponsible').appendChild(option);
         }
     }

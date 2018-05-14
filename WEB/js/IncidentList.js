@@ -304,7 +304,7 @@ function ItemRenderTable(list) {
 
         if (item.Department.Id > 0) {
             if (typeof user.Grants.Department === "undefined" || user.Grants.Department.Read === false) {
-                tdOrigin.appendChild(document.createTextNode(item.Department.Name));
+                tdOrigin.appendChild(document.createTextNode(item.Department.Description));
             }
             else {
                 var link = document.createElement("A");

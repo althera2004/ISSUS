@@ -6,7 +6,6 @@
 // --------------------------------
 namespace GisoFramework.UserInterface
 {
-    using GisoFramework.DataAccess;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Configuration;
@@ -14,6 +13,7 @@ namespace GisoFramework.UserInterface
     using System.Data.SqlClient;
     using System.Globalization;
     using System.Web;
+    using GisoFramework.DataAccess;
 
     /// <summary>Class that implements a class for menu's shortcuts</summary>
     public class Shortcut

@@ -103,6 +103,8 @@ public partial class ExportPrintActionData : Page
                     var customer = Customer.ById(action.Customer.Id, action.CompanyId);
                     reporter = customer.Description;
                     break;
+                default:
+                    break;
             }
         }
 

@@ -36,6 +36,8 @@ window.onload = function () {
         $("#TxtRecordsToDate").on("change", ObjetivoRegistroFilter);
         RenderActionsTable();
         ObjetivoRegistroFilter();
+
+        $("#BtnActionsNew").on("click", ActionNew);
     }
 
 
@@ -157,7 +159,7 @@ function CmbIndicadorChanged() {
 }
 
 var newObjetivo = ItemData.Id < 1;
-function Save() {
+function Save(goAction) {
     var validationResult = Validate();
     if (validationResult != "") {
         warningInfoUI(validationResult, null, 300);
@@ -225,7 +227,12 @@ function Save() {
                     document.location = "ObjetivoView.aspx?id=" + response.d.MessageError;
                 }
                 else {
-                    document.location = referrer;
+                    if (typeof goAction === "undefined") {
+                        document.location = referrer;
+                    }
+                    else {
+                        document.location = "/ActionView.aspx?id=-1&o=" + ItemData.Id;
+                    }
                 }
             }
         },
@@ -1459,4 +1466,90 @@ function RenderActionsRow(actionData) {
     res += "    <span class=\"btn btn-xs btn-info\" id=\"00001\"><i class=\"icon-edit bigger- 120\"></i></span>";
     res += "</td></tr>";
     return res;
+}
+
+function DataIsChanged() {
+    var indicatorId = $("#CmbIndicador").val() * 1;
+
+    var meta = null;
+    if ($("#TxtMeta").val() !== "") {
+        meta = StringToNumberNullable($("#TxtMeta").val(), ".", ",");
+    }
+
+    var metaComparer = null;
+    if ($("#CmbMetaComparer").val() !== "") {
+        metaComparer = $("#CmbMetaComparer").val();
+    }
+
+    var actual =  {
+        "Id": ItemData.Id,
+        "CompanyId": Company.Id,
+        "Name": $("#TxtName").val(),
+        "Description": $("#TxtDescription").val(),
+        "Methodology": $("#TxtMetodologia").val(),
+        "Resources": $("#TxtRecursos").val(),
+        "Notes": $("#TxtNotes").val(),
+        "VinculatedToIndicator": indicatorId > 0,
+        "IndicatorId": indicatorId,
+        "Responsible": { "Id": $("#CmbResponsible").val() * 1, "Value": "", "Active": false },
+        "EndResponsible": { "Id": $("#CmbEndResponsible").val() * 1, "Value": "", "Active": false },
+        "StartDate": GetDate($("#TxtFechaAlta").val(), "/", true),
+        "PreviewEndDate": GetDate($("#TxtFechaCierrePrevista").val(), "/", false),
+        "EndDate": GetDate($("#TxtFechaCierreReal").val(), "/", false),
+        "RevisionId": $("#TxtPeriodicity").val() * 1,
+        "MetaComparer": metaComparer,
+        "Meta": meta,
+        "CreatedBy": { "Id": -1 },
+        "CreatedOn": new Date(),
+        "ModifiedBy": { "Id": -1 },
+        "ModifiedOn": new Date(),
+        "Active": false
+    };    if (OriginalItemData.Name !== actual.Name) { return true; }    if (OriginalItemData.Description !== actual.Description) { return true; }    if (OriginalItemData.Methodology !== actual.Methodology) { return true; }    if (OriginalItemData.Resources !== actual.Resources) { return true; }    if (OriginalItemData.Notes !== actual.Notes) { return true; }    if (OriginalItemData.VinculatedToIndicator !== actual.VinculatedToIndicator) { return true; }    if (OriginalItemData.Responsible.Id !== actual.Responsible.Id) { return true; }    if (OriginalItemData.EndResponsible.Id !== actual.EndResponsible.Id) { return true; }    if (OriginalItemData.StartDate !== FormatDate(actual.StartDate,"/")) { return true; }    if (OriginalItemData.PreviewEndDate !== FormatDate(actual.PreviewEndDate,"/")) { return true; }    if (OriginalItemData.EndDate !== FormatDate(actual.EndDate, "/") && (OriginalItemData.EndDate !== null && FormatDate(actual.EndDate, "/") !== "")) { return true; }    if (OriginalItemData.RevisionId !== actual.RevisionId) { return true; }    if (OriginalItemData.MetaComparer !== actual.MetaComparer) { return true; }    if (OriginalItemData.Meta !== actual.Meta) { return true; }    return false;
+}
+
+function ActionNew() {
+    if (DataIsChanged()) {
+        DataChangedPopup();
+    }
+    else {
+        NewActionConfirmed(false);
+    }
+}
+
+function DataChangedPopup() {
+    var dialog = $("#dialogDataChanged").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_NoSaveData,
+        "width": 600,
+        "buttons":
+        [
+            {
+                "id": "BtnSaveContinue",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Objetivo_DataChangedWarning_save,
+                "class": "btn btn-success btn-xs",
+                "click": function () { NewActionConfirmed(true); }
+            },
+            {
+                "id": "BtnContinue",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Objetivo_DataChangedWarning_continue,
+                "class": "btn btn-success btn-xs",
+                "click": function () { NewActionConfirmed(false); }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () { $(this).dialog("close"); }
+            }
+        ]
+    });
+}
+
+function NewActionConfirmed(saveObjetivo) {
+    if (saveObjetivo) {
+        Save(true);
+        return false;
+    }
+
+    document.location = "/ActionView.aspx?id=-1&o=" + ItemData.Id;
 }

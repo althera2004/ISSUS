@@ -6,14 +6,7 @@
 
 namespace GisoFramework.Item.Binding
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary>Index columns of stored ApplicationUserGetGrants result</summary>
     public sealed class ColumnsApplicationUserGetGrants
     {
         public static readonly int UserId = 0;

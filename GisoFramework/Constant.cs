@@ -12,6 +12,12 @@ namespace GisoFramework
     /// <summary>Constant application values</summary>
     public static class Constant
     {
+        /// <summary>Default item identifier</summary>
+        public const int DefaultId = -1;
+
+        /// <summary>Default active value</summary>
+        public const bool DefaultActive = true;
+
         /// <summary>Text for JavaScript true value</summary>
         public const int SmtpPort = 25;
 
@@ -57,7 +63,10 @@ namespace GisoFramework
         /// <summary>Menu option is not leaft</summary>
         public const bool NotLeaft = false;
 
-        /// <summary>Actual date time</summary>
+        /// <summary>Page execution has end response</summary>
+        public const bool EndResponse = true;
+
+        /// <summary>Gets actual date time</summary>
         public static DateTime Now
         {
             get
@@ -66,7 +75,7 @@ namespace GisoFramework
             }
         }
 
-        /// <summary>Formatted text for actual date time</summary>
+        /// <summary>Gets formatted text for actual date time</summary>
         public static string NowText
         {
             get
@@ -74,8 +83,5 @@ namespace GisoFramework
                 return string.Format(CultureInfo.GetCultureInfo("es-es"), "{0:dd/MM/yyyy}", Now);
             }
         }
-
-        /// <summary>Page execution has end response</summary>
-        public const bool EndResponse = true;
     }
 }

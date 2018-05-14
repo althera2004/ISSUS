@@ -338,7 +338,7 @@ public partial class ObjetivoView : Page
             GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo),
             Required = true,
             RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
         this.CmbResponsibleClose = new FormSelect
@@ -348,7 +348,7 @@ public partial class ObjetivoView : Page
             ColumnsSpan = 9,
             Name = "CmbEndResponsible",
             GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo),
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }, 
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }, 
             RequiredMessage = this.dictionary["Common_Required"],
             Required = true
         };
@@ -360,7 +360,7 @@ public partial class ObjetivoView : Page
             ColumnsSpan = 9,
             Name = "CmbResponsibleRecord",
             GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo), 
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" },
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" },
             Required = true,
             RequiredMessage = this.dictionary["Common_Required"]
         };
@@ -374,14 +374,14 @@ public partial class ObjetivoView : Page
             GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo),
             Required = true,
             RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
         foreach (var indicador in Indicador.ByCompany(this.company.Id))
         {
             if (indicador.Active || indicador.Id == this.Objetivo.IndicatorId)
             {
-                this.CmbIndicador.AddOption(new FormSelectOption()
+                this.CmbIndicador.AddOption(new FormSelectOption
                 {
                     Value = indicador.Id.ToString(),
                     Text = indicador.Description,

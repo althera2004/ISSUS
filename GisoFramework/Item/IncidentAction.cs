@@ -27,9 +27,9 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new IncidentAction()
+                return new IncidentAction
                 {
-                    Id = 0,
+                    Id = Constant.DefaultId,
                     Description = string.Empty,
                     WhatHappened = string.Empty,
                     WhatHappenedBy = Employee.Empty,
@@ -67,6 +67,19 @@ namespace GisoFramework.Item
         public long BusinessRiskId { get; set; }
 
         public Objetivo Objetivo { get; set; }
+
+        public long ObjetivoId
+        {
+            get
+            {
+                if(this.Objetivo == null)
+                {
+                    return -1;
+                }
+
+                return this.Objetivo.Id;
+            }
+        }
 
         public string WhatHappened { get; set; }
 
@@ -769,9 +782,8 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            if (rdr.HasRows)
-                            {
-                                rdr.Read();
+                            while (rdr.Read())
+                            { 
                                 var newIncidentAction = new IncidentAction
                                 {
                                     Id = rdr.GetInt64(ColumnsIncidentActionGet.Id),
@@ -1246,6 +1258,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@Number", this.Number));
                         cmd.Parameters.Add(DataParameter.Input("@IncidentId", this.IncidentId));
                         cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", this.BusinessRiskId));
+                        cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", this.ObjetivoId));
 
                         cmd.Parameters.Add(DataParameter.Input("@DeparmentId", this.Department));
                         cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider));

@@ -104,16 +104,18 @@ public partial class Alerts : Page
         {
             foreach (var alertDefinition in show)
             {
-                if (this.user.HasGrantToRead(alertDefinition.ItemType))
+                if (!this.user.HasGrantToRead(alertDefinition.ItemType))
                 {
-                    var alerts = alertDefinition.RenderRow(this.dictionary);
-                    foreach (string result in alerts)
-                    {
-                        alertOther.Append(result);
-                    }
-
-                    cont += alerts.Count;
+                    continue;
                 }
+
+                var alerts = alertDefinition.RenderRow(this.dictionary);
+                foreach (string result in alerts)
+                {
+                    alertOther.Append(result);
+                }
+
+                cont += alerts.Count;
             }
 
             alertOther.Append("<div></div>");

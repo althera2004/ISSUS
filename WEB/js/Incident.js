@@ -17,7 +17,7 @@ function IncidentFormAfterLoad() {
 
     if (Incident.Id > 0) {
         IncidentCostRenderTable("IncidentCostsTableData");
-        if (ApplicationUser.Grants.IncidentActions.Write === false) {
+        if (typeof ApplicationUser.Grants.IncidentActions === "undefined" || ApplicationUser.Grants.IncidentActions.Write === false) {
             $("#costes .btn-info").hide();
             $("#costes .btn-danger").hide();
         }
@@ -1213,7 +1213,7 @@ else {
     document.getElementById('TxtDescription').focus();
 }
 
-if (ApplicationUser.Grants.IncidentActions.Write === false) {
+if (typeof ApplicationUser.Grants.IncidentActions.Write === "undefined" || ApplicationUser.Grants.IncidentActions.Write === false) {
     if (document.getElementById("TxtActionWhatHappened") !== null) {
         document.getElementById("TxtActionWhatHappened").disabled = true;
         document.getElementById("TxtActionWhatHappenedDate").disabled = true;
@@ -1242,13 +1242,13 @@ window.onload = function () {
     Resize();
 
     if (Incident.ClosedOn !== null) {
-        $("input").attr("disabled", "disabled");
-        $("select").attr("disabled", "disabled");
-        $("textarea").attr("disabled", "disabled");
+        $("#home input").attr("disabled", "disabled");
+        $("#home select").attr("disabled", "disabled");
+        $("#home textarea").attr("disabled", "disabled");
         $("#BtnNewCost").hide();
         $("#BtnNewUploadfile").hide();
-        $(".icon-trash").parent().hide();
-        $(".icon-edit").parent().hide();
+        $("#home .icon-trash").parent().hide();
+        $("#home .icon-edit").parent().hide();
 
         $("#CmbClosedResponsible").removeAttr("disabled");
         $("#TxtClosedDate").removeAttr("disabled");

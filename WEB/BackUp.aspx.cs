@@ -11,12 +11,11 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 public partial class BackUp : System.Web.UI.Page
-{/// <summary> Master of page</summary>
+{
+    /// <summary> Master of page</summary>
     private Giso master;
 
-    /// <summary>
-    /// User logged in session
-    /// </summary>
+    /// <summary>User logged in session</summary>
     private ApplicationUser user;
 
     /// <summary>Company of session</summary>
@@ -57,9 +56,7 @@ public partial class BackUp : System.Web.UI.Page
         }
     }
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
+    /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -78,7 +75,7 @@ public partial class BackUp : System.Web.UI.Page
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                  this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
@@ -102,8 +99,8 @@ public partial class BackUp : System.Web.UI.Page
         this.master.Titulo = "Item_Backup";
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton() { Id = "BtnSave", Text = this.dictionary["Common_Accept"], Icon = "icon-ok", Action = "success" });
-        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton() { Id = "BtnCancel", Text = this.dictionary["Common_Cancel"], Icon = "icon-undo" });
+        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton { Id = "BtnSave", Text = this.dictionary["Common_Accept"], Icon = "icon-ok", Action = "success" });
+        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton { Id = "BtnCancel", Text = this.dictionary["Common_Cancel"], Icon = "icon-undo" });
         this.LtExplain.Text = this.dictionary["Item_Backup_Explain"];
     }
 }

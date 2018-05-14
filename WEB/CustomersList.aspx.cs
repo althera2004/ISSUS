@@ -115,16 +115,18 @@ public partial class CustomersList : Page
         int contData = 0;
         foreach (var customer in Customer.ByCompany(((Company)Session["Company"]).Id))
         {
-            if (customer.Active)
+            if (!customer.Active)
             {
-                if(!searchItems.Contains(customer.Description))
-                {
-                    searchItems.Add(customer.Description);
-                }
-
-                res.Append(customer.ListRow(this.dictionary, this.user.Grants));
-                contData++;
+                continue;
             }
+
+            if (!searchItems.Contains(customer.Description))
+            {
+                searchItems.Add(customer.Description);
+            }
+
+            res.Append(customer.ListRow(this.dictionary, this.user.Grants));
+            contData++;
         }
 
         this.CustomerDataTotal.Text = contData.ToString();

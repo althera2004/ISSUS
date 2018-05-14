@@ -34,6 +34,7 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
     <script type="text/javascript">
         var ItemData = <%= this.ItemData %>;
+        var OriginalItemData = <%=this.ItemData %>;
         var Objetivos = <%= this.Objetivos %>;
         var Registros = <%=this.Registros %>;
         var Actions = <%=this.ActionsList %>;
@@ -504,6 +505,13 @@
                                     <div class="form-group">
                                         <%=this.CmbResponsibleClose.Render %>
                                     </div>
+                                </form>
+                            </div>
+
+    
+                            <div id="dialogDataChanged" class="hide" style="width: 500px;">
+                                <form class="form-horizontal" role="form" id="FormDialogAnular">
+                                    <p><%=this.Dictionary["Item_Objetivo_DataChangedWarning"] %></p>                                    
                                 </form>
                             </div>
                             

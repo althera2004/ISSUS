@@ -123,6 +123,7 @@ Common_NoGrants_Explanation::Posi's en contacte amb l'administrador de l'aplicac
 Common_None::Cap
 Common_None_Female::Cap
 Common_None_Male::Cap
+Common_NoSaveData::Dades sense guardar
 Common_NotSet_Female::No especificada
 Common_NotSet_Male::No especificat
 Common_Period::Període
@@ -1616,3 +1617,6 @@ Item_Learning_ErrorMessage_NoDeleteFinished:: No es pot eliminar una formació re
 Item_Learning_ErrorMessage_NoDeleteEvaluated:: No es pot eliminar una formació evaluada
 Item_Equipment_Message_CalibrationChanged::S´han de guardar les calibracions per poder afegir un registre
 Item_Equipment_Message_VerificationChanged::S´han de guardar les verificacions per poder afegir un registre
+Item_Objetivo_DataChangedWarning::Hi ha hagut canvis a l'objetiu, vol guardar els canvis per contiuar
+Item_Objetivo_DataChangedWarning_continue::Continuar sense guardar
+Item_Objetivo_DataChangedWarning_save::Guardar i continuar

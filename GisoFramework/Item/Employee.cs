@@ -31,7 +31,7 @@ namespace GisoFramework.Item
 
         /// <summary>Departments where employee is assigned</summary>
         private List<Department> departments;
-        
+
         /// <summary>Job positions of employee</summary>
         private List<JobPosition> jobPositions;
 
@@ -44,7 +44,6 @@ namespace GisoFramework.Item
         /// </summary>
         public Employee()
         {
-
         }
 
         /// <summary>
@@ -115,6 +114,7 @@ namespace GisoFramework.Item
                                 this.ModifiedBy.Employee = Employee.ByUserId(this.ModifiedBy.Id);
                             }
                         }
+
                         if (complete)
                         {
                             this.ObtainJobPositionsHistoric();
@@ -454,14 +454,14 @@ namespace GisoFramework.Item
 
         public static string JsonList(ReadOnlyCollection<Employee> list)
         {
-            if(list == null)
+            if (list == null)
             {
                 return Constant.EmptyJsonList;
             }
 
             var res = new StringBuilder("[");
             bool first = true;
-            foreach(var employee in list)
+            foreach (var employee in list)
             {
                 if (first)
                 {
@@ -1116,7 +1116,7 @@ namespace GisoFramework.Item
         /// <param name="companyId">Compnay identifier</param>
         /// <param name="userId">Identifier of user taht performs the action</param>
         /// <returns>Result of action</returns>
-        public static ActionResult UnassignateJobPosition(int employeeId, long jobPositionId,DateTime date, int companyId, int userId)
+        public static ActionResult UnassignateJobPosition(int employeeId, long jobPositionId, DateTime date, int companyId, int userId)
         {
             var res = ActionResult.NoAction;
             using (var cmd = new SqlCommand("Employee_UnasignateJobPosition"))
@@ -1192,7 +1192,7 @@ namespace GisoFramework.Item
 
         public static string CompanyListJson(Company company)
         {
-            if(company == null)
+            if (company == null)
             {
                 return Constant.EmptyJsonList;
             }

@@ -12,7 +12,6 @@ namespace GisoFramework.Item
     using System.Configuration;
     using System.Data;
     using System.Data.SqlClient;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.IO;
     using System.Text;

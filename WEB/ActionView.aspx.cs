@@ -46,7 +46,7 @@ public partial class ActionView : Page
     public BusinessRisk BusinessRisk { get; set; }
     public Objetivo Objetivo { get; set; }
 
-    TabBar tabBar = new TabBar() { Id = "IncidentActionTabBar" };
+    TabBar tabBar = new TabBar { Id = "IncidentActionTabBar" };
 
     public BarPopup ProviderBarPopups { get; set; }
     public BarPopup CustomerBarPopups { get; set; }
@@ -339,6 +339,12 @@ public partial class ActionView : Page
             this.formFooter.AddButton(Button.FormSaveButton);
             this.formFooter.AddButton(Button.FormCancelButton);*/
             this.formFooter = new FormFooter(this.dictionary, this.grantToWrite);
+
+            if(this.Request.QueryString["o"] != null)
+            {
+                var objetivoId = Convert.ToInt32(this.Request.QueryString["o"]);
+                this.Objetivo = Objetivo.ById(objetivoId, this.Company.Id);
+            }
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_IncidentAction_Tab_Basic"], Available = true });

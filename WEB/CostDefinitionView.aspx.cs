@@ -183,7 +183,7 @@ public partial class CostDefinitionView : Page
             else
             {
                 int test = 0;
-                if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+                if (!int.TryParse(this.Request.QueryString["id"], out test))
                 {
                     this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                     Context.ApplicationInstance.CompleteRequest();
@@ -203,14 +203,14 @@ public partial class CostDefinitionView : Page
 
         if (this.Request.QueryString["id"] != null)
         {
-            this.costDefinitionId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
+            this.costDefinitionId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
         string label = "Item_CostDefinition";
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_CostDefinitions", "CostDefinitionList.aspx", false);
+        this.master.AddBreadCrumb("Item_CostDefinitions", "CostDefinitionList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb(label);
         this.master.Titulo = "Item_CostDefinitions_Title";
 
@@ -223,7 +223,7 @@ public partial class CostDefinitionView : Page
             this.costDefinition = CostDefinition.ById(this.costDefinitionId, this.company.Id);
             if (this.costDefinition.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.costDefinition = CostDefinition.Empty;
             }

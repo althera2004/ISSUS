@@ -51,6 +51,7 @@
         var CompanyIncidentActionCosts = <%=this.CompanyIncidentActionCosts %>;
         var typeItemId = 13;
         var itemId = IncidentActionId;
+        var Objetivo = <%=this.Objetivo.JsonKeyValue %>;
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
@@ -82,8 +83,10 @@
                                                                 <label id="ROriginLabel" class="col-sm-2"><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %><span style="color: #f00;">*</span></label>
                                                                 <div class="col-sm-2">
                                                                     <input type="radio" value="0" id="ROrigin1" name="ROrigin" /><%=this.Dictionary["Item_IncidentAction_Origin1"] %></div>
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-2">
                                                                     <input type="radio" value="1" id="ROrigin2" name="ROrigin" /><%=this.Dictionary["Item_IncidentAction_Origin2"] %></div>
+                                                                <div class="col-sm-2">
+                                                                    <input type="radio" value="1" id="ROrigin3" name="ROrigin" /><%=this.Dictionary["Item_IncidentAction_Origin5"] %></div>
                                                                 <div class="col-sm-2">
                                                                     <span class="ErrorMessage" id="ROriginErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"]%></span>
                                                                 </div>
@@ -549,7 +552,7 @@
                     ok = false;
                 }
 
-                if(IncidentAction.IncidentId < 1 && IncidentAction.BusinessRiskId < 1)
+                if(IncidentAction.IncidentId < 1 && IncidentAction.BusinessRiskId < 1 && IncidentAction.ObjetivoId < 1)
                 {
                     if (!document.getElementById("ROrigin1").checked && !document.getElementById("ROrigin2").checked) {
                         ok = false;
@@ -894,6 +897,7 @@
                 var ROrigin = 0;
                 if (document.getElementById("ROrigin1").checked) { ROrigin = 1; }
                 if (document.getElementById("ROrigin2").checked) { ROrigin = 2; }
+                if (document.getElementById("ROrigin3").checked) { ROrigin = 5; }
 
                 var Rtype = 0;
                 if (document.getElementById("RType1").checked) { Rtype = 1; }
@@ -956,6 +960,7 @@
                     "Number": IncidentAction.Number,
                     "IncidentId": IncidentAction.IncidentId,
                     "BusinessRiskId": IncidentAction.BusinessRiskId,
+                    "Objetivo": Objetivo,
                     "WhatHappened": $("#TxtWhatHappened").val(),
                     "WhatHappenedBy": { "Id": $("#CmbWhatHappenedResponsible").val() },
                     "WhatHappenedOn": whatHappenedOn,
@@ -1165,6 +1170,15 @@
                     //$("#TxtNotes").removeAttr("disabled");
                 }
                 $("#menuoption-13 a").show();
+
+                if (IncidentAction.Id < 1 && Objetivo != null) {
+                    IncidentAction.ObjetivoId = Objetivo.Id;
+                    $("#ObjetivoDiv").show();
+                    $("#ROrigin3").attr("checked", true);
+                    $("#RType1").attr("checked", true);
+                    $("#RTypeDiv").hide();
+                    $("#ROriginDiv").hide();
+                }
             }
 
             window.onresize = function () { Resize(); }

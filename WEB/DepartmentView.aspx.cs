@@ -50,7 +50,7 @@ public partial class DepartmentView : Page
                 Duplicated = true,
                 DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
                 GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Department),
-                MaximumLength = 50
+                MaximumLength = Constant.DefaultDatabaseVarChar
             }.Render;
         }
     }
@@ -208,7 +208,7 @@ public partial class DepartmentView : Page
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Departments", "DepartmentsList.aspx", false);
+        this.master.AddBreadCrumb("Item_Departments", "DepartmentsList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb(label);
         this.master.Titulo = label;
 
@@ -226,7 +226,7 @@ public partial class DepartmentView : Page
             this.department = new Department(this.departmentId, this.company.Id);
             if (this.department.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.department = Department.Empty;
             }
@@ -259,7 +259,7 @@ public partial class DepartmentView : Page
             this.TableJobPosition.Text = string.Empty;
         }
 
-        this.tabBar.AddTab(new Tab() { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Department_Tab_Principal"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Department_Tab_Principal"] });
         // this.tabBar.AddTab(new Tab() { Id = "trazas", Label = this.dictionary["Item_Department_Tab_Traces"], Active = this.departmentId > 0, Available = this.user.HasTraceGrant() });       
     }
 }

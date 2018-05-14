@@ -41,18 +41,6 @@ namespace GisoFramework.UserInterface
                 return new ReadOnlyCollection<ApplicationItem>(this.children);
             }
         }  
-        
-        /// <summary>Add child to menu</summary>
-        /// <param name="item">Application item for menu option</param>
-        public void AddChild(ApplicationItem item)
-        {
-            if (this.children == null)
-            {
-                this.children = new List<ApplicationItem>();
-            }
-
-            this.children.Add(item);
-        }
  
         /// <summary>Render the HTML code for an menu option</summary>
         /// <param name="options">Menu options</param>
@@ -174,9 +162,7 @@ namespace GisoFramework.UserInterface
                                 Icon = "icon-gear",
                                 Container = false,
                                 Parent = 0,
-                                Url = new Uri(string.Format(
-                                    CultureInfo.GetCultureInfo("en-us"),
-                                    "{0}BackUp.aspx", temp))
+                                Url = new Uri(string.Format(CultureInfo.InvariantCulture, "{0}BackUp.aspx", temp))
                             });
                         }
                     }
@@ -194,7 +180,19 @@ namespace GisoFramework.UserInterface
 
             return new ReadOnlyCollection<MenuOption>(res);
         }
- 
+
+        /// <summary>Add child to menu</summary>
+        /// <param name="item">Application item for menu option</param>
+        public void AddChild(ApplicationItem item)
+        {
+            if (this.children == null)
+            {
+                this.children = new List<ApplicationItem>();
+            }
+
+            this.children.Add(item);
+        }
+
         /// <summary>Render the HTML code for a menu</summary>
         /// <returns>HTML code for a menu</returns>
         public string Render()
