@@ -55,7 +55,10 @@ namespace GisoFramework.UserInterface
             var res = new StringBuilder();
             foreach (var option in options)
             {
-                res.Append(option.Render());
+                if (option.Item.Id != 1)
+                {
+                    res.Append(option.Render());
+                }
             }
 
             return res.ToString();

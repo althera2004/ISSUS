@@ -40,7 +40,6 @@ window.onload = function () {
         $("#BtnActionsNew").on("click", ActionNew);
     }
 
-
     var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { autoclose: true, todayHighlight: true });
     $(".date-picker").datepicker(options);
 
@@ -49,7 +48,7 @@ window.onload = function () {
     $("#BtnRecordFilter").on("click", ObjetivoRegistroFilter);
     $("#BtnRecordNew").on("click", RecordNew);
     $("#BtnSave").on("click", Save);
-    $('#BtnCancel').on('click', function (e) { document.location = referrer; });
+    $("#BtnCancel").on("click", function (e) { document.location = referrer; });
 
     $("#Contentholder1_RVinculatedYes").on("change", IndicatorVinculatedLayout);
     $("#Contentholder1_RVinculatedNo").on("change", IndicatorVinculatedLayout);
@@ -211,12 +210,12 @@ function Save(goAction) {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: "/Async/ObjetivoActions.asmx/Save",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/ObjetivoActions.asmx/Save",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             console.log(response.d);
             if (response.d.Success !== true) {
@@ -236,7 +235,7 @@ function Save(goAction) {
                 }
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -270,7 +269,6 @@ function Validate() {
     document.getElementById("TxtPeriodicityLabel").style.color = "#000;"
     document.getElementById("TxtPeriodicityErrorRequired").style.display = "none";
 
-
     if ($("#TxtName").val() === "") {
         ok = false;
         document.getElementById("TxtNameLabel").style.color = "#f00";
@@ -283,7 +281,7 @@ function Validate() {
         }
     }
 
-    if ($("#TxtPeriodicity").val() *1 === 0) {
+    if ($("#TxtPeriodicity").val() * 1 === 0) {
         ok = false;
         document.getElementById("TxtPeriodicityLabel").style.color = "#f00";
         document.getElementById("TxtPeriodicityErrorRequired").style.display = "";
@@ -564,6 +562,7 @@ function ObjetivoRegistroFilter(exportType) {
     if (listOrder === null) {
         listOrder = "th2|DESC";
     }
+
     console.log(listOrder);
     if (lockOrderList) {
         var th = listOrder.split('|')[0];
@@ -597,26 +596,26 @@ function Export(fileType) {
     var webMethod = "/Export/ObjetivoRecords.aspx/" + fileType;
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
             //successInfoUI(msg.d.MessageError, Go, 200);
-            var link = document.createElement('a');
-            link.id = 'download';
+            var link = document.createElement("a");
+            link.id = "download";
             link.href = msg.d.MessageError;
             link.download = msg.d.MessageError;
-            link.target = '_blank';
+            link.target = "_blank";
             document.body.appendChild(link);
-            $('#download').trigger('click');
+            $("#download").trigger("click");
             window.open(msg.d.MessageError);
-            $("#dialogAddAddress").dialog('close');
+            $("#dialogAddAddress").dialog("close");
             document.body.removeChild(link);
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI("error:" + msg.responseText);
         }
@@ -707,6 +706,7 @@ function RecordEdit(id) {
                 "click": function () { ObjetivoRegistroSave(); }
             },
             {
+                "id": "BtnNewRegistroCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
@@ -881,12 +881,12 @@ function ObjetivoRegistroSave() {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -919,7 +919,7 @@ function ObjetivoRegistroSave() {
                 DisableVinculatedTo(true)
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -1209,6 +1209,7 @@ function AnularPopup() {
                 "click": function () { AnularConfirmed(); }
             },
             {
+                "id": "BtnAnularCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
@@ -1279,16 +1280,16 @@ function AnularConfirmed() {
     $("#dialogAnular").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             document.location = referrer;
             //AnulateLayout();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -1368,7 +1369,6 @@ function EnableLayout() {
     $("textarea").removeAttr("disabled");
     $("#CmbResponsible").prop("disabled", false).trigger("chosen:updated");
     $("#CmbIndicador").prop("disabled", false).trigger("chosen:updated");
-
     $("#BtnUnitsBAR").show();
 }
 
@@ -1444,6 +1444,7 @@ function RenderActionsTable() {
                 totalActions++;
             }
         }
+
         $("#ObjetivoActionsTable").html(res);
         $("#NumberCostsActionsTotal").html(ToMoneyFormat(totalCostActions,2));
     }
@@ -1504,7 +1505,24 @@ function DataIsChanged() {
         "ModifiedBy": { "Id": -1 },
         "ModifiedOn": new Date(),
         "Active": false
-    };    if (OriginalItemData.Name !== actual.Name) { return true; }    if (OriginalItemData.Description !== actual.Description) { return true; }    if (OriginalItemData.Methodology !== actual.Methodology) { return true; }    if (OriginalItemData.Resources !== actual.Resources) { return true; }    if (OriginalItemData.Notes !== actual.Notes) { return true; }    if (OriginalItemData.VinculatedToIndicator !== actual.VinculatedToIndicator) { return true; }    if (OriginalItemData.Responsible.Id !== actual.Responsible.Id) { return true; }    if (OriginalItemData.EndResponsible.Id !== actual.EndResponsible.Id) { return true; }    if (OriginalItemData.StartDate !== FormatDate(actual.StartDate,"/")) { return true; }    if (OriginalItemData.PreviewEndDate !== FormatDate(actual.PreviewEndDate,"/")) { return true; }    if (OriginalItemData.EndDate !== FormatDate(actual.EndDate, "/") && (OriginalItemData.EndDate !== null && FormatDate(actual.EndDate, "/") !== "")) { return true; }    if (OriginalItemData.RevisionId !== actual.RevisionId) { return true; }    if (OriginalItemData.MetaComparer !== actual.MetaComparer) { return true; }    if (OriginalItemData.Meta !== actual.Meta) { return true; }    return false;
+    };
+
+    if (OriginalItemData.Name !== actual.Name) { return true; }
+    if (OriginalItemData.Description !== actual.Description) { return true; }
+    if (OriginalItemData.Methodology !== actual.Methodology) { return true; }
+    if (OriginalItemData.Resources !== actual.Resources) { return true; }
+    if (OriginalItemData.Notes !== actual.Notes) { return true; }
+    if (OriginalItemData.VinculatedToIndicator !== actual.VinculatedToIndicator) { return true; }
+    if (OriginalItemData.Responsible.Id !== actual.Responsible.Id) { return true; }
+    if (OriginalItemData.EndResponsible.Id !== actual.EndResponsible.Id) { return true; }
+    if (OriginalItemData.StartDate !== FormatDate(actual.StartDate,"/")) { return true; }
+    if (OriginalItemData.PreviewEndDate !== FormatDate(actual.PreviewEndDate,"/")) { return true; }
+    if (OriginalItemData.EndDate !== FormatDate(actual.EndDate, "/") && (OriginalItemData.EndDate !== null && FormatDate(actual.EndDate, "/") !== "")) { return true; }
+    if (OriginalItemData.RevisionId !== actual.RevisionId) { return true; }
+    if (OriginalItemData.MetaComparer !== actual.MetaComparer) { return true; }
+    if (OriginalItemData.Meta !== actual.Meta) { return true; }
+
+    return false;
 }
 
 function ActionNew() {
@@ -1537,6 +1555,7 @@ function DataChangedPopup() {
                 "click": function () { NewActionConfirmed(false); }
             },
             {
+                "id": "BtnContinueCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }

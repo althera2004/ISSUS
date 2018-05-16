@@ -198,6 +198,14 @@
                     <!-- #sidebar-shortcuts -->
 
                     <ul class="nav nav-list">
+                        <li class="active" id="menuoption-1">
+                            <a href="/DashBoard.aspx">
+                                <i class="icon-dashboard">
+                                    <span class="badge badge-primary" style="margin-right:8px;font-family:Arial;">2</span>
+                                </i>
+                                <span class="menu-text"> <%=this.Dictionary["Common_Home"] %> </span>
+                            </a>
+                        </li>
                         <asp:Literal runat="server" ID="LeftMenu"></asp:Literal>
                     </ul><!-- /.nav-list -->
                     <div class="sidebar-collapse" id="sidebar-collapse">
