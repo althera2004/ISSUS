@@ -22,6 +22,7 @@
     <script type="text/javascript" src="/Document-Viewer/yepnope.1.5.3-min.js"></script>
     <script type="text/javascript" src="/Document-Viewer/ttw-document-viewer.min.js"></script>
     <script type="text/javascript">
+        var itemGrantId = 11;
         scaleImages = true;
         var limitInitialDate = "<%=this.LimitInitialDate %>";
         var GrantToWrite = <%=this.GrantToWrite %>;
@@ -34,6 +35,7 @@
         var EquipmentRepairList = <%=this.EquipmentRepairList %>;
         var EquipmentScaleDivisionSelected = <%=this.EquipmentScaleDivisionSelected %>;
         var mantenimientoLaunchId = 0;
+        var EmployeesGrant = <%=GisoFramework.Item.Employee.EmployeesGrant(11, this.Company.Id)%>;
 
         var Providers = <%=this.ProvidersJson %>;
         var Customers = <%=this.CustomersJson %>;

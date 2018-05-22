@@ -32,7 +32,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            var records = EquipmentRecord.GetFilter(this.equipmentId, this.company.Id, true, true, true, true, true, true, true, true, null, null);
+            var records = EquipmentRecord.GetFilter(this.equipmentId, this.Company.Id, true, true, true, true, true, true, true, true, null, null);
 
             if (records.Count > 0)
             {
@@ -51,7 +51,7 @@ public partial class EquipmentView : Page
     private Giso master;
 
     /// <summary>Company of session</summary>
-    private Company company;
+    public Company Company { get; private set; }
 
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
@@ -59,15 +59,7 @@ public partial class EquipmentView : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
-    private string launch;
-
-    public string Launch
-    {
-        get
-        {
-            return this.launch;
-        }
-    }
+    public string Launch { get; private set; }
 
     private bool grantToWrite;
 
@@ -119,7 +111,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return EquipmentCalibrationAct.JsonList(this.equipmentId, this.company.Id);
+            return EquipmentCalibrationAct.JsonList(this.equipmentId, this.Company.Id);
         }
     }
 
@@ -129,7 +121,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return EquipmentVerificationAct.JsonList(this.equipmentId, this.company.Id);
+            return EquipmentVerificationAct.JsonList(this.equipmentId, this.Company.Id);
         }
     }
 
@@ -137,7 +129,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return EquipmentRepair.JsonList(this.equipmentId, this.company.Id);
+            return EquipmentRepair.JsonList(this.equipmentId, this.Company.Id);
         }
     }
 
@@ -145,7 +137,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return EquipmentMaintenanceDefinition.JsonList(this.equipmentId, this.company.Id);
+            return EquipmentMaintenanceDefinition.JsonList(this.equipmentId, this.Company.Id);
         }
     }
 
@@ -153,7 +145,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return EquipmentMaintenanceAct.JsonList(this.equipmentId, this.company.Id);
+            return EquipmentMaintenanceAct.JsonList(this.equipmentId, this.Company.Id);
         }
     }
 
@@ -161,7 +153,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return EquipmentScaleDivision.JsonList("EquipmentScaleDivision", EquipmentScaleDivision.GetByCompany(this.company));
+            return EquipmentScaleDivision.JsonList("EquipmentScaleDivision", EquipmentScaleDivision.GetByCompany(this.Company));
         }
     }
 
@@ -329,7 +321,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return Provider.ByCompanyJson(this.company.Id);
+            return Provider.ByCompanyJson(this.Company.Id);
         }
     }
 
@@ -337,7 +329,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return Customer.ByCompanyJson(this.company.Id);
+            return Customer.ByCompanyJson(this.Company.Id);
         }
     }
 
@@ -345,7 +337,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return Employee.CompanyListJson(this.company.Id);
+            return Employee.CompanyListJson(this.Company.Id);
             //return Employee.GetByCompanyJson(this.company.Id);
         }
     }
@@ -430,7 +422,6 @@ public partial class EquipmentView : Page
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
@@ -440,22 +431,21 @@ public partial class EquipmentView : Page
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
+
+            Context.ApplicationInstance.CompleteRequest();
         }
     }
 
@@ -464,7 +454,7 @@ public partial class EquipmentView : Page
     {
         if (this.Request.QueryString["id"] != null)
         {
-            this.equipmentId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
+            this.equipmentId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
         if (this.Request.QueryString["New"] != null)
@@ -485,21 +475,21 @@ public partial class EquipmentView : Page
         this.Equipment = new Equipment();
 
         this.user = (ApplicationUser)Session["User"];
-        this.company = (Company)Session["company"];
+        this.Company = (Company)Session["company"];
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Equipments", "EquipmentList.aspx", false);
+        this.master.AddBreadCrumb("Item_Equipments", "EquipmentList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_Equipment_Tab_Details");
 
         if (this.equipmentId > 0)
         {
             this.Session["EquipmentId"] = this.equipmentId;
-            this.Equipment = Equipment.ById(this.equipmentId, this.company);
-            if (this.Equipment.CompanyId != this.company.Id)
+            this.Equipment = Equipment.ById(this.equipmentId, this.Company);
+            if (this.Equipment.CompanyId != this.Company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.Equipment = Equipment.Empty;
             }
@@ -561,7 +551,7 @@ public partial class EquipmentView : Page
         this.SelectedTab = "home";
         if (this.Request.QueryString["Tab"] != null)
         {
-            SelectedTab = this.Request.QueryString["Tab"].ToString().Trim().ToLowerInvariant();
+            SelectedTab = this.Request.QueryString["Tab"].Trim().ToLowerInvariant();
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = SelectedTab == "home", Active = true, Label = this.dictionary["Item_Equipment_Tab_Basic"], Available = true });
@@ -571,7 +561,7 @@ public partial class EquipmentView : Page
         this.tabBar.AddTab(new Tab { Id = "reparaciones", Available = this.equipmentId > 0, Active = true, Label = this.dictionary["Item_Equipment_Tab_Repair"] });
         this.tabBar.AddTab(new Tab { Id = "registros", Available = this.equipmentId > 0, Active = true, Label = this.dictionary["Item_Equipment_Tab_Records"] });
         this.tabBar.AddTab(new Tab { Id = "uploadFiles", Selected = SelectedTab == "uploadfiles", Available = true, Active = this.equipmentId > 0, Hidden = this.equipmentId < 1, Label = this.Dictionary["Item_Equipment_Tab_UploadFiles"] });
-        //// this.tabBar.AddTab(new Tab() { Id = "trazas", Available = this.user.HasTraceGrant() && this.equipmentId > 0, Active = this.equipmentId > 0, Label = this.dictionary["Item_Equipment_Tab_Traces"] });
+        //// this.tabBar.AddTab(new Tab { Id = "trazas", Available = this.user.HasTraceGrant() && this.equipmentId > 0, Active = this.equipmentId > 0, Label = this.dictionary["Item_Equipment_Tab_Traces"] });
 
         this.RenderForm();
 
@@ -588,8 +578,8 @@ public partial class EquipmentView : Page
         {
             if (this.Request.QueryString["Type"] != null)
             {
-                string type = this.Request.QueryString["Type"].ToString();
-                this.launch = "ShowDialogEquipmentVerificacionPopup(" + (type == "I" ? "-1" : "-2") + ");";
+                string type = this.Request.QueryString["Type"];
+                this.Launch = "ShowDialogEquipmentVerificacionPopup(" + (type == "I" ? "-1" : "-2") + ");";
             }
         }
 
@@ -597,8 +587,8 @@ public partial class EquipmentView : Page
         {
             if (this.Request.QueryString["Type"] != null)
             {
-                string type = this.Request.QueryString["Type"].ToString();
-                this.launch = "ShowDialogNewCalibrationPopup(" + (type == "I" ? "-1" : "-2") + ");";
+                string type = this.Request.QueryString["Type"];
+                this.Launch = "ShowDialogNewCalibrationPopup(" + (type == "I" ? "-1" : "-2") + ");";
             }
         }
 
@@ -606,14 +596,14 @@ public partial class EquipmentView : Page
         {
             if (this.Request.QueryString["Action"] != null)
             {
-                string actionId = this.Request.QueryString["Action"].ToString();
-                this.launch = "mantenimientoLaunchId = " + actionId + ";EquipmentMaintenanceDefinitionRegister(null);";
+                string actionId = this.Request.QueryString["Action"];
+                this.Launch = "mantenimientoLaunchId = " + actionId + ";EquipmentMaintenanceDefinitionRegister(null);";
             }
         }
 
         if (SelectedTab.Equals("tabuploadfiles", StringComparison.OrdinalIgnoreCase))
         {
-            this.launch = @"$(""#TabuploadFiles a"").click();";
+            this.Launch = @"$(""#TabuploadFiles a"").click();";
         }
     }
 
@@ -736,7 +726,7 @@ public partial class EquipmentView : Page
             DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        foreach (var e in this.company.Employees)
+        foreach (var e in this.Company.Employees)
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -881,7 +871,7 @@ public partial class EquipmentView : Page
             DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        foreach (var e in this.company.Employees)
+        foreach (var e in this.Company.Employees)
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -912,7 +902,7 @@ public partial class EquipmentView : Page
             }
         }
 
-        foreach (var provider in Provider.ByCompany(this.company.Id))
+        foreach (var provider in Provider.ByCompany(this.Company.Id))
         {
             if (provider.Active)
             {
@@ -1036,7 +1026,7 @@ public partial class EquipmentView : Page
             DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        foreach (Employee e in this.company.Employees.OrderBy(e => e.FullName))
+        foreach (Employee e in this.Company.Employees.OrderBy(e => e.FullName))
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -1166,7 +1156,7 @@ public partial class EquipmentView : Page
             DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        foreach (Employee e in this.company.Employees.OrderBy(e => e.FullName))
+        foreach (Employee e in this.Company.Employees.OrderBy(e => e.FullName))
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -1383,7 +1373,7 @@ public partial class EquipmentView : Page
             }
         };
 
-        foreach (var e in this.company.Employees.OrderBy(e => e.FullName))
+        foreach (var e in this.Company.Employees.OrderBy(e => e.FullName))
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -1436,7 +1426,7 @@ public partial class EquipmentView : Page
         this.status2.Checked = this.Equipment.IsMaintenance;
 
         var responsibleData = new StringBuilder();
-        foreach (var employee in this.company.Employees.OrderBy(e => e.FullName))
+        foreach (var employee in this.Company.Employees.OrderBy(e => e.FullName))
         {
             responsibleData.Append(string.Format(@"<option value=""{0}""{1}>{2}</option>", employee.Id, employee.Id == this.Equipment.Responsible.Id ? " selected=\"selected\"" : string.Empty, employee.FullName));
         }
@@ -1465,7 +1455,7 @@ public partial class EquipmentView : Page
             endResponsibleId = this.Equipment.EndResponsible.Id;
         }
 
-        foreach (var e in this.company.Employees.OrderBy(e => e.FullName))
+        foreach (var e in this.Company.Employees.OrderBy(e => e.FullName))
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -1484,7 +1474,7 @@ public partial class EquipmentView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        var files = UploadFile.GetByItem(11, this.equipmentId, this.company.Id);
+        var files = UploadFile.GetByItem(11, this.equipmentId, this.Company.Id);
         var res = new StringBuilder();
         var resList = new StringBuilder();
         int contCells = 0;
@@ -1539,7 +1529,7 @@ public partial class EquipmentView : Page
                     file.Id,
                     string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
                     file.Extension,
-                    this.company.Id,
+                    this.Company.Id,
                     file.FileName,
                     file.CreatedOn,
                     finalSize,
@@ -1567,7 +1557,7 @@ public partial class EquipmentView : Page
                 file.FileName,
                 string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
                 file.Id,
-                this.company.Id,
+                this.Company.Id,
                 file.CreatedOn,
                 finalSize,
                 listViewButton);

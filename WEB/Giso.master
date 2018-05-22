@@ -282,6 +282,20 @@
                                     </table>
                                 </div>
 
+                                <div id="InfoUINoGrantsDialog" class="hide" style="width:500px;">
+                                    <table cellpadding="4" cellspacing="2">
+                                        <tr>
+                                            <td valign="top" align="center" style="width:26px;"><i class="icon-info-sign blue" style="font-size:40px;"></i></td>
+                                            <td style="font-weight:bold;">
+                                                <p>
+                                                    El empleado no tiene permisos para realizar esta acción.
+                                                    ¿Desea otorgarle permisos para poder realizarla?
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
                                 <div id="WarningUIDialog" class="hide" style="width:500px;">
                                     <table cellpadding="4" cellspacing="2">
                                         <tr>

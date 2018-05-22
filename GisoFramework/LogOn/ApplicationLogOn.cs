@@ -106,14 +106,12 @@ namespace GisoFramework.LogOn
             Departments = 16
         }
 
-        /// <summary>
-        /// Gets the secutiry group from integer value
-        /// </summary>
+        /// <summary>Gets the secutiry group from integer value</summary>
         /// <param name="value">Integer that represents a security group</param>
         /// <returns>Secutiry group</returns>
         public static SecurityGroup IntegerToSecurityGroup(int value)
         {
-            SecurityGroup res = SecurityGroup.None;
+            var res = SecurityGroup.None;
             switch (value)
             {
                 case 1:
@@ -151,14 +149,12 @@ namespace GisoFramework.LogOn
             return res;
         }
 
-        /// <summary>
-        /// Gets the log on result from integer value
-        /// </summary>
+        /// <summary>Gets the log on result from integer value</summary>
         /// <param name="value">Integer that represents a log on result</param>
         /// <returns>Log on result</returns>
         public static LogOnResult IntegerToLogOnResult(int value)
         {
-            LogOnResult res = LogOnResult.Fail;
+            var res = LogOnResult.Fail;
             switch (value)
             {
                 case 0:
@@ -184,37 +180,35 @@ namespace GisoFramework.LogOn
             return res;
         }
 
-        /// <summary>
-        /// Trace a log on failed
-        /// </summary>
+        /// <summary>Trace a log on failed</summary>
         /// <param name="userId">Identifier of user that attemps to log on</param>
         public static void LogOnFailed(int userId)
         {
-            using (SqlCommand cmd = new SqlCommand("LogonFailed"))
+            using (var cmd = new SqlCommand("LogonFailed"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.ExecuteNonQuery();
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Connection.Open();
+                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.ExecuteNonQuery();
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// Log on application
-        /// </summary>
+        /// <summary>Log on application</summary>
         /// <param name="email">User email</param>
         /// <param name="password">User password</param>
         /// <param name="clientAddress">IP address from log on action</param>
@@ -227,16 +221,16 @@ namespace GisoFramework.LogOn
                 return ActionResult.NoAction;
             }
 
-            ActionResult res = ActionResult.NoAction;
-            LogOnObject result = new LogOnObject()
+            var res = ActionResult.NoAction;
+            var result = new LogOnObject
             {
                 Id = -1,
                 UserName = string.Empty,
                 Result = LogOnResult.NoUser
             };
 
-            List<string> companiesId = new List<string>();
-            using (SqlCommand cmd = new SqlCommand("GetLogin"))
+            var companiesId = new List<string>();
+            using (var cmd = new SqlCommand("GetLogin"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 try
@@ -245,46 +239,48 @@ namespace GisoFramework.LogOn
                     cmd.Parameters.Add(DataParameter.Input("@Login", email));
                     cmd.Parameters.Add(DataParameter.Input("@Password", password));
                     cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    bool multiCompany = false;
-                    if (rdr.HasRows)
+                    using (var rdr = cmd.ExecuteReader())
                     {
-                        while (rdr.Read())
+                        bool multiCompany = false;
+                        if (rdr.HasRows)
                         {
-                            companiesId.Add(rdr.GetInt32(ColumnsGetLogin.CompanyId).ToString() + '|' + rdr.GetInt32(ColumnsGetLogin.Id).ToString());
-                            result.Id = rdr.GetInt32(ColumnsGetLogin.Id);
-                            result.Result = IntegerToLogOnResult(rdr.GetInt32(ColumnsGetLogin.Status));
-                            result.UserName = email;
-                            result.CompanyId = rdr.GetInt32(ColumnsGetLogin.CompanyId);
-                            result.MustResetPassword = rdr.GetBoolean(ColumnsGetLogin.MustResetPassword);
-                            result.Agreement = rdr.GetBoolean(ColumnsGetLogin.Agreement);
+                            while (rdr.Read())
+                            {
+                                companiesId.Add(rdr.GetInt32(ColumnsGetLogin.CompanyId).ToString() + '|' + rdr.GetInt32(ColumnsGetLogin.Id).ToString());
+                                result.Id = rdr.GetInt32(ColumnsGetLogin.Id);
+                                result.Result = IntegerToLogOnResult(rdr.GetInt32(ColumnsGetLogin.Status));
+                                result.UserName = email;
+                                result.CompanyId = rdr.GetInt32(ColumnsGetLogin.CompanyId);
+                                result.MustResetPassword = rdr.GetBoolean(ColumnsGetLogin.MustResetPassword);
+                                result.Agreement = rdr.GetBoolean(ColumnsGetLogin.Agreement);
 
-                            if (result.Result == LogOnResult.Fail)
-                            {
-                                LogOnFailed(result.Id);
-                            }
-                            else
-                            {
-                                ApplicationUser user = new ApplicationUser()
+                                if (result.Result == LogOnResult.Fail)
                                 {
-                                    Id = result.Id,
-                                    UserName = rdr.GetString(ColumnsGetLogin.UserName),
-                                    Language = rdr.GetString(ColumnsGetLogin.Language),
-                                    Status = result.Result
-                                };
+                                    LogOnFailed(result.Id);
+                                }
+                                else
+                                {
+                                    var user = new ApplicationUser
+                                    {
+                                        Id = result.Id,
+                                        UserName = rdr.GetString(ColumnsGetLogin.UserName),
+                                        Language = rdr.GetString(ColumnsGetLogin.Language),
+                                        Status = result.Result
+                                    };
 
-                                user.GetGrants();
+                                    user.GetGrants();
 
-                                HttpContext.Current.Session["User"] = user;
+                                    HttpContext.Current.Session["User"] = user;
+                                }
+
+                                result.MultipleCompany = multiCompany;
+                                multiCompany = true;
                             }
-
-                            result.MultipleCompany = multiCompany;
-                            multiCompany = true;
                         }
-                    }
-                    else
-                    {
-                        result.Result = LogOnResult.NoUser;
+                        else
+                        {
+                            result.Result = LogOnResult.NoUser;
+                        }
                     }
                 }
                 catch (SqlException ex)
@@ -327,9 +323,7 @@ namespace GisoFramework.LogOn
             return res;
         }
 
-        /// <summary>
-        /// Insert into data base a trace of log on action
-        /// </summary>
+        /// <summary>Insert into data base a trace of log on action</summary>
         /// <param name="userName">User name</param>
         /// <param name="ip">IP address from log on action</param>
         /// <param name="result">Result of action</param>
@@ -347,52 +341,54 @@ namespace GisoFramework.LogOn
              * @CompanyCode nvarchar(10),
              * @CompanyId int
              */
-            using (SqlCommand cmd = new SqlCommand("Log_Login"))
+            using (var cmd = new SqlCommand("Log_Login"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(DataParameter.Input("@UserName", userName));
-                cmd.Parameters.Add(DataParameter.Input("@Ip", ip));
-                cmd.Parameters.Add(DataParameter.Input("@Result", result));
-                cmd.Parameters.Add(DataParameter.Input("@CompanyCode", companyCode));
-
-                if (companyId != 0)
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                }
-                else
-                {
-                    companyId = Company.ByCode(companyCode);
-                    if (companyId == 0)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@CompanyId"));
-                    }
-                    else
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@UserName", userName));
+                    cmd.Parameters.Add(DataParameter.Input("@Ip", ip));
+                    cmd.Parameters.Add(DataParameter.Input("@Result", result));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyCode", companyCode));
+
+                    if (companyId != 0)
                     {
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                     }
-                }
-
-                if (userId > 0)
-                {
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                }
-                else
-                {
-                    cmd.Parameters.Add(DataParameter.InputNull("@UserId"));
-                }
-
-                try
-                {
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    else
                     {
-                        cmd.Connection.Close();
+                        companyId = Company.ByCode(companyCode);
+                        if (companyId == 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@CompanyId"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        }
+                    }
+
+                    if (userId > 0)
+                    {
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                    }
+                    else
+                    {
+                        cmd.Parameters.Add(DataParameter.InputNull("@UserId"));
+                    }
+
+                    try
+                    {
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

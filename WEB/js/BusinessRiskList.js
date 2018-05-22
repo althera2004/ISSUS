@@ -590,6 +590,7 @@ window.onload = function () {
     $("#CmbProcess").on("change", BusinessRiskGetFilter);
     $("#TxtDateFrom").on("change", BusinessRiskGetFilter);
     $("#TxtDateTo").on("change", BusinessRiskGetFilter);
+    $("#CmbType").on("change", BusinessRiskGetFilter);
 
     BusinessRiskGetFilter();
     Resize();

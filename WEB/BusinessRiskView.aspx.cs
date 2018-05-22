@@ -877,7 +877,16 @@ public partial class BusinessRiskView : Page
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_BusinessRisks", "BusinessRisksList.aspx", Constant.NotLeaft);
+
+        if (user.HasGrantToRead(18))
+        {
+            this.master.AddBreadCrumb("Item_BusinessRisks", "BusinessRisksList.aspx", Constant.NotLeaft);
+        }
+        else
+        {
+            this.master.AddBreadCrumb("Item_BusinessRisks");
+        }
+
         this.master.AddBreadCrumb(label);
         this.master.Titulo = label;
         if (!this.Page.IsPostBack)

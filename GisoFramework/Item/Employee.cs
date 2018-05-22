@@ -1291,6 +1291,52 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Employee>(res);
         }
 
+        public static string EmployeesGrant(int itemId , int companyId)
+        {
+            var res = new StringBuilder("[");
+            using(var cmd = new SqlCommand("EmployeeGrants"))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.Parameters.Add(DataParameter.Input("@ItemId", itemId));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    try
+                    {
+                        cmd.Connection.Open();
+                        using(var rdr = cmd.ExecuteReader())
+                        {
+                            bool first = true;
+                            while (rdr.Read())
+                            {
+                                if (first)
+                                {
+                                    first = false;
+                                }
+                                else
+                                {
+                                    res.Append(",");
+                                }
+
+                                res.Append(rdr.GetInt32(0));
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        if(cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            res.Append("]");
+            return res.ToString();
+        }
+
         /// <summary>Render a tag for employee</summary>
         /// <param name="dictionary">Dictionary for fices labels</param>
         /// <param name="admin">Indicates is session user is admin</param>

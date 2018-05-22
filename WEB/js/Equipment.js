@@ -554,10 +554,10 @@ function Restore() {
 }
 // --------------------------------------------------
 
-$("#CmbCalibrationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbCalibrationInternalResponsible").val() * 1, Employees); });
-$("#CmbCalibrationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbCalibrationExternalResponsible").val() * 1, Employees); });
-$("#CmbEquipmentCalibrationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentCalibrationActResponsible").val() * 1, Employees); });
-$("#CmbVerificationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationInternalResponsible").val() * 1, Employees); });
-$("#CmbVerificationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationExternalResponsible").val() * 1, Employees); });
-$("#CmbEquipmentVerificationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentVerificationActResponsible").val() * 1, Employees); });
-$("#CmbNewMaintainmentResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbNewMaintainmentResponsible").val() * 1, Employees); });
+$("#CmbCalibrationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbCalibrationInternalResponsible").val() * 1, Employees, this); });
+$("#CmbCalibrationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbCalibrationExternalResponsible").val() * 1, Employees, this); });
+$("#CmbEquipmentCalibrationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentCalibrationActResponsible").val() * 1, Employees, this); });
+$("#CmbVerificationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationInternalResponsible").val() * 1, Employees, this); });
+$("#CmbVerificationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationExternalResponsible").val() * 1, Employees, this); });
+$("#CmbEquipmentVerificationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentVerificationActResponsible").val() * 1, Employees, this); });
+$("#CmbNewMaintainmentResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbNewMaintainmentResponsible").val() * 1, Employees, this); });

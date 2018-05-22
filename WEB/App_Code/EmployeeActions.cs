@@ -28,6 +28,14 @@ public class EmployeeActions : WebService {
     }
 
     [WebMethod(EnableSession = true)]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public ActionResult SetGrant(long employeeId, int companyId, int itemId, int applicationUserId)
+    {
+        var user = ApplicationUser.GetByEmployee(employeeId, companyId);
+        return ApplicationUser.SaveGrant(new UserGrant { Item = new ApplicationGrant { Code = itemId }, GrantToRead = true, GrantToWrite = true, GrantToDelete = true }, user.Id);
+    }
+
+    [WebMethod(EnableSession = true)]
     [ScriptMethod]
     public ActionResult GrantChanged(int userTargetId, int companyId, int securityGroup, bool grant, int userId)
     {
