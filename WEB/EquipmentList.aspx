@@ -53,12 +53,12 @@
                                             </td>                                       
                                             <td>
                                                 <div class="row">
-                                                    <input type="radio" name="RBStatus" id="RBStatus0" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Common_All"] %>
-                                                    &nbsp;&nbsp;
                                                     <input type="radio" name="RBStatus" id="RBStatus1" onclick="RenderTable();" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowActive"] %>
                                                     &nbsp;&nbsp;
                                                     <input type="radio" name="RBStatus" id="RBStatus2" onclick="RenderTable();" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowClosed"] %>
-                                                </div>
+													&nbsp;&nbsp;
+													<input type="radio" name="RBStatus" id="RBStatus0" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Common_All"] %>
+												</div>
                                             </td>
                                         </tr>
                                     </table>

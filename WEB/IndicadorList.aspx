@@ -55,10 +55,10 @@
                                             </td>
                                             <td colspan="2">
                                                 <div class="row">
-                                                    <input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %>
                                                     <input type="radio" name="RBStatus" id="RBStatus1" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowActive"] %>
                                                     <input type="radio" name="RBStatus" id="RBStatus2" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %>
-                                                </div>
+													<input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %>
+												</div>
                                             </td>
                                         </tr>
                                         <tr>
@@ -112,7 +112,7 @@
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
                                                         <th id="th0" class="sort search" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_Description"] %></th>
-                                                                                                                <th id="th1" class="sort hidden-480 search" style="width:90px;" onclick="Sort(this,'ListDataTable','date',false);"><%=this.Dictionary["Item_Indicador_Header_StartDate"] %></th>
+                                                        <th id="th1" class="sort hidden-480 search" style="width:90px;" onclick="Sort(this,'ListDataTable','date',false);"><%=this.Dictionary["Item_Indicador_Header_StartDate"] %></th>
                                                         <th id="th2" class="sort search" style="width:250px;" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_Process"] %></th>
                                                         <th id="th3" class="sort search" style="width:110px;" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_ProcessType"] %></th>
                                                         <!-- <th id="th3" class="search" style="width:200px;"><%=this.Dictionary["Item_Indicador_Header_Objetivo"] %></th> -->

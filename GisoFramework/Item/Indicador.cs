@@ -1154,7 +1154,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Parameters.Add(DataParameter.Input("@EndDate", date));
-                        cmd.Parameters.Add(DataParameter.Input("@EndReason", reason, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@EndReason", reason, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@EndResponsible", responsible));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                         cmd.Connection.Open();

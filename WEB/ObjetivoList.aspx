@@ -64,10 +64,10 @@
                                                         <input type="checkbox" id="ChkClosed" />
                                                     </div>
                                                 </div>-->
-                                                    <input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %>
                                                     <input type="radio" name="RBStatus" id="RBStatus1" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowActive"] %>
                                                     <input type="radio" name="RBStatus" id="RBStatus2" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %>
-                                            </td>
+													<input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %>
+											</td>
                                             <td colspan="2" align="right">
                                                 <button style="width:100px;display:none;" class="btn-minier btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
                                                 <button style="width:100px;" class="btn-minier btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%= this.Dictionary["Common_All_Male_Plural"] %></button>
@@ -84,9 +84,9 @@
                                                 <thead class="thin-border-bottom">
 		                                            <tr id="ListDataHeader">
 			                                            <th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="search sort" style="cursor:pointer;"><%=this.Dictionary["Item_Objetivo_Header_Name"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable','date',false);" id="th2" class="search sort" style="cursor:pointer;width:100px;"><%=this.Dictionary["Item_Objetivo_Header_StartDate"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable','date',false);" id="th3" class="search sort" style="cursor:pointer;width:100px;"><%=this.Dictionary["Item_Objetivo_Header_PreviewEndDate"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th1" class="search sort" style="cursor:pointer;width:200px;"><%=this.Dictionary["Item_Objetivo_Header_Responsible"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="search sort" style="cursor:pointer;width:100px;"><%=this.Dictionary["Item_Objetivo_Header_StartDate"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable','date',false);" id="th2" class="search sort" style="cursor:pointer;width:100px;"><%=this.Dictionary["Item_Objetivo_Header_PreviewEndDate"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="search sort" style="cursor:pointer;width:200px;"><%=this.Dictionary["Item_Objetivo_Header_Responsible"] %></th>
 			                                            <th style="width:107px;">&nbsp;</th>
 		                                            </tr>
 	                                            </thead>

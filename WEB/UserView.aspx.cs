@@ -294,7 +294,7 @@ public partial class UserView : Page
                 this.Grants.InnerText = grants;
             }
 
-            this.LtGrantList.Text = res.ToString();
+            //this.LtGrantList.Text = res.ToString();
 
             this.LtIdiomas.Text = "<option value=\"es\"" + (this.userItem.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
             this.LtIdiomas.Text += "<option value=\"ca\"" + (this.userItem.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
@@ -323,7 +323,7 @@ public partial class UserView : Page
                 this.Grants.InnerText = grants;
             }
 
-            this.LtGrantList.Text = res.ToString(); this.LtIdiomas.Text = "<option value=\"es\"" + (this.company.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
+            //this.LtGrantList.Text = res.ToString(); this.LtIdiomas.Text = "<option value=\"es\"" + (this.company.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
             this.LtIdiomas.Text += "<option value=\"ca\"" + (this.company.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
         }
 

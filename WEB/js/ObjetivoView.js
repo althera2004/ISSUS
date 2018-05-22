@@ -2,6 +2,7 @@
 var firstChart = true;
 var CloseRequired = false;
 var recordsGraph = [];
+var preiodicidadIndicador = null;
 
 window.onload = function () {
     if (ItemData.Id < 1) {
@@ -127,12 +128,11 @@ function IndicatorVinculatedLayout() {
         $("#RecordListTitle").html(Dictionary.Item_Objetivo_Tab_RecordsFromIndicator + " <strong><i>&quot;" + IndicadorName + "&quot;</i></strong>");
         //$("#DivIndicadorRecordsMessage").show();
         $("#TxtPeriodicity").attr("disabled", "disabled");
-        var periodicidad = GetPeriodicityByIndicadorId($("#CmbIndicador").val() * 1);
-        if (periodicidad === null) {
+        if (preiodicidadIndicador === null) {
             $("#TxtPeriodicity").val("");
         }
         else {
-            $("#TxtPeriodicity").val(periodicidad);
+            $("#TxtPeriodicity").val(preiodicidadIndicador);
         }
     }
 }
@@ -148,12 +148,12 @@ function GetPeriodicityByIndicadorId(indicadorId) {
 
 function CmbIndicadorChanged() {
     console.log("CmbIndicadorChanged");
-    var periodicidad = GetPeriodicityByIndicadorId($("#CmbIndicador").val() * 1);
-    if (periodicidad === null) {
+    preiodicidadIndicador = GetPeriodicityByIndicadorId($("#CmbIndicador").val() * 1);
+    if (preiodicidadIndicador === null) {
         $("#TxtPeriodicity").val("");
     }
     else {
-        $("#TxtPeriodicity").val(periodicidad);
+        $("#TxtPeriodicity").val(preiodicidadIndicador);
     }
 }
 

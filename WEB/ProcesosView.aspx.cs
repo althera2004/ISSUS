@@ -128,7 +128,6 @@ public partial class ProcesosView : Page
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
              this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
@@ -138,22 +137,21 @@ public partial class ProcesosView : Page
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
+
+            Context.ApplicationInstance.CompleteRequest();
         }
     }
 
@@ -172,14 +170,14 @@ public partial class ProcesosView : Page
         string label = this.processId == -1 ? "Item_Process_Button_New" : "Item_Process_Button_Edit";
         this.master = this.Master as Giso;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Processes", "ProcesosList.aspx", false);
+        this.master.AddBreadCrumb("Item_Processes", "ProcesosList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb(label);
         this.master.Titulo = label;
 
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary[ "Common_Accept"], Action = "success" });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary[ "Common_Accept"], Action = "success" });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         this.process = Process.Empty;
         if (processId > 0)
@@ -188,7 +186,7 @@ public partial class ProcesosView : Page
 
             if (this.process.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.process = Process.Empty;
             }

@@ -75,11 +75,17 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
-                                                        <th onclick="Sort(this,'ListDataTable');" id="th0" class="sort search" style="cursor:pointer;"><%=this.Dictionary["Item_Learning_ListHeader_Course"] %></th>
-                                                        <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_DateComplete"] %></th>
-                                                        <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_Status"] %></th>
-                                                        <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_EstimatedDate"] %></th>
-                                                        <th class="hidden-480" style="width:150px;"><%=this.Dictionary["Item_Learning_ListHeader_Cost"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="sort search"><%=this.Dictionary["Item_Learning_ListHeader_Course"] %></th>
+                                                        
+														<!-- <th class="hidden-480" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_EstimatedDate"] %></th> -->
+														<!-- <th class="hidden-480" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_DateComplete"] %></th> -->                                                     
+														<!-- <th class="hidden-480" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_Status"] %></th> -->
+														<!-- <th class="hidden-480" style="width:150px; text-align:right;"><%=this.Dictionary["Item_Learning_ListHeader_Cost"] %></th> -->
+														
+														<th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="hidden-480 sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_EstimatedDate"] %></th>
+														<th onclick="Sort(this,'ListDataTable','date',false);" id="th2" class="hidden-480 sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_DateComplete"] %></th>
+														<th onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="hidden-480 sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_Status"] %></th>
+														<th onclick="Sort(this,'ListDataTable','money',false);" id="th4" class="hidden-480 sort search" style="width:150px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_Cost"] %></th>
                                                         <th class="hidden-480" style="width:106px !important;">&nbsp;</th>
                                                     </tr>
                                                 </thead>

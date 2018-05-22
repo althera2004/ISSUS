@@ -165,7 +165,46 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody id="PermisosDataTable">
-                                                            <asp:Literal runat="server" ID="LtGrantList"></asp:Literal>
+                                                            <tr>
+                                                                <td><%=this.Dictionary["Item_Department"] %></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxRead4" onclick="GrantChanged('R', 4, this);" class="CBR" checked="checked"></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxWrite4" onclick="GrantChanged('W', 4, this);" class="CBW" checked="checked"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><%=this.Dictionary["Item_JobPosition"] %></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxRead3" onclick="GrantChanged('R', 3, this);" class="CBR" checked="checked"></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxWrite3" onclick="GrantChanged('W', 3, this);" class="CBW" checked="checked"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><%=this.Dictionary["Item_Employee"] %></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxRead5" onclick="GrantChanged('R', 5, this);" class="CBR" checked="checked"></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxWrite5" onclick="GrantChanged('W', 5, this);" class="CBW" checked="checked"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><%=this.Dictionary["Item_Incident"] %></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxRead12" onclick="GrantChanged('R', 12, this);" class="CBR" checked="checked"></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxWrite12" onclick="GrantChanged('W', 12, this);" class="CBW" checked="checked"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><%=this.Dictionary["Item_IncidentAction"] %></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxRead13" onclick="GrantChanged('R', 13, this);" class="CBR" checked="checked"></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxWrite13" onclick="GrantChanged('W', 13, this);" class="CBW" checked="checked"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Costos</td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxRead16" onclick="GrantChanged('R', 16, this);" class="CBR" checked="checked"></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxWrite16" onclick="GrantChanged('W', 16, this);" class="CBW" checked="checked"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><%=this.Dictionary["Item_Customer"] %></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxRead15" onclick="GrantChanged('R', 15, this);" class="CBR" checked="checked"></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxWrite15" onclick="GrantChanged('W', 15, this);" class="CBW" checked="checked"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><%=this.Dictionary["Item_Provider"] %></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxRead14" onclick="GrantChanged('R', 14, this);" class="CBR" checked="checked"></td>
+                                                                <td align="center"><input type="checkbox" id="CheckboxWrite14" onclick="GrantChanged('W', 14, this);" class="CBW" checked="checked"></td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
