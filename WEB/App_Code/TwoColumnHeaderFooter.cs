@@ -38,6 +38,8 @@ namespace PDF_Tests
         PdfTemplate template, footerTemplate;
         public string IssusLogo { get; set; }
         public string CompanyLogo { get; set; }
+
+        public bool? NoFooter { get; set; }
         #endregion
         // we override the onOpenDocument method
         public override void OnOpenDocument(PdfWriter writer, Document document)
@@ -130,6 +132,14 @@ namespace PDF_Tests
 
         public override void OnEndPage(PdfWriter writer, Document document)
         {
+            if (NoFooter.HasValue)
+            {
+                if (NoFooter.Value)
+                {
+                    return;
+                }
+            }
+
             base.OnEndPage(writer, document);
             int pageN = writer.PageNumber;
             var text = pageN + " de ";
@@ -161,6 +171,14 @@ namespace PDF_Tests
 
         public override void OnCloseDocument(PdfWriter writer, Document document)
         {
+            if (NoFooter.HasValue)
+            {
+                if (NoFooter.Value)
+                {
+                    return;
+                }
+            }
+
             base.OnCloseDocument(writer, document);
             template.BeginText();
             template.SetFontAndSize(bf, 8);

@@ -59,6 +59,9 @@ window.onload = function () {
     $("#BtnRecordFilter").on("click", IndicadorRegistroFilter);
     $("#BtnRecordNew").on("click", RecordNew);
 
+    $("#TxtRecordsFromDate").on("change", IndicadorRegistroFilter);
+    $("#TxtRecordsToDate").on("change", IndicadorRegistroFilter);
+
     IndicadorRegistroFilter();
     $("#th1").click();
     $("#th1").click();
@@ -528,8 +531,8 @@ function IndicadorRegistroAll() {
     $("#TxtRecordsFromDate").val("");
     $("#TxtRecordsToDate").val("");
     IndicadorRegistroFilter();
-    $("#BtnRecordShowAll").hide();
-    $("#BtnRecordShowNone").show();
+    //$("#BtnRecordShowAll").hide();
+    //$("#BtnRecordShowNone").show();
     $("#IndicadorRegistrosTable").show();
     $("#ItemTableError").hide();
     $("#ItemTableVoid").hide();

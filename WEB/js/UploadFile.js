@@ -1,28 +1,27 @@
 ﻿function RestoreUpload() {
-    document.getElementById('fileName').files = null;
-    document.getElementById('UploadMessage').style.display = '';
-    document.getElementById('UploadMessageSelected').style.display = 'none';
-    document.getElementById('UploadMessageSelectedFileName').innerHTML = '';
+    document.getElementById("fileName").files = null;
+    $("#UploadMessage").show();
+    $("#UploadMessageSelected").hide();
+    $("#UploadMessageSelectedFileName").html("");
 }
 
 function ShowSelected() {
-    var file = document.getElementById('fileName').files[0];
-    document.getElementById('UploadMessage').style.display = 'none';
-    document.getElementById('UploadMessageSelected').style.display = '';
-    document.getElementById('UploadMessageSelectedFileName').innerHTML = file.name;
+    var file = document.getElementById("fileName").files[0];
+    $("#UploadMessage").hide();
+    $("#UploadMessageSelected").show();
+    $("#UploadMessageSelectedFileName").html(file.name);
 }
 
 function ShowUploadSelect() {
-    $('#fileName').trigger("click");
+    $("#fileName").trigger("click");
 }
 
 // Add events
 $("#fileName").on("change", ShowSelected);
-
 $("#UploadMessage").on("click", ShowUploadSelect);
 
 function documentsModeView(x) {
-    if (x == 0) {
+    if (x === 0) {
         document.getElementById("BtnModeList").className = "btn btn-info";
         document.getElementById("BtnModeGrid").className = "btn";
         document.getElementById("UploadFilesContainer").style.display = "none";
@@ -44,31 +43,30 @@ function ShowPDF(documentName) {
         isModal: true
     });
 
-    var fileName = '/DOCS/' + ApplicationUser.CompanyId + '/' + documentName;
+    var fileName = "/DOCS/" + ApplicationUser.CompanyId + "/" + documentName;
     viewer.load(fileName);
-    $(".document-viewer-wrapper").css("margin-left", $(".document-viewer-wrapper").css("width").split('px')[0] / -2);
+    $(".document-viewer-wrapper").css("margin-left", $(".document-viewer-wrapper").css("width").split("px")[0] / -2);
 }
 
 var AttachSelected;
 function DeleteUploadFileConfirmed() {
-    var webMethod = "/Async/UpladFileActions.asmx/Delete";
     var data = {
-        attachId: AttachSelected,
-        companyId: Company.Id
+        "attachId": AttachSelected,
+        "companyId": Company.Id
     };
     $("#DeleteAttachDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/UpladFileActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             $('#' + AttachSelected).hide();
             $('#tr' + AttachSelected).hide();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -76,26 +74,28 @@ function DeleteUploadFileConfirmed() {
 }
 
 function DeleteUploadFile(id, description) {
-    $('#AttachName').html(description);
+    $("#AttachName").html(description);
     AttachSelected = id;
     var dialog = $("#DeleteAttachDialog").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Attach_Popup_Delete_Title + '</h4>',
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Attach_Popup_Delete_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "id": "DeleteUploadFileBtnOk",
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     DeleteUploadFileConfirmed();
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                "id": "DeleteUploadFileBtnCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -105,26 +105,27 @@ function DeleteUploadFile(id, description) {
 
 function UploadFile() {
     RestoreUpload();
-    $('#UploadFileDescription').val('');
+    $("#UploadFileDescription").val("");
     if (document.getElementById("BtnUploadOk") !== null) {
         document.getElementById("BtnUploadOk").disabled = false;
     }
     var dialog = $("#PopupUploadFile").removeClass("hide").dialog({
-        modal: true,
-        title: '<h4 class="smaller">&nbsp;' + Dictionary.Item_DocumentAttachment_AddFile + '</h4>',
-        title_html: true,
-        width: 800,
-        buttons:
+        "modal": true,
+        "title": "<h4 class=\"smaller\">&nbsp;" + Dictionary.Item_DocumentAttachment_AddFile + "</h4>",
+        "title_html": true,
+        "width": 800,
+        "buttons":
         [
             {
+                "id": "UploadFileBtnOk",
                 "html": "<i class=\"icon-check bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
-                "id": "BtnUploadOk",
                 "click": function () {
                     UploadFileGo();
                 }
             },
             {
+                "id": "UploadFileBtnCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -139,32 +140,32 @@ function UploadFileGo() {
     //check whether browser fully supports all File API
     if (window.File && window.FileReader && window.FileList && window.Blob) {
 
-        if (!$('#fileName').val()) //check empty input filed
+        if (!$("#fileName").val()) //check empty input filed
         {
             alertUI(Dictionary.Common_Error_NoFileSelected);
             return false
         }
 
-        var fsize = $('#fileName')[0].files[0].size; //get file size
-        var ftype = $('#fileName')[0].files[0].type; // get file type
+        var fsize = $("#fileName")[0].files[0].size; //get file size
+        var ftype = $("#fileName")[0].files[0].type; // get file type
 
         console.log(ftype);
         //allow only valid image file types 
         switch (ftype) {
-            case 'text/plain':
-            case 'image/png':
-            case 'image/jpeg':
-            case 'image/pjpeg':
-            //case 'image/gif':
-            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-            case 'application/pdf':
-            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-            case 'application/vnd.ms-excel':
-            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.template':
-            case 'application/vnd.oasis.opendocument.text':
-            case 'application/vnd.oasis.opendocument.spreadsheet':
-            case 'application/vnd.oasis.opendocument.graphics':
-            case 'application/msword':
+            case "text/plain":
+            case "image/png":
+            case "image/jpeg":
+            case "image/pjpeg":
+            //case "image/gif":
+            case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            case "application/pdf":
+            case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+            case "application/vnd.ms-excel":
+            case "application/vnd.openxmlformats-officedocument.wordprocessingml.template":
+            case "application/vnd.oasis.opendocument.text":
+            case "application/vnd.oasis.opendocument.spreadsheet":
+            case "application/vnd.oasis.opendocument.graphics":
+            case "application/msword":
                 break;
             default:
                 alertUI("<i>" + ftype + "</i><br />&nbsp;" + Dictionary.Common_Warning_MimeType);
@@ -179,16 +180,16 @@ function UploadFileGo() {
             fd.append('_file', $('#fileName')[0].files[i]);
         }
 
-        fd.append('ItemLinked', typeItemId);
-        fd.append('ItemId', itemId);
-        fd.append('Description', $('#UploadFileDescription').val());
-        fd.append('CompanyId', ApplicationUser.CompanyId);
-        fd.append('ApplicationUserId', ApplicationUser.Id);
+        fd.append("ItemLinked", typeItemId);
+        fd.append("ItemId", itemId);
+        fd.append("Description", $("#UploadFileDescription").val());
+        fd.append("CompanyId", ApplicationUser.CompanyId);
+        fd.append("ApplicationUserId", ApplicationUser.Id);
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/Async/UploadFile.aspx', true);
+        xhr.open("POST", "/Async/UploadFile.aspx", true);
         xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
+            if (xhr.readyState === 4 && xhr.status === 200) {
                 var result;
                 eval("result= " + xhr.responseText + ";");
                 console.log(result);
@@ -317,47 +318,47 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
                     </td>
                 </tr>*/
 
-    var tr = document.createElement('TR');
+    var tr = document.createElement("TR");
     tr.id = "tr" + id;
 
-    var tdFileName = document.createElement('TD');
+    var tdFileName = document.createElement("TD");
     tdFileName.appendChild(document.createTextNode(fileNameToShow));
 
-    var td0 = document.createElement('TD');
+    var td0 = document.createElement("TD");
     td0.appendChild(document.createTextNode(description));
 
-    var td1 = document.createElement('TD');
-    td1.align = 'center';
+    var td1 = document.createElement("TD");
+    td1.align = "center";
     td1.appendChild(document.createTextNode(date));
 
-    var td2 = document.createElement('TD');
-    td2.align = 'right';
+    var td2 = document.createElement("TD");
+    td2.align = "right";
     td2.appendChild(document.createTextNode(ToMoneyFormat(finalSize, 2) + " MB"));
 
 
-    var td3 = document.createElement('TD');
-    td3.style.width = '160px';
+    var td3 = document.createElement("TD");
+    td3.style.width = "160px";
 
-    var tdSpan1 = document.createElement('SPAN'); tdSpan1.className = 'btn btn-xs btn-success';
-    var tdSpan2 = document.createElement('SPAN'); tdSpan2.className = 'btn btn-xs btn-info';
-    var tdSpan3 = document.createElement('SPAN'); tdSpan3.className = 'btn btn-xs btn-danger';
+    var tdSpan1 = document.createElement("SPAN"); tdSpan1.className = "btn btn-xs btn-success";
+    var tdSpan2 = document.createElement("SPAN"); tdSpan2.className = "btn btn-xs btn-info";
+    var tdSpan3 = document.createElement("SPAN"); tdSpan3.className = "btn btn-xs btn-danger";
 
 
     if (extension !== "txt" && extension !== "png" && extension !== "gif" && extension !== "jpg") {
         tdSpan1.style.visibility = "hidden";
     }
 
-    var icon1 = document.createElement('I');
-    icon1.className = 'icon-eye-open bigger-120';
+    var icon1 = document.createElement("I");
+    icon1.className = "icon-eye-open bigger-120";
 
-    var icon2 = document.createElement('A');
-    icon2.className = 'icon-download bigger-120';
-    icon2.target = '_blank';
-    icon2.style.color = '#fff';
-    icon2.href = '/DOCS/' + ApplicationUser.CompanyId + '/' + fileName;
+    var icon2 = document.createElement("A");
+    icon2.className = "icon-download bigger-120";
+    icon2.target = "_blank";
+    icon2.style.color = "#fff";
+    icon2.href = "/DOCS/" + ApplicationUser.CompanyId + "/" + fileName;
 
-    var icon3 = document.createElement('I');
-    icon3.className = 'icon-trash bigger-120'
+    var icon3 = document.createElement("I");
+    icon3.className = "icon-trash bigger-120"
 
     tdSpan1.appendChild(icon1);
     tdSpan1.onclick = function () { ShowPDF(fileName); };
@@ -366,9 +367,9 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
     tdSpan3.onclick = function () { DeleteUploadFile(id, description); };
 
     td3.appendChild(tdSpan1);
-    td3.appendChild(document.createTextNode(' '));
+    td3.appendChild(document.createTextNode(" "));
     td3.appendChild(tdSpan2);
-    td3.appendChild(document.createTextNode(' '));
+    td3.appendChild(document.createTextNode(" "));
     td3.appendChild(tdSpan3);
 
     //tr.appendChild(tdFileName);
@@ -377,7 +378,7 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
     tr.appendChild(td2);
     tr.appendChild(td3);
 
-    document.getElementById('TBodyDocumentsList').appendChild(tr);
+    document.getElementById("TBodyDocumentsList").appendChild(tr);
 
 
     $("#PopupUploadFile").dialog("close");

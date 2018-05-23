@@ -437,6 +437,20 @@ function EquipmentVerificationActValidateForm() {
         ok = false;
     }
 
+    var verificationType = document.getElementById('REquipmentVerificationActTypeInternal').checked ? 0 : 1;
+    var expiration = GetDate($('#TxtEquipmentVerificationActDate').val(), '-');
+
+    // comprobar linea del tiempo
+    for (var x = 0; x < EquipmentVerificationActList.length; x++) {
+        if (EquipmentVerificationActList[x].EquipmentVerificationType === verificationType) {
+            if (GetDateYYYYMMDD(EquipmentVerificationActList[x].Date) > expiration) {
+                ok = false;
+                $("#TxtEquipmentVerificationActDateLabel").css("color", "#f00");
+                $("#TxtEquipmentVerificationActDateOverTime").show();
+            }
+        }
+    }
+
     return ok;
 }
 

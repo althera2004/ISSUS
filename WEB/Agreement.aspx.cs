@@ -158,7 +158,7 @@ public partial class Agreement : Page
                string.Format(CultureInfo.InvariantCulture, @"{0}DOCS\{1}", path, fileName),
                FileMode.Create));
 
-        writer.PageEvent = new TwoColumnHeaderFooter()
+        writer.PageEvent = new TwoColumnHeaderFooter
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, company.Id),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
@@ -166,7 +166,8 @@ public partial class Agreement : Page
             CreatedBy = user.UserName,
             CompanyId = company.Id,
             CompanyName = company.Name,
-            Title = dictionary["Agreement_Document_Title"].ToUpperInvariant()
+            Title = dictionary["Agreement_Document_Title"].ToUpperInvariant(),
+            NoFooter = true
         };
 
         pdfDoc.Open();

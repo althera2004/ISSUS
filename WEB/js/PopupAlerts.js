@@ -197,17 +197,17 @@ function promptInfoUI(message, width, actionYes, actionNo) {
 
 function LoadingShow(message) {
     return;
-    $("#LoadingMessage").html(message);
+    /*$("#LoadingMessage").html(message);
     var dialog = $("#LoadingDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_Working,
         "title_html": true
 
-    });
+    });*/
 }
 
 function LoadingHide() {
     return;
-    $("#LoadingDialog").dialog("close");
+    /*$("#LoadingDialog").dialog("close");*/
 }

@@ -570,7 +570,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-2">
-                                                            <button class="btn btn-success" type="button" id="BtnRecordFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_EquipmentRecord_Filter_Button"] %></button>
+                                                            <!--<button class="btn btn-success" type="button" id="BtnRecordFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_EquipmentRecord_Filter_Button"] %></button>-->
                                                         </div>
                                                     </div>
                                                     <div class="row" style="margin-top:2px;">
@@ -592,7 +592,7 @@
                                                         </div>
                                                         <div class="col-sm-2">
                                                             <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
-                                                            <button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display:none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
+                                                            <!--<button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display:none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>-->
                                                         </div>
                                                     </div>
                                                     <div style="height:12px;clear:both"></div>
@@ -814,7 +814,8 @@
                                                     </div>
                                                 </div>
                                             <span class="ErrorMessage" id="TxtEquipmentMaintenanceActDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
-                                            <span class="ErrorMessage" id="TxtEquipmentMaintenanceActDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>                                        
+                                            <span class="ErrorMessage" id="TxtEquipmentMaintenanceActDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentMaintenanceActDateOverTime" style="display:none;">No pot ser anterior al darrer manteniment</span>
                                         
                                             </div>
                                         </div>
@@ -968,6 +969,7 @@
                                             </div>
                                             <span class="ErrorMessage" id="TxtEquipmentCalibrationActDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
                                             <span class="ErrorMessage" id="TxtEquipmentCalibrationActDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentCalibrationActDateOverTime" style="display:none;">No pot ser anterior a la darrera calibració</span>
                                         </div>
                                     </div>    
                                     <div class="form-group">
@@ -1031,6 +1033,7 @@
                                             </div>
                                             <span class="ErrorMessage" id="TxtEquipmentVerificationActDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
                                             <span class="ErrorMessage" id="TxtEquipmentVerificationActDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>                                        
+                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActDateOverTime" style="display:none;">No pot ser anterior a la darrera verificació</span>
                                         </div>
                                     </div>    
                                     <div class="form-group">

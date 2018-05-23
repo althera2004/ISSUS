@@ -236,6 +236,18 @@ window.onload = function () {
     $("#TableEquipmentRepairMain #th0").click();
     $("#TableEquipmentRepairMain #th0").click();
 
+    // Filtro automatico registros
+    $("#CalInt").on("click", EquipmentRecordGetFromFilter);
+    $("#CalExt").on("click", EquipmentRecordGetFromFilter);
+    $("#VerInt").on("click", EquipmentRecordGetFromFilter);
+    $("#CalExt").on("click", EquipmentRecordGetFromFilter);
+    $("#ManInt").on("click", EquipmentRecordGetFromFilter);
+    $("#ManExt").on("click", EquipmentRecordGetFromFilter);
+    $("#RepInt").on("click", EquipmentRecordGetFromFilter);
+    $("#RepExt").on("click", EquipmentRecordGetFromFilter);
+    $("#TxtRecordsFromDate").on("change", EquipmentRecordGetFromFilter);
+    $("#TxtRecordsToDate").on("change", EquipmentRecordGetFromFilter);
+
     if (typeof ApplicationUser.Grants.Equipment === "undefined" || ApplicationUser.Grants.Equipment === false) {
         $("input").attr("disabled", true);
         $("textarea").attr("disabled", true);

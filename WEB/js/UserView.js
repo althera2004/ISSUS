@@ -26,14 +26,15 @@
 
 function SaveGrants() {
     var calculatedGrants = "|";
-    for(var x=0;x<CBR.length;x++){
-        if(CBR[x].checked === true){
+    for (var x = 0; x < CBR.length; x++) {
+        if (CBR[x].checked === true) {
             calculatedGrants += "R" + CBR[x].id.substring(12) + "|";
         }
     }
-    for(var x=0;x<CBW.length;x++){
-        if(CBW[x].checked === true){
-            calculatedGrants += "W" + CBW[x].id.substring(13) + "|";
+
+    for (var y = 0; y < CBW.length; y++) {
+        if (CBW[y].checked === true) {
+            calculatedGrants += "W" + CBW[y].id.substring(13) + "|";
         }
     }
 
@@ -63,35 +64,33 @@ var newUserId = null;
 function ChangeUserName()
 {
     var ok = true;
-    document.getElementById('TxtUserNameErrorDuplicated').style.display = 'none';
-    if(!RequiredFieldText('TxtUserName')) { ok = false; }
+    $("#TxtUserNameErrorDuplicated").hide();
+    if (!RequiredFieldText("TxtUserName")) {
+        ok = false;
+    }
     else
     {
         var duplicated = false;
-        for(var x=0; x< CompanyUserNames.length; x++)
-        {
-            if(CompanyUserNames[x].UserName.toLowerCase() == document.getElementById('TxtUserName').value.toLowerCase() &&
-                CompanyUserNames[x].UserId != ItemUserId)
-                {
+        for (var x = 0; x < CompanyUserNames.length; x++) {
+            if (CompanyUserNames[x].UserName.toLowerCase() === document.getElementById("TxtUserName").value.toLowerCase() &&
+                CompanyUserNames[x].UserId !== ItemUserId) {
                 duplicated = true;
                 ok = false;
                 break;
-                }
+            }
         }
 
         if(duplicated === true)
         {
             ok = false;
             document.getElementById('TxtUserNameLabel').style.color = '#f00';
-            document.getElementById('TxtUserNameErrorDuplicated').style.display = 'block';
+            $("#TxtUserNameErrorDuplicated").show();
         }
 
         var duplicatedEmail = false;
-        for(var x=0; x< userEmails.length; x++)
-        {
-            if(userEmails[x].Email.toLowerCase() == document.getElementById('TxtUserEmail').value.toLowerCase() &&
-                userEmails[x].UserId != ItemUserId)
-            {
+        for (var y = 0; y < userEmails.length; y++) {
+            if (userEmails[y].Email.toLowerCase() === document.getElementById("TxtUserEmail").value.toLowerCase() &&
+                userEmails[y].UserId !== ItemUserId) {
                 duplicatedEmail = true;
                 ok = false;
                 break;
@@ -101,8 +100,8 @@ function ChangeUserName()
         if(duplicatedEmail === true)
         {
             ok = false;
-            document.getElementById('TxtUserEmailLabel').style.color = '#f00';
-            document.getElementById('TxtUserEmailErrorDuplicated').style.display = 'block';
+            document.getElementById("TxtUserEmailLabel").style.color = '#f00';
+            $("#TxtUserEmailErrorDuplicated").show();
         }
     }
 
@@ -118,20 +117,20 @@ function ChangeUserName()
     }
 
     var email = $('#TxtUserEmail').val();
-    var data = 
-    {
-        "itemUser":
+    var data =
         {
-            "Id":itemUser.Id,
-            "UserName": $("#TxtUserName").val(),
-            "Email": email,
-            "CompanyId": CompanyId,
-            "Admin": document.getElementById("ChkAdmin").checked === true,
-            "Language": $("#CmbIdioma").val()
-        },
-        "employeeId": $('#CmbEmployee').val()*1,
-        "userId": user.Id
-    };
+            "itemUser":
+            {
+                "Id": itemUser.Id,
+                "UserName": $("#TxtUserName").val(),
+                "Email": email,
+                "CompanyId": CompanyId,
+                "Admin": document.getElementById("ChkAdmin").checked === true,
+                "Language": $("#CmbIdioma").val()
+            },
+            "employeeId": $('#CmbEmployee').val() * 1,
+            "userId": user.Id
+        };
 
     console.log("SAVE",data);
 
@@ -197,63 +196,62 @@ jQuery(function ($) {
     var i = 0;
     for(var x=0; x<ddData.length;x++)
     {
-        if(ddData[x].value == ApplicationUser.Employee.Address.Country) { i=x; break; }
+        if(ddData[x].value === ApplicationUser.Employee.Address.Country) { i=x; break; }
     }
 
-    $('#CmbPais').ddslick({data: ddData});
-    $('#CmbPais').ddslick('select', {index: i });
+    $("#CmbPais").ddslick({"data": ddData});
+    $("#CmbPais").ddslick('select', { "index": i });
+
+    if (document.location.toString().indexOf("&p") !== -1) {
+        $("#TabPermisos a").click();
+    }
 });
 
 // ISSUS-190
-//document.getElementById('TxtUserName').focus();
+//document.getElementById("TxtUserName").focus();
 
 // ISSUS-259
 function grantsAvaiable()
 {
-    document.getElementById('TabPermisos').style.display='';
+    $("#TabPermisos").show();
     alertInfoUI(Dictionary.Item_User_Message_GrantsAvaiable, GoNew);                
 }
 
-function GoNew(){document.location = "UserView.aspx?id="+newUserId;}
+function GoNew() { document.location = "UserView.aspx?id=" + newUserId + "&p";}
 
-function CmbEmployeeChanged()
-{
+function CmbEmployeeChanged() {
     EmployeeLayout();
-
-    var id = $('#CmbEmployee').val()*1;
+    var id = $("#CmbEmployee").val() * 1;
     var employeeSelected = null;
-    for(var x=0; x<Company.Employees.length;x++)
-    {
-        if(Company.Employees[x].Id === id)
-        {
+    for (var x = 0; x < Company.Employees.length; x++) {
+        if (Company.Employees[x].Id === id) {
             employeeSelected = Company.Employees[x];
         }
     }
 
-    if(employeeSelected!==null)
-    {
-        $('#TxtNombre').val(employeeSelected.Name);
-        $('#TxtApellido1').val(employeeSelected.LastName);
-        $('#TxtNif').val(employeeSelected.Nif);
-        $('#TxtTelfono').val(employeeSelected.Phone);
-        $('#TxtEmail').val(employeeSelected.Email);
-        $('#TxtDireccion').val(employeeSelected.Address.Address);
-        $('#TxtCp').val(employeeSelected.Address.PostalCode);
-        $('#TxtPoblacion').val(employeeSelected.Address.City);
-        $('#TxtProvincia').val(employeeSelected.Address.Province);
-        $('#TxtPais').val(CountryById(employeeSelected.Address.Country));
-        $('.employeeProfile').css('visibility','visible');
-        $('.emailed').css('display','none');
+    if (employeeSelected !== null) {
+        $("#TxtNombre").val(employeeSelected.Name);
+        $("#TxtApellido1").val(employeeSelected.LastName);
+        $("#TxtNif").val(employeeSelected.Nif);
+        $("#TxtTelfono").val(employeeSelected.Phone);
+        $("#TxtEmail").val(employeeSelected.Email);
+        $("#TxtDireccion").val(employeeSelected.Address.Address);
+        $("#TxtCp").val(employeeSelected.Address.PostalCode);
+        $("#TxtPoblacion").val(employeeSelected.Address.City);
+        $("#TxtProvincia").val(employeeSelected.Address.Province);
+        $("#TxtPais").val(CountryById(employeeSelected.Address.Country));
+        $(".employeeProfile").css("visibility", "visible");
+        $(".emailed").hide();
     }
-    else{
-        $('.employeeProfile').css('display','none');
-        $('.employeeProfile').css('visibility','hidden');
+    else {
+        $(".employeeProfile").hide();
+        $(".employeeProfile").css("visibility", "hidden");
     }
 }
             
-if($('#TxtPais').val()!=='')
+if($("#TxtPais").val()!=="")
 {
-    $('#TxtPais').val(CountryById($('#TxtPais').val()*1));
+    $("#TxtPais").val(CountryById($("#TxtPais").val() * 1));
 }
 
 function CountryById(id)
@@ -265,120 +263,110 @@ function CountryById(id)
             return Company.Countries[x].Name;
         }
     }
-    return '';
+
+    return "";
 }
 
-function EmployeeLayout()
-{
-    if($('#CmbEmployee').val()*1 > 0)
-    {
-        $('.employeeProfile').css('display','block');
-        //$('.emailed').css('visibility','hidden');
+function EmployeeLayout() {
+    if ($("#CmbEmployee").val() * 1 > 0) {
+        $(".employeeProfile").css("display", "block");
     }
-    else{
-        $('.employeeProfile').css('display','none');
-        //$('.emailed').css('visibility','visible');
+    else {
+        $(".employeeProfile").css("display", "none");
     }
 }
 
-window.onload = function()
-{
+window.onload = function () {
     EmployeeLayout();
-    if(itemUser.Id > 0 && ApplicationUser.Grants.User.Write !== false)
-    {
-        document.getElementById('TabPermisos').style.display="";
+    if (itemUser.Id > 0 && ApplicationUser.Grants.User.Write !== false) {
+        $("#TabPermisos").show();
     }
 }
 
-function ReadAll(){
+function ReadAll() {
     var grant = document.getElementById("RAll").checked;
-    if(grant==true)
-    {
+    if (grant === true) {
         var grants = "";
-        for(var x=0;x<CBR.length;x++){
+        for (var x = 0; x < CBR.length; x++) {
             CBR[x].checked = true;
-            GrantChanged('R',CBR[x].id.substring(12)*1,CBR[x]);
+            GrantChanged("R", CBR[x].id.substring(12) * 1, CBR[x]);
         }
 
-        document.getElementById('Contentholder1_Grants').value = grants;
+        document.getElementById("Contentholder1_Grants").value = grants;
     }
-    else
-    {
-        for(var x=0;x<CBR.length;x++){
-            CBR[x].checked = false;
-            GrantChanged('R',CBR[x].id.substring(12)*1,CBR[x]);
+    else {
+        for (var y = 0; y < CBR.length; y++) {
+            CBR[y].checked = false;
+            GrantChanged("R", CBR[y].id.substring(12) * 1, CBR[y]);
         }
 
-        for(var x=0;x<CBW.length;x++){
-            CBW[x].checked = false;
-            GrantChanged('W',CBW[x].id.substring(13)*1,CBR[x]);
+        for (var z = 0; z < CBW.length; z++) {
+            CBW[z].checked = false;
+            GrantChanged("W", CBW[z].id.substring(13) * 1, CBR[z]);
         }
 
-        document.getElementById('WAll').checked = false;
-        document.getElementById('Contentholder1_Grants').value = '';
+        document.getElementById("WAll").checked = false;
+        document.getElementById("Contentholder1_Grants").value = "";
     }
 }
 
-function WriteAll(){
-    var grant = document.getElementById('WAll').checked;
-    if(grant==true)
-    {
-        for(var x=0;x<CBR.length;x++){
+function WriteAll() {
+    var grant = document.getElementById("WAll").checked;
+    if (grant === true) {
+        for (var x = 0; x < CBR.length; x++) {
             CBR[x].checked = true;
-            GrantChanged('R',CBR[x].id.substring(13)*1,CBR[x]);
+            GrantChanged("R", CBR[x].id.substring(13) * 1, CBR[x]);
         }
-        for(var x=0;x<CBW.length;x++){
-            CBW[x].checked = true;
-            GrantChanged('W',CBW[x].id.substring(13)*1,CBR[x]);
+        for (var y = 0; y < CBW.length; y++) {
+            CBW[y].checked = true;
+            GrantChanged("W", CBW[y].id.substring(13) * 1, CBR[y]);
         }
 
-        document.getElementById('RAll').checked = true;
+        document.getElementById("RAll").checked = true;
     }
-    else{
-        for(var x=0;x<CBW.length;x++){
-            CBW[x].checked = false;
-            GrantChanged('R',CBW[x].id.substring(13)*1,CBR[x]);
+    else {
+        for (var z = 0; z < CBW.length; z++) {
+            CBW[z].checked = false;
+            GrantChanged("R", CBW[z].id.substring(13) * 1, CBR[z]);
         }
     }
 }
 
-function TestCBAll()
-{
-    for(var x=0;x<CBR.length;x++){
-        if( CBR[x].checked ==false)
-        {
-            document.getElementById('RAll').checked = false;
-            document.getElementById('WAll').checked = false;
+function TestCBAll() {
+    for (var x = 0; x < CBR.length; x++) {
+        if (CBR[x].checked === false) {
+            document.getElementById("RAll").checked = false;
+            document.getElementById("WAll").checked = false;
             return;
         }
     }
-                
-    document.getElementById('RAll').checked = true;
-                
-    for(var x=0;x<CBW.length;x++){
-        if( CBW[x].checked ==false)
-        {
-            document.getElementById('WAll').checked = false;
+
+    document.getElementById("RAll").checked = true;
+
+    for (var y = 0; y < CBW.length; y++) {
+        if (CBW[y].checked === false) {
+            document.getElementById("WAll").checked = false;
             return;
         }
     }
-    document.getElementById('WAll').checked = true;
+
+    document.getElementById("WAll").checked = true;
 }
             
-var CBR = document.getElementsByClassName('CBR');
-var CBW = document.getElementsByClassName('CBW');
+var CBR = document.getElementsByClassName("CBR");
+var CBW = document.getElementsByClassName("CBW");
 TestCBAll();
 
 if(itemUser.PrimaryUser === true) {
-    document.getElementById("DivPrimaryUser").style.display = "block";
-    for(var x=0;x<CBR.length;x++){ CBR[x].disabled = true; }
-    for(var x=0;x<CBW.length;x++){ CBW[x].disabled = true; }
-    document.getElementById('RAll').disabled = true;
-    document.getElementById('WAll').disabled = true;
+    $("#DivPrimaryUser").show();
+    for (var x = 0; x < CBR.length; x++) { CBR[x].disabled = true; }
+    for (var x = 0; x < CBW.length; x++) { CBW[x].disabled = true; }
+    document.getElementById("RAll").disabled = true;
+    document.getElementById("WAll").disabled = true;
 }
 console.log(itemUser);
 
-if(ApplicationUser.Grants.User.Write===false){
+if (ApplicationUser.Grants.User.Write === false) {
     document.getElementById("TxtUserName").disabled = true;
     document.getElementById("TxtUserEmail").disabled = true;
     document.getElementById("CmbEmployee").disabled = true;

@@ -1,0 +1,34 @@
+﻿{
+    CompanyId:0,
+    ItemType:13,
+    AlertDescription:"Mantenimiento configurado sin registro inicial",
+    Query:"select distinct
+	E.Id,
+	E.Description,
+	EMD.Operation
+FROM EquipmentMaintenanceDefinition EMD WITH(NOLOCK)
+INNER JOIN Equipment E WITH(NOLOCK)
+ON	 E.Id = EMD.EquipmentId
+LEFT JOIN EquipmentMaintenanceAct EMA WITH(NOLOCK)
+ON	EMA.EquipmentMaintenanceDefinitionId = EMD.Id
+
+WHERE
+	EMA.Id IS NULL
+AND EMD.Active = 1 AND E.Active = 1
+    and E.companyid = #CompanyId#",
+    Index:
+    [
+        {Position:0, FieldName:'Id'},
+        {Position:1, FieldName:'Description'}
+    ],
+    Tag: '<li>
+                                    <a href="EquipmentView.aspx?id={0}">
+                                                <strong>Mantenimiento configurado sin registro inicial</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <i class="btn btn-xs no-hover btn-warning icon-ray"></i>{1}
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>'
+}

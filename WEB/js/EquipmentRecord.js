@@ -66,8 +66,8 @@ function EquipmentRecordGetNone() {
 }
 
 function EquipmentRecordGetAll() {
-    $("#BtnRecordShowAll").hide();
-    $("#BtnRecordShowNone").show();
+    //$("#BtnRecordShowAll").hide();
+    //$("#BtnRecordShowNone").show();
 
     document.getElementById("CalInt").checked = true;
     document.getElementById("CalExt").checked = true;

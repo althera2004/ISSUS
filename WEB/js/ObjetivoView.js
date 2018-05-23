@@ -223,10 +223,11 @@ function Save(goAction) {
             }
             else {
                 if (newObjetivo === true) {
-                    document.location = "ObjetivoView.aspx?id=" + response.d.MessageError;
+                    ItemData.Id = response.d.MessageError * 1;
+                    alertInfoUI(Dictionary.Item_Objetivo_NewSavedMessage, GoRefresh);
                 }
                 else {
-                    if (typeof goAction === "undefined") {
+                    if (typeof goAction === "undefined" || goAction !== true) {
                         document.location = referrer;
                     }
                     else {
@@ -240,6 +241,10 @@ function Save(goAction) {
             alertUI(jqXHR.responseText);
         }
     });
+}
+
+function GoRefresh() {
+    document.location = "ObjetivoView.aspx?id=" + ItemData.Id;
 }
 
 function Validate() {

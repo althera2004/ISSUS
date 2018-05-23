@@ -242,6 +242,19 @@ function EquipmentMaintenanceActValidateForm() {
         ok = false;
     }
 
+    var expiration = GetDate($('#TxtEquipmentMaintenanceActDate').val(), '-');
+
+    // comprobar linea del tiempo
+    for (var x = 0; x < EquipmentMaintenanceActList.length; x++) {
+        if (EquipmentMaintenanceActList[x].EquipmentMaintenanceDefinitionId === SelectedEquipmentDefinitionSelectedId * 1) {
+            if (GetDateYYYYMMDD(EquipmentMaintenanceActList[x].Date) > expiration) {
+                ok = false;
+                $("#TxtEquipmentMaintenanceActDateLabel").css("color", "#f00");
+                $("#TxtEquipmentMaintenanceActDateOverTime").show();
+            }
+        }
+    }
+
     return ok;
 }
 
