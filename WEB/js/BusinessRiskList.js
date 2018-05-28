@@ -594,6 +594,7 @@ window.onload = function () {
 
     BusinessRiskGetFilter();
     Resize();
+    SetLayout(FilterType);
 }
 
 window.onresize = function () { Resize(); }
@@ -648,4 +649,24 @@ function ExportPDF() {
             alertUI("error:" + msg.responseText);
         }
     });
+}
+
+function SetLayout(type) {
+    if (type === 1) {
+        $("#widthTest").show();
+        $("#widthTestOportunity").hide();
+        $("#tabbasic").show();
+        $("#tabgraficos").show();
+        $("#taboportunity").hide();
+        $("#tabbasic").click();
+    }
+
+    if (type === 2) {
+        $("#widthTest").hide();
+        $("#widthTestOportunity").show();
+        $("#tabbasic").hide();
+        $("#tabgraficos").hide();
+        $("#taboportunity").show();
+        $("#taboportunity").click();
+    }
 }

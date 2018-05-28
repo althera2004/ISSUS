@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
+using System.Net.Mail;
+using System.Configuration;
 
 /// <summary>
 /// Implements SiteError page
@@ -27,59 +29,74 @@ public partial class SiteError : Page
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    /// <summary>
-    /// Event load of page
-    /// </summary>
+    /// <summary>Event load of page</summary>
     /// <param name="sender">Page loaded</param>
     /// <param name="e">Arguments of event</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        this.company = this.Session["company"] as Company;
-        this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
-        this.user = this.Session["User"] as ApplicationUser;
-        var exception = Server.GetLastError();
-
-        if (exception == null)
+        try
         {
-            if (this.Session["Error"] != null)
+            this.company = this.Session["company"] as Company;
+            this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
+            this.user = this.Session["User"] as ApplicationUser;
+            var exception = Server.GetLastError();
+
+            if (exception == null)
             {
-                exception = this.Session["Error"] as Exception;
+                if (this.Session["Error"] != null)
+                {
+                    exception = this.Session["Error"] as Exception;
+                }
+            }
+
+            this.ErrorMessage.Text = "Application Error";
+            if (this.dictionary != null)
+            {
+                this.ErrorMessage.Text = "Error";
+            }
+
+            if (exception != null)
+            {
+                if (exception.InnerException != null)
+                {
+                    this.ErrorMessage.Text = exception.InnerException.Message + "<hr />" + exception.InnerException.StackTrace;
+                }
+                else
+                {
+                    this.ErrorMessage.Text = exception.Message + "<hr />" + exception.StackTrace;
+                }
+            }
+
+            this.master = this.Master as Giso;
+            this.master.AddBreadCrumbInvariant("Error");
+            this.master.Titulo = "Error";
+            this.master.TitleInvariant = true;
+
+            string from = ConfigurationManager.AppSettings["mailaddress"];
+            string pass = ConfigurationManager.AppSettings["mailpass"];
+            var senderMail = new MailAddress(from, "ISSUS");
+            var to = new MailAddress(ConfigurationManager.AppSettings["mailaddress"]);
+
+            using (var client = new SmtpClient
+            {
+                Host = "smtp.scrambotika.com",
+                Credentials = new System.Net.NetworkCredential(from, pass),
+                Port = Constant.SmtpPort,
+                DeliveryMethod = SmtpDeliveryMethod.Network
+            })
+            {
+                using (var mail = new MailMessage(senderMail, to)
+                {
+                    IsBodyHtml = true
+                })
+                {
+                    client.Send(mail);
+                }
             }
         }
-
-        this.ErrorMessage.Text = "Application Error";
-        if (this.dictionary != null)
+        catch (Exception ex)
         {
-            this.ErrorMessage.Text = this.dictionary["Common_Error_Application"];
+            this.ErrorMessage.Text = ex.Message;
         }
-
-        if (exception != null)
-        {
-            if (exception.InnerException != null)
-            {
-                this.ErrorMessage.Text = exception.InnerException.Message + "<hr />" + exception.InnerException.StackTrace;
-            }
-            else
-            {
-                this.ErrorMessage.Text = exception.Message + "<hr />" + exception.StackTrace;
-            }
-        }
-
-        this.master = this.Master as Giso;
-        this.master.AddBreadCrumb("Common_Error");
-        this.master.Titulo = "Common_Error";
-
-        /*MailMessage mail = new MailMessage();
-        SmtpClient SmtpServer = new SmtpClient("mail.scrambotika.com");
-        mail.From = new MailAddress("issus@scrambotika.com", "ISSUS");
-        mail.IsBodyHtml = true;
-        mail.To.Add("althera2004@gmail.com");
-
-        mail.Subject = "Error en la aplicacion";
-        mail.Body = this.ErrorMessage.Text;
-
-        SmtpServer.Port = 25;
-        SmtpServer.Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "WSBhz7WB");
-        SmtpServer.Send(mail);*/
     }
 }

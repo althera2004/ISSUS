@@ -38,7 +38,7 @@ function RenderChart() {
 }
 
 RenderChart();
-$(".discreteBar").on("click",function (e) {console.log(e)});
+$(".discreteBar").on("click", function (e) { console.log(e) });
 
 function exampleData() {
     function y() {
@@ -113,10 +113,10 @@ function resizegrafico(transparent) {
     chart.width(width);
     chart.update();
 
-    var canvas = document.getElementById('svggrafic');
-    var height = $('#svggrafic').height() - 50;
+    var canvas = document.getElementById("svggrafic");
+    var height = $("#svggrafic").height() - 50;
 
-    d3.select('#chart svg').append("line")
+    d3.select("#chart svg").append("line")
     .style("stroke", "gray")
     .attr("x1", 65)
     .attr("y1", height)

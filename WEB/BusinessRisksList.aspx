@@ -75,15 +75,21 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
         var companyId = <%=this.Company.Id%>;
-        var Filter = <%=this.Filter %>;
+        var Filter = <%=this.FilterBusinessRisk %>;
+        var FilterOportunity = <%=this.FilterOportunity %>;
         var BussinessRiskList = new Array();
         var BusinessRiskGraph = <%=this.RiskJson%>;
         var CompanyRules = <%=RulesJson%>;
+        var FilterType = 1;
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
+                                                    <div class="col-xs-12"><label>
+														<input name="switch-field-1" class="ace ace-switch ace-switch-4" type="checkbox" />
+														<span class="lbl"></span>
+													</label></div>
                             <div class="col-xs-12">
                                 <!-- PAGE CONTENT BEGINS -->
                                 <div class="col-sm-12" id="widthTest">
@@ -158,6 +164,70 @@
                                         </tr>
                                     </table>
                                 </div> 
+                                
+                                <div class="col-sm-12" id="widthTestOportunity" style="display:none;">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td style="width:250px;">
+                                                <div class="row">
+                                                    <label id="TxtOportunityDateFromLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Incident_List_Filter_From"] %></label>
+                                                    <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtOportunityDateFromDiv">
+                                                        <div class="input-group">
+                                                            <input class="form-control date-picker" id="TxtOportunityDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                            <span id="TxtOportunityDateFromBtn" class="input-group-addon" onclick="document.getElementById('TxtOportunityDateFrom').focus();">
+                                                                <i class="icon-calendar bigger-110"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td style="width: 25px;">&nbsp;</td>
+                                            <td><%=this.Dictionary["Item_BusinessRisk_List_Filter_Rules"] %>:</td>
+                                            <td>
+                                                <select id="OportunityCmbRules" class="col-sm-10">
+                                                    <asp:Literal runat="server" ID="LtCmbRulesOportunityOptions"></asp:Literal>
+                                                </select>
+                                            </td>
+                                            <td style="width: 25px;">&nbsp;</td>
+                                            <td>&nbsp;</td>
+                                            <td style="width:180px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 250px;">
+                                                <div class="row">
+                                                    <label id="TxtOportunityDateToLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Incident_List_Filter_To"] %></label>
+                                                    <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtOportunityDateToDiv">
+                                                        <div class="input-group">
+                                                            <input class="form-control date-picker" id="TxtOportunityDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                            <span id="TxtOportunityDateToBtn" class="input-group-addon" onclick="document.getElementById('TxtOportunityDateTo').focus();">
+                                                                <i class="icon-calendar bigger-110"></i>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td style="width: 25px;">&nbsp;</td>
+                                            <td><%=this.Dictionary["Item_BusinessRisk_List_Filter_Process"] %>:</td>
+                                            <td>
+                                                <select id="OportunityCmbProcess" class="col-sm-10">
+                                                    <asp:Literal runat="server" ID="LtCmbProcessOportunityOptions"></asp:Literal>
+                                                </select>
+                                            </td>
+                                             
+                                            <td style="width: 25px;">&nbsp;</td>
+                                            <td style="width: 25px;">&nbsp;</td>
+                                            <td style="width:180px;">
+                                                <div class="col-sm-3" style="text-align:right;display:none;">
+                                            <button class="btn btn-success" type="button" id="BtnSearchOportunity"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></button>                                        
+                                        </div>
+                                        <div class="col-sm-2" style="text-align:right;">&nbsp;</div>
+                                        <div class="col-sm-3" style="text-align:right;">                                        
+                                            <button style="width:100px;" class="btn btn-success" type="button" id="BtnRecordShowAllOportunity"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
+                                        </div>
+                                            </td> 
+                                        </tr>
+                                    </table>
+                                </div> 
                                 <div style="height:8px;clear:both;"></div>
                                 <div class="tabbable">
                                     <ul class="nav nav-tabs padding-18">
@@ -166,6 +236,9 @@
                                         </li>
                                         <li class="">
                                             <a data-toggle="tab" href="#graphic" id="tabgraficos"><%=this.Dictionary["Item_BusinessRisk_Title_Graph"] %></a>
+                                        </li>
+                                        <li class="">
+                                            <a data-toggle="tab" href="#oportunity" id="taboportunity" style="display:none;"><%=this.Dictionary["Item_Oportunity"] %></a>
                                         </li>
                                     </ul>
                                     <div class="tab-content no-border padding-24" style="height:500px;margin-bottom:40px;">
@@ -267,6 +340,7 @@
                                                 <pre class='prettyprint linenums'></pre>
                                             </div>
                                         </div>
+                                        <div id="oportunity" class="tab-pane"></div>
                                     </div>
                                 </div>
                             </div>
@@ -284,7 +358,7 @@
             jQuery(function ($) {
                 $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
                     _title: function (title) {
-                        var $title = this.options.title || '&nbsp;';
+                        var $title = this.options.title || "&nbsp;";
                         if (("title_html" in this.options) && this.options.title_html === true) {
                             title.html($title);
                         }
@@ -294,11 +368,6 @@
                     }
                 }));
 
-                /*$('.date-picker').datepicker({
-                    autoclose: true,
-                    todayHighlight: true,
-                    language: 'ca'
-                });*/
                 var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true });
                 $(".date-picker").datepicker(options);
                 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });

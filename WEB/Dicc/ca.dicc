@@ -1621,3 +1621,37 @@ Item_Objetivo_DataChangedWarning::Hi ha hagut canvis a l'objetiu, vol guardar el
 Item_Objetivo_DataChangedWarning_continue::Continuar sense guardar
 Item_Objetivo_DataChangedWarning_save::Guardar i continuar
 Item_Objetivo_NewSavedMessage::Ja es poden fer servir les pestanyes de la fitxa
+Item_Oportunity::Oportunidad
+Item_Oportunity_LabelField_Cost::Coste
+Item_Oportunity_LabelField_Impact::Impacto
+Item_Oportunity_Filter_NoData::No hi ha dades
+Item_Oportunity_Help_CostBlocked::Per porder afegir costos primer s'ha de desar l'acció
+Item_Oportunity_Title_Result::Resultat
+Item_Oportunity_LabelField_IPR::IPR
+Item_Oportunity_LabelField_Result::Resultat
+Item_Oportunity_LabelField_ApplyActionYes::Aplicar acció
+Item_Oportunity_LabelField_ApplyActionNo::No aplicar acció
+Item_Oportunity_LabelField_Impact::Impacte
+Item_Oportunity_LabelField_Cost::Cost
+Item_Oportunity_LabelField_Causes::Causes
+Item_Oportunity_LabelField_Control::Control
+Item_Oportunity_LabelField_Notes::Notas
+Item_Oportunity_LabelField_Description::Descripció
+Item_Oportunity_LabelField_Process::Proceso
+Item_Oportunity_LabelField_Rules::Norma
+Item_Oportunity_Button_CategoryBAR::Gestió de normes
+Item_Oportunity_ErrorMesagge_OutOfDate::OutOfDate
+Item_Oportunity_ErrorMessage_DateUpToLimit::DateUpToLimit
+Item_Oportunity_LabelField_DateStart::Data final
+Item_Oportunity_LabelField_Code::Codi
+Item_Oportunity_Tab_Basic::Dades bàsiques
+Item_Oportunity_Tab_Action::Acció
+Item_Oportunity_Tab_Costs::Costos
+Item_Oportunity_Tab_UploadFiles::Adjunts
+Item_Oportunity_ErrorMessage_RulesRequired::S'ha d'indicar la norma
+Item_Oportunity_ErrorMessage_ProcessRequired::S'ha d'indicar el procès
+Item_Oportunity_ErrorMessage_NameRequired::Nom obligatori
+Item_Oportunity_ErrorMessage_DateStartRequired::La data d'inici no és vàlida
+Item_Oportunity_ErrorMessage_DateUpToLimit::La data no pot ser posterior a avui
+Item_Oportunity_Title_OportunityDetails::Fitxa de la oportunitat
+Item_Oportunity_LabelField_Name::Nom

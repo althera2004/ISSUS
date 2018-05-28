@@ -496,6 +496,7 @@ function REquipmentCalibrationActTypeChanged() {
     if (document.getElementById("REquipmentCalibrationActTypeExternal").checked === true) {
         $("#CmbEquipmentCalibrationActProviderRow").show();
         $("#TxtEquipmentCalibrationActCost").val($("#TxtCalibrationExternalCost").val());
+        $("#CmbEquipmentCalibrationActProvider").val($("#CmbCalibrationExternalProvider").val());
     } else {
         $("#CmbEquipmentCalibrationActProviderRow").hide();
         if (document.getElementById("REquipmentCalibrationActTypeInternal").checked === true) {
@@ -781,80 +782,85 @@ function EquipmentCalibrationInternalDefinitionSave() {
         });
     }
     else {
-        var webMethod = "/Async/EquipmentCalibrationDefinitionActions.asmx/Update";
-        var data = { equipmentCalibrationDefinition: CalibrationInternalDefinition, userId: user.Id };
+        var data = {
+            "equipmentCalibrationDefinition": CalibrationInternalDefinition,
+            "userId": user.Id
+        }
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentCalibrationDefinitionActions.asmx/Update",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 Equipment.InternalCalibration = CalibrationInternalDefinition;
                 successInfoUI(Dictionary.Common_Action_Success);
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
     }
-
 }
 
 function EquipmentCalibrationExternalDefinitionSave() {
-    var uncertainty = StringToNumber($('#TxtCalibrationExternalUncertainty').val(), '.', ',');
-    var cost = StringToNumber($('#TxtCalibrationExternalCost').val(), '.', ',');
+    var uncertainty = StringToNumber($("#TxtCalibrationExternalUncertainty").val(), ".", ",");
+    var cost = StringToNumber($("#TxtCalibrationExternalCost").val(), ".", ",");
     CalibrationExternalDefinition = {
-        Id: Equipment.ExternalCalibration == null ? 0 : Equipment.ExternalCalibration.Id,
-        EquipmentId: Equipment.Id,
-        CompanyId: Equipment.CompanyId,
-        CalibrationType: 1,
-        Description: $('#TxtCalibrationExternalOperation').val(),
-        Periodicity: ParseInputValueToNumber($('#TxtCalibrationExternalPeriodicity').val()),
-        Uncertainty: uncertainty,
-        Range: $('#TxtCalibrationExternalRange').val(),
-        Pattern: $('#TxtCalibrationExternalPattern').val(),
-        Cost: cost,
-        Notes: $('#TxtCalibrationExternalNotes').val(),
-        Provider: { Id: $('#CmbCalibrationExternalProvider').val() },
-        Responsible: { Id: $('#CmbCalibrationExternalResponsible').val() }
+        "Id": Equipment.ExternalCalibration == null ? 0 : Equipment.ExternalCalibration.Id,
+        "EquipmentId": Equipment.Id,
+        "CompanyId": Equipment.CompanyId,
+        "CalibrationType": 1,
+        "Description": $("#TxtCalibrationExternalOperation").val(),
+        "Periodicity": ParseInputValueToNumber($("#TxtCalibrationExternalPeriodicity").val()),
+        "Uncertainty": uncertainty,
+        "Range": $("#TxtCalibrationExternalRange").val(),
+        "Pattern": $("#TxtCalibrationExternalPattern").val(),
+        "Cost": cost,
+        "Notes": $("#TxtCalibrationExternalNotes").val(),
+        "Provider": { Id: $("#CmbCalibrationExternalProvider").val() },
+        "Responsible": { Id: $("#CmbCalibrationExternalResponsible").val() }
     }
 
     if (Equipment.ExternalCalibration.Id < 1) {
-        var webMethod = "/Async/EquipmentCalibrationDefinitionActions.asmx/Insert";
-        var data = { equipmentCalibrationDefinition: CalibrationExternalDefinition, userId: user.Id };
+        var data = {
+            "equipmentCalibrationDefinition": CalibrationExternalDefinition,
+            "userId": user.Id
+        };
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentCalibrationDefinitionActions.asmx/Insert",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 CalibrationExternalDefinition.Id = msg.d.MessageError * 1;
                 Equipment.ExternalCalibration = CalibrationExternalDefinition;
                 CalibrationExternalExists = true;
                 ShowNewCalibrationButton();
                 successInfoUI(Dictionary.Common_Action_Success);
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
     }
     else {
-        var webMethod = "/Async/EquipmentCalibrationDefinitionActions.asmx/Update";
-        var data = { equipmentCalibrationDefinition: CalibrationExternalDefinition, userId: user.Id };
+        var data = {
+            "equipmentCalibrationDefinition": CalibrationExternalDefinition,
+            "userId": user.Id
+        };
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentCalibrationDefinitionActions.asmx/Update",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 Equipment.ExternalCalibration = CalibrationExternalDefinition;
                 successInfoUI(Dictionary.Common_Action_Success);
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
@@ -862,44 +868,50 @@ function EquipmentCalibrationExternalDefinitionSave() {
 }
 
 function CalibrationInternalDelete() {
-    var webMethod = "/Async/EquipmentCalibrationDefinitionActions.asmx/Delete";
-    var data = { equipmentCalibrationDefinitionId: Equipment.InternalCalibration.Id, companyId: Equipment.CompanyId, userId: user.Id };
+    var data = {
+        "equipmentCalibrationDefinitionId": Equipment.InternalCalibration.Id,
+        "companyId": Equipment.CompanyId,
+        "userId": user.Id
+    };
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
-            if (msg.d.MessageError == '') {
+        "type": "POST",
+        "url": "/Async/EquipmentCalibrationDefinitionActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            if (msg.d.MessageError == "") {
                 CalibrationInternalExists = false;
                 Equipment.InternalCalibration = null;
                 CalibrationInternalResetForm();
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
 }
 
 function CalibrationExternalDelete() {
-    var webMethod = "/Async/EquipmentCalibrationDefinitionActions.asmx/Delete";
-    var data = { equipmentCalibrationDefinitionId: Equipment.ExternalCalibration.Id, companyId: Equipment.CompanyId, userId: user.Id };
+    var data = {
+        "equipmentCalibrationDefinitionId": Equipment.ExternalCalibration.Id,
+        "companyId": Equipment.CompanyId,
+        "userId": user.Id
+    };
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
-            if (msg.d.MessageError == '') {
+        "type": "POST",
+        "url": "/Async/EquipmentCalibrationDefinitionActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            if (msg.d.MessageError == "") {
                 CalibrationExternalExists = false;
                 Equipment.ExternalCalibration = null;
                 CalibrationExternalResetForm();
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });

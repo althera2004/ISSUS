@@ -72,7 +72,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                if(this.Objetivo == null)
+                if (this.Objetivo == null)
                 {
                     return -1;
                 }
@@ -80,6 +80,8 @@ namespace GisoFramework.Item
                 return this.Objetivo.Id;
             }
         }
+
+        public Oportunity Oportunity { get; set; }
 
         public string WhatHappened { get; set; }
 
@@ -155,6 +157,12 @@ namespace GisoFramework.Item
                     this.Customer = Customer.Empty;
                 }
 
+                var oportunityText = Constant.JavaScriptNull;
+                if(this.Oportunity != null && this.Oportunity.Id < 1)
+                {
+                    oportunityText = this.Oportunity.JsonKeyValue;
+                }
+
                 var res = new StringBuilder("{").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("Id", this.Id)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(",").Append(Environment.NewLine).Append("\t");
@@ -169,6 +177,7 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("IncidentId", this.IncidentId)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("BusinessRiskId", this.BusinessRiskId)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("ObjetivoId", objetivoId)).Append(",").Append(Environment.NewLine).Append("\t");
+                res.Append(Tools.JsonPair("Oportunity", oportunityText)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("WhatHappened", this.WhatHappened)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("WhatHappenedBy", this.WhatHappenedBy)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("WhatHappenedOn", this.WhatHappenedOn)).Append(",").Append(Environment.NewLine).Append("\t");
@@ -813,6 +822,134 @@ namespace GisoFramework.Item
                                     Objetivo = new Objetivo
                                     {
                                         Id = Convert.ToInt64(objetivoId)
+                                    }
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsIncidentActionGet.CausesId))
+                                {
+                                    newIncidentAction.Causes = rdr.GetString(ColumnsIncidentActionGet.Causes);
+                                    newIncidentAction.CausesOn = rdr.GetDateTime(ColumnsIncidentActionGet.CausesOn);
+                                    newIncidentAction.CausesBy = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentActionGet.CausesId),
+                                        Name = rdr.GetString(ColumnsIncidentActionGet.CausesName),
+                                        LastName = rdr.GetString(ColumnsIncidentActionGet.CausesLastName)
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIncidentActionGet.ActionsId))
+                                {
+                                    newIncidentAction.Actions = rdr.GetString(ColumnsIncidentActionGet.Actions);
+                                    newIncidentAction.ActionsOn = rdr.GetDateTime(ColumnsIncidentActionGet.ActionsOn);
+                                    newIncidentAction.ActionsBy = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentActionGet.ActionsId),
+                                        Name = rdr.GetString(ColumnsIncidentActionGet.ActionsName),
+                                        LastName = rdr.GetString(ColumnsIncidentActionGet.ActionsLastName)
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIncidentActionGet.ClosedId))
+                                {
+                                    newIncidentAction.ClosedOn = rdr.GetDateTime(ColumnsIncidentActionGet.ClosedOn);
+                                    newIncidentAction.ClosedBy = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentActionGet.ClosedId),
+                                        Name = rdr.GetString(ColumnsIncidentActionGet.ClosedName),
+                                        LastName = rdr.GetString(ColumnsIncidentActionGet.ClosedLastName)
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIncidentActionGet.ActionsExecuterId))
+                                {
+                                    newIncidentAction.ActionsSchedule = rdr.GetDateTime(ColumnsIncidentActionGet.ActionsExecuterSchedule);
+                                    newIncidentAction.ActionsExecuter = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentActionGet.ActionsExecuterId),
+                                        Name = rdr.GetString(ColumnsIncidentActionGet.ActionsExecuterName),
+                                        LastName = rdr.GetString(ColumnsIncidentActionGet.ActionsExecuterLastName)
+                                    };
+                                }
+
+                                if (newIncidentAction.ReporterType == 1 && !rdr.IsDBNull(ColumnsIncidentActionGet.DepartmentId))
+                                {
+                                    newIncidentAction.Department = new Department { Id = rdr.GetInt32(ColumnsIncidentActionGet.DepartmentId) };
+                                }
+
+                                if (newIncidentAction.ReporterType == 2 && !rdr.IsDBNull(ColumnsIncidentActionGet.ProviderId))
+                                {
+                                    newIncidentAction.Provider = new Provider { Id = rdr.GetInt64(ColumnsIncidentActionGet.ProviderId) };
+                                }
+
+                                if (newIncidentAction.ReporterType == 3 && !rdr.IsDBNull(ColumnsIncidentActionGet.CustomerId))
+                                {
+                                    newIncidentAction.Customer = new Customer { Id = rdr.GetInt64(ColumnsIncidentActionGet.CustomerId) };
+                                }
+
+                                res.Add(newIncidentAction);
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return new ReadOnlyCollection<IncidentAction>(res);
+        }
+
+        public static ReadOnlyCollection<IncidentAction> ByOportunityId(int oportunityId, int companyId)
+        {
+            var res = new List<IncidentAction>();
+            using (var cmd = new SqlCommand("IncidentAction_GetByOportunityId"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@OportunityId", oportunityId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                var newIncidentAction = new IncidentAction
+                                {
+                                    Id = rdr.GetInt64(ColumnsIncidentActionGet.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsIncidentActionGet.CompanyId),
+                                    Number = rdr.GetInt64(ColumnsIncidentActionGet.Number),
+                                    Description = rdr.GetString(ColumnsIncidentActionGet.Description),
+                                    ActionType = rdr.GetInt32(ColumnsIncidentActionGet.ActionType),
+                                    Origin = rdr.GetInt32(ColumnsIncidentActionGet.Origin),
+                                    ReporterType = rdr.GetInt32(ColumnsIncidentActionGet.ReporterType),
+                                    WhatHappened = rdr.GetString(ColumnsIncidentActionGet.WhatHappend),
+                                    WhatHappenedBy = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentActionGet.WhatHappendId),
+                                        Name = rdr.GetString(ColumnsIncidentActionGet.WhatHappendName),
+                                        LastName = rdr.GetString(ColumnsIncidentActionGet.WhatHappendLastName)
+                                    },
+                                    WhatHappenedOn = rdr.GetDateTime(ColumnsIncidentActionGet.WhatHappendOn),
+                                    Monitoring = rdr.GetString(ColumnsIncidentActionGet.Monitoring),
+                                    Notes = rdr.GetString(ColumnsIncidentActionGet.Notes),
+                                    Active = rdr.GetBoolean(ColumnsIncidentActionGet.Active),
+                                    ModifiedBy = new ApplicationUser
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentActionGet.ModifiedBy),
+                                        UserName = rdr.GetString(ColumnsIncidentActionGet.ModifiedByName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsIncidentActionGet.ModifiedOn),
+                                    Oportunity = new Oportunity
+                                    {
+                                        Id = Convert.ToInt64(oportunityId)
                                     }
                                 };
 

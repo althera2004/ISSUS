@@ -24,14 +24,14 @@ function documentsModeView(x) {
     if (x === 0) {
         document.getElementById("BtnModeList").className = "btn btn-info";
         document.getElementById("BtnModeGrid").className = "btn";
-        document.getElementById("UploadFilesContainer").style.display = "none";
-        document.getElementById("UploadFilesList").style.display = "";
+        $("#UploadFilesContainer").hide();
+        $("#UploadFilesList").show();
     }
     else {
         document.getElementById("BtnModeList").className = "btn";
         document.getElementById("BtnModeGrid").className = "btn btn-info";
-        document.getElementById("UploadFilesContainer").style.display = "";
-        document.getElementById("UploadFilesList").style.display = "none";
+        $("#UploadFilesContainer").show();
+        $("#UploadFilesList").hide();
     }
 }
 
@@ -117,7 +117,7 @@ function UploadFile() {
         "buttons":
         [
             {
-                "id": "UploadFileBtnOk",
+                "id": "BtnUploadOk",
                 "html": "<i class=\"icon-check bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
@@ -205,12 +205,12 @@ function UploadFileGo() {
 }
 
 function RenderNewUploadFile(id, description, extension, fileName, date, size) {
-    var target = document.getElementById('UploadFilesContainer');
+    var target = document.getElementById("UploadFilesContainer");
 
     console.log("Desc", description);
     console.log("filename", fileName);
 
-    var fileNameToShow = fileName.split('_')[2];
+    var fileNameToShow = fileName.split("_")[2];
 
     var finalSize = (size / 1024 / 1024);
     if (finalSize < 0.01) {

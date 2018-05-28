@@ -287,7 +287,7 @@ window.onload = function () {
 
 window.onresize = function () {
     Resize();
-}
+};
 
 function DateChange(){
 	$("#TxtDateFromErrorDateRange").hide();
@@ -316,7 +316,6 @@ function DateChange(){
 }
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 410) + "px";
+    $("#ListDataDiv").height((containerHeight - 410) + "px");
 }

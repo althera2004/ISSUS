@@ -1171,7 +1171,7 @@
                 }
                 $("#menuoption-13 a").show();
 
-                if (IncidentAction.Id < 1 && Objetivo != null) {
+                if (Objetivo != null) {
                     IncidentAction.ObjetivoId = Objetivo.Id;
                     $("#ObjetivoDiv").show();
                     $("#ROrigin3").attr("checked", true);

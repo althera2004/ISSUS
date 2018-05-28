@@ -79,7 +79,9 @@ public partial class BusinessRisksList : Page
         }
     }
 
-    public string Filter { get; set; }
+    public string FilterBusinessRisk { get; set; }
+
+    public string FilterOportunity { get; set; }
 
     /// <summary>Header of the showed data</summary>
     public UIDataHeader DataHeader { get; set; }
@@ -143,11 +145,20 @@ public partial class BusinessRisksList : Page
 
         if (Session["BusinessRiskFilter"] == null)
         {
-            this.Filter = "null";
+            this.FilterBusinessRisk = "null";
         }
         else
         {
-            this.Filter = Session["BusinessRiskFilter"].ToString();
+            this.FilterBusinessRisk = Session["BusinessRiskFilter"].ToString();
+        }
+
+        if (Session["OportunityFilter"] == null)
+        {
+            this.FilterOportunity = "null";
+        }
+        else
+        {
+            this.FilterOportunity = Session["OportunityFilter"].ToString();
         }
 
         this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
@@ -264,18 +275,20 @@ public partial class BusinessRisksList : Page
         }
 
         this.LtCmbProcessOptions.Text = resp.ToString();
+        this.LtCmbProcessOportunityOptions.Text = resp.ToString();
 
         var rules = Rules.GetActive(this.Company.Id);
         var resr = new StringBuilder(@"<option value=""0"">").Append(this.dictionary["Common_All_Female_Plural"]).Append("</option>");
         foreach (var rule in rules)
         {
             resr.AppendFormat(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<option value=""{0}"">{1}</option>",
                 rule.Id,
                 rule.Description);
         }
 
         this.LtCmbRulesOptions.Text = resr.ToString();
+        this.LtCmbRulesOportunityOptions.Text = resr.ToString();
     }
 }

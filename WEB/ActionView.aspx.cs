@@ -24,7 +24,7 @@ public partial class ActionView : Page
     private Company Company;
 
     /// <summary>Application user logged in session</summary>
-    private ApplicationUser user;
+    public ApplicationUser ApplicationUser { get; private set; }
 
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
@@ -111,23 +111,6 @@ public partial class ActionView : Page
 
     /// <summary>Indicates if employee is active</summary>
     private bool active;
-
-    /// <summary>Gets or sets if user show help in interface</summary>
-    public bool ShowHelp
-    {
-        get
-        {
-            return this.user.ShowHelp;
-        }
-    }
-
-    public bool IsAdmin
-    {
-        get
-        {
-            return this.user.Admin;
-        }
-    }
 
     public bool Active
     {
@@ -235,9 +218,9 @@ public partial class ActionView : Page
         else
         {
             int test = 0;
-            this.user = this.Session["User"] as ApplicationUser;
+            this.ApplicationUser = this.Session["User"] as ApplicationUser;
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
-            if (!UniqueSession.Exists(token, this.user.Id))
+            if (!UniqueSession.Exists(token, this.ApplicationUser.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
@@ -275,7 +258,7 @@ public partial class ActionView : Page
             this.returnScript = "document.location = referrer;";
         }
 
-        this.user = (ApplicationUser)Session["User"];
+        this.ApplicationUser = (ApplicationUser)Session["User"];
         this.Company = (Company)Session["company"];
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
@@ -283,7 +266,7 @@ public partial class ActionView : Page
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_IncidentActions", "ActionList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_IncidentActions_Detail");
-        this.grantToWrite = this.user.HasGrantToWrite(ApplicationGrant.IncidentActions);
+        this.grantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.IncidentActions);
         this.Incident = Incident.Empty;
 
         if (this.IncidentActionId > 0)
@@ -348,7 +331,7 @@ public partial class ActionView : Page
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_IncidentAction_Tab_Basic"], Available = true });
-        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.user.HasGrantToRead(ApplicationGrant.Cost) && this.IncidentActionId > 0, Active = this.IncidentActionId > 0, Label = this.dictionary["Item_IncidentAction_Tab_Costs"] });
+        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.Cost) && this.IncidentActionId > 0, Active = this.IncidentActionId > 0, Label = this.dictionary["Item_IncidentAction_Tab_Costs"] });
         this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = this.IncidentActionId > 0, Hidden = this.IncidentActionId < 1, Label = this.Dictionary["Item_IncidentAction_Tab_UploadFiles"] });
         // this.tabBar.AddTab(new Tab { Id = "trazas", Available = this.user.HasTraceGrant() && this.IncidentActionId > 0, Active = this.IncidentActionId > 0, Label = this.dictionary["Item_IncidentAction_Tab_Traces"] });
 
@@ -485,7 +468,7 @@ public partial class ActionView : Page
                 {
                     if (e.Id == this.IncidentAction.WhatHappenedBy.Id && (!e.Active || e.DisabledDate != null))
                     {
-                        this.CmbWhatHappenedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbWhatHappenedResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
 
@@ -493,7 +476,7 @@ public partial class ActionView : Page
                 {
                     if (e.Id == this.IncidentAction.CausesBy.Id && (!e.Active || e.DisabledDate != null))
                     {
-                        this.CmbCausesResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbCausesResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
 
@@ -501,7 +484,7 @@ public partial class ActionView : Page
                 {
                     if (e.Id == this.IncidentAction.ActionsBy.Id && (!e.Active || e.DisabledDate != null))
                     {
-                        this.CmbActionsResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbActionsResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
 
@@ -509,7 +492,7 @@ public partial class ActionView : Page
                 {
                     if (e.Id == this.IncidentAction.ActionsExecuter.Id && (!e.Active || e.DisabledDate != null))
                     {
-                        this.CmbActionsExecuter.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbActionsExecuter.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
 
@@ -517,18 +500,20 @@ public partial class ActionView : Page
                 {
                     if (e.Id == this.IncidentAction.ClosedBy.Id && (!e.Active || e.DisabledDate != null))
                     {
-                        this.CmbClosedResponsible.AddOption(new FormSelectOption() { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
+                        this.CmbClosedResponsible.AddOption(new FormSelectOption { Value = e.Id.ToString(), Text = e.FullName, Selected = true });
                     }
                 }
             }
         }
+
+        var defaultOption = FormSelectOption.DefaultOption(this.dictionary);
 
         this.CmbReporterDepartment = new FormSelect
         {
             ColumnsSpan = 12,
             Name = "CmbReporterType1",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = FormSelectOption.DefaultOption(this.dictionary)
+            DefaultOption = defaultOption
         };
 
         this.CmbReporterProvider = new FormSelect
@@ -536,7 +521,7 @@ public partial class ActionView : Page
             ColumnsSpan = 12,
             Name = "CmbReporterType2",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = FormSelectOption.DefaultOption(this.dictionary)
+            DefaultOption = defaultOption
         };
 
         this.CmbReporterCustomer = new FormSelect
@@ -544,7 +529,7 @@ public partial class ActionView : Page
             ColumnsSpan = 12,
             Name = "CmbReporterType3",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = FormSelectOption.DefaultOption(this.dictionary)
+            DefaultOption = defaultOption
         };
 
         this.TxtDescription = new FormText

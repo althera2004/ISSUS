@@ -118,6 +118,8 @@
     <Compile Include="Item\Binding\ColumnsObjetivoRegistroGet.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Item\Binding\ColumnsOportunityFilterGet.cs" />
+    <Compile Include="Item\Binding\ColumnsOportunityGet.cs" />
     <Compile Include="Item\Binding\ColumnsProbabilitySeverityRangeGetAll.cs" />
     <Compile Include="Item\Binding\ColumnsProviderCostGet.cs" />
     <Compile Include="Item\Binding\ColumnsProviderGetDefinitions.cs" />
@@ -134,6 +136,7 @@
     <Compile Include="Item\BusinessRisk.cs" />
     <Compile Include="Item\BusinessRiskFilterItem.cs" />
     <Compile Include="Item\CostDefinition.cs" />
+    <Compile Include="Item\CostImpactRange.cs" />
     <Compile Include="Item\CustomerIncidentActions.cs" />
     <Compile Include="Item\DocumentAttach.cs" />
     <Compile Include="Item\DocumentVersionRow.cs" />
@@ -189,6 +192,8 @@
     <Compile Include="Item\ObjetivoRegistro.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Item\Oportunity.cs" />
+    <Compile Include="Item\OportunityFilterItem.cs" />
     <Compile Include="Item\ProbabilitySeverityRange.cs" />
     <Compile Include="Item\ProcessTypeKernel.cs" />
     <Compile Include="Item\Revision.cs" />

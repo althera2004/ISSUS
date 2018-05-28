@@ -33,7 +33,7 @@ function alertInfoUI(message, action) {
                 "class": "btn btn-xs btn-success",
                 "click": function () {
                     $(this).dialog("close");
-                    if (action !== null) {
+                    if (typeof action !== "undefined" && action !== null) {
                         action();
                     }
                 }
@@ -91,7 +91,7 @@ function warningInfoUI(message, action, width) {
                 "class": "btn btn-xs btn-success",
                 "click": function () {
                     $(this).dialog("close");
-                    if (action !== null) {
+                    if (typeof action !== "undefined" && action !== null) {
                         action();
                     }
                 }
@@ -116,7 +116,7 @@ function successInfoUI(message, action, width) {
                 "class": "btn btn-xs btn-success",
                 "click": function () {
                     $(this).dialog("close");
-                    if (action !== null) {
+                    if (typeof action !== "undefined" && action !== null) {
                         action();
                     }
                 }

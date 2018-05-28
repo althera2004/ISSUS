@@ -110,6 +110,12 @@ namespace GisoFramework
             get { return new ApplicationGrant { Code = ItemValues.BusinessRisk }; }
         }
 
+        /// <summary>Gets a grant for oportunity</summary>
+        public static ApplicationGrant Oportunity
+        {
+            get { return new ApplicationGrant { Code = ItemValues.Oportunity }; }
+        }
+
         /// <summary>Gets a grant for rule</summary>
         public static ApplicationGrant Rule
         {
@@ -163,12 +169,7 @@ namespace GisoFramework
         /// <returns>Grant for item based on code and url</returns>
         public static ApplicationGrant FromIntegerUrl(int value, string listPage)
         {
-            return new ApplicationGrant
-            {
-                Code = value,
-                Description = GetLabel(value),
-                Page = listPage
-            };
+            return new ApplicationGrant { Code = value, Description = GetLabel(value), Page = listPage };
         }
 
         /// <summary>Gets the label of an item</summary>
@@ -178,6 +179,7 @@ namespace GisoFramework
         {
             switch (value)
             {
+                case 1: return "DashBoard";
                 case ItemValues.CompanyProfile: return "CompanyProfile";
                 case ItemValues.JobPosition: return "JobPosition";
                 case ItemValues.Department: return "Department";
@@ -199,6 +201,7 @@ namespace GisoFramework
                 case ItemValues.Objetivo: return "Objetivo";
                 case ItemValues.Indicador: return "Indicador";
                 case ItemValues.Unidad: return "Unidad";
+                case ItemValues.Oportunity: return "Oportunity";
                 default: return "undefined";
             }
         }

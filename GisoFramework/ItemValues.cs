@@ -71,5 +71,8 @@ namespace GisoFramework
 
         /// <summary>Indentifier for unity</summary>
         public const int Unidad = 23;
+
+        /// <summary>Indentifier for oportunity</summary>
+        public const int Oportunity = 26;
     }
 }

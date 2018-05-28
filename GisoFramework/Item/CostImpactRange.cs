@@ -1,5 +1,5 @@
 ﻿// --------------------------------
-// <copyright file="ProbabilitySeverityRange.cs" company="Sbrinna">
+// <copyright file="CostImpactRange.cs" company="Sbrinna">
 //     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
@@ -18,11 +18,10 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>Object that represents a probability or a severity with a number (Code) from 1 to 5</summary>
-    public class ProbabilitySeverityRange : BaseItem
+    public class CostImpactRange : BaseItem
     {
-        /// <summary>ProbabilitySeverityType of ProbabilitySeverityRange</summary>
-        public enum ProbabilitySeverityType
+        /// <summary>CostImpactRangeType of CostImpactRange</summary>
+        public enum CostImpactRangeType
         {
             /// <summary>Specifies that the current item is a probability</summary>
             Probability = 0,
@@ -32,11 +31,11 @@ namespace GisoFramework.Item
         }
 
         /// <summary>Gets an empty ProbabilitySeverityRange</summary>
-        public static ProbabilitySeverityRange Empty
+        public static CostImpactRange Empty
         {
             get
             {
-                return new ProbabilitySeverityRange
+                return new CostImpactRange
                 {
                     Id = -1,
                     Description = string.Empty,
@@ -55,8 +54,8 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets the code of ProbabilitySeverityRange</summary>
         public int Code { get; set; }
 
-        /// <summary>Gets or sets a value indicating wheter if ProbabilitySeverityRange is deletable</summary>
-        public ProbabilitySeverityType Type { get; set; }
+        /// <summary>Gets or sets a value indicating wheter if CostImpactRange is deletable</summary>
+        public CostImpactRangeType Type { get; set; }
 
         /// <summary>Gets a hyper link to ProbabilitySeverityRange profile page</summary>
         public override string Link
@@ -95,27 +94,27 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>Retrieves a collection of the ProbabilitySeverityRange objects on the database</summary>
+        /// <summary>Retrieves a collection of the CostImpactRange objects on the database</summary>
         /// <param name="companyId">Company identifier</param>
-        /// <returns>ReadOnlyCollection of ProbabilitySeverityRange objects</returns>
-        public static ReadOnlyCollection<ProbabilitySeverityRange> All(int companyId)
+        /// <returns>ReadOnlyCollection of CostImpactRange objects</returns>
+        public static ReadOnlyCollection<CostImpactRange> All(int companyId)
         {
             return All(companyId, Constant.SelectAll);
         }
 
-        /// <summary>Retrieves a collection of the ProbabilitySeverityRange objects on the database</summary>
+        /// <summary>Retrieves a collection of the CostImpactRange objects on the database</summary>
         /// <param name="companyId">Company identifier</param>
         /// <param name="isOnlyActive">Set the flag to retrieve only active objects</param>
-        /// <returns>ReadOnlyCollection of ProbabilitySeverityRange objects</returns>
-        public static ReadOnlyCollection<ProbabilitySeverityRange> All(int companyId, bool isOnlyActive)
+        /// <returns>ReadOnlyCollection of CostImpactRange objects</returns>
+        public static ReadOnlyCollection<CostImpactRange> All(int companyId, bool isOnlyActive)
         {
             string source = string.Format(
                 CultureInfo.InvariantCulture,
                 @"GetAll({0}, {1})",
                 companyId,
                 isOnlyActive);
-            var res = new List<ProbabilitySeverityRange>();
-            string query = isOnlyActive ? "ProbabilitySeverityRange_GetActive" : "ProbabilitySeverityRange_GetAll";
+            var res = new List<CostImpactRange>();
+            string query = isOnlyActive ? "CostImpactRange_GetActive" : "CostImpactRange_GetAll";
             using (var cmd = new SqlCommand(query))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -128,12 +127,12 @@ namespace GisoFramework.Item
                     {
                         while (rdr.Read())
                         {
-                            var newRange = new ProbabilitySeverityRange
+                            var newRange = new CostImpactRange
                             {
                                 Id = rdr.GetInt64(ColumnsProbabilitySeverityRangeGetAll.Id),
                                 Description = rdr.GetString(ColumnsProbabilitySeverityRangeGetAll.Description),
                                 Code = rdr.GetInt32(ColumnsProbabilitySeverityRangeGetAll.Code),
-                                Type = (ProbabilitySeverityRange.ProbabilitySeverityType)rdr.GetInt32(ColumnsProbabilitySeverityRangeGetAll.Type),
+                                Type = (CostImpactRange.CostImpactRangeType)rdr.GetInt32(ColumnsProbabilitySeverityRangeGetAll.Type),
                                 CompanyId = companyId,
                                 CreatedOn = rdr.GetDateTime(ColumnsProbabilitySeverityRangeGetAll.CreatedOn),
                                 CreatedBy = new ApplicationUser
@@ -183,15 +182,15 @@ namespace GisoFramework.Item
                 }
             }
 
-            return new ReadOnlyCollection<ProbabilitySeverityRange>(res);
+            return new ReadOnlyCollection<CostImpactRange>(res);
         }
 
-        /// <summary>Retrieves a collection of the active ProbabilitySeverityRange objects on the database</summary>
+        /// <summary>Retrieves a collection of the active CostImpactRange objects on the database</summary>
         /// <param name="companyId">Company Identifier</param>
-        /// <returns>ReadOnlyCollection of ProbabilitySeverityRange objects</returns>
-        public static ReadOnlyCollection<ProbabilitySeverityRange> GetActive(int companyId)
+        /// <returns>ReadOnlyCollection of CostImpactRange objects</returns>
+        public static ReadOnlyCollection<CostImpactRange> GetActive(int companyId)
         {
-            return new ReadOnlyCollection<ProbabilitySeverityRange>(All(companyId, Constant.SelectOnlyActive));
+            return new ReadOnlyCollection<CostImpactRange>(All(companyId, Constant.SelectOnlyActive));
         }
     }
 }

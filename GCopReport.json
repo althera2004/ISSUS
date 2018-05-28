@@ -2,7 +2,7 @@
   "Items": [
     {
       "Analyzer": "ObjectInitializerAnalyzer",
-      "OccurrenceCount": 4,
+      "OccurrenceCount": 5,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "SERVER_GISO"
@@ -16,7 +16,7 @@
     },
     {
       "Analyzer": "LongMethodAnalyzer",
-      "OccurrenceCount": 8,
+      "OccurrenceCount": 9,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "SERVER_GISO"
@@ -30,7 +30,7 @@
     },
     {
       "Analyzer": "PropertyToExpressionAnalyzer",
-      "OccurrenceCount": 7,
+      "OccurrenceCount": 10,
       "Exceptions": null,
       "SentToServer": true,
       "InstallationName": "SERVER_GISO"

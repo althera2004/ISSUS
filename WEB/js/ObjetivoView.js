@@ -2,14 +2,15 @@
 var firstChart = true;
 var CloseRequired = false;
 var recordsGraph = [];
-var preiodicidadIndicador = null;
+var periodicityIndicador = null;
 
-window.onload = function () {
+window.onload = function () {    
     if (ItemData.Id < 1) {
         $("#TxtFechaCierrePrevista").val("");
         document.getElementById("Contentholder1_RVinculatedNo").checked = true;
     }
     else {
+        periodicityIndicador = ItemData.RevisionId;
         $("#TxtName").val(ItemData.Name);
         $("#TxtDescription").val(ItemData.Description);
         $("#TxtMethodology").val(ItemData.Methodology);
@@ -77,7 +78,7 @@ window.onload = function () {
     AnulateLayout();
 
     $("#CmbResponsible").chosen();
-    $("#CmbMetaComparer").chosen();
+    //$("#CmbMetaComparer").chosen();
 
     if (ItemData.EndDate !== null) {
         DisableLayout();
@@ -128,11 +129,11 @@ function IndicatorVinculatedLayout() {
         $("#RecordListTitle").html(Dictionary.Item_Objetivo_Tab_RecordsFromIndicator + " <strong><i>&quot;" + IndicadorName + "&quot;</i></strong>");
         //$("#DivIndicadorRecordsMessage").show();
         $("#TxtPeriodicity").attr("disabled", "disabled");
-        if (preiodicidadIndicador === null) {
+        if (periodicityIndicador === null) {
             $("#TxtPeriodicity").val("");
         }
         else {
-            $("#TxtPeriodicity").val(preiodicidadIndicador);
+            $("#TxtPeriodicity").val(periodicityIndicador);
         }
     }
 }
@@ -148,17 +149,17 @@ function GetPeriodicityByIndicadorId(indicadorId) {
 
 function CmbIndicadorChanged() {
     console.log("CmbIndicadorChanged");
-    preiodicidadIndicador = GetPeriodicityByIndicadorId($("#CmbIndicador").val() * 1);
-    if (preiodicidadIndicador === null) {
+    periodicityIndicador = GetPeriodicityByIndicadorId($("#CmbIndicador").val() * 1);
+    if (periodicityIndicador === null) {
         $("#TxtPeriodicity").val("");
     }
     else {
-        $("#TxtPeriodicity").val(preiodicidadIndicador);
+        $("#TxtPeriodicity").val(periodicityIndicador);
     }
 }
 
 var newObjetivo = ItemData.Id < 1;
-function Save(goAction) {
+function Save(goAction, actionId) {
     var validationResult = Validate();
     if (validationResult != "") {
         warningInfoUI(validationResult, null, 300);
@@ -231,7 +232,7 @@ function Save(goAction) {
                         document.location = referrer;
                     }
                     else {
-                        document.location = "/ActionView.aspx?id=-1&o=" + ItemData.Id;
+                        document.location = "/ActionView.aspx?id=" + actionId + "&o=" + ItemData.Id;
                     }
                 }
             }
@@ -1463,15 +1464,25 @@ function RenderActionsTable() {
 function RenderActionsRow(actionData) {
     totalCostActions += actionData.Cost;
     var res = "<tr id=\"" + actionData.Id + "\">";
-    res += "<td><a href=\"ActionView.aspx?id=" + actionData.Id + "\">" + actionData.Description + "</a></td>";
+    res += "<td><a href=\"#\" onclick=\"GoAction(this);\">" + actionData.Description + "</a></td>";
     res += "<td align=\"center\" style=\"width: 100px;\">" + actionData.OpenDate + "</td>";
     res += "<td align=\"center\" style=\"width:60px;\">" + actionData.Status.split('*').join('"') + "</td>";
     res += "<td align=\"center\" style=\"width: 100px;\">" + actionData.PreviewDate + "</td>";
     res += "<td align=\"right\" style=\"width:150px;\">" + ToMoneyFormat(actionData.Cost, 2) + "</td>";
     res += "<td style=\"width:45px;\">";
-    res += "    <span class=\"btn btn-xs btn-info\" id=\"00001\"><i class=\"icon-edit bigger- 120\"></i></span>";
+    res += "    <span class=\"btn btn-xs btn-info\" id=\"00001\" onclick=\"GoAction(this);\"><i class=\"icon-edit bigger- 120\"></i></span>";
     res += "</td></tr>";
     return res;
+}
+
+function GoAction(sender) {
+    var id = sender.parentNode.parentNode.id;
+    if (DataIsChanged()) {
+        DataChangedPopup(id);
+    }
+    else {
+        NewActionConfirmed(false, id);
+    }
 }
 
 function DataIsChanged() {
@@ -1530,16 +1541,16 @@ function DataIsChanged() {
     return false;
 }
 
-function ActionNew() {
+function ActionNew(sender) {
     if (DataIsChanged()) {
-        DataChangedPopup();
+        DataChangedPopup(-1);
     }
     else {
-        NewActionConfirmed(false);
+        NewActionConfirmed(false, -1);
     }
 }
 
-function DataChangedPopup() {
+function DataChangedPopup(id) {
     var dialog = $("#dialogDataChanged").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
@@ -1551,13 +1562,13 @@ function DataChangedPopup() {
                 "id": "BtnSaveContinue",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Objetivo_DataChangedWarning_save,
                 "class": "btn btn-success btn-xs",
-                "click": function () { NewActionConfirmed(true); }
+                "click": function () { NewActionConfirmed(true, id); }
             },
             {
                 "id": "BtnContinue",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Objetivo_DataChangedWarning_continue,
                 "class": "btn btn-success btn-xs",
-                "click": function () { NewActionConfirmed(false); }
+                "click": function () { NewActionConfirmed(false, id); }
             },
             {
                 "id": "BtnContinueCancel",
@@ -1569,11 +1580,12 @@ function DataChangedPopup() {
     });
 }
 
-function NewActionConfirmed(saveObjetivo) {
+function NewActionConfirmed(saveObjetivo, id) {
+    id = id * 1;
     if (saveObjetivo) {
-        Save(true);
+        Save(true, id);
         return false;
     }
-
-    document.location = "/ActionView.aspx?id=-1&o=" + ItemData.Id;
+    
+    document.location = "/ActionView.aspx?id=" + id + "&o=" + ItemData.Id;
 }

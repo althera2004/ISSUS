@@ -117,12 +117,12 @@ public class CompanyCreation : WebService
             mail.To.Add("hola@scrambotika.com");
             //mail.CC.Add(companyEmail);
 
-            var SmtpServer = new SmtpClient("mail.scrambotika.com")
+            var smtpServer = new SmtpClient("mail.scrambotika.com")
             {
                 Port = 25,
                 Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "WSBhz7WB")
             };
-            SmtpServer.Send(mail);
+            smtpServer.Send(mail);
         }
 
         return res.MessageError;

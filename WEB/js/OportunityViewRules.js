@@ -1,19 +1,19 @@
 ﻿function RulesRenderPopup() {
-    VoidTable('SelectableRules');
+    VoidTable("SelectableRules");
     RulesCompany.sort(CompareRules);
-    var target = document.getElementById('SelectableRules');
+    var target = document.getElementById("SelectableRules");
     for (var x = 0; x < RulesCompany.length; x++) {
         RulesPopupRow(RulesCompany[x], target);
     }
 
-    var height = $('#SelectableRules').height();
+    var height = $("#SelectableRules").height();
     console.log("height:", height);
     if (height > 0) {
-        document.getElementById('DivTableRulesFiller').style.height = (311 - height) + 'px';
-        document.getElementById('DivTableRulesFiller').style.display = 'block';
+        $("#DivTableRulesFiller").height((311 - height) + "px");
+        $("#DivTableRulesFiller").show();
     }
     else {
-        document.getElementById('DivTableRulesFiller').style.display = 'none';
+        $("#DivTableRulesFiller").hide();
     }
 }
 
@@ -22,27 +22,27 @@ function RulesPopupRow(item, target) {
         return;
     }
 
-    var tr = document.createElement('tr');
+    var tr = document.createElement("tr");
     tr.id = item.Id;
-    tr.style.height = '30px';
-    var td1 = document.createElement('td');
-    var td2 = document.createElement('td');
+    tr.style.height = "30px";
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
     if (RulesSelected === item.Id) {
-        td1.style.fontWeight = 'bold';
+        td1.style.fontWeight = "bold";
     }
     td1.appendChild(document.createTextNode(item.Description));
 
-    var tdLimit = document.createElement('td');
-    tdLimit.style.width = '50px';
-    tdLimit.align = 'right';
+    var tdLimit = document.createElement("td");
+    tdLimit.style.width = "50px";
+    tdLimit.align = "right";
     tdLimit.appendChild(document.createTextNode(item.Limit));
 
-    var div = document.createElement('div');
-    var span1 = document.createElement('span');
-    span1.className = 'btn btn-xs btn-success';
+    var div = document.createElement("div");
+    var span1 = document.createElement("span");
+    span1.className = "btn btn-xs btn-success";
     span1.title = Dictionary.Common_SelectAll;
-    var i1 = document.createElement('i');
-    i1.className = 'icon-star bigger-120';
+    var i1 = document.createElement("i");
+    i1.className = "icon-star bigger-120";
     span1.appendChild(i1);
 
     if (RulesSelected === item.Id) {
@@ -54,37 +54,37 @@ function RulesPopupRow(item, target) {
 
     div.appendChild(span1);
 
-    var span2 = document.createElement('span');
-    span2.className = 'btn btn-xs btn-info';
+    var span2 = document.createElement("span");
+    span2.className = "btn btn-xs btn-info";
     span2.title = Dictionary.Common_Edit;
-    var i2 = document.createElement('i');
-    i2.className = 'icon-edit bigger-120';
+    var i2 = document.createElement("i");
+    i2.className = "icon-edit bigger-120";
     span2.appendChild(i2);
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span2);
     span2.onclick = function () { RulesUpdate(this); };
 
-    var span3 = document.createElement('span');
-    span3.className = 'btn btn-xs btn-danger';
+    var span3 = document.createElement("span");
+    span3.className = "btn btn-xs btn-danger";
     span3.title = Dictionary.Common_Delete;
-    var i3 = document.createElement('i');
-    i3.className = 'icon-trash bigger-120';
+    var i3 = document.createElement("i");
+    i3.className = "icon-trash bigger-120";
     span3.appendChild(i3);
 
     if (RulesSelected === item.Id) {
-        span3.onclick = function () { alertUI(Dictionary.Common_Selected, 'dialogRules'); };
+        span3.onclick = function () { alertUI(Dictionary.Common_Selected, "dialogRules"); };
     }
     else if (item.Deletable === false) {
-        span3.onclick = function () { alertUI(Dictionary.Common_Error_NoDeletable, 'dialogRules'); };
+        span3.onclick = function () { alertUI(Dictionary.Common_Error_NoDeletable, "dialogRules"); };
     }
     else {
         span3.onclick = function () { RulesDelete(this); };
     }
 
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span3);
     td2.appendChild(div);
-    td2.style.width = '133px';
+    td2.style.width = "133px";
 
 
     tr.appendChild(td1);
@@ -94,121 +94,125 @@ function RulesPopupRow(item, target) {
 }
 
 function RulesDelete(sender) {
-    document.getElementById('dialogRules').parentNode.style.cssText += 'z-Index:1039 !important';
-    $('#RuleName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    document.getElementById("dialogRules").parentNode.style.cssText += "z-Index:1039 !important";
+    $("#RuleName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
     var dialog = $("#RuleDeleteDialog").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Rules_Popup_DeleteProcessType_Title + '</h4>',
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Rules_Popup_DeleteProcessType_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                     RulesDeleteConfirmed(Selected);
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
         ],
-        close: function () { document.getElementById('dialogRules').parentNode.style.cssText += 'z-Index:1050 !important'; }
+        "close": function () {
+            document.getElementById("dialogRules").parentNode.style.cssText += "z-Index:1050 !important";
+        }
     });
 }
 
 function RulesInsert(sender) {
-    document.getElementById('dialogRules').parentNode.style.cssText += 'z-Index:1039 !important';
-    document.getElementById('TxtNewRulesNameErrorRequired').style.display = 'none';
-    document.getElementById('TxtNewRulesNameErrorDuplicated').style.display = 'none';
-    document.getElementById('CmbNewLimitErrorRequired').style.display = 'none';
-    document.getElementById('CmbNewLimitOutOfRange').style.display = 'none';
-    $('#TxtNewRulesName').val('');
-    $('#TxtNewRulesNotes').val('');
-    $('#CmbNewLimit').val('');
+    document.getElementById("dialogRules").parentNode.style.cssText += "z-Index:1039 !important";
+    document.getElementById("TxtNewRulesNameErrorRequired").style.display = "none";
+    document.getElementById("TxtNewRulesNameErrorDuplicated").style.display = "none";
+    document.getElementById("CmbNewLimitErrorRequired").style.display = "none";
+    document.getElementById("CmbNewLimitOutOfRange").style.display = "none";
+    $("#TxtNewRulesName").val("");
+    $("#TxtNewRulesNotes").val("");
+    $("#CmbNewLimit").val("");
     var Selected = 0;
     var dialog = $("#RulesInsertDialog").removeClass("hide").dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Rules_Popup_AddRule_Title + '</h4>',
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Rules_Popup_AddRule_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
                 html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
-                    if (document.getElementById('TxtNewRulesName').value === '') {
-                        document.getElementById('TxtNewRulesNameErrorRequired').style.display = 'block';
+                    if ($("#TxtNewRulesName").val() === "") {
+                        $("#TxtNewRulesNameErrorRequired").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById('TxtNewRulesNameErrorRequired').style.display = 'none';
+                        $("#TxtNewRulesNameErrorRequired").hide();
                     }
 
                     var duplicated = false;
                     for (var x = 0; x < RulesCompany.length; x++) {
-                        if (document.getElementById('TxtNewRulesName').value.toLowerCase() === RulesCompany[x].Description.toLowerCase()) {
+                        if ($("#TxtNewRulesName").val().toLowerCase() === RulesCompany[x].Description.toLowerCase()) {
                             duplicated = true;
                             break;
                         }
                     }
 
                     if (duplicated === true) {
-                        document.getElementById('TxtNewRulesNameErrorDuplicated').style.display = 'block';
+                        $("#TxtNewRulesNameErrorDuplicated").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById('TxtNewRulesNameErrorDuplicated').style.display = 'none';
+                        $("#TxtNewRulesNameErrorDuplicated").hide();
                     }
 
-                    if (document.getElementById('CmbNewLimit').value === '') {
-                        document.getElementById('TxtNewLimitLabel').style.color = '#f00';
-                        document.getElementById('CmbNewLimitErrorRequired').style.display = '';
+                    if ($("#CmbNewLimit").val() === "") {
+                        document.getElementById("TxtNewLimitLabel").style.color = "#f00";
+                        $("#CmbNewLimitErrorRequired").show();
                         ok = false;
 
                     } else {
-                        if (document.getElementById('CmbNewLimit').value * 1 < 1 || document.getElementById('CmbNewLimit').value * 1 > 25) {
+                        if ($("#CmbNewLimit").val() * 1 < 1 || $("#CmbNewLimit").val() * 1 > 25) {
                             ok = false;
-                            document.getElementById('TxtNewLimitLabel').style.color = '#f00';
-                            document.getElementById('CmbNewLimitOutOfRange').style.display = '';
+                            document.getElementById("TxtNewLimitLabel").style.color = "#f00";
+                            $("#CmbNewLimitOutOfRange").show();
                         }
                     }
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
 
-                    document.getElementById('TxtNewRulesNameErrorRequired').style.display = 'none';
-                    document.getElementById('TxtNewRulesNameErrorDuplicated').style.display = 'none';
+                    $("#TxtNewRulesNameErrorRequired").hide();
+                    $("#TxtNewRulesNameErrorDuplicated").hide();
                     $(this).dialog("close");
-                    RulesInsertConfirmed(document.getElementById('TxtNewRulesName').value, document.getElementById('TxtNewRulesNotes').value, document.getElementById('CmbNewLimit').value);
+                    RulesInsertConfirmed(document.getElementById("TxtNewRulesName").value, document.getElementById("TxtNewRulesNotes").value, document.getElementById("CmbNewLimit").value);
                     return null;
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
         ],
-        close: function () { document.getElementById('dialogRules').parentNode.style.cssText += 'z-Index:1050 !important'; }
+        "close": function () {
+            document.getElementById("dialogRules").parentNode.style.cssText += "z-Index:1050 !important";
+        }
     });
 }
 
 function RulesUpdate(sender) {
-    document.getElementById('dialogRules').parentNode.style.cssText += 'z-Index:1039 !important';
-    document.getElementById('TxtRulesNameErrorRequired').style.display = 'none';
-    document.getElementById('TxtRulesNameErrorDuplicated').style.display = 'none';
+    document.getElementById("dialogRules").parentNode.style.cssText += "z-Index:1039 !important";
+    $("#TxtRulesNameErrorRequired").hide();
+    $("#TxtRulesNameErrorDuplicated").hide();
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
     for (var x = 0; x < RulesCompany.length; x++) {
         if (RulesCompany[x].Id === Selected) {
@@ -216,84 +220,86 @@ function RulesUpdate(sender) {
             break;
         }
     }
-    $('#TxtRulesName').val(rule.Description);
-    $('#TxtRulesNotes').val(rule.Notes);
-    $('#CmbUpdateLimit').val(rule.Limit);
+    $("#TxtRulesName").val(rule.Description);
+    $("#TxtRulesNotes").val(rule.Notes);
+    $("#CmbUpdateLimit").val(rule.Limit);
     var dialog = $("#RulesUpdateDialog").removeClass("hide").dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Rules_Popup_UpdateRules_Title + '</h4>',
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Rules_Popup_UpdateRules_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     var ok = true;
-                    if (document.getElementById('TxtRulesName').value === '') {
-                        document.getElementById('TxtRulesNameErrorRequired').style.display = 'block';
+                    if ($("#TxtRulesName").val() === "") {
+                        $("#TxtRulesNameErrorRequired").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById('TxtRulesNameErrorRequired').style.display = 'none';
+                        $("#TxtRulesNameErrorRequired").hide();
                     }
 
                     var duplicated = false;
                     for (var x = 0; x < RulesCompany.length; x++) {
-                        if (document.getElementById('TxtRulesName').value.toLowerCase() === RulesCompany[x].Description.toLowerCase() && Selected !== RulesCompany[x].Id && RulesCompany[x].Active === true) {
+                        if ($("#TxtRulesName").val().toLowerCase() === RulesCompany[x].Description.toLowerCase() && Selected !== RulesCompany[x].Id && RulesCompany[x].Active === true) {
                             duplicated = true;
                             break;
                         }
                     }
 
                     if (duplicated === true) {
-                        document.getElementById('TxtRulesNameErrorDuplicated').style.display = 'block';
+                        $("#TxtRulesNameErrorDuplicated").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById('TxtRulesNameErrorDuplicated').style.display = 'none';
+                        $("#TxtRulesNameErrorDuplicated").hide();
                     }
 
-                    if (document.getElementById('TxtLimitLabel').value === '') {
-                        document.getElementById('TxtNewLimitLabel').style.color = '#f00';
-                        document.getElementById('CmbUpdateLimitErrorRequired').style.display = '';
+                    if ($("#TxtLimitLabel").val() === "") {
+                        document.getElementById("TxtNewLimitLabel").style.color = "#f00";
+                        $("#CmbUpdateLimitErrorRequired").show();
                         ok = false;
 
                     } else {
-                        if (document.getElementById('TxtLimitLabel').value * 1 < 1 || document.getElementById('CmbUpdateLimit').value * 1 > 25) {
+                        if ($("#TxtLimitLabel").val() * 1 < 1 || $("#CmbUpdateLimit").val() * 1 > 25) {
                             ok = false;
-                            document.getElementById('TxtNewLimitLabel').style.color = '#f00';
-                            document.getElementById('CmbUpdateLimitOutOfRange').style.display = '';
+                            document.getElementById("TxtNewLimitLabel").style.color = "#f00";
+                            $("#CmbUpdateLimitOutOfRange").show();
                         }
                     }
 
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
 
-                    document.getElementById('TxtRulesNameErrorRequired').style.display = 'none';
-                    document.getElementById('TxtRulesNameErrorDuplicated').style.display = 'none';
+                    $("#TxtRulesNameErrorRequired").hide();
+                    $("#TxtRulesNameErrorDuplicated").hide();
                     $(this).dialog("close");
-                    RulesUpdateConfirmed(Selected, document.getElementById('TxtRulesName').value, document.getElementById('TxtRulesNotes').value, document.getElementById('CmbUpdateLimit').value);
+                    RulesUpdateConfirmed(Selected, document.getElementById("TxtRulesName").value, document.getElementById("TxtRulesNotes").value, document.getElementById("CmbUpdateLimit").value);
                     return null;
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
         ],
-        close: function () { document.getElementById('dialogRules').parentNode.style.cssText += 'z-Index:1050 !important'; }
+        "close": function () {
+            document.getElementById("dialogRules").parentNode.style.cssText += "z-Index:1050 !important";
+        }
     });
 }
 
 function RulesDeleteConfirmed(id) {
     var webMethod = "/Async/RulesActions.asmx/RulesDelete";
-    var description = '';
+    var description = "";
     for (var x = 0; x < RulesCompany.length; x++) {
         if (RulesCompany[x].Id === id) {
             description = RulesCompany[x].Description;
@@ -301,9 +307,9 @@ function RulesDeleteConfirmed(id) {
         }
     }
     var data = {
-        'RulesId': id,
-        'companyId': Company.Id,
-        'userId': user.Id
+        "RulesId": id,
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
@@ -339,10 +345,10 @@ function RulesDeleteConfirmed(id) {
     }
 
     // 3.- Eliminar la fila de la tabla del popup
-    var target = document.getElementById('SelectableRules');
+    var target = document.getElementById("SelectableRules");
     for (var x4 = 0; x4 < target.childNodes.length; x4++) {
         if (target.childNodes[x4].id === id) {
-            target.childNodes[x4].style.display = 'none';
+            target.childNodes[x4].style.display = "none";
             break;
         }
     }
@@ -355,14 +361,14 @@ function RulesInsertConfirmed(newDescription, newNotes, newLimit) {
     var webMethod = "/Async/RulesActions.asmx/RulesInsert";
     var id = 0;
     var data = {
-        'Rules': {
-            'CompanyId': Company.Id,
-            'Description': newDescription,
-            'Notes': newNotes,
-            'Limit': newLimit
+        "Rules": {
+            "CompanyId": Company.Id,
+            "Description": newDescription,
+            "Notes": newNotes,
+            "Limit": newLimit
         },
-        'companyId': Company.Id,
-        'userId': user.Id
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
@@ -379,14 +385,14 @@ function RulesInsertConfirmed(newDescription, newNotes, newLimit) {
             }
             if (response.d.Success === true) {
                 RulesCompany.push(
-                {
-                    "Id": response.d.MessageError * 1,
-                    "Description": newDescription,
-                    "Notes": newNotes,
-                    "Limit": newLimit * 1,
-                    "Editable": "true",
-                    "Deletable": "true"
-                });
+                    {
+                        "Id": response.d.MessageError * 1,
+                        "Description": newDescription,
+                        "Notes": newNotes,
+                        "Limit": newLimit * 1,
+                        "Editable": "true",
+                        "Deletable": "true"
+                    });
                 RulesRenderPopup();
                 FillCmbRules();
             }
@@ -401,11 +407,11 @@ function RulesInsertConfirmed(newDescription, newNotes, newLimit) {
 function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
     // 1.- Modificar en la BBDD
     var description = "";
-    for (var x = 0; x < RulesCompany.length; x++) {
-        if (RulesCompany[x].Id === id) {
-            description = RulesCompany[x].Description;
-            notes = RulesCompany[x].Notes;
-            limit = RulesCompany[x].Limit;
+    for (var y = 0; y < RulesCompany.length; y++) {
+        if (RulesCompany[y].Id === id) {
+            description = RulesCompany[y].Description;
+            notes = RulesCompany[y].Notes;
+            limit = RulesCompany[y].Limit;
             break;
         }
     }
@@ -457,14 +463,14 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
             //Item modificado en el popup
             var item = RulesCompany[x];
             temp.push(
-            {
-                "Id": item.Id,
-                "Description": newDescription,
-                "Notes": newNotes,
-                "Limit": newLimit,
-                "Editable": item.Editable,
-                "Deletable": item.Delete
-            });
+                {
+                    "Id": item.Id,
+                    "Description": newDescription,
+                    "Notes": newNotes,
+                    "Limit": newLimit,
+                    "Editable": item.Editable,
+                    "Deletable": item.Delete
+                });
         }
     }
 
@@ -474,7 +480,7 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
     }
 
     // 3.- Modificar la fila de la tabla del popup
-    var target = document.getElementById('SelectableRules');
+    var target = document.getElementById("SelectableRules");
     for (var x3 = 0; x3 < target.childNodes.length; x3++) {
         if (target.childNodes[x3].id === id) {
             target.childNodes[x3].childNodes[0].innerHTML = newDescription;
@@ -485,21 +491,21 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
 
     // 4.- Modificar el texto si es el seleccionado
     if (RulesSelected === id) {
-        document.getElementById('TxtRules').value = newDescription;
+        document.getElementById("TxtRules").value = newDescription;
     }
 
     FillCmbRules();
 }
 
 function FillCmbRules() {
-    VoidTable('CmbRules');
-    var optionDefault = document.createElement('option');
+    VoidTable("CmbRules");
+    var optionDefault = document.createElement("option");
     optionDefault.value = 0;
     optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectAll));
-    document.getElementById('CmbRules').appendChild(optionDefault);
+    document.getElementById("CmbRules").appendChild(optionDefault);
 
     for (var x = 0; x < RulesCompany.length; x++) {
-        var option = document.createElement('option');
+        var option = document.createElement("option");
         option.value = RulesCompany[x].Id;
         option.appendChild(document.createTextNode(RulesCompany[x].Description));
         if (RulesSelected === RulesCompany[x].Id) {

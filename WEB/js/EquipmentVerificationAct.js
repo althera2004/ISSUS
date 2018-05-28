@@ -490,10 +490,11 @@ function FillCmbEquipmentVerificationActResponsible() {
 
 function REquipmentVerificationActTypeChanged() {
     if (document.getElementById("REquipmentVerificationActTypeExternal").checked === true) {
-        $("CmbEquipmentVerificationActProviderRow").show();
+        $("#CmbEquipmentVerificationActProviderRow").show();
         $("#TxtEquipmentVerificationActCost").val($("#TxtVerificationExternalCost").val());
+        $("#CmbEquipmentVerificationActProvider").val($("#CmbVerificationExternalProvider").val());
     } else {
-        $("CmbEquipmentVerificationActProviderRow").hide();
+        $("#CmbEquipmentVerificationActProviderRow").hide();
         if (document.getElementById("REquipmentVerificationActTypeInternal").checked === true) {
             $("#TxtEquipmentVerificationActCost").val($("#TxtVerificationInternalCost").val());
         }
@@ -535,7 +536,7 @@ function ShowDialogEquipmentVerificacionPopup(actionSelected) {
         "buttons":
         [
             {
-                "id": "BtnNewAddresSave",
+                "id": "EquipmentVerificacionBtnOk",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
@@ -543,6 +544,7 @@ function ShowDialogEquipmentVerificacionPopup(actionSelected) {
                 }
             },
             {
+                "id": "EquipmentVerificacionBtnCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () {

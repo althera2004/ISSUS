@@ -1218,53 +1218,53 @@
                     $(".date-picker").datepicker(options);
                     $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
-                    $('#BtnRecordFilter').on('click', function (e) {
+                    $("#BtnRecordFilter").on("click", function (e) {
                         e.preventDefault();
                         EquipmentRecordGetFromFilter();
                     });
 
-                    $('#BtnRecordShowAll').on('click', function (e) {
+                    $("#BtnRecordShowAll").on("click", function (e) {
                         e.preventDefault();
                         EquipmentRecordGetAll();
                     });
 
-                    $('#BtnRecordShowNone').on('click', function (e){
+                    $("#BtnRecordShowNone").on("click", function (e){
                         e.preventDefault();
                         EquipmentRecordGetNone();
                     });
 
-                    $('#BtnEquipmentChangeImage').on('click', function (e) {
+                    $("#BtnEquipmentChangeImage").on("click", function (e) {
                         e.preventDefault();
                         EquipmentChangeImage();
                     });
 
-                    $('#BtnEquipmentDeleteImage').on('click', function (e) {
+                    $("#BtnEquipmentDeleteImage").on("click", function (e) {
                         e.preventDefault();
                         EquipmentDeleteImage();
                     });
 
-                    $("#BtnSave").on('click', function (e) { e.preventDefault(); SaveEquipment(); });
-                    $("#BtnCalibrationSave").on('click', function (e) { e.preventDefault(); SaveEquipment(); });
-                    $("#BtnVerificationSave").on('click', function (e) { e.preventDefault(); SaveEquipment(); });
-                    $("#BtnMaintenanceSave").on('click', function (e) { e.preventDefault(); SaveEquipment(); });
-                    $("#BtnRepairSave").on('click', function (e) { e.preventDefault(); SaveEquipment(); });
-                    $("#BtnRecordsSave").on('click', function (e) { e.preventDefault(); SaveEquipment(); });
+                    $("#BtnSave").on("click", function (e) { e.preventDefault(); SaveEquipment(); });
+                    $("#BtnCalibrationSave").on("click", function (e) { e.preventDefault(); SaveEquipment(); });
+                    $("#BtnVerificationSave").on("click", function (e) { e.preventDefault(); SaveEquipment(); });
+                    $("#BtnMaintenanceSave").on("click", function (e) { e.preventDefault(); SaveEquipment(); });
+                    $("#BtnRepairSave").on("click", function (e) { e.preventDefault(); SaveEquipment(); });
+                    $("#BtnRecordsSave").on("click", function (e) { e.preventDefault(); SaveEquipment(); });
 
-                    $('#BtnCancel').on('click', function (e) { document.location = referrer; });
-                    $('#BtnCalibrationCancel').on('click', function (e) { document.location = referrer; });
-                    $('#BtnVerificationCancel').on('click', function (e) { document.location = referrer; });
-                    $('#BtnMaintenanceCancel').on('click', function (e) { document.location = referrer; });
-                    $('#BtnRepairCancel').on('click', function (e) { document.location = referrer; });
-                    $('#BtnRecordsCancel').on('click', function (e) { document.location = referrer; });
+                    $("#BtnCancel").on("click", function (e) { document.location = referrer; });
+                    $("#BtnCalibrationCancel").on("click", function (e) { document.location = referrer; });
+                    $("#BtnVerificationCancel").on("click", function (e) { document.location = referrer; });
+                    $("#BtnMaintenanceCancel").on("click", function (e) { document.location = referrer; });
+                    $("#BtnRepairCancel").on("click", function (e) { document.location = referrer; });
+                    $("#BtnRecordsCancel").on("click", function (e) { document.location = referrer; });
                     
-                    $('#BtnPrint').on('click', PrintData);
-                    $('#BtnCalibrationPrint').on('click', PrintData);
-                    $('#BtnVerificationPrint').on('click', PrintData);
-                    $('#BtnMaintenancePrint').on('click', PrintData);
-                    $('#BtnRepairPrint').on('click', PrintData);
-                    $('#BtnRecordsPrint').on('click', PrintData);
+                    $("#BtnPrint").on("click", PrintData);
+                    $("#BtnCalibrationPrint").on("click", PrintData);
+                    $("#BtnVerificationPrint").on("click", PrintData);
+                    $("#BtnMaintenancePrint").on("click", PrintData);
+                    $("#BtnRepairPrint").on("click", PrintData);
+                    $("#BtnRecordsPrint").on("click", PrintData);
 
-                    $("#BtnNewMaintainment").on('click', function (e) {
+                    $("#BtnNewMaintainment").on("click", function (e) {
                         e.preventDefault();
                         ShowMaintaimentPopup(0);
                     });
@@ -1513,35 +1513,36 @@
                     });
             }
 
-            function EquipmentVerificationActEdit(sender){
-                SelectedEquipmentVerificationActId = sender.parentNode.parentNode.id.substring(24)*1;
+            function EquipmentVerificationActEdit(sender) {
+                SelectedEquipmentVerificationActId = sender.parentNode.parentNode.id.substring(24) * 1;
                 SelectedEquipmentVerificationAct = EquipmentVerificationActgetById(SelectedEquipmentVerificationActId);
-                if(SelectedEquipmentVerificationAct==null){return false;}
+                if (SelectedEquipmentVerificationAct == null) { return false; }
                 FillCmbEquipmentVerificationActResponsible();
                 FillCmbEquipmentVerificationActProvider();
                 EquipmentVerificationActEditFormFill(SelectedEquipmentVerificationAct);
                 var dialog = $("#dialogEquipmentVerificacionForm").removeClass("hide").dialog({
-                    resizable: false,
-                    modal: true,
-                    title: '<h4 class="smaller">' + Dictionary.Item_EquipmentVerification_PopupUpdate_Title + '</h4>',
-                    title_html: true,
-                    width: 400,
-                    buttons: [
-                                    {
-                                        id: 'BtnEquipmentVerificationActEditSave',
-                                        html: "<i class='icon-refresh bigger-110'></i>&nbsp;" + Dictionary.Common_Update,
-                                        "class": "btn btn-success btn-xs",
-                                        click: function () {
-                                            EquipmentVerificationSave();
-                                        }
-                                    },
-                                    {
-                                        html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                                        "class": "btn btn-xs",
-                                        click: function () {
-                                            $(this).dialog("close");
-                                        }
-                                    }
+                    "resizable": false,
+                    "modal": true,
+                    "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentVerification_PopupUpdate_Title + "</h4>",
+                    "title_html": true,
+                    "width": 400,
+                    "buttons": [
+                        {
+                            "id": "BtnEquipmentVerificationActEditSave",
+                            "html": "<i class=\"icon-refresh bigger-110\"></i>&nbsp;" + Dictionary.Common_Update,
+                            "class": "btn btn-success btn-xs",
+                            "click": function () {
+                                EquipmentVerificationSave();
+                            }
+                        },
+                        {
+                            "id": "BtnEquipmentVerificationActEditCancel",
+                            "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                            "class": "btn btn-xs",
+                            "click": function () {
+                                $(this).dialog("close");
+                            }
+                        }
                     ]
 
                 });
@@ -1551,69 +1552,76 @@
                 }
             }
 
-            function EquipmentVerificationActDelete(sender){
-                SelectedEquipmentVerificationActId = sender.parentNode.parentNode.id.substring(24)*1;
+            function EquipmentVerificationActDelete(sender) {
+                SelectedEquipmentVerificationActId = sender.parentNode.parentNode.id.substring(24) * 1;
                 SelectedEquipmentVerificationAct = EquipmentVerificationActgetById(SelectedEquipmentVerificationActId);
-                if(SelectedEquipmentVerificationAct==null){return false;}
+                if (SelectedEquipmentVerificationAct == null) { return false; }
 
-                document.getElementById('dialogEquipmentVerificationActDeleteName').innerHTML = ' la verificación?';
+                document.getElementById('dialogEquipmentVerificationActDeleteName').innerHTML = " la verificación?";
                 var dialog = $("#dialogEquipmentVerificationActDelete").removeClass("hide").dialog({
-                        resizable: false,
-                        modal: true,
-                        title: '<h4 class="smaller">' + Dictionary.Item_EquipmentVerification_Popup_Delete_Title + '</h4>',
-                        title_html: true,
-                        width: 500,
-                        buttons: [
+                    "resizable": false,
+                    "modal": true,
+                    "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentVerification_Popup_Delete_Title + "</h4>",
+                    "title_html": true,
+                    "width": 500,
+                    "buttons": [
                         {
-                            id: 'BtnEquipmentVerificationActAddresSave',
-                            html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
+                            "id": "EquipmentVerificationActDeleteBtnOk",
+                            "html": "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
                             "class": "btn btn-danger btn-xs",
-                            click: function () {
+                            "click": function () {
                                 EquipmentVerificationDeleteConfirmed();
                             }
                         },
                         {
-                            html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                            "id": "EquipmentVerificationActDeleteBtnCancel",
+                            "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                             "class": "btn btn-xs",
-                            click: function () {
+                            "click": function () {
                                 $(this).dialog("close");
                             }
                         }
                     ]
-                    });
+                });
             }
 
-            function EquipmentCalibrationDeleteConfirmed(){
-                var webMethod = "/Async/EquipmentCalibrationActActions.asmx/Delete";
-                var data = { equipmentCalibrationActId: SelectedEquipmentCalibrationActId, companyId: Company.Id, userId: user.Id };
+            function EquipmentCalibrationDeleteConfirmed() {
+                var data = {
+                    "equipmentCalibrationActId": SelectedEquipmentCalibrationActId,
+                    "companyId": Company.Id,
+                    "userId": user.Id
+                };
                 $.ajax({
-                    type: "POST",
-                    url: webMethod,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(data, null, 2),
-                    success: function (msg) {
+                    "type": "POST",
+                    "url": "/Async/EquipmentCalibrationActActions.asmx/Delete",
+                    "contentType": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "data": JSON.stringify(data, null, 2),
+                    "success": function (msg) {
                         EquipmentCalibrationActRemoveFromList(SelectedEquipmentCalibrationActId);
-                        EquipmentCalibrationActRenderTable('TableEquipmentCalibrationAct');
+                        EquipmentCalibrationActRenderTable("TableEquipmentCalibrationAct");
                         $("#dialogEquipmentCalibrationActDelete").dialog("close");
 
                     },
-                    error: function (msg) {
+                    "error": function (msg) {
                         alertUI(msg.responseText);
                     }
                 });
             }
 
             function EquipmentVerificationDeleteConfirmed(){
-                var webMethod = "/Async/EquipmentVerificationActActions.asmx/Delete";
-                var data = { equipmentVerificationActId: SelectedEquipmentVerificationActId, companyId: Company.Id, userId: user.Id };
+                var data = {
+                    "equipmentVerificationActId": SelectedEquipmentVerificationActId,
+                    "companyId": Company.Id,
+                    "userId": user.Id
+                };
                 $.ajax({
-                    type: "POST",
-                    url: webMethod,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(data, null, 2),
-                    success: function (msg) {
+                    "type": "POST",
+                    "url": "/Async/EquipmentVerificationActActions.asmx/Delete",
+                    "contentType": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "data": JSON.stringify(data, null, 2),
+                    "success": function (msg) {
                         EquipmentVerificationActRemoveFromList(SelectedEquipmentVerificationActId);
                         EquipmentVerificationActRenderTable('TableEquipmentVerificationAct');
                         $("#dialogEquipmentVerificationActDelete").dialog("close");
@@ -1625,22 +1633,22 @@
                 });
             }
             
-            document.getElementById('Tabcalibracion').style.display = Equipment.IsCalibration ? '' : 'none';
-            document.getElementById('Tabverificacion').style.display = Equipment.IsVerification ? '' : 'none';
-            document.getElementById('Tabmantenimiento').style.display = Equipment.IsMaintenance ? '' : 'none';
+            document.getElementById("Tabcalibracion").style.display = Equipment.IsCalibration ? "" : "none";
+            document.getElementById("Tabverificacion").style.display = Equipment.IsVerification ? "" : "none";
+            document.getElementById("Tabmantenimiento").style.display = Equipment.IsMaintenance ? "" : "none";
             
-            document.getElementById('CalibrationDivTable').style.display = Equipment.Id == 0 ? 'none' : '';
-            document.getElementById('VerificationDivTable').style.display = Equipment.Id == 0 ? 'none' : '';
+            document.getElementById("CalibrationDivTable").style.display = Equipment.Id == 0 ? "none" : "";
+            document.getElementById("VerificationDivTable").style.display = Equipment.Id == 0 ? "none" : "";
 
             // Style rectifications
-            document.getElementById('TxtCalibrationInternalNotes').style.width = '90%';
-            document.getElementById('TxtCalibrationInternalNotes').style.marginLeft = '5%';
-            document.getElementById('TxtCalibrationExternalNotes').style.width = '90%';
-            document.getElementById('TxtCalibrationExternalNotes').style.marginLeft = '5%';
-            document.getElementById('TxtVerificationInternalNotes').style.width = '90%';
-            document.getElementById('TxtVerificationInternalNotes').style.marginLeft = '5%';
-            document.getElementById('TxtVerificationExternalNotes').style.width = '90%';
-            document.getElementById('TxtVerificationExternalNotes').style.marginLeft = '5%';
+            document.getElementById("TxtCalibrationInternalNotes").style.width = "90%";
+            document.getElementById("TxtCalibrationInternalNotes").style.marginLeft = "5%";
+            document.getElementById("TxtCalibrationExternalNotes").style.width = "90%";
+            document.getElementById("TxtCalibrationExternalNotes").style.marginLeft = "5%";
+            document.getElementById("TxtVerificationInternalNotes").style.width = "90%";
+            document.getElementById("TxtVerificationInternalNotes").style.marginLeft = "5%";
+            document.getElementById("TxtVerificationExternalNotes").style.width = "90%";
+            document.getElementById("TxtVerificationExternalNotes").style.marginLeft = "5%";
 
             var emptyCalibration =
             {
@@ -1711,19 +1719,19 @@
             {
                 if(user.Grants.Provider.Write === false)
                 {
-                    document.getElementById('MaintenanceDefinitionDivProviderBar').style.display = 'none';
+                    $("#MaintenanceDefinitionDivProviderBar").hide();
                     document.getElementById('CmbNewMaintainmentProviderDiv').className = 'col-sm-9';
                 }
             }
             else{                
-                document.getElementById('MaintenanceDefinitionDivProviderBar').style.display = 'none';
+                $("#MaintenanceDefinitionDivProviderBar").hide();
                 document.getElementById('CmbNewMaintainmentProviderDiv').className = 'col-sm-9';
             }
 
             for (var x = 0; x < EquipmentScaleDivision.length; x++) {
                 if (EquipmentScaleDivision[x].Id === EquipmentScaleDivisionSelected) {
-                    if(document.getElementById('TxtEquipmentScaleDivision')!==null){
-                        document.getElementById('TxtEquipmentScaleDivision').value = EquipmentScaleDivision[x].Description;
+                    if(document.getElementById("TxtEquipmentScaleDivision")!==null){
+                        document.getElementById("TxtEquipmentScaleDivision").value = EquipmentScaleDivision[x].Description;
                     }
                     break;
                 }
@@ -1732,25 +1740,25 @@
             FillCmbEquipmentScaleDivision();
 
             // Rellenar combos responsable
-            $('#CmbResponsible').val(Equipment.Responsible.Id);
-            $('#CmbCalibrationInternalResponsible').val(Equipment.InternalCalibration.Responsible.Id);
-            $('#CmbCalibrationExternalResponsible').val(Equipment.ExternalCalibration.Responsible.Id);
-            $('#CmbVerificationInternalResponsible').val(Equipment.InternalVerification.Responsible.Id);
-            $('#CmbVerificationExternalResponsible').val(Equipment.ExternalVerification.Responsible.Id);
+            $("#CmbResponsible").val(Equipment.Responsible.Id);
+            $("#CmbCalibrationInternalResponsible").val(Equipment.InternalCalibration.Responsible.Id);
+            $("#CmbCalibrationExternalResponsible").val(Equipment.ExternalCalibration.Responsible.Id);
+            $("#CmbVerificationInternalResponsible").val(Equipment.InternalVerification.Responsible.Id);
+            $("#CmbVerificationExternalResponsible").val(Equipment.ExternalVerification.Responsible.Id);
             
-            if($('#CmbResponsible').val()===null) { $('#CmbResponsible').val(ApplicationUser.Employee.Id); }
-            if($('#CmbCalibrationInternalResponsible').val()===null) { $('#CmbCalibrationInternalResponsible').val(ApplicationUser.Employee.Id); }
-            if($('#CmbCalibrarionExternalResponsible').val()===null) { $('#CmbCalibrarionExternalResponsible').val(ApplicationUser.Employee.Id); }
-            if($('#CmbVerificationInternalResponsible').val()===null) { $('#CmbVerificationInternalResponsible').val(ApplicationUser.Employee.Id); }
-            if($('#CmbVerificationExternalResponsible').val()===null) { $('#CmbVerificationExternalResponsible').val(ApplicationUser.Employee.Id); }
+            if($("#CmbResponsible").val()===null) { $("#CmbResponsible").val(ApplicationUser.Employee.Id); }
+            if($("#CmbCalibrationInternalResponsible").val()===null) { $("#CmbCalibrationInternalResponsible").val(ApplicationUser.Employee.Id); }
+            if($("#CmbCalibrarionExternalResponsible").val()===null) { $("#CmbCalibrarionExternalResponsible").val(ApplicationUser.Employee.Id); }
+            if($("#CmbVerificationInternalResponsible").val()===null) { $("#CmbVerificationInternalResponsible").val(ApplicationUser.Employee.Id); }
+            if($("#CmbVerificationExternalResponsible").val()===null) { $("#CmbVerificationExternalResponsible").val(ApplicationUser.Employee.Id); }
             
-            if(Equipment.ExternalCalibration!=null && typeof Equipment.ExternalCalibration !== 'undefined' && Equipment.ExternalCalibration.Provider!==null && typeof Equipment.ExternalCalibration.Provider!=='undefined')
+            if(Equipment.ExternalCalibration!=null && typeof Equipment.ExternalCalibration !== "undefined" && Equipment.ExternalCalibration.Provider!==null && typeof Equipment.ExternalCalibration.Provider!=="undefined")
             {
-                $('#CmbCalibrationExternalProvider').val(Equipment.ExternalCalibration.Provider.Id);
+                $("#CmbCalibrationExternalProvider").val(Equipment.ExternalCalibration.Provider.Id);
             }
-            if(Equipment.ExternalVerification!=null && typeof Equipment.ExternalVerification !== 'undefined' && Equipment.ExternalVerification.Provider!==null && typeof Equipment.ExternalVerification.Provider!=='undefined')
+            if(Equipment.ExternalVerification!=null && typeof Equipment.ExternalVerification !== "undefined" && Equipment.ExternalVerification.Provider!==null && typeof Equipment.ExternalVerification.Provider!=="undefined")
             {
-                $('#CmbVerificationExternalProvider').val(Equipment.ExternalVerification.Provider.Id);
+                $("#CmbVerificationExternalProvider").val(Equipment.ExternalVerification.Provider.Id);
             }
 
             // Control de permisos

@@ -1,10 +1,11 @@
-﻿
-
+﻿// --------------------------------
+// <copyright file="UploadFile.cs" company="Sbrinna">
+//     Copyright (c) Sbrinna. All rights reserved.
+// </copyright>
+// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// --------------------------------
 namespace GisoFramework.Item
 {
-    using GisoFramework.Activity;
-    using GisoFramework.DataAccess;
-    using GisoFramework.Item.Binding;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -13,9 +14,10 @@ namespace GisoFramework.Item
     using System.Data.SqlClient;
     using System.Globalization;
     using System.IO;
-    using System.Linq;
-    using System.Text;
     using System.Web;
+    using GisoFramework.Activity;
+    using GisoFramework.DataAccess;
+    using GisoFramework.Item.Binding;
 
     public class UploadFile
     {
@@ -37,7 +39,6 @@ namespace GisoFramework.Item
         {
             switch (itemLinked)
             {
-
                 case 1: return "DashBoard";
                 case 2: return "CompanyData";
                 case 3: return "JobPositions";
@@ -57,6 +58,9 @@ namespace GisoFramework.Item
                 case 18: return "BusinessRisks";
                 case 19: return "Rules";
                 case 20: return "CostDefinition";
+                case 21: return "Objetivo";
+                case 22: return "Inicador";
+                case 26: return "Oportunity";
             }
 
             return string.Empty;
@@ -66,7 +70,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new UploadFile()
+                return new UploadFile
                 {
                     Id = 0,
                     CompanyId = 0,
@@ -154,59 +158,62 @@ namespace GisoFramework.Item
             }
 
             path = string.Format(CultureInfo.InvariantCulture, @"{0}DOCS\{1}\", path, companyId);
-            List<UploadFile> res = new List<UploadFile>();
-            using (SqlCommand cmd = new SqlCommand("UploadFiles_GetByItem"))
+            var res = new List<UploadFile>();
+            using (var cmd = new SqlCommand("UploadFiles_GetByItem"))
             {
                 try
                 {
-                    cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@ItemLinked", itemLinked));
-                    cmd.Parameters.Add(DataParameter.Input("@ItemId", itemId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
-                        while (rdr.Read())
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@ItemLinked", itemLinked));
+                        cmd.Parameters.Add(DataParameter.Input("@ItemId", itemId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            UploadFile attach = new UploadFile()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt64(ColumnsUploadFileGet.Id),
-                                ItemLinked = rdr.GetInt32(ColumnsUploadFileGet.ItemLinked),
-                                ItemId = rdr.GetInt64(ColumnsUploadFileGet.ItemId),
-                                CompanyId = Convert.ToInt32(ColumnsUploadFileGet.CompanyId),
-                                FileName = rdr.GetString(ColumnsUploadFileGet.FileName),
-                                Description = rdr.GetString(ColumnsUploadFileGet.Description),
-                                Extension = rdr.GetString(ColumnsUploadFileGet.Extension).Trim().ToUpperInvariant(),
-                                CreatedBy = new ApplicationUser()
+                                var attach = new UploadFile
                                 {
-                                    Id = rdr.GetInt32(ColumnsUploadFileGet.CreatedBy),
-                                    UserName = rdr.GetString(ColumnsUploadFileGet.CreatdByLogin)
-                                },
-                                CreatedOn = rdr.GetDateTime(ColumnsUploadFileGet.CreatedOn),
-                                ModifiedBy = new ApplicationUser()
+                                    Id = rdr.GetInt64(ColumnsUploadFileGet.Id),
+                                    ItemLinked = rdr.GetInt32(ColumnsUploadFileGet.ItemLinked),
+                                    ItemId = rdr.GetInt64(ColumnsUploadFileGet.ItemId),
+                                    CompanyId = Convert.ToInt32(ColumnsUploadFileGet.CompanyId),
+                                    FileName = rdr.GetString(ColumnsUploadFileGet.FileName),
+                                    Description = rdr.GetString(ColumnsUploadFileGet.Description),
+                                    Extension = rdr.GetString(ColumnsUploadFileGet.Extension).Trim().ToUpperInvariant(),
+                                    CreatedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsUploadFileGet.CreatedBy),
+                                        UserName = rdr.GetString(ColumnsUploadFileGet.CreatdByLogin)
+                                    },
+                                    CreatedOn = rdr.GetDateTime(ColumnsUploadFileGet.CreatedOn),
+                                    ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsUploadFileGet.ModifiedBy),
+                                        UserName = rdr.GetString(ColumnsUploadFileGet.ModifiedByLogin)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsUploadFileGet.ModifiedOn),
+                                    Active = rdr.GetBoolean(ColumnsUploadFileGet.Active)
+                                };
+
+                                string fileName = string.Format(CultureInfo.InvariantCulture, @"{0}{1}", path, attach.FileName);
+                                if (File.Exists(fileName))
                                 {
-                                    Id = rdr.GetInt32(ColumnsUploadFileGet.ModifiedBy),
-                                    UserName = rdr.GetString(ColumnsUploadFileGet.ModifiedByLogin)
-                                },
-                                ModifiedOn = rdr.GetDateTime(ColumnsUploadFileGet.ModifiedOn),
-                                Active = rdr.GetBoolean(ColumnsUploadFileGet.Active)
-                            };
+                                    long length = new System.IO.FileInfo(fileName).Length;
+                                    attach.Size = length;
+                                }
+                                else
+                                {
+                                    attach.Size = 0;
+                                    attach.Description = Path.GetFileName(fileName);
+                                    attach.Extension = "nofile";
+                                }
 
-                            string fileName = string.Format(CultureInfo.InvariantCulture, @"{0}{1}", path, attach.FileName);
-                            if (File.Exists(fileName))
-                            {
-                                long length = new System.IO.FileInfo(fileName).Length;
-                                attach.Size = length;
+                                res.Add(attach);
                             }
-                            else
-                            {
-                                attach.Size = 0;
-                                attach.Description = Path.GetFileName(fileName);
-                                attach.Extension = "nofile";
-                            }
-
-                            res.Add(attach);
                         }
                     }
                 }
@@ -255,21 +262,24 @@ namespace GisoFramework.Item
                 itemId,
                 companyId);
             bool res = false;
-            using (SqlCommand cmd = new SqlCommand("UploadFiles_GetByItem"))
+            using (var cmd = new SqlCommand("UploadFiles_GetByItem"))
             {
                 try
                 {
-                    cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@ItemLinked", itemLinked));
-                    cmd.Parameters.Add(DataParameter.Input("@ItemId", itemId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
-                        if (rdr.HasRows)
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@ItemLinked", itemLinked));
+                        cmd.Parameters.Add(DataParameter.Input("@ItemId", itemId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            res = true;
+                            if (rdr.HasRows)
+                            {
+                                res = true;
+                            }
                         }
                     }
                 }
@@ -324,53 +334,56 @@ namespace GisoFramework.Item
             }
 
             path = string.Format(CultureInfo.InvariantCulture, @"{0}DOCS\{1}\", path, companyId);
-            using (SqlCommand cmd = new SqlCommand("UploadFiles_GetById"))
+            using (var cmd = new SqlCommand("UploadFiles_GetById"))
             {
                 try
                 {
-                    cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@Id", id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
-                        while (rdr.Read())
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@Id", id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            UploadFile attach = new UploadFile()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt64(ColumnsUploadFileGet.Id),
-                                ItemLinked = rdr.GetInt32(ColumnsUploadFileGet.ItemLinked),
-                                ItemId = rdr.GetInt64(ColumnsUploadFileGet.ItemId),
-                                CompanyId = Convert.ToInt32(ColumnsUploadFileGet.CompanyId),
-                                FileName = rdr.GetString(ColumnsUploadFileGet.FileName),
-                                Description = rdr.GetString(ColumnsUploadFileGet.Description),
-                                Extension = rdr.GetString(ColumnsUploadFileGet.Extension).Trim().ToUpperInvariant(),
-                                CreatedBy = new ApplicationUser()
+                                var attach = new UploadFile
                                 {
-                                    Id = rdr.GetInt32(ColumnsUploadFileGet.CreatedBy),
-                                    UserName = rdr.GetString(ColumnsUploadFileGet.CreatdByLogin)
-                                },
-                                CreatedOn = rdr.GetDateTime(ColumnsUploadFileGet.CreatedOn),
-                                ModifiedBy = new ApplicationUser()
-                                {
-                                    Id = rdr.GetInt32(ColumnsUploadFileGet.ModifiedBy),
-                                    UserName = rdr.GetString(ColumnsUploadFileGet.ModifiedByLogin)
-                                },
-                                ModifiedOn = rdr.GetDateTime(ColumnsUploadFileGet.ModifiedOn),
-                                Active = rdr.GetBoolean(ColumnsUploadFileGet.Active)
-                            };
+                                    Id = rdr.GetInt64(ColumnsUploadFileGet.Id),
+                                    ItemLinked = rdr.GetInt32(ColumnsUploadFileGet.ItemLinked),
+                                    ItemId = rdr.GetInt64(ColumnsUploadFileGet.ItemId),
+                                    CompanyId = Convert.ToInt32(ColumnsUploadFileGet.CompanyId),
+                                    FileName = rdr.GetString(ColumnsUploadFileGet.FileName),
+                                    Description = rdr.GetString(ColumnsUploadFileGet.Description),
+                                    Extension = rdr.GetString(ColumnsUploadFileGet.Extension).Trim().ToUpperInvariant(),
+                                    CreatedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsUploadFileGet.CreatedBy),
+                                        UserName = rdr.GetString(ColumnsUploadFileGet.CreatdByLogin)
+                                    },
+                                    CreatedOn = rdr.GetDateTime(ColumnsUploadFileGet.CreatedOn),
+                                    ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsUploadFileGet.ModifiedBy),
+                                        UserName = rdr.GetString(ColumnsUploadFileGet.ModifiedByLogin)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsUploadFileGet.ModifiedOn),
+                                    Active = rdr.GetBoolean(ColumnsUploadFileGet.Active)
+                                };
 
-                            long length = 0;
-                            string finalPath = string.Format(CultureInfo.InvariantCulture, @"{0}{1}", path, attach.FileName);
-                            if (File.Exists(finalPath))
-                            {
-                                length = new System.IO.FileInfo(finalPath).Length;
+                                long length = 0;
+                                string finalPath = string.Format(CultureInfo.InvariantCulture, @"{0}{1}", path, attach.FileName);
+                                if (File.Exists(finalPath))
+                                {
+                                    length = new System.IO.FileInfo(finalPath).Length;
+                                }
+
+                                attach.Size = length;
+
+                                return attach;
                             }
-
-                            attach.Size = length;
-
-                            return attach;
                         }
                     }
                 }
@@ -416,8 +429,8 @@ namespace GisoFramework.Item
                 CultureInfo.InvariantCulture,
                 "UploadFile.Insert(ApplicationUserId:{0}",
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("UploadFiles_Insert"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("UploadFiles_Insert"))
             {
                 /* CREATE PROCEDURE UploadFiles_Insert
                  *   @Id bigint output,
@@ -492,7 +505,7 @@ namespace GisoFramework.Item
 
         public static ActionResult Delete(long attachId, int companyId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE UploadFiled_Inactive
              *   @Id bigint,
              *   @CompanyId bigint */
@@ -523,9 +536,7 @@ namespace GisoFramework.Item
                             path = string.Format(CultureInfo.InvariantCulture, "{0}{1}", path, uploadFile.FileName);
                             if (File.Exists(path))
                             {
-
                                 File.Delete(path);
-
                             }
                         }
                         catch (Exception ex) { }
@@ -563,7 +574,7 @@ namespace GisoFramework.Item
             long incidentActions = 0;
             long free = company.DiskQuote;
 
-            string[] files = Directory.GetFiles(path);
+            var files = Directory.GetFiles(path);
             foreach (string file in files)
             {
                 long size = new FileInfo(file).Length;

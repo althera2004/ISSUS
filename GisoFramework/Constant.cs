@@ -12,6 +12,12 @@ namespace GisoFramework
     /// <summary>Constant application values</summary>
     public static class Constant
     {
+        /// <summary>Indicates select all (active and inactive)</summary>
+        public const bool SelectAll = false;
+
+        /// <summary>Indicates select only active</summary>
+        public const bool SelectOnlyActive = true;
+
         /// <summary>Default item identifier</summary>
         public const int DefaultId = -1;
 

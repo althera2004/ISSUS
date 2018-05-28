@@ -348,7 +348,7 @@ function ApplyActionTrue() {
     $('#Name').prop('disabled', true);
     $('#DateStart').prop('disabled', true);
     $('#CmbRules').prop('disabled', true);
-    document.getElementById('BtnSelectRules').style.display = 'none';
+    $("#BtnSelectRules").hide();
     $('#CmbProcess').prop('disabled', true);
     $('#ApplyAction2').prop('disabled', true);
     $('#input-span-slider-probability').slider('disable');
@@ -405,38 +405,37 @@ function ApplyActionTrue() {
 
 function ApplyActionFalse() {
     //Hide action, cost and final status tabs and content
-    document.getElementById("Tabaccion").style.display = 'none';
-    document.getElementById("accion").style.display = 'none';
-    document.getElementById("Tabcostes").style.display = 'none';
-    document.getElementById("costes").style.display = 'none';
-    document.getElementById("Tabgraphic").style.display = 'none';
-    document.getElementById("graphic").style.display = 'none';
+    $("#Tabaccion").hide();
+    $("#accion").hide();
+    $("#Tabcostes").hide();
+    $("#costes").hide();
+    $("#Tabgraphic").hide();
+    $("#graphic").hide();
 
     //Enable information editing on the risk
-    $('#Name').prop('disabled', false);
-    $('#DateStart').prop('disabled', false);
-    $('#CmbRules').prop('disabled', false);
-    document.getElementById('BtnSelectRules').style.display = '';
-    $('#CmbProcess').prop('disabled', false);
-    //$('#ApplyAction1').prop('disabled', false);
-    $('#ApplyAction2').prop('disabled', false);
-    $('#Assumed').prop('disabled', false);
-    $('#input-span-slider-probability').slider('enable');
-    $('#input-span-slider-severity').slider('enable');
+    $("#Name").prop("disabled", false);
+    $("#DateStart").prop("disabled", false);
+    $("#CmbRules").prop("disabled", false);
+    $("#BtnSelectRules").show();
+    $("#CmbProcess").prop("disabled", false);
+    $("#ApplyAction2").prop("disabled", false);
+    $("#Assumed").prop("disabled", false);
+    $("#input-span-slider-probability").slider("enable");
+    $("#input-span-slider-severity").slider("enable");
     SlidersActive = true;
     SaveAction = false;
 }
 
 function FinalAssumedChanged() {
-    if (document.getElementById('FinalAssumed').checked === true) {
-        document.getElementById('FinalApplyAction1').disabled = true;
-        document.getElementById('FinalApplyAction2').disabled = true;
-        document.getElementById('FinalApplyAction1').checked = false;
-        document.getElementById('FinalApplyAction2').checked = false;
+    if (document.getElementById("FinalAssumed").checked === true) {
+        document.getElementById("FinalApplyAction1").disabled = true;
+        document.getElementById("FinalApplyAction2").disabled = true;
+        document.getElementById("FinalApplyAction1").checked = false;
+        document.getElementById("FinalApplyAction2").checked = false;
     }
     else {
-        document.getElementById('FinalApplyAction1').disabled = false;
-        document.getElementById('FinalApplyAction2').disabled = false;
+        document.getElementById("FinalApplyAction1").disabled = false;
+        document.getElementById("FinalApplyAction2").disabled = false;
     }
 }
 
@@ -450,8 +449,6 @@ function FinalApplyActionFalse() {
 
 function BusinessRiskInsert(previousId) {
     // 1.- Modificar en la BBDD
-    //alert(SaveAction);
-    var webMethod = "/Async/BusinessRiskActions.asmx/BusinessRiskInsert";
     var id = 0;
     UpdateResult();
 
@@ -491,12 +488,12 @@ function BusinessRiskInsert(previousId) {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/BusinessRiskActions.asmx/BusinessRiskInsert",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -529,7 +526,7 @@ function BusinessRiskInsert(previousId) {
                 }
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -544,7 +541,6 @@ function Reload() {
 
 function BusinessRiskUpdate(sender) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/BusinessRiskActions.asmx/BusinessRiskUpdate";
 
     var startAction = 0;
     if (document.getElementById('StartApplyActionAssumed').checked === true) { startAction = 1; }
@@ -597,12 +593,12 @@ function BusinessRiskUpdate(sender) {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/BusinessRiskActions.asmx/BusinessRiskUpdate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -623,7 +619,7 @@ function BusinessRiskUpdate(sender) {
                 }
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }

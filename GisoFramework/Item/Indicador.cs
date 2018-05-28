@@ -753,14 +753,13 @@ namespace GisoFramework.Item
 
             switch (comparerValue.ToUpperInvariant())
             {
-                case "EQ": return dictionary["Common_Comparer_eq"];
                 case "GT": return dictionary["Common_Comparer_gt"];
                 case "EQGT": return dictionary["Common_Comparer_eqgt"];
                 case "LT": return dictionary["Common_Comparer_lt"];
                 case "EQLT": return dictionary["Common_Comparer_eqlt"];
+                case "EQ": return dictionary["Common_Comparer_eq"];
+                default: return string.Empty;
             }
-
-            return string.Empty;
         }
 
         public static string ComparerLabelSign(string comparerValue, Dictionary<string, string> dictionary)
@@ -777,9 +776,8 @@ namespace GisoFramework.Item
                 case "EQGT": return dictionary["Common_ComparerSign_eqgt"];
                 case "LT": return dictionary["Common_ComparerSign_lt"];
                 case "EQLT": return dictionary["Common_ComparerSign_eqlt"];
+                default: return string.Empty;
             }
-
-            return string.Empty;
         }
 
         public static string ByCompanyJson(int companyId)
@@ -807,12 +805,10 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Gets indicador from database by identifier</summary>
         /// <param name="indicadorId"></param>
         /// <param name="companyId"></param>
-        /// <returns></returns>
+        /// <returns>Indicador from database by identifier</returns>
         public static Indicador ById(int indicadorId, int companyId)
         {
             /* CREATE PROCEDURE Provider_GetByCompany
@@ -910,10 +906,10 @@ namespace GisoFramework.Item
                                             Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleEmployeeId),
                                             Name = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeName),
                                             LastName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeLastName),
-                                            UserId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
+                                            UserId = endResponsibleId,
                                             User = new ApplicationUser
                                             {
-                                                Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
+                                                Id = endResponsibleId,
                                                 UserName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleLogin)
                                             }
                                         };
