@@ -86,10 +86,6 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
-                                                    <div class="col-xs-12"><label>
-														<input name="switch-field-1" class="ace ace-switch ace-switch-4" type="checkbox" />
-														<span class="lbl"></span>
-													</label></div>
                             <div class="col-xs-12">
                                 <!-- PAGE CONTENT BEGINS -->
                                 <div class="col-sm-12" id="widthTest">
@@ -238,10 +234,10 @@
                                             <a data-toggle="tab" href="#graphic" id="tabgraficos"><%=this.Dictionary["Item_BusinessRisk_Title_Graph"] %></a>
                                         </li>
                                         <li class="">
-                                            <a data-toggle="tab" href="#oportunity" id="taboportunity" style="display:none;"><%=this.Dictionary["Item_Oportunity"] %></a>
+                                            <a data-toggle="tab" href="#oportunity" id="taboportunity" style="display:none;"><%=this.Dictionary["Item_Oportunities"] %></a>
                                         </li>
                                     </ul>
-                                    <div class="tab-content no-border padding-24" style="height:500px;margin-bottom:40px;">
+                                    <div class="tab-content no-border padding-24">
                                         <div id="list" class="tab-pane active">  
                                             <div class="row">
                                                 <div class="col-xs-12">
@@ -286,20 +282,6 @@
                                                                 </tr>
                                                             </thead>
                                                         </table>
-                                                        <br /><br /><br />
-                                                        <div id="BusinessRiskDeleteDialog" class="hide" style="width:500px;">
-                                                            <p><%=this.Dictionary["Item_BusinessRisk_PopupDelete_Message"] %>&nbsp;<strong><span id="BusinessRiskName"></span></strong>?</p>
-                                                        </div>
-                                                        <div id="BusinessRiskUpdateDialog" class="hide" style="width:500px;">
-                                                            <p><span id="TxtBusinessRiskNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtBusinessRiskName" /></p>
-                                                            <span class="ErrorMessage" id="TxtBusinessRiskNameErrorRequired" style="display:none;"> <%=this.Dictionary["Common_Required"] %></span>
-                                                            <span class="ErrorMessage" id="TxtBusinessRiskNameErrorDuplicated" style="display:none;"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
-                                                        </div>
-                                                        <div id="BusinessRiskInsertDialog" class="hide" style="width:500px;">
-                                                            <p><span id="TxtBusinessRiskNewNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtBusinessRiskNewName" /></p>
-                                                            <span class="ErrorMessage" id="TxtBusinessRiskNewNameErrorRequired" style="display:none;"> <%=this.Dictionary["Common_Required"] %></span>
-                                                            <span class="ErrorMessage" id="TxtBusinessRiskNewNameErrorDuplicated" style="display:none;"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
-                                                        </div>
                                                     </div><!-- /.table-responsive -->
                                                 </div><!-- /span -->
                                             </div><!-- /row -->								
@@ -321,7 +303,7 @@
                                             </div>
                                             <div class="cols-sm-12">
                                                 <div id='chart' style="width:100%;">
-                                                    <svg style='height:500px;width:100%' id="svggrafic"></svg>
+                                                    <svg style='height:420px;width:100%' id="svggrafic"></svg>
                                                     <table id="GraphicTableVoid" style="height:500px;width:100%;display:none;">
                                                         <tr>
                                                             <td colspan="10" align="center" style="background-color:#ddddff;color:#0000aa;">
@@ -337,13 +319,73 @@
                                                         </tr>
                                                     </table>
                                                 </div>
-                                                <pre class='prettyprint linenums'></pre>
                                             </div>
                                         </div>
-                                        <div id="oportunity" class="tab-pane"></div>
+                                        <div id="oportunity" class="tab-pane">
+                                            
+                                                <div class="col-xs-12">
+                                                    <div class="table-responsive" id="scrollTableDivOportunity">
+                                                        <table class="table table-bordered table-striped" style="margin: 0">
+                                                            <thead class="thin-border-bottom">
+		                                                        <tr id="ListDataHeaderOportunity">
+                                                                    <th style="width:40px">&nbsp;</th>
+			                                                        <th onclick="Sort(this,'ListDataTable','date');" id="th1" class="sort search" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Date"] %></th>
+                                                                    <th onclick="Sort(this,'ListDataTable', 'text');" id="th2" class="search sort"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Description"] %></th>
+                                                                    <th onclick="Sort(this,'ListDataTable', 'text');" id="th3" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Process"] %></th>
+																	<th onclick="Sort(this,'ListDataTable', 'text');" id="th4" class="hidden-480 search sort" style="width:120px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Rule"] %></th>
+																	<th onclick="Sort(this,'ListDataTable', 'money');" id="th5" class="hidden-480 search sort" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"] %></th>
+																	<th onclick="Sort(this,'ListDataTable', 'money');" id="th6" class="hidden-480 search sort" style="width:80px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_IPR"] %></th>
+																	<th style="width:107px;">&nbsp;</th>
+		                                                        </tr>
+	                                                        </thead>
+                                                        </table>
+                                                        <div id="ListDataDivOportunity" style="overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                            <table class="table table-bordered table-striped" style="border-top: none;">
+                                                                <tbody id="ListDataTableOportunity"><asp:Literal runat="server" ID="Literal1"></asp:Literal></tbody>
+                                                            </table>
+                                                            <table id="ItemTableVoidOportunity" style="display:none;width:100%">
+                                                                <tr>
+                                                                    <td colspan="10" align="center" style="color:#0000aa;">
+                                                                        <table style="border:none;width:100%">
+                                                                            <tr>
+                                                                                <td rowspan="2" style="border:none;text-align:right"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
+                                                                                <td style="border:none;">
+                                                                                    <h4><%=this.Dictionary["Common_VoidSearchResult"] %></h4>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <table class="table table-bordered table-striped" style="margin: 0;">
+                                                            <thead class="thin-border-bottom">
+                                                                <tr id="ListDataFooterOportunity">
+                                                                    <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="NumberCostsOportunity"></span></i></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div><!-- /.table-responsive -->
+                                                </div><!-- /span -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+    
+                                                        <div id="BusinessRiskDeleteDialog" class="hide" style="width:500px;">
+                                                            <p><%=this.Dictionary["Item_BusinessRisk_PopupDelete_Message"] %>&nbsp;<strong><span id="BusinessRiskName"></span></strong>?</p>
+                                                        </div>
+                                                        <div id="BusinessRiskUpdateDialog" class="hide" style="width:500px;">
+                                                            <p><span id="TxtBusinessRiskNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtBusinessRiskName" /></p>
+                                                            <span class="ErrorMessage" id="TxtBusinessRiskNameErrorRequired" style="display:none;"> <%=this.Dictionary["Common_Required"] %></span>
+                                                            <span class="ErrorMessage" id="TxtBusinessRiskNameErrorDuplicated" style="display:none;"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                                        </div>
+                                                        <div id="BusinessRiskInsertDialog" class="hide" style="width:500px;">
+                                                            <p><span id="TxtBusinessRiskNewNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtBusinessRiskNewName" /></p>
+                                                            <span class="ErrorMessage" id="TxtBusinessRiskNewNameErrorRequired" style="display:none;"> <%=this.Dictionary["Common_Required"] %></span>
+                                                            <span class="ErrorMessage" id="TxtBusinessRiskNewNameErrorDuplicated" style="display:none;"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                                        </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server"> 
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
@@ -377,6 +419,16 @@
                     return false;
                 });
 
+                $("#BtnNewOportunity").on("click", function (e) {
+                    document.location = "OportunityView.aspx?id=-1";
+                    return false;
+                });
+
+                $("#BtnSearchOportunity").on("click", function (e) {
+                    e.preventDefault();
+                    OportunityGetFilter();
+                });
+
                 $("#BtnSearch").on("click", function (e) {
                     e.preventDefault();
                     BusinessRiskGetFilter();
@@ -385,6 +437,11 @@
                 $("#BtnRecordShowAll").on("click", function (e) {
                     e.preventDefault();
                     BussinesRiskListGetAll();
+                });
+
+                $("#BtnRecordShowAllOportunity").on("click", function (e) {
+                    e.preventDefault();
+                    OportunityListGetAll();
                 });
 
                 $("#BtnRecordShowNone").on("click", function (e) {

@@ -698,11 +698,10 @@ namespace GisoFramework.Item
         /// <param name="to">Final date to filter</param>
         /// <param name="rulesId">Rules identifier to filter</param>
         /// <param name="processId">Process identifier to filter</param>
-        /// <param name="type">Type to filter</param>
         /// <returns>String containing a Json</returns>
-        public static string FilterList(int companyId, DateTime? from, DateTime? to, long rulesId, long processId, int type)
+        public static string FilterList(int companyId, DateTime? from, DateTime? to, long rulesId, long processId)
         {
-            var items = Filter(companyId, from, to, rulesId, processId, type);
+            var items = Filter(companyId, from, to, rulesId, processId);
             var res = new StringBuilder("[");
             bool first = true;
             foreach (var item in items)
@@ -829,11 +828,6 @@ namespace GisoFramework.Item
                         }
                     }
                 }
-            }
-
-            if (type > 0)
-            {
-                res = res.Where(br => br.Status == type).ToList();
             }
 
             HttpContext.Current.Session["OportunityFilterData"] = res;

@@ -1621,7 +1621,8 @@ Item_Objetivo_DataChangedWarning::Hi ha hagut canvis a l'objetiu, vol guardar el
 Item_Objetivo_DataChangedWarning_continue::Continuar sense guardar
 Item_Objetivo_DataChangedWarning_save::Guardar i continuar
 Item_Objetivo_NewSavedMessage::Ja es poden fer servir les pestanyes de la fitxa
-Item_Oportunity::Oportunidad
+Item_Oportunity::Oportunitat
+Item_Oportunities::Oportunitats
 Item_Oportunity_LabelField_Cost::Coste
 Item_Oportunity_LabelField_Impact::Impacto
 Item_Oportunity_Filter_NoData::No hi ha dades

@@ -2,6 +2,7 @@
 var rule = { "Id": 0 };
 var BusinessRiskSelected;
 var lockOrderList = false;
+var lockOrderListOportunity = false;
 
 function BusinessRiskDeleteAction() {
     var webMethod = "/Async/BusinessRiskActions.asmx/BusinessRiskDelete";
@@ -72,6 +73,19 @@ function BussinesRiskListGetAll() {
     BusinessRiskGetFilter();
 }
 
+function OportunityListGetAll() {
+    var ok = true;
+    VoidTable("ItemTableDataOportunity");
+    $("#CmbRulesOportunity").val(0);
+    $("#CmbTypeOportunity").val(0);
+    $("#CmbProcessOportunity").val(0);
+    $("#TxtDateFromOportunity").val("");
+    $("#TxtDateToOportunity").val("");
+    var from = GetDate($("#TxtDateFromOportunity").val(), "-");
+    var to = GetDate($("#TxtDateToOportunity").val(), "-");
+    OportunityGetFilter();
+}
+
 function BusinessRiskListGetNone() {
     document.getElementById("BtnRecordShowAll").style.display = "";
     document.getElementById("BtnRecordShowNone").style.display = "none";
@@ -81,6 +95,60 @@ function BusinessRiskListGetNone() {
     $("#CmbRules").val(0);
     $("#CmbProcess").val(0);
     $("#CmbType").val(0);
+}
+
+function OportunityGetFilter(exportType) {
+    console.log("OportunityGetFilter", exportType);
+    var ok = true;
+    VoidTable("ListDataTableOportunity");
+
+    var from = GetDate($("#TxtDateFromOportunity").val(), "-");
+    var to = GetDate($("#TxtDateToOportunity").val(), "-");
+
+    var rulesId = $("#CmbRulesOportunity").val() * 1;
+    var processId = $("#CmbProcessOportunity").val() * 1;
+
+    if (from !== null && to !== null) {
+        if (from > to) {
+            ok = false;
+            $("#ErrorDateOportunity").show();
+        }
+    }
+
+    if (ok === false) {
+        $("#ItemTableErrorOportunity").show();
+        return false;
+    }
+
+    var data = {
+        companyId: Company.Id,
+        from: from,
+        to: to,
+        rulesId: rulesId,
+        processId: processId
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/Async/OportunityActions.asmx/GetFilter",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            var OportunityList = [];
+            eval("OportunityList=" + msg.d + ";");
+            originalLimits = BusinessRiskList;
+            OportunityRenderTable(OportunityList);
+            if (exportType !== "undefined") {
+                if (exportType === "PDF") {
+                    ExportPDF();
+                }
+            }
+        },
+        error: function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
 }
 
 function BusinessRiskGetFilter(exportType) {
@@ -123,6 +191,7 @@ function BusinessRiskGetFilter(exportType) {
         dataType: "json",
         data: JSON.stringify(data, null, 2),
         success: function (msg) {
+            var BusinessRiskList = [];
             eval("BusinessRiskList=" + msg.d + ";");
             originalLimits = BusinessRiskList;
             BusinessRiskRenderTable(BusinessRiskList);
@@ -151,6 +220,223 @@ function GetRuleById(id)
     }
 
     return null;
+}
+
+function OportunityRenderTable(list) {
+    if (typeof ApplicationUser.Grants.BusinessRisk === "undefined") {
+        ApplicationUser.Grants.push({ "BusinessGrant": { "Read": false, "Write": false, "Delete": false } });
+    }
+
+    var items = new Array();
+    var target = document.getElementById('ListDataTable');
+    VoidTable('ListDataTable');
+    // Eliminar las lineas de Normas
+    d3.selectAll("svg > *").remove();
+    $("#NumberCosts").html("0");
+
+    if (list.length === 0) {
+        document.getElementById("ItemTableVoid").style.display = "";
+        document.getElementById("GraphicTableVoid").style.display = "";
+        document.getElementById("svggrafic").style.display = "none";
+        document.getElementById("BtnChangeIpr").style.display = "none";
+        if ($("#CmbRules").val() * 1 > 0) {
+            var actualFilterRule = RuleGetById($("#CmbRules").val() * 1);
+            $("#RuleDescription").html("<strong>" + actualFilterRule.Description + "</strong>");
+        }
+        else {
+            $("#RuleDescription").html(Dictionary.Common_All_Female_Plural);
+        }
+        return false;
+    }
+    else {
+        document.getElementById("ItemTableVoid").style.display = "none";
+    }
+
+    // Establecer el valor de la norma actual si la hay
+    RuleLimitFromDB = -1;
+    actualRuleLimit = -1;
+    if (document.getElementById("CmbRules").value > 0) {
+        actualRuleLimit = list[0].RuleLimit;
+        RuleLimitFromDB = actualRuleLimit;
+        $("#input-span-slider").slider({ "value": RuleLimitFromDB });
+        RenderSteps();
+    }
+
+    var total = 0;
+
+    // Se vacía el JSON del gráfico
+    BusinessRiskGraph = new Array();
+
+    for (var x = 0; x < list.length; x++) {
+        var item = list[x];
+        var row = document.createElement("TR");
+        var tdStatus = document.createElement("TD");
+        var tdOpenDate = document.createElement("TD");
+        var tdName = document.createElement("TD");
+        var tdProcess = document.createElement("TD");
+        var tdRules = document.createElement("TD");
+        var tdInitialResult = document.createElement("TD");
+        var tdFinalResult = document.createElement("TD");
+
+        var objProcess = eval("(" + item.Process + ")");
+        var objRules = eval("(" + item.Rules + ")");
+
+        if (objProcess.Id > 0) {
+            if (typeof user.Grants.Process === "undefined" || user.Grants.Proccess.Read === false) {
+                tdProcess.appendChild(document.createTextNode(objProcess.Description));
+            }
+            else {
+                var link = document.createElement("A");
+                link.href = "ProcesosView.aspx?id=" + objProcess.Id;
+                link.appendChild(document.createTextNode(objProcess.Description));
+                tdProcess.appendChild(link);
+            }
+        }
+        if (objRules.Id > 0) {
+
+            if (typeof user.Grants.Rules === "undefined" || user.Grants.Rules === null || user.Grants.Rules.Read === false || user.Grants.Rules.Write === false) {
+                tdRules.appendChild(document.createTextNode(objRules.Description));
+            }
+            else {
+                var linkRule = document.createElement("A");
+                linkRule.href = "RulesView.aspx?id=" + objRules.Id;
+                linkRule.appendChild(document.createTextNode(objRules.Description));
+                tdRules.appendChild(linkRule);
+            }
+        }
+
+        row.id = item.BusinessRiskId;
+
+        var businessRiskLink = document.createElement("A");
+        businessRiskLink.href = "BusinessRiskView.aspx?id=" + item.BusinessRiskId;
+        businessRiskLink.appendChild(document.createTextNode(item.Description));
+
+        icon = document.createElement("I");
+        tdStatus.appendChild(icon);
+
+        var realResult = item.StartResult;
+        /*if (realResult === 0) {
+            realResult = item.StartResult;
+        }*/
+
+        var realAction = item.FinalAction;
+        if (realAction === 0) {
+            realAction = item.RealAction;
+        }
+
+        if (item.Assumed === true) {
+            icon.style.color = "#FFC97D";
+            icon.title = Dictionary.Item_BusinessRisk_Status_Assumed;
+            icon.className = "icon-circle bigger-110";
+        }
+        else if (realResult === 0) {
+            icon.style.color = "#777777";
+            icon.title = Dictionary.Item_BusinessRisk_Status_Unevaluated;
+            icon.className = "icon-warning-sign bigger-110";
+        }
+        else if (realAction === 1) {
+            icon.style.color = "#FFC97D";
+            icon.title = Dictionary.Item_BusinessRisk_Status_Assumed;
+            icon.className = "icon-circle bigger-110";
+        }
+        else {
+            if (realResult < item.RuleLimit) {
+                icon.style.color = "#A5CA9F";
+                icon.title = Dictionary.Item_BusinessRisk_Status_NotSignificant;
+                icon.className = "icon-circle bigger-110";
+            }
+            else {
+                icon.style.color = "#DC8475";
+                icon.title = Dictionary.Item_BusinessRisk_Status_Significant;
+                icon.className = "icon-circle bigger-110";
+            }
+        }
+
+        tdOpenDate.appendChild(document.createTextNode(FormatYYYYMMDD(item.OpenDate, "/")));
+        tdInitialResult.appendChild(document.createTextNode(realResult === 0 ? "" : realResult));
+        tdFinalResult.appendChild(document.createTextNode(item.RuleLimit === 0 ? "" : item.RuleLimit));
+        tdName.appendChild(businessRiskLink);
+
+        tdOpenDate.style.width = "90px";
+        tdInitialResult.align = "center";
+        tdFinalResult.align = "center";
+
+        tdStatus.style.width = "40px";
+        tdRules.style.width = "120px";
+        tdProcess.style.width = "200px";
+        tdInitialResult.style.width = "90px";
+        tdFinalResult.style.width = "80px";
+
+        row.appendChild(tdStatus);
+        row.appendChild(tdOpenDate);
+        row.appendChild(tdName);
+        row.appendChild(tdProcess);
+        row.appendChild(tdRules);
+        row.appendChild(tdInitialResult);
+        row.appendChild(tdFinalResult);
+
+        var iconEdit = document.createElement("SPAN");
+        iconEdit.className = "btn btn-xs btn-info";
+        iconEdit.id = item.Number;
+        var innerEdit = document.createElement("I");
+        innerEdit.className = ApplicationUser.Grants.BusinessRisk.Write ? "icon-edit bigger-120" : "icon-eye-open bigger-120";
+        iconEdit.appendChild(innerEdit);
+        iconEdit.onclick = function () { document.location = "BusinessRiskView.aspx?id=" + this.parentNode.parentNode.id; };
+
+        if (ApplicationUser.Grants.BusinessRisk.Delete === true) {
+            var iconDelete = document.createElement("SPAN");
+            iconDelete.className = "btn btn-xs btn-danger";
+            iconDelete.id = item.Number;
+            var innerDelete = document.createElement("I");
+            innerDelete.className = "icon-trash bigger-120";
+            iconDelete.appendChild(innerDelete);
+            iconDelete.onclick = function () { BusinessRiskDelete(this.parentNode.parentNode.id); };
+        }
+
+        var tdActions = document.createElement("TD");
+
+        tdActions.appendChild(iconEdit);
+        if (ApplicationUser.Grants.BusinessRisk.Delete === true) {
+            tdActions.appendChild(document.createTextNode(" "));
+            tdActions.appendChild(iconDelete);
+        }
+
+        tdActions.style.width = "90px";
+        row.appendChild(tdActions);
+
+        target.appendChild(row);
+
+        if ($.inArray(item.Description, items) === -1) {
+            items.push(item.Description);
+        }
+
+        if ($.inArray(objRules.Description, items) === -1) {
+            items.push(objRules.Description);
+        }
+
+        if ($.inArray(objProcess.Description, items) === -1) {
+            items.push(objProcess.Description);
+        }
+    }
+
+    
+
+    $("#NumberCosts").html(list.length);
+    if (lockOrderListOportunity === false) {
+        $("#th1").click();
+        if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
+            $("#th1").click();
+        }
+    }
+    else {
+        var column = listOrder.split('|')[0];
+        var order = listOrder.split('|')[1];
+
+        $("#" + column).click();
+        if (document.getElementById(column).className.indexOf(order) === -1) {
+            $("#" + column).click();
+        }
+    }
 }
 
 function BusinessRiskRenderTable(list) {
@@ -562,7 +848,14 @@ function Resize() {
 }
 
 window.onload = function () {
+
+    $("H1").html("<input type=\"radio\" id=\"RR\" name=\"RType\" checked=\"checked\" style=\"margin-top:12px;\" />&nbsp;" + Dictionary.Item_BusinessRisks + "       <input type=\"radio\" id=\"RO\" name=\"RType\" style=\"margin-top:12px;\" />&nbsp;" + Dictionary.Item_Oportunities);
+
+    $("#RR").on("click", function () { SetLayout(1); });
+    $("#RO").on("click", function () { SetLayout(2); });
+
     $("#BtnRecordShowAll").click();
+    $("#BtnRecordShowAllOportunity").click();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
     if (Filter !== null) {
         if (Filter.rulesId !== null) {
@@ -592,7 +885,13 @@ window.onload = function () {
     $("#TxtDateTo").on("change", BusinessRiskGetFilter);
     $("#CmbType").on("change", BusinessRiskGetFilter);
 
+    $("#CmbRulesOportunity").on("change", OportunityGetFilter);
+    $("#CmbProcessOportunity").on("change", OportunityGetFilter);
+    $("#TxtDateFromOportunity").on("change", OportunityGetFilter);
+    $("#TxtDateToOportunity").on("change", OportunityGetFilter);
+
     BusinessRiskGetFilter();
+    OportunityGetFilter();
     Resize();
     SetLayout(FilterType);
 }

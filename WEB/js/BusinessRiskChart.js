@@ -23,7 +23,7 @@ function GetRiskNameById(id)
             return BusinessRiskList[x].Description;
         }
     }
-    return '';
+    return "";
 }
 
 function RenderChart() {
@@ -177,6 +177,7 @@ function DrawRuleLine()
     {
         width = $("#svggrafic").width();
     }
+
     var height = $("#svggrafic").height() - 48;
     d3.select("#chart svg").append("line")
         .style("stroke", "red")
