@@ -716,7 +716,7 @@ namespace GisoFramework.Item
                 }
 
                 res.Append("{");
-                res.Append(Tools.JsonPair("BusinessRiskId", item.Id)).Append(",");
+                res.Append(Tools.JsonPair("OportunityId", item.Id)).Append(",");
                 res.Append(Tools.JsonPair("OpenDate", item.OpenDate)).Append(",");
                 res.Append(Tools.JsonPair("Description", item.Description)).Append(",");
                 res.Append(Tools.JsonPair("Code", item.Code)).Append(",");
@@ -833,6 +833,5 @@ namespace GisoFramework.Item
             HttpContext.Current.Session["OportunityFilterData"] = res;
             return new ReadOnlyCollection<OportunityFilterItem>(res);
         }
-
     }
 }

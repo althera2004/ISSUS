@@ -55,7 +55,7 @@
             border:1px solid #777;
         }
 
-        #scrollTableDiv{
+        #scrollTableDiv,#scrollTableDivOportunity{
             background-color:#fafaff;
             border:1px solid #e0e0e0;
             border-top:none;
@@ -77,7 +77,8 @@
         var companyId = <%=this.Company.Id%>;
         var Filter = <%=this.FilterBusinessRisk %>;
         var FilterOportunity = <%=this.FilterOportunity %>;
-        var BussinessRiskList = new Array();
+        var BussinessRiskList = [];
+        var OportunityList = [];
         var BusinessRiskGraph = <%=this.RiskJson%>;
         var CompanyRules = <%=RulesJson%>;
         var FilterType = 1;
@@ -390,7 +391,7 @@
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server"> 
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
         <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>  
-        <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/js/common.js"></script>
         <script type="text/javascript" src="/js/BusinessRiskList.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="//d3js.org/d3.v3.min.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/nv.d3.js?<%=this.AntiCache %>"></script>

@@ -76,13 +76,12 @@ function BussinesRiskListGetAll() {
 function OportunityListGetAll() {
     var ok = true;
     VoidTable("ItemTableDataOportunity");
-    $("#CmbRulesOportunity").val(0);
-    $("#CmbTypeOportunity").val(0);
-    $("#CmbProcessOportunity").val(0);
-    $("#TxtDateFromOportunity").val("");
-    $("#TxtDateToOportunity").val("");
-    var from = GetDate($("#TxtDateFromOportunity").val(), "-");
-    var to = GetDate($("#TxtDateToOportunity").val(), "-");
+    $("#OportunityCmbRules").val(0);
+    $("#OportunityCmbProcess").val(0);
+    $("#TxtOportunityDateFrom").val("");
+    $("#TxtOportunityDateTo").val("");
+    var from = GetDate($("#TxtOportunityDateFrom").val(), "-");
+    var to = GetDate($("#TxtOportunityDateTo").val(), "-");
     OportunityGetFilter();
 }
 
@@ -98,15 +97,14 @@ function BusinessRiskListGetNone() {
 }
 
 function OportunityGetFilter(exportType) {
-    console.log("OportunityGetFilter", exportType);
     var ok = true;
     VoidTable("ListDataTableOportunity");
 
-    var from = GetDate($("#TxtDateFromOportunity").val(), "-");
-    var to = GetDate($("#TxtDateToOportunity").val(), "-");
+    var from = GetDate($("#TxtOportunityDateFrom").val(), "-");
+    var to = GetDate($("#TxtOportunityDateTo").val(), "-");
 
-    var rulesId = $("#CmbRulesOportunity").val() * 1;
-    var processId = $("#CmbProcessOportunity").val() * 1;
+    var rulesId = $("#OportunityCmbRules").val() * 1;
+    var processId = $("#OportunityCmbProcess").val() * 1;
 
     if (from !== null && to !== null) {
         if (from > to) {
@@ -128,6 +126,8 @@ function OportunityGetFilter(exportType) {
         processId: processId
     };
 
+    console.log("filter oportunity", data);
+
     $.ajax({
         type: "POST",
         url: "/Async/OportunityActions.asmx/GetFilter",
@@ -135,9 +135,8 @@ function OportunityGetFilter(exportType) {
         dataType: "json",
         data: JSON.stringify(data, null, 2),
         success: function (msg) {
-            var OportunityList = [];
             eval("OportunityList=" + msg.d + ";");
-            originalLimits = BusinessRiskList;
+            originalLimits = OportunityList;
             OportunityRenderTable(OportunityList);
             if (exportType !== "undefined") {
                 if (exportType === "PDF") {
@@ -152,7 +151,6 @@ function OportunityGetFilter(exportType) {
 }
 
 function BusinessRiskGetFilter(exportType) {
-    console.log("BusinessRiskGetFilter", exportType);
     var ok = true;
     VoidTable("ListDataTable");
 
@@ -184,6 +182,8 @@ function BusinessRiskGetFilter(exportType) {
         type: type
     };
 
+    console.log("businessfilter", data);
+
     $.ajax({
         type: "POST",
         url: "/Async/BusinessRiskActions.asmx/GetFilter",
@@ -191,7 +191,6 @@ function BusinessRiskGetFilter(exportType) {
         dataType: "json",
         data: JSON.stringify(data, null, 2),
         success: function (msg) {
-            var BusinessRiskList = [];
             eval("BusinessRiskList=" + msg.d + ";");
             originalLimits = BusinessRiskList;
             BusinessRiskRenderTable(BusinessRiskList);
@@ -223,34 +222,14 @@ function GetRuleById(id)
 }
 
 function OportunityRenderTable(list) {
-    if (typeof ApplicationUser.Grants.BusinessRisk === "undefined") {
-        ApplicationUser.Grants.push({ "BusinessGrant": { "Read": false, "Write": false, "Delete": false } });
+    if (typeof ApplicationUser.Grants.Oportunity === "undefined") {
+        ApplicationUser.Grants.push({ "Oportunity": { "Read": false, "Write": false, "Delete": false } });
     }
 
     var items = new Array();
-    var target = document.getElementById('ListDataTable');
-    VoidTable('ListDataTable');
-    // Eliminar las lineas de Normas
-    d3.selectAll("svg > *").remove();
-    $("#NumberCosts").html("0");
-
-    if (list.length === 0) {
-        document.getElementById("ItemTableVoid").style.display = "";
-        document.getElementById("GraphicTableVoid").style.display = "";
-        document.getElementById("svggrafic").style.display = "none";
-        document.getElementById("BtnChangeIpr").style.display = "none";
-        if ($("#CmbRules").val() * 1 > 0) {
-            var actualFilterRule = RuleGetById($("#CmbRules").val() * 1);
-            $("#RuleDescription").html("<strong>" + actualFilterRule.Description + "</strong>");
-        }
-        else {
-            $("#RuleDescription").html(Dictionary.Common_All_Female_Plural);
-        }
-        return false;
-    }
-    else {
-        document.getElementById("ItemTableVoid").style.display = "none";
-    }
+    var target = document.getElementById("ListDataTableOportunity");
+    VoidTable("ListDataTableOportunity");
+    $("#NumberCostsOportunity").html("0");
 
     // Establecer el valor de la norma actual si la hay
     RuleLimitFromDB = -1;
@@ -263,9 +242,6 @@ function OportunityRenderTable(list) {
     }
 
     var total = 0;
-
-    // Se vacía el JSON del gráfico
-    BusinessRiskGraph = new Array();
 
     for (var x = 0; x < list.length; x++) {
         var item = list[x];
@@ -305,31 +281,18 @@ function OportunityRenderTable(list) {
             }
         }
 
-        row.id = item.BusinessRiskId;
+        console.log("item", item);
 
-        var businessRiskLink = document.createElement("A");
-        businessRiskLink.href = "BusinessRiskView.aspx?id=" + item.BusinessRiskId;
-        businessRiskLink.appendChild(document.createTextNode(item.Description));
+        row.id = item.OportunityId;
+
+        var oportunityLink = document.createElement("A");
+        oportunityLink.href = "OportunityView.aspx?id=" + item.OportunityId;
+        oportunityLink.appendChild(document.createTextNode(item.Description));
 
         icon = document.createElement("I");
         tdStatus.appendChild(icon);
 
-        var realResult = item.StartResult;
-        /*if (realResult === 0) {
-            realResult = item.StartResult;
-        }*/
-
-        var realAction = item.FinalAction;
-        if (realAction === 0) {
-            realAction = item.RealAction;
-        }
-
-        if (item.Assumed === true) {
-            icon.style.color = "#FFC97D";
-            icon.title = Dictionary.Item_BusinessRisk_Status_Assumed;
-            icon.className = "icon-circle bigger-110";
-        }
-        else if (realResult === 0) {
+        if (item.Result === 0) {
             icon.style.color = "#777777";
             icon.title = Dictionary.Item_BusinessRisk_Status_Unevaluated;
             icon.className = "icon-warning-sign bigger-110";
@@ -353,9 +316,8 @@ function OportunityRenderTable(list) {
         }
 
         tdOpenDate.appendChild(document.createTextNode(FormatYYYYMMDD(item.OpenDate, "/")));
-        tdInitialResult.appendChild(document.createTextNode(realResult === 0 ? "" : realResult));
-        tdFinalResult.appendChild(document.createTextNode(item.RuleLimit === 0 ? "" : item.RuleLimit));
-        tdName.appendChild(businessRiskLink);
+        tdInitialResult.appendChild(document.createTextNode(item.Result === 0 ? "" : item.Result));
+        tdName.appendChild(oportunityLink);
 
         tdOpenDate.style.width = "90px";
         tdInitialResult.align = "center";
@@ -381,22 +343,22 @@ function OportunityRenderTable(list) {
         var innerEdit = document.createElement("I");
         innerEdit.className = ApplicationUser.Grants.BusinessRisk.Write ? "icon-edit bigger-120" : "icon-eye-open bigger-120";
         iconEdit.appendChild(innerEdit);
-        iconEdit.onclick = function () { document.location = "BusinessRiskView.aspx?id=" + this.parentNode.parentNode.id; };
+        iconEdit.onclick = function () { document.location = "OportunityView.aspx?id=" + this.parentNode.parentNode.id; };
 
-        if (ApplicationUser.Grants.BusinessRisk.Delete === true) {
+        if (ApplicationUser.Grants.Oportunity.Delete === true) {
             var iconDelete = document.createElement("SPAN");
             iconDelete.className = "btn btn-xs btn-danger";
             iconDelete.id = item.Number;
             var innerDelete = document.createElement("I");
             innerDelete.className = "icon-trash bigger-120";
             iconDelete.appendChild(innerDelete);
-            iconDelete.onclick = function () { BusinessRiskDelete(this.parentNode.parentNode.id); };
+            iconDelete.onclick = function () { OportunityDelete(this.parentNode.parentNode.id); };
         }
 
         var tdActions = document.createElement("TD");
 
         tdActions.appendChild(iconEdit);
-        if (ApplicationUser.Grants.BusinessRisk.Delete === true) {
+        if (ApplicationUser.Grants.Oportunity.Delete === true) {
             tdActions.appendChild(document.createTextNode(" "));
             tdActions.appendChild(iconDelete);
         }
@@ -419,9 +381,7 @@ function OportunityRenderTable(list) {
         }
     }
 
-    
-
-    $("#NumberCosts").html(list.length);
+    $("#NumberCostsOportunity").html(list.length);
     if (lockOrderListOportunity === false) {
         $("#th1").click();
         if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
@@ -453,10 +413,10 @@ function BusinessRiskRenderTable(list) {
     $("#NumberCosts").html("0");
 
     if (list.length === 0) {
-        document.getElementById("ItemTableVoid").style.display = "";
-        document.getElementById("GraphicTableVoid").style.display = "";
-        document.getElementById("svggrafic").style.display = "none";
-        document.getElementById("BtnChangeIpr").style.display = "none";
+        $("#ItemTableVoid").show();
+        $("#GraphicTableVoid").show();
+        $("#svggrafic").hide();
+        $("#BtnChangeIpr").hide();
         if ($("#CmbRules").val() * 1 > 0) {
             var actualFilterRule = RuleGetById($("#CmbRules").val() * 1);
             $("#RuleDescription").html("<strong>" + actualFilterRule.Description + "</strong>");
@@ -467,7 +427,7 @@ function BusinessRiskRenderTable(list) {
         return false;
     }
     else {
-        document.getElementById("ItemTableVoid").style.display = "none";
+        $("#ItemTableVoid").hide();
     }
 
     // Establecer el valor de la norma actual si la hay
@@ -655,8 +615,8 @@ function BusinessRiskRenderTable(list) {
         }
     }
 
-    document.getElementById("GraphicTableVoid").style.display = "none";
-    document.getElementById("svggrafic").style.display = "";
+    $("#GraphicTableVoid").hide("none");
+    $("#svggrafic").show();
     exampleData();
     RenderChart();
     $(".discreteBar").on("click", function (e) { console.log(e) });
@@ -729,13 +689,8 @@ function RuleGetById(id)
 
 function SetRule(id)
 {
-    if(rule.Id < 1)
-    {
-        return false;
-    }
-
+    if(rule.Id < 1) { return false; }
     actualRuleLimit = id;
-    console.log("id:" + id);
     d3.selectAll("svg > *").remove();
     exampleData();
     RenderChart();
@@ -840,11 +795,13 @@ function RenderSteps() {
 function Resize() {
     var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    var finalHeight = containerHeight - 510;
-    if (finalHeight < 400) {
-        finalHeight = 400;
+    var finalHeight = containerHeight - 530;
+    if (finalHeight < 350) {
+        finalHeight = 350;
     }
-    listTable.style.height = (finalHeight) + "px";
+
+    $("#ListDataDiv").height((finalHeight) + "px");
+    $("#ListDataDivOportunity").height((finalHeight) + "px");
 }
 
 window.onload = function () {
@@ -885,10 +842,10 @@ window.onload = function () {
     $("#TxtDateTo").on("change", BusinessRiskGetFilter);
     $("#CmbType").on("change", BusinessRiskGetFilter);
 
-    $("#CmbRulesOportunity").on("change", OportunityGetFilter);
-    $("#CmbProcessOportunity").on("change", OportunityGetFilter);
-    $("#TxtDateFromOportunity").on("change", OportunityGetFilter);
-    $("#TxtDateToOportunity").on("change", OportunityGetFilter);
+    $("#OportunityCmbRules").on("change", OportunityGetFilter);
+    $("#OportunityCmbProcess").on("change", OportunityGetFilter);
+    $("#TxtOportunityDateFrom").on("change", OportunityGetFilter);
+    $("#TxtOportunityDateTo").on("change", OportunityGetFilter);
 
     BusinessRiskGetFilter();
     OportunityGetFilter();
@@ -931,7 +888,6 @@ function ExportPDF() {
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
             LoadingHide();
-            //successInfoUI(msg.d.MessageError, Go, 200);
             var link = document.createElement("a");
             link.id = "download";
             link.href = msg.d.MessageError;

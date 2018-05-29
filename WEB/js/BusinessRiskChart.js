@@ -59,7 +59,7 @@ function RenderChart() {
         nv.utils.windowResize(chart.update);
         return chart;
     }, function () {
-        console.log("callback");
+        //console.log("callback");
         d3.selectAll(".discreteBar").on("click",
             function (e) {
                 document.location = "/BusinessRiskView.aspx?id=" + e.label;
@@ -86,7 +86,7 @@ function exampleData() {
             );
 
             var finalColor = "#ffb752";
-            console.log(BusinessRiskGraph[x].Description, BusinessRiskGraph[x].Assumed);
+            //console.log(BusinessRiskGraph[x].Description, BusinessRiskGraph[x].Assumed);
             if (BusinessRiskGraph[x].Assumed === false && BusinessRiskGraph[x].FinalAction !== 1) {
                 var limit = typeof actualRuleLimit === "undefined" ? 0 : actualRuleLimit;
                 if (limit < 0 ) {
