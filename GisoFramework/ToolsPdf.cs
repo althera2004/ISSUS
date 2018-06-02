@@ -77,6 +77,11 @@ namespace GisoFramework
             };
         }
 
+        public static PdfPCell CellTable(string value)
+        {
+            return CellTable(value, Times);
+        }
+
         public static PdfPCell CellTable(string value, Font font)
         {
             var finalValue = string.Empty;

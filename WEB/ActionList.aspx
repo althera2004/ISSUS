@@ -95,7 +95,7 @@
                                                     <option value="1"><%=this.Dictionary["Item_IncidentAction_Origin1"] %></option>
                                                     <option value="2"><%=this.Dictionary["Item_IncidentAction_Origin2"] %></option>
                                                     <option value="3"><%=this.Dictionary["Item_IncidentAction_Origin3"] %></option>
-                                                    <option value="4"><%=this.Dictionary["Item_IncidentAction_Origin4"] %></option>
+                                                    <option value="4"><%=this.Dictionary["Item_IncidentAction_Origin46"] %></option>
                                                     <option value="5"><%=this.Dictionary["Item_IncidentAction_Origin5"] %></option>
                                                 </select>  
                                             </td>

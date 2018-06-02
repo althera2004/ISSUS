@@ -149,14 +149,14 @@ jQuery(function ($) {
     $("#CmbActionClosedResponsible").change(function (e) { SetCloseRequired(); });
     $("#TxtActionClosedDate").change(function (e) { SetCloseRequired(); });
 
-    $("#BtnNewCost").on('click', function (e) {
+    $("#BtnNewCost").on("click", function (e) {
         e.preventDefault();
         ShowNewCostPopup(0);
     });
 
-    $('#BtnCostBAR').on('click', function (e) {
+    $("#BtnCostBAR").on("click", function (e) {
         e.preventDefault();
-        ShowCostBarPopup($('#TxtCostDescription'));
+        ShowCostBarPopup($("#TxtCostDescription"));
     });
 
     $('#Tabgraphic').on('click', resizegrafico);

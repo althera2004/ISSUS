@@ -1,4 +1,5 @@
 ﻿var lockOrderList = false;
+var listOrder = "th2|DESC";
 
 function IncidentActionGetFilter(exportType) {
     var ok = true;
@@ -161,14 +162,25 @@ function ItemRenderTable(list) {
             origin.title = item.Associated.Description;
         }
 
+        if (item.Origin === 6) {
+            origin = document.createElement("A");
+            origin.href = "OportunityView.aspx?id=" + item.Associated.Id;
+            origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin6));
+            var spantext2 = document.createElement("span");
+            spantext2.style.display = "none";
+            spantext2.appendChild(document.createTextNode(item.Associated.Description));
+            origin.appendChild(spantext2);
+            //origin.title = Dictionary.Item_IncidentAction_Origin4 + " \"" + item.Associated.Description + "\"";
+            origin.title = item.Associated.Description;
+        }
+
         var actionLink = document.createElement("A");
         actionLink.appendChild(document.createTextNode(item.Number));
         actionLink.href = "ActionView.aspx?id=" + item.Id;
 
         row.id = item.Id;
 
-        //<i class="fa fa-pie-chart"></i>
-        var iconStatus = document.createElement('I');
+        var iconStatus = document.createElement("I");
 		if (item.Status === 1) {
             iconStatus.className = "fa icon-pie-chart";
 			iconStatus.title = Dictionary.Item_IndicentAction_Status1;
@@ -192,21 +204,16 @@ function ItemRenderTable(list) {
         tdOpen.appendChild(document.createTextNode(FormatYYYYMMDD(item.OpenDate, "/")));
         tdType.appendChild(document.createTextNode(type));
         tdStatus.appendChild(iconStatus);
-        //tdStatus.appendChild(document.createTextNode(" " + status));
         tdOrigin.appendChild(origin);
-
 
         var actionLinkDescription = document.createElement("A");
         actionLinkDescription.appendChild(document.createTextNode(item.Description));
         actionLinkDescription.href = "ActionView.aspx?id=" + item.Id;
         tdDescription.appendChild(actionLinkDescription);
 
-
         tdAction.appendChild(document.createTextNode(FormatYYYYMMDD(item.ImplementationDate, "/")));
-        //tdClose.appendChild(document.createTextNode(FormatYYYYMMDD(item.CloseDate, "/")));
         tdAmount.appendChild(document.createTextNode(ToMoneyFormat(item.Amount, 2)));
 
-        //tdDescription.style.width = "200px";
         tdType.style.width = "100px";
 		tdOpen.style.width = "100px";
 		tdOpen.align = "center";
@@ -215,19 +222,15 @@ function ItemRenderTable(list) {
         tdOrigin.style.width = "250px";
         tdAction.style.width = "100px";
 		tdAction.align = "center";
-        //tdClose.style.width = "100px";
-        //tdClose.align = "center";
         tdAmount.style.width = "100px";
         tdAmount.align = "right";
-
-        //row.appendChild(tdNumber);
+        
         row.appendChild(tdDescription);
         row.appendChild(tdOpen);
         row.appendChild(tdStatus);
         row.appendChild(tdOrigin);
         row.appendChild(tdType);
         row.appendChild(tdAction);
-        //row.appendChild(tdClose);
         row.appendChild(tdAmount);
 
         var iconEdit = document.createElement("SPAN");
@@ -257,7 +260,6 @@ function ItemRenderTable(list) {
             }
         }
 
-
         var tdActions = document.createElement("TD");
         tdActions.style.width = "90px";
 
@@ -266,6 +268,7 @@ function ItemRenderTable(list) {
             tdActions.appendChild(document.createTextNode(' '));
             tdActions.appendChild(iconDelete);
         }
+
         row.appendChild(tdActions);
 
         target.appendChild(row);
@@ -392,6 +395,7 @@ function Resize() {
 }
 
 window.onload = function () {
+    $("#th2").click();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
     Resize();
 

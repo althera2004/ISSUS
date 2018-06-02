@@ -24,9 +24,6 @@ public partial class ObjetivoList : Page
     /// <summary>Company of session</summary>
     private Company company;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
@@ -45,13 +42,7 @@ public partial class ObjetivoList : Page
     }
 
     /// <summary>Gets dictionary for fixed labels</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public string Filter { get; set; }
 
@@ -95,7 +86,7 @@ public partial class ObjetivoList : Page
             this.Filter = Session["ObjetivoFilter"].ToString();
         }
 
-        this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AddBreadCrumb("Item_Objetivos");
         this.master.Titulo = "Item_Objetivos";

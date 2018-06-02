@@ -2,8 +2,4 @@
 
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
     <h1><%=this.Dictionary["Common_Error_UserCanNotAccess"] %></h1>
-     <div class="form-group">
-    <%=this.UIForm %>
-    </div>
 </asp:Content>
-

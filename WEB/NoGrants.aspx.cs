@@ -19,7 +19,7 @@ public partial class NoGrants : Page
     public Company Company;
 
     /// <summary>Gets the dictionary for interface texts</summary>
-    public Dictionary<string, string> Dictionary { get; set; }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     /// <summary>Event load of page</summary>
     /// <param name="sender">Page loades</param>

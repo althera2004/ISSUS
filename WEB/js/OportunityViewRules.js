@@ -503,6 +503,7 @@ function FillCmbRules() {
     optionDefault.value = 0;
     optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectAll));
     document.getElementById("CmbRules").appendChild(optionDefault);
+    document.getElementById("CmbRules").appendChild(optionDefault);
 
     for (var x = 0; x < RulesCompany.length; x++) {
         var option = document.createElement("option");

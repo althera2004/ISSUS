@@ -325,3 +325,66 @@ function Restore() {
         }
     });
 }
+
+function SetLayout() {
+    if (IncidentAction.Origin == 1) { document.getElementById("ROrigin1").checked = true; }
+    if (IncidentAction.Origin == 2) { document.getElementById("ROrigin2").checked = true; }
+
+    if (IncidentAction.Origin == 3) {
+        $("#ROriginDiv").hide();
+        $("#RTypeDiv").hide();
+        $("#RReporterDiv").hide();
+        $("#IncidentDiv").show();
+        $("#BusinessRiskDiv").hide();
+        $("#ObjetivoDiv").hide();
+        $("#OportunityDiv").hide();
+    }
+    else if (IncidentAction.Origin == 4) {
+        $("#ROriginDiv").hide();
+        $("#RTypeDiv").hide();
+        $("#RReporterDiv").hide();
+        $("#IncidentDiv").hide();
+        $("#BusinessRiskDiv").show();
+        $("#ObjetivoDiv").hide();
+        $("#OportunityDiv").hide();
+    }
+    else if (IncidentAction.Origin == 5) {
+        $("#ROriginDiv").hide();
+        $("#RTypeDiv").hide();
+        $("#RReporterDiv").hide();
+        $("#IncidentDiv").hide();
+        $("#BusinessRiskDiv").hide();
+        $("#ObjetivoDiv").show();
+        $("#OportunityDiv").hide();
+    }
+    else if (IncidentAction.Origin == 6) {
+        $("#ROriginDiv").hide();
+        $("#RTypeDiv").hide();
+        $("#RReporterDiv").hide();
+        $("#IncidentDiv").hide();
+        $("#BusinessRiskDiv").hide();
+        $("#ObjetivoDiv").hide();
+        $("#OportunityDiv").show();
+    }
+    else {
+        if (IncidentAction.ReporterType == 1) {
+            document.getElementById("RReporterType1").checked = true;
+            $("#CmbReporterType1").val(IncidentAction.Department.Id);
+        }
+
+        if (IncidentAction.ReporterType == 2) {
+            document.getElementById("RReporterType2").checked = true;
+            $("#CmbReporterType2").val(IncidentAction.Provider.Id);
+        }
+
+        if (IncidentAction.ReporterType == 3) {
+            document.getElementById("RReporterType3").checked = true;
+            $("#CmbReporterType3").val(IncidentAction.Customer.Id);
+        }
+
+        if (IncidentAction.ActionType == 1) { document.getElementById("RType1").checked = true; }
+        if (IncidentAction.ActionType == 2) { document.getElementById("RType2").checked = true; }
+        if (IncidentAction.ActionType == 3) { document.getElementById("RType3").checked = true; }
+        RReporterTypeChanged();
+    }
+}

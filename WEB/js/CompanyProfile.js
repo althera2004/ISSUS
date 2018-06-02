@@ -42,22 +42,22 @@
     });
 
     if (ApplicationUser.ShowHelp === true) {
-        SetToolTip('TxtName', Dictionary.Item_Company_Help_Name);
-        SetToolTip('TxtNif', Dictionary.Item_Company_Help_Nif);
-        SetToolTip('DivCmbAddress', Dictionary.Item_Company_Help_Common_SelectAddress);
-        SetToolTip('BtnShowAddress', Dictionary.Item_Company_Help_BAR_Addresses);
-        SetToolTip('TxtNewAddress', Dictionary.Item_Company_Help_Address);
-        SetToolTip('TxtNewAddressPostalCode', Dictionary.Item_Company_Help_ZipCode);
-        SetToolTip('TxtNewAddressCity', Dictionary.Item_Company_Help_City);
-        SetToolTip('TxtNewAddressProvince', Dictionary.Item_Company_Help_Provincia);
-        SetToolTip('DivCmbPais', Dictionary.Item_Company_Help_Pais);
-        SetToolTip('TxtNewAddressPhone', Dictionary.Item_Company_Help_Phone);
-        SetToolTip('TxtNewAddressFax', Dictionary.Item_Company_Help_Fax);
-        SetToolTip('TxtNewAddressMobile', Dictionary.Item_Company_Help_Mobile);
-        SetToolTip('TxtNewAddressEmail', Dictionary.Item_Company_Help_Email);
+        SetToolTip("TxtName", Dictionary.Item_Company_Help_Name);
+        SetToolTip("TxtNif", Dictionary.Item_Company_Help_Nif);
+        SetToolTip("DivCmbAddress", Dictionary.Item_Company_Help_Common_SelectAddress);
+        SetToolTip("BtnShowAddress", Dictionary.Item_Company_Help_BAR_Addresses);
+        SetToolTip("TxtNewAddress", Dictionary.Item_Company_Help_Address);
+        SetToolTip("TxtNewAddressPostalCode", Dictionary.Item_Company_Help_ZipCode);
+        SetToolTip("TxtNewAddressCity", Dictionary.Item_Company_Help_City);
+        SetToolTip("TxtNewAddressProvince", Dictionary.Item_Company_Help_Provincia);
+        SetToolTip("DivCmbPais", Dictionary.Item_Company_Help_Pais);
+        SetToolTip("TxtNewAddressPhone", Dictionary.Item_Company_Help_Phone);
+        SetToolTip("TxtNewAddressFax", Dictionary.Item_Company_Help_Fax);
+        SetToolTip("TxtNewAddressMobile", Dictionary.Item_Company_Help_Mobile);
+        SetToolTip("TxtNewAddressEmail", Dictionary.Item_Company_Help_Email);
 
-        $('[data-rel=tooltip]').tooltip();
-        $('[data-rel=popover]').popover({ container: 'body' });
+        $("[data-rel=tooltip]").tooltip();
+        $("[data-rel=popover]").popover({ container: "body" });
     }
 
     $('#CmbPais').ddslick({ data: ddData });
@@ -382,8 +382,6 @@ function AddressSave()
 
 function AddressUpdate()
 {
-    var webMethod = "/Async/CompanyActions.asmx/UpdateAddress";
-
     var oldAddress = null;
     for(var x=0; x<addresses.length;x++)
     {
@@ -397,36 +395,36 @@ function AddressUpdate()
     if(oldAddress!==null)
     {
         var data = {
-            'oldAddress': oldAddress,
-            'newAddress':
+            "oldAddress": oldAddress,
+            "newAddress":
             {
-                'Id': actionAddress,
-                'Company': { 'Id': Company.Id },
-                'Address': $('#TxtNewAddress').val(),
-                'PostalCode': $('#TxtNewAddressPostalCode').val(),
-                'City': $('#TxtNewAddressCity').val(),
-                'Province': $('#TxtNewAddressProvince').val(),
-                'Country': $('#TxtNewAddressCountry').val(),
-                'Phone': $('#TxtNewAddressPhone').val(),
-                'Mobile': $('#TxtNewAddressMobile').val(),
-                'Fax': $('#TxtNewAddressFax').val(),
-                'Email': $('#TxtNewAddressEmail').val(),
-                'Notes': ''
+                "Id": actionAddress,
+                "Company": { "Id": Company.Id },
+                "Address": $("#TxtNewAddress").val(),
+                "PostalCode": $("#TxtNewAddressPostalCode").val(),
+                "City": $("#TxtNewAddressCity").val(),
+                "Province": $("#TxtNewAddressProvince").val(),
+                "Country": $("#TxtNewAddressCountry").val(),
+                "Phone": $("#TxtNewAddressPhone").val(),
+                "Mobile": $("#TxtNewAddressMobile").val(),
+                "Fax": $("#TxtNewAddressFax").val(),
+                "Email": $("#TxtNewAddressEmail").val(),
+                "Notes": ""
             },
-            'userId': user.Id
+            "userId": user.Id
         };
 
         LoadingShow(Dictionary.Common_Message_Saving);
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (response) {
+            "type": "POST",
+            "url": "/Async/CompanyActions.asmx/UpdateAddress",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (response) {
                 LoadingHide();
                 if (response.d.Success === true) {
-                    $('#dialogAddAddress').dialog('close');
+                    $("#dialogAddAddress").dialog("close");
 
                     for(var x=0;x<addresses.length;x++)
                     {
@@ -467,7 +465,7 @@ function AddressUpdate()
                     alertUI(response.d.MessageError);
                 }
             },
-            error: function (jqXHR, textStatus, errorThrown) {
+            "error": function (jqXHR, textStatus, errorThrown) {
                 LoadingHide();
                 alert(jqXHR.responseText);
             }
@@ -483,8 +481,7 @@ function SaveCompany() {
     }
 
     var language = Company.Language === "es" ? 1 : 2;
-
-    var webMethod = "/Async/CompanyActions.asmx/Save";
+    
     var data = {
         "oldCompany":
         {
@@ -509,7 +506,7 @@ function SaveCompany() {
 
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/CompanyActions.asmx/Save",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),

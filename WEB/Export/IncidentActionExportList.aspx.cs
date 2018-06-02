@@ -131,7 +131,8 @@ public partial class ExportIncidentActionExportList : Page
         if (origin == 1) { criteriaOrigin = dictionary["Item_IncidentAction_Origin1"]; }
         if (origin == 2) { criteriaOrigin = dictionary["Item_IncidentAction_Origin2"]; }
         if (origin == 3) { criteriaOrigin = dictionary["Item_IncidentAction_Origin3"]; }
-        if (origin == 4) { criteriaOrigin = dictionary["Item_IncidentAction_Origin4"]; }
+        if (origin == 4) { criteriaOrigin = dictionary["Item_IncidentAction_Origin46"]; }
+        if (origin == 5) { criteriaOrigin = dictionary["Item_IncidentAction_Origin5"]; }
 
         string reporterText = dictionary["Common_All_Male"];
         if (reporter == 1) { reporterText = dictionary["Item_IncidentAction_ReporterType1"]; }
@@ -336,6 +337,8 @@ public partial class ExportIncidentActionExportList : Page
             if (item.Origin == 2) { originText = dictionary["Item_IncidentAction_Origin2"]; }
             if (item.Origin == 3) { originText = dictionary["Item_IncidentAction_Origin3"]; }
             if (item.Origin == 4) { originText = dictionary["Item_IncidentAction_Origin4"]; }
+            if (item.Origin == 5) { originText = dictionary["Item_IncidentAction_Origin5"]; }
+            if (item.Origin == 6) { originText = dictionary["Item_IncidentAction_Origin6"]; }
             item.OriginText = originText;
         }
 

@@ -164,8 +164,8 @@ public partial class BusinessRisksList : Page
         this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AdminPage = false;
-        this.master.AddBreadCrumb("Item_BusinessRisks");
-        this.master.Titulo = "Item_BusinessRisks";
+        this.master.AddBreadCrumb("Item_BusinessRisksAndOportunities");
+        this.master.Titulo = "Item_BusinessRisksAndOportunities";
 
         this.RenderBusinessRiskData();
 
@@ -205,59 +205,6 @@ public partial class BusinessRisksList : Page
     /// <summary>Renders the BusinessRisk data from database</summary>
     private void RenderBusinessRiskData()
     {
-        /*StringBuilder res = new StringBuilder();
-        StringBuilder sea = new StringBuilder();
-        List<string> s = new List<string>();
-        bool first = true;
-        ReadOnlyCollection<BusinessRisk> risks = BusinessRisk.GetActive(((Company)Session["Company"]).Id);
-        foreach (BusinessRisk risk in risks)
-        {
-
-            if (!s.Contains(risk.Description))
-            {
-                s.Add(risk.Description);
-            }
-
-            res.Append(risk.ListRow(this.dictionary, this.user.Grants));
-        }
-
-        BRList = new List<int>();
-        risks = BusinessRisk.GetAll(((Company)Session["Company"]).Id);
-        foreach (BusinessRisk risk in risks)
-        {
-
-            if (!BRList.Contains(risk.Result))
-            {
-                BRList.Add(risk.Result);
-            }
-
-            //res.Append(risk.ListRow(this.dictionary, this.user.Grants));
-        }
-
-        s.Sort();
-        foreach (string item in s)
-        {
-            if (first)
-            {
-                first = false;
-            }
-            else
-            {
-                sea.Append(",");
-            }
-
-            if (item.IndexOf("\"") != -1)
-            {
-                sea.Append(string.Format(@"'{0}'", item));
-            }
-            else
-            {
-                sea.Append(string.Format(@"""{0}""", item));
-            }
-        }
-
-        this.BusinessRiskData.Text = res.ToString();
-        this.master.SearcheableItems = string.Empty;// sea.ToString();*/
         this.FillCombos();
     }
 

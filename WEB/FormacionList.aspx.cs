@@ -160,7 +160,7 @@ public partial class FormacionList : Page
         var searchedItems = new List<string>();
         foreach (var learning in this.learningFilter.Filter())
         {
-            res.Append(learning.ListRow(this.dictionary, this.user.Admin));
+            res.Append(ListRow(this.dictionary, learning));
             if (!searchedItems.Contains(learning.Description))
             {
                 searchedItems.Add(learning.Description);
@@ -207,4 +207,57 @@ public partial class FormacionList : Page
         //this.LtTotal.Text = string.Format(CultureInfo.InvariantCulture,@"{0:#,##0.00}",total).Replace('.',',');
 		this.LtTotal.Text = string.Format(CultureInfo.GetCultureInfo("es-es"), "{0:#,##0.00}",total);	//GTK
 	}
+
+    /// <summary>Gets a row of learning for learnings list table</summary>
+    /// <param name="dictionary">Dictionary for fixed labels</param>
+    /// <param name="admin">Indicates if user that views table has administration role</param>
+    /// <returns>Html code to render learning row</returns>
+    public string ListRow(Dictionary<string, string> dictionary, Learning formacion)
+    {
+        string month = GisoFramework.Tools.TranslatedMonth(formacion.DateEstimated.Month, dictionary);
+
+        var res = new StringBuilder();
+        string iconDeleteAction = "LearningDelete";
+
+        // @alex: al poner la descripcion sustiuir ' por \' para evitar un javascript mal formado 
+        string iconUpdate = string.Format(CultureInfo.InvariantCulture, @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-info"" onclick=""LearningUpdate({0});""><i class=""icon-edit bigger-120""></i></span>", formacion.Id, formacion.Description, dictionary["Common_Edit"]);
+        formacion.Description = formacion.Description.Replace('\'', '´');
+        string iconDelete = string.Format(CultureInfo.InvariantCulture, @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""{3}({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", formacion.Id, formacion.Description, dictionary["Common_Delete"], iconDeleteAction);
+
+        res.Append("<tr>");
+        res.Append("<td>").Append(formacion.Link).Append("</td>");
+        res.Append("<td align=\"center\" style=\"width:100px;white-space: nowrap;\">");
+        res.AppendFormat(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", formacion.DateEstimated);
+        res.Append("<td align=\"center\" style=\"width:100px;white-space: nowrap;\">");
+        res.AppendFormat(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", formacion.RealFinish);
+
+        string amountText = string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", formacion.Amount).Replace(".", ",");
+
+        res.Append("</td>");
+
+        string statusText = string.Empty;
+        switch (formacion.Status)
+        {
+            case 0:
+                statusText = dictionary["Item_Learning_Status_InProgress"];
+                break;
+            case 1:
+                statusText = dictionary["Item_Learning_Status_Finished"];
+                break;
+            case 2:
+                statusText = dictionary["Item_Learning_Status_Evaluated"];
+                break;
+            default:
+                statusText = string.Empty;
+                break;
+        }
+
+        res.Append("<td align=\"center\" class=\"hidden-480\" style=\"width:100px;white-space: nowrap;\">").Append(statusText).Append("</td>");
+        res.Append("<td align=\"right\" class=\"hidden-480\" style=\"width:150px;white-space: nowrap;\">").Append(amountText).Append("</td>");
+        res.Append("<td class=\"hidden-480\" style=\"width:90px;white-space: nowrap;\">");
+        res.Append(iconUpdate).Append("&nbsp;").Append(iconDelete);
+        res.Append("</td>");
+        res.Append("</tr>");
+        return res.ToString();
+    }
 }

@@ -82,16 +82,6 @@ jQuery(function ($) {
         $("#CmbRules").val(Oportunity.Rule.Id);
         $("#CmbProcess").val(Oportunity.Process.Id);
 
-        if (Oportunity.ApplyAction === true) {
-            $("#ApplyActionYes").prop("checked", 1);
-            ApplyActionTrue();
-        }
-
-        if (Oportunity.ApplyAction === false) {
-            $("#ApplyActionFalse").prop("checked", 1);
-            ApplyActionFalse();
-        }
-
         IncidentActionCostRenderTable("IncidentActionCostsTableData");
 
         if (typeof ApplicationUser.Grants.Oportunity === "undefined" || ApplicationUser.Grants.Oportunity.Write === false) {
@@ -112,18 +102,6 @@ jQuery(function ($) {
     $("#BtnCancel").on("click", function (e) { Cancel(); });
     $("#BtnSave2").on("click", function (e) { SaveBtnPressed(); });
     $("#BtnCancel2").on("click", function (e) { Cancel(); });
-
-    if (document.getElementById("ApplyActionYes").checked === true) {
-        $("#Tabaccion").show();
-        $("#accion").show();
-        SaveAction = true;
-    } else {
-        $("#Tabaccion").hide();
-        $("#accion").hide();
-        $("#Tabcostes").hide();
-        $("#costes").hide();
-        SaveAction = false;
-    }
 
     $("#TxtActionCauses").change(function (e) { SetCloseRequired(); });
     $("#CmbActionCausesResponsible").change(function (e) { SetCloseRequired(); });
@@ -180,7 +158,7 @@ function UpdateStartLabels() {
 }
 
 function UpdateResult() {
-    console.log("UpdateResult");
+    //console.log("UpdateResult");
     //Si hay una acción indica que la pestaña inicial está bloqueada
     if (Action.Id > 0) { UpdateStartLabels(); }
 
@@ -222,9 +200,23 @@ function ApplyActionRadio() {
     }
 
     if (document.getElementById("ApplyActionYes").checked === true) {
-        ApplyActionTrue();
+        //Show action, cost and final status tabs and content
+        $("#Tabaccion").show();
+        $("#Tabcostes").show();
+
+        //Disable information editing on the risk
+        $("#TxtDescription").prop("disabled", true);
+        $("#DateStart").attr("disabled", true);
+        $("#CmbRules").attr("disabled", true);
+        $("#BtnSelectRules").hide();
+        $("#CmbProcess").attr("disabled", true);
+        $("#ApplyAction2").attr("disabled", true);
+        $("#input-span-slider-cost").slider("disable");
+        $("#input-span-slider-impact").slider("disable");
+        SlidersActive = false;
+        SaveAction = true;
         SetCloseRequired();
-        alertUI(Dictionary.Item_Oportunity_Warning_ActionTabAvailable, null, 500);
+        alertUI(Dictionary.Item_Oportunity_Warning_ActionTabAvailable, null, 600);
     }
     else {
         ApplyActionFalse();
@@ -233,18 +225,16 @@ function ApplyActionRadio() {
 
 function ApplyActionTrue() {
     //Show action, cost and final status tabs and content
-    $("#Tabaccion").hide();
-    $("#accion").hide();
-    $("#Tabcostes").hide();
-    $("#costes").hide();
+    $("#Tabaccion").show();
+    $("#Tabcostes").show();
 
     //Disable information editing on the risk
-    $("#Name").prop("disabled", true);
-    $("#DateStart").prop("disabled", true);
-    $("#CmbRules").prop("disabled", true);
+    $("#TxtDescription").prop("disabled", true);
+    $("#DateStart").attr("disabled", true);
+    $("#CmbRules").attr("disabled", true);
     $("#BtnSelectRules").hide();
-    $("#CmbProcess").prop("disabled", true);
-    $("#ApplyAction2").prop("disabled", true);
+    $("#CmbProcess").attr("disabled", true);
+    $("#ApplyAction2").attr("disabled", true);
     $("#input-span-slider-cost").slider("disable");
     $("#input-span-slider-impact").slider("disable");
     SlidersActive = false;
@@ -256,15 +246,15 @@ function ApplyActionTrue() {
 
     SaveAction = true;
     if (Action.Description === "") {
-        document.getElementById("TxtActionDescription").value = $("#Name").val();
+        document.getElementById("TxtActionDescription").value = $("#TxtDescription").val();
     }
 
     if (Action.WhatHappened === "") {
-        document.getElementById("TxtActionWhatHappened").value = $("#Description").val();
+        document.getElementById("TxtActionWhatHappened").value = $("#TxtItemDescription").val();
     }
 
     if (Action.Causes === "") {
-        document.getElementById("TxtActionCauses").value = $("#Causes").val();
+        document.getElementById("TxtActionCauses").value = $("#TxtCauses").val();
     }
 
     if (Action.WhatHappenedBy.Id < 0) {
@@ -300,18 +290,16 @@ function ApplyActionTrue() {
 function ApplyActionFalse() {
     //Hide action, cost and final status tabs and content
     $("#Tabaccion").hide();
-    $("#accion").hide();
     $("#Tabcostes").hide();
-    $("#costes").hide();
 
     //Enable information editing on the oportunity
-    $("#Name").prop("disabled", false);
-    $("#DateStart").prop("disabled", false);
-    $("#CmbRules").prop("disabled", false);
+    $("#TxtDescription").prop("disabled");
+    $("#DateStart").removeAttr("disabled");
+    $("#CmbRules").removeAttr("disabled");
     $("#BtnSelectRules").show();
-    $("#CmbProcess").prop("disabled", false);
-    $("#ApplyAction2").prop("disabled", false);
-    $("#Assumed").prop("disabled", false);
+    $("#CmbProcess").removeAttr("disabled");
+    $("#ApplyAction2").removeAttr("disabled");
+    $("#Assumed").removeAttr("disabled");
     $("#input-span-slider-probability").slider("enable");
     $("#input-span-slider-severity").slider("enable");
     SlidersActive = true;
@@ -390,14 +378,7 @@ function OportunityInsert(previousId) {
                 else if (SaveAction === true) {// && ApplyActionFinal === true) {
                     console.log("Oportunity + action");
                     SaveIncidentAction(Oportunity.Id, response.d.MessageError * 1);
-                    //document.location = 'BusinessRisksList.aspx';
                 }
-                /*else if (SaveAction === true && ApplyActionFinal === false) {
-                    Oportunity.Id = response.d.MessageError * 1;
-                    console.log("oportunity + action");
-                    SaveIncidentAction(Oportunity.Id, 0);
-                    //document.location = "OportunityList.aspx";
-                }*/
                 else {
                     console.log("oportunity update");
                     document.location = "OportunityList.aspx";
@@ -486,40 +467,45 @@ function OportunityUpdate(sender) {
 }
 
 function SaveIncidentAction(OportunityId, oportunityId, reload) {
-    var action =
+    var data =
         {
-            "Id": Action.Id,
-            "CompanyId": Company.Id,
-            "ActionType": 3, // Preventiva
-            "Description": $('#TxtActionDescription').val(),
-            "Origin": 6, // Oportunity
-            "ReporterType": 1,
-            "Department": Action.Department,
-            "Provider": Action.Provider,
-            "Customer": Action.Customer,
-            "Number": 0,
-            "BusinessRiskId": null,
-            "Oportunity": { "Id": oportunityId, "Description": Oportunity.Description },
-            "IncidentId": -1,
-            "WhatHappened": $("#TxtActionWhatHappened").val(),
-            "WhatHappenedBy": { "Id": $("#CmbActionWhatHappenedResponsible").val() },
-            "WhatHappenedOn": GetDate($("#TxtActionWhatHappenedDate").val(), "/", false),
-            "Causes": $("#TxtActionCauses").val(),
-            "CausesBy": { "Id": $("#CmbActionCausesResponsible").val() },
-            "CausesOn": GetDate($("#TxtActionCausesDate").val(), "/", false),
-            "Actions": $("#TxtActionActions").val(),
-            "ActionsBy": { "Id": $("#CmbActionActionsResponsible").val() },
-            "ActionsOn": GetDate($("#TxtActionActionsDate").val(), "/", false),
-            "Monitoring": $("#TxtActionMonitoring").val(),
-            "ClosedBy": { "Id": $("#CmbActionClosedResponsible").val() },
-            "ClosedOn": GetDate($("#TxtActionClosedDate").val(), "/", false),
-            "Notes": $("#TxtActionNotes").val(),
-            "Active": true
+            "incidentAction": {
+                "Id": Action.Id,
+                "CompanyId": Company.Id,
+                "ActionType": 3, // Preventiva
+                "Description": $("#TxtActionDescription").val(),
+                "Origin": 6, // Oportunity
+                "ReporterType": 1,
+                "Department": Action.Department,
+                "Provider": Action.Provider,
+                "Customer": Action.Customer,
+                "Number": 0,
+                "BusinessRiskId": -1,
+                "Oportunity": { "Id": Oportunity.Id, "Description": Oportunity.Description },
+                "IncidentId": -1,
+                "WhatHappened": $("#TxtActionWhatHappened").val(),
+                "WhatHappenedBy": { "Id": $("#CmbActionWhatHappenedResponsible").val() },
+                "WhatHappenedOn": GetDate($("#TxtActionWhatHappenedDate").val(), "/", false),
+                "Causes": $("#TxtActionCauses").val(),
+                "CausesBy": { "Id": $("#CmbActionCausesResponsible").val() },
+                "CausesOn": GetDate($("#TxtActionCausesDate").val(), "/", false),
+                "Actions": $("#TxtActionActions").val(),
+                "ActionsBy": { "Id": $("#CmbActionActionsResponsible").val() },
+                "ActionsOn": GetDate($("#TxtActionActionsDate").val(), "/", false),
+                "Monitoring": $("#TxtActionMonitoring").val(),
+                "ClosedBy": { "Id": $("#CmbActionClosedResponsible").val() },
+                "ClosedOn": GetDate($("#TxtActionClosedDate").val(), "/", false),
+                "Notes": $("#TxtActionNotes").val(),
+                "Active": true
+            },
+            "userId": ApplicationUser.Id
         };
+
+    console.log(data);
 
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/IncidentActionsActions.asmx/Save",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
@@ -712,10 +698,6 @@ function ValidateData() {
         ClearFieldTextMessages("TxtActionWhatHappened");
         ClearFieldTextMessages("TxtActionWhatHappenedResponsible");
         ClearFieldTextMessages("TxtActionWhatHappenedDate");
-
-        document.getElementById("TxtFinalResultLabel").style.color = "#000";
-        document.getElementById("TxtFinalProbabilityLabel").style.color = "#000";
-        document.getElementById("TxtFinalSeverityLabel").style.color = "#000";
 
         // La descripción de la acción es obligatoria
         if (document.getElementById("TxtActionDescription").value === "") {
@@ -1087,26 +1069,26 @@ function ActionsDialog(sender) {
     }
 
     if (actualAction !== null) {
-        document.getElementById("TxtActionDescriptionView").value = actualAction.Description;
-        document.getElementById("TxtActionWhatHappenedView").value = actualAction.WhatHappened;
-        document.getElementById("TxtActionWhatHappenedByView").value = actualAction.WhatHappenedBy.Value;
-        document.getElementById("TxtActionWhatHappenedOnView").value = FormatYYYYMMDD(actualAction.WhatHappenedOn, '/');
-        document.getElementById("TxtActionCausesView").value = actualAction.Causes;
-        document.getElementById("TxtActionCausesByView").value = actualAction.CausesBy.Value;
-        document.getElementById("TxtActionCausesOnView").value = FormatYYYYMMDD(actualAction.CausesOn, '/');
-        document.getElementById("TxtActionActionsView").value = actualAction.Actions;
-        document.getElementById("TxtActionActionsByView").value = actualAction.ActionsBy.Value;
-        document.getElementById("TxtActionActionsOnView").value = FormatYYYYMMDD(actualAction.ActionsOn, '/');
-        document.getElementById("TxtActionMonitoringView").value = actualAction.Monitoring;
-        document.getElementById("TxtActionClosedByView").value = actualAction.ClosedBy.Value;
-        document.getElementById("TxtActionClosedOnView").value = FormatYYYYMMDD(actualAction.ClosedOn, '/');
-        document.getElementById("TxtActionNotesView").value = actualAction.Notes;
+        $("#TxtActionDescriptionView").val(actualAction.Description);
+        $("#TxtActionWhatHappenedView").val(actualAction.WhatHappened);
+        $("#TxtActionWhatHappenedByView").val(actualAction.WhatHappenedBy.Value);
+        $("#TxtActionWhatHappenedOnView").val(FormatYYYYMMDD(actualAction.WhatHappenedOn, "/"));
+        $("#TxtActionCausesView").val(actualAction.Causes);
+        $("#TxtActionCausesByView").val(actualAction.CausesBy.Value);
+        $("#TxtActionCausesOnView").val(FormatYYYYMMDD(actualAction.CausesOn, "/"));
+        $("#TxtActionActionsView").val(actualAction.Actions);
+        $("#TxtActionActionsByView").val(actualAction.ActionsBy.Value);
+        $("#TxtActionActionsOnView").val(FormatYYYYMMDD(actualAction.ActionsOn, "/"));
+        $("#TxtActionMonitoringView").val(actualAction.Monitoring);
+        $("#TxtActionClosedByView").val(actualAction.ClosedBy.Value);
+        $("#TxtActionClosedOnView").val(FormatYYYYMMDD(actualAction.ClosedOn, "/"));
+        $("#TxtActionNotesView").val(actualAction.Notes);
     }
 }
 
 
 function RenderStartSliders() {
-    console.log("RenderStartSliders");
+    //console.log("RenderStartSliders");
     var MinStepValue = 1;
 
     $("#input-span-slider-cost").slider({
@@ -1199,7 +1181,7 @@ function RenderStartSliders() {
 }
 
 function RenderStepsSliders() {
-    console.log("RenderStepsSliders");
+    //console.log("RenderStepsSliders");
     var MinStepValue = 1;
     RenderStartSliders();
 
@@ -1309,6 +1291,11 @@ function Resize() {
 }
 
 window.onload = function () {
+
+    if (Oportunity.ApplyAction === false) {
+        $("#Tabaccion").hide();
+    }
+
     Resize();
 
     document.getElementById("TxtDescription").focus();

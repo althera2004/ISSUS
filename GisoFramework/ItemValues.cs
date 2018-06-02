@@ -9,6 +9,9 @@ namespace GisoFramework
     /// <summary>Values that identifies application items</summary>
     public static class ItemValues
     {
+        /// <summary>Indentifier for dashboard</summary>
+        public const int Dashboard = 1;
+
         /// <summary>Indentifier for company profile</summary>
         public const int CompanyProfile = 2;
 

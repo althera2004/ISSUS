@@ -44,7 +44,7 @@ namespace GisoFramework.Item
 
         /// <summary>Gets or sets a value indicating whether item can be deleted</summary>
         public bool CanBeDeleted { get; set; }
-        
+
         /// <summary>Gets a JSON structure of item data</summary>        
         public abstract string Json { get; }
 
@@ -122,7 +122,7 @@ namespace GisoFramework.Item
                         string newValue = variance.NewValue.ToString();
                         res.Append(variance.PropertyName).Append("::null-->").Append(newValue);
                     }
-                    else if(variance.OldValue.GetType().Name.ToUpperInvariant().Equals("string", StringComparison.OrdinalIgnoreCase))
+                    else if (variance.OldValue.GetType().Name.ToUpperInvariant().Equals("string", StringComparison.OrdinalIgnoreCase))
                     {
                         if (variance.NewValue == null)
                         {

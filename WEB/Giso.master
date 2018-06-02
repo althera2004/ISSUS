@@ -201,7 +201,7 @@
                         <li class="active" id="menuoption-1">
                             <a href="/DashBoard.aspx">
                                 <i class="icon-dashboard">
-                                    <span class="badge badge-primary" style="margin-right:8px;font-family:Arial;">2</span>
+                                    <!--<span class="badge badge-primary" style="margin-right:8px;font-family:Arial;">2</span>-->
                                 </i>
                                 <span class="menu-text"> <%=this.Dictionary["Common_Home"] %> </span>
                             </a>
@@ -220,14 +220,14 @@
                         <asp:Literal runat="server" ID="LtBuild"></asp:Literal>
                     </span>
                     <script type="text/javascript">
-                        try {ace.settings.check('sidebar', 'collapsed'); } catch (e) { }
+                        try {ace.settings.check("sidebar", "collapsed"); } catch (e) { }
                     </script>
                 </div>
 
                 <div class="main-content">
                     <div class="breadcrumbs breadcrumbs-fixed" id="breadcrumbs">
                         <script type="text/javascript">
-                            try {ace.settings.check('breadcrumbs', 'fixed'); } catch (e) { }
+                            try {ace.settings.check("breadcrumbs", "fixed"); } catch (e) { }
                         </script>
 
                         <ul class="breadcrumb">
@@ -287,10 +287,7 @@
                                         <tr>
                                             <td valign="top" align="center" style="width:26px;"><i class="icon-info-sign blue" style="font-size:40px;"></i></td>
                                             <td style="font-weight:bold;">
-                                                <p>
-                                                    El empleado no tiene permisos para realizar esta acción.
-                                                    ¿Desea otorgarle permisos para poder realizarla?
-                                                </p>
+                                                <p><%=this.Dictionary["Common_UserSetGrant"] %></p>
                                             </td>
                                         </tr>
                                     </table>
@@ -340,7 +337,6 @@
             <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
                 <i class="icon-double-angle-up icon-only bigger-110"></i>
             </a>
-
             
             <div id="DeleteAttachDialog" class="hide" style="width:500px;">
                 <p><%=this.Dictionary["Item_Attach_Popup_Delete_Question"] %>&nbsp;<strong><span id="AttachName"></span></strong>?</p>

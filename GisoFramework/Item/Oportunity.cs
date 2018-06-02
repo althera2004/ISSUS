@@ -778,8 +778,9 @@ namespace GisoFramework.Item
                                 {
                                     Id = rdr.GetInt64(ColumnsOportunityFilterGet.OportunityId),
                                     Description = rdr.GetString(ColumnsOportunityFilterGet.Description),
-                                    Code = string.Format(CultureInfo.InvariantCulture, "{0}", rdr.GetInt64(ColumnsOportunityFilterGet.Code)),
-                                    OpenDate = rdr.GetDateTime(ColumnsOportunityFilterGet.OpenDate)
+                                    Code = "0",
+                                    OpenDate = rdr.GetDateTime(ColumnsOportunityFilterGet.OpenDate),
+                                    Result = rdr.GetInt32(ColumnsOportunityFilterGet.Result)
                                 };
 
                                 if (!rdr.IsDBNull(ColumnsOportunityFilterGet.CloseDate))

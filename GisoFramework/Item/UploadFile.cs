@@ -39,31 +39,30 @@ namespace GisoFramework.Item
         {
             switch (itemLinked)
             {
-                case 1: return "DashBoard";
-                case 2: return "CompanyData";
-                case 3: return "JobPositions";
-                case 4: return "Departments";
-                case 5: return "Employees";
-                case 6: return "Users";
-                case 7: return "Traces";
-                case 8: return "Documents";
-                case 9: return "Processes";
-                case 10: return "Learning";
-                case 11: return "Equipments";
-                case 12: return "Incidents";
-                case 13: return "IncidentActions";
-                case 14: return "Providers";
-                case 15: return "Customers";
-                case 16: return "IncidentCosts";
-                case 18: return "BusinessRisks";
-                case 19: return "Rules";
-                case 20: return "CostDefinition";
-                case 21: return "Objetivo";
-                case 22: return "Inicador";
-                case 26: return "Oportunity";
+                case ItemValues.Dashboard: return "DashBoard";
+                case ItemValues.CompanyProfile: return "CompanyData";
+                case ItemValues.JobPosition: return "JobPositions";
+                case ItemValues.Department: return "Departments";
+                case ItemValues.Employee: return "Employees";
+                case ItemValues.User: return "Users";
+                case ItemValues.Trace: return "Traces";
+                case ItemValues.Document: return "Documents";
+                case ItemValues.Proccess: return "Processes";
+                case ItemValues.Learning: return "Learning";
+                case ItemValues.Equipment: return "Equipments";
+                case ItemValues.Incident: return "Incidents";
+                case ItemValues.IncidentActions: return "IncidentActions";
+                case ItemValues.Provider: return "Providers";
+                case ItemValues.Customer: return "Customers";
+                case ItemValues.Cost: return "IncidentCosts";
+                case ItemValues.BusinessRisk: return "BusinessRisks";
+                case ItemValues.Rules: return "Rules";
+                case ItemValues.CostDefinition: return "CostDefinition";
+                case ItemValues.Objetivo: return "Objetivo";
+                case ItemValues.Indicador: return "Inicador";
+                case ItemValues.Oportunity: return "Oportunity";
+                default:return string.Empty;
             }
-
-            return string.Empty;
         }
 
         public static UploadFile Empty
@@ -572,6 +571,7 @@ namespace GisoFramework.Item
             long equipments = 0;
             long incidents = 0;
             long incidentActions = 0;
+            long other = 0;
             long free = company.DiskQuote;
 
             var files = Directory.GetFiles(path);
@@ -593,6 +593,9 @@ namespace GisoFramework.Item
                     case "IncidentActions":
                         incidentActions += size;
                         break;
+                    default:
+                        other += size;
+                        break;
                 }
             }
 
@@ -605,12 +608,14 @@ namespace GisoFramework.Item
                     {{""label"": ""Equipments"", ""value"": {1}}},
                     {{""label"": ""Incidents"", ""value"": {2}}},
                     {{""label"": ""IncidentActions"", ""value"": {3}}},
-                    {{""label"": ""Free"", ""value"": {4}}}
-                ]; //{{""Documents"":{0},""Equipments"":{1},""Incidents"":{2},""IncidentActions"":{3},""Free"":{4}}}",
+                    {{""label"": ""Other"", ""value"": {4}}},
+                    {{""label"": ""Free"", ""value"": {5}}}
+                ];",
                 documents * 100M / company.DiskQuote,
                 equipments * 100M / company.DiskQuote,
                 incidents * 100M / company.DiskQuote,
                 incidentActions * 100M / company.DiskQuote,
+                other * 100M / company.DiskQuote,
                 free * 100M / company.DiskQuote
                 );
         }

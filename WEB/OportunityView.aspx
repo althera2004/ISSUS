@@ -61,7 +61,7 @@
         var RulesSelected = this.rule.Id;
         var Oportunity = <%=this.Oportunity.Json%>;
         var OportunityId = Oportunity.Id;
-        var IncidentId = 0;
+        var IncidentAction = <%=this.IncidentAction.Json %>;
         var CostImpactList = <%=this.CostImpactJson%>;
         var Action = <%=this.IncidentAction.Json%>;
         var IncidentActionCosts = <%=this.IncidentCosts %>;
@@ -679,7 +679,7 @@
     <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
     <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
     <script type="text/javascript" src="/js/IncidentActionCost.js?<%=this.AntiCache %>"></script>
-    <script type="text/javascript" src="/js/OportunityView.js"></script>
+    <script type="text/javascript" src="/js/OportunityView.js?<%=this.AntiCache %>"></script>
     <script type="text/javascript" src="/js/OportunityViewRules.js?<%=this.AntiCache %>"></script>
     <script src="//d3js.org/d3.v3.min.js"></script>
     <script type="text/javascript" src="/js/nv.d3.js"></script>

@@ -79,6 +79,10 @@
                                                                 <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>                                                                
                                                                 <label class="col-sm-11"><%=this.Dictionary["Item_IncidentAction_Label_Objetivo"] %>&nbsp;<%=this.Objetivo.Link %></label>
                                                             </div>
+                                                            <div class="form-group" id="OportunityDiv" style="display: none;">
+                                                                <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>                                                                
+                                                                <label class="col-sm-11"><%=this.Dictionary["Item_IncidentAction_Label_Oportunity"] %>&nbsp;<%=this.Objetivo.Link %></label>
+                                                            </div>
                                                             <div class="form-group" id="ROriginDiv">
                                                                 <label id="ROriginLabel" class="col-sm-2"><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %><span style="color: #f00;">*</span></label>
                                                                 <div class="col-sm-2">
@@ -482,14 +486,14 @@
 
                 $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
                     _title: function (title) {
-                        var $title = this.options.title || '&nbsp;'
+                        var $title = this.options.title || "&nbsp;"
                         if (("title_html" in this.options) && this.options.title_html == true)
                             title.html($title);
                         else title.text($title);
                     }
                 }));
 
-                var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
+                var options = $.extend({}, $.datepicker.regional["<%=this.ApplicationUser.Language%>"], { autoclose: true, todayHighlight: true });
                 $(".date-picker").datepicker(options);
 
                 $("#BtnSave").on("click", function (e) { e.preventDefault(); SaveAction(); });
@@ -523,9 +527,6 @@
                 $("#TxtCauses").on("keyup", function (e) { e.preventDefault(); TxtCausesChanged(); });
                 $("#TxtActions").on("keyup", function (e) { e.preventDefault(); TxtActionsChanged(); });            
                 $("#CmbClosedResponsible").on("change", function (e) { e.preventDefault(); SetCloseRequired(); });
-                // $("#TxtClosedDate").on("change", function (e) { e.preventDefault(); SetCloseRequired(); });
-                // $("#CmbClosedExecutor").on("change", function (e) { e.preventDefault(); SetCloseRequired(); });
-                // $("#TxtClosedExecutorDate").on("change", function (e) { e.preventDefault(); SetCloseRequired(); });
             });
 
             function SaveAction() {
@@ -558,27 +559,22 @@
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_OriginRequired);
                         document.getElementById("ROriginLabel").style.color = "#f00";
-                        //document.getElementById("ROriginErrorRequired").style.display = "";
                     } else {
                         document.getElementById("ROriginLabel").style.color = "#000";
-                        //document.getElementById("ROriginErrorRequired").style.display = "none";
                     }
 
                     if (!document.getElementById("RType1").checked && !document.getElementById("RType2").checked && !document.getElementById("RType3").checked) {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_TypeRequired);
                         document.getElementById("RTypeLabel").style.color = "#f00";
-                        //document.getElementById("RTypeErrorRequired").style.display = "";
                     } else {
                         document.getElementById("RTypeLabel").style.color = "#000";
-                        //document.getElementById("RTypeErrorRequired").style.display = "none";
                     }
 
                     if (!document.getElementById("RReporterType1").checked && !document.getElementById("RReporterType2").checked && !document.getElementById("RReporterType3").checked) {
                         ok = false;
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ReportedByRequired);
                         document.getElementById("RReporterTypeLabel").style.color = "#f00";
-                        //document.getElementById("RReporterTypeErrorRequired").style.display = "";
                     } else {
                         var origin = true;
                         if (document.getElementById("RReporterType1").checked && $("#CmbReporterType1").val() * 1 === 0) { origin = false; }
@@ -586,12 +582,10 @@
                         if (document.getElementById("RReporterType3").checked && $("#CmbReporterType3").val() * 1 === 0) { origin = false; }
                         if (origin === true) {
                             document.getElementById("RReporterTypeLabel").style.color = "#000";
-                           // document.getElementById("RReporterTypeErrorRequired").style.display = "none";
                         } else {
                             ok = false;
                             ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ReportedByRequired);
                             document.getElementById("RReporterTypeLabel").style.color = "#f00";
-                           // document.getElementById("RReporterTypeErrorRequired").style.display = "";
                         }
                     }
                 }
@@ -693,22 +687,6 @@
                             dateActions = GetDate($("#TxtActionsDate").val(), "/", false);
                         }
                     }
-
-                    /* ISSUS-10
-                    if (document.getElementById("CmbActionsExecuter").value * 1 === 0) {
-                        ok = false;
-                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredExecutor);
-                        SetFieldTextMessages("CmbActionsExecuter");
-                    }
-
-                    if ($("#TxtActionsSchedule").val() === "") {
-                        ok = false;
-                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredSchedule);
-                        SetFieldTextMessages("TxtActionsSchedule");
-                    }
-                    else{
-                        dateActionsExecution = GetDate($("#TxtActionsSchedule").val(), "/", false);
-                    }*/
                 }
 
                 if(IncidentClosedRequired===true)
@@ -719,14 +697,6 @@
                         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseResponsibleRequired);
                         SetFieldTextMessages("CmbClosedResponsible");
                     }
-
-                    /* ISSUS-10 
-                    if (document.getElementById("CmbClosedExecutor").value * 1 === 0) {
-                        ok = false;
-                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseExecutor);
-                        SetFieldTextMessages("CmbClosedExecutor");
-                    }
-                    */
 
                     if ($("#TxtClosedDate").val() === "") {
                         ok = false;
@@ -745,16 +715,6 @@
                             dateClose = GetDate($("#TxtClosedDate").val(), "/", false);
                         }
                     }
-
-                    /* ISSUS-10
-                    if ($("#TxtClosedExecutorDate").val() === "") {
-                        ok = false;
-                        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseExecutorDate);
-                        SetFieldTextMessages("TxtClosedExecutorDate");
-                    }
-                    else{
-                        dateCloseExecution = GetDate($("#TxtClosedExecutorDate").val(), "/", false);
-                    } */
                 }
 
                 // Detect untemporality dates
@@ -767,30 +727,20 @@
                         SetFieldTextMessages("TxtWhatHappenedDate");
                         SetFieldTextMessages("TxtCausesDate");
                     }
+
                     if(dateActions !== null && dateWhatHappened > dateActions)
                     {
                         okDates = false;
                         SetFieldTextMessages("TxtWhatHappenedDate");
                         SetFieldTextMessages("TxtActionsDate");
                     }
-                    /* ISSUS-10 if(dateActionsExecution !== null && dateWhatHappened > dateActionsExecution)
-                    {
-                        okDates = false;
-                        SetFieldTextMessages("TxtWhatHappenedDate");
-                        SetFieldTextMessages("TxtActionsSchedule");
-                    } */
+
                     if(dateClose !== null && dateWhatHappened > dateClose)
                     {
                         okDates = false;
                         SetFieldTextMessages("TxtWhatHappenedDate");
                         SetFieldTextMessages("TxtClosedDate");
                     }
-                    /* ISSUS- 10 if(dateCloseExecution !== null && dateWhatHappened > dateCloseExecution)
-                    {
-                        okDates = false;
-                        SetFieldTextMessages("TxtWhatHappenedDate");
-                        SetFieldTextMessages("TxtClosedExecutorDate");
-                    } */
                 }
 
                 if(dateCauses !== null)
@@ -801,81 +751,24 @@
                         SetFieldTextMessages("TxtActionsDate");
                         SetFieldTextMessages("TxtCausesDate");
                     }
-                    /* ISSUS-10 
-                    if(dateActionsExecution !== null && dateCauses > dateActionsExecution)
-                    {
-                        okDates = false;
-                        SetFieldTextMessages("TxtCausesDate");
-                        SetFieldTextMessages("TxtActionsSchedule");
-                    } */
+
                     if(dateClose !== null && dateCauses > dateClose)
                     {
                         okDates = false;
                         SetFieldTextMessages("TxtCausesDate");
                         SetFieldTextMessages("TxtClosedDate");
                     }
-                    /* ISSUS-10
-                    if(dateCloseExecution !== null && dateCauses > dateCloseExecution)
-                    {
-                        okDates = false;
-                        SetFieldTextMessages("TxtCausesDate");
-                        SetFieldTextMessages("TxtClosedExecutorDate");
-                    } */
                 }
 
                 if(dateActions !== null)
                 {
-                    /* ISSUS 10
-                    if(dateActionsExecution !== null && dateActions > dateActionsExecution)
-                    {
-                        okDates = false;
-                        SetFieldTextMessages("TxtActionsDate");
-                        SetFieldTextMessages("TxtActionsSchedule");
-                    } */
                     if(dateClose !== null && dateActions > dateClose)
                     {
                         okDates = false;
                         SetFieldTextMessages("TxtActionsDate");
                         SetFieldTextMessages("TxtClosedDate");
                     }
-                    /* ISSUS-10
-                    if(dateCloseExecution !== null && dateActions > dateCloseExecution)
-                    {
-                        okDates = false;
-                        SetFieldTextMessages("TxtActionsDate");
-                        SetFieldTextMessages("TxtClosedExecutorDate");
-                    } */
                 }
-            
-                /* ISSUS-10
-                if(dateActionsExecution !== null)
-                {
-                    if(dateClose !== null && dateActionsExecution > dateClose)
-                    {
-                        okDates = false;
-                        SetFieldTextMessages("TxtActionsSchedule");
-                        SetFieldTextMessages("TxtClosedDate");
-                    }
-                
-                    if(dateCloseExecution !== null && dateActionsExecution > dateCloseExecution)
-                    {
-                        okDates = false;
-                        SetFieldTextMessages("TxtActionsSchedule");
-                        SetFieldTextMessages("TxtClosedExecutorDate");
-                    } 
-                }
-                */
-
-                /* ISSUS-10
-                if(dateClose !== null)
-                {
-                    if(dateCloseExecution !== null && dateClose > dateCloseExecution)
-                    {
-                        okDates = false;
-                        SetFieldTextMessages("TxtClosedDate");
-                        SetFieldTextMessages("TxtClosedExecutorDate");
-                    }
-                } */
 
                 if(okDates === false)
                 {
@@ -909,9 +802,9 @@
                 if (document.getElementById("RReporterType2").checked) { RReporter = 2; }
                 if (document.getElementById("RReporterType3").checked) { RReporter = 3; }
 
-                var Department = { "Id": RReporter == 1 ? $("#CmbReporterType1").val() * 1 : 0};
-                var Provider = { "Id": RReporter == 2 ? $("#CmbReporterType2").val() * 1: 0 };
-                var Customer = { "Id": RReporter == 3 ? $("#CmbReporterType3").val() * 1: 0 };
+                var Department = { "Id": RReporter == 1 ? $("#CmbReporterType1").val() * 1 : 0 };
+                var Provider = { "Id": RReporter == 2 ? $("#CmbReporterType2").val() * 1 : 0 };
+                var Customer = { "Id": RReporter == 3 ? $("#CmbReporterType3").val() * 1 : 0 };
 
                 if (IncidentAction.IncidentId > 0) {
                     RReporter = IncidentAction.ReporterType;
@@ -1071,56 +964,7 @@
                 */
             }
 
-            if (IncidentAction.Origin == 1) { document.getElementById("ROrigin1").checked = true; }
-            if (IncidentAction.Origin == 2) { document.getElementById("ROrigin2").checked = true; }
-
-            if (IncidentAction.Origin == 3) {
-                $("#ROriginDiv").hide();
-                $("#RTypeDiv").hide();
-                $("#RReporterDiv").hide();
-                $("#IncidentDiv").show();
-                $("#BusinessRiskDiv").hide();
-                $("#ObjetivoDiv").hide();
-            }
-            if (IncidentAction.Origin == 4) {
-                $("#ROriginDiv").hide();
-                $("#RTypeDiv").hide();
-                $("#RReporterDiv").hide();
-                $("#IncidentDiv").hide();
-                $("#BusinessRiskDiv").show();
-                $("#ObjetivoDiv").hide();
-            }
-            if (IncidentAction.Origin == 5) {
-                $("#ROriginDiv").hide();
-                $("#RTypeDiv").hide();
-                $("#RReporterDiv").hide();
-                $("#IncidentDiv").hide();
-                $("#BusinessRiskDiv").hide();
-                $("#ObjetivoDiv").show();
-            }
-            else {
-                if (IncidentAction.ReporterType == 1) {
-                    document.getElementById("RReporterType1").checked = true;
-                    $("#CmbReporterType1").val(IncidentAction.Department.Id);
-                }
-
-                if (IncidentAction.ReporterType == 2) {
-                    document.getElementById("RReporterType2").checked = true;
-                    $("#CmbReporterType2").val(IncidentAction.Provider.Id);
-                }
-
-                if (IncidentAction.ReporterType == 3) {
-                    document.getElementById("RReporterType3").checked = true;
-                    $("#CmbReporterType3").val(IncidentAction.Customer.Id);
-                }
-
-                if (IncidentAction.ActionType == 1) { document.getElementById("RType1").checked = true; }
-                if (IncidentAction.ActionType == 2) { document.getElementById("RType2").checked = true; }
-                if (IncidentAction.ActionType == 3) { document.getElementById("RType3").checked = true; }
-                RReporterTypeChanged();
-            }
-
-            FormLoad();
+            
             if(document.getElementById("IncidentActionCostsTableData")!=null)
             {
                 IncidentActionCostRenderTable("IncidentActionCostsTableData");
@@ -1154,6 +998,8 @@
             }
 
             window.onload = function () {
+                SetLayout();
+                FormLoad();
                 Resize();
                 $("#ImgCompany").after("");
                 if (IncidentAction.ClosedOn !== null) {
@@ -1169,16 +1015,8 @@
                     $("#TxtClosedDate").removeAttr("disabled");
                     //$("#TxtNotes").removeAttr("disabled");
                 }
-                $("#menuoption-13 a").show();
 
-                if (Objetivo != null) {
-                    IncidentAction.ObjetivoId = Objetivo.Id;
-                    $("#ObjetivoDiv").show();
-                    $("#ROrigin3").attr("checked", true);
-                    $("#RType1").attr("checked", true);
-                    $("#RTypeDiv").hide();
-                    $("#ROriginDiv").hide();
-                }
+                $("#menuoption-13 a").show();
             }
 
             window.onresize = function () { Resize(); }

@@ -70,6 +70,10 @@
         }
 
         TR:first-child{border-left:none;}
+
+        #BtnNewItem, BtnNewOportunity {
+            display: none;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
@@ -324,14 +328,13 @@
                                         </div>
                                         <div id="oportunity" class="tab-pane">
                                             
-                                                <div class="col-xs-12">
                                                     <div class="table-responsive" id="scrollTableDivOportunity">
                                                         <table class="table table-bordered table-striped" style="margin: 0">
                                                             <thead class="thin-border-bottom">
 		                                                        <tr id="ListDataHeaderOportunity">
                                                                     <th style="width:40px">&nbsp;</th>
 			                                                        <th onclick="Sort(this,'ListDataTable','date');" id="th1" class="sort search" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Date"] %></th>
-                                                                    <th onclick="Sort(this,'ListDataTable', 'text');" id="th2" class="search sort"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Description"] %></th>
+                                                                    <th onclick="Sort(this,'ListDataTable', 'text');" id="th2" class="search sort"><%=this.Dictionary["Item_Oportunity"] %></th>
                                                                     <th onclick="Sort(this,'ListDataTable', 'text');" id="th3" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Process"] %></th>
 																	<th onclick="Sort(this,'ListDataTable', 'text');" id="th4" class="hidden-480 search sort" style="width:120px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Rule"] %></th>
 																	<th onclick="Sort(this,'ListDataTable', 'money');" id="th5" class="hidden-480 search sort" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"] %></th>
@@ -367,7 +370,7 @@
                                                             </thead>
                                                         </table>
                                                     </div><!-- /.table-responsive -->
-                                                </div><!-- /span -->
+                                                
                                         </div>
                                     </div>
                                 </div>
@@ -411,7 +414,7 @@
                     }
                 }));
 
-                var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true });
+                var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { autoclose: true, todayHighlight: true });
                 $(".date-picker").datepicker(options);
                 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 

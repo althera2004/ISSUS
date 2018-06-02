@@ -71,7 +71,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return "{}";
+                return Constant.EmptyJsonObject;
             }
         }
 
@@ -358,7 +358,6 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@ObjetivoRegistroId", objetivoRegistroId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess(objetivoRegistroId);
@@ -429,7 +428,6 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@ObjetivoRegistroId", objetivoRegistroId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess(objetivoRegistroId);
@@ -669,9 +667,8 @@ namespace GisoFramework.Item
                 case "EQGT": return dictionary["Common_Comparer_eqgt"];
                 case "LT": return dictionary["Common_Comparer_lt"];
                 case "EQLT": return dictionary["Common_Comparer_eqlt"];
+                default: return string.Empty;
             }
-
-            return string.Empty;
         }
 
         public static string ComparerLabelSign(string comparerValue, Dictionary<string, string> dictionary)
@@ -693,9 +690,8 @@ namespace GisoFramework.Item
                 case "EQGT": return dictionary["Common_ComparerSign_eqgt"];
                 case "LT": return dictionary["Common_ComparerSign_lt"];
                 case "EQLT": return dictionary["Common_ComparerSign_eqlt"];
+                default: return string.Empty;
             }
-
-            return string.Empty;
         }
     }
 }

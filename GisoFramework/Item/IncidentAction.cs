@@ -903,9 +903,9 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<IncidentAction>(res);
         }
 
-        public static ReadOnlyCollection<IncidentAction> ByOportunityId(int oportunityId, int companyId)
+        public static IncidentAction ByOportunityId(long oportunityId, int companyId)
         {
-            var res = new List<IncidentAction>();
+            var res = IncidentAction.Empty;
             using (var cmd = new SqlCommand("IncidentAction_GetByOportunityId"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -919,45 +919,43 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            while (rdr.Read())
+                            if (rdr.HasRows)
                             {
-                                var newIncidentAction = new IncidentAction
+                                rdr.Read();
+                                res.Id = rdr.GetInt64(ColumnsIncidentActionGet.Id);
+                                res.CompanyId = rdr.GetInt32(ColumnsIncidentActionGet.CompanyId);
+                                res.Number = rdr.GetInt64(ColumnsIncidentActionGet.Number);
+                                res.Description = rdr.GetString(ColumnsIncidentActionGet.Description);
+                                res.ActionType = rdr.GetInt32(ColumnsIncidentActionGet.ActionType);
+                                res.Origin = rdr.GetInt32(ColumnsIncidentActionGet.Origin);
+                                res.ReporterType = rdr.GetInt32(ColumnsIncidentActionGet.ReporterType);
+                                res.WhatHappened = rdr.GetString(ColumnsIncidentActionGet.WhatHappend);
+                                res.WhatHappenedBy = new Employee
                                 {
-                                    Id = rdr.GetInt64(ColumnsIncidentActionGet.Id),
-                                    CompanyId = rdr.GetInt32(ColumnsIncidentActionGet.CompanyId),
-                                    Number = rdr.GetInt64(ColumnsIncidentActionGet.Number),
-                                    Description = rdr.GetString(ColumnsIncidentActionGet.Description),
-                                    ActionType = rdr.GetInt32(ColumnsIncidentActionGet.ActionType),
-                                    Origin = rdr.GetInt32(ColumnsIncidentActionGet.Origin),
-                                    ReporterType = rdr.GetInt32(ColumnsIncidentActionGet.ReporterType),
-                                    WhatHappened = rdr.GetString(ColumnsIncidentActionGet.WhatHappend),
-                                    WhatHappenedBy = new Employee
-                                    {
-                                        Id = rdr.GetInt32(ColumnsIncidentActionGet.WhatHappendId),
-                                        Name = rdr.GetString(ColumnsIncidentActionGet.WhatHappendName),
-                                        LastName = rdr.GetString(ColumnsIncidentActionGet.WhatHappendLastName)
-                                    },
-                                    WhatHappenedOn = rdr.GetDateTime(ColumnsIncidentActionGet.WhatHappendOn),
-                                    Monitoring = rdr.GetString(ColumnsIncidentActionGet.Monitoring),
-                                    Notes = rdr.GetString(ColumnsIncidentActionGet.Notes),
-                                    Active = rdr.GetBoolean(ColumnsIncidentActionGet.Active),
-                                    ModifiedBy = new ApplicationUser
-                                    {
-                                        Id = rdr.GetInt32(ColumnsIncidentActionGet.ModifiedBy),
-                                        UserName = rdr.GetString(ColumnsIncidentActionGet.ModifiedByName)
-                                    },
-                                    ModifiedOn = rdr.GetDateTime(ColumnsIncidentActionGet.ModifiedOn),
-                                    Oportunity = new Oportunity
-                                    {
-                                        Id = Convert.ToInt64(oportunityId)
-                                    }
+                                    Id = rdr.GetInt32(ColumnsIncidentActionGet.WhatHappendId),
+                                    Name = rdr.GetString(ColumnsIncidentActionGet.WhatHappendName),
+                                    LastName = rdr.GetString(ColumnsIncidentActionGet.WhatHappendLastName)
+                                };
+                                res.WhatHappenedOn = rdr.GetDateTime(ColumnsIncidentActionGet.WhatHappendOn);
+                                res.Monitoring = rdr.GetString(ColumnsIncidentActionGet.Monitoring);
+                                res.Notes = rdr.GetString(ColumnsIncidentActionGet.Notes);
+                                res.Active = rdr.GetBoolean(ColumnsIncidentActionGet.Active);
+                                res.ModifiedBy = new ApplicationUser
+                                {
+                                    Id = rdr.GetInt32(ColumnsIncidentActionGet.ModifiedBy),
+                                    UserName = rdr.GetString(ColumnsIncidentActionGet.ModifiedByName)
+                                };
+                                res.ModifiedOn = rdr.GetDateTime(ColumnsIncidentActionGet.ModifiedOn);
+                                res.Oportunity = new Oportunity
+                                {
+                                    Id = Convert.ToInt64(oportunityId)
                                 };
 
                                 if (!rdr.IsDBNull(ColumnsIncidentActionGet.CausesId))
                                 {
-                                    newIncidentAction.Causes = rdr.GetString(ColumnsIncidentActionGet.Causes);
-                                    newIncidentAction.CausesOn = rdr.GetDateTime(ColumnsIncidentActionGet.CausesOn);
-                                    newIncidentAction.CausesBy = new Employee
+                                    res.Causes = rdr.GetString(ColumnsIncidentActionGet.Causes);
+                                    res.CausesOn = rdr.GetDateTime(ColumnsIncidentActionGet.CausesOn);
+                                    res.CausesBy = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentActionGet.CausesId),
                                         Name = rdr.GetString(ColumnsIncidentActionGet.CausesName),
@@ -967,9 +965,9 @@ namespace GisoFramework.Item
 
                                 if (!rdr.IsDBNull(ColumnsIncidentActionGet.ActionsId))
                                 {
-                                    newIncidentAction.Actions = rdr.GetString(ColumnsIncidentActionGet.Actions);
-                                    newIncidentAction.ActionsOn = rdr.GetDateTime(ColumnsIncidentActionGet.ActionsOn);
-                                    newIncidentAction.ActionsBy = new Employee
+                                    res.Actions = rdr.GetString(ColumnsIncidentActionGet.Actions);
+                                    res.ActionsOn = rdr.GetDateTime(ColumnsIncidentActionGet.ActionsOn);
+                                    res.ActionsBy = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentActionGet.ActionsId),
                                         Name = rdr.GetString(ColumnsIncidentActionGet.ActionsName),
@@ -979,8 +977,8 @@ namespace GisoFramework.Item
 
                                 if (!rdr.IsDBNull(ColumnsIncidentActionGet.ClosedId))
                                 {
-                                    newIncidentAction.ClosedOn = rdr.GetDateTime(ColumnsIncidentActionGet.ClosedOn);
-                                    newIncidentAction.ClosedBy = new Employee
+                                    res.ClosedOn = rdr.GetDateTime(ColumnsIncidentActionGet.ClosedOn);
+                                    res.ClosedBy = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentActionGet.ClosedId),
                                         Name = rdr.GetString(ColumnsIncidentActionGet.ClosedName),
@@ -990,8 +988,8 @@ namespace GisoFramework.Item
 
                                 if (!rdr.IsDBNull(ColumnsIncidentActionGet.ActionsExecuterId))
                                 {
-                                    newIncidentAction.ActionsSchedule = rdr.GetDateTime(ColumnsIncidentActionGet.ActionsExecuterSchedule);
-                                    newIncidentAction.ActionsExecuter = new Employee
+                                    res.ActionsSchedule = rdr.GetDateTime(ColumnsIncidentActionGet.ActionsExecuterSchedule);
+                                    res.ActionsExecuter = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsIncidentActionGet.ActionsExecuterId),
                                         Name = rdr.GetString(ColumnsIncidentActionGet.ActionsExecuterName),
@@ -999,22 +997,20 @@ namespace GisoFramework.Item
                                     };
                                 }
 
-                                if (newIncidentAction.ReporterType == 1 && !rdr.IsDBNull(ColumnsIncidentActionGet.DepartmentId))
+                                if (res.ReporterType == 1 && !rdr.IsDBNull(ColumnsIncidentActionGet.DepartmentId))
                                 {
-                                    newIncidentAction.Department = new Department { Id = rdr.GetInt32(ColumnsIncidentActionGet.DepartmentId) };
+                                    res.Department = new Department { Id = rdr.GetInt32(ColumnsIncidentActionGet.DepartmentId) };
                                 }
 
-                                if (newIncidentAction.ReporterType == 2 && !rdr.IsDBNull(ColumnsIncidentActionGet.ProviderId))
+                                if (res.ReporterType == 2 && !rdr.IsDBNull(ColumnsIncidentActionGet.ProviderId))
                                 {
-                                    newIncidentAction.Provider = new Provider { Id = rdr.GetInt64(ColumnsIncidentActionGet.ProviderId) };
+                                    res.Provider = new Provider { Id = rdr.GetInt64(ColumnsIncidentActionGet.ProviderId) };
                                 }
 
-                                if (newIncidentAction.ReporterType == 3 && !rdr.IsDBNull(ColumnsIncidentActionGet.CustomerId))
+                                if (res.ReporterType == 3 && !rdr.IsDBNull(ColumnsIncidentActionGet.CustomerId))
                                 {
-                                    newIncidentAction.Customer = new Customer { Id = rdr.GetInt64(ColumnsIncidentActionGet.CustomerId) };
+                                    res.Customer = new Customer { Id = rdr.GetInt64(ColumnsIncidentActionGet.CustomerId) };
                                 }
-
-                                res.Add(newIncidentAction);
                             }
                         }
                     }
@@ -1028,7 +1024,7 @@ namespace GisoFramework.Item
                 }
             }
 
-            return new ReadOnlyCollection<IncidentAction>(res);
+            return res;
         }
 
         public static IncidentAction ByBusinessRiskId(long businessRiskId, int companyId)

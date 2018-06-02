@@ -296,14 +296,8 @@ function OportunityRenderTable(list) {
             icon.style.color = "#777777";
             icon.title = Dictionary.Item_BusinessRisk_Status_Unevaluated;
             icon.className = "icon-warning-sign bigger-110";
-        }
-        else if (realAction === 1) {
-            icon.style.color = "#FFC97D";
-            icon.title = Dictionary.Item_BusinessRisk_Status_Assumed;
-            icon.className = "icon-circle bigger-110";
-        }
-        else {
-            if (realResult < item.RuleLimit) {
+        }else {
+            if (item.Result < item.RuleLimit) {
                 icon.style.color = "#A5CA9F";
                 icon.title = Dictionary.Item_BusinessRisk_Status_NotSignificant;
                 icon.className = "icon-circle bigger-110";
@@ -317,6 +311,7 @@ function OportunityRenderTable(list) {
 
         tdOpenDate.appendChild(document.createTextNode(FormatYYYYMMDD(item.OpenDate, "/")));
         tdInitialResult.appendChild(document.createTextNode(item.Result === 0 ? "" : item.Result));
+        tdFinalResult.appendChild(document.createTextNode(item.RuleLimit));
         tdName.appendChild(oportunityLink);
 
         tdOpenDate.style.width = "90px";
@@ -806,7 +801,10 @@ function Resize() {
 
 window.onload = function () {
 
-    $("H1").html("<input type=\"radio\" id=\"RR\" name=\"RType\" checked=\"checked\" style=\"margin-top:12px;\" />&nbsp;" + Dictionary.Item_BusinessRisks + "       <input type=\"radio\" id=\"RO\" name=\"RType\" style=\"margin-top:12px;\" />&nbsp;" + Dictionary.Item_Oportunities);
+
+    $("#BtnNewItem").after("<button class=\"btn btn-success\" type=\"button\" id=\"BtnNewOportunity\" onclick=\"document.location = 'OportunityView.aspx?id=-1';\"><i class=\"icon-plus bigger-110\"></i>" + Dictionary.Item_Oportunity_Button_New + "</button>");
+
+    $("H1").html("<input type=\"radio\" id=\"RR\" name=\"RType\" checked=\"checked\" style=\"margin-top:12px;\" />&nbsp;" + Dictionary.Item_BusinessRisks + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"radio\" id=\"RO\" name=\"RType\" style=\"margin-top:12px;\" />&nbsp;" + Dictionary.Item_Oportunities);
 
     $("#RR").on("click", function () { SetLayout(1); });
     $("#RO").on("click", function () { SetLayout(2); });
@@ -868,42 +866,82 @@ function ExportPDF() {
     var processId = $("#CmbProcess").val() * 1;
     var typeId = $("#CmbType").val() * 1;
 
-    var data =
-        {
-            "companyId": Company.Id,
-            "from": from,
-            "to": to,
-            "rulesId": rulesId,
-            "processId": processId,
-            "typeId": typeId,
-            "listOrder": listOrder
-        };
+    if (document.getElementById("RR").checked === true) {
+        var data =
+            {
+                "companyId": Company.Id,
+                "from": from,
+                "to": to,
+                "rulesId": rulesId,
+                "processId": processId,
+                "typeId": typeId,
+                "listOrder": listOrder
+            };
 
-    LoadingShow(Dictionary.Common_Report_Rendering);
-    $.ajax({
-        "type": "POST",
-        "url": "/Export/BusinessriskExportList.aspx/PDF",
-        "contentType": "application/json; charset=utf-8",
-        "dataType": "json",
-        "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
-            LoadingHide();
-            var link = document.createElement("a");
-            link.id = "download";
-            link.href = msg.d.MessageError;
-            link.download = msg.d.MessageError;
-            link.target = "_blank";
-            document.body.appendChild(link);
-            document.body.removeChild(link);
-            $("#download").trigger("click");
-            window.open(msg.d.MessageError);
-            $("#dialogAddAddress").dialog("close");
-        },
-        "error": function (msg) {
-            LoadingHide();
-            alertUI("error:" + msg.responseText);
-        }
-    });
+        LoadingShow(Dictionary.Common_Report_Rendering);
+        $.ajax({
+            "type": "POST",
+            "url": "/Export/BusinessriskExportList.aspx/PDF",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
+                LoadingHide();
+                var link = document.createElement("a");
+                link.id = "download";
+                link.href = msg.d.MessageError;
+                link.download = msg.d.MessageError;
+                link.target = "_blank";
+                document.body.appendChild(link);
+                document.body.removeChild(link);
+                $("#download").trigger("click");
+                window.open(msg.d.MessageError);
+                $("#dialogAddAddress").dialog("close");
+            },
+            "error": function (msg) {
+                LoadingHide();
+                alertUI("error:" + msg.responseText);
+            }
+        });
+    }
+
+    if (document.getElementById("RO").checked === true) {
+        var data =
+            {
+                "companyId": Company.Id,
+                "from": from,
+                "to": to,
+                "rulesId": rulesId,
+                "processId": processId,
+                "listOrder": listOrder
+            };
+
+        LoadingShow(Dictionary.Common_Report_Rendering);
+        $.ajax({
+            "type": "POST",
+            "url": "/Export/OportunityExportList.aspx/PDF",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
+                LoadingHide();
+                var link = document.createElement("a");
+                link.id = "download";
+                link.href = msg.d.MessageError;
+                link.download = msg.d.MessageError;
+                link.target = "_blank";
+                document.body.appendChild(link);
+                document.body.removeChild(link);
+                $("#download").trigger("click");
+                window.open(msg.d.MessageError);
+                $("#dialogAddAddress").dialog("close");
+            },
+            "error": function (msg) {
+                LoadingHide();
+                alertUI("error:" + msg.responseText);
+            }
+        });
+    }
 }
 
 function SetLayout(type) {
@@ -914,6 +952,8 @@ function SetLayout(type) {
         $("#tabgraficos").show();
         $("#taboportunity").hide();
         $("#tabbasic").click();
+        $("#BtnNewItem").show();
+        $("#BtnNewOportunity").hide();
     }
 
     if (type === 2) {
@@ -923,5 +963,7 @@ function SetLayout(type) {
         $("#tabgraficos").hide();
         $("#taboportunity").show();
         $("#taboportunity").click();
+        $("#BtnNewItem").hide();
+        $("#BtnNewOportunity").show();
     }
 }

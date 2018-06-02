@@ -28,15 +28,6 @@ public partial class OportunityView : Page
     /// <summary> Master of page</summary>
     private Giso master;
 
-    /// <summary>Company of session</summary>
-    private Company company;
-
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
-    /// <summary>Application user logged in session</summary>
-    private ApplicationUser user;
-
     /// <summary>Barra de BusinessRisk<summary>
     private TabBar tabBar = new TabBar { Id = "BusinessRiskTabBar" };
 
@@ -45,12 +36,6 @@ public partial class OportunityView : Page
 
     /// <summary>Footer of actions tab</summary>
     private FormFooter formFooterActions;
-
-    /// <summary>Action associated to businessRisk</summary>
-    private IncidentAction incidentAction = IncidentAction.Empty;
-
-    /// <summary>Action List associated to businessRisk</summary>
-    private IncidentAction incidentActionHistory = IncidentAction.Empty;
 
     /// <summary>Gets oportinity identifier</summary>
     public long OportunityId { get; private set; }
@@ -63,8 +48,6 @@ public partial class OportunityView : Page
             return Guid.NewGuid().ToString().ToUpperInvariant();
         }
     }
-
-    public bool historyActionActive;
 
     /// <summary>Public access to businessRisk</summary>
     public Oportunity Oportunity { get; private set; }
@@ -85,31 +68,13 @@ public partial class OportunityView : Page
     /// <summary>Public access to company</summary>
     public Company Company { get; private set; }
 
-    /// <summary>
-    /// Public access to dictionary
-    /// </summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    /// <summary>Gets dictionary for fixed labels</summary>
+    public Dictionary<string, string> Dictionary { get; private set; }
 
-    /// <summary>
-    /// Public access to user
-    /// </summary>
-    public new ApplicationUser User
-    {
-        get
-        {
-            return this.user;
-        }
-    }
+    /// <summary>Gets application user logged</summary>
+    public ApplicationUser ApplicationUser { get; private set; }
 
-    /// <summary>
-    /// Render of tabBar
-    /// </summary>
+    /// <summary>Gets HTML code for tab bar</summary>
     public string TabBar
     {
         get
@@ -125,7 +90,7 @@ public partial class OportunityView : Page
     {
         get
         {
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -136,31 +101,14 @@ public partial class OportunityView : Page
     {
         get
         {
-            return this.formFooterActions.Render(this.dictionary);
+            return this.formFooterActions.Render(this.Dictionary);
         }
     }
 
     /// <summary>
     /// Public access to incidentAction
     /// </summary>
-    public IncidentAction IncidentAction
-    {
-        get
-        {
-            return this.incidentAction;
-        }
-    }
-
-    /// <summary>
-    /// Public access to all incidentAction
-    /// </summary>
-    public IncidentAction IncidentActionHistory
-    {
-        get
-        {
-            return this.incidentActionHistory;
-        }
-    }
+    public IncidentAction IncidentAction { get; private set; }
 
     /// <summary>Cost definitions by company</summary>
     public string CompanyIncidentCosts
@@ -172,7 +120,7 @@ public partial class OportunityView : Page
                 return Constant.EmptyJsonList;
             }
 
-            return IncidentCost.ByCompany(this.company.Id);
+            return IncidentCost.ByCompany(this.Company.Id);
         }
     }
 
@@ -180,7 +128,7 @@ public partial class OportunityView : Page
     {
         get
         {
-            return CostDefinition.ByCompanyJson(this.company.Id);
+            return CostDefinition.ByCompanyJson(this.Company.Id);
         }
     }
 
@@ -191,7 +139,7 @@ public partial class OportunityView : Page
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (Rules rule in Rules.GetBar(this.company.Id))
+            foreach (Rules rule in Rules.GetBar(this.Company.Id))
             {
                 if (first)
                 {
@@ -213,8 +161,8 @@ public partial class OportunityView : Page
     {
         get
         {
-            return Employee.CompanyListJson(this.company.Id);
-            //return Employee.GetByCompanyJson(this.company.Id);
+            return Employee.CompanyListJson(this.Company.Id);
+            //return Employee.GetByCompanyJson(this.Company.Id);
         }
     }
 
@@ -225,7 +173,7 @@ public partial class OportunityView : Page
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (var proSev in CostImpactRange.GetActive(this.company.Id))
+            foreach (var proSev in CostImpactRange.GetActive(this.Company.Id))
             {
                 if (first)
                 {
@@ -252,7 +200,7 @@ public partial class OportunityView : Page
                 return Constant.EmptyJsonList;
             }
 
-            return IncidentActionCost.GetByBusinessRisk(this.Oportunity.Id, this.company.Id);
+            return IncidentActionCost.GetByBusinessRisk(this.Oportunity.Id, this.Company.Id);
         }
     }
     #endregion
@@ -269,12 +217,12 @@ public partial class OportunityView : Page
                 Name = "TxtDescription",
                 Value = this.Oportunity.Description,
                 ColumnSpan = 8,
-                Placeholder = this.dictionary["Item_Oportunity_LabelField_Name"],
+                Placeholder = this.Dictionary["Item_Oportunity_LabelField_Name"],
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
+                RequiredMessage = this.Dictionary["Common_Required"],
                 Duplicated = true,
-                DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
-                GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+                DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
+                GrantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk),
                 MaximumLength = 100
             }.Render;
         }
@@ -290,12 +238,12 @@ public partial class OportunityView : Page
                 Name = "TxtCode",
                 Value = string.Format(CultureInfo.InvariantCulture, "{0:00000}", this.Oportunity.Code),
                 ColumnSpan = 2,
-                Placeholder = this.dictionary["Item_Oportunity_LabelField_Code"],
+                Placeholder = this.Dictionary["Item_Oportunity_LabelField_Code"],
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
+                RequiredMessage = this.Dictionary["Common_Required"],
                 Duplicated = true,
-                DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
-                GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk)
+                DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
+                GrantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk)
             }.Render;
         }
     }
@@ -386,14 +334,14 @@ public partial class OportunityView : Page
             {
                 ColumnSpan = 10,
                 ColumnSpanLabel = 2,
-                GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+                GrantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk),
                 Label = this.Dictionary["Item_IncidentAction_Label_Description"],
                 MaximumLength = 100,
                 Name = "TxtActionDescription",
                 Placeholder = this.Dictionary["Item_IncidentAction_Label_Description"],
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
-                Value = this.incidentAction.Description
+                RequiredMessage = this.Dictionary["Common_Required"],
+                Value = this.IncidentAction.Description
             }.Render;
         }
     }
@@ -407,7 +355,7 @@ public partial class OportunityView : Page
                 Rows = 5,
                 Value = this.IncidentAction.WhatHappened,
                 Name = "TxtActionWhatHappened",
-                Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"],
+                Label = this.Dictionary["Item_IncidentAction_Field_WhatHappened"],
                 ColumnsSpan = Constant.ColumnSpan8,
                 ColumnsSpanLabel = 12,
                 Embedded = true,
@@ -425,7 +373,7 @@ public partial class OportunityView : Page
                 Rows = 5,
                 Value = this.IncidentAction.Causes,
                 Name = "TxtActionCauses",
-                Label = this.dictionary["Item_IncidentAction_Field_Causes"],
+                Label = this.Dictionary["Item_IncidentAction_Field_Causes"],
                 ColumnsSpan = Constant.ColumnSpan8,
                 ColumnsSpanLabel = 12,
                 Embedded = true,
@@ -443,7 +391,7 @@ public partial class OportunityView : Page
                 Rows = 5,
                 Value = this.IncidentAction.Actions,
                 Name = "TxtActionActions",
-                Label = this.dictionary["Item_IncidentAction_Field_Actions"],
+                Label = this.Dictionary["Item_IncidentAction_Field_Actions"],
                 ColumnsSpan = Constant.ColumnSpan8,
                 ColumnsSpanLabel = 12,
                 Embedded = true,
@@ -461,7 +409,7 @@ public partial class OportunityView : Page
                 Rows = 5,
                 Value = this.IncidentAction.Monitoring,
                 Name = "TxtActionMonitoring",
-                Label = this.dictionary["Item_IncidentAction_Field_Monitoring"],
+                Label = this.Dictionary["Item_IncidentAction_Field_Monitoring"],
                 MaxLength = Constant.MaximumTextAreaLength
             }.Render;
         }
@@ -476,7 +424,7 @@ public partial class OportunityView : Page
                 Rows = 5,
                 Value = this.IncidentAction.Notes,
                 Name = "TxtActionNotes",
-                Label = this.dictionary["Item_IncidentAction_Field_Notes"],
+                Label = this.Dictionary["Item_IncidentAction_Field_Notes"],
                 MaxLength = Constant.MaximumTextAreaLength
             }.Render;
         }
@@ -499,7 +447,7 @@ public partial class OportunityView : Page
             return new FormDatePicker
             {
                 Id = "TxtActionWhatHappenedDate",
-                Label = this.dictionary["Common_Date"],
+                Label = this.Dictionary["Common_Date"],
                 ColumnsSpanLabel = Constant.ColumnSpan4,
                 ColumnsSpan = Constant.ColumnSpan8,
                 Value = this.IncidentAction.WhatHappenedOn
@@ -514,7 +462,7 @@ public partial class OportunityView : Page
             return new FormDatePicker
             {
                 Id = "TxtActionCausesDate",
-                Label = this.dictionary["Common_Date"],
+                Label = this.Dictionary["Common_Date"],
                 ColumnsSpanLabel = Constant.ColumnSpan4,
                 ColumnsSpan = Constant.ColumnSpan8,
                 Value = this.IncidentAction.CausesOn
@@ -529,7 +477,7 @@ public partial class OportunityView : Page
             return new FormDatePicker
             {
                 Id = "TxtActionActionsDate",
-                Label = this.dictionary["Common_DateExecution"],
+                Label = this.Dictionary["Common_DateExecution"],
                 ColumnsSpanLabel = Constant.ColumnSpan4,
                 ColumnsSpan = Constant.ColumnSpan8,
                 Value = this.IncidentAction.ActionsOn
@@ -544,7 +492,7 @@ public partial class OportunityView : Page
             return new FormDatePicker
             {
                 Id = "TxtActionActionsSchedule",
-                Label = this.dictionary["Common_Date"],
+                Label = this.Dictionary["Common_Date"],
                 ColumnsSpanLabel = Constant.ColumnSpan4,
                 ColumnsSpan = Constant.ColumnSpan8,
                 Value = this.IncidentAction.ActionsSchedule
@@ -559,7 +507,7 @@ public partial class OportunityView : Page
             return new FormDatePicker
             {
                 Id = "TxtActionClosedDate",
-                Label = this.dictionary["Common_Date"],
+                Label = this.Dictionary["Common_Date"],
                 ColumnsSpanLabel = Constant.ColumnSpan4,
                 ColumnsSpan = Constant.ColumnSpan6,
                 Value = this.IncidentAction.ClosedOn,
@@ -582,9 +530,9 @@ public partial class OportunityView : Page
         else
         {
             int test = 0;
-            this.user = this.Session["User"] as ApplicationUser;
+            this.ApplicationUser = this.Session["User"] as ApplicationUser;
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
-            if (!UniqueSession.Exists(token, this.user.Id))
+            if (!UniqueSession.Exists(token, this.ApplicationUser.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
@@ -608,10 +556,10 @@ public partial class OportunityView : Page
     /// <summary>Main action to load page elements</summary>
     private void Go()
     {
-        this.company = this.Session["company"] as Company;
-        this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
-        this.user = this.Session["User"] as ApplicationUser;
-        this.Session["User"] = this.user;
+        this.Company = this.Session["company"] as Company;
+        this.Dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
+        this.ApplicationUser = this.Session["User"] as ApplicationUser;
+        this.Session["User"] = this.ApplicationUser;
 
         if (this.Request.QueryString["id"] != null)
         {
@@ -621,11 +569,12 @@ public partial class OportunityView : Page
         string label = "Item_Oportunity_Title_OportunityDetails";
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
+        this.master.Titulo = label;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
 
-        if (user.HasGrantToRead(26))
+        if (this.ApplicationUser.HasGrantToRead(26))
         {
-            this.master.AddBreadCrumb("Item_Oportunity", "BusinessRisksList.aspx", Constant.NotLeaft);
+            this.master.AddBreadCrumb("Item_BusinessRisksAndOportunities", "BusinessRisksList.aspx", Constant.NotLeaft);
         }
         else
         {
@@ -639,19 +588,18 @@ public partial class OportunityView : Page
         }
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         this.formFooterActions = new FormFooter();
-        this.formFooterActions.AddButton(new UIButton { Id = "BtnSave2", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
-        this.formFooterActions.AddButton(new UIButton { Id = "BtnCancel2", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooterActions.AddButton(new UIButton { Id = "BtnSave2", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.formFooterActions.AddButton(new UIButton { Id = "BtnCancel2", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.OportunityId != -1)
         {
-            this.Oportunity = Oportunity.ById(this.OportunityId, this.company.Id);
-            this.master.Titulo = label + this.Oportunity.Description;
-            this.incidentAction = IncidentAction.ByBusinessRiskId(this.Oportunity.Id, this.company.Id);
-            if (this.Oportunity.CompanyId != this.company.Id)
+            this.Oportunity = Oportunity.ById(this.OportunityId, this.Company.Id);
+            this.IncidentAction = IncidentAction.ByOportunityId(this.Oportunity.Id, this.Company.Id);
+            if (this.Oportunity.CompanyId != this.Company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
@@ -660,23 +608,19 @@ public partial class OportunityView : Page
 
             this.formFooter.ModifiedBy = this.Oportunity.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Oportunity.ModifiedOn;
-            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Oportunity"], this.Oportunity.Description);
-            this.master.TitleInvariant = true;
-            this.master.Titulo = label;
+            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Oportunity"], this.Oportunity.Description);
         }
         else
         {
-            this.master.Titulo = label + this.dictionary["Common_New"];
+            this.master.Titulo = label + this.Dictionary["Common_New"];
             this.Oportunity = Oportunity.Empty;
-            this.incidentAction = IncidentAction.Empty;
+            this.IncidentAction = IncidentAction.Empty;
         }
 
-        historyActionActive = false;
-
-        this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Oportunity_Tab_Basic"], Available = true });
-        this.tabBar.AddTab(new Tab { Id = "accion", Available = this.user.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Label = this.dictionary["Item_Oportunity_Tab_Action"] });
-        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.user.HasGrantToRead(ApplicationGrant.Cost), Active = true, Label = this.dictionary["Item_Oportunity_Tab_Costs"] });
-        this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = true, Label = this.dictionary["Item_Oportunity_Tab_UploadFiles"], Hidden = this.Oportunity.Id < 1 });
+        this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Basic"], Available = true });
+        this.tabBar.AddTab(new Tab { Id = "accion", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Action"], Hidden = this.Oportunity.Id < 1 });
+        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.Cost), Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Costs"], Hidden = this.Oportunity.Id < 1 });
+        this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_UploadFiles"], Hidden = this.Oportunity.Id < 1 });
 
         RenderProcess();
         RenderLimit();
@@ -689,7 +633,7 @@ public partial class OportunityView : Page
     /// <summary>Renders the selectable Processes</summary>
     private void RenderProcess()
     {
-        var processeCollection = Process.ByCompany(this.company.Id);
+        var processeCollection = Process.ByCompany(this.Company.Id);
         var processList = new StringBuilder();
         processList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""0"">{0}</option>", this.Dictionary["Common_SelectOne"]));
         foreach (var process in processeCollection.OrderBy(process => process.Description))
@@ -703,7 +647,7 @@ public partial class OportunityView : Page
     /// <summary>Renders the selectable Rules</summary>
     private void RenderLimit()
     {
-        var limitCollection = ProbabilitySeverityRange.All(this.company.Id);
+        var limitCollection = ProbabilitySeverityRange.All(this.Company.Id);
         var limitList = new StringBuilder();
         var probabilityList = new StringBuilder();
         var severityList = new StringBuilder();
@@ -729,7 +673,7 @@ public partial class OportunityView : Page
     /// <summary>Renders the selectable ProbabilitySeverityRanges</summary>
     private void RenderProbabilitySeverity()
     {
-        var probabilitySeverityCollection = ProbabilitySeverityRange.GetActive(this.company.Id);
+        var probabilitySeverityCollection = ProbabilitySeverityRange.GetActive(this.Company.Id);
         var severityList = new StringBuilder();
         severityList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""0"">{0}</option>", this.Dictionary["Common_SelectOne"]));
         var probabilityList = new StringBuilder();
@@ -749,65 +693,65 @@ public partial class OportunityView : Page
 
     private void RenderActionsForm()
     {
-        var defaultOption = FormSelectOption.DefaultOption(this.dictionary);
-
+        var defaultOption = FormSelectOption.DefaultOption(this.Dictionary);
+        var grantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk);
         this.ComboActionWhatHappenedResponsible = new FormSelect
         {
             ColumnsSpanLabel = Constant.ColumnSpan4,
-            Label = this.dictionary["Item_IncidentAction_Field_ResponsibleWhatHappend"],
+            Label = this.Dictionary["Item_IncidentAction_Field_ResponsibleWhatHappend"],
             ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionWhatHappenedResponsible",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+            GrantToWrite = grantToWrite,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
+            RequiredMessage = this.Dictionary["Common_Required"],
             DefaultOption = defaultOption
         };
 
         this.ComboActionCausesResponsible = new FormSelect
         {
             ColumnsSpanLabel = Constant.ColumnSpan4,
-            Label = this.dictionary["Item_IncidentAction_Field_ResponsibleCauses"],
+            Label = this.Dictionary["Item_IncidentAction_Field_ResponsibleCauses"],
             ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionCausesResponsible",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+            GrantToWrite = grantToWrite,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
+            RequiredMessage = this.Dictionary["Common_Required"],
             DefaultOption = defaultOption
         };
 
         this.ComboActionActionsResponsible = new FormSelect
         {
             ColumnsSpanLabel = Constant.ColumnSpan4,
-            Label = this.dictionary["Item_IncidentAction_Field_ResponsibleActions"],
+            Label = this.Dictionary["Item_IncidentAction_Field_ResponsibleActions"],
             ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionActionsResponsible",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+            GrantToWrite = grantToWrite,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
+            RequiredMessage = this.Dictionary["Common_Required"],
             DefaultOption = defaultOption
         };
 
         this.ComboActionActionsExecuter = new FormSelect
         {
             ColumnsSpanLabel = Constant.ColumnSpan4,
-            Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
+            Label = this.Dictionary["Item_IncidentAction_Field_Responsible"],
             ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionActionsExecuter",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+            GrantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk),
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
+            RequiredMessage = this.Dictionary["Common_Required"],
             DefaultOption = defaultOption
         };
 
         this.ComboActionClosedResponsible = new FormSelect
         {
             ColumnsSpanLabel = Constant.ColumnSpan4,
-            Label = this.dictionary["Item_IncidentAction_Field_ResponsibleClose"],
+            Label = this.Dictionary["Item_IncidentAction_Field_ResponsibleClose"],
             ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionClosedResponsible",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+            GrantToWrite = grantToWrite,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
+            RequiredMessage = this.Dictionary["Common_Required"],
             DefaultOption = defaultOption
         };
 
@@ -817,7 +761,7 @@ public partial class OportunityView : Page
         long actionsExecuterId = this.IncidentAction.ActionsExecuter == null ? 0 : this.IncidentAction.ActionsExecuter.Id;
         long closedResponsibleId = this.IncidentAction.ClosedBy == null ? 0 : this.IncidentAction.ClosedBy.Id;
 
-        foreach (Employee e in this.company.Employees)
+        foreach (Employee e in this.Company.Employees)
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -877,11 +821,11 @@ public partial class OportunityView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        var files = UploadFile.GetByItem(26, this.OportunityId, this.company.Id).ToList();
+        var files = UploadFile.GetByItem(26, this.OportunityId, this.Company.Id).ToList();
 
-        if (this.incidentAction.Id > 0)
+        if (this.IncidentAction.Id > 0)
         {
-            files.AddRange(UploadFile.GetByItem(13, this.incidentAction.Id, this.company.Id));
+            files.AddRange(UploadFile.GetByItem(13, this.IncidentAction.Id, this.Company.Id));
         }
 
         var res = new StringBuilder();
@@ -937,12 +881,12 @@ public partial class OportunityView : Page
                     file.Id,
                     string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
                     file.Extension,
-                    this.company.Id,
+                    this.Company.Id,
                     file.FileName,
                     file.CreatedOn,
                     finalSize,
                     this.Dictionary["Item_Attachment_Header_CreateDate"],
-                    this.dictionary["Item_Attachment_Header_Size"],
+                    this.Dictionary["Item_Attachment_Header_Size"],
                     fileShowed,
                     viewButton);
 
@@ -965,7 +909,7 @@ public partial class OportunityView : Page
                 file.FileName,
                 string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
                 file.Id,
-                this.company.Id,
+                this.Company.Id,
                 file.CreatedOn,
                 finalSize,
                 listViewButton);

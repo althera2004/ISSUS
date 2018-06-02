@@ -45,7 +45,7 @@ public class CompanyCreation : WebService
         string userName,
         string companyEmail)
     {
-        ActionResult res = CreateDB(
+        var res = CreateDB(
             companyName,
             companyCode,
             companyNif,
@@ -198,6 +198,25 @@ public class CompanyCreation : WebService
                     cmd.Parameters.Add(DataParameter.Input("@Fax", companyFax, 50));
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
+
+                    int companyId = Convert.ToInt32(cmd.Parameters["@CompanyId"].Value.ToString());
+                    string path = path = HttpContext.Current.Request.PhysicalApplicationPath;
+                    if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
+                    {
+                        path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
+                    }
+
+                    var directory = string.Format(
+                        CultureInfo.InvariantCulture,
+                        @"{0}DOCS\{1}",
+                        path,
+                        companyId);
+
+                    if (!Directory.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+
                     res.SetSuccess(userName + Separator + companyEmail + Separator + cmd.Parameters["@Password"].Value.ToString());
                 }
                 catch (SqlException ex)

@@ -505,7 +505,7 @@
                     }
                 }));
 
-                var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage%>"], { autoclose: true, todayHighlight: true });
+                var options = $.extend({}, $.datepicker.regional["<%=this.ApplicationUser.Language%>"], { autoclose: true, todayHighlight: true });
                 $(".date-picker").datepicker(options);
                 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
@@ -547,7 +547,7 @@
                 $('#TxtActionClosedDate').on('change', function(e) { e.preventDefault(); SetCloseRequired(); });
 
 
-                //                <%if(this.ShowHelp) { %>
+                //                <%if(this.ApplicationUser.ShowHelp) { %>
                 //                SetToolTip('TxtName',"<%=this.Dictionary["Item_Company_Help_Name"] %>");
                 //                SetToolTip('TxtNif',"<%=this.Dictionary["Item_Company_Help_Nif"] %>");
                 //                SetToolTip('DivCmbAddress',"<%=this.Dictionary["Item_Company_Help_Common_SelectAddress"] %>");

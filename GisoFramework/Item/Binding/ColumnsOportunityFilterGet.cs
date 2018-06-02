@@ -26,5 +26,6 @@ namespace GisoFramework.Item.Binding
 
         public const int RuleDescription = 8;
         public const int Limit = 9;
+        public const int Result = 10;
     }
 }

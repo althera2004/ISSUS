@@ -27,7 +27,7 @@
         return false;
     }
 
-    if (process.Id == 0) {
+    if (process.Id === 0) {
         ProcessInsert();
     }
     else {
@@ -48,10 +48,10 @@ function ProcessInsert() {
             "Work": $('#TxtDesarrollo').val(),
             "End": $('#TxtFinalizacion').val(),
         },
-        'userId': user.Id
+        "userId": user.Id
     };
 
-    LoadingShow('');
+    LoadingShow("");
     $.ajax({
         type: "POST",
         url: webMethod,
@@ -192,12 +192,12 @@ function ProcessTypeUpdate(sender) {
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
-                    if (document.getElementById('TxtProcessTypeName').value == '') {
+                    if (document.getElementById('TxtProcessTypeName').value === '') {
                         document.getElementById('TxtProcessTypeNameErrorRequired').style.display = 'block';
                         ok = false;
                     }
                     else {
-                        document.getElementById('TxtProcessTypeNameErrorRequired').style.display = 'none';
+                        $("#TxtProcessTypeNameErrorRequired").hide();
                     }
 
                     var duplicated = false;
