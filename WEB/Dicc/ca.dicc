@@ -1663,3 +1663,4 @@ Item_Oportunity_Button_New::Afegir oportunitat
 Item_BusinessRisksAndOportunities::Riscos i oportunitats
 Item_Oportunity_Warning_ActionTabAvailable::Ja es pot omplir les dades de l'acció
 Item_IncidentAction_Label_Oportunity::Oportunitat
+Item_Oportunity_Title_OportunityDetailsNou::Nova oportunitat

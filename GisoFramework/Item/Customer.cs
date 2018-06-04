@@ -46,7 +46,7 @@ namespace GisoFramework.Item
                     description = string.Empty;
                 }
 
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0},""Description"":""{1}""}}", this.Id, description.Replace("\"", "\\\""));
+                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0},""Description"":""{1}""}}", this.Id, description.Replace("\"", "\\\""));
             }
         }
 
@@ -128,13 +128,13 @@ namespace GisoFramework.Item
                                     deletable = false;
                                 }
 
-                                res.Add(new Customer()
+                                res.Add(new Customer
                                 {
                                     Id = rdr.GetInt64(ColumnsCustomerGetByCompany.Id),
                                     CompanyId = rdr.GetInt32(ColumnsCustomerGetByCompany.CompanyId),
                                     Description = rdr.GetString(ColumnsCustomerGetByCompany.Description),
                                     Active = rdr.GetBoolean(ColumnsCustomerGetByCompany.Active),
-                                    ModifiedBy = new ApplicationUser()
+                                    ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsCustomerGetBy.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsCustomerGetByCompany.ModifiedByUserName)
@@ -251,10 +251,10 @@ namespace GisoFramework.Item
             var iconDelete = string.Empty;
             if (grantDelete)
             {
-                var deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "CustomerDelete({0},'{1}');", this.Id, this.Description);
+                var deleteFunction = string.Format(CultureInfo.InvariantCulture, "CustomerDelete({0},'{1}');", this.Id, this.Description);
                 if (!this.CanBeDeleted)
                 {
-                    deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "warningInfoUI('{0}', null, 400);", dictionary["Common_Warning_Undelete"]);
+                    deleteFunction = string.Format(CultureInfo.InvariantCulture, "warningInfoUI('{0}', null, 400);", dictionary["Common_Warning_Undelete"]);
                 }
 
                 iconDelete = string.Format(
@@ -309,17 +309,17 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
-                        this.Id = Convert.ToInt32(cmd.Parameters["@CustomerId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        this.Id = Convert.ToInt32(cmd.Parameters["@CustomerId"].Value, CultureInfo.InvariantCulture);
                         result.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
                     }
                     catch (SqlException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Customer::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Customer::Insert", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, "Customer::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Customer::Insert", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
                     }
                     finally
                     {
@@ -357,11 +357,11 @@ namespace GisoFramework.Item
                     catch (SqlException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Customer::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Customer::Update", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, "Customer::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Customer::Update", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
                     }
                     finally
                     {
@@ -398,11 +398,11 @@ namespace GisoFramework.Item
                     catch (SqlException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Customer::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Customer::Delete", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, "Customer::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Customer::Delete", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
                     }
                     finally
                     {

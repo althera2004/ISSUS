@@ -16,23 +16,23 @@ function ShowCustomerBarPopup(cmb) {
     CustomerSelected = cmb.val() * 1;
     CustomerRenderPopup();
     var dialog = $(popupDialogId).removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: eval("Dictionary.Item_" + itemName + "s"),
-        title_html: true,
-        width: 600,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": eval("Dictionary.Item_" + itemName + "s"),
+        "title_html": true,
+        "width": 600,
+        "buttons":
         [
             {
-                id: "Btn" + itemName + "Save",
-                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
+                "id": "Btn" + itemName + "Save",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
                 click: function () { CustomerInsert(); }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () { $(this).dialog("close"); }
+                "click": function () { $(this).dialog("close"); }
             }
         ]
     });

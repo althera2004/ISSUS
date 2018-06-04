@@ -67,8 +67,8 @@
             that.focus();
             var r = that.createTextRange();
             r.collapse(true);
-            r.moveEnd('character', end);
-            r.moveStart('character', start);
+            r.moveEnd("character", end);
+            r.moveStart("character", start);
             r.select();
         } else {
             that.selectionStart = start;

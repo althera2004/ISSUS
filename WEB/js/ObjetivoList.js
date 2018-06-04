@@ -68,20 +68,20 @@ function ObjetivoGetFilter(exportType) {
 }
 
 function ObjetivoGetNone() {
-    document.getElementById("BtnRecordShowAll").style.display = "";
-    document.getElementById("BtnRecordShowNone").style.display = "none";
+    $("#BtnRecordShowAll").show();
+    $("#BtnRecordShowNone").hide();
     document.getElementById("RBStatus1").checked = true;
-    document.getElementById("TxtDateFrom").value = "";
-    document.getElementById("TxtDateTo").value = "";
+    $("#TxtDateFrom").val("");
+    $("#TxtDateTo").val("");
     VoidTable("ListDataTable");
 }
 
 function ObjetivoGetAll() {
-    //document.getElementById("BtnRecordShowAll").style.display = "none";
-    //document.getElementById("BtnRecordShowNone").style.display = "";
+    //$("#BtnRecordShowAll").hide();
+    //$("#BtnRecordShowNone").show();
     document.getElementById("RBStatus0").checked = true;
-    document.getElementById("TxtDateFrom").value = "";
-    document.getElementById("TxtDateTo").value = "";
+    $("#TxtDateFrom").val("");
+    $("#TxtDateTo").val("");
     ObjetivoGetFilter();
 }
 
@@ -170,7 +170,6 @@ function ItemRenderTable(list) {
             }
         }
 
-
         var tdActions = document.createElement("TD");
         tdActions.style.width = "90px";
 
@@ -189,10 +188,10 @@ function ItemRenderTable(list) {
     }
 
     if (items.length === 0) {
-        document.getElementById("nav-search").style.display = "none";
+        $("#nav-search").hide();
     }
     else {
-        document.getElementById("nav-search").style.display = "";
+        $("#nav-search").show();
 
         items.sort(function (a, b) {
             if (a < b) return -1;
@@ -258,9 +257,9 @@ function ObjetivoDelete(sender) {
 
 function ObjetivoDeleteConfirmed() {
     var data = {
-        objetivoId: ObjetivoSelectedId,
-        companyId: Company.Id,
-        applicationUserId: user.Id
+        "objetivoId": ObjetivoSelectedId,
+        "companyId": Company.Id,
+        "applicationUserId": user.Id
     };
     $("#ObjetivoDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
@@ -297,9 +296,8 @@ function NoDeleteObjetivo() {
 $("#nav-search").hide();
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 390) + 'px';
+    $("#ListDataDiv").height(containerHeight - 390);
 }
 
 window.onload = function () {

@@ -192,7 +192,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new Country()
+                                res.Add(new Country
                                 {
                                     Id = rdr.GetInt32(0),
                                     Description = rdr.GetString(1),

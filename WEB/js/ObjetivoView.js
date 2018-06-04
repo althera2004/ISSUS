@@ -42,7 +42,7 @@ window.onload = function () {
         $("#BtnActionsNew").on("click", ActionNew);
     }
 
-    var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { autoclose: true, todayHighlight: true });
+    var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { "autoclose": true, "todayHighlight": true });
     $(".date-picker").datepicker(options);
 
     $("#BtnRecordShowNone").on("click", ObjetivoRegistroNone);
@@ -98,13 +98,10 @@ window.onload = function () {
 window.onresize = function () { Resize(); }
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
-    var histTable = document.getElementById("ListDataDivHistorico");
-    var acctTable = document.getElementById("ListDataDivActions");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 494) + "px";
-    histTable.style.height = (containerHeight - 370) + "px";
-    acctTable.style.height = (containerHeight - 451) + "px";
+    $("#ListDataDiv").height(containerHeight - 494);
+    $("#ListDataDivHistorico").height(containerHeight - 370);
+    $("#ListDataDivActions").height(containerHeight - 451);
 }
 
 function IndicatorVinculatedLayout() {
@@ -250,30 +247,30 @@ function GoRefresh() {
 
 function Validate() {
     var ok = true;
-    document.getElementById("TxtNameLabel").style.color = "#000";
-    document.getElementById("TxtNameErrorRequired").style.display = "none";
-    document.getElementById("TxtNameErrorDuplicated").style.display = "none";
-    document.getElementById("TxtDescriptionLabel").style.color = "#000";
-    document.getElementById("TxtDescriptionErrorRequired").style.display = "none";
-    document.getElementById("TxtFechaAltaLabel").style.color = "#000";
-    document.getElementById("TxtFechaAltaErrorRequired").style.display = "none";
-    document.getElementById("TxtFechaAltaDateMalformed").style.display = "none";
-    document.getElementById("TxtFechaCierrePrevistaLabel").style.color = "#000";
-    document.getElementById("TxtFechaCierrePrevistaErrorRequired").style.display = "none";
-    document.getElementById("TxtFechaCierrePrevistaDateMalformed").style.display = "none";
-    document.getElementById("TxtFechaCierrePrevistaCrossDate").style.display = "none";
-    document.getElementById("CmbResponsibleLabel").style.color = "#000";
-    document.getElementById("CmbResponsibleErrorRequired").style.display = "none";
-    document.getElementById("CmbIndicadorLabel").style.color = "#000";
-    document.getElementById("CmbIndicadorErrorRequired").style.display = "none";
-    /*document.getElementById("TxtFechaCierreRealLabel").style.color = "#000";
-    document.getElementById("TxtFechaCierreRealErrorRequired").style.display = "none";
-    document.getElementById("TxtFechaCierreRealDateMalformed").style.display = "none";
-    document.getElementById("TxtFechaCierreRealCrossDate").style.display = "none";
-    document.getElementById("CmbEndResponsibleLabel").style.color = "#000;"
-    document.getElementById("CmbEndResponsibleErrorRequired").style.display = "none";*/
-    document.getElementById("TxtPeriodicityLabel").style.color = "#000;"
-    document.getElementById("TxtPeriodicityErrorRequired").style.display = "none";
+    $("#TxtNameLabel").css("color","#000");
+    $("#TxtNameErrorRequired").hide();
+    $("#TxtNameErrorDuplicated").hide();
+    $("#TxtDescriptionLabel").css("color","#000");
+    $("#TxtDescriptionErrorRequired").hide();
+    $("#TxtFechaAltaLabel").css("color","#000");
+    $("#TxtFechaAltaErrorRequired").hide();
+    $("#TxtFechaAltaDateMalformed").hide();
+    $("#TxtFechaCierrePrevistaLabel").css("color","#000");
+    $("#TxtFechaCierrePrevistaErrorRequired").hide();
+    $("#TxtFechaCierrePrevistaDateMalformed").hide();
+    $("#TxtFechaCierrePrevistaCrossDate").hide();
+    $("#CmbResponsibleLabel").css("color","#000");
+    $("#CmbResponsibleErrorRequired").hide();
+    $("#CmbIndicadorLabel").css("color","#000");
+    $("#CmbIndicadorErrorRequired").hide();
+    /*$("#TxtFechaCierreRealLabel").css("color","#000");
+    $("#TxtFechaCierreRealErrorRequired").hide();
+    $("#TxtFechaCierreRealDateMalformed").hide();
+    $("#TxtFechaCierreRealCrossDate").hide();
+    $("#CmbEndResponsibleLabel").style.color = "#000;"
+    $("#CmbEndResponsibleErrorRequired").hide();*/
+    $("#TxtPeriodicityLabel").style.color = "#000;"
+    $("#TxtPeriodicityErrorRequired").hide();
 
     if ($("#TxtName").val() === "") {
         ok = false;
@@ -344,23 +341,6 @@ function Validate() {
             document.getElementById("TxtFechaCierrePrevistaCrossDate").style.display = "";
         }
     }
-
-    /*if ($("#TxtFechaCierreReal").val() !== "") {
-        if (validateDate($("#TxtFechaCierreReal").val()) === false) {
-            ok = false;
-            document.getElementById("TxtFechaCierreRealLabel").style.color = "#f00";
-            document.getElementById("TxtFechaCierreRealDateMalformed").style.display = "";
-        }
-        else {
-            var inicio = GetDate($("#TxtFechaAlta").val(), "/", true);
-            var previsto = GetDate($("#TxtFechaCierreReal").val(), "/", true);
-            if (previsto < inicio) {
-                ok = false;
-                document.getElementById("TxtFechaCierreRealLabel").style.color = "#f00";
-                document.getElementById("TxtFechaCierreRealCrossDate").style.display = "";
-            }
-        }
-    }*/
 
     if (CloseRequired === true) {
         if ($("#CmbEndResponsible").val() * 1 < 1) {

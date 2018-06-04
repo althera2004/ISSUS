@@ -5,10 +5,10 @@ var ClosedRequired = false;
 var MinStepValue = 1;
 var SlidersActive = true;
 
-$("#Tabhome").on("click", function () { $("#oldFormFooter").show(); });
-$("#Tabaccion").on("click", function () { $("#oldFormFooter").show(); });
-$("#Tabcostes").on("click", function () { $("#oldFormFooter").show(); });
-$("#TabuploadFiles").on("click", function () { $("#oldFormFooter").hide(); });
+$("#Tabhome").on("click", function () { $("#BtnAnular").hide();$("#oldFormFooter").show(); });
+$("#Tabaccion").on("click", function () { $("#BtnAnular").show();$("#oldFormFooter").show(); });
+$("#Tabcostes").on("click", function () { $("#BtnAnular").hide();$("#oldFormFooter").show(); });
+$("#TabuploadFiles").on("click", function () { $("#BtnAnular").hide();$("#oldFormFooter").hide(); });
 
 jQuery(function ($) {
     FillCmbRules();
@@ -182,7 +182,7 @@ function UpdateResult() {
     var calculatedResult = cost * impact;
     if (calculatedResult > 0) {
         $("#Result").html(calculatedResult);
-        $("#Result").css("color", calculatedResult < rule.Limit ? "#3f3" : "#f33");
+        $("#Result").css("color", calculatedResult < rule.Limit ? "#3f3" : "#4aa4ce");
     }
     else {
         $("#Result").html("-");
@@ -211,8 +211,8 @@ function ApplyActionRadio() {
         $("#BtnSelectRules").hide();
         $("#CmbProcess").attr("disabled", true);
         $("#ApplyAction2").attr("disabled", true);
-        $("#input-span-slider-cost").slider("disable");
-        $("#input-span-slider-impact").slider("disable");
+        //$("#input-span-slider-cost").slider("disable");
+        //$("#input-span-slider-impact").slider("disable");
         SlidersActive = false;
         SaveAction = true;
         SetCloseRequired();
@@ -235,8 +235,8 @@ function ApplyActionTrue() {
     $("#BtnSelectRules").hide();
     $("#CmbProcess").attr("disabled", true);
     $("#ApplyAction2").attr("disabled", true);
-    $("#input-span-slider-cost").slider("disable");
-    $("#input-span-slider-impact").slider("disable");
+    //$("#input-span-slider-cost").slider("disable");
+    //$("#input-span-slider-impact").slider("disable");
     SlidersActive = false;
 
     //Apply value to the final status tab
@@ -467,6 +467,7 @@ function OportunityUpdate(sender) {
 }
 
 function SaveIncidentAction(OportunityId, oportunityId, reload) {
+    alert(reload);
     var data =
         {
             "incidentAction": {
@@ -1196,7 +1197,6 @@ function RenderStepsSliders() {
         "step": 1,
         "slide": function (event, ui) { return null; }
     });
-    //$("#Initial-input-span-slider-cost").slider("disable");
     $("#Initial-input-span-slider-impact").slider({
         "value": Oportunity.Impact,
         "range": "min",
@@ -1205,7 +1205,6 @@ function RenderStepsSliders() {
         "step": 1,
         "slide": function (event, ui) { return null; }
     });
-    //$("#Initial-input-span-slider-impact").slider("disable");
     VoidTable("stepsCost");
     for (var x = 1; x < 6; x++) {
         var span = document.createElement("span");
@@ -1287,13 +1286,18 @@ if (typeof ApplicationUser.Grants.Oportunity === "undefined" || ApplicationUser.
 
 function Resize() {
     var containerHeight = $(window).height();
-    $("#ListDataDiv").height((containerHeight - 450) + "px");
+    $("#ListDataDiv").height(containerHeight - 450);
 }
 
 window.onload = function () {
 
     if (Oportunity.ApplyAction === false) {
         $("#Tabaccion").hide();
+        $("#Tabcostes").hide();
+    }
+    else {
+        $("#Tabaccion").show();
+        $("#Tabcostes").show();
     }
 
     Resize();
@@ -1322,6 +1326,9 @@ window.onload = function () {
     $("#BtnRestaurar").hide();
     if (Action.ClosedOn === null) { $("#BtnAnular").show(); }
     else { $("#BtnRestaurar").show(); AnulateLayout(); }
+
+    $("#BtnAnular").hide();
+    $("#BtnRestaurar").hide();
 }
 
 window.onresize = function () { Resize(); }
@@ -1460,7 +1467,7 @@ function AnularConfirmed() {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
-            SaveIncidentAction(businessRisk.Id, msg.d.MessageError * 1, true);
+            SaveIncidentAction(Oportunity.Id, msg.d.MessageError * 1, true);
         },
         "error": function (msg) {
             LoadingHide();
@@ -1485,11 +1492,20 @@ function AnulateLayout() {
         $("#BtnAnular").hide();
         $("#BtnRestaurar").show();
         $("#BtnSave").hide();
+        $("#accion input").attr("disabled", "disabled");
+        $("#accion select").attr("disabled", "disabled");
+        $("#accion textarea").attr("disabled", "disabled");
+        $("#TxtActionNotes").removeAttr("disabled");
     }
     else {
         $("#DivAnulateMessage").hide();
         $("#BtnAnular").show();
+        $("#accion input").removeAttr("disabled");
+        $("#accion select").removeAttr("disabled");
+        $("#accion textarea").removeAttr("disabled");
     }
+
+    $("#BtnSave").show();
 }
 
 function Restore() {

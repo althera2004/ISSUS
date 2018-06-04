@@ -415,7 +415,7 @@ namespace GisoFramework.Item
                 using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
-                    cmd.Parameters.Add(DataParameter.OutputInt("Id"));
+                    cmd.Parameters.Add(DataParameter.OutputInt("@Id"));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                     cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@Code", 0));
@@ -424,6 +424,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@ApplyAction", this.ApplyAction));
                     cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, Constant.MaximumTextAreaLength));
+                    cmd.Parameters.Add(DataParameter.Input("@DateStart", this.DateStart));
 
                     if (this.Cost == null)
                     {
@@ -471,7 +472,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rule.Id));
                     }
 
-                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUser", applicationUserId));
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
 
                     try
                     {

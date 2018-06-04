@@ -5,10 +5,8 @@ function EquipmentRepairRenderTable(targetName) {
     VoidTable(targetName);
 
     EquipmentRepairList.sort(function (a, b) {
-
         var da = a.Date;
         var db = b.Date;
-
         if (typeof da !== "object") {
             da = GetDateYYYYMMDDText(da, "/");
         }
@@ -31,7 +29,7 @@ function EquipmentRepairRenderTable(targetName) {
     $("#TableEquipmentRepairTotalLabel").html("<i style=\"color:#aaa;font-weight:bold;\">" + Dictionary.Common_RegisterCount + ":&nbsp;" + EquipmentRepairList.length + "</i><span style=\"float:right\">" + Dictionary.Common_Total + ":</span>");
     document.getElementById('TableEquipmentRepairTotal').innerHTML = ToMoneyFormat(total, 2);
 
-    if ($("#TableEquipmentRepairMain #th0").attr('class') === "sort  ASC") {
+    if ($("#TableEquipmentRepairMain #th0").attr("class") === "sort  ASC") {
         $("#TableEquipmentRepairMain #th0").click();
     }
     else {
@@ -115,7 +113,7 @@ function EquipmentRepairRenderRow(EquipmentRepair, targetName) {
 
 function EquipmentRepairgetById(id) {
     for (var x = 0; x < EquipmentRepairList.length; x++) {
-        if (EquipmentRepairList[x].Id == id) {
+        if (EquipmentRepairList[x].Id === id) {
             return EquipmentRepairList[x];
         }
     }
@@ -127,21 +125,21 @@ function EquipmentRepairRemoveFromList(id) {
     var temp = new Array();
 
     for (var x = 0; x < EquipmentRepairList.length; x++) {
-        if (EquipmentRepairList[x].Id != id) {
+        if (EquipmentRepairList[x].Id !== id) {
             temp.push(EquipmentRepairList[x]);
         }
     }
 
     EquipmentRepairList = new Array();
 
-    for (var x = 0; x < temp.length; x++) {
-        EquipmentRepairList.push(temp[x]);
+    for (var y = 0; y < temp.length; y++) {
+        EquipmentRepairList.push(temp[y]);
     }
 }
 
 function EquipmentRepairListUpdate(EquipmentRepair) {
     for (var x = 0; x < EquipmentRepairList.length; x++) {
-        if (EquipmentRepairList[x].Id == EquipmentRepair.Id) {
+        if (EquipmentRepairList[x].Id === EquipmentRepair.Id) {
             EquipmentRepairList[x] = EquipmentRepair;
         }
     }
@@ -296,7 +294,7 @@ function dialogMaintaimentRepairFormValidate() {
 function EquipmentRepairEdit(sender) {
     SelectedEquipmentRepairId = sender.parentNode.parentNode.id.substring(15) * 1;
     SelectedEquipmentRepair = EquipmentRepairgetById(SelectedEquipmentRepairId);
-    if (SelectedEquipmentRepair == null) { return false; }
+    if (SelectedEquipmentRepair === null) { return false; }
     FillCmbEquipmentRepairProvider();
     FillCmbEquipmentRepairResponsible();
     EquipmentRepairEditFormFill(SelectedEquipmentRepair);
@@ -372,21 +370,21 @@ function EquipmentRepairSave() {
     }
 
     SelectedEquipmentRepair = {
-        Id: SelectedEquipmentRepairId,
-        CompanyId: Company.Id,
-        EquipmentId: Equipment.Id,
-        RepairType: document.getElementById("REquipmentRepairTypeInternal").checked ? 0 : 1,
-        Date: GetDate($("#TxtEquipmentRepairDate").val(), "-"),
-        Active: true,
-        Description: $("#TxtEquipmentRepairDescription").val(),
-        Tools: $("#TxtEquipmentRepairTools").val(),
-        Observations: $("#TxtEquipmentRepairObservations").val(),
-        Cost: cost,
-        Provider: { Id: $("#CmbEquipmentRepairProvider").val() },
-        Responsible: { Id: $("#CmbEquipmentRepairResponsible").val(), Value: $("#CmbEquipmentRepairResponsible option:selected").text() }
+        "Id": SelectedEquipmentRepairId,
+        "CompanyId": Company.Id,
+        "EquipmentId": Equipment.Id,
+        "RepairType": document.getElementById("REquipmentRepairTypeInternal").checked ? 0 : 1,
+        "Date": GetDate($("#TxtEquipmentRepairDate").val(), "-"),
+        "Active": true,
+        "Description": $("#TxtEquipmentRepairDescription").val(),
+        "Tools": $("#TxtEquipmentRepairTools").val(),
+        "Observations": $("#TxtEquipmentRepairObservations").val(),
+        "Cost": cost,
+        "Provider": { "Id": $("#CmbEquipmentRepairProvider").val() },
+        "Responsible": { "Id": $("#CmbEquipmentRepairResponsible").val(), Value: $("#CmbEquipmentRepairResponsible option:selected").text() }
     };
 
-    if (SelectedEquipmentRepairId == -1) {
+    if (SelectedEquipmentRepairId === -1) {
         var data = {
             "equipmentRepair": SelectedEquipmentRepair,
             "userId": user.Id
@@ -434,7 +432,7 @@ function EquipmentRepairSave() {
 function EquipmentRepairDelete(sender) {
     SelectedEquipmentRepairId = sender.parentNode.parentNode.id.substring(15) * 1;
     SelectedEquipmentRepair = EquipmentRepairgetById(SelectedEquipmentRepairId);
-    if (SelectedEquipmentRepair == null) { return false; }
+    if (SelectedEquipmentRepair === null) { return false; }
     $("#dialogDeleteEquipmentRepairName").html(SelectedEquipmentRepair.Description);
     var dialog = $("#dialogEquipmentRepairDelete").removeClass("hide").dialog({
         "resizable": false,
@@ -463,21 +461,24 @@ function EquipmentRepairDelete(sender) {
 }
 
 function EquipmentRepairDeleteConfirmed() {
-    var webMethod = "/Async/EquipmentRepairActions.asmx/Delete";
-    var data = { equipmentRepairId: SelectedEquipmentRepairId, companyId: Company.Id, userId: user.Id };
+    var data = {
+        "equipmentRepairId": SelectedEquipmentRepairId,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/EquipmentRepairActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             EquipmentRepairRemoveFromList(SelectedEquipmentRepairId);
-            EquipmentRepairRenderTable('TableEquipmentRepair');
+            EquipmentRepairRenderTable("TableEquipmentRepair");
             $("#dialogEquipmentRepairDelete").dialog("close");
 
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });

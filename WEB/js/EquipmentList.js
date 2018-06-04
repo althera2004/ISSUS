@@ -1,6 +1,11 @@
 ﻿var EquipmentSelected;
 function EquipmentDeleteAction() {
-    var data = { equipmentId: EquipmentSelected, reason: "", companyId: Company.Id, userId: user.Id };
+    var data = {
+        "equipmentId": EquipmentSelected,
+        "reason": "",
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
     $("#EquipmentDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
@@ -59,9 +64,8 @@ jQuery(function ($) {
 });
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 390) + "px";
+    $("#ListDataDiv").height(containerHeight - 390);
 }
 
 window.onload = function () {
