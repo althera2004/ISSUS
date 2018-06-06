@@ -27,7 +27,11 @@ namespace GisoFramework.Activity
         {
             get
             {
-                return new ActionResult() { Success = false, MessageError = NoActionMessage };
+                return new ActionResult
+                {
+                    Success = false,
+                    MessageError = NoActionMessage
+                };
             }
         }
 

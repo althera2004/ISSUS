@@ -19,9 +19,6 @@ public partial class CustomersList : Page
     /// <summary> Master of page</summary>
     private Giso master;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
@@ -35,13 +32,7 @@ public partial class CustomersList : Page
     }
 
     /// <summary>Gets the dictionary for interface texts</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public UIDataHeader DataHeader { get; set; }
 
@@ -74,8 +65,8 @@ public partial class CustomersList : Page
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
-        this.user = (ApplicationUser)Session["User"];
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.user = Session["User"] as ApplicationUser;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
 
         // Security access control
         if (!this.user.HasGrantToRead(ApplicationGrant.Customer))
@@ -95,7 +86,7 @@ public partial class CustomersList : Page
         {
             this.master.ButtonNewItem = new SbrinnaCoreFramework.UI.UIButton
             {
-                Text = this.dictionary["Item_Customer_Btn_New"],
+                Text = this.Dictionary["Item_Customer_Btn_New"],
                 Action = "success",
                 Icon = "icon-plus",
                 Id = "BtnNewCustomer"
@@ -103,7 +94,7 @@ public partial class CustomersList : Page
         }
 
         this.DataHeader = new UIDataHeader { Id = "ListDataHeader", ActionsItem = 2 };
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Customer_ListHeader_Name"], Sortable = true, Filterable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_Customer_ListHeader_Name"], Sortable = true, Filterable = true });
     }
 
     private void RenderCustomersData()
@@ -125,7 +116,7 @@ public partial class CustomersList : Page
                 searchItems.Add(customer.Description);
             }
 
-            res.Append(customer.ListRow(this.dictionary, this.user.Grants));
+            res.Append(customer.ListRow(this.Dictionary, this.user.Grants));
             contData++;
         }
 

@@ -35,7 +35,7 @@ namespace PDF_Tests
         public string CompanyName { get; set; }
         public string Date { get; set; }
         public string CreatedBy { get; set; }
-        PdfTemplate template, footerTemplate;
+        PdfTemplate template;
         public string IssusLogo { get; set; }
         public string CompanyLogo { get; set; }
 
@@ -85,49 +85,49 @@ namespace PDF_Tests
             }
 
             // Lineas
-            cb.SetLineWidth(0.5f);
-            cb.MoveTo(40f, document.PageSize.Height -30f);
-            cb.LineTo(document.PageSize.Width - 40f, document.PageSize.Height - 30f);
-            cb.Stroke();
-            cb.MoveTo(40f, document.PageSize.Height -60f );
-            cb.LineTo(document.PageSize.Width - 40f, document.PageSize.Height - 60f);
-            cb.Stroke();
+            this.cb.SetLineWidth(0.5f);
+            this.cb.MoveTo(40f, document.PageSize.Height -30f);
+            this.cb.LineTo(document.PageSize.Width - 40f, document.PageSize.Height - 30f);
+            this.cb.Stroke();
+            this.cb.MoveTo(40f, document.PageSize.Height -60f );
+            this.cb.LineTo(document.PageSize.Width - 40f, document.PageSize.Height - 60f);
+            this.cb.Stroke();
 
             // Titulo
-            cb.BeginText();
-            cb.SetFontAndSize(this.bf, 14);
-            cb.ShowTextAligned(PdfContentByte.ALIGN_CENTER,
+            this.cb.BeginText();
+            this.cb.SetFontAndSize(this.bf, 14);
+            this.cb.ShowTextAligned(PdfContentByte.ALIGN_CENTER,
                 title,
                 pageSize.GetRight(document.PageSize.Width / 2),
                 pageSize.GetTop(50), 0);
-            cb.EndText();
+            this.cb.EndText();
 
             // Empresa
-            cb.BeginText();
-            cb.SetFontAndSize(this.bf, 10);
-            cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT,
+            this.cb.BeginText();
+            this.cb.SetFontAndSize(this.bf, 10);
+            this.cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT,
                 this.CompanyName,
                 pageSize.GetLeft(40),
                 pageSize.GetTop(48), 0);
-            cb.EndText();
+            this.cb.EndText();
 
             // Fecha
-            cb.BeginText();
-            cb.SetFontAndSize(this.bf, 8);
-            cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT,
+            this.cb.BeginText();
+            this.cb.SetFontAndSize(this.bf, 8);
+            this.cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT,
                 this.Date,
                 pageSize.GetRight(40),
                 pageSize.GetTop(42), 0);
-            cb.EndText();
+            this.cb.EndText();
 
             // Generado
-            cb.BeginText();
-            cb.SetFontAndSize(this.bf, 8);
-            cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT,
+            this.cb.BeginText();
+            this.cb.SetFontAndSize(this.bf, 8);
+            this.cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT,
                 this.CreatedBy,
                 pageSize.GetRight(40),
                 pageSize.GetTop(53), 0);
-            cb.EndText();
+            this.cb.EndText();
         }
 
         public override void OnEndPage(PdfWriter writer, Document document)
@@ -145,28 +145,28 @@ namespace PDF_Tests
             var text = pageN + " de ";
             var len = bf.GetWidthPoint(text, 8);
             var pageSize = document.PageSize;
-            
+
             // Numero de pagina
             // Add a unique (empty) template for each page here
-            cb.BeginText();
-            cb.SetFontAndSize(bf, 8);
-            cb.SetTextMatrix((pageSize.Width / 2) - len, pageSize.GetBottom(30));
-            cb.ShowText(text);
-            cb.EndText();
-            cb.AddTemplate(template, (pageSize.Width / 2), pageSize.GetBottom(30));
+            this.cb.BeginText();
+            this.cb.SetFontAndSize(bf, 8);
+            this.cb.SetTextMatrix((pageSize.Width / 2) - len, pageSize.GetBottom(30));
+            this.cb.ShowText(text);
+            this.cb.EndText();
+            this.cb.AddTemplate(template, (pageSize.Width / 2), pageSize.GetBottom(30));
 
             var logoIssus = Image.GetInstance(this.IssusLogo);
             logoIssus.ScalePercent(20f);
             logoIssus.SetAbsolutePosition(40f, 24f);
-            document.Add(logoIssus);            
+            document.Add(logoIssus);
 
-            cb.BeginText();
-            cb.SetFontAndSize(bf, 8);
-            cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT,
+            this.cb.BeginText();
+            this.cb.SetFontAndSize(bf, 8);
+            this.cb.ShowTextAligned(PdfContentByte.ALIGN_RIGHT,
                 "issus.scrambotika.com",
                 pageSize.GetRight(40),
                 pageSize.GetBottom(30), 0);
-            cb.EndText();
+            this.cb.EndText();
         }
 
         public override void OnCloseDocument(PdfWriter writer, Document document)

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Web.UI;
 using GisoFramework.Item;
 
+/// <summary>Implements No privileges page</summary>
 public partial class NoPrivileges : Page
 {
     /// <summary> Master of page</summary>

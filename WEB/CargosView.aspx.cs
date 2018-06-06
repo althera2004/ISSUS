@@ -28,9 +28,6 @@ public partial class CargosView : Page
     /// <summary>Company of session</summary>
     private Company company;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     /// <summary>Job position identifier</summary>
     private int jobPositionId;
 
@@ -60,7 +57,7 @@ public partial class CargosView : Page
     {
         get
         {
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -76,11 +73,11 @@ public partial class CargosView : Page
                 Value = this.cargo.Description,
                 ColumnSpan = 10,
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
+                RequiredMessage = this.Dictionary["Common_Required"],
                 Duplicated = true,
-                DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
+                DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
                 MaximumLength = 100,
-                Placeholder = this.dictionary["Item_JobPosition"],
+                Placeholder = this.Dictionary["Item_JobPosition"],
                 GrantToWrite = this.GrantToWrite
             }.Render;
         }
@@ -97,7 +94,7 @@ public partial class CargosView : Page
                 Value = this.cargo.Department.Description,
                 ButtonBar = "BtnDepartment",
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
+                RequiredMessage = this.Dictionary["Common_Required"],
                 ColumnSpan = 8,
                 BarToolTip = this.Dictionary["Item_JobPosition_Button_DepartmentsBAR"],
                 GrantToWrite = this.GrantToWrite,
@@ -117,11 +114,11 @@ public partial class CargosView : Page
                 ColumnsSpan = Constant.ColumnSpan4,
                 GrantToWrite = this.GrantToWrite,
                 ChangeEvent = "SelectedResponsible = this.value;",
-                Placeholder = this.dictionary["Common_Responsible"],
+                Placeholder = this.Dictionary["Common_Responsible"],
                 Required = false,
                 ToolTip = "Item_JobPosition_Help_Responsible",
                 Value = this.cargo.Responsible != null ? this.cargo.Responsible.Description : string.Empty,
-                DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectOne"] }
+                DefaultOption = new FormSelectOption { Text = this.Dictionary["Common_SelectOne"] }
             };
 
             foreach (var jobPosition in jobPositions)
@@ -188,13 +185,7 @@ public partial class CargosView : Page
     }
 
     /// <summary>Gets the dictionary for interface texts</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -236,7 +227,7 @@ public partial class CargosView : Page
     {
         this.user = (ApplicationUser)Session["User"];
         this.company = (Company)Session["company"];
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         
         // Security access control
         if (!this.user.HasGrantToRead(ApplicationGrant.JobPosition))
@@ -258,10 +249,10 @@ public partial class CargosView : Page
         this.formFooter = new FormFooter();
         if (this.user.HasGrantToWrite(ApplicationGrant.JobPosition))
         {
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
         }
 
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (jobPositionId > 0)
         {
@@ -293,7 +284,7 @@ public partial class CargosView : Page
             }
         }
 
-        string label = this.jobPositionId == -1 ? "Item_JobPosition_BreadCrumb_Edit" : string.Format("{0}: <strong>{1}</strong>", this.dictionary["Item_JobPosition"], this.cargo.Description);
+        string label = this.jobPositionId == -1 ? "Item_JobPosition_BreadCrumb_Edit" : string.Format("{0}: <strong>{1}</strong>", this.Dictionary["Item_JobPosition"], this.cargo.Description);
         this.master.AddBreadCrumb("Item_JobPositions", "CargosList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_JobPosition_BreadCrumb_Edit");
         this.master.Titulo = label;
@@ -408,7 +399,7 @@ public partial class CargosView : Page
                     file.CreatedOn,
                     finalSize,
                     this.Dictionary["Item_Attachment_Header_CreateDate"],
-                    this.dictionary["Item_Attachment_Header_Size"],
+                    this.Dictionary["Item_Attachment_Header_Size"],
                     fileShowed,
                     viewButton);
 

@@ -206,7 +206,7 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE Equipment_GetById
              *   @EquipmentId bigint,
              *   @CompanyId int */
-            var res = new Equipment();
+            var res = Equipment.Empty;
             using (var cmd = new SqlCommand("Equipment_GetById"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -256,11 +256,7 @@ namespace GisoFramework.Item
                                         Id = rdr.GetInt32(ColumnsEquipmentGetById.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsEquipmentGetById.ModifiedByUserName)
                                     },
-                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentGetById.ModifiedOn),
-                                    InternalCalibration = EquipmentCalibrationDefinition.Empty,
-                                    ExternalCalibration = EquipmentCalibrationDefinition.Empty,
-                                    InternalVerification = EquipmentVerificationDefinition.Empty,
-                                    ExternalVerification = EquipmentVerificationDefinition.Empty
+                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentGetById.ModifiedOn)
                                 };
 
                                 if (rdr.IsDBNull(ColumnsEquipmentGetById.ScaleDivisionValue))

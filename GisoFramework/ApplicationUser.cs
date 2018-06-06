@@ -503,11 +503,13 @@ namespace GisoFramework
         {
             var res = ActionResult.NoAction;
             /* CREATE PROCEDURE [dbo].[ApplicationUser_SetPassword]
-             *   UserId int,
+             *   @UserId int,
              *   @Password nvarchar(50) */
             using (var cmd = new SqlCommand("ApplicationUser_SetPassword"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(DataParameter.Input("@UserId", applicationUserId));
+                cmd.Parameters.Add(DataParameter.Input("@Password", password, 50));
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;

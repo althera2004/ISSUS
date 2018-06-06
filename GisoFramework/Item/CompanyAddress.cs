@@ -314,11 +314,11 @@ namespace GisoFramework.Item
         /// <summary>Obtain all address of a company</summary>
         /// <param name="company">Compnay to search in</param>
         /// <returns>List of address</returns>
-        public static List<CompanyAddress> GetAddressByCompanyId(Company company)
+        public static ReadOnlyCollection<CompanyAddress> GetAddressByCompanyId(Company company)
         {
             if (company == null)
             {
-                return new List<CompanyAddress>();
+                return new ReadOnlyCollection<CompanyAddress>(new List<CompanyAddress>());                
             }
 
             string source = string.Format(
@@ -395,7 +395,7 @@ namespace GisoFramework.Item
                 }
             }
 
-            return res;
+            return new ReadOnlyCollection<CompanyAddress>(res);
         }
 
         /// <summary>Insert an address into data base</summary>

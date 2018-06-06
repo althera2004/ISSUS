@@ -24,9 +24,6 @@ public partial class DashBoard : Page
     /// <summary>Company of session</summary>
     private Company company;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
@@ -40,13 +37,7 @@ public partial class DashBoard : Page
     private ApplicationUser user;
 
     /// <summary>Gets the dictionary for interface texts</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public string Filter
     {
@@ -98,7 +89,7 @@ public partial class DashBoard : Page
         Session["User"] = this.user;
         this.master = this.Master as Giso;
         this.company = Session["Company"] as Company;
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
 
         this.master.AddBreadCrumb("Item_DashBoard");
         this.master.Titulo = "Item_DashBoard";
@@ -122,7 +113,7 @@ public partial class DashBoard : Page
             }
 
             printedTasks.Add(task);
-            res.Append(task.Row(this.dictionary));
+            res.Append(task.Row(this.Dictionary));
             if (first)
             {
                 first = false;
@@ -145,34 +136,34 @@ public partial class DashBoard : Page
             switch (task.TaskType)
             {
                 case "M":
-                    text = task.Internal == "I" ? dictionary["Item_EquipmentMaintenance_Label_Internal"] : dictionary["Item_EquipmentMaintenance_Label_External"];
+                    text = task.Internal == "I" ? Dictionary["Item_EquipmentMaintenance_Label_Internal"] : Dictionary["Item_EquipmentMaintenance_Label_External"];
                     break;
                 case "V":
-                    text = task.Internal == "I" ? dictionary["Item_EquipmentVerification_Label_Internal"] : dictionary["Item_EquipmentVerification_Label_External"];
+                    text = task.Internal == "I" ? Dictionary["Item_EquipmentVerification_Label_Internal"] : Dictionary["Item_EquipmentVerification_Label_External"];
                     break;
                 case "C":
-                    text = task.Internal == "I" ? dictionary["Item_EquipmentCalibration_Label_Internal"] : dictionary["Item_EquipmentCalibration_Label_External"];
+                    text = task.Internal == "I" ? Dictionary["Item_EquipmentCalibration_Label_Internal"] : Dictionary["Item_EquipmentCalibration_Label_External"];
                     break;
                 case "I":
-                    text = dictionary["Item_Incident"];
+                    text = Dictionary["Item_Incident"];
                     break;
                 case "A":
-                    text = dictionary["Item_IncidentAction"];
+                    text = Dictionary["Item_IncidentAction"];
                     break;
                 case "X":
-                    text = dictionary["Item_Indicador"];
+                    text = Dictionary["Item_Indicador"];
                     break;
                 case "O":
-                    text = dictionary["Item_Objetivo"];
+                    text = Dictionary["Item_Objetivo"];
                     break;
                 case "B":
-                    text = dictionary["Item_BusinessRisk"];
+                    text = Dictionary["Item_BusinessRisk"];
                     break;
             }
 
             if (!searchItems.Contains(text)) { searchItems.Add(text); };
 
-            tasksJson.Append(task.JsonRow(this.dictionary));
+            tasksJson.Append(task.JsonRow(this.Dictionary));
         }
 
         //this.DataTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0}", tasks.Count);

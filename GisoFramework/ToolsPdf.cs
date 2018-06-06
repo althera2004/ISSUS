@@ -18,12 +18,13 @@ namespace GisoFramework
         public const float PaddingTableCell = 8;
         public const float PaddingTopTableCell = 6;
         public const float PaddingTopCriteriaCell = 4;
-        public static readonly BaseColor SummaryBackgroundColor = BaseColor.LIGHT_GRAY;
-        public static readonly BaseColor LineBackgroundColor = BaseColor.WHITE;
-        public static readonly BaseColor HeaderBackgroundColor = BaseColor.LIGHT_GRAY;
         public const int BorderAll = Rectangle.RIGHT_BORDER + Rectangle.TOP_BORDER + Rectangle.LEFT_BORDER + Rectangle.BOTTOM_BORDER;
         public const int BorderNone = Rectangle.NO_BORDER;
         public const int BorderBottom = Rectangle.BOTTOM_BORDER;
+
+        public static readonly BaseColor SummaryBackgroundColor = BaseColor.LIGHT_GRAY;
+        public static readonly BaseColor LineBackgroundColor = BaseColor.WHITE;
+        public static readonly BaseColor HeaderBackgroundColor = BaseColor.LIGHT_GRAY;
 
         public static string FontPath
         {

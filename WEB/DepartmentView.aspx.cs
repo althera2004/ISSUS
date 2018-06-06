@@ -44,11 +44,11 @@ public partial class DepartmentView : Page
                 Name = "TxtName",
                 Value = this.department.Description,
                 ColumnSpan = 11,
-                Placeholder = this.dictionary["Item_Department"],
+                Placeholder = this.Dictionary["Item_Department"],
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
+                RequiredMessage = this.Dictionary["Common_Required"],
                 Duplicated = true,
-                DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
+                DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
                 GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Department),
                 MaximumLength = Constant.DefaultDatabaseVarChar
             }.Render;
@@ -67,15 +67,12 @@ public partial class DepartmentView : Page
     {
         get
         {
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
     /// <summary>Company of session</summary>
     private Company company;
-
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
 
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
@@ -131,13 +128,7 @@ public partial class DepartmentView : Page
         }
     }
 
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public new ApplicationUser User
     {
@@ -196,7 +187,7 @@ public partial class DepartmentView : Page
     private void Go()
     {
         this.company = this.Session["company"] as Company;
-        this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
         this.user = this.Session["User"] as ApplicationUser;
 
         if (this.Request.QueryString["id"] != null)
@@ -218,8 +209,8 @@ public partial class DepartmentView : Page
         }
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.departmentId != -1)
         {
@@ -236,7 +227,7 @@ public partial class DepartmentView : Page
             var tableEmployees = new StringBuilder();
             foreach (var employee in this.department.Employees)
             {
-                tableEmployees.Append(employee.DepartmentListRow(this.dictionary, this.departmentId));
+                tableEmployees.Append(employee.DepartmentListRow(this.Dictionary, this.departmentId));
             }
 
             this.TableEmployees.Text = tableEmployees.ToString();
@@ -244,11 +235,11 @@ public partial class DepartmentView : Page
             var tableJobPosition = new StringBuilder();
             foreach (var jobPosition in this.department.JobPositions)
             {
-                tableJobPosition.Append(jobPosition.EmployeeRow(this.dictionary));
+                tableJobPosition.Append(jobPosition.EmployeeRow(this.Dictionary));
             }
 
             this.TableJobPosition.Text = tableJobPosition.ToString();
-            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Department"], this.department.Description);
+            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Department"], this.department.Description);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
         }
@@ -259,7 +250,7 @@ public partial class DepartmentView : Page
             this.TableJobPosition.Text = string.Empty;
         }
 
-        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Department_Tab_Principal"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.Dictionary["Item_Department_Tab_Principal"] });
         // this.tabBar.AddTab(new Tab() { Id = "trazas", Label = this.dictionary["Item_Department_Tab_Traces"], Active = this.departmentId > 0, Available = this.user.HasTraceGrant() });       
     }
 }

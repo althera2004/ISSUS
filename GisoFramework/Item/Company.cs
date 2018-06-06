@@ -91,7 +91,7 @@ namespace GisoFramework.Item
                             }
 
                             this.departments = Company.ObtainDepartments(this.Id);
-                            this.addresses = CompanyAddress.GetAddressByCompanyId(this);
+                            this.addresses = CompanyAddress.GetAddressByCompanyId(this).ToList();
                             foreach (var address in this.addresses)
                             {
                                 if (address.DefaultAddress)
@@ -662,7 +662,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>Gets log of company</summary>
+        /// <summary>Gets logo of company</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>Filename of company's logo</returns>
         public static string GetLogoFileName(int companyId)
@@ -671,7 +671,7 @@ namespace GisoFramework.Item
             string path = HttpContext.Current.Request.PhysicalApplicationPath;
             if (!path.EndsWith("\\"))
             {
-                path += string.Format(CultureInfo.InvariantCulture, @"\", path);
+                path += string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
             }
 
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\images\Logos\", path);

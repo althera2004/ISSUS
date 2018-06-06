@@ -1,12 +1,16 @@
-﻿using GisoFramework;
-using GisoFramework.Item;
+﻿// --------------------------------
+// <copyright file="NoGrants.aspx.cs" company="Sbrinna">
+//     Copyright (c) Sbrinna. All rights reserved.
+// </copyright>
+// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using GisoFramework;
+using GisoFramework.Item;
 
+/// <summary>Implements No grants page</summary>
 public partial class NoGrants : Page
 {
     /// <summary> Master of page</summary>
@@ -16,7 +20,7 @@ public partial class NoGrants : Page
     private ApplicationUser user;
 
     /// <summary>Company of session</summary>
-    public Company Company;
+    private Company company;
 
     /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary { get; private set; }

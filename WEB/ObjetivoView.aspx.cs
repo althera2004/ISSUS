@@ -201,12 +201,9 @@ public partial class ObjetivoView : Page
         }
     }
 
-    private string returnScript;
-
     public string ReturnScript { get; private set; }
 
     public Objetivo Objetivo { get; set; }
-
 
     public FormDatePicker TxtFechaCierrePrevista { get; set; }
     public FormDatePicker TxtFechaCierreReal { get; set; }
@@ -226,11 +223,11 @@ public partial class ObjetivoView : Page
 
         if (this.Request.QueryString["New"] != null)
         {
-            this.returnScript = "document.location = 'ObjetivoList.aspx';";
+            this.ReturnScript = "document.location = 'ObjetivoList.aspx';";
         }
         else
         {
-            this.returnScript = "document.location = referrer;";
+            this.ReturnScript = "document.location = referrer;";
         }
 
         this.ApplicationUser = (ApplicationUser)Session["User"];

@@ -351,7 +351,7 @@ namespace GisoFramework.Item
                 isOnlyActive);
             var res = new List<BusinessRisk>();
             string query = "BusinessRisk_GetAll";
-            using (SqlCommand cmd = new SqlCommand(query))
+            using (var cmd = new SqlCommand(query))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
@@ -359,7 +359,7 @@ namespace GisoFramework.Item
                 try
                 {
                     cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (var rdr = cmd.ExecuteReader())
                     {
                         while (rdr.Read())
                         {
@@ -402,16 +402,6 @@ namespace GisoFramework.Item
                                 Assumed = rdr.GetBoolean(24),
 
                                 FinalAction = rdr.GetInt32(31)
-
-                                /*Probability = rdr.GetInt64(ColumnsBusinessRiskGetAll.ProbabilityId),
-                                Severity = rdr.GetInt64(ColumnsBusinessRiskGetAll.Severity),
-                                Result = rdr.GetInt32(ColumnsBusinessRiskGetAll.Result),
-                                ApplyAction = rdr.GetBoolean(ColumnsBusinessRiskGetAll.ApplyAction),
-                                Active = rdr.GetBoolean(ColumnsBusinessRiskGetAll.Active),
-                                InitialValue = rdr.GetInt32(ColumnsBusinessRiskGetAll.InitialValue),
-                                DateStart = rdr.GetDateTime(ColumnsBusinessRiskGetAll.DateStart),
-                                ProcessId = rdr.GetInt64(ColumnsBusinessRiskGetAll.ProcessId),
-                                Assumed = rdr.GetBoolean(ColumnsBusinessRiskGetAll.Assumed)*/
                             };
 
                             if (!rdr.IsDBNull(ColumnsBusinessRiskGetAll.Causes))
@@ -444,7 +434,7 @@ namespace GisoFramework.Item
                         res = res.Where(br => br.Active).ToList();
                     }
 
-                    foreach (BusinessRisk b in res)
+                    foreach (var b in res)
                     {
                         b.Process = new Process(b.ProcessId, companyId);
                     }

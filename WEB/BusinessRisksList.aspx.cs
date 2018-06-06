@@ -52,9 +52,6 @@ public partial class BusinessRisksList : Page
         }
     }
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
@@ -62,14 +59,7 @@ public partial class BusinessRisksList : Page
     public List<int> BRList;
 
     /// <summary>Gets the dictionary for interface texts</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return master.Dictionary;
-        }
-    }
-
+    public Dictionary<string, string> Dictionary { get; private set; }
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
@@ -140,8 +130,8 @@ public partial class BusinessRisksList : Page
     /// <summary>Main action to load the page's elements</summary>
     private void Go()
     {
-        this.user = (ApplicationUser)Session["User"];
-        this.Company = (Company)Session["company"];
+        this.user = Session["User"] as ApplicationUser;
+        this.Company = Session["company"] as Company;
 
         if (Session["BusinessRiskFilter"] == null)
         {
@@ -161,7 +151,7 @@ public partial class BusinessRisksList : Page
             this.FilterOportunity = Session["OportunityFilter"].ToString();
         }
 
-        this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AdminPage = false;
         this.master.AddBreadCrumb("Item_BusinessRisksAndOportunities");
@@ -175,12 +165,12 @@ public partial class BusinessRisksList : Page
         }
 
         this.DataHeader = new UIDataHeader { Id = "ListDataHeader", ActionsItem = 2 };
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_BusinesRisk_ListHeader_Date"], Sortable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_BusinesRisk_ListHeader_Description"], Filterable = true, Sortable = true});
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_BusinesRisk_ListHeader_Process"], HiddenMobile = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th3", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_BusinesRisk_ListHeader_Rule"], HiddenMobile = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th4", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_BusinesRisk_ListHeader_StartValue"], HiddenMobile = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th5", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_BusinesRisk_ListHeader_Result"], HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Date"], Sortable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Description"], Filterable = true, Sortable = true});
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Process"], HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th3", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Rule"], HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th4", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"], HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th5", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Result"], HiddenMobile = true });
        
         if (this.Request.QueryString["id"] != null)
         {
@@ -211,11 +201,11 @@ public partial class BusinessRisksList : Page
     public void FillCombos()
     {
         var processos = Process.ByCompany(this.Company.Id);
-        var resp = new StringBuilder(@"<option value=""0"">").Append(this.dictionary["Common_All_Female_Plural"]).Append("</option>");
+        var resp = new StringBuilder(@"<option value=""0"">").Append(this.Dictionary["Common_All_Female_Plural"]).Append("</option>");
         foreach(var process in processos)
         {
             resp.AppendFormat(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<option value=""{0}"">{1}</option>",
                 process.Id,
                 process.Description);
@@ -225,7 +215,7 @@ public partial class BusinessRisksList : Page
         this.LtCmbProcessOportunityOptions.Text = resp.ToString();
 
         var rules = Rules.GetActive(this.Company.Id);
-        var resr = new StringBuilder(@"<option value=""0"">").Append(this.dictionary["Common_All_Female_Plural"]).Append("</option>");
+        var resr = new StringBuilder(@"<option value=""0"">").Append(this.Dictionary["Common_All_Female_Plural"]).Append("</option>");
         foreach (var rule in rules)
         {
             resr.AppendFormat(

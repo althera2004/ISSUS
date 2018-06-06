@@ -30,9 +30,6 @@ public partial class UserProfileView : Page
 
     private FormFooter formFooter;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
@@ -65,7 +62,7 @@ public partial class UserProfileView : Page
     {
         get
         {
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -135,13 +132,7 @@ public partial class UserProfileView : Page
     }
 
     /// <summary>Gets dictionary for fixed labels</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     /// <summary>Gets code of company</summary>
     public string CompanyCode
@@ -185,14 +176,14 @@ public partial class UserProfileView : Page
         this.company = Session["company"] as Company;
         this.user = new ApplicationUser(this.user.Id);
         //this.user.Employee = new Employee(this.user.Employee.Id, false);
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AddBreadCrumbInvariant(this.user.UserName);
         this.master.Titulo = this.user.UserName;
         this.master.TitleInvariant = true;
 
         this.CmbShorcuts.Items.Clear();
-        this.CmbShorcuts.Items.Add(new ListItem(this.dictionary["Common_None"], "0"));
+        this.CmbShorcuts.Items.Add(new ListItem(this.Dictionary["Common_None"], "0"));
         bool first = true;
         this.shortcutsJson = new StringBuilder("[");
         foreach (var shortcut in Shortcut.Available(this.user.Id))
@@ -206,8 +197,8 @@ public partial class UserProfileView : Page
                 this.shortcutsJson.Append(",");
             }
 
-            this.shortcutsJson.Append(shortcut.Json(this.dictionary));
-            CmbShorcuts.Items.Add(new ListItem(this.dictionary[shortcut.Label], shortcut.Id.ToString(CultureInfo.GetCultureInfo("en-us"))));
+            this.shortcutsJson.Append(shortcut.Json(this.Dictionary));
+            CmbShorcuts.Items.Add(new ListItem(this.Dictionary[shortcut.Label], shortcut.Id.ToString(CultureInfo.GetCultureInfo("en-us"))));
         }
 
         this.shortcutsJson.Append("]");
@@ -222,13 +213,13 @@ public partial class UserProfileView : Page
         var filePaths = Directory.GetFiles(string.Format(CultureInfo.InvariantCulture, @"{0}/assets/avatars/", this.Request.PhysicalApplicationPath));
         foreach (string fileName in filePaths)
         {
-            string title = this.dictionary["Common_SelectAll"];
+            string title = this.Dictionary["Common_SelectAll"];
             string color = "avatar";
             string action = string.Format(CultureInfo.InvariantCulture, @"SelectAvatar('{0}');", Path.GetFileName(fileName));
             if (fileName.IndexOf(this.user.Avatar) != -1)
             {
                 color = "avatarSelected";
-                title = this.dictionary["Common_Selected"];
+                title = this.Dictionary["Common_Selected"];
                 action = string.Format("alert('{0}');", title);
             }
 
@@ -238,8 +229,8 @@ public partial class UserProfileView : Page
         this.LtAvatar.Text = avatars.ToString();
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton { Id = "BtnSave", Text = this.dictionary["Common_Accept"], Icon = "icon-ok", Action = "success" });
-        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton { Id = "BtnCancel", Text = this.dictionary["Common_Cancel"], Icon = "icon-undo" });
+        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton { Id = "BtnSave", Text = this.Dictionary["Common_Accept"], Icon = "icon-ok", Action = "success" });
+        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton { Id = "BtnCancel", Text = this.Dictionary["Common_Cancel"], Icon = "icon-undo" });
     }
 
     private void RenderShortCuts()

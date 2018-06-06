@@ -20,20 +20,11 @@ public partial class CargosList : Page
     /// <summary> Master of page</summary>
     private Giso master;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
     /// <summary>Gets the dictionary for interface texts</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public UIDataHeader DataHeader { get; set; }
 
@@ -76,7 +67,7 @@ public partial class CargosList : Page
     private void Go()
     {
         this.user = (ApplicationUser)Session["User"];
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
 
         // Security access control
         if (!this.user.HasGrantToRead(ApplicationGrant.JobPosition))
@@ -108,7 +99,7 @@ public partial class CargosList : Page
         int contData = 0;
         foreach (var cargo in cargos)
         {
-            res.Append(cargo.TableRow(this.dictionary, this.user.HasGrantToWrite(ApplicationGrant.JobPosition), this.user.HasGrantToRead(ApplicationGrant.Department)));
+            res.Append(cargo.TableRow(this.Dictionary, this.user.HasGrantToWrite(ApplicationGrant.JobPosition), this.user.HasGrantToRead(ApplicationGrant.Department)));
             if(!searchItems.Contains(cargo.Description))
             {
                 searchItems.Add(cargo.Description);

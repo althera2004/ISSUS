@@ -147,20 +147,20 @@ namespace SbrinnaCoreFramework.UI
                                         ""class"": ""btn btn-success btn-xs"",
                                         ""click"": function () {{
                                             var ok = true;
-                                            if(document.getElementById('Txt{0}}}Name').value == '')
+                                            if(document.getElementById('Txt{0}Name').value == '')
                                             {{
-                                                document.getElementById('Txt{0}}}NameErrorRequired').style.display='block';
+                                                document.getElementById('Txt{0}NameErrorRequired').style.display='block';
                                                 ok = false;
                                             }}
                                             else
                                             {{
-                                                document.getElementById('Txt{0}}}NameErrorRequired').style.display='none';
+                                                document.getElementById('Txt{0}NameErrorRequired').style.display='none';
                                             }}
 
                                             var duplicated = false;
                                             for(var x=0;x<processTypeCompany.length;x++)
                                             {{
-                                                if(document.getElementById('Txt{0}}}Name').value.toLowerCase() == processTypeCompany[x].Description.toLowerCase() && Selected != processTypeCompany[x].Id && processTypeCompany[x].Active === true)
+                                                if(document.getElementById('Txt{0}Name').value.toLowerCase() == processTypeCompany[x].Description.toLowerCase() && Selected != processTypeCompany[x].Id && processTypeCompany[x].Active === true)
                                                 {{
                                                     duplicated = true;
                                                     break;
@@ -183,7 +183,7 @@ namespace SbrinnaCoreFramework.UI
                                             $(""#Txt{0}}}NameErrorRequired"").hide();
                                             $(""#Txt{0}}}NameErrorDuplicated"").hide();
                                             $(this).dialog('close');
-                                            ProcessTypeUpdateConfirmed(Selected, $(""#Txt{0}}}Name"").val());
+                                            ProcessTypeUpdateConfirmed(Selected, $(""#Txt{0}Name"").val());
                                         }}
                                     }},
                                     {{

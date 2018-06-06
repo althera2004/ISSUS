@@ -31,7 +31,7 @@ namespace GisoFramework.Item.Binding
         public const int ClosedOn = 6;
 
         /// <summary>Index of "Origin" column</summary>
-        public const int origin = 7;
+        public const int Origin = 7;
 
         /// <summary>Index of "AssociatedId" column</summary>
         public const int AssociatedId = 8;

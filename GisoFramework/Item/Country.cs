@@ -84,6 +84,11 @@ namespace GisoFramework.Item
         /// <returns>JSON list of countries</returns>
         public static string JsonList(ReadOnlyCollection<Country> list)
         {
+            if(list == null)
+            {
+                return Constant.EmptyJsonList;
+            }
+
             var result = new StringBuilder("[");
             bool first = true;
             foreach (var country in list)

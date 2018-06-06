@@ -323,29 +323,6 @@
       </violation>
     </violations>
   </sourcecode>
-  <sourcecode name="LogOut.aspx.cs" parser="StyleCop.CSharp.CsParser">
-    <timestamps>
-      <styleCop>2015/09/09 17:18:02.095</styleCop>
-      <settingsFile>2015/09/09 17:18:02.071</settingsFile>
-      <sourceFile>2016/12/01 12:55:32.009</sourceFile>
-      <parser>2015/09/09 17:18:02.095</parser>
-      <StyleCop.CSharp.DocumentationRules>2015/09/09 17:18:02.095</StyleCop.CSharp.DocumentationRules>
-      <StyleCop.CSharp.DocumentationRules.FilesHashCode>-1867568625</StyleCop.CSharp.DocumentationRules.FilesHashCode>
-      <StyleCop.CSharp.LayoutRules>2015/09/09 17:18:02.095</StyleCop.CSharp.LayoutRules>
-      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
-      <StyleCop.CSharp.MaintainabilityRules>2015/09/09 17:18:02.095</StyleCop.CSharp.MaintainabilityRules>
-      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
-      <StyleCop.CSharp.NamingRules>2015/09/09 17:18:02.095</StyleCop.CSharp.NamingRules>
-      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
-      <StyleCop.CSharp.OrderingRules>2015/09/09 17:18:02.095</StyleCop.CSharp.OrderingRules>
-      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
-      <StyleCop.CSharp.ReadabilityRules>2015/09/09 17:18:02.095</StyleCop.CSharp.ReadabilityRules>
-      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
-      <StyleCop.CSharp.SpacingRules>2015/09/09 17:18:02.095</StyleCop.CSharp.SpacingRules>
-      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
-    </timestamps>
-    <violations />
-  </sourcecode>
   <sourcecode name="ProcesosList.aspx.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2015/09/09 17:18:02.095</styleCop>
@@ -498,35 +475,6 @@
       <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
         <context>The property must have a documentation header.</context>
         <line>150</line>
-        <warning>False</warning>
-      </violation>
-    </violations>
-  </sourcecode>
-  <sourcecode name="NoAccesible.aspx.cs" parser="StyleCop.CSharp.CsParser">
-    <timestamps>
-      <styleCop>2015/09/09 17:18:02.095</styleCop>
-      <settingsFile>2015/09/09 17:18:02.071</settingsFile>
-      <sourceFile>2017/08/25 12:04:46.949</sourceFile>
-      <parser>2015/09/09 17:18:02.095</parser>
-      <StyleCop.CSharp.DocumentationRules>2015/09/09 17:18:02.095</StyleCop.CSharp.DocumentationRules>
-      <StyleCop.CSharp.DocumentationRules.FilesHashCode>-1867568625</StyleCop.CSharp.DocumentationRules.FilesHashCode>
-      <StyleCop.CSharp.LayoutRules>2015/09/09 17:18:02.095</StyleCop.CSharp.LayoutRules>
-      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
-      <StyleCop.CSharp.MaintainabilityRules>2015/09/09 17:18:02.095</StyleCop.CSharp.MaintainabilityRules>
-      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
-      <StyleCop.CSharp.NamingRules>2015/09/09 17:18:02.095</StyleCop.CSharp.NamingRules>
-      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
-      <StyleCop.CSharp.OrderingRules>2015/09/09 17:18:02.095</StyleCop.CSharp.OrderingRules>
-      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
-      <StyleCop.CSharp.ReadabilityRules>2015/09/09 17:18:02.095</StyleCop.CSharp.ReadabilityRules>
-      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
-      <StyleCop.CSharp.SpacingRules>2015/09/09 17:18:02.095</StyleCop.CSharp.SpacingRules>
-      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
-    </timestamps>
-    <violations>
-      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementDocumentationMustBeSpelledCorrectly" ruleCheckId="SA1650">
-        <context>The documentation text within the summary tag contains incorrectly spelled words: Accesible</context>
-        <line>15</line>
         <warning>False</warning>
       </violation>
     </violations>
@@ -3168,5 +3116,1361 @@
         <warning>False</warning>
       </violation>
     </violations>
+  </sourcecode>
+  <sourcecode name="TwoColumnHeaderFooter.cs" parser="StyleCop.CSharp.CsParser">
+    <timestamps>
+      <styleCop>2018/06/06 19:31:06.447</styleCop>
+      <settingsFile>2018/06/06 19:31:06.422</settingsFile>
+      <sourceFile>2018/06/06 22:16:50.118</sourceFile>
+      <parser>2018/06/06 19:31:06.447</parser>
+      <StyleCop.CSharp.DocumentationRules>2018/06/06 19:31:06.447</StyleCop.CSharp.DocumentationRules>
+      <StyleCop.CSharp.DocumentationRules.FilesHashCode>0</StyleCop.CSharp.DocumentationRules.FilesHashCode>
+      <StyleCop.CSharp.LayoutRules>2018/06/06 19:31:06.447</StyleCop.CSharp.LayoutRules>
+      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
+      <StyleCop.CSharp.MaintainabilityRules>2018/06/06 19:31:06.447</StyleCop.CSharp.MaintainabilityRules>
+      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
+      <StyleCop.CSharp.NamingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.NamingRules>
+      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
+      <StyleCop.CSharp.OrderingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.OrderingRules>
+      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
+      <StyleCop.CSharp.ReadabilityRules>2018/06/06 19:31:06.447</StyleCop.CSharp.ReadabilityRules>
+      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
+      <StyleCop.CSharp.SpacingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.SpacingRules>
+      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
+    </timestamps>
+    <violations>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The class must have a documentation header.</context>
+        <line>17</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.MaintainabilityRules" rule="AccessModifierMustBeDeclared" ruleCheckId="SA1400">
+        <context>The field must have an access modifier.</context>
+        <line>20</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.OrderingRules" rule="ElementsMustBeOrderedByAccess" ruleCheckId="SA1202">
+        <context>All private fields must be placed after all public fields.</context>
+        <line>29</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.MaintainabilityRules" rule="AccessModifierMustBeDeclared" ruleCheckId="SA1400">
+        <context>The field must have an access modifier.</context>
+        <line>23</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The field must have a documentation header.</context>
+        <line>26</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.MaintainabilityRules" rule="AccessModifierMustBeDeclared" ruleCheckId="SA1400">
+        <context>The field must have an access modifier.</context>
+        <line>26</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.NamingRules" rule="FieldNamesMustBeginWithLowerCaseLetter" ruleCheckId="SA1306">
+        <context>Variable names and private field names must start with a lower-case letter: PrintTime.</context>
+        <line>26</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The property must have a documentation header.</context>
+        <line>28</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.OrderingRules" rule="ElementsMustAppearInTheCorrectOrder" ruleCheckId="SA1201">
+        <context>All properties must be placed after all fields.</context>
+        <line>38</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The field must have a documentation header.</context>
+        <line>29</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
+        <context>Adjacent elements must be separated by a blank line.</context>
+        <line>29</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.MaintainabilityRules" rule="FieldsMustBePrivate" ruleCheckId="SA1401">
+        <context>Fields must be declared with private access. Use properties to expose fields.</context>
+        <line>29</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The property must have a documentation header.</context>
+        <line>30</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
+        <context>Adjacent elements must be separated by a blank line.</context>
+        <line>30</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The property must have a documentation header.</context>
+        <line>31</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
+        <context>Adjacent elements must be separated by a blank line.</context>
+        <line>31</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The property must have a documentation header.</context>
+        <line>32</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
+        <context>Adjacent elements must be separated by a blank line.</context>
+        <line>32</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The property must have a documentation header.</context>
+        <line>33</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
+        <context>Adjacent elements must be separated by a blank line.</context>
+        <line>33</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The property must have a documentation header.</context>
+        <line>34</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
+        <context>Adjacent elements must be separated by a blank line.</context>
+        <line>34</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The property must have a documentation header.</context>
+        <line>35</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
+        <context>Adjacent elements must be separated by a blank line.</context>
+        <line>35</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The property must have a documentation header.</context>
+        <line>36</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
+        <context>Adjacent elements must be separated by a blank line.</context>
+        <line>36</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The property must have a documentation header.</context>
+        <line>37</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
+        <context>Adjacent elements must be separated by a blank line.</context>
+        <line>37</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The field must have a documentation header.</context>
+        <line>38</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
+        <context>Adjacent elements must be separated by a blank line.</context>
+        <line>38</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.MaintainabilityRules" rule="AccessModifierMustBeDeclared" ruleCheckId="SA1400">
+        <context>The field must have an access modifier.</context>
+        <line>38</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The property must have a documentation header.</context>
+        <line>39</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
+        <context>Adjacent elements must be separated by a blank line.</context>
+        <line>39</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The property must have a documentation header.</context>
+        <line>40</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ElementsMustBeSeparatedByBlankLine" ruleCheckId="SA1516">
+        <context>Adjacent elements must be separated by a blank line.</context>
+        <line>40</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The property must have a documentation header.</context>
+        <line>42</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The method must have a documentation header.</context>
+        <line>45</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="SingleLineCommentMustBePrecededByBlankLine" ruleCheckId="SA1515">
+        <context>A single-line comment must be preceded by a blank line or another single-line comment, or must be the first item in its scope. To ignore this error when commenting out a line of code, begin the comment with '////' rather than '//'.</context>
+        <line>62</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to PrintTime must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>61</line>
+        <index>2450</index>
+        <endIndex>2458</endIndex>
+        <startLine>61</startLine>
+        <startColumn>17</startColumn>
+        <endLine>61</endLine>
+        <endColumn>25</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to cb must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>64</line>
+        <index>2763</index>
+        <endIndex>2764</endIndex>
+        <startLine>64</startLine>
+        <startColumn>17</startColumn>
+        <endLine>64</endLine>
+        <endColumn>18</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to template must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>65</line>
+        <index>2807</index>
+        <endIndex>2814</endIndex>
+        <startLine>65</startLine>
+        <startColumn>17</startColumn>
+        <endLine>65</endLine>
+        <endColumn>24</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to cb must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>65</line>
+        <index>2818</index>
+        <endIndex>2819</endIndex>
+        <startLine>65</startLine>
+        <startColumn>28</startColumn>
+        <endLine>65</endLine>
+        <endColumn>29</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.SpacingRules" rule="SingleLineCommentsMustBeginWithSingleSpace" ruleCheckId="SA1005">
+        <context>The comment must start with a single space. To ignore this error when commenting out a line of code, begin the comment with '////' rather than '//'.</context>
+        <line>49</line>
+        <index>1766</index>
+        <endIndex>1792</endIndex>
+        <startLine>49</startLine>
+        <startColumn>17</startColumn>
+        <endLine>49</endLine>
+        <endColumn>43</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.SpacingRules" rule="SingleLineCommentsMustBeginWithSingleSpace" ruleCheckId="SA1005">
+        <context>The comment must start with a single space. To ignore this error when commenting out a line of code, begin the comment with '////' rather than '//'.</context>
+        <line>50</line>
+        <index>1811</index>
+        <endIndex>1902</endIndex>
+        <startLine>50</startLine>
+        <startColumn>17</startColumn>
+        <endLine>50</endLine>
+        <endColumn>108</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.SpacingRules" rule="SingleLineCommentsMustBeginWithSingleSpace" ruleCheckId="SA1005">
+        <context>The comment must start with a single space. To ignore this error when commenting out a line of code, begin the comment with '////' rather than '//'.</context>
+        <line>51</line>
+        <index>1921</index>
+        <endIndex>1948</endIndex>
+        <startLine>51</startLine>
+        <startColumn>17</startColumn>
+        <endLine>51</endLine>
+        <endColumn>44</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.SpacingRules" rule="SingleLineCommentsMustBeginWithSingleSpace" ruleCheckId="SA1005">
+        <context>The comment must start with a single space. To ignore this error when commenting out a line of code, begin the comment with '////' rather than '//'.</context>
+        <line>52</line>
+        <index>1967</index>
+        <endIndex>2005</endIndex>
+        <startLine>52</startLine>
+        <startColumn>17</startColumn>
+        <endLine>52</endLine>
+        <endColumn>55</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.SpacingRules" rule="SingleLineCommentsMustBeginWithSingleSpace" ruleCheckId="SA1005">
+        <context>The comment must start with a single space. To ignore this error when commenting out a line of code, begin the comment with '////' rather than '//'.</context>
+        <line>62</line>
+        <index>2493</index>
+        <endIndex>2577</endIndex>
+        <startLine>62</startLine>
+        <startColumn>17</startColumn>
+        <endLine>62</endLine>
+        <endColumn>101</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The method must have a documentation header.</context>
+        <line>75</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ParametersMustBeOnSameLineOrSeparateLines" ruleCheckId="SA1117">
+        <context>All method parameters must be placed on the same line, or each parameter must be placed on a separate line.</context>
+        <line>99</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="SplitParametersMustStartOnLineAfterDeclaration" ruleCheckId="SA1116">
+        <context>If the method parameters are on separate lines, the first parameter must begin on the line beneath the name of the method.</context>
+        <line>99</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ParameterMustFollowComma" ruleCheckId="SA1115">
+        <context>The parameter must begin on the line after the previous parameter.</context>
+        <line>102</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ParametersMustBeOnSameLineOrSeparateLines" ruleCheckId="SA1117">
+        <context>All method parameters must be placed on the same line, or each parameter must be placed on a separate line.</context>
+        <line>108</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="SplitParametersMustStartOnLineAfterDeclaration" ruleCheckId="SA1116">
+        <context>If the method parameters are on separate lines, the first parameter must begin on the line beneath the name of the method.</context>
+        <line>108</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ParameterMustFollowComma" ruleCheckId="SA1115">
+        <context>The parameter must begin on the line after the previous parameter.</context>
+        <line>111</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ParametersMustBeOnSameLineOrSeparateLines" ruleCheckId="SA1117">
+        <context>All method parameters must be placed on the same line, or each parameter must be placed on a separate line.</context>
+        <line>117</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="SplitParametersMustStartOnLineAfterDeclaration" ruleCheckId="SA1116">
+        <context>If the method parameters are on separate lines, the first parameter must begin on the line beneath the name of the method.</context>
+        <line>117</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ParameterMustFollowComma" ruleCheckId="SA1115">
+        <context>The parameter must begin on the line after the previous parameter.</context>
+        <line>120</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ParametersMustBeOnSameLineOrSeparateLines" ruleCheckId="SA1117">
+        <context>All method parameters must be placed on the same line, or each parameter must be placed on a separate line.</context>
+        <line>126</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="SplitParametersMustStartOnLineAfterDeclaration" ruleCheckId="SA1116">
+        <context>If the method parameters are on separate lines, the first parameter must begin on the line beneath the name of the method.</context>
+        <line>126</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ParameterMustFollowComma" ruleCheckId="SA1115">
+        <context>The parameter must begin on the line after the previous parameter.</context>
+        <line>129</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.SpacingRules" rule="KeywordsMustBeSpacedCorrectly" ruleCheckId="SA1000">
+        <context>The spacing around the keyword 'if' is invalid.</context>
+        <line>82</line>
+        <index>3262</index>
+        <endIndex>3263</endIndex>
+        <startLine>82</startLine>
+        <startColumn>13</startColumn>
+        <endLine>82</endLine>
+        <endColumn>14</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.SpacingRules" rule="SymbolsMustBeSpacedCorrectly" ruleCheckId="SA1003">
+        <context>The spacing around the symbol '-' is invalid.</context>
+        <line>89</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.SpacingRules" rule="SymbolsMustBeSpacedCorrectly" ruleCheckId="SA1003">
+        <context>The spacing around the symbol '-' is invalid.</context>
+        <line>92</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.SpacingRules" rule="ClosingParenthesisMustBeSpacedCorrectly" ruleCheckId="SA1009">
+        <context>Invalid spacing around the closing parenthesis.</context>
+        <line>92</line>
+        <index>3743</index>
+        <endIndex>3743</endIndex>
+        <startLine>92</startLine>
+        <startColumn>62</startColumn>
+        <endLine>92</endLine>
+        <endColumn>62</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The method must have a documentation header.</context>
+        <line>133</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.MaintainabilityRules" rule="StatementMustNotUseUnnecessaryParenthesis" ruleCheckId="SA1119">
+        <context>The line contains unnecessary parenthesis.</context>
+        <line>156</line>
+        <index>6045</index>
+        <endIndex>6064</endIndex>
+        <startLine>156</startLine>
+        <startColumn>43</startColumn>
+        <endLine>156</endLine>
+        <endColumn>62</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ParametersMustBeOnSameLineOrSeparateLines" ruleCheckId="SA1117">
+        <context>All method parameters must be placed on the same line, or each parameter must be placed on a separate line.</context>
+        <line>165</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="SplitParametersMustStartOnLineAfterDeclaration" ruleCheckId="SA1116">
+        <context>If the method parameters are on separate lines, the first parameter must begin on the line beneath the name of the method.</context>
+        <line>165</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ParameterMustFollowComma" ruleCheckId="SA1115">
+        <context>The parameter must begin on the line after the previous parameter.</context>
+        <line>168</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to NoFooter must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>137</line>
+        <index>5339</index>
+        <endIndex>5346</endIndex>
+        <startLine>137</startLine>
+        <startColumn>21</startColumn>
+        <endLine>137</endLine>
+        <endColumn>28</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to NoFooter must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>135</line>
+        <index>5284</index>
+        <endIndex>5291</endIndex>
+        <startLine>135</startLine>
+        <startColumn>17</startColumn>
+        <endLine>135</endLine>
+        <endColumn>24</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to bf must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>146</line>
+        <index>5593</index>
+        <endIndex>5594</endIndex>
+        <startLine>146</startLine>
+        <startColumn>23</startColumn>
+        <endLine>146</endLine>
+        <endColumn>24</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to bf must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>152</line>
+        <index>5837</index>
+        <endIndex>5838</endIndex>
+        <startLine>152</startLine>
+        <startColumn>36</startColumn>
+        <endLine>152</endLine>
+        <endColumn>37</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to template must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>156</line>
+        <index>6035</index>
+        <endIndex>6042</endIndex>
+        <startLine>156</startLine>
+        <startColumn>33</startColumn>
+        <endLine>156</endLine>
+        <endColumn>40</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to bf must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>164</line>
+        <index>6364</index>
+        <endIndex>6365</endIndex>
+        <startLine>164</startLine>
+        <startColumn>36</startColumn>
+        <endLine>164</endLine>
+        <endColumn>37</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The method must have a documentation header.</context>
+        <line>172</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.MaintainabilityRules" rule="StatementMustNotUseUnnecessaryParenthesis" ruleCheckId="SA1119">
+        <context>The line contains unnecessary parenthesis.</context>
+        <line>186</line>
+        <index>7087</index>
+        <endIndex>7105</endIndex>
+        <startLine>186</startLine>
+        <startColumn>36</startColumn>
+        <endLine>186</endLine>
+        <endColumn>54</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to NoFooter must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>176</line>
+        <index>6775</index>
+        <endIndex>6782</endIndex>
+        <startLine>176</startLine>
+        <startColumn>21</startColumn>
+        <endLine>176</endLine>
+        <endColumn>28</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to NoFooter must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>174</line>
+        <index>6720</index>
+        <endIndex>6727</endIndex>
+        <startLine>174</startLine>
+        <startColumn>17</startColumn>
+        <endLine>174</endLine>
+        <endColumn>24</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to template must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>183</line>
+        <index>6941</index>
+        <endIndex>6948</endIndex>
+        <startLine>183</startLine>
+        <startColumn>13</startColumn>
+        <endLine>183</endLine>
+        <endColumn>20</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to template must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>184</line>
+        <index>6976</index>
+        <endIndex>6983</endIndex>
+        <startLine>184</startLine>
+        <startColumn>13</startColumn>
+        <endLine>184</endLine>
+        <endColumn>20</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to bf must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>184</line>
+        <index>7000</index>
+        <endIndex>7001</endIndex>
+        <startLine>184</startLine>
+        <startColumn>37</startColumn>
+        <endLine>184</endLine>
+        <endColumn>38</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to template must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>185</line>
+        <index>7021</index>
+        <endIndex>7028</endIndex>
+        <startLine>185</startLine>
+        <startColumn>13</startColumn>
+        <endLine>185</endLine>
+        <endColumn>20</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to template must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>186</line>
+        <index>7064</index>
+        <endIndex>7071</endIndex>
+        <startLine>186</startLine>
+        <startColumn>13</startColumn>
+        <endLine>186</endLine>
+        <endColumn>20</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to template must begin with the 'this.', 'base.', 'object.' or 'TwoColumnHeaderFooter.' or 'PdfPageEventHelper.' prefix to indicate the intended method call. </context>
+        <line>187</line>
+        <index>7122</index>
+        <endIndex>7129</endIndex>
+        <startLine>187</startLine>
+        <startColumn>13</startColumn>
+        <endLine>187</endLine>
+        <endColumn>20</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="UseStringEmptyForEmptyStrings" ruleCheckId="SA1122">
+        <context>Use string.Empty rather than "".</context>
+        <line>186</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+  <sourcecode name="PrintEquipmentData.aspx.cs" parser="StyleCop.CSharp.CsParser">
+    <timestamps>
+      <styleCop>2018/06/06 19:31:06.447</styleCop>
+      <settingsFile>2018/06/06 19:31:06.422</settingsFile>
+      <sourceFile>2018/06/06 22:24:44.658</sourceFile>
+      <parser>2018/06/06 19:31:06.447</parser>
+      <StyleCop.CSharp.DocumentationRules>2018/06/06 19:31:06.447</StyleCop.CSharp.DocumentationRules>
+      <StyleCop.CSharp.DocumentationRules.FilesHashCode>0</StyleCop.CSharp.DocumentationRules.FilesHashCode>
+      <StyleCop.CSharp.LayoutRules>2018/06/06 19:31:06.447</StyleCop.CSharp.LayoutRules>
+      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
+      <StyleCop.CSharp.MaintainabilityRules>2018/06/06 19:31:06.447</StyleCop.CSharp.MaintainabilityRules>
+      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
+      <StyleCop.CSharp.NamingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.NamingRules>
+      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
+      <StyleCop.CSharp.OrderingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.OrderingRules>
+      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
+      <StyleCop.CSharp.ReadabilityRules>2018/06/06 19:31:06.447</StyleCop.CSharp.ReadabilityRules>
+      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
+      <StyleCop.CSharp.SpacingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.SpacingRules>
+      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
+    </timestamps>
+    <violations>
+      <violation namespace="StyleCop.CSharp.OrderingRules" rule="UsingAliasDirectivesMustBePlacedAfterOtherUsingDirectives" ruleCheckId="SA1209">
+        <context>Using alias directives must be placed after all using namespace directives.</context>
+        <line>18</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.OrderingRules" rule="UsingAliasDirectivesMustBePlacedAfterOtherUsingDirectives" ruleCheckId="SA1209">
+        <context>Using alias directives must be placed after all using namespace directives.</context>
+        <line>19</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="PartialElementsMustBeDocumented" ruleCheckId="SA1601">
+        <context>The partial class element must have a documentation header containing either a summary tag or a content tag.</context>
+        <line>27</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The field must have a documentation header.</context>
+        <line>29</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.MaintainabilityRules" rule="AccessModifierMustBeDeclared" ruleCheckId="SA1400">
+        <context>The field must have an access modifier.</context>
+        <line>29</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The field must have a documentation header.</context>
+        <line>30</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.MaintainabilityRules" rule="AccessModifierMustBeDeclared" ruleCheckId="SA1400">
+        <context>The field must have an access modifier.</context>
+        <line>30</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The method must have a documentation header.</context>
+        <line>34</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="CodeMustNotContainMultipleBlankLinesInARow" ruleCheckId="SA1507">
+        <context>The code must not contain multiple blank lines in a row.</context>
+        <line>57</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="SplitParametersMustStartOnLineAfterDeclaration" ruleCheckId="SA1116">
+        <context>If the method parameters are on separate lines, the first parameter must begin on the line beneath the name of the method.</context>
+        <line>58</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="CodeMustNotContainMultipleStatementsOnOneLine" ruleCheckId="SA1107">
+        <context>A line may only contain a single statement.</context>
+        <line>107</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="CodeMustNotContainMultipleStatementsOnOneLine" ruleCheckId="SA1107">
+        <context>A line may only contain a single statement.</context>
+        <line>108</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="CodeMustNotContainMultipleStatementsOnOneLine" ruleCheckId="SA1107">
+        <context>A line may only contain a single statement.</context>
+        <line>109</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="CodeMustNotContainMultipleStatementsOnOneLine" ruleCheckId="SA1107">
+        <context>A line may only contain a single statement.</context>
+        <line>110</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="CodeMustNotContainMultipleStatementsOnOneLine" ruleCheckId="SA1107">
+        <context>A line may only contain a single statement.</context>
+        <line>112</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="CodeMustNotContainMultipleStatementsOnOneLine" ruleCheckId="SA1107">
+        <context>A line may only contain a single statement.</context>
+        <line>113</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="CodeMustNotContainMultipleStatementsOnOneLine" ruleCheckId="SA1107">
+        <context>A line may only contain a single statement.</context>
+        <line>114</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="CodeMustNotContainMultipleStatementsOnOneLine" ruleCheckId="SA1107">
+        <context>A line may only contain a single statement.</context>
+        <line>115</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The method must have a documentation header.</context>
+        <line>124</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="CodeMustNotContainMultipleBlankLinesInARow" ruleCheckId="SA1507">
+        <context>The code must not contain multiple blank lines in a row.</context>
+        <line>141</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="CodeMustNotContainMultipleBlankLinesInARow" ruleCheckId="SA1507">
+        <context>The code must not contain multiple blank lines in a row.</context>
+        <line>142</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="CodeMustNotContainMultipleBlankLinesInARow" ruleCheckId="SA1507">
+        <context>The code must not contain multiple blank lines in a row.</context>
+        <line>246</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="DoNotPlaceRegionsWithinElements" ruleCheckId="SA1123">
+        <context>The use of regions is not allowed within code elements. Remove the #region and #endregion tags.</context>
+        <line>185</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="DoNotPlaceRegionsWithinElements" ruleCheckId="SA1123">
+        <context>The use of regions is not allowed within code elements. Remove the #region and #endregion tags.</context>
+        <line>268</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="DoNotPlaceRegionsWithinElements" ruleCheckId="SA1123">
+        <context>The use of regions is not allowed within code elements. Remove the #region and #endregion tags.</context>
+        <line>300</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="DoNotPlaceRegionsWithinElements" ruleCheckId="SA1123">
+        <context>The use of regions is not allowed within code elements. Remove the #region and #endregion tags.</context>
+        <line>335</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="DoNotPlaceRegionsWithinElements" ruleCheckId="SA1123">
+        <context>The use of regions is not allowed within code elements. Remove the #region and #endregion tags.</context>
+        <line>367</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="DoNotPlaceRegionsWithinElements" ruleCheckId="SA1123">
+        <context>The use of regions is not allowed within code elements. Remove the #region and #endregion tags.</context>
+        <line>402</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleCell must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>204</line>
+        <index>9444</index>
+        <endIndex>9452</endIndex>
+        <startLine>204</startLine>
+        <startColumn>23</startColumn>
+        <endLine>204</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>205</line>
+        <index>9522</index>
+        <endIndex>9531</endIndex>
+        <startLine>205</startLine>
+        <startColumn>23</startColumn>
+        <endLine>205</endLine>
+        <endColumn>32</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>206</line>
+        <index>9610</index>
+        <endIndex>9618</endIndex>
+        <startLine>206</startLine>
+        <startColumn>23</startColumn>
+        <endLine>206</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>247</line>
+        <index>11162</index>
+        <endIndex>11171</endIndex>
+        <startLine>247</startLine>
+        <startColumn>23</startColumn>
+        <endLine>247</endLine>
+        <endColumn>32</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>248</line>
+        <index>11246</index>
+        <endIndex>11254</endIndex>
+        <startLine>248</startLine>
+        <startColumn>23</startColumn>
+        <endLine>248</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>250</line>
+        <index>11300</index>
+        <endIndex>11309</endIndex>
+        <startLine>250</startLine>
+        <startColumn>23</startColumn>
+        <endLine>250</endLine>
+        <endColumn>32</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>251</line>
+        <index>11391</index>
+        <endIndex>11399</endIndex>
+        <startLine>251</startLine>
+        <startColumn>23</startColumn>
+        <endLine>251</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>253</line>
+        <index>11452</index>
+        <endIndex>11461</endIndex>
+        <startLine>253</startLine>
+        <startColumn>23</startColumn>
+        <endLine>253</endLine>
+        <endColumn>32</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>254</line>
+        <index>11539</index>
+        <endIndex>11547</endIndex>
+        <startLine>254</startLine>
+        <startColumn>23</startColumn>
+        <endLine>254</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>256</line>
+        <index>11596</index>
+        <endIndex>11605</endIndex>
+        <startLine>256</startLine>
+        <startColumn>23</startColumn>
+        <endLine>256</endLine>
+        <endColumn>32</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>257</line>
+        <index>11688</index>
+        <endIndex>11696</endIndex>
+        <startLine>257</startLine>
+        <startColumn>23</startColumn>
+        <endLine>257</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>259</line>
+        <index>11803</index>
+        <endIndex>11812</endIndex>
+        <startLine>259</startLine>
+        <startColumn>23</startColumn>
+        <endLine>259</endLine>
+        <endColumn>32</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>260</line>
+        <index>11893</index>
+        <endIndex>11901</endIndex>
+        <startLine>260</startLine>
+        <startColumn>23</startColumn>
+        <endLine>260</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>262</line>
+        <index>11962</index>
+        <endIndex>11971</endIndex>
+        <startLine>262</startLine>
+        <startColumn>23</startColumn>
+        <endLine>262</endLine>
+        <endColumn>32</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>263</line>
+        <index>12046</index>
+        <endIndex>12054</endIndex>
+        <startLine>263</startLine>
+        <startColumn>23</startColumn>
+        <endLine>263</endLine>
+        <endColumn>31</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleCell must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>312</line>
+        <index>15068</index>
+        <endIndex>15076</endIndex>
+        <startLine>312</startLine>
+        <startColumn>43</startColumn>
+        <endLine>312</endLine>
+        <endColumn>51</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>313</line>
+        <index>15179</index>
+        <endIndex>15188</endIndex>
+        <startLine>313</startLine>
+        <startColumn>43</startColumn>
+        <endLine>313</endLine>
+        <endColumn>52</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>314</line>
+        <index>15293</index>
+        <endIndex>15301</endIndex>
+        <startLine>314</startLine>
+        <startColumn>43</startColumn>
+        <endLine>314</endLine>
+        <endColumn>51</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>315</line>
+        <index>15394</index>
+        <endIndex>15403</endIndex>
+        <startLine>315</startLine>
+        <startColumn>43</startColumn>
+        <endLine>315</endLine>
+        <endColumn>52</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>316</line>
+        <index>15510</index>
+        <endIndex>15518</endIndex>
+        <startLine>316</startLine>
+        <startColumn>43</startColumn>
+        <endLine>316</endLine>
+        <endColumn>51</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>317</line>
+        <index>15645</index>
+        <endIndex>15654</endIndex>
+        <startLine>317</startLine>
+        <startColumn>43</startColumn>
+        <endLine>317</endLine>
+        <endColumn>52</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>318</line>
+        <index>15761</index>
+        <endIndex>15769</endIndex>
+        <startLine>318</startLine>
+        <startColumn>43</startColumn>
+        <endLine>318</endLine>
+        <endColumn>51</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>319</line>
+        <index>15870</index>
+        <endIndex>15879</endIndex>
+        <startLine>319</startLine>
+        <startColumn>43</startColumn>
+        <endLine>319</endLine>
+        <endColumn>52</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>320</line>
+        <index>15980</index>
+        <endIndex>15988</endIndex>
+        <startLine>320</startLine>
+        <startColumn>43</startColumn>
+        <endLine>320</endLine>
+        <endColumn>51</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>321</line>
+        <index>16072</index>
+        <endIndex>16081</endIndex>
+        <startLine>321</startLine>
+        <startColumn>43</startColumn>
+        <endLine>321</endLine>
+        <endColumn>52</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>322</line>
+        <index>16184</index>
+        <endIndex>16192</endIndex>
+        <startLine>322</startLine>
+        <startColumn>43</startColumn>
+        <endLine>322</endLine>
+        <endColumn>51</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>323</line>
+        <index>16278</index>
+        <endIndex>16287</endIndex>
+        <startLine>323</startLine>
+        <startColumn>43</startColumn>
+        <endLine>323</endLine>
+        <endColumn>52</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>324</line>
+        <index>16387</index>
+        <endIndex>16395</endIndex>
+        <startLine>324</startLine>
+        <startColumn>43</startColumn>
+        <endLine>324</endLine>
+        <endColumn>51</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>325</line>
+        <index>16538</index>
+        <endIndex>16547</endIndex>
+        <startLine>325</startLine>
+        <startColumn>43</startColumn>
+        <endLine>325</endLine>
+        <endColumn>52</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>326</line>
+        <index>16654</index>
+        <endIndex>16662</endIndex>
+        <startLine>326</startLine>
+        <startColumn>43</startColumn>
+        <endLine>326</endLine>
+        <endColumn>51</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>327</line>
+        <index>16764</index>
+        <endIndex>16773</endIndex>
+        <startLine>327</startLine>
+        <startColumn>43</startColumn>
+        <endLine>327</endLine>
+        <endColumn>52</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>328</line>
+        <index>16877</index>
+        <endIndex>16885</endIndex>
+        <startLine>328</startLine>
+        <startColumn>43</startColumn>
+        <endLine>328</endLine>
+        <endColumn>51</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleLabel must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>329</line>
+        <index>16987</index>
+        <endIndex>16996</endIndex>
+        <startLine>329</startLine>
+        <startColumn>43</startColumn>
+        <endLine>329</endLine>
+        <endColumn>52</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>330</line>
+        <index>17097</index>
+        <endIndex>17105</endIndex>
+        <startLine>330</startLine>
+        <startColumn>43</startColumn>
+        <endLine>330</endLine>
+        <endColumn>51</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to headerFont must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>410</line>
+        <index>22917</index>
+        <endIndex>22926</endIndex>
+        <startLine>410</startLine>
+        <startColumn>48</startColumn>
+        <endLine>410</endLine>
+        <endColumn>57</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to arial must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>489</line>
+        <index>26537</index>
+        <endIndex>26541</endIndex>
+        <startLine>489</startLine>
+        <startColumn>38</startColumn>
+        <endLine>489</endLine>
+        <endColumn>42</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to arial must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>490</line>
+        <index>26628</index>
+        <endIndex>26632</endIndex>
+        <startLine>490</startLine>
+        <startColumn>42</startColumn>
+        <endLine>490</endLine>
+        <endColumn>46</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The method must have a documentation header.</context>
+        <line>584</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleCell must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>586</line>
+        <index>30444</index>
+        <endIndex>30452</endIndex>
+        <startLine>586</startLine>
+        <startColumn>16</startColumn>
+        <endLine>586</endLine>
+        <endColumn>24</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The method must have a documentation header.</context>
+        <line>589</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The method must have a documentation header.</context>
+        <line>601</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ClosingParenthesisMustBeOnLineOfLastParameter" ruleCheckId="SA1111">
+        <context>The closing parenthesis or bracket must be placed on the same line as the last parameter in the parameter list.</context>
+        <line>608</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ParametersMustBeOnSameLineOrSeparateLines" ruleCheckId="SA1117">
+        <context>All method parameters must be placed on the same line, or each parameter must be placed on a separate line.</context>
+        <line>605</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="ParameterMustFollowComma" ruleCheckId="SA1115">
+        <context>The parameter must begin on the line after the previous parameter.</context>
+        <line>606</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.SpacingRules" rule="ClosingParenthesisMustBeSpacedCorrectly" ruleCheckId="SA1009">
+        <context>Invalid spacing around the closing parenthesis.</context>
+        <line>608</line>
+        <index>31133</index>
+        <endIndex>31152</endIndex>
+        <startLine>608</startLine>
+        <startColumn>1</startColumn>
+        <endLine>608</endLine>
+        <endColumn>20</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The method must have a documentation header.</context>
+        <line>619</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to TitleData must begin with the 'this.', 'base.', 'object.' or 'ExportPrintEquipmentData.' or 'Page.' prefix to indicate the intended method call. </context>
+        <line>621</line>
+        <index>31510</index>
+        <endIndex>31518</endIndex>
+        <startLine>621</startLine>
+        <startColumn>16</startColumn>
+        <endLine>621</endLine>
+        <endColumn>24</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
+        <context>The method must have a documentation header.</context>
+        <line>624</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+  <sourcecode name="LogOut.aspx.cs" parser="StyleCop.CSharp.CsParser">
+    <timestamps>
+      <styleCop>2018/06/06 19:31:06.447</styleCop>
+      <settingsFile>2018/06/06 19:31:06.422</settingsFile>
+      <sourceFile>2018/06/06 22:27:40.503</sourceFile>
+      <parser>2018/06/06 19:31:06.447</parser>
+      <StyleCop.CSharp.DocumentationRules>2018/06/06 19:31:06.447</StyleCop.CSharp.DocumentationRules>
+      <StyleCop.CSharp.DocumentationRules.FilesHashCode>0</StyleCop.CSharp.DocumentationRules.FilesHashCode>
+      <StyleCop.CSharp.LayoutRules>2018/06/06 19:31:06.447</StyleCop.CSharp.LayoutRules>
+      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
+      <StyleCop.CSharp.MaintainabilityRules>2018/06/06 19:31:06.447</StyleCop.CSharp.MaintainabilityRules>
+      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
+      <StyleCop.CSharp.NamingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.NamingRules>
+      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
+      <StyleCop.CSharp.OrderingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.OrderingRules>
+      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
+      <StyleCop.CSharp.ReadabilityRules>2018/06/06 19:31:06.447</StyleCop.CSharp.ReadabilityRules>
+      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
+      <StyleCop.CSharp.SpacingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.SpacingRules>
+      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
+    </timestamps>
+    <violations />
+  </sourcecode>
+  <sourcecode name="NoAccesible.aspx.cs" parser="StyleCop.CSharp.CsParser">
+    <timestamps>
+      <styleCop>2018/06/06 19:31:06.447</styleCop>
+      <settingsFile>2018/06/06 19:31:06.422</settingsFile>
+      <sourceFile>2018/05/29 14:30:34.711</sourceFile>
+      <parser>2018/06/06 19:31:06.447</parser>
+      <StyleCop.CSharp.DocumentationRules>2018/06/06 19:31:06.447</StyleCop.CSharp.DocumentationRules>
+      <StyleCop.CSharp.DocumentationRules.FilesHashCode>0</StyleCop.CSharp.DocumentationRules.FilesHashCode>
+      <StyleCop.CSharp.LayoutRules>2018/06/06 19:31:06.447</StyleCop.CSharp.LayoutRules>
+      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
+      <StyleCop.CSharp.MaintainabilityRules>2018/06/06 19:31:06.447</StyleCop.CSharp.MaintainabilityRules>
+      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
+      <StyleCop.CSharp.NamingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.NamingRules>
+      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
+      <StyleCop.CSharp.OrderingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.OrderingRules>
+      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
+      <StyleCop.CSharp.ReadabilityRules>2018/06/06 19:31:06.447</StyleCop.CSharp.ReadabilityRules>
+      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
+      <StyleCop.CSharp.SpacingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.SpacingRules>
+      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
+    </timestamps>
+    <violations />
+  </sourcecode>
+  <sourcecode name="NoGrants.aspx.cs" parser="StyleCop.CSharp.CsParser">
+    <timestamps>
+      <styleCop>2018/06/06 19:31:06.447</styleCop>
+      <settingsFile>2018/06/06 19:31:06.422</settingsFile>
+      <sourceFile>2018/06/06 22:30:19.217</sourceFile>
+      <parser>2018/06/06 19:31:06.447</parser>
+      <StyleCop.CSharp.DocumentationRules>2018/06/06 19:31:06.447</StyleCop.CSharp.DocumentationRules>
+      <StyleCop.CSharp.DocumentationRules.FilesHashCode>0</StyleCop.CSharp.DocumentationRules.FilesHashCode>
+      <StyleCop.CSharp.LayoutRules>2018/06/06 19:31:06.447</StyleCop.CSharp.LayoutRules>
+      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
+      <StyleCop.CSharp.MaintainabilityRules>2018/06/06 19:31:06.447</StyleCop.CSharp.MaintainabilityRules>
+      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
+      <StyleCop.CSharp.NamingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.NamingRules>
+      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
+      <StyleCop.CSharp.OrderingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.OrderingRules>
+      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
+      <StyleCop.CSharp.ReadabilityRules>2018/06/06 19:31:06.447</StyleCop.CSharp.ReadabilityRules>
+      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
+      <StyleCop.CSharp.SpacingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.SpacingRules>
+      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
+    </timestamps>
+    <violations />
+  </sourcecode>
+  <project key="1649199327">
+    <configuration>
+    </configuration>
+  </project>
+  <sourcecode name="NoPrivileges.aspx.cs" parser="StyleCop.CSharp.CsParser">
+    <timestamps>
+      <styleCop>2018/06/06 19:31:06.447</styleCop>
+      <settingsFile>2018/06/06 19:31:06.422</settingsFile>
+      <sourceFile>2018/06/06 22:31:10.029</sourceFile>
+      <parser>2018/06/06 19:31:06.447</parser>
+      <StyleCop.CSharp.DocumentationRules>2018/06/06 19:31:06.447</StyleCop.CSharp.DocumentationRules>
+      <StyleCop.CSharp.DocumentationRules.FilesHashCode>0</StyleCop.CSharp.DocumentationRules.FilesHashCode>
+      <StyleCop.CSharp.LayoutRules>2018/06/06 19:31:06.447</StyleCop.CSharp.LayoutRules>
+      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
+      <StyleCop.CSharp.MaintainabilityRules>2018/06/06 19:31:06.447</StyleCop.CSharp.MaintainabilityRules>
+      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
+      <StyleCop.CSharp.NamingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.NamingRules>
+      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
+      <StyleCop.CSharp.OrderingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.OrderingRules>
+      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
+      <StyleCop.CSharp.ReadabilityRules>2018/06/06 19:31:06.447</StyleCop.CSharp.ReadabilityRules>
+      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
+      <StyleCop.CSharp.SpacingRules>2018/06/06 19:31:06.447</StyleCop.CSharp.SpacingRules>
+      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
+    </timestamps>
+    <violations />
   </sourcecode>
 </stylecopresultscache>

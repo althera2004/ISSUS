@@ -17,9 +17,7 @@ using GisoFramework.Item;
 using SbrinnaCoreFramework.UI;
 using SbrinnaCoreFramework;
 
-/// <summary>
-/// Implements incident view page
-/// </summary>
+/// <summary>Implements incident view page</summary>
 public partial class IncidentView : Page
 {
     /// <summary> Master of page</summary>
@@ -155,45 +153,45 @@ public partial class IncidentView : Page
     }
 
     #region IncidentForm
-    public FormText TxtDescription { get; set; }
-    public FormTextArea TxtWhatHappened { get; set; }
-    public FormTextArea TxtCauses { get; set; }
-    public FormTextArea TxtActions { get; set; }
-    public FormTextArea TxtMonitoring { get; set; }
-    public FormTextArea TxtAnotations { get; set; }
-    public FormTextArea TxtNotes { get; set; }
-    public FormSelect CmbWhatHappenedResponsible { get; set; }
-    public FormSelect CmbCausesResponsible { get; set; }
-    public FormSelect CmbActionsResponsible { get; set; }
-    public FormSelect CmbActionsExecuter { get; set; }
-    public FormSelect CmbClosedResponsible { get; set; }
-    public FormSelect CmbReporterDepartment { get; set; }
-    public FormSelect CmbReporterCustomer { get; set; }
-    public FormSelect CmbReporterProvider { get; set; }
-    public FormDatePicker WhatHappenedDate { get; set; }
-    public FormDatePicker CausesDate { get; set; }
-    public FormDatePicker ActionsDate { get; set; }
-    public FormDatePicker ActionsSchedule { get; set; }
-    public FormDatePicker ClosedDate { get; set; }
+    public FormText TxtDescription { get; private set; }
+    public FormTextArea TxtWhatHappened { get; private set; }
+    public FormTextArea TxtCauses { get; private set; }
+    public FormTextArea TxtActions { get; private set; }
+    public FormTextArea TxtMonitoring { get; private set; }
+    public FormTextArea TxtAnotations { get; private set; }
+    public FormTextArea TxtNotes { get; private set; }
+    public FormSelect CmbWhatHappenedResponsible { get; private set; }
+    public FormSelect CmbCausesResponsible { get; private set; }
+    public FormSelect CmbActionsResponsible { get; private set; }
+    public FormSelect CmbActionsExecuter { get; private set; }
+    public FormSelect CmbClosedResponsible { get; private set; }
+    public FormSelect CmbReporterDepartment { get; private set; }
+    public FormSelect CmbReporterCustomer { get; private set; }
+    public FormSelect CmbReporterProvider { get; private set; }
+    public FormDatePicker WhatHappenedDate { get; private set; }
+    public FormDatePicker CausesDate { get; private set; }
+    public FormDatePicker ActionsDate { get; private set; }
+    public FormDatePicker ActionsSchedule { get; private set; }
+    public FormDatePicker ClosedDate { get; private set; }
     #endregion
 
     #region ActionForm
-    public FormText TxtActionDescription { get; set; }
-    public FormTextArea TxtActionWhatHappened { get; set; }
-    public FormTextArea TxtActionCauses { get; set; }
-    public FormTextArea TxtActionActions { get; set; }
-    public FormTextArea TxtActionMonitoring { get; set; }
-    public FormTextArea TxtActionNotes { get; set; }
-    public FormSelect CmbActionWhatHappenedResponsible { get; set; }
-    public FormSelect CmbActionCausesResponsible { get; set; }
-    public FormSelect CmbActionActionsResponsible { get; set; }
-    public FormSelect CmbActionActionsExecuter { get; set; }
-    public FormSelect CmbActionClosedResponsible { get; set; }
-    public FormDatePicker TxtActionWhatHappenedDate { get; set; }
-    public FormDatePicker TxtActionCausesDate { get; set; }
-    public FormDatePicker TxtActionActionsDate { get; set; }
-    public FormDatePicker TxtActionActionsSchedule { get; set; }
-    public FormDatePicker TxtActionClosedDate { get; set; }
+    public FormText TxtActionDescription { get; private set; }
+    public FormTextArea TxtActionWhatHappened { get; private set; }
+    public FormTextArea TxtActionCauses { get; private set; }
+    public FormTextArea TxtActionActions { get; private set; }
+    public FormTextArea TxtActionMonitoring { get; private set; }
+    public FormTextArea TxtActionNotes { get; private set; }
+    public FormSelect CmbActionWhatHappenedResponsible { get; private set; }
+    public FormSelect CmbActionCausesResponsible { get; private set; }
+    public FormSelect CmbActionActionsResponsible { get; private set; }
+    public FormSelect CmbActionActionsExecuter { get; private set; }
+    public FormSelect CmbActionClosedResponsible { get; private set; }
+    public FormDatePicker TxtActionWhatHappenedDate { get; private set; }
+    public FormDatePicker TxtActionCausesDate { get; private set; }
+    public FormDatePicker TxtActionActionsDate { get; private set; }
+    public FormDatePicker TxtActionActionsSchedule { get; private set; }
+    public FormDatePicker TxtActionClosedDate { get; private set; }
     #endregion
 
     public string TabBar

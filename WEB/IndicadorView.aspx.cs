@@ -62,7 +62,7 @@ public partial class IndicadorView : Page
         {
             if (this.IndicadorId < 1)
             {
-                return "[]";
+                return Constant.EmptyJsonList;
             }
 
             return IndicadorObjetivo.JsonList(IndicadorObjetivo.ByIndicadorId(this.IndicadorId, this.company.Id));
@@ -118,22 +118,22 @@ public partial class IndicadorView : Page
     }
 
     #region IndicadorForm
-    public FormText TxtDescription { get; set; }
-    public FormTextInteger TxtPeriodicidad { get; set; }
-    public FormTextDecimal TxtMeta { get; set; }
-    public FormTextDecimal TxtAlarma { get; set; }
-    public FormTextArea TxtCalculo { get; set; }
-    public FormSelect CmbUnidad { get; set; }
-    public FormSelect CmbMetaComparer { get; set; }
-    public FormSelect CmbAlarmaComparer { get; set; }
-    public FormSelect CmbEndResponsible { get; set; }
-    public FormSelect CmbType { get; set; }
-    public FormSelect CmbProcess { get; set; }
-    public FormSelect CmbObjetivo { get; set; }
-    public FormSelect CmbResponsible { get; set; }
-    public FormSelect CmbResponsibleRecord { get; set; }
-    public FormSelect CmbResponsibleAnularRecord { get; set; }
-    public FormDatePicker EndDate { get; set; }
+    public FormText TxtDescription { get; private set; }
+    public FormTextInteger TxtPeriodicidad { get; private set; }
+    public FormTextDecimal TxtMeta { get; private set; }
+    public FormTextDecimal TxtAlarma { get; private set; }
+    public FormTextArea TxtCalculo { get; private set; }
+    public FormSelect CmbUnidad { get; private set; }
+    public FormSelect CmbMetaComparer { get; private set; }
+    public FormSelect CmbAlarmaComparer { get; private set; }
+    public FormSelect CmbEndResponsible { get; private set; }
+    public FormSelect CmbType { get; private set; }
+    public FormSelect CmbProcess { get; private set; }
+    public FormSelect CmbObjetivo { get; private set; }
+    public FormSelect CmbResponsible { get; private set; }
+    public FormSelect CmbResponsibleRecord { get; private set; }
+    public FormSelect CmbResponsibleAnularRecord { get; private set; }
+    public FormDatePicker EndDate { get; private set; }
     #endregion
 
     public string TabBar
