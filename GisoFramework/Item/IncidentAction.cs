@@ -158,7 +158,7 @@ namespace GisoFramework.Item
                 }
 
                 var oportunityText = Constant.JavaScriptNull;
-                if(this.Oportunity != null && this.Oportunity.Id < 1)
+                if(this.Oportunity != null && this.Oportunity.Id > 1)
                 {
                     oportunityText = this.Oportunity.JsonKeyValue;
                 }
@@ -177,7 +177,7 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("IncidentId", this.IncidentId)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("BusinessRiskId", this.BusinessRiskId)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("ObjetivoId", objetivoId)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("Oportunity", oportunityText)).Append(",").Append(Environment.NewLine).Append("\t");
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"""Oportunity"":{0}", oportunityText)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("WhatHappened", this.WhatHappened)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("WhatHappenedBy", this.WhatHappenedBy)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("WhatHappenedOn", this.WhatHappenedOn)).Append(",").Append(Environment.NewLine).Append("\t");
@@ -541,11 +541,20 @@ namespace GisoFramework.Item
                                 }
                                 else
                                 {
-                                    res.Objetivo = new Objetivo
+                                    res.Objetivo = Objetivo.Empty;
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIncidentActionGet.OportunityId))
+                                {
+                                    res.Oportunity = new Oportunity
                                     {
-                                        Id = -1,
-                                        Name = string.Empty
+                                        Id = rdr.GetInt32(ColumnsIncidentActionGet.OportunityId),
+                                        Description = rdr.GetString(ColumnsIncidentActionGet.OportunityDescription)
                                     };
+                                }
+                                else
+                                {
+                                    res.Oportunity = Oportunity.Empty;
                                 }
 
                                 res.ModifiedBy.Employee = Employee.ByUserId(res.ModifiedBy.Id);

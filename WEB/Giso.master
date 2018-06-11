@@ -448,9 +448,9 @@
             }            
 
 			// @alex: si la página no es una lista ó no hay datos que mostrar, se oculta el buscador de arriba a la derecha
-            if(items.length===0 || document.getElementById("ListDataTable") == null)
+            if(document.getElementById("ListDataTable") == null)
             {
-                document.getElementById("nav-search").style.display="none";
+                $("#nav-search").hide();
             }
             else
             {                
@@ -511,7 +511,7 @@
                 var code = (e.keyCode ? e.keyCode : e.which);
                 numberActual = e.currentTarget.value;
 
-                if(AcceptKey(code,'integer') === false) {
+                if(AcceptKey(code,"integer") === false) {
                     e.preventDefault();
                     e.stopPropagation();
                 }

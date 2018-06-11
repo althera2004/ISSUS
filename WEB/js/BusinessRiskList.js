@@ -1,6 +1,7 @@
 ﻿var RuleLimitFromDB;
 var rule = { "Id": 0 };
 var BusinessRiskSelected;
+var OportunitySelected;
 var lockOrderList = false;
 var lockOrderListOportunity = false;
 
@@ -53,6 +54,55 @@ function BusinessRiskDelete(id, name) {
     });
 }
 
+function OportunityDeleteAction() {
+    var webMethod = "/Async/OportunityActions.asmx/Inactivate";
+    var data = { oportunityId: OportunitySelected, companyId: Company.Id, applicationUserId: user.Id };
+    $("#OportunityDeleteDialog").dialog("close");
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        type: "POST",
+        url: webMethod,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(data, null, 2),
+        success: function (msg) {
+            document.location = document.location + "";
+        },
+        error: function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function OportunityDelete(id, name) {
+    $("#OportunityName").html(name);
+    OportunitySelected = id;
+    var dialog = $("#OportunityDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Opoprtunity_Popup_Delete_Title + "</h4>",
+        "title_html": true,
+        "buttons":
+            [
+                {
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        OportunityDeleteAction();
+                    }
+                },
+                {
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+}
+
 function BusinessRiskUpdate(id, name) {
     document.location = "BusinessRiskView.aspx?id=" + id;
     return false;
@@ -86,8 +136,8 @@ function OportunityListGetAll() {
 }
 
 function BusinessRiskListGetNone() {
-    document.getElementById("BtnRecordShowAll").style.display = "";
-    document.getElementById("BtnRecordShowNone").style.display = "none";
+    $("#BtnRecordShowAll").show();
+    $("#BtnRecordShowNone").hide();
     VoidTable("ListDataTable");
     $("#TxtDateFrom").val("");
     $("#TxtDateTo").val("");
@@ -119,11 +169,11 @@ function OportunityGetFilter(exportType) {
     }
 
     var data = {
-        companyId: Company.Id,
-        from: from,
-        to: to,
-        rulesId: rulesId,
-        processId: processId
+        "companyId": Company.Id,
+        "from": from,
+        "to": to,
+        "rulesId": rulesId,
+        "processId": processId
     };
 
     console.log("filter oportunity", data);

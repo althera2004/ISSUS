@@ -201,7 +201,7 @@ public partial class FormacionList : Page
             CultureInfo.InvariantCulture,
             //@"{0:#0.00}",
 			@"{0:#,##0.00}",
-            total).Replace('.',',');
+            total).Replace(',','*').Replace('.',',').Replace('*','.');
     
 
         //this.LtTotal.Text = string.Format(CultureInfo.InvariantCulture,@"{0:#,##0.00}",total).Replace('.',',');

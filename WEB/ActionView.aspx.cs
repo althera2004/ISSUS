@@ -40,11 +40,12 @@ public partial class ActionView : Page
         }
     }
 
-    public long IncidentActionId { get; set; }
-    public IncidentAction IncidentAction { get; set; }
-    public Incident Incident { get; set; }
-    public BusinessRisk BusinessRisk { get; set; }
-    public Objetivo Objetivo { get; set; }
+    public long IncidentActionId { get; private set; }
+    public IncidentAction IncidentAction { get; private set; }
+    public Incident Incident { get; private set; }
+    public BusinessRisk BusinessRisk { get; private set; }
+    public Objetivo Objetivo { get; private set; }
+    public Oportunity Oportunity { get; private set; }
 
     TabBar tabBar = new TabBar { Id = "IncidentActionTabBar" };
 
@@ -210,6 +211,7 @@ public partial class ActionView : Page
         this.Incident = Incident.Empty;
         this.BusinessRisk = BusinessRisk.Empty;
         this.Objetivo = Objetivo.Empty;
+        this.Oportunity = Oportunity.Empty;
 
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
@@ -309,6 +311,11 @@ public partial class ActionView : Page
             if(this.IncidentAction.Objetivo.Id > 0)
             {
                 this.Objetivo = this.IncidentAction.Objetivo;
+            }
+
+            if (this.IncidentAction.Oportunity.Id > 0)
+            {
+                this.Oportunity = this.IncidentAction.Oportunity;
             }
 
             this.RenderDocuments();

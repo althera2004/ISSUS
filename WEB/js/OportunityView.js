@@ -6,7 +6,7 @@ var MinStepValue = 1;
 var SlidersActive = true;
 
 $("#Tabhome").on("click", function () { $("#BtnAnular").hide();$("#oldFormFooter").show(); });
-$("#Tabaccion").on("click", function () { $("#BtnAnular").show();$("#oldFormFooter").show(); });
+$("#Tabaccion").on("click", function () { if (Action.Id > 0) { $("#BtnAnular").show(); } $("#oldFormFooter").show(); });
 $("#Tabcostes").on("click", function () { $("#BtnAnular").hide();$("#oldFormFooter").show(); });
 $("#TabuploadFiles").on("click", function () { $("#BtnAnular").hide();$("#oldFormFooter").hide(); });
 
@@ -1324,7 +1324,7 @@ window.onload = function () {
     // ------------- Anular accion
     $("#BtnAnular").hide();
     $("#BtnRestaurar").hide();
-    if (Action.ClosedOn === null) { $("#BtnAnular").show(); }
+    if (Action.ClosedOn === null && Action.Id > 0) { $("#BtnAnular").show(); }
     else { $("#BtnRestaurar").show(); AnulateLayout(); }
 
     $("#BtnAnular").hide();
@@ -1499,10 +1499,12 @@ function AnulateLayout() {
     }
     else {
         $("#DivAnulateMessage").hide();
-        $("#BtnAnular").show();
         $("#accion input").removeAttr("disabled");
         $("#accion select").removeAttr("disabled");
         $("#accion textarea").removeAttr("disabled");
+        if (Action.Id > 0) {
+            $("#BtnAnular").show();
+        }
     }
 
     $("#BtnSave").show();
@@ -1538,7 +1540,7 @@ function HideAnulateActionButton() {
 }
 
 function ShowAnulateActionButton() {
-    if (Action.ClosedOn === null) {
+    if (Action.ClosedOn === null && Action.Id > 0) {
         $("#BtnAnular").show();
     } else {
         $("#BtnRestaurar").show();

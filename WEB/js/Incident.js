@@ -770,7 +770,7 @@ function SaveIncident() {
             "data": JSON.stringify(data, null, 2),
             "success": function (msg) {
                 // ISSUS-36
-                if (incident.ApplyAction) {
+                if (SaveAction) {
                     var action =
                         {
                             "Id": IncidentAction.Id,
@@ -804,7 +804,6 @@ function SaveIncident() {
                         "userId": user.Id
                     };
                     console.log("action", data);
-                    return false;
                     $.ajax({
                         "type": "POST",
                         "url": "/Async/IncidentActionsActions.asmx/Save",

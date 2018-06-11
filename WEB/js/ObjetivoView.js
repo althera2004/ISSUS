@@ -93,6 +93,11 @@ window.onload = function () {
     $("#CmbResponsibleRecord").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsibleRecord").val() * 1, Employees, this); });
 
     RenderTableHistorico();
+
+    if (document.location.toString().indexOf("&Tab=Records") != -1) {
+        $("#Tabrecords a").click();
+        $("#BtnRecordNew").click();
+    }
 }
 
 window.onresize = function () { Resize(); }

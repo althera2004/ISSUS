@@ -280,7 +280,9 @@ Item_BusinessRisk_Message_ReevaluteRisk::Avaluar el risc després d'aplicar l'acc
 Item_BusinessRisk_MessageClosingNotAvailable::No es pot donar per resolt un risc mentre l'acció està oberta
 Item_BusinessRisk_MessageHistoric::Aquest risc té un nou estat a data #. Per accedir-hi cliqueu
 Item_BusinessRisk_Popup_Delete_Title::Eliminar l'anàlisi de risc
+Item_Opoprtunity_Popup_Delete_Title::Eliminar oportunitat
 Item_BusinessRisk_PopupDelete_Message::Vol eliminar risc
+Item_Oportunity_PopupDelete_Message::Vol eliminar la oportunitat
 Item_BusinessRisk_SelectProbabilitySeverity::Seleccionar probabilitat i severitat
 Item_BusinessRisk_SelectRuleType::Seleccionar norma
 Item_BusinessRisk_Status_Assumed::Assumit
@@ -1131,6 +1133,7 @@ Item_Indicaddor_Filter_TypeObjetivo::Vinculat a objetiu
 Item_Indicaddor_Filter_TypeProcess::Vinculat a procés
 Item_Indicaddor_Popup_Units::Gestionar unitats
 Item_Indicador::Indicadors
+Item_Indicadors::Indicadors
 Item_Indicador_AnulateMessageTile::Indicador tancat
 Item_Indicador_Btn_Anular::Tancar
 Item_Indicador_Btn_UnitsBAR::Editar unitats
@@ -1321,6 +1324,7 @@ Item_LearningList::Formació
 Item_LearningList_NoAssistants::Sense alumnes
 Item_Learnings::Formacions
 Item_Objetivo::Objectius
+Item_Objetivos::Objectius
 Item_Objetivo_AnulateMessageTile::Objetiu tancat
 Item_Objetivo_Btn_Anular::Tancar
 Item_Objetivo_Btn_Restaurar::Reobrir
@@ -1395,7 +1399,7 @@ Item_Proccess::Procés
 Item_Proccess_ListHeader_Name::Procés
 Item_Proccess_ListHeader_ProcessType::Tipus
 Item_Proccess_ListHeader_Responsible::Responsable
-Item_Process::Procés
+Item_Processes::Processos
 Item_Process_Button_Edit::Fitxa de procés
 Item_Process_Button_New::Afegir
 Item_Process_Button_New::Nou procés
@@ -1665,3 +1669,5 @@ Item_BusinessRisksAndOportunities::Riscos i oportunitats
 Item_Oportunity_Warning_ActionTabAvailable::Ja es pot omplir les dades de l'acció
 Item_IncidentAction_Label_Oportunity::Oportunitat
 Item_Oportunity_Title_OportunityDetailsNou::Nova oportunitat
+DiskQuote_Other::Altres
+DiskQuote_Free::Espai lliure

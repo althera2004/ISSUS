@@ -78,7 +78,7 @@ function SaveAction() {
         ok = false;
     }
 
-    if (IncidentAction.IncidentId < 1 && IncidentAction.BusinessRiskId < 1 && IncidentAction.ObjetivoId < 1) {
+    if (IncidentAction.IncidentId < 1 && IncidentAction.BusinessRiskId < 1 && IncidentAction.ObjetivoId < 1 && IncidentAction.OportunityId < 1) {
         if (!document.getElementById("ROrigin1").checked && !document.getElementById("ROrigin2").checked) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_OriginRequired);
@@ -339,6 +339,21 @@ function SaveAction() {
 
         // Preventiva
         Rtype = 3;
+    }
+
+    if (typeof IncidentAction.Oportunity !== "undefined" && IncidentAction.Oportunity !== null) {
+        if (IncidentAction.Oportunity.Id > 0) {
+            RReporter = IncidentAction.ReporterType;
+            Department = IncidentAction.Department;
+            Provider = IncidentAction.Provider;
+            Customer = IncidentAction.Customer;
+
+            // Analisis de riesgo
+            ROrigin = 6;
+
+            // Preventiva
+            Rtype = 3;
+        }
     }
 
     var whatHappenedOn = GetDate($("#TxtWhatHappenedDate").val(), "-");

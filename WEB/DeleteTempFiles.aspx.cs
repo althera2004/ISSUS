@@ -16,12 +16,12 @@ public partial class DeleteTempFiles : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        path += "DOCS\\";
+        path += @"Temp\";
 
         foreach (string file in Directory.GetFiles(path))
         {
             var fi = new FileInfo(file);
-            if (fi.LastAccessTime < Constant.Now.AddMonths(-3))
+            if (fi.LastAccessTime < Constant.Now.AddDays(-2))
             {
                 this.ltfiles.Text += fi.Name + "<br />";
                 fi.Delete();

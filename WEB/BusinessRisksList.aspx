@@ -375,7 +375,10 @@
                                     </div>
                                 </div>
                             </div>
-
+    
+                                                        <div id="OportunityDeleteDialog" class="hide" style="width:500px;">
+                                                            <p><%=this.Dictionary["Item_Oportunity_PopupDelete_Message"] %>&nbsp;<strong><span id="BusinessRiskName"></span></strong>?</p>
+                                                        </div>
     
                                                         <div id="BusinessRiskDeleteDialog" class="hide" style="width:500px;">
                                                             <p><%=this.Dictionary["Item_BusinessRisk_PopupDelete_Message"] %>&nbsp;<strong><span id="BusinessRiskName"></span></strong>?</p>

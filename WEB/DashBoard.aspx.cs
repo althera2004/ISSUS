@@ -185,10 +185,7 @@ public partial class DashBoard : Page
                 searchItem.Append(",");
             }
 
-            searchItem.AppendFormat(
-                CultureInfo.InvariantCulture,
-                @"""{0}""",
-                item);
+            searchItem.AppendFormat(CultureInfo.InvariantCulture, @"""{0}""", item);
         }
 
         this.master.SearcheableItems = searchItem.ToString();

@@ -23,9 +23,6 @@ public partial class ActionList : Page
     /// <summary>Company of session</summary>
     private Company company;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
@@ -44,19 +41,9 @@ public partial class ActionList : Page
     }
 
     /// <summary>Gets dictionary for fixed labels</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public string Filter { get; set; }
-
-    public long ActiondId { get; set; }
-
-    public IncidentAction Action { get; set; }
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -66,7 +53,6 @@ public partial class ActionList : Page
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
@@ -75,20 +61,21 @@ public partial class ActionList : Page
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
-        this.user = (ApplicationUser)Session["User"];
-        this.company = (Company)Session["company"];
+        this.user = Session["User"] as ApplicationUser;
+        this.company = Session["company"] as Company;
 
         if (Session["IncidentActionFilter"] == null)
         {
@@ -99,7 +86,7 @@ public partial class ActionList : Page
             this.Filter = Session["IncidentActionFilter"].ToString();
         }
 
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_IncidentActions");

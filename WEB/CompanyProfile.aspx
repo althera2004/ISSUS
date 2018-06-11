@@ -417,7 +417,7 @@
             }
 
             function DownloadAgreement() {
-                window.open("/DOCS/Agreement_<%=this.Company.Name %>.pdf");
+                window.open("/Agreement/Agreement_<%=this.Company.Name %>.pdf");
             }
 
             $("#CmbIdioma").val(Company.Language);

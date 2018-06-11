@@ -12,31 +12,30 @@
         }
     }));
 
-    $('#BtnSaveLogo').click(SaveLogo);
-    $('#BtnCancel').click(function (e) { document.location = 'Dashboard.aspx'; });
-    $('#BtnSave').click(SaveCompany);
+    $("#BtnSaveLogo").click(SaveLogo);
+    $("#BtnCancel").click(function (e) { document.location = "Dashboard.aspx"; });
+    $("#BtnSave").click(SaveCompany);
 
-    $("#BtnShowAddress").on('click', function (e) {
+    $("#BtnShowAddress").on("click", function (e) {
         e.preventDefault();
         ShowAddressPopup();
     });
 
-    $('#BtnEquipmentChangeImage').on('click', function (e) {
+    $("#BtnEquipmentChangeImage").on("click", function (e) {
         e.preventDefault();
         CompanyChangeImage();
     });
 
-    $('#BtnCountryAdd').on('click', function (e) {
+    $("#BtnCountryAdd").on("click", function (e) {
         e.preventDefault();
         SaveCountries();
     });
 
-    $('#BtnCountryDiscard').on('click', function (e) {
+    $("#BtnCountryDiscard").on("click", function (e) {
         e.preventDefault();
         DiscardCountries();
     });
-
-
+    
     $("#imgInp").change(function () {
         readURL(this);
     });
@@ -60,11 +59,11 @@
         $("[data-rel=popover]").popover({ container: "body" });
     }
 
-    $('#CmbPais').ddslick({ data: ddData });
+    $("#CmbPais").ddslick({ data: ddData });
 
     if (ApplicationUser.ShowHelp === true) {
-        $('#DivCmbPais .dd-options').on('mouseover', function (e) { $("#DivCmbPais").tooltip("destroy"); });
-        $('#DivCmbPais .dd-options').on('mouseout', function (e) { SetToolTip('DivCmbPais', Dictionary.Item_Employee_Help_Pais); });
+        $('#DivCmbPais .dd-options').on("mouseover", function (e) { $("#DivCmbPais").tooltip("destroy"); });
+        $("#DivCmbPais .dd-options").on("mouseout", function (e) { SetToolTip('DivCmbPais', Dictionary.Item_Employee_Help_Pais); });
     }
 
     // ISSUS-1
@@ -76,16 +75,16 @@
 
 
     var placeholder = $('#piechart-placeholder').css({ "width": "90%", "min-height": "150px" });
-    var data = [
-      { "label": Dictionary.Item_Document, "data": diskQuote.Documents, "color": "#68BC31" },
+    /*var data = [
+      { "label": Dictionary.Item_Document, "data": diskQuote.Documents, "color": "#000000" },
       { "label": Dictionary.Item_Equipment, "data": diskQuote.Equipments, "color": "#2091CF" },
       { "label": Dictionary.Item_Incident, "data": diskQuote.Incidents, "color": "#AF4E96" },
       { "label": Dictionary.Item_IncidentAction, "data": diskQuote.IncidentActions, "color": "#DA5430" },
       { "label": Dictionary.Item_Attach_FreeDisk, "data": diskQuote.Free, "color": "#DADADA" }
-    ]
+    ]*/
 
-    console.log("QuotePercentage", ToMoneyFormat(diskQuote[4].value, 2));
-    $('#QuotePercentage').html(ToMoneyFormat(diskQuote[4].value, 2));
+    console.log("QuotePercentage", ToMoneyFormat(diskQuote[12].value, 2));
+    $("#QuotePercentage").html(ToMoneyFormat(diskQuote[12].value, 2));
 
     function drawPieChart(placeholder, data, position) {
 
@@ -93,35 +92,35 @@
         console.log("drawPieChart1", data);
         console.log("drawPieChart2", diskQuote);
         $.plot(placeholder, diskQuote, {
-            series: {
-                pie: {
-                    show: true,
-                    tilt: 0.8,
-                    highlight: {
-                        opacity: 0.25
+            "series": {
+                "pie": {
+                    "show": true,
+                    "tilt": 0.8,
+                    "highlight": {
+                        "opacity": 0.25
                     },
-                    stroke: {
-                        color: '#fff',
-                        width: 2
+                    "stroke": {
+                        "color": "#fff",
+                        "width": 2
                     },
-                    startAngle: 2
+                    "startAngle": 2
                 }
             },
-            legend: {
-                show: true,
-                position: position || "ne",
-                labelBoxBorderColor: null,
-                margin: [-30, 15]
+            "legend": {
+                "show": true,
+                "position": position || "e",
+                "labelBoxBorderColor": null,
+                "margin": [-30, 15]
             },
-            grid: {
-                hoverable: true,
-                clickable: true
+            "grid": {
+                "hoverable": true,
+                "clickable": false
             }
         })
     }
 
     drawPieChart(placeholder, diskQuote);
-    document.getElementById('disk').className = 'tab-pane';
+    document.getElementById("disk").className = "tab-pane";
 
     /**
     we saved the drawing function and the data to redraw with different position later when switching to RTL mode dynamically
@@ -202,17 +201,17 @@ function AddressChanged(sender) {
 
 function CmbAddressChanged()
 {
-    addressSelected = document.getElementById('CmbAddress').value;
+    addressSelected = $("#CmbAddress").val();
     FillAddressFields();
     CompanySetDefaultAddressAddress();
 }
 
 function FillCmbAddresses()
 {
-    VoidTable('CmbAddress');
+    VoidTable("CmbAddress");
     for (var x = 0; x < addresses.length; x++)
     {
-        var option = document.createElement('option');
+        var option = document.createElement("option");
         option.value = addresses[x].Id;
         var text = addresses[x].Address + ", " + addresses[x].City;
         option.appendChild(document.createTextNode(text));
@@ -221,20 +220,17 @@ function FillCmbAddresses()
             option.selected = true;
         }
 
-        document.getElementById('CmbAddress').appendChild(option);
+        document.getElementById("CmbAddress").appendChild(option);
     }
 }
 
-function GetCountryById(id)
-{
-    for(var x=0; x <ddData.length; x++)
-    {
-        if(ddData[x].value * 1 === id)
-        {
+function GetCountryById(id) {
+    for (var x = 0; x < ddData.length; x++) {
+        if (ddData[x].value * 1 === id) {
             return ddData[x].description;
         }
     }
-    return '';
+    return "";
 }
 
 function ValidateForm() {
@@ -274,38 +270,38 @@ function ValidateForm() {
 
 function ValidateNewForm() {
     var ok = true;
-    var ddData = $('#CmbPais').data('ddslick');
+    var ddData = $("#CmbPais").data("ddslick");
     var country = ddData.selectedData.value;
-    document.getElementById('TxtNewAddressCountry').value = country;
-    if (!RequiredFieldText('TxtNewAddress')) { ok = false; }
-    if (!RequiredFieldText('TxtNewAddressPostalCode')) { ok = false; }
-    if (!RequiredFieldText('TxtNewAddressCity')) { ok = false; }
-    if (!RequiredFieldText('TxtNewAddressProvince')) { ok = false; }
-    if (!RequiredFieldText('TxtNewAddressCountry')) { ok = false; }
-    if (!RequiredFieldText('TxtNewAddressEmail')) { ok = false;}
-    else { if (!MalFormedEmail('TxtNewAddressEmail')) { ok = false; } }
-    if(!RequiredBothFieldText('TxtNewAddressPhone', 'TxtNewAddressMobile')) { ok = false; }
+    document.getElementById("TxtNewAddressCountry").value = country;
+    if (!RequiredFieldText("TxtNewAddress")) { ok = false; }
+    if (!RequiredFieldText("TxtNewAddressPostalCode")) { ok = false; }
+    if (!RequiredFieldText("TxtNewAddressCity")) { ok = false; }
+    if (!RequiredFieldText("TxtNewAddressProvince")) { ok = false; }
+    if (!RequiredFieldText("TxtNewAddressCountry")) { ok = false; }
+    if (!RequiredFieldText("TxtNewAddressEmail")) { ok = false;}
+    else { if (!MalFormedEmail("TxtNewAddressEmail")) { ok = false; } }
+    if(!RequiredBothFieldText("TxtNewAddressPhone", "TxtNewAddressMobile")) { ok = false; }
     return ok;
 }
 
 function ResetNewAddressFormValidation() {
-    document.getElementById('TxtNewAddressErrorRequired').style.display = 'none';
-    document.getElementById('TxtNewAddressPostalCodeErrorRequired').style.display = 'none';
-    document.getElementById('TxtNewAddressCityErrorRequired').style.display = 'none';
-    document.getElementById('TxtNewAddressProvinceErrorRequired').style.display = 'none';
-    document.getElementById('TxtNewAddressCountryErrorRequired').style.display = 'none';
-    document.getElementById('TxtNewAddressEmailErrorRequired').style.display = 'none';
-    document.getElementById('TxtNewAddressPhoneErrorRequired').style.display = 'none';
-    document.getElementById('TxtNewAddressMobileErrorRequired').style.display = 'none';
+    $("#TxtNewAddressErrorRequired").hide();
+    $("#TxtNewAddressPostalCodeErrorRequired").hide();
+    $("#TxtNewAddressCityErrorRequired").hide();
+    $("#TxtNewAddressProvinceErrorRequired").hide();
+    $("#TxtNewAddressCountryErrorRequired").hide();
+    $("#TxtNewAddressEmailErrorRequired").hide();
+    $("#TxtNewAddressPhoneErrorRequired").hide();
+    $("#TxtNewAddressMobileErrorRequired").hide();
 
-    document.getElementById('TxtNewAddressLabel').style.color = '#000';
-    document.getElementById('TxtNewAddressPostalCodeLabel').style.color = '#000';
-    document.getElementById('TxtNewAddressCityLabel').style.color = '#000';
-    document.getElementById('TxtNewAddressProvinceLabel').style.color = '#000';
-    document.getElementById('TxtNewAddressCountryLabel').style.color = '#000';
-    document.getElementById('TxtNewAddressEmailLabel').style.color = '#000';
-    document.getElementById('TxtNewAddressPhoneLabel').style.color = '#000';
-    document.getElementById('TxtNewAddressMobileLabel').style.color = '#000';
+    $("#TxtNewAddressLabel").css("color", "#000");
+    $("#TxtNewAddressPostalCodeLabel").css("color", "#000");
+    $("#TxtNewAddressCityLabel").css("color", "#000");
+    $("#TxtNewAddressProvinceLabel").css("color", "#000");
+    $("#TxtNewAddressCountryLabel").css("color", "#000");
+    $("#TxtNewAddressEmailLabel").css("color", "#000");
+    $("#TxtNewAddressPhoneLabel").css("color", "#000");
+    $("#TxtNewAddressMobileLabel").css("color", "#000");
 }
 
 function SaveAddress() {
@@ -320,51 +316,50 @@ function SaveAddress() {
 
 function AddressSave()
 {
-    var webMethod = "/Async/CompanyActions.asmx/SaveAddress";
     var data = {
-        'address':
+        "address":
         {
-            'Id': -1,
-            'Company': { 'Id': Company.Id },
-            'Address': $('#TxtNewAddress').val(),
-            'PostalCode': $('#TxtNewAddressPostalCode').val(),
-            'City': $('#TxtNewAddressCity').val(),
-            'Province': $('#TxtNewAddressProvince').val(),
-            'Country': $('#TxtNewAddressCountry').val(),
-            'Phone': $('#TxtNewAddressPhone').val(),
-            'Mobile': $('#TxtNewAddressMobile').val(),
-            'Fax': $('#TxtNewAddressFax').val(),
-            'Email': $('#TxtNewAddressEmail').val(),
-            'Notes': ''
+            "Id": -1,
+            "Company": { "Id": Company.Id },
+            "Address": $("#TxtNewAddress").val(),
+            "PostalCode": $("#TxtNewAddressPostalCode").val(),
+            "City": $("#TxtNewAddressCity").val(),
+            "Province": $("#TxtNewAddressProvince").val(),
+            "Country": $("#TxtNewAddressCountry").val(),
+            "Phone": $("#TxtNewAddressPhone").val(),
+            "Mobile": $("#TxtNewAddressMobile").val(),
+            "Fax": $("#TxtNewAddressFax").val(),
+            "Email": $("#TxtNewAddressEmail").val(),
+            "Notes": ""
         },
-        'userId': user.Id
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/CompanyActions.asmx/SaveAddress",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {                
-                $('#dialogAddAddress').dialog('close');    
+                $("#dialogAddAddress").dialog("close");    
                 addresses.push(
                 {
-                    'Id': response.d.MessageError * 1,
-                    'Company': { 'Id': Company.Id },
-                    'Address': $('#TxtNewAddress').val(),
-                    'PostalCode': $('#TxtNewAddressPostalCode').val(),
-                    'City': $('#TxtNewAddressCity').val(),
-                    'Province': $('#TxtNewAddressProvince').val(),
-                    'Country': $('#TxtNewAddressCountry').val(),
-                    'Phone': $('#TxtNewAddressPhone').val(),
-                    'Mobile': $('#TxtNewAddressMobile').val(),
-                    'Fax': $('#TxtNewAddressFax').val(),
-                    'Email': $('#TxtNewAddressEmail').val(),
-                    'Notes': ''
+                    "Id": response.d.MessageError * 1,
+                    "Company": { "Id": Company.Id },
+                    "Address": $("#TxtNewAddress").val(),
+                    "PostalCode": $("#TxtNewAddressPostalCode").val(),
+                    "City": $("#TxtNewAddressCity").val(),
+                    "Province": $("#TxtNewAddressProvince").val(),
+                    "Country": $("#TxtNewAddressCountry").val(),
+                    "Phone": $("#TxtNewAddressPhone").val(),
+                    "Mobile": $("#TxtNewAddressMobile").val(),
+                    "Fax": $("#TxtNewAddressFax").val(),
+                    "Email": $("#TxtNewAddressEmail").val(),
+                    "Notes": ""
                 });
                 ShowAddressPopup();
                 FillCmbAddresses();
@@ -373,7 +368,7 @@ function AddressSave()
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alert(jqXHR.responseText);
         }

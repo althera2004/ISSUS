@@ -657,7 +657,7 @@ namespace GisoFramework.Item
                     dictionary["Item_Learning_Message_NoAssistants"]);
             }*/
 
-            string amountText = string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.Amount).Replace(".", ",");
+            string amountText = string.Format(CultureInfo.GetCultureInfo("es-e"), "{0:#,##0.00}", this.Amount);
 
             //string import = string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.Amount).Replace(".", ",");
 

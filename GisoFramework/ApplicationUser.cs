@@ -1940,7 +1940,7 @@ namespace GisoFramework
                             string translatedTemplate = string.Format(
                                 CultureInfo.InvariantCulture,
                                 @"NewUser_{0}.tpl",
-                                company.Language);
+                                this.Language);
 
                             if (!File.Exists(templatePath + "Templates\\" + translatedTemplate))
                             {

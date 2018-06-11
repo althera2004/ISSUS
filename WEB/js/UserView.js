@@ -194,7 +194,7 @@ jQuery(function ($) {
     $('#BtnCancel').click(function (e) { document.location = referrer; });
 
     var i = 0;
-    for(var x=0; x<ddData.length;x++)
+    for(var x=0; x<ddData.length; x++)
     {
         if(ddData[x].value === ApplicationUser.Employee.Address.Country) { i=x; break; }
     }
@@ -256,7 +256,7 @@ if($("#TxtPais").val()!=="")
 
 function CountryById(id)
 {
-    for(var x=0;x<Company.Countries.length;x++)
+    for(var x=0; x<Company.Countries.length; x++)
     {
         if(Company.Countries[x].Id === id)
         {
@@ -281,7 +281,7 @@ window.onload = function () {
     if (itemUser.Id > 0 && ApplicationUser.Grants.User.Write !== false) {
         $("#TabPermisos").show();
     }
-}
+};
 
 function ReadAll() {
     var grant = document.getElementById("RAll").checked;
@@ -357,7 +357,7 @@ var CBR = document.getElementsByClassName("CBR");
 var CBW = document.getElementsByClassName("CBW");
 TestCBAll();
 
-if(itemUser.PrimaryUser === true) {
+if(itemUser.Admin === true) {
     $("#DivPrimaryUser").show();
     for (var x = 0; x < CBR.length; x++) { CBR[x].disabled = true; }
     for (var x = 0; x < CBW.length; x++) { CBW[x].disabled = true; }

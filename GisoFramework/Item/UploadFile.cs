@@ -559,6 +559,8 @@ namespace GisoFramework.Item
                 return string.Empty;
             }
 
+            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+
             string path = HttpContext.Current.Request.PhysicalApplicationPath;
             if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
             {
@@ -571,6 +573,14 @@ namespace GisoFramework.Item
             long equipments = 0;
             long incidents = 0;
             long incidentActions = 0;
+            long businessRisk = 0;
+            long employee = 0;
+            long oportunity = 0;
+            long indicator = 0;
+            long objetive = 0;
+            long jobPosition = 0;
+            long learning = 0;
+            long processes = 0;
             long other = 0;
             long free = company.DiskQuote;
 
@@ -593,31 +603,83 @@ namespace GisoFramework.Item
                     case "IncidentActions":
                         incidentActions += size;
                         break;
+                    case "Employee":
+                        employee += size;
+                        break;
+                    case "Processes":
+                        processes += size;
+                        break;
+                    case "Learning":
+                        learning += size;
+                        break;
+                    case "Oportinuty":
+                        oportunity += size;
+                        break;
+                    case "JobPosition":
+                        jobPosition += size;
+                        break;
+                    case "BusinessRisks":
+                        businessRisk += size;
+                        break;
                     default:
                         other += size;
                         break;
                 }
+
+                free -= size;
             }
 
-            free -= documents + equipments + incidentActions + incidents;
+            if (free < 0)
+            {
+                free = 0;
+            }
 
             return string.Format(
                 CultureInfo.InvariantCulture,
                 @"[
-                    {{""label"": ""Documents"", ""value"": {0}}},
-                    {{""label"": ""Equipments"", ""value"": {1}}},
-                    {{""label"": ""Incidents"", ""value"": {2}}},
-                    {{""label"": ""IncidentActions"", ""value"": {3}}},
-                    {{""label"": ""Other"", ""value"": {4}}},
-                    {{""label"": ""Free"", ""value"": {5}}}
+                    {{""label"": ""{14}"", ""value"": {0}}},
+                    {{""label"": ""{15}"", ""value"": {1}}},
+                    {{""label"": ""{16}"", ""value"": {2}}},
+                    {{""label"": ""{17}"", ""value"": {3}}},
+                    {{""label"": ""{18}"", ""value"": {4}}},
+                    {{""label"": ""{19}"", ""value"": {5}}},
+                    {{""label"": ""{20}"", ""value"": {6}}},
+                    {{""label"": ""{21}"", ""value"": {7}}},
+                    {{""label"": ""{22}"", ""value"": {8}}},
+                    {{""label"": ""{23}"", ""value"": {9}}},
+                    {{""label"": ""{24}"", ""value"": {10}}},
+                    {{""label"": ""{25}"", ""value"": {11}}},
+                    {{""label"": ""{26}"", ""value"": {12}}},
+                    {{""label"": ""{27}"", ""value"": {13}}}
                 ];",
                 documents * 100M / company.DiskQuote,
                 equipments * 100M / company.DiskQuote,
                 incidents * 100M / company.DiskQuote,
                 incidentActions * 100M / company.DiskQuote,
+                businessRisk * 100M / company.DiskQuote,
+                jobPosition * 100M / company.DiskQuote,
+                employee * 100M / company.DiskQuote,
+                oportunity * 100M / company.DiskQuote,
+                processes * 100M / company.DiskQuote,
+                objetive * 100M / company.DiskQuote,
+                indicator * 100M / company.DiskQuote,
+                learning * 100M / company.DiskQuote,
                 other * 100M / company.DiskQuote,
-                free * 100M / company.DiskQuote
-                );
+                free * 100M / company.DiskQuote,
+                Tools.JsonCompliant(dictionary["Item_Documents"].Trim()),
+                Tools.JsonCompliant(dictionary["Item_Equipments"].Trim()),
+                Tools.JsonCompliant(dictionary["Item_Incidents"].Trim()),
+                Tools.JsonCompliant(dictionary["Item_IncidentActions"].Trim()),
+                Tools.JsonCompliant(dictionary["Item_BusinessRisks"].Trim()),
+                Tools.JsonCompliant(dictionary["Item_JobPositions"].Trim()),
+                Tools.JsonCompliant(dictionary["Item_Employees"].Trim()),
+                Tools.JsonCompliant(dictionary["Item_Oportunities"].Trim()),
+                Tools.JsonCompliant(dictionary["Item_Processes"].Trim()),
+                Tools.JsonCompliant(dictionary["Item_Objetivos"].Trim()),
+                Tools.JsonCompliant(dictionary["Item_Indicadores"].Trim()),
+                Tools.JsonCompliant(dictionary["Item_Learning"].Trim()),
+                Tools.JsonCompliant(dictionary["DiskQuote_Other"].Trim()),
+                Tools.JsonCompliant(dictionary["DiskQuote_Free"].Trim()));
         }
     }
 }

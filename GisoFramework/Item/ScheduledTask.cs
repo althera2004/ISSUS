@@ -238,12 +238,12 @@ namespace GisoFramework.Item
                 case "X":
                     tooltip = dictionary["Item_Indicador"];
                     link = "ActionView";
-                    tab = string.Empty;
+                    tab = "&Tab=Records";
                     labelType = dictionary["Item_Indicador"];
                     break;
                 case "O":
                     tooltip = dictionary["Item_Objetivo"];
-                    link = "ActionView";
+                    link = "&Tab=Records";
                     tab = string.Empty;
                     labelType = dictionary["Item_Objetivo"];
                     break;
@@ -332,13 +332,13 @@ namespace GisoFramework.Item
                 case "X":
                     tooltip = dictionary["Item_Indicador"];
                     link = "IndicadorView";
-                    tab = string.Empty;
+                    tab = "&Tab=Records";
                     labelType = dictionary["Item_Indicador"];
                     break;
                 case "O":
                     tooltip = dictionary["Item_Objetivo"];
                     link = "ObjetivoView";
-                    tab = string.Empty;
+                    tab = "&Tab=Records";
                     labelType = dictionary["Item_Objetivo"];
                     break;
                 case "B":

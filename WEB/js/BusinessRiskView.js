@@ -31,16 +31,14 @@ jQuery(function ($) {
     }));
 
     // Internacionalizad datepicker en catalán
-    var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
+    var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { "autoclose": true, "todayHighlight": true });
     $(".date-picker").datepicker(options);
     $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
     // Botón de lanzamiento de popup de normas
     $("#BtnSelectRules").on("click", function (e) {
         e.preventDefault();
-
         RulesRenderPopup();
-
         var dialog = $("#dialogRules").removeClass("hide").dialog({
             "resizable": false,
             "modal": true,
@@ -69,10 +67,10 @@ jQuery(function ($) {
         });
     });
 
-    $("#Result").prop('readonly', true);
-    $("#Code").prop('disabled', true);
+    $("#Result").prop("readonly", true);
+    $("#Code").prop("disabled", true);
     if (businessRisk.PreviousBusinessRiskId > 0) {
-        $("#InitialValue").prop('disabled', true);
+        $("#InitialValue").prop("disabled", true);
     }
 
     //Things to do if the BusinessRisk already exists
@@ -92,13 +90,13 @@ jQuery(function ($) {
         // Si el riesgo es significativo no se puede elegir "NO" en aplicar acción
         if (businessRisk.StartProbability * businessRisk.StartSeverity >= rule.Limit)
         {
-            document.getElementById("ApplyActionNoStart").style.visibility = 'hidden';
+            document.getElementById("ApplyActionNoStart").style.visibility = "hidden";
             $("#ApplyActionNoStart").removeAttr("checked");
         }
 
         if (businessRisk.Assumed === true) {
-            if (document.getElementById('Assumed') !== null) {
-                document.getElementById('Assumed').checked = true;
+            if (document.getElementById("Assumed") !== null) {
+                document.getElementById("Assumed").checked = true;
             }
         }
         else {
@@ -159,7 +157,7 @@ jQuery(function ($) {
         ShowCostBarPopup($("#TxtCostDescription"));
     });
 
-    $('#Tabgraphic').on('click', resizegrafico);
+    $("#Tabgraphic").on("click", resizegrafico);
 
     //Sincronizar los datos en la pestaña de situación inicial y de acción
     /*
@@ -1692,40 +1690,40 @@ if (businessRisk.Result > 0)
 
 // No se puede cerrar el riesgo si la acción no está cerrada
 if (Action.ClosedOn === null) {
-    if (document.getElementById('DivClosingRisk') !== null) {
-        document.getElementById('DivClosingRisk').style.display = 'none';
-        document.getElementById('DivClosingRiskUnavailable').style.display = '';
+    if (document.getElementById("DivClosingRisk") !== null) {
+        document.getElementById("DivClosingRisk").style.display = "none";
+        document.getElementById("DivClosingRiskUnavailable").style.display = "";
     }
 }
 else {
-    if (document.getElementById('DivClosingRisk') !== null) {
-        document.getElementById('DivClosingRisk').style.display = '';
-        document.getElementById('DivClosingRiskUnavailable').style.display = 'none';
+    if (document.getElementById("DivClosingRisk") !== null) {
+        document.getElementById("DivClosingRisk").style.display = "";
+        document.getElementById("DivClosingRiskUnavailable").style.display = "none";
     }
 }
 
 if (Action.Id > 0)
 {
-    document.getElementById('StartApplyActionAssumed').disabled = true;
-    document.getElementById('StartApplyActionYes').disabled = true;
-    document.getElementById('StartApplyActionNo').disabled = true;
+    document.getElementById("StartApplyActionAssumed").disabled = true;
+    document.getElementById("StartApplyActionYes").disabled = true;
+    document.getElementById("StartApplyActionNo").disabled = true;
 }
 
 ValidateCloseAction();
 
 // Controles iniciales
 if (businessRisk.StartAction === 0) {
-    document.getElementById('Tabgraphic').style.display = 'none';
+    document.getElementById("Tabgraphic").style.display = "none";
 }
 if (businessRisk.StartAction === 1) {
-    document.getElementById('StartApplyActionAssumed').checked = true;
-    document.getElementById('Tabgraphic').style.display = 'none';
+    document.getElementById("StartApplyActionAssumed").checked = true;
+    document.getElementById("Tabgraphic").style.display = "none";
 }
 if (businessRisk.StartAction === 2) {
-    document.getElementById('StartApplyActionNo').checked = true;
-    document.getElementById('Tabgraphic').style.display = 'none';
+    document.getElementById("StartApplyActionNo").checked = true;
+    document.getElementById("Tabgraphic").style.display = "none";
 }
-if (businessRisk.StartAction === 3) { document.getElementById('StartApplyActionYes').checked = true; }
+if (businessRisk.StartAction === 3) { document.getElementById("StartApplyActionYes").checked = true; }
 
 // Controles finales
 if (document.getElementById('FinalApplyActionAssumed') !== null) {
@@ -1803,7 +1801,7 @@ else {
 // ------------- Anular accion
 $("#BtnAnular").hide();
 $("#BtnRestaurar").hide();
-if (Action.ClosedOn === null) {
+if (Action.ClosedOn === null && Action.Id > 0) {
     $("#BtnAnular").show();
 } else {
     $("#BtnRestaurar").show();
@@ -1959,7 +1957,9 @@ function AnulateLayout() {
     }
     else {
         $("#DivAnulateMessage").hide();
-        $("#BtnAnular").show();
+        if (Action.Id > 0) {
+            $("#BtnAnular").show();
+        }
     }
 }
 
@@ -1993,7 +1993,7 @@ function HideAnulateActionButton() {
 }
 
 function ShowAnulateActionButton() {
-    if (Action.ClosedOn === null) {
+    if (Action.ClosedOn === null && Action.Id > 0) {
         $("#BtnAnular").show();
     } else {
         $("#BtnRestaurar").show();

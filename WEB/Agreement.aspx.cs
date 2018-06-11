@@ -138,7 +138,7 @@ public partial class Agreement : Page
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
-            @"{0}_{1}.pdf",
+            @"Agreement\{0}_{1}.pdf",
             "Agreement",
             company.Name);
 
