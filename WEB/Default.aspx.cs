@@ -7,9 +7,6 @@ using System.Web.UI;
 
 public partial class _Default : Page
 {
-    private string languageBrowser;
-    private string ip;
-
     public string IssusVersion
     {
         get
@@ -46,20 +43,9 @@ public partial class _Default : Page
         }
     }
 
-    //public string CompanyCode
-    //{
-    //    get { return this.companyCode; }
-    //}
+    public string LanguageBrowser { get; private set; }
 
-    public string LanguageBrowser
-    {
-        get { return this.languageBrowser; }
-    }
-
-    public string IP
-    {
-        get { return this.ip; }
-    }
+    public string IP { get; private set; }
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -69,10 +55,10 @@ public partial class _Default : Page
         Session["Navigation"] = null;
         if (this.Request.UserLanguages != null)
         {
-            this.languageBrowser = this.Request.UserLanguages[0];
+            this.LanguageBrowser = this.Request.UserLanguages[0];
         }
 
-        this.ip = this.GetUserIP();
+        this.IP = this.GetUserIP();
     }
 
     private string GetUserIP()

@@ -3,21 +3,21 @@
 function ValidateForm()
 {
     var ok = true;
-    document.getElementById('TxtNameLabel').style.color = '#000';
-    document.getElementById('TxtLimitLabel').style.color = '#000';
-    document.getElementById('TxtNameErrorRequired').style.display = 'none';
-    document.getElementById('TxtNameErrorDuplicated').style.display = 'none';
-    document.getElementById('TxtLimitErrorRequired').style.display = 'none';
-    document.getElementById('TxtLimitErrorOutOfRange').style.display = 'none';
+    document.getElementById("TxtNameLabel").style.color = "#000";
+    document.getElementById("TxtLimitLabel").style.color = "#000";
+    $("#TxtNameErrorRequired").hide();
+    $("#TxtNameErrorDuplicated").hide();
+    $("#TxtLimitErrorRequired").hide();
+    $("#TxtLimitErrorOutOfRange").hide();
 
-    var name = document.getElementById('TxtName').value.trim();
-    var limit = document.getElementById('TxtLimit').value.trim();
+    var name = document.getElementById("TxtName").value.trim();
+    var limit = document.getElementById("TxtLimit").value.trim();
 
-    if (name === '')
+    if (name === "")
     {
         ok = false;
-        document.getElementById('TxtNameLabel').style.color = '#f00';
-        document.getElementById('TxtNameErrorRequired').style.display = '';
+        document.getElementById("TxtNameLabel").style.color = "#f00";
+        $("#TxtNameErrorRequired").show();
     }
     else {
         for (var x=0;x<companyRules.length;x++)
@@ -25,24 +25,24 @@ function ValidateForm()
             if(companyRules[x].Description === name && companyRules[x].Id !== rule.Id)
             {
                 ok = false;
-                document.getElementById('TxtNameLabel').style.color = '#f00';
-                document.getElementById('TxtNameErrorDuplicated').style.display = '';
+                document.getElementById("TxtNameLabel").style.color = "#f00";
+                $("#TxtNameErrorDuplicated").show();
                 break;
             }
         }
     }
 
-    if (limit === '') {
+    if (limit === "") {
         ok = false;
-        document.getElementById('TxtLimitLabel').style.color = '#f00';
-        document.getElementById('TxtLimitErrorRequired').style.display = '';
+        document.getElementById("TxtLimitLabel").style.color = "#f00";
+        $("#TxtLimitErrorRequired").show();
     }
     else {
         var value = limit * 1;
         if(value <1 || value > 25)
         {
-            document.getElementById('TxtLimitLabel').style.color = '#f00';
-            document.getElementById('TxtLimitErrorOutOfRange').style.display = '';
+            document.getElementById("TxtLimitLabel").style.color = "#f00";
+            $("#TxtLimitErrorOutOfRange").show();
             ok = false;
         }
     }
@@ -55,7 +55,7 @@ function Save() {
         return false;
     }
 
-    var webMethod = '';
+    var webMethod = "";
     var data = null;
     if (rule.Id > 0) {
         webMethod = "/Async/RulesActions.asmx/RulesUpdate";
@@ -116,7 +116,6 @@ jQuery(function ($) {
 
     $("#BtnSave").click(Save);
     $("#BtnCancel").click(function (e) {
-        //document.location = document.referrer;
         document.location = referrer;
     });
 
@@ -136,7 +135,6 @@ jQuery(function ($) {
     }
 });
 
-RenderStepsSliders();
 
 function RenderStepsSliders() {
     $("#input-span-slider-limit").slider({
@@ -176,16 +174,14 @@ function RenderStepsSliders() {
     }
 }
 
-$('#TxtName').focus();
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
     var finalHeigth = containerHeight - 720;
     if (finalHeigth < 160) {
         finalHeigth = 160;
     }
-    listTable.style.height = (finalHeigth) + "px";
+    $("#ListDataDiv").height(finalHeigth);
 }
 
 if (typeof ApplicationUser.Grants.Rules === "undefined" || ApplicationUser.Grants.Rules.Write === false) {
@@ -198,11 +194,11 @@ if (typeof ApplicationUser.Grants.Rules === "undefined" || ApplicationUser.Grant
     $(".ui-slider-handle").hide();
 }
 
-
 window.onload = function () {
     Resize();
+    RenderStepsSliders();
+    $("#TxtName").focus();
+    $("#th1").click();
 }
 
 window.onresize = function () { Resize(); }
-
-$("#th1").click();

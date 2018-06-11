@@ -912,7 +912,7 @@ function IndicadorRegistroSave() {
                     Registros = temp;
                 }
 
-                $("#BtnRecordFilter").click();
+                $("#BtnRecordShowAll").click();
             }
         },
         "error": function (jqXHR, textStatus, errorThrown) {

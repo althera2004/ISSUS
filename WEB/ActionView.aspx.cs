@@ -327,6 +327,11 @@ public partial class ActionView : Page
             {
                 var objetivoId = Convert.ToInt32(this.Request.QueryString["o"]);
                 this.Objetivo = Objetivo.ById(objetivoId, this.Company.Id);
+                this.IncidentAction.Description = this.Objetivo.Name;
+                this.IncidentAction.Origin = 5;
+                this.IncidentAction.Objetivo = this.Objetivo;
+                this.IncidentAction.WhatHappened = this.Objetivo.Description;
+                this.IncidentAction.WhatHappenedOn = DateTime.Now;
             }
         }
 

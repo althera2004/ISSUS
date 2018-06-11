@@ -33,6 +33,8 @@ public partial class ObjetivoView : Page
 
     public ApplicationUser ApplicationUser { get; private set; }
 
+    public int ActionsOpen { get; private set; }
+
     public string Historic
     {
         get
@@ -241,6 +243,7 @@ public partial class ObjetivoView : Page
         this.master.Titulo = "Item_Objetivo";
         this.formFooter = new FormFooter();
 
+        this.ActionsOpen = 0;
         if (this.objetivoId > 0)
         {
             this.Session["EquipmentId"] = this.objetivoId;

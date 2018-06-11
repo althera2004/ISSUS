@@ -77,8 +77,8 @@ function EquipmentRecordGetAll() {
     document.getElementById("ManExt").checked = true;
     document.getElementById("RepInt").checked = true;
     document.getElementById("RepExt").checked = true;
-    document.getElementById("TxtRecordsFromDate").value = "";
-    document.getElementById("TxtRecordsToDate").value = "";
+    $("#TxtRecordsFromDate").val("");
+    $("#TxtRecordsToDate").val("");
 
     var filterData =
     {
@@ -186,7 +186,7 @@ function EquipmentRecordRenderTable(EquipmentRecordList) {
 
     if (EquipmentRecordList.length === 0)
     {
-        document.getElementById("ItemTableVoid").style.display = "";
+        $("#ItemTableVoid").show();
         return;
     }
 
@@ -268,11 +268,11 @@ function EquipmentRecordRenderRow(EquipmentRecord, target) {
 
 function ExportExcel() {
     var dateFrom = null;
-    if (document.getElementById("TxtRecordsFromDate").value !== "") {
+    if ($("#TxtRecordsFromDate").val() !== "") {
 
         if (!RequiredDateValue("TxtRecordsFromDate")) {
             ok = false;
-            document.getElementById("ErrorDateMalformedFrom").style.display = "";
+            $("#ErrorDateMalformedFrom").show();
         }
         else {
             dateFrom = GetDate($("#TxtRecordsFromDate").val(), "-");
@@ -280,10 +280,10 @@ function ExportExcel() {
     }
 
     var dateTo = null;
-    if (document.getElementById("TxtRecordsToDate").value !== "") {
+    if ($("#TxtRecordsToDate").val() !== "") {
         if (!RequiredDateValue("TxtRecordsToDate")) {
             ok = false;
-            document.getElementById("ErrorDateMalformedTo").style.display = "";
+            $("#ErrorDateMalformedTo").show();
         }
         else {
             dateTo = GetDate($("#TxtRecordsToDate").val(), "-");
@@ -312,7 +312,7 @@ function ExportExcel() {
 
 function ExportPDF() {
     var dateFrom = null;
-    if (document.getElementById("TxtRecordsFromDate").value !== "") {
+    if ($("#TxtRecordsFromDate").val() !== "") {
 
         if (!RequiredDateValue("TxtRecordsFromDate")) {
             ok = false;
@@ -324,7 +324,7 @@ function ExportPDF() {
     }
 
     var dateTo = null;
-    if (document.getElementById("TxtRecordsToDate").value !== "") {
+    if ($("#TxtRecordsToDate").val() !== "") {
         if (!RequiredDateValue("TxtRecordsToDate")) {
             ok = false;
             $("#ErrorDateMalformedTo").show();

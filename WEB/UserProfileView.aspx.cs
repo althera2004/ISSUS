@@ -229,8 +229,8 @@ public partial class UserProfileView : Page
         this.LtAvatar.Text = avatars.ToString();
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton { Id = "BtnSave", Text = this.Dictionary["Common_Accept"], Icon = "icon-ok", Action = "success" });
-        this.formFooter.AddButton(new SbrinnaCoreFramework.UI.UIButton { Id = "BtnCancel", Text = this.Dictionary["Common_Cancel"], Icon = "icon-undo" });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Text = this.Dictionary["Common_Accept"], Icon = "icon-ok", Action = "success" });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Text = this.Dictionary["Common_Cancel"], Icon = "icon-undo" });
     }
 
     private void RenderShortCuts()

@@ -43,6 +43,7 @@
         var IndicadorName = "<%=this.IndicadorName %>";
         var Periodicidades = <%=this.Periodicities %>;
         var orderList = "";
+        var ActionsOpen = false;
         var Historic = <%=this.Historic %>;
     </script>
 </asp:Content>

@@ -51,16 +51,21 @@ function Login() {
             data: JSON.stringify(data, null, 2),
             success: function (msg) {
                 var result = msg.d;
-                if (msg.d.ReturnValue.Id === -1)
-                {
+
+                if (msg.d.ReturnValue.Id === -1) {
                     $("#ErrorSpan").show();
                     return false;
                 }
 
-                if (msg.d.Success === true)
-                {
+                if (msg.d.Success === true) {
                     if (msg.d.ReturnValue.MultipleCompany === true) {
                         document.location = "Select.aspx?action=" + (Math.random() * (1000 - 100)) + '-' + msg.d.ReturnValue.Id;
+                        return false;
+                    }
+                }
+                else {
+                    if (msg.d.ReturnValue.Id === 2) {
+                        $("#ErrorSpan").show();
                         return false;
                     }
                 }

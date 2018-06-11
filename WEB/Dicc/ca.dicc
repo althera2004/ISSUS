@@ -1623,6 +1623,7 @@ Item_Objetivo_DataChangedWarning::Hi ha hagut canvis a l'objetiu, vol guardar el
 Item_Objetivo_DataChangedWarning_continue::Continuar sense guardar
 Item_Objetivo_DataChangedWarning_save::Guardar i continuar
 Item_Objetivo_NewSavedMessage::Ja es poden fer servir les pestanyes de la fitxa
+Item_Objetivo_OpenActionsWarning::No es pot tancar mentres tingui accions obertes
 Item_Oportunity::Oportunitat
 Item_Oportunities::Oportunitats
 Item_Oportunity_LabelField_Cost::Coste

@@ -141,7 +141,7 @@
                                                     </button>
                                                     <div style="clear:both;">&nbsp;</div>
                                                     <div id="ResetAlert" class="alert alert-info">
-                                                        <i class="icon-info-sign fa-2x"/></i>
+                                                        <i class="icon-info-sign fa-2x"></i>
                                                         <h3 style="display: inline;"><%=this.Dictionary["Common_Warning"] %></h3><br />
                                                         <p style="margin-left: 50px;">
                                                         <%=this.Dictionary["Item_User_Help_ResetPassword"] %>
@@ -164,7 +164,7 @@
                                                                 <th style="width:200px;text-align:center"><%=this.Dictionary["Item_User_List_Header_Write"] %>&nbsp;<input type="checkbox" id="WAll" onclick="WriteAll();" /></th>											
                                                             </tr>
                                                         </thead>
-                                                        <tbody id="PermisosDataTable"></tbody>
+                                                        <tbody id="PermisosDataTable"><%=this.GrantsList %></tbody>
                                                     </table>
                                                 </div>
                                                 <div id="trazas" class="tab-pane">													

@@ -73,6 +73,8 @@ public partial class UserView : Page
         }
     }
 
+    public string GrantsList { get; private set; }
+
     /// <summary>Gets country data for icon combo</summary>
     public string CountryData { get; private set; }
 
@@ -224,8 +226,8 @@ public partial class UserView : Page
         this.formFooter = new FormFooter();
         this.formFooterLearning = new FormFooter();
 
-        this.user = (ApplicationUser)Session["User"];
-        this.company = (Company)Session["company"];
+        this.user = Session["User"] as ApplicationUser;
+        this.company = Session["company"] as Company;
         this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         string label = "Item_User";
         this.master = this.Master as Giso;
@@ -275,7 +277,7 @@ public partial class UserView : Page
                 this.Grants.InnerText = grants;
             }
 
-            //this.LtGrantList.Text = res.ToString();
+            this.GrantsList = res.ToString();
 
             this.LtIdiomas.Text = "<option value=\"es\"" + (this.userItem.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
             this.LtIdiomas.Text += "<option value=\"ca\"" + (this.userItem.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";

@@ -269,41 +269,41 @@ function Validate() {
     $("#TxtFechaCierreRealCrossDate").hide();
     $("#CmbEndResponsibleLabel").style.color = "#000;"
     $("#CmbEndResponsibleErrorRequired").hide();*/
-    $("#TxtPeriodicityLabel").style.color = "#000;"
+    $("#TxtPeriodicityLabel").css("color", "#000;");
     $("#TxtPeriodicityErrorRequired").hide();
 
     if ($("#TxtName").val() === "") {
         ok = false;
-        document.getElementById("TxtNameLabel").style.color = "#f00";
-        document.getElementById("TxtNameErrorRequired").style.display = "";
+        $("#TxtNameLabel").css("color", "#f00");
+        $("#TxtNameErrorRequired").show();
     }
     else {
         if (ObjetivoExists($("#TxtName").val())) {
-            document.getElementById("TxtNameLabel").style.color = "#f00";
-            document.getElementById("TxtNameErrorDuplicated").style.display = "";
+            $("#TxtNameLabel").css("color", "#f00");
+            $("#TxtNameErrorDuplicated").show();
         }
     }
 
     if ($("#TxtPeriodicity").val() * 1 === 0) {
         ok = false;
-        document.getElementById("TxtPeriodicityLabel").style.color = "#f00";
-        document.getElementById("TxtPeriodicityErrorRequired").style.display = "";
+        $("#TxtPeriodicityLabel").css("color", "#f00");
+        $("#TxtPeriodicityErrorRequired").show();
     }
 
     if ($("#TxtDescription").val() === "") {
         ok = false;
-        document.getElementById("TxtDescriptionLabel").style.color = "#f00";
-        document.getElementById("TxtDescriptionErrorRequired").style.display = "";
+        $("#TxtDescriptionLabel").css("color", "#f00");
+        $("#TxtDescriptionErrorRequired").show();
     }
 
     if ($("#TxtFechaAlta").val() === "") {
         ok = false;
-        document.getElementById("TxtFechaAltaLabel").style.color = "#f00";
-        document.getElementById("TxtFechaAltaErrorRequired").style.display = "";
+        $("#TxtFechaAltaLabel").css("color", "#f00");
+        $("#TxtFechaAltaErrorRequired").show();
     }
     else {
         if (validateDate($("#TxtFechaAlta").val()) === false) {
-            document.getElementById("TxtFechaAltaLabel").style.color = "#f00";
+            document.getElementById("TxtFechaAltaLabel").css("color", "#f00");
             document.getElementById("TxtFechaAltaDateMalformed").style.display = "";
         }
     }
@@ -1178,6 +1178,13 @@ function DisableVinculatedTo(disable) {
 }
 
 function AnularPopup() {
+
+    if (ActionsOpen == true) {
+        alertInfoUI(Dictionary.Item_Objetivo_OpenActionsWarning);
+        return false;
+    }
+
+
     $("#TxtFechaCierreReal").val(FormatDate(new Date(), "/"));
     $("#TxtAnularComments").html("");
     $("#CmbEndResponsible").val(user.Employee.Id);
@@ -1403,6 +1410,7 @@ function RenderHistoricoRow(data) {
 
 var totalCostActions = 0;
 function RenderActionsTable() {
+    ActionsOpen = false;
     console.log("RenderActionsTable");
     totalCostActions = 0;
     var totalActions = 0;
@@ -1428,6 +1436,10 @@ function RenderActionsTable() {
             if (show === true) {
                 res += RenderActionsRow(Actions[x]);
                 totalActions++;
+            }
+
+            if (Actions[x].Status.indexOf("icon-lock") === -1) {
+                ActionsOpen = true;
             }
         }
 

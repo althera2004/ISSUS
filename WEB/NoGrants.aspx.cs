@@ -20,7 +20,7 @@ public partial class NoGrants : Page
     private ApplicationUser user;
 
     /// <summary>Company of session</summary>
-    private Company company;
+    public Company Company { get; private set; }
 
     /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary { get; private set; }

@@ -26,9 +26,6 @@ public partial class ProcesosList : Page
     /// <summary>Company of session</summary>
     private Company company;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
@@ -39,13 +36,7 @@ public partial class ProcesosList : Page
     }
 
     /// <summary>Gets dictionary for fixed labels</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -55,7 +46,6 @@ public partial class ProcesosList : Page
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
@@ -64,13 +54,14 @@ public partial class ProcesosList : Page
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
@@ -78,7 +69,7 @@ public partial class ProcesosList : Page
     {
         this.user = (ApplicationUser)Session["User"];
         this.company = Session["Company"] as Company;
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Processes");
@@ -89,7 +80,7 @@ public partial class ProcesosList : Page
         {
             this.master.ButtonNewItem = new SbrinnaCoreFramework.UI.UIButton()
             {
-                Text = this.dictionary["Item_Process_Button_New"],
+                Text = this.Dictionary["Item_Process_Button_New"],
                 Action = "success",
                 Icon = "icon-plus-sign",
                 Id = "BtnNewDocument",
@@ -101,7 +92,7 @@ public partial class ProcesosList : Page
     /// <summary>Render HTML code for process list content</summary>
     private void RenderProcesosData()
     {
-        var procesos = ProcessType.ObtainByCompany(this.company.Id, this.dictionary);
+        var procesos = ProcessType.ObtainByCompany(this.company.Id, this.Dictionary);
         var res = new StringBuilder();
         var processList = Process.ByCompany(((Company)Session["Company"]).Id);
         var searchedItem = new List<string>();
@@ -136,7 +127,7 @@ public partial class ProcesosList : Page
             }
             else
             {
-                resposableDescription = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span style=""color:#f00;"">{0}</span>", this.dictionary["Item_Process_Status_WhitoutResponsible"]);
+                resposableDescription = string.Format(CultureInfo.InvariantCulture, @"<span style=""color:#f00;"">{0}</span>", this.Dictionary["Item_Process_Status_WhitoutResponsible"]);
             }
 
             string iconDelete = string.Empty;
@@ -147,7 +138,7 @@ public partial class ProcesosList : Page
                     iconDelete = string.Format(
                         CultureInfo.InvariantCulture,
                         @"<span title=""{0} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""ProcessDelete(this);""><i class=""icon-trash bigger-120""></i></span>",
-                        this.dictionary["Common_Delete"],
+                        this.Dictionary["Common_Delete"],
                         process.Description);
                 }
                 else
@@ -155,7 +146,7 @@ public partial class ProcesosList : Page
                     iconDelete = string.Format(
                         CultureInfo.InvariantCulture,
                         @"<span title=""{0} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""ProcessNoDelete(this);""><i class=""icon-trash bigger-120""></i></span>",
-                        this.dictionary["Common_Delete"],
+                        this.Dictionary["Common_Delete"],
                         process.Description);
                 }
             }
@@ -164,7 +155,7 @@ public partial class ProcesosList : Page
                 CultureInfo.InvariantCulture,
                 @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-info"" onclick=""document.location='ProcesosView.aspx?id={0}';""><i class=""icon-eye-open bigger-120""></i></span>",
                 process.Id,
-                this.dictionary["Common_View"],
+                this.Dictionary["Common_View"],
                 process.Description);
 
             if (grantWrite)
@@ -173,7 +164,7 @@ public partial class ProcesosList : Page
                 CultureInfo.InvariantCulture,
                 @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-info"" onclick=""document.location='ProcesosView.aspx?id={0}';""><i class=""icon-edit bigger-120""></i></span>",
                 process.Id,
-                this.dictionary["Common_Edit"],
+                this.Dictionary["Common_Edit"],
                 process.Description);
 
             }

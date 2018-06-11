@@ -59,7 +59,7 @@ function EquipmentRepairRenderRow(EquipmentRepair, targetName) {
     tdFecha.appendChild(document.createTextNode(FormatYYYYMMDD(EquipmentRepair.Date, "/")));
     tdResponsible.appendChild(document.createTextNode(EquipmentRepair.Responsible.Value));
 
-    if (typeof (EquipmentRepair.Observations) === "undefined") {
+    if (typeof EquipmentRepair.Observations === "undefined") {
         tdObservaciones.appendChild(document.createTextNode(""));
     }
     else {
@@ -84,14 +84,14 @@ function EquipmentRepairRenderRow(EquipmentRepair, targetName) {
 
         iconEdit.className = "btn btn-xs btn-info";
         iconEdit.title = Dictionary.Common_Edit;
-        iconEdit.onclick = function (e) { EquipmentRepairEdit(this) }
+        iconEdit.onclick = function (e) { EquipmentRepairEdit(this); };
         var innerEdit = document.createElement("I");
         innerEdit.className = "icon-edit bigger-120";
         iconEdit.appendChild(innerEdit);
 
         iconDelete.className = "btn btn-xs btn-danger";
         iconDelete.title = Dictionary.Common_Delete;
-        iconDelete.onclick = function (e) { EquipmentRepairDelete(this) }
+        iconDelete.onclick = function (e) { EquipmentRepairDelete(this); };
         var innerDelete = document.createElement("I");
         innerDelete.className = "icon-trash bigger-120";
         iconDelete.appendChild(innerDelete);
@@ -151,8 +151,8 @@ function EquipmentRepairFormClearErrors() {
     ClearFieldTextMessages("TxtEquipmentRepairDescription");
     ClearFieldTextMessages("CmbEquipmentRepairProvider");
     ClearFieldTextMessages("CmbEquipmentRepairResponsible");
-    document.getElementById("CmbEquipmentRepairProviderRow").style.display = "none";
-    document.getElementById("REquipmentRepairTypeErrorRequired").style.display = "none";
+    $("#CmbEquipmentRepairProviderRow").hide();
+    $("#REquipmentRepairTypeErrorRequired").hide();
 }
 
 function EquipmentRepairNewFormReset() {
@@ -175,10 +175,10 @@ function EquipmentRepairEditFormFill(EquipmentRepair) {
 
     if (EquipmentRepair.RepairType === 0) {
         document.getElementById("REquipmentRepairTypeInternal").checked = true;
-        document.getElementById("CmbEquipmentRepairProviderRow").style.display = "none";
+        $("#CmbEquipmentRepairProviderRow").hide();
     } else {
         document.getElementById("REquipmentRepairTypeExternal").checked = true;
-        document.getElementById("CmbEquipmentRepairProviderRow").style.display = "";
+        $("#CmbEquipmentRepairProviderRow").show();
     }
 
     $("#TxtEquipmentRepairDate").val(FormatYYYYMMDD(EquipmentRepair.Date, "/"));
@@ -251,10 +251,10 @@ function FillCmbEquipmentRepairResponsible() {
 
 function dialogMaintaimentRepairTypeChanged() {
     if (document.getElementById("REquipmentRepairTypeInternal").checked === true) {
-        document.getElementById("CmbEquipmentRepairProviderRow").style.display = "none";
+        $("#CmbEquipmentRepairProviderRow").hide();
     }
     else {
-        document.getElementById("CmbEquipmentRepairProviderRow").style.display = "";
+        $("#CmbEquipmentRepairProviderRow").show();
     }
 }
 
@@ -264,11 +264,11 @@ function dialogMaintaimentRepairFormValidate() {
     ClearFieldTextMessages("TxtEquipmentRepairDescription");
     ClearFieldTextMessages("CmbEquipmentRepairProvider");
     ClearFieldTextMessages("CmbEquipmentRepairResponsible");
-    document.getElementById("REquipmentRepairTypeErrorRequired").style.display = "none";
+    $("#REquipmentRepairTypeErrorRequired").hide();
     var ok = true;
     if (!document.getElementById("REquipmentRepairTypeInternal").checked && !document.getElementById("REquipmentRepairTypeExternal").checked) {
         ok = false;
-        document.getElementById("REquipmentRepairTypeErrorRequired").style.display = "";
+        $("#REquipmentRepairTypeErrorRequired").show();
     }
     if (!RequiredFieldText("TxtEquipmentRepairDate")) {
         ok = false;
@@ -407,7 +407,7 @@ function EquipmentRepairSave() {
         });
     }
     else {
-        var data = {
+        var data2 = {
             "equipmentRepair": SelectedEquipmentRepair,
             "userId": user.Id
         };
@@ -416,7 +416,7 @@ function EquipmentRepairSave() {
             "url": "/Async/EquipmentRepairActions.asmx/Update",
             "contentType": "application/json; charset=utf-8",
             "dataType": "json",
-            "data": JSON.stringify(data, null, 2),
+            "data": JSON.stringify(data2, null, 2),
             "success": function (msg) {
                 EquipmentRepairListUpdate(SelectedEquipmentRepair);
                 EquipmentRepairRenderTable("TableEquipmentRepair");

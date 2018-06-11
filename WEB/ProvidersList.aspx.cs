@@ -19,9 +19,6 @@ public partial class ProvidersList : Page
     /// <summary> Master of page</summary>
     private Giso master;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     private ApplicationUser user;
 
     /// <summary>Gets a random value to prevents static cache files</summary>
@@ -34,13 +31,7 @@ public partial class ProvidersList : Page
     }
 
     /// <summary>Gets the dictionary for interface texts</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public UIDataHeader DataHeader { get; set; }
 
@@ -52,7 +43,6 @@ public partial class ProvidersList : Page
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
@@ -61,20 +51,21 @@ public partial class ProvidersList : Page
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)Session["User"];
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
 
         // Security access control
         if (!this.user.HasGrantToRead(ApplicationGrant.Provider))
@@ -106,7 +97,7 @@ public partial class ProvidersList : Page
             Id = "th0",
             HeaderId = "ListDataHeader",
             DataId = "ListDataTable",
-            Text = this.dictionary["Item_Customer_ListHeader_Name"],
+            Text = this.Dictionary["Item_Customer_ListHeader_Name"],
             Sortable = true,
             Filterable = true
         });
@@ -131,7 +122,7 @@ public partial class ProvidersList : Page
                 searchedItem.Add(provider.Description);
             }
 
-            res.Append(provider.ListRow(this.dictionary, this.user.Grants));
+            res.Append(provider.ListRow(this.Dictionary, this.user.Grants));
             contData++;
         }
 

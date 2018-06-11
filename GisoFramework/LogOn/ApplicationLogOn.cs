@@ -280,6 +280,9 @@ namespace GisoFramework.LogOn
                         else
                         {
                             result.Result = LogOnResult.NoUser;
+                            res.ReturnValue = result;
+                            res.SetFail("NO USER");
+                            return res;
                         }
                     }
                 }

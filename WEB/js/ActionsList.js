@@ -88,7 +88,7 @@ function ItemRenderTable(list) {
     target.style.display = "";
 
     if (list.length === 0) {
-        document.getElementById("ItemTableVoid").style.display = "";
+        $("#ItemTableVoid").show();
         $("#NumberCosts").html("0");
         target.style.display = "none";
         return false;
@@ -106,7 +106,6 @@ function ItemRenderTable(list) {
         var tdOrigin = document.createElement("TD");
         var tdDescription = document.createElement("TD");
         var tdAction = document.createElement("TD");
-        //var tdClose = document.createElement("TD");
         var tdAmount = document.createElement("TD");
 
         total += list[x].Amount;
@@ -134,7 +133,6 @@ function ItemRenderTable(list) {
             spantext.style.display = "none";
             spantext.appendChild(document.createTextNode(item.Associated.Description));
             origin.appendChild(spantext);
-            //origin.title = Dictionary.Item_IncidentAction_Origin3 + " \"" + item.Associated.Description + "\"";
 			origin.title = item.Associated.Description;
         }
 
@@ -142,11 +140,10 @@ function ItemRenderTable(list) {
             origin = document.createElement("A");
             origin.href = "BusinessRiskView.aspx?id=" + item.Associated.Id;
             origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin4));
-            var spantext2 = document.createElement("span");
-            spantext2.style.display = "none";
-            spantext2.appendChild(document.createTextNode(item.Associated.Description));
-            origin.appendChild(spantext2);
-            //origin.title = Dictionary.Item_IncidentAction_Origin4 + " \"" + item.Associated.Description + "\"";
+            var businessRiskName = document.createElement("SPAN");
+            businessRiskName.style.display = "none";
+            businessRiskName.appendChild(document.createTextNode(item.Associated.Description));
+            origin.appendChild(businessRiskName);
 			origin.title = item.Associated.Description;
         }
 
@@ -154,11 +151,10 @@ function ItemRenderTable(list) {
             origin = document.createElement("A");
             origin.href = "ObjetivoView.aspx?id=" + item.Associated.Id;
             origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin5));
-            var spantext2 = document.createElement("span");
-            spantext2.style.display = "none";
-            spantext2.appendChild(document.createTextNode(item.Associated.Description));
-            origin.appendChild(spantext2);
-            //origin.title = Dictionary.Item_IncidentAction_Origin4 + " \"" + item.Associated.Description + "\"";
+            var objetivoName = document.createElement("SPAN");
+            objetivoName.style.display = "none";
+            objetivoName.appendChild(document.createTextNode(item.Associated.Description));
+            origin.appendChild(objetivoName);
             origin.title = item.Associated.Description;
         }
 
@@ -166,11 +162,10 @@ function ItemRenderTable(list) {
             origin = document.createElement("A");
             origin.href = "OportunityView.aspx?id=" + item.Associated.Id;
             origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin6));
-            var spantext2 = document.createElement("span");
-            spantext2.style.display = "none";
-            spantext2.appendChild(document.createTextNode(item.Associated.Description));
-            origin.appendChild(spantext2);
-            //origin.title = Dictionary.Item_IncidentAction_Origin4 + " \"" + item.Associated.Description + "\"";
+            var oportunityName = document.createElement("SPAN");
+            oportunityName.style.display = "none";
+            oportunityName.appendChild(document.createTextNode(item.Associated.Description));
+            origin.appendChild(oportunityName);
             origin.title = item.Associated.Description;
         }
 
@@ -283,10 +278,10 @@ function ItemRenderTable(list) {
     }
 
     if (items.length === 0) {
-        document.getElementById("nav-search").style.display = "none";
+        $("#nav-search").hide();
     }
     else {
-        document.getElementById("nav-search").style.display = "";
+        $("#nav-search").show();
 
         items.sort(function (a, b) {
             if (a < b) return -1;
@@ -350,7 +345,11 @@ function IncidentActionDelete(sender) {
 }
 
 function IncidentActionDeleteConfirmed() {
-    var data = { "incidentActionId": IncidentActionSelectedId, "companyId": Company.Id, "userId": user.Id };
+    var data = {
+        "incidentActionId": IncidentActionSelectedId,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
     $("#IncidentActionDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
@@ -389,9 +388,8 @@ function NoDeleteIncident() {
 $("#nav-search").hide();
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 450).toString() + "px";
+    $("#ListDataDiv").height(containerHeight - 450);
 }
 
 window.onload = function () {
@@ -458,7 +456,6 @@ function ExportPDF() {
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
             LoadingHide();
-            //successInfoUI(msg.d.MessageError, Go, 200);
             var link = document.createElement("a");
             link.id = "download";
             link.href = msg.d.MessageError;

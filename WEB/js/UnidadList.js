@@ -27,13 +27,13 @@ function UnidadDelete(id, name) {
     $("#UnidadName").html(name);
     UnidadSelected = id;
     var dialog = $("#UnidadDeleteDialog").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Unidad_Popup_Delete_Title + "</h4>",
-        title_html: true,
-        buttons: [
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Unidad_Popup_Delete_Title + "</h4>",
+        "title_html": true,
+        "buttons": [
                 {
-                    "html": "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
                         UnidadDeleteAction();
@@ -63,16 +63,15 @@ jQuery(function ($) {
         }
     }));
 
-    $("#BtnNewUnidad").on('click', function (e) {
-        document.location = 'UnidadView.aspx?id=-1';
+    $("#BtnNewUnidad").on("click", function (e) {
+        document.location = "UnidadView.aspx?id=-1";
         return false;
     });
 });
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 310) + 'px';
+    $("#ListDataDiv").height(containerHeight - 310);
 }
 
 window.onload = function () { Resize(); }
