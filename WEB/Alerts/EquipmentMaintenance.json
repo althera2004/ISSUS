@@ -1,8 +1,8 @@
 ﻿{
-    CompanyId:0,
-    ItemType:13,
+    CompanyId:0, // si es 0 es para todas las empresas, en caso contrario solo es para la empresa que lo pida.
+    ItemType:13, // identificador del item, sale de la tabla applicationItem
     AlertDescription:"Mantenimiento configurado sin registro inicial",
-    "ItemUrl": "EquipmentView.aspx?id=",
+    "ItemUrl": "EquipmentView.aspx?id=", // en esta linea se define la url de la ficha afectada por la alerta
     Query:"select distinct
 	E.Id,
 	E.Description,

@@ -1676,3 +1676,4 @@ Item_Oportunity_Title_OportunityDetailsNou::Nova oportunitat
 DiskQuote_Other::Altres
 DiskQuote_Free::Espai lliure
 Item_Objetivo_Message_IndicatorNoGrants::No té permissos per afegir indicador
+Mail_Message_WelcomeSubject::Benvingut/uda {0} a ISSUS

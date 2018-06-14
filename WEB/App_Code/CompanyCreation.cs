@@ -16,6 +16,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
 using GisoFramework.DataAccess;
+using System.Collections.Generic;
 
 /// <summary>Summary description for CompanyCreation</summary>
 [WebService(Namespace = "http://tempuri.org/")]
@@ -62,6 +63,7 @@ public class CompanyCreation : WebService
 
         if (res.Success)
         {
+            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             string path = HttpContext.Current.Request.PhysicalApplicationPath;
             string destino = path;
             if (!path.EndsWith("\\", StringComparison.Ordinal))
@@ -100,7 +102,7 @@ public class CompanyCreation : WebService
                 bodyPattern = bodyPattern.Replace("#PASSWORD#", "{1}");
             }
 
-            string subject = string.Format("Benvingut/uda {0} a ISSUS", res.MessageError.Split('|')[0]);
+            string subject = string.Format(dictionary["Mail_Message_WelcomeSubject"], res.MessageError.Split('|')[0]);
             string body = string.Format(
                 CultureInfo.InvariantCulture,
                 bodyPattern,
