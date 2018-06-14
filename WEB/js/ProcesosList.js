@@ -5,7 +5,7 @@
 function ProcessDelete(sender) {
     $('#ProcessName').html(sender.parentNode.parentNode.childNodes[0].childNodes[0].innerHTML);
     var Selected = sender.parentNode.parentNode.id * 1;
-    var dialog = $("#ProcessDeleteDialog").removeClass('hide').dialog({
+    var dialog = $("#ProcessDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_Process_Popup_Delete_Title+'</h4>',
@@ -21,7 +21,7 @@ function ProcessDelete(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");

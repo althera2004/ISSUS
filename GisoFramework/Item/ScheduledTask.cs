@@ -18,11 +18,10 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements ScheduledTask class
-    /// </summary>
+    /// <summary>Implements ScheduledTask class</summary>
     public class ScheduledTask
     {
+        /// <summary>Gets or sets operation identifier</summary>
         public long OperationId { get; set; }
 
         public Equipment Equipment { get; set; }
@@ -55,26 +54,33 @@ namespace GisoFramework.Item
                     ""ActionId"": {6},
                     ""OperationId"": {7}
                 }}";
+
+                var date = this.Expiration;
+                if(date.Year< 1950)
+                {
+                    date = date.AddYears(100);
+                }
+
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Equipment.Id,
                     Tools.LiteralQuote(Tools.JsonCompliant(this.Equipment.Description)),
                     this.TaskType,
                     Tools.LiteralQuote(Tools.JsonCompliant(this.Description)),
-                    this.Expiration,
+                    date,
                     this.Internal,
                     this.Action,
                     this.OperationId);
             }
         }
 
-        public static string GetByEmployeeJson(int employeeId, int companyId)
+        public static string ByEmployeeJson(int employeeId, int companyId)
         {
-            ReadOnlyCollection<ScheduledTask> tasks = GetByEmployee(employeeId, companyId);
-            StringBuilder res = new StringBuilder("[");
+            var tasks = ByEmployee(employeeId, companyId);
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (ScheduledTask task in tasks)
+            foreach (var task in tasks)
             {
                 if (first)
                 {
@@ -92,84 +98,88 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static ReadOnlyCollection<ScheduledTask> GetByEmployee(long employeeId, int companyId)
+        public static ReadOnlyCollection<ScheduledTask> ByEmployee(long employeeId, int companyId)
         {
-            ApplicationUser user = ApplicationUser.GetByEmployee(employeeId, companyId);
-
-            List<ScheduledTask> res = new List<ScheduledTask>();
-            using (SqlCommand cmd = new SqlCommand("ScheduleTask_GetByEmployee"))
+            var user = ApplicationUser.GetByEmployee(employeeId, companyId);
+            var res = new List<ScheduledTask>();
+            using (var cmd = new SqlCommand("ScheduleTask_GetByEmployee"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        if (user.PrimaryUser || rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId) == employeeId)
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            ScheduledTask newTask = new ScheduledTask()
+                            while (rdr.Read())
                             {
-                                OperationId = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.OperationId),
-                                Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.Operation),
-                                Equipment = new Equipment()
+                                if (user.PrimaryUser || rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId) == employeeId)
                                 {
-                                    Id = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.EquipmentId),
-                                    Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.Description)
-                                },
-                                Expiration = rdr.GetDateTime(ColumnsScheduleTaskGetByEmployee.Expiration),
-                                TaskType = rdr.GetString(ColumnsScheduleTaskGetByEmployee.OperationType),
-                                Responsible = new Employee()
-                                {
-                                    Id = rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId),
-                                    Name = rdr.GetString(ColumnsScheduleTaskGetByEmployee.EmployeeName),
-                                    LastName = rdr.GetString(ColumnsScheduleTaskGetByEmployee.EmployeeLastName)
-                                },
-                                Action = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.Action),
-                                Internal = rdr[ColumnsScheduleTaskGetByEmployee.Type].ToString() == "0" ? "I" : "E"
-                            };
-
-                            if (!rdr.IsDBNull(ColumnsScheduleTaskGetByEmployee.ProviderName))
-                            {
-                                newTask.Provider = new Provider()
-                                {
-                                    Id = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.ProviderId),
-                                    Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.ProviderName)
-                                };
-                            }
-
-                            bool exists = false;
-                            foreach (ScheduledTask task in res)
-                            {
-                                if (newTask.Equipment.Id == task.Equipment.Id &&
-                                newTask.OperationId == task.OperationId &&
-                                newTask.TaskType == task.TaskType &&
-                                task.Internal == newTask.Internal)
-                                {
-                                    if (task.Expiration < newTask.Expiration)
+                                    var newTask = new ScheduledTask
                                     {
-                                        task.Expiration = newTask.Expiration;
+                                        OperationId = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.OperationId),
+                                        Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.Operation),
+                                        Equipment = new Equipment
+                                        {
+                                            Id = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.EquipmentId),
+                                            Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.Description)
+                                        },
+                                        Expiration = rdr.GetDateTime(ColumnsScheduleTaskGetByEmployee.Expiration),
+                                        TaskType = rdr.GetString(ColumnsScheduleTaskGetByEmployee.OperationType),
+                                        Responsible = new Employee
+                                        {
+                                            Id = rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId),
+                                            Name = rdr.GetString(ColumnsScheduleTaskGetByEmployee.EmployeeName),
+                                            LastName = rdr.GetString(ColumnsScheduleTaskGetByEmployee.EmployeeLastName)
+                                        },
+                                        Action = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.Action),
+                                        Internal = rdr[ColumnsScheduleTaskGetByEmployee.Type].ToString() == "0" ? "I" : "E"
+                                    };
+
+                                    if (!rdr.IsDBNull(ColumnsScheduleTaskGetByEmployee.ProviderName))
+                                    {
+                                        newTask.Provider = new Provider
+                                        {
+                                            Id = rdr.GetInt64(ColumnsScheduleTaskGetByEmployee.ProviderId),
+                                            Description = rdr.GetString(ColumnsScheduleTaskGetByEmployee.ProviderName)
+                                        };
                                     }
 
-                                    exists = true;
-                                }
-                            }
+                                    bool exists = false;
+                                    foreach (var task in res)
+                                    {
+                                        if (newTask.Equipment.Id == task.Equipment.Id &&
+                                        newTask.OperationId == task.OperationId &&
+                                        newTask.TaskType == task.TaskType &&
+                                        task.Internal == newTask.Internal)
+                                        {
+                                            if (task.Expiration < newTask.Expiration)
+                                            {
+                                                task.Expiration = newTask.Expiration;
+                                            }
 
-                            if (!exists)
-                            {
-                                res.Add(newTask);
+                                            exists = true;
+                                        }
+                                    }
+
+                                    if (!exists)
+                                    {
+                                        res.Add(newTask);
+                                    }
+                                }
                             }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -195,22 +205,22 @@ namespace GisoFramework.Item
                 case "M":
                     tooltip = dictionary["Item_Equipment_Tab_Maintenance"];
                     tab = "&Tab=mantenimiento";
-                    operationId = string.Format(CultureInfo.GetCultureInfo("en-us"), "&OperationId={0}", this.OperationId);
-                    action = string.Format(CultureInfo.GetCultureInfo("en-us"), "&Action={0}&Type={1}", this.Action, this.Internal);
+                    operationId = string.Format(CultureInfo.InvariantCulture, "&OperationId={0}", this.OperationId);
+                    action = string.Format(CultureInfo.InvariantCulture, "&Action={0}&Type={1}", this.Action, this.Internal);
                     labelType = this.Internal == "I" ? dictionary["Item_EquipmentMaintenance_Label_Internal"] : dictionary["Item_EquipmentMaintenance_Label_External"];
                     break;
                 case "V":
                     tooltip = dictionary["Item_Equipment_Tab_Verification"];
                     tab = "&Tab=verificacion";
-                    operationId = string.Format(CultureInfo.GetCultureInfo("en-us"), "&OperationId={0}", this.OperationId);
-                    action = string.Format(CultureInfo.GetCultureInfo("en-us"), "&Action={0}&Type={1}", this.Action, this.Internal);
+                    operationId = string.Format(CultureInfo.InvariantCulture, "&OperationId={0}", this.OperationId);
+                    action = string.Format(CultureInfo.InvariantCulture, "&Action={0}&Type={1}", this.Action, this.Internal);
                     labelType = this.Internal == "I" ? dictionary["Item_EquipmentVerification_Label_Internal"] : dictionary["Item_EquipmentVerification_Label_External"];
                     break;
                 case "C":
                     tooltip = dictionary["Item_Equipment_Tab_Calibration"];
                     tab = "&Tab=calibracion";
-                    operationId = string.Format(CultureInfo.GetCultureInfo("en-us"), "&OperationId={0}", this.OperationId);
-                    action = string.Format(CultureInfo.GetCultureInfo("en-us"), "&Action={0}&Type={1}", this.Action, this.Internal);
+                    operationId = string.Format(CultureInfo.InvariantCulture, "&OperationId={0}", this.OperationId);
+                    action = string.Format(CultureInfo.InvariantCulture, "&Action={0}&Type={1}", this.Action, this.Internal);
                     labelType = this.Internal == "I" ? dictionary["Item_EquipmentCalibration_Label_Internal"] : dictionary["Item_EquipmentCalibration_Label_External"];
                     break;
                 case "I":
@@ -225,11 +235,35 @@ namespace GisoFramework.Item
                     tab = string.Empty;
                     labelType = dictionary["Item_IncidentAction"];
                     break;
+                case "X":
+                    tooltip = dictionary["Item_Indicador"];
+                    link = "ActionView";
+                    tab = "&Tab=Records";
+                    labelType = dictionary["Item_Indicador"];
+                    break;
+                case "O":
+                    tooltip = dictionary["Item_Objetivo"];
+                    link = "&Tab=Records";
+                    tab = string.Empty;
+                    labelType = dictionary["Item_Objetivo"];
+                    break;
+                case "B":
+                    tooltip = dictionary["Item_BusinessRisk"];
+                    link = "ActionView";
+                    tab = string.Empty;
+                    labelType = dictionary["Item_BusinessRisk"];
+                    break;
+                default:
+                    tooltip = string.Empty;
+                    link = "ActionView";
+                    tab = "home";
+                    labelType = string.Empty;
+                    break;
             }
 
             string pattern = @"<tr style=""cursor:pointer;"" onclick=""document.location='{6}.aspx?id={0}{9}{10}{11}'""><td title=""{5}"" style=""color:{8};"">{4} / {2}{7}</td><td style=""color:{8};width:350px;""><div title=""{1}"" style=""text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:320px;"">{1}</div></td><td style=""width:250px;padding-lewft:4px;"">{12}{13}</td><td style=""color:{8};width:90px;"">{3:dd/MM/yyyy}</td></tr>";
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattern,
                 this.Equipment.Id,
                 this.Equipment.Description,
@@ -265,22 +299,22 @@ namespace GisoFramework.Item
                 case "M":
                     tooltip = dictionary["Item_Equipment_Tab_Maintenance"];
                     tab = "&Tab=mantenimiento";
-                    operationId = string.Format(CultureInfo.GetCultureInfo("en-us"), "&OperationId={0}", this.OperationId);
-                    action = string.Format(CultureInfo.GetCultureInfo("en-us"), "&Action={0}&Type={1}", this.Action, this.Internal);
+                    operationId = string.Format(CultureInfo.InvariantCulture, "&OperationId={0}", this.OperationId);
+                    action = string.Format(CultureInfo.InvariantCulture, "&Action={0}&Type={1}", this.Action, this.Internal);
                     labelType = this.Internal == "I" ? dictionary["Item_EquipmentMaintenance_Label_Internal"] : dictionary["Item_EquipmentMaintenance_Label_External"];
                     break;
                 case "V":
                     tooltip = dictionary["Item_Equipment_Tab_Verification"];
                     tab = "&Tab=verificacion";
-                    operationId = string.Format(CultureInfo.GetCultureInfo("en-us"), "&OperationId={0}", this.OperationId);
-                    action = string.Format(CultureInfo.GetCultureInfo("en-us"), "&Action={0}&Type={1}", this.Action, this.Internal);
+                    operationId = string.Format(CultureInfo.InvariantCulture, "&OperationId={0}", this.OperationId);
+                    action = string.Format(CultureInfo.InvariantCulture, "&Action={0}&Type={1}", this.Action, this.Internal);
                     labelType = this.Internal == "I" ? dictionary["Item_EquipmentVerification_Label_Internal"] : dictionary["Item_EquipmentVerification_Label_External"];
                     break;
                 case "C":
                     tooltip = dictionary["Item_Equipment_Tab_Calibration"];
                     tab = "&Tab=calibracion";
-                    operationId = string.Format(CultureInfo.GetCultureInfo("en-us"), "&OperationId={0}", this.OperationId);
-                    action = string.Format(CultureInfo.GetCultureInfo("en-us"), "&Action={0}&Type={1}", this.Action, this.Internal);
+                    operationId = string.Format(CultureInfo.InvariantCulture, "&OperationId={0}", this.OperationId);
+                    action = string.Format(CultureInfo.InvariantCulture, "&Action={0}&Type={1}", this.Action, this.Internal);
                     labelType = this.Internal == "I" ? dictionary["Item_EquipmentCalibration_Label_Internal"] : dictionary["Item_EquipmentCalibration_Label_External"];
                     break;
                 case "I":
@@ -291,9 +325,33 @@ namespace GisoFramework.Item
                     break;
                 case "A":
                     tooltip = dictionary["Item_IncidentAction"];
-                    link = "ActionView";
+                    link = "IncidentView";
                     tab = string.Empty;
                     labelType = dictionary["Item_IncidentAction"];
+                    break;
+                case "X":
+                    tooltip = dictionary["Item_Indicador"];
+                    link = "IndicadorView";
+                    tab = "&Tab=Records";
+                    labelType = dictionary["Item_Indicador"];
+                    break;
+                case "O":
+                    tooltip = dictionary["Item_Objetivo"];
+                    link = "ObjetivoView";
+                    tab = "&Tab=Records";
+                    labelType = dictionary["Item_Objetivo"];
+                    break;
+                case "B":
+                    tooltip = dictionary["Item_BusinessRisk"];
+                    link = "BusinessRiskView";
+                    tab = string.Empty;
+                    labelType = dictionary["Item_BusinessRisk"];
+                    break;
+                default:
+                    tooltip = string.Empty;
+                    link = "ActionView";
+                    tab = "home";
+                    labelType = string.Empty;
                     break;
             }
 
@@ -308,11 +366,11 @@ namespace GisoFramework.Item
                 ""Provider"":""{13}"",
                 ""Date"":""{3:dd/MM/yyyy}""}}";
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattern,
                 this.Equipment.Id,
                 Tools.JsonCompliant(this.Equipment.Description),
-                this.Description,
+                Tools.JsonCompliant(this.Description),
                 this.Expiration,
                 labelType,
                 tooltip,

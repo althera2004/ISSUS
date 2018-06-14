@@ -16,23 +16,23 @@ function ShowCustomerBarPopup(cmb) {
     CustomerSelected = cmb.val() * 1;
     CustomerRenderPopup();
     var dialog = $(popupDialogId).removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: eval("Dictionary.Item_" + itemName + "s"),
-        title_html: true,
-        width: 600,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": eval("Dictionary.Item_" + itemName + "s"),
+        "title_html": true,
+        "width": 600,
+        "buttons":
         [
             {
-                id: "Btn" + itemName + "Save",
-                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
+                "id": "Btn" + itemName + "Save",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
                 click: function () { CustomerInsert(); }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () { $(this).dialog("close"); }
+                "click": function () { $(this).dialog("close"); }
             }
         ]
     });
@@ -90,7 +90,7 @@ function CustomerInsert(sender) {
                 }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
@@ -155,7 +155,7 @@ function CustomerUpdate(sender) {
         buttons:
         [
             {
-                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
                     var ok = true;
@@ -193,7 +193,7 @@ function CustomerUpdate(sender) {
                 }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () {
                     $(this).dialog("close");
@@ -220,6 +220,8 @@ function CustomerUpdateConfirmed(id, newDescription) {
         "companyId": Company.Id,
         "userId": user.Id
     };
+
+    console.log("delete cliente", data);
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
@@ -295,7 +297,7 @@ function CustomerDelete(sender) {
                 }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
@@ -315,7 +317,7 @@ function CustomerDeleteConfirmed(id) {
     }
 
     var data = {
-        "CustomerId": id,
+        "customerId": id,
         "description": description,
         "companyId": Company.Id,
         "userId": user.Id
@@ -340,8 +342,8 @@ function CustomerDeleteConfirmed(id) {
 
     // 2.- Desactivar en HTML
     var temp = new Array();
-    for (var y = 0; y < sourceList.length; y++) {
-        if (sourceList[y].Id !== ItemIdDelete) { temp.push(sourceList[y]); }
+    for (var y = 0; y < Customers.length; y++) {
+        if (Customers[y].Id !== ItemIdDelete) { temp.push(Customers[y]); }
     }
 
     Customers = new Array();
@@ -352,7 +354,8 @@ function CustomerDeleteConfirmed(id) {
     // 3.- Eliminar la fila de la tabla del popup
     var target = document.getElementById("Selectable" + itemName);
     for (var w = 0; w < target.childNodes.length; w++) {
-        if (target.childNodes[w].id === id) {
+        console.log("actualizar", target.childNodes[w].id + " --  " + ItemIdDelete);
+        if (target.childNodes[w].id*1 === ItemIdDelete*1) {
             target.childNodes[w].style.display = "none";
             break;
         }
@@ -364,11 +367,12 @@ function CustomerDeleteConfirmed(id) {
 
 // Common scripts
 function CustomerRenderPopup() {
+    console.log("CustomerRenderPopup", Customers);
     VoidTable("Selectable" + itemName);
     var target = document.getElementById("Selectable" + itemName);
-    sourceList.sort(CompareCustomers);
-    for (var x = 0; x < sourceList.length; x++) {
-        CustomerPopupRow(sourceList[x], target);
+    Customers.sort(CompareCustomers);
+    for (var x = 0; x < Customers.length; x++) {
+        CustomerPopupRow(Customers[x], target);
     }
 }
 

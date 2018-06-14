@@ -40,20 +40,19 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult ChangeLogo(Stream x)
         {
-            ActionResult res = ActionResult.NoAction;
+            return ActionResult.NoAction;
             /*HttpContext postedContext = HttpContext.Current;
             //File Collection that was submitted with posted data
             HttpFileCollection Files = postedContext.Request.Files;*/
-            return res;
         }
 
         [WebMethod]
         [ScriptMethod]
         public string GetDepartments(int companyId)
         {
-            ReadOnlyCollection<Department> departments = new Company(companyId).Departments;
+            var departments = new Company(companyId).Departments;
             bool first = true;
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
 
             foreach (Department department in departments)
             {
@@ -77,26 +76,28 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult SelectCountries(string countries, int companyId)
         {
-            ActionResult res = ActionResult.NoAction;
-            string[] countriesList = countries.Split('|');
+            var res = ActionResult.NoAction;
+            var countriesList = countries.Split('|');
             string error = string.Empty;
             foreach (string id in countriesList)
             {
-                if (!string.IsNullOrEmpty(id))
+                if (string.IsNullOrEmpty(id))
                 {
-                    int countryId = Convert.ToInt32(id);
-                    ActionResult resTemporal = Country.CompanyAddCountry(countryId, companyId);
-                    if (!resTemporal.Success)
-                    {
-                        error += resTemporal.MessageError;
-                    }
+                    continue;
+                }
+
+                int countryId = Convert.ToInt32(id);
+                var resTemporal = Country.CompanyAddCountry(countryId, companyId);
+                if (!resTemporal.Success)
+                {
+                    error += resTemporal.MessageError;
                 }
             }
 
             if (string.IsNullOrEmpty(error))
             {
                 res.SetSuccess();
-                Company companySession = new Company(companyId);
+                var companySession = new Company(companyId);
                 HttpContext.Current.Session["Company"] = companySession;
             }
             else
@@ -111,26 +112,28 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult DiscardCountries(string countries, int companyId)
         {
-            ActionResult res = ActionResult.NoAction;
-            string[] countriesList = countries.Split('|');
+            var res = ActionResult.NoAction;
+            var countriesList = countries.Split('|');
             string error = string.Empty;
             foreach (string id in countriesList)
             {
-                if (!string.IsNullOrEmpty(id))
+                if (string.IsNullOrEmpty(id))
                 {
-                    int countryId = Convert.ToInt32(id);
-                    ActionResult resTemporal = Country.CompanyDiscardCountry(countryId, companyId);
-                    if (!resTemporal.Success)
-                    {
-                        error += resTemporal.MessageError;
-                    }
+                    continue;
                 }
+                int countryId = Convert.ToInt32(id);
+                var resTemporal = Country.CompanyDiscardCountry(countryId, companyId);
+                if (!resTemporal.Success)
+                {
+                    error += resTemporal.MessageError;
+                }
+
             }
 
             if (string.IsNullOrEmpty(error))
             {
                 res.SetSuccess();
-                Company companySession = new Company(companyId);
+                var companySession = new Company(companyId);
                 HttpContext.Current.Session["Company"] = companySession;
             }
             else
@@ -145,8 +148,8 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult Save(Company oldCompany, Company newCompany, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
-            string extradata = Company.GetDifferences(oldCompany, newCompany);
+            var res = ActionResult.NoAction;
+            string extradata = oldCompany.Differences(newCompany);
             if (!string.IsNullOrEmpty(extradata))
             {
                 res = newCompany.Update(userId);
@@ -164,7 +167,7 @@ namespace GISOWeb
 
             if (res.Success)
             {
-                Company companySession = new Company(newCompany.Id);
+                var companySession = new Company(newCompany.Id);
                 HttpContext.Current.Session["Company"] = companySession;
             }
 
@@ -175,7 +178,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult SaveAddress(CompanyAddress address, int userId)
         {
-            ActionResult res = CompanyAddress.Insert(address, userId);
+            var res = CompanyAddress.Insert(address, userId);
             int addressId = -1;
             if (res.Success)
             {
@@ -194,7 +197,7 @@ namespace GISOWeb
 
             if (res.Success)
             {
-                Company companySession = new Company(address.Company.Id);
+                var companySession = new Company(address.Company.Id);
                 HttpContext.Current.Session["Company"] = companySession;
             }
 
@@ -205,7 +208,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult UpdateAddress(CompanyAddress oldAddress, CompanyAddress newAddress, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             string extradata = CompanyAddress.Differences(oldAddress, newAddress);
             if (!string.IsNullOrEmpty(extradata))
             {
@@ -222,7 +225,7 @@ namespace GISOWeb
 
             if (res.Success)
             {
-                Company companySession = new Company(newAddress.Company.Id);
+                var companySession = new Company(newAddress.Company.Id);
                 HttpContext.Current.Session["Company"] = companySession;
             }
 
@@ -233,10 +236,10 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult SetDefaultAddress(int companyId, int addressId, int userId)
         {
-            ActionResult res = Company.SetDefaultAddress(companyId, addressId, userId);
+            var res = Company.SetDefaultAddress(companyId, addressId, userId);
             if (res.Success)
             {
-                Company company = (Company)Session["company"];
+                var company = (Company)Session["company"];
                 foreach (CompanyAddress address in company.Addresses)
                 {
                     if (address.Id == addressId)
@@ -248,7 +251,7 @@ namespace GISOWeb
 
                 if (res.Success)
                 {
-                    Company companySession = new Company(companyId);
+                    var companySession = new Company(companyId);
                     HttpContext.Current.Session["Company"] = companySession;
                 }
 
@@ -263,10 +266,10 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult DeleteAddress(int companyId, int addressId, int userId)
         {
-            ActionResult res = CompanyAddress.Delete(companyId, addressId, userId);
+            var res = CompanyAddress.Delete(companyId, addressId, userId);
             if (res.Success)
             {
-                Company companySession = new Company(companyId);
+                var companySession = new Company(companyId);
                 HttpContext.Current.Session["Company"] = companySession;
             }
 

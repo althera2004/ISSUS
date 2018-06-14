@@ -44,7 +44,7 @@ namespace GisoFramework.Item
 
         /// <summary>Gets or sets a value indicating whether item can be deleted</summary>
         public bool CanBeDeleted { get; set; }
-        
+
         /// <summary>Gets a JSON structure of item data</summary>        
         public abstract string Json { get; }
 
@@ -76,6 +76,11 @@ namespace GisoFramework.Item
                         OldValue = property.GetValue(item1, null)
                     };
 
+                    if (variance.NewValue == null && variance.OldValue == null)
+                    {
+                        continue;
+                    }
+
                     if (variance.NewValue == null && variance.OldValue != null)
                     {
                         variances.Add(variance);
@@ -83,9 +88,6 @@ namespace GisoFramework.Item
                     else if (variance.NewValue != null && variance.OldValue == null)
                     {
                         variances.Add(variance);
-                    }
-                    else if (variance.NewValue == null && variance.OldValue == null)
-                    {
                     }
                     else if (variance.OldValue.GetType().FullName.StartsWith("Giso", StringComparison.Ordinal))
                     {
@@ -117,12 +119,17 @@ namespace GisoFramework.Item
 
                 try
                 {
+                    if (variance.OldValue == null && variance.NewValue == null)
+                    {
+                        continue;
+                    }
+
                     if (variance.OldValue == null)
                     {
                         string newValue = variance.NewValue.ToString();
                         res.Append(variance.PropertyName).Append("::null-->").Append(newValue);
                     }
-                    else if(variance.OldValue.GetType().Name.ToUpperInvariant().Equals("string", StringComparison.OrdinalIgnoreCase))
+                    else if (variance.OldValue.GetType().Name.ToUpperInvariant().Equals("string", StringComparison.OrdinalIgnoreCase))
                     {
                         if (variance.NewValue == null)
                         {

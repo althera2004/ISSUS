@@ -29,6 +29,98 @@ public partial class ExportPrintEquipmentData : Page
     BaseFont headerFont = null;
     BaseFont arial = null;
 
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public static ActionResult PDF(long equipmentId, int companyId, long applicationUserId)
+    {
+        var res = ActionResult.NoAction;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+        var equipment = Equipment.ById(equipmentId, companyId);
+
+        string path = HttpContext.Current.Request.PhysicalApplicationPath;
+
+        if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
+        {
+            path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
+        }
+
+        string fileName = string.Format(
+            CultureInfo.InvariantCulture,
+            @"{0}_{1}_Data_{2:yyyyMMddhhmmss}.pdf",
+            dictionary["Item_Equipment"],
+            equipment.Description,
+            DateTime.Now);
+
+        var pdfDoc = new iTS.Document(iTS.PageSize.LETTER, 50, 50, 80, 50);
+
+
+        var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
+           new FileStream(
+               string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
+               FileMode.Create));
+
+        var company = new Company(equipment.CompanyId);
+
+        var pageEventHandler = new TwoColumnHeaderFooter
+        {
+            CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, companyId),
+            IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
+            Date = string.Format(CultureInfo.InvariantCulture, "{0}: {1:dd/MM/yyyy}", dictionary["Common_Date"], DateTime.Now),
+            CreatedBy = string.Format(CultureInfo.InvariantCulture, "{0}: {1}", dictionary["Common_CreatedBy"], user.UserName),
+            CompanyId = equipment.CompanyId,
+            CompanyName = company.Name,
+            Title = string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Equipment"], equipment.Description)
+        };
+
+        writer.PageEvent = pageEventHandler;
+
+        // Font styles
+        var headerFont = new iTS.Font(iTSpdf.BaseFont.CreateFont(iTSpdf.BaseFont.HELVETICA, iTSpdf.BaseFont.CP1252, false), 22, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        var labelFont = new iTS.Font(iTSpdf.BaseFont.CreateFont(iTSpdf.BaseFont.HELVETICA, iTSpdf.BaseFont.CP1252, false), 14, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var dataFont = new iTS.Font(iTSpdf.BaseFont.CreateFont(iTSpdf.BaseFont.HELVETICA, iTSpdf.BaseFont.CP1252, false), 14, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+
+        pdfDoc.Open();
+
+        // Main data
+        pdfDoc.Add(new Phrase(dictionary["Item_Equipment_Tab_Basic"], headerFont));
+        var mainDataTable = new iTSpdf.PdfPTable(4)
+        {
+            WidthPercentage = 100,
+            HorizontalAlignment = 0,
+            SpacingBefore = 20f,
+            SpacingAfter = 30f
+        };
+
+        mainDataTable.SetWidths(new float[] { 15f, 30f, 15f, 30f });
+
+        var mainC1 = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Field_Code_Label"], labelFont));
+        var mainC2 = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Field_Description_Label"], labelFont));
+        var mainC3 = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Field_TradeMark_Label"], labelFont));
+        var mainC4 = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Field_Model_Label"], labelFont));
+
+        var mainD1 = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Code, dataFont));
+        var mainD2 = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Description, dataFont));
+        var mainD3 = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Trademark, dataFont));
+        var mainD4 = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Model, dataFont));
+
+        mainC1.Border = 0; mainD1.Border = 0;
+        mainC2.Border = 0; mainD2.Border = 0;
+        mainC3.Border = 0; mainD3.Border = 0;
+        mainC4.Border = 0; mainD4.Border = 0;
+
+        mainDataTable.AddCell(mainC1); mainDataTable.AddCell(mainD1);
+        mainDataTable.AddCell(mainC2); mainDataTable.AddCell(mainD2);
+        mainDataTable.AddCell(mainC3); mainDataTable.AddCell(mainD3);
+        mainDataTable.AddCell(mainC4); mainDataTable.AddCell(mainD4);
+
+        pdfDoc.Add(mainDataTable);
+
+        pdfDoc.CloseDocument();
+        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
+        return res;
+    }
+
     protected void Page_Load(object sender, EventArgs e)
     {
         long equipmentId = Convert.ToInt64(Request.QueryString["id"]);
@@ -37,7 +129,7 @@ public partial class ExportPrintEquipmentData : Page
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
         var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        var equipment = Equipment.GetById(equipmentId, user.CompanyId);
+        var equipment = Equipment.ById(equipmentId, user.CompanyId);
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -47,11 +139,20 @@ public partial class ExportPrintEquipmentData : Page
         }
 
 
+
+        string formatedDescription = equipment.Description.Replace("?", string.Empty);
+        formatedDescription = formatedDescription.Replace("#", string.Empty);
+        formatedDescription = formatedDescription.Replace("/", string.Empty);
+        formatedDescription = formatedDescription.Replace("\\", string.Empty);
+        formatedDescription = formatedDescription.Replace(":", string.Empty);
+        formatedDescription = formatedDescription.Replace(";", string.Empty);
+        formatedDescription = formatedDescription.Replace(".", string.Empty);
+
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_Data_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_Equipment"],
-            equipment.Description,
+            formatedDescription,
             DateTime.Now);
 
         // FONTS
@@ -100,7 +201,7 @@ public partial class ExportPrintEquipmentData : Page
             HorizontalAlignment = Element.ALIGN_CENTER
         });
 
-        table.AddCell(titleCell(dictionary["Item_Equipment_Tab_Basic"], 3));
+        table.AddCell(TitleCell(dictionary["Item_Equipment_Tab_Basic"], 3));
         table.AddCell(TitleLabel(dictionary["Item_Equipment_Field_TradeMark_Label"]));
         table.AddCell(TitleData(equipment.Trademark));
 
@@ -175,23 +276,23 @@ public partial class ExportPrintEquipmentData : Page
             };
 
             tableConfigurationInt.SetWidths(new float[] { 25f, 30f, 25f, 40f });
-            tableConfigurationInt.AddCell(TitleCell(dictionary["Item_EquipmentCalibration_Label_Internal"]));
-            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Operation"]));
-            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Description, 3));
-            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Periodicity"]));
-            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Periodicity + " " + dictionary["Common_Days"], 3));
-            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Uncertainty"]));
-            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Uncertainty.ToString()));
-            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Range"]));
-            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Range));
-            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Pattern"]));
-            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Pattern));
-            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Cost"]));
-            tableConfigurationInt.AddCell(TitleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.InternalCalibration.Cost)));
-            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Responsible"]));
-            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Responsible.FullName, 3));
-            tableConfigurationInt.AddCell(TitleLabel(dictionary["Item_Equipment_Field_Calibration_Notes"]));
-            tableConfigurationInt.AddCell(TitleData(equipment.InternalCalibration.Notes, 3));
+            tableConfigurationInt.AddCell(this.TitleCell(dictionary["Item_EquipmentCalibration_Label_Internal"]));
+            tableConfigurationInt.AddCell(this.TitleLabel(dictionary["Item_Equipment_Field_Calibration_Operation"]));
+            tableConfigurationInt.AddCell(this.TitleData(equipment.InternalCalibration.Description, 3));
+            tableConfigurationInt.AddCell(this.TitleLabel(dictionary["Item_Equipment_Field_Calibration_Periodicity"]));
+            tableConfigurationInt.AddCell(this.TitleData(equipment.InternalCalibration.Periodicity + " " + dictionary["Common_Days"], 3));
+            tableConfigurationInt.AddCell(this.TitleLabel(dictionary["Item_Equipment_Field_Calibration_Uncertainty"]));
+            tableConfigurationInt.AddCell(this.TitleData(equipment.InternalCalibration.Uncertainty.ToString()));
+            tableConfigurationInt.AddCell(this.TitleLabel(dictionary["Item_Equipment_Field_Calibration_Range"]));
+            tableConfigurationInt.AddCell(this.TitleData(equipment.InternalCalibration.Range));
+            tableConfigurationInt.AddCell(this.TitleLabel(dictionary["Item_Equipment_Field_Calibration_Pattern"]));
+            tableConfigurationInt.AddCell(this.TitleData(equipment.InternalCalibration.Pattern));
+            tableConfigurationInt.AddCell(this.TitleLabel(dictionary["Item_Equipment_Field_Calibration_Cost"]));
+            tableConfigurationInt.AddCell(this.TitleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.InternalCalibration.Cost)));
+            tableConfigurationInt.AddCell(this.TitleLabel(dictionary["Item_Equipment_Field_Calibration_Responsible"]));
+            tableConfigurationInt.AddCell(this.TitleData(equipment.InternalCalibration.Responsible.FullName, 3));
+            tableConfigurationInt.AddCell(this.TitleLabel(dictionary["Item_Equipment_Field_Calibration_Notes"]));
+            tableConfigurationInt.AddCell(this.TitleData(equipment.InternalCalibration.Notes, 3));
             document.Add(tableConfigurationInt);
         }
         #endregion
@@ -242,23 +343,23 @@ public partial class ExportPrintEquipmentData : Page
             };
 
             tableVerificationInt.SetWidths(new float[] { 25f, 30f, 25f, 40f });
-            tableVerificationInt.AddCell(TitleCell(dictionary["Item_EquipmentVerification_Label_Internal"]));
-            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Operation"]));
-            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Description, 3));
-            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Periodicity"]));
-            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Periodicity + " " + dictionary["Common_Days"], 3));
-            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Uncertainty"]));
-            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Uncertainty.ToString()));
-            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Range"]));
-            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Range));
-            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Pattern"]));
-            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Pattern));
-            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Cost"]));
-            tableVerificationInt.AddCell(TitleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.InternalVerification.Cost)));
-            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Responsible"]));
-            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Responsible.FullName, 3));
-            tableVerificationInt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Notes"]));
-            tableVerificationInt.AddCell(TitleData(equipment.InternalVerification.Notes, 3));
+            tableVerificationInt.AddCell(this.TitleCell(dictionary["Item_EquipmentVerification_Label_Internal"]));
+            tableVerificationInt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Operation"]));
+            tableVerificationInt.AddCell(this.TitleData(equipment.InternalVerification.Description, 3));
+            tableVerificationInt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Periodicity"]));
+            tableVerificationInt.AddCell(this.TitleData(equipment.InternalVerification.Periodicity + " " + dictionary["Common_Days"], 3));
+            tableVerificationInt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Uncertainty"]));
+            tableVerificationInt.AddCell(this.TitleData(equipment.InternalVerification.Uncertainty.ToString()));
+            tableVerificationInt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Range"]));
+            tableVerificationInt.AddCell(this.TitleData(equipment.InternalVerification.Range));
+            tableVerificationInt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Pattern"]));
+            tableVerificationInt.AddCell(this.TitleData(equipment.InternalVerification.Pattern));
+            tableVerificationInt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Cost"]));
+            tableVerificationInt.AddCell(this.TitleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.InternalVerification.Cost)));
+            tableVerificationInt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Responsible"]));
+            tableVerificationInt.AddCell(this.TitleData(equipment.InternalVerification.Responsible.FullName, 3));
+            tableVerificationInt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Notes"]));
+            tableVerificationInt.AddCell(this.TitleData(equipment.InternalVerification.Notes, 3));
             document.Add(tableVerificationInt);
         }
         #endregion
@@ -275,25 +376,25 @@ public partial class ExportPrintEquipmentData : Page
             };
 
             tableVerificationExt.SetWidths(new float[] { 25f, 30f, 25f, 40f });
-            tableVerificationExt.AddCell(TitleCell(dictionary["Item_EquipmentVerification_Label_External"]));
-            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Operation"]));
-            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Description, 3));
-            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Periodicity"]));
-            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Periodicity + " " + dictionary["Common_Days"], 3));
-            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Uncertainty"]));
-            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Uncertainty.ToString()));
-            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Range"]));
-            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Range));
-            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Pattern"]));
-            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Pattern));
-            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Cost"]));
-            tableVerificationExt.AddCell(TitleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.ExternalVerification.Cost)));
-            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Responsible"]));
-            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Responsible.FullName, 3));
-            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Provider"]));
-            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Provider.Description, 3));
-            tableVerificationExt.AddCell(TitleLabel(dictionary["Item_EquipmentVerification_Field_Notes"]));
-            tableVerificationExt.AddCell(TitleData(equipment.ExternalVerification.Notes, 3));
+            tableVerificationExt.AddCell(this.TitleCell(dictionary["Item_EquipmentVerification_Label_External"]));
+            tableVerificationExt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Operation"]));
+            tableVerificationExt.AddCell(this.TitleData(equipment.ExternalVerification.Description, 3));
+            tableVerificationExt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Periodicity"]));
+            tableVerificationExt.AddCell(this.TitleData(equipment.ExternalVerification.Periodicity + " " + dictionary["Common_Days"], 3));
+            tableVerificationExt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Uncertainty"]));
+            tableVerificationExt.AddCell(this.TitleData(equipment.ExternalVerification.Uncertainty.ToString()));
+            tableVerificationExt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Range"]));
+            tableVerificationExt.AddCell(this.TitleData(equipment.ExternalVerification.Range));
+            tableVerificationExt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Pattern"]));
+            tableVerificationExt.AddCell(this.TitleData(equipment.ExternalVerification.Pattern));
+            tableVerificationExt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Cost"]));
+            tableVerificationExt.AddCell(this.TitleData(string.Format(CultureInfo.InvariantCulture, "{0:#0.00} €", equipment.ExternalVerification.Cost)));
+            tableVerificationExt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Responsible"]));
+            tableVerificationExt.AddCell(this.TitleData(equipment.ExternalVerification.Responsible.FullName, 3));
+            tableVerificationExt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Provider"]));
+            tableVerificationExt.AddCell(this.TitleData(equipment.ExternalVerification.Provider.Description, 3));
+            tableVerificationExt.AddCell(this.TitleLabel(dictionary["Item_EquipmentVerification_Field_Notes"]));
+            tableVerificationExt.AddCell(this.TitleData(equipment.ExternalVerification.Notes, 3));
             document.Add(tableVerificationExt);
         }
         #endregion
@@ -303,8 +404,6 @@ public partial class ExportPrintEquipmentData : Page
         {
             var borderNone = iTS.Rectangle.NO_BORDER;
             var borderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
-            var borderTBL = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.LEFT_BORDER;
-            var borderTBR = iTS.Rectangle.TOP_BORDER + iTS.Rectangle.BOTTOM_BORDER + iTS.Rectangle.RIGHT_BORDER;
             var backgroundColor = new iTS.BaseColor(225, 225, 225);
             var rowPair = new iTS.BaseColor(255, 255, 255);
             var rowEven = new iTS.BaseColor(240, 240, 240);
@@ -322,12 +421,14 @@ public partial class ExportPrintEquipmentData : Page
 
             tableMaintenance.SetWidths(new float[] { 90f, 40f, 30f, 60f, 20f });
 
-            var cellMaintenanceDescription = new PdfPCell(new Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", equipment.Code, equipment.Description), descriptionFont));
-            cellMaintenanceDescription.Colspan = 5;
-            cellMaintenanceDescription.Border = Rectangle.NO_BORDER;
-            cellMaintenanceDescription.PaddingTop = 20f;
-            cellMaintenanceDescription.PaddingBottom = 20f;
-            cellMaintenanceDescription.HorizontalAlignment = Element.ALIGN_CENTER;
+            var cellMaintenanceDescription = new PdfPCell(new Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", equipment.Code, equipment.Description), descriptionFont))
+            {
+                Colspan = 5,
+                Border = Rectangle.NO_BORDER,
+                PaddingTop = 20f,
+                PaddingBottom = 20f,
+                HorizontalAlignment = Element.ALIGN_CENTER
+            };
             tableMaintenance.AddCell(cellMaintenanceDescription);
 
             var valueFont = new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK);
@@ -347,6 +448,7 @@ public partial class ExportPrintEquipmentData : Page
                 HorizontalAlignment = iTS.Element.ALIGN_LEFT,
                 Padding = 8
             });
+
             tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentMaintenanceDefinition_Header_Type"].ToUpperInvariant(), headerFontFinal))
             {
                 Border = borderAll,
@@ -354,6 +456,7 @@ public partial class ExportPrintEquipmentData : Page
                 HorizontalAlignment = iTS.Element.ALIGN_CENTER,
                 Padding = 8
             });
+
             tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentMaintenanceDefinition_Header_Periodicity_PDF"].ToUpperInvariant(), headerFontFinal))
             {
                 PaddingBottom = 6f,
@@ -362,6 +465,7 @@ public partial class ExportPrintEquipmentData : Page
                 HorizontalAlignment = iTS.Element.ALIGN_LEFT,
                 Padding = 8
             });
+
             tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentMaintenanceDefinition_Header_Accesories"].ToUpperInvariant(), headerFontFinal))
             {
                 Border = borderAll,
@@ -369,6 +473,7 @@ public partial class ExportPrintEquipmentData : Page
                 HorizontalAlignment = iTS.Element.ALIGN_LEFT,
                 Padding = 8
             });
+
             tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentMaintenanceDefinition_Header_Cost"].ToUpperInvariant(), headerFontFinal))
             {
                 Border = borderAll,
@@ -388,7 +493,6 @@ public partial class ExportPrintEquipmentData : Page
             {
                 int border = 0;
                 var lineBackground = pair ? rowEven : rowPair;
-                // pair = !pair;
 
                 tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(maintenance.Description, times))
                 {
@@ -444,7 +548,6 @@ public partial class ExportPrintEquipmentData : Page
                 {
                     cost += maintenance.Cost.Value;
                 }
-
             }
 
             // TotalRow
@@ -478,104 +581,12 @@ public partial class ExportPrintEquipmentData : Page
         Response.Clear();
     }
 
-    [WebMethod(EnableSession = true)]
-    [ScriptMethod]
-    public static ActionResult PDF(long equipmentId, int companyId, long applicationUserId)
-    {
-        var res = ActionResult.NoAction;
-        var user = HttpContext.Current.Session["User"] as ApplicationUser;
-        var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        var equipment = Equipment.GetById(equipmentId, companyId);
-
-        string path = HttpContext.Current.Request.PhysicalApplicationPath;
-
-        if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
-        {
-            path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
-        }
-
-        string fileName = string.Format(
-            CultureInfo.InvariantCulture,
-            @"{0}_{1}_Data_{2:yyyyMMddhhmmss}.pdf",
-            dictionary["Item_Equipment"],
-            equipment.Description,
-            DateTime.Now);
-
-        var pdfDoc = new iTS.Document(iTS.PageSize.LETTER, 50, 50, 80, 50);
-
-
-        var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
-           new FileStream(
-               string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
-               FileMode.Create));
-
-        var company = new Company(equipment.CompanyId);
-
-        var pageEventHandler = new TwoColumnHeaderFooter()
-        {
-            CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, companyId),
-            IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
-            Date = string.Format(CultureInfo.InvariantCulture, "{0}: {1:dd/MM/yyyy}", dictionary["Common_Date"], DateTime.Now),
-            CreatedBy = string.Format(CultureInfo.InvariantCulture, "{0}: {1}", dictionary["Common_CreatedBy"], user.UserName),
-            CompanyId = equipment.CompanyId,
-            CompanyName = company.Name,
-            Title = string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Equipment"], equipment.Description)
-        };
-
-        writer.PageEvent = pageEventHandler;
-
-        // Font styles
-        var headerFont = new iTS.Font(iTSpdf.BaseFont.CreateFont(iTSpdf.BaseFont.HELVETICA, iTSpdf.BaseFont.CP1252, false), 22, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        var labelFont = new iTS.Font(iTSpdf.BaseFont.CreateFont(iTSpdf.BaseFont.HELVETICA, iTSpdf.BaseFont.CP1252, false), 14, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        var dataFont = new iTS.Font(iTSpdf.BaseFont.CreateFont(iTSpdf.BaseFont.HELVETICA, iTSpdf.BaseFont.CP1252, false), 14, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-
-        pdfDoc.Open();
-
-        // Main data
-        pdfDoc.Add(new Phrase(dictionary["Item_Equipment_Tab_Basic"], headerFont));
-        var mainDataTable = new iTSpdf.PdfPTable(4)
-        {
-            WidthPercentage = 100,
-            HorizontalAlignment = 0,
-            SpacingBefore = 20f,
-            SpacingAfter = 30f
-        };
-
-        mainDataTable.SetWidths(new float[] { 15f, 30f, 15f, 30f });
-
-        var mainC1 = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Field_Code_Label"], labelFont));
-        var mainC2 = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Field_Description_Label"], labelFont));
-        var mainC3 = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Field_TradeMark_Label"], labelFont));
-        var mainC4 = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_Field_Model_Label"], labelFont));
-
-        var mainD1 = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Code, dataFont));
-        var mainD2 = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Description, dataFont));
-        var mainD3 = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Trademark, dataFont));
-        var mainD4 = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Model, dataFont));
-
-        mainC1.Border = 0; mainD1.Border = 0;
-        mainC2.Border = 0; mainD2.Border = 0;
-        mainC3.Border = 0; mainD3.Border = 0;
-        mainC4.Border = 0; mainD4.Border = 0;
-
-        mainDataTable.AddCell(mainC1); mainDataTable.AddCell(mainD1);
-        mainDataTable.AddCell(mainC2); mainDataTable.AddCell(mainD2);
-        mainDataTable.AddCell(mainC3); mainDataTable.AddCell(mainD3);
-        mainDataTable.AddCell(mainC4); mainDataTable.AddCell(mainD4);
-
-        pdfDoc.Add(mainDataTable);
-
-        pdfDoc.CloseDocument();
-        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
-        return res;
-    }
-
     private PdfPCell TitleCell(string value)
     {
-        return titleCell(value, 4);
+        return TitleCell(value, 4);
     }
 
-    private PdfPCell titleCell(string value, int colSpan)
+    private PdfPCell TitleCell(string value, int colSpan)
     {
         return new PdfPCell(new Phrase(value.ToUpperInvariant(), new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK)))
         {

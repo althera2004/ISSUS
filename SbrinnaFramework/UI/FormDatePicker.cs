@@ -11,9 +11,7 @@ namespace SbrinnaCoreFramework.UI
     using System.Globalization;
     using System.Web;
 
-    /// <summary>
-    /// Implements FormDatePicker control
-    /// </summary>
+    /// <summary>Implements FormDatePicker control</summary>
     public class FormDatePicker
     {
         public string Id { get; set; }
@@ -28,7 +26,7 @@ namespace SbrinnaCoreFramework.UI
         {
             get
             {
-                Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+                var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
                 string labelSpan = string.Empty;
                 if (!string.IsNullOrEmpty(this.Label))
                 {
@@ -40,8 +38,8 @@ namespace SbrinnaCoreFramework.UI
                         this.ColumnsSpanLabel);
                 }
 
-                string malformedLabel = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span class=""ErrorMessage"" id=""{0}DateMalformed"" style=""display:none;"">{1}</span>", this.Id, dictionary["Common_Error_DateMalformed"]);
-                string requiredLabel = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span class=""ErrorMessage"" id=""{0}DateRequired"" style=""display:none;"">{1}</span>", this.Id, dictionary["Common_Required"]);
+                string malformedLabel = string.Format(CultureInfo.InvariantCulture, @"<span class=""ErrorMessage"" id=""{0}DateMalformed"" style=""display:none;"">{1}</span>", this.Id, dictionary["Common_Error_DateMalformed"]);
+                string requiredLabel = string.Format(CultureInfo.InvariantCulture, @"<span class=""ErrorMessage"" id=""{0}DateRequired"" style=""display:none;"">{1}</span>", this.Id, dictionary["Common_Required"]);
 
                 return string.Format(
                     CultureInfo.InvariantCulture,

@@ -4,23 +4,19 @@
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
+using SbrinnaCoreFramework;
+using SbrinnaCoreFramework.UI;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
-using SbrinnaCoreFramework.UI;
-using SbrinnaCoreFramework;
 
 public partial class EmployeesList : Page
 {
     /// <summary> Master of page</summary>
     private Giso master;
-
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
 
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
@@ -32,9 +28,7 @@ public partial class EmployeesList : Page
 
     public string EmployeesJson { get; private set; }
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -43,16 +37,8 @@ public partial class EmployeesList : Page
         }
     }
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    /// <summary>Gets dictionary for fixed labels</summary>
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public string Filter
     {
@@ -89,31 +75,29 @@ public partial class EmployeesList : Page
     {
         get
         {
-            return Company.Json(this.company);
+            return this.company.Json;
         }
     }
 
     public Company Company { get { return this.company; } }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -123,13 +107,11 @@ public partial class EmployeesList : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = new ApplicationUser(Convert.ToInt32(Session["UserId"]));
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>; 
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>; 
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         this.master.AddBreadCrumb("Item_Employees");
@@ -142,20 +124,19 @@ public partial class EmployeesList : Page
             this.master.ButtonNewItem = UIButton.NewItemButton("Item_Employee_Button_New", "EmployeesView.aspx");
         }
 
-        this.DataHeader = new UIDataHeader() { Id = "ListDataHeader", ActionsItem = 2 }; ;
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Common_Name"], Sortable = true, Filterable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_JobPosition"] });
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Departments"] });
+        this.DataHeader = new UIDataHeader { Id = "ListDataHeader", ActionsItem = 2 }; ;
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Common_Name"], Sortable = true, Filterable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_JobPosition"] });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_Departments"] });
     }
 
     private void RenderEmployeeData()
     {
-        StringBuilder active = new StringBuilder();
-        StringBuilder sea = new StringBuilder();
+        var active = new StringBuilder();
+        var sea = new StringBuilder();
         bool first = true;
         int contData = 0;
-        ReadOnlyCollection<Employee> employees = Employee.GetList(this.company.Id);
-        foreach (Employee employee in employees)
+        foreach (var employee in Employee.GetList(this.company.Id))
         {
             if (employee.Active)
             {
@@ -180,7 +161,7 @@ public partial class EmployeesList : Page
                 }
 
                 //active.Append(employee.ListRow(this.dictionary, this.user.Grants));
-                active.Append(employee.JsonListRow(this.dictionary, this.user.Grants));
+                active.Append(employee.JsonListRow(this.Dictionary, this.user.Grants));
                 contData++;
             }
         }

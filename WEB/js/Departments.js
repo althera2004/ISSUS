@@ -126,7 +126,7 @@ function RenderTable() {
 function EmployeeDelete(id, name) {
     $('#DepartmentDesassociationText').html(name);
     DepartmentSelected = id;
-    var dialog = $("#DepartmentDesassociationDialog").removeClass('hide').dialog({
+    var dialog = $("#DepartmentDesassociationDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Item_Employee_Popup_UnlinkJobPosition_Message,
@@ -140,7 +140,7 @@ function EmployeeDelete(id, name) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");

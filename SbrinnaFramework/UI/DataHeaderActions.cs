@@ -8,9 +8,7 @@ namespace SbrinnaCoreFramework.UI
 {
     using System.Globalization;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary></summary>
     public class UIDataHeaderActions : UIDataHeaderItem
     {
         public int NumberOfActions { get; set; }
@@ -20,7 +18,7 @@ namespace SbrinnaCoreFramework.UI
             get
             {
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                      @"<th style=""width:{0}px;"">&nbsp;</th>",
                     this.NumberOfActions * 45);
             }

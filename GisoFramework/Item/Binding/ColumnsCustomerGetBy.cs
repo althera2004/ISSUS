@@ -6,9 +6,7 @@
 // --------------------------------
 namespace GisoFramework.Item.Binding
 {
-    /// <summary>
-    /// Implements ColumnsCustomerGetBy class
-    /// </summary>
+    /// <summary>Implements ColumnsCustomerGetBy class</summary>
     public static class ColumnsCustomerGetBy
     {
         /// <summary>Index column of field Id in stored Customer_GetById result</summary>

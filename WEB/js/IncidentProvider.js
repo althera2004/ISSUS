@@ -6,7 +6,7 @@ function ShowProviderBarPopup(cmb) {
     Cmb = cmb;
     ProviderSelected = cmb.val() * 1;
     ProviderRenderPopup();
-    var dialog = $("#dialogProvider").removeClass('hide').dialog({
+    var dialog = $("#dialogProvider").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Item_Providers,
@@ -16,12 +16,12 @@ function ShowProviderBarPopup(cmb) {
         [
             {
                 id: 'BtnProviderSave',
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
                 click: function () { ProviderInsert(); }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () { $(this).dialog("close"); }
             }
@@ -42,7 +42,7 @@ function ProviderInsert(sender) {
     document.getElementById('TxtProviderNewNameErrorDuplicated').style.display = 'none';
     $('#TxtProviderNewName').val('');
     var Selected = 0;
-    var dialog = $("#ProviderInsertDialog").removeClass('hide').dialog({
+    var dialog = $("#ProviderInsertDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -51,7 +51,7 @@ function ProviderInsert(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
@@ -80,7 +80,7 @@ function ProviderInsert(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () { $(this).dialog("close"); }
             }
@@ -138,7 +138,7 @@ function ProviderUpdate(sender) {
     document.getElementById('TxtProviderNameErrorDuplicated').style.display = 'none';
     $('#TxtProviderName').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#ProviderUpdateDialog").removeClass('hide').dialog({
+    var dialog = $("#ProviderUpdateDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -146,7 +146,7 @@ function ProviderUpdate(sender) {
         title_html: true,
         buttons: [
                 {
-                    html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                    html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                     "class": "btn btn-success btn-xs",
                     click: function () {
                         var ok = true;
@@ -184,7 +184,7 @@ function ProviderUpdate(sender) {
                     }
                 },
                 {
-                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                    html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     click: function () {
                         $(this).dialog("close");
@@ -269,7 +269,7 @@ function ProviderUpdateConfirmed(id, newDescription) {
 function ProviderDelete(sender) {
     $('#ProviderName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $('#ProviderDeleteDialog').removeClass('hide').dialog({
+    var dialog = $('#ProviderDeleteDialog').removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Common_Delete,
@@ -285,7 +285,7 @@ function ProviderDelete(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () { $(this).dialog("close"); }
             }
@@ -305,7 +305,7 @@ function ProviderDeleteConfirmed(id) {
     }
 
     var data = {
-        'ProviderId': id,
+        'providerId': id,
         'description': description,
         'companyId': Company.Id,
         'userId': user.Id
@@ -342,7 +342,7 @@ function ProviderDeleteConfirmed(id) {
     // 3.- Eliminar la fila de la tabla del popup
     var target = document.getElementById('SelectableProvider');
     for (var x4 = 0; x4 < target.childNodes.length; x4++) {
-        if (target.childNodes[x4].id == id) {
+        if (target.childNodes[x4].id * 1 == id * 1) {
             target.childNodes[x4].style.display = 'none';
             break;
         }

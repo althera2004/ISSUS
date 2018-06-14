@@ -6,16 +6,13 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
 
-/// <summary>
-/// Implements JavaScript generator for data page
-/// </summary>
+/// <summary>Implements JavaScript generator for data page</summary>
 public partial class js_Data : Page
 {
     /// <summary>Dictionary for fixed labels</summary>
@@ -46,7 +43,7 @@ public partial class js_Data : Page
         this.Response.Write(Environment.NewLine);
         this.Response.Write(Environment.NewLine);
 
-        this.Response.Write(string.Format(CultureInfo.InvariantCulture, @"var Company = {0};", Company.Json(company)));
+        this.Response.Write(string.Format(CultureInfo.InvariantCulture, @"var Company = {0};", company.Json));
 
         this.Response.Write(Environment.NewLine);
         this.Response.Write(Environment.NewLine);
@@ -73,13 +70,9 @@ public partial class js_Data : Page
         this.Response.Write(Environment.NewLine);
         this.Response.Write(Environment.NewLine);
 
-        
-
         this.Response.Write("var processTypeCompany = " + Environment.NewLine + ProccessTypeList(company) + ";");
         this.Response.Write(Environment.NewLine);
         this.Response.Write(Environment.NewLine);
-
-        
 
         this.Response.Write("var departmentsCompany = " + Environment.NewLine + CompanyDepartments(company) + ";");
 
@@ -89,7 +82,7 @@ public partial class js_Data : Page
         this.Response.Write("var Dictionary =" + Environment.NewLine);
         this.Response.Write("{" + Environment.NewLine);
 
-        foreach (KeyValuePair<string, string> item in this.Dictionary)
+        foreach (var item in this.Dictionary)
         {
             if (!item.Key.StartsWith("Help_") || true)
             {

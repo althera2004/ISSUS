@@ -4,6 +4,9 @@ var VerificationInternalExists = false;
 var VerificationExternalExists = false;
 var EquipmentNewId;
 
+var initialDateText = Dictionary.Item_EquipmentErrorInitialDate + " " + limitInitialDate
+$("#TxtStartDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtStartDatePostInitial\" style=\"display:none;\">" + initialDateText + "</span>");
+$("#TxtScaleDivision").val(ToMoneyFormat(Equipment.ScaleDivision,4));
 function CalibrationCheckChanged() {
     if (Equipment.Id === 0) {
         return;
@@ -233,6 +236,18 @@ window.onload = function () {
     $("#TableEquipmentRepairMain #th0").click();
     $("#TableEquipmentRepairMain #th0").click();
 
+    // Filtro automatico registros
+    $("#CalInt").on("click", EquipmentRecordGetFromFilter);
+    $("#CalExt").on("click", EquipmentRecordGetFromFilter);
+    $("#VerInt").on("click", EquipmentRecordGetFromFilter);
+    $("#CalExt").on("click", EquipmentRecordGetFromFilter);
+    $("#ManInt").on("click", EquipmentRecordGetFromFilter);
+    $("#ManExt").on("click", EquipmentRecordGetFromFilter);
+    $("#RepInt").on("click", EquipmentRecordGetFromFilter);
+    $("#RepExt").on("click", EquipmentRecordGetFromFilter);
+    $("#TxtRecordsFromDate").on("change", EquipmentRecordGetFromFilter);
+    $("#TxtRecordsToDate").on("change", EquipmentRecordGetFromFilter);
+
     if (typeof ApplicationUser.Grants.Equipment === "undefined" || ApplicationUser.Grants.Equipment === false) {
         $("input").attr("disabled", true);
         $("textarea").attr("disabled", true);
@@ -279,7 +294,7 @@ window.onload = function () {
 
 function ValidateForm(form) {
     var result = new Array();
-
+    $("#TxtStartDatePostInitial").hide();
     for (var x = 0; x < form.RequiredFields.length; x++) {
         if (RequiredFieldText(form.RequiredFields[x]) === false) { result.push('Revise los campos obligatorios del equipo.'); }
     }
@@ -369,6 +384,17 @@ function ValidateForm(form) {
                 result.push(Dictionary.Item_EquipmentMaintenance_Required)
             }
         }
+
+        if ($("#TxtStartDate").val() !== "") {
+            if (limitInitialDate !== "") {
+                var date1 = GetDate($("#TxtStartDate").val(), "/", false);
+                var date2 = GetDate(limitInitialDate, "/", false);
+                if (date1 > date2) {
+                    $("#TxtStartDatePostInitial").show();
+                    result.push(Dictionary.Item_EquipmentErrorInitialDate + " " + limitInitialDate);
+                }
+            }
+        }
     }
 
     return result;
@@ -388,12 +414,12 @@ function AnularPopup() {
         [
             {
                 "id": "BtnAnularSave",
-                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 "click": function () { AnularConfirmed(); }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
@@ -540,10 +566,10 @@ function Restore() {
 }
 // --------------------------------------------------
 
-$("#CmbCalibrationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbCalibrationInternalResponsible").val() * 1, Employees); });
-$("#CmbCalibrationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbCalibrationExternalResponsible").val() * 1, Employees); });
-$("#CmbEquipmentCalibrationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentCalibrationActResponsible").val() * 1, Employees); });
-$("#CmbVerificationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationInternalResponsible").val() * 1, Employees); });
-$("#CmbVerificationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationExternalResponsible").val() * 1, Employees); });
-$("#CmbEquipmentVerificationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentVerificationActResponsible").val() * 1, Employees); });
-$("#CmbNewMaintainmentResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbNewMaintainmentResponsible").val() * 1, Employees); });
+$("#CmbCalibrationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbCalibrationInternalResponsible").val() * 1, Employees, this); });
+$("#CmbCalibrationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbCalibrationExternalResponsible").val() * 1, Employees, this); });
+$("#CmbEquipmentCalibrationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentCalibrationActResponsible").val() * 1, Employees, this); });
+$("#CmbVerificationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationInternalResponsible").val() * 1, Employees, this); });
+$("#CmbVerificationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationExternalResponsible").val() * 1, Employees, this); });
+$("#CmbEquipmentVerificationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentVerificationActResponsible").val() * 1, Employees, this); });
+$("#CmbNewMaintainmentResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbNewMaintainmentResponsible").val() * 1, Employees, this); });

@@ -22,40 +22,19 @@ namespace GisoFramework.Item
     /// <summary>Implements department class</summary>
     public class Department : BaseItem
     {
-        #region Fields
-        /// <summary>
-        /// Indicates if department is active
-        /// </summary>
-        private bool deleted;
-
-        /// <summary>
-        /// Inidicates if has job postion assigned
-        /// </summary>
-        private bool jobPositionAssigned;
-
-        /// <summary>
-        /// Employees of department
-        /// </summary>
+        /// <summary>Employees of department</summary>
         private List<Employee> employees;
 
-        /// <summary>
-        /// List on job positions
-        /// </summary>
+        /// <summary>List on job positions</summary>
         private List<JobPosition> jobPositions;
-        #endregion
 
-        /// <summary>
-        /// Initializes a new instance of the Department class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Department class.</summary>
         public Department()
         {
             this.employees = new List<Employee>();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the Department class.
-        /// Data of department is searched into database based on department identifier
-        /// </summary>
+        /// <summary>Initializes a new instance of the Department class.</summary>
         /// <param name="id">Department identififer</param>
         /// <param name="companyId">Company identifier</param>
         public Department(long id, int companyId)
@@ -90,7 +69,7 @@ namespace GisoFramework.Item
                                         UserName = rdr.GetString(ColumnsDepartmentGetById.ModifiedByUserName)
                                     };
 
-                                    this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
+                                    this.ModifiedBy.Employee = Employee.ByUserId(this.ModifiedBy.Id);
                                 }
                             }
                         }
@@ -133,28 +112,23 @@ namespace GisoFramework.Item
         }
 
         #region Properties
-        /// <summary>
-        /// Gets an empty object of Department class.
-        /// </summary>
+        /// <summary>Gets an empty object of Department class.</summary>
         public static Department Empty
         {
             get
             {
-                return new Department() 
+                return new Department
                 { 
                     Id = -1, 
                     CompanyId = -1, 
                     Description = string.Empty,
-                    deleted = false,
+                    Deleted = false,
                     ModifiedBy = ApplicationUser.Empty
                 };
             }
         }
 
-        /// <summary>
-        /// Gets an colection employees
-        /// Conseguimos una colección de empleados
-        /// </summary>
+        /// <summary>Gets an colection employees</summary>
         public ReadOnlyCollection<Employee> Employees
         {
             get
@@ -168,9 +142,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets the job postions of department
-        /// </summary>
+        /// <summary>Gets the job postions of department</summary>
         public ReadOnlyCollection<JobPosition> JobPositions
         {
             get
@@ -184,46 +156,20 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether if department is deleted
-        /// </summary>
-        public bool Deleted
-        {
-            get
-            {
-                return this.deleted;
-            }
-
-            set
-            {
-                this.deleted = value;
-            }
-        }
+        /// <summary>Gets or sets a value indicating whether if department is deleted</summary>
+        public bool Deleted { get; set; }
 
         /// <summary>Gets an identifier/description json item</summary>
         public override string JsonKeyValue
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
+                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
             }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether if departent has job positions assigned
-        /// </summary>
-        public bool JobPositionAssigned
-        {
-            get
-            {
-                return this.jobPositionAssigned;
-            }
-
-            set
-            {
-                this.jobPositionAssigned = value;
-            }
-        }
+        /// <summary>Gets or sets a value indicating whether if departent has job positions assigned</summary>
+        public bool JobPositionAssigned { get; set; }
 
         /// <summary>Gets the structure json item</summary>
         public override string Json
@@ -240,7 +186,7 @@ namespace GisoFramework.Item
                     }}";
 
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Id,
                     Tools.JsonCompliant(this.Description),
@@ -250,20 +196,16 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets the HTML code to render a table row of department for profile
-        /// </summary>
+        /// <summary>Gets the HTML code to render a table row of department for profile</summary>
         public string TableRowProfileSimple
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"<tr><td>{0}</td></tr>", this.Description);
+                return string.Format(CultureInfo.InvariantCulture, @"<tr><td>{0}</td></tr>", this.Description);
             }
         }
 
-        /// <summary>
-        /// Gets the HTML code to render a table row of department for the employee profile
-        /// </summary>
+        /// <summary>Gets the HTML code to render a table row of department for the employee profile</summary>
         public string TableRowEmployee
         {
             get
@@ -278,13 +220,11 @@ namespace GisoFramework.Item
                              </div>
                          </td>                                                                 
                      </tr>";
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), pattern, this.Description, this.Id);
+                return string.Format(CultureInfo.InvariantCulture, pattern, this.Description, this.Id);
             }
         }
 
-        /// <summary>
-        /// Gets a row reference 
-        /// </summary>
+        /// <summary>Gets a row reference </summary>
         public override string Link
         {
             get
@@ -299,30 +239,26 @@ namespace GisoFramework.Item
         }
         #endregion
 
-        /// <summary>
-        /// Extract from data base a departmen based on identifier
-        /// </summary>
+        /// <summary>Extract from data base a departmen based on identifier</summary>
         /// <param name="id">Department identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>A department based on identifier</returns>
-        public static Department GetById(long id, int companyId)
+        public static Department ById(long id, int companyId)
         {
             return new Department(id, companyId);
         }
 
-        /// <summary>
-        /// Creates a JSON structure with the departmens of a company
-        /// </summary>
+        /// <summary>Creates a JSON structure with the departmens of a company</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>JSON structure of a departments list</returns>
-        public static string GetByCompanyJsonList(int companyId)
+        public static string ByCompanyJsonList(int companyId)
         {
             var departments = ByCompany(companyId);
             var res = new StringBuilder("[");
             bool first = true;
             foreach (var department in departments)
             {
-                if (!department.deleted)
+                if (!department.Deleted)
                 {
                     if (first)
                     {
@@ -344,13 +280,13 @@ namespace GisoFramework.Item
         /// <summary>Creates a JSON structure with the departmens of a company</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>JSON structure of a departments list</returns>
-        public static string GetByCompanyJson(int companyId)
+        public static string ByCompanyJson(int companyId)
         {
             var res = new StringBuilder("[");
             bool first = true;
             foreach (var department in ByCompany(companyId))
             {
-                if (!department.deleted)
+                if (!department.Deleted)
                 {
                     if (first)
                     {
@@ -423,7 +359,7 @@ namespace GisoFramework.Item
         public static ActionResult Delete(int companyId, int departmentId)
         {
             var source = string.Format(CultureInfo.InvariantCulture, @"Department::Delete {0}", departmentId);
-            var result = new ActionResult() { Success = false, MessageError = "No action" };
+            var result = ActionResult.NoAction;
             using (var cmd = new SqlCommand("Department_Delete"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -495,14 +431,14 @@ namespace GisoFramework.Item
                             {
                                 if (newDepartment.Id != rdr.GetInt32(0))
                                 {
-                                    newDepartment = new Department()
+                                    newDepartment = new Department
                                     {
                                         Id = rdr.GetInt32(0),
                                         CompanyId = companyId,
                                         Description = rdr.GetString(1),
-                                        deleted = rdr.GetBoolean(3),
+                                        Deleted = rdr.GetBoolean(3),
                                         employees = new List<Employee>(),
-                                        jobPositionAssigned = rdr.GetInt32(4) == 1
+                                        JobPositionAssigned = rdr.GetInt32(4) == 1
                                     };
 
                                     newDepartment.ObtainEmployees();
@@ -548,7 +484,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                var newJobPosition = new JobPosition()
+                                var newJobPosition = new JobPosition
                                 {
                                     Id = rdr.GetInt32(0),
                                     CompanyId = this.CompanyId,
@@ -557,7 +493,7 @@ namespace GisoFramework.Item
 
                                 if (!rdr.IsDBNull(2))
                                 {
-                                    var responsible = new JobPosition()
+                                    var responsible = new JobPosition
                                     {
                                         Id = rdr.GetInt32(2),
                                         CompanyId = this.CompanyId,
@@ -583,7 +519,7 @@ namespace GisoFramework.Item
 
                                 if (!rdr.IsDBNull(4))
                                 {
-                                    var newEmployee = new Employee()
+                                    var newEmployee = new Employee
                                     {
                                         Id = rdr.GetInt32(4),
                                         CompanyId = this.CompanyId,
@@ -623,9 +559,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a row of list departament
-        /// </summary>
+        /// <summary>Gets a row of list departament</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="grants">List of user's grants</param>
         /// <returns>Code HTML for department row</returns>        
@@ -643,7 +577,7 @@ namespace GisoFramework.Item
 
             string employeesList = string.Empty;
             bool first = true;
-            foreach (Employee employee in this.employees)
+            foreach (var employee in this.employees)
             {
                 if (first)
                 {
@@ -666,7 +600,7 @@ namespace GisoFramework.Item
 
             string jobPositionsList = string.Empty;
             first = true;
-            foreach (JobPosition jobPosition in this.jobPositions)
+            foreach (var jobPosition in this.jobPositions)
             {
                 if (first)
                 {
@@ -688,7 +622,7 @@ namespace GisoFramework.Item
             }
 
             string iconRenameSymbol = grantDepartment ? "icon-edit" : "icon-eye-open";
-            string iconRename = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-info"" onclick=""DepartmentUpdate({0},'{1}');"">                 <i class=""{3} bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Edit"]), iconRenameSymbol);
+            string iconRename = string.Format(CultureInfo.InvariantCulture, @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-info"" onclick=""DepartmentUpdate({0},'{1}');"">                 <i class=""{3} bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Edit"]), iconRenameSymbol);
 
             string iconDelete = string.Empty;
             if (grantDepartmentDelete)
@@ -696,27 +630,27 @@ namespace GisoFramework.Item
                 string deleteAction = string.Empty;
                 if (this.employees.Count == 0 && this.jobPositions.Count == 0)
                 {
-                    deleteAction = string.Format(CultureInfo.GetCultureInfo("en-us"), "DepartmentDelete({0},'{1}');", this.Id, this.Description);
+                    deleteAction = string.Format(CultureInfo.InvariantCulture, "DepartmentDelete({0},'{1}');", this.Id, this.Description);
                 }
                 else if (this.jobPositions.Count == 0)
                 {
-                    deleteAction = string.Format(CultureInfo.GetCultureInfo("en-us"), "alertUI('{0}');", Tools.JsonCompliant(dictionary["Item_Departmennt_ErrorMessage_HasEmployees"]));
+                    deleteAction = string.Format(CultureInfo.InvariantCulture, "alertUI('{0}');", Tools.JsonCompliant(dictionary["Item_Departmennt_ErrorMessage_HasEmployees"]));
                 }
                 else if (this.employees.Count > 0)
                 {
-                    deleteAction = string.Format(CultureInfo.GetCultureInfo("en-us"), "alertUI('{0}');", Tools.JsonCompliant(dictionary["Item_Departmennt_ErrorMessage_HasEmployees"]));
+                    deleteAction = string.Format(CultureInfo.InvariantCulture, "alertUI('{0}');", Tools.JsonCompliant(dictionary["Item_Departmennt_ErrorMessage_HasEmployees"]));
                 }
                 else
                 {
-                    deleteAction = string.Format(CultureInfo.GetCultureInfo("en-us"), "alertUI('{0}');", Tools.JsonCompliant(dictionary["Item_JobPosition_ErrorMessage_HasJobPositionLinked"]));
+                    deleteAction = string.Format(CultureInfo.InvariantCulture, "alertUI('{0}');", Tools.JsonCompliant(dictionary["Item_JobPosition_ErrorMessage_HasJobPositionLinked"]));
                 }
                 
-                iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{1} {2}"" class=""btn btn-xs btn-danger"" onclick=""{0}""><i class=""icon-trash bigger-120""></i></span>", deleteAction, Tools.JsonCompliant(dictionary["Common_Delete"]), Tools.SetTooltip(this.Description));
+                iconDelete = string.Format(CultureInfo.InvariantCulture, @"<span title=""{1} {2}"" class=""btn btn-xs btn-danger"" onclick=""{0}""><i class=""icon-trash bigger-120""></i></span>", deleteAction, Tools.JsonCompliant(dictionary["Common_Delete"]), Tools.SetTooltip(this.Description));
             }
 
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
-                @"<tr id=""{5}""><td style=""width:300px;padding-left:4px;"">{0}</td><td style=""width:400px;padding-left:4px;""class=""hidden-480"">({6})&nbsp;{7}</td><td class=""hidden-480"">({1})&nbsp;{2}</td><td style=""width:150px;"">{3}&nbsp;{4}</td></tr>",
+                CultureInfo.InvariantCulture,
+                @"<tr id=""{5}""><td style=""width:300px;padding-left:4px;"">{0}</td><td style=""width:400px;padding-left:4px;""class=""hidden-480"">({6})&nbsp;{7}</td><td class=""hidden-480"">({1})&nbsp;{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</td></tr>",
                 this.Link,
                 this.employees.Count,
                 employeesList,
@@ -727,9 +661,7 @@ namespace GisoFramework.Item
                 jobPositionsList);
         }
 
-        /// <summary>
-        /// Gets the HTML code for render a tag of employe
-        /// </summary>
+        /// <summary>Gets the HTML code for render a tag of employe</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="employeeId">Employee identifier</param>
         /// <returns>HTML code</returns>
@@ -751,9 +683,7 @@ namespace GisoFramework.Item
                 dictionary["Common_Edit"]);
         }
 
-        /// <summary>
-        /// Render a alert tag for alerts dropdown on principal header
-        /// </summary>
+        /// <summary>Render a alert tag for alerts dropdown on principal header</summary>
         /// <param name="dictionary">Dicitionary for fixed labels</param>
         /// <returns>HTML code</returns>
         public string AlertTag(Dictionary<string, string> dictionary)
@@ -776,15 +706,13 @@ namespace GisoFramework.Item
             return string.Format(CultureInfo.InvariantCulture, pattern, this.Id, this.Description, dictionary["Item_Department_Message_WithoutEmployees"]);
         }
 
-        /// <summary>
-        /// Get a row inset Departament
-        /// </summary>
+        /// <summary>Get a row inset Departament</summary>
         /// <param name="userId">User identifier</param>
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
         {
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Department_Insert"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Department_Insert"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -821,52 +749,44 @@ namespace GisoFramework.Item
             return result;
         }
 
-        /// <summary>
-        /// Get a row DepartamentUpdate
-        /// </summary>
+        /// <summary>Get a row DepartamentUpdate</summary>
         /// <param name="userId">User identifier</param>
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
         {
-            ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
-            using (SqlCommand cmd = new SqlCommand("Department_Update"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Department_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters["@CompanyId"].Value = this.CompanyId;
-
-                    cmd.Parameters.Add("@Description", SqlDbType.Text);
-                    cmd.Parameters["@Description"].Value = this.Description;
-
-                    cmd.Parameters.Add("@DepartmentId", SqlDbType.Int);
-                    cmd.Parameters["@DepartmentId"].Value = this.Id;
-
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters["@UserId"].Value = userId;
-
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.Success = true;
-                    result.MessageError = string.Empty;
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, "Department::Update", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "Department::Update", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.Success = true;
+                        result.MessageError = string.Empty;
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, "Department::Update", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "Department::Update", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -874,9 +794,7 @@ namespace GisoFramework.Item
             return result;
         }
 
-        /// <summary>
-        /// Adds an employee into department
-        /// </summary>
+        /// <summary>Adds an employee into department</summary>
         /// <param name="employee">Employee to add</param>
         public void AddEmployee(Employee employee)
         {

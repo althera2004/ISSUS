@@ -16,9 +16,7 @@ namespace SbrinnaCoreFramework
     using Newtonsoft.Json;
     using SbrinnaCoreFramework.UI;
 
-    /// <summary>
-    /// Implements Item class
-    /// </summary>
+    /// <summary>Implements Item class</summary>
     public class Item
     {
         private List<UIDataHeader> headers;
@@ -69,19 +67,19 @@ namespace SbrinnaCoreFramework
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
             
-            Item deserializedProduct = new Item();
+            var deserializedProduct = new Item();
             string path = HttpContext.Current.Request.PhysicalApplicationPath + "ItemDefinition";
             if(!path.EndsWith(@"\", StringComparison.Ordinal))
             {
                 path += @"\";
             }
 
-            var myFiles = Directory.GetFiles(path, string.Format(CultureInfo.CurrentCulture, "{0}-*.*", code), SearchOption.TopDirectoryOnly).ToList();
+            var myFiles = Directory.GetFiles(path, string.Format(CultureInfo.InvariantCulture, "{0}-*.*", code), SearchOption.TopDirectoryOnly).ToList();
 
             if (myFiles.Count > 0)
             {
                 string filename = myFiles[0];
-                using (StreamReader input = new StreamReader(filename))
+                using (var input = new StreamReader(filename))
                 {
                     deserializedProduct = JsonConvert.DeserializeObject<Item>(input.ReadToEnd());
 

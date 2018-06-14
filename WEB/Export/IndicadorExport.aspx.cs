@@ -29,12 +29,8 @@ using iTextSharp.text.pdf;
 using iTextSharp.text;
 using System.Text;
 
-public partial class Export_IndicadorExport : Page
+public partial class ExportIndicadorExport : Page
 {
-
-    BaseFont headerFont = null;
-    BaseFont arial = null;
-
     public static Font criteriaFont;
     public static Dictionary<string, string> dictionary;
     public static Font fontAwe;
@@ -55,10 +51,10 @@ public partial class Export_IndicadorExport : Page
         int status,
         string listOrder)
     {
-        ActionResult res = ActionResult.NoAction;
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var res = ActionResult.NoAction;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        Company company = new Company(companyId);
+        var company = new Company(companyId);
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
         if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
@@ -71,25 +67,15 @@ public partial class Export_IndicadorExport : Page
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_Indicador_List"],
             company.Name,
-            DateTime.Now);
+            DateTime.Now);        
 
-        // FONTS
-        string pathFonts = HttpContext.Current.Request.PhysicalApplicationPath;
-        if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
-        {
-            pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
-        }
-
-        BaseFont headerFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        BaseFont arial = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-
-        iTS.Document pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
-        iTSpdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
+        var pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
+        var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
            new FileStream(
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
 
-        writer.PageEvent = new TwoColumnHeaderFooter()
+        writer.PageEvent = new TwoColumnHeaderFooter
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, company.Id),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
@@ -102,63 +88,58 @@ public partial class Export_IndicadorExport : Page
 
         pdfDoc.Open();
 
-        iTS.BaseColor backgroundColor = new iTS.BaseColor(225, 225, 225);
-        iTS.BaseColor rowPair = new iTS.BaseColor(255, 255, 255);
-        iTS.BaseColor rowEven = new iTS.BaseColor(240, 240, 240);
+        var backgroundColor = new iTS.BaseColor(225, 225, 225);
+        var rowPair = new iTS.BaseColor(255, 255, 255);
+        var rowEven = new iTS.BaseColor(240, 240, 240);
 
         // ------------ FONTS 
-        iTSpdf.BaseFont awesomeFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        iTS.Font times = new iTS.Font(arial, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font timesBold = new iTS.Font(arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        criteriaFont = new iTS.Font(arial, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font titleFont = new iTS.Font(arial, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var times = new iTS.Font(ToolsPdf.Arial, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);        
+        var headerFontFinal = new iTS.Font(ToolsPdf.HeaderFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        criteriaFont = new iTS.Font(ToolsPdf.Arial, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+        var titleFont = new iTS.Font(ToolsPdf.Arial, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
+        var symbolFont = new iTS.Font(ToolsPdf.AwesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
 
-        var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        var fontAwesomeIcon = BaseFont.CreateFont(ToolsPdf.FontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         fontAwe = new Font(fontAwesomeIcon, 10);
-        // -------------------        
+        // -------------------
 
-
-        iTSpdf.PdfPTable titleTable = new iTSpdf.PdfPTable(1);
-        float[] titleWidths = new float[] { 50f };
-        titleTable.SetWidths(titleWidths);
-        iTSpdf.PdfPCell titleCell = new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont))
+        var titleTable = new iTSpdf.PdfPTable(1);
+        titleTable.SetWidths(new float[] { 50f });
+        titleTable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont))
         {
             HorizontalAlignment = iTS.Element.ALIGN_CENTER,
             Border = iTS.Rectangle.NO_BORDER
-        };
-        titleTable.AddCell(titleCell);
+        });
 
-        var borderNone = iTS.Rectangle.NO_BORDER;
-
-        iTSpdf.PdfPTable table = new iTSpdf.PdfPTable(6)
+        var table = new iTSpdf.PdfPTable(6)
         {
-            WidthPercentage = 100
+            WidthPercentage = 100,
+            HorizontalAlignment = 1,
+            SpacingBefore = 20f,
+            SpacingAfter = 30f
         };
 
         //------ CRITERIA
-        float[] cirteriaWidths = new float[] { 20f, 50f, 25f, 50f, 20f, 150f };
-        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(6)
+        var criteriatable = new iTSpdf.PdfPTable(6)
         {
             WidthPercentage = 100
         };
-        criteriatable.SetWidths(cirteriaWidths);
+        criteriatable.SetWidths(new float[] { 20f, 50f, 25f, 50f, 20f, 150f });
 
-        iTSpdf.PdfPCell criteriaBlank = new iTSpdf.PdfPCell(new iTS.Phrase(".", times))
+        var criteriaBlank = new iTSpdf.PdfPCell(new iTS.Phrase(".", times))
         {
-            Border = borderNone,
+            Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
+            Padding = ToolsPdf.PaddingTopTableCell,
+            PaddingTop = ToolsPdf.PaddingTopCriteriaCell
         };
 
         string periode = string.Empty;
-        if (from.HasValue && !to.HasValue)
+        if (from.HasValue && to == null)
         {
             periode = string.Format(CultureInfo.InvariantCulture, @"{0} {1:dd/MM/yyyy}", dictionary["Item_IncidentAction_List_Filter_From"], from);
         }
-        else if (!from.HasValue && to.HasValue)
+        else if (from == null && to.HasValue)
         {
             periode = string.Format(CultureInfo.InvariantCulture, @"{0} {1:dd/MM/yyyy}", dictionary["Item_IncidentAction_List_Filter_To"], to);
         }
@@ -170,33 +151,33 @@ public partial class Export_IndicadorExport : Page
         {
             periode = dictionary["Common_All_Male"];
         }
-
-        iTSpdf.PdfPCell criteriaPeriodeLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold))
+        
+        /*criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold))
         {
-            Border = borderNone,
+            Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteriaPeriodeLabel);
+            Padding = ToolsPdf.PaddingTopTableCell,
+            PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+        });*/
 
-        iTSpdf.PdfPCell criteriaPeriode = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
-        {
-            Border = borderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteriaPeriode);
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(dictionary["Common_Period"]));
 
-        iTSpdf.PdfPCell criteriaStatusLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Status"] + " :", timesBold))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
         {
-            Border = borderNone,
+            Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteriaStatusLabel);
+            Padding = ToolsPdf.PaddingTopTableCell,
+            PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+        });
+
+        /*criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Status"] + " :", timesBold))
+        {
+            Border = ToolsPdf.BorderNone,
+            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+            Padding = ToolsPdf.PaddingTopTableCell,
+            PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+        });*/
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(dictionary["Item_IncidentAction_Header_Status"]));
 
         string statusText = dictionary["Common_All"];
         if (status == 1)
@@ -209,27 +190,27 @@ public partial class Export_IndicadorExport : Page
             statusText = dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"];
         }
 
-        iTSpdf.PdfPCell criteriaStatus = new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times))
+        /*criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times))
         {
-            Border = borderNone,
+            Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteriaStatus);
+            Padding = ToolsPdf.PaddingTopTableCell,
+            PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+        });*/
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(statusText));
         criteriatable.AddCell(criteriaBlank);
         criteriatable.AddCell(criteriaBlank);
-
-        iTSpdf.PdfPCell criteriaIndicadorTypeLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Indicaddor_Filter_TypeLabel"] + " :", timesBold))
+        
+        /*criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Indicaddor_Filter_TypeLabel"] + " :", timesBold))
         {
-            Border = borderNone,
+            Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteriaIndicadorTypeLabel);
+            Padding = ToolsPdf.PaddingTopTableCell,
+            PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+        });*/
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(dictionary["Item_Indicaddor_Filter_TypeLabel"]));
 
-        string indicadorTypeText = dictionary["Common_All_Male_Plural"];
+        string indicadorTypeText = string.Empty;
         switch (indicatorType)
         {
             case 0:
@@ -241,154 +222,143 @@ public partial class Export_IndicadorExport : Page
             case 2:
                 indicadorTypeText = dictionary["Item_Indicaddor_Filter_TypeObjetivo"];
                 break;
+            default:
+                indicadorTypeText = dictionary["Common_All_Male_Plural"];
+                break;
         }
 
-        iTSpdf.PdfPCell criteriaIndicadorType = new iTSpdf.PdfPCell(new iTS.Phrase(indicadorTypeText, times))
+        /*criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(indicadorTypeText, times))
         {
-            Border = borderNone,
+            Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteriaIndicadorType);
+            Padding = ToolsPdf.PaddingTopTableCell,
+            PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+        });*/
 
-        if (indicatorType == 0)
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(indicadorTypeText));
+
+        switch (indicatorType)
         {
-            criteriatable.AddCell(criteriaBlank);
-            criteriatable.AddCell(criteriaBlank);
-            criteriatable.AddCell(criteriaBlank);
-            criteriatable.AddCell(criteriaBlank);
-        }
-        else if (indicatorType == 1)
-        {
-            iTSpdf.PdfPCell criteriaProcessLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Process"] + " :", timesBold))
-            {
-                Border = borderNone,
-                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-                Padding = 6f,
-                PaddingTop = 4f
-            };
-
-            string processText = dictionary["Common_All_Male_Plural"];
-            if (processId.HasValue)
-            {
-                Process p = new Process(processId.Value, companyId);
-                processText = p.Description;
-            }
-
-            iTSpdf.PdfPCell criteriaProcess = new iTSpdf.PdfPCell(new iTS.Phrase(processText, times))
-            {
-                Border = borderNone,
-                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-                Padding = 6f,
-                PaddingTop = 4f
-            };
-
-            iTSpdf.PdfPCell criteriaProcessTypeLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_ProcessType"] + " :", timesBold))
-            {
-                Border = borderNone,
-                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-                Padding = 6f,
-                PaddingTop = 4f
-            };
-
-            string processTypeCriteriaText = dictionary["Common_All_Male_Plural"];
-            if (processTypeId.HasValue)
-            {
-                switch (processTypeId.Value)
+            case 1:
+                string processText = dictionary["Common_All_Male_Plural"];
+                if (processId.HasValue)
                 {
-                    case 1:
-                        processTypeCriteriaText = dictionary["Item_ProcessType_Name_Principal"];
-                        break;
-                    case 2:
-                        processTypeCriteriaText = dictionary["Item_ProcessType_Name_Support"];
-                        break;
-                    case 3:
-                        processTypeCriteriaText = dictionary["Item_ProcessType_Name_Estrategic"];
-                        break;
-                    default:
-                        processTypeCriteriaText = string.Empty;
-                        ReadOnlyCollection<ProcessType> ts = ProcessType.ObtainByCompany(companyId, dictionary);
-                        foreach (ProcessType t in ts)
-                        {
-                            if (t.Id == processTypeId.Value)
-                            {
-                                processTypeCriteriaText = t.Description;
-                            }
-                        }
-
-                        break;
+                    processText = new Process(processId.Value, companyId).Description;
                 }
-            }
 
-            iTSpdf.PdfPCell criteriaProcessType = new iTSpdf.PdfPCell(new iTS.Phrase(processTypeCriteriaText, times))
-            {
-                Border = borderNone,
-                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-                Padding = 6f,
-                PaddingTop = 4f
-            };
+                string processTypeCriteriaText = dictionary["Common_All_Male_Plural"];
+                if (processTypeId.HasValue)
+                {
+                    switch (processTypeId.Value)
+                    {
+                        case 1:
+                            processTypeCriteriaText = dictionary["Item_ProcessType_Name_Principal"];
+                            break;
+                        case 2:
+                            processTypeCriteriaText = dictionary["Item_ProcessType_Name_Support"];
+                            break;
+                        case 3:
+                            processTypeCriteriaText = dictionary["Item_ProcessType_Name_Estrategic"];
+                            break;
+                        default:
+                            processTypeCriteriaText = string.Empty;
+                            foreach (var t in ProcessType.ObtainByCompany(companyId, dictionary))
+                            {
+                                if (t.Id == processTypeId)
+                                {
+                                    processTypeCriteriaText = t.Description;
+                                }
+                            }
 
-            criteriatable.AddCell(criteriaProcessLabel);
-            criteriatable.AddCell(criteriaProcess);
-            criteriatable.AddCell(criteriaProcessTypeLabel);
-            criteriatable.AddCell(criteriaProcessType);
+                            break;
+                    }
+                }
+
+                /*criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Process"] + " :", timesBold))
+                {
+                    Border = ToolsPdf.BorderNone,
+                    HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                    Padding = ToolsPdf.PaddingTopTableCell,
+                    PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+                });*/
+                criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(dictionary["Item_Process"]));
+
+                criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(processText, times))
+                {
+                    Border = ToolsPdf.BorderNone,
+                    HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                    Padding = ToolsPdf.PaddingTopTableCell,
+                    PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+                });
+
+                /*criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_ProcessType"] + " :", timesBold))
+                {
+                    Border = ToolsPdf.BorderNone,
+                    HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                    Padding = ToolsPdf.PaddingTopTableCell,
+                    PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+                });*/
+                criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(dictionary["Item_ProcessType"]));
+
+                criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(processTypeCriteriaText, times))
+                {
+                    Border = ToolsPdf.BorderNone,
+                    HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                    Padding = ToolsPdf.PaddingTopTableCell,
+                    PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+                });
+                break;
+            case 2:
+
+                string objetivoText = dictionary["Common_All_Male_Plural"];
+                if (targetId.HasValue)
+                {
+                    objetivoText = Objetivo.ById(targetId.Value, companyId).Name;
+                }
+
+                /*criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Objetivo"] + " :", timesBold))
+                {
+                    Border = ToolsPdf.BorderNone,
+                    HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                    Padding = ToolsPdf.PaddingTopTableCell,
+                    PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+                });*/
+                criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(dictionary["Item_Objetivo"]));
+
+                criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(objetivoText, times))
+                {
+                    Border = ToolsPdf.BorderNone,
+                    HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                    Padding = ToolsPdf.PaddingTopTableCell,
+                    PaddingTop = ToolsPdf.PaddingTopCriteriaCell,
+                    Colspan = 3
+                });
+                break;
+            default:
+                criteriatable.AddCell(criteriaBlank);
+                criteriatable.AddCell(criteriaBlank);
+                criteriatable.AddCell(criteriaBlank);
+                criteriatable.AddCell(criteriaBlank);
+                break;
         }
-        else if (indicatorType == 2)
-        {
-            iTSpdf.PdfPCell criteriaProcessLabel = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Objetivo"] + " :", timesBold))
-            {
-                Border = borderNone,
-                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-                Padding = 6f,
-                PaddingTop = 4f
-            };
 
-            string objetivoText = dictionary["Common_All_Male_Plural"];
-
-            if (targetId.HasValue)
-            {
-                Objetivo o = Objetivo.GetById(targetId.Value, companyId);
-                objetivoText = o.Name;
-            }
-
-            iTSpdf.PdfPCell criteriaProcess = new iTSpdf.PdfPCell(new iTS.Phrase(objetivoText, times))
-            {
-                Border = borderNone,
-                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-                Padding = 6f,
-                PaddingTop = 4f,
-                Colspan = 3
-            };
-
-            criteriatable.AddCell(criteriaProcessLabel);
-            criteriatable.AddCell(criteriaProcess);
-        }
-
-            pdfDoc.Add(criteriatable);
+        pdfDoc.Add(criteriatable);
         //---------------------------
 
-        //relative col widths in proportions - 1/3 and 2/3
-        float[] widths = new float[] { 7f, 30f, 10f, 30f, 10f, 10f };
-        table.SetWidths(widths);
-        table.HorizontalAlignment = 1;
-        //leave a gap before and after the table
-        table.SpacingBefore = 20f;
-        table.SpacingAfter = 30f;
+        table.SetWidths(new float[] { 7f, 30f, 10f, 30f, 10f, 10f });;
 
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Common_Status"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Description"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_StartDate"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Process"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ProcessType"].ToUpperInvariant(), times));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ObjetivoResponsible"].ToUpperInvariant(), times));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Common_Status"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Description"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_StartDate"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_Process"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ProcessType"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ObjetivoResponsible"]));
 
         int cont = 0;
-        List<IndicadorFilterItem> data = Indicador.Filter(companyId, indicatorType, from, to, processId, processTypeId, targetId, status).ToList();
-        bool pair = false;
-
+        var data = Indicador.Filter(companyId, indicatorType, from, to, processId, processTypeId, targetId, status).ToList();
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH0|ASC":
                 data = data.OrderBy(d => d.Indicador.Description).ToList();
                 break;
@@ -421,11 +391,12 @@ public partial class Export_IndicadorExport : Page
                 break;
         }
 
-        foreach (IndicadorFilterItem item in data)
+        foreach (var item in data)
         {
             string processTypeText = string.Empty;
             switch (item.Proceso.ProcessType)
             {
+                default:
                 case 1:
                     processTypeText = dictionary["Item_ProcessType_Name_Principal"];
                     break;
@@ -454,8 +425,8 @@ public partial class Export_IndicadorExport : Page
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = backgroundColor,
-            Padding = 6f,
-            PaddingTop = 4f,
+            Padding = ToolsPdf.PaddingTopTableCell,
+            PaddingTop = ToolsPdf.PaddingTopCriteriaCell,
             Colspan = 2
         });
 
@@ -468,8 +439,7 @@ public partial class Export_IndicadorExport : Page
 
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();
-        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
+        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
         return res;
     }
-}
- 
+} 

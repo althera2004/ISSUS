@@ -130,13 +130,13 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                var record = new EquipmentRecord()
+                                var record = new EquipmentRecord
                                 {
                                     Date = rdr.GetDateTime(ColumnsEquipmentRecordGet.Date),
                                     Item = rdr.GetString(ColumnsEquipmentRecordGet.Item),
                                     RecordType = rdr.GetInt32(ColumnsEquipmentRecordGet.Type),
                                     Operation = rdr.GetString(ColumnsEquipmentRecordGet.Operation),
-                                    Responsible = new Employee()
+                                    Responsible = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentRecordGet.ResponsibleId),
                                         Name = rdr.GetString(ColumnsEquipmentRecordGet.ResponsibleName),

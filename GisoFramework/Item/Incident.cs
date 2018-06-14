@@ -4,7 +4,6 @@
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
-
 namespace GisoFramework.Item
 {
     using System;
@@ -20,16 +19,14 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements Incident class
-    /// </summary>
+    /// <summary>Implements Incident class</summary>
     public class Incident : BaseItem
     {
         public static Incident Empty
         {
             get
             {
-                return new Incident()
+                return new Incident
                 {
                     Id = 0,
                     WhatHappened = string.Empty,
@@ -48,44 +45,28 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets or sets incident code
-        /// </summary>
+        /// <summary>Gets or sets incident code</summary>
         public long Code { get; set; }
 
-        /// <summary>
-        /// Gets or sets incident origin
-        /// </summary>
+        /// <summary>Gets or sets incident origin</summary>
         public int Origin { get; set; }
 
-        /// <summary>
-        /// Gets or sets incident department
-        /// </summary>
+        /// <summary>Gets or sets incident department</summary>
         public Department Department { get; set; }
 
-        /// <summary>
-        /// Gets or sets incident provider
-        /// </summary>
+        /// <summary>Gets or sets incident provider</summary>
         public Provider Provider { get; set; }
 
-        /// <summary>
-        /// Gets or sets incident customer
-        /// </summary>
+        /// <summary>Gets or sets incident customer</summary>
         public Customer Customer { get; set; }
 
-        /// <summary>
-        /// Gets or sets what happened
-        /// </summary>
+        /// <summary>Gets or sets what happened</summary>
         public string WhatHappened { get; set; }
 
-        /// <summary>
-        ///  Gets or sets who informes what happenned
-        /// </summary>
+        /// <summary>Gets or sets who informes what happenned</summary>
         public Employee WhatHappenedBy { get; set; }
 
-        /// <summary>
-        /// Gets or sets when what happenned is informed
-        /// </summary>
+        /// <summary>Gets or sets when what happenned is informed</summary>
         public DateTime? WhatHappenedOn { get; set; }
 
         public string Causes { get; set; }
@@ -119,7 +100,7 @@ namespace GisoFramework.Item
             get
             {
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     @"<a href=""IncidentView.aspx?id={0}"" title=""{2} {1}"">{1}</a>",
                     this.Id,
                     this.Description,
@@ -132,7 +113,11 @@ namespace GisoFramework.Item
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"{{""Id"":{0}, ""Description"":""{1}""}}",
+                    this.Id, 
+                    Tools.JsonCompliant(this.Description));
             }
         }
 
@@ -141,7 +126,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                StringBuilder res = new StringBuilder("{").Append(Environment.NewLine).Append("\t");
+                var res = new StringBuilder("{").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("Id", this.Id)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(",").Append(Environment.NewLine).Append("\t");
                 res.Append(Tools.JsonPair("Code", this.Code)).Append(",").Append(Environment.NewLine).Append("\t");
@@ -191,32 +176,35 @@ namespace GisoFramework.Item
              *   @IncidentId bigint,
              *   @CompanyId int,
              *   @UserId int */
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Incident_DeleteActions"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Incident_DeleteActions"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentId", incidentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (Exception ex)
-                {
-                    res.SetFail(ex.Message);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentId", incidentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
                     }
+                    catch (Exception ex)
+                    {
+                        res.SetFail(ex.Message);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
 
-                    cmd.Connection.Dispose();
+                        cmd.Connection.Dispose();
+                    }
                 }
             }
 
@@ -225,10 +213,10 @@ namespace GisoFramework.Item
 
         public static string FilterList(int companyId, DateTime? from, DateTime? to, bool statusIdentified, bool statusAnalyzed, bool statusInProgress, bool statusClosed, int origin, int departmentId, long providerId, long customerId)
         {
-            ReadOnlyCollection<IncidentFilterItem> items = Filter(companyId, from, to, statusIdentified, statusAnalyzed, statusInProgress, statusClosed, origin, departmentId, providerId, customerId);
-            StringBuilder res = new StringBuilder("[");
+            var items = Filter(companyId, from, to, statusIdentified, statusAnalyzed, statusInProgress, statusClosed, origin, departmentId, providerId, customerId);
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (IncidentFilterItem item in items)
+            foreach (var item in items)
             {
                 if (first)
                 {
@@ -272,89 +260,95 @@ namespace GisoFramework.Item
              *   @DepartmentId int,
              *   @ProviderId bigint,
              *   @CustomerId bigint */
-            List<IncidentFilterItem> res = new List<IncidentFilterItem>();
-            using (SqlCommand cmd = new SqlCommand("Incident_Filter"))
+            var res = new List<IncidentFilterItem>();
+            using (var cmd = new SqlCommand("Incident_Filter"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@DateFrom", from));
-                    cmd.Parameters.Add(DataParameter.Input("@DateTo", to));
-                    cmd.Parameters.Add(DataParameter.Input("@StatusIdentified", statusIdentified));
-                    cmd.Parameters.Add(DataParameter.Input("@StatusAnalyzed", statusAnalyzed));
-                    cmd.Parameters.Add(DataParameter.Input("@StatusInProcess", statusInProgress));
-                    cmd.Parameters.Add(DataParameter.Input("@StatusClosed", statusClosed));
-                    cmd.Parameters.Add(DataParameter.Input("@Origin", origin));
-                    cmd.Parameters.Add(DataParameter.Input("@DepartmentId", departmentId));
-                    cmd.Parameters.Add(DataParameter.Input("@ProviderId", providerId));
-                    cmd.Parameters.Add(DataParameter.Input("@CustomerId", customerId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        IncidentFilterItem item = new IncidentFilterItem()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@DateFrom", from));
+                        cmd.Parameters.Add(DataParameter.Input("@DateTo", to));
+                        cmd.Parameters.Add(DataParameter.Input("@StatusIdentified", statusIdentified));
+                        cmd.Parameters.Add(DataParameter.Input("@StatusAnalyzed", statusAnalyzed));
+                        cmd.Parameters.Add(DataParameter.Input("@StatusInProcess", statusInProgress));
+                        cmd.Parameters.Add(DataParameter.Input("@StatusClosed", statusClosed));
+                        cmd.Parameters.Add(DataParameter.Input("@Origin", origin));
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", departmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", providerId));
+                        cmd.Parameters.Add(DataParameter.Input("@CustomerId", customerId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt64(ColumnsIncidentFilterGet.IncidentId),
-                                Description = rdr.GetString(ColumnsIncidentFilterGet.IncidentDescription),
-                                Code = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:00000}", rdr.GetInt64(ColumnsIncidentFilterGet.Code)),
-                                Action = new IncidentAction()
+                                var incidentActionId = rdr.GetInt64(ColumnsIncidentFilterGet.IncidentActionId);
+                                var item = new IncidentFilterItem
                                 {
-                                    Id = rdr.GetInt64(ColumnsIncidentFilterGet.IncidentActionId),
-                                    Description = rdr.GetString(ColumnsIncidentFilterGet.IncidentDescription)
-                                },
-                                Origin = rdr.GetInt32(ColumnsIncidentFilterGet.Origin),
-                                Department = new Department()
+                                    Id = rdr.GetInt64(ColumnsIncidentFilterGet.IncidentId),
+                                    Description = rdr.GetString(ColumnsIncidentFilterGet.IncidentDescription),
+                                    Code = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:00000}", rdr.GetInt64(ColumnsIncidentFilterGet.Code)),
+                                    Action = new IncidentAction
+                                    {
+                                        Id = incidentActionId,
+                                        Description = rdr.GetString(ColumnsIncidentFilterGet.IncidentDescription)
+                                    },
+                                    Origin = rdr.GetInt32(ColumnsIncidentFilterGet.Origin),
+                                    Department = new Department
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentFilterGet.DepartmentId),
+                                        Description = rdr.GetString(ColumnsIncidentFilterGet.DepartmentName)
+                                    },
+                                    Provider = new Provider
+                                    {
+                                        Id = rdr.GetInt64(ColumnsIncidentFilterGet.ProviderId),
+                                        Description = rdr.GetString(ColumnsIncidentFilterGet.ProviderDescription)
+                                    },
+                                    Customer = new Customer
+                                    {
+                                        Id = rdr.GetInt64(ColumnsIncidentFilterGet.CustomerId),
+                                        Description = rdr.GetString(ColumnsIncidentFilterGet.CustomerDescription)
+                                    },
+                                    Amount = rdr.GetDecimal(ColumnsIncidentFilterGet.Amount),
+                                    Status = rdr.GetInt32(ColumnsIncidentFilterGet.Status)
+                                };
+
+                                if (incidentActionId != 0)
                                 {
-                                    Id = rdr.GetInt32(ColumnsIncidentFilterGet.DepartmentId),
-                                    Description = rdr.GetString(ColumnsIncidentFilterGet.DepartmentName)
-                                },
-                                Provider = new Provider()
+                                    item.Action = new IncidentAction
+                                    {
+                                        Id = incidentActionId,
+                                        Description = rdr.GetString(ColumnsIncidentFilterGet.IncidentActionDescription)
+                                    };
+                                }
+                                else
                                 {
-                                    Id = rdr.GetInt64(ColumnsIncidentFilterGet.ProviderId),
-                                    Description = rdr.GetString(ColumnsIncidentFilterGet.ProviderDescription)
-                                },
-                                Customer = new Customer()
+                                    item.Action = IncidentAction.Empty;
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIncidentFilterGet.OpenDate))
                                 {
-                                    Id = rdr.GetInt64(ColumnsIncidentFilterGet.CustomerId),
-                                    Description = rdr.GetString(ColumnsIncidentFilterGet.CustomerDescription)
-                                },
-                                Amount = rdr.GetDecimal(ColumnsIncidentFilterGet.Amount),
-                                Status = rdr.GetInt32(ColumnsIncidentFilterGet.Status)
-                            };
+                                    item.Open = rdr.GetDateTime(ColumnsIncidentFilterGet.OpenDate);
+                                }
 
-                        if (rdr.GetInt64(ColumnsIncidentFilterGet.IncidentActionId) != 0)
-                        {
-                            item.Action = new IncidentAction()
-                            {
-                                Id = rdr.GetInt64(ColumnsIncidentFilterGet.IncidentActionId),
-                                Description = rdr.GetString(ColumnsIncidentFilterGet.IncidentActionDescription)
-                            };
-                        }
-                        else
-                        {
-                            item.Action = IncidentAction.Empty;
-                        }
+                                if (!rdr.IsDBNull(ColumnsIncidentFilterGet.CloseDate))
+                                {
+                                    item.Close = rdr.GetDateTime(ColumnsIncidentFilterGet.CloseDate);
+                                }
 
-                        if (!rdr.IsDBNull(ColumnsIncidentFilterGet.OpenDate))
-                        {
-                            item.Open = rdr.GetDateTime(ColumnsIncidentFilterGet.OpenDate);
+                                res.Add(item);
+                            }
                         }
-
-                        if (!rdr.IsDBNull(ColumnsIncidentFilterGet.CloseDate))
-                        {
-                            item.Close = rdr.GetDateTime(ColumnsIncidentFilterGet.CloseDate);
-                        }
-
-                        res.Add(item);
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -380,7 +374,7 @@ namespace GisoFramework.Item
                 return string.Empty;
             }
 
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
 
             if (item1.Description != item2.Description)
             {
@@ -399,7 +393,7 @@ namespace GisoFramework.Item
 
             if (item1.WhatHappenedOn.HasValue)
             {
-                if (item2.WhatHappenedOn.HasValue && item1.WhatHappenedOn.Value != item2.WhatHappenedOn.Value)
+                if (item2.WhatHappenedOn.HasValue && item1.WhatHappenedOn != item2.WhatHappenedOn)
                 {
                     res.Append("WhatHappenedOn=>").Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:dd/MM/yyyy}", item2.WhatHappenedOn.Value)).Append(";");
                 }
@@ -442,7 +436,7 @@ namespace GisoFramework.Item
 
             if (item1.CausesOn.HasValue)
             {
-                if (item2.CausesOn.HasValue && item1.CausesOn.Value != item2.CausesOn.Value)
+                if (item2.CausesOn.HasValue && item1.CausesOn != item2.CausesOn)
                 {
                     res.Append("CausesOn=>").Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:dd/MM/yyyy}", item2.CausesOn.Value)).Append(";");
                 }
@@ -485,7 +479,7 @@ namespace GisoFramework.Item
 
             if (item1.ActionsOn.HasValue)
             {
-                if (item2.ActionsOn.HasValue && item1.ActionsOn.Value != item2.ActionsOn.Value)
+                if (item2.ActionsOn.HasValue && item1.ActionsOn != item2.ActionsOn)
                 {
                     res.Append("ActionsOn=>").Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:dd/MM/yyyy}", item2.ActionsOn.Value)).Append(";");
                 }
@@ -523,7 +517,7 @@ namespace GisoFramework.Item
 
             if (item1.ClosedOn.HasValue)
             {
-                if (item2.ClosedOn.HasValue && item1.ClosedOn.Value != item2.ClosedOn.Value)
+                if (item2.ClosedOn.HasValue && item1.ClosedOn != item2.ClosedOn)
                 {
                     res.Append("ClosedOn=>").Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:dd/MM/yyyy}", item2.ClosedOn.Value)).Append(";");
                 }
@@ -548,158 +542,163 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE Incident_GetById
              * @IncidentId bigint,
              * @CompanyId int */
-            Incident res = new Incident();
-            using (SqlCommand cmd = new SqlCommand("Incident_GetById"))
+            var res = new Incident();
+            using (var cmd = new SqlCommand("Incident_GetById"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentId", incidentId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        rdr.Read();
-                        res = new Incident()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentId", incidentId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = incidentId,
-                            Code = rdr.GetInt64(ColumnsIncidentGet.Code),
-                            CompanyId = rdr.GetInt32(ColumnsIncidentGet.CompanyId),
-                            Description = rdr.GetString(ColumnsIncidentGet.Description),
-                            Origin = rdr.GetInt32(3),
-                            WhatHappened = rdr.GetString(ColumnsIncidentGet.WhatHappened),
-                            WhatHappenedBy = new Employee()
+                            if (rdr.HasRows)
                             {
-                                Id = rdr.GetInt32(ColumnsIncidentGet.WhatHappenedById),
-                                Name = rdr.GetString(ColumnsIncidentGet.WhatHappenedByName),
-                                LastName = rdr.GetString(ColumnsIncidentGet.WhatHappenedByLastName)
-                            },
-                            WhatHappenedOn = rdr.GetDateTime(ColumnsIncidentGet.WhatHappenedOn),
-                            Notes = rdr.GetString(ColumnsIncidentGet.Notes),
-                            Annotations = rdr.GetString(ColumnsIncidentGet.Annotations),
-                            Active = rdr.GetBoolean(ColumnsIncidentGet.Active),
-                            ModifiedBy = new ApplicationUser
-                            {
-                                Id = rdr.GetInt32(ColumnsIncidentGet.ModifiedByUserId),
-                                UserName = rdr.GetString(ColumnsIncidentGet.ModifiedByUserName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsIncidentGet.ModifiedOn),
-                            Department = new Department()
-                            {
-                                Id = rdr.GetInt32(ColumnsIncidentGet.DepartmentId),
-                                Description = rdr.GetString(ColumnsIncidentGet.DepartmentName)
-                            },
-                            Provider = new Provider()
-                            {
-                                Id = rdr.GetInt64(ColumnsIncidentGet.ProviderId),
-                                Description = rdr.GetString(ColumnsIncidentGet.ProviderName)
-                            },
-                            Customer = new Customer()
-                            {
-                                Id = rdr.GetInt64(ColumnsIncidentGet.CustomerId),
-                                Description = rdr.GetString(ColumnsIncidentGet.CustomerName)
+                                rdr.Read();
+                                res = new Incident
+                                {
+                                    Id = incidentId,
+                                    Code = rdr.GetInt64(ColumnsIncidentGet.Code),
+                                    CompanyId = rdr.GetInt32(ColumnsIncidentGet.CompanyId),
+                                    Description = rdr.GetString(ColumnsIncidentGet.Description),
+                                    Origin = rdr.GetInt32(3),
+                                    WhatHappened = rdr.GetString(ColumnsIncidentGet.WhatHappened),
+                                    WhatHappenedBy = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentGet.WhatHappenedById),
+                                        Name = rdr.GetString(ColumnsIncidentGet.WhatHappenedByName),
+                                        LastName = rdr.GetString(ColumnsIncidentGet.WhatHappenedByLastName)
+                                    },
+                                    WhatHappenedOn = rdr.GetDateTime(ColumnsIncidentGet.WhatHappenedOn),
+                                    Notes = rdr.GetString(ColumnsIncidentGet.Notes),
+                                    Annotations = rdr.GetString(ColumnsIncidentGet.Annotations),
+                                    Active = rdr.GetBoolean(ColumnsIncidentGet.Active),
+                                    ModifiedBy = new ApplicationUser
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentGet.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsIncidentGet.ModifiedByUserName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsIncidentGet.ModifiedOn),
+                                    Department = new Department
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentGet.DepartmentId),
+                                        Description = rdr.GetString(ColumnsIncidentGet.DepartmentName)
+                                    },
+                                    Provider = new Provider
+                                    {
+                                        Id = rdr.GetInt64(ColumnsIncidentGet.ProviderId),
+                                        Description = rdr.GetString(ColumnsIncidentGet.ProviderName)
+                                    },
+                                    Customer = new Customer
+                                    {
+                                        Id = rdr.GetInt64(ColumnsIncidentGet.CustomerId),
+                                        Description = rdr.GetString(ColumnsIncidentGet.CustomerName)
+                                    }
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsIncidentGet.CausesOn))
+                                {
+                                    res.Causes = rdr.GetString(ColumnsIncidentGet.Causes);
+                                    res.CausesOn = rdr.GetDateTime(ColumnsIncidentGet.CausesOn);
+                                    res.CausesBy = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentGet.CausesById),
+                                        Name = rdr.GetString(ColumnsIncidentGet.CausesByName),
+                                        LastName = rdr.GetString(ColumnsIncidentGet.CausesByLastName)
+                                    };
+                                }
+                                else
+                                {
+                                    res.CausesBy = Employee.Empty;
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIncidentGet.ActionsOn))
+                                {
+                                    res.Actions = rdr.GetString(ColumnsIncidentGet.Actions);
+                                    res.ActionsOn = rdr.GetDateTime(ColumnsIncidentGet.ActionsOn);
+                                    res.ActionsBy = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentGet.ActionsById),
+                                        Name = rdr.GetString(ColumnsIncidentGet.ActionsByName),
+                                        LastName = rdr.GetString(ColumnsIncidentGet.ActionsByLastName)
+                                    };
+                                }
+                                else
+                                {
+                                    res.ActionsBy = Employee.Empty;
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIncidentGet.ActionsExecuterId))
+                                {
+                                    res.ActionsSchedule = rdr.GetDateTime(ColumnsIncidentGet.ActionsSchedule);
+                                    res.ActionsExecuter = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentGet.ActionsExecuterId),
+                                        Name = rdr.GetString(ColumnsIncidentGet.ActionsExecuterName),
+                                        LastName = rdr.GetString(ColumnsIncidentGet.ActionsExecuterLastName)
+                                    };
+                                }
+                                else
+                                {
+                                    res.ActionsExecuter = Employee.Empty;
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIncidentGet.ClosedOn))
+                                {
+                                    res.ClosedOn = rdr.GetDateTime(ColumnsIncidentGet.ClosedOn);
+                                    res.ClosedBy = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentGet.ClosedById),
+                                        Name = rdr.GetString(ColumnsIncidentGet.ClosedByName),
+                                        LastName = rdr.GetString(ColumnsIncidentGet.ClosedByLastName)
+                                    };
+                                }
+                                else
+                                {
+                                    res.ClosedBy = Employee.Empty;
+                                }
+
+                                if (res.Origin == 1 && !rdr.IsDBNull(ColumnsIncidentGet.DepartmentId))
+                                {
+                                    res.Department = new Department
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIncidentGet.DepartmentId),
+                                        Description = rdr.GetString(ColumnsIncidentGet.DepartmentName)
+                                    };
+                                }
+
+                                if (res.Origin == 2 && !rdr.IsDBNull(ColumnsIncidentGet.ProviderId))
+                                {
+                                    res.Provider = new Provider
+                                    {
+                                        Id = rdr.GetInt64(ColumnsIncidentGet.ProviderId),
+                                        Description = rdr.GetString(ColumnsIncidentGet.ProviderName)
+                                    };
+                                }
+
+                                if (res.Origin == 3 && !rdr.IsDBNull(ColumnsIncidentGet.CustomerId))
+                                {
+                                    res.Customer = new Customer
+                                    {
+                                        Id = rdr.GetInt64(ColumnsIncidentGet.CustomerId),
+                                        Description = rdr.GetString(ColumnsIncidentGet.CustomerName)
+                                    };
+                                }
+
+                                res.ModifiedBy.Employee = Employee.ByUserId(res.ModifiedBy.Id);
                             }
-                        };
-
-                        if (!rdr.IsDBNull(ColumnsIncidentGet.CausesOn))
-                        {
-                            res.Causes = rdr.GetString(ColumnsIncidentGet.Causes);
-                            res.CausesOn = rdr.GetDateTime(ColumnsIncidentGet.CausesOn);
-                            res.CausesBy = new Employee()
-                            {
-                                Id = rdr.GetInt32(ColumnsIncidentGet.CausesById),
-                                Name = rdr.GetString(ColumnsIncidentGet.CausesByName),
-                                LastName = rdr.GetString(ColumnsIncidentGet.CausesByLastName)
-                            };
                         }
-                        else
-                        {
-                            res.CausesBy = Employee.Empty;
-                        }
-
-                        if (!rdr.IsDBNull(ColumnsIncidentGet.ActionsOn))
-                        {
-                            res.Actions = rdr.GetString(ColumnsIncidentGet.Actions);
-                            res.ActionsOn = rdr.GetDateTime(ColumnsIncidentGet.ActionsOn);
-                            res.ActionsBy = new Employee()
-                            {
-                                Id = rdr.GetInt32(ColumnsIncidentGet.ActionsById),
-                                Name = rdr.GetString(ColumnsIncidentGet.ActionsByName),
-                                LastName = rdr.GetString(ColumnsIncidentGet.ActionsByLastName)
-                            };
-                        }
-                        else
-                        {
-                            res.ActionsBy = Employee.Empty;
-                        }
-
-                        if (!rdr.IsDBNull(ColumnsIncidentGet.ActionsExecuterId))
-                        {
-                            res.ActionsSchedule = rdr.GetDateTime(ColumnsIncidentGet.ActionsSchedule);
-                            res.ActionsExecuter = new Employee()
-                            {
-                                Id = rdr.GetInt32(ColumnsIncidentGet.ActionsExecuterId),
-                                Name = rdr.GetString(ColumnsIncidentGet.ActionsExecuterName),
-                                LastName = rdr.GetString(ColumnsIncidentGet.ActionsExecuterLastName)
-                            };
-                        }
-                        else
-                        {
-                            res.ActionsExecuter = Employee.Empty;
-                        }
-
-                        if (!rdr.IsDBNull(ColumnsIncidentGet.ClosedOn))
-                        {
-                            res.ClosedOn = rdr.GetDateTime(ColumnsIncidentGet.ClosedOn);
-                            res.ClosedBy = new Employee()
-                            {
-                                Id = rdr.GetInt32(ColumnsIncidentGet.ClosedById),
-                                Name = rdr.GetString(ColumnsIncidentGet.ClosedByName),
-                                LastName = rdr.GetString(ColumnsIncidentGet.ClosedByLastName)
-                            };
-                        }
-                        else
-                        {
-                            res.ClosedBy = Employee.Empty;
-                        }
-
-                        if (res.Origin == 1 && !rdr.IsDBNull(ColumnsIncidentGet.DepartmentId))
-                        {
-                            res.Department = new Department()
-                            {
-                                Id = rdr.GetInt32(ColumnsIncidentGet.DepartmentId),
-                                Description = rdr.GetString(ColumnsIncidentGet.DepartmentName)
-                            };
-                        }
-
-                        if (res.Origin == 2 && !rdr.IsDBNull(ColumnsIncidentGet.ProviderId))
-                        {
-                            res.Provider = new Provider()
-                            {
-                                Id = rdr.GetInt64(ColumnsIncidentGet.ProviderId),
-                                Description = rdr.GetString(ColumnsIncidentGet.ProviderName)
-                            };
-                        }
-
-                        if (res.Origin == 3 && !rdr.IsDBNull(ColumnsIncidentGet.CustomerId))
-                        {
-                            res.Customer = new Customer()
-                            {
-                                Id = rdr.GetInt64(ColumnsIncidentGet.CustomerId),
-                                Description = rdr.GetString(ColumnsIncidentGet.CustomerName)
-                            };
-                        }
-
-                        res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -713,36 +712,39 @@ namespace GisoFramework.Item
              *   @IncidentId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Incident_Restore"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Incident_Restore"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentId", incidentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Restore", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, userId, companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Restore", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, userId, companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentId", incidentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Restore", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, userId, companyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Restore", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, userId, companyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -758,38 +760,41 @@ namespace GisoFramework.Item
              *   @EndDate datetime,
              *   @EndResponsible int,
              *   @ApplicationUserId int */
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Incident_Anulate"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Incident_Anulate"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentId", incidentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@EndDate", date));
-                    cmd.Parameters.Add(DataParameter.Input("@EndResponsible", responsible));
-                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Anulate", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, applicationUserId, companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Anulate", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, applicationUserId, companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentId", incidentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EndDate", date));
+                        cmd.Parameters.Add(DataParameter.Input("@EndResponsible", responsible));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Anulate", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, applicationUserId, companyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Anulate", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, applicationUserId, companyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -799,40 +804,49 @@ namespace GisoFramework.Item
 
         public static ActionResult Delete(long incidentId, int userId, int companyId)
         {
+            var source = string.Format(
+                CultureInfo.InvariantCulture,
+                "Id:{0} - UserId:{1} - CompanyId:{2}",
+                incidentId,
+                userId,
+                companyId);
             /* CREATE PROCEDURE Incident_Delete
              *   @IncidentId bigint,
              *   @CompanyId int,
              *   @UserId int */
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Incident_Delete"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Incident_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentId", incidentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, userId, companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - UserId:{1} - CompanyId:{2}", incidentId, userId, companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentId", incidentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Delete", source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Delete", source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -842,6 +856,11 @@ namespace GisoFramework.Item
 
         public ActionResult Insert(int userId)
         {
+            var source =  string.Format(
+                CultureInfo.InvariantCulture,
+                "Id:{0} - Name{1}", 
+                this.Id,
+                this.Description);
             /* CREATE PROCEDURE Incident_Insert
              *   @IncidentId bigint output,
              *   @CompanyId int,
@@ -867,63 +886,66 @@ namespace GisoFramework.Item
              *   @ClosedBy int,
              *   @ClosedOn datetime,
              *   @UserId int */
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Incident_Insert"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Incident_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.OutputInt("@IncidentId"));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                    cmd.Parameters.Add(DataParameter.Input("@Origin", this.Origin));
-
-                    cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.Department));
-                    cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider));
-                    cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer));
-                    
-                    cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy));
-                    cmd.Parameters.Add(DataParameter.Input("@WhatHappendOn", this.WhatHappenedOn));
-
-                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CausesOn", this.CausesOn));
-
-                    cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ActionsOn", this.ActionsOn));
-                    cmd.Parameters.Add(DataParameter.Input("@ActionsExecuter", this.ActionsExecuter.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ActionsSchedule", this.ActionsSchedule));
-
-                    cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ClosedOn", this.ClosedOn));
-                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Anotations", this.Annotations ?? string.Empty, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@ApplyAction", this.ApplyAction));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@IncidentId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                    res.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.OutputInt("@IncidentId"));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Origin", this.Origin));
+
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.Department));
+                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider));
+                        cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer));
+
+                        cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy));
+                        cmd.Parameters.Add(DataParameter.Input("@WhatHappendOn", this.WhatHappenedOn));
+
+                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CausesOn", this.CausesOn));
+
+                        cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ActionsOn", this.ActionsOn));
+                        cmd.Parameters.Add(DataParameter.Input("@ActionsExecuter", this.ActionsExecuter.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ActionsSchedule", this.ActionsSchedule));
+
+                        cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ClosedOn", this.ClosedOn));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Anotations", this.Annotations ?? string.Empty, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplyAction", this.ApplyAction));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@IncidentId"].Value, CultureInfo.InvariantCulture);
+                        res.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Insert", source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Insert", source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -933,6 +955,11 @@ namespace GisoFramework.Item
 
         public ActionResult Update(int userId, string differences)
         {
+            var source = string.Format(
+                CultureInfo.InvariantCulture,
+                "Id:{0} - Name{1}",
+                this.Id,
+                this.Description);
             /* CREATE PROCEDURE Incident_Update
              *   @IncidentId bigint,
              *   @CompanyId int,
@@ -960,69 +987,72 @@ namespace GisoFramework.Item
              *   @ClosedOn datetime,
              *   @UserId int 
              *   @Differences text */
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Incident_Update"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Incident_Update"))
             {
                 if (!this.ApplyAction)
                 {
                     res = DeleteActions(this.Id, this.CompanyId, userId);
                 }
 
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IncidentId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description,100));
-                    cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
-                    cmd.Parameters.Add(DataParameter.Input("@Origin", this.Origin));
-                    cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.Department.Id)); 
-                    cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id)); 
-                    cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer.Id));
-
-                    cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@WhatHappendOn", this.WhatHappenedOn));
-
-                    cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CausesOn", this.CausesOn));
-
-                    cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ActionsOn", this.ActionsOn));
-                    cmd.Parameters.Add(DataParameter.Input("@ActionsExecuter", this.ActionsExecuter.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ActionsSchedule", this.ActionsSchedule));
-
-                    cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ClosedOn", this.ClosedOn));
-
-                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Anotations", this.Annotations ?? string.Empty, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Parameters.Add(DataParameter.Input("@Differences", differences));
-                    cmd.Parameters.Add(DataParameter.Input("@ApplyAction", this.ApplyAction));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "Incident::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
+                        cmd.Parameters.Add(DataParameter.Input("@Origin", this.Origin));
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.Department.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer.Id));
+
+                        cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@WhatHappendOn", this.WhatHappenedOn));
+
+                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CausesOn", this.CausesOn));
+
+                        cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ActionsOn", this.ActionsOn));
+                        cmd.Parameters.Add(DataParameter.Input("@ActionsExecuter", this.ActionsExecuter.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ActionsSchedule", this.ActionsSchedule));
+
+                        cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ClosedOn", this.ClosedOn));
+
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Anotations", this.Annotations ?? string.Empty, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@Differences", differences));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplyAction", this.ApplyAction));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Update", source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "Incident::Update", source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

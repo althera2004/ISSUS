@@ -28,27 +28,35 @@ public partial class EquipmentView : Page
         }
     }
 
+    public string LimitInitialDate
+    {
+        get
+        {
+            var records = EquipmentRecord.GetFilter(this.equipmentId, this.Company.Id, true, true, true, true, true, true, true, true, null, null);
+
+            if (records.Count > 0)
+            {
+                var record = records.OrderBy(r => r.Date).First();
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"{0:dd/MM/yyyy}",
+                    record.Date);
+            }
+
+            return Constant.NowText;
+        }
+    }
+
     /// <summary> Master of page</summary>
     private Giso master;
 
     /// <summary>Company of session</summary>
-    private Company company;
+    public Company Company { get; private set; }
 
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
-    private string launch;
-
-    public string Launch
-    {
-        get
-        {
-            return this.launch;
-        }
-    }
+    public string Launch { get; private set; }
 
     private bool grantToWrite;
 
@@ -100,7 +108,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return EquipmentCalibrationAct.JsonList(this.equipmentId, this.company.Id);
+            return EquipmentCalibrationAct.JsonList(this.equipmentId, this.Company.Id);
         }
     }
 
@@ -110,7 +118,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return EquipmentVerificationAct.JsonList(this.equipmentId, this.company.Id);
+            return EquipmentVerificationAct.JsonList(this.equipmentId, this.Company.Id);
         }
     }
 
@@ -118,7 +126,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return EquipmentRepair.JsonList(this.equipmentId, this.company.Id);
+            return EquipmentRepair.JsonList(this.equipmentId, this.Company.Id);
         }
     }
 
@@ -126,7 +134,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return EquipmentMaintenanceDefinition.JsonList(this.equipmentId, this.company.Id);
+            return EquipmentMaintenanceDefinition.JsonList(this.equipmentId, this.Company.Id);
         }
     }
 
@@ -134,7 +142,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return EquipmentMaintenanceAct.JsonList(this.equipmentId, this.company.Id);
+            return EquipmentMaintenanceAct.JsonList(this.equipmentId, this.Company.Id);
         }
     }
 
@@ -142,7 +150,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return EquipmentScaleDivision.JsonList("EquipmentScaleDivision", EquipmentScaleDivision.GetByCompany(this.company));
+            return EquipmentScaleDivision.JsonList("EquipmentScaleDivision", EquipmentScaleDivision.GetByCompany(this.Company));
         }
     }
 
@@ -170,9 +178,7 @@ public partial class EquipmentView : Page
 
     public BarPopup ProviderBarPopups { get; set; }
 
-    /// <summary>
-    /// Gets or sets if user show help in interface
-    /// </summary>
+    /// <summary>Gets or sets if user show help in interface</summary>
     public bool ShowHelp
     {
         get
@@ -212,7 +218,7 @@ public partial class EquipmentView : Page
                 return string.Empty;
             }
 
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -225,7 +231,7 @@ public partial class EquipmentView : Page
                 return string.Empty;
             }
 
-            return this.formFooterCalibration.Render(this.dictionary);
+            return this.formFooterCalibration.Render(this.Dictionary);
         }
     }
 
@@ -238,7 +244,7 @@ public partial class EquipmentView : Page
                 return string.Empty;
             }
 
-            return this.formFooterVerification.Render(this.dictionary);
+            return this.formFooterVerification.Render(this.Dictionary);
         }
     }
 
@@ -251,7 +257,7 @@ public partial class EquipmentView : Page
                 return string.Empty;
             }
 
-            return this.formFooterMaintenance.Render(this.dictionary);
+            return this.formFooterMaintenance.Render(this.Dictionary);
         }
     }
 
@@ -264,7 +270,7 @@ public partial class EquipmentView : Page
                 return string.Empty;
             }
 
-            return this.formFooterRepair.Render(this.dictionary);
+            return this.formFooterRepair.Render(this.Dictionary);
         }
     }
 
@@ -277,7 +283,7 @@ public partial class EquipmentView : Page
                 return string.Empty;
             }
 
-            return this.formFooterRecords.Render(this.dictionary);
+            return this.formFooterRecords.Render(this.Dictionary);
         }
     }
 
@@ -290,15 +296,9 @@ public partial class EquipmentView : Page
     }
 
     /// <summary>Gets dictionary for fixed labels</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
-    TabBar tabBar = new TabBar() { Id = "EquipmentTabBar" };
+    TabBar tabBar = new TabBar { Id = "EquipmentTabBar" };
 
     public string TabBar
     {
@@ -312,7 +312,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return Provider.GetByCompanyJson(this.company.Id);
+            return Provider.ByCompanyJson(this.Company.Id);
         }
     }
 
@@ -320,7 +320,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return Customer.GetByCompanyJson(this.company.Id);
+            return Customer.ByCompanyJson(this.Company.Id);
         }
     }
 
@@ -328,7 +328,7 @@ public partial class EquipmentView : Page
     {
         get
         {
-            return Employee.CompanyListJson(this.company.Id);
+            return Employee.CompanyListJson(this.Company.Id);
             //return Employee.GetByCompanyJson(this.company.Id);
         }
     }
@@ -405,53 +405,47 @@ public partial class EquipmentView : Page
     public FormSelect CmbResponsibleClose { get; set; }
 
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
-            Context.ApplicationInstance.CompleteRequest();
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
             else
             {
                 this.Go();
             }
+
+            Context.ApplicationInstance.CompleteRequest();
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         if (this.Request.QueryString["id"] != null)
         {
-            this.equipmentId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
+            this.equipmentId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
         if (this.Request.QueryString["New"] != null)
@@ -472,65 +466,65 @@ public partial class EquipmentView : Page
         this.Equipment = new Equipment();
 
         this.user = (ApplicationUser)Session["User"];
-        this.company = (Company)Session["company"];
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Company = (Company)Session["company"];
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Equipments", "EquipmentList.aspx", false);
+        this.master.AddBreadCrumb("Item_Equipments", "EquipmentList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_Equipment_Tab_Details");
 
         if (this.equipmentId > 0)
         {
             this.Session["EquipmentId"] = this.equipmentId;
-            this.Equipment = Equipment.GetById(this.equipmentId, this.company);
-            if (this.Equipment.CompanyId != this.company.Id)
+            this.Equipment = Equipment.ById(this.equipmentId, this.Company);
+            if (this.Equipment.CompanyId != this.Company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.Equipment = Equipment.Empty;
             }
 
             this.master.TitleInvariant = true;
-            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Equipment"], this.Equipment.Code + " - " + this.Equipment.Description);
+            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Equipment"], this.Equipment.Code + " - " + this.Equipment.Description);
 
             this.formFooter.ModifiedBy = this.Equipment.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Equipment.ModifiedOn;
-            this.formFooter.AddButton(new UIButton() { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Equipment_Btn_Restaurar"], Action = "primary" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Equipment_Btn_Anular"], Action = "danger" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success", ColumnsSpan = 12 });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"], ColumnsSpan = 12 });
+            this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
+            this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.Dictionary["Item_Equipment_Btn_Restaurar"], Action = "primary" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Equipment_Btn_Anular"], Action = "danger" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success", ColumnsSpan = 12 });
+            this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"], ColumnsSpan = 12 });
 
             this.formFooterCalibration.ModifiedBy = this.Equipment.ModifiedBy.Description;
             this.formFooterCalibration.ModifiedOn = this.Equipment.ModifiedOn;
-            //this.formFooterCalibration.AddButton(new UIButton() { Id = "BtnCalibrationPrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            //this.formFooterCalibration.AddButton(new UIButton() { Id = "BtnCalibrationSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooterCalibration.AddButton(new UIButton() { Id = "BtnCalibrationCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            //this.formFooterCalibration.AddButton(new UIButton { Id = "BtnCalibrationPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
+            //this.formFooterCalibration.AddButton(new UIButton { Id = "BtnCalibrationSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.formFooterCalibration.AddButton(new UIButton { Id = "BtnCalibrationCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             this.formFooterVerification.ModifiedBy = this.Equipment.ModifiedBy.Description;
             this.formFooterVerification.ModifiedOn = this.Equipment.ModifiedOn;
-            //this.formFooterVerification.AddButton(new UIButton() { Id = "BtnVerificationPrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            //this.formFooterVerification.AddButton(new UIButton() { Id = "BtnVerificationSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooterVerification.AddButton(new UIButton() { Id = "BtnVerificationCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            //this.formFooterVerification.AddButton(new UIButton { Id = "BtnVerificationPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
+            //this.formFooterVerification.AddButton(new UIButton { Id = "BtnVerificationSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.formFooterVerification.AddButton(new UIButton { Id = "BtnVerificationCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             this.formFooterMaintenance.ModifiedBy = this.Equipment.ModifiedBy.Description;
             this.formFooterMaintenance.ModifiedOn = this.Equipment.ModifiedOn;
-            //this.formFooterMaintenance.AddButton(new UIButton() { Id = "BtnMaintenancePrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            //this.formFooterMaintenance.AddButton(new UIButton() { Id = "BtnMaintenanceSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooterMaintenance.AddButton(new UIButton() { Id = "BtnMaintenanceCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            //this.formFooterMaintenance.AddButton(new UIButton { Id = "BtnMaintenancePrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
+            //this.formFooterMaintenance.AddButton(new UIButton { Id = "BtnMaintenanceSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.formFooterMaintenance.AddButton(new UIButton { Id = "BtnMaintenanceCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             this.formFooterRepair.ModifiedBy = this.Equipment.ModifiedBy.Description;
             this.formFooterRepair.ModifiedOn = this.Equipment.ModifiedOn;
-            //this.formFooterRepair.AddButton(new UIButton() { Id = "BtnRepairPrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            //this.formFooterRepair.AddButton(new UIButton() { Id = "BtnRepairSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooterRepair.AddButton(new UIButton() { Id = "BtnRepairCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            //this.formFooterRepair.AddButton(new UIButton { Id = "BtnRepairPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
+            //this.formFooterRepair.AddButton(new UIButton { Id = "BtnRepairSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.formFooterRepair.AddButton(new UIButton { Id = "BtnRepairCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             this.formFooterRecords.ModifiedBy = this.Equipment.ModifiedBy.Description;
             this.formFooterRecords.ModifiedOn = this.Equipment.ModifiedOn;
-            //this.formFooterRecords.AddButton(new UIButton() { Id = "BtnRecordsPrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            //this.formFooterRecords.AddButton(new UIButton() { Id = "BtnRecordsSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooterRecords.AddButton(new UIButton() { Id = "BtnRecordsCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            //this.formFooterRecords.AddButton(new UIButton { Id = "BtnRecordsPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
+            //this.formFooterRecords.AddButton(new UIButton { Id = "BtnRecordsSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.formFooterRecords.AddButton(new UIButton { Id = "BtnRecordsCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             this.master.ItemCode = string.Format("{0} - {1}", this.Equipment.Code, this.Equipment.Description);
             this.RenderDocuments();
@@ -539,26 +533,26 @@ public partial class EquipmentView : Page
         {
             this.master.Titulo = "Item_Equipment_Button_New";
             this.Equipment = Equipment.Empty;
-            this.formFooter.ModifiedBy = this.dictionary["Common_New"];
+            this.formFooter.ModifiedBy = this.Dictionary["Common_New"];
             this.formFooter.ModifiedOn = DateTime.Now;
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
         }
 
         this.SelectedTab = "home";
         if (this.Request.QueryString["Tab"] != null)
         {
-            SelectedTab = this.Request.QueryString["Tab"].ToString().Trim().ToLowerInvariant();
+            SelectedTab = this.Request.QueryString["Tab"].Trim().ToLowerInvariant();
         }
 
-        this.tabBar.AddTab(new Tab() { Id = "home", Selected = SelectedTab == "home", Active = true, Label = this.dictionary["Item_Equipment_Tab_Basic"], Available = true });
-        this.tabBar.AddTab(new Tab() { Id = "calibracion", Selected = SelectedTab == "calibracion", Available = true, Active = true, Label = this.dictionary["Item_Equipment_Tab_Calibration"] });
-        this.tabBar.AddTab(new Tab() { Id = "verificacion", Selected = SelectedTab == "verificacion", Available = true, Active = true, Label = this.dictionary["Item_Equipment_Tab_Verification"] });
-        this.tabBar.AddTab(new Tab() { Id = "mantenimiento", Selected = SelectedTab == "mantenimiento", Available = true, Active = true, Label = this.dictionary["Item_Equipment_Tab_Maintenance"] });
-        this.tabBar.AddTab(new Tab() { Id = "reparaciones", Available = this.equipmentId > 0, Active = true, Label = this.dictionary["Item_Equipment_Tab_Repair"] });
-        this.tabBar.AddTab(new Tab() { Id = "registros", Available = this.equipmentId > 0, Active = true, Label = this.dictionary["Item_Equipment_Tab_Records"] });
-        this.tabBar.AddTab(new Tab() { Id = "uploadFiles", Selected = SelectedTab == "uploadfiles", Available = true, Active = this.equipmentId > 0, Hidden = this.equipmentId < 1, Label = this.Dictionary["Item_Equipment_Tab_UploadFiles"] });
-        //// this.tabBar.AddTab(new Tab() { Id = "trazas", Available = this.user.HasTraceGrant() && this.equipmentId > 0, Active = this.equipmentId > 0, Label = this.dictionary["Item_Equipment_Tab_Traces"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Selected = SelectedTab == "home", Active = true, Label = this.Dictionary["Item_Equipment_Tab_Basic"], Available = true });
+        this.tabBar.AddTab(new Tab { Id = "calibracion", Selected = SelectedTab == "calibracion", Available = true, Active = true, Label = this.Dictionary["Item_Equipment_Tab_Calibration"] });
+        this.tabBar.AddTab(new Tab { Id = "verificacion", Selected = SelectedTab == "verificacion", Available = true, Active = true, Label = this.Dictionary["Item_Equipment_Tab_Verification"] });
+        this.tabBar.AddTab(new Tab { Id = "mantenimiento", Selected = SelectedTab == "mantenimiento", Available = true, Active = true, Label = this.Dictionary["Item_Equipment_Tab_Maintenance"] });
+        this.tabBar.AddTab(new Tab { Id = "reparaciones", Available = this.equipmentId > 0, Active = true, Label = this.Dictionary["Item_Equipment_Tab_Repair"] });
+        this.tabBar.AddTab(new Tab { Id = "registros", Available = this.equipmentId > 0, Active = true, Label = this.Dictionary["Item_Equipment_Tab_Records"] });
+        this.tabBar.AddTab(new Tab { Id = "uploadFiles", Selected = SelectedTab == "uploadfiles", Available = true, Active = this.equipmentId > 0, Hidden = this.equipmentId < 1, Label = this.Dictionary["Item_Equipment_Tab_UploadFiles"] });
+        //// this.tabBar.AddTab(new Tab { Id = "trazas", Available = this.user.HasTraceGrant() && this.equipmentId > 0, Active = this.equipmentId > 0, Label = this.dictionary["Item_Equipment_Tab_Traces"] });
 
         this.RenderForm();
 
@@ -575,8 +569,8 @@ public partial class EquipmentView : Page
         {
             if (this.Request.QueryString["Type"] != null)
             {
-                string type = this.Request.QueryString["Type"].ToString();
-                this.launch = "ShowDialogEquipmentVerificacionPopup(" + (type == "I" ? "-1" : "-2") + ");";
+                string type = this.Request.QueryString["Type"];
+                this.Launch = "ShowDialogEquipmentVerificacionPopup(" + (type == "I" ? "-1" : "-2") + ");";
             }
         }
 
@@ -584,8 +578,8 @@ public partial class EquipmentView : Page
         {
             if (this.Request.QueryString["Type"] != null)
             {
-                string type = this.Request.QueryString["Type"].ToString();
-                this.launch = "ShowDialogNewCalibrationPopup(" + (type == "I" ? "-1" : "-2") + ");";
+                string type = this.Request.QueryString["Type"];
+                this.Launch = "ShowDialogNewCalibrationPopup(" + (type == "I" ? "-1" : "-2") + ");";
             }
         }
 
@@ -593,14 +587,14 @@ public partial class EquipmentView : Page
         {
             if (this.Request.QueryString["Action"] != null)
             {
-                string actionId = this.Request.QueryString["Action"].ToString();
-                this.launch = "mantenimientoLaunchId = " + actionId + ";EquipmentMaintenanceDefinitionRegister(null);";
+                string actionId = this.Request.QueryString["Action"];
+                this.Launch = "mantenimientoLaunchId = " + actionId + ";EquipmentMaintenanceDefinitionRegister(null);";
             }
         }
 
         if (SelectedTab.Equals("tabuploadfiles", StringComparison.OrdinalIgnoreCase))
         {
-            this.launch = @"$(""#TabuploadFiles a"").click();";
+            this.Launch = @"$(""#TabuploadFiles a"").click();";
         }
     }
 
@@ -612,118 +606,118 @@ public partial class EquipmentView : Page
 
         #region TabCalibration
         #region Internal
-        this.CalibrationInternalTxtOperation = new FormText()
+        this.CalibrationInternalTxtOperation = new FormText
         {
             Name = "TxtCalibrationInternalOperation",
             ColumnSpan = 9,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Operation"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Operation"],
             MaximumLength = 100,
-            Placeholder = this.dictionary["Item_Equipment_Field_Calibration_Operation"],
+            Placeholder = this.Dictionary["Item_Equipment_Field_Calibration_Operation"],
             Value = this.Equipment.InternalCalibration.Description,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
-        this.CalibrationInternalTxtPeriodicity = new FormTextInteger()
+        this.CalibrationInternalTxtPeriodicity = new FormTextInteger
         {
             Name = "TxtCalibrationInternalPeriodicity",
             ColumnSpan = 2,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Periodicity"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Periodicity"],
             MaximumLength = 5,
-            Placeholder = this.dictionary["Item_Equipment_Field_Calibration_Periodicity"],
+            Placeholder = this.Dictionary["Item_Equipment_Field_Calibration_Periodicity"],
             Value = this.Equipment.InternalCalibration.Periodicity.ToString(),
             Required = true,
             Numeric = true,
             IsInteger = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
-        this.CalibrationInternalTxtUncertainty = new FormTextFreeDecimal()
+        this.CalibrationInternalTxtUncertainty = new FormTextFreeDecimal
         {
             Name = "TxtCalibrationInternalUncertainty",
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Uncertainty"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Uncertainty"],
             MaximumLength = 8,
-            Placeholder = this.dictionary["Item_Equipment_Field_Calibration_Uncertainty"],
+            Placeholder = this.Dictionary["Item_Equipment_Field_Calibration_Uncertainty"],
             //Value = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:#0.00######}", this.Equipment.InternalCalibration.Uncertainty),
             Value = GisoFramework.Tools.NumberFormat(this.Equipment.InternalCalibration.Uncertainty),
             Required = true,
             Numeric = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
-        this.CalibrationInternalTxtRange = new FormText()
+        this.CalibrationInternalTxtRange = new FormText
         {
             Name = "TxtCalibrationInternalRange",
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Range"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Range"],
             MaximumLength = 50,
-            Placeholder = this.dictionary["Item_Equipment_Field_Calibration_Range"],
+            Placeholder = this.Dictionary["Item_Equipment_Field_Calibration_Range"],
             Value = this.Equipment.InternalCalibration.Range,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
-        this.CalibrationInternalTxtPattern = new FormText()
+        this.CalibrationInternalTxtPattern = new FormText
         {
             Name = "TxtCalibrationInternalPattern",
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Pattern"],
-            MaximumLength = 50,
-            Placeholder = this.dictionary["Item_Equipment_Field_Calibration_Pattern"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Pattern"],
+            MaximumLength = Constant.DefaultDatabaseVarChar,
+            Placeholder = this.Dictionary["Item_Equipment_Field_Calibration_Pattern"],
             Value = this.Equipment.InternalCalibration.Pattern,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
-        this.CalibrationInternalTxtCost = new FormTextDecimal()
+        this.CalibrationInternalTxtCost = new FormTextDecimal
         {
             Name = "TxtCalibrationInternalCost",
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Cost"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Cost"],
             MaximumLength = 8,
-            Placeholder = this.dictionary["Item_Equipment_Field_Calibration_Cost"],
+            Placeholder = this.Dictionary["Item_Equipment_Field_Calibration_Cost"],
             //Value = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:#0.00}", this.Equipment.InternalCalibration.Cost),
             Value = GisoFramework.Tools.NumberFormat(this.Equipment.InternalCalibration.Cost),
             Numeric = true,
             // ISSUS-18
             Required = false,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
-        this.CalibrationInternalTxtNotes = new FormTextArea()
+        this.CalibrationInternalTxtNotes = new FormTextArea
         {
             Name = "TxtCalibrationInternalNotes",
             Rows = 5,
             Value = this.Equipment.InternalCalibration.Notes,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Notes"]
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Notes"]
         };
 
-        this.CalibrationInternalCmbResponsible = new FormSelect()
+        this.CalibrationInternalCmbResponsible = new FormSelect
         {
             ColumnsSpanLabel = 3,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Responsible"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Responsible"],
             ColumnsSpan = 9,
             Name = "CmbCalibrationInternalResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = new FormSelectOption { Text = this.Dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        foreach (Employee e in this.company.Employees)
+        foreach (var e in this.Company.Employees)
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -746,7 +740,7 @@ public partial class EquipmentView : Page
         }
         #endregion
         #region External
-        this.CalibrationExternalTxtOperation = new FormText()
+        this.CalibrationExternalTxtOperation = new FormText
         {
             Name = "TxtCalibrationExternalOperation",
             ColumnSpan = 9,
@@ -757,10 +751,10 @@ public partial class EquipmentView : Page
             Placeholder = "Operación",
             Value = this.Equipment.ExternalCalibration.Description,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
-        this.CalibrationExternalTxtPeriodicity = new FormTextInteger()
+        this.CalibrationExternalTxtPeriodicity = new FormTextInteger
         {
             Name = "TxtCalibrationExternalPeriodicity",
             ColumnSpan = 2,
@@ -773,102 +767,102 @@ public partial class EquipmentView : Page
             Required = true,
             Numeric = true,
             IsInteger = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
-        this.CalibrationExternalTxtUncertainty = new FormTextFreeDecimal()
+        this.CalibrationExternalTxtUncertainty = new FormTextFreeDecimal
         {
             Name = "TxtCalibrationExternalUncertainty",
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Uncertainty"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Uncertainty"],
             MaximumLength = 8,
-            Placeholder = this.dictionary["Item_Equipment_Field_Calibration_Uncertainty"],
+            Placeholder = this.Dictionary["Item_Equipment_Field_Calibration_Uncertainty"],
             //Value = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:#0.00####}", this.Equipment.ExternalCalibration.Uncertainty),
             Value = GisoFramework.Tools.NumberFormat(this.Equipment.ExternalCalibration.Uncertainty),
             Required = true,
             Numeric = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
-        this.CalibrationExternalTxtRange = new FormText()
+        this.CalibrationExternalTxtRange = new FormText
         {
             Name = "TxtCalibrationExternalRange",
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Range"],
-            MaximumLength = 50,
-            Placeholder = this.dictionary["Item_Equipment_Field_Calibration_Range"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Range"],
+            MaximumLength = Constant.DefaultDatabaseVarChar,
+            Placeholder = this.Dictionary["Item_Equipment_Field_Calibration_Range"],
             Value = this.Equipment.ExternalCalibration.Range,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
-        this.CalibrationExternalTxtPattern = new FormText()
+        this.CalibrationExternalTxtPattern = new FormText
         {
             Name = "TxtCalibrationExternalPattern",
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Pattern"],
-            MaximumLength = 50,
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Pattern"],
+            MaximumLength = Constant.DefaultDatabaseVarChar,
             Required = true,
-            Placeholder = this.dictionary["Item_Equipment_Field_Calibration_Pattern"],
+            Placeholder = this.Dictionary["Item_Equipment_Field_Calibration_Pattern"],
             Value = this.Equipment.ExternalCalibration.Pattern
         };
 
-        this.CalibrationExternalTxtCost = new FormTextDecimal()
+        this.CalibrationExternalTxtCost = new FormTextDecimal
         {
             Name = "TxtCalibrationExternalCost",
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Cost"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Cost"],
             MaximumLength = 8,
-            Placeholder = this.dictionary["Item_Equipment_Field_Calibration_Cost"],
+            Placeholder = this.Dictionary["Item_Equipment_Field_Calibration_Cost"],
             //Value = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:#0.00}", this.Equipment.ExternalCalibration.Cost),
             Value = GisoFramework.Tools.NumberFormat(this.Equipment.ExternalCalibration.Cost),
             // ISSUS-18
             Required = false,
             Numeric = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
-        this.CalibrationExternalTxtNotes = new FormTextArea()
+        this.CalibrationExternalTxtNotes = new FormTextArea
         {
             Name = "TxtCalibrationExternalNotes",
             Rows = 5,
             Value = this.Equipment.ExternalCalibration.Notes,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Notes"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Notes"],
         };
 
-        this.CalibrationExternalCmbResponsible = new FormSelect()
+        this.CalibrationExternalCmbResponsible = new FormSelect
         {
             ColumnsSpanLabel = 3,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Responsible"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Responsible"],
             ColumnsSpan = 9,
             Name = "CmbCalibrationExternalResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = new FormSelectOption() { Text = this.Dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        this.CalibrationExternalCmbProvider = new FormSelect()
+        this.CalibrationExternalCmbProvider = new FormSelect
         {
             ColumnsSpanLabel = 3,
-            Label = this.dictionary["Item_Equipment_Field_Calibration_Provider"],
+            Label = this.Dictionary["Item_Equipment_Field_Calibration_Provider"],
             ColumnsSpan = 9,
             Name = "CmbCalibrationExternalProvider",
             GrantToWrite = this.grantToWrite,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = new FormSelectOption { Text = this.Dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        foreach (Employee e in this.company.Employees)
+        foreach (var e in this.Company.Employees)
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -881,7 +875,7 @@ public partial class EquipmentView : Page
                     }
                 }
 
-                this.CalibrationExternalCmbResponsible.AddOption(new FormSelectOption()
+                this.CalibrationExternalCmbResponsible.AddOption(new FormSelectOption
                 {
                     Value = e.Id.ToString(),
                     Text = e.FullName,
@@ -899,11 +893,11 @@ public partial class EquipmentView : Page
             }
         }
 
-        foreach (Provider provider in Provider.GetByCompany(this.company.Id))
+        foreach (var provider in Provider.ByCompany(this.Company.Id))
         {
             if (provider.Active)
             {
-                this.CalibrationExternalCmbProvider.AddOption(new FormSelectOption()
+                this.CalibrationExternalCmbProvider.AddOption(new FormSelectOption
                 {
                     Value = provider.Id.ToString(),
                     Text = provider.Description,
@@ -922,12 +916,12 @@ public partial class EquipmentView : Page
             ColumnSpan = 9,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_EquipmentVerification_Field_Operation"],
+            Label = this.Dictionary["Item_EquipmentVerification_Field_Operation"],
             MaximumLength = 100,
-            Placeholder = this.dictionary["Item_EquipmentVerification_Field_Operation"],
+            Placeholder = this.Dictionary["Item_EquipmentVerification_Field_Operation"],
             Value = this.Equipment.InternalVerification.Description,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
         this.VerificationInternalTxtPeriodicity = new FormTextInteger()
@@ -936,14 +930,14 @@ public partial class EquipmentView : Page
             ColumnSpan = 2,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_EquipmentVerification_Field_Periodicity"],
+            Label = this.Dictionary["Item_EquipmentVerification_Field_Periodicity"],
             MaximumLength = 5,
-            Placeholder = this.dictionary["Item_EquipmentVerification_Field_Periodicity"],
+            Placeholder = this.Dictionary["Item_EquipmentVerification_Field_Periodicity"],
             Value = this.Equipment.InternalVerification.Periodicity.ToString(),
             Required = true,
             Numeric = true,
             IsInteger = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
         this.VerificationInternalTxtUncertainty = new FormTextFreeDecimal()
@@ -952,9 +946,9 @@ public partial class EquipmentView : Page
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_EquipmentVerification_Field_Uncertainty"],
+            Label = this.Dictionary["Item_EquipmentVerification_Field_Uncertainty"],
             MaximumLength = 8,
-            Placeholder = this.dictionary["Item_EquipmentVerification_Field_Uncertainty"],
+            Placeholder = this.Dictionary["Item_EquipmentVerification_Field_Uncertainty"],
             //Value = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:#0.00####}", this.Equipment.InternalVerification.Uncertainty),
             Value = GisoFramework.Tools.NumberFormat(this.Equipment.InternalVerification.Uncertainty),
             Numeric = true,
@@ -967,9 +961,9 @@ public partial class EquipmentView : Page
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_EquipmentVerification_Field_Range"],
-            MaximumLength = 50,
-            Placeholder = this.dictionary["Item_EquipmentVerification_Field_Range"],
+            Label = this.Dictionary["Item_EquipmentVerification_Field_Range"],
+            MaximumLength = Constant.DefaultDatabaseVarChar,
+            Placeholder = this.Dictionary["Item_EquipmentVerification_Field_Range"],
             Value = this.Equipment.InternalVerification.Range
         };
 
@@ -980,7 +974,7 @@ public partial class EquipmentView : Page
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
             Label = "Patrón",
-            MaximumLength = 50,
+            MaximumLength = Constant.DefaultDatabaseVarChar,
             Placeholder = "Patrón",
             Value = this.Equipment.InternalVerification.Pattern
         };
@@ -999,7 +993,7 @@ public partial class EquipmentView : Page
             Numeric = true,
             // ISSUS-18
             Required = false,
-            RequiredMessage = this.dictionary["Common_Required"],
+            RequiredMessage = this.Dictionary["Common_Required"],
             Nullable = true
         };
 
@@ -1008,22 +1002,22 @@ public partial class EquipmentView : Page
             Name = "TxtVerificationInternalNotes",
             Rows = 5,
             Value = this.Equipment.InternalVerification.Notes,
-            Label = "Notas"
+            Label = this.Dictionary["Item_EquipmentVerification_Field_Notes"]
         };
 
         this.VerificationInternalCmbResponsible = new FormSelect()
         {
             ColumnsSpanLabel = 3,
-            Label = this.dictionary["Item_Equipment_Field_Responsible_Label"],
+            Label = this.Dictionary["Item_Equipment_Field_Responsible_Label"],
             ColumnsSpan = 9,
             Name = "CmbVerificationInternalResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = new FormSelectOption() { Text = this.Dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        foreach (Employee e in this.company.Employees.OrderBy(e => e.FullName))
+        foreach (Employee e in this.Company.Employees.OrderBy(e => e.FullName))
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -1057,7 +1051,7 @@ public partial class EquipmentView : Page
             Placeholder = "Operación",
             Value = this.Equipment.ExternalVerification.Description,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
         this.VerificationExternalTxtPeriodicity = new FormTextInteger()
@@ -1073,7 +1067,7 @@ public partial class EquipmentView : Page
             Required = true,
             Numeric = true,
             IsInteger = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
         this.VerificationExternalTxtUncertainty = new FormTextFreeDecimal()
@@ -1082,9 +1076,9 @@ public partial class EquipmentView : Page
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_EquipmentVerification_Field_Uncertainty"],
+            Label = this.Dictionary["Item_EquipmentVerification_Field_Uncertainty"],
             MaximumLength = 8,
-            Placeholder = this.dictionary["Item_EquipmentVerification_Field_Uncertainty"],
+            Placeholder = this.Dictionary["Item_EquipmentVerification_Field_Uncertainty"],
             //Value = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:#0.00####}", this.Equipment.ExternalVerification.Uncertainty),
             Value = GisoFramework.Tools.NumberFormat(this.Equipment.ExternalVerification.Uncertainty),
             Numeric = true,
@@ -1097,9 +1091,9 @@ public partial class EquipmentView : Page
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = this.dictionary["Item_EquipmentVerification_Field_Range"],
-            MaximumLength = 50,
-            Placeholder = this.dictionary["Item_EquipmentVerification_Field_Range"],
+            Label = this.Dictionary["Item_EquipmentVerification_Field_Range"],
+            MaximumLength = Constant.DefaultDatabaseVarChar,
+            Placeholder = this.Dictionary["Item_EquipmentVerification_Field_Range"],
             Value = this.Equipment.ExternalVerification.Range
         };
 
@@ -1109,9 +1103,9 @@ public partial class EquipmentView : Page
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = "Patrón",
-            MaximumLength = 50,
-            Placeholder = "Patrón",
+            Label = this.Dictionary["Item_EquipmentVerification_Field_Pattern"],
+            MaximumLength = Constant.DefaultDatabaseVarChar,
+            Placeholder = this.Dictionary["Item_EquipmentVerification_Field_Pattern"],
             Value = this.Equipment.ExternalVerification.Pattern
         };
 
@@ -1121,15 +1115,15 @@ public partial class EquipmentView : Page
             ColumnSpan = 3,
             ColumnSpanLabel = 3,
             GrantToWrite = this.grantToWrite,
-            Label = "Coste",
+            Label = this.Dictionary["Item_EquipmentVerification_Field_Cost"],
             MaximumLength = 8,
-            Placeholder = "Coste",
+            Placeholder = this.Dictionary["Item_EquipmentVerification_Field_Cost"],
             //Value = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:#0.00}", this.Equipment.ExternalVerification.Cost),
             Value = GisoFramework.Tools.NumberFormat(this.Equipment.ExternalVerification.Cost),
             // ISSUS-18
             Required = false,
             Numeric = true,
-            RequiredMessage = this.dictionary["Common_Required"],
+            RequiredMessage = this.Dictionary["Common_Required"],
             Nullable = true
         };
 
@@ -1144,16 +1138,16 @@ public partial class EquipmentView : Page
         this.VerificationExternalCmbResponsible = new FormSelect()
         {
             ColumnsSpanLabel = 3,
-            Label = this.dictionary["Item_Equipment_Field_Responsible_Label"],
+            Label = this.Dictionary["Item_Equipment_Field_Responsible_Label"],
             ColumnsSpan = 9,
             Name = "CmbVerificationExternalResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = new FormSelectOption() { Text = this.Dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        foreach (Employee e in this.company.Employees.OrderBy(e => e.FullName))
+        foreach (Employee e in this.Company.Employees.OrderBy(e => e.FullName))
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -1183,7 +1177,7 @@ public partial class EquipmentView : Page
             Action = "success",
             Icon = "icon-plus-sign",
             Id = "BtnNewMaintainment",
-            Text = this.dictionary["Item_Equipment_Maintenance_Button_AddConfiguration"]
+            Text = this.Dictionary["Item_Equipment_Maintenance_Button_AddConfiguration"]
         };
 
         this.MaintenanceNewAct = new UIButton()
@@ -1191,7 +1185,7 @@ public partial class EquipmentView : Page
             Action = "success",
             Icon = "icon-plus-sign",
             Id = "BtnNewMaintainmentAct",
-            Text = this.dictionary["Item_Equipment_Maintenance_Button_AddAct"]
+            Text = this.Dictionary["Item_Equipment_Maintenance_Button_AddAct"]
         };
         #endregion
 
@@ -1199,159 +1193,182 @@ public partial class EquipmentView : Page
 
     private void RenderTabBasicData()
     {
-        this.TxtCode = new FormText();
-        this.TxtCode.ColumnSpanLabel = 1;
-        this.TxtCode.Label = this.dictionary["Item_Equipment_Field_Code_Label"];
-        this.TxtCode.ColumnSpan = 3;
-        this.TxtCode.Placeholder = this.dictionary["Item_Equipment_Field_Code_Placeholder"];
-        this.TxtCode.Duplicated = true;
-        this.TxtCode.DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"];
-        this.TxtCode.Required = true;
-        this.TxtCode.RequiredMessage = this.dictionary["Common_Required"];
-        this.TxtCode.GrantToWrite = this.grantToWrite;
-        this.TxtCode.Name = "TxtCode";
-        this.TxtCode.Value = this.Equipment.Code;
-        this.TxtCode.MaximumLength = 10;
-
-        this.TxtDescription = new FormText();
-        this.TxtDescription.ColumnSpanLabel = 1;
-        this.TxtDescription.Label = this.dictionary["Item_Equipment_Field_Description_Label"];
-        this.TxtDescription.ColumnSpan = 6;
-        this.TxtDescription.Placeholder = this.dictionary["Item_Equipment_Field_Description_Placeholder"];
-        this.TxtDescription.Duplicated = true;
-        this.TxtDescription.DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"];
-        this.TxtDescription.Required = true;
-        this.TxtDescription.RequiredMessage = this.dictionary["Common_Required"];
-        this.TxtDescription.GrantToWrite = this.grantToWrite;
-        this.TxtDescription.Name = "TxtDescription";
-        this.TxtDescription.Value = this.Equipment.Description;
-        this.TxtDescription.MaximumLength = 150;
-
-        this.TxtTradeMark = new FormText();
-        this.TxtTradeMark.ColumnSpanLabel = 1;
-        this.TxtTradeMark.Label = this.dictionary["Item_Equipment_Field_TradeMark_Label"];
-        this.TxtTradeMark.ColumnSpan = 3;
-        this.TxtTradeMark.Placeholder = this.dictionary["Item_Equipment_Field_TradeMark_PlaceHolder"];
-        this.TxtTradeMark.GrantToWrite = this.grantToWrite;
-        this.TxtTradeMark.Name = "TxtTradeMark";
-        this.TxtTradeMark.Value = this.Equipment.Trademark;
-        this.TxtTradeMark.MaximumLength = 50;
-
-        this.TxtModel = new FormText();
-        this.TxtModel.ColumnSpanLabel = 1;
-        this.TxtModel.Label = this.dictionary["Item_Equipment_Field_Model_Label"];
-        this.TxtModel.ColumnSpan = 6;
-        this.TxtModel.Placeholder = this.dictionary["Item_Equipment_Field_Model_PlaceHolder"];
-        this.TxtModel.Required = true;
-        this.TxtModel.RequiredMessage = this.dictionary["Common_Required"];
-        this.TxtModel.GrantToWrite = this.grantToWrite;
-        this.TxtModel.Name = "TxtModel";
-        this.TxtModel.Value = this.Equipment.Model;
-        this.TxtModel.MaximumLength = 50;
-
-        this.TxtSerialNumber = new FormText();
-        this.TxtSerialNumber.ColumnSpanLabel = 1;
-        this.TxtSerialNumber.Label = this.dictionary["Item_Equipment_Field_SerialNumber_Label"];
-        this.TxtSerialNumber.ColumnSpan = 3;
-        this.TxtSerialNumber.Placeholder = this.dictionary["Item_Equipment_Field_SerialNumber_PlaceHolder"];
-        this.TxtSerialNumber.GrantToWrite = this.grantToWrite;
-        this.TxtSerialNumber.Name = "TxtSerialNumber";
-        this.TxtSerialNumber.Value = this.Equipment.SerialNumber;
-        this.TxtSerialNumber.MaximumLength = 50;
-
-        this.TxtLocation = new FormText();
-        this.TxtLocation.ColumnSpanLabel = 1;
-        this.TxtLocation.Label = this.dictionary["Item_Equipment_Field_Location_Label"];
-        this.TxtLocation.ColumnSpan = 6;
-        this.TxtLocation.Placeholder = this.dictionary["Item_Equipment_Field_Location_PlaceHolder"];
-        this.TxtLocation.Required = true;
-        this.TxtLocation.RequiredMessage = this.dictionary["Common_Required"];
-        this.TxtLocation.GrantToWrite = this.grantToWrite;
-        this.TxtLocation.Name = "TxtLocation";
-        this.TxtLocation.Value = this.Equipment.Location;
-        this.TxtLocation.MaximumLength = 100;
-
-        this.TxtMeasureRange = new FormTextDecimal();
-        this.TxtMeasureRange.ColumnSpanLabel = 1;
-        this.TxtMeasureRange.Label = this.dictionary["Item_Equipment_Field_Measure_Range_Label"];
-        this.TxtMeasureRange.ColumnSpan = 2;
-        this.TxtMeasureRange.Placeholder = this.dictionary["Item_Equipment_Field_Measure_Range_PlaceHolder"];
-        this.TxtMeasureRange.GrantToWrite = this.grantToWrite;
-        this.TxtMeasureRange.Name = "TxtMeasureRange";
-        this.TxtMeasureRange.Value = this.Equipment.MeasureRange;
-        this.TxtMeasureRange.MaximumLength = 10;
-        this.TxtMeasureRange.Numeric = false;
-
-        this.TxtScaleDivision = new FormTextFreeDecimal();
-        this.TxtScaleDivision.ColumnSpanLabel = 1;
-        this.TxtScaleDivision.Label = this.dictionary["Item_Equipment_Field_ScaleDivision_Label"];
-        this.TxtScaleDivision.ColumnSpan = 2;
-        this.TxtScaleDivision.Placeholder = this.dictionary["Item_Equipment_Field_ScaleDivision_PlaceHolder"];
-        this.TxtScaleDivision.GrantToWrite = this.grantToWrite;
-        this.TxtScaleDivision.Name = "TxtScaleDivision";
-        this.TxtScaleDivision.Value = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:#0.0000}", this.Equipment.ScaleDivisionValue);
-        this.TxtScaleDivision.MaximumLength = 10;
-        this.TxtScaleDivision.Numeric = true;
-
-        this.BarScaleDivisionType = new FormBar();
-        this.BarScaleDivisionType.ColumnSpan = 3;
-        this.BarScaleDivisionType.Name = "EquipmentScaleDivision";
-        this.BarScaleDivisionType.GrantToWrite = this.grantToWrite;
-        this.BarScaleDivisionType.GrantToEdit = this.grantToWrite;
-        this.BarScaleDivisionType.Value = this.Equipment.MeasureUnit == null ? string.Empty : string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}", this.Equipment.MeasureUnit.Id); this.BarScaleDivisionType.ValueName = "TxtEquipmentScaleDivision";
-        this.BarScaleDivisionType.ButtonBar = "EquipmentScaleDivision";
-        this.BarScaleDivisionType.BarToolTip = "Editar división de escala";
-
-        this.EquipmentScaleDivisionBarPopups = new BarPopup()
+        this.TxtCode = new FormText
         {
-            Id = "EquipmentScaleDivision",
-            DeleteMessage = this.dictionary["Item_Equipment_PopupTitle_DeleteScaleDivision"],
-            BarWidth = 600,
-            UpdateWidth = 600,
-            DeleteWidth = 600,
-            Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
+            ColumnSpanLabel = 1,
+            Label = this.Dictionary["Item_Equipment_Field_Code_Label"],
+            ColumnSpan = 3,
+            Placeholder = this.Dictionary["Item_Equipment_Field_Code_Placeholder"],
             Duplicated = true,
-            DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
-            Description = this.dictionary["Item_Equipment_Field_ScaleDivision_PlaceHolder"],
-            FieldName = this.dictionary["Item_Equipment_Field_ScaleDivision_PlaceHolder"],
-            BarTitle = this.dictionary["Item_Equipment_Field_ScaleDivision_PlaceHolder"]
+            DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
+            Required = true,
+            RequiredMessage = this.Dictionary["Common_Required"],
+            GrantToWrite = this.grantToWrite,
+            Name = "TxtCode",
+            Value = this.Equipment.Code,
+            MaximumLength = 10
         };
 
-        this.ProviderBarPopups = new BarPopup()
+        this.TxtDescription = new FormText
         {
-            Id = "Provider",
-            DeleteMessage = this.dictionary["Common_DeleteMessage"],
+            ColumnSpanLabel = 1,
+            Label = this.Dictionary["Item_Equipment_Field_Description_Label"],
+            ColumnSpan = 6,
+            Placeholder = this.Dictionary["Item_Equipment_Field_Description_Placeholder"],
+            Duplicated = true,
+            DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
+            Required = true,
+            RequiredMessage = this.Dictionary["Common_Required"],
+            GrantToWrite = this.grantToWrite,
+            Name = "TxtDescription",
+            Value = this.Equipment.Description,
+            MaximumLength = 150
+        };
+
+        this.TxtTradeMark = new FormText
+        {
+            ColumnSpanLabel = 1,
+            Label = this.Dictionary["Item_Equipment_Field_TradeMark_Label"],
+            ColumnSpan = 3,
+            Placeholder = this.Dictionary["Item_Equipment_Field_TradeMark_PlaceHolder"],
+            GrantToWrite = this.grantToWrite,
+            Name = "TxtTradeMark",
+            Value = this.Equipment.Trademark,
+            MaximumLength = 50
+        };
+
+        this.TxtModel = new FormText
+        {
+            ColumnSpanLabel = 1,
+            Label = this.Dictionary["Item_Equipment_Field_Model_Label"],
+            ColumnSpan = 6,
+            Placeholder = this.Dictionary["Item_Equipment_Field_Model_PlaceHolder"],
+            Required = true,
+            RequiredMessage = this.Dictionary["Common_Required"],
+            GrantToWrite = this.grantToWrite,
+            Name = "TxtModel",
+            Value = this.Equipment.Model,
+            MaximumLength = 50
+        };
+
+        this.TxtSerialNumber = new FormText
+        {
+            ColumnSpanLabel = 1,
+            Label = this.Dictionary["Item_Equipment_Field_SerialNumber_Label"],
+            ColumnSpan = 3,
+            Placeholder = this.Dictionary["Item_Equipment_Field_SerialNumber_PlaceHolder"],
+            GrantToWrite = this.grantToWrite,
+            Name = "TxtSerialNumber",
+            Value = this.Equipment.SerialNumber,
+            MaximumLength = 50
+        };
+
+        this.TxtLocation = new FormText
+        {
+            ColumnSpanLabel = 1,
+            Label = this.Dictionary["Item_Equipment_Field_Location_Label"],
+            ColumnSpan = 6,
+            Placeholder = this.Dictionary["Item_Equipment_Field_Location_PlaceHolder"],
+            Required = true,
+            RequiredMessage = this.Dictionary["Common_Required"],
+            GrantToWrite = this.grantToWrite,
+            Name = "TxtLocation",
+            Value = this.Equipment.Location,
+            MaximumLength = 100
+        };
+
+        this.TxtMeasureRange = new FormTextDecimal
+        {
+            ColumnSpanLabel = 1,
+            Label = this.Dictionary["Item_Equipment_Field_Measure_Range_Label"],
+            ColumnSpan = 2,
+            Placeholder = this.Dictionary["Item_Equipment_Field_Measure_Range_PlaceHolder"],
+            GrantToWrite = this.grantToWrite,
+            Name = "TxtMeasureRange",
+            Value = this.Equipment.MeasureRange,
+            MaximumLength = 10,
+            Numeric = false
+        };
+
+        this.TxtScaleDivision = new FormTextFreeDecimal
+        {
+            ColumnSpanLabel = 1,
+            Label = this.Dictionary["Item_Equipment_Field_ScaleDivision_Label"],
+            ColumnSpan = 2,
+            Placeholder = this.Dictionary["Item_Equipment_Field_ScaleDivision_PlaceHolder"],
+            GrantToWrite = this.grantToWrite,
+            Name = "TxtScaleDivision",
+            Value = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:#0.0000}", this.Equipment.ScaleDivisionValue),
+            MaximumLength = 10,
+            Numeric = true
+        };
+
+        this.BarScaleDivisionType = new FormBar
+        {
+            ColumnSpan = 3,
+            Name = "EquipmentScaleDivision",
+            GrantToWrite = this.grantToWrite,
+            GrantToEdit = this.grantToWrite,
+            Value = this.Equipment.MeasureUnit == null ? string.Empty : string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}", this.Equipment.MeasureUnit.Id),
+            ValueName = "TxtEquipmentScaleDivision",
+            ButtonBar = "EquipmentScaleDivision",
+            BarToolTip = "Editar división de escala"
+        };
+
+        this.EquipmentScaleDivisionBarPopups = new BarPopup
+        {
+            Id = "EquipmentScaleDivision",
+            DeleteMessage = this.Dictionary["Item_Equipment_PopupTitle_DeleteScaleDivision"],
             BarWidth = 600,
             UpdateWidth = 600,
             DeleteWidth = 600,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
+            RequiredMessage = this.Dictionary["Common_Required"],
             Duplicated = true,
-            DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
-            Description = "Proveedor",
-            FieldName = this.dictionary["Common_Name"],
+            DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
+            Description = this.Dictionary["Item_Equipment_Field_ScaleDivision_PlaceHolder"],
+            FieldName = this.Dictionary["Item_Equipment_Field_ScaleDivision_PlaceHolder"],
+            BarTitle = this.Dictionary["Item_Equipment_Field_ScaleDivision_PlaceHolder"]
+        };
+
+        this.ProviderBarPopups = new BarPopup
+        {
+            Id = "Provider",
+            DeleteMessage = this.Dictionary["Common_DeleteMessage"],
+            BarWidth = 600,
+            UpdateWidth = 600,
+            DeleteWidth = 600,
+            Required = true,
+            RequiredMessage = this.Dictionary["Common_Required"],
+            Duplicated = true,
+            DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
+            Description = this.Dictionary["Item_Provider"],
+            FieldName = this.Dictionary["Common_Name"],
             BarTitle = this.Dictionary["Item_Providers"]
         };
 
-        this.CmbResponsible = new FormSelect()
+        this.CmbResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 2,
-            Label = this.dictionary["Item_Equipment_Field_Responsible_Label"],
+            ColumnsSpanLabel = Constant.ColumnSpan2,
+            Label = this.Dictionary["Item_Equipment_Field_Responsible_Label"],
             ColumnsSpan = 3,
             Name = "CmbResponsible",
             ChangeEvent = "CmbResponsibleChanged();",
             GrantToWrite = this.grantToWrite,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = new FormSelectOption
+            {
+                Text = this.Dictionary["Common_SelectAll"],
+                Value = "0"
+            }
         };
 
-        foreach (Employee e in this.company.Employees.OrderBy(e => e.FullName))
+        foreach (var e in this.Company.Employees.OrderBy(e => e.FullName))
         {
             if (e.Active && e.DisabledDate == null)
             {
-                this.CmbResponsible.AddOption(new FormSelectOption()
+                this.CmbResponsible.AddOption(new FormSelectOption
                 {
                     Value = e.Id.ToString(),
                     Text = e.FullName,
@@ -1360,7 +1377,7 @@ public partial class EquipmentView : Page
             }
         }
 
-        this.TxtNotes = new FormTextArea()
+        this.TxtNotes = new FormTextArea
         {
             Rows = 5,
             Value = this.Equipment.Notes,
@@ -1368,56 +1385,58 @@ public partial class EquipmentView : Page
             MaxLength = 500
         };
 
-        this.TxtObservations = new FormTextArea()
+        this.TxtObservations = new FormTextArea
         {
-            Label = this.dictionary["Item_Equipment_Field_Observations_Label"],
+            Label = this.Dictionary["Item_Equipment_Field_Observations_Label"],
             Rows = 5,
             Value = this.Equipment.Observations,
             Name = "TxtObservations",
             MaxLength = 2000
         };
 
-        this.TxtStartDate = new FormDatePicker()
+        this.TxtStartDate = new FormDatePicker
         {
             Id = "TxtStartDate",
-            Label = this.dictionary["Item_Equipment_Field_StartDate"],
+            Label = this.Dictionary["Item_Equipment_Field_StartDate"],
             ColumnsSpanLabel = 1,
             ColumnsSpan = 3,
             Value = this.Equipment.StartDate
         };
 
-        this.ImgEquipment = new ImageSelector()
+        this.ImgEquipment = new ImageSelector
         {
             Name = "Equipment",
             ImageName = this.equipmentId > 0 ? @"images\equipments\" + this.Equipment.Image : @"images\equipments\noimage.jpg",
             Width = 150,
             Height = 150,
-            Label = this.dictionary["Item_Equipment_Field_Image_Label"]
+            Label = this.Dictionary["Item_Equipment_Field_Image_Label"]
         };
 
         this.status0.Checked = this.Equipment.IsCalibration;
         this.status1.Checked = this.Equipment.IsVerification;
         this.status2.Checked = this.Equipment.IsMaintenance;
 
-        StringBuilder responsibleData = new StringBuilder();
-        foreach (Employee employee in this.company.Employees.OrderBy(e => e.FullName))
+        var responsibleData = new StringBuilder();
+        foreach (var employee in this.Company.Employees.OrderBy(e => e.FullName))
         {
             responsibleData.Append(string.Format(@"<option value=""{0}""{1}>{2}</option>", employee.Id, employee.Id == this.Equipment.Responsible.Id ? " selected=\"selected\"" : string.Empty, employee.FullName));
         }
 
         this.ResponsibleData = responsibleData.ToString();
 
-
-
-        this.CmbResponsibleClose = new FormSelect()
+        this.CmbResponsibleClose = new FormSelect
         {
             ColumnsSpanLabel = 3,
-            Label = this.dictionary["Item_Equipment_FieldLabel_EndResponsible"],
+            Label = this.Dictionary["Item_Equipment_FieldLabel_EndResponsible"],
             ColumnsSpan = 9,
             Name = "CmbEndResponsible",
             GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo),
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" },
-            RequiredMessage = this.dictionary["Common_Required"],
+            DefaultOption = new FormSelectOption
+            {
+                Text = this.Dictionary["Common_SelectAll"],
+                Value = "0"
+            },
+            RequiredMessage = this.Dictionary["Common_Required"],
             Required = true
         };
 
@@ -1427,11 +1446,11 @@ public partial class EquipmentView : Page
             endResponsibleId = this.Equipment.EndResponsible.Id;
         }
 
-        foreach (Employee e in this.company.Employees.OrderBy(e => e.FullName))
+        foreach (var e in this.Company.Employees.OrderBy(e => e.FullName))
         {
             if (e.Active && e.DisabledDate == null)
             {
-                this.CmbResponsibleClose.AddOption(new FormSelectOption()
+                this.CmbResponsibleClose.AddOption(new FormSelectOption
                 {
                     Value = e.Id.ToString(),
                     Text = e.FullName,
@@ -1446,12 +1465,12 @@ public partial class EquipmentView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        ReadOnlyCollection<UploadFile> files = UploadFile.GetByItem(11, this.equipmentId, this.company.Id);
-        StringBuilder res = new StringBuilder();
-        StringBuilder resList = new StringBuilder();
+        var files = UploadFile.GetByItem(11, this.equipmentId, this.Company.Id);
+        var res = new StringBuilder();
+        var resList = new StringBuilder();
         int contCells = 0;
-        ReadOnlyCollection<string> extensions = ToolsFile.ExtensionToShow;
-        foreach (UploadFile file in files)
+        var extensions = ToolsFile.ExtensionToShow;
+        foreach (var file in files)
         {
             decimal finalSize = ToolsFile.FormatSize((decimal)file.Size);
             string fileShowed = string.IsNullOrEmpty(file.Description) ? file.FileName.Split('_')[2] : file.Description;
@@ -1501,12 +1520,12 @@ public partial class EquipmentView : Page
                     file.Id,
                     string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
                     file.Extension,
-                    this.company.Id,
+                    this.Company.Id,
                     file.FileName,
                     file.CreatedOn,
                     finalSize,
                     this.Dictionary["Item_Attachment_Header_CreateDate"],
-                    this.dictionary["Item_Attachment_Header_Size"],
+                    this.Dictionary["Item_Attachment_Header_Size"],
                     fileShowed,
                     viewButton);
 
@@ -1529,7 +1548,7 @@ public partial class EquipmentView : Page
                 file.FileName,
                 string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
                 file.Id,
-                this.company.Id,
+                this.Company.Id,
                 file.CreatedOn,
                 finalSize,
                 listViewButton);

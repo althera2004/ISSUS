@@ -12,17 +12,13 @@ using System.Text;
 using GisoFramework;
 using System;
 
-/// <summary>
-/// Implements asynchronous actions for objetivo
-/// </summary>
+/// <summary>Implements asynchronous actions for objetivo</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
 public class ObjetivoActions : WebService {
 
-    /// <summary>
-    /// Initializes a new instance of the ObjetivoActions class
-    /// </summary>
+    /// <summary>Initializes a new instance of the ObjetivoActions class</summary>
     public ObjetivoActions()
     {
     }
@@ -31,7 +27,7 @@ public class ObjetivoActions : WebService {
     [ScriptMethod]
     public string GetFilter(int companyId, DateTime? from, DateTime? to, int status)
     {
-        StringBuilder filter = new StringBuilder("{");
+        var filter = new StringBuilder("{");
         filter.Append(Tools.JsonPair("companyId", companyId)).Append(",");
         filter.Append(Tools.JsonPair("from", from)).Append(",");
         filter.Append(Tools.JsonPair("to", to)).Append(",");

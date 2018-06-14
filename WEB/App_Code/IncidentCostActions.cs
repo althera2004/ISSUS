@@ -9,18 +9,15 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for IncidentCostActions
-/// </summary>
+/// <summary>Summary description for IncidentCostActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
 public class IncidentCostActions : WebService {
 
-    public IncidentCostActions () {
-
-        //Uncomment the following line if using designed components 
-        //InitializeComponent(); 
+    /// <summary>Initializes a new instance of the IncidentCostActions class</summary>
+    public IncidentCostActions ()
+    { 
     }
 
     [WebMethod(EnableSession = true)]
@@ -34,8 +31,7 @@ public class IncidentCostActions : WebService {
     [ScriptMethod]
     public ActionResult Update(IncidentCost newIncidentCost, IncidentCost oldIncidentCost, int userId)
     {
-        string differences = IncidentCost.Differences(oldIncidentCost, newIncidentCost);
-        return newIncidentCost.Update(userId, differences);
+        return newIncidentCost.Update(userId, oldIncidentCost.Differences(newIncidentCost));
     }
 
     [WebMethod(EnableSession = true)]

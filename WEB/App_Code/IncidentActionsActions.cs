@@ -12,15 +12,13 @@ using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for IncidentActionsActions
-/// </summary>
+/// <summary>Implements actions for IncidentActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
 public class IncidentActionsActions : WebService
 {
-
+    /// <summary>Initializes a new instance of the IndicentActionActions class</summary>
     public IncidentActionsActions()
     {
     }
@@ -29,8 +27,7 @@ public class IncidentActionsActions : WebService
     [ScriptMethod]
     public ActionResult Save(IncidentAction incidentAction, int userId)
     {
-        ActionResult res = ActionResult.NoAction;
-
+        var res = ActionResult.NoAction;
         if (incidentAction.Id < 1)
         {
             res = incidentAction.Insert(userId);
@@ -47,8 +44,7 @@ public class IncidentActionsActions : WebService
     [ScriptMethod]
     public ActionResult SaveAndCopy(IncidentAction incidentAction, bool applyAction, long businessRiskId, int userId)
     {
-        ActionResult res = ActionResult.NoAction;
-
+        var res = ActionResult.NoAction;
         if (incidentAction.Id < 1)
         {
             res = incidentAction.Insert(userId);
@@ -60,7 +56,7 @@ public class IncidentActionsActions : WebService
 
         if (applyAction)
         {
-            BusinessRisk risk = BusinessRisk.GetById(incidentAction.CompanyId, businessRiskId);
+            var risk = BusinessRisk.ById(incidentAction.CompanyId, businessRiskId);
             incidentAction.BusinessRiskId = risk.Id;
             incidentAction.WhatHappenedOn = risk.DateStart;
             incidentAction.Causes = risk.Causes;
@@ -71,7 +67,6 @@ public class IncidentActionsActions : WebService
             res = incidentAction.Insert(userId);
         }
 
-
         return res;
     }
 
@@ -79,17 +74,14 @@ public class IncidentActionsActions : WebService
     [ScriptMethod]
     public ActionResult Delete(long incidentActionId, int companyId, int userId)
     {
-        ActionResult res = ActionResult.NoAction;
-        IncidentAction action = new IncidentAction() { Id = incidentActionId, CompanyId = companyId };
-        res = action.Delete(userId);
-        return res;
+        return new IncidentAction { Id = incidentActionId, CompanyId = companyId }.Delete(userId);
     }
     
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
     public string GetFilter(int companyId, DateTime? from, DateTime? to, bool statusIdnetified, bool statusAnalyzed, bool statusInProgress, bool statusClose, bool typeImprovement, bool typeFix, bool typePrevent, int origin, int reporter)
     {
-        StringBuilder filter = new StringBuilder("{");
+        var filter = new StringBuilder("{");
         filter.Append(Tools.JsonPair("companyId", companyId)).Append(",");
         filter.Append(Tools.JsonPair("from", from)).Append(",");
         filter.Append(Tools.JsonPair("to", to)).Append(",");

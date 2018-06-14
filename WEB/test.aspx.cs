@@ -26,7 +26,7 @@ public partial class test : Page
         string cns = ConfigurationManager.ConnectionStrings["cns"].ConnectionString;
         this.ltCns.Text = "Connection string: " + cns + "<br />";
 
-        SqlConnection cnn = new SqlConnection(cns);
+        var cnn = new SqlConnection(cns);
         try
         {
             cnn.Open();

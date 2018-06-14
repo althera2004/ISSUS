@@ -17,20 +17,20 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PDF_Tests;
 
-public partial class Export_PrintActionData : Page
+public partial class ExportPrintActionData : Page
 {
     BaseFont headerFont = null;
     BaseFont arial = null;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        long actionId = Convert.ToInt64(Request.QueryString["id"].ToString());
-        int companyId = Convert.ToInt32(Request.QueryString["companyId"].ToString());
-        Company company = new Company(companyId);
-        ActionResult res = ActionResult.NoAction;
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
-        Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        IncidentAction action = IncidentAction.GetById(actionId, user.CompanyId);
+        long actionId = Convert.ToInt64(Request.QueryString["id"]);
+        int companyId = Convert.ToInt32(Request.QueryString["companyId"]);
+        var company = new Company(companyId);
+        var res = ActionResult.NoAction;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+        var action = IncidentAction.ById(actionId, user.CompanyId);
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -70,7 +70,7 @@ public partial class Export_PrintActionData : Page
         if (action.Origin == 2) { origin = dictionary["Item_IncidentAction_Origin2"]; }
         if (action.Origin == 3)
         {
-            Incident incident = Incident.GetById(action.IncidentId, action.CompanyId);
+            var incident = Incident.GetById(action.IncidentId, action.CompanyId);
             origin = "Incidencia:" + incident.Description;
         }
 
@@ -78,7 +78,7 @@ public partial class Export_PrintActionData : Page
         {
             if (action.BusinessRiskId != null)
             {
-                BusinessRisk businessRisk = BusinessRisk.GetById(action.CompanyId, action.BusinessRiskId);
+                var businessRisk = BusinessRisk.ById(action.CompanyId, action.BusinessRiskId);
                 origin = businessRisk.Description;
                 originSufix = " (" + dictionary["Item_BusinessRisk"] + ")";
             }
@@ -90,28 +90,28 @@ public partial class Export_PrintActionData : Page
             {
                 case 1:
                     reporterType = dictionary["Item_IncidentAction_ReporterType1"];
-                    Department department = Department.GetById(action.Department.Id, action.CompanyId);
+                    var department = Department.ById(action.Department.Id, action.CompanyId);
                     reporter = department.Description;
                     break;
                 case 2:
                     reporterType = dictionary["Item_IncidentAction_ReporterType2"];
-                    Provider provider = Provider.GetById(action.Provider.Id, action.CompanyId);
+                    var provider = Provider.ById(action.Provider.Id, action.CompanyId);
                     reporter = provider.Description;
                     break;
                 case 3:
                     reporterType = dictionary["Item_IncidentAction_ReporterType3"];
-                    Customer customer = Customer.GetById(action.Customer.Id, action.CompanyId);
+                    var customer = Customer.ById(action.Customer.Id, action.CompanyId);
                     reporter = customer.Description;
+                    break;
+                default:
                     break;
             }
         }
 
         string status = string.Empty;
-
-        iTextSharp.text.Document document = new iTextSharp.text.Document(PageSize.A4, 30, 30, 65, 55);
-
-        PdfWriter writer = PdfWriter.GetInstance(document, new FileStream(Request.PhysicalApplicationPath + "\\Temp\\" + fileName, FileMode.Create));
-        TwoColumnHeaderFooter PageEventHandler = new TwoColumnHeaderFooter()
+        var document = new iTextSharp.text.Document(PageSize.A4, 30, 30, 65, 55);
+        var writer = PdfWriter.GetInstance(document, new FileStream(Request.PhysicalApplicationPath + "\\Temp\\" + fileName, FileMode.Create));
+        writer.PageEvent = new TwoColumnHeaderFooter
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, companyId),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
@@ -122,30 +122,18 @@ public partial class Export_PrintActionData : Page
             Title = dictionary["Item_IncidentAction"].ToUpperInvariant()
         };
 
-        writer.PageEvent = PageEventHandler;
-
         document.Open();
-        iTextSharp.text.html.simpleparser.StyleSheet styles = new iTextSharp.text.html.simpleparser.StyleSheet();
-        iTextSharp.text.html.simpleparser.HTMLWorker hw = new iTextSharp.text.html.simpleparser.HTMLWorker(document);
+        var styles = new iTextSharp.text.html.simpleparser.StyleSheet();
+        var hw = new iTextSharp.text.html.simpleparser.HTMLWorker(document);
 
-        PdfPTable table = new PdfPTable(4);
-
-        // actual width of table in points
-        table.WidthPercentage = 100;
-        // fix the absolute width of the table
-        // table.LockedWidth = true;
-
-        //relative col widths in proportions - 1/3 and 2/3
-        float[] widths = new float[] { 15f, 30f, 15f, 30f };
+        var widths = new float[] { 15f, 30f, 15f, 30f };
+        var table = new PdfPTable(4)
+        {
+            WidthPercentage = 100,
+            HorizontalAlignment = 0
+        };
         table.SetWidths(widths);
-        table.HorizontalAlignment = 0;
-        //leave a gap before and after the table
-        //table.SpacingBefore = 5f;
-        //table.SpacingAfter = 30f;
-
-        var borderNone = Rectangle.NO_BORDER;
         var borderSides = Rectangle.RIGHT_BORDER + Rectangle.LEFT_BORDER;
-        var borderAll = Rectangle.RIGHT_BORDER + Rectangle.TOP_BORDER + Rectangle.LEFT_BORDER + Rectangle.BOTTOM_BORDER;
         var borderTBL = Rectangle.TOP_BORDER + Rectangle.BOTTOM_BORDER + Rectangle.LEFT_BORDER;
         var borderTBR = Rectangle.TOP_BORDER + Rectangle.BOTTOM_BORDER + Rectangle.RIGHT_BORDER;
         var borderBL = Rectangle.BOTTOM_BORDER + Rectangle.LEFT_BORDER;
@@ -154,28 +142,28 @@ public partial class Export_PrintActionData : Page
         var alignLeft = Element.ALIGN_LEFT;
         var alignRight = Element.ALIGN_RIGHT;
 
-        Font labelFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.DARK_GRAY);
-        Font valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
+        var labelFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.DARK_GRAY);
+        var valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
 
         //document.Add(new Phrase("\n"));
 
         // Descripción
         table.AddCell(labelCell(dictionary["Item_IncidentAction_Label_Description"], Rectangle.NO_BORDER));
-        table.AddCell(valueCell(action.Description, borderNone, alignLeft, 1));
+        table.AddCell(valueCell(action.Description, ToolsPdf.BorderNone, alignLeft, 1));
 
         // Tipo
         table.AddCell(labelCell(dictionary["Item_IncidentAction_Label_Type"], Rectangle.NO_BORDER));
-        table.AddCell(valueCell(type, borderNone, alignLeft, 1));
+        table.AddCell(valueCell(type, ToolsPdf.BorderNone, alignLeft, 1));
 
         // Origen
         table.AddCell(labelCell(dictionary["Item_IncidentAction_Label_Origin"], Rectangle.NO_BORDER));
-        table.AddCell(valueCell(origin + originSufix, borderNone, alignLeft, 3));
+        table.AddCell(valueCell(origin + originSufix, ToolsPdf.BorderNone, alignLeft, 3));
 
         // Reportador
         if (action.Origin != 4)
         {
             table.AddCell(labelCell(dictionary["Item_IncidentAction_Label_Reporter"], Rectangle.NO_BORDER));
-            table.AddCell(valueCell(reporterType + " (" + reporter + ")", borderNone, alignLeft, 3));
+            table.AddCell(valueCell(reporterType + " (" + reporter + ")", ToolsPdf.BorderNone, alignLeft, 3));
         }
 
         // WhatHappend
@@ -205,7 +193,7 @@ public partial class Export_PrintActionData : Page
         // Monitoring
         table.AddCell(separationRow());
         table.AddCell(titleCell(dictionary["Item_IncidentAction_Field_Monitoring"]));
-        table.AddCell(textAreaCell(Environment.NewLine + action.Monitoring, borderAll, alignLeft, 4));
+        table.AddCell(textAreaCell(Environment.NewLine + action.Monitoring, ToolsPdf.BorderAll, alignLeft, 4));
 
         // Close
         table.AddCell(separationRow());
@@ -216,7 +204,7 @@ public partial class Export_PrintActionData : Page
         // Notes
         table.AddCell(separationRow());
         table.AddCell(titleCell(dictionary["Item_IncidentAction_Field_Notes"]));
-        table.AddCell(textAreaCell(Environment.NewLine + action.Notes, borderAll, alignLeft, 4));
+        table.AddCell(textAreaCell(Environment.NewLine + action.Notes, ToolsPdf.BorderAll, alignLeft, 4));
 
         document.Add(table);
         document.Close();
@@ -232,60 +220,62 @@ public partial class Export_PrintActionData : Page
 
     private PdfPCell labelCell(string label, int borders)
     {
-        Font labelFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.DARK_GRAY);
-        PdfPCell cell = new PdfPCell(new Phrase(label + ":", labelFont));
-        cell.Border = borders;
-        cell.HorizontalAlignment = 2;
-        return cell;
+        return new PdfPCell(new Phrase(label + ":", new Font(this.arial, 10, Font.NORMAL, BaseColor.DARK_GRAY)))
+        {
+            Border = borders,
+            HorizontalAlignment = 2
+        };
     }
 
     private PdfPCell valueCell(string value, int borders, int align, int colSpan)
     {
-        Font valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
-        PdfPCell cell = new PdfPCell(new Phrase(value, valueFont));
-        cell.Colspan = colSpan;
-        cell.Border = borders;
-        cell.HorizontalAlignment = align;
-        return cell;
+        return new PdfPCell(new Phrase(value, new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK)))
+        {
+            Colspan = colSpan,
+            Border = borders,
+            HorizontalAlignment = align
+        };
     }
 
     private PdfPCell textAreaCell(string value, int borders, int align, int colSpan)
     {
-        Font valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
-        PdfPCell cell = new PdfPCell(new Phrase(value, valueFont));
-        cell.Colspan = colSpan;
-        cell.Border = borders;
-        cell.HorizontalAlignment = align;
-        cell.Padding = 10;
-        cell.PaddingTop = 0;
-        return cell;
+        return new PdfPCell(new Phrase(value, new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK)))
+        {
+            Colspan = colSpan,
+            Border = borders,
+            HorizontalAlignment = align,
+            Padding = 10,
+            PaddingTop = 0
+        };
     }
 
     private PdfPCell titleCell(string value)
     {
-        Font valueFont = new Font(this.headerFont, 11, Font.NORMAL, BaseColor.BLACK);
-        PdfPCell cell = new PdfPCell(new Phrase(value, valueFont));
-        cell.Colspan = 4;
-        cell.HorizontalAlignment = Element.ALIGN_CENTER;
-        cell.BackgroundColor = new BaseColor(225, 225, 225);
-        cell.Padding = 8;
-        cell.PaddingTop = 6;
-        return cell;
+        return new PdfPCell(new Phrase(value, new Font(this.headerFont, 11, Font.NORMAL, BaseColor.BLACK)))
+        {
+            Colspan = 4,
+            HorizontalAlignment = Element.ALIGN_CENTER,
+            BackgroundColor = BaseColor.WHITE,
+            Padding = 8,
+            PaddingTop = 6
+        };
     }
 
     private PdfPCell blankRow()
     {
-        PdfPCell cell = new PdfPCell(new Phrase("\n"));
-        cell.Colspan = 4;
-        cell.Border = Rectangle.RIGHT_BORDER + Rectangle.LEFT_BORDER;
-        return cell;
+        return new PdfPCell(new Phrase("\n"))
+        {
+            Colspan = 4,
+            Border = Rectangle.RIGHT_BORDER + Rectangle.LEFT_BORDER
+        };
     }
 
     private PdfPCell separationRow()
     {
-        PdfPCell cell = new PdfPCell(new Phrase("\n"));
-        cell.Colspan = 4;
-        cell.Border = Rectangle.NO_BORDER;
-        return cell;
+        return new PdfPCell(new Phrase("\n"))
+        {
+            Colspan = 4,
+            Border = Rectangle.NO_BORDER
+        };
     }
 }

@@ -10,88 +10,88 @@ var CalibrationInternalExists = false;
 var CalibrationExternalExists = false;
 
 function SetCalibrationForm() {
-    document.getElementById('CalibrationInternalActive').checked = this.Equipment.InternalCalibration != null;
-    LockInternalCalibrationForm(document.getElementById('CalibrationInternalActive').checked);
+    document.getElementById("CalibrationInternalActive").checked = this.Equipment.InternalCalibration != null;
+    LockInternalCalibrationForm(document.getElementById("CalibrationInternalActive").checked);
 
-    document.getElementById('CalibrationExternalActive').checked = this.Equipment.ExternalCalibration != null;
-    LockExternalCalibrationForm(document.getElementById('CalibrationExternalActive').checked);
+    document.getElementById("CalibrationExternalActive").checked = this.Equipment.ExternalCalibration != null;
+    LockExternalCalibrationForm(document.getElementById("CalibrationExternalActive").checked);
 
-    if (!document.getElementById('CalibrationInternalActive').checked && !document.getElementById('CalibrationExternalActive').checked) {
-        document.getElementById('CalibrationWarning').style.display = '';
-        document.getElementById('CalibrationDivTable').style.display = 'none';
+    if (!document.getElementById("CalibrationInternalActive").checked && !document.getElementById("CalibrationExternalActive").checked) {
+        $("#CalibrationWarning").show();
+        $("#CalibrationDivTable").hide();
     }
     else {
-        document.getElementById('CalibrationWarning').style.display = 'none';
-        document.getElementById('CalibrationDivTable').style.display = '';
+        $("#CalibrationWarning").hide();
+        $("#CalibrationDivTable").show();
     }
 }
 
 function CalibrationInternalResetForm() {
-    $('#TxtCalibrationInternalOperation').val('');
-    $('#TxtCalibrationInternalPeriodicity').val('');
-    $('#TxtCalibrationInternalUncertainty').val('');
-    $('#TxtCalibrationInternalRange').val('');
-    $('#TxtCalibrationInternalPattern').val('');
-    $('#TxtCalibrationInternalCost').val('');
-    $('#CmbCalibrationInternalResponsible').val('');
-    $('#TxtCalibrationInternalNotes').val('');
-    $('#BtnCalibrationInternalSave').val('');
+    $("#TxtCalibrationInternalOperation").val("");
+    $("#TxtCalibrationInternalPeriodicity").val("");
+    $("#TxtCalibrationInternalUncertainty").val("");
+    $("#TxtCalibrationInternalRange").val("");
+    $("#TxtCalibrationInternalPattern").val("");
+    $("#TxtCalibrationInternalCost").val("");
+    $("#CmbCalibrationInternalResponsible").val("");
+    $("#TxtCalibrationInternalNotes").val("");
+    $("#BtnCalibrationInternalSave").val("");
     CalibrationInternalSetForm();
 }
 
 function CalibrationExternalResetForm() {
-    $('#TxtCalibrationExternalOperation').val('');
-    $('#TxtCalibrationExternalPeriodicity').val('');
-    $('#TxtCalibrationExternalUncertainty').val('');
-    $('#TxtCalibrationExternalRange').val('');
-    $('#TxtCalibrationExternalPattern').val('');
-    $('#TxtCalibrationExternalCost').val('');
-    $('#CmbCalibrationExternalResponsible').val('');
-    $('#CmbCalibrationExternalProvider').val('');
-    $('#TxtCalibrationExternalNotes').val('');
-    $('#BtnCalibrationExternalSave').val('');
+    $("#TxtCalibrationExternalOperation").val("");
+    $("#TxtCalibrationExternalPeriodicity").val("");
+    $("#TxtCalibrationExternalUncertainty").val("");
+    $("#TxtCalibrationExternalRange").val("");
+    $("#TxtCalibrationExternalPattern").val("");
+    $("#TxtCalibrationExternalCost").val("");
+    $("#CmbCalibrationExternalResponsible").val("");
+    $("#CmbCalibrationExternalProvider").val("");
+    $("#TxtCalibrationExternalNotes").val("");
+    $("#BtnCalibrationExternalSave").val("");
     CalibrationExternalSetForm();
 }
 
 function CalibrationInternalSetForm() {
-    var active = document.getElementById('CalibrationInternalActive').checked;
-    $('#TxtCalibrationInternalOperation').prop('readonly', !active);
-    $('#TxtCalibrationInternalPeriodicity').prop('readonly', !active);
-    $('#TxtCalibrationInternalUncertainty').prop('readonly', !active);
-    $('#TxtCalibrationInternalRange').prop('readonly', !active);
-    $('#TxtCalibrationInternalPattern').prop('readonly', !active);
-    $('#TxtCalibrationInternalCost').prop('readonly', !active);
-    $('#CmbCalibrationInternalResponsible').prop('disabled', !active);
-    $('#CmbCalibrationInternalResponsible').val(ApplicationUser.Employee.Id);
-    $('#TxtCalibrationInternalNotes').prop('readonly', !active);
-    $('#BtnCalibrationInternalSave').prop('disabled', !active);
+    var active = document.getElementById("CalibrationInternalActive").checked;
+    $("#TxtCalibrationInternalOperation").prop("readonly", !active);
+    $("#TxtCalibrationInternalPeriodicity").prop("readonly", !active);
+    $("#TxtCalibrationInternalUncertainty").prop("readonly", !active);
+    $("#TxtCalibrationInternalRange").prop("readonly", !active);
+    $("#TxtCalibrationInternalPattern").prop("readonly", !active);
+    $("#TxtCalibrationInternalCost").prop("readonly", !active);
+    $("#CmbCalibrationInternalResponsible").prop("disabled", !active);
+    $("#CmbCalibrationInternalResponsible").val(ApplicationUser.Employee.Id);
+    $("#TxtCalibrationInternalNotes").prop("readonly", !active);
+    $("#BtnCalibrationInternalSave").prop("disabled", !active);
     CalibrationInternalActive = active;
     CalibrationInternalExists = Equipment.InternalCalibration != null && Equipment.InternalCalibration.Id > 0;
     ShowNewCalibrationButton();
 }
 
 function CalibrationExternalSetForm() {
-    var active = document.getElementById('CalibrationExternalActive').checked;
-    $('#TxtCalibrationExternalOperation').prop('readonly', !active);
-    $('#TxtCalibrationExternalPeriodicity').prop('readonly', !active);
-    $('#TxtCalibrationExternalUncertainty').prop('readonly', !active);
-    $('#TxtCalibrationExternalRange').prop('readonly', !active);
-    $('#TxtCalibrationExternalPattern').prop('readonly', !active);
-    $('#TxtCalibrationExternalCost').prop('readonly', !active);
-    $('#CmbCalibrationExternalResponsible').prop('disabled', !active);
-    $('#CmbCalibrationExternalResponsible').val(ApplicationUser.Employee.Id);
-    $('#CmbCalibrationExternalProvider').prop('disabled', !active);
-    $('#CmbCalibrationExternalProvider').val(0);
-    $('#TxtCalibrationExternalNotes').prop('readonly', !active);
-    $('#BtnCalibrationExternalProviderBAR').prop('disabled', !active);
-    $('#BtnCalibrationExternalSave').prop('disabled', !active);
+    var active = document.getElementById("CalibrationExternalActive").checked;
+    $("#TxtCalibrationExternalOperation").prop("readonly", !active);
+    $("#TxtCalibrationExternalPeriodicity").prop("readonly", !active);
+    $("#TxtCalibrationExternalUncertainty").prop("readonly", !active);
+    $("#TxtCalibrationExternalRange").prop("readonly", !active);
+    $("#TxtCalibrationExternalPattern").prop("readonly", !active);
+    $("#TxtCalibrationExternalCost").prop("readonly", !active);
+    $("#CmbCalibrationExternalResponsible").prop("disabled", !active);
+    $("#CmbCalibrationExternalResponsible").val(ApplicationUser.Employee.Id);
+    $("#CmbCalibrationExternalProvider").prop("disabled", !active);
+    $("#CmbCalibrationExternalProvider").val(0);
+    $("#TxtCalibrationExternalNotes").prop("readonly", !active);
+    $("#BtnCalibrationExternalProviderBAR").prop("disabled", !active);
+    $("#BtnCalibrationExternalSave").prop("disabled", !active);
     CalibrationExternalActive = active;
     CalibrationExternalExists = Equipment.ExternalCalibration != null && Equipment.ExternalCalibration.Id > 0;
     ShowNewCalibrationButton();
 }
 
 function CalibrationInternalCheckActive() {
-    document.getElementById('CalibrationInternalActive').checked = true;
+    document.getElementById("CalibrationInternalActive").checked = true;
     return false;
 }
 
@@ -250,28 +250,28 @@ function EquipmentCalibrationActRenderRow(equipmentCalibrationAct, targetName) {
     row.appendChild(tdVto);
 
     if (GrantToWrite) {
-        var tdActions = document.createElement('TD');
-        var iconEdit = document.createElement('SPAN');
-        var iconDelete = document.createElement('SPAN');
+        var tdActions = document.createElement("TD");
+        var iconEdit = document.createElement("SPAN");
+        var iconDelete = document.createElement("SPAN");
 
-        iconEdit.className = 'btn btn-xs btn-info';
+        iconEdit.className = "btn btn-xs btn-info";
         iconEdit.title = Dictionary.Common_Edit;
         iconEdit.onclick = function (e) { EquipmentCalibrationActEdit(this) }
-        var innerEdit = document.createElement('I');
-        innerEdit.className = 'icon-edit bigger-120';
+        var innerEdit = document.createElement("I");
+        innerEdit.className = "icon-edit bigger-120";
         iconEdit.appendChild(innerEdit);
 
-        iconDelete.className = 'btn btn-xs btn-danger';
+        iconDelete.className = "btn btn-xs btn-danger";
         iconDelete.title = Dictionary.Common_Delete;
         iconDelete.onclick = function (e) { EquipmentCalibrationActDelete(this) }
-        var innerDelete = document.createElement('I');
-        innerDelete.className = 'icon-trash bigger-120';
+        var innerDelete = document.createElement("I");
+        innerDelete.className = "icon-trash bigger-120";
         iconDelete.appendChild(innerDelete);
 
         tdActions.appendChild(iconEdit);
-        tdActions.appendChild(document.createTextNode(' '));
+        tdActions.appendChild(document.createTextNode(" "));
         tdActions.appendChild(iconDelete);
-        tdActions.style.width = '90px';
+        tdActions.style.width = "90px";
         row.appendChild(tdActions);
     }
 
@@ -315,7 +315,7 @@ function EquipmentCalibrationActListUpdate(equipmentCalibrationAct) {
 
 function EquipmentCalibrationActNewFormReset(EquipmentCalibrationDefinition) {
 
-    document.getElementById('REquipmentCalibrationActTypeErrorRequired').style.display = 'none';
+    $("#REquipmentCalibrationActTypeErrorRequired").hide();
     var internal = document.getElementById('CalibrationInternalActive').checked;
     var external = document.getElementById('CalibrationExternalActive').checked;
 
@@ -441,6 +441,20 @@ function EquipmentCalibrationActValidateForm() {
         ok = false;
     }
 
+    var calibrationType = document.getElementById('REquipmentCalibrationActTypeInternal').checked ? 0 : 1;
+    var expiration = GetDate($('#TxtEquipmentCalibrationActDate').val(), '-');
+
+    // comprobar linea del tiempo
+    for (var x = 0; x < EquipmentCalibrationActList.length; x++) {
+        if (EquipmentCalibrationActList[x].EquipmentCalibrationType === calibrationType) {
+            if (GetDateYYYYMMDD(EquipmentCalibrationActList[x].Date) > expiration) {
+                ok = false;
+                $("#TxtEquipmentCalibrationActDateLabel").css("color", "#f00");
+                $("#TxtEquipmentCalibrationActDateOverTime").show();
+            }
+        }
+    }
+
     return ok;
 }
 
@@ -479,14 +493,25 @@ function FillCmbEquipmentCalibrationActResponsible() {
 }
 
 function REquipmentCalibrationActTypeChanged() {
-    if (document.getElementById('REquipmentCalibrationActTypeExternal').checked === true) {
-        document.getElementById('CmbEquipmentCalibrationActProviderRow').style.display = '';
+    if (document.getElementById("REquipmentCalibrationActTypeExternal").checked === true) {
+        $("#CmbEquipmentCalibrationActProviderRow").show();
+        $("#TxtEquipmentCalibrationActCost").val($("#TxtCalibrationExternalCost").val());
+        $("#CmbEquipmentCalibrationActProvider").val($("#CmbCalibrationExternalProvider").val());
     } else {
-        document.getElementById('CmbEquipmentCalibrationActProviderRow').style.display = 'none';
+        $("#CmbEquipmentCalibrationActProviderRow").hide();
+        if (document.getElementById("REquipmentCalibrationActTypeInternal").checked === true) {
+            $("#TxtEquipmentCalibrationActCost").val($("#TxtCalibrationInternalCost").val());
+        }
     }
 }
 
 function ShowDialogNewCalibrationPopup(actionSelected) {
+    if (ToMoneyFormat(Equipment.InternalCalibration.Cost, 2) != $("#TxtCalibrationInternalCost").val() ||
+        ToMoneyFormat(Equipment.ExternalCalibration.Cost, 2) != $("#TxtCalibrationExternalCost").val()) {
+        alertUI(Dictionary.Item_Equipment_Message_CalibrationChanged);
+        return false;
+    }
+
     FillCmbEquipmentCalibrationActProvider();
     FillCmbEquipmentCalibrationActResponsible();
     EquipmentCalibrationActNewFormReset();
@@ -508,36 +533,42 @@ function ShowDialogNewCalibrationPopup(actionSelected) {
         return false;
     }
 
-    var dialog = $("#dialogEquipmentCalibrationForm").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_EquipmentCalibrationAct_PopupNew_Title + '</h4></div>',
-        title_html: true,
-        width: 400,
-        buttons: [
-                        {
-                            id: 'BtnNewAddresSave',
-                            html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
-                            "class": "btn btn-success btn-xs",
-                            click: function () {
-                                EquipmentCalibrationSave();
-                            }
-                        },
-                        {
-                            html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
-                            "class": "btn btn-xs",
-                            click: function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    ]
+    var dialog = $("#dialogEquipmentCalibrationForm").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentCalibrationAct_PopupNew_Title + "</h4>",
+        "title_html": true,
+        "width": 400,
+        "buttons":
+        [
+            {
+                "id": "BtnNewCalibrationActSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
+                "class": "btn btn-success btn-xs",
+                "click": function () {
+                    EquipmentCalibrationSave();
+                }
+            },
+            {
+                "id": "BtnNewCalibrationActCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () {
+                    $(this).dialog("close");
+                }
+            }
+        ]
 
     });
+
+    $("#TxtEquipmentCalibrationActCost").val();
+    REquipmentCalibrationActTypeChanged();
 }
 
 function EquipmentCalibrationSave() {
     var ok = EquipmentCalibrationActValidateForm();
     if (ok === false) { return false; }
+
 
     var expiration = GetDate($('#TxtEquipmentCalibrationActDate').val(), '-');
     var range = document.getElementById('REquipmentCalibrationActTypeInternal').checked ? ($('#TxtCalibrationInternalPeriodicity').val() * 1) : ($('#TxtCalibrationExternalPeriodicity').val() * 1);
@@ -751,80 +782,85 @@ function EquipmentCalibrationInternalDefinitionSave() {
         });
     }
     else {
-        var webMethod = "/Async/EquipmentCalibrationDefinitionActions.asmx/Update";
-        var data = { equipmentCalibrationDefinition: CalibrationInternalDefinition, userId: user.Id };
+        var data = {
+            "equipmentCalibrationDefinition": CalibrationInternalDefinition,
+            "userId": user.Id
+        }
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentCalibrationDefinitionActions.asmx/Update",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 Equipment.InternalCalibration = CalibrationInternalDefinition;
                 successInfoUI(Dictionary.Common_Action_Success);
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
     }
-
 }
 
 function EquipmentCalibrationExternalDefinitionSave() {
-    var uncertainty = StringToNumber($('#TxtCalibrationExternalUncertainty').val(), '.', ',');
-    var cost = StringToNumber($('#TxtCalibrationExternalCost').val(), '.', ',');
+    var uncertainty = StringToNumber($("#TxtCalibrationExternalUncertainty").val(), ".", ",");
+    var cost = StringToNumber($("#TxtCalibrationExternalCost").val(), ".", ",");
     CalibrationExternalDefinition = {
-        Id: Equipment.ExternalCalibration == null ? 0 : Equipment.ExternalCalibration.Id,
-        EquipmentId: Equipment.Id,
-        CompanyId: Equipment.CompanyId,
-        CalibrationType: 1,
-        Description: $('#TxtCalibrationExternalOperation').val(),
-        Periodicity: ParseInputValueToNumber($('#TxtCalibrationExternalPeriodicity').val()),
-        Uncertainty: uncertainty,
-        Range: $('#TxtCalibrationExternalRange').val(),
-        Pattern: $('#TxtCalibrationExternalPattern').val(),
-        Cost: cost,
-        Notes: $('#TxtCalibrationExternalNotes').val(),
-        Provider: { Id: $('#CmbCalibrationExternalProvider').val() },
-        Responsible: { Id: $('#CmbCalibrationExternalResponsible').val() }
+        "Id": Equipment.ExternalCalibration == null ? 0 : Equipment.ExternalCalibration.Id,
+        "EquipmentId": Equipment.Id,
+        "CompanyId": Equipment.CompanyId,
+        "CalibrationType": 1,
+        "Description": $("#TxtCalibrationExternalOperation").val(),
+        "Periodicity": ParseInputValueToNumber($("#TxtCalibrationExternalPeriodicity").val()),
+        "Uncertainty": uncertainty,
+        "Range": $("#TxtCalibrationExternalRange").val(),
+        "Pattern": $("#TxtCalibrationExternalPattern").val(),
+        "Cost": cost,
+        "Notes": $("#TxtCalibrationExternalNotes").val(),
+        "Provider": { Id: $("#CmbCalibrationExternalProvider").val() },
+        "Responsible": { Id: $("#CmbCalibrationExternalResponsible").val() }
     }
 
     if (Equipment.ExternalCalibration.Id < 1) {
-        var webMethod = "/Async/EquipmentCalibrationDefinitionActions.asmx/Insert";
-        var data = { equipmentCalibrationDefinition: CalibrationExternalDefinition, userId: user.Id };
+        var data = {
+            "equipmentCalibrationDefinition": CalibrationExternalDefinition,
+            "userId": user.Id
+        };
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentCalibrationDefinitionActions.asmx/Insert",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 CalibrationExternalDefinition.Id = msg.d.MessageError * 1;
                 Equipment.ExternalCalibration = CalibrationExternalDefinition;
                 CalibrationExternalExists = true;
                 ShowNewCalibrationButton();
                 successInfoUI(Dictionary.Common_Action_Success);
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
     }
     else {
-        var webMethod = "/Async/EquipmentCalibrationDefinitionActions.asmx/Update";
-        var data = { equipmentCalibrationDefinition: CalibrationExternalDefinition, userId: user.Id };
+        var data = {
+            "equipmentCalibrationDefinition": CalibrationExternalDefinition,
+            "userId": user.Id
+        };
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentCalibrationDefinitionActions.asmx/Update",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 Equipment.ExternalCalibration = CalibrationExternalDefinition;
                 successInfoUI(Dictionary.Common_Action_Success);
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
@@ -832,44 +868,50 @@ function EquipmentCalibrationExternalDefinitionSave() {
 }
 
 function CalibrationInternalDelete() {
-    var webMethod = "/Async/EquipmentCalibrationDefinitionActions.asmx/Delete";
-    var data = { equipmentCalibrationDefinitionId: Equipment.InternalCalibration.Id, companyId: Equipment.CompanyId, userId: user.Id };
+    var data = {
+        "equipmentCalibrationDefinitionId": Equipment.InternalCalibration.Id,
+        "companyId": Equipment.CompanyId,
+        "userId": user.Id
+    };
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
-            if (msg.d.MessageError == '') {
+        "type": "POST",
+        "url": "/Async/EquipmentCalibrationDefinitionActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            if (msg.d.MessageError == "") {
                 CalibrationInternalExists = false;
                 Equipment.InternalCalibration = null;
                 CalibrationInternalResetForm();
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
 }
 
 function CalibrationExternalDelete() {
-    var webMethod = "/Async/EquipmentCalibrationDefinitionActions.asmx/Delete";
-    var data = { equipmentCalibrationDefinitionId: Equipment.ExternalCalibration.Id, companyId: Equipment.CompanyId, userId: user.Id };
+    var data = {
+        "equipmentCalibrationDefinitionId": Equipment.ExternalCalibration.Id,
+        "companyId": Equipment.CompanyId,
+        "userId": user.Id
+    };
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
-            if (msg.d.MessageError == '') {
+        "type": "POST",
+        "url": "/Async/EquipmentCalibrationDefinitionActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            if (msg.d.MessageError == "") {
                 CalibrationExternalExists = false;
                 Equipment.ExternalCalibration = null;
                 CalibrationExternalResetForm();
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });

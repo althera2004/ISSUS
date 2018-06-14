@@ -35,7 +35,7 @@
             function ItemDelete(id, name) {
                 $('#ItemName').html(name);
                 ProviderSelected = id;
-                var dialog = $("#ItemDeleteDialog").removeClass('hide').dialog({
+                var dialog = $("#ItemDeleteDialog").removeClass("hide").dialog({
                     resizable: false,
                     modal: true,
                     title: Dictionary.Common_Delete,
@@ -49,7 +49,7 @@
                                 }
                             },
                             {
-                                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                                 "class": "btn btn-xs",
                                 click: function () {
                                     $(this).dialog("close");

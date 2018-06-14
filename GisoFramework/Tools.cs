@@ -17,8 +17,13 @@ namespace GisoFramework
     {
         public static DateTime? TextToDate(string text)
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                return null;
+            }
+
             var parts = text.Split('/');
-            if(parts.Length == 3)
+            if (parts.Length == 3)
             {
                 return DateTime.ParseExact(text, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             }
@@ -221,7 +226,7 @@ namespace GisoFramework
         /// <param name="value">Decimal value</param>
         /// <param name="decimals">Number of decimals</param>
         /// <returns>Json representation of key/value pair</returns>
-        public static string JsonPair(string key, decimal? value,int decimals)
+        public static string JsonPair(string key, decimal? value, int decimals)
         {
             if (value.HasValue)
             {
@@ -349,7 +354,7 @@ namespace GisoFramework
             }
         }
 
-        /// <summary>Search the text on dictionary
+        /// <summary>Search the text on dictionary</summary>
         /// <param name="text">Dictionary key</param>
         /// <returns>Translated text by dictionary, or original text if not found</returns>
         public static string Translate(string text)

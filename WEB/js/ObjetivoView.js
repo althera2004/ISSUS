@@ -1,13 +1,16 @@
 ﻿var lockOrderList = false;
 var firstChart = true;
 var CloseRequired = false;
+var recordsGraph = [];
+var periodicityIndicador = null;
 
-window.onload = function () {
+window.onload = function () {    
     if (ItemData.Id < 1) {
         $("#TxtFechaCierrePrevista").val("");
         document.getElementById("Contentholder1_RVinculatedNo").checked = true;
     }
     else {
+        periodicityIndicador = ItemData.RevisionId;
         $("#TxtName").val(ItemData.Name);
         $("#TxtDescription").val(ItemData.Description);
         $("#TxtMethodology").val(ItemData.Methodology);
@@ -28,10 +31,18 @@ window.onload = function () {
 
         $("#BtnAnular").on("click", AnularPopup);
         $("#BtnRestaurar").on("click", Restore);
+
+        $("#TxtActionsFromDate").on("change", RenderActionsTable);
+        $("#TxtActionsToDate").on("change", RenderActionsTable);
+        $("#TxtRecordsFromDate").on("change", ObjetivoRegistroFilter);
+        $("#TxtRecordsToDate").on("change", ObjetivoRegistroFilter);
+        RenderActionsTable();
+        ObjetivoRegistroFilter();
+
+        $("#BtnActionsNew").on("click", ActionNew);
     }
 
-
-    var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true });
+    var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { "autoclose": true, "todayHighlight": true });
     $(".date-picker").datepicker(options);
 
     $("#BtnRecordShowNone").on("click", ObjetivoRegistroNone);
@@ -39,7 +50,7 @@ window.onload = function () {
     $("#BtnRecordFilter").on("click", ObjetivoRegistroFilter);
     $("#BtnRecordNew").on("click", RecordNew);
     $("#BtnSave").on("click", Save);
-    $('#BtnCancel').on('click', function (e) { document.location = referrer; });
+    $("#BtnCancel").on("click", function (e) { document.location = referrer; });
 
     $("#Contentholder1_RVinculatedYes").on("change", IndicatorVinculatedLayout);
     $("#Contentholder1_RVinculatedNo").on("change", IndicatorVinculatedLayout);
@@ -67,7 +78,7 @@ window.onload = function () {
     AnulateLayout();
 
     $("#CmbResponsible").chosen();
-    $("#CmbMetaComparer").chosen();
+    //$("#CmbMetaComparer").chosen();
 
     if (ItemData.EndDate !== null) {
         DisableLayout();
@@ -78,16 +89,24 @@ window.onload = function () {
         $("#BtnRecordNew").hide();
     }
 
-    $("#CmbResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsible").val() * 1, Employees); });
-    $("#CmbResponsibleRecord").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsibleRecord").val() * 1, Employees); });
+    $("#CmbResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsible").val() * 1, Employees, this); });
+    $("#CmbResponsibleRecord").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsibleRecord").val() * 1, Employees, this); });
+
+    RenderTableHistorico();
+
+    if (document.location.toString().indexOf("&Tab=Records") != -1) {
+        $("#Tabrecords a").click();
+        $("#BtnRecordNew").click();
+    }
 }
 
 window.onresize = function () { Resize(); }
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 500) + 'px';
+    $("#ListDataDiv").height(containerHeight - 494);
+    $("#ListDataDivHistorico").height(containerHeight - 370);
+    $("#ListDataDivActions").height(containerHeight - 451);
 }
 
 function IndicatorVinculatedLayout() {
@@ -112,12 +131,11 @@ function IndicatorVinculatedLayout() {
         $("#RecordListTitle").html(Dictionary.Item_Objetivo_Tab_RecordsFromIndicator + " <strong><i>&quot;" + IndicadorName + "&quot;</i></strong>");
         //$("#DivIndicadorRecordsMessage").show();
         $("#TxtPeriodicity").attr("disabled", "disabled");
-        var periodicidad = GetPeriodicityByIndicadorId($("#CmbIndicador").val() * 1);
-        if (periodicidad === null) {
+        if (periodicityIndicador === null) {
             $("#TxtPeriodicity").val("");
         }
         else {
-            $("#TxtPeriodicity").val(periodicidad);
+            $("#TxtPeriodicity").val(periodicityIndicador);
         }
     }
 }
@@ -133,18 +151,19 @@ function GetPeriodicityByIndicadorId(indicadorId) {
 
 function CmbIndicadorChanged() {
     console.log("CmbIndicadorChanged");
-    var periodicidad = GetPeriodicityByIndicadorId($("#CmbIndicador").val() * 1);
-    if (periodicidad === null) {
+    periodicityIndicador = GetPeriodicityByIndicadorId($("#CmbIndicador").val() * 1);
+    if (periodicityIndicador === null) {
         $("#TxtPeriodicity").val("");
     }
     else {
-        $("#TxtPeriodicity").val(periodicidad);
+        $("#TxtPeriodicity").val(periodicityIndicador);
     }
 }
 
-function Save() {
+var newObjetivo = ItemData.Id < 1;
+function Save(goAction, actionId) {
     var validationResult = Validate();
-    if (validationResult != '') {
+    if (validationResult != "") {
         warningInfoUI(validationResult, null, 300);
         return false;
     }
@@ -194,87 +213,102 @@ function Save() {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: "/Async/ObjetivoActions.asmx/Save",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/ObjetivoActions.asmx/Save",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
+            console.log(response.d);
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
             else {
-                document.location = referrer;
+                if (newObjetivo === true) {
+                    ItemData.Id = response.d.MessageError * 1;
+                    alertInfoUI(Dictionary.Item_Objetivo_NewSavedMessage, GoRefresh);
+                }
+                else {
+                    if (typeof goAction === "undefined" || goAction !== true) {
+                        document.location = referrer;
+                    }
+                    else {
+                        document.location = "/ActionView.aspx?id=" + actionId + "&o=" + ItemData.Id;
+                    }
+                }
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
     });
 }
 
+function GoRefresh() {
+    document.location = "ObjetivoView.aspx?id=" + ItemData.Id;
+}
+
 function Validate() {
     var ok = true;
-    document.getElementById("TxtNameLabel").style.color = "#000";
-    document.getElementById("TxtNameErrorRequired").style.display = "none";
-    document.getElementById("TxtNameErrorDuplicated").style.display = "none";
-    document.getElementById("TxtDescriptionLabel").style.color = "#000";
-    document.getElementById("TxtDescriptionErrorRequired").style.display = "none";
-    document.getElementById("TxtFechaAltaLabel").style.color = "#000";
-    document.getElementById("TxtFechaAltaErrorRequired").style.display = "none";
-    document.getElementById("TxtFechaAltaDateMalformed").style.display = "none";
-    document.getElementById("TxtFechaCierrePrevistaLabel").style.color = "#000";
-    document.getElementById("TxtFechaCierrePrevistaErrorRequired").style.display = "none";
-    document.getElementById("TxtFechaCierrePrevistaDateMalformed").style.display = "none";
-    document.getElementById("TxtFechaCierrePrevistaCrossDate").style.display = "none";
-    document.getElementById("CmbResponsibleLabel").style.color = "#000";
-    document.getElementById("CmbResponsibleErrorRequired").style.display = "none";
-    document.getElementById("CmbIndicadorLabel").style.color = "#000";
-    document.getElementById("CmbIndicadorErrorRequired").style.display = "none";
-    /*document.getElementById("TxtFechaCierreRealLabel").style.color = "#000";
-    document.getElementById("TxtFechaCierreRealErrorRequired").style.display = "none";
-    document.getElementById("TxtFechaCierreRealDateMalformed").style.display = "none";
-    document.getElementById("TxtFechaCierreRealCrossDate").style.display = "none";
-    document.getElementById("CmbEndResponsibleLabel").style.color = "#000;"
-    document.getElementById("CmbEndResponsibleErrorRequired").style.display = "none";*/
-    document.getElementById("TxtPeriodicityLabel").style.color = "#000;"
-    document.getElementById("TxtPeriodicityErrorRequired").style.display = "none";
-
+    $("#TxtNameLabel").css("color","#000");
+    $("#TxtNameErrorRequired").hide();
+    $("#TxtNameErrorDuplicated").hide();
+    $("#TxtDescriptionLabel").css("color","#000");
+    $("#TxtDescriptionErrorRequired").hide();
+    $("#TxtFechaAltaLabel").css("color","#000");
+    $("#TxtFechaAltaErrorRequired").hide();
+    $("#TxtFechaAltaDateMalformed").hide();
+    $("#TxtFechaCierrePrevistaLabel").css("color","#000");
+    $("#TxtFechaCierrePrevistaErrorRequired").hide();
+    $("#TxtFechaCierrePrevistaDateMalformed").hide();
+    $("#TxtFechaCierrePrevistaCrossDate").hide();
+    $("#CmbResponsibleLabel").css("color","#000");
+    $("#CmbResponsibleErrorRequired").hide();
+    $("#CmbIndicadorLabel").css("color","#000");
+    $("#CmbIndicadorErrorRequired").hide();
+    /*$("#TxtFechaCierreRealLabel").css("color","#000");
+    $("#TxtFechaCierreRealErrorRequired").hide();
+    $("#TxtFechaCierreRealDateMalformed").hide();
+    $("#TxtFechaCierreRealCrossDate").hide();
+    $("#CmbEndResponsibleLabel").style.color = "#000;"
+    $("#CmbEndResponsibleErrorRequired").hide();*/
+    $("#TxtPeriodicityLabel").css("color", "#000;");
+    $("#TxtPeriodicityErrorRequired").hide();
 
     if ($("#TxtName").val() === "") {
         ok = false;
-        document.getElementById("TxtNameLabel").style.color = "#f00";
-        document.getElementById("TxtNameErrorRequired").style.display = "";
+        $("#TxtNameLabel").css("color", "#f00");
+        $("#TxtNameErrorRequired").show();
     }
     else {
         if (ObjetivoExists($("#TxtName").val())) {
-            document.getElementById("TxtNameLabel").style.color = "#f00";
-            document.getElementById("TxtNameErrorDuplicated").style.display = "";
+            $("#TxtNameLabel").css("color", "#f00");
+            $("#TxtNameErrorDuplicated").show();
         }
     }
 
-    if ($("#TxtPeriodicity").val() *1 === 0) {
+    if ($("#TxtPeriodicity").val() * 1 === 0) {
         ok = false;
-        document.getElementById("TxtPeriodicityLabel").style.color = "#f00";
-        document.getElementById("TxtPeriodicityErrorRequired").style.display = "";
+        $("#TxtPeriodicityLabel").css("color", "#f00");
+        $("#TxtPeriodicityErrorRequired").show();
     }
 
     if ($("#TxtDescription").val() === "") {
         ok = false;
-        document.getElementById("TxtDescriptionLabel").style.color = "#f00";
-        document.getElementById("TxtDescriptionErrorRequired").style.display = "";
+        $("#TxtDescriptionLabel").css("color", "#f00");
+        $("#TxtDescriptionErrorRequired").show();
     }
 
     if ($("#TxtFechaAlta").val() === "") {
         ok = false;
-        document.getElementById("TxtFechaAltaLabel").style.color = "#f00";
-        document.getElementById("TxtFechaAltaErrorRequired").style.display = "";
+        $("#TxtFechaAltaLabel").css("color", "#f00");
+        $("#TxtFechaAltaErrorRequired").show();
     }
     else {
         if (validateDate($("#TxtFechaAlta").val()) === false) {
-            document.getElementById("TxtFechaAltaLabel").style.color = "#f00";
+            document.getElementById("TxtFechaAltaLabel").css("color", "#f00");
             document.getElementById("TxtFechaAltaDateMalformed").style.display = "";
         }
     }
@@ -312,23 +346,6 @@ function Validate() {
             document.getElementById("TxtFechaCierrePrevistaCrossDate").style.display = "";
         }
     }
-
-    /*if ($("#TxtFechaCierreReal").val() !== "") {
-        if (validateDate($("#TxtFechaCierreReal").val()) === false) {
-            ok = false;
-            document.getElementById("TxtFechaCierreRealLabel").style.color = "#f00";
-            document.getElementById("TxtFechaCierreRealDateMalformed").style.display = "";
-        }
-        else {
-            var inicio = GetDate($("#TxtFechaAlta").val(), "/", true);
-            var previsto = GetDate($("#TxtFechaCierreReal").val(), "/", true);
-            if (previsto < inicio) {
-                ok = false;
-                document.getElementById("TxtFechaCierreRealLabel").style.color = "#f00";
-                document.getElementById("TxtFechaCierreRealCrossDate").style.display = "";
-            }
-        }
-    }*/
 
     if (CloseRequired === true) {
         if ($("#CmbEndResponsible").val() * 1 < 1) {
@@ -411,22 +428,20 @@ function RenderRegistroRow(registro) {
     row += "    <td style=\"width:35px;\">";
     row += "        <i title=\"" + statusLabel + "\" class=\"" + icon + "\" style=\"color:" + color + ";\"></i>";
     row += "    </td>";
-    // row += "    <td><a href=\"IndicadorView.aspx?id=" + registro.Indicador.Id + "\">" + registro.Indicador.Name + "</a></td>";
     row += "    <td align=\"right\" style=\"width:90px;\">" + ToMoneyFormat(registro.Value,2) + "</td>";
     row += "    <td align=\"center\" style=\"width:90px;\">" + registro.Date + "</td>";
     row += "    <td>" + registro.Comments + "</td>";
     row += "    <td align=\"right\" style=\"width:120px;\">" + registro.MetaComparer + " " + metaText + "</td>";
-    //row += "    <td align=\"right\" style=\"width:120px;\">" + registro.AlarmaComparer + " " + ToMoneyFormat(registro.Alarma,2) + "</td>";
     row += "    <td style=\"width:175px;\">" + responsibleName + "</td>";
     row += "    <td style=\"width:90px;\">";
 	
 	//gtk aquí ocultar botón
-	if (ItemData.EndDate !== null) {
+	if (ItemData.EndDate !== null || ApplicationUser.Grants.Indicador.Write === false) {
         row += "        &nbsp;";
 		row += "        &nbsp;";
 		row += "        &nbsp;";
     }
-	else {
+    else {
 		row += "         <span title=\"" + Dictionary.Common_Edit + "\" class=\"btn btn-xs btn-info\" onclick=\"RecordEdit(" + registro.Id + ");\"><i class=\"icon-edit bigger-120\"></i></span>";
 		row += "        &nbsp;";
 		row += "        <span title=\"" + Dictionary.Common_Delete + "\" class=\"btn btn-xs btn-danger\" onclick=\"RecordDelete(" + registro.Id + ");\"><i class=\"icon-trash bigger-120\"></i></span>";
@@ -472,6 +487,7 @@ function ObjetivoRegistroFilterValidate() {
 }
 
 function ObjetivoRegistroFilter(exportType) {
+    console.log("ObjetivoRegistroFilter", exportType)
     if (ObjetivoRegistroFilterValidate() === false) {
         $("#ObjetivoRegistrosTable").hide();
         $("#ItemTableError").show();
@@ -488,6 +504,13 @@ function ObjetivoRegistroFilter(exportType) {
     $("#ItemTableError").hide();
     $("#ItemTableVoid").hide();
     var count = 0;
+
+    // Poner fecha real en los registros
+    for (var x = 0; x < Registros.length; x++) {
+        Registros[x].RealDate = GetDate(Registros[x].Date, "/", false);
+    }
+
+    recordsGraph = [];
     for (var x = 0; x < Registros.length; x++) {
         var dateFrom = GetDate($("#TxtRecordsFromDate").val(), "/", false);
         var dateTo = GetDate($("#TxtRecordsToDate").val(), "/", false);
@@ -519,6 +542,7 @@ function ObjetivoRegistroFilter(exportType) {
         if (show === true) {
             count++;
             RenderRegistroRow(Registros[x]);
+            recordsGraph.push(Registros[x]);
         }
     }
 
@@ -527,27 +551,23 @@ function ObjetivoRegistroFilter(exportType) {
     if (listOrder === null) {
         listOrder = "th2|DESC";
     }
+
     console.log(listOrder);
     if (lockOrderList) {
         var th = listOrder.split('|')[0];
         var sort = listOrder.split('|')[1];
-
         $("#" + th).click();
         if (document.getElementById(th).className.indexOf(sort) === -1) {
             $("#" + th).click();
         }
-
     }
 
     DisableVinculatedTo(count > 0);
 
     lockOrderList = false;
-    if (exportType === "PDF") {
-        Export("PDF");
-    }
-
-    if (exportType === "Excel") {
-        Export("Excel");
+    if (typeof exportType !== "undefined" && exportType !== null) {
+        if (exportType === "PDF") { Export("PDF"); }
+        if (exportType === "Excel") { Export("Excel"); }
     }
 }
 
@@ -565,26 +585,26 @@ function Export(fileType) {
     var webMethod = "/Export/ObjetivoRecords.aspx/" + fileType;
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
             //successInfoUI(msg.d.MessageError, Go, 200);
-            var link = document.createElement('a');
-            link.id = 'download';
+            var link = document.createElement("a");
+            link.id = "download";
             link.href = msg.d.MessageError;
             link.download = msg.d.MessageError;
-            link.target = '_blank';
+            link.target = "_blank";
             document.body.appendChild(link);
-            $('#download').trigger('click');
+            $("#download").trigger("click");
             window.open(msg.d.MessageError);
-            $("#dialogAddAddress").dialog('close');
+            $("#dialogAddAddress").dialog("close");
             document.body.removeChild(link);
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI("error:" + msg.responseText);
         }
@@ -593,8 +613,8 @@ function Export(fileType) {
 
 function ObjetivoRegistroAll() {
     ObjetivoRegistroFilter();
-    $("#BtnRecordShowAll").hide();
-    $("#BtnRecordShowNone").show();
+    //$("#BtnRecordShowAll").hide();
+    //$("#BtnRecordShowNone").show();
     $("#ObjetivoRegistrosTable").show();
     $("#ItemTableError").hide();
     $("#ItemTableVoid").hide();
@@ -613,9 +633,7 @@ function ObjetivoRegistroNone() {
 
 var selectedRecordId = null;
 
-function PreRecordNew() {
-    
-}
+function PreRecordNew() { }
 
 function RecordNew() {
     // TRELLO "El lado oscuro"
@@ -625,6 +643,11 @@ function RecordNew() {
         alertInfoUI(Dictionary.Item_Objetivo_Message_NoMeta, null);
         return false;
     }*/
+
+    if (ApplicationUser.Grants.Indicador.Write === false && document.getElementById("Contentholder1_RVinculatedYes").checked === true) {
+        alertInfoUI(Dictionary.Item_Objetivo_Message_IndicatorNoGrants, null);
+        return false;
+    }
 
     if (ItemData.EndDate !== null) {
         alertInfoUI(Dictionary.Item_Objetivo_Message_ObjetivoClosed, null);
@@ -664,25 +687,25 @@ function RecordEdit(id) {
     FillFormRegistro(selectedRecordId);
     var title = selectedRecordId == -1 ? Dictionary.Item_IndicatorRecord_PopupTitle_Insert : Dictionary.Item_IndicatorRecord_PopupTitle_Update;
     var dialog = $("#dialogNewRecord").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: title,
-        width: 500,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": title,
+        "width": 500,
+        "buttons":
         [
             {
                 "id": "BtnNewRegistroSave",
-                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + (selectedRecordId > 0 ? Dictionary.Common_Change : Dictionary.Common_Add),
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + (selectedRecordId > 0 ? Dictionary.Common_Change : Dictionary.Common_Add),
                 "class": "btn btn-success btn-xs",
                 "click": function () { ObjetivoRegistroSave(); }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "id": "BtnNewRegistroCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
         ]
-
     });
 }
 
@@ -852,12 +875,12 @@ function ObjetivoRegistroSave() {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -890,7 +913,7 @@ function ObjetivoRegistroSave() {
                 DisableVinculatedTo(true)
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -914,23 +937,23 @@ function RecordDelete(id) {
         $("#dialogDeleteName").html(Dictionary.Item_Indicador_Popup_DeleteRecord_Message);
     }
     var dialog = $("#dialogDeleteRecord").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     RecordDeleteConfirmed();
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -951,12 +974,12 @@ function RecordDeleteConfirmed() {
     $("#dialogDeleteRecord").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             var temp = new Array();
             for (var x = 0; x < Registros.length; x++) {
                 if (Registros[x].Id !== selectedRecordId) {
@@ -965,6 +988,12 @@ function RecordDeleteConfirmed() {
             }
 
             Registros = temp;
+
+            // Poner fecha real en los registros
+            for (var x = 0; x < Registros.length; x++) {
+                Registros[x].RealDate = GetDate(Registros[x].Date, "/", false);
+            }
+
             ObjetivoRegistroFilter();
         },
         error: function (msg) {
@@ -996,20 +1025,20 @@ function DrawGraphics(stop) {
 
         // ---------- BARRAS
         var barOptions = {
-            scaleBeginAtZero: true,
-            scaleShowGridLines: true,
-            scaleGridLineColor: "rgba(0,0,0,.05)",
-            scaleGridLineWidth: 1,
-            barShowStroke: false,
-            barStrokeWidth: 1,
-            barValueSpacing: 5,
-            barDatasetSpacing: 10,
-            responsive: true,
-            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-            legend: {
-                display: true,
-                labels: {
-                    fontColor: 'rgb(255, 99, 132)'
+            "scaleBeginAtZero": true,
+            "scaleShowGridLines": true,
+            "scaleGridLineColor": "rgba(0,0,0,.05)",
+            "scaleGridLineWidth": 1,
+            "barShowStroke": false,
+            "barStrokeWidth": 1,
+            "barValueSpacing": 5,
+            "barDatasetSpacing": 10,
+            "responsive": true,
+            "legendTemplate": "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+            "legend": {
+                "display": true,
+                "labels": {
+                    fontColor: "rgb(255, 99, 132)"
                 }
             }
         }
@@ -1024,38 +1053,36 @@ function DrawGraphics(stop) {
         var lastAlarm = null;
         var lastLabel = "";
 
-        for (var x = 0; x < Registros.length; x++) {
-            labels.push(Registros[x].Date);
-            values.push(Registros[x].Value);
-            metas.push(Registros[x].Meta);
-            alarmas.push(Registros[x].Alarma);
+        recordsGraph = recordsGraph.sort(function (a, b) {
+            var x = a["RealDate"];
+            var y = b["RealDate"];
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
 
-            lastValue = Registros[x].Value * 1;
-            lastMeta = Registros[x].Meta * 1;
-            lastAlarm = Registros[x].Alarma * 1;
-            lastLabel = Registros[x].Date;
+        for (var x = 0; x < recordsGraph.length; x++) {
+            labels.push(recordsGraph[x].Date);
+            values.push(recordsGraph[x].Value);
+            metas.push(recordsGraph[x].Meta);
+            alarmas.push(recordsGraph[x].Alarma);
+
+            lastValue = recordsGraph[x].Value * 1;
+            lastMeta = recordsGraph[x].Meta * 1;
+            lastAlarm = recordsGraph[x].Alarma * 1;
+            lastLabel = recordsGraph[x].Date;
         }
 
         var overlayData = {
             labels: labels,
             datasets: [
-                /*{
-                    label: "Alarma",
-                    type: "line",
-                    fillColor: "rgba(244,210,210,0)",
-                    strokeColor: "rgba(216,33,0,0.8)",
-                    highlightFill: "rgba(151,187,205,0.75)",
-                    highlightStroke: "rgba(151,187,205,1)",
-                    data: alarmas
-                },*/ {
-                label: "Meta",
-                type: "line",
-                fillColor: "rgba(119,226,152,0)",
-                strokeColor: "rgba(59,183,38,0.8)",
-                highlightFill: "rgba(59,183,38,0.75)",
-                highlightStroke: "rgba(94,114,95,1)",
-                data: metas
-            },
+                {
+                    "label": "Meta",
+                    "type": "line",
+                    "fillColor": "rgba(119,226,152,0)",
+                    "strokeColor": "rgba(59,183,38,0.8)",
+                    "highlightFill": "rgba(59,183,38,0.75)",
+                    "highlightStroke": "rgba(94,114,95,1)",
+                    "data": metas
+                },
                {
                    "label": "Valor",
                    "fillColor": "#275b89",
@@ -1069,26 +1096,23 @@ function DrawGraphics(stop) {
 
         $("#barChartDiv").html("");
         this.div = document.getElementById("barChartDiv");
-        //this.div.style.width = "100%";
-        this.div.style.height = "300px";
+        this.div.style.height = "500px";
         this.chartCanvas = document.createElement("canvas");
         this.div.appendChild(this.chartCanvas);
-        //this.chartCanvas.style.height = "300px";
         this.chartCanvas.style.width = $("#barChartDiv").width() + "px";
-        this.chartCanvas.width = $("#barChartDiv").width();
-        //this.chartCanvas.height = 480;
+        this.chartCanvas.style.heitgh = $("#barChartDiv").height();
         this.chartCanvas.id = "canvas";
 
-        this.ctx = this.chartCanvas.getContext('2d');
+        this.ctx = this.chartCanvas.getContext("2d");
         this.chart = new Chart(this.ctx).Overlay(overlayData, {
             populateSparseData: true,
             overlayBars: false,
             datasetFill: true,
-        });;
-        this.div.style.display = 'none';
+        });
+        this.div.style.display = "none";
 
         setTimeout(function () {
-            this.div.style.display = 'block';
+            this.div.style.display = "block";
             if (stop !== true) {
                 if ($("#canvas").css("width") === "0px") { DrawGraphics(true); }
             }
@@ -1104,12 +1128,12 @@ function DrawGraphics(stop) {
 
         $("#circularGaugeContainer").dxCircularGauge({
             "width": 10,
-            rangeContainer: {
-                offset: 10,
-                width: 20,
-                ranges: [
-                    { startValue: 0, endValue: lastAlarm, color: '#f00' },
-                    { startValue: lastMeta, endValue: maxValue, color: '#0f0' }
+            "rangeContainer": {
+                "offset": 10,
+                "width": 20,
+                "ranges": [
+                    { "startValue": 0, "endValue": lastAlarm, "color": "#f00" },
+                    { "startValue": lastMeta, "endValue": maxValue, "color": "#0f0" }
                 ]
             },
             "scale": {
@@ -1162,24 +1186,32 @@ function DisableVinculatedTo(disable) {
 }
 
 function AnularPopup() {
+
+    if (ActionsOpen == true) {
+        alertInfoUI(Dictionary.Item_Objetivo_OpenActionsWarning);
+        return false;
+    }
+
+
     $("#TxtFechaCierreReal").val(FormatDate(new Date(), "/"));
     $("#TxtAnularComments").html("");
     $("#CmbEndResponsible").val(user.Employee.Id);
     var dialog = $("#dialogAnular").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Item_Objetivo_PopupAnular_Title,
-        width: 600,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Objetivo_PopupAnular_Title,
+        "width": 600,
+        "buttons":
         [
             {
-                "id": "BtnAnujlarSave",
-                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Item_Indicador_Btn_Anular,
+                "id": "BtnAnularSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Indicador_Btn_Anular,
                 "class": "btn btn-success btn-xs",
                 "click": function () { AnularConfirmed(); }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "id": "BtnAnularCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
@@ -1192,23 +1224,23 @@ function AnularConfirmed() {
     document.getElementById("TxtAnularCommentsLabel").style.color = "#000";
     document.getElementById("TxtFechaCierreRealLabel").style.color = "#000";
     document.getElementById("CmbEndResponsibleLabel").style.color = "#000";
-    document.getElementById("TxtAnularCommentsErrorRequired").style.display = "none";
-    document.getElementById("TxtFechaCierreRealErrorRequired").style.display = "none";
-    document.getElementById("TxtFechaCierreRealDateMalformed").style.display = "none";
-    document.getElementById("TxtFechaCierreRealCrossDate").style.display = "none";
-    document.getElementById("CmbEndResponsibleErrorRequired").style.display = "none";
+    $("#TxtAnularCommentsErrorRequired").hide();
+    $("#TxtFechaCierreRealErrorRequired").hide();
+    $("#TxtFechaCierreRealDateMalformed").hide();
+    $("#TxtFechaCierreRealCrossDate").hide();
+    $("#CmbEndResponsibleErrorRequired").hide();
 
     var ok = true;
     if ($("#TxtAnularComments").val() === "") {
         ok = false;
         document.getElementById("TxtAnularCommentsLabel").style.color = "#f00";
-        document.getElementById("TxtAnularCommentsErrorRequired").style.display = "";
+        $("#TxtAnularCommentsErrorRequired").show();
     }
 
     if ($("#TxtFechaCierreReal").val() === "") {
         ok = false;
         document.getElementById("TxtFechaCierreRealLabel").style.color = "#f00";
-        document.getElementById("TxtFechaCierreRealErrorRequired").style.display = "";
+        $("#TxtFechaCierreRealErrorRequired").show();
     }
     else {
         if (validateDate($("#TxtFechaCierreReal").val()) === false) {
@@ -1228,7 +1260,7 @@ function AnularConfirmed() {
     if ($("#CmbEndResponsible").val() * 1 < 1) {
         ok = false;
         document.getElementById("CmbEndResponsibleLabel").style.color = "#f00";
-        document.getElementById("CmbEndResponsibleErrorRequired").style.display = "";
+        $("#CmbEndResponsibleErrorRequired").show();
     }
 
     if (ok === false) {
@@ -1249,16 +1281,16 @@ function AnularConfirmed() {
     $("#dialogAnular").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             document.location = referrer;
             //AnulateLayout();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -1288,7 +1320,6 @@ function AnulateLayout() {
 }
 
 function Restore() {
-    var webMethod = "/Async/ObjetivoActions.asmx/Restore";
     var data = {
         "objetivoId": ItemData.Id,
         "companyId": Company.Id,
@@ -1296,17 +1327,17 @@ function Restore() {
     };
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/ObjetivoActions.asmx/Restore",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             ItemData.EndDate = null;
             AnulateLayout();
             EnableLayout();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -1339,6 +1370,304 @@ function EnableLayout() {
     $("textarea").removeAttr("disabled");
     $("#CmbResponsible").prop("disabled", false).trigger("chosen:updated");
     $("#CmbIndicador").prop("disabled", false).trigger("chosen:updated");
-
     $("#BtnUnitsBAR").show();
+}
+
+function RenderTableHistorico() {
+    $("#ObjetivoHistoricoTable").html("");
+    for (var x = 0; x < Historic.length; x++) {
+        RenderHistoricoRow(Historic[x]);
+    }
+
+    $("#NumberHistoric").html(Historic.length);
+}
+
+function RenderHistoricoRow(data) {
+    var target = document.getElementById("ObjetivoHistoricoTable");
+
+    var tr = document.createElement("TR");
+
+    var tdAction = document.createElement("TD");
+    var tdDate = document.createElement("TD");
+    var tdReason = document.createElement("TD");
+    var tdEmployee = document.createElement("TD");
+
+    tdAction.style.width = "100px";
+    tdDate.style.width = "95px";
+    tdEmployee.style.width = "240px";
+
+    var actionText = "Anular";
+    var reason = data.Reason;
+    if (data.Reason === "Restore") {
+        actionText = "Restaurar"
+        reason = "";
+    }
+
+    tdAction.appendChild(document.createTextNode(actionText));
+    tdDate.appendChild(document.createTextNode(data.Date));
+    tdReason.appendChild(document.createTextNode(reason));
+    tdEmployee.appendChild(document.createTextNode(data.Employee.Value));
+
+    tr.appendChild(tdAction);
+    tr.appendChild(tdDate);
+    tr.appendChild(tdReason);
+    tr.appendChild(tdEmployee);
+
+    target.appendChild(tr);
+}
+
+var totalCostActions = 0;
+function RenderActionsTable() {
+    ActionsOpen = false;
+    console.log("RenderActionsTable");
+    totalCostActions = 0;
+    var totalActions = 0;
+    if (Actions.length > 0) {
+        var res = "";
+        for (var x = 0; x < Actions.length; x++) {
+            var show = true;
+            var dateAction = GetDate(Actions[x].OpenDate, "/", false);
+            if ($("#TxtActionsFromDate").val() !== "") {
+                var dateFrom = GetDate($("#TxtActionsFromDate").val(), "/", false);
+                if (dateAction < dateFrom) {
+                    show = false;
+                }
+            }
+
+            if ($("#TxtActionsToDate").val() !== "") {
+                var dateTo = GetDate($("#TxtActionsToDate").val(), "/", false);
+                if (dateAction > dateTo) {
+                    show = false;
+                }
+            }
+
+            if (show === true) {
+                res += RenderActionsRow(Actions[x]);
+                totalActions++;
+            }
+
+            if (Actions[x].Status.indexOf("icon-lock") === -1) {
+                ActionsOpen = true;
+            }
+        }
+
+        $("#ObjetivoActionsTable").html(res);
+        $("#NumberCostsActionsTotal").html(ToMoneyFormat(totalCostActions,2));
+    }
+    else {
+        $("#NumberCostsActionsTotal").html(ToMoneyFormat(0, 2));
+    }
+
+    $("#NumberCostsActions").html(totalActions);
+}
+
+function RenderActionsRow(actionData) {
+    totalCostActions += actionData.Cost;
+    var res = "<tr id=\"" + actionData.Id + "\">";
+    res += "<td><a href=\"#\" onclick=\"GoAction(this);\">" + actionData.Description + "</a></td>";
+    res += "<td align=\"center\" style=\"width: 100px;\">" + actionData.OpenDate + "</td>";
+    res += "<td align=\"center\" style=\"width:60px;\">" + actionData.Status.split('*').join('"') + "</td>";
+    res += "<td align=\"center\" style=\"width: 100px;\">" + actionData.PreviewDate + "</td>";
+    res += "<td align=\"right\" style=\"width:150px;\">" + ToMoneyFormat(actionData.Cost, 2) + "</td>";
+    res += "<td style=\"width:90px;\">";
+    if (ApplicationUser.Grants.IncidentActions.Write === true) {
+        res += "    <span class=\"btn btn-xs btn-info\" onclick=\"GoAction(this);\"><i class=\"icon-edit bigger- 120\"></i></span>";
+        res += "    &nbsp;"
+        res += "    <span class=\"btn btn-xs btn-danger\" onclick=\"IncidentActionDelete(this);\"><i class=\"icon-trash bigger- 120\"></i></span>";
+    }
+    else {
+        res += "    <span class=\"btn btn-xs btn-info\" onclick=\"GoAction(this);\"><i class=\"icon-eye-open bigger- 120\"></i></span>";
+    }
+    res += "</td></tr>";
+    return res;
+}
+
+function GoAction(sender) {
+    var id = sender.parentNode.parentNode.id;
+    if (DataIsChanged()) {
+        DataChangedPopup(id);
+    }
+    else {
+        NewActionConfirmed(false, id);
+    }
+}
+
+function DataIsChanged() {
+    var indicatorId = $("#CmbIndicador").val() * 1;
+
+    var meta = null;
+    if ($("#TxtMeta").val() !== "") {
+        meta = StringToNumberNullable($("#TxtMeta").val(), ".", ",");
+    }
+
+    var metaComparer = null;
+    if ($("#CmbMetaComparer").val() !== "") {
+        metaComparer = $("#CmbMetaComparer").val();
+    }
+
+    var actual =  {
+        "Id": ItemData.Id,
+        "CompanyId": Company.Id,
+        "Name": $("#TxtName").val(),
+        "Description": $("#TxtDescription").val(),
+        "Methodology": $("#TxtMetodologia").val(),
+        "Resources": $("#TxtRecursos").val(),
+        "Notes": $("#TxtNotes").val(),
+        "VinculatedToIndicator": indicatorId > 0,
+        "IndicatorId": indicatorId,
+        "Responsible": { "Id": $("#CmbResponsible").val() * 1, "Value": "", "Active": false },
+        "EndResponsible": { "Id": $("#CmbEndResponsible").val() * 1, "Value": "", "Active": false },
+        "StartDate": GetDate($("#TxtFechaAlta").val(), "/", true),
+        "PreviewEndDate": GetDate($("#TxtFechaCierrePrevista").val(), "/", false),
+        "EndDate": GetDate($("#TxtFechaCierreReal").val(), "/", false),
+        "RevisionId": $("#TxtPeriodicity").val() * 1,
+        "MetaComparer": metaComparer,
+        "Meta": meta,
+        "CreatedBy": { "Id": -1 },
+        "CreatedOn": new Date(),
+        "ModifiedBy": { "Id": -1 },
+        "ModifiedOn": new Date(),
+        "Active": false
+    };
+
+    if (OriginalItemData.Name !== actual.Name) { return true; }
+    if (OriginalItemData.Description !== actual.Description) { return true; }
+    if (OriginalItemData.Methodology !== actual.Methodology) { return true; }
+    if (OriginalItemData.Resources !== actual.Resources) { return true; }
+    if (OriginalItemData.Notes !== actual.Notes) { return true; }
+    if (OriginalItemData.VinculatedToIndicator !== actual.VinculatedToIndicator) { return true; }
+    if (OriginalItemData.Responsible.Id !== actual.Responsible.Id) { return true; }
+    if (OriginalItemData.EndResponsible.Id !== actual.EndResponsible.Id) { return true; }
+    if (OriginalItemData.StartDate !== FormatDate(actual.StartDate,"/")) { return true; }
+    if (OriginalItemData.PreviewEndDate !== FormatDate(actual.PreviewEndDate,"/")) { return true; }
+    if (OriginalItemData.EndDate !== FormatDate(actual.EndDate, "/") && (OriginalItemData.EndDate !== null && FormatDate(actual.EndDate, "/") !== "")) { return true; }
+    if (OriginalItemData.RevisionId !== actual.RevisionId) { return true; }
+    if (OriginalItemData.MetaComparer !== actual.MetaComparer) { return true; }
+    if (OriginalItemData.Meta !== actual.Meta) { return true; }
+
+    return false;
+}
+
+function ActionNew(sender) {
+    if (DataIsChanged()) {
+        DataChangedPopup(-1);
+    }
+    else {
+        NewActionConfirmed(false, -1);
+    }
+}
+
+function DataChangedPopup(id) {
+    var dialog = $("#dialogDataChanged").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_NoSaveData,
+        "width": 600,
+        "buttons":
+        [
+            {
+                "id": "BtnSaveContinue",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Objetivo_DataChangedWarning_save,
+                "class": "btn btn-success btn-xs",
+                "click": function () { NewActionConfirmed(true, id); }
+            },
+            {
+                "id": "BtnContinue",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Objetivo_DataChangedWarning_continue,
+                "class": "btn btn-success btn-xs",
+                "click": function () { NewActionConfirmed(false, id); }
+            },
+            {
+                "id": "BtnContinueCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () { $(this).dialog("close"); }
+            }
+        ]
+    });
+}
+
+function NewActionConfirmed(saveObjetivo, id) {
+    id = id * 1;
+    if (saveObjetivo) {
+        Save(true, id);
+        return false;
+    }
+    
+    document.location = "/ActionView.aspx?id=" + id + "&o=" + ItemData.Id;
+}
+
+
+var IncidentActionSelectedId;
+var IncidentActionSelected;
+function IncidentActionDelete(sender) {
+    IncidentActionSelectedId = sender.parentNode.parentNode.id * 1;
+    IncidentActionSelected = IncidentActiongetById(IncidentActionSelectedId);
+    console.log("IncidentActionDelete", IncidentActionSelectedId);
+    if (IncidentActionSelected === null) { return false; }
+    $("#IncidentActionDeleteName").html(IncidentActionSelected.Description);
+    var dialog = $("#IncidentActionDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
+            [
+                {
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        IncidentActionDeleteConfirmed();
+                    }
+                },
+                {
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+}
+
+function IncidentActionDeleteConfirmed() {
+    var data = {
+        "incidentActionId": IncidentActionSelectedId,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
+    $("#IncidentActionDeleteDialog").dialog("close");
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/IncidentActionsActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            var temp = [];
+            for (var x = 0; x < Actions.length; x++) {
+                if (Actions[x].Id !== IncidentActionSelectedId) {
+                    temp.push(Actions[x]);
+                }
+            }
+
+            Actions = temp;
+            RenderActionsTable();
+        },
+        "error": function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function IncidentActiongetById(id) {
+    for (var x = 0; x < Actions.length; x++) {
+        if (Actions[x].Id === id) {
+            return Actions[x];
+        }
+    }
+    return null;
 }

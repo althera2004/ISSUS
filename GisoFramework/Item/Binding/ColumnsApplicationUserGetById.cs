@@ -1,13 +1,11 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ColumnsApplicationUserGetById.cs" company="Sbrinna">
-// TODO: Update copyright text.
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item.Binding
 {
-    /// <summary>
-    /// Index columns of stored ApplicationUserGetById result
-    /// </summary>
+    /// <summary>Index columns of stored ApplicationUserGetById result</summary>
     public static class ColumnsApplicationUserGetById
     {
         /// <summary> Index of Id column</summary>

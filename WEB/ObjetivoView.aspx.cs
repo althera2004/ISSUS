@@ -6,20 +6,16 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
-using SbrinnaCoreFramework.UI;
 using SbrinnaCoreFramework;
-using System.IO;
+using SbrinnaCoreFramework.UI;
 
 public partial class ObjetivoView : Page
 {
-    /// <summary>Gets a random value to prevents static cache files/summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -29,18 +25,23 @@ public partial class ObjetivoView : Page
     }
 
     /// <summary> Master of page</summary>
-    private Giso master;
+    private Giso master;    
 
-    /// <summary>Company of session</summary>
-    private Company company;
+    private TabBar tabBar = new TabBar { Id = "EquipmentTabBar" };
 
-    /// <summary>Application user logged in session</summary>
-    private ApplicationUser user;
+    public Company Company { get; private set; }
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
+    public ApplicationUser ApplicationUser { get; private set; }
 
-    private TabBar tabBar = new TabBar() { Id = "EquipmentTabBar" };
+    public int ActionsOpen { get; private set; }
+
+    public string Historic
+    {
+        get
+        {
+            return ObjetivoHistorico.ByObjetivoIdJsonList(this.objetivoId);
+        }
+    }
 
     public string ItemData
     {
@@ -54,7 +55,7 @@ public partial class ObjetivoView : Page
     {
         get
         {
-            return Indicador.GetPeriodicityByCompany(this.company.Id);
+            return Indicador.PeriodicityByCompany(this.Company.Id);
         }
     }
 
@@ -62,9 +63,9 @@ public partial class ObjetivoView : Page
     {
         get
         {
-            if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId.Value > 0)
+            if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId > 0)
             {
-                Indicador indicador = Indicador.GetById(this.Objetivo.IndicatorId.Value, this.company.Id);
+                var indicador = Indicador.ById(this.Objetivo.IndicatorId.Value, this.Company.Id);
                 return indicador.Description;
             }
 
@@ -72,13 +73,21 @@ public partial class ObjetivoView : Page
         }
     }
 
+    public string ActionsList
+    {
+        get
+        {
+            return IncidentAction.ByObjetivoIdJsonList(this.objetivoId, this.Company.Id, this.Dictionary);
+        }
+    }
+
     public string IndicadoresObjetivo
     {
         get
         {
-            if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId.Value > 0)
+            if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId > 0)
             {
-                Indicador indicador = Indicador.GetById(this.Objetivo.IndicatorId.Value, this.company.Id);
+                var indicador = Indicador.ById(this.Objetivo.IndicatorId.Value, this.Company.Id);
                 return indicador.Json;
             }
 
@@ -90,7 +99,7 @@ public partial class ObjetivoView : Page
     {
         get
         {
-            return Objetivo.GetByCompanyJsonList(this.company.Id);
+            return Objetivo.ByCompanyJsonList(this.Company.Id);
         }
     }
 
@@ -98,7 +107,7 @@ public partial class ObjetivoView : Page
     {
         get
         {
-            return Employee.CompanyListJson(this.company.Id);
+            return Employee.CompanyListJson(this.Company.Id);
         }
     }
 
@@ -113,30 +122,21 @@ public partial class ObjetivoView : Page
                 return string.Empty;
             }
 
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
-    /// <summary>
-    /// Gets or sets if user show help in interface
-    /// </summary>
+    /// <summary>Gets or sets if user show help in interface</summary>
     public bool ShowHelp
     {
         get
         {
-            return this.user.ShowHelp;
+            return this.ApplicationUser.ShowHelp;
         }
     }
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+
+    /// <summary>Gets dictionary for fixed labels</summary>
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public string TabBar
     {
@@ -150,12 +150,12 @@ public partial class ObjetivoView : Page
     {
         get
         {
-            if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId.Value > 0)
+            if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId > 0)
             {
-                return IndicadorRegistro.GetByIndicadorJson(this.Objetivo.IndicatorId.Value, this.company.Id);
+                return IndicadorRegistro.ByIndicadorJson(this.Objetivo.IndicatorId.Value, this.Company.Id);
             }
 
-            return ObjetivoRegistro.GetByObjetivoJson(this.objetivoId, this.company.Id);
+            return ObjetivoRegistro.GetByObjetivoJson(this.objetivoId, this.Company.Id);
         }
     }
 
@@ -165,34 +165,32 @@ public partial class ObjetivoView : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
-            Context.ApplicationInstance.CompleteRequest();
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
             int test = 0;
-            this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
-            if (!UniqueSession.Exists(token, this.user.Id))
+            this.ApplicationUser = this.Session["User"] as ApplicationUser;
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
+            if (!UniqueSession.Exists(token, this.ApplicationUser.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
-            else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
+            else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     private int objetivoId;
@@ -205,17 +203,9 @@ public partial class ObjetivoView : Page
         }
     }
 
-    private string returnScript;
+    public string ReturnScript { get; private set; }
 
-    public string ReturnScript
-    {
-        get
-        {
-            return this.returnScript;
-        }
-    }
     public Objetivo Objetivo { get; set; }
-
 
     public FormDatePicker TxtFechaCierrePrevista { get; set; }
     public FormDatePicker TxtFechaCierreReal { get; set; }
@@ -230,151 +220,155 @@ public partial class ObjetivoView : Page
     {
         if (this.Request.QueryString["id"] != null)
         {
-            this.objetivoId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
+            this.objetivoId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
         if (this.Request.QueryString["New"] != null)
         {
-            this.returnScript = "document.location = 'ObjetivoList.aspx';";
+            this.ReturnScript = "document.location = 'ObjetivoList.aspx';";
         }
         else
         {
-            this.returnScript = "document.location = referrer;";
+            this.ReturnScript = "document.location = referrer;";
         }
 
-        this.user = (ApplicationUser)Session["User"];
-        this.company = (Company)Session["company"];
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.ApplicationUser = (ApplicationUser)Session["User"];
+        this.Company = (Company)Session["company"];
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Objetivos", "ObjetivoList.aspx", false);
+        this.master.AddBreadCrumb("Item_Objetivos", "ObjetivoList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_Objetivo");
         this.master.Titulo = "Item_Objetivo";
         this.formFooter = new FormFooter();
 
+        this.ActionsOpen = 0;
         if (this.objetivoId > 0)
         {
             this.Session["EquipmentId"] = this.objetivoId;
-            this.Objetivo = Objetivo.GetById(this.objetivoId, this.company.Id);
-            if (this.Objetivo.CompanyId != this.company.Id)
+            this.Objetivo = Objetivo.ById(this.objetivoId, this.Company.Id);
+            if (this.Objetivo.CompanyId != this.Company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.NotLeaft);
                 Context.ApplicationInstance.CompleteRequest();
                 this.Objetivo = Objetivo.Empty;
             }
 
             this.master.TitleInvariant = true;
-            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Objetivo"], this.Objetivo.Name);
+            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Objetivo"], this.Objetivo.Name);
 
             this.formFooter.ModifiedBy = this.Objetivo.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Objetivo.ModifiedOn;
-            this.formFooter.AddButton(new UIButton() { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Objetivo_Btn_Restaurar"], Action = "primary" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Objetivo_Btn_Anular"], Action = "danger" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Save"], Action = "success" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.Dictionary["Item_Objetivo_Btn_Restaurar"], Action = "primary" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Objetivo_Btn_Anular"], Action = "danger" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Save"], Action = "success" });
         }
         else
         {
             this.master.AddBreadCrumb("Item_Objetivo");
             this.master.Titulo = "Item_Objetivo_New_Label";
             this.Objetivo = Objetivo.Empty;
-            this.formFooter.ModifiedBy = this.dictionary["Common_New"];
+            this.formFooter.ModifiedBy = this.Dictionary["Common_New"];
             this.formFooter.ModifiedOn = DateTime.Now;
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
         }
 
-        this.tabBar.AddTab(new Tab() { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Objetivo_TabBasic"], Available = true });
-        this.tabBar.AddTab(new Tab() { Id = "records", Available = true, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabRecords"] });
-        this.tabBar.AddTab(new Tab() { Id = "graphics", Available = true, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabGraphics"] });
-        
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+
+        this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_Objetivo_TabBasic"], Available = true });
+        this.tabBar.AddTab(new Tab { Id = "actions", Available = this.objetivoId > 0, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabActions"] });
+        this.tabBar.AddTab(new Tab { Id = "records", Available = this.objetivoId > 0, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_Tab_Records"] });
+        this.tabBar.AddTab(new Tab { Id = "graphics", Available = this.objetivoId > 0, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabGraphics"] });
+        this.tabBar.AddTab(new Tab { Id = "historic", Available = this.objetivoId > 0, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabHistoric"] });
 
         this.RenderForm();
     }
 
     private void RenderForm()
     {
-        this.TxtRecursos = new FormTextArea()
+        var grantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.Objetivo);
+        var defaultComboOption = FormSelectOption.DefaultOption(this.Dictionary);
+        this.TxtRecursos = new FormTextArea
         {
             Value = this.Objetivo.Resources,
-            Label = this.dictionary["Item_Objetivo_FieldLabel_Resources"],
+            Label = this.Dictionary["Item_Objetivo_FieldLabel_Resources"],
             Name = "TxtResources",
             Rows = 3,
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo)
+            GrantToWrite = grantToWrite
         };
 
-        this.TxtMetodologia = new FormTextArea()
+        this.TxtMetodologia = new FormTextArea
         {
             Value = this.Objetivo.Methodology,
-            Label = this.dictionary["Item_Objetivo_FieldLabel_Methodology"],
+            Label = this.Dictionary["Item_Objetivo_FieldLabel_Methodology"],
             Name = "TxtMethodology",
             Rows = 3,
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo)
+            GrantToWrite = grantToWrite
         };
 
-        this.TxtNotes = new FormTextArea()
+        this.TxtNotes = new FormTextArea
         {
             Value = this.Objetivo.Notes,
-            Label = this.dictionary["Item_Objetivo_FieldLabel_Notes"],
+            Label = this.Dictionary["Item_Objetivo_FieldLabel_Notes"],
             Name = "TxtNotes",
             Rows = 3,
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo)
+            GrantToWrite = grantToWrite
         };
 
-        this.CmbResponsible = new FormSelect()
+        this.CmbResponsible = new FormSelect
         {
             ColumnsSpanLabel = 1,
-            Label = this.dictionary["Item_Objetivo_FieldLabel_Responsible"],
+            Label = this.Dictionary["Item_Objetivo_FieldLabel_Responsible"],
             ColumnsSpan = 3,
             Name = "CmbResponsible",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo),
+            GrantToWrite = grantToWrite,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = defaultComboOption
         };
 
-        this.CmbResponsibleClose = new FormSelect()
+        this.CmbResponsibleClose = new FormSelect
         {
             ColumnsSpanLabel = 3,
-            Label = this.dictionary["Item_Objetivo_FieldLabel_CloseResponsible"],
+            Label = this.Dictionary["Item_Objetivo_FieldLabel_CloseResponsible"],
             ColumnsSpan = 9,
             Name = "CmbEndResponsible",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo),
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }, 
-            RequiredMessage = this.dictionary["Common_Required"],
+            GrantToWrite = grantToWrite,
+            DefaultOption = defaultComboOption, 
+            RequiredMessage = this.Dictionary["Common_Required"],
             Required = true
         };
 
-        this.CmbResponsibleRecord = new FormSelect()
+        this.CmbResponsibleRecord = new FormSelect
         {
             ColumnsSpanLabel = 3,
-            Label = this.dictionary["Item_IndicatorRecord_FieldLabel_Responsible"],
+            Label = this.Dictionary["Item_IndicatorRecord_FieldLabel_Responsible"],
             ColumnsSpan = 9,
             Name = "CmbResponsibleRecord",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo), 
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" },
+            GrantToWrite = grantToWrite, 
+            DefaultOption = defaultComboOption,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"]
+            RequiredMessage = this.Dictionary["Common_Required"]
         };
 
-        this.CmbIndicador = new FormSelect()
+        this.CmbIndicador = new FormSelect
         {
             ColumnsSpanLabel = 1,
-            Label = this.dictionary["Item_Objetivo_FieldLabel_Indicator"],
+            Label = this.Dictionary["Item_Objetivo_FieldLabel_Indicator"],
             ColumnsSpan = 3,
             Name = "CmbIndicador",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Objetivo),
+            GrantToWrite = grantToWrite,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = defaultComboOption
         };
 
-        foreach (Indicador indicador in Indicador.GetByCompany(this.company.Id))
+        foreach (var indicador in Indicador.ByCompany(this.Company.Id))
         {
             if (indicador.Active || indicador.Id == this.Objetivo.IndicatorId)
             {
-                this.CmbIndicador.AddOption(new FormSelectOption()
+                this.CmbIndicador.AddOption(new FormSelectOption
                 {
                     Value = indicador.Id.ToString(),
                     Text = indicador.Description,
@@ -383,25 +377,25 @@ public partial class ObjetivoView : Page
             }
         }
 
-        foreach (Employee e in this.company.Employees)
+        foreach (var e in this.Company.Employees)
         {
             if (e.Active && e.DisabledDate == null)
             {
-                this.CmbResponsible.AddOption(new FormSelectOption()
+                this.CmbResponsible.AddOption(new FormSelectOption
                 {
                     Value = e.Id.ToString(),
                     Text = e.FullName,
                     Selected = e.Id == this.Objetivo.Responsible.Id
                 });
 
-                this.CmbResponsibleClose.AddOption(new FormSelectOption()
+                this.CmbResponsibleClose.AddOption(new FormSelectOption
                 {
                     Value = e.Id.ToString(),
                     Text = e.FullName,
                     Selected = e.Id == this.Objetivo.EndResponsible.Id
                 });
 
-                this.CmbResponsibleRecord.AddOption(new FormSelectOption()
+                this.CmbResponsibleRecord.AddOption(new FormSelectOption
                 {
                     Value = e.Id.ToString(),
                     Text = e.FullName,
@@ -410,22 +404,22 @@ public partial class ObjetivoView : Page
             }
         }
 
-        this.TxtFechaCierrePrevista = new FormDatePicker()
+        this.TxtFechaCierrePrevista = new FormDatePicker
         {
             Id = "TxtFechaCierrePrevista",
             Value = this.Objetivo.PreviewEndDate,
-            ColumnsSpan = 4,
-            ColumnsSpanLabel = 2,
-            Label = this.dictionary["Item_Objetivo_FieldLabel_ClosePreviewDate"]
+            ColumnsSpan = Constant.ColumnSpan4,
+            ColumnsSpanLabel = Constant.ColumnSpan2,
+            Label = this.Dictionary["Item_Objetivo_FieldLabel_ClosePreviewDate"]
         };
 
-        this.TxtFechaCierreReal = new FormDatePicker()
+        this.TxtFechaCierreReal = new FormDatePicker
         {
             Id = "TxtFechaCierreReal",
             Value = this.Objetivo.EndDate,
-            ColumnsSpan = 4,
-            ColumnsSpanLabel = 2,
-            Label = this.dictionary["Item_Objetivo_FieldLabel_CloseRealDate"]
+            ColumnsSpan = Constant.ColumnSpan4,
+            ColumnsSpanLabel = Constant.ColumnSpan2,
+            Label = this.Dictionary["Item_Objetivo_FieldLabel_CloseRealDate"]
         };
     }
 }

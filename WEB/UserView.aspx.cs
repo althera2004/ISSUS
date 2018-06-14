@@ -28,9 +28,6 @@ public partial class UserView : Page
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     public string Debug { get; private set; }
 
     /// <summary>Gets a random value to prevents static cache files</summary>
@@ -44,9 +41,6 @@ public partial class UserView : Page
 
     /// <summary>Indicates if employee is active</summary>
     private bool active;
-
-    private string countryData;
-
     private string returnScript;
     private int userItemId;
     private ApplicationUser userItem;
@@ -60,7 +54,7 @@ public partial class UserView : Page
             var res = new StringBuilder("[");
             var users = ApplicationUser.CompanyUsers(this.company.Id);
             bool first = true;
-            foreach (ApplicationUser userItem in users)
+            foreach (var userItem in users)
             {
                 if(first)
                 {
@@ -79,14 +73,10 @@ public partial class UserView : Page
         }
     }
 
+    public string GrantsList { get; private set; }
+
     /// <summary>Gets country data for icon combo</summary>
-    public string CountryData
-    {
-        get
-        {
-            return this.countryData;
-        }
-    }
+    public string CountryData { get; private set; }
 
     /// <summary>Gets a value indicating whether company identifier</summary>
     public string CompanyId
@@ -96,7 +86,6 @@ public partial class UserView : Page
             return this.company.Id.ToString().Trim();
         }
     }
-
 
     public int UserItemId
     {
@@ -150,13 +139,7 @@ public partial class UserView : Page
     }
 
     /// <summary>Gets dictionary for fixed labels</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public string ReturnScript
     {
@@ -173,7 +156,7 @@ public partial class UserView : Page
     {
         get
         {
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -181,7 +164,7 @@ public partial class UserView : Page
     {
         get
         {
-            return this.formFooterLearning.Render(this.dictionary);
+            return this.formFooterLearning.Render(this.Dictionary);
         }
     }
 
@@ -193,8 +176,7 @@ public partial class UserView : Page
         this.active = true;
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
-            Context.ApplicationInstance.CompleteRequest();
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
@@ -203,24 +185,23 @@ public partial class UserView : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
             else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
@@ -245,46 +226,59 @@ public partial class UserView : Page
         this.formFooter = new FormFooter();
         this.formFooterLearning = new FormFooter();
 
-        this.user = (ApplicationUser)Session["User"];
-        this.company = (Company)Session["company"];
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.user = Session["User"] as ApplicationUser;
+        this.company = Session["company"] as Company;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         string label = "Item_User";
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Users", "UserList.aspx", false);
+        this.master.AddBreadCrumb("Item_Users", "UserList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb(label);
-        this.master.Titulo = "Item_User";
+        this.master.Titulo = "Item_User_Title_Add";
 
         if (this.userItemId > 0)
         {
             this.userItem = ApplicationUser.GetById(this.userItemId, this.company.Id);
             this.master.TitleInvariant = true;
-            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_User"], this.userItem.UserName);
+            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_User"], this.userItem.UserName);
 
             this.formFooter.ModifiedBy = string.Empty;
             this.formFooter.ModifiedOn = DateTime.Now.Date;
 
             string grants = "|";
 
+            var grantsException = new List<int>
+            {
+                1,
+                2,
+                6,
+                26
+            };
+
             var res = new StringBuilder();
             var permisos = this.userItem.EffectiveGrants.OrderBy(o => o.Item.Description).ToList();
             foreach (var grant in permisos)
             {
+                if(grant.Item.Code == 26)
+                {
+                    continue;
+                }
+
                 res.Append(grant.Render());
                 if (grant.GrantToRead)
                 {
-                    grants += string.Format(CultureInfo.GetCultureInfo("en-us"), "R{0}|", grant.Item.Code);
+                    grants += string.Format(CultureInfo.InvariantCulture, "R{0}|", grant.Item.Code);
                 }
                 if (grant.GrantToWrite)
                 {
-                    grants += string.Format(CultureInfo.GetCultureInfo("en-us"), "W{0}|", grant.Item.Code);
+                    grants += string.Format(CultureInfo.InvariantCulture, "W{0}|", grant.Item.Code);
                 }
 
                 this.Grants.InnerText = grants;
             }
 
-            this.LtGrantList.Text = res.ToString();
+            this.GrantsList = res.ToString();
 
             this.LtIdiomas.Text = "<option value=\"es\"" + (this.userItem.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
             this.LtIdiomas.Text += "<option value=\"ca\"" + (this.userItem.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
@@ -295,7 +289,7 @@ public partial class UserView : Page
             string grants = "|";
             var res = new StringBuilder();
             var permisos = this.user.EffectiveGrants.OrderBy(o => o.Item.Description).ToList();
-            foreach (UserGrant grant in permisos)
+            foreach (var grant in permisos)
             {
                 grant.GrantToDelete = false;
                 grant.GrantToRead = false;
@@ -313,13 +307,13 @@ public partial class UserView : Page
                 this.Grants.InnerText = grants;
             }
 
-            this.LtGrantList.Text = res.ToString(); this.LtIdiomas.Text = "<option value=\"es\"" + (this.company.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
+            //this.LtGrantList.Text = res.ToString(); this.LtIdiomas.Text = "<option value=\"es\"" + (this.company.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
             this.LtIdiomas.Text += "<option value=\"ca\"" + (this.company.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
         }
 
         this.companyUserNames = new StringBuilder();
         bool firstUserName = true;
-        foreach (KeyValuePair<string, int> userName in ApplicationUser.CompanyUserNames(this.company.Id))
+        foreach (var userName in ApplicationUser.CompanyUserNames(this.company.Id))
         {
             if (firstUserName)
             {
@@ -335,7 +329,7 @@ public partial class UserView : Page
 
         this.formFooter = new FormFooter();
         this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         this.RenderCmbEmployeeData();
     }
@@ -346,30 +340,20 @@ public partial class UserView : Page
         var employees = this.company.EmployessWithoutUser;
         var employeesSorted = employees.ToList();
 
-        bool hasEmployee = false;
         if (this.userItem.Id > 0)
         {
             if (this.userItem.Employee.Id > 0)
             {
                 employeesSorted.Add(this.userItem.Employee);
-                hasEmployee = true;
             }
         }
 
-        if (!hasEmployee)
-        {
-            res.Append(@"<option value=""0"">").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
-        }
-        else
-        {
-            res.Append(@"<option value=""0"">").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
-        }
-
+        res.Append(@"<option value=""0"">").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
         employeesSorted = employeesSorted.OrderBy(e => e.FullName).ToList();
         foreach (var employee in employeesSorted)
         {
             res.AppendFormat(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<option value=""{0}""{2}>{1}</option>",
                 employee.Id,
                 employee.FullName,

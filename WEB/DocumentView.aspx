@@ -8,15 +8,15 @@
     <script type="text/javascript">
         var documento = <%=this.DocumentoJson %>;
         var documentId = <%=this.DocumentId %>;
-        var companyId = <%=this.CompanyId %>;
-        var userId = <%=this.UserId %>;
-        var userName = '<%=this.UserName %>';
+        var companyId = <%=this.Company.Id %>;
+        var userId = <%=this.ApplicationUser.Id %>;
+        var userName = "<%=this.ApplicationUser.UserName %>";
         var categorias = <%= this.CategoriasJson %>;
         var procedencias = <%= this.ProcedenciasJson %>;
         var sourceSelected = documentId === -1 ? false : documento.Source ? 2 : 1;
         var categorySelected = documentId === -1 ? 0 : documento.Category.Id;
         var procedenciaSelected = documentId === -1 ? 0 : documento.Origin.Id;
-        var selectedReason = '';
+        var selectedReason = "";
         var companyDocuments = [<%=this.CompanyDocuments %>];
         var firstDate = <%=this.FirstVersionDate%>;
         var attachs = <%=this.Attachs%>;
@@ -98,7 +98,7 @@
                                                             <label id="TxtRevisionLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Version"]%></label>
                                                             <div class="col-sm-1">
                                                                 <input type="text" <% if (this.DocumentId > 0)
-                                                                                      { %>readonly="readonly" <% } %>id="TxtRevision" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Version"] %>" class="col-xs-12 col-sm-12" value="<%= this.LastVersion.Version == 0 ? string.Empty : this.LastVersion.Version.ToString().Trim() %>" maxlength="4" onkeypress="validate(event)" onblur="this.value=$.trim(this.value);" />
+                                                                                      { %>readonly="readonly" <% } %>id="TxtRevision" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Version"] %>" class="col-xs-12 col-sm-12" value="<%= this.Document.LastVersion.Version == 0 ? string.Empty : this.Document.LastVersion.Version.ToString().Trim() %>" maxlength="4" onkeypress="validate(event)" onblur="this.value=$.trim(this.value);" />
                                                                 <span class="ErrorMessage" id="TxtRevisionErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                             <div class="cols-sm-1">
@@ -178,7 +178,7 @@
                                                             <label id="Label5" class="col-sm-12"><%=this.Dictionary["Item_Document_FieldLabel_Reason"]%></label>
                                                             <div class="col-sm-12">
                                                                 <!--input type="text" readonly="readonly" id="TxtMotivo" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Reason"] %>" class="col-xs-12 col-sm-12" value="</div>/%=this.LastVersion.Reason %>" /-->
-                                                                <textarea disabled="disabled" id="TxtMotivo" class="form-control col-xs-12 col-sm-12" maxlength="500" rows="3" onblur="this.value=$.trim(this.value);"><%=this.LastVersion.Reason %></textarea>
+                                                                <textarea disabled="disabled" id="TxtMotivo" class="form-control col-xs-12 col-sm-12" maxlength="500" rows="3" onblur="this.value=$.trim(this.value);"><%=this.Document.LastVersion.Reason %></textarea>
                                                                 </div>
                                                         </div>
                                                         <%=this.FormFooter %>
@@ -240,7 +240,7 @@
                             <div id="attachFile" class="hide" style="width: 800px;">
                                 <div class="table-responsive">
                                     <form action="/dummy.html" class="dropzone well dz-clickable" id="dropzone">
-                                        <input type="file" id="fileName" name="fileName" multiple style="position: absolute; top: -100000px;" />
+                                        <input type="file" id="fileName" name="fileName" multiple="multiple" style="position: absolute; top: -100000px;" />
                                         <div class="dz-default dz-message">
                                             <span id="UploadMessage">
                                                 <span class="bigger-150 bolder">
@@ -392,39 +392,39 @@
 
             function SetOrigen() {
                 // Dejar las alertas procedencias en reset
-                document.getElementById('TxtProcedenciaLabel').style.color = '#000';
-                document.getElementById('TxtProcedenciaErrorRequired').style.display = 'none';
+                document.getElementById("TxtProcedenciaLabel").style.color = "#000";
+                document.getElementById("TxtProcedenciaErrorRequired").style.display = "none";
 
                 if (sourceSelected == 1) {
-                    document.getElementById('TxtProcedenciaLabel').style.display = 'none';
-                    document.getElementById('BtnProcedencia').style.display = 'none';
-                    document.getElementById('CmbProcedencia').style.display = 'none';
+                    document.getElementById("TxtProcedenciaLabel").style.display = "none";
+                    document.getElementById("BtnProcedencia").style.display = "none";
+                    document.getElementById("CmbProcedencia").style.display = "none";
                 }
 
                 if (sourceSelected == 2) {
-                    document.getElementById('TxtProcedenciaLabel').style.display = 'block';
-                    document.getElementById('BtnProcedencia').style.display = '';
-                    document.getElementById('CmbProcedencia').style.display = 'block';
+                    document.getElementById("TxtProcedenciaLabel").style.display = "block";
+                    document.getElementById("BtnProcedencia").style.display = "";
+                    document.getElementById("CmbProcedencia").style.display = "block";
                 }
             }
 
             function SetReason() {                
                 var ok = true;
-                document.getElementById('TxtCodigoErrorDuplicated').style.display = 'none';
-                document.getElementById('TxtDocumentoErrorDuplicated').style.display = 'none';
-                document.getElementById('TxtStartDateLabel').style.color = '#000';
-                document.getElementById('TxtStartDateErrorRequired').style.display = 'none';
-                document.getElementById('TxtStartDatePreviousRevision').style.display = 'none';
-                if(!RequiredFieldText('TxtCodigo')) { ok = false; }
-                if(!RequiredFieldText('TxtDocumento')) { ok = false; }
+                document.getElementById("TxtCodigoErrorDuplicated").style.display = "none";
+                document.getElementById("TxtDocumentoErrorDuplicated").style.display = "none";
+                document.getElementById("TxtStartDateLabel").style.color = "#000";
+                document.getElementById("TxtStartDateErrorRequired").style.display = "none";
+                document.getElementById("TxtStartDatePreviousRevision").style.display = "none";
+                if(!RequiredFieldText("TxtCodigo")) { ok = false; }
+                if(!RequiredFieldText("TxtDocumento")) { ok = false; }
 
                 var duplicated = false;
                 if(ok === true)
                 {
                     for(var x = 0; x < companyDocuments.length; x++)
                     {
-                        if(document.getElementById('TxtCodigo').value.toLowerCase() === companyDocuments[x].Code.toLowerCase() &&
-                           document.getElementById('TxtDocumento').value.toLowerCase() === companyDocuments[x].Description.toLowerCase() &&
+                        if(document.getElementById("TxtCodigo").value.toLowerCase() === companyDocuments[x].Code.toLowerCase() &&
+                           document.getElementById("TxtDocumento").value.toLowerCase() === companyDocuments[x].Description.toLowerCase() &&
                            companyDocuments[x].Id != documentId)
                         {
                             duplicated = true;
@@ -434,62 +434,62 @@
 
                     if(duplicated === true)
                     {
-                        document.getElementById('TxtCodigoErrorDuplicated').style.display = 'block';
-                        document.getElementById('TxtDocumentoErrorDuplicated').style.display = 'block';
+                        document.getElementById("TxtCodigoErrorDuplicated").style.display = "block";
+                        document.getElementById("TxtDocumentoErrorDuplicated").style.display = "block";
                         ok = false;
                     }
                 }
 
-                if(!RequiredFieldText('TxtRevision')) { ok = false; }
+                if(!RequiredFieldText("TxtRevision")) { ok = false; }
 
                 var conservacionok = true;
-                if (!RequiredFieldText('TxtConservacion')) { ok = false; }
+                if (!RequiredFieldText("TxtConservacion")) { ok = false; }
 
-                if (document.getElementById('CmbConservacion').value == 0) {
+                if (document.getElementById("CmbConservacion").value == 0) {
                     ok = false;
                     conservacionok = false;
-                    document.getElementById('CmbConservacionErrorRequired').style.display = 'block';
+                    document.getElementById("CmbConservacionErrorRequired").style.display = "block";
                 }
                 else
                 {
-                    document.getElementById('CmbConservacionErrorRequired').style.display = 'none';
+                    document.getElementById("CmbConservacionErrorRequired").style.display = "none";
                 }
 
                 if(conservacionok===true)
                 {                
-                    document.getElementById('TxtConservacionLabel').style.color = '#000';
+                    document.getElementById("TxtConservacionLabel").style.color = "#000";
                 }
                 else
                 {
-                    document.getElementById('TxtConservacionLabel').style.color = '#f00';
+                    document.getElementById("TxtConservacionLabel").style.color = "#f00";
                 }
 
-                if (!RequiredFieldText('TxtCategory')) { ok = false; }
+                if (!RequiredFieldText("TxtCategory")) { ok = false; }
 
-                if(document.getElementById('CmbOrigen').value == 2) {
-                    if (!RequiredFieldText('TxtProcedencia')) { ok = false; }
+                if(document.getElementById("CmbOrigen").value == 2) {
+                    if (!RequiredFieldText("TxtProcedencia")) { ok = false; }
                 }
                 else
                 {
-                    document.getElementById('TxtProcedenciaLabel').style.color='#000';
-                    document.getElementById('TxtProcedenciaErrorRequired').style.display='none';
+                    document.getElementById("TxtProcedenciaLabel").style.color="#000";
+                    document.getElementById("TxtProcedenciaErrorRequired").style.display="none";
                 }
 
                 // ISSUS-210 - Fecha alta no puede ser posterior a fecha de revision
-                if($('#TxtStartDate').val()==='')
+                if($("#TxtStartDate").val()==="")
                 {
                     ok = false;
-                    document.getElementById('TxtStartDateLabel').style.color='#f00';
-                    document.getElementById('TxtStartDateErrorRequired').style.display = '';
+                    document.getElementById("TxtStartDateLabel").style.color="#f00";
+                    document.getElementById("TxtStartDateErrorRequired").style.display = "";
                 }
                 else
                 {
-                    var startdate = GetDate($('#TxtStartDate').val(),'-');
+                    var startdate = GetDate($("#TxtStartDate").val(),"-");
                     if(startdate > firstDate)
                     {
                         ok = false;
-                        document.getElementById('TxtStartDateLabel').style.color='#f00';
-                        document.getElementById('TxtStartDatePreviousRevision').style.display = '';
+                        document.getElementById("TxtStartDateLabel").style.color = "#f00";
+                        document.getElementById("TxtStartDatePreviousRevision").style.display = "";
                     }
                 }
 
@@ -515,31 +515,31 @@
                 $("#TxtRevision").css("text-align", "right");
                 $("#TxtConservacion").css("text-align", "right");
                
-                var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true });
+                var options = $.extend({}, $.datepicker.regional["<%=this.ApplicationUser.Language %>"], { autoclose: true, todayHighlight: true });
                 $("#TxtEndDate").datepicker(options);
                 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
-                var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true, maxDate: firstDate });
+                var options = $.extend({}, $.datepicker.regional["<%=this.ApplicationUser.Language %>"], { autoclose: true, todayHighlight: true, maxDate: firstDate });
                 $(".date-picker_start").datepicker(options);
                 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
                 if(ApplicationUser.ShowHelp===true){
-                    SetToolTip('DivEndDate', Dictionary.Item_Document_Help_EndDate);
-                    SetToolTip('TxtDocumento', Dictionary.Item_Document_Help_Name);
-                    SetToolTip('TxtCodigo', Dictionary.Item_Document_Help_Codigo);
-                    SetToolTip('DivCmbCategory', Dictionary.Item_Document_Help_Categoria);
-                    SetToolTip('BtnCategory', Dictionary.Item_Document_Help_BARCategoria);
-                    SetToolTip('TxtStartDate', Dictionary.Item_Document_Help_StartDate);
-                    SetToolTip('TxtConservacion', Dictionary.Item_Document_Help_ConservacionCantidad);
-                    SetToolTip('DivCmbConservacion', Dictionary.Item_Document_Help_ConservacionTiempo);
-                    SetToolTip('DivCmbOrigen', Dictionary.Item_Document_Help_Origin);
-                    SetToolTip('DivCmbProcedencia', Dictionary.Item_Document_Help_Source);
-                    SetToolTip('BtnProcedencia', Dictionary.Item_Document_Help_BARProcedencia);
-                    SetToolTip('TxtUbicacion', Dictionary.Item_Document_Help_Ubicacion);
-                    SetToolTip('TxtMotivo', Dictionary.Item_Document_Help_Reason);
-                    SetToolTip('TxtRevision', Dictionary.Item_Document_Help_Revision);
-                    SetToolTip('BtnNewVersion', Dictionary.Item_Document_Help_NewRevision);
-                    $('[data-rel=tooltip]').tooltip();
+                    SetToolTip("DivEndDate", Dictionary.Item_Document_Help_EndDate);
+                    SetToolTip("TxtDocumento", Dictionary.Item_Document_Help_Name);
+                    SetToolTip("TxtCodigo", Dictionary.Item_Document_Help_Codigo);
+                    SetToolTip("DivCmbCategory", Dictionary.Item_Document_Help_Categoria);
+                    SetToolTip("BtnCategory", Dictionary.Item_Document_Help_BARCategoria);
+                    SetToolTip("TxtStartDate", Dictionary.Item_Document_Help_StartDate);
+                    SetToolTip("TxtConservacion", Dictionary.Item_Document_Help_ConservacionCantidad);
+                    SetToolTip("DivCmbConservacion", Dictionary.Item_Document_Help_ConservacionTiempo);
+                    SetToolTip("DivCmbOrigen", Dictionary.Item_Document_Help_Origin);
+                    SetToolTip("DivCmbProcedencia", Dictionary.Item_Document_Help_Source);
+                    SetToolTip("BtnProcedencia", Dictionary.Item_Document_Help_BARProcedencia);
+                    SetToolTip("TxtUbicacion", Dictionary.Item_Document_Help_Ubicacion);
+                    SetToolTip("TxtMotivo", Dictionary.Item_Document_Help_Reason);
+                    SetToolTip("TxtRevision", Dictionary.Item_Document_Help_Revision);
+                    SetToolTip("BtnNewVersion", Dictionary.Item_Document_Help_NewRevision);
+                    $("[data-rel=tooltip]").tooltip();
                 }
 
                 $("#BtnCategory").on("click", function (e) {
@@ -584,14 +584,14 @@
                         buttons: [
                             {
                                 id: 'BtnNewProcedencia',
-                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                                 "class": "btn btn-success btn-xs",
                                 click: function () {
                                     ProcedenciaInsert();
                                 }
                             },
                             {
-                                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                                 "class": "btn btn-xs",
                                 click: function () { $(this).dialog("close"); }
                             }

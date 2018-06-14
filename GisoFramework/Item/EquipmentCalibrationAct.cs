@@ -18,16 +18,14 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements EquipmentCalibrationAct class
-    /// </summary>
+    /// <summary>Implements EquipmentCalibrationAct class</summary>
     public class EquipmentCalibrationAct : BaseItem
     {
         public static EquipmentCalibrationAct Empty
         {
             get
             {
-                return new EquipmentCalibrationAct()
+                return new EquipmentCalibrationAct
                 {
                     Id = -1,
                     EquipmentCalibrationType = -1,
@@ -58,7 +56,10 @@ namespace GisoFramework.Item
 
         public override string Link
         {
-            get { return string.Empty; }
+            get
+            {
+                return string.Empty;
+            }
         }
 
         /// <summary>Gets an identifier/description json item</summary>
@@ -66,7 +67,11 @@ namespace GisoFramework.Item
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"{{""Id"":{0}, ""Description"":""{1}""}}",
+                    this.Id,
+                    Tools.JsonCompliant(this.Description));
             }
         }
 
@@ -75,7 +80,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                StringBuilder res = new StringBuilder("{");
+                var res = new StringBuilder("{");
                 res.Append(Tools.JsonPair("Id", this.Id)).Append(",");
                 res.Append(Tools.JsonPair("EquipmentId", this.EquipmentId)).Append(",");
                 res.Append(Tools.JsonPair("EquipmentCalibrationType", this.EquipmentCalibrationType)).Append(",");
@@ -111,10 +116,10 @@ namespace GisoFramework.Item
 
         public static string JsonList(long equipmentId, int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
-            ReadOnlyCollection<EquipmentCalibrationAct> maintenance = GetByCompany(equipmentId, companyId);
+            var res = new StringBuilder("[");
+            var maintenance = GetByCompany(equipmentId, companyId);
             bool first = true;
-            foreach (EquipmentCalibrationAct item in maintenance)
+            foreach (var item in maintenance)
             {
                 if (first)
                 {
@@ -137,61 +142,70 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE EquipmentCalibrationAct_GetByEquipmentId
              *   @EquipmentId bigint,
              *   @CompanyId int */
-            List<EquipmentCalibrationAct> res = new List<EquipmentCalibrationAct>();
-            using (SqlCommand cmd = new SqlCommand("EquipmentCalibrationAct_GetByEquipmentId"))
+            var res = new List<EquipmentCalibrationAct>();
+            using (var cmd = new SqlCommand("EquipmentCalibrationAct_GetByEquipmentId"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        EquipmentCalibrationAct newEquipmentCalibrationAct = new EquipmentCalibrationAct()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt64(ColumnsEquipmentCalibrationActGet.Id),
-                            CompanyId = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.CompanyId),
-                            EquipmentId = rdr.GetInt64(ColumnsEquipmentCalibrationActGet.EquipmentId),
-                            Result = rdr.GetDecimal(ColumnsEquipmentCalibrationActGet.Result),
-                            MaxResult = rdr.GetDecimal(ColumnsEquipmentCalibrationActGet.MaxResult),
-                            Date = rdr.GetDateTime(ColumnsEquipmentCalibrationActGet.Date),
-                            Expiration = rdr.GetDateTime(5),
-                            EquipmentCalibrationType = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.EquipmentCalibrationType),
-                            Active = rdr.GetBoolean(ColumnsEquipmentCalibrationActGet.Active),
-                            Provider = new Provider()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt64(ColumnsEquipmentCalibrationActGet.ProviderId),
-                                Description = rdr.GetString(ColumnsEquipmentCalibrationActGet.ProviderDescription)
-                            },
-                            Responsible = new Employee()
-                            {
-                                Id = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.ResponsibleId),
-                                Name = rdr.GetString(ColumnsEquipmentCalibrationActGet.ResponsibleName),
-                                LastName = rdr.GetString(ColumnsEquipmentCalibrationActGet.ResponsibleLastName)
-                            },
-                            ModifiedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.ModifiedByUserId),
-                                UserName = rdr.GetString(ColumnsEquipmentCalibrationActGet.ModifiedByUserName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsEquipmentCalibrationActGet.ModifiedOn)
-                        };
+                                var newEquipmentCalibrationAct = new EquipmentCalibrationAct
+                                {
+                                    Id = rdr.GetInt64(ColumnsEquipmentCalibrationActGet.Id),
+                                    CompanyId = companyId,
+                                    EquipmentId = rdr.GetInt64(ColumnsEquipmentCalibrationActGet.EquipmentId),
+                                    Result = rdr.GetDecimal(ColumnsEquipmentCalibrationActGet.Result),
+                                    MaxResult = rdr.GetDecimal(ColumnsEquipmentCalibrationActGet.MaxResult),
+                                    Date = rdr.GetDateTime(ColumnsEquipmentCalibrationActGet.Date),
+                                    Expiration = rdr.GetDateTime(5),
+                                    EquipmentCalibrationType = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.EquipmentCalibrationType),
+                                    Active = rdr.GetBoolean(ColumnsEquipmentCalibrationActGet.Active),
+                                    Provider = new Provider
+                                    {
+                                        Id = rdr.GetInt64(ColumnsEquipmentCalibrationActGet.ProviderId),
+                                        Description = rdr.GetString(ColumnsEquipmentCalibrationActGet.ProviderDescription),
+                                        CompanyId = companyId
+                                    },
+                                    Responsible = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.ResponsibleId),
+                                        Name = rdr.GetString(ColumnsEquipmentCalibrationActGet.ResponsibleName),
+                                        LastName = rdr.GetString(ColumnsEquipmentCalibrationActGet.ResponsibleLastName),
+                                        CompanyId = companyId
+                                    },
+                                    ModifiedBy = new ApplicationUser
+                                    {
+                                        Id = rdr.GetInt32(ColumnsEquipmentCalibrationActGet.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsEquipmentCalibrationActGet.ModifiedByUserName),
+                                        CompanyId = companyId
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentCalibrationActGet.ModifiedOn)
+                                };
 
-                        if(!rdr.IsDBNull(ColumnsEquipmentCalibrationActGet.Cost)){
-                            newEquipmentCalibrationAct.Cost = rdr.GetDecimal(ColumnsEquipmentCalibrationActGet.Cost);                            
+                                if (!rdr.IsDBNull(ColumnsEquipmentCalibrationActGet.Cost))
+                                {
+                                    newEquipmentCalibrationAct.Cost = rdr.GetDecimal(ColumnsEquipmentCalibrationActGet.Cost);
+                                }
+
+                                res.Add(newEquipmentCalibrationAct);
+                            }
                         }
-
-                        res.Add(newEquipmentCalibrationAct);
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -270,54 +284,57 @@ namespace GisoFramework.Item
              *   @ProviderId bigint,
              *   @ResponsableId int,
              *   @UserId int */
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("EquipmentCalibrationAct_Insert"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("EquipmentCalibrationAct_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentCalibrationActId"));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentCalibrationType", this.EquipmentCalibrationType));
-                    cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description,100));
-                    cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
-                    cmd.Parameters.Add(DataParameter.Input("@Vto", this.Expiration));
-                    cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
-                    cmd.Parameters.Add(DataParameter.Input("@MaxResult", this.MaxResult));
-                    cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
-                    if (this.Provider == null || this.Provider.Id==0 || this.EquipmentCalibrationType == 0)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
-                    }
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentCalibrationActId"));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentCalibrationType", this.EquipmentCalibrationType));
+                        cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
+                        cmd.Parameters.Add(DataParameter.Input("@Vto", this.Expiration));
+                        cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
+                        cmd.Parameters.Add(DataParameter.Input("@MaxResult", this.MaxResult));
+                        cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
+                        if (this.Provider == null || this.Provider.Id == 0 || this.EquipmentCalibrationType == 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                        }
 
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@EquipmentCalibrationActId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                    result.Success = true;
-                    result.MessageError = this.Id.ToString(CultureInfo.InvariantCulture);
-                }
-                catch (SqlException ex)
-                {
-                    result.SetFail(ex);
-                    ExceptionManager.Trace(ex, "EquipmentCalibrationAct::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Result));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "EquipmentCalibrationAct", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Result));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@EquipmentCalibrationActId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        result.Success = true;
+                        result.MessageError = this.Id.ToString(CultureInfo.InvariantCulture);
+                    }
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        result.SetFail(ex);
+                        ExceptionManager.Trace(ex, "EquipmentCalibrationAct::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Result));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "EquipmentCalibrationAct", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Result));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -330,44 +347,47 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE EquipmentCalibrationAct_Delete
              *   @EquipmentCalibrationActId bigint output,
              *   @UserId int  */
-            ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
-            using (SqlCommand cmd = new SqlCommand("EquipmentCalibrationAct_Delete"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("EquipmentCalibrationAct_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentCalibrationActId", equipmentCalibrationActId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Delete Id:{0} User:{1} Company:{2}", equipmentCalibrationActId, userId, companyId));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Delete Id:{0} User:{1} Company:{2}", equipmentCalibrationActId, userId, companyId));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Delete Id:{0} User:{1} Company:{2}", equipmentCalibrationActId, userId, companyId));
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Delete Id:{0} User:{1} Company:{2}", equipmentCalibrationActId, userId, companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Delete Id:{0} User:{1} Company:{2}", equipmentCalibrationActId, userId, companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentCalibrationActId", equipmentCalibrationActId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Delete Id:{0} User:{1} Company:{2}", equipmentCalibrationActId, userId, companyId));
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Delete Id:{0} User:{1} Company:{2}", equipmentCalibrationActId, userId, companyId));
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Delete Id:{0} User:{1} Company:{2}", equipmentCalibrationActId, userId, companyId));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Delete Id:{0} User:{1} Company:{2}", equipmentCalibrationActId, userId, companyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Delete Id:{0} User:{1} Company:{2}", equipmentCalibrationActId, userId, companyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -390,63 +410,66 @@ namespace GisoFramework.Item
              *   @ProviderId bigint,
              *   @ResponsableId int,
              *   @UserId int  */
-            ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
-            using (SqlCommand cmd = new SqlCommand("EquipmentCalibrationAct_Update"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("EquipmentCalibrationAct_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentCalibrationActId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentCalibrationType", this.EquipmentCalibrationType));
-                    cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
-                    cmd.Parameters.Add(DataParameter.Input("@Vto", this.Expiration));
-                    cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
-                    cmd.Parameters.Add(DataParameter.Input("@MaxResult", this.MaxResult));
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentCalibrationActId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentCalibrationType", this.EquipmentCalibrationType));
+                        cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
+                        cmd.Parameters.Add(DataParameter.Input("@Vto", this.Expiration));
+                        cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
+                        cmd.Parameters.Add(DataParameter.Input("@MaxResult", this.MaxResult));
 
-                    if (this.Provider == null || this.Provider.Id == 0 || this.EquipmentCalibrationType == 0)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
-                    }
+                        if (this.Provider == null || this.Provider.Id == 0 || this.EquipmentCalibrationType == 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                        }
 
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentCalibrationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

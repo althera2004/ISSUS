@@ -34,7 +34,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult BusinessRiskDelete(int businessRiskId, int companyId, int userId)
         {
-            ActionResult res = BusinessRisk.Delete(businessRiskId, string.Empty, companyId, userId);
+            var res = BusinessRisk.Delete(businessRiskId, string.Empty, companyId, userId);
             if (res.Success)
             {
                 this.Session["Company"] = new Company(companyId);
@@ -52,7 +52,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult BusinessRiskActivate(int businessRiskId, int companyId, int userId)
         {
-            ActionResult res = BusinessRisk.Activate(businessRiskId, string.Empty, companyId, userId);
+            var res = BusinessRisk.Activate(businessRiskId, string.Empty, companyId, userId);
             if (res.Success)
             {
                 this.Session["Company"] = new Company(companyId);
@@ -70,17 +70,18 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult BusinessRiskUpdate(BusinessRisk newBusinessRisk, int companyId, int userId)
         {
-            ActionResult res = newBusinessRisk.Update(userId);
+            var res = newBusinessRisk.Update(userId);
             if (res.Success)
             {
                 if (newBusinessRisk.FinalDate.HasValue && newBusinessRisk.FinalAction == 3)
                 {
-                    BusinessRisk newBusinessRiskEvaluated = new BusinessRisk()
+                    var newBusinessRiskEvaluated = new BusinessRisk
                     {
                         Description = newBusinessRisk.Description,
                         Code = newBusinessRisk.Code,
                         DateStart = newBusinessRisk.FinalDate.Value,
                         Notes = newBusinessRisk.Notes,
+                        ItemDescription = newBusinessRisk.ItemDescription,
                         Causes = newBusinessRisk.Causes,
                         FinalSeverity = 0,
                         FinalProbability = 0,
@@ -101,9 +102,9 @@ namespace GISOWeb
 
                     res = newBusinessRiskEvaluated.Insert(userId);
 
-                    ApplicationUser newUser = ApplicationUser.GetById(userId, companyId);
+                    var newUser = ApplicationUser.GetById(userId, companyId);
 
-                    IncidentAction newAction = new IncidentAction()
+                    var newAction = new IncidentAction
                     {
                         IncidentId = 0,
                         BusinessRiskId = newBusinessRiskEvaluated.Id,
@@ -138,7 +139,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult BusinessRiskInsert(BusinessRisk businessRisk, int companyId, int userId)
         {
-            ActionResult res = businessRisk.Insert(userId);
+            var res = businessRisk.Insert(userId);
             if (res.Success)
             {
                 //// string differences = businessRisk.Differences(BusinessRisk.Empty);
@@ -161,7 +162,7 @@ namespace GISOWeb
         [ScriptMethod]
         public string GetFilter(int companyId, DateTime? from, DateTime? to, long rulesId, long processId, int type)
         {
-            StringBuilder filter = new StringBuilder("{");
+            var filter = new StringBuilder("{");
             filter.Append(Tools.JsonPair("companyId", companyId)).Append(",");
             filter.Append(Tools.JsonPair("from", from)).Append(",");
             filter.Append(Tools.JsonPair("to", to)).Append(",");

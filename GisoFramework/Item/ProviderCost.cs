@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ProviderCost.cs" company="Microsoft">
-// TODO: Update copyright text.
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item

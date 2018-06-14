@@ -6,7 +6,6 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
@@ -24,11 +23,11 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PDF_Tests;
 
-public partial class Export_DocumentExportList : Page
+public partial class ExportDocumentExportList : Page
 {
-    public static Font criteriaFont;
-    public static Dictionary<string, string> dictionary;
-    public static Font fontAwe;
+    public static Font CriteriaFont;
+    public static Dictionary<string, string> Dictionary;
+    public static Font FontAwe;
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
@@ -36,7 +35,7 @@ public partial class Export_DocumentExportList : Page
     {
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
-        dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+        Dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
         var company = new Company(companyId);
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -48,7 +47,7 @@ public partial class Export_DocumentExportList : Page
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
-            dictionary["Item_DocumentList"],
+            Dictionary["Item_DocumentList"],
             company.Name,
             DateTime.Now);
 
@@ -68,7 +67,7 @@ public partial class Export_DocumentExportList : Page
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
 
-        writer.PageEvent = new TwoColumnHeaderFooter()
+        writer.PageEvent = new TwoColumnHeaderFooter
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, company.Id),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
@@ -76,27 +75,14 @@ public partial class Export_DocumentExportList : Page
             CreatedBy = user.UserName,
             CompanyId = company.Id,
             CompanyName = company.Name,
-            Title = dictionary["Item_DocumentList"].ToUpperInvariant()
+            Title = Dictionary["Item_DocumentList"].ToUpperInvariant()
         };
 
         pdfDoc.Open();
 
-        // ------------ FONTS 
-        var awesomeFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        var times = new iTS.Font(arial, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        var timesBold = new iTS.Font(arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        var headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        criteriaFont = new iTS.Font(arial, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        var titleFont = new iTS.Font(arial, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        var symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-
-        var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        fontAwe = new Font(fontAwesomeIcon, 10);
-        // -------------------
-
         var titleTable = new iTSpdf.PdfPTable(1);
         titleTable.SetWidths(new float[] { 20f });
-        titleTable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_EquipmentList"], company.Name), titleFont))
+        titleTable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", Dictionary["Item_EquipmentList"], company.Name), ToolsPdf.TitleFont))
         {
             HorizontalAlignment = iTS.Element.ALIGN_CENTER,
             Border = iTS.Rectangle.NO_BORDER
@@ -109,7 +95,7 @@ public partial class Export_DocumentExportList : Page
 
         criteriatable.SetWidths(new float[] { 10f, 20f, 12f, 30f, 10f, 80f });
 
-        var criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Status"] + " :", timesBold))
+        var criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Common_Status"] + " :", ToolsPdf.TimesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -117,7 +103,7 @@ public partial class Export_DocumentExportList : Page
             PaddingTop = 4f
         };
 
-        var criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Document_FieldLabel_Category"] + " :", timesBold))
+        var criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_Document_FieldLabel_Category"] + " :", ToolsPdf.TimesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -125,7 +111,7 @@ public partial class Export_DocumentExportList : Page
             PaddingTop = 4f
         };
 
-        var criteria3Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Document_FieldLabel_Origin"] + " :", timesBold))
+        var criteria3Label = new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_Document_FieldLabel_Origin"] + " :", ToolsPdf.TimesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -133,22 +119,22 @@ public partial class Export_DocumentExportList : Page
             PaddingTop = 4f
         };
 
-        string statusText = dictionary["Common_All_Male_Plural"];
-        string category = dictionary["Common_All_Female_Plural"];
-        string origin = dictionary["Common_All_Male_Plural"];
+        string statusText = Dictionary["Common_All_Male_Plural"];
+        string category = Dictionary["Common_All_Female_Plural"];
+        string origin = Dictionary["Common_All_Male_Plural"];
         if (filter.IndexOf("A|") != -1 )
         {
-            statusText = dictionary["Common_Active_Plural"];
+            statusText = Dictionary["Common_Active_Plural"];
         }
 
         if (filter.StartsWith("I", StringComparison.OrdinalIgnoreCase))
         {
-            statusText = dictionary["Common_Inactive_Plural"];
+            statusText = Dictionary["Common_Inactive_Plural"];
         }
 
         if (filter.StartsWith("|", StringComparison.OrdinalIgnoreCase))
         {
-            statusText = dictionary["Common_None"];
+            statusText = Dictionary["Common_None"];
         }
 
         var documents = GisoFramework.Item.Document.GetByCompany(companyId);
@@ -168,7 +154,7 @@ public partial class Export_DocumentExportList : Page
         if (parts[1] != "-1")
         {
             data = data.Where(d => d.Category.Id == Convert.ToInt32(parts[1])).ToList();
-            var cats = DocumentCategory.GetByCompany(companyId);
+            var cats = DocumentCategory.ByCompany(companyId);
             var cat = cats.First(c => c.Id == Convert.ToInt32(parts[1]));
             category = cat.Description;
         }
@@ -176,17 +162,17 @@ public partial class Export_DocumentExportList : Page
         if (parts[2] == "0")
         {
             data = data.Where(d => d.Origin.Id == 0).ToList();
-            origin = dictionary["Common_Internal"];
+            origin = Dictionary["Common_Internal"];
         }
 
         if (parts[2] == "1")
         {
             data = data.Where(d => d.Origin.Id > 0).ToList();
-            origin = dictionary["Common_External"];
+            origin = Dictionary["Common_External"];
         }
 
         criteriatable.AddCell(criteria1Label);
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(statusText, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(statusText, ToolsPdf.Times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -194,7 +180,7 @@ public partial class Export_DocumentExportList : Page
             PaddingTop = 4f
         });
         criteriatable.AddCell(criteria2Label);
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(category, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(category, ToolsPdf.Times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -202,7 +188,7 @@ public partial class Export_DocumentExportList : Page
             PaddingTop = 4f
         });
         criteriatable.AddCell(criteria3Label);
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(origin, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(origin, ToolsPdf.Times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -217,15 +203,16 @@ public partial class Export_DocumentExportList : Page
         };
 
         table.SetWidths(new float[] { 20f, 5f, 15f, 15f, 10f, 5f });
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_ListHeader_Name"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_ListHeader_Code"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_ListHeader_Category"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_ListHeader_Origin"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_ListHeader_Location"], headerFontFinal));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Document_ListHeader_Revision"], headerFontFinal));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Name"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Code"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Category"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Origin"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Location"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Revision"]));
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH0|ASC":
                 data = data.OrderBy(d => d.Description).ToList();
                 break;
@@ -250,21 +237,21 @@ public partial class Export_DocumentExportList : Page
         foreach (var document in data)
         {
             count++;
-            table.AddCell(ToolsPdf.DataCell(document.Description, times));
-            table.AddCell(ToolsPdf.DataCell(document.Code, times));
-            table.AddCell(ToolsPdf.DataCell(document.Category.Description, times));
-            table.AddCell(ToolsPdf.DataCell(document.Origin.Id == 0 ? dictionary["Common_Internal"] : dictionary["Common_External"], times));
-            table.AddCell(ToolsPdf.DataCell(document.Location, times));
-            table.AddCell(ToolsPdf.DataCellRight(document.LastNumber, times));
+            table.AddCell(ToolsPdf.DataCell(document.Description, ToolsPdf.Times));
+            table.AddCell(ToolsPdf.DataCell(document.Code, ToolsPdf.Times));
+            table.AddCell(ToolsPdf.DataCell(document.Category.Description, ToolsPdf.Times));
+            table.AddCell(ToolsPdf.DataCell(document.Origin.Id == 0 ? Dictionary["Common_Internal"] : Dictionary["Common_External"], ToolsPdf.Times));
+            table.AddCell(ToolsPdf.DataCell(document.Location, ToolsPdf.Times));
+            table.AddCell(ToolsPdf.DataCellRight(document.LastNumber, ToolsPdf.Times));
         }
 
         string totalRegistros = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}: {1}",
-            dictionary["Common_RegisterCount"],
+            Dictionary["Common_RegisterCount"],
             count);
 
-        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, times))
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, ToolsPdf.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = ToolsPdf.SummaryBackgroundColor,
@@ -272,7 +259,7 @@ public partial class Export_DocumentExportList : Page
             PaddingTop = 4f
         });
 
-        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = ToolsPdf.SummaryBackgroundColor,
@@ -282,7 +269,7 @@ public partial class Export_DocumentExportList : Page
         pdfDoc.Add(criteriatable);
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();
-        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
+        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
         return res;
     }
 }

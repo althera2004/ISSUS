@@ -2083,7 +2083,7 @@ box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
         <script type = "text/javascript">
             function alertUI(message) {
                 $('#AlertUIMessage').html(message);
-                var dialog = $("#AlertUIDialog").removeClass('hide').dialog({
+                var dialog = $("#AlertUIDialog").removeClass("hide").dialog({
                     resizable: false,
                     modal: true,
                     title: Dictionary.Common_Warning,
@@ -2091,7 +2091,7 @@ box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
                     buttons:
                     [
                         {
-                            html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                            html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                             "class": "btn btn-xs btn-success",
                             click: function () {
                                 $(this).dialog("close");
@@ -2103,14 +2103,14 @@ box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
 
             function alertInfoUI(message, action) {
                 $('#InfoUIMessage').html(message);
-                var dialog = $("#InfoUIDialog").removeClass('hide').dialog({
+                var dialog = $("#InfoUIDialog").removeClass("hide").dialog({
                     resizable: false,
                     modal: true,
                     title: Dictionary.Common_Warning,
                     title_html: true,
                     buttons: [
                             {
-                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                                 "class": "btn btn-xs btn-success",
                                 click: function () {
                                     $(this).dialog("close");
@@ -2127,7 +2127,7 @@ box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
 
             function warningInfoUI(message, action, width) {
                 $('#WarningUIMessage').html(message);
-                var dialog = $("#WarningUIDialog").removeClass('hide').dialog({
+                var dialog = $("#WarningUIDialog").removeClass("hide").dialog({
                     resizable: false,
                     width: width == null ? 300 : width,
                     modal: true,
@@ -2135,7 +2135,7 @@ box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
                     title_html: true,
                     buttons: [
                             {
-                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                                 "class": "btn btn-xs btn-success",
                                 click: function () {
                                     $(this).dialog("close");
@@ -2152,7 +2152,7 @@ box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
 
             function successInfoUI(message, action, width) {
                 $('#SuccessUIMessage').html(message);
-                var dialog = $("#SuccessUIDialog").removeClass('hide').dialog({
+                var dialog = $("#SuccessUIDialog").removeClass("hide").dialog({
                     resizable: false,
                     width: width == null ? 300 : width,
                     modal: true,
@@ -2160,7 +2160,7 @@ box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
                     title_html: true,
                     buttons: [
                             {
-                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                                 "class": "btn btn-xs btn-success",
                                 click: function () {
                                     $(this).dialog("close");
@@ -2177,7 +2177,7 @@ box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
 
             function promptInfoUI(message, width, actionYes, actionNo) {
                 $('#PromptUIMessage').html(message);
-                var dialog = $("#PromptUIDialog").removeClass('hide').dialog({
+                var dialog = $("#PromptUIDialog").removeClass("hide").dialog({
                     resizable: false,
                     width: width == null ? 300 : width,
                     modal: true,
@@ -2185,7 +2185,7 @@ box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
                     title_html: true,
                     buttons: [
                             {
-                                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                                 "class": "btn btn-xs btn-success",
                                 click: function () {
                                     $(this).dialog("close");
@@ -2196,7 +2196,7 @@ box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
                                 }
                             },
                             {
-                                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                                 "class": "btn btn-xs btn-danger",
                                 click: function () {
                                     $(this).dialog("close");
@@ -2215,7 +2215,7 @@ box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
             {
                 return;
                 $('#LoadingMessage').html(message);
-                var dialog = $("#LoadingDialog").removeClass('hide').dialog({
+                var dialog = $("#LoadingDialog").removeClass("hide").dialog({
                     resizable: false,
                     modal: true,
                     title: Dictionary.Common_Working,

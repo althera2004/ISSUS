@@ -124,7 +124,7 @@
         var listOrder = null;
         var timeout = 180000;
         var scaleImages = false;
-        var ApplicationUser = <%=this.ApplicationUserJson %>;
+        var ApplicationUser = <%=this.ApplicationUser.Json %>;
         var PendentTasks = <%=this.PendentTasks %>;
         var referrer = "<%=this.Referrer %>";
         items = [<%=this.SearcheableItems %>];
@@ -150,7 +150,7 @@
             </script>
             <div class="navbar-container" id="navbar-container">
                 <div class="navbar-header pull-left">
-                    <span class="navbar-brand"><small><span id="brandTitle"><%=this.CompanyName %>&nbsp;-&nbsp;ISSUS&nbsp;</span><i id="brandVersion"><%=this.IssusVersion %></i></small></span>
+                    <span class="navbar-brand"><small><span id="brandTitle"><%=this.Company.Name %>&nbsp;-&nbsp;ISSUS&nbsp;</span><i id="brandVersion"><%=this.IssusVersion %></i></small></span>
                 </div><!-- /.navbar-header -->
                 <div class="navbar-header pull-right" role="navigation">
                     <ul class="nav ace-nav">
@@ -166,7 +166,7 @@
                         </li>
                         <li class="light-blue">
                             <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                                <img class="nav-user-photo" src="<%=this.Avatar %>" alt="<%=this.UserName %>" />
+                                <img class="nav-user-photo" src="/assets/avatars/<%=this.ApplicationUser.Avatar %>" alt="<%=this.UserName %>" />
                                 <span class="user-info"><small><%=this.Dictionary["Common_Welcome"] %>,</small><%=this.UserName %></span>
                                 <i class="icon-caret-down"></i>
                             </a>
@@ -198,6 +198,14 @@
                     <!-- #sidebar-shortcuts -->
 
                     <ul class="nav nav-list">
+                        <li class="active" id="menuoption-1">
+                            <a href="/DashBoard.aspx">
+                                <i class="icon-dashboard">
+                                    <!--<span class="badge badge-primary" style="margin-right:8px;font-family:Arial;">2</span>-->
+                                </i>
+                                <span class="menu-text"> <%=this.Dictionary["Common_Home"] %> </span>
+                            </a>
+                        </li>
                         <asp:Literal runat="server" ID="LeftMenu"></asp:Literal>
                     </ul><!-- /.nav-list -->
                     <div class="sidebar-collapse" id="sidebar-collapse">
@@ -212,14 +220,14 @@
                         <asp:Literal runat="server" ID="LtBuild"></asp:Literal>
                     </span>
                     <script type="text/javascript">
-                        try {ace.settings.check('sidebar', 'collapsed'); } catch (e) { }
+                        try {ace.settings.check("sidebar", "collapsed"); } catch (e) { }
                     </script>
                 </div>
 
                 <div class="main-content">
                     <div class="breadcrumbs breadcrumbs-fixed" id="breadcrumbs">
                         <script type="text/javascript">
-                            try {ace.settings.check('breadcrumbs', 'fixed'); } catch (e) { }
+                            try {ace.settings.check("breadcrumbs", "fixed"); } catch (e) { }
                         </script>
 
                         <ul class="breadcrumb">
@@ -274,6 +282,17 @@
                                     </table>
                                 </div>
 
+                                <div id="InfoUINoGrantsDialog" class="hide" style="width:500px;">
+                                    <table cellpadding="4" cellspacing="2">
+                                        <tr>
+                                            <td valign="top" align="center" style="width:26px;"><i class="icon-info-sign blue" style="font-size:40px;"></i></td>
+                                            <td style="font-weight:bold;">
+                                                <p><%=this.Dictionary["Common_UserSetGrant"] %></p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
                                 <div id="WarningUIDialog" class="hide" style="width:500px;">
                                     <table cellpadding="4" cellspacing="2">
                                         <tr>
@@ -318,7 +337,6 @@
             <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
                 <i class="icon-double-angle-up icon-only bigger-110"></i>
             </a>
-
             
             <div id="DeleteAttachDialog" class="hide" style="width:500px;">
                 <p><%=this.Dictionary["Item_Attach_Popup_Delete_Question"] %>&nbsp;<strong><span id="AttachName"></span></strong>?</p>
@@ -430,9 +448,9 @@
             }            
 
 			// @alex: si la página no es una lista ó no hay datos que mostrar, se oculta el buscador de arriba a la derecha
-            if(items.length===0 || document.getElementById("ListDataTable") == null)
+            if(document.getElementById("ListDataTable") == null)
             {
-                document.getElementById("nav-search").style.display="none";
+                $("#nav-search").hide();
             }
             else
             {                
@@ -493,7 +511,7 @@
                 var code = (e.keyCode ? e.keyCode : e.which);
                 numberActual = e.currentTarget.value;
 
-                if(AcceptKey(code,'integer') === false) {
+                if(AcceptKey(code,"integer") === false) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
@@ -678,6 +696,12 @@
 			// @alex: aquí se decide de poner el bubble en la opción "Dashboard" con la cantidad de tareas pendientes caducadas
             if (PendentTasks > 0) {
                 $("#menuoption-1 i").append("<span class=\"badge badge-primary\" style=\"margin-right:8px;font-family:Arial;\">" + PendentTasks + "</span>");
+            }
+
+            if (user.Admin !== true) {
+                $("#menuoption-2").hide();
+                $("#menuoption-6").hide();
+                $("#menuoption-0").hide();
             }
         </script>
     </body>

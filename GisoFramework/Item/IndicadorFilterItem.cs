@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿// --------------------------------
+// <copyright file="IndicadorFilterItem.cs" company="Sbrinna">
+//     Copyright (c) Sbrinna. All rights reserved.
+// </copyright>
+// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// --------------------------------
 namespace GisoFramework.Item
 {
+    using System;
+
     public class IndicadorFilterItem
     {
         public Indicador Indicador { get; set; }
@@ -30,7 +33,7 @@ namespace GisoFramework.Item
                 return filter2 == null;
             }
 
-            if (filter1 != null && filter2 == null)
+            if (filter2 == null)
             {
                 return false;
             }

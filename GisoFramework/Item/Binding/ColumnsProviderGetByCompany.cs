@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ColumnsProviderGetByCompany.cs" company="Sbrinna">
-// TODO: Update copyright text.
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 

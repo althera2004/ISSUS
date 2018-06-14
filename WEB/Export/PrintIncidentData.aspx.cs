@@ -69,17 +69,17 @@ public partial class ExportPrintIncidentData : Page
         if (incident.Department.Id > 0)
         {
             reporterType = dictionary["Item_Incident_Origin1"];
-            reporter = Department.GetById(incident.Department.Id, incident.CompanyId).Description;
+            reporter = Department.ById(incident.Department.Id, incident.CompanyId).Description;
         }
         else if(incident.Provider.Id > 0)
         {
             reporterType = dictionary["Item_Incident_Origin2"];
-            reporter = Provider.GetById(incident.Provider.Id, incident.CompanyId).Description;
+            reporter = Provider.ById(incident.Provider.Id, incident.CompanyId).Description;
         }
         else if (incident.Customer.Id > 0)
         {
             reporterType = dictionary["Item_Incident_Origin3"];
-            reporter = Customer.GetById(incident.Customer.Id, incident.CompanyId).Description;
+            reporter = Customer.ById(incident.Customer.Id, incident.CompanyId).Description;
         }
 
         string status = string.Empty;
@@ -177,7 +177,7 @@ public partial class ExportPrintIncidentData : Page
         document.Add(table);
 
         // Añadir posible acción
-        var action = IncidentAction.GetByIncidentId(incident.Id, companyId);
+        var action = IncidentAction.ByIncidentId(incident.Id, companyId);
         if(action.Id > 0)
         {
             var tableAction = new PdfPTable(4)
@@ -282,11 +282,11 @@ public partial class ExportPrintIncidentData : Page
 
             tableCosts.SetWidths(new float[] { 35f, 10f, 10f, 10f, 20f });
 
-            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Description"], headerFontFinal));
-            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Amount"], headerFontFinal));
-            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Quantity"], headerFontFinal));
-            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Total"], headerFontFinal));
-            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_ReportedBy"], headerFontFinal));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Description"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Amount"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Quantity"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Total"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_ReportedBy"]));
 
             decimal total = 0;
             decimal totalIncidencia = 0;

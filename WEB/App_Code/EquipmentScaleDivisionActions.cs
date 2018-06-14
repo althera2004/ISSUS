@@ -10,9 +10,7 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for EquipmentScaleDivision
-/// </summary>
+/// <summary>Summary description for EquipmentScaleDivision</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
@@ -26,7 +24,7 @@ public class EquipmentScaleDivisionActions : WebService {
     [ScriptMethod]
     public ActionResult Insert(string description, int companyId, int userId)
     {
-        ActionResult res = new EquipmentScaleDivision()
+        var res = new EquipmentScaleDivision
         {
             Description = description,
             CompanyId = companyId
@@ -44,17 +42,15 @@ public class EquipmentScaleDivisionActions : WebService {
     [ScriptMethod]
     public ActionResult Update(int EquipmentScaleDivisionId, string description, int companyId, int userId)
     {
-        ActionResult res = new EquipmentScaleDivision()
+        var res = new EquipmentScaleDivision
         {
             Id = EquipmentScaleDivisionId,
             Description = description,
             CompanyId = companyId
         }.Update(userId);
-
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
-            HttpContext.Current.Session["Company"] = companySession;
+            HttpContext.Current.Session["Company"] = new Company(companyId);
         }
 
         return res;
@@ -64,12 +60,10 @@ public class EquipmentScaleDivisionActions : WebService {
     [ScriptMethod]
     public ActionResult Delete(int EquipmentScaleDivisionId, int companyId, int userId)
     {
-        ActionResult res = EquipmentScaleDivision.Delete(EquipmentScaleDivisionId, userId, companyId);
-
+        var res = EquipmentScaleDivision.Delete(EquipmentScaleDivisionId, userId, companyId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
-            HttpContext.Current.Session["Company"] = companySession;
+            HttpContext.Current.Session["Company"] = new Company(companyId);
         }
 
         return res;

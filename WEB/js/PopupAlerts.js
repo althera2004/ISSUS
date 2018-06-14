@@ -8,6 +8,7 @@
         "buttons":
         [
             {
+                "id": "alertUI_BtnOK",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-xs btn-success",
                 "click": function () {
@@ -27,11 +28,12 @@ function alertInfoUI(message, action) {
         "title_html": true,
         "buttons": [
             {
+                "id": "alertInfoUI_BtnOK",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-xs btn-success",
                 "click": function () {
                     $(this).dialog("close");
-                    if (action != null) {
+                    if (typeof action !== "undefined" && action !== null) {
                         action();
                     }
                 }
@@ -41,21 +43,55 @@ function alertInfoUI(message, action) {
     });
 }
 
-function warningInfoUI(message, action, width) {
-    $("#WarningUIMessage").html(message);
-    var dialog = $("#WarningUIDialog").removeClass("hide").dialog({
+function alertInfoNoGrantsUI(message) {
+    $("#InfoUIMessage").html(message);
+    var dialog = $("#InfoUINoGrantsDialog").removeClass("hide").dialog({
         "resizable": false,
-        "width": width == null ? 300 : width,
         "modal": true,
         "title": Dictionary.Common_Warning,
         "title_html": true,
         "buttons": [
             {
+                "id": "alertInfoNoGrantsUI_BtnOK",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-xs btn-success",
                 "click": function () {
                     $(this).dialog("close");
-                    if (action != null) {
+                    var id = cmbEmployee.value;
+                    EmployeeSetGrant(id, itemGrantId);
+                }
+            },
+            {
+                "id": "alertInfoNoGrantsUI_BtnCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () {
+                    if (typeof cmbEmployee !== "undefined" && cmbEmployee !== null) {
+                        cmbEmployee.value = 0;
+                    }
+                    $(this).dialog("close");
+                }
+            }
+        ]
+    });
+}
+
+function warningInfoUI(message, action, width) {
+    $("#WarningUIMessage").html(message);
+    var dialog = $("#WarningUIDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "width": width === null ? 300 : width,
+        "modal": true,
+        "title": Dictionary.Common_Warning,
+        "title_html": true,
+        "buttons": [
+            {
+                "id": "warningInfoUI_BtnOK",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                "class": "btn btn-xs btn-success",
+                "click": function () {
+                    $(this).dialog("close");
+                    if (typeof action !== "undefined" && action !== null) {
                         action();
                     }
                 }
@@ -69,17 +105,18 @@ function successInfoUI(message, action, width) {
     $("#SuccessUIMessage").html(message);
     var dialog = $("#SuccessUIDialog").removeClass("hide").dialog({
         "resizable": false,
-        "width": width == null ? 300 : width,
+        "width": width === null ? 300 : width,
         "modal": true,
         "title": Dictionary.Common_Warning,
         "title_html": true,
         "buttons": [
             {
+                "id": "successInfoUI_BtnOK",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-xs btn-success",
                 "click": function () {
                     $(this).dialog("close");
-                    if (action != null) {
+                    if (typeof action !== "undefined" && action !== null) {
                         action();
                     }
                 }
@@ -109,6 +146,7 @@ function timeoutAlert() {
         "buttons":
         [
             {
+                "Id": "timeoutAlert_BtnOK",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-xs btn-success",
                 "click": function () {
@@ -126,49 +164,50 @@ function promptInfoUI(message, width, actionYes, actionNo) {
     $("#PromptUIMessage").html(message);
     var dialog = $("#PromptUIDialog").removeClass("hide").dialog({
         "resizable": false,
-        "width": width == null ? 300 : width,
+        "width": width === null ? 300 : width,
         "modal": true,
         "title": Dictionary.Common_Warning,
         "title_html": true,
         "buttons": [
             {
+                "id": "promptInfoUI_BtnOK",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-xs btn-success",
                 "click": function () {
                     $(this).dialog("close");
-                    if (actionYes != null) {
+                    if (actionYes !== null) {
                         actionYes();
                     }
                 }
             },
             {
+                "id": "promptInfoUI_BtnCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs btn-danger",
                 "click": function () {
                     $(this).dialog("close");
-                    if (actionNo != null) {
+                    if (actionNo !== null) {
                         actionNo();
                     }
                 }
             }
         ]
-
     });
 }
 
 function LoadingShow(message) {
     return;
-    $("#LoadingMessage").html(message);
+    /*$("#LoadingMessage").html(message);
     var dialog = $("#LoadingDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_Working,
         "title_html": true
 
-    });
+    });*/
 }
 
 function LoadingHide() {
     return;
-    $("#LoadingDialog").dialog("close");
+    /*$("#LoadingDialog").dialog("close");*/
 }

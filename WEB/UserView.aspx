@@ -60,14 +60,15 @@
                                                                 <asp:Literal runat="server" ID="LtIdiomas"></asp:Literal>
                                                             </select>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group col-sm-12">
-                                                        <label id="TxtPrimaryUserLabel" class="col-sm-1 control-label no-padding-right">&nbsp;</label>
-                                                        <div class="col-sm-5">
+                                                    <!--/div>
+                                                    <div class="form-group col-sm-12"-->
+                                                        <label id="" class="col-sm-2 control-label no-padding-right">&nbsp;</label>
+                                                        <label id="TxtPrimaryUserLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_User_Rol"] %></label>
+                                                        <div class="col-sm-1">
                                                             <input type="checkbox" id="ChkPrimaryUser" disabled="disabled" />&nbsp;<%=this.Dictionary["User_PrimaryUser"] %>
                                                         </div>
                                                         <label id="TxtAdminLabel" class="col-sm-1 control-label no-padding-right _emailed">&nbsp;</label>
-                                                        <div class="col-sm-5 _emailed">
+                                                        <div class="col-sm-1 _emailed">
                                                             <input type="checkbox" id="ChkAdmin" />&nbsp;<%=this.Dictionary["User_Admin"] %>
                                                         </div>
                                                     </div>
@@ -140,7 +141,7 @@
                                                     </button>
                                                     <div style="clear:both;">&nbsp;</div>
                                                     <div id="ResetAlert" class="alert alert-info">
-                                                        <i class="icon-info-sign fa-2x"/></i>
+                                                        <i class="icon-info-sign fa-2x"></i>
                                                         <h3 style="display: inline;"><%=this.Dictionary["Common_Warning"] %></h3><br />
                                                         <p style="margin-left: 50px;">
                                                         <%=this.Dictionary["Item_User_Help_ResetPassword"] %>
@@ -163,9 +164,7 @@
                                                                 <th style="width:200px;text-align:center"><%=this.Dictionary["Item_User_List_Header_Write"] %>&nbsp;<input type="checkbox" id="WAll" onclick="WriteAll();" /></th>											
                                                             </tr>
                                                         </thead>
-                                                        <tbody id="PermisosDataTable">
-                                                            <asp:Literal runat="server" ID="LtGrantList"></asp:Literal>
-                                                        </tbody>
+                                                        <tbody id="PermisosDataTable"><%=this.GrantsList %></tbody>
                                                     </table>
                                                 </div>
                                                 <div id="trazas" class="tab-pane">													

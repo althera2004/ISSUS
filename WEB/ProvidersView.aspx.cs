@@ -49,16 +49,16 @@ public partial class ProvidersView : Page
     {
         get
         {
-            return new FormText()
+            return new FormText
             {
                 Name = "TxtName",
                 Value = this.provider.Description,
                 ColumnSpan = 11,
-                Placeholder = this.dictionary["Item_Provider"],
+                Placeholder = this.Dictionary["Item_Provider"],
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
+                RequiredMessage = this.Dictionary["Common_Required"],
                 Duplicated = true,
-                DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
+                DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
                 GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Provider),
                 MaximumLength = 100
             }.Render;
@@ -77,19 +77,17 @@ public partial class ProvidersView : Page
     {
         get
         {
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
     /// <summary>Company of session</summary>
-    private Company company;
+    public Company Company { get; private set; }
 
     /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
+    public Dictionary<string, string> Dictionary { get; private set; }
 
-    /// <summary>
-    /// User logged in session
-    /// </summary>
+    /// <summary>User logged in session</summary>
     private ApplicationUser user;
 
     public string Providers
@@ -98,7 +96,7 @@ public partial class ProvidersView : Page
         {
             StringBuilder res = new StringBuilder();
             bool first = true;
-            foreach (Provider provider in Provider.GetByCompany(((Company)Session["Company"]).Id))
+            foreach (Provider provider in Provider.ByCompany(((Company)Session["Company"]).Id))
             {
 
                 if (provider.Active)
@@ -135,22 +133,6 @@ public partial class ProvidersView : Page
         }
     }
 
-    public Company Company
-    {
-        get
-        {
-            return this.company;
-        }
-    }
-
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
-
     public new ApplicationUser User
     {
         get
@@ -167,17 +149,14 @@ public partial class ProvidersView : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
-            Context.ApplicationInstance.CompleteRequest();
+             this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
@@ -186,33 +165,30 @@ public partial class ProvidersView : Page
             Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
             else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
-        this.company = (Company)Session["company"];
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Company = (Company)Session["company"];
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.user = Session["User"] as ApplicationUser;
 
         if (this.Request.QueryString["id"] != null)
@@ -230,13 +206,13 @@ public partial class ProvidersView : Page
 
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.providerId != -1)
         {
-            this.provider = Provider.GetById(this.providerId, this.company.Id);
-            if (this.provider.CompanyId != this.company.Id)
+            this.provider = Provider.ById(this.providerId, this.Company.Id);
+            if (this.provider.CompanyId != this.Company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", false);
                 Context.ApplicationInstance.CompleteRequest();
@@ -245,7 +221,7 @@ public partial class ProvidersView : Page
             this.formFooter.ModifiedBy = this.ProviderItem.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.ProviderItem.ModifiedOn;
 
-            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Provider"], this.provider.Description);
+            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Provider"], this.provider.Description);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
 
@@ -261,18 +237,18 @@ public partial class ProvidersView : Page
             this.TableActions.Text = string.Empty;
         }
 
-        this.tabBar.AddTab(new Tab() { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Provider_Tab_Principal"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.Dictionary["Item_Provider_Tab_Principal"] });
         //// this.tabBar.AddTab(new Tab() { Id = "trazas", Label = this.dictionary["Item_Provider_Tab_Traces"], Active = this.ProviderId > 0, Available = this.user.HasTraceGrant() });
     }
 
     public void RenderTableCost()
     {
-        StringBuilder tableCosts = new StringBuilder();
-        ReadOnlyCollection<ProviderCost> costs = ProviderCost.GetByProvider(this.provider);
+        var tableCosts = new StringBuilder();
+        var costs = ProviderCost.GetByProvider(this.provider);
         decimal total = 0;
-        foreach (ProviderCost cost in costs)
+        foreach (var cost in costs)
         {
-            tableCosts.Append(cost.Row(this.dictionary, this.user.Grants));
+            tableCosts.Append(cost.Row(this.Dictionary, this.user.Grants));
             if (cost.Calibration != null)
             {
                 total += cost.Calibration.Cost.HasValue ? cost.Calibration.Cost.Value : 0;
@@ -291,7 +267,7 @@ public partial class ProvidersView : Page
             }
         }
 
-        tableCosts.Append("<tr><td colspan=\"5\" align=\"right\">").Append(this.dictionary["Common_Total"]).Append("</td>");
+        tableCosts.Append("<tr><td colspan=\"5\" align=\"right\">").Append(this.Dictionary["Common_Total"]).Append("</td>");
         tableCosts.Append("<td align=\"right\"><strong>").Append(string.Format(CultureInfo.GetCultureInfo("es-es"), "{0:#,##0.00}", total)).Append("</td></tr>");
 
         this.TableCosts.Text = tableCosts.ToString();
@@ -299,11 +275,11 @@ public partial class ProvidersView : Page
 
     public void RenderTableActions()
     {
-        StringBuilder tableActions = new StringBuilder();
-        ReadOnlyCollection<ProviderIncidentActions> actions = ProviderIncidentActions.GetByProvider(this.provider);
-        foreach (ProviderIncidentActions action in actions)
+        var tableActions = new StringBuilder();
+        var actions = ProviderIncidentActions.ByProvider(this.provider);
+        foreach (var action in actions)
         {
-            tableActions.Append(action.Row(this.dictionary, this.user.Grants));
+            tableActions.Append(action.Row(this.Dictionary, this.user.Grants));
         }
 
         this.TableActions.Text = tableActions.ToString();

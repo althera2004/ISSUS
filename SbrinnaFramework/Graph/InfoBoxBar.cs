@@ -10,9 +10,7 @@ namespace SbrinnaCoreFramework.Graph
     using System.Collections.ObjectModel;
     using System.Globalization;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary></summary>
     public class InfoBoxBar
     {
         private List<int> data;

@@ -79,7 +79,7 @@
 			                                                        <th id="th3" onclick="Sort(this,'ListDataTable','text');" class="sort" style="width:110px;"><%=this.Dictionary["Item_Document_ListHeader_Origin"] %></th>
 			                                                        <th id="th4" onclick="Sort(this,'ListDataTable','text');" class="search sort" style="width:180px;"><%=this.Dictionary["Item_Document_ListHeader_Location"] %></th>
 			                                                        <th id="th5" onclick="Sort(this,'ListDataTable','money');" class="sort" style="width:50px;"><%=this.Dictionary["Item_Document_ListHeader_Revision"] %></th>
-			                                                        <th style="width:106px;">&nbsp;</th>
+			                                                        <th style="width:107px;">&nbsp;</th>
 		                                                        </tr>
                                                             </thead>
                                                         </table>

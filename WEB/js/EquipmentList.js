@@ -1,6 +1,11 @@
 ﻿var EquipmentSelected;
 function EquipmentDeleteAction() {
-    var data = { equipmentId: EquipmentSelected, reason: "", companyId: Company.Id, userId: user.Id };
+    var data = {
+        "equipmentId": EquipmentSelected,
+        "reason": "",
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
     $("#EquipmentDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
@@ -59,9 +64,8 @@ jQuery(function ($) {
 });
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 390) + "px";
+    $("#ListDataDiv").height(containerHeight - 390);
 }
 
 window.onload = function () {
@@ -166,7 +170,7 @@ function RenderRow(equipment) {
     var tdAcciones = document.createElement("td");
 
     tdCodigo.style.width = "110px";
-    tdUbicacion.style.width = "250px";
+    tdUbicacion.style.width = "350px";
     tdResponsable.style.width = "250px";
     tdCoste.style.width = "120px";
     tdAdjuntos.style.width = "35px";
@@ -194,7 +198,7 @@ function RenderRow(equipment) {
     tdDescripcion.appendChild(linkDescripcion);
 
     tdUbicacion.appendChild(document.createTextNode(equipment.Ubicacion));
-    if (user.Grants["Employee"].Write === true) {
+    if (typeof user.Grants.Employee !== "undefined" && user.Grants.Employee.Write === true) {
         var LinkResponsable = document.createElement("a");
         LinkResponsable.href = "EmployeesView.aspx?id=" + equipment.Responsable.Id;
         LinkResponsable.title = equipment.Responsable.FullName;

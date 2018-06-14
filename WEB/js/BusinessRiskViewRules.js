@@ -1,19 +1,18 @@
 ﻿function RulesRenderPopup() {
-    VoidTable('SelectableRules');
+    VoidTable("SelectableRules");
     RulesCompany.sort(CompareRules);
-    var target = document.getElementById('SelectableRules');
+    var target = document.getElementById("SelectableRules");
     for (var x = 0; x < RulesCompany.length; x++) {
         RulesPopupRow(RulesCompany[x], target);
     }
 
-    var height = $('#SelectableRules').height();
-    console.log("height:", height);
+    var height = $("#SelectableRules").height();
     if (height > 0) {
-        document.getElementById('DivTableRulesFiller').style.height = (311 - height) + 'px';
-        document.getElementById('DivTableRulesFiller').style.display = 'block';
+        $("#DivTableRulesFiller").height(311 - height);
+        $("#DivTableRulesFiller").show();
     }
     else {
-        document.getElementById('DivTableRulesFiller').style.display = 'none';
+        $("#DivTableRulesFiller").hide();
     }
 }
 
@@ -22,27 +21,27 @@ function RulesPopupRow(item, target) {
         return;
     }
 
-    var tr = document.createElement('tr');
+    var tr = document.createElement("tr");
     tr.id = item.Id;
-    tr.style.height = '30px';
-    var td1 = document.createElement('td');
-    var td2 = document.createElement('td');
+    tr.style.height = "30px";
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
     if (RulesSelected === item.Id) {
-        td1.style.fontWeight = 'bold';
+        td1.style.fontWeight = "bold";
     }
     td1.appendChild(document.createTextNode(item.Description));
 
-    var tdLimit = document.createElement('td');
-    tdLimit.style.width = '50px';
-    tdLimit.align = 'right';
+    var tdLimit = document.createElement("td");
+    tdLimit.style.width = "60px";
+    tdLimit.align = "right";
     tdLimit.appendChild(document.createTextNode(item.Limit));
 
-    var div = document.createElement('div');
-    var span1 = document.createElement('span');
-    span1.className = 'btn btn-xs btn-success';
+    var div = document.createElement("div");
+    var span1 = document.createElement("span");
+    span1.className = "btn btn-xs btn-success";
     span1.title = Dictionary.Common_SelectAll;
-    var i1 = document.createElement('i');
-    i1.className = 'icon-star bigger-120';
+    var i1 = document.createElement("i");
+    i1.className = "icon-star bigger-120";
     span1.appendChild(i1);
 
     if (RulesSelected === item.Id) {
@@ -54,37 +53,37 @@ function RulesPopupRow(item, target) {
 
     div.appendChild(span1);
 
-    var span2 = document.createElement('span');
-    span2.className = 'btn btn-xs btn-info';
+    var span2 = document.createElement("span");
+    span2.className = "btn btn-xs btn-info";
     span2.title = Dictionary.Common_Edit;
-    var i2 = document.createElement('i');
-    i2.className = 'icon-edit bigger-120';
+    var i2 = document.createElement("i");
+    i2.className = "icon-edit bigger-120";
     span2.appendChild(i2);
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span2);
     span2.onclick = function () { RulesUpdate(this); };
 
-    var span3 = document.createElement('span');
-    span3.className = 'btn btn-xs btn-danger';
+    var span3 = document.createElement("span");
+    span3.className = "btn btn-xs btn-danger";
     span3.title = Dictionary.Common_Delete;
-    var i3 = document.createElement('i');
-    i3.className = 'icon-trash bigger-120';
+    var i3 = document.createElement("i");
+    i3.className = "icon-trash bigger-120";
     span3.appendChild(i3);
 
     if (RulesSelected === item.Id) {
-        span3.onclick = function () { alertUI(Dictionary.Common_Selected, 'dialogRules'); };
+        span3.onclick = function () { alertUI(Dictionary.Common_Selected, "dialogRules"); };
     }
     else if (item.Deletable === false) {
-        span3.onclick = function () { alertUI(Dictionary.Common_Error_NoDeletable, 'dialogRules'); };
+        span3.onclick = function () { alertUI(Dictionary.Common_Error_NoDeletable, "dialogRules"); };
     }
     else {
         span3.onclick = function () { RulesDelete(this); };
     }
 
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span3);
     td2.appendChild(div);
-    td2.style.width = '133px';
+    td2.style.width = "133px";
 
 
     tr.appendChild(td1);
@@ -97,30 +96,30 @@ function RulesDelete(sender) {
     document.getElementById('dialogRules').parentNode.style.cssText += 'z-Index:1039 !important';
     $('#RuleName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#RuleDeleteDialog").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Rules_Popup_DeleteProcessType_Title + '</h4>',
-        title_html: true,
-        buttons:
+    var dialog = $("#RuleDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Rules_Popup_DeleteProcessType_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                     RulesDeleteConfirmed(Selected);
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
         ],
-        close: function () { document.getElementById('dialogRules').parentNode.style.cssText += 'z-Index:1050 !important'; }
+        close: function () { document.getElementById("dialogRules").parentNode.style.cssText += "z-Index:1050 !important"; }
     });
 }
 
@@ -130,11 +129,11 @@ function RulesInsert(sender) {
     document.getElementById('TxtNewRulesNameErrorDuplicated').style.display = 'none';
     document.getElementById('CmbNewLimitErrorRequired').style.display = 'none';
     document.getElementById('CmbNewLimitOutOfRange').style.display = 'none';
-    $('#TxtNewRulesName').val('');
-    $('#TxtNewRulesNotes').val('');
-    $('#CmbNewLimit').val('');
+    $("#TxtNewRulesName").val("");
+    $("#TxtNewRulesNotes").val("");
+    $("#CmbNewLimit").val("");
     var Selected = 0;
-    var dialog = $("#RulesInsertDialog").removeClass('hide').dialog({
+    var dialog = $("#RulesInsertDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -143,7 +142,7 @@ function RulesInsert(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
@@ -157,7 +156,7 @@ function RulesInsert(sender) {
 
                     var duplicated = false;
                     for (var x = 0; x < RulesCompany.length; x++) {
-                        if (document.getElementById('TxtNewRulesName').value.toLowerCase() == RulesCompany[x].Description.toLowerCase()) {
+                        if (document.getElementById('TxtNewRulesName').value.toLowerCase() === RulesCompany[x].Description.toLowerCase()) {
                             duplicated = true;
                             break;
                         }
@@ -194,7 +193,7 @@ function RulesInsert(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -211,7 +210,7 @@ function RulesUpdate(sender) {
     document.getElementById('TxtRulesNameErrorDuplicated').style.display = 'none';
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
     for (var x = 0; x < RulesCompany.length; x++) {
-        if (RulesCompany[x].Id == Selected) {
+        if (RulesCompany[x].Id === Selected) {
             var rule = RulesCompany[x];
             break;
         }
@@ -219,7 +218,7 @@ function RulesUpdate(sender) {
     $('#TxtRulesName').val(rule.Description);
     $('#TxtRulesNotes').val(rule.Notes);
     $('#CmbUpdateLimit').val(rule.Limit);
-    var dialog = $("#RulesUpdateDialog").removeClass('hide').dialog({
+    var dialog = $("#RulesUpdateDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -228,7 +227,7 @@ function RulesUpdate(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
@@ -242,7 +241,7 @@ function RulesUpdate(sender) {
 
                     var duplicated = false;
                     for (var x = 0; x < RulesCompany.length; x++) {
-                        if (document.getElementById('TxtRulesName').value.toLowerCase() == RulesCompany[x].Description.toLowerCase() && Selected != RulesCompany[x].Id && RulesCompany[x].Active === true) {
+                        if (document.getElementById('TxtRulesName').value.toLowerCase() === RulesCompany[x].Description.toLowerCase() && Selected !== RulesCompany[x].Id && RulesCompany[x].Active === true) {
                             duplicated = true;
                             break;
                         }
@@ -280,7 +279,7 @@ function RulesUpdate(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -301,7 +300,7 @@ function RulesDeleteConfirmed(id) {
         }
     }
     var data = {
-        'RulesId': id,
+        'rulesId': id,
         'companyId': Company.Id,
         'userId': user.Id
     };
@@ -318,6 +317,7 @@ function RulesDeleteConfirmed(id) {
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
+            RulesRenderPopup();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
@@ -341,7 +341,7 @@ function RulesDeleteConfirmed(id) {
     // 3.- Eliminar la fila de la tabla del popup
     var target = document.getElementById('SelectableRules');
     for (var x4 = 0; x4 < target.childNodes.length; x4++) {
-        if (target.childNodes[x4].id == id) {
+        if (target.childNodes[x4].id === id) {
             target.childNodes[x4].style.display = 'none';
             break;
         }
@@ -352,23 +352,22 @@ function RulesDeleteConfirmed(id) {
 
 function RulesInsertConfirmed(newDescription, newNotes, newLimit) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/RulesActions.asmx/RulesInsert";
     var id = 0;
     var data = {
-        'Rules': {
-            'CompanyId': Company.Id,
-            'Description': newDescription,
-            'Notes': newNotes,
-            'Limit': newLimit
+        "rules": {
+            "CompanyId": Company.Id,
+            "Description": newDescription,
+            "Notes": newNotes,
+            "Limit": newLimit
         },
-        'companyId': Company.Id,
-        'userId': user.Id
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         type: "POST",
-        url: webMethod,
+        url: "/Async/RulesActions.asmx/RulesInsert",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(data, null, 2),
@@ -400,10 +399,9 @@ function RulesInsertConfirmed(newDescription, newNotes, newLimit) {
 
 function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/RulesActions.asmx/RulesUpdate";
-    var description = '';
+    var description = "";
     for (var x = 0; x < RulesCompany.length; x++) {
-        if (RulesCompany[x].Id == id) {
+        if (RulesCompany[x].Id === id) {
             description = RulesCompany[x].Description;
             notes = RulesCompany[x].Notes;
             limit = RulesCompany[x].Limit;
@@ -411,38 +409,39 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
         }
     }
     var data = {
-        'newRules': {
-            'Id': id,
-            'CompanyId': Company.Id,
-            'Description': newDescription,
-            'Notes': newNotes,
-            'Limit': newLimit
+        "newRules": {
+            "Id": id,
+            "CompanyId": Company.Id,
+            "Description": newDescription,
+            "Notes": newNotes,
+            "Limit": newLimit
         },
-        'oldRules': {
-            'Id': id,
-            'CompanyId': Company.Id,
-            'Description': description,
-            'Notes': notes,
-            'Limit': limit
+        "oldRules": {
+            "Id": id,
+            "CompanyId": Company.Id,
+            "Description": description,
+            "Notes": notes,
+            "Limit": limit
         },
-        'companyId': Company.Id,
-        'userId': user.Id
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/RulesActions.asmx/RulesUpdate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
+            RulesRenderPopup();
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -450,22 +449,22 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
 
     // 2.- Modificar en HTML
     var temp = new Array();
-    for (var x = 0; x < RulesCompany.length; x++) {
-        if (RulesCompany[x].Id !== id) {
-            temp.push(RulesCompany[x]);
+    for (var y = 0; y < RulesCompany.length; y++) {
+        if (RulesCompany[y].Id !== id) {
+            temp.push(RulesCompany[y]);
         }
         else {
             //Item modificado en el popup
-            var item = RulesCompany[x];
+            var item = RulesCompany[y];
             temp.push(
-            {
-                "Id": item.Id,
-                "Description": newDescription,
-                "Notes": newNotes,
-                "Limit": newLimit,
-                "Editable": item.Editable,
-                "Deletable": item.Delete
-            });
+                {
+                    "Id": item.Id,
+                    "Description": newDescription,
+                    "Notes": newNotes,
+                    "Limit": newLimit,
+                    "Editable": item.Editable,
+                    "Deletable": item.Delete
+                });
         }
     }
 
@@ -475,9 +474,9 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
     }
 
     // 3.- Modificar la fila de la tabla del popup
-    var target = document.getElementById('SelectableRules');
+    var target = document.getElementById("SelectableRules");
     for (var x3 = 0; x3 < target.childNodes.length; x3++) {
-        if (target.childNodes[x3].id == id) {
+        if (target.childNodes[x3].id === id) {
             target.childNodes[x3].childNodes[0].innerHTML = newDescription;
             target.childNodes[x3].childNodes[1].innerHTML = newLimit;
             break;
@@ -486,14 +485,14 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
 
     // 4.- Modificar el texto si es el seleccionado
     if (RulesSelected === id) {
-        document.getElementById('TxtRules').value = newDescription;
+        $("#TxtRules").val(newDescription);
     }
 
     FillCmbRules();
 }
 
 function FillCmbRules() {
-    VoidTable('CmbRules');
+    VoidTable("CmbRules");
     var optionDefault = document.createElement('option');
     optionDefault.value = 0;
     optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectAll));
@@ -503,11 +502,11 @@ function FillCmbRules() {
         var option = document.createElement('option');
         option.value = RulesCompany[x].Id;
         option.appendChild(document.createTextNode(RulesCompany[x].Description));
-        if (RulesSelected == RulesCompany[x].Id) {
+        if (RulesSelected === RulesCompany[x].Id) {
             option.selected = true;
         }
 
-        document.getElementById('CmbRules').appendChild(option);
+        document.getElementById("CmbRules").appendChild(option);
     }
 
     CmbRulesChanged();
@@ -515,12 +514,12 @@ function FillCmbRules() {
 
 function RulesChanged(sender) {
     var id = sender.parentNode.parentNode.parentNode.id * 1;
-    $("#dialogRules").dialog('close');
+    $("#dialogRules").dialog("close");
     for (var x = 0; x < RulesCompany.length; x++) {
         if (RulesCompany[x].Id === id) {
             RulesSelected = id;
-            document.getElementById('TxtRules').value = RulesCompany[x].Description;
-            document.getElementById('IPR').value = RulesCompany[x].Limit;
+            $("#TxtRules").val(RulesCompany[x].Description);
+            $("#IPR").val(RulesCompany[x].Limit);
             break;
         }
     }
@@ -529,17 +528,19 @@ function RulesChanged(sender) {
 }
 
 function CmbRulesChanged() {
-    RulesSelected = document.getElementById('CmbRules').value * 1;
-    var text = '';
+    RulesSelected = $("#CmbRules").val() * 1;
+    var text = "";
     var ipr = 0;
     for (var x = 0; x < RulesCompany.length; x++) {
-        if (RulesSelected == RulesCompany[x].Id) {
+        if (RulesSelected === RulesCompany[x].Id) {
             text = RulesCompany[x].Description;
             ipr = RulesCompany[x].Limit;
+            rule = RulesCompany[x];
             break;
         }
     }
 
-    document.getElementById('TxtRules').value = text;
+    $("#TxtRules").val(text);
     $("#IPR").html(ipr);
+    UpdateResult();
 }

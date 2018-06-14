@@ -29,7 +29,7 @@
                                         <div class="col-xs-2">
                                             <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["DashBoard_SelectOwner"] %>
                                         </div>
-                                        <div class="col-xs-2">
+                                        <div class="col-xs-4">
                                             <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["DashBoard_SelectOthers"] %>
                                         </div>
                                     </div>
@@ -73,9 +73,9 @@
             var Tasks = <%=this.Tasks %>;
 
             function Resize() {
-                var listTable = document.getElementById('ListDataDiv');
+                var listTable = document.getElementById("ListDataDiv");
                 var containerHeight = $(window).height();
-                listTable.style.height = (containerHeight - 350) + 'px';
+                listTable.style.height = (containerHeight - 350) + "px";
             }
 
             window.onload = function () {
@@ -101,14 +101,13 @@
                     };
 
                 $.ajax({
-                    type: "POST",
-                    url: "/Async/DashBoardActions.asmx/SetFilter",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(filterData, null, 2),
-                    success: function (msg) {
-                    },
-                    error: function (msg) {
+                    "type": "POST",
+                    "url": "/Async/DashBoardActions.asmx/SetFilter",
+                    "contentType": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "data": JSON.stringify(filterData, null, 2),
+                    "success": function (msg) { },
+                    "error": function (msg) {
                         alertUI(msg.responseText);
                     }
                 });
@@ -120,7 +119,6 @@
                 $("#ListDataTable").html("");
                 var count = 0;
                 for (var x = 0; x < Tasks.length; x++) {
-
                     if (owners === true && others === true) {
                         RenderTaskRow(Tasks[x]);
                         count++;
@@ -138,17 +136,11 @@
                         }
                     }
                 }
+
                 $("#TotalRows").html(count);
             }
 
             function RenderTaskRow(task) {
-                /*<tr style="cursor:pointer;" onclick="document.location='EquipmentView.aspx?id=2&amp;Tab=calibracion&amp;OperationId=67&amp;Action=10&amp;Type=E'">
-                <td title="Calibratges" style="color:#f00;">Calibratge extern / sdfsd</td>
-                <td style="color:#f00;width:350px;"><div title="90" style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;width:320px;">1 1234567890</div></td>
-                <td style="width:250px;padding-left:4px;">wellys KEnny<br><strong>Aigua Sant hilari</strong></td>
-                <td style="color:#f00;width:90px;">08/02/2017</td>
-                </tr>*/
-
                 var target = document.getElementById("ListDataTable");
                 var tr = document.createElement("TR");
                 tr.style.cursor = "pointer";
@@ -192,8 +184,6 @@
                     bold.appendChild(document.createTextNode(task.Provider));
                     tdResponsible.appendChild(bold);
                 }
-
-
 
                 tr.appendChild(tdName);
                 tr.appendChild(tdTarget);

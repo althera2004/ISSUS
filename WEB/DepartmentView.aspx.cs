@@ -24,11 +24,9 @@ public partial class DepartmentView : Page
     private Department department;
     private FormFooter formFooter;
 
-    private TabBar tabBar = new TabBar() { Id = "DepartmentTabBar" };
+    private TabBar tabBar = new TabBar { Id = "DepartmentTabBar" };
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -41,18 +39,18 @@ public partial class DepartmentView : Page
     {
         get
         {
-            return new FormText()
+            return new FormText
             {
                 Name = "TxtName",
                 Value = this.department.Description,
                 ColumnSpan = 11,
-                Placeholder = this.dictionary["Item_Department"],
+                Placeholder = this.Dictionary["Item_Department"],
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
+                RequiredMessage = this.Dictionary["Common_Required"],
                 Duplicated = true,
-                DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
+                DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
                 GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Department),
-                MaximumLength = 50
+                MaximumLength = Constant.DefaultDatabaseVarChar
             }.Render;
         }
     }
@@ -69,15 +67,12 @@ public partial class DepartmentView : Page
     {
         get
         {
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
     /// <summary>Company of session</summary>
     private Company company;
-
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
 
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
@@ -133,13 +128,7 @@ public partial class DepartmentView : Page
         }
     }
 
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public new ApplicationUser User
     {
@@ -157,16 +146,14 @@ public partial class DepartmentView : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
@@ -176,17 +163,17 @@ public partial class DepartmentView : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -200,7 +187,7 @@ public partial class DepartmentView : Page
     private void Go()
     {
         this.company = this.Session["company"] as Company;
-        this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
         this.user = this.Session["User"] as ApplicationUser;
 
         if (this.Request.QueryString["id"] != null)
@@ -212,7 +199,7 @@ public partial class DepartmentView : Page
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Departments", "DepartmentsList.aspx", false);
+        this.master.AddBreadCrumb("Item_Departments", "DepartmentsList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb(label);
         this.master.Titulo = label;
 
@@ -222,15 +209,15 @@ public partial class DepartmentView : Page
         }
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.departmentId != -1)
         {
             this.department = new Department(this.departmentId, this.company.Id);
             if (this.department.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.department = Department.Empty;
             }
@@ -238,21 +225,21 @@ public partial class DepartmentView : Page
             this.formFooter.ModifiedBy = this.department.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.department.ModifiedOn;
             var tableEmployees = new StringBuilder();
-            foreach (Employee employee in this.department.Employees)
+            foreach (var employee in this.department.Employees)
             {
-                tableEmployees.Append(employee.DepartmentListRow(this.dictionary, this.departmentId));
+                tableEmployees.Append(employee.DepartmentListRow(this.Dictionary, this.departmentId));
             }
 
             this.TableEmployees.Text = tableEmployees.ToString();
 
             var tableJobPosition = new StringBuilder();
-            foreach (JobPosition jobPosition in this.department.JobPositions)
+            foreach (var jobPosition in this.department.JobPositions)
             {
-                tableJobPosition.Append(jobPosition.EmployeeRow(this.dictionary));
+                tableJobPosition.Append(jobPosition.EmployeeRow(this.Dictionary));
             }
 
             this.TableJobPosition.Text = tableJobPosition.ToString();
-            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Department"], this.department.Description);
+            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Department"], this.department.Description);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
         }
@@ -263,7 +250,7 @@ public partial class DepartmentView : Page
             this.TableJobPosition.Text = string.Empty;
         }
 
-        this.tabBar.AddTab(new Tab() { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Department_Tab_Principal"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.Dictionary["Item_Department_Tab_Principal"] });
         // this.tabBar.AddTab(new Tab() { Id = "trazas", Label = this.dictionary["Item_Department_Tab_Traces"], Active = this.departmentId > 0, Available = this.user.HasTraceGrant() });       
     }
 }

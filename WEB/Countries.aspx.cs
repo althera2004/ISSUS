@@ -60,7 +60,7 @@ public partial class Countries : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
@@ -69,7 +69,7 @@ public partial class Countries : Page
             Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else

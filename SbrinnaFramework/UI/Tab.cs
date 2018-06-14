@@ -8,9 +8,7 @@ namespace SbrinnaCoreFramework.UI
 {
     using System.Globalization;
 
-    /// <summary>
-    /// Implements Tab class
-    /// </summary>
+    /// <summary>Implements Tab class</summary>
     public class Tab
     {
         public string Id { get; set; }
@@ -35,7 +33,7 @@ namespace SbrinnaCoreFramework.UI
                            <a {2}href=""#{0}"">{3}</a>
                           </li>";
                     return string.Format(
-                        CultureInfo.GetCultureInfo("en-us"),
+                        CultureInfo.InvariantCulture,
                         pattern,
                         this.Id,
                         this.Selected ? "active" : string.Empty,

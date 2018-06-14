@@ -9,14 +9,10 @@ using System.Web.UI;
 using GisoFramework.Item;
 using SbrinnaCoreFramework;
 
-/// <summary>
-/// Implements LogOut page
-/// </summary>
+/// <summary>Implements LogOut page</summary>
 public partial class LogOut : Page
 {
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event arguments</param>
     protected void Page_Load(object sender, EventArgs e)

@@ -1,15 +1,14 @@
-﻿using System;
+﻿using SbrinnaCoreFramework;
+using SbrinnaCoreFramework.UI;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
-using System.Collections.ObjectModel;
-using SbrinnaCoreFramework.UI;
-using SbrinnaCoreFramework;
-using System.Globalization;
-using System.IO;
 
 public partial class ProcesosView : Page
 {
@@ -18,9 +17,6 @@ public partial class ProcesosView : Page
 
     /// <summary> Master of page</summary>
     private Giso master;
-
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
 
     private int processId;
     private Process process;
@@ -44,7 +40,7 @@ public partial class ProcesosView : Page
     {
         get
         {
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -66,9 +62,7 @@ public partial class ProcesosView : Page
         }
     }
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -77,9 +71,7 @@ public partial class ProcesosView : Page
         }
     }
 
-    /// <summary>
-    /// Gets a value indicating if user has Admin privileges in Company
-    /// </summary>
+    /// <summary>Gets a value indicating if user has Admin privileges in Company</summary>
     public bool Admin
     {
         get
@@ -88,32 +80,24 @@ public partial class ProcesosView : Page
         }
     }
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    /// <summary>Gets dictionary for fixed labels</summary>
+    public Dictionary<string, string> Dictionary { get; private set; }
     #endregion
 
     public string TxtName
     {
         get
         {
-            return new FormText()
+            return new FormText
             {
                 Name = "TxtName",
                 Value = this.Proceso.Description,
                 ColumnSpan = 11,
-                Placeholder = this.dictionary["Common_Name"],
+                Placeholder = this.Dictionary["Common_Name"],
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
+                RequiredMessage = this.Dictionary["Common_Required"],
                 Duplicated = true,
-                DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
+                DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
                 GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Provider),
                 MaximumLength = 100
             }.Render;
@@ -127,8 +111,7 @@ public partial class ProcesosView : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
-            Context.ApplicationInstance.CompleteRequest();
+             this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
@@ -137,23 +120,22 @@ public partial class ProcesosView : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
             else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
             else
             {
                 this.Go();
             }
+
+            Context.ApplicationInstance.CompleteRequest();
         }
     }
 
@@ -162,7 +144,7 @@ public partial class ProcesosView : Page
     {
         this.user = Session["User"] as ApplicationUser;
         this.company = Session["company"] as Company;
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
 
         if (this.Request.QueryString["id"] != null)
         {
@@ -172,14 +154,14 @@ public partial class ProcesosView : Page
         string label = this.processId == -1 ? "Item_Process_Button_New" : "Item_Process_Button_Edit";
         this.master = this.Master as Giso;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Processes", "ProcesosList.aspx", false);
+        this.master.AddBreadCrumb("Item_Processes", "ProcesosList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb(label);
         this.master.Titulo = label;
 
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary[ "Common_Accept"], Action = "success" });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary[ "Common_Accept"], Action = "success" });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         this.process = Process.Empty;
         if (processId > 0)
@@ -188,7 +170,7 @@ public partial class ProcesosView : Page
 
             if (this.process.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.process = Process.Empty;
             }
@@ -196,7 +178,7 @@ public partial class ProcesosView : Page
             this.formFooter.ModifiedBy = this.process.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.process.ModifiedOn;
             this.master.TitleInvariant = true;
-            this.master.Titulo = string.Format("{0}: <strong>{1}</strong>", this.dictionary["Item_Process"], this.process.Description);
+            this.master.Titulo = string.Format("{0}: <strong>{1}</strong>", this.Dictionary["Item_Process"], this.process.Description);
             this.RenderIndicatorsData();
             this.RenderDocuments();
         }
@@ -212,10 +194,10 @@ public partial class ProcesosView : Page
     private void RenderIndicatorsData()
     {
         var res = new StringBuilder();
-        var indicators = Indicador.GetByProcess(this.processId, this.company.Id);
-        foreach (Indicador indicadtor in indicators)
+        var indicators = Indicador.ByProcessId(this.processId, this.company.Id);
+        foreach (var indicadtor in indicators)
         {
-            res.Append(indicadtor.ListRowProcessTab(this.dictionary, this.user.Grants));
+            res.Append(indicadtor.ListRowProcessTab(this.Dictionary, this.user.Grants));
         }
 
         this.IndicatorsData.Text = res.ToString();
@@ -223,10 +205,10 @@ public partial class ProcesosView : Page
 
     private void RenderProcesosData()
     {
-        var procesos = Process.GetByCompany(this.company.Id);
+        var procesos = Process.ByCompany(this.company.Id);
         var res = new StringBuilder();
         bool first = true;
-        foreach (Process process in procesos)
+        foreach (var process in procesos)
         {
             if(first)
             {
@@ -253,7 +235,7 @@ public partial class ProcesosView : Page
         var resList = new StringBuilder();
         int contCells = 0;
         var extensions = ToolsFile.ExtensionToShow;
-        foreach (UploadFile file in files)
+        foreach (var file in files)
         {
             decimal finalSize = ToolsFile.FormatSize((decimal)file.Size);
             string fileShowed = string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description;
@@ -307,7 +289,7 @@ public partial class ProcesosView : Page
                     file.CreatedOn,
                     finalSize,
                     this.Dictionary["Item_Attachment_Header_CreateDate"],
-                    this.dictionary["Item_Attachment_Header_Size"],
+                    this.Dictionary["Item_Attachment_Header_Size"],
                     fileShowed,
                     viewButton);
 

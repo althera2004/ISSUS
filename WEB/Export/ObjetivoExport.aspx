@@ -1,1 +1,1 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ObjetivoExport.aspx.cs" Inherits="Export_ObjetivoExport" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ObjetivoExport.aspx.cs" Inherits="ExportObjetivoExport" %>

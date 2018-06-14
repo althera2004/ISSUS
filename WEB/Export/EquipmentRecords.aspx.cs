@@ -6,11 +6,10 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Globalization;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
@@ -20,19 +19,16 @@ using iTSpdf = iTextSharp.text.pdf;
 using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using NPOI.HSSF.Model;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using PDF_Tests;
-using iTextSharp.text.pdf;
-using iTextSharp.text;
-using System.Text;
 
-/// <summary>
-/// Implements reporting in PDF and Excel for equipment records
-/// </summary>
-public partial class Export_EquipmentRecords : Page
+/// <summary>Implements reporting in PDF and Excel for equipment records</summary>
+public partial class ExportEquipmentRecords : Page
 {
     public static Font criteriaFont;
     public static Dictionary<string, string> dictionary;
@@ -59,11 +55,11 @@ public partial class Export_EquipmentRecords : Page
         DateTime? dateTo,
         string listOrder)
     {
-        ActionResult res = ActionResult.NoAction;
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
-        Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        Equipment equipment = Equipment.GetById(equipmentId, companyId);
-        List<EquipmentRecord> GetFilter = HttpContext.Current.Session["EquipmentFilter"] as List<EquipmentRecord>;
+        var res = ActionResult.NoAction;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+        var equipment = Equipment.ById(equipmentId, companyId);
+        var getFilter = HttpContext.Current.Session["EquipmentFilter"] as List<EquipmentRecord>;
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
         if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
@@ -78,12 +74,12 @@ public partial class Export_EquipmentRecords : Page
             equipment.Description,
             DateTime.Now);
 
-        HSSFWorkbook wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
-        HSSFSheet sh = (HSSFSheet)wb.CreateSheet(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Equipment"], dictionary["Item_Equipment_Tab_Records"]));
-        HSSFSheet shCriteria = (HSSFSheet)wb.CreateSheet(dictionary["Common_SearchCriteria"]);
+        var wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
+        var sh = (HSSFSheet)wb.CreateSheet(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Equipment"], dictionary["Item_Equipment_Tab_Records"]));
+        var shCriteria = (HSSFSheet)wb.CreateSheet(dictionary["Common_SearchCriteria"]);
 
-        ICellStyle moneyCellStyle = wb.CreateCellStyle();
-        IDataFormat hssfDataFormat = wb.CreateDataFormat();
+        var moneyCellStyle = wb.CreateCellStyle();
+        var hssfDataFormat = wb.CreateDataFormat();
         moneyCellStyle.DataFormat = hssfDataFormat.GetFormat("#,##0.00");
 
         var headerCellStyle = wb.CreateCellStyle();
@@ -111,21 +107,20 @@ public partial class Export_EquipmentRecords : Page
         titleFont.FontHeight = 400;
         titleCellStyle.SetFont(titleFont);
 
-        ICellStyle decimalFormat = wb.CreateCellStyle();
+        var decimalFormat = wb.CreateCellStyle();
         decimalFormat.DataFormat = wb.CreateDataFormat().GetFormat("#.00");
 
-        ICellStyle integerformat = wb.CreateCellStyle();
+        var integerformat = wb.CreateCellStyle();
         integerformat.DataFormat = wb.CreateDataFormat().GetFormat("#0");
 
-        CellRangeAddress cra = new CellRangeAddress(0, 1, 0, 4);
+        var cra = new CellRangeAddress(0, 1, 0, 4);
         sh.AddMergedRegion(cra);
         if (sh.GetRow(0) == null) { sh.CreateRow(0); }
         sh.GetRow(0).CreateCell(0);
         sh.GetRow(0).GetCell(0).SetCellValue(string.Format(CultureInfo.InvariantCulture, "{0} - {1}", dictionary["Item_Equipment"], dictionary["Item_Equipment_Tab_Records"]));
         sh.GetRow(0).GetCell(0).CellStyle = titleCellStyle;
 
-
-        IDataFormat dataFormatCustom = wb.CreateDataFormat();
+        var dataFormatCustom = wb.CreateDataFormat();
 
         // Condiciones del filtro
         if (shCriteria.GetRow(1) == null) { shCriteria.CreateRow(1); }
@@ -192,11 +187,12 @@ public partial class Export_EquipmentRecords : Page
         {
             toValue = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", dateTo.Value);
         }
+
         shCriteria.GetRow(5).GetCell(6).SetCellValue(toValue);
 
 
         // Crear Cabecera
-        List<string> headers = new List<string>() { 
+        var headers = new List<string>() { 
             dictionary["Item_EquipmentRepair_HeaderList_Date"],
             dictionary["Item_EquipmentRepair_HeaderList_Type"],
             dictionary["Item_EquipmentRepair_HeaderList_Operation"],
@@ -213,7 +209,8 @@ public partial class Export_EquipmentRecords : Page
             {
                 sh.GetRow(3).CreateCell(countColumns);
             }
-            sh.GetRow(3).GetCell(countColumns).SetCellValue(headerLabel.ToString());
+
+            sh.GetRow(3).GetCell(countColumns).SetCellValue(headerLabel);
             sh.GetRow(3).GetCell(countColumns).CellStyle = headerCellStyle;
             countColumns++;
         }
@@ -221,16 +218,17 @@ public partial class Export_EquipmentRecords : Page
         int countRow = 4;
         decimal total = 0;
 
-        List<EquipmentRecord> data = GetFilter;
+        var data = getFilter;
 
         // Poner el tipo de registro diccionarizado
-        foreach (EquipmentRecord r in data)
+        foreach (var record in data)
         {
-            r.RecordTypeText = dictionary[r.Item + "-" + (r.RecordType == 0 ? "Int" : "Ext")];
+            record.RecordTypeText = dictionary[record.Item + "-" + (record.RecordType == 0 ? "Int" : "Ext")];
         }
 
         switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH0|ASC":
                 data = data.OrderBy(d => d.Date).ToList();
                 break;
@@ -263,40 +261,39 @@ public partial class Export_EquipmentRecords : Page
                 break;
         }
 
-        foreach (EquipmentRecord r in data)
+        foreach (var equipmentRecord in data)
         {
             if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
 
             // Fecha
             if (sh.GetRow(countRow).GetCell(0) == null) { sh.GetRow(countRow).CreateCell(0); }
             sh.GetRow(countRow).GetCell(0).CellStyle.DataFormat = dataFormatCustom.GetFormat("dd/MM/yyyy");
-            sh.GetRow(countRow).GetCell(0).SetCellValue(r.Date);
+            sh.GetRow(countRow).GetCell(0).SetCellValue(equipmentRecord.Date);
 
             // Tipo
             if (sh.GetRow(countRow).GetCell(1) == null) { sh.GetRow(countRow).CreateCell(1); }
-            sh.GetRow(countRow).GetCell(1).SetCellValue(r.RecordTypeText);
+            sh.GetRow(countRow).GetCell(1).SetCellValue(equipmentRecord.RecordTypeText);
 
             // Operacion
             if (sh.GetRow(countRow).GetCell(2) == null) { sh.GetRow(countRow).CreateCell(2); }
-            sh.GetRow(countRow).GetCell(2).SetCellValue(r.Operation);
+            sh.GetRow(countRow).GetCell(2).SetCellValue(equipmentRecord.Operation);
 
             // Responsable
             if (sh.GetRow(countRow).GetCell(3) == null) { sh.GetRow(countRow).CreateCell(3); }
-            sh.GetRow(countRow).GetCell(3).SetCellValue(r.Responsible.FullName);
+            sh.GetRow(countRow).GetCell(3).SetCellValue(equipmentRecord.Responsible.FullName);
 
             // Coste
             if (sh.GetRow(countRow).GetCell(4) == null) { sh.GetRow(countRow).CreateCell(4); }
-            if (r.Cost.HasValue)
+            if (equipmentRecord.Cost.HasValue)
             {
-                sh.GetRow(countRow).GetCell(4).SetCellValue(Convert.ToDouble(r.Cost.Value));
+                sh.GetRow(countRow).GetCell(4).SetCellValue(Convert.ToDouble(equipmentRecord.Cost.Value));
                 sh.GetRow(countRow).GetCell(4).SetCellType(CellType.Numeric);
                 sh.GetRow(countRow).GetCell(4).CellStyle = moneyCellStyle;
-                total += r.Cost.Value;
+                total += equipmentRecord.Cost.Value;
             }
 
             countRow++;
         }
-
 
         if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
         if (sh.GetRow(countRow).GetCell(0) == null) { sh.GetRow(countRow).CreateCell(0); }
@@ -375,12 +372,12 @@ public partial class Export_EquipmentRecords : Page
         DateTime? dateTo,
         string listOrder)
     {
-        ActionResult res = ActionResult.NoAction;
-        ApplicationUser user = HttpContext.Current.Session["User"] as ApplicationUser;
+        var res = ActionResult.NoAction;
+        var user = HttpContext.Current.Session["User"] as ApplicationUser;
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        Equipment equipment = Equipment.GetById(equipmentId, companyId);
-        Company company = new Company(equipment.CompanyId);
-        List<EquipmentRecord> data = HttpContext.Current.Session["EquipmentFilter"] as List<EquipmentRecord>;
+        var equipment = Equipment.ById(equipmentId, companyId);
+        var company = new Company(equipment.CompanyId);
+        var data = HttpContext.Current.Session["EquipmentFilter"] as List<EquipmentRecord>;
         
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -396,8 +393,8 @@ public partial class Export_EquipmentRecords : Page
             equipment.Description,
             DateTime.Now);
 
-        iTS.Document pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
-        iTSpdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
+        var pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
+        var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
            new FileStream(
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
@@ -415,28 +412,7 @@ public partial class Export_EquipmentRecords : Page
 
         pdfDoc.Open();
         
-        iTS.BaseColor backgroundColor = new iTS.BaseColor(220, 220, 220);
-
-        // ------------ FONTS 
-        string pathFonts = System.Web.HttpContext.Current.Request.PhysicalApplicationPath;
-        if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
-        {
-            pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
-        }
-
-        iTSpdf.BaseFont awesomeFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        iTSpdf.BaseFont dataFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\calibri.ttf", pathFonts), BaseFont.CP1250, BaseFont.EMBEDDED);
-        iTS.Font times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font timesBold = new iTS.Font(dataFont, 10, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font headerFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        criteriaFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        iTS.Font titleFont = new iTS.Font(dataFont, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        iTS.Font symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-
-        var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        fontAwe = new Font(fontAwesomeIcon, 10);
-        // -------------------        
-
+        var backgroundColor = new iTS.BaseColor(220, 220, 220);
 
         string periode = string.Empty;
 
@@ -449,7 +425,7 @@ public partial class Export_EquipmentRecords : Page
                 dateTo.Value);
                 
         }
-        else if(dateFrom.HasValue && !dateTo.HasValue)
+        else if(dateFrom.HasValue && dateTo == null)
         {
             periode = string.Format(
                 CultureInfo.InvariantCulture,
@@ -457,7 +433,7 @@ public partial class Export_EquipmentRecords : Page
                 dateFrom.Value,
                 dictionary["Common_From"]); 
         }
-        else if(!dateFrom.HasValue && dateTo.HasValue)
+        else if(dateFrom == null && dateTo.HasValue)
         {
             periode = string.Format(
                 CultureInfo.InvariantCulture,
@@ -470,93 +446,92 @@ public partial class Export_EquipmentRecords : Page
         {
             periode = dictionary["Common_PeriodAll"];
         }
-
-        var borderNone = iTS.Rectangle.NO_BORDER;
-        var borderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
-
-        iTSpdf.PdfPTable criteriatable = new iTSpdf.PdfPTable(2);
-        float[] cirteriaWidths = new float[] { 25f, 250f };
-        criteriatable.SetWidths(cirteriaWidths);
-        criteriatable.WidthPercentage = 100;
-
-        iTSpdf.PdfPCell criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment"], timesBold))
+        
+        var criteriatable = new iTSpdf.PdfPTable(2)
         {
-            Border = borderNone,
+            WidthPercentage = 100
+        };
+
+        criteriatable.SetWidths(new float[] { 25f, 250f });
+        
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment"], ToolsPdf.TimesBold))
+        {
+            Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria1Label);
-
-        iTSpdf.PdfPCell criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Description, times))
+        });
+        
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Description, ToolsPdf.Times))
         {
-            Border = borderNone,
+            Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria1);
-
-        iTSpdf.PdfPCell criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], timesBold))
+        });
+        
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], ToolsPdf.TimesBold))
         {
-            Border = borderNone,
+            Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria2Label);
+        });
 
-        iTSpdf.PdfPCell criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, ToolsPdf.Times))
         {
-            Border = borderNone,
+            Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria2);
-
-        iTSpdf.PdfPCell criteria3Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Customer_Header_Type"], timesBold))
+        });
+        
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Customer_Header_Type"], ToolsPdf.TimesBold))
         {
-            Border = borderNone,
+            Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
-        };
-        criteriatable.AddCell(criteria3Label);
+        });
 
         string typeText = string.Empty;
         bool firstType = true;
-        if( calibrationInternal){
+        if (calibrationInternal)
+        {
             firstType = false;
             typeText += dictionary["Item_EquipmentRecord_Filter_CalibrationInternal"];
         }
+
         if (calibrationExternal)
         {
             if (!firstType)
             {
                 typeText += " - ";
             }
+
             typeText += dictionary["Item_EquipmentRecord_Filter_CalibrationExternal"];
-            firstType = false;
-            
+            firstType = false;            
         }
+
         if (verificationInternal)
         {
             if (!firstType)
             {
                 typeText += " - ";
             }
+
             typeText += dictionary["Item_EquipmentRecord_Filter_VerificationInternal"];
             firstType = false;
         }
+
         if (verificationExternal)
         {
             if (!firstType)
             {
                 typeText += " - ";
             }
-            typeText += dictionary["Item_EquipmentRecord_Filter_VerificationExternal"];
-            
+
+            typeText += dictionary["Item_EquipmentRecord_Filter_VerificationExternal"];            
             firstType = false;
         }
         if (maintenanceInternal)
@@ -565,10 +540,11 @@ public partial class Export_EquipmentRecords : Page
             {
                 typeText += " - ";
             }
-            typeText += dictionary["Item_EquipmentRecord_Filter_MaintenanceInternal"];
-            
+
+            typeText += dictionary["Item_EquipmentRecord_Filter_MaintenanceInternal"];            
             firstType = false;
         }
+
         if (maintenanceExternal)
         {
             if (!firstType)
@@ -579,28 +555,31 @@ public partial class Export_EquipmentRecords : Page
             typeText += dictionary["Item_EquipmentRecord_Filter_MaintenanceExternal"];
             firstType = false;
         }
+
         if (repairInternal)
         {
             if (!firstType)
             {
                 typeText += " - ";
             }
-            typeText += dictionary["Item_EquipmentRecord_Filter_RepairInternal"];
-            
+
+            typeText += dictionary["Item_EquipmentRecord_Filter_RepairInternal"];            
             firstType = false;
         }
+
         if (repairExternal)
         {
             if (!firstType)
             {
                 typeText += " - ";
             }
+
             typeText += dictionary["Item_EquipmentRecord_Filter_RepairExternal"];
         }
         
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(typeText + listOrder, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(typeText + listOrder, ToolsPdf.Times))
         {
-            Border = borderNone,
+            Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
             Padding = 6f,
             PaddingTop = 4f
@@ -608,7 +587,7 @@ public partial class Export_EquipmentRecords : Page
 
         pdfDoc.Add(criteriatable);
 
-        PdfPTable table = new iTSpdf.PdfPTable(5)
+        var table = new iTSpdf.PdfPTable(5)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 0,
@@ -617,26 +596,26 @@ public partial class Export_EquipmentRecords : Page
         };
 
         //relative col widths in proportions - 1/3 and 2/3
-        float[] widths = new float[] { 10f, 20f, 15f, 30f, 15f };
-        table.SetWidths(widths);
+        table.SetWidths(new float[] { 10f, 20f, 15f, 30f, 15f });
 
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Date"].ToUpperInvariant(), headerFont));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Type"].ToUpperInvariant(), headerFont));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Operation"].ToUpperInvariant(), headerFont));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Responsible"].ToUpperInvariant(), headerFont));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Cost"].ToUpperInvariant(), headerFont));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Date"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Type"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Operation"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Responsible"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_EquipmentRepair_HeaderList_Cost"]));
 
         decimal totalCost = 0;
         int cont=0;
 
         // Poner el tipo de registro diccionarizado
-        foreach (EquipmentRecord r in data)
+        foreach (var record in data)
         {
-            r.RecordTypeText = dictionary[r.Item + "-" + (r.RecordType == 0 ? "Int" : "Ext")];
+            record.RecordTypeText = dictionary[record.Item + "-" + (record.RecordType == 0 ? "Int" : "Ext")];
         }
 
-            switch (listOrder.ToUpperInvariant())
+        switch (listOrder.ToUpperInvariant())
         {
+            default:
             case "TH0|ASC":
                 data = data.OrderBy(d => d.Date).ToList();
                 break;
@@ -669,57 +648,56 @@ public partial class Export_EquipmentRecords : Page
                 break;
         }
         
-        foreach (EquipmentRecord r in data)
+        foreach (var equipmentRecord in data)
         {
-            table.AddCell(ToolsPdf.DataCellCenter(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", r.Date), times));
-            table.AddCell(ToolsPdf.DataCell(r.RecordTypeText, times));
-            table.AddCell(ToolsPdf.DataCell(r.Operation, times));
-            table.AddCell(ToolsPdf.DataCell(r.Responsible.FullName, times));
-            table.AddCell(ToolsPdf.DataCellMoney(r.Cost, times));
+            table.AddCell(ToolsPdf.DataCellCenter(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", equipmentRecord.Date), ToolsPdf.Times));
+            table.AddCell(ToolsPdf.DataCell(equipmentRecord.RecordTypeText, ToolsPdf.Times));
+            table.AddCell(ToolsPdf.DataCell(equipmentRecord.Operation, ToolsPdf.Times));
+            table.AddCell(ToolsPdf.DataCell(equipmentRecord.Responsible.FullName, ToolsPdf.Times));
+            table.AddCell(ToolsPdf.DataCellMoney(equipmentRecord.Cost, ToolsPdf.Times));
 
-            if (r.Cost.HasValue)
+            if (equipmentRecord.Cost.HasValue)
             {
-                totalCost += r.Cost.Value;
+                totalCost += equipmentRecord.Cost.Value;
             }
 
             cont++;
         }
 
-
-        iTS.BaseColor rowEven = new iTS.BaseColor(240, 240, 240);
+        
         string totalRegistros = string.Format(
            CultureInfo.InvariantCulture,
            @"{0}: {1}",
            dictionary["Common_RegisterCount"],
            cont);
 
-        iTSpdf.PdfPCell totalRegistrosCell = new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, times))
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, ToolsPdf.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
-            BackgroundColor = rowEven,
+            BackgroundColor = ToolsPdf.SummaryBackgroundColor,
             Padding = 6f,
             PaddingTop = 4f,
             Colspan = 2
-        };
-        table.AddCell(totalRegistrosCell);
+        });
 
-        table.AddCell(new PdfPCell(new iTS.Phrase(dictionary["Common_Total"], times))
+        table.AddCell(new PdfPCell(new iTS.Phrase(dictionary["Common_Total"], ToolsPdf.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             HorizontalAlignment = iTS.Element.ALIGN_RIGHT,
-            BackgroundColor = rowEven,
+            BackgroundColor = ToolsPdf.SummaryBackgroundColor,
             Colspan = 2
         });
-        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", totalCost), times))
+
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", totalCost), ToolsPdf.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
-            BackgroundColor = rowEven,
+            BackgroundColor = ToolsPdf.SummaryBackgroundColor,
             HorizontalAlignment = iTS.Element.ALIGN_RIGHT
         });
 
         pdfDoc.Add(table);
         pdfDoc.CloseDocument();
-        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"].ToString(), fileName));
+        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
         return res;
     }
 }

@@ -95,6 +95,16 @@
                 "Title": "Accès a diferents empreses",
                 "Message": "El seu usuari te accès a poder gestionar distintes empreses.<br />Sel·leccioni amb quina vol treballar.<br />Per a traballar amb una altra empresa, haurà de sortir de l'aplicació i tonar a validar-se.",
                 "Btn": "Accedir"
+            },
+            "es-ES": {
+                "Title": "Acceso a diferentes empresas",
+                "Message": "Su usuario tiene acceso a poder gestionar distintas empresas.<br />Seleccionar con cual quiere trabajar.<br />Para trabajar con otra empresa, deberá salir de la aplicación y volver a hacer login.",
+                "Btn": "Acceder"
+            },
+            "ca-ES": {
+                "Title": "Accès a diferents empreses",
+                "Message": "El seu usuari te accès a poder gestionar distintes empreses.<br />Sel·leccioni amb quina vol treballar.<br />Per a traballar amb una altra empresa, haurà de sortir de l'aplicació i tonar a validar-se.",
+                "Btn": "Accedir"
             }
         };
 
@@ -102,8 +112,9 @@
             document.getElementById("PageTitle").innerHTML = Dictionary[language].Title;
             document.getElementById("Message").innerHTML = Dictionary[language].Message;
             if (document.getElementById("BtnLoginCmb") !== null) {
-                document.getElementById("BtnLogin").innerHTML = Dictionary[language].Btn;
+                document.getElementById("BtnLoginCmb").innerHTML = Dictionary[language].Btn;
             }
+            $("#CmbCompany").on("change", function () { $("#BtnLoginCmb").click(); });
         }
     </script>
 </head>

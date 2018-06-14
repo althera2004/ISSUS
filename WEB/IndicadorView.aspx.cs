@@ -62,10 +62,18 @@ public partial class IndicadorView : Page
         {
             if (this.IndicadorId < 1)
             {
-                return "[]";
+                return Constant.EmptyJsonList;
             }
 
-            return IndicadorObjetivo.JsonList(IndicadorObjetivo.GetByIndicador(this.IndicadorId, this.company.Id));
+            return IndicadorObjetivo.JsonList(IndicadorObjetivo.ByIndicadorId(this.IndicadorId, this.company.Id));
+        }
+    }
+
+    public string Historic
+    {
+        get
+        {
+            return IndicadorHistorico.ByIndicadorIdJsonList(this.IndicadorId);
         }
     }
 
@@ -73,7 +81,7 @@ public partial class IndicadorView : Page
 
     public Indicador Indicador { get; set; }
 
-    private TabBar tabBar = new TabBar() { Id = "IndicadorTabBar" };
+    private TabBar tabBar = new TabBar { Id = "IndicadorTabBar" };
 
     public BarPopup UnitsBarPopups { get; set; }
 
@@ -81,7 +89,7 @@ public partial class IndicadorView : Page
     {
         get
         {
-            return IndicadorRegistro.GetByIndicadorJson(this.IndicadorId, this.company.Id);
+            return IndicadorRegistro.ByIndicadorJson(this.IndicadorId, this.company.Id);
         }
     }
 
@@ -110,22 +118,22 @@ public partial class IndicadorView : Page
     }
 
     #region IndicadorForm
-    public FormText TxtDescription { get; set; }
-    public FormTextInteger TxtPeriodicidad { get; set; }
-    public FormTextDecimal TxtMeta { get; set; }
-    public FormTextDecimal TxtAlarma { get; set; }
-    public FormTextArea TxtCalculo { get; set; }
-    public FormSelect CmbUnidad { get; set; }
-    public FormSelect CmbMetaComparer { get; set; }
-    public FormSelect CmbAlarmaComparer { get; set; }
-    public FormSelect CmbEndResponsible { get; set; }
-    public FormSelect CmbType { get; set; }
-    public FormSelect CmbProcess { get; set; }
-    public FormSelect CmbObjetivo { get; set; }
-    public FormSelect CmbResponsible { get; set; }
-    public FormSelect CmbResponsibleRecord { get; set; }
-    public FormSelect CmbResponsibleAnularRecord { get; set; }
-    public FormDatePicker EndDate { get; set; }
+    public FormText TxtDescription { get; private set; }
+    public FormTextInteger TxtPeriodicidad { get; private set; }
+    public FormTextDecimal TxtMeta { get; private set; }
+    public FormTextDecimal TxtAlarma { get; private set; }
+    public FormTextArea TxtCalculo { get; private set; }
+    public FormSelect CmbUnidad { get; private set; }
+    public FormSelect CmbMetaComparer { get; private set; }
+    public FormSelect CmbAlarmaComparer { get; private set; }
+    public FormSelect CmbEndResponsible { get; private set; }
+    public FormSelect CmbType { get; private set; }
+    public FormSelect CmbProcess { get; private set; }
+    public FormSelect CmbObjetivo { get; private set; }
+    public FormSelect CmbResponsible { get; private set; }
+    public FormSelect CmbResponsibleRecord { get; private set; }
+    public FormSelect CmbResponsibleAnularRecord { get; private set; }
+    public FormDatePicker EndDate { get; private set; }
     #endregion
 
     public string TabBar
@@ -199,7 +207,7 @@ public partial class IndicadorView : Page
     {
         get
         {
-            return Objetivo.GetByCompanyJsonList(this.company.Id);
+            return Objetivo.ByCompanyJsonList(this.company.Id);
         }
     }
 
@@ -211,36 +219,34 @@ public partial class IndicadorView : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -250,9 +256,7 @@ public partial class IndicadorView : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         if (this.Request.QueryString["id"] != null)
@@ -270,7 +274,6 @@ public partial class IndicadorView : Page
         }
 
         this.formFooter = new FormFooter();
-        // this.formFooterAction = new FormFooter();
 
         this.user = (ApplicationUser)Session["User"];
         this.company = (Company)Session["company"];
@@ -283,7 +286,7 @@ public partial class IndicadorView : Page
 
         if (this.IndicadorId > 0)
         {
-            this.Indicador = Indicador.GetById(this.IndicadorId, this.company.Id);
+            this.Indicador = Indicador.ById(this.IndicadorId, this.company.Id);
             this.master.AddBreadCrumbInvariant(this.Indicador.Description);
             if (this.Indicador.CompanyId != this.company.Id)
             {
@@ -297,10 +300,10 @@ public partial class IndicadorView : Page
 
             this.formFooter.ModifiedBy = this.Indicador.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Indicador.ModifiedOn;
-            this.formFooter.AddButton(new UIButton() { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Objetivo_Btn_Restaurar"], Action = "primary" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Indicador_Btn_Anular"], Action = "danger" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Objetivo_Btn_Restaurar"], Action = "primary" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Indicador_Btn_Anular"], Action = "danger" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
             this.master.ItemCode = this.Indicador.Description;
         }
         else
@@ -310,18 +313,18 @@ public partial class IndicadorView : Page
             this.Indicador = Indicador.Empty;
             this.formFooter.ModifiedBy = this.dictionary["Common_New"];
             this.formFooter.ModifiedOn = DateTime.Now;
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
         }
 
-        this.tabBar.AddTab(new Tab() { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Indicador_Tab_Basic"], Available = true });
-        this.tabBar.AddTab(new Tab() { Id = "records", Available = true && this.IndicadorId > 0, Active = this.IndicadorId > 0, Label = this.dictionary["Item_Indicador_Tab_Records"] });
-        this.tabBar.AddTab(new Tab() { Id = "graphics", Available = true && this.IndicadorId > 0, Active = this.IndicadorId > 0, Label = this.dictionary["Item_Indicador_Tab_Graphics"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Indicador_Tab_Basic"], Available = true });
+        this.tabBar.AddTab(new Tab { Id = "records", Available = true && this.IndicadorId > 0, Active = this.IndicadorId > 0, Label = this.dictionary["Item_Indicador_Tab_Records"] });
+        this.tabBar.AddTab(new Tab { Id = "graphics", Available = true && this.IndicadorId > 0, Active = this.IndicadorId > 0, Label = this.dictionary["Item_Indicador_Tab_Graphics"] });
+        this.tabBar.AddTab(new Tab { Id = "historic", Available = true, Active = this.IndicadorId > 0, Hidden = this.IndicadorId < 1, Label = this.Dictionary["Item_Indicador_TabHistoric"] });
 
         this.RenderForm();
-        // this.RenderRegistrosData();
 
-        this.UnitsBarPopups = new BarPopup()
+        this.UnitsBarPopups = new BarPopup
         {
             Id = "Units",
             DeleteMessage = this.dictionary["Common_DeleteMessage"],
@@ -340,8 +343,8 @@ public partial class IndicadorView : Page
 
     public void RenderRegistrosData()
     {
-        StringBuilder res = new StringBuilder();
-        foreach (IndicadorRegistro registro in IndicadorRegistro.GetByIndicador(this.IndicadorId, this.company.Id))
+        var res = new StringBuilder();
+        foreach (var registro in IndicadorRegistro.ByIndicadorId(this.IndicadorId, this.company.Id))
         {
             res.Append(registro.ListRow(this.dictionary, this.user.Grants));
         }
@@ -351,7 +354,7 @@ public partial class IndicadorView : Page
 
     public void RenderForm()
     {
-        this.TxtCalculo = new FormTextArea()
+        this.TxtCalculo = new FormTextArea
         {
             Rows = 3,
             Value = this.Indicador.Calculo,
@@ -363,17 +366,17 @@ public partial class IndicadorView : Page
             GrantToWrite = this.grantToWrite            
         };
 
-        this.CmbUnidad = new FormSelect()
+        this.CmbUnidad = new FormSelect
         {
             ColumnsSpanLabel = 1,
             Label = this.dictionary["Item_Indicador_Field_Unidad"],
-            ColumnsSpan = 2,
+            ColumnsSpan = Constant.ColumnSpan2,
             Name = "CmdUnidad",
             GrantToWrite = this.grantToWrite,
             DefaultOption = new FormSelectOption() { Text = "...", Value = "0" }
         };
 
-        this.CmbMetaComparer = new FormSelect()
+        this.CmbMetaComparer = new FormSelect
         {
             ColumnsSpanLabel = 1,
             Label = this.dictionary["Item_Indicador_Field_Meta"],
@@ -383,17 +386,17 @@ public partial class IndicadorView : Page
             DefaultOption = new FormSelectOption() { Text = "..." , Value = "0" }
         };
 
-        this.CmbAlarmaComparer = new FormSelect()
+        this.CmbAlarmaComparer = new FormSelect
         {
             ColumnsSpanLabel = 1,
             Label = this.dictionary["Item_Indicador_Field_Alarma"],
             ColumnsSpan = 1,
             Name = "CmbAlarmaComparer",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = "...", Value = "0" }
+            DefaultOption = new FormSelectOption { Text = "...", Value = "0" }
         };
 
-        this.CmbResponsible = new FormSelect()
+        this.CmbResponsible = new FormSelect
         {
             ColumnsSpanLabel = 1,
             Label = this.dictionary["Item_Indicador_Field_Responsible"],
@@ -405,7 +408,7 @@ public partial class IndicadorView : Page
             RequiredMessage = this.dictionary["Common_Required"]
         };
 
-        this.CmbResponsibleRecord = new FormSelect()
+        this.CmbResponsibleRecord = new FormSelect
         {
             ColumnsSpanLabel = 3,
             Label = this.dictionary["Item_IndicatorRecord_FieldLabel_Responsible"],
@@ -417,61 +420,61 @@ public partial class IndicadorView : Page
             RequiredMessage = this.dictionary["Common_Required"]
         };
 
-        this.CmbResponsibleAnularRecord = new FormSelect()
+        this.CmbResponsibleAnularRecord = new FormSelect
         {
             ColumnsSpanLabel = 3,
             Label = this.dictionary["Item_IndicatorRecord_FieldLabel_Responsible"],
             ColumnsSpan = 9,
             Name = "CmbResponsibleAnularRecord",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" },
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" },
             RequiredMessage = this.dictionary["Common_Required"],
             Required = true
         };
 
-        this.CmbEndResponsible = new FormSelect()
+        this.CmbEndResponsible = new FormSelect
         {
             ColumnsSpanLabel = 1,
             Label = this.dictionary["Item_Indicador_Field_EndResponsible"],
             ColumnsSpan = 3,
             Name = "CmbEndResponsible",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
         };
 
-        this.CmbType = new FormSelect()
+        this.CmbType = new FormSelect
         {
             Label = this.dictionary["Item_Indicador_Label_Type"],
             ColumnsSpanLabel = 1,
             ColumnsSpan = 3,
             Name = "CmbType",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_All_Male_Plural"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_All_Male_Plural"], Value = "0" }
         };
 
-        this.CmbProcess = new FormSelect()
+        this.CmbProcess = new FormSelect
         {
             Label = this.dictionary["Item_Indicador_Field_Process"],
             ColumnsSpanLabel = 1,
             ColumnsSpan = 3,
             Name = "CmbProcess",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectOne"], Value = "0" }
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectOne"], Value = "0" }
         };
 
-        this.CmbObjetivo = new FormSelect()
+        this.CmbObjetivo = new FormSelect
         {
             Label = this.dictionary["Item_Indicador_Field_Objetivo"],
             ColumnsSpanLabel = 1,
             ColumnsSpan = 3,
             Name = "CmbObjetivo",
             GrantToWrite = this.grantToWrite,
-            DefaultOption = new FormSelectOption() { Text = this.dictionary["Common_SelectOne"], Value = "0" },
+            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectOne"], Value = "0" },
             Required = true,
             RequiredMessage = this.dictionary["Common_Required"]
         };
 
-        this.TxtDescription = new FormText()
+        this.TxtDescription = new FormText
         {
             ColumnSpan = 10,
             ColumnSpanLabel = 1,
@@ -485,7 +488,7 @@ public partial class IndicadorView : Page
             RequiredMessage = this.dictionary["Common_Required"]
         };
 
-        this.TxtPeriodicidad = new FormTextInteger()
+        this.TxtPeriodicidad = new FormTextInteger
         {
             ColumnSpan = 2,
             ColumnSpanLabel = 1,
@@ -498,7 +501,7 @@ public partial class IndicadorView : Page
             Required = true
         };
 
-        this.TxtMeta = new FormTextDecimal()
+        this.TxtMeta = new FormTextDecimal
         {
             ColumnSpan = 1,
             ColumnSpanLabel = 0,
@@ -511,7 +514,7 @@ public partial class IndicadorView : Page
             Required = true
         };
 
-        this.TxtAlarma = new FormTextDecimal()
+        this.TxtAlarma = new FormTextDecimal
         {
             ColumnSpan = 1,
             ColumnSpanLabel = 0,
@@ -527,19 +530,19 @@ public partial class IndicadorView : Page
             this.TxtAlarma.Value = this.Indicador.Alarma.ToString();
         }
 
-        this.EndDate = new FormDatePicker()
+        this.EndDate = new FormDatePicker
         {
             Id = "TxtEndDate",
             Label = this.dictionary["Item_Indicador_Field_EndDate"],
-            ColumnsSpanLabel = 4,
-            ColumnsSpan = 8,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.Indicador.EndDate,
             GrantToWrite = this.grantToWrite
         };
 
         foreach (Unidad unidad in Unidad.GetActive(this.company.Id))
         {
-            this.CmbUnidad.AddOption(new FormSelectOption() 
+            this.CmbUnidad.AddOption(new FormSelectOption
                 { 
                     Text = unidad.Description, 
                     Value = unidad.Id.ToString(), 
@@ -557,9 +560,9 @@ public partial class IndicadorView : Page
         //        });
         //}
 
-        foreach (Process proceso in Process.GetByCompany(this.company.Id).Where(p => p.Active == true))
+        foreach (var proceso in Process.ByCompany(this.company.Id).Where(p => p.Active == true))
         {
-            this.CmbProcess.AddOption(new FormSelectOption()
+            this.CmbProcess.AddOption(new FormSelectOption
                 {
                     Value = proceso.Id.ToString(),
                     Text = proceso.Description,
@@ -567,14 +570,14 @@ public partial class IndicadorView : Page
                 });
         }
 
-        this.CmbType.AddOption(new FormSelectOption()
+        this.CmbType.AddOption(new FormSelectOption
         {
             Value = "1",
             Text = this.dictionary["Item_Indicador_Label_TypeObjetivo"],
             Selected = false
         });
 
-        this.CmbType.AddOption(new FormSelectOption()
+        this.CmbType.AddOption(new FormSelectOption
         {
             Value = "2",
             Text = this.dictionary["Item_Indicador_Label_TypeProceso"],
@@ -587,25 +590,25 @@ public partial class IndicadorView : Page
             responsibleId = this.Indicador.Responsible.Id;
         }
 
-        foreach (Employee e in this.company.Employees)
+        foreach (var e in this.company.Employees)
         {
             if (e.Active && e.DisabledDate == null)
             {
-                this.CmbResponsible.AddOption(new FormSelectOption()
+                this.CmbResponsible.AddOption(new FormSelectOption
                 {
                     Value = e.Id.ToString(),
                     Text = e.FullName,
                     Selected = e.Id == responsibleId
                 });
 
-                this.CmbResponsibleRecord.AddOption(new FormSelectOption()
+                this.CmbResponsibleRecord.AddOption(new FormSelectOption
                 {
                     Value = e.Id.ToString(),
                     Text = e.FullName,
                     Selected = false
                 });
 
-                this.CmbResponsibleAnularRecord.AddOption(new FormSelectOption()
+                this.CmbResponsibleAnularRecord.AddOption(new FormSelectOption
                 {
                     Value = e.Id.ToString(),
                     Text = e.FullName,
@@ -614,16 +617,16 @@ public partial class IndicadorView : Page
             }
         }
 
-        this.CmbMetaComparer.AddOption(new FormSelectOption() { Value = "eq", Text = "=", Selected = this.Indicador.MetaComparer == "eq" });
-        this.CmbMetaComparer.AddOption(new FormSelectOption() { Value = "gt", Text = "&gt;", Selected = this.Indicador.MetaComparer == "gt" });
-        this.CmbMetaComparer.AddOption(new FormSelectOption() { Value = "eqgt", Text = "=&gt;", Selected = this.Indicador.MetaComparer == "eqgt" });
-        this.CmbMetaComparer.AddOption(new FormSelectOption() { Value = "lt", Text = "&lt;", Selected = this.Indicador.MetaComparer == "lt" });
-        this.CmbMetaComparer.AddOption(new FormSelectOption() { Value = "eqlt", Text = "&lt;=", Selected = this.Indicador.MetaComparer == "eqlt" });
+        this.CmbMetaComparer.AddOption(new FormSelectOption { Value = "eq", Text = "=", Selected = this.Indicador.MetaComparer == "eq" });
+        this.CmbMetaComparer.AddOption(new FormSelectOption { Value = "gt", Text = "&gt;", Selected = this.Indicador.MetaComparer == "gt" });
+        this.CmbMetaComparer.AddOption(new FormSelectOption { Value = "eqgt", Text = "=&gt;", Selected = this.Indicador.MetaComparer == "eqgt" });
+        this.CmbMetaComparer.AddOption(new FormSelectOption { Value = "lt", Text = "&lt;", Selected = this.Indicador.MetaComparer == "lt" });
+        this.CmbMetaComparer.AddOption(new FormSelectOption { Value = "eqlt", Text = "&lt;=", Selected = this.Indicador.MetaComparer == "eqlt" });
 
-        this.CmbAlarmaComparer.AddOption(new FormSelectOption() { Value = "eq", Text = "=", Selected = this.Indicador.AlarmaComparer == "eq" });
-        this.CmbAlarmaComparer.AddOption(new FormSelectOption() { Value = "gt", Text = "&gt;", Selected = this.Indicador.AlarmaComparer == "gt" });
-        this.CmbAlarmaComparer.AddOption(new FormSelectOption() { Value = "eqgt", Text = "=&gt;", Selected = this.Indicador.AlarmaComparer == "eqgt" });
-        this.CmbAlarmaComparer.AddOption(new FormSelectOption() { Value = "lt", Text = "&lt;", Selected = this.Indicador.AlarmaComparer == "lt" });
-        this.CmbAlarmaComparer.AddOption(new FormSelectOption() { Value = "eqlt", Text = "&lt;=", Selected = this.Indicador.AlarmaComparer == "eqlt" });
+        this.CmbAlarmaComparer.AddOption(new FormSelectOption { Value = "eq", Text = "=", Selected = this.Indicador.AlarmaComparer == "eq" });
+        this.CmbAlarmaComparer.AddOption(new FormSelectOption { Value = "gt", Text = "&gt;", Selected = this.Indicador.AlarmaComparer == "gt" });
+        this.CmbAlarmaComparer.AddOption(new FormSelectOption { Value = "eqgt", Text = "=&gt;", Selected = this.Indicador.AlarmaComparer == "eqgt" });
+        this.CmbAlarmaComparer.AddOption(new FormSelectOption { Value = "lt", Text = "&lt;", Selected = this.Indicador.AlarmaComparer == "lt" });
+        this.CmbAlarmaComparer.AddOption(new FormSelectOption { Value = "eqlt", Text = "&lt;=", Selected = this.Indicador.AlarmaComparer == "eqlt" });
     }
 }

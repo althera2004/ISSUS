@@ -1,8 +1,9 @@
-﻿// -----------------------------------------------------------------------
+﻿// --------------------------------
 // <copyright file="ActivityLog.cs" company="Sbrinna">
-// TODO: Update copyright text.
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
-// -----------------------------------------------------------------------
+// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// --------------------------------
 namespace GisoFramework.Activity
 {
     using System;
@@ -14,9 +15,7 @@ namespace GisoFramework.Activity
     using System.Globalization;
     using GisoFramework.DataAccess;
 
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary>Enumeration of target types</summary>
     public enum TargetType
     {   
         /// <summary>Undefined = 0</summary>
@@ -74,23 +73,19 @@ namespace GisoFramework.Activity
     /// <summary>Implements Activity log class</summary>
     public static class ActivityLog
     {
-        /// <summary>
-       /// Generates a trace for an Employee action
-       /// </summary>
-       /// <param name="targetId">Employee identifier</param>
-       /// <param name="userId">User of action identifier</param>
-       /// <param name="companyId">Company identifer</param>
-       /// <param name="actionId">Action identifier from specific action's employee</param>
-       /// <param name="extraData">Extra data if needed</param>
-       /// <returns>result of action</returns>
+        /// <summary>Generates a trace for an Employee action</summary>
+        /// <param name="targetId">Employee identifier</param>
+        /// <param name="userId">User of action identifier</param>
+        /// <param name="companyId">Company identifer</param>
+        /// <param name="actionId">Action identifier from specific action's employee</param>
+        /// <param name="extraData">Extra data if needed</param>
+        /// <returns>result of action</returns>
         public static ActionResult Employee(long targetId, int userId, int companyId, EmployeeLogActions actionId, string extraData)
         {
             return InsertLogActivity(TargetType.Employee, targetId, userId, companyId, (int)actionId, extraData);
         }
 
-        /// <summary>
-        /// Generate a trace from a Logon
-        /// </summary>
+        /// <summary>Generate a trace from a Logon</summary>
         /// <param name="internetAddress">Ip from remote machine</param>
         /// <param name="companyCode">Code of alias of company</param>
         /// <param name="result">Result of logon</param>
@@ -102,9 +97,7 @@ namespace GisoFramework.Activity
             return InsertLogActivity(TargetType.LogOn, 0, 0, companyId, result, extradata);
         }
 
-        /// <summary>
-        /// Generate a trace from a company
-        /// </summary>
+        /// <summary>Generate a trace from a company</summary>
         /// <param name="targetId">Identity of the company</param>
         /// <param name="userId">Identity of the user</param>
         /// <param name="companyId">Identity of the company where of the login</param>
@@ -116,9 +109,7 @@ namespace GisoFramework.Activity
             return InsertLogActivity(TargetType.Company, targetId, userId, companyId, (int)actionId, extraData);
         }
 
-        /// <summary>
-        /// Generate a trace from a job position action
-        /// </summary>
+        /// <summary>Generate a trace from a job position action</summary>
         /// <param name="targetId">Identity of the job position</param>
         /// <param name="userId">Identity of the user</param>
         /// <param name="companyId">Identity of the company where of the login</param>
@@ -130,9 +121,7 @@ namespace GisoFramework.Activity
             return InsertLogActivity(TargetType.JobPosition, Convert.ToInt32(targetId), userId, companyId, (int)actionId, extraData);
         }
 
-        /// <summary>
-        /// Generate a trace from a job position action
-        /// </summary>
+        /// <summary>Generate a trace from a job position action</summary>
         /// <param name="targetId">Identity of the job position</param>
         /// <param name="userId">Identity of the user</param>
         /// <param name="companyId">Identity of the company where of the login</param>
@@ -144,9 +133,7 @@ namespace GisoFramework.Activity
             return InsertLogActivity(TargetType.Provider, targetId, userId, companyId, (int)actionId, extraData);
         }
 
-        /// <summary>
-        /// Generate a trace from a job position action
-        /// </summary>
+        /// <summary>Generate a trace from a job position action</summary>
         /// <param name="targetId">Identity of the job position</param>
         /// <param name="userId">Identity of the user</param>
         /// <param name="companyId">Identity of the company where of the login</param>
@@ -158,9 +145,7 @@ namespace GisoFramework.Activity
             return InsertLogActivity(TargetType.Customer, targetId, userId, companyId, (int)actionId, extraData);
         }
 
-        /// <summary>
-        /// Generate a trace from a process action
-        /// </summary>
+        /// <summary>Generate a trace from a process action</summary>
         /// <param name="targetId">Identity of the process</param>
         /// <param name="userId">Identity of the user</param>
         /// <param name="companyId">Identity of the company where of the login</param>
@@ -172,9 +157,7 @@ namespace GisoFramework.Activity
             return InsertLogActivity(TargetType.Process, targetId, userId, companyId, (int)actionId, extraData);
         }
 
-        /// <summary>
-        /// Generate a trace from a learning action
-        /// </summary>
+        /// <summary>Generate a trace from a learning action</summary>
         /// <param name="targetId">Identity of the learning</param>
         /// <param name="userId">Identity of the user</param>
         /// <param name="companyId">Identity of the company where of the login</param>
@@ -186,9 +169,7 @@ namespace GisoFramework.Activity
             return InsertLogActivity(TargetType.Learning, targetId, userId, companyId, (int)actionId, extraData);
         }
 
-        /// <summary>
-        /// Generate a trace from a learning assistant action
-        /// </summary>
+        /// <summary>Generate a trace from a learning assistant action</summary>
         /// <param name="targetId">Identity of the learning assistant</param>
         /// <param name="userId">Identity of the user</param>
         /// <param name="companyId">Identity of the company where of the login</param>
@@ -200,9 +181,7 @@ namespace GisoFramework.Activity
             return InsertLogActivity(TargetType.Process, targetId, userId, companyId, (int)actionId, extraData);
         }
 
-        /// <summary>
-        /// Generate a trace from a user
-        /// </summary>
+        /// <summary>Generate a trace from a user</summary>
         /// <param name="targetId">Identity of the user</param>
         /// <param name="userId">Identity of the user where of the login</param>
         /// <param name="companyId">Identity of the company</param>
@@ -214,9 +193,7 @@ namespace GisoFramework.Activity
             return InsertLogActivity(TargetType.User, targetId, userId, companyId, actionId, extraData);
         }
 
-        /// <summary>
-        /// Generate a trace from security group
-        /// </summary>
+        /// <summary>Generate a trace from security group</summary>
         /// <param name="targetId">Identity of the security group</param>
         /// <param name="userId">Identity of the user</param>
         /// <param name="companyId">identity of the company</param>
@@ -228,9 +205,7 @@ namespace GisoFramework.Activity
             return InsertLogActivity(TargetType.SecurityGroup, targetId, userId, companyId, actionId, extraData);
         }
 
-        /// <summary>
-        /// Generate a trace from document Version
-        /// </summary>
+        /// <summary>Generate a trace from document Version</summary>
         /// <param name="targetId">Identity of the document Version</param>
         /// <param name="userId">Identity of the user</param>
         /// <param name="companyId">Identity of the company</param>
@@ -241,9 +216,7 @@ namespace GisoFramework.Activity
             return Document(targetId, userId, companyId, DocumentLogAction.Versioned, "Version:" + version.ToString(CultureInfo.InvariantCulture));
         }
 
-        /// <summary>
-        /// Generate a trace from document
-        /// </summary>
+        /// <summary>Generate a trace from document</summary>
         /// <param name="targetId">Identity of the document</param>
         /// <param name="userId">Identity of the user</param>
         /// <param name="companyId">Identity of the company</param>
@@ -255,9 +228,7 @@ namespace GisoFramework.Activity
             return InsertLogActivity(TargetType.Document, targetId, userId, companyId, (int)actionId, extraData);
         }
 
-        /// <summary>
-        /// Generate a trace from Departament
-        /// </summary>
+        /// <summary>Generate a trace from Departament</summary>
         /// <param name="targetId">Identity of the Departament</param>
         /// <param name="userId">Identity of the user</param>
         /// <param name="companyId">Identity of the company</param>
@@ -269,9 +240,7 @@ namespace GisoFramework.Activity
             return InsertLogActivity(TargetType.Department, targetId, userId, companyId, (int)actionId, extraData);
         }
 
-        /// <summary>
-        /// Generate a trace
-        /// </summary>
+        /// <summary>Generate a trace</summary>
         /// <param name="targetType">Identity of the update sumary</param>
         /// <param name="targetId">Identity of the insert log activity</param>
         /// <param name="userId">Identity of the user</param>
@@ -332,7 +301,7 @@ namespace GisoFramework.Activity
                 res.MessageError = "No valid item";
             }
 
-            using (SqlCommand cmd = new SqlCommand(storedProcedureName))
+            using (var cmd = new SqlCommand(storedProcedureName))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -367,9 +336,7 @@ namespace GisoFramework.Activity
             return res;
         }
 
-        /// <summary>
-        /// Generate a trace
-        /// </summary>
+        /// <summary>Generate a trace</summary>
         /// <param name="targetType">Identity of the update sumary</param>
         /// <param name="targetId">Identity of the insert log activity</param>
         /// <param name="userId">Identity of the user</param>
@@ -430,7 +397,7 @@ namespace GisoFramework.Activity
                 res.MessageError = "No valid item";
             }
 
-            using (SqlCommand cmd = new SqlCommand(storedProcedureName))
+            using (var cmd = new SqlCommand(storedProcedureName))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -465,9 +432,7 @@ namespace GisoFramework.Activity
             return res;
         }
 
-        /// <summary>
-        /// Generate a trace 
-        /// </summary>
+        /// <summary>Generate a trace</summary>
         /// <param name="itemId">identifier of item search, optional</param>
         /// <param name="targetType">type of item</param>
         /// <param name="companyId">Type of companyid</param>
@@ -526,9 +491,7 @@ namespace GisoFramework.Activity
             return new ReadOnlyCollection<ActivityTrace>(res);
         }
 
-        /// <summary>
-        /// Generate a trace 
-        /// </summary>
+        /// <summary>Generate a trace</summary>
         /// <param name="itemId">identifier of item search, optional</param>
         /// <param name="targetType">type of item</param>
         /// <param name="companyId">Type of companyid</param>
@@ -537,7 +500,7 @@ namespace GisoFramework.Activity
         /// <returns>Return a list of log activity matching filter conditions, ordered from most recent</returns>
         public static ReadOnlyCollection<ActivityTrace> GetActivity(long itemId, TargetType targetType, int companyId, DateTime? from, DateTime? to)
         {
-            List<ActivityTrace> res = new List<ActivityTrace>();
+            var res = new List<ActivityTrace>();
             /* ALTER PROCEDURE [dbo].[Get_Activity]
              * @CompanyId int,
              * @TargetType int,
@@ -545,36 +508,41 @@ namespace GisoFramework.Activity
              * @From date,
              * @To date */
 
-            using (SqlCommand cmd = new SqlCommand("Get_Activity"))
+            using (var cmd = new SqlCommand("Get_Activity"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                cmd.Parameters.Add(DataParameter.Input("@TargetType", (int)targetType));
-                cmd.Parameters.Add(DataParameter.Input("@ItemId", itemId));
-                cmd.Parameters.Add(DataParameter.Input("@From", from));
-                cmd.Parameters.Add(DataParameter.Input("@To", to));
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Parameters.Add(DataParameter.Input("@TargetType", (int)targetType));
+                    cmd.Parameters.Add(DataParameter.Input("@ItemId", itemId));
+                    cmd.Parameters.Add(DataParameter.Input("@From", from));
+                    cmd.Parameters.Add(DataParameter.Input("@To", to));
+                    try
                     {
-                        res.Add(new ActivityTrace()
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Date = rdr.GetDateTime(1),
-                            Target = rdr.GetString(4),
-                            Changes = rdr.GetString(6),
-                            ActionEmployee = rdr.GetString(7),
-                            Action = rdr.GetString(5)
-                        });
+                            while (rdr.Read())
+                            {
+                                res.Add(new ActivityTrace()
+                                {
+                                    Date = rdr.GetDateTime(1),
+                                    Target = rdr.GetString(4),
+                                    Changes = rdr.GetString(6),
+                                    ActionEmployee = rdr.GetString(7),
+                                    Action = rdr.GetString(5)
+                                });
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -582,9 +550,7 @@ namespace GisoFramework.Activity
             return new ReadOnlyCollection<ActivityTrace>(res);
         }
 
-        /// <summary>
-        /// Get all activity of company in the last 24 hours
-        /// </summary>
+        /// <summary>Get all activity of company in the last 24 hours</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>List of actions</returns>
         public static ReadOnlyCollection<ActivityTrace> GetActivity24H(int companyId)

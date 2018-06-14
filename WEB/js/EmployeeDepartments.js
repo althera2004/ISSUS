@@ -78,7 +78,7 @@ function CompanyDepartmentRow(department, target) {
         span3.onclick = function () { DepartmentDelete(this); };
     }
 
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span3);
     td2.appendChild(div);
 
@@ -89,7 +89,7 @@ function CompanyDepartmentRow(department, target) {
 
 function DepartmetIsSelected(departmentId) {
     for (var x = 0; x < departmentsEmployee.length; x++) {
-        if (departmentsEmployee[x].Id == departmentId) {
+        if (departmentsEmployee[x].Id === departmentId) {
             return true;
         }
     }

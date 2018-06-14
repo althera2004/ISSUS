@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
 
 namespace GisoFramework.Item.Binding
 {
+    /// <summary>Index columns of stored BusinessRiskFilterGet result</summary>
     public static class ColumnsBusinessRiskFilterGet
     {
         public const int BusinessRiskId = 0;

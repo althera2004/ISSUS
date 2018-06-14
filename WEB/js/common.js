@@ -836,8 +836,11 @@ function ParseInputValueToNumber(value, nullable) {
         return "";
     }
 
-    value = value.split(Dictionary.NumericMilesSeparator).join("");
-    value = value.split(Dictionary.NumericDecimalSeparator).join(".");
+    //value = value.split(Dictionary.NumericMilesSeparator).join("");
+    //value = value.split(Dictionary.NumericDecimalSeparator).join(".");
+
+    value = value.split(".").join("");
+    value = value.split(",").join(".");
     return value * 1;
 }
 
@@ -850,15 +853,39 @@ function Decimal2Integer(value) {
     return Math.floor(value);
 }
 
-function WarningEmployeeNoUserCheck(employeeId, employeesList) {
-console.log("WarningEmployeeNoUserCheck");
+var cmbEmployee = null;
+function WarningEmployeeNoUserCheck(employeeId, employeesList, cmbSender) {
+    if (employeeId < 1) {
+        return false;
+    }
+    cmbEmployee = cmbSender;
+    console.log("WarningEmployeeNoUserCheck");
     for (var x = 0; x < employeesList.length; x++) {
         if (employeesList[x].Id === employeeId) {
             if (employeesList[x].HasUserAssigned === false) {
                 WarningEmployeeNoUser();
+                return;
             }
+        }
+    }
 
-            break;
+    if (typeof EmployeesGrant !== "undefined" && EmployeesGrant !== null) {
+        var found = false;
+        for (var y = 0; y < EmployeesGrant.length; y++) {
+            if (EmployeesGrant[y] === employeeId) {
+                found = true;
+                break;
+            }
+        }
+
+        if (found === false) {
+            if (ApplicationUser.Admin === false) {
+                alertUI("El empleado no tiene permisos para esta acción. Consulte con el administrador");
+            }
+            else {
+
+                alertInfoNoGrantsUI("El empleado no tiene permisos para esta acción. Consulte con el administrador");
+            }
         }
     }
 }
@@ -877,4 +904,27 @@ function DatePickerChanged(sender) {
     var date = GetDate(sender.value, "/", false);
     value = FormatDate(date, "/")
     sender.value = value;
+}
+
+function EmployeeSetGrant(employeeId, itemId) {
+    //public ActionResult SetGrant(long employeeId, int companyId, int itemId, int applicationUserId)
+    var data = {
+        "employeeId": employeeId,
+        "itemId": itemId,
+        "companyId": Company.Id,
+        "applicationUserId": user.Id
+    };
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/EmployeeActions.asmx/SetGrant",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
 }

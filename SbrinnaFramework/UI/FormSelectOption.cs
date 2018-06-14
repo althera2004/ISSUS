@@ -6,6 +6,7 @@
 // --------------------------------
 namespace SbrinnaCoreFramework.UI
 {
+    using System.Collections.Generic;
     using System.Globalization;
 
     /// <summary>
@@ -16,6 +17,15 @@ namespace SbrinnaCoreFramework.UI
         public string Value { get; set; }
         public string Text { get; set; }
         public bool Selected { get; set; }
+
+        public static FormSelectOption DefaultOption(Dictionary<string, string> dictionary)
+        {
+            return new FormSelectOption
+            {
+                Text = dictionary["Common_SelectAll"],
+                Value = "0"
+            };
+        }
 
         public string Render
         {

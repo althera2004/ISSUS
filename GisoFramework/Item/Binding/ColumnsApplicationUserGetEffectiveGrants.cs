@@ -1,13 +1,11 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ColumnsApplicationUserGetEffectiveGrants.cs" company="Sbrinna">
-// TODO: Update copyright text.
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item.Binding
 {
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary>Index of columns of ApplicationUserGetEffectiveGrants result rows</summary>
     public static class ColumnsApplicationUserGetEffectiveGrants
     {
         public const int ItemId = 0;

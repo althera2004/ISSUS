@@ -26,7 +26,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new Customer()
+                return new Customer
                 {
                     Id = 0,
                     Description = string.Empty,
@@ -46,7 +46,7 @@ namespace GisoFramework.Item
                     description = string.Empty;
                 }
 
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0},""Description"":""{1}""}}", this.Id, description.Replace("\"", "\\\""));
+                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0},""Description"":""{1}""}}", this.Id, description.Replace("\"", "\\\""));
             }
         }
 
@@ -98,7 +98,7 @@ namespace GisoFramework.Item
             return string.Empty;
         }*/
 
-        public static ReadOnlyCollection<Customer> GetByCompany(int companyId)
+        public static ReadOnlyCollection<Customer> ByCompany(int companyId)
         {
             /* CREATE PROCEDURE Customer_GetByCompany
              *   @CompanyId int */
@@ -128,13 +128,13 @@ namespace GisoFramework.Item
                                     deletable = false;
                                 }
 
-                                res.Add(new Customer()
+                                res.Add(new Customer
                                 {
                                     Id = rdr.GetInt64(ColumnsCustomerGetByCompany.Id),
                                     CompanyId = rdr.GetInt32(ColumnsCustomerGetByCompany.CompanyId),
                                     Description = rdr.GetString(ColumnsCustomerGetByCompany.Description),
                                     Active = rdr.GetBoolean(ColumnsCustomerGetByCompany.Active),
-                                    ModifiedBy = new ApplicationUser()
+                                    ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsCustomerGetBy.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsCustomerGetByCompany.ModifiedByUserName)
@@ -158,11 +158,11 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Customer>(res);
         }
 
-        public static string GetByCompanyJson(int companyId)
+        public static string ByCompanyJson(int companyId)
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (var customer in GetByCompany(companyId))
+            foreach (var customer in ByCompany(companyId))
             {
                 if (customer.Active)
                 {
@@ -183,7 +183,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static Customer GetById(long id, int companyId)
+        public static Customer ById(long id, int companyId)
         {
             var res = new Customer();
             using (var cmd = new SqlCommand("Customer_GetById"))
@@ -202,13 +202,13 @@ namespace GisoFramework.Item
                             if (rdr.HasRows)
                             {
                                 rdr.Read();
-                                res = new Customer()
+                                res = new Customer
                                 {
                                     Id = rdr.GetInt64(ColumnsCustomerGetBy.Id),
                                     CompanyId = rdr.GetInt32(ColumnsCustomerGetBy.CompanyId),
                                     Description = rdr.GetString(ColumnsCustomerGetBy.Description),
                                     Active = rdr.GetBoolean(ColumnsCustomerGetBy.Active),
-                                    ModifiedBy = new ApplicationUser()
+                                    ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsCustomerGetBy.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsCustomerGetBy.ModifiedByUserName)
@@ -216,7 +216,7 @@ namespace GisoFramework.Item
                                     ModifiedOn = rdr.GetDateTime(ColumnsCustomerGetBy.ModifiedOn)
                                 };
 
-                                res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                                res.ModifiedBy.Employee = Employee.ByUserId(res.ModifiedBy.Id);
                             }
                         }
                     }
@@ -251,10 +251,10 @@ namespace GisoFramework.Item
             var iconDelete = string.Empty;
             if (grantDelete)
             {
-                var deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "CustomerDelete({0},'{1}');", this.Id, this.Description);
+                var deleteFunction = string.Format(CultureInfo.InvariantCulture, "CustomerDelete({0},'{1}');", this.Id, this.Description);
                 if (!this.CanBeDeleted)
                 {
-                    deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "warningInfoUI('{0}', null, 400);", dictionary["Common_Warning_Undelete"]);
+                    deleteFunction = string.Format(CultureInfo.InvariantCulture, "warningInfoUI('{0}', null, 400);", dictionary["Common_Warning_Undelete"]);
                 }
 
                 iconDelete = string.Format(
@@ -263,7 +263,6 @@ namespace GisoFramework.Item
                     deleteFunction,
                     Tools.LiteralQuote(Tools.JsonCompliant(this.Description)),
                     Tools.JsonCompliant(dictionary["Common_Delete"]));
-
             }
 
             var iconEdit = string.Format(
@@ -283,7 +282,7 @@ namespace GisoFramework.Item
                 this.Description);
             }
 
-            string pattern = @"<tr><td>{0}</td><td style=""width:89px;"">{1}&nbsp;{2}</td></tr>";
+            string pattern = @"<tr><td>{0}</td><td style=""width:90px;"">{1}&nbsp;{2}</td></tr>";
             return string.Format(
                 CultureInfo.InvariantCulture,
                 pattern,
@@ -310,17 +309,17 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
-                        this.Id = Convert.ToInt32(cmd.Parameters["@CustomerId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        this.Id = Convert.ToInt32(cmd.Parameters["@CustomerId"].Value, CultureInfo.InvariantCulture);
                         result.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
                     }
                     catch (SqlException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Customer::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Customer::Insert", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, "Customer::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Customer::Insert", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
                     }
                     finally
                     {
@@ -358,11 +357,11 @@ namespace GisoFramework.Item
                     catch (SqlException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Customer::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Customer::Update", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, "Customer::Update", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Customer::Update", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
                     }
                     finally
                     {
@@ -399,11 +398,11 @@ namespace GisoFramework.Item
                     catch (SqlException ex)
                     {
                         result.SetFail(ex);
-                        ExceptionManager.Trace(ex, "Customer::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Customer::Delete", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, "Customer::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                        ExceptionManager.Trace(ex, "Customer::Delete", string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description));
                     }
                     finally
                     {

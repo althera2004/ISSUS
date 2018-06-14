@@ -41,16 +41,6 @@ namespace GisoFramework.UserInterface
                 return new ReadOnlyCollection<ApplicationItem>(this.children);
             }
         }  
-        
-        public void AddChild(ApplicationItem item)
-        {
-            if (this.children == null)
-            {
-                this.children = new List<ApplicationItem>();
-            }
-
-            this.children.Add(item);
-        }
  
         /// <summary>Render the HTML code for an menu option</summary>
         /// <param name="options">Menu options</param>
@@ -65,7 +55,10 @@ namespace GisoFramework.UserInterface
             var res = new StringBuilder();
             foreach (var option in options)
             {
-                res.Append(option.Render());
+                if (option.Item.Id != 1)
+                {
+                    res.Append(option.Render());
+                }
             }
 
             return res.ToString();
@@ -96,7 +89,7 @@ namespace GisoFramework.UserInterface
                         {
                             while (rdr.Read())
                             {
-                                var item = new ApplicationItem()
+                                var item = new ApplicationItem
                                 {
                                     Id = rdr.GetInt32(ColumnsApplicationGetMenu.ItemId),
                                     Icon = rdr.GetString(ColumnsApplicationGetMenu.Icon),
@@ -107,7 +100,7 @@ namespace GisoFramework.UserInterface
 
                                 if (!item.Container)
                                 {
-                                    item.UserGrant = new UserGrant()
+                                    item.UserGrant = new UserGrant
                                     {
                                         Item = ApplicationGrant.FromInteger(rdr.GetInt32(ColumnsApplicationGetMenu.ItemId)),
                                         UserId = applicationUserId,
@@ -126,10 +119,14 @@ namespace GisoFramework.UserInterface
                                         temp += "/";
                                     }
 
-                                    item.Url = new Uri(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}{1}", temp, url));
+                                    item.Url = new Uri(string.Format(
+                                        CultureInfo.InvariantCulture,
+                                        "{0}{1}",
+                                        temp,
+                                        url));
                                 }
 
-                                var option = new MenuOption()
+                                var option = new MenuOption
                                 {
                                     Item = item,
                                     children = new List<ApplicationItem>()
@@ -141,7 +138,7 @@ namespace GisoFramework.UserInterface
                                 }
                                 else
                                 {
-                                    foreach (MenuOption options in res)
+                                    foreach (var options in res)
                                     {
                                         if (options.Item.Id == item.Parent)
                                         {
@@ -161,14 +158,14 @@ namespace GisoFramework.UserInterface
                             }
 
                             var config = res.First(o => o.Item.Description == "Common_Configuration");
-                            config.AddChild(new ApplicationItem()
+                            config.AddChild(new ApplicationItem
                             {
                                 Id = 0,
                                 Description = "Item_Backup",
                                 Icon = "icon-gear",
                                 Container = false,
                                 Parent = 0,
-                                Url = new Uri(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}BackUp.aspx", temp))
+                                Url = new Uri(string.Format(CultureInfo.InvariantCulture, "{0}BackUp.aspx", temp))
                             });
                         }
                     }
@@ -186,7 +183,19 @@ namespace GisoFramework.UserInterface
 
             return new ReadOnlyCollection<MenuOption>(res);
         }
- 
+
+        /// <summary>Add child to menu</summary>
+        /// <param name="item">Application item for menu option</param>
+        public void AddChild(ApplicationItem item)
+        {
+            if (this.children == null)
+            {
+                this.children = new List<ApplicationItem>();
+            }
+
+            this.children.Add(item);
+        }
+
         /// <summary>Render the HTML code for a menu</summary>
         /// <returns>HTML code for a menu</returns>
         public string Render()
@@ -204,9 +213,7 @@ namespace GisoFramework.UserInterface
             return string.Empty;
         }
 
-        /// <summary>
-        /// Render the HTML code for a menu container
-        /// </summary>
+        /// <summary>Render the HTML code for a menu container</summary>
         /// <returns>HTML code for a menu container</returns>
         public string RenderContainer()
         {
@@ -250,9 +257,7 @@ namespace GisoFramework.UserInterface
                 selected ? "block" : "none");
         }
 
-        /// <summary>
-        /// Render the HTML code for the level 0 of menu
-        /// </summary>
+        /// <summary>Render the HTML code for the level 0 of menu</summary>
         /// <returns>HTML code for a menu</returns>
         public string RenderLevel0()
         {
@@ -278,7 +283,7 @@ namespace GisoFramework.UserInterface
                 CultureInfo.GetCultureInfo("en-us"),
                 @"<li {2} id=""menuoption-{4}""><a href=""{1}""><i class=""{3}""></i><span class=""menu-text""> {0} </span></a></li>",
                 dictionary[this.Item.Description],
-                this.Item.Url.AbsolutePath,
+                this.Item.Url.AbsolutePath ?? "/",
                 currentText,
                 this.Item.Icon,
                 this.Item.Id);

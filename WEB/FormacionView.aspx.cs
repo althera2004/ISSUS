@@ -33,9 +33,7 @@ public partial class FormacionView : Page
 
     private FormFooter formFooter;
     
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -149,7 +147,7 @@ public partial class FormacionView : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
@@ -159,17 +157,17 @@ public partial class FormacionView : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
-                this.Response.Redirect("NoAccesible.aspx", true);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -200,7 +198,7 @@ public partial class FormacionView : Page
             this.learning = new Learning(this.learningId, this.company.Id);
             if (this.learning.CompanyId != this.company.Id)
             {
-                this.Response.Redirect("NoAccesible.aspx", false);
+                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
                 this.learning = Learning.Empty;
             }
@@ -216,7 +214,6 @@ public partial class FormacionView : Page
             this.learning = Learning.Empty;
         }
 
-
         string label =  string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Learning"], this.learning.Description);
         if (this.learningId == -1)
         {
@@ -226,7 +223,7 @@ public partial class FormacionView : Page
         this.master = this.Master as Giso;
         this.master.TitleInvariant = this.learningId != -1;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Learnings", "FormacionList.aspx", false);
+        this.master.AddBreadCrumb("Item_Learnings", "FormacionList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_Learning_Edit");
         this.master.Titulo = label;
 
@@ -234,7 +231,7 @@ public partial class FormacionView : Page
         jsonAssistance = new StringBuilder("[");
         this.assistans = new StringBuilder();
         bool first = true;
-        foreach (LearningAssistance assistance in this.learning.Assistance)
+        foreach (var assistance in this.learning.Assistance)
         {
             if (first)
             {
@@ -268,7 +265,6 @@ public partial class FormacionView : Page
                 }
 
             this.LtYearPrevistos.Text += string.Format(@"<option value=""{0}""{1}>{0}</option>", x, selected);
-
         }
     }
     
@@ -282,7 +278,7 @@ public partial class FormacionView : Page
         var resList = new StringBuilder();
         int contCells = 0;
         var extensions = ToolsFile.ExtensionToShow;
-        foreach (UploadFile file in files)
+        foreach (var file in files)
         {
             decimal finalSize = ToolsFile.FormatSize((decimal)file.Size);
             string fileShowed = string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description;

@@ -53,12 +53,12 @@
                                             </td>                                       
                                             <td>
                                                 <div class="row">
-                                                    <input type="radio" name="RBStatus" id="RBStatus0" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Common_All"] %>
-                                                    &nbsp;&nbsp;
                                                     <input type="radio" name="RBStatus" id="RBStatus1" onclick="RenderTable();" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowActive"] %>
                                                     &nbsp;&nbsp;
                                                     <input type="radio" name="RBStatus" id="RBStatus2" onclick="RenderTable();" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowClosed"] %>
-                                                </div>
+													&nbsp;&nbsp;
+													<input type="radio" name="RBStatus" id="RBStatus0" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Common_All"] %>
+												</div>
                                             </td>
                                         </tr>
                                     </table>
@@ -72,7 +72,7 @@
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
 														<th onclick="Sort(this,'ListDataTable');" id="th0" class="search hidden-40 sort"><%=this.Dictionary["Item_Equipment_Header_Code"] %> - <%=this.Dictionary["Item_Equipment_Header_Description"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable');" id="th1" class="search hidden-480 sort" style="width:250px;"><%=this.Dictionary["Item_Equipment_Header_Location"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable');" id="th1" class="search hidden-480 sort" style="width:350px;"><%=this.Dictionary["Item_Equipment_Header_Location"] %></th>
 			                                            <th onclick="Sort(this,'ListDataTable');" id="th2" class="search hidden-480 sort" style="width:250px;"><%=this.Dictionary["Item_Equipment_Header_Responsible"] %></th>
 			                                            <th onclick="Sort(this,'ListDataTable', 'money');" id="th3" class="search hidden-480 sort" style="width:120px;"><%=this.Dictionary["Item_Equipment_Header_Cost"] %></th>
 			                                            <th style="width:35px;"></th>

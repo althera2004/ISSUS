@@ -11,15 +11,13 @@ using System.Web.Services;
 using GisoFramework.Item;
 using GisoFramework.Activity;
 
-/// <summary>
-/// Summary description for DeparmentActions
-/// </summary>
+/// <summary>Summary description for DeparmentActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
 public class DepartmentActions : WebService
 {
-    public DepartmentActions () 
+    public DepartmentActions()
     {
     }
 
@@ -27,7 +25,7 @@ public class DepartmentActions : WebService
     [ScriptMethod]
     public ActionResult DepartmentDelete(int companyId, int departmentId)
     {
-        ActionResult res = Department.Delete(companyId, departmentId);
+        var res = Department.Delete(companyId, departmentId);
         if (res.Success)
         {
             Session["Company"] = new Company(companyId);
@@ -39,9 +37,9 @@ public class DepartmentActions : WebService
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
     public ActionResult DepartmentUpdate(int companyId, int departmentId, string name, int userId)
-    {        
-        Department department = new Department() { Id = departmentId, CompanyId = companyId, Description = name };
-        ActionResult res = department.Update(userId);
+    {
+        var department = new Department { Id = departmentId, CompanyId = companyId, Description = name };
+        var res = department.Update(userId);
         if (res.Success)
         {
             string differences = department.Differences(Department.Empty);
@@ -56,12 +54,12 @@ public class DepartmentActions : WebService
     [ScriptMethod]
     public ActionResult DepartmentInsert(int companyId, string name, int userId)
     {
-        Department department = new Department() { Id = -1, CompanyId = companyId, Description = name };
-        ActionResult res = department.Insert(userId);
+        var department = new Department() { Id = -1, CompanyId = companyId, Description = name };
+        var res = department.Insert(userId);
         if (res.Success)
         {
             string differences = department.Differences(Department.Empty);
-            ActionResult logRes = ActivityLog.Department(Convert.ToInt64(res.MessageError), userId, companyId, DepartmentLogActions.Create, differences);
+            var logRes = ActivityLog.Department(Convert.ToInt64(res.MessageError), userId, companyId, DepartmentLogActions.Create, differences);
             Session["Company"] = new Company(companyId);
         }
 
@@ -72,7 +70,7 @@ public class DepartmentActions : WebService
     [ScriptMethod]
     public ActionResult DepartmentDelete(int departmentId, int companyId, int userId)
     {
-        ActionResult res = Department.Delete(departmentId, string.Empty, companyId, userId);
+        var res = Department.Delete(departmentId, string.Empty, companyId, userId);
         if (res.Success)
         {
             Session["Company"] = new Company(companyId);

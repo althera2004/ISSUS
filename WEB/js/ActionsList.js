@@ -1,14 +1,15 @@
 ﻿var lockOrderList = false;
+var listOrder = "th2|DESC";
 
 function IncidentActionGetFilter(exportType) {
-    document.getElementById("nav-search-input").value = "";
     var ok = true;
-    document.getElementById("ListDataTable").style.display = "none";
-    document.getElementById("ItemTableError").style.display = "none";
-    document.getElementById("ItemTableVoid").style.display = "none";
-    document.getElementById("ErrorDate").style.display = "none";
-    document.getElementById("ErrorStatus").style.display = "none";
-    document.getElementById("ErrorType").style.display = "none";
+    $("#nav-search-input").val();
+    $("#ListDataTable").hide();
+    $("#ItemTableError").hide();
+    $("#ItemTableVoid").hide();
+    $("#ErrorDate").hide();
+    $("#rrorStatus").hide();
+    $("#ErrorType").hide();
     var from = GetDate($("#TxtDateFrom").val(), "-");
     var to = GetDate($("#TxtDateTo").val(), "-");
 
@@ -24,23 +25,22 @@ function IncidentActionGetFilter(exportType) {
     if (from !== null && to !== null) {
         if (from > to) {
             ok = false;
-            document.getElementById("ErrorDate").style.display = "";
+            $("#ErrorDate").show();
         }
     }
 
     if (!status1 && !status2 && !status3 && !status4) {
         ok = false;
-        document.getElementById("ErrorStatus").style.display = "";
+        $("#ErrorStatus").show();
     }
 
     if (!type1 && !type2 && !type3) {
         ok = false;
-        document.getElementById("ErrorType").style.display = "";
+        $("#ErrorType").show();
     }
 
-
     if (ok === false) {
-        document.getElementById("ItemTableError").style.display = "";
+        $("#ItemTableError").show();
         return false;
     }
 
@@ -61,21 +61,21 @@ function IncidentActionGetFilter(exportType) {
     };
 
     $.ajax({
-        type: "POST",
-        url: "/Async/IncidentActionsActions.asmx/GetFilter",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/IncidentActionsActions.asmx/GetFilter",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             eval("IncidentActionlist=" + msg.d + ";");
             ItemRenderTable(IncidentActionlist);
-            if (exportType !== "undefined") {
+            if (exportType !== "undefined" && exportType !== null) {
                 if (exportType === "PDF") {
                     ExportPDF();
                 }
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
@@ -88,7 +88,7 @@ function ItemRenderTable(list) {
     target.style.display = "";
 
     if (list.length === 0) {
-        document.getElementById("ItemTableVoid").style.display = "";
+        $("#ItemTableVoid").show();
         $("#NumberCosts").html("0");
         target.style.display = "none";
         return false;
@@ -106,7 +106,7 @@ function ItemRenderTable(list) {
         var tdOrigin = document.createElement("TD");
         var tdDescription = document.createElement("TD");
         var tdAction = document.createElement("TD");
-        var tdClose = document.createElement("TD");
+        var tdAmount = document.createElement("TD");
 
         total += list[x].Amount;
 
@@ -133,7 +133,6 @@ function ItemRenderTable(list) {
             spantext.style.display = "none";
             spantext.appendChild(document.createTextNode(item.Associated.Description));
             origin.appendChild(spantext);
-            //origin.title = Dictionary.Item_IncidentAction_Origin3 + " \"" + item.Associated.Description + "\"";
 			origin.title = item.Associated.Description;
         }
 
@@ -141,12 +140,33 @@ function ItemRenderTable(list) {
             origin = document.createElement("A");
             origin.href = "BusinessRiskView.aspx?id=" + item.Associated.Id;
             origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin4));
-            var spantext2 = document.createElement("span");
-            spantext2.style.display = "none";
-            spantext2.appendChild(document.createTextNode(item.Associated.Description));
-            origin.appendChild(spantext2);
-            //origin.title = Dictionary.Item_IncidentAction_Origin4 + " \"" + item.Associated.Description + "\"";
+            var businessRiskName = document.createElement("SPAN");
+            businessRiskName.style.display = "none";
+            businessRiskName.appendChild(document.createTextNode(item.Associated.Description));
+            origin.appendChild(businessRiskName);
 			origin.title = item.Associated.Description;
+        }
+
+        if (item.Origin === 5) {
+            origin = document.createElement("A");
+            origin.href = "ObjetivoView.aspx?id=" + item.Associated.Id;
+            origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin5));
+            var objetivoName = document.createElement("SPAN");
+            objetivoName.style.display = "none";
+            objetivoName.appendChild(document.createTextNode(item.Associated.Description));
+            origin.appendChild(objetivoName);
+            origin.title = item.Associated.Description;
+        }
+
+        if (item.Origin === 6) {
+            origin = document.createElement("A");
+            origin.href = "OportunityView.aspx?id=" + item.Associated.Id;
+            origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin6));
+            var oportunityName = document.createElement("SPAN");
+            oportunityName.style.display = "none";
+            oportunityName.appendChild(document.createTextNode(item.Associated.Description));
+            origin.appendChild(oportunityName);
+            origin.title = item.Associated.Description;
         }
 
         var actionLink = document.createElement("A");
@@ -155,8 +175,7 @@ function ItemRenderTable(list) {
 
         row.id = item.Id;
 
-        //<i class="fa fa-pie-chart"></i>
-        var iconStatus = document.createElement('I');
+        var iconStatus = document.createElement("I");
 		if (item.Status === 1) {
             iconStatus.className = "fa icon-pie-chart";
 			iconStatus.title = Dictionary.Item_IndicentAction_Status1;
@@ -180,40 +199,34 @@ function ItemRenderTable(list) {
         tdOpen.appendChild(document.createTextNode(FormatYYYYMMDD(item.OpenDate, "/")));
         tdType.appendChild(document.createTextNode(type));
         tdStatus.appendChild(iconStatus);
-        //tdStatus.appendChild(document.createTextNode(" " + status));
         tdOrigin.appendChild(origin);
-
 
         var actionLinkDescription = document.createElement("A");
         actionLinkDescription.appendChild(document.createTextNode(item.Description));
         actionLinkDescription.href = "ActionView.aspx?id=" + item.Id;
         tdDescription.appendChild(actionLinkDescription);
 
-
         tdAction.appendChild(document.createTextNode(FormatYYYYMMDD(item.ImplementationDate, "/")));
-        tdClose.appendChild(document.createTextNode(FormatYYYYMMDD(item.CloseDate, "/")));
+        tdAmount.appendChild(document.createTextNode(ToMoneyFormat(item.Amount, 2)));
 
-        //tdDescription.style.width = "200px";
         tdType.style.width = "100px";
 		tdOpen.style.width = "100px";
 		tdOpen.align = "center";
 		tdStatus.style.width = "60px";
 		tdStatus.align = "center";
-        tdOrigin.style.width = "150px";
+        tdOrigin.style.width = "250px";
         tdAction.style.width = "100px";
 		tdAction.align = "center";
-        tdClose.style.width = "100px";
-        tdClose.align = "center";
-		
-
-        //row.appendChild(tdNumber);
+        tdAmount.style.width = "100px";
+        tdAmount.align = "right";
+        
         row.appendChild(tdDescription);
-        row.appendChild(tdType);
         row.appendChild(tdOpen);
         row.appendChild(tdStatus);
         row.appendChild(tdOrigin);
+        row.appendChild(tdType);
         row.appendChild(tdAction);
-        row.appendChild(tdClose);
+        row.appendChild(tdAmount);
 
         var iconEdit = document.createElement("SPAN");
         iconEdit.className = "btn btn-xs btn-info";
@@ -237,11 +250,16 @@ function ItemRenderTable(list) {
             else if (item.Origin === 4) {
                 iconDelete.onclick = function () { NoDeleteBusinessRisk(); };
             }
+            else if (item.Origin === 5) {
+                iconDelete.onclick = function () { NoDeleteObjetive(); };
+            }
+            else if (item.Origin === 6) {
+                iconDelete.onclick = function () { NoDeleteOportunity(); };
+            }
             else {
                 iconDelete.onclick = function () { IncidentActionDelete(this); };
             }
         }
-
 
         var tdActions = document.createElement("TD");
         tdActions.style.width = "90px";
@@ -251,6 +269,7 @@ function ItemRenderTable(list) {
             tdActions.appendChild(document.createTextNode(' '));
             tdActions.appendChild(iconDelete);
         }
+
         row.appendChild(tdActions);
 
         target.appendChild(row);
@@ -265,10 +284,10 @@ function ItemRenderTable(list) {
     }
 
     if (items.length === 0) {
-        document.getElementById("nav-search").style.display = "none";
+        $("#nav-search").hide();
     }
     else {
-        document.getElementById("nav-search").style.display = "";
+        $("#nav-search").show();
 
         items.sort(function (a, b) {
             if (a < b) return -1;
@@ -301,28 +320,29 @@ function ItemRenderTable(list) {
 }
 
 function IncidentActionDelete(sender) {
-    IncidentActionSelectedId = sender.parentNode.parentNode.id;
+    IncidentActionSelectedId = sender.parentNode.parentNode.id * 1;
     IncidentActionSelected = IncidentActiongetById(IncidentActionSelectedId);
+    console.log("IncidentActionDelete", IncidentActionSelectedId);
     if (IncidentActionSelected === null) { return false; }
-    $('#IncidentActionDeleteName').html(IncidentActionSelected.Description);
-    var dialog = $("#IncidentActionDeleteDialog").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons:
+    $("#IncidentActionDeleteName").html(IncidentActionSelected.Description);
+    var dialog = $("#IncidentActionDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     IncidentActionDeleteConfirmed();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -331,20 +351,23 @@ function IncidentActionDelete(sender) {
 }
 
 function IncidentActionDeleteConfirmed() {
-    var webMethod = "/Async/IncidentActionsActions.asmx/Delete";
-    var data = { incidentActionId: IncidentActionSelectedId, companyId: Company.Id, userId: user.Id };
+    var data = {
+        "incidentActionId": IncidentActionSelectedId,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
     $("#IncidentActionDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/IncidentActionsActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             IncidentActionGetFilter();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -364,6 +387,14 @@ function NoDeleteBusinessRisk() {
     alertInfoUI(Dictionary.Item_IncidentAction_ErrorMessage_NoDeleteBusinessRisk, null);
 }
 
+function NoDeleteObjetive() {
+    alertInfoUI(Dictionary.Item_IncidentAction_ErrorMessage_NoDeleteObjetive, null);
+}
+
+function NoDeleteOportunity() {
+    alertInfoUI(Dictionary.Item_IncidentAction_ErrorMessage_NoDeleteOportunity, null);
+}
+
 function NoDeleteIncident() {
     alertInfoUI(Dictionary.Item_IncidentAction_ErrorMessage_NoDeleteIncident, null);
 }
@@ -371,14 +402,26 @@ function NoDeleteIncident() {
 $("#nav-search").hide();
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 450).toString() + "px";
+    $("#ListDataDiv").height(containerHeight - 450);
 }
 
 window.onload = function () {
+    $("#th2").click();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
     Resize();
+
+    $("#chkStatus1").on("click", IncidentActionGetFilter);
+    $("#chkStatus2").on("click", IncidentActionGetFilter);
+    $("#chkStatus3").on("click", IncidentActionGetFilter);
+    $("#chkStatus4").on("click", IncidentActionGetFilter);
+    $("#CmbOrigin").on("click", IncidentActionGetFilter);
+    $("#CmbReporter").on("click", IncidentActionGetFilter);
+    $("#RType1").on("click", IncidentActionGetFilter);
+    $("#RType2").on("click", IncidentActionGetFilter);
+    $("#Rtype3").on("click", IncidentActionGetFilter);
+    $("#TxtDateFrom").on("change", IncidentActionGetFilter);
+    $("#TxtDateTo").on("change", IncidentActionGetFilter);
 };
 
 window.onresize = function () { Resize(); };
@@ -418,17 +461,15 @@ function ExportPDF() {
         "listOrder": listOrder
     };
 
-    var webMethod = "/Export/IncidentActionExportList.aspx/PDF";
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Export/IncidentActionExportList.aspx/PDF",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
-            //successInfoUI(msg.d.MessageError, Go, 200);
             var link = document.createElement("a");
             link.id = "download";
             link.href = msg.d.MessageError;
@@ -440,7 +481,7 @@ function ExportPDF() {
             window.open(msg.d.MessageError);
             $("#dialogAddAddress").dialog("close");
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI("error:" + msg.responseText);
         }

@@ -5,7 +5,15 @@ function LearningUpdate(id) {
 }
 
 function LearningDeleteDisabled() {
-    alert(Dictionary.Common_ErrorMessage_CanNotDelete);
+    alertUI(Dictionary.Common_ErrorMessage_CanNotDelete);
+}
+
+function LearningDeleteDisabled1() {
+    alertUI(Dictionary.Item_Learning_ErrorMessage_NoDeleteFinished);
+}
+
+function LearningDeleteDisabled2() {
+    alertUI(Dictionary.Item_Learning_ErrorMessage_NoDeleteEvaluated);
 }
 
 function selectRow(sender) {
@@ -59,7 +67,6 @@ function LearningDelete(id, description) {
                 "class": "btn btn-danger btn-xs",
                 "click": function () {
                     var ok = true;
-                    //if(!RequiredFieldText('TxtNewReason')) { ok = false; }
                     if (ok === false) {
                         window.scrollTo(0, 0);
                         return false;
@@ -83,7 +90,6 @@ function LearningDelete(id, description) {
 }
 
 function LearningDeleteConfirmed(id) {
-    var webMethod = "/Async/LearningActions.asmx/Delete";
     var data = {
         "learningId": id,
         "companyId": Company.Id,
@@ -93,7 +99,7 @@ function LearningDeleteConfirmed(id) {
 
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/LearningActions.asmx/Delete",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
@@ -106,7 +112,7 @@ function LearningDeleteConfirmed(id) {
             }
         },
         "error": function (jqXHR, textStatus, errorThrown) {
-            alert(jqXHR.responseText);
+            alertUI(jqXHR.responseText);
         }
     });
 }
@@ -148,7 +154,7 @@ jQuery(function ($) {
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+                alertUI(jqXHR.responseText);
             }
         });
     });
@@ -175,8 +181,8 @@ jQuery(function ($) {
                     alertUI(response.d.MessageError);
                 }
             },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+            "error": function (jqXHR, textStatus, errorThrown) {
+                alertUI(jqXHR.responseText);
             }
         });
     });
@@ -202,8 +208,8 @@ jQuery(function ($) {
                     alertUI(response.d.MessageError);
                 }
             },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert(jqXHR.responseText);
+            "error": function (jqXHR, textStatus, errorThrown) {
+                alertUI(jqXHR.responseText);
             }
         });
     });
@@ -274,7 +280,13 @@ window.onload = function () {
 	$("#TxtDateTo").val(dateTo);
 	
 	$("#TxtDateFrom").on("change", DateChange);
-	$("#TxtDateTo").on("change", DateChange);
+    $("#TxtDateTo").on("change", DateChange);
+
+    Resize();
+};
+
+window.onresize = function () {
+    Resize();
 };
 
 function DateChange(){
@@ -297,6 +309,13 @@ function DateChange(){
 			ok = false;
 		}
 	}
-	
-	Go();
+
+    if (ok === true) {
+        Go();
+    }
+}
+
+function Resize() {
+    var containerHeight = $(window).height();
+    $("#ListDataDiv").height((containerHeight - 410) + "px");
 }

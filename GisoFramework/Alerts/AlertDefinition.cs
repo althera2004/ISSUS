@@ -25,9 +25,7 @@ namespace GisoFramework.Alerts
         [JsonProperty("CompanyId")]
         public int CompanyId { get; set; }
 
-        /// <summary>
-        /// Gets or sets de item type
-        /// </summary>
+        /// <summary>Gets or sets de item type</summary>
         [JsonProperty("ItemType")]
         public int ItemType { get; set; }
 
@@ -60,7 +58,7 @@ namespace GisoFramework.Alerts
         /// <returns>Alert definition structure</returns>
         public static ReadOnlyCollection<AlertDefinition> GetFromDisk(Dictionary<string, string> dictionary)
         {
-            int companyId = Convert.ToInt32(HttpContext.Current.Session["CompanyId"], CultureInfo.GetCultureInfo("en-us"));
+            int companyId = Convert.ToInt32(HttpContext.Current.Session["CompanyId"], CultureInfo.InvariantCulture);
             var res = new List<AlertDefinition>();
             string path = HttpContext.Current.Request.PhysicalApplicationPath + "Alerts";
             if (!path.EndsWith(@"\", StringComparison.Ordinal))
@@ -133,7 +131,7 @@ namespace GisoFramework.Alerts
                 columns.Add(position.FieldName);
             }
 
-            using (SqlCommand cmd = new SqlCommand(this.Query))
+            using (var cmd = new SqlCommand(this.Query))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {

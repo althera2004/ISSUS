@@ -10,9 +10,7 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for LearningActions
-/// </summary>
+/// <summary>Summary description for LearningActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
@@ -25,6 +23,7 @@ public class LearningActions : WebService {
         public int EmployeeId { get; set; }
     }
 
+    /// <summary>Initializes a new instance of the LearningActions class</summary>
     public LearningActions ()
     {
     }
@@ -33,7 +32,7 @@ public class LearningActions : WebService {
     [ScriptMethod]
     public ActionResult Insert(Learning oldLearning, Learning newLearning, AssistantData[] newAssistants, int userId, int companyId)
     {
-        ActionResult res = ActionResult.NoAction;
+        var res = ActionResult.NoAction;
         string extradata = Learning.Differences(oldLearning, newLearning);
         if (!string.IsNullOrEmpty(extradata))
         {
@@ -49,14 +48,14 @@ public class LearningActions : WebService {
                 ActivityLog.Learning(newLearning.Id, userId, companyId, LearningLogActions.Create, extradata);
             }
 
-            foreach (AssistantData assistant in newAssistants)
+            foreach (var assistant in newAssistants)
             {
-                Assistant newAssistant = new Assistant()
+                var newAssistant = new Assistant
                 {
                     CompanyId = companyId,
                     Completed = null,
                     Success = null,
-                    Learning = new Learning() { Id = newLearning.Id },
+                    Learning = new Learning { Id = newLearning.Id },
                     Employee = new Employee(assistant.EmployeeId, true)
                 };
 
@@ -78,7 +77,7 @@ public class LearningActions : WebService {
     [ScriptMethod]
     public ActionResult Update(Learning oldLearning, Learning newLearning, int[] newAssistants, int userId, int companyId)
     {
-        ActionResult res = ActionResult.NoAction;
+        var res = ActionResult.NoAction;
         string extradata = Learning.Differences(oldLearning, newLearning);
         if (!string.IsNullOrEmpty(extradata))
         {
@@ -92,12 +91,12 @@ public class LearningActions : WebService {
 
         foreach (int assistantId in newAssistants)
         {
-            Assistant newAssistant = new Assistant()
+            var newAssistant = new Assistant
             {
                 CompanyId = companyId,
                 Completed = null,
                 Success = null,
-                Learning = new Learning() { Id = newLearning.Id },
+                Learning = new Learning { Id = newLearning.Id },
                 Employee = new Employee(assistantId, true)
             };
 
@@ -124,14 +123,12 @@ public class LearningActions : WebService {
     [ScriptMethod]
     public ActionResult InsertAssistant(int employeeId, int learningId, int companyId, int userId)
     {
-        Assistant newAssistant = new Assistant()
+        return new Assistant
         {
             CompanyId = companyId,
-            Employee = new Employee() { Id = employeeId },
-            Learning = new Learning() { Id = learningId }
-        };
-
-        return newAssistant.Insert(userId);
+            Employee = new Employee { Id = employeeId },
+            Learning = new Learning { Id = learningId }
+        }.Insert(userId);
     }
 
     [WebMethod(EnableSession = true)]
@@ -145,8 +142,8 @@ public class LearningActions : WebService {
     [ScriptMethod]
     public ActionResult Complete(int companyId, AssistantData[] assistants, int userId)
     {
-        ActionResult res = ActionResult.NoAction;
-        foreach (AssistantData assitant in assistants)
+        var res = ActionResult.NoAction;
+        foreach (var assitant in assistants)
         {
             res = Assistant.Complete(assitant.AssistantId, companyId, userId);
             if (!res.Success)
@@ -159,7 +156,7 @@ public class LearningActions : WebService {
         {
             string message = "[";
             bool first = true;
-            foreach (AssistantData data in assistants)
+            foreach (var data in assistants)
             {
                 if (first)
                 {
@@ -184,8 +181,8 @@ public class LearningActions : WebService {
     [ScriptMethod]
     public ActionResult CompleteFail(int companyId, AssistantData[] assistants, int userId)
     {
-        ActionResult res = ActionResult.NoAction;
-        foreach (AssistantData assitant in assistants)
+        var res = ActionResult.NoAction;
+        foreach (var assitant in assistants)
         {
             res = Assistant.CompleteFail(assitant.AssistantId, companyId, userId);
             if (!res.Success)
@@ -198,7 +195,7 @@ public class LearningActions : WebService {
         {
             string message = "[";
             bool first = true;
-            foreach (AssistantData data in assistants)
+            foreach (var data in assistants)
             {
                 if (first)
                 {
@@ -209,7 +206,7 @@ public class LearningActions : WebService {
                     message += ",";
                 }
 
-                message += string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
+                message += string.Format(CultureInfo.InvariantCulture, @"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
             }
 
             message += "]";
@@ -223,8 +220,8 @@ public class LearningActions : WebService {
     [ScriptMethod]
     public ActionResult Unevaluated(int companyId, AssistantData[] assistants, int userId)
     {
-        ActionResult res = ActionResult.NoAction;
-        foreach (AssistantData assitant in assistants)
+        var res = ActionResult.NoAction;
+        foreach (var assitant in assistants)
         {
             res = Assistant.Unevaluated(assitant.AssistantId, companyId, userId);
             if (!res.Success)
@@ -237,7 +234,7 @@ public class LearningActions : WebService {
         {
             string message = "[";
             bool first = true;
-            foreach (AssistantData data in assistants)
+            foreach (var data in assistants)
             {
                 if (first)
                 {
@@ -248,7 +245,7 @@ public class LearningActions : WebService {
                     message += ",";
                 }
 
-                message += string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
+                message += string.Format(CultureInfo.InvariantCulture, @"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
             }
 
             message += "]";
@@ -262,8 +259,8 @@ public class LearningActions : WebService {
     [ScriptMethod]
     public ActionResult Success(int companyId, AssistantData[] assistants, int userId)
     {
-        ActionResult res = ActionResult.NoAction;
-        foreach (AssistantData assitant in assistants)
+        var res = ActionResult.NoAction;
+        foreach (var assitant in assistants)
         {
             res = Assistant.CompleteAndSuccess(assitant.AssistantId, companyId, userId);
             if (!res.Success)
@@ -276,7 +273,7 @@ public class LearningActions : WebService {
         {
             string message = "[";
             bool first = true;
-            foreach (AssistantData data in assistants)
+            foreach (var data in assistants)
             {
                 if (first)
                 {
@@ -301,8 +298,8 @@ public class LearningActions : WebService {
     [ScriptMethod]
     public ActionResult SuccessFail(int companyId, AssistantData[] assistants, int userId)
     {
-        ActionResult res = ActionResult.NoAction;
-        foreach (AssistantData assitant in assistants)
+        var res = ActionResult.NoAction;
+        foreach (var assitant in assistants)
         {
             res = Assistant.CompleteAndSuccessFail(assitant.AssistantId, companyId, userId);
             if (!res.Success)
@@ -315,7 +312,7 @@ public class LearningActions : WebService {
         {
             string message = "[";
             bool first = true;
-            foreach (AssistantData data in assistants)
+            foreach (var data in assistants)
             {
                 if (first)
                 {
@@ -326,7 +323,7 @@ public class LearningActions : WebService {
                     message += ",";
                 }
 
-                message += string.Format(@"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
+                message += string.Format(CultureInfo.InvariantCulture, @"{{AssistantId:{0},EmployeeId:{1}}}", data.AssistantId, data.EmployeeId);
             }
 
             message += "]";
@@ -346,7 +343,7 @@ public class LearningActions : WebService {
         if (completedCode == 1) { completed = true; }
         if (successCode == 2) { success = false; }
         if (successCode == 1) { success = true; }
-        ActionResult res = Assistant.SetStatus(assistantId, companyId, userId, completed, success);
+        var res = Assistant.SetStatus(assistantId, companyId, userId, completed, success);
         if (res.Success)
         {
             res.SetSuccess(string.Format(@"{{""AssistantId"":{0}, ""Completed"":{1}, ""Success"":{2}}}", assistantId, completedCode, successCode));
@@ -359,8 +356,8 @@ public class LearningActions : WebService {
     [ScriptMethod]
     public ActionResult DeleteAssistants(AssistantData[] assistants, int userId, int companyId)
     {
-        ActionResult res = ActionResult.NoAction;
-        foreach(AssistantData assistant in assistants)
+        var res = ActionResult.NoAction;
+        foreach(var assistant in assistants)
         {
             res = Assistant.Delete(assistant.AssistantId, assistant.LearningId, companyId, userId);
         }

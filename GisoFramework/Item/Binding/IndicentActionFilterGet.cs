@@ -6,9 +6,7 @@
 // --------------------------------
 namespace GisoFramework.Item.Binding
 {
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary></summary>
     public static class IndicentActionFilterGet
     {
         public const int IncidentActionId = 0;
@@ -24,5 +22,7 @@ namespace GisoFramework.Item.Binding
         public const int IncidentId = 10;
         public const int IncidentCode = 11;
         public const int Amount = 12;
+        public const int ObjetivoId = 13;
+        public const int ObjetivoDescription = 14;
     }
 }

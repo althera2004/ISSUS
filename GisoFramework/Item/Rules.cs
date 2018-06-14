@@ -438,7 +438,7 @@ namespace GisoFramework.Item
                             Limit = rdr.GetInt64(ColumnsRulesGetById.Limit)
                         };
 
-                        res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                        res.ModifiedBy.Employee = Employee.ByUserId(res.ModifiedBy.Id);
                     }
                 }
                 catch (SqlException ex)

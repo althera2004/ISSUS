@@ -6,85 +6,25 @@
 // --------------------------------
 namespace GisoFramework.UserInterface
 {
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
-    public class MenuShortcut
+    /// <summary>Implementation of menu shortcut</summary>
+    public struct MenuShortcut
     {
-        /// <summary>Green shortcut</summary>
-        private Shortcut green;
+        /// <summary>Gets or sets the green shortcut</summary>
+        public Shortcut Green { get; set; }
 
-        /// <summary>Yellow shortcut</summary>
-        private Shortcut yellow;
+        /// <summary>Gets or sets the yellow shortcut</summary>
+        public Shortcut Yellow { get; set; }
 
-        /// <summary>Blue shortcut</summary>
-        private Shortcut blue;
+        /// <summary>Gets or sets the blue shortcut</summary>
+        public Shortcut Blue { get; set; }
 
-        /// <summary>Red shortcut</summary>
-        private Shortcut red;
+        /// <summary>Gets or sets the red shortcut</summary>
+        public Shortcut Red { get; set; }
 
-        /// <summary>
-        /// Gets or sets the green shortcut
-        /// </summary>
-        public Shortcut Green
-        {
-            get
-            {
-                return this.green;
-            }
+        public override bool Equals(object obj) => base.Equals(obj);
 
-            set
-            {
-                this.green = value;
-            }
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
-        /// <summary>
-        /// Gets or sets the yellow shortcut
-        /// </summary>
-        public Shortcut Yellow
-        {
-            get
-            {
-                return this.yellow;
-            }
-
-            set
-            {
-                this.yellow = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the blue shortcut
-        /// </summary>
-        public Shortcut Blue
-        {
-            get
-            {
-                return this.blue;
-            }
-
-            set
-            {
-                this.blue = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the red shortcut
-        /// </summary>
-        public Shortcut Red
-        {
-            get
-            {
-                return this.red;
-            }
-
-            set
-            {
-                this.red = value;
-            }
-        }
+        public override string ToString() => base.ToString();
     }
 }

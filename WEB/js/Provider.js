@@ -54,9 +54,10 @@ function ShowProviderBarPopup(itemSender) {
                 "id": "BtnProviderSave",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
-                click: function () { ProviderInsert(); }
+                "click": function () { ProviderInsert(); }
             },
             {
+                "id": "BtnProviderCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
@@ -73,6 +74,7 @@ for (var x = 0; x < Providers.length; x++) {
 
     Providers.sort(CompareProviders);
 }
+
 FillCmbProviders();
 
 // Selection functions for bar item Provider
@@ -125,7 +127,7 @@ function FillCmbEquipmentRepairProvider() {
         var option = document.createElement("option");
         option.value = Providers[x].Id;
         option.appendChild(document.createTextNode(Providers[x].Description));
-        if (ProviderSelected == Providers[x].Id) {
+        if (ProviderSelected === Providers[x].Id) {
             option.selected = true;
         }
 
@@ -144,7 +146,7 @@ function FillcmbProviderMaintenanceDefinition() {
         var option = document.createElement("option");
         option.value = Providers[x].Id;
         option.appendChild(document.createTextNode(Providers[x].Description));
-        if (ProviderSelected == Providers[x].Id) {
+        if (ProviderSelected === Providers[x].Id) {
             option.selected = true;
         }
 
@@ -241,7 +243,7 @@ function ProviderInsert(sender) {
 
                     var duplicated = false;
                     for (var x = 0; x < Providers.length; x++) {
-                        if (document.getElementById("TxtProviderNewName").value.toLowerCase() == Providers[x].Description.toLowerCase()) {
+                        if (document.getElementById("TxtProviderNewName").value.toLowerCase() === Providers[x].Description.toLowerCase()) {
                             duplicated = true;
                             break;
                         }
@@ -321,7 +323,7 @@ function ProviderUpdate(sender) {
     document.getElementById('TxtProviderNameErrorDuplicated').style.display = 'none';
     $('#TxtProviderName').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#ProviderUpdateDialog").removeClass('hide').dialog({
+    var dialog = $("#ProviderUpdateDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 600,
         "modal": true,
@@ -333,37 +335,37 @@ function ProviderUpdate(sender) {
                     "class": "btn btn-success btn-xs",
                     "click": function () {
                         var ok = true;
-                        if (document.getElementById("TxtProviderName").value == "") {
-                            document.getElementById("TxtProviderNameErrorRequired").style.display = "block";
+                        if (document.getElementById("TxtProviderName").value === "") {
+                            $("#TxtProviderNameErrorRequired").show();
                             ok = false;
                         }
                         else {
-                            document.getElementById("TxtProviderNameErrorRequired").style.display = "none";
+                            $("#TxtProviderNameErrorRequired").hide();
                         }
 
                         var duplicated = false;
                         for (var x = 0; x < Providers.length; x++) {
-                            if (document.getElementById("TxtProviderName").value.toLowerCase() == Providers[x].Description.toLowerCase() && Selected != Providers[x].Id && Providers[x].Active === true) {
+                            if (document.getElementById("TxtProviderName").value.toLowerCase() === Providers[x].Description.toLowerCase() && Selected !== Providers[x].Id && Providers[x].Active === true) {
                                 duplicated = true;
                                 break;
                             }
                         }
 
                         if (duplicated === true) {
-                            document.getElementById("TxtProviderNameErrorDuplicated").style.display = "block";
+                            $("#TxtProviderNameErrorDuplicated").show();
                             ok = false;
                         }
                         else {
-                            document.getElementById("TxtProviderNameErrorDuplicated").style.display = "none";
+                            $("#TxtProviderNameErrorDuplicated").hide();
                         }
 
 
                         if (ok === false) { window.scrollTo(0, 0); return false; }
 
-                        document.getElementById("TxtProviderNameErrorRequired").style.display = "none";
-                        document.getElementById("TxtProviderNameErrorDuplicated").style.display = "none";
+                        $("#TxtProviderNameErrorRequired").hide();
+                        $("#TxtProviderNameErrorDuplicated").hide();
                         $(this).dialog("close");
-                        ProviderUpdateConfirmed(Selected, document.getElementById("TxtProviderName").value);
+                        ProviderUpdateConfirmed(Selected, $("#TxtProviderName").val());
                     }
                 },
                 {
@@ -415,26 +417,31 @@ function ProviderUpdateConfirmed(id, newDescription) {
 
     // 2.- Modificar en HTML
     var temp = new Array();
-    for (var x = 0; x < Providers.length; x++) {
-        if (Providers[x].Id !== id) {
-            temp.push(Providers[x]);
+    for (var y = 0; y < Providers.length; y++) {
+        if (Providers[y].Id !== id) {
+            temp.push(Providers[y]);
         }
         else {
-            var item = Providers[x];
-            temp.push({ "Id": item.Id, "Description": newDescription, "Active": item.Active, "Deletable": item.Delete });
+            var item = Providers[y];
+            temp.push({
+                "Id": item.Id,
+                "Description": newDescription,
+                "Active": item.Active,
+                "Deletable": item.Delete
+            });
         }
     }
 
     Providers = new Array();
-    for (var x = 0; x < temp.length; x++) {
-        Providers.push(temp[x]);
+    for (var z = 0; z < temp.length; z++) {
+        Providers.push(temp[z]);
     }
 
     // 3.- Modificar la fila de la tabla del popup
     var target = document.getElementById("SelectableProvider");
-    for (var x = 0; x < target.childNodes.length; x++) {
-        if (target.childNodes[x].id == id) {
-            target.childNodes[x].childNodes[0].innerHTML = newDescription;
+    for (var w = 0; w < target.childNodes.length; w++) {
+        if (target.childNodes[w].id === id) {
+            target.childNodes[w].childNodes[0].innerHTML = newDescription;
             break;
         }
     }
@@ -494,12 +501,12 @@ function ProviderDeleteConfirmed(id) {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: "/Async/ProviderActions.asmx/Delete",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/ProviderActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -508,7 +515,7 @@ function ProviderDeleteConfirmed(id) {
                 FillCmbProviders();
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -516,20 +523,20 @@ function ProviderDeleteConfirmed(id) {
 
     // 2.- Desactivar en HTML
     var temp = new Array();
-    for (var x = 0; x < Providers.length; x++) {
-        if (Providers[x].Id !== id) { temp.push(Providers[x]); }
+    for (var y = 0; y < Providers.length; y++) {
+        if (Providers[y].Id !== id) { temp.push(Providers[y]); }
     }
 
     Providers = new Array();
-    for (var x = 0; x < temp.length; x++) {
-        Providers.push(temp[x]);
+    for (var z = 0; z < temp.length; z++) {
+        Providers.push(temp[z]);
     }
 
     // 3.- Eliminar la fila de la tabla del popup
     var target = document.getElementById("SelectableProvider");
-    for (var x = 0; x < target.childNodes.length; x++) {
-        if (target.childNodes[x].id == id) {
-            target.childNodes[x].style.display = "none";
+    for (var w = 0; w < target.childNodes.length; w++) {
+        if (target.childNodes[w].id === id) {
+            target.childNodes[w].style.display = "none";
             break;
         }
     }

@@ -5,19 +5,12 @@
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Web;
-using System.Web.Services;
 using System.Web.Script.Services;
+using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
-using System.Text;
 
-/// <summary>
-/// Summary description for EquipmentActions
-/// </summary>
+/// <summary>Summary description for EquipmentActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
@@ -26,9 +19,6 @@ public class EquipmentActions : WebService
 
     public EquipmentActions()
     {
-
-        //Uncomment the following line if using designed components 
-        //InitializeComponent(); 
     }
 
     [WebMethod(EnableSession = true)]
@@ -47,7 +37,7 @@ public class EquipmentActions : WebService
     [ScriptMethod]
     public ActionResult Update_(string data)
     {
-        ActionResult x = new ActionResult();
+        var x = new ActionResult();
         x.SetSuccess("1");
         return x;
     }
@@ -56,11 +46,10 @@ public class EquipmentActions : WebService
     [ScriptMethod]
     public ActionResult Update(Equipment newItem, Equipment oldItem, string scaleDivision, int userId, int companyId)
     {
-        ActionResult res = ActionResult.NoAction;
-
+        var res = ActionResult.NoAction;
         if(!string.IsNullOrEmpty(scaleDivision))
         {
-            newItem.ScaleDivisionValue = Convert.ToDecimal(scaleDivision.Replace('.', ','));
+            newItem.ScaleDivisionValue = Convert.ToDecimal(scaleDivision);//.Replace('.', ','));
         }
 
         string trace = newItem.Differences(oldItem);
@@ -152,7 +141,7 @@ public class EquipmentActions : WebService
     [ScriptMethod]
     public ActionResult Delete(int equipmentId, string reason, int userId, int companyId)
     {
-        return new Equipment() { Id = equipmentId, CompanyId = companyId }.Delete(userId, reason);
+        return new Equipment { Id = equipmentId, CompanyId = companyId }.Delete(userId, reason);
     }
 
     [WebMethod(EnableSession = true)]

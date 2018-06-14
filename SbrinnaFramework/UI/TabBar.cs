@@ -11,9 +11,7 @@ namespace SbrinnaCoreFramework.UI
     using System.Collections.ObjectModel;
     using System.Text;
 
-    /// <summary>
-    /// Implements TabBar class
-    /// </summary>
+    /// <summary>Implements TabBar class</summary>
     public class TabBar
     {
         private List<Tab> tabs;
@@ -57,8 +55,8 @@ namespace SbrinnaCoreFramework.UI
             {
                 if (this.Visible)
                 {
-                    StringBuilder res = new StringBuilder("<ul class=\"nav nav-tabs padding-18\">");
-                    foreach (Tab tab in this.Tabs)
+                    var res = new StringBuilder("<ul class=\"nav nav-tabs padding-18\">");
+                    foreach (var tab in this.Tabs)
                     {
                         res.Append(Environment.NewLine);
                         res.Append(tab.Render);

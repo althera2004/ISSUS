@@ -46,25 +46,43 @@ function ObjetivoGetFilter(exportType) {
     console.log(filterData);
 
     $.ajax({
-        type: "POST",
-        url: "/Async/ObjetivoActions.asmx/GetFilter",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(filterData, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/ObjetivoActions.asmx/GetFilter",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(filterData, null, 2),
+        "success": function (msg) {
             eval("ObjetivosList=" + msg.d + ";");
             console.log(msg.d);
             ItemRenderTable(ObjetivosList);
-            if (exportType !== "undefined") {
+            if (exportType !== "undefined" && exportType !== null) {
                 if (exportType === "PDF") {
                     ExportPDF();
                 }
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
+}
+
+function ObjetivoGetNone() {
+    $("#BtnRecordShowAll").show();
+    $("#BtnRecordShowNone").hide();
+    document.getElementById("RBStatus1").checked = true;
+    $("#TxtDateFrom").val("");
+    $("#TxtDateTo").val("");
+    VoidTable("ListDataTable");
+}
+
+function ObjetivoGetAll() {
+    //$("#BtnRecordShowAll").hide();
+    //$("#BtnRecordShowNone").show();
+    document.getElementById("RBStatus0").checked = true;
+    $("#TxtDateFrom").val("");
+    $("#TxtDateTo").val("");
+    ObjetivoGetFilter();
 }
 
 function ItemRenderTable(list) {
@@ -121,19 +139,19 @@ function ItemRenderTable(list) {
         tdPreviewEndDate.style.width = "100px";
 
         row.appendChild(tdObjetivo);
-        row.appendChild(tdObjetivoResponsible);
         row.appendChild(tdStartDate);
         row.appendChild(tdPreviewEndDate);
+        row.appendChild(tdObjetivoResponsible);
 
         var iconEdit = document.createElement("SPAN");
         iconEdit.className = "btn btn-xs btn-info";
         iconEdit.id = item.Number;
         var innerEdit = document.createElement("I");
-        innerEdit.className = ApplicationUser.Grants.Indicador.Write ? "icon-edit bigger-120" : "icon-eye-open bigger-120";
+        innerEdit.className = ApplicationUser.Grants.Objetivo.Write ? "icon-edit bigger-120" : "icon-eye-open bigger-120";
         iconEdit.appendChild(innerEdit);
         iconEdit.onclick = function () { document.location = "ObjetivoView.aspx?id=" + this.parentNode.parentNode.id; };
 
-        if (ApplicationUser.Grants.Indicador.Delete === true) {
+        if (ApplicationUser.Grants.Objetivo.Delete === true) {
             var iconDelete = document.createElement("SPAN");
             iconDelete.className = "btn btn-xs btn-danger";
             iconDelete.id = item.Number;
@@ -150,14 +168,14 @@ function ItemRenderTable(list) {
             else {
                 iconDelete.onclick = function () { ObjetivoDelete(this); };
             }
+
         }
 
-
         var tdActions = document.createElement("TD");
-        tdActions.style.width = "91px";
+        tdActions.style.width = "90px";
 
         tdActions.appendChild(iconEdit);
-        if (ApplicationUser.Grants.Indicador.Delete) {
+        if (ApplicationUser.Grants.Objetivo.Delete) {
             tdActions.appendChild(document.createTextNode(" "));
             tdActions.appendChild(iconDelete);
         }
@@ -171,10 +189,10 @@ function ItemRenderTable(list) {
     }
 
     if (items.length === 0) {
-        document.getElementById("nav-search").style.display = "none";
+        $("#nav-search").hide();
     }
     else {
-        document.getElementById("nav-search").style.display = "";
+        $("#nav-search").show();
 
         items.sort(function (a, b) {
             if (a < b) return -1;
@@ -240,9 +258,9 @@ function ObjetivoDelete(sender) {
 
 function ObjetivoDeleteConfirmed() {
     var data = {
-        objetivoId: ObjetivoSelectedId,
-        companyId: Company.Id,
-        applicationUserId: user.Id
+        "objetivoId": ObjetivoSelectedId,
+        "companyId": Company.Id,
+        "applicationUserId": user.Id
     };
     $("#ObjetivoDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
@@ -279,15 +297,37 @@ function NoDeleteObjetivo() {
 $("#nav-search").hide();
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 390) + 'px';
+    $("#ListDataDiv").height(containerHeight - 390);
 }
 
 window.onload = function () {
     // Descomentar si se imprimie lista
     Resize();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;")
+
+    $("#TxtDateFrom").on("change", ObjetivoGetFilter);
+    $("#TxtDateTo").on("change", ObjetivoGetFilter);
+    $("#RBStatus0").on("click", ObjetivoGetFilter);
+    $("#RBStatus1").on("click", ObjetivoGetFilter);
+    $("#RBStatus2").on("click", ObjetivoGetFilter);
+
+    if (Filter !== null) {
+        console.log("Filter", Filter);
+        document.getElementById("TxtDateFrom").value = GetDateYYYYMMDDText(Filter.from, "/", false);
+        document.getElementById("TxtDateTo").value = GetDateYYYYMMDDText(Filter.to, "/", false);
+        if (Filter.status === 0) { document.getElementById("RBStatus0").checked = true; }
+        if (Filter.status === 1) { document.getElementById("RBStatus1").checked = true; }
+        if (Filter.status === 2) { document.getElementById("RBStatus2").checked = true; }
+    }
+    else {
+
+        document.getElementById("RBStatus1").checked = true;
+    }
+
+    console.log("Filter", Filter);
+
+    ObjetivoGetFilter();
 }
 
 window.onresize = function () { Resize(); }

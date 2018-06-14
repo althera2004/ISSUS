@@ -208,10 +208,10 @@
                                                             <h4><strong><%=this.Dictionary["Item_BusinessRisk_Title_StartResult"] %></strong></h4>
                                                             <div class="form-group" id="ActionActivator">
                                                                 <div class="col-sm-3">
-                                                                    <input type="radio" value="0" id="StartApplyActionAssumed" name="ApplyAction" onclick="ApplyActionRadio()" />&nbsp;<%=this.Dictionary["Item_BusinessRisk_LabelField_Assumed"] %>
-                                                                </div>
-                                                                <div class="col-sm-3">
                                                                     <input type="radio" value="1" id="StartApplyActionYes" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_BusinessRisk_LabelField_ApplyAction"] %>
+                                                                </div>
+                                                                <div class="col-sm-3" id="ApplyActionAsumed">
+                                                                    <input type="radio" value="0" id="StartApplyActionAssumed" name="ApplyAction" onclick="ApplyActionRadio()" />&nbsp;<%=this.Dictionary["Item_BusinessRisk_LabelField_Assumed"] %>
                                                                 </div>
                                                                 <div class="col-sm-3" id="ApplyActionNoStart">
                                                                     <input type="radio" value="2" id="StartApplyActionNo" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_BusinessRisk_LabelField_ApplyActionNo"] %>
@@ -251,11 +251,6 @@
                                                             </div>   
                                                             <hr />
                                                             <%=this.TxtActionMonitoring%> 
-                                                            <div class="form-group">
-                                                                <label class="col-sm-2" id="TxtActionClosedLabel"><%=this.Dictionary["Item_IncidentAction_Field_Close"] %></label>
-                                                                <%=this.ComboActionClosedResponsible.Render%>
-                                                                <%=this.TxtActionClosedDate%>
-                                                            </div>
                                                             <%=this.TxtActionNotes%>
                                                         </form>
                                                     </div> 
@@ -298,7 +293,7 @@
                                                                 <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
                                                                     <table class="table table-bordered table-striped" style="border-top: none;">
                                                                         <tbody id="IncidentActionCostsTableData"></tbody>
-                                                                        <table id="IncidentActionCostsTableVoid" style="display:none;">
+                                                                        <table id="IncidentActionCostsTableVoid" style="display:none;height:100%;width:100%;">
                                                                             <tr>
                                                                                 <td colspan="10" align="center" style="background-color:#ddddff;color:#0000aa;">
                                                                                     <table style="border:none;">
@@ -601,7 +596,7 @@
                                         <thead class="thin-border-bottom">
                                             <tr>
                                                 <th><%=this.Dictionary["Item_Rules_Popup_Header"] %></th>
-                                                <th style="width:50px;"><%=this.Dictionary["Item_Rules_Popup_Limit"] %></th>
+                                                <th style="width:62px;"><%=this.Dictionary["Item_Rules_Popup_Limit"] %></th>
                                                 <th style="width:150px;"  class="hidden-480">&nbsp;</th>													
                                             </tr>
                                         </thead>
@@ -900,6 +895,17 @@
                                         </div>-->
                                 </div><!-- /.table-responsive -->
                             </div><!-- #dialog-message -->
+
+                           <div id="dialogAnular" class="hide" style="width: 400px;">
+                                <form class="form-horizontal" role="form" id="FormDialogAnular">
+                                    <div class="form-group">                                        
+                                        <%=this.ComboActionClosedResponsible.Render %>
+                                    </div>
+                                    <div class="form-group">
+                                        <%=this.TxtActionClosedDate %>
+                                    </div>
+                                </form>
+                            </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
     <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>

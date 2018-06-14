@@ -6,9 +6,7 @@
 // --------------------------------
 namespace GisoFramework.Item.Binding
 {
-    /// <summary>
-    /// Implements ColumnsCompanyGetEmployees class
-    /// </summary>
+    /// <summary>Implements ColumnsCompanyGetEmployees class</summary>
     public static class ColumnsCompanyGetEmployees
     {
         /// <summary>Index of "Id" Column</summary>

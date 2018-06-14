@@ -9,11 +9,18 @@ var MinStepValueFinalProbability = 1;
 var MinStepValueFinalSeverity = 1;
 var SlidersStartActive = true;
 
+$("#Tabhome").on("click", function () { $("#oldFormFooter").show(); });
+$("#Tabaccion").on("click", function () { $("#oldFormFooter").show(); });
+$("#Tabcostes").on("click", function () { $("#oldFormFooter").show(); });
+$("#Tabgraphic").on("click", function () { $("#oldFormFooter").show(); });
+$("#TabhistoryActions").on("click", function () { $("#oldFormFooter").show(); });
+$("#TabuploadFiles").on("click", function () { $("#oldFormFooter").hide(); });
+
 jQuery(function ($) {
     // Posibilidad de poner HTML en los títulos de los popup
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || '&nbsp;';
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true) {
                 title.html($title);
             }
@@ -24,36 +31,34 @@ jQuery(function ($) {
     }));
 
     // Internacionalizad datepicker en catalán
-    var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
+    var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { "autoclose": true, "todayHighlight": true });
     $(".date-picker").datepicker(options);
     $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
     // Botón de lanzamiento de popup de normas
-    $("#BtnSelectRules").on('click', function (e) {
+    $("#BtnSelectRules").on("click", function (e) {
         e.preventDefault();
-
         RulesRenderPopup();
-
-        var dialog = $("#dialogRules").removeClass('hide').dialog({
-            resizable: false,
-            modal: true,
-            title: Dictionary.Item_BusinessRisk_SelectRuleType,
-            title_html: true,
-            width: 800,
-            buttons:
+        var dialog = $("#dialogRules").removeClass("hide").dialog({
+            "resizable": false,
+            "modal": true,
+            "title": Dictionary.Item_BusinessRisk_SelectRuleType,
+            "title_html": true,
+            "width": 800,
+            "buttons":
             [
                 {
-                    id: 'BtnNewAddresSave',
-                    html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                    "id": "BtnNewAddresSave",
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                     "class": "btn btn-success btn-xs",
-                    click: function () {
+                    "click": function () {
                         RulesInsert();
                     }
                 },
                 {
-                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
-                    click: function () {
+                    "click": function () {
                         $(this).dialog("close");
                     }
                 }
@@ -62,10 +67,10 @@ jQuery(function ($) {
         });
     });
 
-    $("#Result").prop('readonly', true);
-    $("#Code").prop('disabled', true);
+    $("#Result").prop("readonly", true);
+    $("#Code").prop("disabled", true);
     if (businessRisk.PreviousBusinessRiskId > 0) {
-        $("#InitialValue").prop('disabled', true);
+        $("#InitialValue").prop("disabled", true);
     }
 
     //Things to do if the BusinessRisk already exists
@@ -85,21 +90,21 @@ jQuery(function ($) {
         // Si el riesgo es significativo no se puede elegir "NO" en aplicar acción
         if (businessRisk.StartProbability * businessRisk.StartSeverity >= rule.Limit)
         {
-            document.getElementById('ApplyActionNoStart').style.visibility = 'hidden';
-            document.getElementById('ApplyActionNoStart').checked = false;
+            document.getElementById("ApplyActionNoStart").style.visibility = "hidden";
+            $("#ApplyActionNoStart").removeAttr("checked");
         }
 
         if (businessRisk.Assumed === true) {
-            if (document.getElementById('Assumed') !== null) {
-                document.getElementById('Assumed').checked = true;
+            if (document.getElementById("Assumed") !== null) {
+                document.getElementById("Assumed").checked = true;
             }
         }
         else {
             if (businessRisk.ApplyAction === true) {
-                $("#ApplyActionYesStart").prop('checked', 1);
+                $("#ApplyActionYesStart").prop("checked", 1);
                 ApplyActionTrue();
             }
-            IncidentActionCostRenderTable('IncidentActionCostsTableData');
+            IncidentActionCostRenderTable("IncidentActionCostsTableData");
 
             if (typeof ApplicationUser.Grants.BusinessRisk === "undefined" || ApplicationUser.Grants.BusinessRisk.Write === false) {
                 $("#costes .btn-info").hide();
@@ -110,26 +115,26 @@ jQuery(function ($) {
         //Things to do if the BusinessRisk doesn't exist
     else {
         // ISSUS - 233
-        $("#Result").val('-');
-        $("#Code").val('');
+        $("#Result").val("-");
+        $("#Code").val("");
         $("#InitialValue").val(0);
         RenderStepsSliders();
     }
 
-    $("#BtnSave").on('click', function (e) { SaveBtnPressed(); });
-    $("#BtnCancel").on('click', function (e) { Cancel(); });
-    $("#BtnSave2").on('click', function (e) { SaveBtnPressed(); });
-    $("#BtnCancel2").on('click', function (e) { Cancel(); });
+    $("#BtnSave").on("click", function (e) { SaveBtnPressed(); });
+    $("#BtnCancel").on("click", function (e) { Cancel(); });
+    $("#BtnSave2").on("click", function (e) { SaveBtnPressed(); });
+    $("#BtnCancel2").on("click", function (e) { Cancel(); });
 
     if (document.getElementById("StartApplyActionYes").checked === true) {
-        document.getElementById("Tabaccion").style.display = '';
-        document.getElementById("accion").style.display = '';
+        document.getElementById("Tabaccion").style.display = "";
+        document.getElementById("accion").style.display = "";
         SaveAction = true;
     } else {
-        document.getElementById("Tabaccion").style.display = 'none';
-        document.getElementById("accion").style.display = 'none';
-        document.getElementById("Tabcostes").style.display = 'none';
-        document.getElementById("costes").style.display = 'none';
+        document.getElementById("Tabaccion").style.display = "none";
+        document.getElementById("accion").style.display = "none";
+        document.getElementById("Tabcostes").style.display = "none";
+        document.getElementById("costes").style.display = "none";
         SaveAction = false;
     }
 
@@ -142,17 +147,17 @@ jQuery(function ($) {
     $("#CmbActionClosedResponsible").change(function (e) { SetCloseRequired(); });
     $("#TxtActionClosedDate").change(function (e) { SetCloseRequired(); });
 
-    $("#BtnNewCost").on('click', function (e) {
+    $("#BtnNewCost").on("click", function (e) {
         e.preventDefault();
         ShowNewCostPopup(0);
     });
 
-    $('#BtnCostBAR').on('click', function (e) {
+    $("#BtnCostBAR").on("click", function (e) {
         e.preventDefault();
-        ShowCostBarPopup($('#TxtCostDescription'));
+        ShowCostBarPopup($("#TxtCostDescription"));
     });
 
-    $('#Tabgraphic').on('click', resizegrafico);
+    $("#Tabgraphic").on("click", resizegrafico);
 
     //Sincronizar los datos en la pestaña de situación inicial y de acción
     /*
@@ -199,9 +204,9 @@ function UpdateStartLabels() {
 }
 
 function UpdateResult() {
+    console.log("UpdateResult");
     //Si hay una acción indica que la pestaña inicial está bloqueada
     if (Action.Id > 0) { UpdateStartLabels(); }
-
     
     var probability = businessRisk.StartProbability;
     var severity = businessRisk.StartSeverity;
@@ -225,16 +230,19 @@ function UpdateResult() {
         $("#Result").css("color", probability * severity < rule.Limit ? '#3f3' : '#f33');
     }
     else {
-        $("#Result").html('-');
-        $("#Result").css("color", '#fff');
+        $("#Result").html("-");
+        $("#Result").css("color", "#fff");
     }
 
     if (probability * severity < rule.Limit) {
-        document.getElementById('ApplyActionNoStart').style.visibility = 'visible';
+        $("#ApplyActionNoStart").show();
+        $("#ApplyActionAsumed").hide();
+        $("#StartApplyActionAssumed").attr("checked", false);
     }
     else {
-        document.getElementById('ApplyActionNoStart').style.visibility = 'hidden';
-        document.getElementById('ApplyActionNoStart').checked = false;
+        $("#ApplyActionAsumed").show();
+        $("#ApplyActionNoStart").hide();
+        $("#StartApplyActionNo").attr("checked", false);
     }
 }
 
@@ -338,7 +346,7 @@ function ApplyActionTrue() {
     $('#Name').prop('disabled', true);
     $('#DateStart').prop('disabled', true);
     $('#CmbRules').prop('disabled', true);
-    document.getElementById('BtnSelectRules').style.display = 'none';
+    $("#BtnSelectRules").hide();
     $('#CmbProcess').prop('disabled', true);
     $('#ApplyAction2').prop('disabled', true);
     $('#input-span-slider-probability').slider('disable');
@@ -395,38 +403,37 @@ function ApplyActionTrue() {
 
 function ApplyActionFalse() {
     //Hide action, cost and final status tabs and content
-    document.getElementById("Tabaccion").style.display = 'none';
-    document.getElementById("accion").style.display = 'none';
-    document.getElementById("Tabcostes").style.display = 'none';
-    document.getElementById("costes").style.display = 'none';
-    document.getElementById("Tabgraphic").style.display = 'none';
-    document.getElementById("graphic").style.display = 'none';
+    $("#Tabaccion").hide();
+    $("#accion").hide();
+    $("#Tabcostes").hide();
+    $("#costes").hide();
+    $("#Tabgraphic").hide();
+    $("#graphic").hide();
 
     //Enable information editing on the risk
-    $('#Name').prop('disabled', false);
-    $('#DateStart').prop('disabled', false);
-    $('#CmbRules').prop('disabled', false);
-    document.getElementById('BtnSelectRules').style.display = '';
-    $('#CmbProcess').prop('disabled', false);
-    //$('#ApplyAction1').prop('disabled', false);
-    $('#ApplyAction2').prop('disabled', false);
-    $('#Assumed').prop('disabled', false);
-    $('#input-span-slider-probability').slider('enable');
-    $('#input-span-slider-severity').slider('enable');
+    $("#Name").prop("disabled", false);
+    $("#DateStart").prop("disabled", false);
+    $("#CmbRules").prop("disabled", false);
+    $("#BtnSelectRules").show();
+    $("#CmbProcess").prop("disabled", false);
+    $("#ApplyAction2").prop("disabled", false);
+    $("#Assumed").prop("disabled", false);
+    $("#input-span-slider-probability").slider("enable");
+    $("#input-span-slider-severity").slider("enable");
     SlidersActive = true;
     SaveAction = false;
 }
 
 function FinalAssumedChanged() {
-    if (document.getElementById('FinalAssumed').checked === true) {
-        document.getElementById('FinalApplyAction1').disabled = true;
-        document.getElementById('FinalApplyAction2').disabled = true;
-        document.getElementById('FinalApplyAction1').checked = false;
-        document.getElementById('FinalApplyAction2').checked = false;
+    if (document.getElementById("FinalAssumed").checked === true) {
+        document.getElementById("FinalApplyAction1").disabled = true;
+        document.getElementById("FinalApplyAction2").disabled = true;
+        document.getElementById("FinalApplyAction1").checked = false;
+        document.getElementById("FinalApplyAction2").checked = false;
     }
     else {
-        document.getElementById('FinalApplyAction1').disabled = false;
-        document.getElementById('FinalApplyAction2').disabled = false;
+        document.getElementById("FinalApplyAction1").disabled = false;
+        document.getElementById("FinalApplyAction2").disabled = false;
     }
 }
 
@@ -440,8 +447,6 @@ function FinalApplyActionFalse() {
 
 function BusinessRiskInsert(previousId) {
     // 1.- Modificar en la BBDD
-    //alert(SaveAction);
-    var webMethod = "/Async/BusinessRiskActions.asmx/BusinessRiskInsert";
     var id = 0;
     UpdateResult();
 
@@ -451,8 +456,8 @@ function BusinessRiskInsert(previousId) {
     if (document.getElementById('StartApplyActionYes').checked === true) { startAction = 3; }
 
     var result = 0;
-    if (document.getElementById("Result").value !== '' && document.getElementById("Result").value !== '-') {
-        result = document.getElementById("Result").value * 1;
+    if ($("#Result").val() !== "" && $("#Result").val() !== "-") {
+        result = $("#Result").val() * 1;
     }
 
     var data = {
@@ -481,12 +486,12 @@ function BusinessRiskInsert(previousId) {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/BusinessRiskActions.asmx/BusinessRiskInsert",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -496,7 +501,7 @@ function BusinessRiskInsert(previousId) {
                 if (newRisk === true) {
                     businessRisk.Id = response.d.MessageError * 1;
                     if (SaveAction === true) {
-                        console.log('risk+action');
+                        console.log("risk+action");
                         SaveIncidentAction(businessRisk.Id, response.d.MessageError * 1, true);
                     }
 
@@ -519,7 +524,7 @@ function BusinessRiskInsert(previousId) {
                 }
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -534,7 +539,6 @@ function Reload() {
 
 function BusinessRiskUpdate(sender) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/BusinessRiskActions.asmx/BusinessRiskUpdate";
 
     var startAction = 0;
     if (document.getElementById('StartApplyActionAssumed').checked === true) { startAction = 1; }
@@ -587,12 +591,12 @@ function BusinessRiskUpdate(sender) {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/BusinessRiskActions.asmx/BusinessRiskUpdate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -613,7 +617,7 @@ function BusinessRiskUpdate(sender) {
                 }
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -639,16 +643,16 @@ function SaveIncidentAction(businessRiskId, newBusinessRiskId, reload) {
             "IncidentId": -1,
             "WhatHappened": $('#TxtActionWhatHappened').val(),
             "WhatHappenedBy": { "Id": $('#CmbActionWhatHappenedResponsible').val() },
-            "WhatHappenedOn": GetDate($('#TxtActionWhatHappenedDate').val()),
+            "WhatHappenedOn": GetDate($('#TxtActionWhatHappenedDate').val(), "/", false),
             "Causes": $('#TxtActionCauses').val(),
             "CausesBy": { "Id": $('#CmbActionCausesResponsible').val() },
-            "CausesOn": GetDate($('#TxtActionCausesDate').val()),
+            "CausesOn": GetDate($('#TxtActionCausesDate').val(), "/", false),
             "Actions": $('#TxtActionActions').val(),
             "ActionsBy": { "Id": $('#CmbActionActionsResponsible').val() },
-            "ActionsOn": GetDate($('#TxtActionActionsDate').val()),
+            "ActionsOn": GetDate($('#TxtActionActionsDate').val(), "/", false),
             "Monitoring": $('#TxtActionMonitoring').val(),
             "ClosedBy": { "Id": $('#CmbActionClosedResponsible').val() },
-            "ClosedOn": GetDate($('#TxtActionClosedDate').val()),
+            "ClosedOn": GetDate($('#TxtActionClosedDate').val(), "/", false),
             "Notes": $('#TxtActionNotes').val(),
             "Active": true
         };
@@ -1233,7 +1237,7 @@ function CmbResponsibleFill() {
         if (Employees[x].Active === true) {
             var option = document.createElement('OPTION');
             option.value = Employees[x].Id;
-            option.appendChild(document.createTextNode(Employees[x].Value));
+            option.appendChild(document.createTextNode(Employees[x].FullName));
             document.getElementById('CmdIncidentActionCostResponsible').appendChild(option);
         }
     }
@@ -1366,7 +1370,7 @@ if (businessRisk.Id > 0) {
 
 function ActionsDialog(sender) {
     var id = sender.parentNode.parentNode.id * 1;
-    var dialog = $("#dialogActionDetails").removeClass('hide').dialog({
+    var dialog = $("#dialogActionDetails").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Item_Action_Popup_Details_Title,
@@ -1446,21 +1450,21 @@ function RenderStartSliders() {
 
     if (Action.Id > 0)
     {
-        $('#StartProbabilityRange').hide();
-        $('#StartSeverityRange').hide();
+        $("#StartProbabilityRange").hide();
+        $("#StartSeverityRange").hide();
     }
 
-    VoidTable('stepsStartProbability');
-    VoidTable('stepsStartSeverity');
+    VoidTable("stepsStartProbability");
+    VoidTable("stepsStartSeverity");
 
     for (var x = MinStepValue; x < 6; x++) {
-        var span = document.createElement('span');
+        var span = document.createElement("span");
         span.id = x;
         span.className = 'tick';
         span.appendChild(document.createTextNode(x));
-        span.appendChild(document.createElement('BR'));
+        span.appendChild(document.createElement("BR"));
         span.appendChild(document.createTextNode('|'));
-        span.style.left = ((100 / (5 - MinStepValue)) * (x - MinStepValue)) + '%';
+        span.style.left = ((100 / (5 - MinStepValue)) * (x - MinStepValue)) + "%";
         document.getElementById('stepsStartProbability').appendChild(span);
         if (Action.Id < 1) {
             span.onclick = function () {
@@ -1470,7 +1474,7 @@ function RenderStartSliders() {
                     UpdateResult();
                 }
             };
-            span.style.cursor = 'default';
+            span.style.cursor = "default";
         }
     }
 
@@ -1686,40 +1690,40 @@ if (businessRisk.Result > 0)
 
 // No se puede cerrar el riesgo si la acción no está cerrada
 if (Action.ClosedOn === null) {
-    if (document.getElementById('DivClosingRisk') !== null) {
-        document.getElementById('DivClosingRisk').style.display = 'none';
-        document.getElementById('DivClosingRiskUnavailable').style.display = '';
+    if (document.getElementById("DivClosingRisk") !== null) {
+        document.getElementById("DivClosingRisk").style.display = "none";
+        document.getElementById("DivClosingRiskUnavailable").style.display = "";
     }
 }
 else {
-    if (document.getElementById('DivClosingRisk') !== null) {
-        document.getElementById('DivClosingRisk').style.display = '';
-        document.getElementById('DivClosingRiskUnavailable').style.display = 'none';
+    if (document.getElementById("DivClosingRisk") !== null) {
+        document.getElementById("DivClosingRisk").style.display = "";
+        document.getElementById("DivClosingRiskUnavailable").style.display = "none";
     }
 }
 
 if (Action.Id > 0)
 {
-    document.getElementById('StartApplyActionAssumed').disabled = true;
-    document.getElementById('StartApplyActionYes').disabled = true;
-    document.getElementById('StartApplyActionNo').disabled = true;
+    document.getElementById("StartApplyActionAssumed").disabled = true;
+    document.getElementById("StartApplyActionYes").disabled = true;
+    document.getElementById("StartApplyActionNo").disabled = true;
 }
 
 ValidateCloseAction();
 
 // Controles iniciales
 if (businessRisk.StartAction === 0) {
-    document.getElementById('Tabgraphic').style.display = 'none';
+    document.getElementById("Tabgraphic").style.display = "none";
 }
 if (businessRisk.StartAction === 1) {
-    document.getElementById('StartApplyActionAssumed').checked = true;
-    document.getElementById('Tabgraphic').style.display = 'none';
+    document.getElementById("StartApplyActionAssumed").checked = true;
+    document.getElementById("Tabgraphic").style.display = "none";
 }
 if (businessRisk.StartAction === 2) {
-    document.getElementById('StartApplyActionNo').checked = true;
-    document.getElementById('Tabgraphic').style.display = 'none';
+    document.getElementById("StartApplyActionNo").checked = true;
+    document.getElementById("Tabgraphic").style.display = "none";
 }
-if (businessRisk.StartAction === 3) { document.getElementById('StartApplyActionYes').checked = true; }
+if (businessRisk.StartAction === 3) { document.getElementById("StartApplyActionYes").checked = true; }
 
 // Controles finales
 if (document.getElementById('FinalApplyActionAssumed') !== null) {
@@ -1755,7 +1759,41 @@ function Resize() {
     listTable.style.height = (containerHeight - 450) + 'px';
 }
 
-window.onload = function () { Resize(); }
+function PrintData() {
+    window.open("/export/PrintBusinessriskData.aspx?id=" + BusinessRiskId + "&companyId=" + Company.Id);
+    return false;
+}
+
+window.onload = function () {
+    Resize();
+
+    $("#Tabhome").on("click", HideAnulateActionButton);
+    $("#Tabaccion").on("click", ShowAnulateActionButton);
+    $("#Tabcostes").on("click", HideAnulateActionButton);
+    $("#Tabgraphic").on("click", HideAnulateActionButton);
+    $("#TabhistoryActions").on("click", HideAnulateActionButton);
+    $("#TabuploadFiles").on("click", HideAnulateActionButton);
+
+    if (BusinessRiskId > 0) {
+        $("#BtnPrint").on("click", PrintData);
+    }
+    else {
+        $("#BtnPrint").hide();
+    }
+
+    var res = "&nbsp;<button class=\"btn btn-danger\" type=\"button\" id=\"BtnAnular\" style=\"display:inline-block;\"><i class=\"icon-ban-circle bigger-110\"></i>" + Dictionary.Item_BusinessRisk_Button_CloseAction + "</button>";
+    res += "&nbsp;<button class=\"btn btn-primary\" type=\"button\" id=\"BtnRestaurar\" style=\"display:inline-block;\"><i class=\"icon-undo bigger-110\"></i>" + Dictionary.Item_BusinessRisk_Button_RestoreAction + "</button>";
+
+    $("#ItemButtons").prepend(res);
+
+    $("#BtnAnular").on("click", AnularPopup);
+    $("#BtnRestaurar").on("click", Restore);
+    $("#TxtActionClosedDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtActionClosedDateErrorCross\" style=\"display:none;\">" + Dictionary.Item_BusinessRisk_ErrorMessage_ClosedRequiredDataOutTime + "</span>")
+    $("#Tabhome").click();
+
+    $("#CmbActionActionsResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionActionsResponsible").val() * 1, Employees, this); });
+
+}
 window.onresize = function () { Resize(); }
 
 var CostBlocked = false;
@@ -1770,4 +1808,207 @@ if (CostBlocked === true) {
 }
 else {
     $("#DivPrimaryUser").hide();
+}
+
+// ------------- Anular accion
+$("#BtnAnular").hide();
+$("#BtnRestaurar").hide();
+if (Action.ClosedOn === null && Action.Id > 0) {
+    $("#BtnAnular").show();
+} else {
+    $("#BtnRestaurar").show();
+    AnulateLayout();
+}
+
+
+function AnularPopup() {
+    var ok = true;
+    if ($("#TxtActionDescription").val() === "") { ok = false; }
+    if ($("#TxtActionWhatHappened").val() === "") { ok = false; }
+    if ($("#TxtAcionCauses").val() === "") { ok = false; }
+    if ($("#TxtActionActions").val() === "") { ok = false; }
+    if ($("#TxtActionWhatHappenedDate").val() === "") { ok = false; }
+    if ($("#TxtActionCausesDate").val() === "") { ok = false; }
+    if ($("#TxtActionActionsDate").val() === "") { ok = false; }
+    if ($("#CmbActionWhatHappenedResponsible").val() * 1 < 1) { ok = false; }
+    if ($("#CmbActionCausesResponsible").val() * 1 < 1) { ok = false; }
+    if ($("#CmbActionActionsResponsible").val() * 1 < 1) { ok = false; }
+
+    document.getElementById("CmbActionClosedResponsibleLabel").style.color = "#000";
+    document.getElementById("TxtActionClosedDateLabel").style.color = "#000";
+    $("#CmbActionClosedResponsibleErrorRequired").hide();
+    $("#TxtActionClosedDateDateMalformed").hide();
+    $("#TxtActionClosedDateDateRequired").hide();
+    $("#TxtActionClosedDateErrorCross").hide();
+
+    if (ok === false) {
+        alertUI(Dictionary.Common_Form_CheckError);
+        return false;
+    }
+
+    $("#CmbActionClosedResponsible").val(ApplicationUser.Employee.Id);
+
+    $("#CmbActionClosedResponsibleLabel").html(Dictionary.Item_IncidentAction_Field_ResponsibleClose + "<span style=\"color:#f00;\">*</span>");
+    $("#TxtActionClosedDateLabel").html(Dictionary.Item_IncidentAction_Field_Date + "<span style=\"color:#f00;\">*</span>");
+    $("#CmbActionClosedResponsibleLabel").removeClass("control-label");
+    $("#CmbActionClosedResponsibleLabel").removeClass("no-padding-right");
+    $("#TxtActionClosedDate").val(FormatDate(new Date(), "/"));
+    $("#CmbActionClosedResponsible").val(user.Employee.Id);
+    var dialog = $("#dialogAnular").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_IncidentAction_PopupAnular_Title,
+        "width": 400,
+        "buttons":
+        [
+            {
+                "id": "BtnAnularSave",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_IncidentAction_Btn_Anular,
+                "class": "btn btn-success btn-xs",
+                "click": function () { AnularConfirmed(); }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () { $(this).dialog("close"); }
+            }
+        ]
+    });
+}
+
+/// <var>The anulation data</var>
+var anulationData = null;
+
+function AnularConfirmed() {
+    console.log("AnularConfirmed");
+    document.getElementById("TxtActionClosedDateLabel").style.color = "#000";
+    document.getElementById("CmbActionClosedResponsibleLabel").style.color = "#000";
+    $("#TxtActionClosedDateDateRequired").hide();
+    $("#TxtActionClosedDateDateMalformed").hide();
+    $("#CmbActionClosedResponsibleErrorRequired").hide();
+    $("#TxtActionClosedDateErrorCross").hide();
+
+    var ok = true;
+
+    if ($("#TxtActionClosedDate").val() === "") {
+        ok = false;
+        document.getElementById("TxtActionClosedDateLabel").style.color = "#f00";
+        document.getElementById("TxtActionClosedDateDateRequired").style.display = "";
+    }
+    else {
+        if (validateDate($("#TxtActionClosedDate").val()) === false) {
+            ok = false;
+            $("#TxtActionClosedDateLabel").css("color", "#f00");
+            $("#TxtActionClosedDateDateMalformed").show();
+        }
+        else {
+            var actionsDate = GetDate($("#TxtActionActionsDate").val(), "/", false);
+            var closeDate = GetDate($("#TxtActionClosedDate").val(), "/", false);
+            if (closeDate < actionsDate) {
+                ok = false;
+                $("#TxtActionClosedDateErrorCross").show();
+                $("#TxtActionClosedDateLabel").css("color", "#f00");
+            }
+        }
+    }
+
+    if ($("#CmbActionClosedResponsible").val() * 1 < 1) {
+        ok = false;
+        document.getElementById("CmbActionClosedResponsibleLabel").style.color = "#f00";
+        document.getElementById("CmbActionClosedResponsibleErrorRequired").style.display = "";
+    }
+
+    if (ok === false) {
+        return false;
+    }
+
+    var data = {
+        "incidentActionId": Action.Id,
+        "companyId": Company.Id,
+        "responsible": $("#CmbActionClosedResponsible").val() * 1,
+        "date": GetDate($("#TxtActionClosedDate").val(), "/"),
+        "applicationUserId": user.Id
+    };
+
+    anulationData = data;
+
+    $("#dialogAnular").dialog("close");
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/IncidentActionsActions.asmx/Anulate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            SaveIncidentAction(businessRisk.Id, msg.d.MessageError * 1, true);
+        },
+        "error": function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function AnulateLayout() {
+    $("#BtnRestaurar").hide();
+    $("#DivAnulateMessage").remove();
+    if (Action.ClosedOn !== null) {
+        var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+        message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
+        message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_IncidentAction_AnulateMessageTile + "</h3>";
+        message += "    <p style=\"margin-left:50px;\">";
+        message += "        " + Dictionary.Item_IncidentAction_Label_EndDate + ": <strong>" + GetDateYYYYMMDDText(Action.ClosedOn,"/", false) + "</strong><br />";
+        message += "        " + Dictionary.Item_IncidentAction_Label_EndResponsible + ": <strong>" + Action.ClosedBy.Value + "</strong>";
+        message += "    </p>";
+        message += "</div><br /><br /><br />";
+        $("#accion").append(message);
+        $("#BtnAnular").hide();
+        $("#BtnRestaurar").show();
+        $("#BtnSave2").hide();
+    }
+    else {
+        $("#DivAnulateMessage").hide();
+        if (Action.Id > 0) {
+            $("#BtnAnular").show();
+        }
+    }
+}
+
+function Restore() {
+    var data = {
+        "incidentActionId": Action.Id,
+        "companyId": Company.Id,
+        "applicationUserId": user.Id
+    };
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/IncidentActionsActions.asmx/Restore",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            Action.ClosedOn = null;
+            AnulateLayout();
+        },
+        "error": function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function HideAnulateActionButton() {
+    $("#BtnAnular").hide();
+    $("#BtnRestaurar").hide();
+}
+
+function ShowAnulateActionButton() {
+    if (Action.ClosedOn === null && Action.Id > 0) {
+        $("#BtnAnular").show();
+    } else {
+        $("#BtnRestaurar").show();
+        AnulateLayout();
+    }
 }

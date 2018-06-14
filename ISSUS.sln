@@ -1,13 +1,12 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "http://localhost:81", "http://localhost:81", "{B38D5BF1-8652-4D26-807A-99852AC56A91}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "false"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		ProjectReferences = "{c05bf57e-b756-4d71-a669-5e0261cd1697}|GisoFramework.dll;{ACADB79E-9811-43F5-B82C-B15BD44BF93B}|SbrinnaCoreFramework.dll;"
+		ProjectReferences = "{ACADB79E-9811-43F5-B82C-B15BD44BF93B}|SbrinnaCoreFramework.dll;{c05bf57e-b756-4d71-a669-5e0261cd1697}|GisoFramework.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_81"
 		Debug.AspNetCompiler.PhysicalPath = "WEB\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_81\"
@@ -33,11 +32,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GisoFramework", "GisoFramework\GisoFramework.csproj", "{C05BF57E-B756-4D71-A669-5E0261CD1697}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EB802F83-E581-4C4B-9B16-7D00D66C9329}"
-ProjectSection(SolutionItems) = preProject
-GCop.json = GCop.json
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		GCop.json = GCop.json
+	EndProjectSection
 EndProject
-
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,5 +57,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44680C79-B98C-4DAF-B114-36E39FAAA28D}
 	EndGlobalSection
 EndGlobal

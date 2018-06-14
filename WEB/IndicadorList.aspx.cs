@@ -20,13 +20,10 @@ public partial class IndicadorList : Page
     private Giso master;
 
     /// <summary>Application user logged in session</summary>
-    private ApplicationUser user;
+    public ApplicationUser ApplicationUser { get; private set; }
 
     /// <summary>Company of session</summary>
     private Company company;
-
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
 
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
@@ -37,22 +34,8 @@ public partial class IndicadorList : Page
         }
     }
 
-    public string UserLanguage
-    {
-        get
-        {
-            return this.user.Language;
-        }
-    }
-
     /// <summary>Gets dictionary for fixed labels</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public string Filter { get; set; }
 
@@ -72,7 +55,7 @@ public partial class IndicadorList : Page
     {
         get
         {
-            return ProcessType.GetByCompanyJsonList(this.company.Id, this.dictionary);
+            return ProcessType.GetByCompanyJsonList(this.company.Id, this.Dictionary);
         }
     }
 
@@ -83,16 +66,16 @@ public partial class IndicadorList : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
-            this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
-            if (!UniqueSession.Exists(token, this.user.Id))
+            this.ApplicationUser = this.Session["User"] as ApplicationUser;
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
+            if (!UniqueSession.Exists(token, this.ApplicationUser.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -105,7 +88,7 @@ public partial class IndicadorList : Page
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
-        this.user = (ApplicationUser)Session["User"];
+        this.ApplicationUser = (ApplicationUser)Session["User"];
         this.company = (Company)Session["company"];
 
         if (Session["IndicadorFilter"] == null)
@@ -117,12 +100,12 @@ public partial class IndicadorList : Page
             this.Filter = Session["IndicadorFilter"].ToString();
         }
 
-        this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AddBreadCrumb("Item_Indicadores");
         this.master.Titulo = "Item_Indicadores";
 
-        if (this.user.HasGrantToWrite(ApplicationGrant.Incident))
+        if (this.ApplicationUser.HasGrantToWrite(ApplicationGrant.Incident))
         {
             this.master.ButtonNewItem = UIButton.NewItemButton("Item_Indicador_Button_New", "IndicadorView.aspx");
         }
@@ -134,8 +117,8 @@ public partial class IndicadorList : Page
 
     private void RenderObjetivoList()
     {
-        StringBuilder res = new StringBuilder();
-        foreach (Objetivo objetivo in Objetivo.GetActive(this.company.Id))
+        var res = new StringBuilder();
+        foreach (var objetivo in Objetivo.GetActive(this.company.Id))
         {
             res.AppendFormat(
                 CultureInfo.InvariantCulture,
@@ -149,8 +132,8 @@ public partial class IndicadorList : Page
 
     private void RenderProcessList()
     {
-        StringBuilder res = new StringBuilder();
-        foreach (Process process in Process.GetByCompany(this.company.Id))
+        var res = new StringBuilder();
+        foreach (var process in Process.ByCompany(this.company.Id))
         {
             res.AppendFormat(
                 CultureInfo.InvariantCulture,
@@ -164,8 +147,8 @@ public partial class IndicadorList : Page
 
     private void RenderProcessTypeList()
     {
-        StringBuilder res = new StringBuilder();
-        foreach (ProcessType processType in ProcessType.ObtainByCompany(this.company.Id, this.dictionary))
+        var res = new StringBuilder();
+        foreach (ProcessType processType in ProcessType.ObtainByCompany(this.company.Id, this.Dictionary))
         {
             res.AppendFormat(
                 CultureInfo.InvariantCulture,

@@ -23,7 +23,7 @@ function GetRiskNameById(id)
             return BusinessRiskList[x].Description;
         }
     }
-    return '';
+    return "";
 }
 
 function RenderChart() {
@@ -48,25 +48,24 @@ function RenderChart() {
                 }
             });
 
-        chart.yAxis.tickFormat(d3.format(',.0f'));
+        chart.yAxis.tickFormat(d3.format(",.0f"));
         chart.yAxis.tickValues([5, 10, 15, 20]);
-        chart.valueFormat(d3.format('d'));
+        chart.valueFormat(d3.format("d"));
 
         //Add data to BarChart
-        chartData = d3.select('#chart svg').datum(graphicdata);
+        chartData = d3.select("#chart svg").datum(graphicdata);
         chartData.call(chart);
 
         nv.utils.windowResize(chart.update);
         return chart;
     }, function () {
-        console.log("callback");
-        d3.selectAll(".discreteBar").on('click',
+        //console.log("callback");
+        d3.selectAll(".discreteBar").on("click",
             function (e) {
                 document.location = "/BusinessRiskView.aspx?id=" + e.label;
             });
     });
 }
-
 
 function exampleData() {
     function y() {
@@ -79,7 +78,6 @@ function exampleData() {
 
         for (var x = 0; x < BusinessRiskGraph.length; x++) {
             var label = BusinessRiskGraph[x].Id.toString();
-            //label = label.substr(label.length-5,5);
             y.push(
                 {
                     "label": label,
@@ -87,17 +85,18 @@ function exampleData() {
                 }
             );
 
-            var finalColor = '#ffb752';
-            if (BusinessRiskGraph[x].Assumed === false) {
-                var limit = typeof actualRuleLimit === 'undefined' ? 0 : actualRuleLimit;
+            var finalColor = "#ffb752";
+            //console.log(BusinessRiskGraph[x].Description, BusinessRiskGraph[x].Assumed);
+            if (BusinessRiskGraph[x].Assumed === false && BusinessRiskGraph[x].FinalAction !== 1) {
+                var limit = typeof actualRuleLimit === "undefined" ? 0 : actualRuleLimit;
                 if (limit < 0 ) {
                     limit = BusinessRiskGraph[x].RuleLimit;
                 }
                 if (BusinessRiskGraph[x].Result < limit) {
-                    finalColor = '#87b87f';
+                    finalColor = "#87b87f";
                 }
                 else {
-                    finalColor = '#d15b47';
+                    finalColor = "#d15b47";
                 }
             }
 
@@ -129,12 +128,12 @@ function resizegrafico(transparent)
         return false;
     }
 
-    var width = $('#ListDataHeader').width();
-    var widthS = $('#svggrafic').width();
-    var width1 = $('#IncidentCostsTableData').width();
-    var width2 = $('#IncidentCostsTableVoid').width();
-    var width3 = $('#ListActions').width();
-    var width4 = $('#accion').width();
+    var width = $("#ListDataHeader").width();
+    var widthS = $("#svggrafic").width();
+    var width1 = $("#IncidentCostsTableData").width();
+    var width2 = $("#IncidentCostsTableVoid").width();
+    var width3 = $("#ListActions").width();
+    var width4 = $("#accion").width();
 
     if (widthS !== null) { if (width < widthS) { width = widthS; } }
     if (width1 !== null) { if (width < width1) { width = width1; } }
@@ -142,28 +141,27 @@ function resizegrafico(transparent)
     if (width3 !== null) { if (width < width3) { width = width3; } }
     if (width4 !== null) { if (width < width4) { width = width4; } }
 
-
-    var width = $('#widthTest').width() - 100;
+    width = $("#widthTest").width() - 100;
     if (typeof width !== "undefined" && typeof chart !=="undefined") {
         chart.width(width);
         chart.update();
     }
     
-    var canvas = document.getElementById('svggrafic');
-    var height = $('#svggrafic').height() - 50;
-    if (height == null)
+    var canvas = document.getElementById("svggrafic");
+    var height = $("#svggrafic").height() - 50;
+    if (height === null)
     {
         height = 500;
     }
 
-    d3.select('#chart svg').append("line")
+    d3.select("#chart svg").append("line")
     .style("stroke", "gray")
     .attr("x1", 65)
     .attr("y1", height)
     .attr("x2", width)
     .attr("y2", height);
 
-    d3.select('#chart svg').append("line")
+    d3.select("#chart svg").append("line")
     .style("stroke", "gray")
     .attr("x1", 65)
     .attr("y1", 0)
@@ -174,13 +172,14 @@ function resizegrafico(transparent)
 
 function DrawRuleLine()
 {
-    var width = $('#ListDataTable').width();
+    var width = $("#ListDataTable").width();
     if (width < 1)
     {
-        width = $('#svggrafic').width();
+        width = $("#svggrafic").width();
     }
-    var height = $('#svggrafic').height() - 48;
-    d3.select('#chart svg').append("line")
+
+    var height = $("#svggrafic").height() - 48;
+    d3.select("#chart svg").append("line")
         .style("stroke", "red")
         .attr("x1", 65)
         .attr("y1", height * (actualRuleLimit / -26) + height)
@@ -188,7 +187,7 @@ function DrawRuleLine()
         .attr("y2", height * (actualRuleLimit / -26) + height);
 
     if (RuleLimitFromDB !== actualRuleLimit) {
-        d3.select('#chart svg').append("line")
+        d3.select("#chart svg").append("line")
             .style("stroke", "blue")
             .attr("x1", 65)
             .attr("y1", height * (RuleLimitFromDB / -26) + height)
@@ -196,10 +195,10 @@ function DrawRuleLine()
             .attr("y2", height * (RuleLimitFromDB / -26) + height)
             .style("stroke-dasharray", ("3, 3"));
 
-        document.getElementById('BtnNewIpr').disabled = false;
+        document.getElementById("BtnNewIpr").disabled = false;
     }
     else {
-        document.getElementById('BtnNewIpr').disabled = true;
+        document.getElementById("BtnNewIpr").disabled = true;
     }
 
     resizegrafico(true);
@@ -209,6 +208,3 @@ function unresizegrafico()
 {
     graphicshow = false;
 }
-
-/*exampleData();
-RenderChart();*/

@@ -1,13 +1,11 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ColumnsActionsGetByCompany.cs" company="Sbrinna">
-// TODO: Update copyright text.
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item.Binding
 {
-    /// <summary>
-    /// Index of columns of Actins_GetByCompanyId result rows
-    /// </summary>
+    /// <summary>Index of columns of Actions_GetByCompanyId result rows</summary>
     public static class ColumnsActionsGetByCompany
     {
         /// <summary>Index of Id column</summary>

@@ -9,19 +9,15 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for DocumentAttachmentActions
-/// </summary>
+/// <summary>Summary description for DocumentAttachmentActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-// To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
 [ScriptService]
-public class DocumentAttachmentActions : System.Web.Services.WebService {
+public class DocumentAttachmentActions : WebService {
 
-    public DocumentAttachmentActions () {
-
-        //Uncomment the following line if using designed components 
-        //InitializeComponent(); 
+    /// <summary>Initializes a new instance of the DocumentAttachActions class</summary>
+    public DocumentAttachmentActions ()
+    {
     }
 
     [WebMethod(EnableSession = true)]

@@ -26,7 +26,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new EquipmentVerificationAct()
+                return new EquipmentVerificationAct
                 {
                     Id = -1,
                     EquipmentVerificationType = -1,
@@ -87,7 +87,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                StringBuilder res = new StringBuilder("{");
+                var res = new StringBuilder("{");
                 res.Append(Tools.JsonPair("Id", this.Id)).Append(",");
                 res.Append(Tools.JsonPair("EquipmentId", this.EquipmentId)).Append(",");
                 res.Append(Tools.JsonPair("EquipmentVerificationType", this.EquipmentVerificationType)).Append(",");
@@ -121,18 +121,16 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Creates JSON list of verification of equipment
-        /// </summary>
+        /// <summary>Creates JSON list of verification of equipment</summary>
         /// <param name="equipmentId">Equipment identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>JSON list of verification of equipment</returns>
         public static string JsonList(long equipmentId, int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
-            ReadOnlyCollection<EquipmentVerificationAct> maintenance = GetByCompany(equipmentId, companyId);
+            var res = new StringBuilder("[");
+            var maintenance = GetByCompany(equipmentId, companyId);
             bool first = true;
-            foreach (EquipmentVerificationAct item in maintenance)
+            foreach (var item in maintenance)
             {
                 if (first)
                 {
@@ -150,9 +148,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Gets verifications of an equipment from database
-        /// </summary>
+        /// <summary>Gets verifications of an equipment from database</summary>
         /// <param name="equipmentId">Equipment identififer</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>List of verifications of an equipment from database</returns>
@@ -161,62 +157,67 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE EquipmentVerificationAct_GetByEquipmentId
              *   @EquipmentId bigint,
              *   @CompanyId int */
-            List<EquipmentVerificationAct> res = new List<EquipmentVerificationAct>();
-            using (SqlCommand cmd = new SqlCommand("EquipmentVerificationAct_GetByEquipmentId"))
+            var res = new List<EquipmentVerificationAct>();
+            using (var cmd = new SqlCommand("EquipmentVerificationAct_GetByEquipmentId"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        EquipmentVerificationAct newEquipmentVerificationAct = new EquipmentVerificationAct()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt64(ColumnsEquipmentVerificationActGet.Id),
-                            CompanyId = rdr.GetInt32(ColumnsEquipmentVerificationActGet.CompanyId),
-                            EquipmentId = rdr.GetInt64(ColumnsEquipmentVerificationActGet.EquipmentId),
-                            Result = rdr.GetDecimal(ColumnsEquipmentVerificationActGet.Result),
-                            MaxResult = rdr.GetDecimal(ColumnsEquipmentVerificationActGet.MaxResult),
-                            Date = rdr.GetDateTime(ColumnsEquipmentVerificationActGet.Date),
-                            Expiration = rdr.GetDateTime(ColumnsEquipmentVerificationActGet.Expiration),
-                            EquipmentVerificationType = rdr.GetInt32(ColumnsEquipmentVerificationActGet.EquipmentVerificationType),
-                            Active = rdr.GetBoolean(ColumnsEquipmentVerificationActGet.Active),
-                            Provider = new Provider()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt64(ColumnsEquipmentVerificationActGet.ProviderId),
-                                Description = rdr.GetString(ColumnsEquipmentVerificationActGet.ProviderDescription)
-                            },
-                            Responsible = new Employee()
-                            {
-                                Id = rdr.GetInt32(ColumnsEquipmentVerificationActGet.ResponsibleId),
-                                Name = rdr.GetString(ColumnsEquipmentVerificationActGet.ResponsibleName),
-                                LastName = rdr.GetString(ColumnsEquipmentVerificationActGet.ResponsibleLastName)
-                            },
-                            ModifiedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsEquipmentVerificationActGet.ModifiedByUserId),
-                                UserName = rdr.GetString(ColumnsEquipmentVerificationActGet.ModifiedByUserName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsEquipmentVerificationActGet.ModifiedOn)
-                        };
+                                EquipmentVerificationAct newEquipmentVerificationAct = new EquipmentVerificationAct()
+                                {
+                                    Id = rdr.GetInt64(ColumnsEquipmentVerificationActGet.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsEquipmentVerificationActGet.CompanyId),
+                                    EquipmentId = rdr.GetInt64(ColumnsEquipmentVerificationActGet.EquipmentId),
+                                    Result = rdr.GetDecimal(ColumnsEquipmentVerificationActGet.Result),
+                                    MaxResult = rdr.GetDecimal(ColumnsEquipmentVerificationActGet.MaxResult),
+                                    Date = rdr.GetDateTime(ColumnsEquipmentVerificationActGet.Date),
+                                    Expiration = rdr.GetDateTime(ColumnsEquipmentVerificationActGet.Expiration),
+                                    EquipmentVerificationType = rdr.GetInt32(ColumnsEquipmentVerificationActGet.EquipmentVerificationType),
+                                    Active = rdr.GetBoolean(ColumnsEquipmentVerificationActGet.Active),
+                                    Provider = new Provider()
+                                    {
+                                        Id = rdr.GetInt64(ColumnsEquipmentVerificationActGet.ProviderId),
+                                        Description = rdr.GetString(ColumnsEquipmentVerificationActGet.ProviderDescription)
+                                    },
+                                    Responsible = new Employee()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsEquipmentVerificationActGet.ResponsibleId),
+                                        Name = rdr.GetString(ColumnsEquipmentVerificationActGet.ResponsibleName),
+                                        LastName = rdr.GetString(ColumnsEquipmentVerificationActGet.ResponsibleLastName)
+                                    },
+                                    ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsEquipmentVerificationActGet.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsEquipmentVerificationActGet.ModifiedByUserName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentVerificationActGet.ModifiedOn)
+                                };
 
-                        if (!rdr.IsDBNull(ColumnsEquipmentVerificationActGet.Cost))
-                        {
-                            newEquipmentVerificationAct.Cost = rdr.GetDecimal(ColumnsEquipmentVerificationActGet.Cost);
+                                if (!rdr.IsDBNull(ColumnsEquipmentVerificationActGet.Cost))
+                                {
+                                    newEquipmentVerificationAct.Cost = rdr.GetDecimal(ColumnsEquipmentVerificationActGet.Cost);
+                                }
+
+                                res.Add(newEquipmentVerificationAct);
+                            }
                         }
-
-                        res.Add(newEquipmentVerificationAct);
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -224,9 +225,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<EquipmentVerificationAct>(res);
         }
 
-        /// <summary>
-        /// Gets diferrences between two verifications
-        /// </summary>
+        /// <summary>Gets diferrences between two verifications</summary>
         /// <param name="item1">Verification base</param>
         /// <param name="item2">Verification to caompare</param>
         /// <returns>String with differences</returns>
@@ -237,7 +236,7 @@ namespace GisoFramework.Item
                 return string.Empty;
             }
 
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             if (item1.Result != item2.Result)
             {
                 res.Append("Result:").Append(item2.Result).Append("; ");
@@ -266,9 +265,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Delete a verification on database
-        /// </summary>
+        /// <summary>Delete a verification on database</summary>
         /// <param name="equipmentVerificationActId">Verification identifier</param>
         /// <param name="userId">User identifier</param>
         /// <param name="companyId">Company identifier</param>
@@ -278,44 +275,47 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE EquipmentVerificationAct_Delete
              *   @EquipmentVerificationActId bigint output,
              *   @UserId int  */
-            ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
-            using (SqlCommand cmd = new SqlCommand("EquipmentVerificationAct_Delete"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("EquipmentVerificationAct_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentVerificationActId", equipmentVerificationActId));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Delete Id:{0} User:{1} Company:{2}", equipmentVerificationActId, userId, companyId));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Delete Id:{0} User:{1} Company:{2}", equipmentVerificationActId, userId, companyId));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Delete Id:{0} User:{1} Company:{2}", equipmentVerificationActId, userId, companyId));
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Delete Id:{0} User:{1} Company:{2}", equipmentVerificationActId, userId, companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Delete Id:{0} User:{1} Company:{2}", equipmentVerificationActId, userId, companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentVerificationActId", equipmentVerificationActId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Delete Id:{0} User:{1} Company:{2}", equipmentVerificationActId, userId, companyId));
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Delete Id:{0} User:{1} Company:{2}", equipmentVerificationActId, userId, companyId));
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Delete Id:{0} User:{1} Company:{2}", equipmentVerificationActId, userId, companyId));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Delete Id:{0} User:{1} Company:{2}", equipmentVerificationActId, userId, companyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Delete Id:{0} User:{1} Company:{2}", equipmentVerificationActId, userId, companyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -323,9 +323,7 @@ namespace GisoFramework.Item
             return result;
         }
 
-        /// <summary>
-        /// Insert verification into database
-        /// </summary>
+        /// <summary>Insert verification into database</summary>
         /// <param name="userId">User identifier</param>
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
@@ -343,54 +341,57 @@ namespace GisoFramework.Item
              *   @Cost numeric(18,3),
              *   @ResponsableId int,
              *   @UserId int */
-            ActionResult result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("EquipmentVerificationAct_Insert"))
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("EquipmentVerificationAct_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentVerificationActId"));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentVerificationType", this.EquipmentVerificationType));
-                    cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
-                    cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description, 100));
-                    cmd.Parameters.Add(DataParameter.Input("@Vto", this.Expiration));
-                    cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
-                    cmd.Parameters.Add(DataParameter.Input("@MaxResult", this.MaxResult));
-                    cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
-                    if (this.Provider == null || this.Provider.Id == 0 || this.EquipmentVerificationType == 0)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
-                    }
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentVerificationActId"));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentVerificationType", this.EquipmentVerificationType));
+                        cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
+                        cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Vto", this.Expiration));
+                        cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
+                        cmd.Parameters.Add(DataParameter.Input("@MaxResult", this.MaxResult));
+                        cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
+                        if (this.Provider == null || this.Provider.Id == 0 || this.EquipmentVerificationType == 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                        }
 
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@EquipmentVerificationActId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                    result.Success = true;
-                    result.MessageError = this.Id.ToString(CultureInfo.InvariantCulture);
-                }
-                catch (SqlException ex)
-                {
-                    result.SetFail(ex);
-                    ExceptionManager.Trace(ex, "EquipmentVerificationAct::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Result));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "EquipmentVerificationAct", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Result));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@EquipmentVerificationActId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        result.Success = true;
+                        result.MessageError = this.Id.ToString(CultureInfo.InvariantCulture);
+                    }
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        result.SetFail(ex);
+                        ExceptionManager.Trace(ex, "EquipmentVerificationAct::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Result));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "EquipmentVerificationAct", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Result));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -398,9 +399,7 @@ namespace GisoFramework.Item
             return result;
         }
 
-        /// <summary>
-        /// Update verification on database
-        /// </summary>
+        /// <summary>Update verification on database</summary>
         /// <param name="differences">Differences from previous data</param>
         /// <param name="userId">User identifier</param>
         /// <returns>Result of action</returns>
@@ -419,63 +418,66 @@ namespace GisoFramework.Item
              *   @ProviderId bigint,
              *   @ResponsableId int,
              *   @UserId int  */
-            ActionResult result = new ActionResult() { Success = false, MessageError = "No action" };
-            using (SqlCommand cmd = new SqlCommand("EquipmentVerificationAct_Update"))
+            var result = new ActionResult() { Success = false, MessageError = "No action" };
+            using (var cmd = new SqlCommand("EquipmentVerificationAct_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentVerificationActId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentVerificationType", this.EquipmentVerificationType));
-                    cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
-                    cmd.Parameters.Add(DataParameter.Input("@Vto", this.Expiration));
-                    cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
-                    cmd.Parameters.Add(DataParameter.Input("@MaxResult", this.MaxResult));
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentVerificationActId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentVerificationType", this.EquipmentVerificationType));
+                        cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
+                        cmd.Parameters.Add(DataParameter.Input("@Vto", this.Expiration));
+                        cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
+                        cmd.Parameters.Add(DataParameter.Input("@MaxResult", this.MaxResult));
 
-                    if (this.Provider == null || this.Provider.Id == 0 || this.EquipmentVerificationType == 0)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
+                        if (this.Provider == null || this.Provider.Id == 0 || this.EquipmentVerificationType == 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                        }
+
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
                     }
-                    else
+                    catch (SqlException ex)
                     {
-                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
                     }
-                    
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    result.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    catch (FormatException ex)
                     {
-                        cmd.Connection.Close();
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Update Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

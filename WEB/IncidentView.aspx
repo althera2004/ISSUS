@@ -170,13 +170,10 @@
                                                             </div>   
                                                             <hr />
                                                             <%=this.TxtActionMonitoring.Render%> 
-                                                            <div class="form-group">
-                                                                <%=this.CmbActionClosedResponsible.Render%>
-                                                                <%=this.TxtActionClosedDate.Render%>
-                                                            </div>
                                                             <%=this.TxtActionNotes.Render%>
                                                         </form>
-                                                    </div> 
+                                                    </div>
+                                                    <div id="AccionAnulada"></div>
                                                     <%=this.FormFooterAction %>
                                                 </div>
                                                 <div id="costes" class="tab-pane">
@@ -460,6 +457,17 @@
                                     </div>
                                 </form>
                             </div>
+
+                            <div id="dialogAnularAccion" class="hide" style="width: 400px;">
+                                <form class="form-horizontal" role="form" id="FormDialogAnularAccion">
+                                    <div class="form-group">                                        
+                                        <%=this.CmbActionClosedResponsible.Render %>
+                                    </div>
+                                    <div class="form-group">
+                                        <%=this.TxtActionClosedDate.Render %>
+                                    </div>
+                                </form>
+                            </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
@@ -497,7 +505,7 @@
                     }
                 }));
 
-                var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage%>"], { autoclose: true, todayHighlight: true });
+                var options = $.extend({}, $.datepicker.regional["<%=this.ApplicationUser.Language%>"], { autoclose: true, todayHighlight: true });
                 $(".date-picker").datepicker(options);
                 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
@@ -539,7 +547,7 @@
                 $('#TxtActionClosedDate').on('change', function(e) { e.preventDefault(); SetCloseRequired(); });
 
 
-                //                <%if(this.ShowHelp) { %>
+                //                <%if(this.ApplicationUser.ShowHelp) { %>
                 //                SetToolTip('TxtName',"<%=this.Dictionary["Item_Company_Help_Name"] %>");
                 //                SetToolTip('TxtNif',"<%=this.Dictionary["Item_Company_Help_Nif"] %>");
                 //                SetToolTip('DivCmbAddress',"<%=this.Dictionary["Item_Company_Help_Common_SelectAddress"] %>");

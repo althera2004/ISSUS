@@ -27,7 +27,7 @@
         return false;
     }
 
-    if (process.Id == 0) {
+    if (process.Id === 0) {
         ProcessInsert();
     }
     else {
@@ -48,10 +48,10 @@ function ProcessInsert() {
             "Work": $('#TxtDesarrollo').val(),
             "End": $('#TxtFinalizacion').val(),
         },
-        'userId': user.Id
+        "userId": user.Id
     };
 
-    LoadingShow('');
+    LoadingShow("");
     $.ajax({
         type: "POST",
         url: webMethod,
@@ -146,7 +146,7 @@ function ProcessTypeDelete(sender) {
     document.getElementById('dialogProcessType').parentNode.style.cssText += 'z-Index:1039 !important';
     $('#ProcessTypeName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#ProcessTypeDeleteDialog").removeClass('hide').dialog({
+    var dialog = $("#ProcessTypeDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_Process_Popup_DeleteProcessType_Title + '</h4>',
@@ -162,7 +162,7 @@ function ProcessTypeDelete(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -179,7 +179,7 @@ function ProcessTypeUpdate(sender) {
     document.getElementById('TxtProcessTypeNameErrorDuplicated').style.display = 'none';
     $('#TxtProcessTypeName').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#ProcessTypeUpdateDialog").removeClass('hide').dialog({
+    var dialog = $("#ProcessTypeUpdateDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -188,16 +188,16 @@ function ProcessTypeUpdate(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
-                    if (document.getElementById('TxtProcessTypeName').value == '') {
+                    if (document.getElementById('TxtProcessTypeName').value === '') {
                         document.getElementById('TxtProcessTypeNameErrorRequired').style.display = 'block';
                         ok = false;
                     }
                     else {
-                        document.getElementById('TxtProcessTypeNameErrorRequired').style.display = 'none';
+                        $("#TxtProcessTypeNameErrorRequired").hide();
                     }
 
                     var duplicated = false;
@@ -226,7 +226,7 @@ function ProcessTypeUpdate(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -243,7 +243,7 @@ function ProcessTypeInsert(sender) {
     document.getElementById('TxtProcessTypeNewNameErrorDuplicated').style.display = 'none';
     $('#TxtProcessTypeNewName').val('');
     var Selected = 0;
-    var dialog = $("#ProcessTypeInsertDialog").removeClass('hide').dialog({
+    var dialog = $("#ProcessTypeInsertDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -252,7 +252,7 @@ function ProcessTypeInsert(sender) {
         buttons:
         [
             {
-                html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Accept,
+                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 click: function () {
                     var ok = true;
@@ -289,7 +289,7 @@ function ProcessTypeInsert(sender) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -516,7 +516,7 @@ jQuery(function ($) {
 
         ProccessTypeRenderPopup();
 
-        var dialog = $("#dialogProcessType").removeClass('hide').dialog({
+        var dialog = $("#dialogProcessType").removeClass("hide").dialog({
             resizable: false,
             modal: true,
             title: Dictionary.Item_Process_SelectProcessType,
@@ -526,14 +526,14 @@ jQuery(function ($) {
             [
                 {
                     id: 'BtnNewAddresSave',
-                    html: "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Common_Add,
+                    html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                     "class": "btn btn-success btn-xs",
                     click: function () {
                         ProcessTypeInsert();
                     }
                 },
                 {
-                    html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                    html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     click: function () {
                         $(this).dialog("close");
@@ -585,7 +585,7 @@ jQuery(function ($) {
             target.appendChild(tr);
         }
 
-        var dialog = $("#dialogJobPosition").removeClass('hide').dialog({
+        var dialog = $("#dialogJobPosition").removeClass("hide").dialog({
             resizable: false,
             modal: true,
             title: Dictionary.Item_Process_SelectJobPosition,

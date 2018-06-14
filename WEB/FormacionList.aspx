@@ -1,13 +1,24 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Giso.master" AutoEventWireup="true" CodeFile="FormacionList.aspx.cs" Inherits="FormacionList" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" Runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" runat="server">
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
     <style type="text/css">
-        .tags
-        {
-            display:block !important;
-            width:100% !important;
+        #scrollTableDiv{
+            background-color:#fafaff;
+            border:1px solid #e0e0e0;
+            border-top:none;
+            display:block;
         }
+
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding:0;
+            margin:0;
+        }
+
+        TR:first-child{border-left:none;}
     </style>
 	<script>
 		var userLanguage = "<%=this.UserLanguage %>";
@@ -30,10 +41,10 @@
 														<i class="icon-calendar bigger-110"></i>
 													</span>
 												</div>
-											</div>
-											<span class="ErrorMessage" id="TxtDateFromErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-											<span class="ErrorMessage" id="TxtDateFromErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-											<span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+											    <span class="ErrorMessage" id="TxtDateFromErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											    <span class="ErrorMessage" id="TxtDateFromErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											    <span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                            </div>
 										</td>
                                         <td id="TxtDateToLabel"><%=this.Dictionary["Item_Learning_Filter_ToYear"] %>:</td>
 										<td>
@@ -44,10 +55,10 @@
 														<i class="icon-calendar bigger-110"></i>
 													</span>
 												</div>
-											</div>
-											<span class="ErrorMessage" id="TxtDateToErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-											<span class="ErrorMessage" id="TxtDateToErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-											<span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+											    <span class="ErrorMessage" id="TxtDateToErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											    <span class="ErrorMessage" id="TxtDateToErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											    <span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                            </div>
 										</td>
                                         <td>&nbsp;&nbsp;&nbsp;<input runat="server" type="radio" id="status0" name="status" value="0" onclick="Go(2,0);" /><%=this.Dictionary["Item_Learning_Status_InProgress"] %></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input runat="server" type="radio" id="status1" name="status" value="1" onclick="Go(2,1);" /><%=this.Dictionary["Item_Learning_Status_Done"] %></td>
@@ -60,32 +71,43 @@
                             <div class="col-xs-12">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-striped">
-                                                        <thead class="thin-border-bottom">
-                                                            <tr id="ListDataHeader">
-                                                                <th onclick="Sort(this,'ListDataTable');" id="th0" class="sort search" style="cursor:pointer;"><%=this.Dictionary["Item_Learning_ListHeader_Course"] %></th>
-                                                                <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_DateComplete"] %></th>
-                                                                <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_Status"] %></th>
-                                                                <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_EstimatedDate"] %></th>
-                                                                <th class="hidden-480" style="width:100px;"><%=this.Dictionary["Item_Learning_ListHeader_Cost"] %></th>
-                                                                <th class="hidden-480" style="width:90px !important;">&nbsp;</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="ListDataTable">
-                                                            <asp:Literal runat="server" ID="LtLearningTable"></asp:Literal>
-                                                        </tbody>
-                                                        <tfoot class="thin-border-bottom">
-                                                            <tr id="ListDataFooter">
-                                                                <td style="color:#333;" colspan="3"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="LtCount"></asp:Literal></i></td>
-                                                                <td style="color:#333;" align="right"><strong><%=this.Dictionary["Common_Total"] %>:&nbsp</strong></td>
-                                                                <td style="color:#333;" align="right"><strong><asp:Literal runat="server" ID="LtTotal"></asp:Literal></strong></td>
-                                                                <td style="color:#333;"></td>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                            <br />
-                                            <br />
+                                        <div class="table-responsive" id="scrollTableDiv">
+                                            <table class="table table-bordered table-striped" style="margin: 0">
+                                                <thead class="thin-border-bottom">
+                                                    <tr id="ListDataHeader">
+                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="sort search"><%=this.Dictionary["Item_Learning_ListHeader_Course"] %></th>
+                                                        
+														<!-- <th class="hidden-480" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_EstimatedDate"] %></th> -->
+														<!-- <th class="hidden-480" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_DateComplete"] %></th> -->                                                     
+														<!-- <th class="hidden-480" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_Status"] %></th> -->
+														<!-- <th class="hidden-480" style="width:150px; text-align:right;"><%=this.Dictionary["Item_Learning_ListHeader_Cost"] %></th> -->
+														
+														<th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="hidden-480 sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_EstimatedDate"] %></th>
+														<th onclick="Sort(this,'ListDataTable','date',false);" id="th2" class="hidden-480 sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_DateComplete"] %></th>
+														<th onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="hidden-480 sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_Status"] %></th>
+														<th onclick="Sort(this,'ListDataTable','money',false);" id="th4" class="hidden-480 sort search" style="width:150px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_Cost"] %></th>
+                                                        <th class="hidden-480" style="width:106px !important;">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>                                            
+                                            <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                <table class="table table-bordered table-striped" style="border-top: none;">
+                                                    <tbody id="ListDataTable">
+                                                        <asp:Literal runat="server" ID="LtLearningTable"></asp:Literal>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            
+                                            <table class="table table-bordered table-striped" style="margin: 0">
+                                                <thead class="thin-border-bottom">
+                                                    <tr id="ListDataFooter">
+                                                        <th style="color:#333;" colspan="3"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="LtCount"></asp:Literal></i></th>
+                                                        <th style="color:#333;width:100px;" align="right"><strong><%=this.Dictionary["Common_Total"] %>:&nbsp</strong></th>
+                                                        <th style="color:#333;width:150px;" align="right"><strong><asp:Literal runat="server" ID="LtTotal"></asp:Literal></strong></th>
+                                                        <th style="color:#333;width:107px !important;">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
                                         </div><!-- /.table-responsive -->
                                     </div><!-- /span -->
                                 </div><!-- /row -->						

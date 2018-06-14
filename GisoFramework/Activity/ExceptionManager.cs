@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ExceptionManager.cs" company="Sbrinna">
-// TODO: Update copyright text.
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 namespace GisoFramework.Activity
@@ -10,21 +10,15 @@ namespace GisoFramework.Activity
     using System.IO;
     using System.Web;
 
-    /// <summary>
-    /// Implements the ExceptionManager class
-    /// </summary>
+    /// <summary>Implements the ExceptionManager class</summary>
     public sealed class ExceptionManager
     {
-        /// <summary>
-        /// Prevents a default instance of the ExceptionManager class from being created.
-        /// </summary>
+        /// <summary>Prevents a default instance of the ExceptionManager class from being created.</summary>
         private ExceptionManager()
         {
         }
 
-        /// <summary>
-        /// Write a trace line on a log daily file
-        /// </summary>
+        /// <summary>Write a trace line on a log daily file</summary>
         /// <param name="ex">Exception occurred</param>
         /// <param name="source">Source of exception</param>
         public static void Trace(Exception ex, string source)
@@ -32,16 +26,14 @@ namespace GisoFramework.Activity
             Trace(ex, source, string.Empty);
         }
 
-        /// <summary>
-        /// Trace a exception into log file
-        /// </summary>
+        /// <summary>Trace a exception into log file</summary>
         /// <param name="ex">Exception occurred</param>
         /// <param name="source">Source of exception</param>
         /// <param name="extraData">Data extra of exception</param>
         public static void Trace(Exception ex, string source, string extraData)
         {
             string message = string.Empty;
-            if(ex == null)
+            if (ex == null)
             {
                 message = string.Empty;
             }
@@ -64,16 +56,16 @@ namespace GisoFramework.Activity
             string path = HttpContext.Current.Request.PhysicalApplicationPath;
             if (!path.EndsWith("\\", StringComparison.Ordinal))
             {
-                path = string.Format(CultureInfo.InstalledUICulture, @"{0}\Log\Errors_{1}.txt", path, DateTime.Now.ToString("yyyyMMdd", CultureInfo.GetCultureInfo("es-es")));
+                path = string.Format(CultureInfo.InstalledUICulture, @"{0}\Log\Errors_{1}.txt", path, DateTime.Now.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
             }
             else
             {
-                path = string.Format(CultureInfo.InstalledUICulture, @"{0}Log\Errors_{1}.txt", path, DateTime.Now.ToString("yyyyMMdd", CultureInfo.GetCultureInfo("es-es")));
+                path = string.Format(CultureInfo.InstalledUICulture, @"{0}Log\Errors_{1}.txt", path, DateTime.Now.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
             }
 
-            string line = string.Format(CultureInfo.InstalledUICulture, "{0}::{1}::{2}::{3}", DateTime.Now.ToString("hh:mm:ss", CultureInfo.GetCultureInfo("es-es")), ex.Message, source, extraData);
+            string line = string.Format(CultureInfo.InstalledUICulture, "{0}::{1}::{2}::{3}", DateTime.Now.ToString("hh:mm:ss", CultureInfo.InvariantCulture), message, source, extraData);
 
-            using (StreamWriter output = new StreamWriter(path, true))
+            using (var output = new StreamWriter(path, true))
             {
                 output.WriteLine(line);
                 output.Flush();

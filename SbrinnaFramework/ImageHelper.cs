@@ -25,9 +25,7 @@ namespace SbrinnaCoreFramework
             { new byte[] { 0xff, 0xd8 }, DecodeJfif }
         };
 
-        /// <summary>
-        /// Gets the dimensions of an image.
-        /// </summary>
+        /// <summary>Gets the dimensions of an image.</summary>
         /// <param name="path">The path of the image to get the dimensions of.</param>
         /// <returns>The dimensions of the specified image.</returns>
         /// <exception cref="ArgumentException">The image was of an unrecognized format.</exception>
@@ -50,9 +48,7 @@ namespace SbrinnaCoreFramework
             }
         }
 
-        /// <summary>
-        /// Gets the dimensions of an image.
-        /// </summary>
+        /// <summary>Gets the dimensions of an image.</summary>
         /// <param name="path">The path of the image to get the dimensions of.</param>
         /// <returns>The dimensions of the specified image.</returns>
         /// <exception cref="ArgumentException">The image was of an unrecognized format.</exception>    
@@ -60,15 +56,11 @@ namespace SbrinnaCoreFramework
         {
             if (binaryReader != null)
             {
-
                 int maxMagicBytesLength = imageFormatDecoders.Keys.OrderByDescending(x => x.Length).First().Length;
-
-                byte[] magicBytes = new byte[maxMagicBytesLength];
-
+                var magicBytes = new byte[maxMagicBytesLength];
                 for (int i = 0; i < maxMagicBytesLength; i += 1)
                 {
                     magicBytes[i] = binaryReader.ReadByte();
-
                     foreach (var keyValuePair in imageFormatDecoders)
                     {
                         if (magicBytes.StartsWith(keyValuePair.Key))
@@ -97,7 +89,7 @@ namespace SbrinnaCoreFramework
 
         private static short ReadLittleEndianInt16(this BinaryReader binaryReader)
         {
-            byte[] bytes = new byte[sizeof(short)];
+            var bytes = new byte[sizeof(short)];
             for (int i = 0; i < sizeof(short); i += 1)
             {
                 bytes[sizeof(short) - 1 - i] = binaryReader.ReadByte();
@@ -117,9 +109,7 @@ namespace SbrinnaCoreFramework
             return BitConverter.ToInt32(bytes, 0);
         }
 
-        /// <summary>
-        /// Gets the size of a bitmap image
-        /// </summary>
+        /// <summary>Gets the size of a bitmap image</summary>
         /// <param name="binaryReader">Binary reader of image</param>
         /// <returns>The size of the image</returns>
         private static Size DecodeBitmap(BinaryReader binaryReader)
@@ -130,9 +120,7 @@ namespace SbrinnaCoreFramework
             return new Size(width, height);
         }
 
-        /// <summary>
-        /// Gets the size of a gif image
-        /// </summary>
+        /// <summary>Gets the size of a gif image</summary>
         /// <param name="binaryReader">Binary reader of image</param>
         /// <returns>The size of the image</returns>
         private static Size DecodeGif(BinaryReader binaryReader)
@@ -142,9 +130,7 @@ namespace SbrinnaCoreFramework
             return new Size(width, height);
         }
 
-        /// <summary>
-        /// Gets the size of a pgn image
-        /// </summary>
+        /// <summary>Gets the size of a pgn image</summary>
         /// <param name="binaryReader">Binary reader of image</param>
         /// <returns>The size of the image</returns>
         private static Size DecodePng(BinaryReader binaryReader)
@@ -155,17 +141,15 @@ namespace SbrinnaCoreFramework
             return new Size(width, height);
         }
 
-        /// <summary>
-        /// Gets the size of a Jfif image
-        /// </summary>
+        /// <summary>Gets the size of a Jfif image</summary>
         /// <param name="binaryReader">Binary reader of image</param>
         /// <returns>The size of the image</returns>
         private static Size DecodeJfif(BinaryReader binaryReader)
         {
             while (binaryReader.ReadByte() == 0xff)
             {
-                byte marker = binaryReader.ReadByte();
-                short chunkLength = binaryReader.ReadLittleEndianInt16();
+                var marker = binaryReader.ReadByte();
+                var chunkLength = binaryReader.ReadLittleEndianInt16();
 
                 if (marker == 0xc0)
                 {

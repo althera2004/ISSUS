@@ -19,9 +19,6 @@ public partial class ProvidersList : Page
     /// <summary> Master of page</summary>
     private Giso master;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     private ApplicationUser user;
 
     /// <summary>Gets a random value to prevents static cache files</summary>
@@ -34,13 +31,7 @@ public partial class ProvidersList : Page
     }
 
     /// <summary>Gets the dictionary for interface texts</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public UIDataHeader DataHeader { get; set; }
 
@@ -51,8 +42,7 @@ public partial class ProvidersList : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-            this.Response.Redirect("Default.aspx", true);
-            Context.ApplicationInstance.CompleteRequest();
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
@@ -60,26 +50,27 @@ public partial class ProvidersList : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                this.Response.Redirect("MultipleSession.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)Session["User"];
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
 
         // Security access control
         if (!this.user.HasGrantToRead(ApplicationGrant.Provider))
         {
-            this.Response.Redirect("NoPrivileges.aspx", false);
+            this.Response.Redirect("NoPrivileges.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
 
@@ -95,8 +86,21 @@ public partial class ProvidersList : Page
             this.master.ButtonNewItem = UIButton.NewItemButton("Item_Provider_Btn_New", "ProvidersView.aspx");
         }
 
-        this.DataHeader = new UIDataHeader() { Id = "ListDataHeader", ActionsItem = 2 };
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Customer_ListHeader_Name"], Sortable = true, Filterable = true });
+        this.DataHeader = new UIDataHeader
+        {
+            Id = "ListDataHeader",
+            ActionsItem = 2
+        };
+
+        this.DataHeader.AddItem(new UIDataHeaderItem
+        {
+            Id = "th0",
+            HeaderId = "ListDataHeader",
+            DataId = "ListDataTable",
+            Text = this.Dictionary["Item_Customer_ListHeader_Name"],
+            Sortable = true,
+            Filterable = true
+        });
     }
 
     private void RenderProvidersData()
@@ -106,7 +110,7 @@ public partial class ProvidersList : Page
         var searchedItem = new List<string>();
         bool first = true;
         int contData = 0;
-        foreach (Provider provider in Provider.GetByCompany(((Company)Session["Company"]).Id))
+        foreach (var provider in Provider.ByCompany(((Company)Session["Company"]).Id))
         {
             if (!provider.Active)
             {
@@ -118,7 +122,7 @@ public partial class ProvidersList : Page
                 searchedItem.Add(provider.Description);
             }
 
-            res.Append(provider.ListRow(this.dictionary, this.user.Grants));
+            res.Append(provider.ListRow(this.Dictionary, this.user.Grants));
             contData++;
         }
 

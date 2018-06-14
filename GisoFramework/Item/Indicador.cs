@@ -65,7 +65,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new Indicador()
+                return new Indicador
                 {
                     Id = 0,
                     Description = string.Empty,
@@ -171,126 +171,130 @@ namespace GisoFramework.Item
             }
         }
 
-        public static ReadOnlyCollection<Indicador> GetByCompany(Company company)
+        public static ReadOnlyCollection<Indicador> ByCompany(Company company)
         {
-            return GetByCompany(company.Id);
+            return ByCompany(company.Id);
         }
 
-        public static ReadOnlyCollection<Indicador> GetByCompany(int companyId)
+        public static ReadOnlyCollection<Indicador> ByCompany(int companyId)
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */
-            List<Indicador> res = new List<Indicador>();
-            using (SqlCommand cmd = new SqlCommand("Indicador_GetAll"))
+            var res = new List<Indicador>();
+            using (var cmd = new SqlCommand("Indicador_GetAll"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        Indicador indicador = new Indicador()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.Id),
-                            Description = rdr.GetString(ColumnsIndicadorGet.Descripcion),
-                            CompanyId = companyId,
-                            StartDate = rdr.GetDateTime(ColumnsIndicadorGet.StartDate),
-                            Calculo = rdr.GetString(ColumnsIndicadorGet.Calculo),
-                            MetaComparer = rdr.GetString(ColumnsIndicadorGet.MetaComparer),
-                            Meta = rdr.GetDecimal(ColumnsIndicadorGet.Meta),
-                            AlarmaComparer = rdr.GetString(ColumnsIndicadorGet.AlarmaComparer)
-                        };
-
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.Alarma))
-                        {
-                            indicador.Alarma = rdr.GetDecimal(ColumnsIndicadorGet.Alarma);
-                        }
-
-                        indicador.Periodicity = rdr.GetInt32(ColumnsIndicadorGet.Periodicity);
-                        indicador.Unidad = new Unidad()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.UnidadId),
-                            Description = rdr.GetString(ColumnsIndicadorGet.UnidadDescripcion)
-                        };
-
-                        indicador.Responsible = new Employee()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleEmployeeId),
-                            Name = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeName),
-                            LastName = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeLastName),
-                            UserId = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
-                            User = new ApplicationUser()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
-                                UserName = rdr.GetString(ColumnsIndicadorGet.ResponsibleLogin)
-                            }
-                        };
-
-                        indicador.CreatedBy = new ApplicationUser()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.CreatedBy),
-                            UserName = rdr.GetString(ColumnsIndicadorGet.CreatedByName)
-                        };
-                        indicador.CreatedOn = rdr.GetDateTime(ColumnsIndicadorGet.CreatedOn);
-                        indicador.ModifiedBy = new ApplicationUser()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.ModifiedBy),
-                            UserName = rdr.GetString(ColumnsIndicadorGet.ModifiedByName)
-                        };
-                        indicador.ModifiedOn = rdr.GetDateTime(ColumnsIndicadorGet.ModifiedOn);
-                        indicador.Active = rdr.GetBoolean(ColumnsIndicadorGet.Active);
-
-                        //if (!rdr.IsDBNull(ColumnsIndicadorGet.ObjetivoId))
-                        //{
-                        //    indicador.Objetivo = new Objetivo()
-                        //    {
-                        //        Id = rdr.GetInt32(ColumnsIndicadorGet.ObjetivoId),
-                        //        Description = rdr.GetString(ColumnsIndicadorGet.ObjetivoDescription)
-                        //    };
-                        //}
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.ProcessId))
-                        {
-                            indicador.Proceso = new Process()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.ProcessId),
-                                Description = rdr.GetString(ColumnsIndicadorGet.ProcessDescription)
-                            };
-                        }
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.EndDate))
-                        {
-                            indicador.EndDate = rdr.GetDateTime(ColumnsIndicadorGet.EndDate);
-                            indicador.EndReason = rdr.GetString(ColumnsIndicadorGet.EndReason);
-                        }
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.EndResponsible))
-                        {
-                            indicador.EndResponsible = new Employee()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleEmployeeId),
-                                Name = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeName),
-                                LastName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeLastName),
-                                UserId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
-                                User = new ApplicationUser()
+                                var indicador = new Indicador
                                 {
-                                    Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId)
-                                }
-                            };
-                        }
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.Id),
+                                    Description = rdr.GetString(ColumnsIndicadorGet.Descripcion),
+                                    CompanyId = companyId,
+                                    StartDate = rdr.GetDateTime(ColumnsIndicadorGet.StartDate),
+                                    Calculo = rdr.GetString(ColumnsIndicadorGet.Calculo),
+                                    MetaComparer = rdr.GetString(ColumnsIndicadorGet.MetaComparer),
+                                    Meta = rdr.GetDecimal(ColumnsIndicadorGet.Meta),
+                                    AlarmaComparer = rdr.GetString(ColumnsIndicadorGet.AlarmaComparer)
+                                };
 
-                        res.Add(indicador);
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.Alarma))
+                                {
+                                    indicador.Alarma = rdr.GetDecimal(ColumnsIndicadorGet.Alarma);
+                                }
+
+                                indicador.Periodicity = rdr.GetInt32(ColumnsIndicadorGet.Periodicity);
+                                indicador.Unidad = new Unidad
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.UnidadId),
+                                    Description = rdr.GetString(ColumnsIndicadorGet.UnidadDescripcion)
+                                };
+
+                                indicador.Responsible = new Employee
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleEmployeeId),
+                                    Name = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeName),
+                                    LastName = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeLastName),
+                                    UserId = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
+                                    User = new ApplicationUser
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
+                                        UserName = rdr.GetString(ColumnsIndicadorGet.ResponsibleLogin)
+                                    }
+                                };
+
+                                indicador.CreatedBy = new ApplicationUser
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.CreatedBy),
+                                    UserName = rdr.GetString(ColumnsIndicadorGet.CreatedByName)
+                                };
+                                indicador.CreatedOn = rdr.GetDateTime(ColumnsIndicadorGet.CreatedOn);
+                                indicador.ModifiedBy = new ApplicationUser
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.ModifiedBy),
+                                    UserName = rdr.GetString(ColumnsIndicadorGet.ModifiedByName)
+                                };
+                                indicador.ModifiedOn = rdr.GetDateTime(ColumnsIndicadorGet.ModifiedOn);
+                                indicador.Active = rdr.GetBoolean(ColumnsIndicadorGet.Active);
+
+                                //if (!rdr.IsDBNull(ColumnsIndicadorGet.ObjetivoId))
+                                //{
+                                //    indicador.Objetivo = new Objetivo()
+                                //    {
+                                //        Id = rdr.GetInt32(ColumnsIndicadorGet.ObjetivoId),
+                                //        Description = rdr.GetString(ColumnsIndicadorGet.ObjetivoDescription)
+                                //    };
+                                //}
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.ProcessId))
+                                {
+                                    indicador.Proceso = new Process
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.ProcessId),
+                                        Description = rdr.GetString(ColumnsIndicadorGet.ProcessDescription)
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.EndDate))
+                                {
+                                    indicador.EndDate = rdr.GetDateTime(ColumnsIndicadorGet.EndDate);
+                                    indicador.EndReason = rdr.GetString(ColumnsIndicadorGet.EndReason);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.EndResponsible))
+                                {
+                                    indicador.EndResponsible = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleEmployeeId),
+                                        Name = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeName),
+                                        LastName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeLastName),
+                                        UserId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
+                                        User = new ApplicationUser
+                                        {
+                                            Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId)
+                                        }
+                                    };
+                                }
+
+                                res.Add(indicador);
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -298,44 +302,49 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Indicador>(res);
         }
 
-        public static string GetPeriodicityByCompany(int companyId)
+        public static string PeriodicityByCompany(int companyId)
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */
-            StringBuilder res = new StringBuilder("[");
-            using (SqlCommand cmd = new SqlCommand("Indicador_GetAllPeriodicity"))
+            var res = new StringBuilder("[");
+            using (var cmd = new SqlCommand("Indicador_GetAllPeriodicity"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    bool first = true;
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        if (first)
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            first = false;
-                        }
-                        else
-                        {
-                            res.Append(",");
-                        }
+                            bool first = true;
+                            while (rdr.Read())
+                            {
+                                if (first)
+                                {
+                                    first = false;
+                                }
+                                else
+                                {
+                                    res.Append(",");
+                                }
 
-                        res.AppendFormat(
-                            CultureInfo.InvariantCulture,
-                            @"{{""Id"":{0},""Periodicity"":{1}}}",
-                            rdr.GetInt32(0),
-                            rdr.GetInt32(1));
+                                res.AppendFormat(
+                                    CultureInfo.InvariantCulture,
+                                    @"{{""Id"":{0},""Periodicity"":{1}}}",
+                                    rdr.GetInt32(0),
+                                    rdr.GetInt32(1));
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -344,126 +353,131 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static ReadOnlyCollection<Indicador> GetAvailablesForObjetivo(int companyId)
+        public static ReadOnlyCollection<Indicador> AvailablesByObjetivo(int companyId)
         {
             /* CREATE PROCEDURE Indicador_GetByCompany
              *   @CompanyId int */
-            List<Indicador> res = new List<Indicador>();
-            using (SqlCommand cmd = new SqlCommand("Indicador_GetAvailablesForObjetivo"))
+            var res = new List<Indicador>();
+            using (var cmd = new SqlCommand("Indicador_GetAvailablesForObjetivo"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        Indicador indicador = new Indicador()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.Id),
-                            Description = rdr.GetString(ColumnsIndicadorGet.Descripcion),
-                            CompanyId = companyId,
-                            Calculo = rdr.GetString(ColumnsIndicadorGet.Calculo),
-                            StartDate = rdr.GetDateTime(ColumnsIndicadorGet.StartDate),
-                            MetaComparer = rdr.GetString(ColumnsIndicadorGet.MetaComparer),
-                            Meta = rdr.GetDecimal(ColumnsIndicadorGet.Meta),
-                            AlarmaComparer = rdr.GetString(ColumnsIndicadorGet.AlarmaComparer),
-                            Periodicity = rdr.GetInt32(ColumnsIndicadorGet.Periodicity),
-                            Unidad = new Unidad()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.UnidadId),
-                                Description = rdr.GetString(ColumnsIndicadorGet.UnidadDescripcion)
-                            },
-                            Responsible = new Employee()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleEmployeeId),
-                                Name = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeName),
-                                LastName = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeLastName),
-                                UserId = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
-                                User = new ApplicationUser()
+                                var indicador = new Indicador
                                 {
-                                    Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
-                                    UserName = rdr.GetString(ColumnsIndicadorGet.ResponsibleLogin)
-                                }
-                            },
-                            CreatedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.CreatedBy),
-                                UserName = rdr.GetString(ColumnsIndicadorGet.CreatedByName)
-                            },
-                            CreatedOn = rdr.GetDateTime(ColumnsIndicadorGet.CreatedOn),
-                            ModifiedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.ModifiedBy),
-                                UserName = rdr.GetString(ColumnsIndicadorGet.ModifiedByName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsIndicadorGet.ModifiedOn),
-                            Active = rdr.GetBoolean(ColumnsIndicadorGet.Active)
-                        };
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.Alarma))
-                        {
-                            indicador.Alarma = rdr.GetDecimal(ColumnsIndicadorGet.Alarma);
-                        }
-
-                        //if (!rdr.IsDBNull(ColumnsIndicadorGet.ObjetivoId))
-                        //{
-                        //    indicador.Objetivo = new Objetivo()
-                        //    {
-                        //        Id = rdr.GetInt32(ColumnsIndicadorGet.ObjetivoId),
-                        //        Description = rdr.GetString(ColumnsIndicadorGet.ObjetivoDescription)
-                        //    };
-                        //}
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.ProcessId) && !rdr.IsDBNull(ColumnsIndicadorGet.ProcessDescription))
-                        {
-                            indicador.Proceso = new Process()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.ProcessId),
-                                Description = rdr.GetString(ColumnsIndicadorGet.ProcessDescription)
-                            };
-                        }
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.EndDate))
-                        {
-                            indicador.EndDate = rdr.GetDateTime(ColumnsIndicadorGet.EndDate);
-                            indicador.EndReason = rdr.GetString(ColumnsIndicadorGet.EndReason);
-                        }
-
-                        /*if (!rdr.IsDBNull(ColumnsIndicadorGet.EndResponsible))
-                        {
-                            int endResponsibleId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsible);
-                            if (endResponsibleId < 0)
-                            {
-                                indicador.EndResponsible = Employee.Empty;
-                            }
-                            else
-                            {
-                                indicador.EndResponsible = new Employee()
-                                {
-                                    Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleEmployeeId),
-                                    //Name = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeName),
-                                    //LastName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeLastName),
-                                    UserId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsible),
-                                    User = new ApplicationUser()
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.Id),
+                                    Description = rdr.GetString(ColumnsIndicadorGet.Descripcion),
+                                    CompanyId = companyId,
+                                    Calculo = rdr.GetString(ColumnsIndicadorGet.Calculo),
+                                    StartDate = rdr.GetDateTime(ColumnsIndicadorGet.StartDate),
+                                    MetaComparer = rdr.GetString(ColumnsIndicadorGet.MetaComparer),
+                                    Meta = rdr.GetDecimal(ColumnsIndicadorGet.Meta),
+                                    AlarmaComparer = rdr.GetString(ColumnsIndicadorGet.AlarmaComparer),
+                                    Periodicity = rdr.GetInt32(ColumnsIndicadorGet.Periodicity),
+                                    Unidad = new Unidad
                                     {
-                                        Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
-                                        UserName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleLogin)
-                                    }
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.UnidadId),
+                                        Description = rdr.GetString(ColumnsIndicadorGet.UnidadDescripcion)
+                                    },
+                                    Responsible = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleEmployeeId),
+                                        Name = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeName),
+                                        LastName = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeLastName),
+                                        UserId = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
+                                        User = new ApplicationUser
+                                        {
+                                            Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
+                                            UserName = rdr.GetString(ColumnsIndicadorGet.ResponsibleLogin)
+                                        }
+                                    },
+                                    CreatedBy = new ApplicationUser
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.CreatedBy),
+                                        UserName = rdr.GetString(ColumnsIndicadorGet.CreatedByName)
+                                    },
+                                    CreatedOn = rdr.GetDateTime(ColumnsIndicadorGet.CreatedOn),
+                                    ModifiedBy = new ApplicationUser
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.ModifiedBy),
+                                        UserName = rdr.GetString(ColumnsIndicadorGet.ModifiedByName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsIndicadorGet.ModifiedOn),
+                                    Active = rdr.GetBoolean(ColumnsIndicadorGet.Active)
                                 };
-                            }
-                        }*/
 
-                        res.Add(indicador);
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.Alarma))
+                                {
+                                    indicador.Alarma = rdr.GetDecimal(ColumnsIndicadorGet.Alarma);
+                                }
+
+                                //if (!rdr.IsDBNull(ColumnsIndicadorGet.ObjetivoId))
+                                //{
+                                //    indicador.Objetivo = new Objetivo()
+                                //    {
+                                //        Id = rdr.GetInt32(ColumnsIndicadorGet.ObjetivoId),
+                                //        Description = rdr.GetString(ColumnsIndicadorGet.ObjetivoDescription)
+                                //    };
+                                //}
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.ProcessId) && !rdr.IsDBNull(ColumnsIndicadorGet.ProcessDescription))
+                                {
+                                    indicador.Proceso = new Process
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.ProcessId),
+                                        Description = rdr.GetString(ColumnsIndicadorGet.ProcessDescription)
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.EndDate))
+                                {
+                                    indicador.EndDate = rdr.GetDateTime(ColumnsIndicadorGet.EndDate);
+                                    indicador.EndReason = rdr.GetString(ColumnsIndicadorGet.EndReason);
+                                }
+
+                                /*if (!rdr.IsDBNull(ColumnsIndicadorGet.EndResponsible))
+                                {
+                                    int endResponsibleId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsible);
+                                    if (endResponsibleId < 0)
+                                    {
+                                        indicador.EndResponsible = Employee.Empty;
+                                    }
+                                    else
+                                    {
+                                        indicador.EndResponsible = new Employee()
+                                        {
+                                            Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleEmployeeId),
+                                            //Name = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeName),
+                                            //LastName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeLastName),
+                                            UserId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsible),
+                                            User = new ApplicationUser()
+                                            {
+                                                Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
+                                                UserName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleLogin)
+                                            }
+                                        };
+                                    }
+                                }*/
+
+                                res.Add(indicador);
+                            }
+                        }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -475,116 +489,121 @@ namespace GisoFramework.Item
         {
             /* CREATE PROCEDURE Indicador_GetByCompany
              *   @CompanyId int */
-            List<Indicador> res = new List<Indicador>();
-            using (SqlCommand cmd = new SqlCommand("Indicador_GetActive"))
+            var res = new List<Indicador>();
+            using (var cmd = new SqlCommand("Indicador_GetActive"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        Indicador indicador = new Indicador()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.Id),
-                            Description = rdr.GetString(ColumnsIndicadorGet.Descripcion),
-                            CompanyId = companyId,
-                            StartDate = rdr.GetDateTime(ColumnsIndicadorGet.StartDate),
-                            Calculo = rdr.GetString(ColumnsIndicadorGet.Calculo),
-                            MetaComparer = rdr.GetString(ColumnsIndicadorGet.MetaComparer),
-                            Meta = rdr.GetDecimal(ColumnsIndicadorGet.Meta),
-                            AlarmaComparer = rdr.GetString(ColumnsIndicadorGet.AlarmaComparer)
-                        };
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.Alarma))
-                        {
-                            indicador.Alarma = rdr.GetDecimal(ColumnsIndicadorGet.Alarma);
-                        }
-
-                        indicador.Periodicity = rdr.GetInt32(ColumnsIndicadorGet.Periodicity);
-                        indicador.Unidad = new Unidad()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.UnidadId),
-                            Description = rdr.GetString(ColumnsIndicadorGet.UnidadDescripcion)
-                        };
-
-                        indicador.Responsible = new Employee()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleEmployeeId),
-                            Name = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeName),
-                            LastName = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeLastName),
-                            UserId = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
-                            User = new ApplicationUser()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
-                                UserName = rdr.GetString(ColumnsIndicadorGet.ResponsibleLogin)
-                            }
-                        };
-
-                        indicador.CreatedBy = new ApplicationUser()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.CreatedBy),
-                            UserName = rdr.GetString(ColumnsIndicadorGet.CreatedByName)
-                        };
-                        indicador.CreatedOn = rdr.GetDateTime(ColumnsIndicadorGet.CreatedOn);
-                        indicador.ModifiedBy = new ApplicationUser()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.ModifiedBy),
-                            UserName = rdr.GetString(ColumnsIndicadorGet.ModifiedByName)
-                        };
-                        indicador.ModifiedOn = rdr.GetDateTime(ColumnsIndicadorGet.ModifiedOn);
-                        indicador.Active = rdr.GetBoolean(ColumnsIndicadorGet.Active);
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.ProcessId) && !rdr.IsDBNull(ColumnsIndicadorGet.ProcessDescription))
-                        {
-                            indicador.Proceso = new Process()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.ProcessId),
-                                Description = rdr.GetString(ColumnsIndicadorGet.ProcessDescription)
-                            };
-                        }
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.EndDate))
-                        {
-                            indicador.EndDate = rdr.GetDateTime(ColumnsIndicadorGet.EndDate);
-                            indicador.EndReason = rdr.GetString(ColumnsIndicadorGet.EndReason);
-                        }
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.EndResponsible))
-                        {
-                            int endResponsibleId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsible);
-                            if (endResponsibleId < 0)
-                            {
-                                indicador.EndResponsible = Employee.Empty;
-                            }
-                            else
-                            {
-                                indicador.EndResponsible = new Employee()
+                                var indicador = new Indicador
                                 {
-                                    Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleEmployeeId),
-                                    Name = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeName),
-                                    LastName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeLastName),
-                                    UserId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
-                                    User = new ApplicationUser()
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.Id),
+                                    Description = rdr.GetString(ColumnsIndicadorGet.Descripcion),
+                                    CompanyId = companyId,
+                                    StartDate = rdr.GetDateTime(ColumnsIndicadorGet.StartDate),
+                                    Calculo = rdr.GetString(ColumnsIndicadorGet.Calculo),
+                                    MetaComparer = rdr.GetString(ColumnsIndicadorGet.MetaComparer),
+                                    Meta = rdr.GetDecimal(ColumnsIndicadorGet.Meta),
+                                    AlarmaComparer = rdr.GetString(ColumnsIndicadorGet.AlarmaComparer)
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.Alarma))
+                                {
+                                    indicador.Alarma = rdr.GetDecimal(ColumnsIndicadorGet.Alarma);
+                                }
+
+                                indicador.Periodicity = rdr.GetInt32(ColumnsIndicadorGet.Periodicity);
+                                indicador.Unidad = new Unidad
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.UnidadId),
+                                    Description = rdr.GetString(ColumnsIndicadorGet.UnidadDescripcion)
+                                };
+
+                                indicador.Responsible = new Employee
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleEmployeeId),
+                                    Name = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeName),
+                                    LastName = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeLastName),
+                                    UserId = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
+                                    User = new ApplicationUser
                                     {
-                                        Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
-                                        UserName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleLogin)
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
+                                        UserName = rdr.GetString(ColumnsIndicadorGet.ResponsibleLogin)
                                     }
                                 };
+
+                                indicador.CreatedBy = new ApplicationUser
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.CreatedBy),
+                                    UserName = rdr.GetString(ColumnsIndicadorGet.CreatedByName)
+                                };
+                                indicador.CreatedOn = rdr.GetDateTime(ColumnsIndicadorGet.CreatedOn);
+                                indicador.ModifiedBy = new ApplicationUser
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.ModifiedBy),
+                                    UserName = rdr.GetString(ColumnsIndicadorGet.ModifiedByName)
+                                };
+                                indicador.ModifiedOn = rdr.GetDateTime(ColumnsIndicadorGet.ModifiedOn);
+                                indicador.Active = rdr.GetBoolean(ColumnsIndicadorGet.Active);
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.ProcessId) && !rdr.IsDBNull(ColumnsIndicadorGet.ProcessDescription))
+                                {
+                                    indicador.Proceso = new Process
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.ProcessId),
+                                        Description = rdr.GetString(ColumnsIndicadorGet.ProcessDescription)
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.EndDate))
+                                {
+                                    indicador.EndDate = rdr.GetDateTime(ColumnsIndicadorGet.EndDate);
+                                    indicador.EndReason = rdr.GetString(ColumnsIndicadorGet.EndReason);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.EndResponsible))
+                                {
+                                    int endResponsibleId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsible);
+                                    if (endResponsibleId < 0)
+                                    {
+                                        indicador.EndResponsible = Employee.Empty;
+                                    }
+                                    else
+                                    {
+                                        indicador.EndResponsible = new Employee
+                                        {
+                                            Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleEmployeeId),
+                                            Name = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeName),
+                                            LastName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeLastName),
+                                            UserId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
+                                            User = new ApplicationUser
+                                            {
+                                                Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
+                                                UserName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleLogin)
+                                            }
+                                        };
+                                    }
+                                }
+
+                                res.Add(indicador);
                             }
                         }
-
-                        res.Add(indicador);
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -592,119 +611,132 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Indicador>(res);
         }
 
-        public static ReadOnlyCollection<Indicador> GetByProcess(int processId, int companyId)
+        public static ReadOnlyCollection<Indicador> ByProcessId(int processId, int companyId)
         {
             /* CREATE PROCEDURE [dbo].[Indicador_GetByProcessId]
              *   @CompanyId int,
              *   @ProcessId int */
-            List<Indicador> res = new List<Indicador>();
-            using (SqlCommand cmd = new SqlCommand("Indicador_GetByProcessId"))
+            var res = new List<Indicador>();
+            using (var cmd = new SqlCommand("Indicador_GetByProcessId"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@ProcessId", processId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        Indicador indicador = new Indicador()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@ProcessId", processId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.Id),
-                            Description = rdr.GetString(ColumnsIndicadorGet.Descripcion),
-                            CompanyId = companyId,
-                            StartDate = rdr.GetDateTime(ColumnsIndicadorGet.StartDate),
-                            Calculo = rdr.GetString(ColumnsIndicadorGet.Calculo),
-                            MetaComparer = rdr.GetString(ColumnsIndicadorGet.MetaComparer),
-                            Meta = rdr.GetDecimal(ColumnsIndicadorGet.Meta),
-                            AlarmaComparer = rdr.GetString(ColumnsIndicadorGet.AlarmaComparer),
-                            Periodicity = rdr.GetInt32(ColumnsIndicadorGet.Periodicity),
-                            Unidad = new Unidad()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.UnidadId),
-                                Description = rdr.GetString(ColumnsIndicadorGet.UnidadDescripcion)
-                            },
-                            CreatedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.CreatedBy),
-                                UserName = rdr.GetString(ColumnsIndicadorGet.CreatedByName)
-                            },
-                            CreatedOn = rdr.GetDateTime(ColumnsIndicadorGet.CreatedOn),
-                            ModifiedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.ModifiedBy),
-                                UserName = rdr.GetString(ColumnsIndicadorGet.ModifiedByName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsIndicadorGet.ModifiedOn),
-                            Active = rdr.GetBoolean(ColumnsIndicadorGet.Active),
-                            Responsible = new Employee()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleEmployeeId),
-                                Name = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeName),
-                                LastName = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeLastName),
-                                UserId = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
-                                User = new ApplicationUser()
+                                var indicador = new Indicador
                                 {
-                                    Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
-                                    UserName = rdr.GetString(ColumnsIndicadorGet.ResponsibleLogin)
-                                }
-                            }
-                        };
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.Alarma))
-                        {
-                            indicador.Alarma = rdr.GetDecimal(ColumnsIndicadorGet.Alarma);
-                        }
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.ProcessId))
-                        {
-                            indicador.Proceso = new Process()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.ProcessId),
-                                Description = rdr.GetString(ColumnsIndicadorGet.ProcessDescription)
-                            };
-                        }
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.EndDate))
-                        {
-                            indicador.EndDate = rdr.GetDateTime(ColumnsIndicadorGet.EndDate);
-                            indicador.EndReason = rdr.GetString(ColumnsIndicadorGet.EndReason);
-                        }
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.EndResponsible))
-                        {
-                            int endResponsibleId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsible);
-                            if (endResponsibleId < 0)
-                            {
-                                indicador.EndResponsible = Employee.Empty;
-                            }
-                            else
-                            {
-                                indicador.EndResponsible = new Employee()
-                                {
-                                    Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleEmployeeId),
-                                    Name = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeName),
-                                    LastName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeLastName),
-                                    UserId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
-                                    User = new ApplicationUser()
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.Id),
+                                    Description = rdr.GetString(ColumnsIndicadorGet.Descripcion),
+                                    CompanyId = companyId,
+                                    StartDate = rdr.GetDateTime(ColumnsIndicadorGet.StartDate),
+                                    Calculo = rdr.GetString(ColumnsIndicadorGet.Calculo),
+                                    MetaComparer = rdr.GetString(ColumnsIndicadorGet.MetaComparer),
+                                    Meta = rdr.GetDecimal(ColumnsIndicadorGet.Meta),
+                                    AlarmaComparer = rdr.GetString(ColumnsIndicadorGet.AlarmaComparer),
+                                    Periodicity = rdr.GetInt32(ColumnsIndicadorGet.Periodicity),
+                                    Unidad = new Unidad
                                     {
-                                        Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
-                                        UserName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleLogin)
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.UnidadId),
+                                        Description = rdr.GetString(ColumnsIndicadorGet.UnidadDescripcion),
+                                        CompanyId = companyId
+                                    },
+                                    CreatedBy = new ApplicationUser
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.CreatedBy),
+                                        UserName = rdr.GetString(ColumnsIndicadorGet.CreatedByName),
+                                        CompanyId = companyId
+                                    },
+                                    CreatedOn = rdr.GetDateTime(ColumnsIndicadorGet.CreatedOn),
+                                    ModifiedBy = new ApplicationUser
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.ModifiedBy),
+                                        UserName = rdr.GetString(ColumnsIndicadorGet.ModifiedByName),
+                                        CompanyId = companyId
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsIndicadorGet.ModifiedOn),
+                                    Active = rdr.GetBoolean(ColumnsIndicadorGet.Active),
+                                    Responsible = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleEmployeeId),
+                                        Name = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeName),
+                                        LastName = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeLastName),
+                                        UserId = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
+                                        CompanyId = companyId,
+                                        User = new ApplicationUser
+                                        {
+                                            Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
+                                            UserName = rdr.GetString(ColumnsIndicadorGet.ResponsibleLogin),
+                                            CompanyId = companyId
+                                        }
                                     }
                                 };
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.Alarma))
+                                {
+                                    indicador.Alarma = rdr.GetDecimal(ColumnsIndicadorGet.Alarma);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.ProcessId))
+                                {
+                                    indicador.Proceso = new Process
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.ProcessId),
+                                        Description = rdr.GetString(ColumnsIndicadorGet.ProcessDescription),
+                                        CompanyId = companyId
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.EndDate))
+                                {
+                                    indicador.EndDate = rdr.GetDateTime(ColumnsIndicadorGet.EndDate);
+                                    indicador.EndReason = rdr.GetString(ColumnsIndicadorGet.EndReason);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.EndResponsible))
+                                {
+                                    int endResponsibleId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsible);
+                                    if (endResponsibleId < 0)
+                                    {
+                                        indicador.EndResponsible = Employee.Empty;
+                                    }
+                                    else
+                                    {
+                                        indicador.EndResponsible = new Employee
+                                        {
+                                            Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleEmployeeId),
+                                            Name = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeName),
+                                            LastName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeLastName),
+                                            UserId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
+                                            CompanyId = companyId,
+                                            User = new ApplicationUser
+                                            {
+                                                Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
+                                                UserName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleLogin),
+                                                CompanyId = companyId
+                                            }
+                                        };
+                                    }
+                                }
+
+                                res.Add(indicador);
                             }
                         }
-
-                        res.Add(indicador);
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -721,14 +753,13 @@ namespace GisoFramework.Item
 
             switch (comparerValue.ToUpperInvariant())
             {
-                case "EQ": return dictionary["Common_Comparer_eq"];
                 case "GT": return dictionary["Common_Comparer_gt"];
                 case "EQGT": return dictionary["Common_Comparer_eqgt"];
                 case "LT": return dictionary["Common_Comparer_lt"];
                 case "EQLT": return dictionary["Common_Comparer_eqlt"];
+                case "EQ": return dictionary["Common_Comparer_eq"];
+                default: return string.Empty;
             }
-
-            return string.Empty;
         }
 
         public static string ComparerLabelSign(string comparerValue, Dictionary<string, string> dictionary)
@@ -745,16 +776,15 @@ namespace GisoFramework.Item
                 case "EQGT": return dictionary["Common_ComparerSign_eqgt"];
                 case "LT": return dictionary["Common_ComparerSign_lt"];
                 case "EQLT": return dictionary["Common_ComparerSign_eqlt"];
+                default: return string.Empty;
             }
-
-            return string.Empty;
         }
 
-        public static string GetByCompanyJson(int companyId)
+        public static string ByCompanyJson(int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (Indicador objetivo in GetByCompany(companyId))
+            foreach (var objetivo in ByCompany(companyId))
             {
                 if (objetivo.Active)
                 {
@@ -775,122 +805,125 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>Gets indicador from database by identifier</summary>
         /// <param name="indicadorId"></param>
         /// <param name="companyId"></param>
-        /// <returns></returns>
-        public static Indicador GetById(int indicadorId, int companyId)
+        /// <returns>Indicador from database by identifier</returns>
+        public static Indicador ById(int indicadorId, int companyId)
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */
-            Indicador res = Indicador.Empty;
-            using (SqlCommand cmd = new SqlCommand("Indicador_GetById"))
+            var res = Indicador.Empty;
+            using (var cmd = new SqlCommand("Indicador_GetById"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        rdr.Read();
-                        res.Id = rdr.GetInt32(ColumnsIndicadorGet.Id);
-                        res.Description = rdr.GetString(ColumnsIndicadorGet.Descripcion);
-                        res.CompanyId = companyId;
-                        res.Calculo = rdr.GetString(ColumnsIndicadorGet.Calculo);
-                        res.MetaComparer = rdr.GetString(ColumnsIndicadorGet.MetaComparer);
-                        res.StartDate = rdr.GetDateTime(ColumnsIndicadorGet.StartDate);
-                        res.Meta = rdr.GetDecimal(ColumnsIndicadorGet.Meta);
-                        res.AlarmaComparer = rdr.GetString(ColumnsIndicadorGet.AlarmaComparer);
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.Alarma))
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            res.Alarma = rdr.GetDecimal(ColumnsIndicadorGet.Alarma);
-                        }
-
-                        res.Periodicity = rdr.GetInt32(ColumnsIndicadorGet.Periodicity);
-                        res.Unidad = new Unidad()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.UnidadId),
-                            Description = rdr.GetString(ColumnsIndicadorGet.UnidadDescripcion)
-                        };
-
-                        res.Responsible = new Employee()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleEmployeeId),
-                            Name = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeName),
-                            LastName = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeLastName),
-                            UserId = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
-                            User = new ApplicationUser()
+                            if (rdr.HasRows)
                             {
-                                Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
-                                UserName = rdr.GetString(ColumnsIndicadorGet.ResponsibleLogin)
-                            }
-                        };
-
-                        res.CreatedBy = new ApplicationUser()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.CreatedBy),
-                            UserName = rdr.GetString(ColumnsIndicadorGet.CreatedByName)
-                        };
-                        res.CreatedOn = rdr.GetDateTime(ColumnsIndicadorGet.CreatedOn);
-                        res.ModifiedBy = new ApplicationUser()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorGet.ModifiedBy),
-                            UserName = rdr.GetString(ColumnsIndicadorGet.ModifiedByName)
-                        };
-                        res.ModifiedOn = rdr.GetDateTime(ColumnsIndicadorGet.ModifiedOn);
-                        res.Active = rdr.GetBoolean(ColumnsIndicadorGet.Active);
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.ProcessId))
-                        {
-                            int processId = rdr.GetInt32(ColumnsIndicadorGet.ProcessId);
-                            if (processId > 0)
-                            {
-                                res.Proceso = new Process()
+                                rdr.Read();
+                                res.Id = rdr.GetInt32(ColumnsIndicadorGet.Id);
+                                res.Description = rdr.GetString(ColumnsIndicadorGet.Descripcion);
+                                res.CompanyId = companyId;
+                                res.Calculo = rdr.GetString(ColumnsIndicadorGet.Calculo);
+                                res.MetaComparer = rdr.GetString(ColumnsIndicadorGet.MetaComparer);
+                                res.StartDate = rdr.GetDateTime(ColumnsIndicadorGet.StartDate);
+                                res.Meta = rdr.GetDecimal(ColumnsIndicadorGet.Meta);
+                                res.AlarmaComparer = rdr.GetString(ColumnsIndicadorGet.AlarmaComparer);
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.Alarma))
                                 {
-                                    Id = processId,
-                                    Description = rdr.GetString(ColumnsIndicadorGet.ProcessDescription)
+                                    res.Alarma = rdr.GetDecimal(ColumnsIndicadorGet.Alarma);
+                                }
+
+                                res.Periodicity = rdr.GetInt32(ColumnsIndicadorGet.Periodicity);
+                                res.Unidad = new Unidad
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.UnidadId),
+                                    Description = rdr.GetString(ColumnsIndicadorGet.UnidadDescripcion)
                                 };
-                            }
-                        }
 
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.EndDate))
-                        {
-                            res.EndDate = rdr.GetDateTime(ColumnsIndicadorGet.EndDate);
-                            res.EndReason = rdr.GetString(ColumnsIndicadorGet.EndReason);
-                        }
-
-                        if (!rdr.IsDBNull(ColumnsIndicadorGet.EndResponsible))
-                        {
-                            int endResponsibleId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId);
-                            if (endResponsibleId > 0)
-                            {
-                                res.EndResponsible = new Employee()
+                                res.Responsible = new Employee
                                 {
-                                    Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleEmployeeId),
-                                    Name = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeName),
-                                    LastName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeLastName),
-                                    UserId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
-                                    User = new ApplicationUser()
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleEmployeeId),
+                                    Name = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeName),
+                                    LastName = rdr.GetString(ColumnsIndicadorGet.ResponsibleEmployeeLastName),
+                                    UserId = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
+                                    User = new ApplicationUser
                                     {
-                                        Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId),
-                                        UserName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleLogin)
+                                        Id = rdr.GetInt32(ColumnsIndicadorGet.ResponsibleId),
+                                        UserName = rdr.GetString(ColumnsIndicadorGet.ResponsibleLogin)
                                     }
                                 };
+
+                                res.CreatedBy = new ApplicationUser
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.CreatedBy),
+                                    UserName = rdr.GetString(ColumnsIndicadorGet.CreatedByName)
+                                };
+                                res.CreatedOn = rdr.GetDateTime(ColumnsIndicadorGet.CreatedOn);
+                                res.ModifiedBy = new ApplicationUser
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorGet.ModifiedBy),
+                                    UserName = rdr.GetString(ColumnsIndicadorGet.ModifiedByName)
+                                };
+                                res.ModifiedOn = rdr.GetDateTime(ColumnsIndicadorGet.ModifiedOn);
+                                res.Active = rdr.GetBoolean(ColumnsIndicadorGet.Active);
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.ProcessId))
+                                {
+                                    int processId = rdr.GetInt32(ColumnsIndicadorGet.ProcessId);
+                                    if (processId > 0)
+                                    {
+                                        res.Proceso = new Process
+                                        {
+                                            Id = processId,
+                                            Description = rdr.GetString(ColumnsIndicadorGet.ProcessDescription)
+                                        };
+                                    }
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.EndDate))
+                                {
+                                    res.EndDate = rdr.GetDateTime(ColumnsIndicadorGet.EndDate);
+                                    res.EndReason = rdr.GetString(ColumnsIndicadorGet.EndReason);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorGet.EndResponsible))
+                                {
+                                    int endResponsibleId = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleId);
+                                    if (endResponsibleId > 0)
+                                    {
+                                        res.EndResponsible = new Employee
+                                        {
+                                            Id = rdr.GetInt32(ColumnsIndicadorGet.EndResponsibleEmployeeId),
+                                            Name = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeName),
+                                            LastName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleEmployeeLastName),
+                                            UserId = endResponsibleId,
+                                            User = new ApplicationUser
+                                            {
+                                                Id = endResponsibleId,
+                                                UserName = rdr.GetString(ColumnsIndicadorGet.EndResponsibleLogin)
+                                            }
+                                        };
+                                    }
+                                }
                             }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -898,7 +931,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        public string ListRow(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> grants)
+        /*public string ListRow(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> grants)
         {
             if (grants == null)
             {
@@ -916,10 +949,10 @@ namespace GisoFramework.Item
             string iconDelete = string.Empty;
             if (grantDelete)
             {
-                string deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "IndicadorDelete({0},'{1}');", this.Id, this.Description);
+                string deleteFunction = string.Format(CultureInfo.InvariantCulture, "IndicadorDelete({0},'{1}');", this.Id, this.Description);
                 if (!this.CanBeDeleted)
                 {
-                    deleteFunction = string.Format(CultureInfo.GetCultureInfo("en-us"), "warningInfoUI('{0}', null, 400);", dictionary["Common_Warning_Undelete"]);
+                    deleteFunction = string.Format(CultureInfo.InvariantCulture, "warningInfoUI('{0}', null, 400);", dictionary["Common_Warning_Undelete"]);
                 }
 
                 iconDelete = string.Format(
@@ -950,7 +983,7 @@ namespace GisoFramework.Item
 
             string pattenr = @"<tr><td>{0}</td><td style=""width:250px;"">{1}</td><td align=""center"" style=""width:90px;"">{4:dd/MM/yyyy}</td><td align=""center"" style=""width:90px;"">{5:dd/MM/yyyy}</td><td style=""width:90px;"">{2}&nbsp;{3}</td></tr>";
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattenr,
                 this.Link,
                 this.Proceso.Link,
@@ -959,7 +992,7 @@ namespace GisoFramework.Item
                 iconDelete,
                 this.Responsible.FullName,
                 this.EndResponsible.FullName);
-        }
+        }*/
 
         public static ActionResult Activate(int indicadorId, int companyId, int applicationUserId)
         {
@@ -968,17 +1001,17 @@ namespace GisoFramework.Item
                 @"Indicador::Activate({0}, {1})",
                 indicadorId,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Indicador_Activate]
              *   @IndicadorId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Indicador_Activate"))
+            using (var cmd = new SqlCommand("Indicador_Activate"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
@@ -1032,17 +1065,17 @@ namespace GisoFramework.Item
                @"Indicador::Restore({0}, {1})",
                indicadorId,
                applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE [dbo].[Indicador_Restore]
              *   @IndicadorId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Indicador_Restore"))
+            using (var cmd = new SqlCommand("Indicador_Restore"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
@@ -1097,7 +1130,7 @@ namespace GisoFramework.Item
                 @"Indicador::Inactivate({0}, {1})",
                 indicadorId,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE [dbo].[Indicador_Anulate]
              *   @IndicadorId int,
              *   @CompanyId int,
@@ -1106,21 +1139,20 @@ namespace GisoFramework.Item
              *   @EndResponsable int,
              *   @UnidadId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Indicador_Anulate"))
+            using (var cmd = new SqlCommand("Indicador_Anulate"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Parameters.Add(DataParameter.Input("@EndDate", date));
-                        cmd.Parameters.Add(DataParameter.Input("@EndReason", reason, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@EndReason", reason, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@EndResponsible", responsible));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess(indicadorId);
@@ -1168,23 +1200,22 @@ namespace GisoFramework.Item
                 @"Objetivo::Inactivate({0}, {1})",
                 indicadorId,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Indicador_Inactivate]
              *   @IndicadorId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Indicador_Inactivate"))
+            using (var cmd = new SqlCommand("Indicador_Inactivate"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess(indicadorId);
@@ -1232,7 +1263,7 @@ namespace GisoFramework.Item
                 @"Indicador::Indicador_Insert({0}, {1})",
                 this.Id,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Indicador_Insert] 
              *   @IndicadorId int output,
              *   @CompanyId int,
@@ -1251,12 +1282,12 @@ namespace GisoFramework.Item
              *   @EndResponsible int,
              *   @UnidadId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Indicador_Insert"))
+            using (var cmd = new SqlCommand("Indicador_Insert"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.OutputInt("@IndicadorId"));
@@ -1277,7 +1308,6 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@EndResponsible", this.EndResponsible.Id));
                         cmd.Parameters.Add(DataParameter.Input("@UnidadId", this.Unidad.Id));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         this.Id = Convert.ToInt32(cmd.Parameters["@IndicadorId"].Value.ToString());
@@ -1332,7 +1362,7 @@ namespace GisoFramework.Item
                 @"Indicador::Indicador_Update({0}, {1})",
                 this.Id,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Indicador_Update]
              *   @IndicadorId int,
              *   @CompanyId int,
@@ -1351,12 +1381,12 @@ namespace GisoFramework.Item
              *   @EndResponsable int,
              *   @UnidadId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Indicador_Update"))
+            using (var cmd = new SqlCommand("Indicador_Update"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@IndicadorId", this.Id));
@@ -1377,7 +1407,6 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@EndResponsable", this.EndResponsible.Id));
                         cmd.Parameters.Add(DataParameter.Input("@UnidadId", this.Unidad.Id));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         this.Id = Convert.ToInt32(cmd.Parameters["@IndicadorId"].Value.ToString());
@@ -1421,10 +1450,10 @@ namespace GisoFramework.Item
 
         public static string FilterList(int companyId, int indicadorType, DateTime? from, DateTime? to, int? processId, int? processTypeId, int? objetivoId, int status)
         {
-            ReadOnlyCollection<IndicadorFilterItem> items = Filter(companyId, indicadorType, from, to, processId, processTypeId, objetivoId, status);
-            StringBuilder res = new StringBuilder("[");
+            var items = Filter(companyId, indicadorType, from, to, processId, processTypeId, objetivoId, status);
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (IndicadorFilterItem item in items)
+            foreach (var item in items)
             {
                 if (first)
                 {
@@ -1465,137 +1494,142 @@ namespace GisoFramework.Item
              *   @ProcessTypeId int,
              *   @ObjetivoId int
              *   @Closed bit */
-            List<IndicadorFilterItem> res = new List<IndicadorFilterItem>();
-            using (SqlCommand cmd = new SqlCommand("Indicator_Filter"))
+            var res = new List<IndicadorFilterItem>();
+            using (var cmd = new SqlCommand("Indicator_Filter"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
+                    cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@IndicadorType", indicadorType));
-                    cmd.Parameters.Add(DataParameter.Input("@DateFrom", from));
-                    cmd.Parameters.Add(DataParameter.Input("@DateTo", to));
-                    cmd.Parameters.Add(DataParameter.Input("@ProcessId", processId));
-                    cmd.Parameters.Add(DataParameter.Input("@ProcessTypeId", processTypeId));
-                    cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", objetivoId));
-                    cmd.Parameters.Add(DataParameter.Input("@Status", status));
-
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    int lastIndicador = 0;
-                    while (rdr.Read())
+                    try
                     {
-                        int actualIndicador = rdr.GetInt32(ColumnsIndicadorFilter.IndicadorId);
-                        if (actualIndicador != lastIndicador)
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@IndicadorType", indicadorType));
+                        cmd.Parameters.Add(DataParameter.Input("@DateFrom", from));
+                        cmd.Parameters.Add(DataParameter.Input("@DateTo", to));
+                        cmd.Parameters.Add(DataParameter.Input("@ProcessId", processId));
+                        cmd.Parameters.Add(DataParameter.Input("@ProcessTypeId", processTypeId));
+                        cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", objetivoId));
+                        cmd.Parameters.Add(DataParameter.Input("@Status", status));
+
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            IndicadorFilterItem item = new IndicadorFilterItem()
+                            int lastIndicador = 0;
+                            while (rdr.Read())
                             {
-                                Indicador = new Indicador()
+                                int actualIndicador = rdr.GetInt32(ColumnsIndicadorFilter.IndicadorId);
+                                if (actualIndicador != lastIndicador)
                                 {
-                                    Id = actualIndicador,
-                                    Description = rdr.GetString(ColumnsIndicadorFilter.Descripcion)
-                                },
-                                Proceso = new Process()
-                                {
-                                    Id = rdr.GetInt32(ColumnsIndicadorFilter.ProcessId),
-                                    Description = rdr.GetString(ColumnsIndicadorFilter.ProcessDescription),
-                                    ProcessType = rdr.GetInt32(ColumnsIndicadorFilter.ProcessType)
-                                },
-                                //Objetivo = Objetivo.Empty,
-                                Objetivo = new Objetivo()
-                                {
-                                    Id = rdr.GetInt32(ColumnsIndicadorFilter.ObjetivoId),
-                                    Description = string.Empty //rdr.GetString(ColumnsIndicadorFilter.ObjetivoDescription)
-                                },
-                                ProcessResponsible = rdr.GetString(ColumnsIndicadorFilter.ProcesoResponsible),
-                                ObjetivoResponsible = string.Format(
-                                    CultureInfo.InvariantCulture,
-                                    "{0} {1}",
-                                    rdr.GetString(ColumnsIndicadorFilter.ObjetivoResponsibleName),
-                                    rdr.GetString(ColumnsIndicadorFilter.ObjetivoResponsableLastName)).Trim(),
-                                StartDate = rdr.GetDateTime(ColumnsIndicadorFilter.StartDate)
-                            };
+                                    var item = new IndicadorFilterItem
+                                    {
+                                        Indicador = new Indicador
+                                        {
+                                            Id = actualIndicador,
+                                            Description = rdr.GetString(ColumnsIndicadorFilter.Descripcion)
+                                        },
+                                        Proceso = new Process
+                                        {
+                                            Id = rdr.GetInt32(ColumnsIndicadorFilter.ProcessId),
+                                            Description = rdr.GetString(ColumnsIndicadorFilter.ProcessDescription),
+                                            ProcessType = rdr.GetInt32(ColumnsIndicadorFilter.ProcessType)
+                                        },
+                                        //Objetivo = Objetivo.Empty,
+                                        Objetivo = new Objetivo
+                                        {
+                                            Id = rdr.GetInt32(ColumnsIndicadorFilter.ObjetivoId),
+                                            Description = string.Empty //rdr.GetString(ColumnsIndicadorFilter.ObjetivoDescription)
+                                        },
+                                        ProcessResponsible = rdr.GetString(ColumnsIndicadorFilter.ProcesoResponsible),
+                                        ObjetivoResponsible = string.Format(
+                                            CultureInfo.InvariantCulture,
+                                            "{0} {1}",
+                                            rdr.GetString(ColumnsIndicadorFilter.ObjetivoResponsibleName),
+                                            rdr.GetString(ColumnsIndicadorFilter.ObjetivoResponsableLastName)).Trim(),
+                                        StartDate = rdr.GetDateTime(ColumnsIndicadorFilter.StartDate)
+                                    };
 
-                            if (!rdr.IsDBNull(ColumnsIndicadorFilter.EndDate))
-                            {
-                                item.EndDate = rdr.GetDateTime(ColumnsIndicadorFilter.EndDate);
-                            }
+                                    if (!rdr.IsDBNull(ColumnsIndicadorFilter.EndDate))
+                                    {
+                                        item.EndDate = rdr.GetDateTime(ColumnsIndicadorFilter.EndDate);
+                                    }
 
-                            // Calcular estado
-                            item.Status = 0;
-                            if (!rdr.IsDBNull(ColumnsIndicadorFilter.Value))
-                            {
-                                decimal value = rdr.GetDecimal(ColumnsIndicadorFilter.Value);
-                                string metaComparer = rdr.GetString(ColumnsIndicadorFilter.MetaComparer);
-                                decimal meta = rdr.GetDecimal(ColumnsIndicadorFilter.Meta);
+                                    // Calcular estado
+                                    item.Status = 0;
+                                    if (!rdr.IsDBNull(ColumnsIndicadorFilter.Value))
+                                    {
+                                        decimal value = rdr.GetDecimal(ColumnsIndicadorFilter.Value);
+                                        string metaComparer = rdr.GetString(ColumnsIndicadorFilter.MetaComparer);
+                                        decimal meta = rdr.GetDecimal(ColumnsIndicadorFilter.Meta);
 
-                                if (metaComparer.Equals("eq",StringComparison.OrdinalIgnoreCase) && value == meta)
-                                {
-                                    status = 1;
+                                        if (metaComparer.Equals("eq", StringComparison.OrdinalIgnoreCase) && value == meta)
+                                        {
+                                            status = 1;
+                                        }
+
+                                        if (rdr.IsDBNull(ColumnsIndicadorFilter.AlarmaComparer))
+                                        {
+                                            if (metaComparer.Equals("gt", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                if (value > meta)
+                                                {
+                                                    status = 1;
+                                                }
+                                                else
+                                                {
+                                                    status = 2;
+                                                }
+                                            }
+                                            else if (metaComparer.Equals("lt", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                if (value < meta)
+                                                {
+                                                    status = 1;
+                                                }
+                                                else
+                                                {
+                                                    status = 2;
+                                                }
+                                            }
+                                            else if (metaComparer.Equals("eqlt", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                if (value <= meta)
+                                                {
+                                                    status = 1;
+                                                }
+                                                else
+                                                {
+                                                    status = 2;
+                                                }
+                                            }
+                                            else if (metaComparer.Equals("eqgt", StringComparison.OrdinalIgnoreCase))
+                                            {
+                                                if (value >= meta)
+                                                {
+                                                    status = 1;
+                                                }
+                                                else
+                                                {
+                                                    status = 2;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    res.Add(item);
                                 }
 
-                                if (rdr.IsDBNull(ColumnsIndicadorFilter.AlarmaComparer))
-                                {
-                                    if (metaComparer.Equals("gt", StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        if (value > meta)
-                                        {
-                                            status = 1;
-                                        }
-                                        else
-                                        {
-                                            status = 2;
-                                        }
-                                    }
-                                    else if (metaComparer.Equals("lt", StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        if (value < meta)
-                                        {
-                                            status = 1;
-                                        }
-                                        else
-                                        {
-                                            status = 2;
-                                        }
-                                    }
-                                    else if (metaComparer.Equals("eqlt", StringComparison.OrdinalIgnoreCase) )
-                                    {
-                                        if (value <= meta)
-                                        {
-                                            status = 1;
-                                        }
-                                        else
-                                        {
-                                            status = 2;
-                                        }
-                                    } 
-                                    else if (metaComparer.Equals("eqgt", StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        if (value >= meta)
-                                        {
-                                            status = 1;
-                                        }
-                                        else
-                                        {
-                                            status = 2;
-                                        }
-                                    }
-                                }
+                                lastIndicador = actualIndicador;
                             }
-
-                            res.Add(item);
                         }
-
-                        lastIndicador = actualIndicador;
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
 

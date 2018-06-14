@@ -455,59 +455,48 @@ jQuery(function ($) {
     $(".date-picker").on("blur", function () { DatePickerChanged(this); });
 });            
 
-function RenderDepartments()
-{
+function RenderDepartments() {
     departmentsCompany = departmentsCompany.sort(SortByName);
     departmentsEmployee = departmentsEmployee.sort(SortByName);
     var target = document.getElementById("DeparmentsEmployee");
     target.innerHTML = "";
-    for(var x=0; x<departmentsEmployee.length;x++)
-    {
+    for (var x = 0; x < departmentsEmployee.length; x++) {
         EmployeeDepartmentRow(departmentsEmployee[x], target)
     }
 }
 
-function SortByName()
-{
+function SortByName() {
     return function (a, b) {
-        if( a['Name'] > b['Name']){
+        if (a['Name'] > b['Name']) {
             return 1;
-        }else if( a['Name'] < b['Name'] ){
+        } else if (a['Name'] < b['Name']) {
             return -1;
         }
         return 0;
     }
 }
 
-function CompanyDepartmentsAdd(id, name)
-{
-    departmentsCompany.push({Id:id, Name:name});
+function CompanyDepartmentsAdd(id, name) {
+    departmentsCompany.push({ Id: id, Name: name });
 }
 
-function EmployeeDepartmentsAdd(id)
-{
-    var name="";
-    for(var x=0; x<departmentsCompany.length;x++)
-    {
-        if(departmentsCompany[x].Id === id)
-        {
+function EmployeeDepartmentsAdd(id) {
+    var name = "";
+    for (var x = 0; x < departmentsCompany.length; x++) {
+        if (departmentsCompany[x].Id === id) {
             name = departmentsCompany[x].Name;
         }
     }
 
-    if(name!=="")
-    {
-        departmentsEmployee.push({Id:id,Name:name});
+    if (name !== "") {
+        departmentsEmployee.push({ "Id": id, "Name": name });
     }
 }
 
-function EmployeeDepartmentsDelete(id)
-{
+function EmployeeDepartmentsDelete(id) {
     var temp = new Array();
-    for(var x=0; x<departmentsEmployee.length;x++)
-    {
-        if(departmentsEmployee[x].Id !== id)
-        {
+    for (var x = 0; x < departmentsEmployee.length; x++) {
+        if (departmentsEmployee[x].Id !== id) {
             temp.push(departmentsEmployee[x]);
         }
     }
@@ -517,30 +506,25 @@ function EmployeeDepartmentsDelete(id)
 
 RenderDeparmentsEmployee();
 
-if(SecurityGroups.Administration === true)
-{
+if (SecurityGroups.Administration === true) {
     document.getElementById("chkAdministration").checked = true;
 }
 
-if(SecurityGroups.Process === true)
-{
+if (SecurityGroups.Process === true) {
     document.getElementById("chkProcess").checked = true;
 }
 
-if(SecurityGroups.Documents === true)
-{
+if (SecurityGroups.Documents === true) {
     document.getElementById("chkDocuments").checked = true;
 }
 
-if(SecurityGroups.Learning === true)
-{
+if (SecurityGroups.Learning === true) {
     document.getElementById("chkLearning").checked = true;
 }
 
 var newId;
-function Reload()
-{
-    document.location = 'EmployeesView.aspx?id=' + newId + "&New=true";
+function Reload() {
+    document.location = "EmployeesView.aspx?id=" + newId + "&New=true";
 }
 
 function EmployeeDeleteAlertNo() {
@@ -552,29 +536,29 @@ function EmployeeDeleteAlertYes() {
 }
 
 // ISSUS-190
-document.getElementById('TxtNombre').focus();
+document.getElementById("TxtNombre").focus();
 
 function DeleteJobPosition(id, name) {
-    $('#JobPositionName').html(name);
+    $("#JobPositionName").html(name);
     JobPositionSelected = id;
-    var dialog = $("#JobPositionDeleteDialog").removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">&nbsp;' + Dictionary.Common_Warning + '</h4>',
-        title_html: true,
-        buttons:
+    var dialog = $("#JobPositionDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">&nbsp;" + Dictionary.Common_Warning + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     JobPositionDeleteAction();
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -582,23 +566,60 @@ function DeleteJobPosition(id, name) {
     });
 }
 
+function GetJobPositionById(id) {
+    for (var x = 0; x < JobPositionCompany.length; x++) {
+        if (JobPositionCompany[x].Id === id) {
+            return JobPositionCompany[x];
+        }
+    }
+
+    return null;
+}
+
+function UpdateSkillProfile() {
+    console.log("UpdateSkillProfile");
+    var academic = "";
+    var specified = "";
+    var experience = "";
+    var habilities = "";
+
+    for (var x = 0; x < jobPositionEmployee.length; x++) {
+        if (jobPositionEmployee[x].EndDate !== true) {
+            var jobPosition = GetJobPositionById(jobPositionEmployee[x].Id);
+            if (jobPosition !== null) {
+                academic += jobPosition.AcademicSkills + "\n";
+                specified += jobPosition.SpecificSkills + "\n";
+                experience += jobPosition.WorkExperience + "\n";
+                habilities += jobPosition.Abilities + "\n";
+            }
+        }
+    }
+
+    $("#TxtJobPositionAcademic").html(academic);
+    $("#TxtJobPositionSpecific").html(specified);
+    $("#TxtJobPositionWorkExperience").html(experience);
+    $("#TxtJobPositionHability").html(habilities);
+}
+
 var JobPositionSelected;
 function JobPositionDeleteAction() {
-    console.log('JobPositionDeleteAction');
-    var webMethod = "/Async/EmployeeActions.asmx/DeleteJobPosition";
-    var data = { employeeId: employeeId, jobPositionId: JobPositionSelected };
+    var data = {
+        "employeeId": employeeId,
+        "jobPositionId": JobPositionSelected
+    };
     $("#JobPositionDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/EmployeeActions.asmx/DeleteJobPosition",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             HideJobPositionRow(jobPositionEmployee);
+            UpdateSkillProfile();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -685,20 +706,20 @@ function AnularPopup() {
 
     $("#TxtEndDate").val(FormatDate(new Date(), "/"));
     var dialog = $("#dialogAnular").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Item_Employee_PopupAnular_Title,
-        width: 600,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Employee_PopupAnular_Title,
+        "width": 600,
+        "buttons":
         [
             {
                 "id": "BtnAnularSave",
-                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Item_Employee_Btn_Inactive,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Employee_Btn_Inactive,
                 "class": "btn btn-success btn-xs",
                 "click": function () { AnularConfirmed(); }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
@@ -765,10 +786,13 @@ window.onload = function () {
         res += "<br /><div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
         res += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         res += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Employee_Label_InactiveTitle + "</h3><br />";
-        res += "    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Dictionary.Item_Employee_Label_InactiveDate + ": <strong>" + employee.DisabledDate + "</strong></p></div>";
+        res += "    <p style=\"margin-left:50px;\">";
+        //res += "    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + Dictionary.Item_Employee_Label_InactiveDate + ": <strong>" + employee.DisabledDate + "</strong></p></div>";
+        res += "    " + Dictionary.Item_Employee_Label_InactiveDate + ": <strong>" + employee.DisabledDate + "</strong>";
+        res += "    </p>";
+        res += "</div>";
         $("#oldFormFooter").before(res);
     }
-
 
     if (document.getElementById("AcademicValidYes") !== null) {
         if (SkillAcademicValid !== null) {
@@ -816,6 +840,8 @@ window.onload = function () {
             }
         }
     }
+
+    UpdateSkillProfile();
 }
 
 function EmployeeDeleteAlert(id, description) {

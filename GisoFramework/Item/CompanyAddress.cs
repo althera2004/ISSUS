@@ -16,28 +16,23 @@ namespace GisoFramework.Item
     using System.Text;
     using GisoFramework.Activity;
     using GisoFramework.DataAccess;
+    using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements CompanyAddress class
-    /// </summary>
+    /// <summary>Implements CompanyAddress class</summary>
     public class CompanyAddress
     {
-        /// <summary>
-        /// Initializes a new instance of the CompanyAddress class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the CompanyAddress class.</summary>
         public CompanyAddress()
         {
         }
 
         #region Properties
-        /// <summary>
-        /// Gets an empty address
-        /// </summary>
+        /// <summary>Gets an empty address</summary>
         public static CompanyAddress Empty
         {
             get
             {
-                return new CompanyAddress()
+                return new CompanyAddress
                 {
                     Id = -1,
                     Address = string.Empty,
@@ -50,9 +45,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a JSON structure of address
-        /// </summary>
+        /// <summary>Gets a JSON structure of address</summary>
         public string Json
         {
             get
@@ -88,90 +81,66 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets the HTML code for a option tag in select address
-        /// </summary>
+        /// <summary>Gets the HTML code for a option tag in select address</summary>
         public string SelectOption
         {
             get
             {
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), "<option value=\"{0}\" {2}>{1}</option>", this.Id, this.Address + ", " + this.City, this.Id == this.Company.DefaultAddress.Id ? "selected=\"selected\"" : string.Empty);
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    "<option value=\"{0}\" {3}>{1}, {2}</option>",
+                    this.Id,
+                    this.Address,
+                    this.City,
+                    this.Id == this.Company.DefaultAddress.Id ? "selected=\"selected\"" : string.Empty);
             }
         }
 
-        /// <summary>
-        /// Gets or sets the identitifer of company's address
-        /// </summary>
+        /// <summary>Gets or sets the identitifer of company's address</summary>
         public int Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the company of address
-        /// </summary>
+        /// <summary>Gets or sets the company of address</summary>
         public Company Company { get; set; }
 
-        /// <summary>
-        /// Gets or sets the street address of company's address
-        /// </summary>
+        /// <summary>Gets or sets the street address of company's address</summary>
         public string Address { get; set; }
 
-        /// <summary>
-        /// Gets or sets the postal code of company's address
-        /// </summary>
+        /// <summary>Gets or sets the postal code of company's address</summary>
         public string PostalCode { get; set; }
 
-        /// <summary>
-        /// Gets or sets the city of company's address
-        /// </summary>
+        /// <summary>Gets or sets the city of company's address</summary>
         public string City { get; set; }
 
-        /// <summary>
-        /// Gets or sets the province of company's address
-        /// </summary>
+        /// <summary>Gets or sets the province of company's address</summary>
         public string Province { get; set; }
 
-        /// <summary>
-        /// Gets or sets the country of company's address
-        /// </summary>
+        /// <summary>Gets or sets the country of company's address</summary>
         public string Country { get; set; }
 
-        /// <summary>
-        /// Gets or sets the phone of company's address
-        /// </summary>
+        /// <summary>Gets or sets the phone of company's address</summary>
         public string Phone { get; set; }
 
-        /// <summary>
-        /// Gets or sets the mobile of company's address
-        /// </summary>
+        /// <summary>Gets or sets the mobile of company's address</summary>
         public string Mobile { get; set; }
 
-        /// <summary>
-        /// Gets or sets the fax of company's address
-        /// </summary>
+        /// <summary>Gets or sets the fax of company's address</summary>
         public string Fax { get; set; }
 
-        /// <summary>
-        /// Gets or sets the email of company's address
-        /// </summary>
+        /// <summary>Gets or sets the email of company's address</summary>
         public string Email { get; set; }
 
-        /// <summary>
-        /// Gets or sets the notes of company's address
-        /// </summary>
+        /// <summary>Gets or sets the notes of company's address</summary>
         public string Notes { get; set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether if this address is the default address of company
-        /// </summary>
+        /// <summary>Gets or sets a value indicating whether if this address is the default address of company</summary>
         public bool DefaultAddress { get; set; }
 
-        /// <summary>
-        /// Gets a text with the complete address components
-        /// </summary>
+        /// <summary>Gets a text with the complete address components</summary>
         public string Description
         {
             get
             {
-                StringBuilder res = new StringBuilder();
+                var res = new StringBuilder();
                 bool first = true;
                 if (!string.IsNullOrEmpty(this.Address))
                 {
@@ -220,7 +189,6 @@ namespace GisoFramework.Item
                     }
 
                     res.Append(this.Country);
-                    first = false;
                 }
 
                 return res.ToString();
@@ -228,9 +196,7 @@ namespace GisoFramework.Item
         }
         #endregion
 
-        /// <summary>
-        /// Gets a descriptive text with the differences between tow company address
-        /// </summary>
+        /// <summary>Gets a descriptive text with the differences between tow company address</summary>
         /// <param name="address1">First address</param>
         /// <param name="address2">Second address</param>
         /// <returns>Descriptive text with the differences between tow company address</returns>
@@ -241,7 +207,7 @@ namespace GisoFramework.Item
                 return string.Empty;
             }
 
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             if (address1.Address != address2.Address)
             {
                 res.Append("Address:").Append(address2.Address).Append(", ");
@@ -290,52 +256,53 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Delete an address in data base
-        /// </summary>
+        /// <summary>Delete an address in data base</summary>
         /// <param name="companyId">Company identifier</param>
         /// <param name="addressId">Address identifier</param>
         /// <param name="userId">Identifier of user that performs the actions</param>
         /// <returns>Result of action</returns>
         public static ActionResult Delete(int companyId, int addressId, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("Company_DeleteAddress"))
+            var res = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Company_DeleteAddress"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters.Add("@AddressId", SqlDbType.Int);
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Parameters["@AddressId"].Value = addressId;
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "CompanyAddress::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0},AddressId{1},UserId{2}", companyId, addressId, userId));
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "CompanyAddress::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0},AddressId{1},UserId{2}", companyId, addressId, userId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                    ExceptionManager.Trace(ex, "CompanyAddress::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0},AddressId{1},UserId{2}", companyId, addressId, userId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters.Add("@AddressId", SqlDbType.Int);
+                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Parameters["@AddressId"].Value = addressId;
+                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "CompanyAddress::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0},AddressId{1},UserId{2}", companyId, addressId, userId));
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "CompanyAddress::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0},AddressId{1},UserId{2}", companyId, addressId, userId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                        ExceptionManager.Trace(ex, "CompanyAddress::Delete", string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyId:{0},AddressId{1},UserId{2}", companyId, addressId, userId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -343,95 +310,100 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Obtain all address of a company
-        /// </summary>
+        /// <summary>Obtain all address of a company</summary>
         /// <param name="company">Compnay to search in</param>
         /// <returns>List of address</returns>
-        public static Collection<CompanyAddress> GetAddressByCompanyId(Company company)
+        public static ReadOnlyCollection<CompanyAddress> GetAddressByCompanyId(Company company)
         {
             if (company == null)
             {
-                return new Collection<CompanyAddress>();
+                return new ReadOnlyCollection<CompanyAddress>(new List<CompanyAddress>());                
             }
 
-            Collection<CompanyAddress> res = new Collection<CompanyAddress>();
-            using (SqlCommand cmd = new SqlCommand("Company_GetAdress"))
+            string source = string.Format(
+                CultureInfo.InvariantCulture,
+                "CompanyAddress::GetAddressByCompanyId({0})",
+                company.Id);
+
+            var res = new List<CompanyAddress>();
+            using (var cmd = new SqlCommand("Company_GetAdress"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                cmd.Parameters["@CompanyId"].Value = company.Id;
-
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                    cmd.Parameters["@CompanyId"].Value = company.Id;
+                    try
                     {
-                        res.Add(new CompanyAddress()
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt32(0),
-                            Company = company,
-                            Address = rdr.GetString(2),
-                            PostalCode = rdr.GetString(3),
-                            City = rdr.GetString(4),
-                            Province = rdr.GetString(5),
-                            Country = rdr.GetString(6),
-                            Phone = rdr.GetString(7),
-                            Mobile = rdr.GetString(8),
-                            Fax = rdr.GetString(9),
-                            Email = rdr.GetString(10),
-                            Notes = rdr.GetString(11),
-                            DefaultAddress = rdr.GetInt32(12) == 1
-                        });
+                            while (rdr.Read())
+                            {
+                                res.Add(new CompanyAddress
+                                {
+                                    Id = rdr.GetInt32(ColumnsCompanyAddressGet.Id),
+                                    Company = company,
+                                    Address = rdr.GetString(ColumnsCompanyAddressGet.Address),
+                                    PostalCode = rdr.GetString(ColumnsCompanyAddressGet.PostalCode),
+                                    City = rdr.GetString(ColumnsCompanyAddressGet.City),
+                                    Province = rdr.GetString(ColumnsCompanyAddressGet.Province),
+                                    Country = rdr.GetString(ColumnsCompanyAddressGet.Country),
+                                    Phone = rdr.GetString(ColumnsCompanyAddressGet.Phone),
+                                    Mobile = rdr.GetString(ColumnsCompanyAddressGet.Mobile),
+                                    Fax = rdr.GetString(ColumnsCompanyAddressGet.Fax),
+                                    Email = rdr.GetString(ColumnsCompanyAddressGet.Email),
+                                    Notes = rdr.GetString(ColumnsCompanyAddressGet.Notes),
+                                    DefaultAddress = rdr.GetInt32(ColumnsCompanyAddressGet.DefaultAddress) == 1
+                                });
+                            }
+                        }
                     }
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyAddress::GetAddressByCompanyId({0})", company.Id));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyAddress::GetAddressByCompanyId({0})", company.Id));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyAddress::GetAddressByCompanyId({0})", company.Id));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyAddress::GetAddressByCompanyId({0})", company.Id));
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyAddress::GetAddressByCompanyId({0})", company.Id));
-                }
-                catch (InvalidCastException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "CompanyAddress::GetAddressByCompanyId({0})", company.Id));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (InvalidCastException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
 
-            return res;
+            return new ReadOnlyCollection<CompanyAddress>(res);
         }
 
-        /// <summary>
-        /// Insert an address into data base
-        /// </summary>
+        /// <summary>Insert an address into data base</summary>
         /// <param name="address">Address to insert</param>
         /// <param name="userId">Identifier of user that perfomrs the action</param>
         /// <returns>Result of action</returns>
         public static ActionResult Insert(CompanyAddress address, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             if (address == null)
             {
                 return res;
@@ -452,41 +424,44 @@ namespace GisoFramework.Item
              * @Fax nvarchar(15),
              * @UserId int*/
 
-            using (SqlCommand cmd = new SqlCommand("CompanyAddress_Insert"))
+            using (var cmd = new SqlCommand("CompanyAddress_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    int companyId = 0;
-                    if (address.Company != null)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        companyId = address.Company.Id;
-                    }
+                        int companyId = 0;
+                        if (address.Company != null)
+                        {
+                            companyId = address.Company.Id;
+                        }
 
-                    cmd.Parameters.Add(DataParameter.OutputInt("@CompanyAddressId"));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Address", address.Address, 100));
-                    cmd.Parameters.Add(DataParameter.Input("@PostalCode", address.PostalCode, 10));
-                    cmd.Parameters.Add(DataParameter.Input("@City", address.City, 50));
-                    cmd.Parameters.Add(DataParameter.Input("@Province", address.Province, 50));
-                    cmd.Parameters.Add(DataParameter.Input("@Country", address.Country, 15));
-                    cmd.Parameters.Add(DataParameter.Input("@Phone", address.Phone, 15));
-                    cmd.Parameters.Add(DataParameter.Input("@Mobile", address.Mobile, 15));
-                    cmd.Parameters.Add(DataParameter.Input("@Email", address.Email, 50));
-                    cmd.Parameters.Add(DataParameter.Input("@Notes", address.Notes));
-                    cmd.Parameters.Add(DataParameter.Input("@Fax", address.Fax, 15));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.Success = true;
-                    res.MessageError = cmd.Parameters["@CompanyAddressId"].Value.ToString();
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                        cmd.Parameters.Add(DataParameter.OutputInt("@CompanyAddressId"));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Address", address.Address, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@PostalCode", address.PostalCode, 10));
+                        cmd.Parameters.Add(DataParameter.Input("@City", address.City, 50));
+                        cmd.Parameters.Add(DataParameter.Input("@Province", address.Province, 50));
+                        cmd.Parameters.Add(DataParameter.Input("@Country", address.Country, 15));
+                        cmd.Parameters.Add(DataParameter.Input("@Phone", address.Phone, 15));
+                        cmd.Parameters.Add(DataParameter.Input("@Mobile", address.Mobile, 15));
+                        cmd.Parameters.Add(DataParameter.Input("@Email", address.Email, 50));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", address.Notes));
+                        cmd.Parameters.Add(DataParameter.Input("@Fax", address.Fax, 15));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.Success = true;
+                        res.MessageError = cmd.Parameters["@CompanyAddressId"].Value.ToString();
+                    }
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -494,9 +469,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Render the HTML code for a row to address table
-        /// </summary>
+        /// <summary>Render the HTML code for a row to address table</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <returns>HTML code</returns>
         public string ListRow(Dictionary<string, string> dictionary)
@@ -506,17 +479,25 @@ namespace GisoFramework.Item
                 return string.Empty;
             }
 
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"<tr id=""Address{0:##0}""><td style=""font-weight:{2}"">{1}{3}</td><td align=""center"">{4}</td><td align=""center""><div style=""visibility:{7};""><span class=""btn btn-xs btn-success"" onclick=""SetDefaultAddress({0});"" title=""{5}""><i class=""icon-star bigger-120""></i></span>&nbsp;<span class=""btn btn-xs btn-danger"" onclick=""CompanyAddressDelete({0});"" title=""{6}""><i class=""icon-trash bigger-120""></i></span></div></td></tr>", this.Id, this.Description, this.DefaultAddress ? "bold" : "normal", this.DefaultAddress ? "</strong>" : string.Empty, this.DefaultAddress ? dictionary["Common_Yes"] : dictionary["Common_No"], dictionary["Item_CompanyAddress_ToolTip_SetAsPrincipal"], dictionary["Common_Delete"], this.DefaultAddress ? "hidden" : "visible");
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                @"<tr id=""Address{0:##0}""><td style=""font-weight:{2}"">{1}{3}</td><td align=""center"">{4}</td><td align=""center""><div style=""visibility:{7};""><span class=""btn btn-xs btn-success"" onclick=""SetDefaultAddress({0});"" title=""{5}""><i class=""icon-star bigger-120""></i></span>&nbsp;<span class=""btn btn-xs btn-danger"" onclick=""CompanyAddressDelete({0});"" title=""{6}""><i class=""icon-trash bigger-120""></i></span></div></td></tr>", 
+                this.Id,
+                this.Description, 
+                this.DefaultAddress ? "bold" : "normal", 
+                this.DefaultAddress ? "</strong>" : string.Empty, 
+                this.DefaultAddress ? dictionary["Common_Yes"] : dictionary["Common_No"], 
+                dictionary["Item_CompanyAddress_ToolTip_SetAsPrincipal"], 
+                dictionary["Common_Delete"], 
+                this.DefaultAddress ? "hidden" : "visible");
         }
 
-        /// <summary>
-        /// Update an address in data base
-        /// </summary>
+        /// <summary>Update an address in data base</summary>
         /// <param name="userId">Identifier of user that performs the actions</param>
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE CompanyAddress_Update
              * @CompanyAddressId int,
              * @CompanyId int,
@@ -530,33 +511,36 @@ namespace GisoFramework.Item
              * @Email nvarchar(15),
              * @Fax nvarchar(15),
              * @User int */
-            using (SqlCommand cmd = new SqlCommand("CompanyAddress_Update"))
+            using (var cmd = new SqlCommand("CompanyAddress_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyAddressId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.Company.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@Address", this.Address, 100));
-                    cmd.Parameters.Add(DataParameter.Input("@PostalCode", this.PostalCode, 10));
-                    cmd.Parameters.Add(DataParameter.Input("@City", this.City, 50));
-                    cmd.Parameters.Add(DataParameter.Input("@Province", this.Province, 50));
-                    cmd.Parameters.Add(DataParameter.Input("@Country", this.Country));
-                    cmd.Parameters.Add(DataParameter.Input("@Phone", this.Phone, 15));
-                    cmd.Parameters.Add(DataParameter.Input("@Mobile", this.Mobile, 15));
-                    cmd.Parameters.Add(DataParameter.Input("@Email", this.Email, 50));
-                    cmd.Parameters.Add(DataParameter.Input("@Fax", this.Fax, 15));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.Success = true;
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyAddressId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.Company.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Address", this.Address, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@PostalCode", this.PostalCode, 10));
+                        cmd.Parameters.Add(DataParameter.Input("@City", this.City, 50));
+                        cmd.Parameters.Add(DataParameter.Input("@Province", this.Province, 50));
+                        cmd.Parameters.Add(DataParameter.Input("@Country", this.Country));
+                        cmd.Parameters.Add(DataParameter.Input("@Phone", this.Phone, 15));
+                        cmd.Parameters.Add(DataParameter.Input("@Mobile", this.Mobile, 15));
+                        cmd.Parameters.Add(DataParameter.Input("@Email", this.Email, 50));
+                        cmd.Parameters.Add(DataParameter.Input("@Fax", this.Fax, 15));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.Success = true;
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

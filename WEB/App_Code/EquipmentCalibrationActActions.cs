@@ -4,35 +4,26 @@
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Services;
 using System.Web.Script.Services;
+using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for EquipmentCalibrationActActions
-/// </summary>
+/// <summary>Summary description for EquipmentCalibrationActActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
-public class EquipmentCalibrationActActions : WebService {
-
-    public EquipmentCalibrationActActions () {
-
-        //Uncomment the following line if using designed components 
-        //InitializeComponent(); 
+public class EquipmentCalibrationActActions : WebService
+{
+    public EquipmentCalibrationActActions ()
+    {
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
     public ActionResult Insert(EquipmentCalibrationAct equipmentCalibrationAct, int userId)
     {
-        ActionResult res = equipmentCalibrationAct.Insert(userId);
-
+        var res = equipmentCalibrationAct.Insert(userId);
         if (res.Success)
         {
             Session["Company"] = new Company(equipmentCalibrationAct.CompanyId);
@@ -54,5 +45,4 @@ public class EquipmentCalibrationActActions : WebService {
     {
         return EquipmentCalibrationAct.Delete(equipmentCalibrationActId, userId, companyId);
     }
-
 }

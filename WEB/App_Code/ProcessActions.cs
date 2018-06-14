@@ -10,17 +10,13 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for ProcessActions
-/// </summary>
+/// <summary>Summary description for ProcessActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
 public class ProcessActions : WebService {
 
-    /// <summary>
-    /// Initializes a new instance of the ProcessActions class.
-    /// </summary>
+    /// <summary>Initializes a new instance of the ProcessActions class.</summary>
     public ProcessActions()
     { 
     }
@@ -29,12 +25,10 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult DesactiveProcessType(int processTypeId, string description, int companyId, int userId)
     {
-        ProcessType victim = new ProcessType() { Id = processTypeId, CompanyId = companyId, Description = description };
-        ActionResult res = victim.Deactive(userId);
-
+        var res = new ProcessType { Id = processTypeId, CompanyId = companyId, Description = description }.Deactive(userId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
@@ -45,12 +39,10 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult UpdateProcessType(int processTypeId, string description, int companyId, int userId)
     {
-        ProcessType victim = new ProcessType() { Id = processTypeId, CompanyId = companyId, Description = description, Active = true };
-        ActionResult res = victim.Update(userId);
-
+        var res = new ProcessType { Id = processTypeId, CompanyId = companyId, Description = description, Active = true }.Update(userId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
@@ -61,21 +53,17 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult InsertProcessType(string description, int companyId, int userId)
     {
-        ProcessType newProcessType = new ProcessType() { CompanyId = companyId, Description = description, Active = true };
-        ActionResult res = newProcessType.Insert(userId);
-
+        var res = new ProcessType { CompanyId = companyId, Description = description, Active = true }.Insert(userId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
         return res;
     }
 
-    /// <summary>
-    /// Call the process insert
-    /// </summary>
+    /// <summary>Call the process insert</summary>
     /// <param name="newProcess">New job position data</param>
     /// <param name="userId">Identifier of logged user</param>
     /// <returns>Result of action</returns>
@@ -83,21 +71,19 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult Insert(Process newProcess, int userId)
     {
-        ActionResult res = newProcess.Insert(userId);
+        var res = newProcess.Insert(userId);
         if (res.Success)
         {
             res = ActivityLog.Process(newProcess.Id, userId, newProcess.CompanyId, ProcessLogActions.Create, newProcess.ToString());
             res.SetSuccess(newProcess.Id.ToString());
-            Company companySession = new Company(newProcess.CompanyId);
+            var companySession = new Company(newProcess.CompanyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
         return res;
     }
 
-    /// <summary>
-    /// Call the process update
-    /// </summary>
+    /// <summary>Call the process update</summary>
     /// <param name="oldProcess">Old process data</param>
     /// <param name="newProcess">New process data</param>
     /// <param name="userId">Identifier of logged user</param>
@@ -106,13 +92,13 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult Update(Process oldProcess, Process newProcess, int userId)
     {
-        ActionResult res = ActionResult.NoAction;
-        string extraData = Process.Differences(oldProcess, newProcess);
+        var res = ActionResult.NoAction;
+        string extraData = oldProcess.Differences(newProcess);
         if (!string.IsNullOrEmpty(extraData))
         {
             res = newProcess.Update(userId);
-            Company companySession = new Company(newProcess.CompanyId);
-                HttpContext.Current.Session["Company"] = companySession;
+            var companySession = new Company(newProcess.CompanyId);
+            HttpContext.Current.Session["Company"] = companySession;
 
             if (res.Success)
             {
@@ -131,11 +117,10 @@ public class ProcessActions : WebService {
     [ScriptMethod]
     public ActionResult DesactiveProcess(int processId, int companyId, int userId)
     {
-        ActionResult res = Process.Deactive(processId, companyId, userId);
-
+        var res = Process.Deactive(processId, companyId, userId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 

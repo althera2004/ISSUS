@@ -55,14 +55,10 @@
                                             </td>
                                             <td colspan="2">
                                                 <div class="row">
-                                                    <!--<label id="ChkClosedLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %></label>										
-                                                    <div class="col-xs-9 col-sm-9 tooltip-info">
-                                                        <input type="checkbox" id="ChkClosed" />
-                                                    </div>-->
-                                                    <input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %>
                                                     <input type="radio" name="RBStatus" id="RBStatus1" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowActive"] %>
                                                     <input type="radio" name="RBStatus" id="RBStatus2" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %>
-                                                </div>
+													<input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %>
+												</div>
                                             </td>
                                         </tr>
                                         <tr>
@@ -80,7 +76,7 @@
                                                 </div>
                                             </td>
                                             <td style="width:100px;padding-left:20px;display:none;" id="CmdObjetivoLabel"><%=this.Dictionary["Item_Objetivo"] %>:</td>
-                                            <td style="width:100px;padding-left:20px;display:none;" id="CmbProcesoLabel"><%=this.Dictionary["Item_Process"] %>:</td>
+                                            <td style="width:100px;padding-left:20px;display:none;" id="CmbProcesoLabel"><%=this.Dictionary["Item_Proccess"] %>:</td>
                                             <td>
                                                 <select id="CmbProcess" class="col-sm-12" style="display:none;max-width:300px;" onchange="CmbProcessChanged();">
                                                     <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>
@@ -95,13 +91,13 @@
                                             <td style="width:250px;padding-left:20px;display:none;">  
                                             </td>
                                             <td>
-                                                <select id="CmbProcessType" class="col-sm-12" style="display:none;max-width:300px;">
+                                                <select id="CmbProcessType" class="col-sm-12" style="display:none;max-width:300px;" onchange="CmbProcessTypeChanged();">
                                                     <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>
                                                     <asp:Literal runat="server" ID="LtProcessTypeList"></asp:Literal>
                                                 </select> 
                                             </td>
                                             <td colspan="2" align="right">
-                                                <button style="width:100px;" class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
+                                                <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
                                                 <button style="width:100px;" class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%= this.Dictionary["Common_All_Male_Plural"] %></button>
                                                 <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%= this.Dictionary["Common_None_Male"] %></button>
                                             </td>
@@ -116,7 +112,7 @@
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
                                                         <th id="th0" class="sort search" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_Description"] %></th>
-                                                                                                                <th id="th1" class="sort hidden-480 search" style="width:90px;" onclick="Sort(this,'ListDataTable','date',false);"><%=this.Dictionary["Item_Indicador_Header_StartDate"] %></th>
+                                                        <th id="th1" class="sort hidden-480 search" style="width:90px;" onclick="Sort(this,'ListDataTable','date',false);"><%=this.Dictionary["Item_Indicador_Header_StartDate"] %></th>
                                                         <th id="th2" class="sort search" style="width:250px;" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_Process"] %></th>
                                                         <th id="th3" class="sort search" style="width:110px;" onclick="Sort(this,'ListDataTable','text',false);"><%=this.Dictionary["Item_Indicador_Header_ProcessType"] %></th>
                                                         <!-- <th id="th3" class="search" style="width:200px;"><%=this.Dictionary["Item_Indicador_Header_Objetivo"] %></th> -->
@@ -208,4 +204,3 @@
         <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/IndicadorList.js?ac=<%=this.AntiCache %>"></script>
 </asp:Content>
-

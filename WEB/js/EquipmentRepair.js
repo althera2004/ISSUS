@@ -5,10 +5,8 @@ function EquipmentRepairRenderTable(targetName) {
     VoidTable(targetName);
 
     EquipmentRepairList.sort(function (a, b) {
-
         var da = a.Date;
         var db = b.Date;
-
         if (typeof da !== "object") {
             da = GetDateYYYYMMDDText(da, "/");
         }
@@ -31,7 +29,7 @@ function EquipmentRepairRenderTable(targetName) {
     $("#TableEquipmentRepairTotalLabel").html("<i style=\"color:#aaa;font-weight:bold;\">" + Dictionary.Common_RegisterCount + ":&nbsp;" + EquipmentRepairList.length + "</i><span style=\"float:right\">" + Dictionary.Common_Total + ":</span>");
     document.getElementById('TableEquipmentRepairTotal').innerHTML = ToMoneyFormat(total, 2);
 
-    if ($("#TableEquipmentRepairMain #th0").attr('class') === "sort  ASC") {
+    if ($("#TableEquipmentRepairMain #th0").attr("class") === "sort  ASC") {
         $("#TableEquipmentRepairMain #th0").click();
     }
     else {
@@ -61,7 +59,7 @@ function EquipmentRepairRenderRow(EquipmentRepair, targetName) {
     tdFecha.appendChild(document.createTextNode(FormatYYYYMMDD(EquipmentRepair.Date, "/")));
     tdResponsible.appendChild(document.createTextNode(EquipmentRepair.Responsible.Value));
 
-    if (typeof (EquipmentRepair.Observations) === "undefined") {
+    if (typeof EquipmentRepair.Observations === "undefined") {
         tdObservaciones.appendChild(document.createTextNode(""));
     }
     else {
@@ -86,14 +84,14 @@ function EquipmentRepairRenderRow(EquipmentRepair, targetName) {
 
         iconEdit.className = "btn btn-xs btn-info";
         iconEdit.title = Dictionary.Common_Edit;
-        iconEdit.onclick = function (e) { EquipmentRepairEdit(this) }
+        iconEdit.onclick = function (e) { EquipmentRepairEdit(this); };
         var innerEdit = document.createElement("I");
         innerEdit.className = "icon-edit bigger-120";
         iconEdit.appendChild(innerEdit);
 
         iconDelete.className = "btn btn-xs btn-danger";
         iconDelete.title = Dictionary.Common_Delete;
-        iconDelete.onclick = function (e) { EquipmentRepairDelete(this) }
+        iconDelete.onclick = function (e) { EquipmentRepairDelete(this); };
         var innerDelete = document.createElement("I");
         innerDelete.className = "icon-trash bigger-120";
         iconDelete.appendChild(innerDelete);
@@ -115,7 +113,7 @@ function EquipmentRepairRenderRow(EquipmentRepair, targetName) {
 
 function EquipmentRepairgetById(id) {
     for (var x = 0; x < EquipmentRepairList.length; x++) {
-        if (EquipmentRepairList[x].Id == id) {
+        if (EquipmentRepairList[x].Id === id) {
             return EquipmentRepairList[x];
         }
     }
@@ -127,21 +125,21 @@ function EquipmentRepairRemoveFromList(id) {
     var temp = new Array();
 
     for (var x = 0; x < EquipmentRepairList.length; x++) {
-        if (EquipmentRepairList[x].Id != id) {
+        if (EquipmentRepairList[x].Id !== id) {
             temp.push(EquipmentRepairList[x]);
         }
     }
 
     EquipmentRepairList = new Array();
 
-    for (var x = 0; x < temp.length; x++) {
-        EquipmentRepairList.push(temp[x]);
+    for (var y = 0; y < temp.length; y++) {
+        EquipmentRepairList.push(temp[y]);
     }
 }
 
 function EquipmentRepairListUpdate(EquipmentRepair) {
     for (var x = 0; x < EquipmentRepairList.length; x++) {
-        if (EquipmentRepairList[x].Id == EquipmentRepair.Id) {
+        if (EquipmentRepairList[x].Id === EquipmentRepair.Id) {
             EquipmentRepairList[x] = EquipmentRepair;
         }
     }
@@ -153,8 +151,8 @@ function EquipmentRepairFormClearErrors() {
     ClearFieldTextMessages("TxtEquipmentRepairDescription");
     ClearFieldTextMessages("CmbEquipmentRepairProvider");
     ClearFieldTextMessages("CmbEquipmentRepairResponsible");
-    document.getElementById("CmbEquipmentRepairProviderRow").style.display = "none";
-    document.getElementById("REquipmentRepairTypeErrorRequired").style.display = "none";
+    $("#CmbEquipmentRepairProviderRow").hide();
+    $("#REquipmentRepairTypeErrorRequired").hide();
 }
 
 function EquipmentRepairNewFormReset() {
@@ -177,10 +175,10 @@ function EquipmentRepairEditFormFill(EquipmentRepair) {
 
     if (EquipmentRepair.RepairType === 0) {
         document.getElementById("REquipmentRepairTypeInternal").checked = true;
-        document.getElementById("CmbEquipmentRepairProviderRow").style.display = "none";
+        $("#CmbEquipmentRepairProviderRow").hide();
     } else {
         document.getElementById("REquipmentRepairTypeExternal").checked = true;
-        document.getElementById("CmbEquipmentRepairProviderRow").style.display = "";
+        $("#CmbEquipmentRepairProviderRow").show();
     }
 
     $("#TxtEquipmentRepairDate").val(FormatYYYYMMDD(EquipmentRepair.Date, "/"));
@@ -253,10 +251,10 @@ function FillCmbEquipmentRepairResponsible() {
 
 function dialogMaintaimentRepairTypeChanged() {
     if (document.getElementById("REquipmentRepairTypeInternal").checked === true) {
-        document.getElementById("CmbEquipmentRepairProviderRow").style.display = "none";
+        $("#CmbEquipmentRepairProviderRow").hide();
     }
     else {
-        document.getElementById("CmbEquipmentRepairProviderRow").style.display = "";
+        $("#CmbEquipmentRepairProviderRow").show();
     }
 }
 
@@ -266,11 +264,11 @@ function dialogMaintaimentRepairFormValidate() {
     ClearFieldTextMessages("TxtEquipmentRepairDescription");
     ClearFieldTextMessages("CmbEquipmentRepairProvider");
     ClearFieldTextMessages("CmbEquipmentRepairResponsible");
-    document.getElementById("REquipmentRepairTypeErrorRequired").style.display = "none";
+    $("#REquipmentRepairTypeErrorRequired").hide();
     var ok = true;
     if (!document.getElementById("REquipmentRepairTypeInternal").checked && !document.getElementById("REquipmentRepairTypeExternal").checked) {
         ok = false;
-        document.getElementById("REquipmentRepairTypeErrorRequired").style.display = "";
+        $("#REquipmentRepairTypeErrorRequired").show();
     }
     if (!RequiredFieldText("TxtEquipmentRepairDate")) {
         ok = false;
@@ -296,7 +294,7 @@ function dialogMaintaimentRepairFormValidate() {
 function EquipmentRepairEdit(sender) {
     SelectedEquipmentRepairId = sender.parentNode.parentNode.id.substring(15) * 1;
     SelectedEquipmentRepair = EquipmentRepairgetById(SelectedEquipmentRepairId);
-    if (SelectedEquipmentRepair == null) { return false; }
+    if (SelectedEquipmentRepair === null) { return false; }
     FillCmbEquipmentRepairProvider();
     FillCmbEquipmentRepairResponsible();
     EquipmentRepairEditFormFill(SelectedEquipmentRepair);
@@ -372,21 +370,21 @@ function EquipmentRepairSave() {
     }
 
     SelectedEquipmentRepair = {
-        Id: SelectedEquipmentRepairId,
-        CompanyId: Company.Id,
-        EquipmentId: Equipment.Id,
-        RepairType: document.getElementById("REquipmentRepairTypeInternal").checked ? 0 : 1,
-        Date: GetDate($("#TxtEquipmentRepairDate").val(), "-"),
-        Active: true,
-        Description: $("#TxtEquipmentRepairDescription").val(),
-        Tools: $("#TxtEquipmentRepairTools").val(),
-        Observations: $("#TxtEquipmentRepairObservations").val(),
-        Cost: cost,
-        Provider: { Id: $("#CmbEquipmentRepairProvider").val() },
-        Responsible: { Id: $("#CmbEquipmentRepairResponsible").val(), Value: $("#CmbEquipmentRepairResponsible option:selected").text() }
+        "Id": SelectedEquipmentRepairId,
+        "CompanyId": Company.Id,
+        "EquipmentId": Equipment.Id,
+        "RepairType": document.getElementById("REquipmentRepairTypeInternal").checked ? 0 : 1,
+        "Date": GetDate($("#TxtEquipmentRepairDate").val(), "-"),
+        "Active": true,
+        "Description": $("#TxtEquipmentRepairDescription").val(),
+        "Tools": $("#TxtEquipmentRepairTools").val(),
+        "Observations": $("#TxtEquipmentRepairObservations").val(),
+        "Cost": cost,
+        "Provider": { "Id": $("#CmbEquipmentRepairProvider").val() },
+        "Responsible": { "Id": $("#CmbEquipmentRepairResponsible").val(), Value: $("#CmbEquipmentRepairResponsible option:selected").text() }
     };
 
-    if (SelectedEquipmentRepairId == -1) {
+    if (SelectedEquipmentRepairId === -1) {
         var data = {
             "equipmentRepair": SelectedEquipmentRepair,
             "userId": user.Id
@@ -409,7 +407,7 @@ function EquipmentRepairSave() {
         });
     }
     else {
-        var data = {
+        var data2 = {
             "equipmentRepair": SelectedEquipmentRepair,
             "userId": user.Id
         };
@@ -418,7 +416,7 @@ function EquipmentRepairSave() {
             "url": "/Async/EquipmentRepairActions.asmx/Update",
             "contentType": "application/json; charset=utf-8",
             "dataType": "json",
-            "data": JSON.stringify(data, null, 2),
+            "data": JSON.stringify(data2, null, 2),
             "success": function (msg) {
                 EquipmentRepairListUpdate(SelectedEquipmentRepair);
                 EquipmentRepairRenderTable("TableEquipmentRepair");
@@ -434,7 +432,7 @@ function EquipmentRepairSave() {
 function EquipmentRepairDelete(sender) {
     SelectedEquipmentRepairId = sender.parentNode.parentNode.id.substring(15) * 1;
     SelectedEquipmentRepair = EquipmentRepairgetById(SelectedEquipmentRepairId);
-    if (SelectedEquipmentRepair == null) { return false; }
+    if (SelectedEquipmentRepair === null) { return false; }
     $("#dialogDeleteEquipmentRepairName").html(SelectedEquipmentRepair.Description);
     var dialog = $("#dialogEquipmentRepairDelete").removeClass("hide").dialog({
         "resizable": false,
@@ -463,21 +461,24 @@ function EquipmentRepairDelete(sender) {
 }
 
 function EquipmentRepairDeleteConfirmed() {
-    var webMethod = "/Async/EquipmentRepairActions.asmx/Delete";
-    var data = { equipmentRepairId: SelectedEquipmentRepairId, companyId: Company.Id, userId: user.Id };
+    var data = {
+        "equipmentRepairId": SelectedEquipmentRepairId,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/EquipmentRepairActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             EquipmentRepairRemoveFromList(SelectedEquipmentRepairId);
-            EquipmentRepairRenderTable('TableEquipmentRepair');
+            EquipmentRepairRenderTable("TableEquipmentRepair");
             $("#dialogEquipmentRepairDelete").dialog("close");
 
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });

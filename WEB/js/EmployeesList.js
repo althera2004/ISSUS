@@ -5,12 +5,12 @@ function NoDelete() {
 }
 
 function EmployeeUpdate(id) {
-    document.location = 'EmployeesView.aspx?id=' + id;
+    document.location = "EmployeesView.aspx?id=" + id;
 }
 
 function GoDepartment(id)
 {
-    document.location = 'DepartmentView.aspx?id=' + id;
+    document.location = "DepartmentView.aspx?id=" + id;
 }
 
 function EmployeeDeleteAlertNo() {
@@ -18,7 +18,7 @@ function EmployeeDeleteAlertNo() {
 }
 
 function EmployeeDeleteAlertYes() {
-    document.location = 'EmployeeSubstitution.aspx?id=' + EmployeeDeleteId;
+    document.location = "EmployeeSubstitution.aspx?id=" + EmployeeDeleteId;
 }
 
 /*function EmployeeDeleteAlert(id, description) {
@@ -196,13 +196,12 @@ function RenderEmployeeRow(employee) {
     res += "  <td" + style + ">";
     res += "    "+ employee.Link;
     res += "  </td>";
-    res += "  <td style=\"width: 500px;\">" + employee.Cargos +"</td>";
-    res += "  <td style=\"width: 500px;\">" + employee.Departamentos +"</td>";
-    res += "  <td style=\"width: 89px;\">";
+    res += "  <td style=\"width: 300px;\">" + employee.Cargos +"</td>";
+    res += "  <td style=\"width: 300px;\">" + employee.Departamentos +"</td>";
+    res += "  <td style=\"width: 90px;\">";
     res += "    <span title=\"Editar " + employee.FullName + "\" class=\"btn btn-xs btn-info\" onclick=\"EmployeeUpdate(" + employee.Id +", 'Editar'); \">";
     res += "      <i class=\"icon-edit bigger-120\"></i>";
     res += "    </span>";
-    //res += "    &nbsp;";
     res += "    <span title=\"Eliminar " + employee.FullName + "\" class=\"btn btn-xs btn-danger\" onclick=\"EmployeeDelete(" + employee.Id + ", '" + employee.FullName + "'," + employee.HasActions + "); \">";
     res += "      <i class=\"icon-trash bigger-120\"></i>";
     res += "    </span>";

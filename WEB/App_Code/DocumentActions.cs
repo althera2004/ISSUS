@@ -12,17 +12,13 @@ namespace GISOWeb
     using GisoFramework.Activity;
     using GisoFramework.Item;
 
-    /// <summary>
-    /// Asynchronous actions for documents
-    /// </summary>
+    /// <summary>Asynchronous actions for documents</summary>
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ScriptService]
     public class DocumentActions : WebService
     {
-        /// <summary>
-        /// Initializes a new instance of the DocumentActions class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the DocumentActions class.</summary>
         public DocumentActions()
         {
         }
@@ -41,9 +37,7 @@ namespace GISOWeb
             return Document.Anulate(documentId, endDate, endReason, companyId, userId);
         }
 
-        /// <summary>
-        /// Asynchronous action to call category insert
-        /// </summary>
+        /// <summary>Asynchronous action to call category insert</summary>
         /// <param name="categoryId">Category identifier</param>
         /// <param name="description">Category description</param>
         /// <param name="companyId">Identifier of category's company</param>
@@ -53,7 +47,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult CategoryInsert(int categoryId, string description, int companyId, int userId)
         {
-            DocumentCategory newCategory = new DocumentCategory()
+            var newCategory = new DocumentCategory
             {
                 Id = categoryId,
                 Description = description,
@@ -61,7 +55,7 @@ namespace GISOWeb
                 Editable = true
             };
 
-            ActionResult res = newCategory.Insert();
+            var res = newCategory.Insert();
             if (res.Success)
             {
                 Session["Company"] = new Company(companyId);
@@ -70,9 +64,7 @@ namespace GISOWeb
             return res;
         }
 
-        /// <summary>
-        /// Asynchronous action to call category update
-        /// </summary>
+        /// <summary>Asynchronous action to call category update</summary>
         /// <param name="categoryId">Category identifier</param>
         /// <param name="description">Category description</param>
         /// <param name="companyId">Identifier of category's company</param>
@@ -82,7 +74,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult CategoryUpdate(int categoryId, string description, int companyId, int userId)
         {
-            DocumentCategory newCategory = new DocumentCategory()
+            var newCategory = new DocumentCategory
             {
                 Id = categoryId,
                 Description = description,
@@ -90,7 +82,7 @@ namespace GISOWeb
                 Editable = true
             };
 
-            ActionResult res = newCategory.Update();
+            var res = newCategory.Update();
             if (res.Success)
             {
                 Session["Company"] = new Company(companyId);
@@ -99,9 +91,7 @@ namespace GISOWeb
             return res;
         }
 
-        /// <summary>
-        /// Asynchronous action to call category delete
-        /// </summary>
+        /// <summary>Asynchronous action to call category delete</summary>
         /// <param name="categoryId">Category identifier</param>
         /// <param name="description">Category description</param>
         /// <param name="companyId">Identifier of category's company</param>
@@ -111,7 +101,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult CategoryDelete(int categoryId, string description, int companyId, int userId)
         {
-            ActionResult res = DocumentCategory.Delete(categoryId, companyId);
+            var res = DocumentCategory.Delete(categoryId, companyId);
             if (res.Success)
             {
                 Session["Company"] = new Company(companyId);
@@ -120,9 +110,7 @@ namespace GISOWeb
             return res;
         }
 
-        /// <summary>
-        /// Asynchronous action to call source insert
-        /// </summary>
+        /// <summary>Asynchronous action to call source insert</summary>
         /// <param name="procedenciaId">Source identifier</param>
         /// <param name="description">Source description</param>
         /// <param name="companyId">Identifier of source's company</param>
@@ -132,14 +120,14 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult ProcedenciaInsert(int procedenciaId, string description, int companyId, int userId)
         {
-            DocumentOrigin newProcedencia = new DocumentOrigin()
+            var newProcedencia = new DocumentOrigin
             {
                 CompanyId = companyId,
                 Description = description,
                 Editable = true
             };
 
-            ActionResult res = newProcedencia.Insert();
+            var res = newProcedencia.Insert();
             if (res.Success)
             {
                 Session["Company"] = new Company(companyId);
@@ -148,9 +136,7 @@ namespace GISOWeb
             return res;
         }
 
-        /// <summary>
-        /// Asynchronous action to call source update
-        /// </summary>
+        /// <summary>Asynchronous action to call source update</summary>
         /// <param name="procedenciaId">Source identifier</param>
         /// <param name="description">Source description</param>
         /// <param name="companyId">Identifier of source's company</param>
@@ -160,7 +146,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult ProcedenciaUpdate(int procedenciaId, string description, int companyId, int userId)
         {
-            DocumentOrigin newProcedencia = new DocumentOrigin()
+            var newProcedencia = new DocumentOrigin
             {
                 Id = procedenciaId,
                 CompanyId = companyId,
@@ -168,7 +154,7 @@ namespace GISOWeb
                 Editable = true
             };
 
-            ActionResult res = newProcedencia.Update();
+            var res = newProcedencia.Update();
             if (res.Success)
             {
                 Session["Company"] = new Company(companyId);
@@ -177,9 +163,7 @@ namespace GISOWeb
             return res;
         }
 
-        /// <summary>
-        /// Asynchronous action to call source delete
-        /// </summary>
+        /// <summary>Asynchronous action to call source delete</summary>
         /// <param name="procedenciaId">Source identifier</param>
         /// <param name="description">Source description</param>
         /// <param name="companyId">Identifier of source's company</param>
@@ -189,7 +173,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult ProcedenciaDelete(int procedenciaId, string description, int companyId, int userId)
         {
-            ActionResult res = DocumentOrigin.Delete(procedenciaId, companyId);
+            var res = DocumentOrigin.Delete(procedenciaId, companyId);
             if (res.Success)
             {
                 Session["Company"] = new Company(companyId);
@@ -198,9 +182,7 @@ namespace GISOWeb
             return res;
         }
 
-        /// <summary>
-        /// Asynchronous action to call document update
-        /// </summary>
+        /// <summary>Asynchronous action to call document update</summary>
         /// <param name="oldDocument">Old document data</param>
         /// <param name="newDocument">New document data</param>
         /// <param name="reason">Reason of change</param>
@@ -210,7 +192,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult Update(Document oldDocument, Document newDocument, string reason, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             string extraData = string.Empty;
             if (oldDocument != null)
             {
@@ -235,9 +217,7 @@ namespace GISOWeb
             return Document.Versioned(documentId, userId, companyId, version + 1, reason);
         }
 
-        /// <summary>
-        /// Asynchronous action to call document insert
-        /// </summary>
+        /// <summary>Asynchronous action to call document insert</summary>
         /// <param name="newDocument">Document to insert</param>
         /// <param name="reason">Reason of insert</param>
         /// <param name="userId">Identifier of user of action</param>
@@ -246,8 +226,7 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult Insert(Document newDocument, string reason, int version, int userId)
         {
-            ActionResult res = ActionResult.NoAction;
-            res = newDocument.Insert(userId, version);
+            var res = newDocument.Insert(userId, version);
             if (res.Success)
             {
                 res = ActivityLog.Document(Convert.ToInt32(newDocument.Id), userId, newDocument.CompanyId, DocumentLogAction.Create, newDocument.Json);
@@ -261,9 +240,7 @@ namespace GISOWeb
             return res;
         }
 
-        /// <summary>
-        /// Asynchronous action to call document delete
-        /// </summary>
+        /// <summary>Asynchronous action to call document delete</summary>
         /// <param name="documentId">Document identifier</param>
         /// <param name="companyId">Document's company identifier</param>
         /// <param name="userId">Identifier of user of action</param>

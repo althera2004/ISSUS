@@ -107,6 +107,7 @@ namespace GisoFramework.Item
             }
         }
 
+        /// <summary>Gets or sets the reason of inactivate document</summary>
         public string EndReason { get; set; }
 
         /// <summary>Gets the structure json item</summary>
@@ -338,8 +339,7 @@ namespace GisoFramework.Item
                         {
                             cmd.Connection = cnn;
                             cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                            cmd.Parameters["@CompanyId"].Value = company.Id;
+                            cmd.Parameters.Add(DataParameter.Input("@CompanyId", company.Id));
                             var newDocument = new Document();
                             cmd.Connection.Open();
                             using (var rdr = cmd.ExecuteReader())
@@ -445,9 +445,9 @@ namespace GisoFramework.Item
                 {
                     using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
+                        cmd.Connection = cnn;
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         var newDocument = new Document();
                         cmd.Connection.Open();
                         using (var rdr = cmd.ExecuteReader())
@@ -549,14 +549,14 @@ namespace GisoFramework.Item
                 return new Document();
             }
 
-            return GetById(documentId, company.Id);
+            return ById(documentId, company.Id);
         }
 
         /// <summary>Get a document from data base</summary>
         /// <param name="documentId">Document identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>Document objet</returns>
-        public static Document GetById(long documentId, int companyId)
+        public static Document ById(long documentId, int companyId)
         {
             var res = new Document();
             var company = new Company(companyId);
@@ -566,6 +566,7 @@ namespace GisoFramework.Item
                 {
                     using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
+                        cmd.Connection = cnn;
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
@@ -581,14 +582,14 @@ namespace GisoFramework.Item
                                     res.Id = documentId;
                                     res.CompanyId = company.Id;
                                     res.Description = rdr.GetString(ColumnsDocumentGetById.Description);
-                                    res.Category = new DocumentCategory()
+                                    res.Category = new DocumentCategory
                                     {
                                         Id = rdr.GetInt32(ColumnsDocumentGetById.CategoryId),
                                         Description = rdr.GetString(ColumnsDocumentGetById.CategoryName),
                                         CompanyId = company.Id
                                     };
 
-                                    res.Origin = new DocumentOrigin()
+                                    res.Origin = new DocumentOrigin
                                     {
                                         Id = rdr.GetInt32(ColumnsDocumentGetById.SourceId),
                                         Description = rdr.GetString(ColumnsDocumentGetById.SourceName),
@@ -607,17 +608,17 @@ namespace GisoFramework.Item
                                     res.Source = rdr.GetInt32(ColumnsDocumentGetById.Origen) == 1;
                                     res.Location = rdr.GetString(ColumnsDocumentGetById.Location);
                                     res.ModifiedOn = rdr.GetDateTime(ColumnsDocumentGetById.ModifiedOn);
-                                    res.ModifiedBy = new ApplicationUser()
+                                    res.ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsDocumentGetById.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsDocumentGetById.ModifiedByUserName)
                                     };
 
-                                    res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                                    res.ModifiedBy.Employee = Employee.ByUserId(res.ModifiedBy.Id);
                                     res.EndReason = rdr.GetString(ColumnsDocumentGetById.EndReason);
                                 }
 
-                                res.AddVersion(new DocumentVersion()
+                                res.AddVersion(new DocumentVersion
                                 {
                                     Id = rdr.GetInt64(ColumnsDocumentGetById.VersionId),
                                     Company = company,
@@ -734,13 +735,13 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                     cmd.Parameters.Add(DataParameter.Input("@Version", version));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Parameters.Add(DataParameter.Input("@Reason", Tools.LimitedText(reason, 100)));
+                    cmd.Parameters.Add(DataParameter.Input("@Reason", reason, 100));
 
                     try
                     {
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
-                        res.SetSuccess(string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}", version));
+                        res.SetSuccess(string.Format(CultureInfo.InvariantCulture, "{0}", version));
                     }
                     catch (SqlException ex)
                     {
@@ -847,6 +848,13 @@ namespace GisoFramework.Item
             return res;
         }
 
+        /// <summary>Anulates document</summary>
+        /// <param name="documentId">document identifier</param>
+        /// <param name="endDate">Date of anulation</param>
+        /// <param name="endReason">Reason for anulation</param>
+        /// <param name="companyId">Company identifier</param>
+        /// <param name="userId">Identifier of user that performs the action</param>
+        /// <returns>Result of action</returns>
         public static ActionResult Anulate(int documentId, DateTime endDate, string endReason, int companyId, int userId)
         {
             var res = ActionResult.NoAction;
@@ -856,26 +864,29 @@ namespace GisoFramework.Item
              *   @EndDate datetime,
              *   @EndReason nvarchar(500),
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Document_Anulate"))
+            using (var cmd = new SqlCommand("Document_Anulate"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@EndDate", endDate));
-                    cmd.Parameters.Add(DataParameter.Input("@EndReason", endReason, 500));
-                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@DocumentId", documentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EndDate", endDate));
+                        cmd.Parameters.Add(DataParameter.Input("@EndReason", endReason, 500));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -883,9 +894,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Creates the HTML code to show a row into table documents
-        /// </summary>
+        /// <summary>Creates the HTML code to show a row into table documents</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="grantWrite">Indicates if user has grant to write</param>
         /// <param name="grantDelete">Indicates if user has grant to delete</param>
@@ -900,18 +909,18 @@ namespace GisoFramework.Item
             string iconRenameFigure = grantWrite ? "icon-edit" : "icon-eye-open";
 
             string iconRename = string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-info"" onclick=""DocumentUpdate({0},'{1}');""><i class=""{3} bigger-120""></i></span>",
                 this.Id,
                 Tools.SetTooltip(this.Description),
                 grantWrite ? dictionary["Common_Edit"] : dictionary["Common_View"],
                 iconRenameFigure);
 
-            string iconDelete = grantDelete ? string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""DocumentDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), dictionary["Common_Delete"]) : string.Empty;
+            string iconDelete = grantDelete ? string.Format(CultureInfo.InvariantCulture, @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""DocumentDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, Tools.SetTooltip(this.Description), dictionary["Common_Delete"]) : string.Empty;
 
             var actual = this.LastVersion;
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<tr><td>{0}</td><td class=""hidden-480"" style=""width:110px;"">{1}</td><td class=""hidden-480"" align=""right"" style=""width:110px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</td<</tr>",
                 this.Link,
                 this.Code,
@@ -920,9 +929,7 @@ namespace GisoFramework.Item
                 iconDelete);
         }
 
-        /// <summary>
-        /// Creates the HTML code to show a row of an inactive document into table documents
-        /// </summary>
+        /// <summary>Creates the HTML code to show a row of an inactive document into table documents</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="grantWrite">Indicates if user has grant to write</param>
         /// <param name="grantDelete">Indicates if user has grant to delete</param>
@@ -945,7 +952,7 @@ namespace GisoFramework.Item
                     <td style=""width:90px;""><span title=""{0}"" class=""btn btn-xs btn-info"" onclick=""Restore({5},'{0}');""><i class=""icon-undo bigger-120""></i></span></td>
                 </tr>";
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattern,
                 this.Description,
                 this.Code,
@@ -955,9 +962,7 @@ namespace GisoFramework.Item
                 this.Id);
         }
 
-        /// <summary>
-        /// Obtain the last version number of document
-        /// </summary>
+        /// <summary>Obtain the last version number of document</summary>
         /// <returns>The last version number of document</returns>
         public int LastVersionNumber()
         {
@@ -965,31 +970,32 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE Document_LastVersion
              * @DocumentId bigint,
              * @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("Document_LastVersion"))
+            using (var cmd = new SqlCommand("Document_LastVersion"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@DocumentId", SqlDbType.BigInt);
-                cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                cmd.Parameters["@DocumentId"].Value = this.Id;
-                cmd.Parameters["@CompanyId"].Value = this.CompanyId;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Connection.Open();
-                    using (var rdr = cmd.ExecuteReader())
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@DocumentId", this.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    try
                     {
-                        if (rdr.HasRows)
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            rdr.Read();
-                            res = rdr.GetInt32(0);
+                            if (rdr.HasRows)
+                            {
+                                rdr.Read();
+                                res = rdr.GetInt32(0);
+                            }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -997,15 +1003,13 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Insert a document into data base
-        /// </summary>
+        /// <summary>Insert a document into data base</summary>
         /// <param name="userId">Identifier of user that performs the action</param>
         /// <param name="version">Document version</param>
         /// <returns>Result of action with new document identifier if success</returns>
         public ActionResult Insert(int userId, int version)
         {
-            var res = new ActionResult() { Success = false, MessageError = "No action" };
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Document_Insert
              * @DocumentId bigint out,
              * @CompanyId int,
@@ -1019,60 +1023,63 @@ namespace GisoFramework.Item
              * @Codigo nvarchar(10),
              * @Ubicacion nvarchar(100),
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("Document_Insert"))
+            using (var cmd = new SqlCommand("Document_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add(DataParameter.OutputInt("@DocumentId"));
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
-                cmd.Parameters.Add(DataParameter.Input("@Origen", this.Source));
-                cmd.Parameters.Add(DataParameter.Input("@CategoryId", this.Category.Id));
-                cmd.Parameters.Add(DataParameter.Input("@ProcedenciaId", this.Origin.Id));
-                cmd.Parameters.Add(DataParameter.Input("@Conservacion", this.Conservation));
-                cmd.Parameters.Add(DataParameter.Input("@ConservacionType", this.ConservationType));
-                cmd.Parameters.Add(DataParameter.Input("@Activo", true));
-                cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code));
-                cmd.Parameters.Add(DataParameter.Input("@Ubicacion", this.Location));
-                cmd.Parameters.Add(DataParameter.Input("@Version", version));
-                cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                cmd.Parameters.Add(DataParameter.Input("@FechaAlta", this.StartDate));
-                if (this.Origin.Id == 0)
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters["@ProcedenciaId"].Value = DBNull.Value;
-                }
-                else
-                {
-                    cmd.Parameters["@ProcedenciaId"].Value = this.Origin.Id;
-                }
-
-                try
-                {
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@DocumentId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                    res.SetSuccess(Convert.ToInt32(cmd.Parameters["@DocumentId"].Value, CultureInfo.GetCultureInfo("en-us")));
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex.Message);
-                    ExceptionManager.Trace(ex, "Document::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "UserId:{0}", userId));
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex.Message);
-                    ExceptionManager.Trace(ex, "Document::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "UserId:{0}", userId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex.Message);
-                    ExceptionManager.Trace(ex, "Document::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "UserId:{0}", userId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.OutputInt("@DocumentId"));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
+                    cmd.Parameters.Add(DataParameter.Input("@Origen", this.Source));
+                    cmd.Parameters.Add(DataParameter.Input("@CategoryId", this.Category.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@ProcedenciaId", this.Origin.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@Conservacion", this.Conservation));
+                    cmd.Parameters.Add(DataParameter.Input("@ConservacionType", this.ConservationType));
+                    cmd.Parameters.Add(DataParameter.Input("@Activo", Constant.DefaultActive));
+                    cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code));
+                    cmd.Parameters.Add(DataParameter.Input("@Ubicacion", this.Location));
+                    cmd.Parameters.Add(DataParameter.Input("@Version", version));
+                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                    cmd.Parameters.Add(DataParameter.Input("@FechaAlta", this.StartDate));
+                    if (this.Origin.Id == 0)
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters["@ProcedenciaId"].Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        cmd.Parameters["@ProcedenciaId"].Value = this.Origin.Id;
+                    }
+
+                    try
+                    {
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@DocumentId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        res.SetSuccess(Convert.ToInt32(cmd.Parameters["@DocumentId"].Value, CultureInfo.GetCultureInfo("en-us")));
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex.Message);
+                        ExceptionManager.Trace(ex, "Document::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "UserId:{0}", userId));
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex.Message);
+                        ExceptionManager.Trace(ex, "Document::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "UserId:{0}", userId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex.Message);
+                        ExceptionManager.Trace(ex, "Document::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "UserId:{0}", userId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1080,9 +1087,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Update a documento in data base
-        /// </summary>
+        /// <summary>Update a documento in data base</summary>
         /// <param name="userId">Identifer of user that perfoms the action</param>
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
@@ -1103,57 +1108,58 @@ namespace GisoFramework.Item
              * @Codigo nvarchar(10),
              * @Ubicacion nvarchar(100),
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("Document_Update"))
+            using (var cmd = new SqlCommand("Document_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add(DataParameter.Input("@DocumentId", this.Id));
-                cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                cmd.Parameters.Add(DataParameter.Input("@FechaAlta", this.StartDate));
-                cmd.Parameters.Add(DataParameter.Input("@Origen", this.Source));
-                cmd.Parameters.Add(DataParameter.Input("@CategoryId", this.Category.Id));
-                cmd.Parameters.Add(DataParameter.Input("@Conservacion", this.Conservation));
-                cmd.Parameters.Add(DataParameter.Input("@ConservacionType", this.ConservationType));
-                cmd.Parameters.Add(DataParameter.Input("@Activo", this.Active));
-                cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code, 10));
-                cmd.Parameters.Add(DataParameter.Input("@Ubicacion", this.Location, 100));
-                cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-
-                cmd.Parameters.Add("@ProcedenciaId", SqlDbType.Int);
-                if (this.Origin.Id > 0)
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters["@ProcedenciaId"].Value = this.Origin.Id;
-                }
-                else
-                {
-                    cmd.Parameters["@ProcedenciaId"].Value = DBNull.Value;
-                }
-
-                try
-                {
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.Success = true;
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@DocumentId", this.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                    cmd.Parameters.Add(DataParameter.Input("@FechaAlta", this.StartDate));
+                    cmd.Parameters.Add(DataParameter.Input("@Origen", this.Source));
+                    cmd.Parameters.Add(DataParameter.Input("@CategoryId", this.Category.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@Conservacion", this.Conservation));
+                    cmd.Parameters.Add(DataParameter.Input("@ConservacionType", this.ConservationType));
+                    cmd.Parameters.Add(DataParameter.Input("@Activo", this.Active));
+                    cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code, 10));
+                    cmd.Parameters.Add(DataParameter.Input("@Ubicacion", this.Location, 100));
+                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                    cmd.Parameters.Add("@ProcedenciaId", SqlDbType.Int);
+                    if (this.Origin.Id > 0)
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters["@ProcedenciaId"].Value = this.Origin.Id;
+                    }
+                    else
+                    {
+                        cmd.Parameters["@ProcedenciaId"].Value = DBNull.Value;
+                    }
+
+                    try
+                    {
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.Success = true;
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

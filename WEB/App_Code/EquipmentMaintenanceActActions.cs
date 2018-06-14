@@ -25,8 +25,7 @@ public class EquipmentMaintenanceActActions : WebService {
     [ScriptMethod]
     public ActionResult Insert(EquipmentMaintenanceAct equipmentMaintenanceAct, int userId)
     {
-        ActionResult res = equipmentMaintenanceAct.Insert(userId);
-
+        var res = equipmentMaintenanceAct.Insert(userId);
         if (res.Success)
         {
             Session["Company"] = new Company(equipmentMaintenanceAct.CompanyId);
@@ -48,5 +47,4 @@ public class EquipmentMaintenanceActActions : WebService {
     {
         return EquipmentMaintenanceAct.Delete(equipmentMaintenanceActId, userId, companyId);
     }
-
 }

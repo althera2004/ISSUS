@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ActivityTrace.cs" company="Sbrinna">
-// TODO: Update copyright text.
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 namespace GisoFramework.Activity
@@ -25,9 +25,7 @@ namespace GisoFramework.Activity
         Update = 2
     }
 
-    /// <summary>
-    /// Log actions for providers
-    /// </summary>
+    /// <summary>Log actions for providers</summary>
     [FlagsAttribute]
     public enum ProviderLogActions
     {
@@ -44,9 +42,7 @@ namespace GisoFramework.Activity
         Delete = 3
     }
     
-    /// <summary>
-    /// Logs actions for customers
-    /// </summary>
+    /// <summary>Logs actions for customers</summary>
     [FlagsAttribute]
     public enum CustomerLogActions
     {
@@ -217,14 +213,10 @@ namespace GisoFramework.Activity
         Finished = 4
     }
 
-    /// <summary>
-    /// A class that implements trace of activity in application
-    /// </summary>
+    /// <summary>A class that implements trace of activity in application</summary>
     public class ActivityTrace
     {
-        /// <summary>
-        /// Prefix for trace dictionary prefix
-        /// </summary>
+        /// <summary>Prefix for trace dictionary prefix</summary>
         public const string ItemTraceDictionaryPrefix = "Item_Trace_";
 
         #region Fields
@@ -442,9 +434,9 @@ namespace GisoFramework.Activity
         /// <returns>Html code for table traces of an item</returns>
         public static string RenderTraceTableForItem(int itemId, TargetType targetType)
         {
-            GisoFramework.Item.Company company = (GisoFramework.Item.Company)HttpContext.Current.Session["company"];
-            StringBuilder res = new StringBuilder();
-            ReadOnlyCollection<ActivityTrace> activities = ActivityLog.GetActivity(itemId, targetType, company.Id, null, null);
+            var company = (GisoFramework.Item.Company)HttpContext.Current.Session["company"];
+            var res = new StringBuilder();
+            var activities = ActivityLog.GetActivity(itemId, targetType, company.Id, null, null);
             foreach (ActivityTrace activity in activities)
             {
                 res.Append(activity.TableTargetedRow);

@@ -29,7 +29,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new ObjetivoRegistro()
+                return new ObjetivoRegistro
                 {
                     Id = 0,
                     ObjetivoId = 0,
@@ -71,7 +71,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return "{}";
+                return Constant.EmptyJsonObject;
             }
         }
 
@@ -87,7 +87,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                Dictionary<string, string> dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+                var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
                 string objetivoRegistroPattern = @"{{
                         ""Id"":{0},
                         ""ObjetivoId"":{1},
@@ -121,9 +121,9 @@ namespace GisoFramework.Item
 
         public static string GetByObjetivoJson(int objetivoId, int companyId)
         {
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (ObjetivoRegistro registro in GetByObjetivo(objetivoId, companyId))
+            foreach (var registro in GetByObjetivo(objetivoId, companyId))
             {
                 if (first)
                 {
@@ -143,11 +143,11 @@ namespace GisoFramework.Item
 
         public static ReadOnlyCollection<ObjetivoRegistro> GetByObjetivo(int objetivoId, int companyId)
         {
-            List<ObjetivoRegistro> res = new List<ObjetivoRegistro>();
+            var res = new List<ObjetivoRegistro>();
             /* CREATE PROCEDURE ObjetivoRegistro_GetByObjetivo
              *   @CompanyId int,
              *   @ObjetivoId int */
-            using (SqlCommand cmd = new SqlCommand("ObjetivoRegistro_GetByObjetivo"))
+            using (var cmd = new SqlCommand("ObjetivoRegistro_GetByObjetivo"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 try
@@ -156,44 +156,46 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", objetivoId));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                     cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    using (var rdr = cmd.ExecuteReader())
                     {
-                        ObjetivoRegistro registro = new ObjetivoRegistro()
+                        while (rdr.Read())
                         {
-                            Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.Id),
-                            CompanyId = rdr.GetInt32(ColumnsObjetivoRegistroGet.CompanyId),
-                            Date = rdr.GetDateTime(ColumnsObjetivoRegistroGet.Fecha),
-                            Value = rdr.GetDecimal(ColumnsObjetivoRegistroGet.Valor),
-                            MetaComparer = rdr.GetString(ColumnsObjetivoRegistroGet.MetaComparer),
-                            Comments = rdr.GetString(ColumnsObjetivoRegistroGet.Comentario),
-                            Responsible = new Employee()
+                            var registro = new ObjetivoRegistro
                             {
-                                Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.ResponsableId),
-                                Name = rdr.GetString(ColumnsObjetivoRegistroGet.ResponsableFirstName),
-                                LastName = rdr.GetString(ColumnsObjetivoRegistroGet.ResponsableLastName)
-                            },
-                            CreatedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.CreatedBy),
-                                UserName = rdr.GetString(ColumnsObjetivoRegistroGet.CreatedByName)
-                            },
-                            CreatedOn = rdr.GetDateTime(ColumnsObjetivoRegistroGet.CreatedOn),
-                            ModifiedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.ModifiedBy),
-                                UserName = rdr.GetString(ColumnsObjetivoRegistroGet.ModifiedByName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsObjetivoRegistroGet.ModifiedOn),
-                            Active = rdr.GetBoolean(ColumnsObjetivoRegistroGet.Active)
-                        };
+                                Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.Id),
+                                CompanyId = rdr.GetInt32(ColumnsObjetivoRegistroGet.CompanyId),
+                                Date = rdr.GetDateTime(ColumnsObjetivoRegistroGet.Fecha),
+                                Value = rdr.GetDecimal(ColumnsObjetivoRegistroGet.Valor),
+                                MetaComparer = rdr.GetString(ColumnsObjetivoRegistroGet.MetaComparer),
+                                Comments = rdr.GetString(ColumnsObjetivoRegistroGet.Comentario),
+                                Responsible = new Employee
+                                {
+                                    Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.ResponsableId),
+                                    Name = rdr.GetString(ColumnsObjetivoRegistroGet.ResponsableFirstName),
+                                    LastName = rdr.GetString(ColumnsObjetivoRegistroGet.ResponsableLastName)
+                                },
+                                CreatedBy = new ApplicationUser
+                                {
+                                    Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.CreatedBy),
+                                    UserName = rdr.GetString(ColumnsObjetivoRegistroGet.CreatedByName)
+                                },
+                                CreatedOn = rdr.GetDateTime(ColumnsObjetivoRegistroGet.CreatedOn),
+                                ModifiedBy = new ApplicationUser
+                                {
+                                    Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.ModifiedBy),
+                                    UserName = rdr.GetString(ColumnsObjetivoRegistroGet.ModifiedByName)
+                                },
+                                ModifiedOn = rdr.GetDateTime(ColumnsObjetivoRegistroGet.ModifiedOn),
+                                Active = rdr.GetBoolean(ColumnsObjetivoRegistroGet.Active)
+                            };
 
-                        if (!rdr.IsDBNull(ColumnsObjetivoRegistroGet.Meta))
-                        {
-                            registro.Meta = rdr.GetDecimal(ColumnsObjetivoRegistroGet.Meta);
+                            if (!rdr.IsDBNull(ColumnsObjetivoRegistroGet.Meta))
+                            {
+                                registro.Meta = rdr.GetDecimal(ColumnsObjetivoRegistroGet.Meta);
+                            }
+
+                            res.Add(registro);
                         }
-
-                        res.Add(registro);
                     }
                 }
                 catch (SqlException ex)
@@ -239,88 +241,93 @@ namespace GisoFramework.Item
         /// <returns></returns>
         public static ReadOnlyCollection<ObjetivoRegistro> GetList(int companyId)
         {
-            List<ObjetivoRegistro> res = new List<ObjetivoRegistro>();
+            var res = new List<ObjetivoRegistro>();
             /* CREATE PROCEDURE ObjetivoRegistro_GetAll
              *   @CompanyId int */
-            using (SqlCommand cmd = new SqlCommand("ObjetivoRegistro_GetAll"))
+            using (var cmd = new SqlCommand("ObjetivoRegistro_GetAll"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        ObjetivoRegistro registro = new  ObjetivoRegistro()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt64(ColumnsObjetivoRegistroGet.Id),
-                            CompanyId = rdr.GetInt32(ColumnsObjetivoRegistroGet.CompanyId),
-                            Date = rdr.GetDateTime(ColumnsObjetivoRegistroGet.Fecha),
-                            Meta = rdr.GetDecimal(ColumnsObjetivoRegistroGet.Meta),
-                            MetaComparer = rdr.GetString(ColumnsObjetivoRegistroGet.MetaComparer),
-                            Value = rdr.GetDecimal(ColumnsObjetivoRegistroGet.Valor),
-                            Comments = rdr.GetString(ColumnsObjetivoRegistroGet.Comentario),
-                            Responsible = new Employee()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.ResponsableId),
-                                Name = rdr.GetString(ColumnsObjetivoRegistroGet.ResponsableFirstName),
-                                LastName = rdr.GetString(ColumnsObjetivoRegistroGet.ResponsableLastName)
-                            },
-                            CreatedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.CreatedBy),
-                                UserName = rdr.GetString(ColumnsObjetivoRegistroGet.CreatedByName)
-                            },
-                            CreatedOn = rdr.GetDateTime(ColumnsObjetivoRegistroGet.CreatedOn),
-                            ModifiedBy =  new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.ModifiedBy),
-                                UserName = rdr.GetString(ColumnsObjetivoRegistroGet.ModifiedByName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsObjetivoRegistroGet.ModifiedOn),
-                            Active = rdr.GetBoolean(ColumnsObjetivoRegistroGet.Active)
-                        };
-                        
+                                var registro = new ObjetivoRegistro
+                                {
+                                    Id = rdr.GetInt64(ColumnsObjetivoRegistroGet.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsObjetivoRegistroGet.CompanyId),
+                                    Date = rdr.GetDateTime(ColumnsObjetivoRegistroGet.Fecha),
+                                    Meta = rdr.GetDecimal(ColumnsObjetivoRegistroGet.Meta),
+                                    MetaComparer = rdr.GetString(ColumnsObjetivoRegistroGet.MetaComparer),
+                                    Value = rdr.GetDecimal(ColumnsObjetivoRegistroGet.Valor),
+                                    Comments = rdr.GetString(ColumnsObjetivoRegistroGet.Comentario),
+                                    Responsible = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.ResponsableId),
+                                        Name = rdr.GetString(ColumnsObjetivoRegistroGet.ResponsableFirstName),
+                                        LastName = rdr.GetString(ColumnsObjetivoRegistroGet.ResponsableLastName)
+                                    },
+                                    CreatedBy = new ApplicationUser
+                                    {
+                                        Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.CreatedBy),
+                                        UserName = rdr.GetString(ColumnsObjetivoRegistroGet.CreatedByName)
+                                    },
+                                    CreatedOn = rdr.GetDateTime(ColumnsObjetivoRegistroGet.CreatedOn),
+                                    ModifiedBy = new ApplicationUser
+                                    {
+                                        Id = rdr.GetInt32(ColumnsObjetivoRegistroGet.ModifiedBy),
+                                        UserName = rdr.GetString(ColumnsObjetivoRegistroGet.ModifiedByName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsObjetivoRegistroGet.ModifiedOn),
+                                    Active = rdr.GetBoolean(ColumnsObjetivoRegistroGet.Active)
+                                };
 
-                        if (!rdr.IsDBNull(ColumnsObjetivoRegistroGet.Meta))
-                        {
-                            registro.Meta = rdr.GetDecimal(ColumnsObjetivoRegistroGet.Meta);
+
+                                if (!rdr.IsDBNull(ColumnsObjetivoRegistroGet.Meta))
+                                {
+                                    registro.Meta = rdr.GetDecimal(ColumnsObjetivoRegistroGet.Meta);
+                                }
+
+                                res.Add(registro);
+                            }
                         }
-
-                        res.Add(registro);
                     }
-                }
-                catch (SqlException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
-                }
-                catch (FormatException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
-                }
-                catch (ArgumentNullException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
-                }
-                catch (ArgumentException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
-                }
-                catch (InvalidCastException ex)
-                {
-                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                    }
+                    catch (InvalidCastException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -335,23 +342,22 @@ namespace GisoFramework.Item
                 @"ObjetivoRegistro::Inactivate({0}, {1})",
                 objetivoRegistroId,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[ObjetivoRegistro_Inactivate]
              *   @ObjetivoRegsitroId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("ObjetivoRegistro_Inactivate"))
+            using (var cmd = new SqlCommand("ObjetivoRegistro_Inactivate"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@ObjetivoRegistroId", objetivoRegistroId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess(objetivoRegistroId);
@@ -406,23 +412,22 @@ namespace GisoFramework.Item
                 @"ObjetivoRegistro::Activate({0}, {1})",
                 objetivoRegistroId,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[ObjetivoRegistro_Activate]
              *   @ObjetivoRegsitroId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("ObjetivoRegistro_Activate"))
+            using (var cmd = new SqlCommand("ObjetivoRegistro_Activate"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@ObjetivoRegistroId", objetivoRegistroId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess(objetivoRegistroId);
@@ -477,7 +482,7 @@ namespace GisoFramework.Item
                 @"ObjetivoRegistro::Insert({0}, {1})",
                 this.Id,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[ObjetivoRegistro_Insert]
              *   @ObjetivoRegsitroId int output,
              *   @CompanyId int,
@@ -487,12 +492,12 @@ namespace GisoFramework.Item
              *   @Comentari nvarchar(500),
              *   @ResponsableId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("ObjetivoRegistro_Insert"))
+            using (var cmd = new SqlCommand("ObjetivoRegistro_Insert"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.OutputInt("@ObjetivoRegistroId"));
@@ -561,7 +566,7 @@ namespace GisoFramework.Item
                 @"ObjetivoRegistro::Update({0}, {1})",
                 this.Id,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[ObjetivoRegistro_Update]
              *   @ObjetivoRegsitroId int,
              *   @CompanyId int,
@@ -571,12 +576,12 @@ namespace GisoFramework.Item
              *   @Comentari nvarchar(500),
              *   @ResponsableId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("ObjetivoRegistro_Update"))
+            using (var cmd = new SqlCommand("ObjetivoRegistro_Update"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@ObjetivoRegistroId", this.Id));
@@ -655,7 +660,6 @@ namespace GisoFramework.Item
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
 
-
             switch (comparerValue.ToUpperInvariant())
             {
                 case "EQ": return dictionary["Common_Comparer_eq"];
@@ -663,9 +667,8 @@ namespace GisoFramework.Item
                 case "EQGT": return dictionary["Common_Comparer_eqgt"];
                 case "LT": return dictionary["Common_Comparer_lt"];
                 case "EQLT": return dictionary["Common_Comparer_eqlt"];
+                default: return string.Empty;
             }
-
-            return string.Empty;
         }
 
         public static string ComparerLabelSign(string comparerValue, Dictionary<string, string> dictionary)
@@ -687,9 +690,8 @@ namespace GisoFramework.Item
                 case "EQGT": return dictionary["Common_ComparerSign_eqgt"];
                 case "LT": return dictionary["Common_ComparerSign_lt"];
                 case "EQLT": return dictionary["Common_ComparerSign_eqlt"];
+                default: return string.Empty;
             }
-
-            return string.Empty;
         }
     }
 }

@@ -1,30 +1,30 @@
 $(document).ready(function () {
 
-    var location = document.location + '';
+    var location = document.location + "";
 
-    if (location.indexOf('ndex.aspx') != -1) {
-        $('#BtnLangEs').click(function () { LanguageChanged('es-es') });
-        $('#BtnLangCa').click(function () { LanguageChanged('ca-es') });
-        $('#BtnLangEn').click(function () { LanguageChanged('en-us') });
-        $('#BtnLogin').click(Login);
-        $('#ErrorMessage').hide();
+    if (location.indexOf("ndex.aspx") !== -1) {
+        $("#BtnLangEs").click(function () { LanguageChanged("es-es") });
+        $("#BtnLangCa").click(function () { LanguageChanged("ca-es") });
+        $("#BtnLangEn").click(function () { LanguageChanged("en-us") });
+        $("#BtnLogin").click(Login);
+        $("#ErrorMessage").hide();
     }
 
-    if (location.indexOf('MainPanel.aspx') != -1) {
-        $('#CompanyName').html(CompanyData.Name);
-        $('#UserName').html(User.Name);
+    if (location.indexOf("MainPanel.aspx") !== -1) {
+        $("#CompanyName").html(CompanyData.Name);
+        $("#UserName").html(User.Name);
     }
 
-    if (location.indexOf('CompanyPage.aspx') != -1) {
-        jQuery("#fSaveUser").validationEngine('attach', { promptPosition: "bottomRight", btn: 'BtnSaveUser', onSuccessAction: SaveUser });
+    if (location.indexOf("CompanyPage.aspx") !== -1) {
+        jQuery("#fSaveUser").validationEngine("attach", { promptPosition: "bottomRight", btn: "BtnSaveUser", onSuccessAction: SaveUser });
             
-        $('#CompanyName').html(CompanyData.Name);
-        $('#UserName').html(User.Name);
+        $("#CompanyName").html(CompanyData.Name);
+        $("#UserName").html(User.Name);
     }
 
-    if (location.indexOf('EmployeesPage.aspx') != -1) {
-        $('#CompanyName').html(CompanyData.Name);
-        $('#UserName').html(User.Name);
+    if (location.indexOf("EmployeesPage.aspx") !== -1) {
+        $("#CompanyName").html(CompanyData.Name);
+        $("#UserName").html(User.Name);
     }
 
 
@@ -36,27 +36,23 @@ $(document).ready(function () {
     $("#main-nav li a.current").parent().find("ul").show(); // Slide down the current menu item's sub menu
 
     $("#main-nav li a.nav-top-item").click(
-			function () {
-			    //$(this).parent().siblings().find("ul").slideUp("normal"); // Slide up all sub menus except the one clicked
-			    $(this).next().slideToggle("normal"); // Slide down the clicked sub menu
-			    $(this).toggleClass('arrow');
-			    return false;
-			}
-		);
+        function () {
+            //$(this).parent().siblings().find("ul").slideUp("normal"); // Slide up all sub menus except the one clicked
+            $(this).next().slideToggle("normal"); // Slide down the clicked sub menu
+            $(this).toggleClass("arrow");
+            return false;
+        }
+    );
 
     $("#main-nav li a.no-submenu").click(
-			function () {
-			    window.location.href = (this.href); // Just open the link instead of a sub menu
-			    return false;
-			}
-		);
-
-
-
+        function () {
+            window.location.href = (this.href); // Just open the link instead of a sub menu
+            return false;
+        }
+    );
 
     /*************submenu-footer-tooltip****************/
     /*************submenu-footer-tooltip****************/
-
 
     $(".submenu-footer .icons li a#search").click(function () {
         $(".search_bar").toggle();
@@ -66,23 +62,16 @@ $(document).ready(function () {
         $(".search_bar").hide();
     });
 
-
     $(".submenu-footer .icons li a#messages").click(function () {
         $(".messages_list").toggle();
     });
-
 
     $(".submenu-footer .icons li a#messages").blur(function () {
         $(".messages_list").hide();
     });
 
-
-
-
     /*************SLIDE CONTENT BOX SCRIPT****************/
     /*************SLIDE CONTENT BOX SCRIPT****************/
-
-
 
     $(".closed-box .box-content").hide(); // Hide the content of the header if it has the class "closed"
     $(".closed-box .content-box-tabs").hide(); // Hide the tabs in the header if it has the class "closed"
@@ -93,40 +82,29 @@ $(document).ready(function () {
 			    $(this).parent().toggleClass("closed-box"); // Toggle the class "closed-box" on the content box
 			    $(this).parent().parent().find(".box-content").slideToggle("fast"); // Toggle the tabs
 			}
-		);
-
-
-
-
-
+    );
 
     /*************CLOSE BOX SCRIPT****************/
     /*************CLOSE BOX SCRIPT****************/
 
 
     $(".close").click(
-			function () {
-			    $(this).parent().parent().fadeTo(400, 0, function () {
-			        $(this).hide(400);
-			    });
-			    return false;
-			}
-		);
-
-
-
+        function () {
+            $(this).parent().parent().fadeTo(400, 0, function () {
+                $(this).hide(400);
+            });
+            return false;
+        }
+    );
 
     $(".close_notification").click(
-			function () {
-			    $(this).parent().fadeTo(400, 0, function () {
-			        $(this).hide(400);
-			    });
-			    return false;
-			}
-		);
-
-
-
+        function () {
+            $(this).parent().fadeTo(400, 0, function () {
+                $(this).hide(400);
+            });
+            return false;
+        }
+    );
 
     /*************DRAG DROP BOX SCRIPT****************/
     /*************DRAG DROP BOX SCRIPT****************/
@@ -156,57 +134,6 @@ $(document).ready(function () {
 
 
 
-
-
-    /*************FULL CALENDAR****************/
-    /*************FULL CALENDAR****************/
-
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-
-    $('#calendar').fullCalendar({
-        header: {
-            left: 'prev,next',
-            center: 'title',
-            right: 'month,agendaWeek,agendaDay'
-        },
-        editable: true,
-        events: [
-
-			{
-			    title: 'Long Event',
-			    start: new Date(y, m, d - 5),
-			    end: new Date(y, m, d - 2)
-			},
-			{
-			    id: 999,
-			    title: 'Repeating Event',
-			    start: new Date(y, m, d + 4, 16, 0),
-			    allDay: false
-			},
-			{
-			    title: 'Birthday Party',
-			    start: new Date(y, m, d + 1, 19, 0),
-			    end: new Date(y, m, d + 1, 22, 30),
-			    allDay: false
-			},
-			{
-			    title: 'Click for Google',
-			    start: new Date(y, m, 28),
-			    end: new Date(y, m, 29),
-			    url: 'http://google.com/'
-			}
-		]
-    });
-
-
-
-
-
-
-
     //===== Sortable columns =====//
 
     $("table").tablesorter();
@@ -222,7 +149,7 @@ $(document).ready(function () {
 
     //===== Dynamic data table =====//
 
-    oTable = $('.dTable').dataTable({
+    oTable = $(".dTable").dataTable({
         "bJQueryUI": false,
         "bAutoWidth": false,
         "sPaginationType": "full_numbers",

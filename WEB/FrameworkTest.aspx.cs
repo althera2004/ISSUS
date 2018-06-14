@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web.UI;
 using GisoFramework.Item;
 using SbrinnaCoreFramework.UI;
+using GisoFramework;
 
 public partial class FrameworkTest : Page
 {
@@ -31,7 +32,7 @@ public partial class FrameworkTest : Page
     {
         if (this.Session["User"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
 
@@ -44,15 +45,15 @@ public partial class FrameworkTest : Page
         this.master.AddBreadCrumb(label);
         this.master.Titulo = label;
 
-        var bt = new UIButton()
+        var bt = new UIButton
         {
             Icon = "icon-plus-sign",
-             Id = "01",
-             Text = this.Dictionary["Item_Employee"],
-             Action ="success"
+            Id = "01",
+            Text = this.Dictionary["Item_Employee"],
+            Action = "success"
         };
 
-        var tx = new TextBox()
+        var tx = new TextBox
         {
             Label = this.Dictionary["Item_Document"],
             Name = "TxtDocumento",

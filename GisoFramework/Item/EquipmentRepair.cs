@@ -26,7 +26,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new EquipmentRepair()
+                return new EquipmentRepair
                 {
                     Id = -1,
                     EquipmentId = -1,
@@ -171,7 +171,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                var equipmentRepair = new EquipmentRepair()
+                                var equipmentRepair = new EquipmentRepair
                                 {
                                     Id = rdr.GetInt64(ColumnsEquipmentRepairGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsEquipmentRepairGet.CompanyId),
@@ -182,18 +182,18 @@ namespace GisoFramework.Item
                                     Date = rdr.GetDateTime(ColumnsEquipmentRepairGet.Date),
                                     Active = rdr.GetBoolean(ColumnsEquipmentRepairGet.Active),
                                     RepairType = rdr.GetInt32(ColumnsEquipmentRepairGet.RepairType),
-                                    Provider = new Provider()
+                                    Provider = new Provider
                                     {
                                         Id = rdr.GetInt64(ColumnsEquipmentRepairGet.ProviderId),
                                         Description = rdr.GetString(ColumnsEquipmentRepairGet.ProviderDescription)
                                     },
-                                    Responsible = new Employee()
+                                    Responsible = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentRepairGet.ResponsibleEmployeeId),
                                         Name = rdr.GetString(ColumnsEquipmentRepairGet.ResponsibleName),
                                         LastName = rdr.GetString(ColumnsEquipmentRepairGet.ResponsibleLastName)
                                     },
-                                    ModifiedBy = new ApplicationUser()
+                                    ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsEquipmentRepairGet.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsEquipmentRepairGet.ModifiedByUserName)
@@ -363,53 +363,55 @@ namespace GisoFramework.Item
              *   @ResponsableId int,
              *   @UserId int */
             var result = ActionResult.NoAction;
-            using (SqlCommand cmd = new SqlCommand("EquipmentRepair_Insert"))
+            using (var cmd = new SqlCommand("EquipmentRepair_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentRepairId"));
-                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@RepairType", this.RepairType));
-                    cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
-                    cmd.Parameters.Add(DataParameter.Input("@Tools", this.Tools));
-                    cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations));
-                    cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
-                    if (this.Provider == null)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
-                    }
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentRepairId"));
+                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@RepairType", this.RepairType));
+                        cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@Tools", this.Tools));
+                        cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations));
+                        cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
+                        if (this.Provider == null)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                        }
 
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt64(cmd.Parameters["@EquipmentRepairId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                    result.Success = true;
-                    result.MessageError = this.Id.ToString(CultureInfo.InvariantCulture);
-                }
-                catch (SqlException ex)
-                {
-                    result.SetFail(ex);
-                    ExceptionManager.Trace(ex, "EquipmentRepair::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                catch (NullReferenceException ex)
-                {
-                    ExceptionManager.Trace(ex, "EquipmentRepairInsert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt64(cmd.Parameters["@EquipmentRepairId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        result.Success = true;
+                        result.MessageError = this.Id.ToString(CultureInfo.InvariantCulture);
+                    }
+                    catch (SqlException ex)
                     {
-                        cmd.Connection.Close();
+                        result.SetFail(ex);
+                        ExceptionManager.Trace(ex, "EquipmentRepair::Insert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, "EquipmentRepairInsert", string.Format(CultureInfo.GetCultureInfo("en-us"), "Id:{0} - Name{1}", this.Id, this.Description));
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

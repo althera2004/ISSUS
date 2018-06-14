@@ -232,7 +232,7 @@ function EquipmentMaintenanceDefinitionEdit(sender) {
     SelectedEquipmentMaintenanceDefinition = EquipmentMaintenanceDefinitiongetById(SelectedEquipmentDefinitionSelectedId);
     if (SelectedEquipmentMaintenanceDefinition === null) { return false; }
     EquipmentMaintenanceEditFormFill(SelectedEquipmentMaintenanceDefinition);
-    var dialog = $("#dialogNewMaintaiment").removeClass('hide').dialog({
+    var dialog = $("#dialogNewMaintaiment").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentMaintenance_PopupConfigurationUpdate_Title + "</h4></div>",

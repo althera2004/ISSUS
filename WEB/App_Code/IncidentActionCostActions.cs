@@ -9,9 +9,7 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for IncidentActionCostActions
-/// </summary>
+/// <summary>Summary description for IncidentActionCostActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
@@ -43,4 +41,3 @@ public class IncidentActionCostActions : WebService {
         return IncidentActionCost.Delete(incidentId, userId, companyId);
     }
 }
-

@@ -41,9 +41,7 @@ public partial class UserList : Page
     public string UserLogin { get { return this.user.UserName; } }
     public string UserName { get { return this.user.UserName; } }
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
+    /// <summary> Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
     {
         get
@@ -74,7 +72,7 @@ public partial class UserList : Page
     {
         get
         {
-            return Company.Json(this.company);
+            return this.company.Json;
         }
     }
 
@@ -90,8 +88,7 @@ public partial class UserList : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
-            Context.ApplicationInstance.CompleteRequest();
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
@@ -99,14 +96,15 @@ public partial class UserList : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
@@ -128,10 +126,10 @@ public partial class UserList : Page
             this.master.ButtonNewItem = UIButton.NewItemButton("Item_User_Button_New", "UserView.aspx");
         }
 
-        this.DataHeader = new UIDataHeader() { Id = "ListDataHeader", ActionsItem = 2 };
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_User_List_Header_UserName"], Sortable = true, Filterable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_User_List_Header_EmployeeName"], Sortable = true, Filterable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem() { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_User_List_Header_Email"], Sortable = true, Filterable = true });
+        this.DataHeader = new UIDataHeader { Id = "ListDataHeader", ActionsItem = 2 };
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_User_List_Header_UserName"], Sortable = true, Filterable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_User_List_Header_EmployeeName"], Sortable = true, Filterable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_User_List_Header_Email"], Sortable = true, Filterable = true });
     }
 
     private void RenderUserData()
@@ -142,7 +140,7 @@ public partial class UserList : Page
         bool first = true;
         var users =  ApplicationUser.CompanyUsers(this.company.Id);
         int contData = 0;
-        foreach (ApplicationUser userItem in users)
+        foreach (var userItem in users)
         {
             active.Append(userItem.ListRow(this.dictionary, this.user.Grants));
             if(!searchedItem.Contains(userItem.UserName))
@@ -177,7 +175,7 @@ public partial class UserList : Page
                     sea.Append(",");
                 }
 
-                sea.AppendFormat(CultureInfo.GetCultureInfo("en-us"), @"""{0}""", s1);
+                sea.AppendFormat(CultureInfo.InvariantCulture, @"""{0}""", s1);
             }
         }
 

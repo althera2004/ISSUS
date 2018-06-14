@@ -33,10 +33,8 @@ public partial class Select : Page
             }
 
             path = string.Format(CultureInfo.InvariantCulture, @"{0}WelcomeBackgrounds\", path);
-
-            string[] files = Directory.GetFiles(path);
-            Random rnd = new Random();
-            int index = rnd.Next(0, files.Count() - 1);
+            var files = Directory.GetFiles(path);
+            int index = new Random().Next(0, files.Count() - 1);
             string res = Path.GetFileName(files[index]);
             Session["BK"] = res;
             return res;
@@ -57,9 +55,7 @@ public partial class Select : Page
         get { return this.ip; }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
@@ -75,15 +71,15 @@ public partial class Select : Page
         }
 
         Session["Navigation"] = null;
-        string id = this.Request.QueryString["action"].ToString();
+        string id = this.Request.QueryString["action"];
         this.UserId = Convert.ToInt64(id.Split('-')[1]);
         this.RenderCompanies();
     }
 
     private void RenderCompanies()
     {
-        StringBuilder res = new StringBuilder();
-        List<string> companiesIds = Session["Companies"] as List<string>;
+        var res = new StringBuilder();
+        var companiesIds = Session["Companies"] as List<string>;
         string cssClass = "odd";
         string pattern = @"<td style=""height:60px;width:100px;border:1px solid #aaa;cursor:pointer;"" align=""center"" onclick=""Go({0},{4});""><strong>{1}</strong><br /><img src=""/Images/Logos/{5}?ac={6}"" class=""logo"" style=""max-width:90%;max-height:30px;"" /><br /></td>";
         int contCells = 0;
@@ -97,7 +93,7 @@ public partial class Select : Page
                 {
                     int cId = Convert.ToInt32(companyId.Split('|')[0]);
                     int uId = Convert.ToInt32(companyId.Split('|')[1]);
-                    Company company = new Company(cId);
+                    var company = new Company(cId);
                     res.AppendFormat(
                         CultureInfo.InvariantCulture,
                         @"<option value=""{0}|{1}"">{2}</option>",
@@ -105,6 +101,7 @@ public partial class Select : Page
                         uId,
                         company.Name);
                 }
+
                 res.Append("</select></tr></td>");
                 res.Append("<tr><td align=\"right\" style=\"padding-top:8px;\">");
                 res.Append(@"<button type=""button"" class=""width-35 pull-right btn btn-sm btn-primary"" id=""BtnLoginCmb"" onclick=""GoFromCombo();"">Acceder</button>");
@@ -116,7 +113,6 @@ public partial class Select : Page
                 {
                     int cId = Convert.ToInt32(companyId.Split('|')[0]);
                     int uId = Convert.ToInt32(companyId.Split('|')[1]);
-
                     string logo = Company.GetLogoFileName(cId);
 
                     if (contCells == 0)
@@ -124,7 +120,7 @@ public partial class Select : Page
                         res.Append("<tr>");
                     }
 
-                    Company company = new Company(cId);
+                    var company = new Company(cId);
                     res.AppendFormat(
                         CultureInfo.InvariantCulture,
                         pattern,

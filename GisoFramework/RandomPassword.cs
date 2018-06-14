@@ -22,29 +22,25 @@ namespace GisoFramework
     public static class RandomPassword
     {
         /// <summary>Minimum password length</summary>
-        private static int DefaultMinPasswordLength = 8;
+        private static int defaultMinPasswordLength = 8;
 
         /// <summary>Maximum password length</summary>
-        private static int DefaultMaxPasswordLength = 10;
+        private static int defaultMaxPasswordLength = 10;
 
         /// <summary>Lowercase characters</summary>
-        private static string PasswordCharsLowercase = "abcdefgijkmnopqrstwxyz";
+        private static string passwordCharsLowercase = "abcdefgijkmnopqrstwxyz";
 
         /// <summary>Uppercase characters</summary>
-        private static string PasswordCharsUppercase = "ABCDEFGHJKLMNPQRSTWXYZ";
+        private static string passwordCharsUppercase = "ABCDEFGHJKLMNPQRSTWXYZ";
 
         /// <summary>Numeric characters</summary>
-        private static string PasswordCharsNumeric = "23456789";
+        private static string passwordCharsNumeric = "23456789";
 
         /// <summary>Special characters</summary>
-        private static string PasswordCharsSpecial = "*$-+?_&=!%{}/";
+        private static string passwordCharsSpecial = "*$-+?_&=!%{}/";
 
-        /// <summary>
-        /// Generates a random password.
-        /// </summary>
-        /// <returns>
-        /// Randomly generated password.
-        /// </returns>
+        /// <summary>Generates a random password.</summary>
+        /// <returns>Randomly generated password.</returns>
         /// <remarks>
         /// The length of the generated password will be determined at
         /// random. It will be no shorter than the minimum default and
@@ -52,35 +48,21 @@ namespace GisoFramework
         /// </remarks>
         public static string Generate()
         {
-            return Generate(DefaultMinPasswordLength, DefaultMaxPasswordLength);
+            return Generate(defaultMinPasswordLength, defaultMaxPasswordLength);
         }
 
-        /// <summary>
-        /// Generates a random password of the exact length.
-        /// </summary>
-        /// <param name="length">
-        /// Exact password length.
-        /// </param>
-        /// <returns>
-        /// Randomly generated password.
-        /// </returns>
+        /// <summary>Generates a random password of the exact length.</summary>
+        /// <param name="length">Exact password length.</param>
+        /// <returns>Randomly generated password.</returns>
         public static string Generate(int length)
         {
             return Generate(length, length);
         }
 
-        /// <summary>
-        /// Generates a random password.
-        /// </summary>
-        /// <param name="minLength">
-        /// Minimum password length.
-        /// </param>
-        /// <param name="maxLength">
-        /// Maximum password length.
-        /// </param>
-        /// <returns>
-        /// Randomly generated password.
-        /// </returns>
+        /// <summary>Generates a random password.</summary>
+        /// <param name="minLength">Minimum password length.</param>
+        /// <param name="maxLength">Maximum password length.</param>
+        /// <returns>Randomly generated password.</returns>
         /// <remarks>
         /// The length of the generated password will be determined at
         /// random and it will fall with the range determined by the
@@ -99,15 +81,15 @@ namespace GisoFramework
             // array, but doing so will weaken the password strength.
             var charGroups = new char[][] 
             {
-                PasswordCharsLowercase.ToCharArray(),
-                PasswordCharsUppercase.ToCharArray(),
-                PasswordCharsNumeric.ToCharArray(),
-                PasswordCharsSpecial.ToCharArray()
+                passwordCharsLowercase.ToCharArray(),
+                passwordCharsUppercase.ToCharArray(),
+                passwordCharsNumeric.ToCharArray(),
+                passwordCharsSpecial.ToCharArray()
             };
 
             // Use this array to track the number of unused characters in each
             // character group.
-            int[] charsLeftInGroup = new int[charGroups.Length];
+            var charsLeftInGroup = new int[charGroups.Length];
 
             // Initially, all characters in each group are not used.
             for (int i = 0; i < charsLeftInGroup.Length; i++)
@@ -116,7 +98,7 @@ namespace GisoFramework
             }
 
             // Use this array to track (iterate through) unused character groups.
-            int[] leftGroupsOrder = new int[charGroups.Length];
+            var leftGroupsOrder = new int[charGroups.Length];
 
             // Initially, all character groups are not used.
             for (int i = 0; i < leftGroupsOrder.Length; i++)
@@ -134,8 +116,10 @@ namespace GisoFramework
             var randomBytes = new byte[4];
 
             // Generate 4 random bytes.
-            var rng = new RNGCryptoServiceProvider();
-            rng.GetBytes(randomBytes);
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(randomBytes);
+            }
 
             // Convert 4 bytes into a 32-bit integer value.
             int seed = BitConverter.ToInt32(randomBytes, 0);
@@ -255,7 +239,7 @@ namespace GisoFramework
             }
 
             // Convert password characters into a string and return the result.
-            return new string(password).Replace("{","S").Replace("}","Z").Replace("[","C").Replace("]","D").Replace("'","1").Replace("\"","2");
+            return new string(password).Replace("{", "S").Replace("}", "Z").Replace("[", "C").Replace("]", "D").Replace("'", "1").Replace("\"", "2");
         }
     }
 }

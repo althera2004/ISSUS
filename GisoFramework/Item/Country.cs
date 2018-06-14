@@ -12,6 +12,7 @@ namespace GisoFramework.Item
     using System.Data;
     using System.Data.SqlClient;
     using System.Globalization;
+    using System.Text;
     using GisoFramework.Activity;
     using GisoFramework.DataAccess;
 
@@ -63,6 +64,49 @@ namespace GisoFramework.Item
                     this.Id,
                     this.Description);
             }
+        }
+
+        /// <summary>Gets a JSON structure of country data</summary>
+        public string Json
+        {
+            get
+            {
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"{{""Id"":{0}, ""Name"":""{1}""}}",
+                    this.Id,
+                    Tools.JsonCompliant(this.Description));
+            }
+        }
+
+        /// <summary>Gets a JSON list of countries</summary>
+        /// <param name="list">List of countries</param>
+        /// <returns>JSON list of countries</returns>
+        public static string JsonList(ReadOnlyCollection<Country> list)
+        {
+            if(list == null)
+            {
+                return Constant.EmptyJsonList;
+            }
+
+            var result = new StringBuilder("[");
+            bool first = true;
+            foreach (var country in list)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    result.Append(",");
+                }
+
+                result.Append(country.Json);
+            }
+
+            result.Append("]");
+            return result.ToString();
         }
 
         /// <summary>Add a country to compnay's selected countries</summary>
@@ -153,7 +197,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new Country()
+                                res.Add(new Country
                                 {
                                     Id = rdr.GetInt32(0),
                                     Description = rdr.GetString(1),

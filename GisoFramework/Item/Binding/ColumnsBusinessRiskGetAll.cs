@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ColumnsBusinessRiskGetAll.cs" company="Sbrinna">
-// TODO: Update copyright text.
+// <copyright file="ColumnsBusinessRiskGetAll.cs" company="Sbrinna
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item.Binding

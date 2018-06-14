@@ -213,7 +213,7 @@ function RenderDocumentRow(data) {
         tr.style.fontStyle = "italic";
     }
 
-    if (user.Grants["Employee"].Read === false) {
+    if (typeof user.Grants.Employee === "undefined" || user.Grants.Employee.Read === false) {
         tdName.appendChild(document.createTextNode(data.Description));
     }
     else {

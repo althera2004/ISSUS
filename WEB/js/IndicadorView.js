@@ -6,20 +6,6 @@ var lockOrderList = false;
 
 window.onload = function () {
     $("#build").hide();
-    /*$(".breadcrumb").css("font-size", "16px");
-    $(".breadcrumb").css("margin-top", "8px");
-    $(".breadcrumb .active").css("font-weight", "bold");
-    $(".breadcrumb .active").css("font-size", "22px");
-    $(".page-header").hide();
-    $("#FooterButton").css("height", "40px");
-    $("#ImgCompany").hide();
-    $("#HeaderButtons").hide();
-    $("#FooterButton").html($("#ItemButtons").html());
-    $("#FooterStatus").html($("#ItemStatus").html());
-    $("#FooterStatus").css("text-align", "left");
-    $("#FooterStatus").css("padding-left", ($("#sidebar").width() + 10) + "px");
-    $(".form-actions").hide();
-    $("#oldFormFooter").html("");*/
 
     IndicadorTypeLayout();
     FillComboUnidad();
@@ -43,10 +29,7 @@ window.onload = function () {
     }
 
 	if (typeof Indicador.EndDate !== "undefined" && Indicador.EndDate !== null) {
-        //gtk aquí ocultar botón
 		$("#BtnRecordNew").hide();
-		//alertInfoUI(Dictionary.Item_Indicador_Message_IndicadorClosed, null);
-        //return false;
     }
 
     Resize();
@@ -58,6 +41,9 @@ window.onload = function () {
     $("#BtnRecordShowAll").on("click", IndicadorRegistroAll);
     $("#BtnRecordFilter").on("click", IndicadorRegistroFilter);
     $("#BtnRecordNew").on("click", RecordNew);
+
+    $("#TxtRecordsFromDate").on("change", IndicadorRegistroFilter);
+    $("#TxtRecordsToDate").on("change", IndicadorRegistroFilter);
 
     IndicadorRegistroFilter();
     $("#th1").click();
@@ -86,8 +72,28 @@ window.onload = function () {
         DisableLayout();
     }
 
-    $("#CmbResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsible").val() * 1, Employees); });
-    $("#CmbResponsibleRecord").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsibleRecord").val() * 1, Employees); });
+    $("#CmbResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsible").val() * 1, Employees, this); });
+    $("#CmbResponsibleRecord").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsibleRecord").val() * 1, Employees, this); });
+
+    RenderTableHistorico();
+
+    if (ApplicationUser.Grants.Indicador.Read === false) {
+        $("input").attr("disabled", "disabled");
+        $("textarea").attr("disabled", "disabled");
+        $("select").attr("disabled", "disabled");
+        $("#BtnAnular").hide();
+        $("#BtnRestore").hide();
+        $("#BtnSave").hide();
+        $("#Tabrecords").hide();
+        $("#Tabgraphics").hide();
+        $("#Tabhistoric").hide();
+    }
+    else {
+        if (document.location.toString().indexOf("&Tab=Records") != -1) {
+            $("#Tabrecords a").click();
+            $("#BtnRecordNew").click();
+        }
+    }
 }
 
 window.onresize = function () { Resize(); }
@@ -104,9 +110,11 @@ function CmbProcessChanged() {
 }
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
+    var listTable = document.getElementById("ListDataDiv");
+    var histTable = document.getElementById("ListDataDivHistorico");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 480) + 'px';
+    listTable.style.height = (containerHeight - 480) + "px";
+    histTable.style.height = (containerHeight - 370) + "px";
 }
 
 function IndicadorTypeLayout() {
@@ -524,8 +532,8 @@ function IndicadorRegistroAll() {
     $("#TxtRecordsFromDate").val("");
     $("#TxtRecordsToDate").val("");
     IndicadorRegistroFilter();
-    $("#BtnRecordShowAll").hide();
-    $("#BtnRecordShowNone").show();
+    //$("#BtnRecordShowAll").hide();
+    //$("#BtnRecordShowNone").show();
     $("#IndicadorRegistrosTable").show();
     $("#ItemTableError").hide();
     $("#ItemTableVoid").hide();
@@ -557,12 +565,12 @@ function AnularPopup() {
         [
             {
                 "id": "BtnAnujlarSave",
-                "html": "<i class='icon-ok bigger-110'></i>&nbsp;" + Dictionary.Item_Indicador_Btn_Anular,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Indicador_Btn_Anular,
                 "class": "btn btn-success btn-xs",
                 "click": function () { AnularConfirmed(); }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
@@ -905,7 +913,7 @@ function IndicadorRegistroSave() {
                     Registros = temp;
                 }
 
-                $("#BtnRecordFilter").click();
+                $("#BtnRecordShowAll").click();
             }
         },
         "error": function (jqXHR, textStatus, errorThrown) {
@@ -1016,7 +1024,7 @@ function DrawGraphics(stop) {
 
         $("#barChartDiv").html("");
         this.div = document.getElementById("barChartDiv");
-        this.div.style.height = "300px";
+        this.div.style.height = "500px";
         this.chartCanvas = document.createElement("canvas");
         this.div.appendChild(this.chartCanvas);
         this.chartCanvas.style.width = $("#barChartDiv").width() + "px";
@@ -1551,4 +1559,47 @@ function EnableLayout() {
     $("#RActionYes").removeAttr("disabled");
     $("#RActionNo").removeAttr("disabled");
     $("#BtnUnitsBAR").show();
+}
+
+function RenderTableHistorico() {
+    $("#ObjetivoHistoricoTable").html("");
+    for (var x = 0; x < Historic.length; x++) {
+        RenderHistoricoRow(Historic[x]);
+    }
+
+    $("#NumberHistoric").html(Historic.length);
+}
+
+function RenderHistoricoRow(data) {
+    var target = document.getElementById("ObjetivoHistoricoTable");
+
+    var tr = document.createElement("TR");
+
+    var tdAction = document.createElement("TD");
+    var tdDate = document.createElement("TD");
+    var tdReason = document.createElement("TD");
+    var tdEmployee = document.createElement("TD");
+
+    tdAction.style.width = "100px";
+    tdDate.style.width = "95px";
+    tdEmployee.style.width = "240px";
+
+    var actionText = "Anular";
+    var reason = data.Reason;
+    if (data.Reason === "Restore") {
+        actionText = "Restaurar"
+        reason = "";
+    }
+
+    tdAction.appendChild(document.createTextNode(actionText));
+    tdDate.appendChild(document.createTextNode(data.Date));
+    tdReason.appendChild(document.createTextNode(reason));
+    tdEmployee.appendChild(document.createTextNode(data.Employee.Value));
+
+    tr.appendChild(tdAction);
+    tr.appendChild(tdDate);
+    tr.appendChild(tdReason);
+    tr.appendChild(tdEmployee);
+
+    target.appendChild(tr);
 }

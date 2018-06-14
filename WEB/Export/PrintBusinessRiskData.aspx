@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="PrintBusinessRiskData.aspx.cs" Inherits="ExportPrintBusinessRiskData" %>

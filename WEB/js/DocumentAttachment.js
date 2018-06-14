@@ -95,7 +95,7 @@ function DeleteUploadFileConfirmed() {
 function DocumentAttachDelete(id, description) {
     $('#AttachName').html(description);
     AttachSelected = id;
-    var dialog = $("#DeleteAttachDialog").removeClass('hide').dialog({
+    var dialog = $("#DeleteAttachDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: '<h4 class="smaller">' + Dictionary.Item_Attach_Popup_Delete_Title + '</h4>',
@@ -110,7 +110,7 @@ function DocumentAttachDelete(id, description) {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_No,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -130,7 +130,7 @@ function UploadFile() {
     else {
         $('#AttachWarning').hide();
     }
-    var dialog = $("#attachFile").removeClass('hide').dialog({
+    var dialog = $("#attachFile").removeClass("hide").dialog({
         modal: true,
         title: '<h4 class="smaller">&nbsp;'+ Dictionary.Item_DocumentAttachment_AddFile + '</h4>',
         title_html: true,
@@ -145,7 +145,7 @@ function UploadFile() {
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 click: function () {
                     $(this).dialog("close");
@@ -256,8 +256,17 @@ function SetAttachLayout() {
         $('#ActualDocumentLabel').show();
         $('#ActualDocumentLink').show();
 
-        var tdIconsHtml = '<span class="btn btn-xs btn-success" onclick="ShowPDF(' + attachActual.Id + ');"><i class="icon-eye-open bigger-120"></i></span>' +
-         '&nbsp;<span class="btn btn-xs btn-info" onclick="window.open(\'/DOCS/' + attachActual.CompanyId + '/Document_' + documentId + '_v' + attachActual.Version + '_' + attachActual.Id + '.' + attachActual.Extension + '\');"><i class="icon-edit bigger-120"></i></span>' +
+        var extension = attachActual.Extension;
+        tdIconsHtml = "";
+        if (extension !== "txt" && extension !== "png" && extension !== "gif" && extension !== "jpg") {
+            tdIconsHtml += "";
+        }
+        else {
+            tdIconsHtml += "    <span class=\"btn btn-xs btn-success\" onclick=\"ShowPDF(' + attachActual.Id + ');\"><i class=\"icon-eye-open bigger-120\"></i></span>";
+        }
+
+        //var tdIconsHtml = '<span class="btn btn-xs btn-success" onclick="ShowPDF(' + attachActual.Id + ');"><i class="icon-eye-open bigger-120"></i></span>' +
+        tdIconsHtml += '&nbsp;<span class="btn btn-xs btn-info" onclick="window.open(\'/DOCS/' + attachActual.CompanyId + '/Document_' + documentId + '_v' + attachActual.Version + '_' + attachActual.Id + '.' + attachActual.Extension + '\');"><i class="icon-edit bigger-120"></i></span>' +
          '&nbsp;<span title="Delete 23 doc" class="btn btn-xs btn-danger" onclick="DocumentAttachDelete(' + attachActual.Id + ',\'' + attachActual.Description + '\');"><i class="icon-trash bigger-120"></i></span></td>';
 
         $('#ActualDocumentLink').html(attachActual.Description);

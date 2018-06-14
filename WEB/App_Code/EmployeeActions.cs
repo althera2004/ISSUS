@@ -22,8 +22,17 @@ using GisoFramework.Item;
 [ScriptService]
 public class EmployeeActions : WebService {
 
+    /// <summary>Initializes a new instance of the EmployeeActions class</summary>
     public EmployeeActions()
     {
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public ActionResult SetGrant(long employeeId, int companyId, int itemId, int applicationUserId)
+    {
+        var user = ApplicationUser.GetByEmployee(employeeId, companyId);
+        return ApplicationUser.SaveGrant(new UserGrant { Item = new ApplicationGrant { Code = itemId }, GrantToRead = true, GrantToWrite = true, GrantToDelete = true }, user.Id);
     }
 
     [WebMethod(EnableSession = true)]
@@ -31,7 +40,6 @@ public class EmployeeActions : WebService {
     public ActionResult GrantChanged(int userTargetId, int companyId, int securityGroup, bool grant, int userId)
     {
         var res = ActionResult.NoAction;
-
         if (grant)
         {
             res = ApplicationUser.SetGrant(userTargetId, companyId, securityGroup, userId);
@@ -81,10 +89,10 @@ public class EmployeeActions : WebService {
     [ScriptMethod]
     public ActionResult Disable(int employeeId, int companyId, int userId, DateTime endDate)
     {
-        ActionResult res = Employee.Disable(employeeId, companyId, userId, endDate); ;
+        var res = Employee.Disable(employeeId, companyId, userId, endDate); ;
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
@@ -96,7 +104,7 @@ public class EmployeeActions : WebService {
     public ActionResult AsociateNewDepartment(int companyId, int employeeId, string departmentName, int userId)
     {
         var result = ActionResult.NoAction;
-        var department = new Department() { Id = -1, CompanyId = companyId, Description = departmentName };
+        var department = new Department { Id = -1, CompanyId = companyId, Description = departmentName };
         result = ActivityLog.Department(department.Id, 1, companyId, DepartmentLogActions.Create, string.Empty);
         result = department.Insert(userId);
         if (result.Success)
@@ -105,7 +113,6 @@ public class EmployeeActions : WebService {
             result = Employee.AssociateToDepartment(companyId, employeeId, departmentId);
             if (result.Success)
             {
-
                 result = ActivityLog.Employee(employeeId, 1, companyId, EmployeeLogActions.AssociateToDepartment, string.Empty);
             }
 
@@ -132,20 +139,14 @@ public class EmployeeActions : WebService {
     [ScriptMethod]
     public ActionResult DesassociateDepartment(int employeeId, int companyId, int departmentId)
     {
-        var res = Employee.DisassociateToDepartment(companyId, employeeId, departmentId);
-        if (res.Success)
-        {
-            res = ActivityLog.Employee(employeeId, 1, companyId, EmployeeLogActions.DisassociateDepartment, string.Empty);
-        }
-
-        return res;
+        return Employee.DisassociateToDepartment(companyId, employeeId, departmentId);
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
     public ActionResult AssociateJobPosition(int companyId, int employeeId, int jobPositionId, DateTime date, int userId)
     {
-        return Employee.AssignateJobPosition(employeeId, Convert.ToInt64(jobPositionId), companyId, userId);
+        return Employee.AssignateJobPosition(employeeId, Convert.ToInt64(jobPositionId), date, companyId, userId);
     }
 
     [WebMethod(EnableSession = true)]
@@ -207,22 +208,27 @@ public class EmployeeActions : WebService {
         var res = ActionResult.NoAction;
         var subs = substitutions.Split('#');
 
-        using (SqlCommand cmd = new SqlCommand())
+        using (var cmd = new SqlCommand())
         {
-            cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add(DataParameter.Input("@CompanyId", Convert.ToInt32(companyId)));
-            cmd.Parameters.Add(DataParameter.Input("@UserId", Convert.ToInt32(userId)));
-            cmd.Parameters.Add(DataParameter.Input("@NewEmployee", Convert.ToInt64("0")));
-            cmd.Parameters.Add(DataParameter.Input("@ItemId", Convert.ToInt64("0")));
-            try
+            using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
             {
-                cmd.Connection.Open();
-                string procedure = string.Empty;
-                foreach (string action in subs)
+                cmd.Connection = cnn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(DataParameter.Input("@CompanyId", Convert.ToInt32(companyId)));
+                cmd.Parameters.Add(DataParameter.Input("@UserId", Convert.ToInt32(userId)));
+                cmd.Parameters.Add(DataParameter.Input("@NewEmployee", Convert.ToInt64("0")));
+                cmd.Parameters.Add(DataParameter.Input("@ItemId", Convert.ToInt64("0")));
+                try
                 {
-                    if (!string.IsNullOrEmpty(action))
+                    cmd.Connection.Open();
+                    string procedure = string.Empty;
+                    foreach (string action in subs)
                     {
+                        if (string.IsNullOrEmpty(action))
+                        {
+                            continue;
+                        }
+
                         string item = action.Split('-')[0];
                         string itemId = action.Split('-')[1].Split('|')[0];
                         string newEmployeeId = action.Split('|')[1];
@@ -247,20 +253,19 @@ public class EmployeeActions : WebService {
                             cmd.ExecuteNonQuery();
                         }
                     }
-                }
 
-                //// res = Employee.Delete(Convert.ToInt32(actualEmployee), string.Empty, Convert.ToInt32(companyId), Convert.ToInt32(userId));
-                res = Employee.Disable(actualEmployee, companyId, userId, endDate);
-            }
-            catch (Exception ex)
-            {
-                res.SetFail(ex);
-            }
-            finally
-            {
-                if (cmd.Connection.State != ConnectionState.Closed)
+                    res = Employee.Disable(actualEmployee, companyId, userId, endDate);
+                }
+                catch (Exception ex)
                 {
-                    cmd.Connection.Close();
+                    res.SetFail(ex);
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
                 }
             }
         }

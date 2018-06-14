@@ -14,17 +14,12 @@ public partial class IncidentList : Page
     private Giso master;
 
     /// <summary>Application user logged in session</summary>
-    private ApplicationUser user;
+    public ApplicationUser ApplicationUser { get; private set; }
 
     /// <summary>Company of session</summary>
-    private Company company;
+    public Company Company { get; private set; }
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -33,16 +28,8 @@ public partial class IncidentList : Page
         }
     }
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    /// <summary>Gets dictionary for fixed labels</summary>
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public string Filter { get; set; }
 
@@ -54,7 +41,7 @@ public partial class IncidentList : Page
     {
         get
         {
-            return Department.GetByCompanyJson(this.company.Id);
+            return Department.ByCompanyJson(this.Company.Id);
         }
     }
 
@@ -62,7 +49,7 @@ public partial class IncidentList : Page
     {
         get
         {
-            return Provider.GetByCompanyJson(this.company.Id);
+            return Provider.ByCompanyJson(this.Company.Id);
         }
     }
 
@@ -70,29 +57,27 @@ public partial class IncidentList : Page
     {
         get
         {
-            return Customer.GetByCompanyJson(this.company.Id);
+            return Customer.ByCompanyJson(this.Company.Id);
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
-            this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
-            if (!UniqueSession.Exists(token, this.user.Id))
+            this.ApplicationUser = this.Session["User"] as ApplicationUser;
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
+            if (!UniqueSession.Exists(token, this.ApplicationUser.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -102,13 +87,11 @@ public partial class IncidentList : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
-        this.user = (ApplicationUser)Session["User"];
-        this.company = (Company)Session["company"];
+        this.ApplicationUser = (ApplicationUser)Session["User"];
+        this.Company = (Company)Session["company"];
 
         if (Session["IncidentFilter"]==null)
         {
@@ -119,13 +102,13 @@ public partial class IncidentList : Page
             this.Filter = Session["IncidentFilter"].ToString();
         }
 
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Indicents");
         this.master.Titulo = "Item_Indicents";
 
-        if (this.user.HasGrantToWrite(ApplicationGrant.Incident))
+        if (this.ApplicationUser.HasGrantToWrite(ApplicationGrant.Incident))
         {
             this.master.ButtonNewItem = UIButton.NewItemButton("Item_Incident_Button_New", "IncidentView.aspx");
         }

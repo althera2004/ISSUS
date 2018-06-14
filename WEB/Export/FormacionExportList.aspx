@@ -1,1 +1,1 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="FormacionExportList.aspx.cs" Inherits="Export_FormacionExportList" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="FormacionExportList.aspx.cs" Inherits="ExportFormacionExportList" %>

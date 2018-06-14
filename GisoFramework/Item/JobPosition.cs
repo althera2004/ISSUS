@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="JobPosition.cs" company="Sbrinna">
-// TODO: Update copyright text.
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item
@@ -18,61 +18,14 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements JobPosition class.
-    /// </summary>
+    /// <summary>Implements JobPosition class.</summary>
     public class JobPosition : BaseItem
     {
-        #region Fields
-
-        /// <summary>
-        /// Department of job position
-        /// </summary>
-        private Department department;
-
-        /// <summary>
-        /// Responsabiliteis of job position
-        /// </summary>
-        private string responsibilities;
-
-        /// <summary>
-        /// Notes of job position
-        /// </summary>
-        private string notes;
-
-        /// <summary>
-        /// Academic skills for job position
-        /// </summary>
-        private string academicSkills;
-
-        /// <summary>
-        /// Specific skills for job position
-        /// </summary>
-        private string specificSkills;
-
-        /// <summary>
-        /// Work experience required to job position
-        /// </summary>
-        private string workExperience;
-
-        /// <summary>
-        /// Habilities required to job position
-        /// </summary>
-        private string abilities;
-
-        /// <summary>
-        /// Job position responsible of job position
-        /// </summary>
-        private JobPosition responsible;
-        #endregion
-
-        /// <summary>
-        /// Initializes a new instance of the JobPosition class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the JobPosition class.</summary>
         public JobPosition()
         {
             this.Id = -1;
-            this.department = Department.Empty;
+            this.Department = Department.Empty;
             this.ModifiedBy = ApplicationUser.Empty;
         }
 
@@ -84,116 +37,123 @@ namespace GisoFramework.Item
         /// <param name="companyId">Company identifier</param>
         public JobPosition(long jobPositionId, int companyId)
         {
+            string source = string.Format(CultureInfo.InvariantCulture, "JobPosition.ctro({0}.{1})", jobPositionId, companyId);
             try
             {
-                using (SqlCommand cmd = new SqlCommand("JobPosition_GetById"))
+                using (var cmd = new SqlCommand("JobPosition_GetById"))
                 {
-                    cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString());
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@Id", jobPositionId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString()))
                     {
-                        if (rdr.HasRows)
+                        try
                         {
-                            rdr.Read();
-                            this.Id = rdr.GetInt32(ColumnsJobPositionGetById.Id);
-                            this.Description = rdr.GetString(ColumnsJobPositionGetById.Description);
-                            this.responsibilities = rdr.GetString(ColumnsJobPositionGetById.Responsibilities);
-                            this.notes = rdr.GetString(ColumnsJobPositionGetById.Notes);
-                            this.academicSkills = rdr.GetString(ColumnsJobPositionGetById.AcademicSkills);
-                            this.specificSkills = rdr.GetString(ColumnsJobPositionGetById.SpecificSkills);
-                            this.workExperience = rdr.GetString(ColumnsJobPositionGetById.ProfessionalExperience);
-                            this.abilities = rdr.GetString(ColumnsJobPositionGetById.Skills);
-                            this.CompanyId = companyId;
-                            this.ModifiedOn = rdr.GetDateTime(ColumnsJobPositionGetById.ModifiedOn);
-
-                            this.department = new Department()
+                            cmd.Connection = cnn;
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.Parameters.Add(DataParameter.Input("@Id", jobPositionId));
+                            cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                            cmd.Connection.Open();
+                            using (var rdr = cmd.ExecuteReader())
                             {
-                                Id = rdr.GetInt32(ColumnsJobPositionGetById.DepartmentId),
-                                CompanyId = companyId,
-                                Description = rdr.GetString(ColumnsJobPositionGetById.DepartmentName)
-                            };
-
-                            this.ModifiedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsJobPositionGetById.ModifiedByUserId),
-                                UserName = rdr.GetString(ColumnsJobPositionGetById.ModifiedByUserName)
-                            };
-
-                            if (rdr.GetInt32(ColumnsJobPositionGetById.ResponsibleId) != 0)
-                            {
-                                this.responsible = new JobPosition()
+                                if (rdr.HasRows)
                                 {
-                                    Id = rdr.GetInt32(ColumnsJobPositionGetById.ResponsibleId),
-                                    Description = rdr.GetString(ColumnsJobPositionGetById.ResponsibleName)
-                                };
-                            }
+                                    rdr.Read();
+                                    this.Id = rdr.GetInt32(ColumnsJobPositionGetById.Id);
+                                    this.Description = rdr.GetString(ColumnsJobPositionGetById.Description);
+                                    this.Responsibilities = rdr.GetString(ColumnsJobPositionGetById.Responsibilities);
+                                    this.Notes = rdr.GetString(ColumnsJobPositionGetById.Notes);
+                                    this.AcademicSkills = rdr.GetString(ColumnsJobPositionGetById.AcademicSkills);
+                                    this.SpecificSkills = rdr.GetString(ColumnsJobPositionGetById.SpecificSkills);
+                                    this.WorkExperience = rdr.GetString(ColumnsJobPositionGetById.ProfessionalExperience);
+                                    this.Habilities = rdr.GetString(ColumnsJobPositionGetById.Skills);
+                                    this.CompanyId = companyId;
+                                    this.ModifiedOn = rdr.GetDateTime(ColumnsJobPositionGetById.ModifiedOn);
 
-                            this.ModifiedBy.Employee = Employee.GetByUserId(this.ModifiedBy.Id);
+                                    this.Department = new Department
+                                    {
+                                        Id = rdr.GetInt32(ColumnsJobPositionGetById.DepartmentId),
+                                        CompanyId = companyId,
+                                        Description = rdr.GetString(ColumnsJobPositionGetById.DepartmentName)
+                                    };
+
+                                    this.ModifiedBy = new ApplicationUser
+                                    {
+                                        Id = rdr.GetInt32(ColumnsJobPositionGetById.ModifiedByUserId),
+                                        UserName = rdr.GetString(ColumnsJobPositionGetById.ModifiedByUserName)
+                                    };
+
+                                    if (rdr.GetInt32(ColumnsJobPositionGetById.ResponsibleId) != 0)
+                                    {
+                                        this.Responsible = new JobPosition
+                                        {
+                                            Id = rdr.GetInt32(ColumnsJobPositionGetById.ResponsibleId),
+                                            Description = rdr.GetString(ColumnsJobPositionGetById.ResponsibleName)
+                                        };
+                                    }
+
+                                    this.ModifiedBy.Employee = Employee.ByUserId(this.ModifiedBy.Id);
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            if(cmd.Connection.State != ConnectionState.Closed)
+                            {
+                                cmd.Connection.Close();
+                            }
                         }
                     }
-
-                    cmd.Connection.Close();
                 }
             }
             catch (SqlException ex)
             {
-                ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "JobPosition.ctro({0}.{1})", jobPositionId, companyId));
+                ExceptionManager.Trace(ex, source);
             }
             catch (FormatException ex)
             {
-                ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "JobPosition.ctro({0}.{1})", jobPositionId, companyId));
+                ExceptionManager.Trace(ex, source);
             }
             catch (ArgumentNullException ex)
             {
-                ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "JobPosition.ctro({0}.{1})", jobPositionId, companyId));
+                ExceptionManager.Trace(ex, source);
             }
             catch (ArgumentException ex)
             {
-                ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "JobPosition.ctro({0}.{1})", jobPositionId, companyId));
+                ExceptionManager.Trace(ex, source);
             }
             catch (NullReferenceException ex)
             {
-                ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "JobPosition.ctro({0}.{1})", jobPositionId, companyId));
+                ExceptionManager.Trace(ex, source);
             }
             catch (InvalidCastException ex)
             {
-                ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "JobPosition.ctro({0}.{1})", jobPositionId, companyId));
+                ExceptionManager.Trace(ex, source);
             }
         }
 
-        #region Properties
-        /// <summary>
-        /// Gets an empty job position object
-        /// </summary>
+        /// <summary>Gets an empty job position object</summary>
         public static JobPosition Empty
         {
             get
             {
-                return new JobPosition()
+                return new JobPosition
                 {
                     Id = 0,
                     CompanyId = 0,
-                    academicSkills = string.Empty,
-                    department = Department.Empty,
+                    AcademicSkills = string.Empty,
+                    Department = Department.Empty,
                     Description = string.Empty,
-                    abilities = string.Empty,
+                    Habilities = string.Empty,
                     ModifiedBy = null,
-                    responsible = JobPosition.EmptySimple
+                    Responsible = JobPosition.EmptySimple
                 };
             }
         }
 
-        /// <summary>
-        /// Gets an empty simple job position object
-        /// </summary>
+        /// <summary>Gets an empty simple job position object</summary>
         public static JobPosition EmptySimple
         {
             get
             {
-                return new JobPosition()
+                return new JobPosition
                 {
                     Id = 0,
                     Description = string.Empty
@@ -201,133 +161,29 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets or sets the job position responsible of the job position
-        /// </summary>
-        public JobPosition Responsible
-        {
-            get
-            {
-                return this.responsible;
-            }
+        /// <summary>Gets or sets the job position responsible of the job position</summary>
+        public JobPosition Responsible { get; set; }
 
-            set
-            {
-                this.responsible = value;
-            }
-        }
+        /// <summary>Gets or sets de job position departemnt linked</summary>
+        public Department Department { get; set; }
 
-        /// <summary>
-        /// Gets or sets de job position departemnt linked
-        /// </summary>
-        public Department Department
-        {
-            get 
-            {
-                return this.department; 
-            }
+        /// <summary>Gets or sets a text description for resposabilities of job position</summary>
+        public string Responsibilities { get; set; }
 
-            set
-            {
-                this.department = value;
-            }
-        }
+        /// <summary>Gets or sets a text for the notes of job position</summary>
+        public string Notes { get; set; }
 
-        /// <summary>
-        /// Gets or sets a text description for resposabilities of job position
-        /// </summary>
-        public string Responsibilities
-        {
-            get
-            {
-                return this.responsibilities; 
-            }
+        /// <summary>Gets or sets a text for the academics skills of job position</summary>
+        public string AcademicSkills { get; set; }
 
-            set 
-            {
-                this.responsibilities = value;
-            }
-        }
+        /// <summary>Gets or sets a text for the specific skills of job position</summary>
+        public string SpecificSkills { get; set; }
 
-        /// <summary>
-        /// Gets or sets a text for the notes of job position
-        /// </summary>
-        public string Notes
-        {
-            get 
-            {
-                return this.notes; 
-            }
+        /// <summary>Gets or sets a text for the work experience required for the job position</summary>
+        public string WorkExperience { get; set; }
 
-            set 
-            {
-                this.notes = value; 
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a text for the academics skills of job position
-        /// </summary>
-        public string AcademicSkills
-        {
-            get 
-            {
-                return this.academicSkills;
-            }
-
-            set
-            {
-                this.academicSkills = value; 
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a text for the specific skills of job position
-        /// </summary>
-        public string SpecificSkills
-        {
-            get
-            {
-                return this.specificSkills; 
-            }
-
-            set 
-            {
-                this.specificSkills = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a text for the work experience required for the job position
-        /// </summary>
-        public string WorkExperience
-        {
-            get 
-            {
-                return this.workExperience; 
-            }
-
-            set 
-            {
-                this.workExperience = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a text for the habilities required for the job position
-        /// </summary>
-        public string Habilities
-        {
-            get 
-            {
-                return this.abilities; 
-            }
-
-            set
-            { 
-                this.abilities = value;
-            }
-        }
+        /// <summary>Gets or sets a text for the habilities required for the job position</summary>
+        public string Habilities { get; set; }
 
         /// <summary>Gets an identifier/description json item</summary>
         public override string JsonKeyValue
@@ -339,24 +195,22 @@ namespace GisoFramework.Item
                     return "null";
                 }
 
-                return string.Format(CultureInfo.GetCultureInfo("en-us"), @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, this.Description.Replace("\"", "\\\""));
+                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, this.Description.Replace("\"", "\\\""));
             }
         }
 
-        /// <summary>
-        /// Gets a simple Json structure of job position
-        /// </summary>
+        /// <summary>Gets a simple Json structure of job position</summary>
         public string JsonSimple
         {
             get
             {
                 string pattern = @"
-    {{
-        ""Id"": {0},
-        ""Description"": ""{1}"",
-        ""Department"":{{""Id"": {2}, ""Name"": ""{4}""}},
-        ""Responsible"": {3}
-    }}";
+                    {{
+                        ""Id"": {0},
+                        ""Description"": ""{1}"",
+                        ""Department"":{{""Id"": {2}, ""Name"": ""{4}""}},
+                        ""Responsible"": {3}
+                    }}";
                 if (this.Id > 0)
                 {
                     return string.Format(
@@ -364,16 +218,12 @@ namespace GisoFramework.Item
                         pattern,
                         this.Id,
                         this.Description.Replace("\"", "\\\""),
-                        this.department.Id,
-                        this.responsible.JsonKeyValue,
-                        this.department.Description.Replace("\"", "\\\""));
+                        this.Department.Id,
+                        this.Responsible.JsonKeyValue,
+                        this.Department.Description.Replace("\"", "\\\""));
                 }
 
-                return @"{
-                    ""Id"":0,
-                    ""Description"":"""",
-                    ""Department"":{""Id"":0}
-                    }";
+                return @"{""Id"":0 ,""Description"":"""", ""Department"":{""Id"":0}}";
             }
         }
 
@@ -392,25 +242,25 @@ namespace GisoFramework.Item
                     ""SpecificSkills"": ""{6}"",
                     ""WorkExperience"": ""{7}"",
                     ""Abilities"": ""{8}"",
-                    ""Department"": {{ ""Id"": {9} }},
-                    ""Responsible"": {{ ""Id"": {10} }}
+                    ""Department"": {9},
+                    ""Responsible"": {10}
                     }}";
                 if (this.Id > 0)
                 {
                     return string.Format(
-                        CultureInfo.GetCultureInfo("en-us"),
+                        CultureInfo.InvariantCulture,
                         pattern,
                         this.Id,
                         this.Description.Replace("\"", "\\\""),
                         this.CompanyId,
-                        Tools.JsonCompliant(this.responsibilities),
-                        Tools.JsonCompliant(this.notes),
-                        Tools.JsonCompliant(this.academicSkills),
-                        Tools.JsonCompliant(this.specificSkills),
-                        Tools.JsonCompliant(this.workExperience),
-                        Tools.JsonCompliant(this.abilities),
-                        this.department.Id,
-                        this.responsible == null ? 0 : this.responsible.Id);
+                        Tools.JsonCompliant(this.Responsibilities),
+                        Tools.JsonCompliant(this.Notes),
+                        Tools.JsonCompliant(this.AcademicSkills),
+                        Tools.JsonCompliant(this.SpecificSkills),
+                        Tools.JsonCompliant(this.WorkExperience),
+                        Tools.JsonCompliant(this.Habilities),
+                        this.Department.JsonKeyValue,
+                        this.Responsible == null ? "null" : this.Responsible.JsonKeyValue);
                 }
 
                 return @"{
@@ -430,48 +280,44 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a HTML code for the link to the job position profile page
-        /// </summary>
+        /// <summary>Gets a HTML code for the link to the job position profile page</summary>
         public override string Link
         {
             get
             {
                 string pattern = @"<a href=""CargosView.aspx?id={0}"" title=""{2} {1}"">{1}</a>";
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     pattern,
                     this.Id,
                     this.Description,
                     ((Dictionary<string, string>)HttpContext.Current.Session["Dictionary"])["Common_Edit"]);
             }
         }
-        #endregion
 
-        /// <summary>
-        /// Gets a value indicating whether job positions has employees in historial
-        /// </summary>
+        /// <summary>Gets a value indicating whether job positions has employees in historial</summary>
         public bool HasEmployeesHistorical
         {
             get
             {
+                var source = string.Format(CultureInfo.InvariantCulture, "Employees - Id:{0}", this.Id);
                 int res = 0;
                 /* CREATE PROCEDURE JobPosition_GetEmployeesHistorical
                  * @JobPositionId int,
                  * @CompanyId int */
 
-                using (SqlCommand cmd = new SqlCommand("JobPosition_GetEmployeesHistorical"))
+                using (var cmd = new SqlCommand("JobPosition_GetEmployeesHistorical"))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     try
                     {
-                        using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString()))
+                        using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString()))
                         {
                             cmd.Connection = cnn;
                             cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.Id));
                             cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                             cmd.Connection.Open();
-                            using (SqlDataReader rdr = cmd.ExecuteReader())
+                            using (var rdr = cmd.ExecuteReader())
                             {
                                 while (rdr.Read())
                                 {
@@ -482,27 +328,27 @@ namespace GisoFramework.Item
                     }
                     catch (SqlException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employees - Id:{0}", this.Id));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employees - Id:{0}", this.Id));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentNullException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employees - Id:{0}", this.Id));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employees - Id:{0}", this.Id));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employees - Id:{0}", this.Id));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (InvalidCastException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employees - Id:{0}", this.Id));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -517,66 +363,68 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets employees linked to job position
-        /// </summary>
+        /// <summary>Gets employees linked to job position</summary>
         public ReadOnlyCollection<Employee> Employees
         {
             get
             {
-                List<Employee> res = new List<Employee>();
+                string source = string.Format(CultureInfo.InvariantCulture, "Employees - Id:{0}", this.Id);
+                var res = new List<Employee>();
                 /* CREATE PROCEDURE JobPosition_GetEmployees
                  * @JobPositionId int,
                  * @CompanyId int */
-                using (SqlCommand cmd = new SqlCommand("JobPosition_GetEmployees"))
+                using (var cmd = new SqlCommand("JobPosition_GetEmployees"))
                 {
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString());
-                        cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Connection.Open();
-                        using (SqlDataReader rdr = cmd.ExecuteReader())
+                        using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString()))
                         {
-                            while (rdr.Read())
+                            cmd.Connection = cnn;
+                            cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.Id));
+                            cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                            cmd.Connection.Open();
+                            using (var rdr = cmd.ExecuteReader())
                             {
-                                res.Add(new Employee()
+                                while (rdr.Read())
                                 {
-                                    Id = rdr.GetInt32(ColumnsJobPositionGetEmployees.EmployeeId),
-                                    Name = rdr.GetString(ColumnsJobPositionGetEmployees.EmployeeName),
-                                    LastName = rdr.GetString(ColumnsJobPositionGetEmployees.EmployeeLastName),
-                                    Nif = rdr.GetString(ColumnsJobPositionGetEmployees.EmployeeNif),
-                                    Email = rdr.GetString(ColumnsJobPositionGetEmployees.EmployeeEmail),
-                                    Phone = rdr.GetString(ColumnsJobPositionGetEmployees.EmployeePhone),
-                                    CompanyId = this.CompanyId
-                                });
+                                    res.Add(new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsJobPositionGetEmployees.EmployeeId),
+                                        Name = rdr.GetString(ColumnsJobPositionGetEmployees.EmployeeName),
+                                        LastName = rdr.GetString(ColumnsJobPositionGetEmployees.EmployeeLastName),
+                                        Nif = rdr.GetString(ColumnsJobPositionGetEmployees.EmployeeNif),
+                                        Email = rdr.GetString(ColumnsJobPositionGetEmployees.EmployeeEmail),
+                                        Phone = rdr.GetString(ColumnsJobPositionGetEmployees.EmployeePhone),
+                                        CompanyId = this.CompanyId
+                                    });
+                                }
                             }
                         }
                     }
                     catch (SqlException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employees - Id:{0}", this.Id));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employees - Id:{0}", this.Id));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentNullException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employees - Id:{0}", this.Id));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employees - Id:{0}", this.Id));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employees - Id:{0}", this.Id));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (InvalidCastException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employees - Id:{0}", this.Id));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -591,9 +439,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a descriptive text with the differences between two job position objects
-        /// </summary>
+        /// <summary>Gets a descriptive text with the differences between two job position objects</summary>
         /// <param name="jobPosition1">First job position object</param>
         /// <param name="jobPosition2">Second job position object</param>
         /// <returns>Descriptive text with the differences between two job position objects</returns>
@@ -604,38 +450,38 @@ namespace GisoFramework.Item
                 return string.Empty;
             }
 
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             bool first = true;
 
             if (jobPosition1.Description != jobPosition2.Description)
             {
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "description:{0}", jobPosition2.Description));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "description:{0}", jobPosition2.Description));
                 first = false;
             }
 
-            if (jobPosition1.responsible != null && jobPosition2.responsible != null && jobPosition2.responsible.Id != jobPosition1.responsible.Id)
+            if (jobPosition1.Responsible != null && jobPosition2.Responsible != null && jobPosition2.Responsible.Id != jobPosition1.Responsible.Id)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "responsible{0}", jobPosition2.responsible.Id));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "responsible{0}", jobPosition2.Responsible.Id));
                 first = false;
             }
             
-            if (jobPosition1.responsible == null && jobPosition2.responsible != null)
+            if (jobPosition1.Responsible == null && jobPosition2.Responsible != null)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "responsible{0}", jobPosition2.responsible.Id));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "responsible{0}", jobPosition2.Responsible.Id));
                 first = false;
             }
 
-            if (jobPosition1.responsible != null)
+            if (jobPosition1.Responsible != null)
             {
                 if (!first)
                 {
@@ -643,98 +489,120 @@ namespace GisoFramework.Item
                 }
 
                 string resposibleId = "null";
-                if (jobPosition2.responsible != null)
+                if (jobPosition2.Responsible != null)
                 {
-                    resposibleId = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0}", jobPosition2.responsible.Id);
+                    resposibleId = string.Format(CultureInfo.InvariantCulture, "{0}", jobPosition2.Responsible.Id);
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "responsible{0}", resposibleId));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "responsible{0}", resposibleId));
                 first = false;
             }
             
-            if (jobPosition1.department.Id != jobPosition2.department.Id)
+            if (jobPosition1.Department.Id != jobPosition2.Department.Id)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "department:{0}", jobPosition2.department.Id));
+                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "department:{0}", jobPosition2.Department.Id));
                 first = false;
             }
 
-            if (jobPosition1.responsibilities != jobPosition2.responsibilities)
+            if (jobPosition1.Responsibilities != jobPosition2.Responsibilities)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "responsibilities:{0}", jobPosition2.responsibilities));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "responsibilities:{0}", jobPosition2.Responsibilities));
                 first = false;
             }
 
-            if (jobPosition1.notes != jobPosition2.notes)
+            if (jobPosition1.Notes != jobPosition2.Notes)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "notes:{0}", jobPosition2.notes));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "notes:{0}", jobPosition2.Notes));
                 first = false;
             }
 
-            if (jobPosition1.academicSkills != jobPosition2.academicSkills)
+            if (jobPosition1.AcademicSkills != jobPosition2.AcademicSkills)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "academicSkills:{0}", jobPosition2.academicSkills));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "academicSkills:{0}", jobPosition2.AcademicSkills));
                 first = false;
             }
 
-            if (jobPosition1.specificSkills != jobPosition2.specificSkills)
+            if (jobPosition1.SpecificSkills != jobPosition2.SpecificSkills)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "specificSkills:{0}", jobPosition2.specificSkills));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "specificSkills:{0}", jobPosition2.SpecificSkills));
                 first = false;
             }
 
-            if (jobPosition1.abilities != jobPosition2.abilities)
+            if (jobPosition1.Habilities != jobPosition2.Habilities)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "Habilities:{0}", jobPosition2.abilities));
+                res.Append(string.Format(CultureInfo.InvariantCulture, "Habilities:{0}", jobPosition2.Habilities));
                 first = false;
             }
 
-            if (jobPosition1.workExperience != jobPosition2.workExperience)
+            if (jobPosition1.WorkExperience != jobPosition2.WorkExperience)
             {
                 if (!first)
                 {
                     res.Append(", ");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), "Experience:{0}", jobPosition2.workExperience));
-                first = false;
+                res.Append(string.Format(CultureInfo.InvariantCulture, "Experience:{0}", jobPosition2.WorkExperience));
             }
 
             return res.ToString();
         }
 
-        /// <summary>
-        /// Gets all job positions of company
-        /// </summary>
+        /// <summary>Obtains a list of job positions by company</summary>
+        /// <param name="companyId">Company identifier</param>
+        /// <returns>List in JSON format of job positions</returns>
+        public static string ByCompanyJson(int companyId)
+        {
+            var res = new StringBuilder("[");
+            bool first = true;
+            foreach(var jobPosition in JobsPositionByCompany(companyId))
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    res.Append(",");
+                }
+
+                res.Append(jobPosition.Json);
+            }
+
+            res.Append("]");
+            return res.ToString();
+        }
+
+        /// <summary>Gets all job positions of company</summary>
         /// <param name="company">Company to search in</param>
         /// <returns>A list of job positions</returns>
         public static ReadOnlyCollection<JobPosition> JobsPositionByCompany(Company company)
@@ -747,54 +615,55 @@ namespace GisoFramework.Item
             return JobsPositionByCompany(company.Id);
         }
 
-        /// <summary>
-        /// Gets all job positions of company
-        /// </summary>
+        /// <summary>Gets all job positions of company</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>A list of job positions</returns>
         public static ReadOnlyCollection<JobPosition> JobsPositionByCompany(int companyId)
         {
-            List<JobPosition> res = new List<JobPosition>();
+            var res = new List<JobPosition>();
             try
             {
-                using (SqlCommand cmd = new SqlCommand("JobPosition_GetByCompany"))
+                using (var cmd = new SqlCommand("JobPosition_GetByCompany"))
                 {
-                    cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString());
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    using (SqlDataReader rdr = cmd.ExecuteReader())
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ToString()))
                     {
-                        while (rdr.Read())
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            res.Add(new JobPosition()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsJobPositionGetAll.Id),
-                                Description = rdr.GetString(ColumnsJobPositionGetAll.Description),
-                                responsibilities = rdr.GetString(ColumnsJobPositionGetAll.Responsibilities),
-                                notes = rdr.GetString(ColumnsJobPositionGetAll.Notes),
-                                academicSkills = rdr.GetString(ColumnsJobPositionGetAll.AcademicSkills),
-                                specificSkills = rdr.GetString(ColumnsJobPositionGetAll.SpecificSkills),
-                                workExperience = rdr.GetString(ColumnsJobPositionGetAll.WorkExperience),
-                                abilities = rdr.GetString(ColumnsJobPositionGetAll.Abilities),
-                                department = new Department()
+                                res.Add(new JobPosition
                                 {
-                                    Id = rdr.GetInt32(ColumnsJobPositionGetAll.DepartmentId),
-                                    Description = rdr.GetString(ColumnsJobPositionGetAll.DepartmentName),
-                                    Deleted = rdr.GetBoolean(ColumnsJobPositionGetAll.DepartmentDeleted),
+                                    Id = rdr.GetInt32(ColumnsJobPositionGetAll.Id),
+                                    Description = rdr.GetString(ColumnsJobPositionGetAll.Description),
+                                    Responsibilities = rdr.GetString(ColumnsJobPositionGetAll.Responsibilities),
+                                    Notes = rdr.GetString(ColumnsJobPositionGetAll.Notes),
+                                    AcademicSkills = rdr.GetString(ColumnsJobPositionGetAll.AcademicSkills),
+                                    SpecificSkills = rdr.GetString(ColumnsJobPositionGetAll.SpecificSkills),
+                                    WorkExperience = rdr.GetString(ColumnsJobPositionGetAll.WorkExperience),
+                                    Habilities = rdr.GetString(ColumnsJobPositionGetAll.Abilities),
+                                    Department = new Department
+                                    {
+                                        Id = rdr.GetInt32(ColumnsJobPositionGetAll.DepartmentId),
+                                        Description = rdr.GetString(ColumnsJobPositionGetAll.DepartmentName),
+                                        Deleted = rdr.GetBoolean(ColumnsJobPositionGetAll.DepartmentDeleted),
+                                        CompanyId = companyId
+                                    },
+                                    Responsible = new JobPosition
+                                    {
+                                        Id = rdr.GetInt32(ColumnsJobPositionGetAll.ResponsibleId),
+                                        Description = rdr.GetString(ColumnsJobPositionGetAll.ResponsibleFullName),
+                                        CompanyId = companyId
+                                    },
                                     CompanyId = companyId
-                                },
-                                responsible = new JobPosition()
-                                {
-                                    Id = rdr.GetInt32(ColumnsJobPositionGetAll.ResponsibleId),
-                                    Description = rdr.GetString(ColumnsJobPositionGetAll.ResponsibleFullName),
-                                    CompanyId = companyId
-                                },
-                                CompanyId = companyId
-                            });
-                        }
+                                });
+                            }
 
-                        cmd.Connection.Close();
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -822,24 +691,22 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<JobPosition>(res);
         }
 
-        /// <summary>
-        /// Unlinks the specified employee identifier from Job position.
-        /// </summary>
+        /// <summary>Unlinks the specified employee identifier from Job position.</summary>
         /// <param name="employeeId">The employee identifier.</param>
         /// <param name="jobPositionId">The job position identifier.</param>
         /// <returns></returns>
         public static ActionResult Unlink(int employeeId, int jobPositionId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE JobPosition_Unlink
              *  @EmployeeId int,
              *  @JobPositionId int */
-            using (SqlCommand cmd = new SqlCommand("JobPosition_Unlink"))
+            using (var cmd = new SqlCommand("JobPosition_Unlink"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 try
                 {
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
@@ -877,9 +744,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Delete a job position in data base
-        /// </summary>
+        /// <summary>Delete a job position in data base</summary>
         /// <param name="jobPositionId">Job position identifier</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">Identifier of user that performs action</param>
@@ -887,51 +752,54 @@ namespace GisoFramework.Item
         /// <returns>Result of action</returns>
         public static ActionResult Delete(int jobPositionId, int companyId, int userId, string reason)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE JobPosition_Delete
              * @JobPositionId bigint,
              * @CompanyId int,
              * @Extradata nvarchar(200),
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("JobPosition_Delete"))
+            using (var cmd = new SqlCommand("JobPosition_Delete"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add("@JobPositionId", SqlDbType.BigInt);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                    cmd.Parameters.Add("@ExtraData", SqlDbType.NVarChar);
-                    cmd.Parameters["@JobPositionId"].Value = Convert.ToInt64(jobPositionId);
-                    cmd.Parameters["@CompanyId"].Value = companyId;
-                    cmd.Parameters["@UserId"].Value = userId;
-                    cmd.Parameters["@ExtraData"].Value = Tools.LimitedText(reason, 200);
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NotSupportedException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add("@JobPositionId", SqlDbType.BigInt);
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                        cmd.Parameters.Add("@ExtraData", SqlDbType.NVarChar);
+                        cmd.Parameters["@JobPositionId"].Value = Convert.ToInt64(jobPositionId);
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.Parameters["@ExtraData"].Value = Tools.LimitedText(reason, 200);
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -939,9 +807,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Render HTML code in order to get a row into the job positions table
-        /// </summary>
+        /// <summary>Render HTML code in order to get a row into the job positions table</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="grantToWritePositon">Indicates if has write permission for job positions</param>
         /// <param name="grantToReadDepartments">Indicates if has read permission for departments</param>
@@ -954,14 +820,15 @@ namespace GisoFramework.Item
             }
 
             string iconEdit = string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-info"" onclick=""document.location='CargosView.aspx?id={0}';""><i class=""{3} bigger-120""></i></span>", 
                 this.Id, 
                 this.Description, 
                 dictionary["Common_Edit"],
                 grantToWritePositon ? "icon-edit" : "icon-eye-open");
+
             string iconDelete = string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""JobPositionDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", 
                 this.Id, 
                 this.Description, 
@@ -969,11 +836,21 @@ namespace GisoFramework.Item
 
             if (this.Employees != null && this.Employees.Count > 0)
             {
-                iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-danger"" onclick=""alertUI('{0}');""><i class=""icon-trash bigger-120""></i></span>", dictionary["Item_JobPosition_ErrorMessage_HasEmployees"], dictionary["Common_Delete"], this.Description);
+                iconDelete = string.Format(
+                    CultureInfo.InvariantCulture, 
+                    @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-danger"" onclick=""alertUI('{0}');""><i class=""icon-trash bigger-120""></i></span>", 
+                    dictionary["Item_JobPosition_ErrorMessage_HasEmployees"], 
+                    dictionary["Common_Delete"], 
+                    this.Description);
             }
             else if (this.HasEmployeesHistorical)
             {
-                iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-danger"" onclick=""alertUI('{0}');""><i class=""icon-trash bigger-120""></i></span>", dictionary["Item_JobPosition_ErrorMessage_HasEmployeesHistoric"], dictionary["Common_Delete"], this.Description);
+                iconDelete = string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-danger"" onclick=""alertUI('{0}');""><i class=""icon-trash bigger-120""></i></span>", 
+                    dictionary["Item_JobPosition_ErrorMessage_HasEmployeesHistoric"], 
+                    dictionary["Common_Delete"], 
+                    this.Description);
             }
 
             if (!grantToWritePositon)
@@ -981,29 +858,36 @@ namespace GisoFramework.Item
                 iconDelete = string.Empty;
             }
 
-            string responsibleName = this.responsible.Description;
+            string responsibleName = this.Responsible.Description;
             if (string.IsNullOrEmpty(responsibleName))
             {
-                responsibleName = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span style=""color:#000"">{0}</span>", dictionary["Item_JobPosition_Message_WithoutResponsible"]);
+                responsibleName = string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"<span style=""color:#000"">{0}</span>", 
+                    dictionary["Item_JobPosition_Message_WithoutResponsible"]);
             }
             else
             {
-                responsibleName = this.responsible.Link;
+                responsibleName = this.Responsible.Link;
             }
 
             string departmentName = string.Empty;
-            if (this.department.Deleted)
+            if (this.Department.Deleted)
             {
-                departmentName = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<a href=""#"" style=""color:#f00"" onclick=""alert('{1}');"">{0}</a>", this.department.Description, dictionary["Item_Department_Status_Deleted"]);
+                departmentName = string.Format(
+                    CultureInfo.InvariantCulture, 
+                    @"<a href=""#"" style=""color:#f00"" onclick=""alert('{1}');"">{0}</a>", 
+                    this.Department.Description, 
+                    dictionary["Item_Department_Status_Deleted"]);
             }
             else
             {
-                departmentName = grantToReadDepartments ? this.department.Link : this.department.Description;
+                departmentName = grantToReadDepartments ? this.Department.Link : this.Department.Description;
             }
 
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
-                @"<tr><td>{0}</td><td style=""width:400px;"">{1}</td><td style=""width:400px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</tr>",
+                CultureInfo.InvariantCulture,
+                @"<tr><td>{0}</td><td style=""width:250px;"">{1}</td><td style=""width:250px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</tr>",
                 this.Link,
                 responsibleName,
                 departmentName,
@@ -1011,9 +895,7 @@ namespace GisoFramework.Item
                 iconDelete);
         }
 
-        /// <summary>
-        /// Render HTML code to get a row for the job position table of employee profile
-        /// </summary>
+        /// <summary>Render HTML code to get a row for the job position table of employee profile</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <returns>HTML code</returns>
         public string EmployeeRow(Dictionary<string, string> dictionary)
@@ -1024,26 +906,25 @@ namespace GisoFramework.Item
             }
 
             string iconRename = string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""JobPositionUpdate({0});""><i class=""icon-edit bigger-120""></i></span>",
                 this.Id, 
                 this.Description,
                 dictionary["Common_Edit"]);
+
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 @"<tr><td>{0}</td><td>{1}</td></tr>",
                 this.Link,
                 iconRename);
         }
 
-        /// <summary>
-        /// Update job position data in data base
-        /// </summary>
+        /// <summary>Update job position data in data base</summary>
         /// <param name="userId">Identifier of user that updates job position</param>
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE JobPosition_Update
              * @JobPositionId bigint,
              * @CompanyId int,
@@ -1057,49 +938,52 @@ namespace GisoFramework.Item
              * @ExperienciaLaboralDeseada text,
              * @HabilidadesDeseadas text,
              * @ModifiedBy int */
-            using (SqlCommand cmd = new SqlCommand("JobPosition_Update"))
+            using (var cmd = new SqlCommand("JobPosition_Update"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.department.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.responsible));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                    cmd.Parameters.Add(DataParameter.Input("@Responsabilidades", this.responsibilities, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Notas", this.notes, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@FormacionAcademicaDeseada", this.academicSkills, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDesdeada", this.specificSkills, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.workExperience, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.abilities, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@ModifiedBy", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NotSupportedException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.Input("@JobPositionId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.Department.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Responsabilidades", this.Responsibilities, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Notas", this.Notes, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@FormacionAcademicaDeseada", this.AcademicSkills, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDesdeada", this.SpecificSkills, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.WorkExperience, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.Habilities, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@ModifiedBy", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -1107,14 +991,12 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Insert a job position into database
-        /// </summary>
+        /// <summary>Insert a job position into database</summary>
         /// <param name="userId">Identifier of user that performs the action</param>
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
         {
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* CREATE PROCEDURE JobPosition_Insert
              * @JobPositionId bigint out,
              * @CompanyId int,
@@ -1128,50 +1010,53 @@ namespace GisoFramework.Item
              * @ExperienciaLaboralDeseada text,
              * @HabilidadesDeseadas text,
              * @UserId int */
-            using (SqlCommand cmd = new SqlCommand("JobPosition_Insert"))
+            using (var cmd = new SqlCommand("JobPosition_Insert"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                cmd.CommandType = CommandType.StoredProcedure;
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.Parameters.Add(DataParameter.OutputLong("@JobPositionId"));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.department.Id));
-                    cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.responsible));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                    cmd.Parameters.Add(DataParameter.Input("@Responsabilidades", this.responsibilities, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Notas", this.notes, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@FormacionAcademicaDeseada", this.academicSkills, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDeseada", this.specificSkills, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.workExperience, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.abilities, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    this.Id = Convert.ToInt32(cmd.Parameters["@JobPositionId"].Value.ToString(), CultureInfo.GetCultureInfo("en-us"));
-                    res.SetSuccess(this.Id.ToString(CultureInfo.GetCultureInfo("en-us")));
-                }
-                catch (SqlException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (FormatException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NullReferenceException ex)
-                {
-                    res.SetFail(ex);
-                }
-                catch (NotSupportedException ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
                     {
-                        cmd.Connection.Close();
+                        cmd.Parameters.Add(DataParameter.OutputLong("@JobPositionId"));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.Department.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Responsabilidades", this.Responsibilities, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@Notas", this.Notes, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@FormacionAcademicaDeseada", this.AcademicSkills, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDeseada", this.SpecificSkills, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.WorkExperience, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.Habilities, Constant.MaximumTextAreaLength));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt32(cmd.Parameters["@JobPositionId"].Value.ToString(), CultureInfo.InvariantCulture);
+                        res.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }

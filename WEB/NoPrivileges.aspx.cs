@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Web.UI;
 using GisoFramework.Item;
 
+/// <summary>Implements No privileges page</summary>
 public partial class NoPrivileges : Page
 {
     /// <summary> Master of page</summary>
@@ -17,18 +18,8 @@ public partial class NoPrivileges : Page
     /// <summary>Company of session</summary>
     private Company company;
 
-    /// <summary>Dictionary for fixed labels</summary>    
-    private Dictionary<string, string> dictionary;
-
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
-
-    public string UIForm { get; set; }
+    /// <summary>Gets for fixed labels</summary>   
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -36,7 +27,7 @@ public partial class NoPrivileges : Page
     protected void Page_Load(object sender, EventArgs e)
     {
         this.company = Session["company"] as Company;
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         string label = "Common_NoGrants";

@@ -11,9 +11,7 @@ namespace SbrinnaCoreFramework.UI
     using System.Collections.ObjectModel;
     using System.Text;
 
-    /// <summary>
-    /// Implements DataHeader control
-    /// </summary>
+    /// <summary>Implements DataHeader control</summary>
     public class UIDataHeader
     {
         public string Id { get; set; }
@@ -53,9 +51,9 @@ namespace SbrinnaCoreFramework.UI
         {
             get
             {
-                StringBuilder res = new StringBuilder("<thead class=\"thin-border-bottom\">").Append(Environment.NewLine);
+                var res = new StringBuilder("<thead class=\"thin-border-bottom\">").Append(Environment.NewLine);
                 res.Append("\t\t<tr id=\"").Append(this.Id).Append("\">").Append(Environment.NewLine);
-                foreach (UIDataHeaderItem item in this.Items)
+                foreach (var item in this.Items)
                 {
                     res.Append("\t\t\t").Append(item.Render).Append(Environment.NewLine);
                 }
@@ -63,7 +61,7 @@ namespace SbrinnaCoreFramework.UI
                 if (this.ActionsItem > 0)
                 {
                     res.Append("\t\t\t");
-                    res.Append(new UIDataHeaderActions() { NumberOfActions = this.ActionsItem }.Render);
+                    res.Append(new UIDataHeaderActions { NumberOfActions = this.ActionsItem }.Render);
                     res.Append(Environment.NewLine);
                 }
 

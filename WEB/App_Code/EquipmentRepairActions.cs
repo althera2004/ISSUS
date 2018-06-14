@@ -9,9 +9,7 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for EquipmentRepairActions
-/// </summary>
+/// <summary>Summary description for EquipmentRepairActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
@@ -25,8 +23,7 @@ public class EquipmentRepairActions : WebService {
     [ScriptMethod]
     public ActionResult Insert(EquipmentRepair equipmentRepair, int userId)
     {
-        ActionResult res = equipmentRepair.Insert(userId);
-
+        var res = equipmentRepair.Insert(userId);
         if (res.Success)
         {
             Session["Company"] = new Company(equipmentRepair.CompanyId);
@@ -48,6 +45,4 @@ public class EquipmentRepairActions : WebService {
     {
         return EquipmentRepair.Delete(equipmentRepairId, userId, companyId);
     }
-
 }
-

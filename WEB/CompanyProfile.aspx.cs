@@ -21,9 +21,6 @@ public partial class CompanyProfile : Page
     /// <summary>Company of session</summary>
     private Company company;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     public string Logo
     {
         get
@@ -32,9 +29,7 @@ public partial class CompanyProfile : Page
         }
     }
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -99,23 +94,15 @@ public partial class CompanyProfile : Page
     {
         get
         {
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
     public string CountryData { get; private set; }
     public string Countries { get; private set; }
 
-    /// <summary>
-    /// Gets the dictionary for interface texts
-    /// </summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return master.Dictionary;
-        }
-    }
+    /// <summary>Gets the dictionary for interface texts</summary>
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public int DefaultAddressId
     {
@@ -145,9 +132,9 @@ public partial class CompanyProfile : Page
     {
         get
         {
-            StringBuilder res = new StringBuilder("[");
+            var res = new StringBuilder("[");
             bool first = true;
-            foreach (CompanyAddress address in this.master.Company.Addresses)
+            foreach (var address in this.master.Company.Addresses)
             {
                 if (first)
                 {
@@ -165,25 +152,23 @@ public partial class CompanyProfile : Page
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", true);
+             this.Response.Redirect("Default.aspx", Constant.EndResponse);
             Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", true);
+                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
             else
@@ -193,14 +178,12 @@ public partial class CompanyProfile : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = Session["User"] as ApplicationUser;
         this.company = Session["Company"] as Company;
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
@@ -210,8 +193,8 @@ public partial class CompanyProfile : Page
         this.RenderCountries();
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Action = "success", Icon = "icon-ok", Text = this.dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Action = "success", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         this.ImgLogo = new ImageSelector()
         {
@@ -219,7 +202,7 @@ public partial class CompanyProfile : Page
             ImageName = string.Format(CultureInfo.InvariantCulture, @"images\Logos\{0}", this.Logo),
             Width = 300,
             Height = 300,
-            Label = this.dictionary["Item_Equipment_Field_Image_Label"]
+            Label = this.Dictionary["Item_Equipment_Field_Image_Label"]
         };
 
         this.RenderCountriesTab();
@@ -229,82 +212,58 @@ public partial class CompanyProfile : Page
 
     private void RenderCountries()
     {
-        StringBuilder res = new StringBuilder();
-        string countryCompare = this.company.Id < 0 ? this.dictionary["Common_None"] : this.company.DefaultAddress.Country;
+        var res = new StringBuilder();
+        string countryCompare = this.company.Id < 0 ? this.Dictionary["Common_None"] : this.company.DefaultAddress.Country;
         res.Append(string.Format(@"{{
             ""text"": ""{0}"",
             ""value"": ""0"",
             ""selected"": {1},
             ""description"": ""{0}""
-        }}", this.dictionary["Common_None"], countryCompare == this.dictionary["Common_None"] ? "true" : "false"));
+        }}", this.Dictionary["Common_None"], countryCompare == this.Dictionary["Common_None"] ? "true" : "false"));
 
         if (this.user.Language == "es")
         {
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Alemania" ? "true" : "false", "Alemania", "Alemania", 8);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Argentina" ? "true" : "false", "Argentina", "Argentina", 18);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Brasil" ? "true" : "false", "Brasil", "Brasil", 20);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Cataluña", "Cataluña", 45);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "España", "España", 1);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Euskal Herria", "Euskal Herria", 46);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "Francia", "Francia", 7);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Italia" ? "true" : "false", "Italia", "Italia", 5);
-            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Portugal" ? "true" : "false", "Portugal", "Portugal", 2);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Gran Bretaña", "Great Britain", 12);
         }
 
         if (this.user.Language == "ca")
         {
-            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Alemania" ? "true" : "false", "Alemanya", "Alemania", 8);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
-            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Argentina" ? "true" : "false", "Argentina", "Argentina", 18);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
-            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Brasil" ? "true" : "false", "Brasil", "Brasil", 20);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Catalunya", "Cataluña", 45);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "Espanya", "España", 1);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Euskal Herria", "Euskal Herria", 46);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "França", "Francia", 7);
-            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Italia" ? "true" : "false", "Italia", "Italia", 5);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "UK" ? "true" : "false", "UK", "UK", 12);
-            //res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Portugal" ? "true" : "false", "Portugal", "Portugal", 2);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Gran Bretanya", "Gran Bretanya", 12);
         }
 
         if (this.user.Language == "en")
         {
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Argentina" ? "true" : "false", "Argentina", "Argentina", 18);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Basque Country", "Euskal Herria", 46);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Brasil" ? "true" : "false", "Brazil", "Brasil", 20);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Catalonia", "Cataluña", 45);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "France", "Francia", 7);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Alemania" ? "true" : "false", "Germany", "Alemania", 8);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Italia" ? "true" : "false", "Italy", "Italia", 5);
-            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Portugal" ? "true" : "false", "Portugal", "Portugal", 2);
             res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "Spain", "España", 1);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Basque Country", "Euskal Herria", 46);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "France", "Francia", 7);
+            res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Great Britain", "Great Britain", 12);
         }
-
-        /*foreach (Country country in this.company.Countries)
-        {
-            res.Append(string.Format(@",{{
-                ""text"": ""{0}"",
-                ""value"": ""{2}"",
-                ""selected"": {1},
-                ""description"": ""{0}"",
-                ""imageSrc"": ""assets/flags/{2}.png""
-            }}", country.Description, country.Description == countryCompare ? "true" : "false", country.Id));
-        }*/
 
         this.CountryData = res.ToString();
     }
 
     private void RenderCountriesTab()
     {
-        StringBuilder selected = new StringBuilder();
-        StringBuilder availables = new StringBuilder();
-        StringBuilder countries = new StringBuilder(Environment.NewLine).Append("        [");
+        var selected = new StringBuilder();
+        var availables = new StringBuilder();
+        var countries = new StringBuilder(Environment.NewLine).Append("        [");
         bool first = true;
-        foreach (Country country in Country.GetAll(this.company.Id))
+        foreach (var country in Country.GetAll(this.company.Id))
         {
             if (country.Selected)
             {
@@ -328,7 +287,7 @@ public partial class CompanyProfile : Page
             string pattern = @"            {{""Id"":{0}, ""Description"":""{1}"", ""Selected"": {2}, ""Deletable"": {3}}}";
 
             countries.Append(string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattern,
                 country.Id,
                 country.Description,

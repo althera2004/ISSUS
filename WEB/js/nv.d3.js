@@ -3,7 +3,7 @@
 var nv = window.nv || {};
 
 
-nv.version = '1.1.11b';
+nv.version = "1.1.11b";
 nv.dev = true //set false when in production
 
 window.nv = nv;
@@ -21,14 +21,14 @@ nv.dispatch = d3.dispatch('render_start', 'render_end');
 //  Development render timers - disabled if dev = false
 
 if (nv.dev) {
-  nv.dispatch.on('render_start', function(e) {
+  nv.dispatch.on("render_start", function(e) {
     nv.logs.startTime = +new Date();
   });
 
-  nv.dispatch.on('render_end', function(e) {
+  nv.dispatch.on("render_end", function(e) {
     nv.logs.endTime = +new Date();
     nv.logs.totalTime = nv.logs.endTime - nv.logs.startTime;
-    nv.log('total', nv.logs.totalTime); // used for development, to keep track of graph generation times
+    nv.log("total", nv.logs.totalTime); // used for development, to keep track of graph generation times
   });
 }
 

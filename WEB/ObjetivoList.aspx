@@ -64,12 +64,12 @@
                                                         <input type="checkbox" id="ChkClosed" />
                                                     </div>
                                                 </div>-->
-                                                    <input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %>
                                                     <input type="radio" name="RBStatus" id="RBStatus1" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowActive"] %>
                                                     <input type="radio" name="RBStatus" id="RBStatus2" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %>
-                                            </td>
+													<input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %>
+											</td>
                                             <td colspan="2" align="right">
-                                                <button style="width:100px;" class="btn-minier btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
+                                                <button style="width:100px;display:none;" class="btn-minier btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
                                                 <button style="width:100px;" class="btn-minier btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%= this.Dictionary["Common_All_Male_Plural"] %></button>
                                                 <button style="width:100px;display:none;" class="btn-minier btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%= this.Dictionary["Common_None_Male"] %></button>
                                             </td>
@@ -84,12 +84,10 @@
                                                 <thead class="thin-border-bottom">
 		                                            <tr id="ListDataHeader">
 			                                            <th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="search sort" style="cursor:pointer;"><%=this.Dictionary["Item_Objetivo_Header_Name"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable','text',false);" id="th1" class="search sort" style="cursor:pointer;width:200px;"><%=this.Dictionary["Item_Objetivo_Header_Responsible"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable','date',false);" id="th2" class="search sort" style="cursor:pointer;width:100px;"><%=this.Dictionary["Item_Objetivo_Header_StartDate"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable','date',false);" id="th3" class="search sort" style="cursor:pointer;width:100px;"><%=this.Dictionary["Item_Objetivo_Header_PreviewEndDate"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="search sort" style="cursor:pointer;width:100px;"><%=this.Dictionary["Item_Objetivo_Header_StartDate"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable','date',false);" id="th2" class="search sort" style="cursor:pointer;width:100px;"><%=this.Dictionary["Item_Objetivo_Header_PreviewEndDate"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="search sort" style="cursor:pointer;width:200px;"><%=this.Dictionary["Item_Objetivo_Header_Responsible"] %></th>
 			                                            <th style="width:107px;">&nbsp;</th>
-
-
 		                                            </tr>
 	                                            </thead>
                                             </table>
@@ -204,42 +202,6 @@
                 ObjetivoGetNone();
             });
         });
-
-        function ObjetivoGetNone() {
-            document.getElementById("BtnRecordShowAll").style.display = "";
-            document.getElementById("BtnRecordShowNone").style.display = "none";
-            document.getElementById("RBStatus1").checked = true;
-            document.getElementById("TxtDateFrom").value = "";
-            document.getElementById("TxtDateTo").value = "";
-            VoidTable("ListDataTable");
-        }
-
-        function ObjetivoGetAll() {
-            document.getElementById("BtnRecordShowAll").style.display = "none";
-            document.getElementById("BtnRecordShowNone").style.display = "";
-            document.getElementById("RBStatus0").checked = true;
-            document.getElementById("TxtDateFrom").value = "";
-            document.getElementById("TxtDateTo").value = "";
-            ObjetivoGetFilter();
-        }
-
-        if(Filter!=null)
-        {
-            console.log("Filter",Filter);
-            document.getElementById("TxtDateFrom").value = GetDateYYYYMMDDText(Filter.from,"/",false);
-            document.getElementById("TxtDateTo").value = GetDateYYYYMMDDText(Filter.to,"/",false);
-            if(Filter.status === 0){ document.getElementById("RBStatus0").checked = true; }
-            if(Filter.status === 1){ document.getElementById("RBStatus1").checked = true; }
-            if(Filter.status === 2){ document.getElementById("RBStatus2").checked = true; }
-        }
-        else{
-            
-            document.getElementById("RBStatus1").checked = true;
-        }
-
-        console.log("Filter", Filter);
-
-        ObjetivoGetFilter();
     </script>
 </asp:Content>
 

@@ -16,17 +16,14 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
 using GisoFramework.DataAccess;
+using System.Collections.Generic;
 
-/// <summary>
-/// Summary description for CompanyCreation
-/// </summary>
+/// <summary>Summary description for CompanyCreation</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 public class CompanyCreation : WebService
 {
-    /// <summary>
-    /// Char for separator
-    /// </summary>
+    /// <summary>Character for separator</summary>
     private const string Separator = "|";
 
     public CompanyCreation()
@@ -49,7 +46,7 @@ public class CompanyCreation : WebService
         string userName,
         string companyEmail)
     {
-        ActionResult res = CreateDB(
+        var res = CreateDB(
             companyName,
             companyCode,
             companyNif,
@@ -66,38 +63,38 @@ public class CompanyCreation : WebService
 
         if (res.Success)
         {
+            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             string path = HttpContext.Current.Request.PhysicalApplicationPath;
             string destino = path;
             if (!path.EndsWith("\\", StringComparison.Ordinal))
             {
-                path = string.Format(CultureInfo.InstalledUICulture, @"{0}\images\noimage.jpg", path);
+                path = string.Format(CultureInfo.InvariantCulture, @"{0}\images\noimage.jpg", path);
             }
             else
             {
-                path = string.Format(CultureInfo.InstalledUICulture, @"{0}\images\noimage.jpg", path);
+                path = string.Format(CultureInfo.InvariantCulture, @"{0}\images\noimage.jpg", path);
             }
-
 
             if (!destino.EndsWith("\\", StringComparison.Ordinal))
             {
-                destino = string.Format(CultureInfo.InstalledUICulture, @"{0}\images\Logos\{1}.jpg", destino, res.MessageError.Split('|')[0]);
+                destino = string.Format(CultureInfo.InvariantCulture, @"{0}\images\Logos\{1}.jpg", destino, res.MessageError.Split('|')[0]);
             }
             else
             {
-                destino = string.Format(CultureInfo.InstalledUICulture, @"{0}\images\Logos\{1}.jpg", destino, res.MessageError.Split('|')[0]);
+                destino = string.Format(CultureInfo.InvariantCulture, @"{0}\images\Logos\{1}.jpg", destino, res.MessageError.Split('|')[0]);
             }
 
             //System.IO.File.Copy(path, destino);
 
             path = HttpContext.Current.Request.PhysicalApplicationPath;
-            if(!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
+            if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
             {
                 path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
             }
 
             path = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\WelcomeMail.tpl", path);
             string bodyPattern = string.Empty;
-            using(StreamReader rdr = new StreamReader(path))
+            using (var rdr = new StreamReader(path))
             {
                 bodyPattern = rdr.ReadToEnd();
                 bodyPattern = bodyPattern.Replace("#USERNAME#", "{2}");
@@ -105,34 +102,35 @@ public class CompanyCreation : WebService
                 bodyPattern = bodyPattern.Replace("#PASSWORD#", "{1}");
             }
 
-            string subject = string.Format("Benvingut/uda {0} a ISSUS", res.MessageError.Split('|')[0]);
+            string subject = string.Format(dictionary["Mail_Message_WelcomeSubject"], res.MessageError.Split('|')[0]);
             string body = string.Format(
                 CultureInfo.InvariantCulture,
                 bodyPattern,
                 res.MessageError.Split('|')[1],
                 res.MessageError.Split('|')[2],
                 res.MessageError.Split('|')[0]);
-            MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("mail.scrambotika.com");
-            mail.From = new MailAddress("issus@scrambotika.com", "ISSUS");
-            mail.IsBodyHtml = true;
+            var mail = new MailMessage
+            {
+                From = new MailAddress("issus@scrambotika.com", "ISSUS"),
+                IsBodyHtml = true,
+                Subject = subject,
+                Body = body
+            };
             mail.To.Add("hola@scrambotika.com");
             //mail.CC.Add(companyEmail);
 
-            mail.Subject = subject;
-            mail.Body = body;
-
-            SmtpServer.Port = 25;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "WSBhz7WB");
-            SmtpServer.Send(mail);
+            var smtpServer = new SmtpClient("mail.scrambotika.com")
+            {
+                Port = 25,
+                Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "WSBhz7WB")
+            };
+            smtpServer.Send(mail);
         }
 
         return res.MessageError;
     }
 
-    /// <summary>
-    /// Insert a new compnay in database
-    /// </summary>
+    /// <summary>Insert a new compnay in database</summary>
     /// <param name="companyName">Company name</param>
     /// <param name="companyCode">Company code</param>
     /// <param name="companyNif">Company nif</param>
@@ -175,68 +173,90 @@ public class CompanyCreation : WebService
          *   @EmployeePhone nvarchar(15),
          *   @UserName nvarchar(50),
          *   @EmployeeEmail nvarchar(50) */
-        ActionResult res = ActionResult.NoAction;
-        using (SqlCommand cmd = new SqlCommand("Company_Create"))
+        var res = ActionResult.NoAction;
+        using (var cmd = new SqlCommand("Company_Create"))
         {
-            cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-            cmd.CommandType = CommandType.StoredProcedure;
-            try
+            using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
             {
-                cmd.Parameters.Add(DataParameter.OutputInt("@CompanyId"));
-                cmd.Parameters.Add(DataParameter.OutputString("@Login", 50));
-                cmd.Parameters.Add(DataParameter.OutputString("@Password", 50));
-                cmd.Parameters.Add(DataParameter.Input("@Name", companyName, 50));
-                cmd.Parameters.Add(DataParameter.Input("@Code", companyCode, 10));
-                cmd.Parameters.Add(DataParameter.Input("@NIF", companyNif, 15));
-                cmd.Parameters.Add(DataParameter.Input("@Address", companyAddress, 50));
-                cmd.Parameters.Add(DataParameter.Input("@PostalCode", companyPostalCode, 10));
-                cmd.Parameters.Add(DataParameter.Input("@City", companyCity, 50));
-                cmd.Parameters.Add(DataParameter.Input("@Province", companyProvince, 50));
-                cmd.Parameters.Add(DataParameter.Input("@Country", companyCountry, 15));
-                cmd.Parameters.Add(DataParameter.Input("@Phone", companyPhone, 15));
-                cmd.Parameters.Add(DataParameter.Input("@Mobile", companyMobile, 15));
-                cmd.Parameters.Add(DataParameter.Input("@UserName", userName, 50));
-                cmd.Parameters.Add(DataParameter.Input("@Email", companyEmail, 50));
-                cmd.Parameters.Add(DataParameter.Input("@Fax", companyFax, 50));
-                cmd.Connection.Open();
-                cmd.ExecuteNonQuery();
-                res.SetSuccess(userName + Separator + companyEmail + Separator + cmd.Parameters["@Password"].Value.ToString());
-            }
-            catch (SqlException ex)
-            {
-                ExceptionManager.Trace(ex, "CreateCompany");
-                res.SetFail(ex);
-            }
-            catch (FormatException ex)
-            {
-                ExceptionManager.Trace(ex, "CreateCompany");
-                res.SetFail(ex);
-            }
-            catch (NullReferenceException ex)
-            {
-                ExceptionManager.Trace(ex, "CreateCompany");
-                res.SetFail(ex);
-            }
-            catch (ArgumentNullException ex)
-            {
-                ExceptionManager.Trace(ex, "CreateCompany");
-                res.SetFail(ex);
-            }
-            catch (ArgumentException ex)
-            {
-                ExceptionManager.Trace(ex, "CreateCompany");
-                res.SetFail(ex);
-            }
-            catch (InvalidOperationException ex)
-            {
-                ExceptionManager.Trace(ex, "CreateCompany");
-                res.SetFail(ex);
-            }
-            finally
-            {
-                if (cmd.Connection.State != ConnectionState.Closed)
+                cmd.Connection = cnn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                try
                 {
-                    cmd.Connection.Close();
+                    cmd.Parameters.Add(DataParameter.OutputInt("@CompanyId"));
+                    cmd.Parameters.Add(DataParameter.OutputString("@Login", 50));
+                    cmd.Parameters.Add(DataParameter.OutputString("@Password", 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Name", companyName, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Code", companyCode, 10));
+                    cmd.Parameters.Add(DataParameter.Input("@NIF", companyNif, 15));
+                    cmd.Parameters.Add(DataParameter.Input("@Address", companyAddress, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@PostalCode", companyPostalCode, 10));
+                    cmd.Parameters.Add(DataParameter.Input("@City", companyCity, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Province", companyProvince, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Country", companyCountry, 15));
+                    cmd.Parameters.Add(DataParameter.Input("@Phone", companyPhone, 15));
+                    cmd.Parameters.Add(DataParameter.Input("@Mobile", companyMobile, 15));
+                    cmd.Parameters.Add(DataParameter.Input("@UserName", userName, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Email", companyEmail, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Fax", companyFax, 50));
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+
+                    int companyId = Convert.ToInt32(cmd.Parameters["@CompanyId"].Value.ToString());
+                    string path = path = HttpContext.Current.Request.PhysicalApplicationPath;
+                    if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
+                    {
+                        path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
+                    }
+
+                    var directory = string.Format(
+                        CultureInfo.InvariantCulture,
+                        @"{0}DOCS\{1}",
+                        path,
+                        companyId);
+
+                    if (!Directory.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+
+                    res.SetSuccess(userName + Separator + companyEmail + Separator + cmd.Parameters["@Password"].Value.ToString());
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, "CreateCompany");
+                    res.SetFail(ex);
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, "CreateCompany");
+                    res.SetFail(ex);
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, "CreateCompany");
+                    res.SetFail(ex);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, "CreateCompany");
+                    res.SetFail(ex);
+                }
+                catch (ArgumentException ex)
+                {
+                    ExceptionManager.Trace(ex, "CreateCompany");
+                    res.SetFail(ex);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    ExceptionManager.Trace(ex, "CreateCompany");
+                    res.SetFail(ex);
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
                 }
             }
         }

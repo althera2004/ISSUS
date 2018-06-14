@@ -137,11 +137,11 @@ namespace GisoFramework.Item
             }
         }
 
-        public static string GetByIndicadorJson(int indicadorId, int companyId)
+        public static string ByIndicadorJson(int indicadorId, int companyId)
         {
             StringBuilder res = new StringBuilder("[");
             bool first = true;
-            foreach(IndicadorRegistro registro in GetByIndicador(indicadorId, companyId))
+            foreach(IndicadorRegistro registro in ByIndicadorId(indicadorId, companyId))
             {
                 if (first)
                 {
@@ -159,78 +159,83 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static ReadOnlyCollection<IndicadorRegistro> GetByIndicador(int indicadorId, int companyId)
+        public static ReadOnlyCollection<IndicadorRegistro> ByIndicadorId(int indicadorId, int companyId)
         {
             /* CREATE PROCEDURE [dbo].[IndicadorRegistro_GetByIndicadorId]
              *   @IndicadorId int,
              *   @CompanyId int */
-            List<IndicadorRegistro> res = new List<IndicadorRegistro>();
-            using (SqlCommand cmd = new SqlCommand("IndicadorRegistro_GetByIndicadorId"))
+            var res = new List<IndicadorRegistro>();
+            using (var cmd = new SqlCommand("IndicadorRegistro_GetByIndicadorId"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    while (rdr.Read())
+                    cmd.Connection = cnn;
+                    try
                     {
-                        IndicadorRegistro registro = new IndicadorRegistro()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IndicadorId", indicadorId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.Id),
-                            Indicador = new Indicador()
+                            while (rdr.Read())
                             {
-                                Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.IndicadorId),
-                                Description = rdr.GetString(ColumnsIndicadorRegistroGet.IndicadorDescripcion)
-                            },
-                            MetaComparer = rdr.GetString(ColumnsIndicadorRegistroGet.MetaComparer),
-                            Meta = rdr.GetDecimal(ColumnsIndicadorRegistroGet.Meta),
-                            AlarmaComparer = rdr.GetString(ColumnsIndicadorRegistroGet.MetaAlarm),
-                            Value = rdr.GetDecimal(ColumnsIndicadorRegistroGet.Value),
-                            Date = rdr.GetDateTime(ColumnsIndicadorRegistroGet.Date),
-                            Comments = rdr.GetString(ColumnsIndicadorRegistroGet.Comments),
-                            Responsible = new Employee()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.ResponsibleId),
-                                Name = rdr.GetString(ColumnsIndicadorRegistroGet.ResponsibleName),
-                                LastName = rdr.GetString(ColumnsIndicadorRegistroGet.ResponsibleLastName),
-                                UserId = rdr.GetInt32(ColumnsIndicadorRegistroGet.EmployeeUserId),
-                                User = new ApplicationUser()
+                                IndicadorRegistro registro = new IndicadorRegistro()
                                 {
-                                    Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.EmployeeUserId),
-                                    UserName = rdr.GetString(ColumnsIndicadorRegistroGet.EmployeeUserName)
+                                    Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.Id),
+                                    Indicador = new Indicador()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.IndicadorId),
+                                        Description = rdr.GetString(ColumnsIndicadorRegistroGet.IndicadorDescripcion)
+                                    },
+                                    MetaComparer = rdr.GetString(ColumnsIndicadorRegistroGet.MetaComparer),
+                                    Meta = rdr.GetDecimal(ColumnsIndicadorRegistroGet.Meta),
+                                    AlarmaComparer = rdr.GetString(ColumnsIndicadorRegistroGet.MetaAlarm),
+                                    Value = rdr.GetDecimal(ColumnsIndicadorRegistroGet.Value),
+                                    Date = rdr.GetDateTime(ColumnsIndicadorRegistroGet.Date),
+                                    Comments = rdr.GetString(ColumnsIndicadorRegistroGet.Comments),
+                                    Responsible = new Employee()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.ResponsibleId),
+                                        Name = rdr.GetString(ColumnsIndicadorRegistroGet.ResponsibleName),
+                                        LastName = rdr.GetString(ColumnsIndicadorRegistroGet.ResponsibleLastName),
+                                        UserId = rdr.GetInt32(ColumnsIndicadorRegistroGet.EmployeeUserId),
+                                        User = new ApplicationUser()
+                                        {
+                                            Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.EmployeeUserId),
+                                            UserName = rdr.GetString(ColumnsIndicadorRegistroGet.EmployeeUserName)
+                                        }
+                                    },
+                                    CreatedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.CreatedBy),
+                                        UserName = rdr.GetString(ColumnsIndicadorRegistroGet.CreatedByName)
+                                    },
+                                    CreatedOn = rdr.GetDateTime(ColumnsIndicadorRegistroGet.CreatedOn),
+                                    ModifiedBy = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.ModifiedBy),
+                                        UserName = rdr.GetString(ColumnsIndicadorRegistroGet.ModifiedByName)
+                                    },
+                                    ModifiedOn = rdr.GetDateTime(ColumnsIndicadorRegistroGet.ModifiedOn),
+                                    Active = rdr.GetBoolean(ColumnsIndicadorRegistroGet.Active)
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsIndicadorRegistroGet.Alarm))
+                                {
+                                    registro.Alarma = rdr.GetDecimal(ColumnsIndicadorRegistroGet.Alarm);
                                 }
-                            },
-                            CreatedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.CreatedBy),
-                                UserName = rdr.GetString(ColumnsIndicadorRegistroGet.CreatedByName)
-                            },
-                            CreatedOn = rdr.GetDateTime(ColumnsIndicadorRegistroGet.CreatedOn),
-                            ModifiedBy = new ApplicationUser()
-                            {
-                                Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.ModifiedBy),
-                                UserName = rdr.GetString(ColumnsIndicadorRegistroGet.ModifiedByName)
-                            },
-                            ModifiedOn = rdr.GetDateTime(ColumnsIndicadorRegistroGet.ModifiedOn),
-                            Active = rdr.GetBoolean(ColumnsIndicadorRegistroGet.Active)
-                        };
 
-                        if (!rdr.IsDBNull(ColumnsIndicadorRegistroGet.Alarm))
-                        {                            
-                                registro.Alarma = rdr.GetDecimal(ColumnsIndicadorRegistroGet.Alarm);
+                                res.Add(registro);
+                            }
                         }
-
-                        res.Add(registro);
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -277,74 +282,79 @@ namespace GisoFramework.Item
         /// <param name="indicadorId"></param>
         /// <param name="companyId"></param>
         /// <returns></returns>
-        public static IndicadorRegistro GetById(long indicadorId, int companyId)
+        public static IndicadorRegistro ById(long indicadorId, int companyId)
         {
             /* CREATE PROCEDURE IndicadorRegistro_GetById
              *   @IndicadorRegistroId int,
              *   @CompanyId int */
-            IndicadorRegistro res = IndicadorRegistro.Empty;
-            using (SqlCommand cmd = new SqlCommand("IndicadorRegistro_GetById"))
+            var res = IndicadorRegistro.Empty;
+            using (var cmd = new SqlCommand("IndicadorRegistro_GetById"))
             {
-                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
-                try
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@IndicadorRegistroId", indicadorId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
-                    if (rdr.HasRows)
+                    cmd.Connection = cnn;
+                    try
                     {
-                        rdr.Read();
-                        res.Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.Id);
-                        res.Indicador = new Indicador()
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IndicadorRegistroId", indicadorId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.IndicadorId),
-                            Description = rdr.GetString(ColumnsIndicadorRegistroGet.IndicadorDescripcion)
-                        };
-                        res.MetaComparer = rdr.GetString(ColumnsIndicadorRegistroGet.MetaComparer);
-                        res.Meta = rdr.GetDecimal(ColumnsIndicadorRegistroGet.Meta);
-                        res.AlarmaComparer = rdr.GetString(ColumnsIndicadorRegistroGet.MetaAlarm);
-                        res.Value = rdr.GetDecimal(ColumnsIndicadorRegistroGet.Value);
-                        res.Comments = rdr.GetString(ColumnsIndicadorRegistroGet.Comments);
-                        res.Date = rdr.GetDateTime(ColumnsIndicadorRegistroGet.Date);
-                        res.Responsible = new Employee()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.ResponsibleId),
-                            Name = rdr.GetString(ColumnsIndicadorRegistroGet.ResponsibleName),
-                            LastName = rdr.GetString(ColumnsIndicadorRegistroGet.ResponsibleLastName),
-                            UserId = rdr.GetInt32(ColumnsIndicadorRegistroGet.EmployeeUserId),
-                            User = new ApplicationUser()
+                            if (rdr.HasRows)
                             {
-                                Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.EmployeeUserId),
-                                UserName = rdr.GetString(ColumnsIndicadorRegistroGet.EmployeeUserName)
-                            }
-                        };
-                        res.CreatedBy = new ApplicationUser()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.CreatedBy),
-                            UserName = rdr.GetString(ColumnsIndicadorRegistroGet.CreatedByName)
-                        };
-                        res.CreatedOn = rdr.GetDateTime(ColumnsIndicadorRegistroGet.CreatedOn);
-                        res.ModifiedBy = new ApplicationUser()
-                        {
-                            Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.ModifiedBy),
-                            UserName = rdr.GetString(ColumnsIndicadorRegistroGet.ModifiedByName)
-                        };
-                        res.ModifiedOn = rdr.GetDateTime(ColumnsIndicadorRegistroGet.ModifiedOn);
-                        res.Active = rdr.GetBoolean(ColumnsIndicadorRegistroGet.Active);
+                                rdr.Read();
+                                res.Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.Id);
+                                res.Indicador = new Indicador()
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.IndicadorId),
+                                    Description = rdr.GetString(ColumnsIndicadorRegistroGet.IndicadorDescripcion)
+                                };
+                                res.MetaComparer = rdr.GetString(ColumnsIndicadorRegistroGet.MetaComparer);
+                                res.Meta = rdr.GetDecimal(ColumnsIndicadorRegistroGet.Meta);
+                                res.AlarmaComparer = rdr.GetString(ColumnsIndicadorRegistroGet.MetaAlarm);
+                                res.Value = rdr.GetDecimal(ColumnsIndicadorRegistroGet.Value);
+                                res.Comments = rdr.GetString(ColumnsIndicadorRegistroGet.Comments);
+                                res.Date = rdr.GetDateTime(ColumnsIndicadorRegistroGet.Date);
+                                res.Responsible = new Employee()
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.ResponsibleId),
+                                    Name = rdr.GetString(ColumnsIndicadorRegistroGet.ResponsibleName),
+                                    LastName = rdr.GetString(ColumnsIndicadorRegistroGet.ResponsibleLastName),
+                                    UserId = rdr.GetInt32(ColumnsIndicadorRegistroGet.EmployeeUserId),
+                                    User = new ApplicationUser()
+                                    {
+                                        Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.EmployeeUserId),
+                                        UserName = rdr.GetString(ColumnsIndicadorRegistroGet.EmployeeUserName)
+                                    }
+                                };
+                                res.CreatedBy = new ApplicationUser()
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.CreatedBy),
+                                    UserName = rdr.GetString(ColumnsIndicadorRegistroGet.CreatedByName)
+                                };
+                                res.CreatedOn = rdr.GetDateTime(ColumnsIndicadorRegistroGet.CreatedOn);
+                                res.ModifiedBy = new ApplicationUser()
+                                {
+                                    Id = rdr.GetInt32(ColumnsIndicadorRegistroGet.ModifiedBy),
+                                    UserName = rdr.GetString(ColumnsIndicadorRegistroGet.ModifiedByName)
+                                };
+                                res.ModifiedOn = rdr.GetDateTime(ColumnsIndicadorRegistroGet.ModifiedOn);
+                                res.Active = rdr.GetBoolean(ColumnsIndicadorRegistroGet.Active);
 
-                        if (!rdr.IsDBNull(ColumnsIndicadorRegistroGet.Alarm))
-                        {
-                            res.Alarma = rdr.GetDecimal(ColumnsIndicadorRegistroGet.Alarm);
+                                if (!rdr.IsDBNull(ColumnsIndicadorRegistroGet.Alarm))
+                                {
+                                    res.Alarma = rdr.GetDecimal(ColumnsIndicadorRegistroGet.Alarm);
+                                }
+                            }
                         }
                     }
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    finally
                     {
-                        cmd.Connection.Close();
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
                     }
                 }
             }
@@ -412,7 +422,7 @@ namespace GisoFramework.Item
             }
             string pattenr = @"<tr><td align=""right"" style=""width:90px;"">{1}</td><td align=""center"" style=""width:90px;"">{2:dd/MM/yyyy}</td><td>{3}</td><td align=""right"" style=""width:90px;"">{4}</td><td align=""right"" style=""width:90px;"">{5}</td><td style=""width:150px;"">{6}</td><td style=""width:90px;"">{7}&nbsp;{8}</td></tr>";
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattenr,
                 this.Indicador.Link,
                 this.Value,
@@ -610,7 +620,7 @@ namespace GisoFramework.Item
                         cmd.ExecuteNonQuery();
                         this.Id = Convert.ToInt64(cmd.Parameters["@Id"].Value.ToString());
                         res.SetSuccess();
-                        IndicadorRegistro newRecord = IndicadorRegistro.GetById(this.Id, this.CompanyId);
+                        IndicadorRegistro newRecord = IndicadorRegistro.ById(this.Id, this.CompanyId);
                         res.ReturnValue = newRecord.Json;
                     }
                 }
@@ -689,7 +699,7 @@ namespace GisoFramework.Item
                         cmd.ExecuteNonQuery();
                         this.Id = Convert.ToInt64(cmd.Parameters["@Id"].Value.ToString());
                         res.SetSuccess();
-                        IndicadorRegistro newRecord = IndicadorRegistro.GetById(this.Id, this.CompanyId);
+                        IndicadorRegistro newRecord = IndicadorRegistro.ById(this.Id, this.CompanyId);
                         res.ReturnValue = newRecord.Json;
                     }
                 }

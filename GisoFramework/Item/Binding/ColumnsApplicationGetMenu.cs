@@ -1,18 +1,11 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ColumnsApplicationGetMenu.cs" company="Sbrinna">
-// TODO: Update copyright text.
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item.Binding
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
+    /// <summary>Index of columns of ApplicationGetMenu result rows</summary>
     public static class ColumnsApplicationGetMenu
     {
         public const int ItemId = 0;

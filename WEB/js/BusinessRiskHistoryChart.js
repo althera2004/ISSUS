@@ -38,13 +38,13 @@ function RenderChart() {
 }
 
 RenderChart();
-$(".discreteBar").on("click",function (e) {console.log(e)});
+$(".discreteBar").on("click", function (e) { console.log(e) });
 
 function exampleData() {
     function y() {
         myColors = new Array();
         var y = new Array();
-        var diferenciador = ' ';
+        var diferenciador = " ";
         console.log(BusinessRiskHistory);
         for (var x = 0; x < BusinessRiskHistory.length; x++) {
             var label = BusinessRiskHistory[x].DateStart;
@@ -53,7 +53,7 @@ function exampleData() {
             for (var cont = 0; cont < BusinessRiskHistory.length; cont++) {
                 if (label === BusinessRiskHistory[cont].DateStart && x !== cont) {
                     label = label + diferenciador;
-                    diferenciador += ' ';
+                    diferenciador += " ";
                 }
             }
 
@@ -64,17 +64,17 @@ function exampleData() {
                 }
             );
 
-            var finalColor = '#ffb752';
+            var finalColor = "#ffb752";
             if (BusinessRiskHistory[x].Assumed === false) {
                 var limit = rule.Limit;
                 if (limit < 0) {
                     limit = 0;
                 }
                 if (BusinessRiskHistory[x].Result < limit) {
-                    finalColor = '#87b87f';
+                    finalColor = "#87b87f";
                 }
                 else {
-                    finalColor = '#d15b47';
+                    finalColor = "#d15b47";
                 }
             }
 
@@ -113,10 +113,10 @@ function resizegrafico(transparent) {
     chart.width(width);
     chart.update();
 
-    var canvas = document.getElementById('svggrafic');
-    var height = $('#svggrafic').height() - 50;
+    var canvas = document.getElementById("svggrafic");
+    var height = $("#svggrafic").height() - 50;
 
-    d3.select('#chart svg').append("line")
+    d3.select("#chart svg").append("line")
     .style("stroke", "gray")
     .attr("x1", 65)
     .attr("y1", height)

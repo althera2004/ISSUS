@@ -105,16 +105,11 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<ProviderDefinition>(res);
         }
 
-        public string Row(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> grants)
+        /*public string Row(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> grants)
         {
             if (grants == null)
             {
                 return string.Empty;
-            }
-
-            if (dictionary == null)
-            {
-                dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
 
             bool grantEquipment = UserGrant.HasWriteGrant(grants, ApplicationGrant.Equipment);
@@ -130,7 +125,7 @@ namespace GisoFramework.Item
                   </tr>";
 
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattern,
                 grantEquipment ? this.Equipment.Link : this.Equipment.FullName,
                 this.DefinitionType,
@@ -138,6 +133,6 @@ namespace GisoFramework.Item
                 this.Periodicity,
                 grantEmployee ? this.Responsible.Link : this.Responsible.FullName,
                 string.Format(CultureInfo.GetCultureInfo("es-es"), "{0:#,##0.00}", this.Cost));
-        }
+        }*/
     }
 }

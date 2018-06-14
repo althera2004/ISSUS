@@ -7,12 +7,12 @@ function ShowProviderBarPopup(cmb) {
     ProviderSelected = cmb.val() * 1;
     ProviderRenderPopup();
     var dialog = $("#dialogProvider").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Item_Providers,
-        title_html: true,
-        width: 600,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Providers,
+        "title_html": true,
+        "width": 600,
+        "buttons":
         [
             {
                 "id": "BtnProviderSave",
@@ -38,19 +38,20 @@ function ProviderChanged(sender) {
 
 // Insert functions for bar item Provider
 function ProviderInsert(sender) {
-    document.getElementById("TxtProviderNewNameErrorRequired").style.display = "none";
-    document.getElementById("TxtProviderNewNameErrorDuplicated").style.display = "none";
+    $("#TxtProviderNewNameErrorRequired").hide();
+    $("#TxtProviderNewNameErrorDuplicated").hide();
     $("#TxtProviderNewName").val("");
     var Selected = 0;
-    var dialog = $("#ProviderInsertDialog").removeClass('hide').dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: "<h4 class=\"smaller\">"+ Dictionary.Item_Equipment_Popup_AddProvider_Title + "</h4>",
-        title_html: true,
-        buttons:
+    var dialog = $("#ProviderInsertDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">"+ Dictionary.Item_Equipment_Popup_AddProvider_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
+                "id": "ProviderInsertOk",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
@@ -64,22 +65,20 @@ function ProviderInsert(sender) {
                     }
 
                     if (duplicated === true) {
-                        document.getElementById("TxtProviderNewNameErrorDuplicated").style.display = "block";
+                        $("#TxtProviderNewNameErrorDuplicated").show();
                         ok = false;
-                    }
-                    else {
-                        document.getElementById("TxtProviderNewNameErrorDuplicated").style.display = "none";
                     }
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
 
-                    document.getElementById("TxtProviderNewNameErrorRequired").style.display = "none";
-                    document.getElementById("TxtProviderNewNameErrorDuplicated").style.display = "none";
+                    $("#TxtProviderNewNameErrorRequired").hide();
+                    $("#TxtProviderNewNameErrorDuplicated").hide();
                     $(this).dialog("close");
-                    ProviderInsertConfirmed(document.getElementById("TxtProviderNewName").value);
+                    ProviderInsertConfirmed($("#TxtProviderNewName").val());
                 }
             },
             {
+                "id": "ProviderInsertCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
@@ -90,7 +89,6 @@ function ProviderInsert(sender) {
 
 function ProviderInsertConfirmed(newDescription) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/ProviderActions.asmx/Insert";
     var description = "";
     var data = {
         "description": newDescription,
@@ -102,7 +100,7 @@ function ProviderInsertConfirmed(newDescription) {
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         type: "POST",
-        url: webMethod,
+        url: "/Async/ProviderActions.asmx/Insert",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(data, null, 2),
@@ -133,56 +131,58 @@ function ProviderInsertConfirmed(newDescription) {
 
 // Update function for bar item Provider
 function ProviderUpdate(sender) {
-    document.getElementById("TxtProviderNameErrorRequired").style.display = "none";
-    document.getElementById("TxtProviderNameErrorDuplicated").style.display = "none";
+    $("#TxtProviderNameErrorRequired").hide();
+    $("#TxtProviderNameErrorDuplicated").hide();
     $("#TxtProviderName").val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
     var dialog = $("#ProviderUpdateDialog").removeClass("hide").dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: Dictionary.Common_Edit,
-        title_html: true,
-        buttons: [
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": Dictionary.Common_Edit,
+        "title_html": true,
+        "buttons": [
             {
+                "Id": "ProviderUpdateOk",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
                     var ok = true;
-                    if (document.getElementById("TxtProviderName").value === "") {
-                        document.getElementById("TxtProviderNameErrorRequired").style.display = "block";
+                    if ($("#TxtProviderName").val() === "") {
+                        $("#TxtProviderNameErrorRequired").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById("TxtProviderNameErrorRequired").style.display = "none";
+                        $("#TxtProviderNameErrorRequired").hide();
                     }
 
                     var duplicated = false;
                     for (var x = 0; x < Providers.length; x++) {
-                        if (document.getElementById("TxtProviderName").value.toLowerCase() === Providers[x].Description.toLowerCase() && Selected !== Providers[x].Id && Providers[x].Active === true) {
+                        if ($("#TxtProviderName").val().toLowerCase() === Providers[x].Description.toLowerCase() && Selected !== Providers[x].Id && Providers[x].Active === true) {
                             duplicated = true;
                             break;
                         }
                     }
 
                     if (duplicated === true) {
-                        document.getElementById("TxtProviderNameErrorDuplicated").style.display = "block";
+                        $("#TxtProviderNameErrorDuplicated").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById("TxtProviderNameErrorDuplicated").style.display = "none";
+                        $("#TxtProviderNameErrorDuplicated").hide();
                     }
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
 
-                    document.getElementById("TxtProviderNameErrorRequired").style.display = "none";
-                    document.getElementById("TxtProviderNameErrorDuplicated").style.display = "none";
+                    $("#TxtProviderNameErrorRequired").hide();
+                    $("#TxtProviderNameErrorDuplicated").hide();
                     $(this).dialog("close");
                     ProviderUpdateConfirmed(Selected, document.getElementById("TxtProviderName").value);
                 }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "Id": "ProviderUpdateCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
             }
@@ -192,7 +192,6 @@ function ProviderUpdate(sender) {
 
 function ProviderUpdateConfirmed(id, newDescription) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/ProviderActions.asmx/Update";
     var description = "";
     for (var x = 0; x < Providers.length; x++) {
         if (Providers[x].Id === id) {
@@ -209,18 +208,18 @@ function ProviderUpdateConfirmed(id, newDescription) {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/ProviderActions.asmx/Update",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -244,22 +243,22 @@ function ProviderUpdateConfirmed(id, newDescription) {
     }
 
     Providers = new Array();
-    for (var x = 0; x < temp.length; x++) {
-        Providers.push(temp[x]);
+    for (var y = 0; y < temp.length; y++) {
+        Providers.push(temp[y]);
     }
 
     // 3.- Modificar la fila de la tabla del popup
     var target = document.getElementById('SelectableProvider');
-    for (var x = 0; x < target.childNodes.length; x++) {
-        if (target.childNodes[x].id === id) {
-            target.childNodes[x].childNodes[0].innerHTML = newDescription;
+    for (var z = 0; z < target.childNodes.length; z++) {
+        if (target.childNodes[z].id === id) {
+            target.childNodes[z].childNodes[0].innerHTML = newDescription;
             break;
         }
     }
 
     // 4.- Modificar el texto si es el seleccionado
     if (ProviderSelected === id) {
-        document.getElementById('TxtProvider').value = newDescription;
+        $("#TxtProvider").val(newDescription);
     }
 
     FillCmbProviders();
@@ -267,27 +266,27 @@ function ProviderUpdateConfirmed(id, newDescription) {
 
 // Delete functions for bar item Provider
 function ProviderDelete(sender) {
-    $('#ProviderName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    $("#ProviderName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $('#ProviderDeleteDialog').removeClass('hide').dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons:
+    var dialog = $('#ProviderDeleteDialog').removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                     ProviderDeleteConfirmed(Selected);
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () { $(this).dialog("close"); }
+                "click": function () { $(this).dialog("close"); }
             }
         ]
     });
@@ -295,8 +294,7 @@ function ProviderDelete(sender) {
 
 function ProviderDeleteConfirmed(id) {
     // 1.- Desactivar en la BBDD
-    var webMethod = '/Async/ProviderActions.asmx/Delete';
-    var description = '';
+    var description = "";
     for (var x = 0; x < Providers.length; x++) {
         if (Providers[x].Id === id) {
             description = Providers[x].Description;
@@ -305,24 +303,24 @@ function ProviderDeleteConfirmed(id) {
     }
 
     var data = {
-        'ProviderId': id,
-        'description': description,
-        'companyId': Company.Id,
-        'userId': user.Id
+        "providerId": id,
+        "description": description,
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: 'POST',
-        url: webMethod,
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/ProviderActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) { alertUI(response.d.MessageError); }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -335,15 +333,15 @@ function ProviderDeleteConfirmed(id) {
     }
 
     Providers = new Array();
-    for (var x = 0; x < temp.length; x++) {
-        Providers.push(temp[x]);
+    for (var y = 0; y < temp.length; y++) {
+        Providers.push(temp[y]);
     }
 
     // 3.- Eliminar la fila de la tabla del popup
     var target = document.getElementById("SelectableProvider");
-    for (var x = 0; x < target.childNodes.length; x++) {
-        if (target.childNodes[x].id === id) {
-            target.childNodes[x].style.display = "none";
+    for (var z = 0; z < target.childNodes.length; z++) {
+        if (target.childNodes[z].id * 1 === id * 1) {
+            target.childNodes[z].style.display = "none";
             break;
         }
     }
@@ -433,7 +431,6 @@ function ProviderPopupRow(item, target) {
     div.appendChild(document.createTextNode(' '));
     div.appendChild(span3);
     td2.appendChild(div);
-
 
     tr.appendChild(td1);
     tr.appendChild(td2);

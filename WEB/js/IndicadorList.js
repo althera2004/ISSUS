@@ -26,6 +26,8 @@ function CmbTipusIndicadorChange() {
         $("#CmdObjetivoLabel").show();
         $("#CmbObjetivo").show();
     }
+
+    IndicadorGetFilter();
 }
 
 function GetProcessById(id) {
@@ -48,6 +50,14 @@ function CmbProcessChanged() {
         $("#CmbProcessType").removeAttr("disabled");
         $("#CmbProcessType").val(0);
     }
+
+    IndicadorGetFilter();
+}
+
+function CmbProcessTypeChanged() {
+
+    IndicadorGetFilter();
+
 }
 
 jQuery(function ($) {
@@ -132,7 +142,7 @@ function IndicadorGetFilter(exportType) {
         "success": function (msg) {
             eval("IndicadorList=" + msg.d + ";");
             ItemRenderTable(IndicadorList);
-            if (exportType !== "undefined") {
+            if (exportType !== "undefined" && exportType !== null) {
                 if (exportType === "PDF") {
                     ExportPDF();
                 }
@@ -158,8 +168,8 @@ function IndicadorGetNone() {
 }
 
 function IndicadorGetAll() {
-    document.getElementById("BtnRecordShowAll").style.display = "none";
-    document.getElementById("BtnRecordShowNone").style.display = "";
+    //document.getElementById("BtnRecordShowAll").style.display = "none";
+    //document.getElementById("BtnRecordShowNone").style.display = "";
     document.getElementById("TxtDateFrom").value = "";
     document.getElementById("TxtDateTo").value = "";
     $("#CmbProcess").val(0);
@@ -453,6 +463,13 @@ window.onload = function () {
     else {
         document.getElementById("RBStatus1").checked = true;
     }
+
+    $("#RBStatus0").on("click", IndicadorGetFilter);
+    $("#RBStatus1").on("click", IndicadorGetFilter);
+    $("#RBStatus2").on("click", IndicadorGetFilter);
+    $("#TxtDateFrom").on("change", IndicadorGetFilter);
+    $("#TxtDateTo").on("change", IndicadorGetFilter);
+    $("#CmbObjetivo").on("change", IndicadorGetFilter);
 
     IndicadorGetFilter();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");

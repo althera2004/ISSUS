@@ -11,6 +11,7 @@ namespace SbrinnaCoreFramework.UI
     public class FormTextFreeDecimal : FormText
     {
         public bool Nullable { get; set; }
+
         public override string Render
         {
             get

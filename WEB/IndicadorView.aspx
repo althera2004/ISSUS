@@ -15,7 +15,7 @@
             padding-bottom:4px !important;
             margin-bottom:12px !important;
         }
-        #scrollTableDiv{
+        #scrollTableDiv, #scrollTableDivHistorico{
             background-color:#fafaff;
             border:1px solid #e0e0e0;
             border-top:none;
@@ -44,6 +44,7 @@
         var userLanguage = "<%=this.UserLanguage %>";
         var IndicadoresObjetivo = <%=this.IndicadoresObjetivo %>;
         var Employees = <%= this.Employees %>;
+        var Historic = <%=this.Historic %>;
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
@@ -176,9 +177,9 @@
                                                         </div>
                                                         <div class="col-sm-6" style="text-align: right;">
                                                             <button class="btn btn-success" type="button" id="BtnRecordNew"><i class="icon-plus bigger-110"></i><%=this.Dictionary["Item_Indicador_New_Button"] %></button>
-                                                            <button class="btn btn-success" type="button" id="BtnRecordFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_Indicador_Filter_Button"] %></button>
+                                                            <!--<button class="btn btn-success" type="button" id="BtnRecordFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_Indicador_Filter_Button"] %></button>-->
                                                             <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
-                                                            <button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
+                                                            <!--<button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>-->
                                                         </div>
                                                     </div>
                                                     <div class="table-responsive" id="scrollTableDiv">
@@ -201,7 +202,7 @@
                                                                     <th id="th4" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th>
                                                                     <th id="th5" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Alarm"]%></th>
                                                                     <th id="th6" onclick="Sort(this,'IndicadorRegistrosTable','text',false);" class="sort" style="width: 175px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Responsible"]%></th>
-                                                                    <th style="width: 106px;">&nbsp;</th>
+                                                                    <th style="width: 107px;">&nbsp;</th>
                                                                 </tr>
                                                             </thead>
                                                         </table>
@@ -269,7 +270,54 @@
                                                         <h3 style="display: inline;"><%=this.Dictionary["Item_Indicador_GraphicsNoData"] %></h3>
                                                     </div>
                                                     <div id="barChartDiv" class="col col-sm-12"></div>
-                                                    <div id="circularGaugeContainer" style="height:200px;margin:0 auto"></div>
+                                                    <div id="circularGaugeContainer" style="display:none;height:200px;margin:0 auto"></div>
+                                                </div>
+                                                <div id="historic" class="tab-pane">
+                                                    
+                                                    <div class="table-responsive" id="scrollTableDivHistorico">
+                                                        <table class="table table-bordered table-striped" style="margin-top: 4px; margin-bottom: 0;">
+                                                            <thead class="thin-border-bottom" id="HistoricoTHead">
+                                                                <tr>
+                                                                    <th id="th0" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width:100px;"><%=this.Dictionary["Item_Objetivo_FieldLabel_Action"]%></th>
+                                                                    <th id="th1" onclick="Sort(this,'ObjetivoRegistrosTable','date',false);" class="sort" style="width:95px;"><%=this.Dictionary["Item_IndicatorRecord_FieldLabel_Date"]%></th>
+                                                                    <th id="th2"><%=this.Dictionary["Item_ObjetivoRecord_FieldLabel_Reason"]%></th>
+                                                                    <th id="th3" onclick="Sort(this,'ObjetivoRegistrosTable','text',false);" class="sort" style="width: 256px;"><%=this.Dictionary["Item_Objetivo_FieldLabel_CloseResponsible"]%></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                        <div id="ListDataDivHistorico" style="overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                            <table class="table table-bordered table-striped" style="border-top: none;">
+                                                                <tbody id="ObjetivoHistoricoTable"></tbody>
+                                                                <tfoot id="ItemTableHistoricoVoid" style="display: none; height: 100%;">
+                                                                    <tr>
+                                                                        <td colspan="10" align="center" style="background-color: #ddddff; color: #0000aa;">
+                                                                            <table style="border: none;">
+                                                                                <tr>
+                                                                                    <td rowspan="2" style="border: none;" class="NoData"><i class="icon-info-sign" style="font-size: 48px;"></i></td>
+                                                                                    <td style="border: none;">
+                                                                                        <h4 class="NoData" style="font-size: 24px;"><%=this.Dictionary["Common_VoidSearchResult"] %></h4>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>                                                                                      
+                                                        <table class="table table-bordered table-striped" style="margin: 0">
+                                                            <thead class="thin-border-bottom">
+                                                                <tr id="ListDataHistoricFooter">
+                                                                    <th style="color:#aaa;">
+															            <i>
+																            <%=this.Dictionary["Common_RegisterCount"] %>:
+																            &nbsp;
+																            <span id="NumberHistoric"></span>
+															            </i>
+														            </th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

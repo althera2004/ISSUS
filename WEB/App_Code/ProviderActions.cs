@@ -10,14 +10,12 @@ using System.Web.Services;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 
-/// <summary>
-/// Summary description for ProviderActions
-/// </summary>
+/// <summary>Summary description for ProviderActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
-public class ProviderActions : WebService {
-
+public class ProviderActions : WebService
+{
     public ProviderActions()
     {
     }
@@ -26,8 +24,7 @@ public class ProviderActions : WebService {
     [ScriptMethod]
     public ActionResult Insert(string description, int companyId, int userId)
     {
-        ActionResult res = new Provider() { Description = description, CompanyId = companyId }.Insert(userId);
-
+        var res = new Provider { Description = description, CompanyId = companyId }.Insert(userId);
         if (res.Success)
         {
             Session["Company"] = new Company(companyId);
@@ -40,11 +37,10 @@ public class ProviderActions : WebService {
     [ScriptMethod]
     public ActionResult Update(int providerId, string description, int companyId, int userId)
     {
-        ActionResult res = new Provider() { Id = providerId, Description = description, CompanyId = companyId }.Update(userId);
-
+        var res = new Provider { Id = providerId, Description = description, CompanyId = companyId }.Update(userId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
@@ -53,13 +49,12 @@ public class ProviderActions : WebService {
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult Delete(int ProviderId, int companyId, int userId)
+    public ActionResult Delete(int providerId, int companyId, int userId)
     {
-        ActionResult res = new Provider() { Id = ProviderId, CompanyId = companyId }.Delete(userId);
-
+        var res = new Provider { Id = providerId, CompanyId = companyId }.Delete(userId);
         if (res.Success)
         {
-            Company companySession = new Company(companyId);
+            var companySession = new Company(companyId);
             HttpContext.Current.Session["Company"] = companySession;
         }
 
