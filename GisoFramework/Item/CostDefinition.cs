@@ -26,7 +26,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new CostDefinition
+                return new CostDefinition()
                 {
                     Id = -1,
                     Description = string.Empty,
@@ -98,10 +98,10 @@ namespace GisoFramework.Item
 
         public static CostDefinition GetById(long costDefinitionId, int companyId)
         {
-            var costs = GetByCompany(companyId);
+            ReadOnlyCollection<CostDefinition> costs = GetByCompany(companyId);
             if (costs.Any(cd => cd.Id == costDefinitionId))
             {
-                return costs.First(cd => cd.Id == costDefinitionId);
+                return costs.Where(cd => cd.Id == costDefinitionId).First();
             }
 
             return CostDefinition.Empty;
@@ -109,15 +109,15 @@ namespace GisoFramework.Item
 
         public static ReadOnlyCollection<CostDefinition> GetActive(int companyId)
         {
-            return new ReadOnlyCollection<CostDefinition>(GetByCompany(companyId).Where(cd => cd.Active).ToList());
+            return new ReadOnlyCollection<CostDefinition>(GetByCompany(companyId).Where(cd => cd.Active == true).ToList());
         }
 
         public static string GetByCompanyJson(int companyId)
         {
-            var res = new StringBuilder("[");
-            var costs = GetByCompany(companyId);
+            StringBuilder res = new StringBuilder("[");
+            ReadOnlyCollection<CostDefinition> costs = GetByCompany(companyId);
             bool first = true;
-            foreach (var cost in costs)
+            foreach (CostDefinition cost in costs)
             {
                 if (first)
                 {
@@ -139,54 +139,52 @@ namespace GisoFramework.Item
         {
             /* CREATE PROCEDURE Customer_GetByCompany
              *   @CompanyId int */
-            var res = new List<CostDefinition>();
-            using (var cmd = new SqlCommand("CostDefinition_GetAll"))
+            List<CostDefinition> res = new List<CostDefinition>();
+            using (SqlCommand cmd = new SqlCommand("CostDefinition_GetAll"))
             {
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
                 {
-                    cmd.Connection = cnn;
-                    try
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Connection.Open();
+                    using (SqlDataReader rdr = cmd.ExecuteReader())
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                        cmd.Connection.Open();
-                        using (var rdr = cmd.ExecuteReader())
+                        while (rdr.Read())
                         {
-                            while (rdr.Read())
+                            CostDefinition newCost = new CostDefinition()
                             {
-                                var newCost = new CostDefinition
+                                Id = rdr.GetInt64(ColumnsCostDefinitionGet.Id),
+                                Description = rdr.GetString(ColumnsCostDefinitionGet.Description),
+                                Amount = rdr.GetDecimal(ColumnsCostDefinitionGet.Amount),
+                                CreatedBy = new ApplicationUser()
                                 {
-                                    Id = rdr.GetInt64(ColumnsCostDefinitionGet.Id),
-                                    Description = rdr.GetString(ColumnsCostDefinitionGet.Description),
-                                    Amount = rdr.GetDecimal(ColumnsCostDefinitionGet.Amount),
-                                    CreatedBy = new ApplicationUser
-                                    {
-                                        Id = rdr.GetInt32(ColumnsCostDefinitionGet.CreatedBy),
-                                        UserName = rdr.GetString(ColumnsCostDefinitionGet.CreatedByName)
-                                    },
-                                    CreatedOn = rdr.GetDateTime(ColumnsCostDefinitionGet.CreatedOn),
-                                    ModifiedBy = new ApplicationUser
-                                    {
-                                        Id = rdr.GetInt32(ColumnsCostDefinitionGet.ModifiedBy),
-                                        UserName = rdr.GetString(ColumnsCostDefinitionGet.ModifiedByName)
-                                    },
-                                    ModifiedOn = rdr.GetDateTime(ColumnsCostDefinitionGet.ModifiedOn),
-                                    Active = rdr.GetBoolean(ColumnsCostDefinitionGet.Active),
-                                    CanBeDeleted = true,
-                                    CompanyId = rdr.GetInt32(ColumnsCostDefinitionGet.CompanyId)
-                                };
+                                    Id = rdr.GetInt32(ColumnsCostDefinitionGet.CreatedBy),
+                                    UserName = rdr.GetString(ColumnsCostDefinitionGet.CreatedByName)
+                                },
+                                CreatedOn = rdr.GetDateTime(ColumnsCostDefinitionGet.CreatedOn),
+                                ModifiedBy = new ApplicationUser()
+                                {
+                                    Id = rdr.GetInt32(ColumnsCostDefinitionGet.ModifiedBy),
+                                    UserName = rdr.GetString(ColumnsCostDefinitionGet.ModifiedByName)
+                                },
+                                ModifiedOn = rdr.GetDateTime(ColumnsCostDefinitionGet.ModifiedOn),
+                                Active = rdr.GetBoolean(ColumnsCostDefinitionGet.Active),
+                                CanBeDeleted = true,
+                                CompanyId = rdr.GetInt32(ColumnsCostDefinitionGet.CompanyId)
+                            };
 
-                                newCost.ModifiedBy.Employee = Employee.GetByUserId(newCost.ModifiedBy.Id);
-                                res.Add(newCost);
-                            }
+                            newCost.ModifiedBy.Employee = Employee.GetByUserId(newCost.ModifiedBy.Id);
+
+                            res.Add(newCost);
                         }
                     }
-                    finally
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
+                        cmd.Connection.Close();
                     }
                 }
             }
@@ -196,7 +194,7 @@ namespace GisoFramework.Item
 
         public static ActionResult Inactive(long costDefinitionId, int companyId, int applicationUserId)
         {
-            var res = ActionResult.NoAction;
+            ActionResult res = ActionResult.NoAction;
             /* ALTER PROCEDURE [issususer].[CostDefinition_Deactivate]
              *   @CostDefinitionId bigint,
              *   @CompanyId int,
@@ -207,51 +205,49 @@ namespace GisoFramework.Item
                 costDefinitionId,
                 companyId,
                 applicationUserId);
-            using (var cmd = new SqlCommand("CostDefinition_Deactivate"))
+            using (SqlCommand cmd = new SqlCommand("CostDefinition_Deactivate"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                cmd.Parameters.Add(DataParameter.Input("@CostDefinitionId", costDefinitionId));
+                cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                try
                 {
-                    cmd.Parameters.Add(DataParameter.Input("@CostDefinitionId", costDefinitionId));
-                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-                    try
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess();
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                    res.SetFail(ex);
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                    res.SetFail(ex);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                    res.SetFail(ex);
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                    res.SetFail(ex);
+                }
+                catch (NotImplementedException ex)
+                {
+                    ExceptionManager.Trace(ex, source);
+                    res.SetFail(ex);
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
-                        cmd.Connection.Open();
-                        cmd.ExecuteNonQuery();
-                        res.SetSuccess();
-                    }
-                    catch (SqlException ex)
-                    {
-                        ExceptionManager.Trace(ex, source);
-                        res.SetFail(ex);
-                    }
-                    catch (FormatException ex)
-                    {
-                        ExceptionManager.Trace(ex, source);
-                        res.SetFail(ex);
-                    }
-                    catch (ArgumentNullException ex)
-                    {
-                        ExceptionManager.Trace(ex, source);
-                        res.SetFail(ex);
-                    }
-                    catch (NullReferenceException ex)
-                    {
-                        ExceptionManager.Trace(ex, source);
-                        res.SetFail(ex);
-                    }
-                    catch (NotImplementedException ex)
-                    {
-                        ExceptionManager.Trace(ex, source);
-                        res.SetFail(ex);
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
+                        cmd.Connection.Close();
                     }
                 }
             }
@@ -259,7 +255,9 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>Gets a row of list departament</summary>
+        /// <summary>
+        /// Gets a row of list departament
+        /// </summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="grants">List of user's grants</param>
         /// <returns>Code HTML for department row</returns>        
@@ -294,35 +292,33 @@ namespace GisoFramework.Item
              *   @Description nvarchar(100),
              *   @Amount decimal(18,3),
              *   @ApplicationUserId bigint */
-            var res = ActionResult.NoAction;
-            using (var cmd = new SqlCommand("CostDefinition_Insert"))
+            ActionResult res = ActionResult.NoAction;
+            using (SqlCommand cmd = new SqlCommand("CostDefinition_Insert"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
                 {
-                    try
+                    cmd.Parameters.Add(DataParameter.OutputLong("@CostDefinitionId"));
+                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                    cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    this.Id = (long)cmd.Parameters["@CostDefinitionId"].Value;
+                    res.SetSuccess(this.Id);
+                }
+                catch (Exception ex)
+                {
+                    res.SetFail(ex);
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "CostDefinition::Insert({0})", this.Id));
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
-                        cmd.Parameters.Add(DataParameter.OutputLong("@CostDefinitionId"));
-                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                        cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-                        cmd.Connection.Open();
-                        cmd.ExecuteNonQuery();
-                        this.Id = (long)cmd.Parameters["@CostDefinitionId"].Value;
-                        res.SetSuccess(this.Id);
-                    }
-                    catch (Exception ex)
-                    {
-                        res.SetFail(ex);
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "CostDefinition::Insert({0})", this.Id));
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
+                        cmd.Connection.Close();
                     }
                 }
             }
@@ -338,35 +334,32 @@ namespace GisoFramework.Item
              *   @Description nvarchar(100),
              *   @Amount decimal(18,3),
              *   @ApplicationUserId bigint */
-            var res = ActionResult.NoAction;
-            using (var cmd = new SqlCommand("CostDefinition_Update"))
+            ActionResult res = ActionResult.NoAction;
+            using (SqlCommand cmd = new SqlCommand("CostDefinition_Update"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
                 {
-                    cmd.Connection = cnn;
-                    try
+                    cmd.Parameters.Add(DataParameter.Input("@CostDefinitionId", this.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                    cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess();
+                }
+                catch (Exception ex)
+                {
+                    res.SetFail(ex);
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "CostDefinition::Update({0})", this.Id));
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
-                        cmd.Parameters.Add(DataParameter.Input("@CostDefinitionId", this.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                        cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-                        cmd.Connection.Open();
-                        cmd.ExecuteNonQuery();
-                        res.SetSuccess();
-                    }
-                    catch (Exception ex)
-                    {
-                        res.SetFail(ex);
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "CostDefinition::Update({0})", this.Id));
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
+                        cmd.Connection.Close();
                     }
                 }
             }

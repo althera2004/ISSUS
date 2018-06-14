@@ -65,7 +65,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new Objetivo
+                return new Objetivo()
                 {
                     Id = 0,
                     Name = string.Empty,
@@ -189,9 +189,9 @@ namespace GisoFramework.Item
 
         public static string FilterList(int companyId, DateTime? from, DateTime? to, int status)
         {
-            var items = Filter(companyId, from, to, status);
+            ReadOnlyCollection<ObjetivoFilterItem> items = Filter(companyId, from, to, status);
             HttpContext.Current.Session["ObjetivoRecords"] = items;
-            var res = new StringBuilder("[");
+            StringBuilder res = new StringBuilder("[");
             bool first = true;
             foreach (ObjetivoFilterItem item in items)
             {
@@ -226,17 +226,17 @@ namespace GisoFramework.Item
                @"Objetivo::Restore({0}, {1})",
                objetivoId,
                applicationUserId);
-            var res = ActionResult.NoAction;
+            ActionResult res = ActionResult.NoAction;
             /* CREATE PROCEDURE [dbo].[Objetivo_Restore]
              *   @IndicadorId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (var cmd = new SqlCommand("Objetivo_Restore"))
+            using (SqlCommand cmd = new SqlCommand("Objetivo_Restore"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", objetivoId));
@@ -291,7 +291,7 @@ namespace GisoFramework.Item
                 @"Objetivo::Anulate({0}, {1})",
                 objetivoId,
                 applicationUserId);
-            var res = ActionResult.NoAction;
+            ActionResult res = ActionResult.NoAction;
             /* CREATE PROCEDURE [dbo].[Objetivo_Anulate]
              *   @IndicadorId int,
              *   @CompanyId int,
@@ -300,12 +300,12 @@ namespace GisoFramework.Item
              *   @EndResponsable int,
              *   @UnidadId int,
              *   @ApplicationUserId int */
-            using (var cmd = new SqlCommand("Objetivo_Anulate"))
+            using (SqlCommand cmd = new SqlCommand("Objetivo_Anulate"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", objetivoId));
@@ -363,8 +363,8 @@ namespace GisoFramework.Item
              *   @DateFrom datetime,
              *   @DateTo datetime
              *   @Closed bit */
-            var res = new List<ObjetivoFilterItem>();
-            using (var cmd = new SqlCommand("Objetivo_Filter"))
+            List<ObjetivoFilterItem> res = new List<ObjetivoFilterItem>();
+            using (SqlCommand cmd = new SqlCommand("Objetivo_Filter"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -377,40 +377,38 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Status", status));
 
                     cmd.Connection.Open();
-                    using (var rdr = cmd.ExecuteReader())
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        while (rdr.Read())
+                        ObjetivoFilterItem item = new ObjetivoFilterItem()
                         {
-                            var item = new ObjetivoFilterItem
+                            Objetivo = new Objetivo()
                             {
-                                Objetivo = new Objetivo
+                                Id = rdr.GetInt32(ColumnsObjetivoFilter.ObjetivoId),
+                                Name = rdr.GetString(ColumnsObjetivoFilter.Name),
+                                StartDate = rdr.GetDateTime(ColumnsObjetivoFilter.StartDate),
+                                PreviewEndDate = rdr.GetDateTime(ColumnsObjetivoFilter.PreviewEndDate),
+                                Responsible = new Employee()
                                 {
-                                    Id = rdr.GetInt32(ColumnsObjetivoFilter.ObjetivoId),
-                                    Name = rdr.GetString(ColumnsObjetivoFilter.Name),
-                                    StartDate = rdr.GetDateTime(ColumnsObjetivoFilter.StartDate),
-                                    PreviewEndDate = rdr.GetDateTime(ColumnsObjetivoFilter.PreviewEndDate),
-                                    Responsible = new Employee
-                                    {
-                                        Id = rdr.GetInt32(ColumnsObjetivoFilter.ResponsibleId),
-                                        Name = rdr.GetString(ColumnsObjetivoFilter.ResponsibleName),
-                                        LastName = rdr.GetString(ColumnsObjetivoFilter.ResponsibleLastname)
-                                    },
-                                    Active = rdr.GetBoolean(ColumnsObjetivoFilter.Active)
-                                }
-                            };
-
-                            if (!rdr.IsDBNull(ColumnsObjetivoFilter.PreviewEndDate))
-                            {
-                                item.Objetivo.PreviewEndDate = rdr.GetDateTime(ColumnsObjetivoFilter.PreviewEndDate);
+                                    Id = rdr.GetInt32(ColumnsObjetivoFilter.ResponsibleId),
+                                    Name = rdr.GetString(ColumnsObjetivoFilter.ResponsibleName),
+                                    LastName = rdr.GetString(ColumnsObjetivoFilter.ResponsibleLastname)
+                                },
+                                Active = rdr.GetBoolean(ColumnsObjetivoFilter.Active)
                             }
+                        };
 
-                            if (!rdr.IsDBNull(ColumnsObjetivoFilter.EndDate))
-                            {
-                                item.Objetivo.EndDate = rdr.GetDateTime(ColumnsObjetivoFilter.EndDate);
-                            }
-
-                            res.Add(item);
+                        if (!rdr.IsDBNull(ColumnsObjetivoFilter.PreviewEndDate))
+                        {
+                            item.Objetivo.PreviewEndDate = rdr.GetDateTime(ColumnsObjetivoFilter.PreviewEndDate);
                         }
+
+                        if (!rdr.IsDBNull(ColumnsObjetivoFilter.EndDate))
+                        {
+                            item.Objetivo.EndDate = rdr.GetDateTime(ColumnsObjetivoFilter.EndDate);
+                        }
+
+                        res.Add(item);
                     }
                 }
                 finally
@@ -430,86 +428,81 @@ namespace GisoFramework.Item
         {
             /* CREATE PROCEDURE Objetivo_GetAvailable
              *   @CompanyId int */
-            var res = new List<Objetivo>();
-            using (var cmd = new SqlCommand("Objetivo_GetAvailable"))
+            List<Objetivo> res = new List<Objetivo>();
+            using (SqlCommand cmd = new SqlCommand("Objetivo_GetAvailable"))
             {
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
                 {
-                    cmd.Connection = cnn;
-                    try
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Connection.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                        cmd.Connection.Open();
-                        using (var rdr = cmd.ExecuteReader())
+                        Objetivo objetivo = new Objetivo()
                         {
-                            while (rdr.Read())
+                            Id = rdr.GetInt32(ColumnsObjetivoGet.Id),
+                            Name = rdr.GetString(ColumnsObjetivoGet.Name),
+                            Description = rdr.GetString(ColumnsObjetivoGet.Description),
+                            CompanyId = companyId,
+                            StartDate = rdr.GetDateTime(ColumnsObjetivoGet.StartDate),
+                            Methodology = rdr.GetString(ColumnsObjetivoGet.Methodology),
+                            Notes = rdr.GetString(ColumnsObjetivoGet.Notes),
+                            Resources = rdr.GetString(ColumnsObjetivoGet.Resources),
+                            PreviewEndDate = rdr.GetDateTime(ColumnsObjetivoGet.PreviewEndDate),
+                            VinculatedToIndicator = rdr.GetBoolean(ColumnsObjetivoGet.VinculatedToIndicator),
+                            Responsible = new Employee()
                             {
-                                var objetivo = new Objetivo
-                                {
-                                    Id = rdr.GetInt32(ColumnsObjetivoGet.Id),
-                                    Name = rdr.GetString(ColumnsObjetivoGet.Name),
-                                    Description = rdr.GetString(ColumnsObjetivoGet.Description),
-                                    CompanyId = companyId,
-                                    StartDate = rdr.GetDateTime(ColumnsObjetivoGet.StartDate),
-                                    Methodology = rdr.GetString(ColumnsObjetivoGet.Methodology),
-                                    Notes = rdr.GetString(ColumnsObjetivoGet.Notes),
-                                    Resources = rdr.GetString(ColumnsObjetivoGet.Resources),
-                                    PreviewEndDate = rdr.GetDateTime(ColumnsObjetivoGet.PreviewEndDate),
-                                    VinculatedToIndicator = rdr.GetBoolean(ColumnsObjetivoGet.VinculatedToIndicator),
-                                    Responsible = new Employee
-                                    {
-                                        Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleId),
-                                        Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleName),
-                                        LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleLastName)
-                                    },
-                                    RevisionId = rdr.GetInt32(ColumnsObjetivoGet.RevisionId),
-                                    CreatedBy = new ApplicationUser
-                                    {
-                                        Id = rdr.GetInt32(ColumnsObjetivoGet.CreatedBy),
-                                        UserName = rdr.GetString(ColumnsObjetivoGet.CreatedByName)
-                                    },
-                                    CreatedOn = rdr.GetDateTime(ColumnsObjetivoGet.CreatedOn),
-                                    ModifiedBy = new ApplicationUser
-                                    {
-                                        Id = rdr.GetInt32(ColumnsObjetivoGet.ModifiedBy),
-                                        UserName = rdr.GetString(ColumnsObjetivoGet.ModifiedByName)
-                                    },
-                                    ModifiedOn = rdr.GetDateTime(ColumnsObjetivoGet.ModifiedOn),
-                                    Active = rdr.GetBoolean(ColumnsObjetivoGet.Active),
-                                    EndReason = rdr.GetString(ColumnsObjetivoGet.EndReason)
-                                };
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleId),
+                                Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleName),
+                                LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleLastName)
+                            },
+                            RevisionId = rdr.GetInt32(ColumnsObjetivoGet.RevisionId),
+                            CreatedBy = new ApplicationUser()
+                            {
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.CreatedBy),
+                                UserName = rdr.GetString(ColumnsObjetivoGet.CreatedByName)
+                            },
+                            CreatedOn = rdr.GetDateTime(ColumnsObjetivoGet.CreatedOn),
+                            ModifiedBy = new ApplicationUser()
+                            {
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.ModifiedBy),
+                                UserName = rdr.GetString(ColumnsObjetivoGet.ModifiedByName)
+                            },
+                            ModifiedOn = rdr.GetDateTime(ColumnsObjetivoGet.ModifiedOn),
+                            Active = rdr.GetBoolean(ColumnsObjetivoGet.Active),
+                            EndReason = rdr.GetString(ColumnsObjetivoGet.EndReason)
+                        };
 
-                                if (!rdr.IsDBNull(ColumnsObjetivoGet.IndicatorId))
-                                {
-                                    objetivo.IndicatorId = rdr.GetInt32(ColumnsObjetivoGet.IndicatorId);
-                                }
-
-                                if (!rdr.IsDBNull(ColumnsObjetivoGet.EndDate))
-                                {
-                                    objetivo.EndDate = rdr.GetDateTime(ColumnsObjetivoGet.EndDate);
-                                }
-
-                                if (!rdr.IsDBNull(ColumnsObjetivoGet.ResponsibleClose))
-                                {
-                                    objetivo.EndResponsible = new Employee
-                                    {
-                                        Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleClose),
-                                        Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseName),
-                                        LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseLastName)
-                                    };
-                                }
-
-                                res.Add(objetivo);
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.IndicatorId))
                         {
-                            cmd.Connection.Close();
+                            objetivo.IndicatorId = rdr.GetInt32(ColumnsObjetivoGet.IndicatorId);
                         }
+
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.EndDate))
+                        {
+                            objetivo.EndDate = rdr.GetDateTime(ColumnsObjetivoGet.EndDate);
+                        }
+
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.ResponsibleClose))
+                        {
+                            objetivo.EndResponsible = new Employee()
+                            {
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleClose),
+                                Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseName),
+                                LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseLastName)
+                            };
+                        }
+
+                        res.Add(objetivo);
+                    }
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
                     }
                 }
             }
@@ -526,8 +519,8 @@ namespace GisoFramework.Item
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */
-            var res = new List<Objetivo>();
-            using (var cmd = new SqlCommand("Objetivo_GetAll"))
+            List<Objetivo> res = new List<Objetivo>();
+            using (SqlCommand cmd = new SqlCommand("Objetivo_GetAll"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 try
@@ -535,67 +528,65 @@ namespace GisoFramework.Item
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                     cmd.Connection.Open();
-                    using (var rdr = cmd.ExecuteReader())
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        while (rdr.Read())
+                        Objetivo objetivo = new Objetivo()
                         {
-                            var objetivo = new Objetivo
+                            Id = rdr.GetInt32(ColumnsObjetivoGet.Id),
+                            Name = rdr.GetString(ColumnsObjetivoGet.Name),
+                            Description = rdr.GetString(ColumnsObjetivoGet.Description),
+                            CompanyId = companyId,
+                            StartDate = rdr.GetDateTime(ColumnsObjetivoGet.StartDate),
+                            Methodology = rdr.GetString(ColumnsObjetivoGet.Methodology),
+                            Notes = rdr.GetString(ColumnsObjetivoGet.Notes),
+                            Resources = rdr.GetString(ColumnsObjetivoGet.Resources),
+                            PreviewEndDate = rdr.GetDateTime(ColumnsObjetivoGet.PreviewEndDate),
+                            VinculatedToIndicator = rdr.GetBoolean(ColumnsObjetivoGet.VinculatedToIndicator),
+                            Responsible = new Employee()
                             {
-                                Id = rdr.GetInt32(ColumnsObjetivoGet.Id),
-                                Name = rdr.GetString(ColumnsObjetivoGet.Name),
-                                Description = rdr.GetString(ColumnsObjetivoGet.Description),
-                                CompanyId = companyId,
-                                StartDate = rdr.GetDateTime(ColumnsObjetivoGet.StartDate),
-                                Methodology = rdr.GetString(ColumnsObjetivoGet.Methodology),
-                                Notes = rdr.GetString(ColumnsObjetivoGet.Notes),
-                                Resources = rdr.GetString(ColumnsObjetivoGet.Resources),
-                                PreviewEndDate = rdr.GetDateTime(ColumnsObjetivoGet.PreviewEndDate),
-                                VinculatedToIndicator = rdr.GetBoolean(ColumnsObjetivoGet.VinculatedToIndicator),
-                                Responsible = new Employee
-                                {
-                                    Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleId),
-                                    Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleName),
-                                    LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleLastName)
-                                },
-                                RevisionId = rdr.GetInt32(ColumnsObjetivoGet.RevisionId),
-                                CreatedBy = new ApplicationUser
-                                {
-                                    Id = rdr.GetInt32(ColumnsObjetivoGet.CreatedBy),
-                                    UserName = rdr.GetString(ColumnsObjetivoGet.CreatedByName)
-                                },
-                                CreatedOn = rdr.GetDateTime(ColumnsObjetivoGet.CreatedOn),
-                                ModifiedBy = new ApplicationUser
-                                {
-                                    Id = rdr.GetInt32(ColumnsObjetivoGet.ModifiedBy),
-                                    UserName = rdr.GetString(ColumnsObjetivoGet.ModifiedByName)
-                                },
-                                ModifiedOn = rdr.GetDateTime(ColumnsObjetivoGet.ModifiedOn),
-                                Active = rdr.GetBoolean(ColumnsObjetivoGet.Active),
-                                EndReason = rdr.GetString(ColumnsObjetivoGet.EndReason)
-                            };
-
-                            if (!rdr.IsDBNull(ColumnsObjetivoGet.IndicatorId))
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleId),
+                                Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleName),
+                                LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleLastName)
+                            },
+                            RevisionId = rdr.GetInt32(ColumnsObjetivoGet.RevisionId),
+                            CreatedBy = new ApplicationUser()
                             {
-                                objetivo.IndicatorId = rdr.GetInt32(ColumnsObjetivoGet.IndicatorId);
-                            }
-
-                            if (!rdr.IsDBNull(ColumnsObjetivoGet.EndDate))
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.CreatedBy),
+                                UserName = rdr.GetString(ColumnsObjetivoGet.CreatedByName)
+                            },
+                            CreatedOn = rdr.GetDateTime(ColumnsObjetivoGet.CreatedOn),
+                            ModifiedBy = new ApplicationUser()
                             {
-                                objetivo.EndDate = rdr.GetDateTime(ColumnsObjetivoGet.EndDate);
-                            }
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.ModifiedBy),
+                                UserName = rdr.GetString(ColumnsObjetivoGet.ModifiedByName)
+                            },
+                            ModifiedOn = rdr.GetDateTime(ColumnsObjetivoGet.ModifiedOn),
+                            Active = rdr.GetBoolean(ColumnsObjetivoGet.Active),
+                            EndReason = rdr.GetString(ColumnsObjetivoGet.EndReason)
+                        };
 
-                            if (!rdr.IsDBNull(ColumnsObjetivoGet.ResponsibleClose))
-                            {
-                                objetivo.EndResponsible = new Employee
-                                {
-                                    Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleClose),
-                                    Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseName),
-                                    LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseLastName)
-                                };
-                            }
-
-                            res.Add(objetivo);
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.IndicatorId))
+                        {
+                            objetivo.IndicatorId = rdr.GetInt32(ColumnsObjetivoGet.IndicatorId);
                         }
+
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.EndDate))
+                        {
+                            objetivo.EndDate = rdr.GetDateTime(ColumnsObjetivoGet.EndDate);
+                        }
+
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.ResponsibleClose))
+                        {
+                            objetivo.EndResponsible = new Employee()
+                            {
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleClose),
+                                Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseName),
+                                LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseLastName)
+                            };
+                        }
+
+                        res.Add(objetivo);
                     }
                 }
                 finally
@@ -614,8 +605,8 @@ namespace GisoFramework.Item
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */
-            var res = new List<Objetivo>();
-            using (var cmd = new SqlCommand("Objetivo_GetActive"))
+            List<Objetivo> res = new List<Objetivo>();
+            using (SqlCommand cmd = new SqlCommand("Objetivo_GetActive"))
             {
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 try
@@ -623,67 +614,65 @@ namespace GisoFramework.Item
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                     cmd.Connection.Open();
-                    using (var rdr = cmd.ExecuteReader())
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        while (rdr.Read())
+                        Objetivo objetivo = new Objetivo()
                         {
-                            var objetivo = new Objetivo
+                            Id = rdr.GetInt32(ColumnsObjetivoGet.Id),
+                            Name = rdr.GetString(ColumnsObjetivoGet.Name),
+                            Description = rdr.GetString(ColumnsObjetivoGet.Description),
+                            CompanyId = companyId,
+                            StartDate = rdr.GetDateTime(ColumnsObjetivoGet.StartDate),
+                            Methodology = rdr.GetString(ColumnsObjetivoGet.Methodology),
+                            Notes = rdr.GetString(ColumnsObjetivoGet.Notes),
+                            Resources = rdr.GetString(ColumnsObjetivoGet.Resources),
+                            PreviewEndDate = rdr.GetDateTime(ColumnsObjetivoGet.PreviewEndDate),
+                            VinculatedToIndicator = rdr.GetBoolean(ColumnsObjetivoGet.VinculatedToIndicator),
+                            Responsible = new Employee()
                             {
-                                Id = rdr.GetInt32(ColumnsObjetivoGet.Id),
-                                Name = rdr.GetString(ColumnsObjetivoGet.Name),
-                                Description = rdr.GetString(ColumnsObjetivoGet.Description),
-                                CompanyId = companyId,
-                                StartDate = rdr.GetDateTime(ColumnsObjetivoGet.StartDate),
-                                Methodology = rdr.GetString(ColumnsObjetivoGet.Methodology),
-                                Notes = rdr.GetString(ColumnsObjetivoGet.Notes),
-                                Resources = rdr.GetString(ColumnsObjetivoGet.Resources),
-                                PreviewEndDate = rdr.GetDateTime(ColumnsObjetivoGet.PreviewEndDate),
-                                VinculatedToIndicator = rdr.GetBoolean(ColumnsObjetivoGet.VinculatedToIndicator),
-                                Responsible = new Employee
-                                {
-                                    Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleId),
-                                    Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleName),
-                                    LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleLastName)
-                                },
-                                RevisionId = rdr.GetInt32(ColumnsObjetivoGet.RevisionId),
-                                CreatedBy = new ApplicationUser
-                                {
-                                    Id = rdr.GetInt32(ColumnsObjetivoGet.CreatedBy),
-                                    UserName = rdr.GetString(ColumnsObjetivoGet.CreatedByName)
-                                },
-                                CreatedOn = rdr.GetDateTime(ColumnsObjetivoGet.CreatedOn),
-                                ModifiedBy = new ApplicationUser
-                                {
-                                    Id = rdr.GetInt32(ColumnsObjetivoGet.ModifiedBy),
-                                    UserName = rdr.GetString(ColumnsObjetivoGet.ModifiedByName)
-                                },
-                                ModifiedOn = rdr.GetDateTime(ColumnsObjetivoGet.ModifiedOn),
-                                Active = rdr.GetBoolean(ColumnsObjetivoGet.Active),
-                                EndReason = rdr.GetString(ColumnsObjetivoGet.EndReason)
-                            };
-
-                            if (!rdr.IsDBNull(ColumnsObjetivoGet.IndicatorId))
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleId),
+                                Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleName),
+                                LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleLastName)
+                            },
+                            RevisionId = rdr.GetInt32(ColumnsObjetivoGet.RevisionId),
+                            CreatedBy = new ApplicationUser()
                             {
-                                objetivo.IndicatorId = rdr.GetInt32(ColumnsObjetivoGet.IndicatorId);
-                            }
-
-                            if (!rdr.IsDBNull(ColumnsObjetivoGet.EndDate))
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.CreatedBy),
+                                UserName = rdr.GetString(ColumnsObjetivoGet.CreatedByName)
+                            },
+                            CreatedOn = rdr.GetDateTime(ColumnsObjetivoGet.CreatedOn),
+                            ModifiedBy = new ApplicationUser()
                             {
-                                objetivo.EndDate = rdr.GetDateTime(ColumnsObjetivoGet.EndDate);
-                            }
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.ModifiedBy),
+                                UserName = rdr.GetString(ColumnsObjetivoGet.ModifiedByName)
+                            },
+                            ModifiedOn = rdr.GetDateTime(ColumnsObjetivoGet.ModifiedOn),
+                            Active = rdr.GetBoolean(ColumnsObjetivoGet.Active),
+                            EndReason = rdr.GetString(ColumnsObjetivoGet.EndReason)
+                        };
 
-                            if (!rdr.IsDBNull(ColumnsObjetivoGet.ResponsibleClose))
-                            {
-                                objetivo.EndResponsible = new Employee
-                                {
-                                    Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleClose),
-                                    Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseName),
-                                    LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseLastName)
-                                };
-                            }
-
-                            res.Add(objetivo);
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.IndicatorId))
+                        {
+                            objetivo.IndicatorId = rdr.GetInt32(ColumnsObjetivoGet.IndicatorId);
                         }
+
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.EndDate))
+                        {
+                            objetivo.EndDate = rdr.GetDateTime(ColumnsObjetivoGet.EndDate);
+                        }
+
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.ResponsibleClose))
+                        {
+                            objetivo.EndResponsible = new Employee()
+                            {
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleClose),
+                                Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseName),
+                                LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseLastName)
+                            };
+                        }
+
+                        res.Add(objetivo);
                     }
                 }
                 finally
@@ -700,9 +689,9 @@ namespace GisoFramework.Item
 
         public static string GetByCompanyJsonList(int companyId)
         {
-            var res = new StringBuilder("[");
+            StringBuilder res = new StringBuilder("[");
             bool first = true;
-            foreach (var objetivo in GetByCompany(companyId))
+            foreach (Objetivo objetivo in GetByCompany(companyId))
             {
                 if (objetivo.Active)
                 {
@@ -733,92 +722,88 @@ namespace GisoFramework.Item
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */
-            var res = Objetivo.Empty;
-            using (var cmd = new SqlCommand("Objetivo_GetById"))
+            Objetivo res = Objetivo.Empty;
+            using (SqlCommand cmd = new SqlCommand("Objetivo_GetById"))
             {
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
                 {
-                    try
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", objetivoId));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Connection.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", objetivoId));
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                        cmd.Connection.Open();
-                        using (var rdr = cmd.ExecuteReader())
+                        rdr.Read();
+                        res.Id = rdr.GetInt32(ColumnsObjetivoGet.Id);
+                        res.Name = rdr.GetString(ColumnsObjetivoGet.Name);
+                        res.Description = rdr.GetString(ColumnsObjetivoGet.Description);
+                        res.CompanyId = companyId;
+                        res.StartDate = rdr.GetDateTime(ColumnsObjetivoGet.StartDate);
+                        res.Methodology = rdr.GetString(ColumnsObjetivoGet.Methodology);
+                        res.Notes = rdr.GetString(ColumnsObjetivoGet.Notes);
+                        res.Resources = rdr.GetString(ColumnsObjetivoGet.Resources);
+                        res.PreviewEndDate = rdr.GetDateTime(ColumnsObjetivoGet.PreviewEndDate);
+                        res.VinculatedToIndicator = rdr.GetBoolean(ColumnsObjetivoGet.VinculatedToIndicator);
+                        res.Responsible = new Employee()
                         {
-                            if (rdr.HasRows)
+                            Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleId),
+                            Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleName),
+                            LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleLastName)
+                        };
+                        res.RevisionId = rdr.GetInt32(ColumnsObjetivoGet.RevisionId);
+                        res.CreatedBy = new ApplicationUser()
+                        {
+                            Id = rdr.GetInt32(ColumnsObjetivoGet.CreatedBy),
+                            UserName = rdr.GetString(ColumnsObjetivoGet.CreatedByName)
+                        };
+                        res.CreatedOn = rdr.GetDateTime(ColumnsObjetivoGet.CreatedOn);
+                        res.ModifiedBy = new ApplicationUser()
+                        {
+                            Id = rdr.GetInt32(ColumnsObjetivoGet.ModifiedBy),
+                            UserName = rdr.GetString(ColumnsObjetivoGet.ModifiedByName)
+                        };
+                        res.ModifiedOn = rdr.GetDateTime(ColumnsObjetivoGet.ModifiedOn);
+                        res.Active = rdr.GetBoolean(ColumnsObjetivoGet.Active);
+                        res.EndReason = rdr.GetString(ColumnsObjetivoGet.EndReason);
+
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.IndicatorId))
+                        {
+                            res.IndicatorId = rdr.GetInt32(ColumnsObjetivoGet.IndicatorId);
+                        }
+
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.EndDate))
+                        {
+                            res.EndDate = rdr.GetDateTime(ColumnsObjetivoGet.EndDate);
+                        }
+
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.ResponsibleClose))
+                        {
+                            res.EndResponsible = new Employee()
                             {
-                                rdr.Read();
-                                res.Id = rdr.GetInt32(ColumnsObjetivoGet.Id);
-                                res.Name = rdr.GetString(ColumnsObjetivoGet.Name);
-                                res.Description = rdr.GetString(ColumnsObjetivoGet.Description);
-                                res.CompanyId = companyId;
-                                res.StartDate = rdr.GetDateTime(ColumnsObjetivoGet.StartDate);
-                                res.Methodology = rdr.GetString(ColumnsObjetivoGet.Methodology);
-                                res.Notes = rdr.GetString(ColumnsObjetivoGet.Notes);
-                                res.Resources = rdr.GetString(ColumnsObjetivoGet.Resources);
-                                res.PreviewEndDate = rdr.GetDateTime(ColumnsObjetivoGet.PreviewEndDate);
-                                res.VinculatedToIndicator = rdr.GetBoolean(ColumnsObjetivoGet.VinculatedToIndicator);
-                                res.Responsible = new Employee()
-                                {
-                                    Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleId),
-                                    Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleName),
-                                    LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleLastName)
-                                };
-                                res.RevisionId = rdr.GetInt32(ColumnsObjetivoGet.RevisionId);
-                                res.CreatedBy = new ApplicationUser()
-                                {
-                                    Id = rdr.GetInt32(ColumnsObjetivoGet.CreatedBy),
-                                    UserName = rdr.GetString(ColumnsObjetivoGet.CreatedByName)
-                                };
-                                res.CreatedOn = rdr.GetDateTime(ColumnsObjetivoGet.CreatedOn);
-                                res.ModifiedBy = new ApplicationUser()
-                                {
-                                    Id = rdr.GetInt32(ColumnsObjetivoGet.ModifiedBy),
-                                    UserName = rdr.GetString(ColumnsObjetivoGet.ModifiedByName)
-                                };
-                                res.ModifiedOn = rdr.GetDateTime(ColumnsObjetivoGet.ModifiedOn);
-                                res.Active = rdr.GetBoolean(ColumnsObjetivoGet.Active);
-                                res.EndReason = rdr.GetString(ColumnsObjetivoGet.EndReason);
+                                Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleClose),
+                                Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseName),
+                                LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseLastName)
+                            };
+                        }
 
-                                if (!rdr.IsDBNull(ColumnsObjetivoGet.IndicatorId))
-                                {
-                                    res.IndicatorId = rdr.GetInt32(ColumnsObjetivoGet.IndicatorId);
-                                }
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.MetaComparer))
+                        {
+                            res.MetaComparer = rdr.GetString(ColumnsObjetivoGet.MetaComparer);
+                        }
 
-                                if (!rdr.IsDBNull(ColumnsObjetivoGet.EndDate))
-                                {
-                                    res.EndDate = rdr.GetDateTime(ColumnsObjetivoGet.EndDate);
-                                }
-
-                                if (!rdr.IsDBNull(ColumnsObjetivoGet.ResponsibleClose))
-                                {
-                                    res.EndResponsible = new Employee()
-                                    {
-                                        Id = rdr.GetInt32(ColumnsObjetivoGet.ResponsibleClose),
-                                        Name = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseName),
-                                        LastName = rdr.GetString(ColumnsObjetivoGet.ResponsibleCloseLastName)
-                                    };
-                                }
-
-                                if (!rdr.IsDBNull(ColumnsObjetivoGet.MetaComparer))
-                                {
-                                    res.MetaComparer = rdr.GetString(ColumnsObjetivoGet.MetaComparer);
-                                }
-
-                                if (!rdr.IsDBNull(ColumnsObjetivoGet.Meta))
-                                {
-                                    res.Meta = rdr.GetDecimal(ColumnsObjetivoGet.Meta);
-                                }
-                            }
+                        if (!rdr.IsDBNull(ColumnsObjetivoGet.Meta))
+                        {
+                            res.Meta = rdr.GetDecimal(ColumnsObjetivoGet.Meta);
                         }
                     }
-                    finally
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
+                        cmd.Connection.Close();
                     }
                 }
             }
@@ -895,17 +880,17 @@ namespace GisoFramework.Item
                 @"Objetivo::Activate({0}, {1})",
                 objetivoId,
                 applicationUserId);
-            var res = ActionResult.NoAction;
+            ActionResult res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Objetivo_Activate]
              *   @ObjetivoRegsitroId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (var cmd = new SqlCommand("Objetivo_Activate"))
+            using (SqlCommand cmd = new SqlCommand("Objetivo_Activate"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", objetivoId));
@@ -959,17 +944,17 @@ namespace GisoFramework.Item
                 @"Objetivo::Inactivate({0}, {1})",
                 objetivoId,
                 applicationUserId);
-            var res = ActionResult.NoAction;
+            ActionResult res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Objetivo_Inactivate]
              *   @ObjetivoRegsitroId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (var cmd = new SqlCommand("Objetivo_Inactivate"))
+            using (SqlCommand cmd = new SqlCommand("Objetivo_Inactivate"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", objetivoId));
@@ -1023,7 +1008,7 @@ namespace GisoFramework.Item
                 @"Objetivo::Objetivo_Insert({0}, {1})",
                 this.Id,
                 applicationUserId);
-            var res = ActionResult.NoAction;
+            ActionResult res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Objetivo_Insert]
              *   @ObjetivoId int output,
              *   @Name nvarchar(100),
@@ -1041,12 +1026,12 @@ namespace GisoFramework.Item
              *   @ResponsibleClose int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (var cmd = new SqlCommand("Objetivo_Insert"))
+            using (SqlCommand cmd = new SqlCommand("Objetivo_Insert"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.OutputInt("@ObjetivoId"));
@@ -1116,7 +1101,7 @@ namespace GisoFramework.Item
                 @"Objetivo::Objetivo_Update({0}, {1})",
                 this.Id,
                 applicationUserId);
-            var res = ActionResult.NoAction;
+            ActionResult res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Objetivo_Update]
              *   @ObjetivoId int,
              *   @Name nvarchar(100),
@@ -1134,12 +1119,12 @@ namespace GisoFramework.Item
              *   @ResponsibleClose int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (var cmd = new SqlCommand("Objetivo_Update"))
+            using (SqlCommand cmd = new SqlCommand("Objetivo_Update"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", this.Id));

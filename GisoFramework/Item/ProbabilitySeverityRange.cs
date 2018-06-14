@@ -18,25 +18,35 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>Object that represents a probability or a severity with a number (Code) from 1 to 5</summary>
+    /// <summary>
+    /// Object that represents a probability or a severity with a number (Code) from 1 to 5
+    /// </summary>
     public class ProbabilitySeverityRange : BaseItem
     {
-        /// <summary>ProbabilitySeverityType of ProbabilitySeverityRange</summary>
+        /// <summary>
+        /// ProbabilitySeverityType of ProbabilitySeverityRange
+        /// </summary>
         public enum ProbabilitySeverityType
         {
-            /// <summary>Specifies that the current item is a probability</summary>
+            /// <summary>
+            /// Specifies that the current item is a probability
+            /// </summary>
             Probability = 0,
 
-            /// <summary>Specifies that the current item is a severity</summary>
+            /// <summary>
+            /// Specifies that the current item is a severity
+            /// </summary>
             Severity = 1
         }
 
-        /// <summary>Gets an empty ProbabilitySeverityRange</summary>
+        /// <summary>
+        /// Gets an empty ProbabilitySeverityRange
+        /// </summary>
         public static ProbabilitySeverityRange Empty
         {
             get
             {
-                return new ProbabilitySeverityRange
+                return new ProbabilitySeverityRange()
                 {
                     Id = -1,
                     Description = string.Empty,
@@ -101,13 +111,19 @@ namespace GisoFramework.Item
             }
         }*/
 
-        /// <summary>Gets or sets the code of ProbabilitySeverityRange</summary>
+        /// <summary>
+        /// Gets or sets the code of ProbabilitySeverityRange
+        /// </summary>
         public int Code { get; set; }
 
-        /// <summary>Gets or sets a value indicating wheter if ProbabilitySeverityRange is deletable</summary>
+        /// <summary>
+        /// Gets or sets a value indicating wheter if ProbabilitySeverityRange is deletable
+        /// </summary>
         public ProbabilitySeverityType Type { get; set; }
 
-        /// <summary>Gets a hyper link to ProbabilitySeverityRange profile page</summary>
+        /// <summary>
+        /// Gets a hyper link to ProbabilitySeverityRange profile page
+        /// </summary>
         public override string Link
         {
             get
@@ -144,7 +160,9 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>Retrieves a collection of the ProbabilitySeverityRange objects on the database</summary>
+        /// <summary>
+        /// Retrieves a collection of the ProbabilitySeverityRange objects on the database
+        /// </summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>ReadOnlyCollection of ProbabilitySeverityRange objects</returns>
         public static ReadOnlyCollection<ProbabilitySeverityRange> GetAll(int companyId)
@@ -152,7 +170,9 @@ namespace GisoFramework.Item
             return GetAll(companyId, false);
         }
 
-        /// <summary>Retrieves a collection of the ProbabilitySeverityRange objects on the database</summary>
+        /// <summary>
+        /// Retrieves a collection of the ProbabilitySeverityRange objects on the database
+        /// </summary>
         /// <param name="companyId">Company identifier</param>
         /// <param name="isOnlyActive">Set the flag to retrieve only active objects</param>
         /// <returns>ReadOnlyCollection of ProbabilitySeverityRange objects</returns>
@@ -163,9 +183,9 @@ namespace GisoFramework.Item
                 @"GetAll({0}, {1})",
                 companyId,
                 isOnlyActive);
-            var res = new List<ProbabilitySeverityRange>();
+            List<ProbabilitySeverityRange> res = new List<ProbabilitySeverityRange>();
             string query = isOnlyActive ? "ProbabilitySeverityRange_GetActive" : "ProbabilitySeverityRange_GetAll";
-            using (var cmd = new SqlCommand(query))
+            using (SqlCommand cmd = new SqlCommand(query))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
@@ -173,34 +193,32 @@ namespace GisoFramework.Item
                 try
                 {
                     cmd.Connection.Open();
-                    using (var rdr = cmd.ExecuteReader())
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        while (rdr.Read())
+                        ProbabilitySeverityRange newRange = new ProbabilitySeverityRange()
                         {
-                            var newRange = new ProbabilitySeverityRange
+                            Id = rdr.GetInt64(ColumnsProbabilitySeverityRangeGetAll.Id),
+                            Description = rdr.GetString(ColumnsProbabilitySeverityRangeGetAll.Description),
+                            Code = rdr.GetInt32(ColumnsProbabilitySeverityRangeGetAll.Code),
+                            Type = (ProbabilitySeverityRange.ProbabilitySeverityType)rdr.GetInt32(ColumnsProbabilitySeverityRangeGetAll.Type),
+                            CompanyId = companyId,
+                            CreatedOn = rdr.GetDateTime(ColumnsProbabilitySeverityRangeGetAll.CreatedOn),
+                            CreatedBy = new ApplicationUser()
                             {
-                                Id = rdr.GetInt64(ColumnsProbabilitySeverityRangeGetAll.Id),
-                                Description = rdr.GetString(ColumnsProbabilitySeverityRangeGetAll.Description),
-                                Code = rdr.GetInt32(ColumnsProbabilitySeverityRangeGetAll.Code),
-                                Type = (ProbabilitySeverityRange.ProbabilitySeverityType)rdr.GetInt32(ColumnsProbabilitySeverityRangeGetAll.Type),
-                                CompanyId = companyId,
-                                CreatedOn = rdr.GetDateTime(ColumnsProbabilitySeverityRangeGetAll.CreatedOn),
-                                CreatedBy = new ApplicationUser
-                                {
-                                    Id = rdr.GetInt32(ColumnsProbabilitySeverityRangeGetAll.CreatedBy),
-                                    UserName = rdr.GetString(ColumnsProbabilitySeverityRangeGetAll.CreatedByName)
-                                },
-                                ModifiedOn = rdr.GetDateTime(ColumnsProbabilitySeverityRangeGetAll.ModifiedOn),
-                                ModifiedBy = new ApplicationUser
-                                {
-                                    Id = rdr.GetInt32(ColumnsProbabilitySeverityRangeGetAll.ModifiedBy),
-                                    UserName = rdr.GetString(ColumnsProbabilitySeverityRangeGetAll.ModifiedByName)
-                                },
-                                Active = rdr.GetBoolean(ColumnsProbabilitySeverityRangeGetAll.Active),
-                            };
+                                Id = rdr.GetInt32(ColumnsProbabilitySeverityRangeGetAll.CreatedBy),
+                                UserName = rdr.GetString(ColumnsProbabilitySeverityRangeGetAll.CreatedByName)
+                            },
+                            ModifiedOn = rdr.GetDateTime(ColumnsProbabilitySeverityRangeGetAll.ModifiedOn),
+                            ModifiedBy = new ApplicationUser()
+                            {
+                                Id = rdr.GetInt32(ColumnsProbabilitySeverityRangeGetAll.ModifiedBy),
+                                UserName = rdr.GetString(ColumnsProbabilitySeverityRangeGetAll.ModifiedByName)
+                            },
+                            Active = rdr.GetBoolean(ColumnsProbabilitySeverityRangeGetAll.Active),
+                        };
 
-                            res.Add(newRange);
-                        }
+                        res.Add(newRange);
                     }
                 }
                 catch (SqlException ex)
@@ -235,7 +253,9 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<ProbabilitySeverityRange>(res);
         }
 
-        /// <summary>Retrieves a collection of the active ProbabilitySeverityRange objects on the database</summary>
+        /// <summary>
+        /// Retrieves a collection of the active ProbabilitySeverityRange objects on the database
+        /// </summary>
         /// <param name="companyId">Company Identifier</param>
         /// <returns>ReadOnlyCollection of ProbabilitySeverityRange objects</returns>
         public static ReadOnlyCollection<ProbabilitySeverityRange> GetActive(int companyId)

@@ -129,7 +129,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                var res = new StringBuilder("{").Append(Environment.NewLine);
+                StringBuilder res = new StringBuilder("{").Append(Environment.NewLine);
                 res.Append("\t\"Id\":").Append(this.Id).Append(",").Append(Environment.NewLine);
                 res.Append("\t\"CompanyId\":").Append(this.CompanyId).Append(",").Append(Environment.NewLine);
                 res.Append("\t\"Code\":\"").Append(Tools.JsonCompliant(this.Code)).Append("\",").Append(Environment.NewLine);
@@ -206,147 +206,142 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE Equipment_GetById
              *   @EquipmentId bigint,
              *   @CompanyId int */
-            var res = new Equipment();
-            using (var cmd = new SqlCommand("Equipment_GetById"))
+            Equipment res = new Equipment();
+            using (SqlCommand cmd = new SqlCommand("Equipment_GetById"))
             {
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
                 {
-                    cmd.Connection = cnn;
-                    try
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
+                    cmd.Connection.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if (rdr.HasRows)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
-                        cmd.Connection.Open();
-                        using (var rdr = cmd.ExecuteReader())
+                        rdr.Read();
+                        res = new Equipment()
                         {
-                            if (rdr.HasRows)
+                            Id = equipmentId,
+                            CompanyId = rdr.GetInt32(ColumnsEquipmentGetById.CompanyId),
+                            Code = rdr.GetString(ColumnsEquipmentGetById.Code),
+                            Description = rdr[ColumnsEquipmentGetById.Description].ToString(),
+                            Trademark = rdr[ColumnsEquipmentGetById.Trademark].ToString(),
+                            Model = rdr[ColumnsEquipmentGetById.Model].ToString(),
+                            SerialNumber = rdr[ColumnsEquipmentGetById.SerialNumber].ToString(),
+                            Location = rdr[ColumnsEquipmentGetById.Location].ToString(),
+                            MeasureRange = rdr.IsDBNull(ColumnsEquipmentGetById.MeasureRange) ? null : rdr[ColumnsEquipmentGetById.MeasureRange].ToString(),
+                            MeasureUnit = rdr.IsDBNull(ColumnsEquipmentGetById.ScaleDivisionId) ? null : new EquipmentScaleDivision()
                             {
-                                rdr.Read();
-                                res = new Equipment()
-                                {
-                                    Id = equipmentId,
-                                    CompanyId = rdr.GetInt32(ColumnsEquipmentGetById.CompanyId),
-                                    Code = rdr.GetString(ColumnsEquipmentGetById.Code),
-                                    Description = rdr[ColumnsEquipmentGetById.Description].ToString(),
-                                    Trademark = rdr[ColumnsEquipmentGetById.Trademark].ToString(),
-                                    Model = rdr[ColumnsEquipmentGetById.Model].ToString(),
-                                    SerialNumber = rdr[ColumnsEquipmentGetById.SerialNumber].ToString(),
-                                    Location = rdr[ColumnsEquipmentGetById.Location].ToString(),
-                                    MeasureRange = rdr.IsDBNull(ColumnsEquipmentGetById.MeasureRange) ? null : rdr[ColumnsEquipmentGetById.MeasureRange].ToString(),
-                                    MeasureUnit = rdr.IsDBNull(ColumnsEquipmentGetById.ScaleDivisionId) ? null : new EquipmentScaleDivision()
-                                    {
-                                        Id = rdr.GetInt64(ColumnsEquipmentGetById.ScaleDivisionId),
-                                        Description = rdr.GetString(ColumnsEquipmentGetById.ScaleDivisionDescription),
-                                    },
-                                    Responsible = new Employee()
-                                    {
-                                        Id = rdr.GetInt32(ColumnsEquipmentGetById.ResponsibleId),
-                                        Name = rdr[ColumnsEquipmentGetById.ResponsibleName].ToString(),
-                                        LastName = rdr[ColumnsEquipmentGetById.ResponsibleLastName].ToString(),
-                                        CompanyId = rdr.GetInt32(ColumnsEquipmentGetById.CompanyId)
-                                    },
-                                    IsCalibration = rdr.GetBoolean(ColumnsEquipmentGetById.IsCalibration),
-                                    IsVerification = rdr.GetBoolean(ColumnsEquipmentGetById.IsVerification),
-                                    IsMaintenance = rdr.GetBoolean(ColumnsEquipmentGetById.IsMaintenance),
-                                    Notes = rdr.GetString(ColumnsEquipmentGetById.Notes),
-                                    Observations = rdr[ColumnsEquipmentGetById.Observations].ToString(),
-                                    ModifiedBy = new ApplicationUser()
-                                    {
-                                        Id = rdr.GetInt32(ColumnsEquipmentGetById.ModifiedByUserId),
-                                        UserName = rdr.GetString(ColumnsEquipmentGetById.ModifiedByUserName)
-                                    },
-                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentGetById.ModifiedOn),
-                                    InternalCalibration = EquipmentCalibrationDefinition.Empty,
-                                    ExternalCalibration = EquipmentCalibrationDefinition.Empty,
-                                    InternalVerification = EquipmentVerificationDefinition.Empty,
-                                    ExternalVerification = EquipmentVerificationDefinition.Empty
-                                };
+                                Id = rdr.GetInt64(ColumnsEquipmentGetById.ScaleDivisionId),
+                                Description = rdr.GetString(ColumnsEquipmentGetById.ScaleDivisionDescription),
+                            },
+                            Responsible = new Employee()
+                            {
+                                Id = rdr.GetInt32(ColumnsEquipmentGetById.ResponsibleId),
+                                Name = rdr[ColumnsEquipmentGetById.ResponsibleName].ToString(),
+                                LastName = rdr[ColumnsEquipmentGetById.ResponsibleLastName].ToString(),
+                                CompanyId = rdr.GetInt32(ColumnsEquipmentGetById.CompanyId)
+                            },
+                            IsCalibration = rdr.GetBoolean(ColumnsEquipmentGetById.IsCalibration),
+                            IsVerification = rdr.GetBoolean(ColumnsEquipmentGetById.IsVerification),
+                            IsMaintenance = rdr.GetBoolean(ColumnsEquipmentGetById.IsMaintenance),
+                            Notes = rdr.GetString(ColumnsEquipmentGetById.Notes),
+                            Observations = rdr[ColumnsEquipmentGetById.Observations].ToString(),
+                            ModifiedBy = new ApplicationUser()
+                            {
+                                Id = rdr.GetInt32(ColumnsEquipmentGetById.ModifiedByUserId),
+                                UserName = rdr.GetString(ColumnsEquipmentGetById.ModifiedByUserName)
+                            },
+                            ModifiedOn = rdr.GetDateTime(ColumnsEquipmentGetById.ModifiedOn),
+                            InternalCalibration = EquipmentCalibrationDefinition.Empty,
+                            ExternalCalibration = EquipmentCalibrationDefinition.Empty,
+                            InternalVerification = EquipmentVerificationDefinition.Empty,
+                            ExternalVerification = EquipmentVerificationDefinition.Empty
+                        };
 
-                                if (rdr.IsDBNull(ColumnsEquipmentGetById.ScaleDivisionValue))
-                                {
-                                    res.ScaleDivisionValue = null;
-                                }
-                                else
-                                {
-                                    res.ScaleDivisionValue = rdr.GetDecimal(ColumnsEquipmentGetById.ScaleDivisionValue);
-                                }
-
-                                if (File.Exists(HttpContext.Current.Request.PhysicalApplicationPath + @"images\equipments\" + res.Id.ToString(CultureInfo.GetCultureInfo("en-us")) + ".jpg"))
-                                {
-                                    res.Image = res.Id + ".jpg";
-                                }
-                                else
-                                {
-                                    res.Image = "noimage.jpg";
-                                }
-
-                                if (!rdr.IsDBNull(ColumnsEquipmentGetById.StartDate))
-                                {
-                                    res.StartDate = rdr.GetDateTime(ColumnsEquipmentGetById.StartDate);
-                                }
-
-                                if (!rdr.IsDBNull(ColumnsEquipmentGetById.EndDate))
-                                {
-                                    res.EndDate = rdr.GetDateTime(ColumnsEquipmentGetById.EndDate);
-                                }
-
-                                if (!rdr.IsDBNull(ColumnsEquipmentGetById.EndResponsible))
-                                {
-                                    res.EndResponsible = new Employee()
-                                    {
-                                        Id = Convert.ToInt64(rdr.GetInt32(ColumnsEquipmentGetById.EndResponsible)),
-                                        Name = rdr.GetString(ColumnsEquipmentGetById.EndResponsibleName),
-                                        LastName = rdr.GetString(ColumnsEquipmentGetById.EndResponsibleLastName)
-                                    };
-                                }
-                                else
-                                {
-                                    res.EndResponsible = Employee.Empty;
-                                }
-
-                                if (!rdr.IsDBNull(ColumnsEquipmentGetById.EndReason))
-                                {
-                                    res.EndReason = rdr.GetString(ColumnsEquipmentGetById.EndReason);
-                                }
-
-                                res.GetCalibrationDefinitions();
-                                res.GetVerificationDefinitions();
-
-                                res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
-                            }
-                        }
-                    }
-                    catch (SqlException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
-                    }
-                    catch (FormatException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
-                    }
-                    catch (ArgumentNullException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
-                    }
-                    catch (NullReferenceException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
-                    }
-                    catch (InvalidCastException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
+                        if (rdr.IsDBNull(ColumnsEquipmentGetById.ScaleDivisionValue))
                         {
-                            cmd.Connection.Close();
+                            res.ScaleDivisionValue = null;
                         }
+                        else
+                        {
+                            res.ScaleDivisionValue = rdr.GetDecimal(ColumnsEquipmentGetById.ScaleDivisionValue);
+                        }
+
+                        if (File.Exists(HttpContext.Current.Request.PhysicalApplicationPath + @"images\equipments\" + res.Id.ToString(CultureInfo.GetCultureInfo("en-us")) + ".jpg"))
+                        {
+                            res.Image = res.Id + ".jpg";
+                        }
+                        else
+                        {
+                            res.Image = "noimage.jpg";
+                        }
+
+                        if (!rdr.IsDBNull(ColumnsEquipmentGetById.StartDate))
+                        {
+                            res.StartDate = rdr.GetDateTime(ColumnsEquipmentGetById.StartDate);
+                        }
+
+                        if (!rdr.IsDBNull(ColumnsEquipmentGetById.EndDate))
+                        {
+                            res.EndDate = rdr.GetDateTime(ColumnsEquipmentGetById.EndDate);
+                        }
+
+                        if (!rdr.IsDBNull(ColumnsEquipmentGetById.EndResponsible))
+                        {
+                            res.EndResponsible = new Employee()
+                            {
+                                Id = Convert.ToInt64(rdr.GetInt32(ColumnsEquipmentGetById.EndResponsible)),
+                                Name = rdr.GetString(ColumnsEquipmentGetById.EndResponsibleName),
+                                LastName = rdr.GetString(ColumnsEquipmentGetById.EndResponsibleLastName)
+                            };
+                        }
+                        else
+                        {
+                            res.EndResponsible = Employee.Empty;
+                        }
+
+                        if (!rdr.IsDBNull(ColumnsEquipmentGetById.EndReason))
+                        {
+                            res.EndReason = rdr.GetString(ColumnsEquipmentGetById.EndReason);
+                        }
+
+                        res.GetCalibrationDefinitions();
+                        res.GetVerificationDefinitions();
+
+                        res.ModifiedBy.Employee = Employee.GetByUserId(res.ModifiedBy.Id);
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
+                }
+                catch (ArgumentException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
+                }
+                catch (InvalidCastException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetById(Id:{0}, CompanyId:{1})", equipmentId, companyId));
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
                     }
                 }
             }
@@ -356,9 +351,10 @@ namespace GisoFramework.Item
 
         public static string GetListJson(int companyId)
         {
-            var res = new StringBuilder("[");
+            StringBuilder res = new StringBuilder("[");
+            ReadOnlyCollection<Equipment> equipments = GetList(companyId);
             bool first = true;
-            foreach(var equipment in GetList(companyId))
+            foreach(Equipment equipment in equipments)
             {
                 if (first)
                 {
@@ -422,81 +418,76 @@ namespace GisoFramework.Item
         /// <returns></returns>
         public static ReadOnlyCollection<Equipment> GetList(int companyId)
         {
-            var res = new List<Equipment>();
+            List<Equipment> res = new List<Equipment>();
             /* CREATE PROCEDURE Equipment_GetList
              *   @CompanyId int */
-            using (var cmd = new SqlCommand("Equipment_GetList"))
+            using (SqlCommand cmd = new SqlCommand("Equipment_GetList"))
             {
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
                 {
-                    cmd.Connection = cnn;
-                    try
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    cmd.Connection.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                        cmd.Connection.Open();
-                        using (var rdr = cmd.ExecuteReader())
+                        Equipment equipemnt = new Equipment()
                         {
-                            while (rdr.Read())
+                            Id = rdr.GetInt64(ColumnsEquipmentGetList.Id),
+                            Code = rdr.GetString(ColumnsEquipmentGetList.Code),
+                            Description = rdr.GetString(ColumnsEquipmentGetList.Description),
+                            Location = rdr.GetString(ColumnsEquipmentGetList.Location),
+                            Responsible = new Employee()
                             {
-                                var equipemnt = new Equipment
-                                {
-                                    Id = rdr.GetInt64(ColumnsEquipmentGetList.Id),
-                                    Code = rdr.GetString(ColumnsEquipmentGetList.Code),
-                                    Description = rdr.GetString(ColumnsEquipmentGetList.Description),
-                                    Location = rdr.GetString(ColumnsEquipmentGetList.Location),
-                                    Responsible = new Employee()
-                                    {
-                                        Id = rdr.GetInt32(ColumnsEquipmentGetList.ResponsibleId),
-                                        Name = rdr.GetString(ColumnsEquipmentGetList.ResponsibleName),
-                                        LastName = rdr.GetString(ColumnsEquipmentGetList.ResponsibleLastName)
-                                    },
-                                    IsCalibration = rdr.GetBoolean(ColumnsEquipmentGetList.IsCalibration),
-                                    IsVerification = rdr.GetBoolean(ColumnsEquipmentGetList.IsVerification),
-                                    IsMaintenance = rdr.GetBoolean(ColumnsEquipmentGetList.IsMaintenance),
-                                    HasAttachments = rdr.GetBoolean(ColumnsEquipmentGetList.HasAttachments),
-                                    TotalCost = rdr.GetDecimal(ColumnsEquipmentGetList.TotalCost)
-                                };
+                                Id = rdr.GetInt32(ColumnsEquipmentGetList.ResponsibleId),
+                                Name = rdr.GetString(ColumnsEquipmentGetList.ResponsibleName),
+                                LastName = rdr.GetString(ColumnsEquipmentGetList.ResponsibleLastName)
+                            },
+                            IsCalibration = rdr.GetBoolean(ColumnsEquipmentGetList.IsCalibration),
+                            IsVerification = rdr.GetBoolean(ColumnsEquipmentGetList.IsVerification),
+                            IsMaintenance = rdr.GetBoolean(ColumnsEquipmentGetList.IsMaintenance),
+                            HasAttachments = rdr.GetBoolean(ColumnsEquipmentGetList.HasAttachments),
+                            TotalCost = rdr.GetDecimal(ColumnsEquipmentGetList.TotalCost)
+                        };
 
-                                if (!rdr.IsDBNull(ColumnsEquipmentGetList.EndDate))
-                                {
-                                    equipemnt.EndDate = rdr.GetDateTime(ColumnsEquipmentGetList.EndDate);
-                                }
-
-                                res.Add(equipemnt);
-                            }
-                        }
-                    }
-                    catch (SqlException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
-                    }
-                    catch (FormatException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
-                    }
-                    catch (ArgumentNullException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
-                    }
-                    catch (NullReferenceException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
-                    }
-                    catch (InvalidCastException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
+                        if (!rdr.IsDBNull(ColumnsEquipmentGetList.EndDate))
                         {
-                            cmd.Connection.Close();
+                            equipemnt.EndDate = rdr.GetDateTime(ColumnsEquipmentGetList.EndDate);
                         }
+
+                        res.Add(equipemnt);
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                }
+                catch (ArgumentException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                }
+                catch (InvalidCastException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetList({0})", companyId));
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
                     }
                 }
             }
@@ -504,7 +495,9 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Equipment>(res);
         }
 
-        /// <summary>Get a list of company's equipments</summary>
+        /// <summary>
+        /// Get a list of company's equipments
+        /// </summary>
         /// <param name="company">Equipment's company</param>
         /// <param name="grantWrite">User grant to write</param>
         /// <param name="grantDelete">User grant to delete</param>
@@ -542,7 +535,7 @@ namespace GisoFramework.Item
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
 
-            var res = new StringBuilder();
+            StringBuilder res = new StringBuilder();
             foreach (Equipment equipment in list)
             {
                 res.Append(equipment.ListRow(dictionary, grantWrite, grantDelete, grantEmployee));
@@ -558,17 +551,17 @@ namespace GisoFramework.Item
                @"Equipment::Restore({0}, {1})",
                equipmentId,
                applicationUserId);
-            var res = ActionResult.NoAction;
+            ActionResult res = ActionResult.NoAction;
             /* CREATE PROCEDURE [dbo].[Equipment_Restore]
              *   @EquipmentId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (var cmd = new SqlCommand("Equipment_Restore"))
+            using (SqlCommand cmd = new SqlCommand("Equipment_Restore"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
@@ -623,7 +616,7 @@ namespace GisoFramework.Item
                 @"Equipment::Anulate({0}, {1})",
                 equipmentId,
                 applicationUserId);
-            var res = ActionResult.NoAction;
+            ActionResult res = ActionResult.NoAction;
             /* CREATE PROCEDURE [dbo].[Equipment_Anulate]
              *   @EquipmentId int,
              *   @CompanyId int,
@@ -632,12 +625,12 @@ namespace GisoFramework.Item
              *   @EndResponsable int,
              *   @UnidadId int,
              *   @ApplicationUserId int */
-            using (var cmd = new SqlCommand("Equipment_Anulate"))
+            using (SqlCommand cmd = new SqlCommand("Equipment_Anulate"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@EquipmentId", equipmentId));
@@ -690,59 +683,56 @@ namespace GisoFramework.Item
 
         public ActionResult Delete(int userId, string reason)
         {
-            var res = ActionResult.NoAction;
+            ActionResult res = ActionResult.NoAction;
             /* CREATE PROCEDURE Equipment_Delete
              *   @EquipmentId bigint,
              *   @Reason nvarchar(50),
              *   @UserId int,
              *   @CompanyId int */
-            using (var cmd = new SqlCommand("Equipment_Delete"))
+            using (SqlCommand cmd = new SqlCommand("Equipment_Delete"))
             {
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
                 {
-                    cmd.Connection = cnn;
-                    try
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                    cmd.Parameters.Add(DataParameter.Input("@Reason", reason));
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess();
+                }
+                catch (SqlException ex)
+                {
+                    res.SetFail(ex.Message);
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                }
+                catch (FormatException ex)
+                {
+                    res.SetFail(ex.Message);
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                }
+                catch (ArgumentNullException ex)
+                {
+                    res.SetFail(ex.Message);
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                }
+                catch (ArgumentException ex)
+                {
+                    res.SetFail(ex.Message);
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                }
+                catch (NullReferenceException ex)
+                {
+                    res.SetFail(ex.Message);
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                        cmd.Parameters.Add(DataParameter.Input("@Reason", reason));
-                        cmd.Connection.Open();
-                        cmd.ExecuteNonQuery();
-                        res.SetSuccess();
-                    }
-                    catch (SqlException ex)
-                    {
-                        res.SetFail(ex.Message);
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                    }
-                    catch (FormatException ex)
-                    {
-                        res.SetFail(ex.Message);
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                    }
-                    catch (ArgumentNullException ex)
-                    {
-                        res.SetFail(ex.Message);
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        res.SetFail(ex.Message);
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"Equipment::Delete Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                    }
-                    catch (NullReferenceException ex)
-                    {
-                        res.SetFail(ex.Message);
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
+                        cmd.Connection.Close();
                     }
                 }
             }
@@ -752,7 +742,7 @@ namespace GisoFramework.Item
 
         public ActionResult Update(int userId, string trace)
         {
-            var res = ActionResult.NoAction;
+            ActionResult res = ActionResult.NoAction;
             /* CREATE PROCEDURE Equipment_Update
              *   @EquipmentId bigint,
              *   @CompanyId int,
@@ -776,49 +766,46 @@ namespace GisoFramework.Item
              *   @UserId int,
              *   @Trace nvarchar(50)
              *   @StartDate datetime */
-            using (var cmd = new SqlCommand("Equipment_Update"))
+            using (SqlCommand cmd = new SqlCommand("Equipment_Update"))
             {
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
                 {
-                    cmd.Connection = cnn;
-                    try
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
+                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
+                    cmd.Parameters.Add(DataParameter.Input("@TradeMark", this.Trademark, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Model", this.Model, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@SerialNumber", this.SerialNumber, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Location", this.Location, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@MeasureRange", string.IsNullOrEmpty(this.MeasureRange) ? string.Empty : this.MeasureRange));
+                    cmd.Parameters.Add(DataParameter.Input("@ScaleDivision", this.ScaleDivisionValue));
+                    cmd.Parameters.Add(DataParameter.Input("@MeasureUnit", this.MeasureUnit.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@Responsable", this.Responsible.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@IsCalibration", this.IsCalibration));
+                    cmd.Parameters.Add(DataParameter.Input("@IsVerification", this.IsVerification));
+                    cmd.Parameters.Add(DataParameter.Input("@IsMaintenance", this.IsMaintenance));
+                    cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Active", this.Active));
+                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                    cmd.Parameters.Add(DataParameter.Input("@Trace", trace));
+                    cmd.Parameters.Add(DataParameter.Input("@StartDate", this.StartDate));
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess();
+                }
+                catch (Exception ex)
+                {
+                    res.SetFail(ex.Message);
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
-                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
-                        cmd.Parameters.Add(DataParameter.Input("@TradeMark", this.Trademark, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@Model", this.Model, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@SerialNumber", this.SerialNumber, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@Location", this.Location, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@MeasureRange", string.IsNullOrEmpty(this.MeasureRange) ? string.Empty : this.MeasureRange));
-                        cmd.Parameters.Add(DataParameter.Input("@ScaleDivision", this.ScaleDivisionValue));
-                        cmd.Parameters.Add(DataParameter.Input("@MeasureUnit", this.MeasureUnit.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@Responsable", this.Responsible.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@IsCalibration", this.IsCalibration));
-                        cmd.Parameters.Add(DataParameter.Input("@IsVerification", this.IsVerification));
-                        cmd.Parameters.Add(DataParameter.Input("@IsMaintenance", this.IsMaintenance));
-                        cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 500));
-                        cmd.Parameters.Add(DataParameter.Input("@Active", this.Active));
-                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                        cmd.Parameters.Add(DataParameter.Input("@Trace", trace));
-                        cmd.Parameters.Add(DataParameter.Input("@StartDate", this.StartDate));
-                        cmd.Connection.Open();
-                        cmd.ExecuteNonQuery();
-                        res.SetSuccess();
-                    }
-                    catch (Exception ex)
-                    {
-                        res.SetFail(ex.Message);
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
+                        cmd.Connection.Close();
                     }
                 }
             }
@@ -828,7 +815,7 @@ namespace GisoFramework.Item
 
         public ActionResult Insert(int userId)
         {
-            var res = ActionResult.NoAction;
+            ActionResult res = ActionResult.NoAction;
             /* CREATE PROCEDURE Equipment_Insert
              *   @EquipmentId bigint output,
              *   @CompanyId int,
@@ -850,88 +837,85 @@ namespace GisoFramework.Item
              *   @UserId int,
              *   @Notes text
              *   @StartDate datetime */
-            using (var cmd = new SqlCommand("Equipment_Insert"))
+            using (SqlCommand cmd = new SqlCommand("Equipment_Insert"))
             {
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
                 {
-                    cmd.Connection = cnn;
-                    try
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentId"));
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
-                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
-                        cmd.Parameters.Add(DataParameter.Input("@TradeMark", this.Trademark, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@Model", this.Model, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@SerialNumber", this.SerialNumber, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@Location", this.Location, 50));
-                        cmd.Parameters.Add(DataParameter.Input("@MeasureRange", string.IsNullOrEmpty(this.MeasureRange) ? string.Empty : this.MeasureRange));
-                        cmd.Parameters.Add(DataParameter.Input("@ScaleDivision", this.ScaleDivisionValue));
-                        cmd.Parameters.Add(DataParameter.Input("@MeasureUnit", this.MeasureUnit.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@Responsable", this.Responsible.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@IsCalibration", this.IsCalibration));
-                        cmd.Parameters.Add(DataParameter.Input("@IsVerification", this.IsVerification));
-                        cmd.Parameters.Add(DataParameter.Input("@IsMaintenance", this.IsMaintenance));
-                        cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 2000));
-                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 500));
-                        cmd.Parameters.Add(DataParameter.Input("@StartDate", this.StartDate));
-                        cmd.Connection.Open();
-                        cmd.ExecuteNonQuery();
-                        this.Id = Convert.ToInt32(cmd.Parameters["@EquipmentId"].Value, CultureInfo.GetCultureInfo("en-us"));
-                        res.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentId"));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
+                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 150));
+                    cmd.Parameters.Add(DataParameter.Input("@TradeMark", this.Trademark, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Model", this.Model, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@SerialNumber", this.SerialNumber, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@Location", this.Location, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@MeasureRange", string.IsNullOrEmpty(this.MeasureRange) ? string.Empty : this.MeasureRange));
+                    cmd.Parameters.Add(DataParameter.Input("@ScaleDivision", this.ScaleDivisionValue));
+                    cmd.Parameters.Add(DataParameter.Input("@MeasureUnit", this.MeasureUnit.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@Responsable", this.Responsible.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@IsCalibration", this.IsCalibration));
+                    cmd.Parameters.Add(DataParameter.Input("@IsVerification", this.IsVerification));
+                    cmd.Parameters.Add(DataParameter.Input("@IsMaintenance", this.IsMaintenance));
+                    cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@StartDate", this.StartDate));
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    this.Id = Convert.ToInt32(cmd.Parameters["@EquipmentId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                    res.SetSuccess(this.Id.ToString(CultureInfo.InvariantCulture));
 
-                        if (this.InternalVerification.Id > 0)
-                        {
-                            this.InternalVerification.EquipmentId = this.Id;
-                            res = this.InternalVerification.Insert(userId);
-                        }
+                    if (this.InternalVerification.Id > 0)
+                    {
+                        this.InternalVerification.EquipmentId = this.Id;
+                        res = this.InternalVerification.Insert(userId);
+                    }
 
-                        if (res.Success && this.ExternalVerification.Id > 0)
-                        {
-                            this.ExternalVerification.EquipmentId = this.Id;
-                            res = this.ExternalVerification.Insert(userId);
-                        }
+                    if (res.Success && this.ExternalVerification.Id > 0)
+                    {
+                        this.ExternalVerification.EquipmentId = this.Id;
+                        res = this.ExternalVerification.Insert(userId);
+                    }
 
-                        if (res.Success && this.InternalCalibration.Id > 0)
-                        {
-                            this.InternalCalibration.EquipmentId = this.Id;
-                            res = this.InternalCalibration.Insert(userId);
-                        }
+                    if (res.Success && this.InternalCalibration.Id > 0)
+                    {
+                        this.InternalCalibration.EquipmentId = this.Id;
+                        res = this.InternalCalibration.Insert(userId);
+                    }
 
-                        if (res.Success && this.ExternalCalibration.Id > 0)
-                        {
-                            this.ExternalCalibration.EquipmentId = this.Id;
-                            res = this.ExternalCalibration.Insert(userId);
-                        }
-                    }
-                    catch (SqlException ex)
+                    if (res.Success && this.ExternalCalibration.Id > 0)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        this.ExternalCalibration.EquipmentId = this.Id;
+                        res = this.ExternalCalibration.Insert(userId);
                     }
-                    catch (FormatException ex)
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                }
+                catch (ArgumentException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                    }
-                    catch (ArgumentNullException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                    }
-                    catch (NullReferenceException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
+                        cmd.Connection.Close();
                     }
                 }
             }
@@ -944,115 +928,110 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE Equipment_GetVerificationDefinition
              *   @EquipmentId bigint,
              *   @CompanyId int */
-            using (var cmd = new SqlCommand("Equipment_GetVerificationDefinition"))
+            using (SqlCommand cmd = new SqlCommand("Equipment_GetVerificationDefinition"))
             {
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
                 {
-                    cmd.Connection = cnn;
-                    try
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    cmd.Connection.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Connection.Open();
-                        using (var rdr = cmd.ExecuteReader())
+                        EquipmentVerificationDefinition verification = new EquipmentVerificationDefinition()
                         {
-                            while (rdr.Read())
+                            Id = rdr.GetInt64(ColumnsEquipmentGetVerificationDefinition.Id),
+                            EquipmentId = rdr.GetInt64(ColumnsEquipmentGetVerificationDefinition.EquipmentId),
+                            CompanyId = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.CompanyId),
+                            VerificationType = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.VerificationType),
+                            Description = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.Operation),
+                            Periodicity = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.Periodicity),
+                            Pattern = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.Pattern),
+                            Range = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.Range),
+                            Notes = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.Notes),
+                            Responsible = new Employee()
                             {
-                                var verification = new EquipmentVerificationDefinition
-                                {
-                                    Id = rdr.GetInt64(ColumnsEquipmentGetVerificationDefinition.Id),
-                                    EquipmentId = rdr.GetInt64(ColumnsEquipmentGetVerificationDefinition.EquipmentId),
-                                    CompanyId = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.CompanyId),
-                                    VerificationType = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.VerificationType),
-                                    Description = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.Operation),
-                                    Periodicity = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.Periodicity),
-                                    Pattern = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.Pattern),
-                                    Range = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.Range),
-                                    Notes = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.Notes),
-                                    Responsible = new Employee()
-                                    {
-                                        CompanyId = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.CompanyId),
-                                        Id = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.ResponsibleId),
-                                        Name = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.ResponsibleName),
-                                        LastName = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.ResponsibleLastName)
-                                    },
-                                    Provider = new Provider()
-                                    {
-                                        CompanyId = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.CompanyId),
-                                        Id = rdr.GetInt64(ColumnsEquipmentGetVerificationDefinition.ProviderId),
-                                        Description = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.ProviderDescription)
-                                    },
-                                    ModifiedBy = new ApplicationUser()
-                                    {
-                                        CompanyId = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.CompanyId),
-                                        Id = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.ModifiedByUserId),
-                                        UserName = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.ModifiedByUserName)
-                                    },
-                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentGetVerificationDefinition.ModifiedOn)
-                                };
+                                CompanyId = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.CompanyId),
+                                Id = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.ResponsibleId),
+                                Name = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.ResponsibleName),
+                                LastName = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.ResponsibleLastName)
+                            },
+                            Provider = new Provider()
+                            {
+                                CompanyId = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.CompanyId),
+                                Id = rdr.GetInt64(ColumnsEquipmentGetVerificationDefinition.ProviderId),
+                                Description = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.ProviderDescription)
+                            },
+                            ModifiedBy = new ApplicationUser()
+                            {
+                                CompanyId = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.CompanyId),
+                                Id = rdr.GetInt32(ColumnsEquipmentGetVerificationDefinition.ModifiedByUserId),
+                                UserName = rdr.GetString(ColumnsEquipmentGetVerificationDefinition.ModifiedByUserName)
+                            },
+                            ModifiedOn = rdr.GetDateTime(ColumnsEquipmentGetVerificationDefinition.ModifiedOn)
+                        };
 
-                                if (!rdr.IsDBNull(ColumnsEquipmentGetVerificationDefinition.Cost))
-                                {
-                                    verification.Cost = rdr.GetDecimal(ColumnsEquipmentGetVerificationDefinition.Cost);
-                                }
-
-                                if (!rdr.IsDBNull(ColumnsEquipmentGetVerificationDefinition.Uncertainty))
-                                {
-                                    verification.Uncertainty = rdr.GetDecimal(ColumnsEquipmentGetVerificationDefinition.Uncertainty);
-                                }
-
-                                if (verification.VerificationType == 0)
-                                {
-                                    this.InternalVerification = verification;
-                                }
-                                else
-                                {
-                                    this.ExternalVerification = verification;
-                                }
-                            }
-                        }
-
-                        if (this.InternalVerification == null)
+                        if (!rdr.IsDBNull(ColumnsEquipmentGetVerificationDefinition.Cost))
                         {
-                            this.InternalVerification = EquipmentVerificationDefinition.Empty;
+                            verification.Cost = rdr.GetDecimal(ColumnsEquipmentGetVerificationDefinition.Cost);
                         }
 
-                        if (this.ExternalVerification == null)
+                        if (!rdr.IsDBNull(ColumnsEquipmentGetVerificationDefinition.Uncertainty))
                         {
-                            this.ExternalVerification = EquipmentVerificationDefinition.Empty;
+                            verification.Uncertainty = rdr.GetDecimal(ColumnsEquipmentGetVerificationDefinition.Uncertainty);
+                        }                            
+
+                        if (verification.VerificationType == 0)
+                        {
+                            this.InternalVerification = verification;
+                        }
+                        else
+                        {
+                            this.ExternalVerification = verification;
                         }
                     }
-                    catch (SqlException ex)
+
+                    if (this.InternalVerification == null)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetVerificationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                        this.InternalVerification = EquipmentVerificationDefinition.Empty;
                     }
-                    catch (FormatException ex)
+
+                    if (this.ExternalVerification == null)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetVerificationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                        this.ExternalVerification = EquipmentVerificationDefinition.Empty;
                     }
-                    catch (ArgumentNullException ex)
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetVerificationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetVerificationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetVerificationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                }
+                catch (ArgumentException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetVerificationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetVerificationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                }
+                catch (InvalidCastException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetVerificationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetVerificationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetVerificationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
-                    }
-                    catch (NullReferenceException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetVerificationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
-                    }
-                    catch (InvalidCastException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetVerificationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
+                        cmd.Connection.Close();
                     }
                 }
             }
@@ -1060,114 +1039,109 @@ namespace GisoFramework.Item
 
         public void GetCalibrationDefinitions()
         {
-            /* CREATE PROCEDURE Equipment_GetCalibrationDefinition
-             *   @EquipmentId bigint,
-             *   @CompanyId int */
-            using (var cmd = new SqlCommand("Equipment_GetCalibrationDefinition"))
+             /* CREATE PROCEDURE Equipment_GetCalibrationDefinition
+              *   @EquipmentId bigint,
+              *   @CompanyId int */
+            using (SqlCommand cmd = new SqlCommand("Equipment_GetCalibrationDefinition"))
             {
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
+                try
                 {
-                    cmd.Connection = cnn;
-                    try
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    cmd.Connection.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (rdr.Read())
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.Id));
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Connection.Open();
-                        using (var rdr = cmd.ExecuteReader())
+                        EquipmentCalibrationDefinition calibration = new EquipmentCalibrationDefinition()
                         {
-                            while (rdr.Read())
+                            Id = rdr.GetInt64(ColumnsEquipmentGetCalibrationDefinition.Id),
+                            EquipmentId = rdr.GetInt64(ColumnsEquipmentGetCalibrationDefinition.EquipmentId),
+                            CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
+                            CalibrationType = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CalibrationType),
+                            Description = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.Operation),
+                            Periodicity = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.Periodicity),
+                            Pattern = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.Pattern),
+                            Range = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.Range),
+                            Uncertainty = rdr.GetDecimal(ColumnsEquipmentGetCalibrationDefinition.Uncertainty),
+                            Notes = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.Notes),
+                            Provider = new Provider()
                             {
-                                var calibration = new EquipmentCalibrationDefinition
-                                {
-                                    Id = rdr.GetInt64(ColumnsEquipmentGetCalibrationDefinition.Id),
-                                    EquipmentId = rdr.GetInt64(ColumnsEquipmentGetCalibrationDefinition.EquipmentId),
-                                    CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
-                                    CalibrationType = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CalibrationType),
-                                    Description = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.Operation),
-                                    Periodicity = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.Periodicity),
-                                    Pattern = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.Pattern),
-                                    Range = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.Range),
-                                    Uncertainty = rdr.GetDecimal(ColumnsEquipmentGetCalibrationDefinition.Uncertainty),
-                                    Notes = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.Notes),
-                                    Provider = new Provider()
-                                    {
-                                        CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
-                                        Id = rdr.GetInt64(ColumnsEquipmentGetCalibrationDefinition.ProviderId),
-                                        Description = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ProviderDescription)
-                                    },
-                                    Responsible = new Employee()
-                                    {
-                                        CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
-                                        Id = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.ResponsibleId),
-                                        Name = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ResponsibleName),
-                                        LastName = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ResponsibleLastName)
-                                    },
-                                    ModifiedBy = new ApplicationUser()
-                                    {
-                                        CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
-                                        Id = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.ModifiedByUserId),
-                                        UserName = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ModifiedByUserName)
-                                    },
-                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentGetCalibrationDefinition.ModifiedOn)
-                                };
+                                CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
+                                Id = rdr.GetInt64(ColumnsEquipmentGetCalibrationDefinition.ProviderId),
+                                Description = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ProviderDescription)
+                            },
+                            Responsible = new Employee()
+                            {
+                                CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
+                                Id = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.ResponsibleId),
+                                Name = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ResponsibleName),
+                                LastName = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ResponsibleLastName)
+                            },
+                            ModifiedBy = new ApplicationUser()
+                            {
+                                CompanyId = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.CompanyId),
+                                Id = rdr.GetInt32(ColumnsEquipmentGetCalibrationDefinition.ModifiedByUserId),
+                                UserName = rdr.GetString(ColumnsEquipmentGetCalibrationDefinition.ModifiedByUserName)
+                            },
+                            ModifiedOn = rdr.GetDateTime(ColumnsEquipmentGetCalibrationDefinition.ModifiedOn)
+                        };
 
-                                if (!rdr.IsDBNull(ColumnsEquipmentGetCalibrationDefinition.Cost))
-                                {
-                                    calibration.Cost = rdr.GetDecimal(ColumnsEquipmentGetCalibrationDefinition.Cost);
-                                }
-
-                                if (calibration.CalibrationType == 0)
-                                {
-                                    this.InternalCalibration = calibration;
-                                }
-                                else
-                                {
-                                    this.ExternalCalibration = calibration;
-                                }
-                            }
-                        }
-
-                        if (this.InternalCalibration == null)
+                        if (!rdr.IsDBNull(ColumnsEquipmentGetCalibrationDefinition.Cost))
                         {
-                            this.InternalCalibration = EquipmentCalibrationDefinition.Empty;
+                            calibration.Cost = rdr.GetDecimal(ColumnsEquipmentGetCalibrationDefinition.Cost);
                         }
 
-                        if (this.ExternalCalibration == null)
+                        if (calibration.CalibrationType == 0)
                         {
-                            this.ExternalCalibration = EquipmentCalibrationDefinition.Empty;
+                            this.InternalCalibration = calibration;
+                        }
+                        else
+                        {
+                            this.ExternalCalibration = calibration;
                         }
                     }
-                    catch (SqlException ex)
+
+                    if (this.InternalCalibration == null)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                        this.InternalCalibration = EquipmentCalibrationDefinition.Empty;
                     }
-                    catch (FormatException ex)
+
+                    if (this.ExternalCalibration == null)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                        this.ExternalCalibration = EquipmentCalibrationDefinition.Empty;
                     }
-                    catch (ArgumentNullException ex)
+                }
+                catch (SqlException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                }
+                catch (FormatException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                }
+                catch (ArgumentNullException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                }
+                catch (ArgumentException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                }
+                catch (NullReferenceException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                }
+                catch (InvalidCastException ex)
+                {
+                    ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
-                    }
-                    catch (NullReferenceException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
-                    }
-                    catch (InvalidCastException ex)
-                    {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId));
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
+                        cmd.Connection.Close();
                     }
                 }
             }

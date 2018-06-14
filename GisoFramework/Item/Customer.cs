@@ -26,7 +26,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return new Customer
+                return new Customer()
                 {
                     Id = 0,
                     Description = string.Empty,
@@ -202,13 +202,13 @@ namespace GisoFramework.Item
                             if (rdr.HasRows)
                             {
                                 rdr.Read();
-                                res = new Customer
+                                res = new Customer()
                                 {
                                     Id = rdr.GetInt64(ColumnsCustomerGetBy.Id),
                                     CompanyId = rdr.GetInt32(ColumnsCustomerGetBy.CompanyId),
                                     Description = rdr.GetString(ColumnsCustomerGetBy.Description),
                                     Active = rdr.GetBoolean(ColumnsCustomerGetBy.Active),
-                                    ModifiedBy = new ApplicationUser
+                                    ModifiedBy = new ApplicationUser()
                                     {
                                         Id = rdr.GetInt32(ColumnsCustomerGetBy.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsCustomerGetBy.ModifiedByUserName)
@@ -263,6 +263,7 @@ namespace GisoFramework.Item
                     deleteFunction,
                     Tools.LiteralQuote(Tools.JsonCompliant(this.Description)),
                     Tools.JsonCompliant(dictionary["Common_Delete"]));
+
             }
 
             var iconEdit = string.Format(
