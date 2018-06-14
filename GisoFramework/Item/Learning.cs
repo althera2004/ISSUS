@@ -20,23 +20,18 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implementation of Learning class
-    /// </summary>
+    /// <summary>Implementation of Learning class</summary>
     public class Learning : BaseItem
     {
-        /// <summary>
-        /// Assistance of learning
-        /// </summary>
+        /// <summary>Assistance of learning</summary>
         private List<LearningAssistance> assistance;
 
-        /// <summary>
-        /// Initializes a new instance of the Learning class.
-        /// </summary>
+        /// <summary>Initializes a new instance of the Learning class.</summary>
         public Learning()
         {
             this.Hours = 0;
             this.Amount = 0;
+            this.assistance = new List<LearningAssistance>();
         }
 
         /// <summary>
@@ -126,64 +121,40 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets or sets status of learning
-        /// </summary>
+        /// <summary>Gets or sets status of learning</summary>
         public int Status { get; set; }
 
-        /// <summary>
-        /// Gets or sets estimated date of learning
-        /// </summary>
+        /// <summary>Gets or sets estimated date of learning</summary>
         public DateTime DateEstimated { get; set; }
 
-        /// <summary>
-        /// Gets or sets real start date
-        /// </summary>
+        /// <summary>Gets or sets real start date</summary>
         public DateTime? RealStart { get; set; }
 
-        /// <summary>
-        /// Gets or sets real finish date
-        /// </summary>
+        /// <summary>Gets or sets real finish date</summary>
         public DateTime? RealFinish { get; set; }
 
-        /// <summary>
-        /// Gets or sets master of learning
-        /// </summary>
+        /// <summary>Gets or sets master of learning</summary>
         public string Master { get; set; }
 
-        /// <summary>
-        /// Gets or sets number of hours of learning
-        /// </summary>
+        /// <summary>Gets or sets number of hours of learning</summary>
         public long Hours { get; set; }
 
-        /// <summary>
-        /// Gets or sets the total amount of learning
-        /// </summary>
+        /// <summary>Gets or sets the total amount of learning</summary>
         public decimal Amount { get; set; }
 
-        /// <summary>
-        /// Gets or sets notes for learning
-        /// </summary>
+        /// <summary>Gets or sets notes for learning</summary>
         public string Notes { get; set; }
 
-        /// <summary>
-        /// Gets or sets  the year of learning action
-        /// </summary>
+        /// <summary>Gets or sets  the year of learning action</summary>
         public int Year { get; set; }
 
-        /// <summary>
-        /// Gets or sets the objective of learning
-        /// </summary>
+        /// <summary>Gets or sets the objective of learning</summary>
         public string Objective { get; set; }
 
-        /// <summary>
-        /// Gets or sets the methodology of learning
-        /// </summary>
+        /// <summary>Gets or sets the methodology of learning</summary>
         public string Methodology { get; set; }
 
-        /// <summary>
-        /// Gets the learning assistance
-        /// </summary>
+        /// <summary>Gets the learning assistance</summary>
         public ReadOnlyCollection<LearningAssistance> Assistance
         {
             get
@@ -286,9 +257,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets a link to learing profile
-        /// </summary>
+        /// <summary>Gets a link to learing profile</summary>
         public override string Link
         {
             get
@@ -297,9 +266,7 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Gets differences of two learning objects
-        /// </summary>
+        /// <summary>Gets differences of two learning objects</summary>
         /// <param name="oldLearning">Old learning to compare</param>
         /// <param name="newLearning">New learning to compare</param>
         /// <returns>String with key value pairs of differences</returns>
@@ -316,7 +283,7 @@ namespace GisoFramework.Item
             {
                 first = false;
                 res.Append(",");
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"Description:{0}", newLearning.Description));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"Description:{0}", newLearning.Description));
             }
 
             if (oldLearning.Status != newLearning.Status)
@@ -330,7 +297,7 @@ namespace GisoFramework.Item
                     res.Append(",");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"Status:{0}", newLearning.Status));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"Status:{0}", newLearning.Status));
             }
 
             if (oldLearning.DateEstimated != newLearning.DateEstimated)
@@ -344,7 +311,7 @@ namespace GisoFramework.Item
                     res.Append(",");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"DateEstimated:{0:dd/MM/yyyy}", newLearning.DateEstimated));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"DateEstimated:{0:dd/MM/yyyy}", newLearning.DateEstimated));
             }
 
             if (oldLearning.RealStart != newLearning.RealStart)
@@ -358,7 +325,7 @@ namespace GisoFramework.Item
                     res.Append(",");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"RealStart:{0:dd/MM/yyyy}", newLearning.RealStart));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"RealStart:{0:dd/MM/yyyy}", newLearning.RealStart));
             }
 
             if (oldLearning.RealFinish != newLearning.RealFinish)
@@ -372,7 +339,7 @@ namespace GisoFramework.Item
                     res.Append(",");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"RealFinish:{0:dd/MM/yyyy}", newLearning.RealFinish));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"RealFinish:{0:dd/MM/yyyy}", newLearning.RealFinish));
             }
 
             if (oldLearning.Hours != newLearning.Hours)
@@ -386,7 +353,7 @@ namespace GisoFramework.Item
                     res.Append(",");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"Hours:{0}", newLearning.Hours));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"Hours:{0}", newLearning.Hours));
             }
 
             if (oldLearning.Amount != newLearning.Amount)
@@ -400,7 +367,7 @@ namespace GisoFramework.Item
                     res.Append(",");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"Amount:{0}", newLearning.Amount));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"Amount:{0}", newLearning.Amount));
             }
 
             if (oldLearning.Master != newLearning.Master)
@@ -414,7 +381,7 @@ namespace GisoFramework.Item
                     res.Append(",");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"Master:{0}", newLearning.Master));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"Master:{0}", newLearning.Master));
             }
 
             if (oldLearning.Notes != newLearning.Notes)
@@ -428,7 +395,7 @@ namespace GisoFramework.Item
                     res.Append(",");
                 }
 
-                res.Append(string.Format(CultureInfo.GetCultureInfo("en-us"), @"Notes:{0}", newLearning.Notes));
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"Notes:{0}", newLearning.Notes));
             }
 
             if (oldLearning.Year != newLearning.Year)
@@ -514,81 +481,8 @@ namespace GisoFramework.Item
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
 
-            // this.ObtainAssistance();
-
             string month = Tools.TranslatedMonth(this.DateEstimated.Month, dictionary);
-
             var res = new StringBuilder();
-            /*List<LearningAssistance> succededAssistants = new List<LearningAssistance>();
-            List<LearningAssistance> completedAssistants = new List<LearningAssistance>();
-            List<LearningAssistance> uncompletesAssistants = new List<LearningAssistance>();
-            List<LearningAssistance> preAssistants = new List<LearningAssistance>();
-
-            StringBuilder succededAssistantsText = new StringBuilder();
-            StringBuilder completedAssistantsText = new StringBuilder();
-            StringBuilder uncompletedAssistantsText = new StringBuilder();
-            StringBuilder preAssistantsText = new StringBuilder();
-
-            foreach (LearningAssistance assistanceItem in this.Assistance)
-            {
-                if (!assistanceItem.Completed.HasValue)
-                {
-                    preAssistants.Add(assistanceItem);
-                }
-                else
-                {
-                    if (assistanceItem.Success.HasValue)
-                    {
-                        if (assistanceItem.Success.Value)
-                        {
-                            succededAssistants.Add(assistanceItem);
-                        }
-                        else
-                        {
-                            if (assistanceItem.Completed.Value)
-                            {
-                                completedAssistants.Add(assistanceItem);
-                            }
-                            else
-                            {
-                                uncompletesAssistants.Add(assistanceItem);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (assistanceItem.Completed.Value)
-                        {
-                            completedAssistants.Add(assistanceItem);
-                        }
-                        else
-                        {
-                            uncompletesAssistants.Add(assistanceItem);
-                        }
-                    }
-                }
-            }
-
-            foreach (LearningAssistance successAssistance in succededAssistants)
-            {
-                succededAssistantsText.Append(successAssistance.Employee.LearningTag(dictionary, admin));
-            }
-
-            foreach (LearningAssistance completedAssistance in completedAssistants)
-            {
-                completedAssistantsText.Append(completedAssistance.Employee.LearningTag(dictionary, admin));
-            }
-
-            foreach (LearningAssistance uncompletedAssistance in uncompletesAssistants)
-            {
-                uncompletedAssistantsText.Append(uncompletedAssistance.Employee.LearningTag(dictionary, admin));
-            }
-
-            foreach (LearningAssistance preAssistance in preAssistants)
-            {
-                preAssistantsText.Append(preAssistance.Employee.LearningTag(dictionary, admin));
-            }*/
-
             string iconDeleteAction = "LearningDelete";
 
             if (this.Status > 0)
@@ -616,51 +510,9 @@ namespace GisoFramework.Item
             res.Append("<td>").Append(this.Link).Append("</td>");
             res.Append("<td align=\"center\" style=\"width:100px;white-space: nowrap;\">");
             res.AppendFormat(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.DateEstimated);
-            //res.Append("<td align=\"center\" class=\"hidden-480\">").Append(month).Append(" ").Append(this.DateEstimated.Year).Append("</td>");
             res.Append("<td align=\"center\" style=\"width:100px;white-space: nowrap;\">");
             res.AppendFormat(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.RealFinish);
-
-            /*bool existsAssistants = false;
-            if (succededAssistantsText.ToString().Length > 0)
-            {
-                res.Append(dictionary["Item_LearningAssistant_Status_Evaluated"]).Append("<div class=\"tags\">");
-                res.Append(succededAssistantsText).Append("</div>");
-                existsAssistants = true;
-            }
-
-            if (completedAssistantsText.ToString().Length > 0)
-            {
-                res.Append(dictionary["Item_LearningAssistant_Status_Done"]).Append("<div class=\"tags\">");
-                res.Append(completedAssistantsText).Append("</div>");
-                existsAssistants = true;
-            }
-
-            if (uncompletedAssistantsText.ToString().Length > 0)
-            {
-                res.Append(dictionary["Common_No"]).Append(" ").Append(dictionary["Item_LearningAssistant_Status_Done"].ToLower(CultureInfo.GetCultureInfo("en-us"))).Append("<div class=\"tags\">");
-                res.Append(uncompletedAssistantsText).Append("</div>");
-                existsAssistants = true;
-            }
-
-            if (preAssistantsText.ToString().Length > 0)
-            {
-                res.Append(dictionary["Item_LearningAssistant_Status_Selected"]).Append("<div class=\"tags\">");
-                res.Append(preAssistantsText).Append("</div>");
-                existsAssistants = true;
-            }
-
-            if (existsAssistants == false)
-            {
-                res.AppendFormat(
-                    CultureInfo.InvariantCulture,
-                    @"<div style=""padding:8px;""><i>{0}</i></div>",
-                    dictionary["Item_Learning_Message_NoAssistants"]);
-            }*/
-
-            string amountText = string.Format(CultureInfo.GetCultureInfo("es-e"), "{0:#,##0.00}", this.Amount);
-
-            //string import = string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.Amount).Replace(".", ",");
-
+            string amountText = string.Format(CultureInfo.GetCultureInfo("es-es"), "{0:#,##0.00}", this.Amount);
 
             res.Append("</td>");
 
@@ -690,9 +542,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        /// <summary>
-        /// Insert a learning into database
-        /// </summary>
+        /// <summary>Insert a learning into database</summary>
         /// <param name="userId">Identifier of user that makes actions</param>
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
@@ -769,7 +619,7 @@ namespace GisoFramework.Item
 
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
-                        this.Id = Convert.ToInt32(cmd.Parameters["@LearningId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        this.Id = Convert.ToInt32(cmd.Parameters["@LearningId"].Value, CultureInfo.InvariantCulture);
                         res.SetSuccess(string.Format(CultureInfo.InvariantCulture, "{0}", cmd.Parameters["@LearningId"].Value.ToString()));
                     }
                     catch (SqlException ex)
@@ -894,10 +744,8 @@ namespace GisoFramework.Item
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@LearningId", SqlDbType.Int);
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters["@LearningId"].Value = this.Id;
-                        cmd.Parameters["@CompanyId"].Value = this.CompanyId;
+                        cmd.Parameters.Add(DataParameter.Input("@LearningId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                         cmd.Connection.Open();
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -916,7 +764,12 @@ namespace GisoFramework.Item
                                     Id = rdr.GetInt32(ColumnsLearningGetAssistance.LearningAssistanceId),
                                     Date = rdr.GetDateTime(ColumnsLearningGetAssistance.DateEstimatedDate),
                                     JobPosition = jobPosition,
-                                    Employee = new Employee() { Id = rdr.GetInt32(ColumnsLearningGetAssistance.EmployeeId), Name = rdr.GetString(ColumnsLearningGetAssistance.Name), LastName = rdr.GetString(ColumnsLearningGetAssistance.LastName) },
+                                    Employee = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsLearningGetAssistance.EmployeeId),
+                                        Name = rdr.GetString(ColumnsLearningGetAssistance.Name),
+                                        LastName = rdr.GetString(ColumnsLearningGetAssistance.LastName)
+                                    },
                                     Learning = this
                                 };
 

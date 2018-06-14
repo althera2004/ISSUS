@@ -250,6 +250,12 @@ function ItemRenderTable(list) {
             else if (item.Origin === 4) {
                 iconDelete.onclick = function () { NoDeleteBusinessRisk(); };
             }
+            else if (item.Origin === 5) {
+                iconDelete.onclick = function () { NoDeleteObjetive(); };
+            }
+            else if (item.Origin === 6) {
+                iconDelete.onclick = function () { NoDeleteOportunity(); };
+            }
             else {
                 iconDelete.onclick = function () { IncidentActionDelete(this); };
             }
@@ -379,6 +385,14 @@ function IncidentActiongetById(id) {
 
 function NoDeleteBusinessRisk() {
     alertInfoUI(Dictionary.Item_IncidentAction_ErrorMessage_NoDeleteBusinessRisk, null);
+}
+
+function NoDeleteObjetive() {
+    alertInfoUI(Dictionary.Item_IncidentAction_ErrorMessage_NoDeleteObjetive, null);
+}
+
+function NoDeleteOportunity() {
+    alertInfoUI(Dictionary.Item_IncidentAction_ErrorMessage_NoDeleteOportunity, null);
 }
 
 function NoDeleteIncident() {

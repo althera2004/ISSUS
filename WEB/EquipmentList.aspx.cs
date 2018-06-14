@@ -25,9 +25,6 @@ public partial class EquipmentList : Page
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     public string EquipmentsJson
     {
         get
@@ -59,13 +56,7 @@ public partial class EquipmentList : Page
     }
 
     /// <summary>Gets the dictionary for interface texts</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public UIDataHeader DataHeader { get; set; }
 
@@ -98,7 +89,7 @@ public partial class EquipmentList : Page
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.company = this.Session["Company"] as Company;
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
@@ -112,10 +103,10 @@ public partial class EquipmentList : Page
         }
 
         this.DataHeader = new UIDataHeader { Id = "ListDataHeader", ActionsItem = 2 };
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Equipment_Header_Code"], Sortable = true, Filterable = true, HiddenMobile = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Equipment_Header_Description"], Sortable = true, Filterable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Equipment_Header_Location"], Sortable = true, HiddenMobile = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th3", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_Equipment_Header_Responsible"], Sortable = true, HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_Equipment_Header_Code"], Sortable = true, Filterable = true, HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_Equipment_Header_Description"], Sortable = true, Filterable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_Equipment_Header_Location"], Sortable = true, HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th3", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_Equipment_Header_Responsible"], Sortable = true, HiddenMobile = true });
 
         bool grantWrite = UserGrant.HasWriteGrant(this.user.Grants, ApplicationGrant.Equipment);
         bool grantDelete = UserGrant.HasDeleteGrant(this.user.Grants, ApplicationGrant.Equipment);

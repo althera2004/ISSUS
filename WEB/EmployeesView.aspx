@@ -24,7 +24,7 @@
     <script type="text/javascript" src="/Document-Viewer/ttw-document-viewer.min.js"></script>
     <script type="text/javascript">
         var employeeId = <%=this.EmployeeId %>;
-        var employee = <%=this.EmployeeJson %>;
+        var employee = <%=this.Employee.Json %>;
         var employeeSkills = <%=this.EmployeeSkills %>;
         var departmentsEmployee = <%= this.DepartmentsEmployeeJson %>;
         var jobPositionEmployee = <%= this.JobPositionEmployeeJson %>

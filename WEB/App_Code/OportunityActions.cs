@@ -29,6 +29,16 @@ public class OportunityActions : WebService {
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
+    public ActionResult SetLayout(int type)
+    {
+        Session["BusinnessListLayout"] = type;
+        var res = ActionResult.NoAction;
+        res.SetSuccess();
+        return res;
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
     public ActionResult Activate(int oportunityId, int companyId, int applicationUserId)
     {
         return Oportunity.Activate(oportunityId, companyId, applicationUserId);
@@ -73,7 +83,6 @@ public class OportunityActions : WebService {
         filter.Append(Tools.JsonPair("rulesId", rulesId)).Append(",");
         filter.Append(Tools.JsonPair("processId", processId)).Append("}");
         this.Session["OportunityFilter"] = filter.ToString();
-
         return Oportunity.FilterList(companyId, from, to, rulesId, processId);
     }
 }

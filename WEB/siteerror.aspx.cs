@@ -87,10 +87,12 @@ public partial class SiteError : Page
             {
                 using (var mail = new MailMessage(senderMail, to)
                 {
-                    IsBodyHtml = true
+                    IsBodyHtml = true,
+                    Body = exception.Message,
+                    Subject = "Error en " + ConfigurationManager.AppSettings["issusVersion"].ToString()
                 })
                 {
-                    client.Send(mail);
+                    //client.Send(mail);
                 }
             }
         }

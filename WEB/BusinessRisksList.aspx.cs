@@ -24,14 +24,6 @@ public partial class BusinessRisksList : Page
         }
     }
 
-    public string UserLanguage
-    {
-        get
-        {
-            return this.user.Language;
-        }
-    }
-
     public Company Company { get; set; }
 
     /// <summary> Master of page</summary>
@@ -42,6 +34,19 @@ public partial class BusinessRisksList : Page
 
     /// <summary>BusinessRiskId of page</summary>
     private long businessRiskId;
+
+    public int Layout
+    {
+        get
+        {
+            if (Session["BusinnessListLayout"] == null)
+            {
+                return 1;
+            }
+
+            return Convert.ToInt32(Session["BusinnessListLayout"]);
+        }
+    }
 
     /// <summary>Public access to businessRisk</summary>
     public BusinessRisk BusinessRisk

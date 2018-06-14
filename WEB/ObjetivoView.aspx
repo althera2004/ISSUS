@@ -215,7 +215,7 @@
                                                                     <th id="th2" onclick="Sort(this,'ObjetivoActionsTable','text',false);" class="sort" style="width: 60px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"]%></th>
                                                                     <th id="th3" onclick="Sort(this,'ObjetivoActionsTable','date',false);" class="sort"  style="width: 100px;"><%=this.Dictionary["Item_IncidentAction_Header_ImplementDate"]%></th>
                                                                     <th id="th4" onclick="Sort(this,'ObjetivoActionsTable','money',false);" class="sort" style="width: 150px;"><%=this.Dictionary["Item_IncidentAction_Header_Cost"]%></th>
-                                                                    <th style="width: 63px;">&nbsp;</th>
+                                                                    <th style="width: 107px;">&nbsp;</th>
                                                                 </tr>
                                                             </thead>
                                                         </table>
@@ -283,7 +283,7 @@
 																            <span id="NumberCostsActionsTotal"></span>
 															            </i>
 														            </th>
-                                                                    <th style="width:63px;">&nbsp;</th>
+                                                                    <th style="width:107px;">&nbsp;</th>
                                                                 </tr>
                                                             </thead>
                                                         </table>
@@ -558,6 +558,10 @@
                             
                             <div id="dialogDeleteRecord" class="hide" style="width:500px;">
                                 <p><strong><span id="dialogDeleteName"></span></strong>?</p>
+                            </div>
+
+                            <div id="IncidentActionDeleteDialog" class="hide" style="width:500px;">
+                                <p>&nbsp;<strong><span id="IncidentActionDeleteName"></span></strong>?</p>
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">

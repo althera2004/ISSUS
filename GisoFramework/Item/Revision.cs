@@ -78,7 +78,7 @@ namespace GisoFramework.Item
                         ""DaysPeriode"":{6},
                         ""Laboral"":{7},
                         ""CreatedBy"":{8},
-                        ""CreatedOn"":""{8:dd/MM/yyyy}"",
+                        ""CreatedOn"":""{9:dd/MM/yyyy}"",
                         ""ModifiedBy"":{10},
                         ""ModifiedOn"":""{11:dd/MM/yyyy}"",
                         ""Active"":{12}}}",

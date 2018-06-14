@@ -33,7 +33,7 @@ namespace GisoFramework.Item
                 return filter2 == null;
             }
 
-            if (filter1 != null && filter2 == null)
+            if (filter2 == null)
             {
                 return false;
             }

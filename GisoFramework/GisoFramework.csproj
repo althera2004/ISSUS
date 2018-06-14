@@ -263,7 +263,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="UserInterface\BreadCrumbItem.cs" />
-    <Compile Include="UserInterface\LeftMenuOption.cs" />
     <Compile Include="UserInterface\MenuOption.cs" />
     <Compile Include="UserInterface\MenuShortcut.cs" />
     <Compile Include="UserInterface\Shortcut.cs" />

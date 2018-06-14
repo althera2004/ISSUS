@@ -346,8 +346,9 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         using (var rdr = cmd.ExecuteReader())
                         {
-                            while (rdr.Read())
+                            if(rdr.HasRows)
                             {
+                                rdr.Read();
                                 var attach = new UploadFile
                                 {
                                     Id = rdr.GetInt64(ColumnsUploadFileGet.Id),
@@ -357,13 +358,13 @@ namespace GisoFramework.Item
                                     FileName = rdr.GetString(ColumnsUploadFileGet.FileName),
                                     Description = rdr.GetString(ColumnsUploadFileGet.Description),
                                     Extension = rdr.GetString(ColumnsUploadFileGet.Extension).Trim().ToUpperInvariant(),
-                                    CreatedBy = new ApplicationUser()
+                                    CreatedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsUploadFileGet.CreatedBy),
                                         UserName = rdr.GetString(ColumnsUploadFileGet.CreatdByLogin)
                                     },
                                     CreatedOn = rdr.GetDateTime(ColumnsUploadFileGet.CreatedOn),
-                                    ModifiedBy = new ApplicationUser()
+                                    ModifiedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsUploadFileGet.ModifiedBy),
                                         UserName = rdr.GetString(ColumnsUploadFileGet.ModifiedByLogin)

@@ -6,20 +6,6 @@ var lockOrderList = false;
 
 window.onload = function () {
     $("#build").hide();
-    /*$(".breadcrumb").css("font-size", "16px");
-    $(".breadcrumb").css("margin-top", "8px");
-    $(".breadcrumb .active").css("font-weight", "bold");
-    $(".breadcrumb .active").css("font-size", "22px");
-    $(".page-header").hide();
-    $("#FooterButton").css("height", "40px");
-    $("#ImgCompany").hide();
-    $("#HeaderButtons").hide();
-    $("#FooterButton").html($("#ItemButtons").html());
-    $("#FooterStatus").html($("#ItemStatus").html());
-    $("#FooterStatus").css("text-align", "left");
-    $("#FooterStatus").css("padding-left", ($("#sidebar").width() + 10) + "px");
-    $(".form-actions").hide();
-    $("#oldFormFooter").html("");*/
 
     IndicadorTypeLayout();
     FillComboUnidad();
@@ -43,10 +29,7 @@ window.onload = function () {
     }
 
 	if (typeof Indicador.EndDate !== "undefined" && Indicador.EndDate !== null) {
-        //gtk aquí ocultar botón
 		$("#BtnRecordNew").hide();
-		//alertInfoUI(Dictionary.Item_Indicador_Message_IndicadorClosed, null);
-        //return false;
     }
 
     Resize();
@@ -94,9 +77,22 @@ window.onload = function () {
 
     RenderTableHistorico();
 
-    if (document.location.toString().indexOf("&Tab=Records") != -1) {
-        $("#Tabrecords a").click();
-        $("#BtnRecordNew").click();
+    if (ApplicationUser.Grants.Indicador.Read === false) {
+        $("input").attr("disabled", "disabled");
+        $("textarea").attr("disabled", "disabled");
+        $("select").attr("disabled", "disabled");
+        $("#BtnAnular").hide();
+        $("#BtnRestore").hide();
+        $("#BtnSave").hide();
+        $("#Tabrecords").hide();
+        $("#Tabgraphics").hide();
+        $("#Tabhistoric").hide();
+    }
+    else {
+        if (document.location.toString().indexOf("&Tab=Records") != -1) {
+            $("#Tabrecords a").click();
+            $("#BtnRecordNew").click();
+        }
     }
 }
 

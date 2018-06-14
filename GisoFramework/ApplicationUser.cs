@@ -1507,11 +1507,6 @@ namespace GisoFramework
              *   @GrantToDelete bit,
              *   @UserId int */
             var res = ActionResult.NoAction;
-            if (grant == null)
-            {
-                return res;
-            }
-
             using (var cmd = new SqlCommand("ApplicationUserGrant_Save"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -1768,6 +1763,7 @@ namespace GisoFramework
             /* ALTER PROCEDURE ApplicationUser_GetGrants
              * @ApplicationUserId int */
             this.grants = new List<UserGrant>();
+
             using (var cmd = new SqlCommand("ApplicationUser_GetGrants"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))

@@ -529,6 +529,18 @@ window.onload = function () {
         $("#BtnRestaurar").show();
         AnulateLayout();
     }
+
+    if (ApplicationUser.Grants.IncidentActions.Read === false) {
+        $("input").attr("disabled", "disabled");
+        $("textarea").attr("disabled", "disabled");
+        $("select").attr("disabled", "disabled");
+        $("#BtnAnular").hide();
+        $("#BtnRestore").hide();
+        $("#BtnPrint").hide();
+        $("#BtnSave").hide();
+        $("#Tabcostes").hide();
+        $("#TabuploadFiles").hide();
+    }
 }
 
 window.onresize = function () { Resize(); }

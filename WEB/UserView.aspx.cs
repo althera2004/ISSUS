@@ -252,14 +252,15 @@ public partial class UserView : Page
             {
                 1,
                 2,
-                6
+                6,
+                26
             };
 
             var res = new StringBuilder();
             var permisos = this.userItem.EffectiveGrants.OrderBy(o => o.Item.Description).ToList();
             foreach (var grant in permisos)
             {
-                if(grantsException.Contains(grant.Item.Code))
+                if(grant.Item.Code == 26)
                 {
                     continue;
                 }

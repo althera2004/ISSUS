@@ -1759,6 +1759,11 @@ function Resize() {
     listTable.style.height = (containerHeight - 450) + 'px';
 }
 
+function PrintData() {
+    window.open("/export/PrintBusinessriskData.aspx?id=" + BusinessRiskId + "&companyId=" + Company.Id);
+    return false;
+}
+
 window.onload = function () {
     Resize();
 
@@ -1768,6 +1773,13 @@ window.onload = function () {
     $("#Tabgraphic").on("click", HideAnulateActionButton);
     $("#TabhistoryActions").on("click", HideAnulateActionButton);
     $("#TabuploadFiles").on("click", HideAnulateActionButton);
+
+    if (BusinessRiskId > 0) {
+        $("#BtnPrint").on("click", PrintData);
+    }
+    else {
+        $("#BtnPrint").hide();
+    }
 
     var res = "&nbsp;<button class=\"btn btn-danger\" type=\"button\" id=\"BtnAnular\" style=\"display:inline-block;\"><i class=\"icon-ban-circle bigger-110\"></i>" + Dictionary.Item_BusinessRisk_Button_CloseAction + "</button>";
     res += "&nbsp;<button class=\"btn btn-primary\" type=\"button\" id=\"BtnRestaurar\" style=\"display:inline-block;\"><i class=\"icon-undo bigger-110\"></i>" + Dictionary.Item_BusinessRisk_Button_RestoreAction + "</button>";

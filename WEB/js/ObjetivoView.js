@@ -428,22 +428,20 @@ function RenderRegistroRow(registro) {
     row += "    <td style=\"width:35px;\">";
     row += "        <i title=\"" + statusLabel + "\" class=\"" + icon + "\" style=\"color:" + color + ";\"></i>";
     row += "    </td>";
-    // row += "    <td><a href=\"IndicadorView.aspx?id=" + registro.Indicador.Id + "\">" + registro.Indicador.Name + "</a></td>";
     row += "    <td align=\"right\" style=\"width:90px;\">" + ToMoneyFormat(registro.Value,2) + "</td>";
     row += "    <td align=\"center\" style=\"width:90px;\">" + registro.Date + "</td>";
     row += "    <td>" + registro.Comments + "</td>";
     row += "    <td align=\"right\" style=\"width:120px;\">" + registro.MetaComparer + " " + metaText + "</td>";
-    //row += "    <td align=\"right\" style=\"width:120px;\">" + registro.AlarmaComparer + " " + ToMoneyFormat(registro.Alarma,2) + "</td>";
     row += "    <td style=\"width:175px;\">" + responsibleName + "</td>";
     row += "    <td style=\"width:90px;\">";
 	
 	//gtk aquí ocultar botón
-	if (ItemData.EndDate !== null) {
+	if (ItemData.EndDate !== null || ApplicationUser.Grants.Indicador.Write === false) {
         row += "        &nbsp;";
 		row += "        &nbsp;";
 		row += "        &nbsp;";
     }
-	else {
+    else {
 		row += "         <span title=\"" + Dictionary.Common_Edit + "\" class=\"btn btn-xs btn-info\" onclick=\"RecordEdit(" + registro.Id + ");\"><i class=\"icon-edit bigger-120\"></i></span>";
 		row += "        &nbsp;";
 		row += "        <span title=\"" + Dictionary.Common_Delete + "\" class=\"btn btn-xs btn-danger\" onclick=\"RecordDelete(" + registro.Id + ");\"><i class=\"icon-trash bigger-120\"></i></span>";
@@ -645,6 +643,11 @@ function RecordNew() {
         alertInfoUI(Dictionary.Item_Objetivo_Message_NoMeta, null);
         return false;
     }*/
+
+    if (ApplicationUser.Grants.Indicador.Write === false && document.getElementById("Contentholder1_RVinculatedYes").checked === true) {
+        alertInfoUI(Dictionary.Item_Objetivo_Message_IndicatorNoGrants, null);
+        return false;
+    }
 
     if (ItemData.EndDate !== null) {
         alertInfoUI(Dictionary.Item_Objetivo_Message_ObjetivoClosed, null);
@@ -1466,8 +1469,15 @@ function RenderActionsRow(actionData) {
     res += "<td align=\"center\" style=\"width:60px;\">" + actionData.Status.split('*').join('"') + "</td>";
     res += "<td align=\"center\" style=\"width: 100px;\">" + actionData.PreviewDate + "</td>";
     res += "<td align=\"right\" style=\"width:150px;\">" + ToMoneyFormat(actionData.Cost, 2) + "</td>";
-    res += "<td style=\"width:45px;\">";
-    res += "    <span class=\"btn btn-xs btn-info\" id=\"00001\" onclick=\"GoAction(this);\"><i class=\"icon-edit bigger- 120\"></i></span>";
+    res += "<td style=\"width:90px;\">";
+    if (ApplicationUser.Grants.IncidentActions.Write === true) {
+        res += "    <span class=\"btn btn-xs btn-info\" onclick=\"GoAction(this);\"><i class=\"icon-edit bigger- 120\"></i></span>";
+        res += "    &nbsp;"
+        res += "    <span class=\"btn btn-xs btn-danger\" onclick=\"IncidentActionDelete(this);\"><i class=\"icon-trash bigger- 120\"></i></span>";
+    }
+    else {
+        res += "    <span class=\"btn btn-xs btn-info\" onclick=\"GoAction(this);\"><i class=\"icon-eye-open bigger- 120\"></i></span>";
+    }
     res += "</td></tr>";
     return res;
 }
@@ -1585,4 +1595,79 @@ function NewActionConfirmed(saveObjetivo, id) {
     }
     
     document.location = "/ActionView.aspx?id=" + id + "&o=" + ItemData.Id;
+}
+
+
+var IncidentActionSelectedId;
+var IncidentActionSelected;
+function IncidentActionDelete(sender) {
+    IncidentActionSelectedId = sender.parentNode.parentNode.id * 1;
+    IncidentActionSelected = IncidentActiongetById(IncidentActionSelectedId);
+    console.log("IncidentActionDelete", IncidentActionSelectedId);
+    if (IncidentActionSelected === null) { return false; }
+    $("#IncidentActionDeleteName").html(IncidentActionSelected.Description);
+    var dialog = $("#IncidentActionDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
+            [
+                {
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        IncidentActionDeleteConfirmed();
+                    }
+                },
+                {
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+}
+
+function IncidentActionDeleteConfirmed() {
+    var data = {
+        "incidentActionId": IncidentActionSelectedId,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
+    $("#IncidentActionDeleteDialog").dialog("close");
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/IncidentActionsActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            var temp = [];
+            for (var x = 0; x < Actions.length; x++) {
+                if (Actions[x].Id !== IncidentActionSelectedId) {
+                    temp.push(Actions[x]);
+                }
+            }
+
+            Actions = temp;
+            RenderActionsTable();
+        },
+        "error": function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function IncidentActiongetById(id) {
+    for (var x = 0; x < Actions.length; x++) {
+        if (Actions[x].Id === id) {
+            return Actions[x];
+        }
+    }
+    return null;
 }

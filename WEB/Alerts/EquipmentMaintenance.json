@@ -2,6 +2,7 @@
     CompanyId:0,
     ItemType:13,
     AlertDescription:"Mantenimiento configurado sin registro inicial",
+    "ItemUrl": "EquipmentView.aspx?id=",
     Query:"select distinct
 	E.Id,
 	E.Description,

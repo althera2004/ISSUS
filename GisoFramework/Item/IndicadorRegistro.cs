@@ -422,7 +422,7 @@ namespace GisoFramework.Item
             }
             string pattenr = @"<tr><td align=""right"" style=""width:90px;"">{1}</td><td align=""center"" style=""width:90px;"">{2:dd/MM/yyyy}</td><td>{3}</td><td align=""right"" style=""width:90px;"">{4}</td><td align=""right"" style=""width:90px;"">{5}</td><td style=""width:150px;"">{6}</td><td style=""width:90px;"">{7}&nbsp;{8}</td></tr>";
             return string.Format(
-                CultureInfo.GetCultureInfo("en-us"),
+                CultureInfo.InvariantCulture,
                 pattenr,
                 this.Indicador.Link,
                 this.Value,

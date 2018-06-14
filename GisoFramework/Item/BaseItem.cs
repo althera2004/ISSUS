@@ -76,6 +76,11 @@ namespace GisoFramework.Item
                         OldValue = property.GetValue(item1, null)
                     };
 
+                    if (variance.NewValue == null && variance.OldValue == null)
+                    {
+                        continue;
+                    }
+
                     if (variance.NewValue == null && variance.OldValue != null)
                     {
                         variances.Add(variance);
@@ -83,9 +88,6 @@ namespace GisoFramework.Item
                     else if (variance.NewValue != null && variance.OldValue == null)
                     {
                         variances.Add(variance);
-                    }
-                    else if (variance.NewValue == null && variance.OldValue == null)
-                    {
                     }
                     else if (variance.OldValue.GetType().FullName.StartsWith("Giso", StringComparison.Ordinal))
                     {
@@ -117,6 +119,11 @@ namespace GisoFramework.Item
 
                 try
                 {
+                    if (variance.OldValue == null && variance.NewValue == null)
+                    {
+                        continue;
+                    }
+
                     if (variance.OldValue == null)
                     {
                         string newValue = variance.NewValue.ToString();

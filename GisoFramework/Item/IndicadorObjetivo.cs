@@ -234,7 +234,7 @@ namespace GisoFramework.Item
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    @"{{""IndicadorId"":{1},""ObjetivoId"":{1},""CompanyId"":{2},""Active"":{3}}}",
+                    @"{{""IndicadorId"":{0},""ObjetivoId"":{1},""CompanyId"":{2},""Active"":{3}}}",
                     this.IndicadorId,
                     this.ObjetivoId,
                     this.CompanyId,

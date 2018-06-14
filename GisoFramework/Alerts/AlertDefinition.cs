@@ -58,7 +58,7 @@ namespace GisoFramework.Alerts
         /// <returns>Alert definition structure</returns>
         public static ReadOnlyCollection<AlertDefinition> GetFromDisk(Dictionary<string, string> dictionary)
         {
-            int companyId = Convert.ToInt32(HttpContext.Current.Session["CompanyId"], CultureInfo.GetCultureInfo("en-us"));
+            int companyId = Convert.ToInt32(HttpContext.Current.Session["CompanyId"], CultureInfo.InvariantCulture);
             var res = new List<AlertDefinition>();
             string path = HttpContext.Current.Request.PhysicalApplicationPath + "Alerts";
             if (!path.EndsWith(@"\", StringComparison.Ordinal))

@@ -253,6 +253,7 @@ Item_BusinessRisk_LabelField_Causes::Causes
 Item_BusinessRisk_LabelField_CloseDate::Data de tancament
 Item_BusinessRisk_LabelField_Code::Codi
 Item_BusinessRisk_LabelField_DateStart::Data alta
+Item_BusinessRisk_LabelField_Status::Estat
 Item_BusinessRisk_LabelField_Description::Descripció
 Item_BusinessRisk_LabelField_InitialValue::Valor inicial
 Item_BusinessRisk_LabelField_IPR::IPR actual
@@ -299,7 +300,6 @@ Item_BusinessRisk_Title_FinalResult::Resultat d'anàlisi de risc
 Item_BusinessRisk_Title_Graph::Gràfic
 Item_BusinessRisk_Title_List::Llistat
 Item_BusinessRisk_Title_StartResult::Accions després d'avaluar el risc
-Item_BusinessRisk_Title_StartResult::Accions desprès d'evaluar el risc
 Item_BusinessRisk_Warning_ActionTabAvailable::A la pestanya d'acció s'ha de posar les dades de l'acció
 Item_BusinessRisk_Warning_ActionTabAvailable::A la pestanya d'acció, indicar les dades de l'acció
 Item_BusinessRisks::Riscos
@@ -1012,6 +1012,8 @@ Item_IncidentAction_ErrorMessage_CloseExecutorDate::Indicar la data de tancament
 Item_IncidentAction_ErrorMessage_CloseResponsibleRequired::Indicar el responsable del tancament
 Item_IncidentAction_ErrorMessage_DescriptionRequired::Indicar la descripció de l'acció
 Item_IncidentAction_ErrorMessage_NoDeleteBusinessRisk::Aquesta acció prové d'un anàlisi de risc.<br />No es pot eliminar
+Item_IncidentAction_ErrorMessage_NoDeleteObjetive::Aquesta acció prové d'un objectiu.<br />No es pot eliminar
+Item_IncidentAction_ErrorMessage_NoDeleteOportunity::Aquesta acció prové d'una oportunitat.<br />No es pot eliminar
 Item_IncidentAction_ErrorMessage_NoDeleteIncident::Aquesta acció està vinculada a una incidència.<br />No es pot eliminar
 Item_IncidentAction_ErrorMessage_OriginRequired::Seleccionar l'origen
 Item_IncidentAction_ErrorMessage_ReportedByRequired::Indicar qui reporta l'acció
@@ -1208,6 +1210,7 @@ Item_IndicentAction_Status3::En progrés
 Item_IndicentAction_Status4::Tancada
 Item_Indicents::Incidències
 Item_JobPosition::Càrrec
+Item_JobPosition_Graph::Visual
 Item_JobPosition_BreadCrumb_Edit::Fitxa del càrrec
 Item_JobPosition_Button_DepartmentsBAR::Gestionar departaments
 Item_JobPosition_Button_New::Afegir
@@ -1630,6 +1633,7 @@ Item_Objetivo_NewSavedMessage::Ja es poden fer servir les pestanyes de la fitxa
 Item_Objetivo_OpenActionsWarning::No es pot tancar mentres tingui accions obertes
 Item_Oportunity::Oportunitat
 Item_Oportunities::Oportunitats
+Item_Oportunity_New::Nova oportunitat
 Item_Oportunity_LabelField_Cost::Coste
 Item_Oportunity_LabelField_Impact::Impacto
 Item_Oportunity_Filter_NoData::No hi ha dades
@@ -1671,3 +1675,4 @@ Item_IncidentAction_Label_Oportunity::Oportunitat
 Item_Oportunity_Title_OportunityDetailsNou::Nova oportunitat
 DiskQuote_Other::Altres
 DiskQuote_Free::Espai lliure
+Item_Objetivo_Message_IndicatorNoGrants::No té permissos per afegir indicador

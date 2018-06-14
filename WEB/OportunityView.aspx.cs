@@ -566,7 +566,7 @@ public partial class OportunityView : Page
             this.OportunityId = Convert.ToInt64(this.Request.QueryString["id"]);
         }
 
-        string label = "Item_Oportunity_Title_OportunityDetails";
+        string label = "Item_Oportunity";
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         this.master.Titulo = label;
@@ -612,7 +612,8 @@ public partial class OportunityView : Page
         }
         else
         {
-            this.master.Titulo = label + this.Dictionary["Common_New"];
+            this.master.Titulo = this.Dictionary["Item_Oportunity_New"];
+            this.master.TitleInvariant = true;
             this.Oportunity = Oportunity.Empty;
             this.IncidentAction = IncidentAction.Empty;
         }

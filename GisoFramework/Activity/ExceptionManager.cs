@@ -56,14 +56,14 @@ namespace GisoFramework.Activity
             string path = HttpContext.Current.Request.PhysicalApplicationPath;
             if (!path.EndsWith("\\", StringComparison.Ordinal))
             {
-                path = string.Format(CultureInfo.InstalledUICulture, @"{0}\Log\Errors_{1}.txt", path, DateTime.Now.ToString("yyyyMMdd", CultureInfo.GetCultureInfo("es-es")));
+                path = string.Format(CultureInfo.InstalledUICulture, @"{0}\Log\Errors_{1}.txt", path, DateTime.Now.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
             }
             else
             {
-                path = string.Format(CultureInfo.InstalledUICulture, @"{0}Log\Errors_{1}.txt", path, DateTime.Now.ToString("yyyyMMdd", CultureInfo.GetCultureInfo("es-es")));
+                path = string.Format(CultureInfo.InstalledUICulture, @"{0}Log\Errors_{1}.txt", path, DateTime.Now.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
             }
 
-            string line = string.Format(CultureInfo.InstalledUICulture, "{0}::{1}::{2}::{3}", DateTime.Now.ToString("hh:mm:ss", CultureInfo.GetCultureInfo("es-es")), ex.Message, source, extraData);
+            string line = string.Format(CultureInfo.InstalledUICulture, "{0}::{1}::{2}::{3}", DateTime.Now.ToString("hh:mm:ss", CultureInfo.InvariantCulture), message, source, extraData);
 
             using (var output = new StreamWriter(path, true))
             {

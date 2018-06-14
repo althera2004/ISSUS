@@ -54,6 +54,7 @@ namespace GisoFramework.Item
         /// <param name="complete">Indicates if obtain the complete data</param>
         public Employee(long employeeId, bool complete)
         {
+            var source = string.Format(CultureInfo.InvariantCulture, "Employee({0},{1})", this.Id, complete);
             this.departments = new List<Department>();
             this.jobPositions = new List<JobPosition>();
             using (var cmd = new SqlCommand("Employee_GetById"))
@@ -122,15 +123,15 @@ namespace GisoFramework.Item
                     }
                     catch (SqlException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employee({0},{1})", this.Id, complete));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employee({0},{1})", this.Id, complete));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), "Employee({0},{1})", this.Id, complete));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -587,7 +588,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new Employee()
+                                res.Add(new Employee
                                 {
                                     Id = rdr.GetInt32(0),
                                     Name = rdr.GetString(1),
@@ -661,72 +662,6 @@ namespace GisoFramework.Item
         }
 
         public static ReadOnlyCollection<Employee> ByCompany(int companyId)
-        {
-            /* CREATE PROCEDURE Employee_GetByCompany
-             *   @CompanyId int */
-            var res = new List<Employee>();
-            using (var cmd = new SqlCommand("Employee_GetByCompany"))
-            {
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
-                {
-                    cmd.Connection = cnn;
-                    try
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                        cmd.Connection.Open();
-                        using (var rdr = cmd.ExecuteReader())
-                        {
-                            while (rdr.Read())
-                            {
-                                bool exists = false;
-                                long employeeId = rdr.GetInt32(ColumnsEmployeeGetByCompany.Id);
-                                foreach (var employee in res)
-                                {
-                                    if (employee.Id == employeeId)
-                                    {
-                                        exists = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!exists)
-                                {
-                                    var newEmployee = new Employee()
-                                    {
-                                        Id = employeeId,
-                                        Name = rdr.GetString(ColumnsEmployeeGetByCompany.Name),
-                                        LastName = rdr.GetString(ColumnsEmployeeGetByCompany.LastName),
-                                        Email = rdr.GetString(ColumnsEmployeeGetByCompany.Email),
-                                        Phone = rdr.GetString(ColumnsEmployeeGetByCompany.Phone),
-                                        Nif = rdr.GetString(ColumnsEmployeeGetByCompany.Nif),
-                                        Active = rdr.GetBoolean(ColumnsEmployeeGetByCompany.Active)
-                                    };
-
-                                    if (!rdr.IsDBNull(ColumnsEmployeeGetByCompany.FechaBaja))
-                                    {
-                                        newEmployee.DisabledDate = rdr.GetDateTime(ColumnsEmployeeGetByCompany.FechaBaja);
-                                    }
-
-                                    res.Add(newEmployee);
-                                }
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
-                    }
-                }
-            }
-
-            return new ReadOnlyCollection<Employee>(res);
-        }
-
-        public static ReadOnlyCollection<Employee> ByCompanyWithUser(int companyId)
         {
             /* CREATE PROCEDURE Employee_GetByCompany
              *   @CompanyId int */
@@ -1351,7 +1286,7 @@ namespace GisoFramework.Item
             string link = string.Empty;
             if (admin)
             {
-                string.Format(
+                link = string.Format(
                     CultureInfo.InvariantCulture,
                     @" onclick=""document.location='EmployeesView.aspx?id={0}'"";",
                     this.Id);
@@ -1400,7 +1335,7 @@ namespace GisoFramework.Item
 
             string iconRename = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""EmployeeUpdate({0},'{1}');""><i class=""icon-edit bigger-120""></i></span>", this.Id, this.FullName, dictionary["Common_Edit"]);
             string iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-danger"" onclick=""{3}({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, this.FullName, dictionary["Common_Delete"], deleteAction);
-            iconDelete = string.Empty;
+            //iconDelete = string.Empty;
             return string.Format(CultureInfo.InvariantCulture, @"<tr><td>{0}</td><td class=""hidden-480"">{1}</td><td class=""hidden-480"">{2}</td><td class=""hidden-480"">{3}</td><td>{4} {5}</td></tr>", this.Link, this.Nif, this.Email, this.Phone, iconRename, iconDelete);
         }
 
@@ -1646,20 +1581,11 @@ namespace GisoFramework.Item
 
             string iconEdit = string.Format(
                 CultureInfo.InvariantCulture,
-                @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-info"" onclick=""EmployeeUpdate({0},'{1}');""><i class=""icon-eye-open bigger-120""></i></span>",
+                @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-info"" onclick=""EmployeeUpdate({0},'{1}');""><i class=""icon-{3} bigger-120""></i></span>",
                 this.Id,
-                dictionary["Common_View"],
-                this.Description);
-
-            if (grantEmployee)
-            {
-                iconEdit = string.Format(
-                CultureInfo.InvariantCulture,
-                @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-info"" onclick=""EmployeeUpdate({0},'{1}');""><i class=""icon-edit bigger-120""></i></span>",
-                this.Id,
-                dictionary["Common_Edit"],
-                this.Description);
-            }
+                grantEmployee ? dictionary["Common_Edit"] : dictionary["Common_View"],
+                this.Description,
+                grantEmployee ? "edit": "eye-open");
 
             bool firstDepartment = true;
             var departmentsList = new StringBuilder();

@@ -1,25 +1,29 @@
-﻿var RuleLimitFromDB;
+﻿var originalLimits = [];
+var RuleLimitFromDB;
 var rule = { "Id": 0 };
 var BusinessRiskSelected;
 var OportunitySelected;
 var lockOrderList = false;
 var lockOrderListOportunity = false;
 
-function BusinessRiskDeleteAction() {
-    var webMethod = "/Async/BusinessRiskActions.asmx/BusinessRiskDelete";
-    var data = { businessRiskId: BusinessRiskSelected, companyId: Company.Id, userId: user.Id };
+function BusinessRiskDeleteConfirmed() {
+    var data = {
+        "businessRiskId": BusinessRiskSelected,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
     $("#BusinessRiskDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/BusinessRiskActions.asmx/BusinessRiskDelete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             document.location = document.location + '';
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -40,7 +44,7 @@ function BusinessRiskDelete(id, name) {
                 "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
                 "click": function () {
-                    BusinessRiskDeleteAction();
+                    BusinessRiskDeleteConfirmed();
                 }
             },
             {
@@ -54,21 +58,24 @@ function BusinessRiskDelete(id, name) {
     });
 }
 
-function OportunityDeleteAction() {
-    var webMethod = "/Async/OportunityActions.asmx/Inactivate";
-    var data = { oportunityId: OportunitySelected, companyId: Company.Id, applicationUserId: user.Id };
+function OportunityDeleteConfirmed() {
+    var data = {
+        "oportunityId": OportunitySelected,
+        "companyId": Company.Id,
+        "applicationUserId": user.Id
+    };
     $("#OportunityDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/OportunityActions.asmx/Inactivate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             document.location = document.location + "";
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -89,7 +96,7 @@ function OportunityDelete(id, name) {
                     "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
-                        OportunityDeleteAction();
+                        OportunityDeleteConfirmed();
                     }
                 },
                 {
@@ -254,21 +261,6 @@ function BusinessRiskGetFilter(exportType) {
             alertUI(msg.responseText);
         }
     });
-}
-
-var originalLimits = new Array();
-
-function GetRuleById(id)
-{
-    for (var x = 0; x < CompanyRules.length; x++)
-    {
-        if(CompanyRules[x].Id === id)
-        {
-            return CompanyRules[x];
-        }
-    }
-
-    return null;
 }
 
 function OportunityRenderTable(list) {
@@ -719,12 +711,19 @@ function BusinessRiskRenderTable(list) {
     }
 }
 
-function RuleGetById(id)
-{
-    for(var x=0;x<CompanyRules.length;x++)
-    {
-        if(CompanyRules[x].Id === id)
-        {
+/*function GetRuleById(id) {
+    for (var x = 0; x < CompanyRules.length; x++) {
+        if (CompanyRules[x].Id === id) {
+            return CompanyRules[x];
+        }
+    }
+
+    return null;
+}*/
+
+function RuleGetById(id) {
+    for (var x = 0; x < CompanyRules.length; x++) {
+        if (CompanyRules[x].Id === id) {
             return CompanyRules[x];
         }
     }
@@ -838,7 +837,6 @@ function RenderSteps() {
 }
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
     var finalHeight = containerHeight - 530;
     if (finalHeight < 350) {
@@ -850,7 +848,6 @@ function Resize() {
 }
 
 window.onload = function () {
-
 
     $("#BtnNewItem").after("<button class=\"btn btn-success\" type=\"button\" id=\"BtnNewOportunity\" onclick=\"document.location = 'OportunityView.aspx?id=-1';\"><i class=\"icon-plus bigger-110\"></i>" + Dictionary.Item_Oportunity_Button_New + "</button>");
 
@@ -898,7 +895,11 @@ window.onload = function () {
     BusinessRiskGetFilter();
     OportunityGetFilter();
     Resize();
-    SetLayout(FilterType);
+    SetLayout(layout);
+
+    if (layout == 2) {
+        $("#RO").click();
+    }
 }
 
 window.onresize = function () { Resize(); }
@@ -1016,4 +1017,21 @@ function SetLayout(type) {
         $("#BtnNewItem").hide();
         $("#BtnNewOportunity").show();
     }
+
+    var data = {
+        "type": type
+    };
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/OportunityActions.asmx/SetLayout",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
 }

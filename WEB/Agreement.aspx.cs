@@ -61,7 +61,7 @@ public partial class Agreement : Page
     {
         get
         {
-            return Thread.CurrentThread.CurrentUICulture.LCID.ToString();
+            return this.Company.Language;
         }
     }
 
@@ -77,7 +77,14 @@ public partial class Agreement : Page
     {
         this.ApplicationUser = this.Session["User"] as ApplicationUser;
         this.Company = this.Session["Company"] as Company;
-        this.RenderAgreement();
+        if (this.ApplicationUser.PrimaryUser)
+        {
+            this.RenderAgreement();
+        }
+        else
+        {
+            Response.Redirect("AgreementNotice.aspx");
+        }
     }
 
     private void RenderAgreement()
@@ -92,7 +99,7 @@ public partial class Agreement : Page
         string language = this.Company.Language;
 
         // Se genera el path completo de la plantilla del idioma en concreto
-        path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_{1}.tpl", path, language);
+        path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_{1}.tpl", path, "es");
 
         // Si no existiera la plantilla se genera el path completo de la plantilla sin traducir
         if(!File.Exists(path))
@@ -100,20 +107,43 @@ public partial class Agreement : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement.tpl", this.Request.PhysicalApplicationPath);
         }
 
-        string text = string.Empty;
+        string textEs = string.Empty;
         using(var rdr = new StreamReader(path))
         {
-            text = rdr.ReadToEnd();
+            textEs = rdr.ReadToEnd();
         }
 
-        text = text.Replace("#COMPANY_NAME#", "<strong>" + this.Company.Name + "</strong>");
-        text = text.Replace("#USER_NAME#", "<strong>" + this.ApplicationUser.UserName + "</strong>");
-        text = text.Replace("#EMAIL#", "<strong>" + this.ApplicationUser.Email + "</strong>");
-        text = text.Replace("\r", "</p>");
-        text = text.Replace("\n", string.Empty);
-        text = text.Replace("#DATE#", Constant.NowText);
+        textEs = textEs.Replace("#COMPANY_NAME#", "<strong>" + this.Company.Name + "</strong>");
+        textEs = textEs.Replace("#USER_NAME#", "<strong>" + this.ApplicationUser.UserName + "</strong>");
+        textEs = textEs.Replace("#EMAIL#", "<strong>" + this.ApplicationUser.Email + "</strong>");
+        textEs = textEs.Replace("\r", "</p>");
+        textEs = textEs.Replace("\n", string.Empty);
+        textEs = textEs.Replace("#DATE#", Constant.NowText);
 
-        this.LtAgreement.Text = "<p>" + text;
+        this.LTEs.Text = "<p>" + textEs;
+
+        // Se genera el path completo de la plantilla del idioma en concreto
+        path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_{1}.tpl", path, "ca");
+
+        // Si no existiera la plantilla se genera el path completo de la plantilla sin traducir
+        if (!File.Exists(path))
+        {
+            path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement.tpl", this.Request.PhysicalApplicationPath);
+        }
+
+        string textCa = string.Empty;
+        using (var rdr = new StreamReader(path))
+        {
+            textCa = rdr.ReadToEnd();
+        }
+
+        textCa = textCa.Replace("#COMPANY_NAME#", "<strong>" + this.Company.Name + "</strong>");
+        textCa = textCa.Replace("#USER_NAME#", "<strong>" + this.ApplicationUser.UserName + "</strong>");
+        textCa = textCa.Replace("#EMAIL#", "<strong>" + this.ApplicationUser.Email + "</strong>");
+        textCa = textCa.Replace("\r", "</p>");
+        textCa = textCa.Replace("\n", string.Empty);
+        textCa = textCa.Replace("#DATE#", Constant.NowText);
+        this.LTCa.Text = "<p>" + textCa;
     }
 
     /// <summary>Creates agreement document</summary>
@@ -122,7 +152,7 @@ public partial class Agreement : Page
     /// <returns>Result of action</returns>
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult CreateDocument(int companyId, int userId)
+    public static ActionResult CreateDocument(int companyId, int userId, string language)
     {
         var res = ActionResult.NoAction;
         var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
@@ -176,9 +206,6 @@ public partial class Agreement : Page
         {
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
-
-        // Se extrae el lenguage por defecto de la empresa
-        string language = company.Language;
 
         // Se genera el path completo de la plantilla del idioma en concreto
         var templatepath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_{1}.tpl", path, language);

@@ -58,7 +58,7 @@ namespace GisoFramework.Item
                 var date = this.Expiration;
                 if(date.Year< 1950)
                 {
-                    date.AddYears(100);
+                    date = date.AddYears(100);
                 }
 
                 return string.Format(

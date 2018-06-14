@@ -32,7 +32,7 @@ function RulesPopupRow(item, target) {
     td1.appendChild(document.createTextNode(item.Description));
 
     var tdLimit = document.createElement("td");
-    tdLimit.style.width = "50px";
+    tdLimit.style.width = "60px";
     tdLimit.align = "right";
     tdLimit.appendChild(document.createTextNode(item.Limit));
 
@@ -300,7 +300,7 @@ function RulesDeleteConfirmed(id) {
         }
     }
     var data = {
-        'RulesId': id,
+        'rulesId': id,
         'companyId': Company.Id,
         'userId': user.Id
     };
@@ -317,6 +317,7 @@ function RulesDeleteConfirmed(id) {
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
+            RulesRenderPopup();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
@@ -438,6 +439,7 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
+            RulesRenderPopup();
         },
         "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
@@ -490,7 +492,7 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
 }
 
 function FillCmbRules() {
-    VoidTable('CmbRules');
+    VoidTable("CmbRules");
     var optionDefault = document.createElement('option');
     optionDefault.value = 0;
     optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectAll));

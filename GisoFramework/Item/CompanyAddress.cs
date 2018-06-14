@@ -189,7 +189,6 @@ namespace GisoFramework.Item
                     }
 
                     res.Append(this.Country);
-                    first = false;
                 }
 
                 return res.ToString();

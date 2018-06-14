@@ -931,7 +931,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        public string ListRow(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> grants)
+        /*public string ListRow(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> grants)
         {
             if (grants == null)
             {
@@ -992,7 +992,7 @@ namespace GisoFramework.Item
                 iconDelete,
                 this.Responsible.FullName,
                 this.EndResponsible.FullName);
-        }
+        }*/
 
         public static ActionResult Activate(int indicadorId, int companyId, int applicationUserId)
         {

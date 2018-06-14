@@ -572,7 +572,6 @@ namespace GisoFramework.Item
                 }
 
                 res.Append(string.Format(CultureInfo.InvariantCulture, "Experience:{0}", jobPosition2.WorkExperience));
-                first = false;
             }
 
             return res.ToString();
@@ -888,7 +887,7 @@ namespace GisoFramework.Item
 
             return string.Format(
                 CultureInfo.InvariantCulture,
-                @"<tr><td>{0}</td><td style=""width:400px;"">{1}</td><td style=""width:400px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</tr>",
+                @"<tr><td>{0}</td><td style=""width:250px;"">{1}</td><td style=""width:250px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</tr>",
                 this.Link,
                 responsibleName,
                 departmentName,

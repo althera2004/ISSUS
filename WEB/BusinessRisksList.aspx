@@ -78,6 +78,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
+        var layout = <%=this.Layout %>;
         var companyId = <%=this.Company.Id%>;
         var Filter = <%=this.FilterBusinessRisk %>;
         var FilterOportunity = <%=this.FilterOportunity %>;

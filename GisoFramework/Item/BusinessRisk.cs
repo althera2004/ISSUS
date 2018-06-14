@@ -169,7 +169,7 @@ namespace GisoFramework.Item
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    @"<a href=""BusinessRiskView.aspx?id={0}"" title=""{1}"">{1}</a>",
+                    @"<a href=""BusinessRiskView.aspx?id={0}"" title=""{1}"">{2}</a>",
                     this.Id,
                     this.Description,
                     ((Dictionary<string, string>)HttpContext.Current.Session["Dictionary"])["Common_Edit"]);
@@ -1096,12 +1096,6 @@ namespace GisoFramework.Item
                     cmd.CommandType = CommandType.StoredProcedure;
                     try
                     {
-                        long auxiliarInitialValue = this.InitialValue;
-                        if (this.PreviousBusinessRiskId > 0)
-                        {
-                            auxiliarInitialValue = this.Result;
-                        }
-
                         cmd.Parameters.Add(DataParameter.OutputLong("@Id"));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                         cmd.Parameters.Add(DataParameter.Input("@Description", Tools.LimitedText(this.Description, 100)));
@@ -1113,8 +1107,6 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@StartControl", this.StartControl, Constant.MaximumTextAreaLength));
-                        //cmd.Parameters.Add(DataParameter.Input("@InitialValue", auxiliarInitialValue));
-
                         cmd.Parameters.Add(DataParameter.Input("@StartProbability", this.StartProbability));
                         cmd.Parameters.Add(DataParameter.Input("@StartSeverity", this.StartSeverity));
                         cmd.Parameters.Add(DataParameter.Input("@StartResult", this.StartResult));
@@ -1122,7 +1114,6 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@DateStart", this.DateStart));
                         cmd.Parameters.Add(DataParameter.Input("@Assumed", this.Assumed));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
-
 
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();

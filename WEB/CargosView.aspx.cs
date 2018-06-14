@@ -31,9 +31,6 @@ public partial class CargosView : Page
     /// <summary>Job position identifier</summary>
     private int jobPositionId;
 
-    /// <summary>Job position</summary>
-    private JobPosition cargo;
-
     public bool ShowHelp
     {
         get
@@ -61,7 +58,7 @@ public partial class CargosView : Page
         }
     }
 
-    public JobPosition Cargo { get { return this.cargo; } }
+    public JobPosition Cargo { get; private set; }
 
     public string TxtName
     {
@@ -70,7 +67,7 @@ public partial class CargosView : Page
             return new FormText
             {
                 Name = "TxtName",
-                Value = this.cargo.Description,
+                Value = this.Cargo.Description,
                 ColumnSpan = 10,
                 Required = true,
                 RequiredMessage = this.Dictionary["Common_Required"],
@@ -91,7 +88,7 @@ public partial class CargosView : Page
             {
                 Name = "Department",
                 ValueName = "TxtDepartmentName",
-                Value = this.cargo.Department.Description,
+                Value = this.Cargo.Department.Description,
                 ButtonBar = "BtnDepartment",
                 Required = true,
                 RequiredMessage = this.Dictionary["Common_Required"],
@@ -117,19 +114,19 @@ public partial class CargosView : Page
                 Placeholder = this.Dictionary["Common_Responsible"],
                 Required = false,
                 ToolTip = "Item_JobPosition_Help_Responsible",
-                Value = this.cargo.Responsible != null ? this.cargo.Responsible.Description : string.Empty,
+                Value = this.Cargo.Responsible != null ? this.Cargo.Responsible.Description : string.Empty,
                 DefaultOption = new FormSelectOption { Text = this.Dictionary["Common_SelectOne"] }
             };
 
             foreach (var jobPosition in jobPositions)
             {
                 bool selected = false;
-                if (this.cargo.Id != jobPosition.Id)
+                if (this.Cargo.Id != jobPosition.Id)
                 {
-                    bool bucle = IsBucle(this.cargo.Id, jobPosition.Id, jobPositions);
+                    bool bucle = IsBucle(this.Cargo.Id, jobPosition.Id, jobPositions);
                     if (!bucle)
                     {
-                        if (this.cargo.Responsible != null && this.cargo.Responsible.Id == jobPosition.Id)
+                        if (this.Cargo.Responsible != null && this.Cargo.Responsible.Id == jobPosition.Id)
                         {
                             selected = true;
                         }
@@ -175,15 +172,6 @@ public partial class CargosView : Page
         }
     }
 
-    /// <summary>Gets a Json structure of job position</summary>
-    public string CargoJson
-    {
-        get
-        {
-            return this.cargo.Json;
-        }
-    }
-
     /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary { get; private set; }
 
@@ -225,8 +213,8 @@ public partial class CargosView : Page
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
-        this.user = (ApplicationUser)Session["User"];
-        this.company = (Company)Session["company"];
+        this.user = Session["User"] as ApplicationUser;
+        this.company = Session["company"] as Company;
         this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         
         // Security access control
@@ -256,15 +244,15 @@ public partial class CargosView : Page
 
         if (jobPositionId > 0)
         {
-            this.cargo = new JobPosition(this.jobPositionId, this.company.Id);
-            if (this.cargo.CompanyId != this.company.Id)
+            this.Cargo = new JobPosition(this.jobPositionId, this.company.Id);
+            if (this.Cargo.CompanyId != this.company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
             }
 
-            this.formFooter.ModifiedBy = this.cargo.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.cargo.ModifiedOn;
+            this.formFooter.ModifiedBy = this.Cargo.ModifiedBy.Description;
+            this.formFooter.ModifiedOn = this.Cargo.ModifiedOn;
 
             this.RenderEmployees();
             this.master.TitleInvariant = true;
@@ -272,7 +260,7 @@ public partial class CargosView : Page
         }
         else
         {
-            this.cargo = JobPosition.Empty;
+            this.Cargo = JobPosition.Empty;
             this.TableEmployees.Text = string.Empty;
         }
 
@@ -284,7 +272,7 @@ public partial class CargosView : Page
             }
         }
 
-        string label = this.jobPositionId == -1 ? "Item_JobPosition_BreadCrumb_Edit" : string.Format("{0}: <strong>{1}</strong>", this.Dictionary["Item_JobPosition"], this.cargo.Description);
+        string label = this.jobPositionId == -1 ? "Item_JobPosition_BreadCrumb_Edit" : string.Format("{0}: <strong>{1}</strong>", this.Dictionary["Item_JobPosition"], this.Cargo.Description);
         this.master.AddBreadCrumb("Item_JobPositions", "CargosList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_JobPosition_BreadCrumb_Edit");
         this.master.Titulo = label;
@@ -293,7 +281,7 @@ public partial class CargosView : Page
     private void RenderEmployees()
     {
         var res = new StringBuilder();        
-        foreach (var employee in this.cargo.Employees)
+        foreach (var employee in this.Cargo.Employees)
         {
             res.Append(employee.JobPositionListRow);
         }

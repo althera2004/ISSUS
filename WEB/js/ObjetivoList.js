@@ -147,11 +147,11 @@ function ItemRenderTable(list) {
         iconEdit.className = "btn btn-xs btn-info";
         iconEdit.id = item.Number;
         var innerEdit = document.createElement("I");
-        innerEdit.className = ApplicationUser.Grants.Indicador.Write ? "icon-edit bigger-120" : "icon-eye-open bigger-120";
+        innerEdit.className = ApplicationUser.Grants.Objetivo.Write ? "icon-edit bigger-120" : "icon-eye-open bigger-120";
         iconEdit.appendChild(innerEdit);
         iconEdit.onclick = function () { document.location = "ObjetivoView.aspx?id=" + this.parentNode.parentNode.id; };
 
-        if (ApplicationUser.Grants.Indicador.Delete === true) {
+        if (ApplicationUser.Grants.Objetivo.Delete === true) {
             var iconDelete = document.createElement("SPAN");
             iconDelete.className = "btn btn-xs btn-danger";
             iconDelete.id = item.Number;
@@ -168,13 +168,14 @@ function ItemRenderTable(list) {
             else {
                 iconDelete.onclick = function () { ObjetivoDelete(this); };
             }
+
         }
 
         var tdActions = document.createElement("TD");
         tdActions.style.width = "90px";
 
         tdActions.appendChild(iconEdit);
-        if (ApplicationUser.Grants.Indicador.Delete) {
+        if (ApplicationUser.Grants.Objetivo.Delete) {
             tdActions.appendChild(document.createTextNode(" "));
             tdActions.appendChild(iconDelete);
         }

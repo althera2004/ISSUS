@@ -32,7 +32,7 @@
         TR:first-child{border-left:none;}
     </style>
     <script type="text/javascript">
-        var cargo = <%=this.CargoJson %>;
+        var cargo = <%=this.Cargo.Json %>;
         var SelectedResponsible = cargo.Responsible == null ? null : cargo.Responsible.Id;
         var SelectedDepartment = cargo.Department.Id;
         var first = true;

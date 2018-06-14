@@ -1,8 +1,6 @@
-﻿using SbrinnaCoreFramework.UI;
-using System;
-using System.Drawing;
-using System.Web;
+﻿using System;
 using System.Web.UI;
+using SbrinnaCoreFramework.UI;
 
 public partial class ChangeLogo : Page
 {
@@ -19,40 +17,10 @@ public partial class ChangeLogo : Page
         }
 
         string fileName = string.Format(@"{0}images\Logos\{1}.jpg", path, Session["CompanyId"].ToString());
-
-        /*int cont = 0;
-        while (File.Exists(fileName))
-        {
-            cont++;
-            fileName = string.Format(@"{0}images\Logos\{1} ({2}).jpg", path, Session["CompanyId"].ToString(), cont);
-        }*/
-
         file.SaveAs(fileName);
-        //System.Drawing.Image logo = System.Drawing.Image.FromFile(fileName);
-        //logo = ScaleImage(logo, 1000, 60);
-        //Bitmap logob = new Bitmap(logo);
-        //logob.Save(fileName);
-
         this.Response.Clear();
         this.Response.ContentType = "application/json";
         this.Response.Write(ImageSelector.SizeJson(string.Format(@"images\Logos\{0}.jpg", Session["CompanyId"].ToString()), 300, 300));
         this.Response.End();
     }
-
-    /* public static System.Drawing.Image ScaleImage(System.Drawing.Image image, int maxWidth, int maxHeight)
-    {
-        var ratioX = (decimal)((decimal)maxWidth / (decimal)image.Width);
-        var ratioY = (decimal)((decimal)maxHeight / (decimal)image.Height);
-        var ratio = Math.Min(ratioX, ratioY);
-
-        var newWidth = (int)(Convert.ToDecimal(image.Width) * ratio);
-        var newHeight = (int)(Convert.ToDecimal(image.Height) * ratio);
-
-        var newImage = new Bitmap(newWidth, newHeight);
-
-        using (var graphics = Graphics.FromImage(newImage))
-            graphics.DrawImage(image, 0, 0, newWidth, newHeight);
-
-        return newImage;
-    }*/
 }

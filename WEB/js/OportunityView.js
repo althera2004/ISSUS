@@ -4,11 +4,8 @@ var ActionsRequired = false;
 var ClosedRequired = false;
 var MinStepValue = 1;
 var SlidersActive = true;
-
-$("#Tabhome").on("click", function () { $("#BtnAnular").hide();$("#oldFormFooter").show(); });
-$("#Tabaccion").on("click", function () { if (Action.Id > 0) { $("#BtnAnular").show(); } $("#oldFormFooter").show(); });
-$("#Tabcostes").on("click", function () { $("#BtnAnular").hide();$("#oldFormFooter").show(); });
-$("#TabuploadFiles").on("click", function () { $("#BtnAnular").hide();$("#oldFormFooter").hide(); });
+var CostBlocked = false;
+var anulationData = null;
 
 jQuery(function ($) {
     FillCmbRules();
@@ -100,8 +97,6 @@ jQuery(function ($) {
 
     $("#BtnSave").on("click", function (e) { SaveBtnPressed(); });
     $("#BtnCancel").on("click", function (e) { Cancel(); });
-    $("#BtnSave2").on("click", function (e) { SaveBtnPressed(); });
-    $("#BtnCancel2").on("click", function (e) { Cancel(); });
 
     $("#TxtActionCauses").change(function (e) { SetCloseRequired(); });
     $("#CmbActionCausesResponsible").change(function (e) { SetCloseRequired(); });
@@ -194,12 +189,13 @@ function ApplyActionRadio() {
     // Para elegir las acciones hay que tener evaluado el riesgo
     if (Oportunity.Cost === 0 || Oportunity.Impact === 0) {
         alertUI(Dictionary.Item_BusinessRisk_ErrorMessage_ResultRequired);
-        document.getElementById("ApplyActionYes").checked = false;
-        document.getElementById("ApplyActionNo").checked = false;
+        document.getElementById("ApplyAction").checked = false;
+        //document.getElementById("ApplyActionYes").checked = false;
+        //document.getElementById("ApplyActionNo").checked = false;
         return false;
     }
 
-    if (document.getElementById("ApplyActionYes").checked === true) {
+    if (document.getElementById("ApplyAction").checked === true) {
         //Show action, cost and final status tabs and content
         $("#Tabaccion").show();
         $("#Tabcostes").show();
@@ -211,8 +207,6 @@ function ApplyActionRadio() {
         $("#BtnSelectRules").hide();
         $("#CmbProcess").attr("disabled", true);
         $("#ApplyAction2").attr("disabled", true);
-        //$("#input-span-slider-cost").slider("disable");
-        //$("#input-span-slider-impact").slider("disable");
         SlidersActive = false;
         SaveAction = true;
         SetCloseRequired();
@@ -312,8 +306,9 @@ function OportunityInsert(previousId) {
     UpdateResult();
 
     var startAction = 0;
-    if (document.getElementById("ApplyActionNo").checked === true) { startAction = 2; }
-    if (document.getElementById("ApplyActionYes").checked === true) { startAction = 3; }
+    //if (document.getElementById("ApplyActionNo").checked === true) { startAction = 2; }
+    //if (document.getElementById("ApplyActionYes").checked === true) { startAction = 3; }
+    if (document.getElementById("ApplyAction").checked === true) { startAction = 3; }
 
     var result = 0;
     if ($("#Result").val() !== "" && $("#Result").val() !== "-") {
@@ -326,7 +321,7 @@ function OportunityInsert(previousId) {
             "AnulateBy": { "Id": -1 },
             "AnulateDate": null,
             "AnulateReason": "",
-            "ApplyAction": document.getElementById("ApplyActionYes").checked,
+            "ApplyAction": document.getElementById("ApplyAction").checked,
             "Causes": $("#TxtCauses").val(),
             "Control": $("#TxtControl").val(),
             "Cost": Oportunity.Cost,
@@ -370,7 +365,7 @@ function OportunityInsert(previousId) {
                     Oportunity.Id = response.d.MessageError * 1;
                     if (SaveAction === true) {
                         console.log("risk + action");
-                        SaveIncidentAction(Oportunity.Id, response.d.MessageError * 1, true);
+                        SaveIncidentAction(Oportunity.Id, true);
                     }
 
                     alertInfoUI(Dictionary.Item_Oportunity_Message_InsertSucess, Reload);
@@ -394,15 +389,12 @@ function OportunityInsert(previousId) {
     return false;
 }
 
-function Reload() {
-    document.location = "OportunityView.aspx?id=" + Oportunity.Id;
-}
-
 function OportunityUpdate(sender) {
     // 1.- Modificar en la BBDD
     var startAction = 0;
-    if (document.getElementById("ApplyActionNo").checked === true) { startAction = 2; }
-    if (document.getElementById("ApplyActionYes").checked === true) { startAction = 3; }
+    //if (document.getElementById("ApplyActionNo").checked === true) { startAction = 2; }
+    //if (document.getElementById("ApplyActionYes").checked === true) { startAction = 3; }
+    if (document.getElementById("ApplyAction").checked === true) { startAction = 3; }
 
     var data = {
         "oportunity": {
@@ -410,7 +402,7 @@ function OportunityUpdate(sender) {
             "AnulateBy": { "Id": -1 },
             "AnulateDate": null,
             "AnulateReason": "",
-            "ApplyAction": document.getElementById("ApplyActionYes").checked,
+            "ApplyAction": document.getElementById("ApplyAction").checked,
             "Causes": $("#TxtCauses").val(),
             "Control": $("#TxtControl").val(),
             "Cost": Oportunity.Cost,
@@ -449,10 +441,9 @@ function OportunityUpdate(sender) {
             }
             else {
                 if (SaveAction === true) {
-                    SaveIncidentAction(Oportunity.Id, 0);
+                    SaveIncidentAction(Oportunity.Id, false);
                 }
                 else {
-                    //document.location = 'BusinessRiskView.aspx?id=' + businessRisk.Id;
                     document.location = "BusinessRisksList.aspx";
                 }
             }
@@ -466,8 +457,7 @@ function OportunityUpdate(sender) {
     return false;
 }
 
-function SaveIncidentAction(OportunityId, oportunityId, reload) {
-    alert(reload);
+function SaveIncidentAction(OportunityId, reload) {
     var data =
         {
             "incidentAction": {
@@ -482,7 +472,7 @@ function SaveIncidentAction(OportunityId, oportunityId, reload) {
                 "Customer": Action.Customer,
                 "Number": 0,
                 "BusinessRiskId": -1,
-                "Oportunity": { "Id": Oportunity.Id, "Description": Oportunity.Description },
+                "Oportunity": { "Id": OportunityId, "Description": "" },
                 "IncidentId": -1,
                 "WhatHappened": $("#TxtActionWhatHappened").val(),
                 "WhatHappenedBy": { "Id": $("#CmbActionWhatHappenedResponsible").val() },
@@ -540,16 +530,20 @@ function Cancel() {
     document.location = referrer;
 }
 
+function Reload() {
+    document.location = "OportunityView.aspx?id=" + Oportunity.Id;
+}
+
 function SetCloseRequired() {
     /////////////////////////////////
     //Set required fields for risks//
     /////////////////////////////////
 
-    FieldSetRequired("TxtRulesLabel", Dictionary.Item_BusinessRisk_LabelField_Rules, true);
-    FieldSetRequired("TxtProcessLabel", Dictionary.Item_BusinessRisk_LabelField_Process, true);
-    FieldSetRequired("TxtDateStartLabel", Dictionary.Item_BusinessRisk_LabelField_DateStart, true);
-    FieldSetRequired("TxtResultLabel", Dictionary.Item_BusinessRisk_LabelField_Result, true);
-    FieldSetRequired("TxtNameLabel", Dictionary.Item_BusinessRisk_LabelField_Name, true);
+    FieldSetRequired("TxtRulesLabel", Dictionary.Item_Oportunity_LabelField_Rules, true);
+    FieldSetRequired("TxtProcessLabel", Dictionary.Item_Oportunity_LabelField_Process, true);
+    FieldSetRequired("TxtDateStartLabel", Dictionary.Item_Oportunity_LabelField_DateStart, true);
+    FieldSetRequired("TxtResultLabel", Dictionary.Item_Oportunity_LabelField_Result, true);
+    FieldSetRequired("TxtNameLabel", Dictionary.Item_Oportunity_LabelField_Name, true);
 
     ///////////////////////////////////
     //Set required fields for actions//
@@ -560,19 +554,19 @@ function SetCloseRequired() {
     FieldSetRequired("TxtActionWhatHappenedDateLabel", Dictionary.Common_Date, true);
 
     //Checking if Causes is required
-    if (document.getElementById("CmbActionCausesResponsible").value * 1 !== 0 || document.getElementById("ApplyActionYes").checked === true) {
+    if ($("#CmbActionCausesResponsible").val() * 1 !== 0) {
         FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
         FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
         FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, true);
         CausesRequired = true;
     }
-    else if (document.getElementById("TxtActionCauses").value !== "") {
+    else if ($("#TxtActionCauses").val() !== "") {
         FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
         FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
         FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, true);
         CausesRequired = true;
     }
-    else if (document.getElementById("TxtActionCausesDate").value !== "") {
+    else if ($("#TxtActionCausesDate").val() !== "") {
         FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
         FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
         FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, true);
@@ -586,19 +580,19 @@ function SetCloseRequired() {
     }
 
     //Checking if Actions is required
-    if (document.getElementById("CmbActionActionsResponsible").value * 1 !== 0) {
+    if ($("#CmbActionActionsResponsible").val() * 1 !== 0) {
         FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, true);
         FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleActions, true);
         FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Common_Date, true);
         ActionsRequired = true;
     }
-    else if (document.getElementById("TxtActionActions").value !== "") {
+    else if ($("#TxtActionActions").val() !== "") {
         FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, true);
         FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleActions, true);
         FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Common_Date, true);
         ActionsRequired = true;
     }
-    else if (document.getElementById("TxtActionActionsDate").value !== "") {
+    else if ($("#TxtActionActionsDate").val() !== "") {
         FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, true);
         FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleActions, true);
         FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Common_Date, true);
@@ -612,12 +606,12 @@ function SetCloseRequired() {
     }
 
     //Checking if Closed is required
-    if (document.getElementById("CmbActionClosedResponsible").value * 1 !== 0) {
+    if ($("#CmbActionClosedResponsible").val() * 1 !== 0) {
         FieldSetRequired("CmbActionClosedResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleClose, true);
         FieldSetRequired("TxtActionClosedDateLabel", Dictionary.Common_Date, true);
         ClosedRequired = true;
     }
-    else if (document.getElementById("TxtActionClosedDate").value !== "") {
+    else if ($("#TxtActionClosedDate").val() !== "") {
         FieldSetRequired("CmbActionClosedResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleClose, true);
         FieldSetRequired("TxtActionClosedDateLabel", Dictionary.Common_Date, true);
         ClosedRequired = true;
@@ -630,6 +624,7 @@ function SetCloseRequired() {
 }
 
 function ValidateData() {
+    console.log("ValidateData");
     var ok = true;
     var ErrorMessageInicial = new Array();
     var ErrorMessageAccion = new Array();
@@ -1029,7 +1024,6 @@ function ItemRenderStatus() {
 
 }
 
-SetCloseRequired();
 
 if (Oportunity.Id > 0) {
     $("#DateStart").val(Oportunity.DateStart);
@@ -1234,13 +1228,14 @@ function syncFields(target, source) {
 }
 
 if (Oportunity.Result > 0) {
-    if (Oportunity.ApplyAction === true) {
+    document.getElementById("ApplyActionYes").checked = Oportunity.ApplyAction;
+    /*if (Oportunity.ApplyAction === true) {
         document.getElementById("ApplyActionYes").checked = true;
     }
     else {
 
         document.getElementById("ApplyActionNo").checked = true;
-    }
+    }*/
 }
 
 // No se puede cerrar el riesgo si la acción no está cerrada
@@ -1254,16 +1249,21 @@ else {
 }
 
 if (Action.Id > 0) {
-    document.getElementById("ApplyActionYes").disabled = true;
-    document.getElementById("ApplyActionNo").disabled = true;
+    //document.getElementById("ApplyActionYes").disabled = true;
+    //document.getElementById("ApplyActionNo").disabled = true;
+    document.getElementById("ApplyAction").disabled = true;
+    document.getElementById("ApplyAction").checked = true;
 }
 
 // Controles iniciales
 if (Oportunity.StartAction === 2) {
-    document.getElementById("ApplyActionNo").checked = true;
+    //document.getElementById("ApplyActionNo").checked = true;
     document.getElementById("Tabgraphic").style.display = "none";
 }
-if (Oportunity.StartAction === 3) { document.getElementById("ApplyActionYes").checked = true; }
+if (Oportunity.StartAction === 3) {
+    //document.getElementById("ApplyActionYes").checked = true;
+    document.getElementById("ApplyAction").checked = true;
+}
 
 if (ApplicationUser.Grants.Rules !== null) {
     if (ApplicationUser.Grants.Rules.Write === false) {
@@ -1290,6 +1290,10 @@ function Resize() {
 }
 
 window.onload = function () {
+    $("#Tabhome").on("click", function () { $("#BtnAnular").hide(); $("#oldFormFooter").show(); });
+    $("#Tabaccion").on("click", function () { if (Action.Id > 0) { $("#BtnAnular").show(); } $("#oldFormFooter").show(); });
+    $("#Tabcostes").on("click", function () { $("#BtnAnular").hide(); $("#oldFormFooter").show(); });
+    $("#TabuploadFiles").on("click", function () { $("#BtnAnular").hide(); $("#oldFormFooter").hide(); });
 
     if (Oportunity.ApplyAction === false) {
         $("#Tabaccion").hide();
@@ -1298,6 +1302,7 @@ window.onload = function () {
     else {
         $("#Tabaccion").show();
         $("#Tabcostes").show();
+        document.getElementById("ApplyAction").checked = true;
     }
 
     Resize();
@@ -1329,23 +1334,24 @@ window.onload = function () {
 
     $("#BtnAnular").hide();
     $("#BtnRestaurar").hide();
+
+    SetCloseRequired();
+
+    if (typeof Action === "undefined") { CostBlocked = true; }
+    else if (typeof Action.Id === "undefined") { CostBlocked = true; }
+    else if (Action.Id === null) { CostBlocked = true; }
+    else if (Action.Id < 1) { CostBlocked = true; }
+
+    if (CostBlocked === true) {
+        $("#BtnNewCost").hide();
+        $("#scrollTableDiv").hide();
+    }
+    else {
+        $("#DivPrimaryUser").hide();
+    }
 }
 
 window.onresize = function () { Resize(); }
-
-var CostBlocked = false;
-if (typeof Action === "undefined") { CostBlocked = true; }
-else if (typeof Action.Id === "undefined") { CostBlocked = true; }
-else if (Action.Id === null) { CostBlocked = true; }
-else if (Action.Id < 1) { CostBlocked = true; }
-
-if (CostBlocked === true) {
-    $("#BtnNewCost").hide();
-    $("#scrollTableDiv").hide();
-}
-else {
-    $("#DivPrimaryUser").hide();
-}
 
 function AnularPopup() {
     var ok = true;
@@ -1401,9 +1407,6 @@ function AnularPopup() {
         ]
     });
 }
-
-/// <var>The anulation data</var>
-var anulationData = null;
 
 function AnularConfirmed() {
     console.log("AnularConfirmed");

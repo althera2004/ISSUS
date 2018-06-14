@@ -58,9 +58,8 @@
         <script src="assets/js/html5shiv.js"></script>
         <script src="assets/js/respond.min.js"></script>
         <![endif]-->
-
     <script type="text/javascript">
-        var language = navigator.language || navigator.userLanguage;
+        var language = "<%=this.LanguageBrowser %>";
         var ip = "<%=this.IP %>";
         var Dictionary =
             {
@@ -72,20 +71,49 @@
                 "ca": {
                     "Title": "Acord de prestació de serveis",
                     "Message": "Per fer ús de l'aplicació s'han d'acceptar les següents condicions.",
-                    "Btn": "Acceptar"
+                    "Btn": "Aceptar"
                 }
             };
 
         window.onload = function () {
-            document.getElementById("PageTitle").innerHTML = Dictionary[language].Title;
-            document.getElementById("Message").innerHTML = Dictionary[language].Message;
-            document.getElementById("BtnLogin").innerHTML = Dictionary[language].Btn;
+            $("#PageTitle").html(Dictionary[language].Title);
+            $("#Message").html(Dictionary[language].Message);
+            $("#BtnLoginEs").html(Dictionary["es"].Btn);
+            $("#BtnLoginCa").html(Dictionary["ca"].Btn);
+
+            $("#tabEs").on("click", function () {
+                $("#tabEs").addClass("active");
+                $("#tabCa").removeClass("active");
+                $("#es").show();
+                $("#ca").hide();
+                $("#PageTitle").html(Dictionary["es"].Title);
+                $("#Message").html(Dictionary["es"].Message);
+            });
+
+            $("#tabCa").on("click", function () {
+                $("#tabCa").addClass("active");
+                $("#tabEs").removeClass("active");
+                $("#ca").show();
+                $("#es").hide();
+                $("#PageTitle").html(Dictionary["ca"].Title);
+                $("#Message").html(Dictionary["ca"].Message);
+            });
+
+            if (language == "ca") {
+                $("#tabCa").click();
+            }
+
+            if (language == "es") {
+                $("#tabEs").click();
+            }
+
         }
 
-        function Go() {
+        function Go(language) {
             var data = {                
                 "userId": <%=this.ApplicationUser.Id %>,
-                "companyId": <%=this.Company.Id %>
+                "companyId": <%=this.Company.Id %>,
+                "language": language
             };
 
             $.ajax({
@@ -115,7 +143,7 @@
         <div class="main-content">
             <div class="row">
                 <div class="col-sm-10 col-sm-offset-1">
-                    <div class="login-container" style="width: 500px!important;">
+                    <div class="login-container" style="width: 750px!important;">
                         <br />
                         <div class="center">
                             <img src="issus.png" alt="Issus" title="Issus" />
@@ -130,10 +158,31 @@
                                             <p id="Message"></p>
                                         </div>
                                         <div style="width: 100%; height: 400px; overflow: auto; border: 1px solid #333; background-color: #fff; padding: 12px;">
-                                            <asp:Literal runat="server" ID="LtAgreement"></asp:Literal>
-                                            <hr />
-                                            <div style="margin: 10px;">
-                                                <button type="button" class="width-35 pull-right btn btn-sm btn-primary" id="BtnLogin" onclick="Go();"></button>
+                                            <div class="tabbable">                                        
+                                                <ul class="nav nav-tabs padding-18">
+                                                    <li id="tabEs" class="active">
+                                                        <a data-toggle="tab" href="#es">Catellano</a>
+                                                    </li>                                            
+                                                    <li id="tabCa">                                                    
+                                                        <a data-toggle="tab" href="#ca">Catal&agrave;</a>
+                                                    </li>                                            
+                                                </ul>
+                                                <div class="tab-content no-border padding-24">
+                                                    <div id="es" class="tab-pane active">     
+                                                        <asp:Literal runat="server" ID="LTEs"></asp:Literal>
+                                                        <hr />
+                                                        <div style="margin: 10px;">
+                                                            <button type="button" class="width-35 pull-right btn btn-sm btn-primary" id="BtnLoginEs" onclick="Go('es');"></button>
+                                                        </div>
+                                                    </div>
+                                                    <div id="ca" class="tab-pane">  
+                                                        <asp:Literal runat="server" ID="LTCa"></asp:Literal>
+                                                        <hr />
+                                                        <div style="margin: 10px;">
+                                                            <button type="button" class="width-35 pull-right btn btn-sm btn-primary" id="BtnLoginCa" onclick="Go('ca');"></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

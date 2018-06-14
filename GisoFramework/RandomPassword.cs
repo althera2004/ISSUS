@@ -116,8 +116,10 @@ namespace GisoFramework
             var randomBytes = new byte[4];
 
             // Generate 4 random bytes.
-            var rng = new RNGCryptoServiceProvider();
-            rng.GetBytes(randomBytes);
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(randomBytes);
+            }
 
             // Convert 4 bytes into a 32-bit integer value.
             int seed = BitConverter.ToInt32(randomBytes, 0);

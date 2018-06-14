@@ -7,12 +7,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
 using SbrinnaCoreFramework.UI;
 using SbrinnaCoreFramework;
+using System.Globalization;
 
 /// <summary>Implements a class for the "CargosList" page</summary>
 public partial class CargosList : Page
@@ -37,6 +39,8 @@ public partial class CargosList : Page
         }
     }
 
+    public string GraphRows { get; private set; }
+
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
@@ -45,7 +49,6 @@ public partial class CargosList : Page
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
@@ -54,13 +57,14 @@ public partial class CargosList : Page
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
@@ -92,21 +96,45 @@ public partial class CargosList : Page
     /// <summary>Generates the HTML code to show JobPosition list</summary>
     private void RenderJobPositionData()
     {
+        var graphData = new StringBuilder("[");
+
         var res = new StringBuilder();
         var sea = new StringBuilder();
         var searchItems = new List<string>();
-        var cargos = JobPosition.JobsPositionByCompany((Company)Session["Company"]);
+        var cargos = JobPosition.JobsPositionByCompany((Company)Session["Company"]).OrderBy(c => c.Responsible.Id);
         int contData = 0;
+        bool firstGraph = true;
         foreach (var cargo in cargos)
         {
             res.Append(cargo.TableRow(this.Dictionary, this.user.HasGrantToWrite(ApplicationGrant.JobPosition), this.user.HasGrantToRead(ApplicationGrant.Department)));
-            if(!searchItems.Contains(cargo.Description))
+            if (!searchItems.Contains(cargo.Description))
             {
                 searchItems.Add(cargo.Description);
                 contData++;
             }
+
+            if (firstGraph)
+            {
+                firstGraph = false;
+            }
+            else
+            {
+                graphData.Append(",");
+            }
+
+            graphData.AppendFormat(
+                CultureInfo.InvariantCulture,
+                @"[{{""v"": ""{0}"", ""f"": ""{1}<div style='color:#333; font-style:italic;'>{2}</div>""}},""{3}"", ""{4}""]{5}",
+                cargo.Id,
+                cargo.Description,
+                cargo.Department.Description,
+                cargo.Responsible.Id == 0 ? string.Empty : cargo.Responsible.Id.ToString(),
+                cargo.Description,
+                Environment.NewLine);
         }
 
+        graphData.Append("]");
+        this.GraphRows = graphData.ToString();
         this.CargosDataTotal.Text = contData.ToString();
 
         searchItems.Sort();

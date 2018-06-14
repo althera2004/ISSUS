@@ -97,5 +97,5 @@ GROUP BY
                                                 <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">{1}</span></td></tr></table>                                            </span>
                                         </div>
                                     </a>
-                                </li>' // Cómo se muestra la alerta en la aplicación (desplegable campana)
+                                </li>'
 }

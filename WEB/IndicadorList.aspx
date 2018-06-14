@@ -76,7 +76,7 @@
                                                 </div>
                                             </td>
                                             <td style="width:100px;padding-left:20px;display:none;" id="CmdObjetivoLabel"><%=this.Dictionary["Item_Objetivo"] %>:</td>
-                                            <td style="width:100px;padding-left:20px;display:none;" id="CmbProcesoLabel"><%=this.Dictionary["Item_Process"] %>:</td>
+                                            <td style="width:100px;padding-left:20px;display:none;" id="CmbProcesoLabel"><%=this.Dictionary["Item_Proccess"] %>:</td>
                                             <td>
                                                 <select id="CmbProcess" class="col-sm-12" style="display:none;max-width:300px;" onchange="CmbProcessChanged();">
                                                     <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>

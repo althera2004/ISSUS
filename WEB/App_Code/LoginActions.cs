@@ -206,7 +206,7 @@ namespace GISOWeb
             var res = ActionResult.NoAction;
             res.SetSuccess();
             ApplicationUser.ClearGrant(itemUserId);
-            foreach (UserGrant ug in userGrants)
+            foreach (var ug in userGrants)
             {
                 var resTemp = ApplicationUser.SaveGrant(ug, userId);
                 if (!resTemp.Success)

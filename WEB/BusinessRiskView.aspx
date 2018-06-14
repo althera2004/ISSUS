@@ -596,7 +596,7 @@
                                         <thead class="thin-border-bottom">
                                             <tr>
                                                 <th><%=this.Dictionary["Item_Rules_Popup_Header"] %></th>
-                                                <th style="width:50px;"><%=this.Dictionary["Item_Rules_Popup_Limit"] %></th>
+                                                <th style="width:62px;"><%=this.Dictionary["Item_Rules_Popup_Limit"] %></th>
                                                 <th style="width:150px;"  class="hidden-480">&nbsp;</th>													
                                             </tr>
                                         </thead>

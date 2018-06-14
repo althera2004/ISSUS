@@ -280,8 +280,16 @@ window.onload = function () {
     EmployeeLayout();
     if (itemUser.Id > 0 && ApplicationUser.Grants.User.Write !== false) {
         $("#TabPermisos").show();
+        AdminLayout();
+
+        $("#ChkAdmin").on("click", SetAdmin);
     }
 };
+
+function SetAdmin() {
+    itemUser.Admin = document.getElementById("ChkAdmin").checked;
+    AdminLayout();
+}
 
 function ReadAll() {
     var grant = document.getElementById("RAll").checked;
@@ -357,12 +365,23 @@ var CBR = document.getElementsByClassName("CBR");
 var CBW = document.getElementsByClassName("CBW");
 TestCBAll();
 
-if(itemUser.Admin === true) {
-    $("#DivPrimaryUser").show();
-    for (var x = 0; x < CBR.length; x++) { CBR[x].disabled = true; }
-    for (var x = 0; x < CBW.length; x++) { CBW[x].disabled = true; }
-    document.getElementById("RAll").disabled = true;
-    document.getElementById("WAll").disabled = true;
+function AdminLayout() {
+    if (itemUser.Admin === true) {
+        $("#DivPrimaryUser").show();
+        for (var x = 0; x < CBR.length; x++) { CBR[x].disabled = true; CBR[x].checked = true; }
+        for (var x = 0; x < CBW.length; x++) { CBW[x].disabled = true; CBW[x].checked = true; }
+        document.getElementById("RAll").disabled = true;
+        document.getElementById("WAll").disabled = true;
+        document.getElementById("RAll").checked = true;
+        document.getElementById("WAll").checked = true;
+    }
+    else {
+        $("#DivPrimaryUser").hide();
+        for (var x = 0; x < CBR.length; x++) { CBR[x].disabled = false; }
+        for (var x = 0; x < CBW.length; x++) { CBW[x].disabled = false; }
+        document.getElementById("RAll").disabled = false;
+        document.getElementById("WAll").disabled = false;
+    }
 }
 console.log(itemUser);
 

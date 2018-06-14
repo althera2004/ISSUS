@@ -299,9 +299,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>
-        /// Set the assistance as completed
-        /// </summary>
+        /// <summary>Set the assistance as completed</summary>
         /// <param name="assistantId">Assistant identifier</param>
         /// <param name="companyId">Compnay identifier</param>
         /// <param name="userId">Identifier of user that performs the action</param>
@@ -616,7 +614,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Assistant>(res);
         }
 
-        /// <summary>Render the HTML code for a row in assistant table of learning profile</summary>
+        /*/// <summary>Render the HTML code for a row in assistant table of learning profile</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <param name="admin">Indicates if user that rqeust the data has admninistrator role</param>
         /// <returns>HTML code</returns>
@@ -704,7 +702,7 @@ namespace GisoFramework.Item
                 this.learning.DateEstimated.Year,
                 this.learning.Id,
                 this.employee.Id);
-        }
+        }*/
 
         /// <summary>Insert a learning participant into data base</summary>
         /// <param name="userId">Identifier of user that performs the action</param>

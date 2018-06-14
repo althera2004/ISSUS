@@ -89,7 +89,7 @@
                                                 <div id="home" class="tab-pane active">                                                
                                                     <form class="form-horizontal" role="form" id="ListForm">
                                                         <div class="form-group">
-                                                            <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Name"]%></label>
+                                                            <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Name"]%></label>
                                                             <%=this.TxtName %>
                                                             <div class="hidden"><%=this.TxtCode %></div>
                                                             <label id="TxtDateStartLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_DateStart"]%></label>
@@ -187,9 +187,12 @@
                                                         </div>
                                                         <div class="form-group" id="ActionActivator">
                                                             <div class="col-sm-3">
+                                                                <input type="checkbox" value="1" id="ApplyAction" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_Oportunity_LabelField_ApplyActionYes"] %>
+                                                            </div>
+                                                            <div class="col-sm-3" style="display:none;">
                                                                 <input type="radio" value="1" id="ApplyActionYes" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_Oportunity_LabelField_ApplyActionYes"] %>
                                                             </div>
-                                                            <div class="col-sm-3" id="ApplyActionNoStart">
+                                                            <div class="col-sm-3" id="ApplyActionNoStart" style="display:none;">
                                                                 <input type="radio" value="2" id="ApplyActionNo" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_Oportunity_LabelField_ApplyActionNo"] %>
                                                             </div>
                                                         </div>

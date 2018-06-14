@@ -283,7 +283,7 @@ namespace GisoFramework.UserInterface
                 CultureInfo.GetCultureInfo("en-us"),
                 @"<li {2} id=""menuoption-{4}""><a href=""{1}""><i class=""{3}""></i><span class=""menu-text""> {0} </span></a></li>",
                 dictionary[this.Item.Description],
-                this.Item.Url.AbsolutePath,
+                this.Item.Url.AbsolutePath ?? "/",
                 currentText,
                 this.Item.Icon,
                 this.Item.Id);
