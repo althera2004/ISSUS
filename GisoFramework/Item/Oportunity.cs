@@ -35,11 +35,11 @@ namespace GisoFramework.Item
         public DateTime DateStart { get; set; }
         public int Code { get; set; }
 
-        public ApplicationUser CreatedBy { get; set; }
-        public ApplicationUser ModifiedBy { get; set; }
-        public DateTime CreatedOn { get; set; }
-        public DateTime ModifiedOn { get; set; }
-        public bool Active { get; set; }
+        //public ApplicationUser CreatedBy { get; set; }
+        //public ApplicationUser ModifiedBy { get; set; }
+        //public DateTime CreatedOn { get; set; }
+        //public DateTime ModifiedOn { get; set; }
+        //public bool Active { get; set; }
 
         public ApplicationUser AnulateBy { get; set; }
         public DateTime? AnulateDate { get; set; }

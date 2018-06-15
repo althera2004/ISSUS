@@ -6,21 +6,20 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
+using GisoFramework.DataAccess;
 using GisoFramework.Item;
+using GisoFramework.Item.Binding;
 using SbrinnaCoreFramework;
 using SbrinnaCoreFramework.UI;
-using System.Data.SqlClient;
-using System.Data;
-using System.Configuration;
-using GisoFramework.DataAccess;
-using GisoFramework.Item.Binding;
 
 public partial class BusinessRiskView : Page
 {
@@ -28,20 +27,8 @@ public partial class BusinessRiskView : Page
     /// <summary> Master of page</summary>
     private Giso master;
 
-    /// <summary>Identifier for current BusinessRisk objectsummary>
-    private long businessRiskId;
-
     /// <summary>Current BusinessRisk object</summary>
     private BusinessRisk businessRisk;
-
-    /// <summary>Company of session</summary>
-    private Company company;
-
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
-    /// <summary>Application user logged in session</summary>
-    private ApplicationUser user;
 
     /// <summary>Barra de BusinessRisk<summary>
     private TabBar tabBar = new TabBar() { Id = "BusinessRiskTabBar" };
@@ -52,30 +39,20 @@ public partial class BusinessRiskView : Page
     /// <summary>Footer of actions tab</summary>
     private FormFooter formFooterActions;
 
-    /// <summary>
-    /// Action associated to businessRisk
-    /// </summary>
+    /// <summary>Action associated to businessRisk</summary>
     private IncidentAction incidentAction = IncidentAction.Empty;
     
-    /// <summary>
-    /// Action List associated to businessRisk
-    /// </summary>
+    /// <summary>Action List associated to businessRisk</summary>
     private IncidentAction incidentActionHistory = IncidentAction.Empty;
-    
-    /// <summary>
-    /// Public access to businessRiskId
-    /// </summary>
-    public long BusinessRiskId
-    {
-        get
-        {
-            return this.businessRiskId;
-        }
-    }
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    private bool GrantToWriteBusinessRisk;
+
+    private bool GrantToWriteIncidentAction;
+    
+    /// <summary>Public access to businessRiskId</summary>
+    public long BusinessRiskId { get; private set; }
+
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -86,9 +63,7 @@ public partial class BusinessRiskView : Page
 
     public bool historyActionActive;
 
-    /// <summary>
-    /// Public access to businessRisk
-    /// </summary>
+    /// <summary>Public access to businessRisk</summary>
     public BusinessRisk BusinessRisk
     {
         get
@@ -110,42 +85,16 @@ public partial class BusinessRiskView : Page
         }
     }
 
-    /// <summary>
-    /// Public access to company
-    /// </summary>
-    public Company Company
-    {
-        get
-        {
-            return this.company;
-        }
-    }
+    /// <summary>Public access to company</summary>
+    public Company Company { get; private set; }
 
-    /// <summary>
-    /// Public access to dictionary
-    /// </summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    /// <summary>Public access to dictionary</summary>
+    public Dictionary<string, string> Dictionary { get; private set; }
 
-    /// <summary>
-    /// Public access to user
-    /// </summary>
-    public new ApplicationUser User
-    {
-        get
-        {
-            return this.user;
-        }
-    }    
+    /// <summary>Public access to user</summary>
+    public ApplicationUser ApplicationUser { get; private set; }
 
-    /// <summary>
-    /// Render of tabBar
-    /// </summary>
+    /// <summary>Render of tabBar</summary>
     public string TabBar
     {
         get
@@ -154,31 +103,25 @@ public partial class BusinessRiskView : Page
         }
     }
 
-    /// <summary>
-    /// Render of formFooter
-    /// </summary>
+    /// <summary>Render of formFooter</summary>
     public string FormFooter
     {
         get
         {
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
     
-    /// <summary>
-    /// Render of formFooterActions
-    /// </summary>
+    /// <summary>Render of formFooterActions</summary>
     public string FormFooterActions
     {
         get
         {
-            return this.formFooterActions.Render(this.dictionary);
+            return this.formFooterActions.Render(this.Dictionary);
         }
     }
     
-    /// <summary>
-    /// Public access to incidentAction
-    /// </summary>
+    /// <summary>Public access to incidentAction</summary>
     public IncidentAction IncidentAction
     {
         get
@@ -187,9 +130,7 @@ public partial class BusinessRiskView : Page
         }
     }
 
-    /// <summary>
-    /// Public access to all incidentAction
-    /// </summary>
+    /// <summary>Public access to all incidentAction</summary>
     public IncidentAction IncidentActionHistory
     {
         get
@@ -208,7 +149,7 @@ public partial class BusinessRiskView : Page
                 return "[]";
             }
 
-            return IncidentCost.ByCompany(this.company.Id);
+            return IncidentCost.ByCompany(this.Company.Id);
         }
     }
 
@@ -216,7 +157,7 @@ public partial class BusinessRiskView : Page
     {
         get
         {
-            return CostDefinition.ByCompanyJson(this.company.Id);
+            return CostDefinition.ByCompanyJson(this.Company.Id);
         }
     }
 
@@ -227,7 +168,7 @@ public partial class BusinessRiskView : Page
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (Rules rule in Rules.GetBar(this.company.Id))
+            foreach (Rules rule in Rules.GetBar(this.Company.Id))
             {
                 if (first)
                 {
@@ -249,8 +190,7 @@ public partial class BusinessRiskView : Page
     {
         get
         {
-            return Employee.CompanyListJson(this.company.Id);
-            //return Employee.GetByCompanyJson(this.company.Id);
+            return Employee.CompanyListJson(this.Company.Id);
         }
     }
 
@@ -261,7 +201,7 @@ public partial class BusinessRiskView : Page
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (var proSev in ProbabilitySeverityRange.GetActive(this.company.Id))
+            foreach (var proSev in ProbabilitySeverityRange.GetActive(this.Company.Id))
             {
                 if (first)
                 {
@@ -288,7 +228,7 @@ public partial class BusinessRiskView : Page
                 return Constant.EmptyJsonList;
             }
 
-            return IncidentActionCost.GetByBusinessRisk(this.businessRisk.Id, this.company.Id);
+            return IncidentActionCost.GetByBusinessRisk(this.businessRisk.Id, this.Company.Id);
         }
     }
 
@@ -299,7 +239,7 @@ public partial class BusinessRiskView : Page
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (var BusinessRiskHistory in BusinessRisk.GetByHistory(businessRisk.Code, Company.Id))
+            foreach (var BusinessRiskHistory in BusinessRisk.ByHistory(businessRisk.Code, Company.Id))
             {
                 if (first)
                 {
@@ -367,7 +307,6 @@ public partial class BusinessRiskView : Page
     #endregion
 
     #region BusinessRiskForm
-
     /// <summary>Text box for the Name</summary>
     public string TxtName
     {
@@ -378,12 +317,12 @@ public partial class BusinessRiskView : Page
                 Name = "Name",
                 Value = string.Empty,
                 ColumnSpan =8,
-                Placeholder = this.dictionary["Item_BusinessRisk_LabelField_Name"],
+                Placeholder = this.Dictionary["Item_BusinessRisk_LabelField_Name"],
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
+                RequiredMessage = this.Dictionary["Common_Required"],
                 Duplicated = true,
-                DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
-                GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+                DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
+                GrantToWrite = GrantToWriteBusinessRisk,
                 MaximumLength = 100
             }.Render;
         }
@@ -399,12 +338,12 @@ public partial class BusinessRiskView : Page
                Name = "Code",
                Value = string.Format(CultureInfo.GetCultureInfo("en-us"),"{0:00000}", this.businessRisk.Code),
                ColumnSpan = 2,
-               Placeholder = this.dictionary["Item_BusinessRisk_LabelField_Code"],
+               Placeholder = this.Dictionary["Item_BusinessRisk_LabelField_Code"],
                Required = true,
-               RequiredMessage = this.dictionary["Common_Required"],
+               RequiredMessage = this.Dictionary["Common_Required"],
                Duplicated = true,
-               DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
-               GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk)
+               DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
+               GrantToWrite = GrantToWriteBusinessRisk
            }.Render;
         }
     }
@@ -418,7 +357,8 @@ public partial class BusinessRiskView : Page
             {
                 Id = "DateStart",
                 Value = this.businessRisk.DateStart,
-                ColumnsSpan = Constant.ColumnSpan2
+                ColumnsSpan = Constant.ColumnSpan2,
+                GrantToWrite = GrantToWriteBusinessRisk
             }.Render;
         }
     }
@@ -432,7 +372,8 @@ public partial class BusinessRiskView : Page
                 Name = "StartControl",
                 Value = this.businessRisk.StartControl,
                 ColumnsSpan = 12,
-                MaxLength = Constant.MaximumTextAreaLength
+                MaxLength = Constant.MaximumTextAreaLength,
+                GrantToWrite = GrantToWriteBusinessRisk
             }.Render;
         }
     }
@@ -447,7 +388,8 @@ public partial class BusinessRiskView : Page
                 Name = "Description",
                 Value = this.businessRisk.ItemDescription,
                 ColumnsSpan = 12,
-                MaxLength = Constant.MaximumTextAreaLength
+                MaxLength = Constant.MaximumTextAreaLength,
+                GrantToWrite = GrantToWriteBusinessRisk
             }.Render;
         }
     }
@@ -462,7 +404,8 @@ public partial class BusinessRiskView : Page
                 Name = "Notes",
                 Value = this.businessRisk.Notes,
                 ColumnsSpan = 12,
-                MaxLength = Constant.MaximumTextAreaLength
+                MaxLength = Constant.MaximumTextAreaLength,
+                GrantToWrite = GrantToWriteBusinessRisk
             }.Render;
         }
     }
@@ -477,7 +420,8 @@ public partial class BusinessRiskView : Page
                 Name = "Causes",
                 Value = this.businessRisk.Causes,
                 ColumnsSpan = 12,
-                MaxLength = Constant.MaximumTextAreaLength
+                MaxLength = Constant.MaximumTextAreaLength,
+                GrantToWrite = GrantToWriteBusinessRisk
             }.Render;
         }
     }
@@ -492,12 +436,12 @@ public partial class BusinessRiskView : Page
                 Name = "InitialValue",
                 Value = this.businessRisk.InitialValue.ToString(),
                 ColumnSpan = 12,
-                Placeholder = this.dictionary["Item_BusinessRisk_LabelField_InitialValue"],
+                Placeholder = this.Dictionary["Item_BusinessRisk_LabelField_InitialValue"],
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
+                RequiredMessage = this.Dictionary["Common_Required"],
                 Duplicated = true,
-                DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
-                GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk)
+                DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
+                GrantToWrite = GrantToWriteBusinessRisk
             }.Render;
         }
     }
@@ -511,16 +455,15 @@ public partial class BusinessRiskView : Page
             { 
                 Id = "TxtFinalDate",
                 ColumnsSpan = Constant.ColumnSpan6,
-                GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
-                Value = this.businessRisk.FinalDate
+                GrantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+                Value = this.businessRisk.FinalDate,
+                Required = GrantToWriteBusinessRisk
             }.Render;
         }
     }
-
     #endregion
 
     #region ActionForm
-
     public string TxtActionDescription
     {
         get
@@ -529,13 +472,13 @@ public partial class BusinessRiskView : Page
             {
                 ColumnSpan = 10,
                 ColumnSpanLabel = 2,
-                GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+                GrantToWrite = GrantToWriteIncidentAction,
                 Label = this.Dictionary["Item_IncidentAction_Label_Description"],
                 MaximumLength = 100,
                 Name = "TxtActionDescription",
                 Placeholder = this.Dictionary["Item_IncidentAction_Label_Description"],
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
+                RequiredMessage = this.Dictionary["Common_Required"],
                 Value = this.incidentAction.Description
             }.Render;
         }
@@ -550,11 +493,12 @@ public partial class BusinessRiskView : Page
                 Rows = 5,
                 Value = this.IncidentAction.WhatHappened,
                 Name = "TxtActionWhatHappened",
-                Label = this.dictionary["Item_IncidentAction_Field_WhatHappened"],
+                Label = this.Dictionary["Item_IncidentAction_Field_WhatHappened"],
                 ColumnsSpan = Constant.ColumnSpan8,
                 ColumnsSpanLabel = 12,
                 Embedded = true,
-                MaxLength = Constant.MaximumTextAreaLength
+                MaxLength = Constant.MaximumTextAreaLength,
+                GrantToWrite = GrantToWriteIncidentAction
             }.Render;
         }   
     }
@@ -568,11 +512,12 @@ public partial class BusinessRiskView : Page
                 Rows = 5,
                 Value = this.IncidentAction.Causes,
                 Name = "TxtActionCauses",
-                Label = this.dictionary["Item_IncidentAction_Field_Causes"],
+                Label = this.Dictionary["Item_IncidentAction_Field_Causes"],
                 ColumnsSpan = Constant.ColumnSpan8,
                 ColumnsSpanLabel = 12,
                 Embedded = true,
-                MaxLength = Constant.MaximumTextAreaLength
+                MaxLength = Constant.MaximumTextAreaLength,
+                GrantToWrite = GrantToWriteIncidentAction
             }.Render;
         }
     }
@@ -586,11 +531,12 @@ public partial class BusinessRiskView : Page
                 Rows = 5,
                 Value = this.IncidentAction.Actions,
                 Name = "TxtActionActions",
-                Label = this.dictionary["Item_IncidentAction_Field_Actions"],
+                Label = this.Dictionary["Item_IncidentAction_Field_Actions"],
                 ColumnsSpan = Constant.ColumnSpan8,
                 ColumnsSpanLabel = 12,
                 Embedded = true,
-                MaxLength = Constant.MaximumTextAreaLength
+                MaxLength = Constant.MaximumTextAreaLength,
+                GrantToWrite = GrantToWriteIncidentAction
             }.Render;
         }
     }
@@ -604,8 +550,9 @@ public partial class BusinessRiskView : Page
                 Rows = 5,
                 Value = this.IncidentAction.Monitoring,
                 Name = "TxtActionMonitoring",
-                Label = this.dictionary["Item_IncidentAction_Field_Monitoring"],
-                MaxLength = Constant.MaximumTextAreaLength
+                Label = this.Dictionary["Item_IncidentAction_Field_Monitoring"],
+                MaxLength = Constant.MaximumTextAreaLength,
+                GrantToWrite = GrantToWriteIncidentAction
             }.Render;
         }
     }
@@ -619,8 +566,9 @@ public partial class BusinessRiskView : Page
                 Rows = 5,
                 Value = this.IncidentAction.Notes,
                 Name = "TxtActionNotes",
-                Label = this.dictionary["Item_IncidentAction_Field_Notes"],
-                MaxLength = Constant.MaximumTextAreaLength
+                Label = this.Dictionary["Item_IncidentAction_Field_Notes"],
+                MaxLength = Constant.MaximumTextAreaLength,
+                GrantToWrite = GrantToWriteIncidentAction
             }.Render;
         }
     }
@@ -642,10 +590,11 @@ public partial class BusinessRiskView : Page
             return new FormDatePicker
             {
                 Id = "TxtActionWhatHappenedDate",
-                Label = this.dictionary["Common_Date"],
+                Label = this.Dictionary["Common_Date"],
                 ColumnsSpanLabel = Constant.ColumnSpan4,
                 ColumnsSpan = Constant.ColumnSpan8,
-                Value = this.IncidentAction.WhatHappenedOn
+                Value = this.IncidentAction.WhatHappenedOn,
+                GrantToWrite = GrantToWriteIncidentAction
             }.Render;
         }
     }
@@ -657,10 +606,11 @@ public partial class BusinessRiskView : Page
             return new FormDatePicker
             {
                 Id = "TxtActionCausesDate",
-                Label = this.dictionary["Common_Date"],
+                Label = this.Dictionary["Common_Date"],
                 ColumnsSpanLabel = Constant.ColumnSpan4,
                 ColumnsSpan = Constant.ColumnSpan8,
-                Value = this.IncidentAction.CausesOn
+                Value = this.IncidentAction.CausesOn,
+                GrantToWrite = GrantToWriteIncidentAction
             }.Render;
         }
     }
@@ -672,10 +622,11 @@ public partial class BusinessRiskView : Page
             return new FormDatePicker
             {
                 Id = "TxtActionActionsDate",
-                Label = this.dictionary["Common_DateExecution"],
+                Label = this.Dictionary["Common_DateExecution"],
                 ColumnsSpanLabel = Constant.ColumnSpan4,
                 ColumnsSpan = Constant.ColumnSpan8,
-                Value = this.IncidentAction.ActionsOn
+                Value = this.IncidentAction.ActionsOn,
+                GrantToWrite = GrantToWriteIncidentAction
             }.Render;
         }
     }
@@ -687,10 +638,11 @@ public partial class BusinessRiskView : Page
             return new FormDatePicker
             {
                 Id = "TxtActionActionsSchedule",
-                Label = this.dictionary["Common_Date"],
+                Label = this.Dictionary["Common_Date"],
                 ColumnsSpanLabel = Constant.ColumnSpan4,
                 ColumnsSpan = Constant.ColumnSpan8,
-                Value = this.IncidentAction.ActionsSchedule
+                Value = this.IncidentAction.ActionsSchedule,
+                GrantToWrite = GrantToWriteIncidentAction
             }.Render;
         }
     }
@@ -702,15 +654,14 @@ public partial class BusinessRiskView : Page
             return new FormDatePicker
             {
                 Id = "TxtActionClosedDate",
-                Label = this.dictionary["Common_Date"],
+                Label = this.Dictionary["Common_Date"],
                 ColumnsSpanLabel = Constant.ColumnSpan4,
                 ColumnsSpan = Constant.ColumnSpan6,
                 Value = this.IncidentAction.ClosedOn,
-                Required = true
+                GrantToWrite = GrantToWriteIncidentAction
             }.Render;
         }
     }
-
     #endregion
 
     /// <summary>
@@ -722,37 +673,35 @@ public partial class BusinessRiskView : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
             int test = 0;
-            this.user = this.Session["User"] as ApplicationUser;
+            this.ApplicationUser = this.Session["User"] as ApplicationUser;
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
-            if (!UniqueSession.Exists(token, this.user.Id))
+            if (!UniqueSession.Exists(token, this.ApplicationUser.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else if (this.Request.QueryString["id"] == null)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else if (!int.TryParse(this.Request.QueryString["id"], out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
-    private BusinessRisk GetById(int companyId, long id)
+    private BusinessRisk ById(int companyId, long id)
     {
         var res = BusinessRisk.Empty;
         string query = "BusinessRisk_GetById";
@@ -863,14 +812,17 @@ public partial class BusinessRiskView : Page
     /// <summary>Main action to load page elements</summary>
     private void Go()
     {
-        this.company = this.Session["company"] as Company;
-        this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
-        this.user = this.Session["User"] as ApplicationUser;
-        this.Session["User"] = this.user;
+        this.Company = this.Session["company"] as Company;
+        this.Dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
+        this.ApplicationUser = this.Session["User"] as ApplicationUser;
+        this.Session["User"] = this.ApplicationUser;
+
+        this.GrantToWriteBusinessRisk = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk);
+        this.GrantToWriteIncidentAction = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.IncidentActions);
 
         if (this.Request.QueryString["id"] != null)
         {
-            this.businessRiskId = Convert.ToInt64(this.Request.QueryString["id"]);
+            this.BusinessRiskId = Convert.ToInt64(this.Request.QueryString["id"]);
         }
 
         string label = "Item_BusinessRisk_Title_BusinessRiskDetails";
@@ -878,7 +830,7 @@ public partial class BusinessRiskView : Page
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
 
-        if (user.HasGrantToRead(18))
+        if (ApplicationUser.HasGrantToRead(ApplicationGrant.BusinessRisk))
         {
             this.master.AddBreadCrumb("Item_BusinessRisks", "BusinessRisksList.aspx", Constant.NotLeaft);
         }
@@ -896,18 +848,18 @@ public partial class BusinessRiskView : Page
 
         this.formFooter = new FormFooter();
         this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success" });
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
         
         this.formFooterActions = new FormFooter();
-        this.formFooterActions.AddButton(new UIButton { Id = "BtnSave2", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
-        this.formFooterActions.AddButton(new UIButton { Id = "BtnCancel2", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooterActions.AddButton(new UIButton { Id = "BtnSave2", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.formFooterActions.AddButton(new UIButton { Id = "BtnCancel2", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
         
-        if (this.businessRiskId != -1)
+        if (this.BusinessRiskId != -1)
         {
-            this.businessRisk = GetById(this.company.Id, this.businessRiskId);
-            this.incidentAction = IncidentAction.ByBusinessRiskId(this.businessRisk.Id, this.company.Id);
-            if (this.businessRisk.CompanyId != this.company.Id)
+            this.businessRisk = ById(this.Company.Id, this.BusinessRiskId);
+            this.incidentAction = IncidentAction.ByBusinessRiskId(this.businessRisk.Id, this.Company.Id);
+            if (this.businessRisk.CompanyId != this.Company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
@@ -916,7 +868,7 @@ public partial class BusinessRiskView : Page
 
             this.formFooter.ModifiedBy = this.businessRisk.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.businessRisk.ModifiedOn;
-            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_BusinessRisk"], this.businessRisk.Description);
+            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_BusinessRisk"], this.businessRisk.Description);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
         }
@@ -929,12 +881,12 @@ public partial class BusinessRiskView : Page
         historyActionActive = false;
         RenderActionHistory();
 
-        this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_BusinessRisk_Tab_Basic"], Available = true });
-        this.tabBar.AddTab(new Tab { Id = "accion", Available = this.user.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Label = this.dictionary["Item_BusinessRisk_Tab_Action"] });
-        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.user.HasGrantToRead(ApplicationGrant.Cost), Active = true, Label = this.dictionary["Item_BusinessRisk_Tab_Costs"] });
-        this.tabBar.AddTab(new Tab { Id = "graphic", Available = true, Active = true, Label = this.dictionary["Item_BusinessRisk_Tab_Graphics"] });
-        this.tabBar.AddTab(new Tab { Id = "historyActions", Available = true, Active = historyActionActive == true, Label = this.dictionary["Item_BusinessRisk_Tab_HistoryActions"], Hidden = !historyActionActive });
-        this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = true, Label = this.dictionary["Item_Learning_Tab_UploadFiles"], Hidden = this.businessRisk.Id < 1 });
+        this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_BusinessRisk_Tab_Basic"], Available = true });
+        this.tabBar.AddTab(new Tab { Id = "accion", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Label = this.Dictionary["Item_BusinessRisk_Tab_Action"] });
+        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.Cost), Active = true, Label = this.Dictionary["Item_BusinessRisk_Tab_Costs"] });
+        this.tabBar.AddTab(new Tab { Id = "graphic", Available = true, Active = true, Label = this.Dictionary["Item_BusinessRisk_Tab_Graphics"] });
+        this.tabBar.AddTab(new Tab { Id = "historyActions", Available = true, Active = historyActionActive == true, Label = this.Dictionary["Item_BusinessRisk_Tab_HistoryActions"], Hidden = !historyActionActive });
+        this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = true, Label = this.Dictionary["Item_Learning_Tab_UploadFiles"], Hidden = this.businessRisk.Id < 1 });
 
         RenderProcess();
         RenderLimit();
@@ -947,7 +899,7 @@ public partial class BusinessRiskView : Page
     /// <summary>Renders the selectable Processes</summary>
     private void RenderProcess()
     {
-        var processeCollection = Process.ByCompany(this.company.Id);
+        var processeCollection = Process.ByCompany(this.Company.Id);
         var processList = new StringBuilder();
         processList.Append(string.Format(CultureInfo.InvariantCulture,@"<option value=""0"">{0}</option>",this.Dictionary["Common_SelectOne"]));
         foreach (var process in processeCollection.OrderBy(process => process.Description))
@@ -961,7 +913,7 @@ public partial class BusinessRiskView : Page
     /// <summary>Renders the selectable Rules</summary>
     private void RenderLimit()
     {
-        var limitCollection = ProbabilitySeverityRange.All(this.company.Id);
+        var limitCollection = ProbabilitySeverityRange.All(this.Company.Id);
         var limitList = new StringBuilder();
         var probabilityList = new StringBuilder();
         var severityList = new StringBuilder();
@@ -987,7 +939,7 @@ public partial class BusinessRiskView : Page
     /// <summary>Renders the selectable ProbabilitySeverityRanges</summary>
     private void RenderProbabilitySeverity()
     {
-        var probabilitySeverityCollection = ProbabilitySeverityRange.GetActive(this.company.Id);
+        var probabilitySeverityCollection = ProbabilitySeverityRange.GetActive(this.Company.Id);
         var severityList = new StringBuilder();
         severityList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""0"">{0}</option>", this.Dictionary["Common_SelectOne"]));
         var probabilityList = new StringBuilder();
@@ -1007,64 +959,65 @@ public partial class BusinessRiskView : Page
 
     private void RenderActionsForm()
     {
+        var defaultOption = new FormSelectOption { Text = this.Dictionary["Common_SelectAll"], Value = "0" };
         this.ComboActionWhatHappenedResponsible = new FormSelect
         {
             ColumnsSpanLabel = Constant.ColumnSpan4,
-            Label = this.dictionary["Item_IncidentAction_Field_ResponsibleWhatHappend"],
+            Label = this.Dictionary["Item_IncidentAction_Field_ResponsibleWhatHappend"],
             ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionWhatHappenedResponsible",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+            GrantToWrite = GrantToWriteIncidentAction,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = defaultOption
         };
 
         this.ComboActionCausesResponsible = new FormSelect
         {
             ColumnsSpanLabel = Constant.ColumnSpan4,
-            Label = this.dictionary["Item_IncidentAction_Field_ResponsibleCauses"],
+            Label = this.Dictionary["Item_IncidentAction_Field_ResponsibleCauses"],
             ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionCausesResponsible",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+            GrantToWrite = GrantToWriteIncidentAction,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = defaultOption
         };
 
         this.ComboActionActionsResponsible = new FormSelect
         {
             ColumnsSpanLabel = Constant.ColumnSpan4,
-            Label = this.dictionary["Item_IncidentAction_Field_ResponsibleActions"],
+            Label = this.Dictionary["Item_IncidentAction_Field_ResponsibleActions"],
             ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionActionsResponsible",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+            GrantToWrite = GrantToWriteIncidentAction,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = defaultOption
         };
 
         this.ComboActionActionsExecuter = new FormSelect
         {
             ColumnsSpanLabel = Constant.ColumnSpan4,
-            Label = this.dictionary["Item_IncidentAction_Field_Responsible"],
+            Label = this.Dictionary["Item_IncidentAction_Field_Responsible"],
             ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionActionsExecuter",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+            GrantToWrite = GrantToWriteIncidentAction,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = defaultOption
         };
 
         this.ComboActionClosedResponsible = new FormSelect
         {
             ColumnsSpanLabel = Constant.ColumnSpan4,
-            Label = this.dictionary["Item_IncidentAction_Field_ResponsibleClose"],
+            Label = this.Dictionary["Item_IncidentAction_Field_ResponsibleClose"],
             ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionClosedResponsible",
-            GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+            GrantToWrite = GrantToWriteIncidentAction,
             Required = true,
-            RequiredMessage = this.dictionary["Common_Required"],
-            DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectAll"], Value = "0" }
+            RequiredMessage = this.Dictionary["Common_Required"],
+            DefaultOption = defaultOption
         };
 
         long whatHappenedResponsibleId = this.IncidentAction.WhatHappenedBy == null ? 0 : this.IncidentAction.WhatHappenedBy.Id;
@@ -1073,7 +1026,7 @@ public partial class BusinessRiskView : Page
         long actionsExecuterId = this.IncidentAction.ActionsExecuter == null ? 0 : this.IncidentAction.ActionsExecuter.Id;
         long closedResponsibleId = this.IncidentAction.ClosedBy == null ? 0 : this.IncidentAction.ClosedBy.Id;
 
-        foreach (Employee e in this.company.Employees)
+        foreach (Employee e in this.Company.Employees)
         {
             if (e.Active && e.DisabledDate == null)
             {
@@ -1130,7 +1083,7 @@ public partial class BusinessRiskView : Page
 
     private void RenderRemainder()
     {
-        var probabilitySeverityCollection = ProbabilitySeverityRange.GetActive(this.company.Id);
+        var probabilitySeverityCollection = ProbabilitySeverityRange.GetActive(this.Company.Id);
         var severityList = new StringBuilder();
         var probabilityList = new StringBuilder();
         foreach (var probabilitySeverity in probabilitySeverityCollection.OrderBy(probabilitySeverity => probabilitySeverity.Code))
@@ -1161,7 +1114,7 @@ public partial class BusinessRiskView : Page
 
     private void RenderActionHistory()
     {
-        var incidentActionCollection = BusinessRisk.FindHistoryAction(businessRisk.Code, this.company.Id);
+        var incidentActionCollection = BusinessRisk.FindHistoryAction(businessRisk.Code, this.Company.Id);
         var res = new StringBuilder();
         var searchItem = new List<string>();
         foreach (var incidentAction in incidentActionCollection.OrderBy(incidentAction => incidentAction.WhatHappenedOn))
@@ -1171,7 +1124,7 @@ public partial class BusinessRiskView : Page
                 searchItem.Add(incidentAction.Description);
             }
 
-            res.Append(incidentAction.ListBusinessRiskRow(this.dictionary, this.user.Grants));
+            res.Append(incidentAction.ListBusinessRiskRow(this.Dictionary, this.ApplicationUser.Grants));
 
             if (incidentAction.BusinessRiskId != businessRisk.Id)
             {
@@ -1188,11 +1141,11 @@ public partial class BusinessRiskView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        var files = UploadFile.GetByItem(18, this.businessRiskId, this.company.Id).ToList();
+        var files = UploadFile.GetByItem(18, this.BusinessRiskId, this.Company.Id).ToList();
 
         if (this.incidentAction.Id > 0)
         {
-            files.AddRange(UploadFile.GetByItem(13, this.incidentAction.Id, this.company.Id));
+            files.AddRange(UploadFile.GetByItem(13, this.incidentAction.Id, this.Company.Id));
         }
 
         var res = new StringBuilder();
@@ -1248,12 +1201,12 @@ public partial class BusinessRiskView : Page
                     file.Id,
                     string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
                     file.Extension,
-                    this.company.Id,
+                    this.Company.Id,
                     file.FileName,
                     file.CreatedOn,
                     finalSize,
                     this.Dictionary["Item_Attachment_Header_CreateDate"],
-                    this.dictionary["Item_Attachment_Header_Size"],
+                    this.Dictionary["Item_Attachment_Header_Size"],
                     fileShowed,
                     viewButton);
 
@@ -1276,7 +1229,7 @@ public partial class BusinessRiskView : Page
                 file.FileName,
                 string.IsNullOrEmpty(file.Description) ? file.FileName : file.Description,
                 file.Id,
-                this.company.Id,
+                this.Company.Id,
                 file.CreatedOn,
                 finalSize,
                 listViewButton);

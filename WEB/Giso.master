@@ -142,7 +142,7 @@
     <asp:ContentPlaceHolder id="PageScripts" runat="server"></asp:ContentPlaceHolder>
     <asp:ContentPlaceHolder id="ScriptHeadContentHolder" runat="server"></asp:ContentPlaceHolder>
 </head>
-<body _oncontextmenu="return false;">
+<body oncontextmenu="return false;">
     <form id="form1" runat="server">
         <div class="navbar navbar-fixed-top" id="navbar">
             <script type="text/javascript">
@@ -267,7 +267,7 @@
                                 <div id="AlertUIDialog" class="hide" style="width:500px;">
                                     <table cellpadding="4" cellspacing="2">
                                         <tr>
-                                            <td valign="top" align="center" style="width:26px;"><i class="icon-exclamation-sign red" style="font-size:40px;"></i></td>
+                                            <td style="width:26px;vertical-align:top;text-align:center;"><i class="icon-exclamation-sign red" style="font-size:40px;"></i></td>
                                             <td style="font-weight:bold;"><span id="AlertUIMessage"></span></td>
                                         </tr>
                                     </table>
@@ -276,7 +276,7 @@
                                 <div id="InfoUIDialog" class="hide" style="width:500px;">
                                     <table cellpadding="4" cellspacing="2">
                                         <tr>
-                                            <td valign="top" align="center" style="width:26px;"><i class="icon-info-sign blue" style="font-size:40px;"></i></td>
+                                            <td style="width:26px;vertical-align:top;text-align:center;"><i class="icon-info-sign blue" style="font-size:40px;"></i></td>
                                             <td style="font-weight:bold;"><span id="InfoUIMessage"></span></td>
                                         </tr>
                                     </table>
@@ -285,7 +285,7 @@
                                 <div id="InfoUINoGrantsDialog" class="hide" style="width:500px;">
                                     <table cellpadding="4" cellspacing="2">
                                         <tr>
-                                            <td valign="top" align="center" style="width:26px;"><i class="icon-info-sign blue" style="font-size:40px;"></i></td>
+                                            <td style="width:26px;vertical-align:top;text-align:center;"><i class="icon-info-sign blue" style="font-size:40px;"></i></td>
                                             <td style="font-weight:bold;">
                                                 <p><%=this.Dictionary["Common_UserSetGrant"] %></p>
                                             </td>
@@ -296,7 +296,7 @@
                                 <div id="WarningUIDialog" class="hide" style="width:500px;">
                                     <table cellpadding="4" cellspacing="2">
                                         <tr>
-                                            <td valign="top" align="center" style="width:26px;"><i class="icon-warning-sign red" style="font-size:40px;"></i></td>
+                                            <td style="width:26px;vertical-align:top;text-align:center;"><i class="icon-warning-sign red" style="font-size:40px;"></i></td>
                                             <td style="font-weight:bold;"><span id="WarningUIMessage"></span></td>
                                         </tr>
                                     </table>
@@ -305,7 +305,7 @@
                                 <div id="SuccessUIDialog" class="hide" style="width:500px;">
                                     <table cellpadding="4" cellspacing="2">
                                         <tr>
-                                            <td valign="top" align="center" style="width:26px;"><i class="icon-ok green" style="font-size:40px;"></i></td>
+                                            <td style="width:26px;vertical-align:top;text-align:center;"><i class="icon-ok green" style="font-size:40px;"></i></td>
                                             <td style="font-weight:bold;"><span id="SuccessUIMessage"></span></td>
                                         </tr>
                                     </table>
@@ -314,7 +314,7 @@
                                 <div id="PromptUIDialog" class="hide" style="width:500px;">
                                     <table cellpadding="4" cellspacing="2">
                                         <tr>
-                                            <td valign="top" align="center" style="width:26px;"><i class="icon-question blue" style="font-size:40px;"></i></td>
+                                            <td style="width:26px;vertical-align:top;text-align:center;"><i class="icon-question blue" style="font-size:40px;"></i></td>
                                             <td style="font-weight:bold;"><span id="PromptUIMessage"></span></td>
                                         </tr>
                                     </table>
@@ -323,7 +323,7 @@
                                 <div id="LoadingDialog" class="hide" style="width:500px;">
                                     <table cellpadding="4" cellspacing="2">
                                         <tr>
-                                            <td valign="top" align="center" style="width:26px;"><img src ="assets/img/loading.gif" /></td>
+                                            <td style="width:26px;vertical-align:top;text-align:center;"><img src ="assets/img/loading.gif" /></td>
                                             <td style="font-weight:bold;"><span id="LoadingMessage"></span></td>
                                         </tr>
                                     </table>
@@ -703,6 +703,9 @@
                 $("#menuoption-6").hide();
                 $("#menuoption-0").hide();
             }
+
+            // @alex: ocultar entrada de menú para oportunidades
+            $("#menuoption-26").hide();
         </script>
     </body>
 </html>

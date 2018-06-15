@@ -402,8 +402,6 @@ public partial class ExportPrintEquipmentData : Page
         #region Mantenimientos
         if (equipment.IsMaintenance)
         {
-            var borderNone = iTS.Rectangle.NO_BORDER;
-            var borderAll = iTS.Rectangle.RIGHT_BORDER + iTS.Rectangle.TOP_BORDER + iTS.Rectangle.LEFT_BORDER + iTS.Rectangle.BOTTOM_BORDER;
             var backgroundColor = new iTS.BaseColor(225, 225, 225);
             var rowPair = new iTS.BaseColor(255, 255, 255);
             var rowEven = new iTS.BaseColor(240, 240, 240);
@@ -443,7 +441,7 @@ public partial class ExportPrintEquipmentData : Page
 
             tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentMaintenanceDefinition_Header_Operation"].ToUpperInvariant(), headerFontFinal))
             {
-                Border = borderAll,
+                Border = ToolsPdf.BorderAll,
                 BackgroundColor = backgroundColor,
                 HorizontalAlignment = iTS.Element.ALIGN_LEFT,
                 Padding = 8
@@ -451,7 +449,7 @@ public partial class ExportPrintEquipmentData : Page
 
             tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentMaintenanceDefinition_Header_Type"].ToUpperInvariant(), headerFontFinal))
             {
-                Border = borderAll,
+                Border = ToolsPdf.BorderAll,
                 BackgroundColor = backgroundColor,
                 HorizontalAlignment = iTS.Element.ALIGN_CENTER,
                 Padding = 8
@@ -460,7 +458,7 @@ public partial class ExportPrintEquipmentData : Page
             tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentMaintenanceDefinition_Header_Periodicity_PDF"].ToUpperInvariant(), headerFontFinal))
             {
                 PaddingBottom = 6f,
-                Border = borderAll,
+                Border = ToolsPdf.BorderAll,
                 BackgroundColor = backgroundColor,
                 HorizontalAlignment = iTS.Element.ALIGN_LEFT,
                 Padding = 8
@@ -468,7 +466,7 @@ public partial class ExportPrintEquipmentData : Page
 
             tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentMaintenanceDefinition_Header_Accesories"].ToUpperInvariant(), headerFontFinal))
             {
-                Border = borderAll,
+                Border = ToolsPdf.BorderAll,
                 BackgroundColor = backgroundColor,
                 HorizontalAlignment = iTS.Element.ALIGN_LEFT,
                 Padding = 8
@@ -476,7 +474,7 @@ public partial class ExportPrintEquipmentData : Page
 
             tableMaintenance.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_EquipmentMaintenanceDefinition_Header_Cost"].ToUpperInvariant(), headerFontFinal))
             {
-                Border = borderAll,
+                Border = ToolsPdf.BorderAll,
                 BackgroundColor = backgroundColor,
                 HorizontalAlignment = iTS.Element.ALIGN_RIGHT,
                 Padding = 8
@@ -484,12 +482,12 @@ public partial class ExportPrintEquipmentData : Page
 
             int borderFirst = iTS.Rectangle.TOP_BORDER;
             int cont = 0;
-            var data = Equipment.GetList(companyId);
+            var data = Equipment.ByCompany(companyId);
             bool pair = false;
             var times = new iTS.Font(arial, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
             var timesBold = new iTS.Font(arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);
             decimal cost = 0;
-            foreach (EquipmentMaintenanceDefinition maintenance in EquipmentMaintenanceDefinition.GetByCompany(equipment.Id, equipment.CompanyId))
+            foreach (EquipmentMaintenanceDefinition maintenance in EquipmentMaintenanceDefinition.ByCompany(equipment.Id, equipment.CompanyId))
             {
                 int border = 0;
                 var lineBackground = pair ? rowEven : rowPair;

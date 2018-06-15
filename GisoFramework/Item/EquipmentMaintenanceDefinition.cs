@@ -23,8 +23,6 @@ namespace GisoFramework.Item
     {
         public long EquipmentId { get; set; }
 
-        public string Description { get; set; }
-
         public int MaintenanceType { get; set; }
 
         public int Periodicity { get; set; }
@@ -96,7 +94,7 @@ namespace GisoFramework.Item
         public static string JsonList(long equipmentId, int companyId)
         {
             var res = new StringBuilder("[");
-            var maintenance = GetByCompany(equipmentId, companyId);
+            var maintenance = ByCompany(equipmentId, companyId);
             bool first = true;
             foreach (EquipmentMaintenanceDefinition item in maintenance)
             {
@@ -152,7 +150,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }*/
 
-        public static ReadOnlyCollection<EquipmentMaintenanceDefinition> GetByCompany(long equipmentId, int companyId)
+        public static ReadOnlyCollection<EquipmentMaintenanceDefinition> ByCompany(long equipmentId, int companyId)
         {
             /*CREATE PROCEDURE EquipmentMaintenance_GetByEquipmentId
              *   @EquipmentId bigint,

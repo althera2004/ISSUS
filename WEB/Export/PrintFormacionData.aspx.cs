@@ -200,7 +200,6 @@ public partial class ExportPrintFormacionData : Page
         tableAssistants.AddCell(ToolsPdf.HeaderCell(dictionary["Item_LearningAssistant_Status_Evaluated"]));
 
         int cont = 0;
-        var data = Equipment.GetList(companyId);
         bool pair = false;
         var times = new iTS.Font(arial, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         var timesBold = new iTS.Font(arial, 8, iTS.Font.BOLD, iTS.BaseColor.BLACK);

@@ -6,9 +6,7 @@
 // --------------------------------
 namespace GisoFramework.Item.Binding
 {
-    /// <summary>
-    /// Index of columns of Employee_GetByUserId result rows
-    /// </summary>
+    /// <summary>Index of columns of Employee_GetByUserId result rows</summary>
     public static class ColumnsEmployeeGetByUserId
     {
         /// <summary>Index of Id column</summary>

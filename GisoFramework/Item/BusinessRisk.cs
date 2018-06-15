@@ -474,7 +474,7 @@ namespace GisoFramework.Item
         /// <summary>Get Active BusinessRisk objects from database</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>Read-only list of active BusinessRisk objects</returns>
-        public static ReadOnlyCollection<BusinessRisk> GetActive(int companyId)
+        public static ReadOnlyCollection<BusinessRisk> ActiveByCompany(int companyId)
         {
             return All(companyId, OnlyActive);
         }
@@ -494,6 +494,11 @@ namespace GisoFramework.Item
         /// <returns>ReadOnlyCollection of BusinessRisk items</returns>
         public static ReadOnlyCollection<IncidentAction> FindHistoryAction(long code, int companyId)
         {
+            var source = string.Format(
+                   CultureInfo.InvariantCulture,
+                   @"BusinessRisk::FindHistoryAction({0},{1}",
+                   code,
+                   companyId);
             var res = new List<IncidentAction>();
             string query = "IncidentAction_GetByBusinessRiskCode";
             using (SqlCommand cmd = new SqlCommand(query))
@@ -535,8 +540,9 @@ namespace GisoFramework.Item
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch (NotSupportedException ex)
                     {
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -555,8 +561,13 @@ namespace GisoFramework.Item
         /// <param name="code">Code identifier of the BusinessRisk</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>ReadOnlyCollection of BusinessRisk items</returns>
-        public static ReadOnlyCollection<BusinessRisk> GetByHistory(long code, int companyId)
+        public static ReadOnlyCollection<BusinessRisk> ByHistory(long code, int companyId)
         {
+            var source = string.Format(
+                CultureInfo.InvariantCulture,
+                @"BusinessRisk::ByHistory({0},{1}",
+                code,
+                companyId);
             var res = new List<BusinessRisk>();
             string query = "BusinessRisk_GetHistory";
             using (var cmd = new SqlCommand(query))
@@ -599,6 +610,7 @@ namespace GisoFramework.Item
                     }
                     catch (Exception ex)
                     {
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -888,6 +900,7 @@ namespace GisoFramework.Item
         /// <param name="reason">Reason for delete</param>
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">User identifier</param>
+        /// <param name="deleteAction">Indicates if associated action is deleted too</param>
         /// <returns>Result of action</returns>
         public static ActionResult Delete(long businessRiskId, string reason, int companyId, int userId, bool deleteAction = true)
         {
@@ -1244,7 +1257,7 @@ namespace GisoFramework.Item
         public static ReadOnlyCollection<BusinessRiskFilterItem> NewFilter(int companyId, DateTime? from, DateTime? to, long rulesId, long processId, int type)
         {
             var res = new List<BusinessRiskFilterItem>();
-            var risks = BusinessRisk.GetActive(companyId).ToList();
+            var risks = BusinessRisk.ActiveByCompany(companyId).ToList();
 
             if (from.HasValue)
             {

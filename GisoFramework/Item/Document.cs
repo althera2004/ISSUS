@@ -243,7 +243,7 @@ namespace GisoFramework.Item
         {
             var res = new StringBuilder("[");
             var first = true;
-            var documents = GetByCompany(companyId);
+            var documents = ByCompany(companyId);
             foreach (var document in documents)
             {
                 if (first)
@@ -326,7 +326,7 @@ namespace GisoFramework.Item
         /// <summary>Gets the inactive documents of company</summary>
         /// <param name="company">Company to search in</param>
         /// <returns>A list of documents</returns>
-        public static ReadOnlyCollection<Document> GetByCompanyInactive(Company company)
+        public static ReadOnlyCollection<Document> InactiveByCompany(Company company)
         {
             var res = new List<Document>();
             if (company != null)
@@ -430,13 +430,13 @@ namespace GisoFramework.Item
                 return new ReadOnlyCollection<Document>(new List<Document>());
             }
 
-            return GetByCompany(company.Id);
+            return ByCompany(company.Id);
         }
 
         /// <summary>Get all document of company from data base</summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns>A list of documents</returns>
-        public static ReadOnlyCollection<Document> GetByCompany(int companyId)
+        public static ReadOnlyCollection<Document> ByCompany(int companyId)
         {
             var res = new List<Document>();
             using (var cmd = new SqlCommand("Company_GetDocuments"))
@@ -680,7 +680,7 @@ namespace GisoFramework.Item
             {
                 foreach (var document in documents)
                 {
-                    if (document.LastVersion.State == DocumentStatus.Draft)
+                    if (document.LastVersion.State == DocumentsStatus.Draft)
                     {
                         res.Add(document);
                     }

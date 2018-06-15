@@ -221,7 +221,6 @@ public partial class ExportObjetivoRecords : Page
                 break;
         }
 
-        int cont = 0;
         var dataPoints = new List<PointData>();
         foreach (var registroObjetivo in registros)
         {
@@ -628,7 +627,7 @@ public partial class ExportObjetivoRecords : Page
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
 
-        writer.PageEvent = new TwoColumnHeaderFooter()
+        writer.PageEvent = new TwoColumnHeaderFooter
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, companyId),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
@@ -642,21 +641,6 @@ public partial class ExportObjetivoRecords : Page
         pdfDoc.Open();
 
         var backgroundColor = new iTS.BaseColor(220, 220, 220);
-
-        // ------------ FONTS 
-        string pathFonts = System.Web.HttpContext.Current.Request.PhysicalApplicationPath;
-        if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
-        {
-            pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
-        }
-
-        var dataFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\calibri.ttf", pathFonts), BaseFont.CP1250, BaseFont.EMBEDDED);
-        var times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        var timesBold = new iTS.Font(dataFont, 10, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        var headerFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        CriteriaFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        // -------------------        
-
 
         string periode = string.Empty;
 
@@ -700,7 +684,7 @@ public partial class ExportObjetivoRecords : Page
 
         criteriatable.SetWidths(new float[] { 25f, 250f });
         
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Common_Period"], timesBold))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Common_Period"], ToolsPdf.LayoutFonts.TimesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -708,7 +692,7 @@ public partial class ExportObjetivoRecords : Page
             PaddingTop = 4f
         });
 
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, ToolsPdf.LayoutFonts.Times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -718,7 +702,7 @@ public partial class ExportObjetivoRecords : Page
 
         string typeText = string.Empty;
 
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(typeText, times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(typeText, ToolsPdf.LayoutFonts.Times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -808,10 +792,10 @@ public partial class ExportObjetivoRecords : Page
                 statusLabel = Dictionary["Item_Objetivo_StatusLabelNoMeta"];
             }
 
-            table.AddCell(ToolsPdf.DataCell(statusLabel, times));
-            table.AddCell(ToolsPdf.DataCellMoney(registro.Value, times));
-            table.AddCell(ToolsPdf.DataCell(registro.Date, times));
-            table.AddCell(ToolsPdf.DataCell(registro.Comments, times));
+            table.AddCell(ToolsPdf.DataCell(statusLabel));
+            table.AddCell(ToolsPdf.DataCellMoney(registro.Value));
+            table.AddCell(ToolsPdf.DataCell(registro.Date));
+            table.AddCell(ToolsPdf.DataCell(registro.Comments));
 
             string metaText = IndicadorRegistro.ComparerLabelSign(registro.MetaComparer, Dictionary);
             if (!registro.Meta.HasValue)
@@ -823,8 +807,8 @@ public partial class ExportObjetivoRecords : Page
                 metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, registro.Meta);
             }
 
-            table.AddCell(ToolsPdf.DataCell(metaText, times));
-            table.AddCell(ToolsPdf.DataCell(registro.Responsible.FullName, times));
+            table.AddCell(ToolsPdf.DataCell(metaText));
+            table.AddCell(ToolsPdf.DataCell(registro.Responsible.FullName));
 
             dataPoints.Add(new PointData
             {
@@ -841,7 +825,7 @@ public partial class ExportObjetivoRecords : Page
             CultureInfo.InvariantCulture,
             @"{0}: {1}",
             Dictionary["Common_RegisterCount"],
-            cont), times))
+            cont), ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = backgroundColor,
@@ -850,7 +834,7 @@ public partial class ExportObjetivoRecords : Page
             Colspan = 2
         });
 
-        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = backgroundColor,
@@ -925,7 +909,7 @@ public partial class ExportObjetivoRecords : Page
 
         pdfDoc.Add(table);
         pdfDoc.NewPage();
-        pdfDoc.Add(new iTS.Phrase("Grafico", times));
+        pdfDoc.Add(new iTS.Phrase("Grafico", ToolsPdf.LayoutFonts.Times));
         pdfDoc.Add(tif);
         pdfDoc.CloseDocument();
         res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));

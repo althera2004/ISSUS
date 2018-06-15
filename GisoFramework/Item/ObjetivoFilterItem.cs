@@ -74,5 +74,15 @@ namespace GisoFramework.Item
 
             return this.Objetivo.Id == other.Objetivo.Id;
         }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
