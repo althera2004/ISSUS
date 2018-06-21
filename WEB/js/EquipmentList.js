@@ -90,7 +90,7 @@ function Export(fileType) {
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
         "type": "POST",
-        "url": "/Export/EquipmentExportList.aspx/" + fileType,
+        "url": "/Export/EquipmentExportList.asmx/" + fileType,
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),

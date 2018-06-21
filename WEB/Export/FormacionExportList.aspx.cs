@@ -71,7 +71,7 @@ public partial class ExportFormacionExportList : Page
                FileMode.Create));
 
         // evento para poner titulo y pie de página cada vez que salta de página
-        writer.PageEvent = new TwoColumnHeaderFooter()
+        writer.PageEvent = new TwoColumnHeaderFooter
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, company.Id),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
@@ -85,7 +85,6 @@ public partial class ExportFormacionExportList : Page
         pdfDoc.Open();
 
         var backgroundColor = new iTS.BaseColor(225, 225, 225);
-        var rowPair = new iTS.BaseColor(255, 255, 255);
         var rowEven = new iTS.BaseColor(240, 240, 240);
 
         var titleTable = new iTSpdf.PdfPTable(1);
@@ -180,7 +179,7 @@ public partial class ExportFormacionExportList : Page
         DateTime? yFrom = null;
         DateTime? yTo = null;
 
-        if (!string.IsNullOrEmpty(yearFrom) && yearFrom !="0")
+        if (!string.IsNullOrEmpty(yearFrom) && yearFrom != "0")
         {
             yFrom = Tools.TextToDate(yearFrom);
         }

@@ -464,7 +464,7 @@ function ExportPDF() {
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
         "type": "POST",
-        "url": "/Export/IncidentActionExportList.aspx/PDF",
+        "url": "/Export/IncidentActionExportList.asmx/PDF",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),

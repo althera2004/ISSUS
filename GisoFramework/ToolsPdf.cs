@@ -14,7 +14,7 @@ namespace GisoFramework
     using iTextSharp.text.pdf;
 
     public static class ToolsPdf
-    { 
+    {
         public const float PaddingTableCell = 8;
         public const float PaddingTopTableCell = 6;
         public const float PaddingTopCriteriaCell = 4;
@@ -54,13 +54,42 @@ namespace GisoFramework
                 finalLabel = label;
             }
 
-            return new PdfPCell(new Phrase(string.Format(CultureInfo.InvariantCulture,"{0} :", finalLabel), LayoutFonts.TimesBold))
+            return new PdfPCell(new Phrase(string.Format(CultureInfo.InvariantCulture, "{0} :", finalLabel), LayoutFonts.TimesBold))
             {
                 Border = ToolsPdf.BorderNone,
                 HorizontalAlignment = Element.ALIGN_LEFT,
                 Padding = ToolsPdf.PaddingTopTableCell,
                 PaddingTop = ToolsPdf.PaddingTopCriteriaCell
             };
+        }
+
+        public static PdfPCell CriteriaCellData(string label)
+        {
+            return CriteriaCellData(label, 1);
+        }
+
+        public static PdfPCell CriteriaCellData(string label, int span)
+        {
+            var finalLabel = string.Empty;
+            if (!string.IsNullOrEmpty(label))
+            {
+                finalLabel = label;
+            }
+
+            var cell = new PdfPCell(new Phrase(string.Format(CultureInfo.InvariantCulture, "{0} :", finalLabel), LayoutFonts.Times))
+            {
+                Border = ToolsPdf.BorderNone,
+                HorizontalAlignment = Element.ALIGN_LEFT,
+                Padding = ToolsPdf.PaddingTopTableCell,
+                PaddingTop = ToolsPdf.PaddingTopCriteriaCell
+            };
+
+            if (span > 1)
+            {
+                cell.Colspan = span;
+            }
+
+            return cell;
         }
 
         public static PdfPCell HeaderCell(string label)

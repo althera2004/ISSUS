@@ -6,28 +6,20 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
-using System.Linq;
 using System.Web.UI;
 using iTS = iTextSharp.text;
 using iTSpdf = iTextSharp.text.pdf;
 using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
-using NPOI.HSSF.Model;
-using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
-using NPOI.SS.Util;
 using PDF_Tests;
-using iTextSharp.text.pdf;
-using iTextSharp.text;
-using System.Text;
 
 public partial class ExportBusinessRiskExportList : Page
 {
@@ -69,7 +61,7 @@ public partial class ExportBusinessRiskExportList : Page
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
 
-        writer.PageEvent = new TwoColumnHeaderFooter()
+        writer.PageEvent = new TwoColumnHeaderFooter
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, company.Id),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
@@ -145,69 +137,14 @@ public partial class ExportBusinessRiskExportList : Page
         }
         #endregion
 
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Common_Period"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_BusinesRisk_ListHeader_Process"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(typetext, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_BusinesRisk_ListHeader_Rule"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(ruleDescription, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_BusinesRisk_ListHeader_Type"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(criteriaProccess, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Common_Period"] + " :"));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellData(periode));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Process"] + " :"));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellData(typetext));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Rule"] + " :"));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellData(ruleDescription));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Type"] + " :"));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellData(criteriaProccess));
 
         pdfDoc.Add(criteriatable);
         //---------------------------

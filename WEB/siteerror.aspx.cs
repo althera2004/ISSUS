@@ -12,9 +12,7 @@ using GisoFramework.Item;
 using System.Net.Mail;
 using System.Configuration;
 
-/// <summary>
-/// Implements SiteError page
-/// </summary>
+/// <summary>Implements SiteError page</summary>
 public partial class SiteError : Page
 {
     /// <summary> Master of page</summary>

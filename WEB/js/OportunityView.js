@@ -30,9 +30,7 @@ jQuery(function ($) {
     // Botón de lanzamiento de popup de normas
     $("#BtnSelectRules").on("click", function (e) {
         e.preventDefault();
-
         RulesRenderPopup();
-
         var dialog = $("#dialogRules").removeClass("hide").dialog({
             "resizable": false,
             "modal": true,
@@ -361,22 +359,13 @@ function OportunityInsert(previousId) {
 
             if (response.d.Success === true) {
                 var newOportunity = Oportunity.Id < 1;
-                if (newOportunity === true) {
-                    Oportunity.Id = response.d.MessageError * 1;
-                    if (SaveAction === true) {
-                        console.log("risk + action");
-                        SaveIncidentAction(Oportunity.Id, true);
-                    }
-
-                    alertInfoUI(Dictionary.Item_Oportunity_Message_InsertSucess, Reload);
-                }
-                else if (SaveAction === true) {// && ApplyActionFinal === true) {
-                    console.log("Oportunity + action");
-                    SaveIncidentAction(Oportunity.Id, response.d.MessageError * 1);
+                Oportunity.Id = response.d.MessageError * 1;
+                if (SaveAction === true) {
+                    console.log("risk + action");
+                    SaveIncidentAction(Oportunity.Id, true);
                 }
                 else {
-                    console.log("oportunity update");
-                    document.location = "OportunityList.aspx";
+                    alertInfoUI(Dictionary.Item_Oportunity_Message_InsertSucess, Reload);
                 }
             }
         },
@@ -396,13 +385,15 @@ function OportunityUpdate(sender) {
     //if (document.getElementById("ApplyActionYes").checked === true) { startAction = 3; }
     if (document.getElementById("ApplyAction").checked === true) { startAction = 3; }
 
+    SaveAction = document.getElementById("ApplyAction").checked
+
     var data = {
         "oportunity": {
             "Active": true,
             "AnulateBy": { "Id": -1 },
             "AnulateDate": null,
             "AnulateReason": "",
-            "ApplyAction": document.getElementById("ApplyAction").checked,
+            "ApplyAction": SaveAction,
             "Causes": $("#TxtCauses").val(),
             "Control": $("#TxtControl").val(),
             "Cost": Oportunity.Cost,

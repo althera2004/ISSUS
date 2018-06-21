@@ -46,16 +46,6 @@ public partial class ExportPrintActionData : Page
             action.Description.Replace(@"""", "'"),
             DateTime.Now);
 
-        // FONTS
-        string pathFonts = HttpContext.Current.Request.PhysicalApplicationPath;
-        if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
-        {
-            pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
-        }
-
-        this.headerFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        this.arial = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-
         string type = string.Empty;
         string origin = string.Empty;
         string originSufix = string.Empty;
@@ -144,8 +134,6 @@ public partial class ExportPrintActionData : Page
 
         var labelFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.DARK_GRAY);
         var valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
-
-        //document.Add(new Phrase("\n"));
 
         // Descripción
         table.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Description"], Rectangle.NO_BORDER));
