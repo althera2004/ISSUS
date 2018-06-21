@@ -112,10 +112,8 @@ public partial class EquipmentList : Page
         bool grantDelete = UserGrant.HasDeleteGrant(this.user.Grants, ApplicationGrant.Equipment);
         bool grantEmployee = UserGrant.HasReadGrant(this.user.Grants, ApplicationGrant.Employee);
 
-        //this.EquipmentData.Text = Equipment.List(this.company, grantWrite, grantDelete, grantEmployee, this.dictionary);
-
         bool first = true;
-        var equipments = Equipment.GetList(this.company);
+        var equipments = Equipment.ByCompany(this.company);
         var searchList = new List<string>();
         foreach (var equipment in equipments)
         {
@@ -154,6 +152,5 @@ public partial class EquipmentList : Page
         }
 
         this.master.SearcheableItems = sea.ToString();
-        //this.EquipmentDataTotal.Text = equipments.Count.ToString();
     }
 }

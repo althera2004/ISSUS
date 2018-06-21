@@ -70,7 +70,7 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets the responsible of reapir</summary>
         public Employee Responsible { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether if repair is active<summary>
+        /// <summary>Gets or sets a value indicating whether if repair is active</summary>
         public bool Active { get; set; }
 
         /// <summary>Gets or sets the user of last modification</summary>

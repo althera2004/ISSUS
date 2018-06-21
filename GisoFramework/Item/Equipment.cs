@@ -306,8 +306,8 @@ namespace GisoFramework.Item
                                     res.EndReason = rdr.GetString(ColumnsEquipmentGetById.EndReason);
                                 }
 
-                                res.GetCalibrationDefinitions();
-                                res.GetVerificationDefinitions();
+                                res.ObtainCalibrationDefinitions();
+                                res.ObtainVerificationDefinitions();
 
                                 res.ModifiedBy.Employee = Employee.ByUserId(res.ModifiedBy.Id);
                             }
@@ -354,7 +354,7 @@ namespace GisoFramework.Item
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach(var equipment in GetList(companyId))
+            foreach(var equipment in ByCompany(companyId))
             {
                 if (first)
                 {
@@ -401,14 +401,14 @@ namespace GisoFramework.Item
         /// </summary>
         /// <param name="company"></param>
         /// <returns></returns>
-        public static ReadOnlyCollection<Equipment> GetList(Company company)
+        public static ReadOnlyCollection<Equipment> ByCompany(Company company)
         {
             if (company == null)
             {
                 return new ReadOnlyCollection<Equipment>(new List<Equipment>());
             }
 
-            return GetList(company.Id);
+            return ByCompany(company.Id);
         }
 
         /// <summary>
@@ -416,7 +416,7 @@ namespace GisoFramework.Item
         /// </summary>
         /// <param name="companyId">Company identifier</param>
         /// <returns></returns>
-        public static ReadOnlyCollection<Equipment> GetList(int companyId)
+        public static ReadOnlyCollection<Equipment> ByCompany(int companyId)
         {
             var source = string.Format(CultureInfo.InvariantCulture, "Equipment::GetList({0})", companyId);
             var res = new List<Equipment>();
@@ -501,7 +501,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Equipment>(res);
         }
 
-        /// <summary>Get a list of company's equipments</summary>
+        /*/// <summary>Get a list of company's equipments</summary>
         /// <param name="company">Equipment's company</param>
         /// <param name="grantWrite">User grant to write</param>
         /// <param name="grantDelete">User grant to delete</param>
@@ -515,8 +515,8 @@ namespace GisoFramework.Item
                 dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             }
 
-            return List(Equipment.GetList(company), grantWrite, grantDelete, grantEmployee, dictionary);
-        }
+            return List(Equipment.ByCompany(company), grantWrite, grantDelete, grantEmployee, dictionary);
+        }*/
 
         /// <summary>
         /// 
@@ -824,6 +824,7 @@ namespace GisoFramework.Item
 
         public ActionResult Insert(int userId)
         {
+            var source = string.Format(CultureInfo.InvariantCulture, @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId);
             var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Equipment_Insert
              *   @EquipmentId bigint output,
@@ -904,23 +905,23 @@ namespace GisoFramework.Item
                     }
                     catch (SqlException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (FormatException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentNullException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (ArgumentException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     catch (NullReferenceException ex)
                     {
-                        ExceptionManager.Trace(ex, string.Format(CultureInfo.GetCultureInfo("en-us"), @"EquipmentVerificationAct::Insert Id:{0} User:{1} Company:{2}", this.Id, userId, this.CompanyId));
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -935,7 +936,7 @@ namespace GisoFramework.Item
             return res;
         }
 
-        public void GetVerificationDefinitions()
+        public void ObtainVerificationDefinitions()
         {
             /* CREATE PROCEDURE Equipment_GetVerificationDefinition
              *   @EquipmentId bigint,
@@ -1054,7 +1055,7 @@ namespace GisoFramework.Item
             }
         }
 
-        public void GetCalibrationDefinitions()
+        public void ObtainCalibrationDefinitions()
         {
             var source = string.Format(CultureInfo.InvariantCulture, "Equipment::GetCalibrationDefinitions(Id:{0}, CompanyId:{1})", this.Id, this.CompanyId);
             /* CREATE PROCEDURE Equipment_GetCalibrationDefinition
@@ -1171,13 +1172,12 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="dictionary"></param>
-        /// <param name="grantEquipment"></param>
-        /// <param name="grantEmployee"></param>
-        /// <returns></returns>
+        /// <summary>Generates HTML code for a Equipment row</summary>
+        /// <param name="dictionary">dictionary for fixed labels</param>
+        /// <param name="grantWrite">Indicates grant to write</param>
+        /// <param name="grantEquipment">Indicates grants for Equipment item</param>
+        /// <param name="grantEmployee">Indicates grants for Employee item</param>
+        /// <returns>HTML code for a Equipment row</returns>
         public string ListRow(Dictionary<string, string> dictionary, bool grantWrite, bool grantEquipment, bool grantEmployee)
         {
             if (dictionary == null)

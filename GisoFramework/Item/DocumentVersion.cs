@@ -10,7 +10,7 @@ namespace GisoFramework.Item
     using System.Globalization;
 
     /// <summary>Enumeration of document status</summary>
-    public enum DocumentStatus
+    public enum DocumentsStatus
     {
         /// <summary>0 - Draft</summary>
         Draft = 0,
@@ -31,7 +31,7 @@ namespace GisoFramework.Item
         }
 
         /// <summary>Gets or sets the state of doucment in this version</summary>
-        public DocumentStatus State { get; set; }
+        public DocumentsStatus State { get; set; }
 
         /// <summary>Gets or sets the version identifier</summary>
         public long Id { get; set; }
@@ -82,18 +82,16 @@ namespace GisoFramework.Item
         /// <summary>Obtains the version status represented by an integer</summary>
         /// <param name="value">Integer that represents status</param>
         /// <returns>Status of version</returns>
-        public static DocumentStatus IntegerToStatus(int value)
+        public static DocumentsStatus IntegerToStatus(int value)
         {
             switch (value)
             {
                 default:
                 case 1:
-                    return DocumentStatus.Publish;
+                    return DocumentsStatus.Publish;
                 case 2:
-                    return DocumentStatus.Obsolete;
+                    return DocumentsStatus.Obsolete;
             }
-
-            return DocumentStatus.Draft;
         }
     }
 }

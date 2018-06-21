@@ -15,30 +15,35 @@ namespace GisoFramework.Item
     using GisoFramework.Activity;
     using GisoFramework.DataAccess;
 
-    /// <summary>
-    /// Implements EquipmentVerificationDefinition class
-    /// </summary>
+    /// <summary>Implements EquipmentVerificationDefinition class</summary>
     public class EquipmentVerificationDefinition : BaseItem
     {
         public long EquipmentId { get; set; }
+
         [DifferenciableAttribute]
         public int VerificationType { get; set; }
-        [DifferenciableAttribute]
-        public string Description { get; set; }
+
         [DifferenciableAttribute]
         public int Periodicity { get; set; }
+
         [DifferenciableAttribute]
         public decimal? Uncertainty { get; set; }
+
         [DifferenciableAttribute]
         public string Range { get; set; }
+
         [DifferenciableAttribute]
         public string Pattern { get; set; }
+
         [DifferenciableAttribute]
         public decimal? Cost { get; set; }
+
         [DifferenciableAttribute]
         public string Notes { get; set; }
+
         [DifferenciableAttribute]
         public Employee Responsible { get; set; }
+
         [DifferenciableAttribute]
         public Provider Provider { get; set; }
 

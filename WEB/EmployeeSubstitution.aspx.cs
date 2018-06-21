@@ -24,12 +24,6 @@ public partial class EmployeeSubstitution : Page
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
-    /// <summary>Indicates if employee is active</summary>
-    private bool active;
-
     public string Action { get; private set; }
 
     public string Employees
@@ -89,37 +83,34 @@ public partial class EmployeeSubstitution : Page
                 return string.Empty;
             }
 
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
     {
-        this.active = true;
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
 
@@ -134,45 +125,20 @@ public partial class EmployeeSubstitution : Page
         }
     }
 
-    private int employeeId;
-    private Employee employee;
+    public Employee Employee { get; private set; }
 
-    public Employee Employee
-    {
-        get
-        {
-            return this.employee;
-        }
-    }
+    /// <summary>Gets dictionary for fixed labels
+    public Dictionary<string, string> Dictionary { get; private set; }
 
-    /// <summary>
-    /// Gets dictionary for fixed labels
-    /// </summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public int EmployeeId { get; private set; }
 
-    public int EmployeeId
-    {
-        get
-        {
-            return this.employeeId;
-        }
-    }
-
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.Action = "Baja";
         if (this.Request.QueryString["id"] != null)
         {
-            this.employeeId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
+            this.EmployeeId = Convert.ToInt32(this.Request.QueryString["id"].ToString());
         }
 
         if (this.Request.QueryString["enddate"] != null)
@@ -189,48 +155,41 @@ public partial class EmployeeSubstitution : Page
 			}
         }
 
-        this.user = (ApplicationUser)Session["User"];
-        this.company = (Company)Session["company"];
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.user = Session["User"] as ApplicationUser;
+        this.company = Session["company"] as Company;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         string label = "Item_Employee_Title_Delete";
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Employees", "EmployeesList.aspx", false);
         this.master.AddBreadCrumb(label);
-        this.master.Titulo = this.dictionary["Item_Employee"];
+        this.master.Titulo = this.Dictionary["Item_Employee"];
         this.formFooter = new FormFooter();
 
-        if (employeeId > 0)
+        if (this.EmployeeId > 0)
         {
-            this.employee = new Employee(this.employeeId, true);
-            if (this.employee.CompanyId != this.company.Id)
+            this.Employee = new Employee(this.EmployeeId, true);
+            if (this.Employee.CompanyId != this.company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", false);
                 Context.ApplicationInstance.CompleteRequest();
             }
 
-            if (this.employee.DisabledDate.HasValue)
-            {
-                this.active = false;
-            }
-
-
-            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Employee"], employee.FullName);
+            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Employee"], this.Employee.FullName);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
-            this.tabBar.AddTab(new Tab() { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Employee_Tab_Delete"], Available = true });
+            this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_Employee_Tab_Delete"], Available = true });
 
-
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ban-circle", Text = this.dictionary["Item_Employee_Btn_Inactive"], Action = "danger" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
-            this.formFooter.ModifiedBy = this.employee.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.employee.ModifiedOn;
+            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Employee_Btn_Inactive"], Action = "danger" });
+            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+            this.formFooter.ModifiedBy = this.Employee.ModifiedBy.Description;
+            this.formFooter.ModifiedOn = this.Employee.ModifiedOn;
 
             this.TxtEndDate = new FormDatePicker()
             {
                 Id = "TxtEndDate",
-                Label = this.dictionary["Item_Employee_FieldLabel_InactiveDate"],
+                Label = this.Dictionary["Item_Employee_FieldLabel_InactiveDate"],
                 ColumnsSpanLabel = Constant.ColumnSpan2,
                 ColumnsSpan = Constant.ColumnSpan2,
                 Required = true,

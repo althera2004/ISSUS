@@ -55,7 +55,7 @@ public partial class DocumentView : Page
         }
     }
 
-    public bool Trace
+    public new bool Trace
     {
         get
         {

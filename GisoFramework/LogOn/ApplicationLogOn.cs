@@ -17,14 +17,10 @@ namespace GisoFramework.LogOn
     using GisoFramework.Item;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements ApplicationLogOn class
-    /// </summary>
+    /// <summary>Implements ApplicationLogOn class</summary>
     public static class ApplicationLogOn
     {
-        /// <summary>
-        /// Enum for log on result
-        /// </summary>
+        /// <summary>Enum for log on result</summary>
         public enum LogOnResult
         {
             /// <summary>None - 0</summary>
@@ -49,9 +45,7 @@ namespace GisoFramework.LogOn
             Administrative = 1002
         }
 
-        /// <summary>
-        /// Enum for security groups
-        /// </summary>
+        /// <summary>Enum for security groups</summary>
         public enum SecurityGroup
         {
             /// <summary>None - 0</summary>
@@ -268,7 +262,7 @@ namespace GisoFramework.LogOn
                                         Status = result.Result
                                     };
 
-                                    user.GetGrants();
+                                    user.ObtainGrants();
 
                                     HttpContext.Current.Session["User"] = user;
                                 }

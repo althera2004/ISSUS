@@ -1308,6 +1308,11 @@ namespace GisoFramework.Item
         /// <returns>ReadOnlyCollection of BusinessRisk items</returns>
         public static ReadOnlyCollection<IncidentAction> ByBusinessRiskCode(long code, int companyId)
         {
+            var source = string.Format(
+                CultureInfo.InvariantCulture,
+                @"IndicentAction::ByBusinessRiskCode({0},{1})",
+                code,
+                companyId);
             var res = new List<IncidentAction>();
             string query = "IncidentAction_GetByBusinessRiskCode";
             using (var cmd = new SqlCommand(query))
@@ -1329,8 +1334,21 @@ namespace GisoFramework.Item
                             res.Add(IncidentAction.ById(rdr.GetInt64(0), companyId));
                         }
                     }
-                    catch (Exception ex)
+                    catch (NullReferenceException ex)
                     {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -1345,9 +1363,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<IncidentAction>(res);
         }
 
-        /// <summary>
-        /// Insert incident action in database
-        /// </summary>
+        /// <summary>Insert incident action in database</summary>
         /// <param name="userId">User identififer</param>
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)

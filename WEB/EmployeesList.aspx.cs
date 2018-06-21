@@ -136,7 +136,7 @@ public partial class EmployeesList : Page
         var sea = new StringBuilder();
         bool first = true;
         int contData = 0;
-        foreach (var employee in Employee.GetList(this.company.Id))
+        foreach (var employee in Employee.ByCompany(this.company.Id))
         {
             if (employee.Active)
             {

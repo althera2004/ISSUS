@@ -76,7 +76,7 @@ public partial class ExportPrintActionData : Page
 
         if (action.Origin == 4)
         {
-            if (action.BusinessRiskId != null)
+            if (action.BusinessRiskId > Constant.DefaultId)
             {
                 var businessRisk = BusinessRisk.ById(action.CompanyId, action.BusinessRiskId);
                 origin = businessRisk.Description;
@@ -148,63 +148,63 @@ public partial class ExportPrintActionData : Page
         //document.Add(new Phrase("\n"));
 
         // Descripción
-        table.AddCell(labelCell(dictionary["Item_IncidentAction_Label_Description"], Rectangle.NO_BORDER));
-        table.AddCell(valueCell(action.Description, ToolsPdf.BorderNone, alignLeft, 1));
+        table.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Description"], Rectangle.NO_BORDER));
+        table.AddCell(ValueCell(action.Description, ToolsPdf.BorderNone, alignLeft, 1));
 
         // Tipo
-        table.AddCell(labelCell(dictionary["Item_IncidentAction_Label_Type"], Rectangle.NO_BORDER));
-        table.AddCell(valueCell(type, ToolsPdf.BorderNone, alignLeft, 1));
+        table.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Type"], Rectangle.NO_BORDER));
+        table.AddCell(ValueCell(type, ToolsPdf.BorderNone, alignLeft, 1));
 
         // Origen
-        table.AddCell(labelCell(dictionary["Item_IncidentAction_Label_Origin"], Rectangle.NO_BORDER));
-        table.AddCell(valueCell(origin + originSufix, ToolsPdf.BorderNone, alignLeft, 3));
+        table.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Origin"], Rectangle.NO_BORDER));
+        table.AddCell(ValueCell(origin + originSufix, ToolsPdf.BorderNone, alignLeft, 3));
 
         // Reportador
         if (action.Origin != 4)
         {
-            table.AddCell(labelCell(dictionary["Item_IncidentAction_Label_Reporter"], Rectangle.NO_BORDER));
-            table.AddCell(valueCell(reporterType + " (" + reporter + ")", ToolsPdf.BorderNone, alignLeft, 3));
+            table.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Reporter"], Rectangle.NO_BORDER));
+            table.AddCell(ValueCell(reporterType + " (" + reporter + ")", ToolsPdf.BorderNone, alignLeft, 3));
         }
 
         // WhatHappend
-        table.AddCell(separationRow());
-        table.AddCell(titleCell(dictionary["Item_IncidentAction_Field_WhatHappened"]));
-        table.AddCell(textAreaCell(Environment.NewLine + action.WhatHappened, borderSides, alignLeft, 4));
-        table.AddCell(blankRow());
-        table.AddCell(textAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + action.WhatHappenedBy.FullName, borderBL, alignLeft, 2));
-        table.AddCell(textAreaCell(string.Format(CultureInfo.InvariantCulture, "{0}: {1:dd/MM/yyyy}", dictionary["Common_Date"], action.WhatHappenedOn), borderBR, alignRight, 2));
+        table.AddCell(SeparationRow());
+        table.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_WhatHappened"]));
+        table.AddCell(TextAreaCell(Environment.NewLine + action.WhatHappened, borderSides, alignLeft, 4));
+        table.AddCell(BlankRow());
+        table.AddCell(TextAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + action.WhatHappenedBy.FullName, borderBL, alignLeft, 2));
+        table.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "{0}: {1:dd/MM/yyyy}", dictionary["Common_Date"], action.WhatHappenedOn), borderBR, alignRight, 2));
 
         // Causes
-        table.AddCell(separationRow());
-        table.AddCell(titleCell(dictionary["Item_IncidentAction_Field_Causes"]));
-        table.AddCell(textAreaCell(Environment.NewLine + action.Causes, borderSides, alignLeft, 4));
-        table.AddCell(blankRow());
-        table.AddCell(textAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + action.CausesBy.FullName, borderBL, alignLeft, 2));
-        table.AddCell(textAreaCell(string.Format(CultureInfo.InvariantCulture, "{0}: {1:dd/MM/yyyy}", dictionary["Common_Date"], action.CausesOn), borderBR, alignRight, 2));
+        table.AddCell(SeparationRow());
+        table.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Causes"]));
+        table.AddCell(TextAreaCell(Environment.NewLine + action.Causes, borderSides, alignLeft, 4));
+        table.AddCell(BlankRow());
+        table.AddCell(TextAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + action.CausesBy.FullName, borderBL, alignLeft, 2));
+        table.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "{0}: {1:dd/MM/yyyy}", dictionary["Common_Date"], action.CausesOn), borderBR, alignRight, 2));
 
         // Actions
-        table.AddCell(separationRow());
-        table.AddCell(titleCell(dictionary["Item_IncidentAction_Field_Actions"]));
-        table.AddCell(textAreaCell(Environment.NewLine + action.Actions, borderSides, alignLeft, 4));
-        table.AddCell(blankRow());
-        table.AddCell(textAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + action.ActionsBy.FullName, borderBL, alignLeft, 2));
-        table.AddCell(textAreaCell(string.Format(CultureInfo.InvariantCulture, "{0}: {1:dd/MM/yyyy}", dictionary["Common_DateExecution"], action.ActionsOn), borderBR, alignRight, 2));
+        table.AddCell(SeparationRow());
+        table.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Actions"]));
+        table.AddCell(TextAreaCell(Environment.NewLine + action.Actions, borderSides, alignLeft, 4));
+        table.AddCell(BlankRow());
+        table.AddCell(TextAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + action.ActionsBy.FullName, borderBL, alignLeft, 2));
+        table.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "{0}: {1:dd/MM/yyyy}", dictionary["Common_DateExecution"], action.ActionsOn), borderBR, alignRight, 2));
 
         // Monitoring
-        table.AddCell(separationRow());
-        table.AddCell(titleCell(dictionary["Item_IncidentAction_Field_Monitoring"]));
-        table.AddCell(textAreaCell(Environment.NewLine + action.Monitoring, ToolsPdf.BorderAll, alignLeft, 4));
+        table.AddCell(SeparationRow());
+        table.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Monitoring"]));
+        table.AddCell(TextAreaCell(Environment.NewLine + action.Monitoring, ToolsPdf.BorderAll, alignLeft, 4));
 
         // Close
-        table.AddCell(separationRow());
-        table.AddCell(titleCell(dictionary["Item_IncidentAction_Field_Close"]));
-        table.AddCell(textAreaCell(string.Format(CultureInfo.InvariantCulture, "\n{0}: {1}",dictionary["Item_IncidentAction_Field_Responsible"] ,action.ClosedBy.FullName), borderTBL, alignLeft, 2));
-        table.AddCell(textAreaCell(string.Format(CultureInfo.InvariantCulture, "\n{0}: {1:dd/MM/yyyy}", dictionary["Common_DateClose"], action.ClosedOn), borderTBR, alignRight, 2));
+        table.AddCell(SeparationRow());
+        table.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Close"]));
+        table.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "\n{0}: {1}",dictionary["Item_IncidentAction_Field_Responsible"] ,action.ClosedBy.FullName), borderTBL, alignLeft, 2));
+        table.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "\n{0}: {1:dd/MM/yyyy}", dictionary["Common_DateClose"], action.ClosedOn), borderTBR, alignRight, 2));
 
         // Notes
-        table.AddCell(separationRow());
-        table.AddCell(titleCell(dictionary["Item_IncidentAction_Field_Notes"]));
-        table.AddCell(textAreaCell(Environment.NewLine + action.Notes, ToolsPdf.BorderAll, alignLeft, 4));
+        table.AddCell(SeparationRow());
+        table.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Notes"]));
+        table.AddCell(TextAreaCell(Environment.NewLine + action.Notes, ToolsPdf.BorderAll, alignLeft, 4));
 
         document.Add(table);
         document.Close();
@@ -218,7 +218,7 @@ public partial class ExportPrintActionData : Page
         Response.Clear();
     }
 
-    private PdfPCell labelCell(string label, int borders)
+    private PdfPCell LabelCell(string label, int borders)
     {
         return new PdfPCell(new Phrase(label + ":", new Font(this.arial, 10, Font.NORMAL, BaseColor.DARK_GRAY)))
         {
@@ -227,7 +227,7 @@ public partial class ExportPrintActionData : Page
         };
     }
 
-    private PdfPCell valueCell(string value, int borders, int align, int colSpan)
+    private PdfPCell ValueCell(string value, int borders, int align, int colSpan)
     {
         return new PdfPCell(new Phrase(value, new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK)))
         {
@@ -237,7 +237,7 @@ public partial class ExportPrintActionData : Page
         };
     }
 
-    private PdfPCell textAreaCell(string value, int borders, int align, int colSpan)
+    private PdfPCell TextAreaCell(string value, int borders, int align, int colSpan)
     {
         return new PdfPCell(new Phrase(value, new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK)))
         {
@@ -249,7 +249,7 @@ public partial class ExportPrintActionData : Page
         };
     }
 
-    private PdfPCell titleCell(string value)
+    private PdfPCell TitleCell(string value)
     {
         return new PdfPCell(new Phrase(value, new Font(this.headerFont, 11, Font.NORMAL, BaseColor.BLACK)))
         {
@@ -261,7 +261,7 @@ public partial class ExportPrintActionData : Page
         };
     }
 
-    private PdfPCell blankRow()
+    private PdfPCell BlankRow()
     {
         return new PdfPCell(new Phrase("\n"))
         {
@@ -270,7 +270,7 @@ public partial class ExportPrintActionData : Page
         };
     }
 
-    private PdfPCell separationRow()
+    private PdfPCell SeparationRow()
     {
         return new PdfPCell(new Phrase("\n"))
         {

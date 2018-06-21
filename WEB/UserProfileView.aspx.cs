@@ -39,7 +39,6 @@ public partial class UserProfileView : Page
         }
     }
 
-    private int userId;
     private StringBuilder shortcutsJson;
     private StringBuilder userShortcuts;
 

@@ -539,7 +539,10 @@ namespace GisoFramework.Item
                                 File.Delete(path);
                             }
                         }
-                        catch (Exception ex) { }
+                        catch (Exception ex)
+                        {
+                            ExceptionManager.Trace(ex, "UploadFile::Delete");
+                        }
                         finally
                         {
                         }

@@ -18,7 +18,6 @@ public partial class Select : Page
 {
     private string languageBrowser;
     private string ip;
-    private string companyCode;
 
     public long UserId { get; private set; }
 

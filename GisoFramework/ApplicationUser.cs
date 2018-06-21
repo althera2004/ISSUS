@@ -135,7 +135,7 @@ namespace GisoFramework
                                 };
                             }
 
-                            this.GetGrants();
+                            this.ObtainGrants();
                         }
                     }
                 }
@@ -464,7 +464,7 @@ namespace GisoFramework
 
                 if (this.grants == null)
                 {
-                    this.GetGrants();
+                    this.ObtainGrants();
                 }
 
                 foreach (var grant in this.grants)
@@ -910,7 +910,7 @@ namespace GisoFramework
                                 res.UserName = rdr.GetString(1);
                                 res.status = ApplicationLogOn.IntegerToLogOnResult(rdr.GetInt32(3));
                                 res.Email = rdr.GetString(9);
-                                res.GetGrants();
+                                res.ObtainGrants();
                                 res.Employee = Employee.ByUserId(res.Id);
                                 res.PrimaryUser = rdr.GetBoolean(10);
                                 res.Admin = rdr.GetBoolean(11);
@@ -1758,7 +1758,7 @@ namespace GisoFramework
         }
 
         /// <summary>Obtain user grants from database</summary>
-        public void GetGrants()
+        public void ObtainGrants()
         {
             /* ALTER PROCEDURE ApplicationUser_GetGrants
              * @ApplicationUserId int */

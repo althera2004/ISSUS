@@ -124,7 +124,7 @@ namespace GisoFramework.Item
                         continue;
                     }
 
-                    if (variance.OldValue == null)
+                    if (variance.OldValue == null && variance.NewValue != null)
                     {
                         string newValue = variance.NewValue.ToString();
                         res.Append(variance.PropertyName).Append("::null-->").Append(newValue);

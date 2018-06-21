@@ -128,5 +128,10 @@ namespace GisoFramework.Item
 
             return this.IncidentActionId == other.IncidentActionId;
         }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

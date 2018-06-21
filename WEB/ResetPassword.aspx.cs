@@ -12,9 +12,7 @@ using GisoFramework.Item;
 
 public partial class ResetPassword : Page
 {
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -22,34 +20,20 @@ public partial class ResetPassword : Page
             return Guid.NewGuid().ToString().ToUpperInvariant();
         }
     }
-    
-    private string languageBrowser;
-    private string ip;
-    private string companyCode;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
+    /// <summary>Gets dictionary for fixed labels</summary>
+    public Dictionary<string, string> Dictionary { get; private set; }
 
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public string CompanyCode { get; private set; }
 
-    public string CompanyCode { get { return this.companyCode; } }
+    public string LanguageBrowser { get; private set; }
+    public string Ip { get; private set; }
 
-    public string LanguageBrowser { get { return this.languageBrowser; } }
-    public string Ip { get { return this.ip; } }
+    public string User { get; private set; }
+    public string CompanyId { get; private set; }
+    public string op { get; private set; }
 
-    public string User { get; set; }
-    public string CompanyId { get; set; }
-    public string op { get; set; }
-
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)
@@ -58,8 +42,8 @@ public partial class ResetPassword : Page
         {
             ApplicationUser user = new ApplicationUser(Convert.ToInt32(this.Request.Form["UserId"]));
             this.User = user.Json;
-            this.dictionary = ApplicationDictionary.Load(user.Language);
-            Session["Dictionary"] = this.dictionary;
+            this.Dictionary = ApplicationDictionary.Load(user.Language);
+            Session["Dictionary"] = this.Dictionary;
         }
         if (Request.Form["Password"] != null)
         {
@@ -75,12 +59,12 @@ public partial class ResetPassword : Page
         }
         else
         {
-            this.companyCode = string.Empty;
+            this.CompanyCode = string.Empty;
             this.TableCompany.Visible = false;
         }
 
-        this.languageBrowser = this.Request.UserLanguages[0];
-        this.ip = this.GetUserIP();
+        this.LanguageBrowser = this.Request.UserLanguages[0];
+        this.Ip = this.GetUserIP();
     }
 
     private string GetUserIP()

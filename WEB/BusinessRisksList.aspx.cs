@@ -88,7 +88,7 @@ public partial class BusinessRisksList : Page
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (var BusinessRiskGraph in BusinessRisk.GetActive(Company.Id))
+            foreach (var BusinessRiskGraph in BusinessRisk.ActiveByCompany(Company.Id))
             {
                 if (first)
                 {
@@ -98,6 +98,7 @@ public partial class BusinessRisksList : Page
                 {
                     res.Append(",");
                 }
+
                 res.Append(BusinessRiskGraph.JsonResult);
             }
 

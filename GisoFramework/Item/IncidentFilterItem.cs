@@ -7,9 +7,6 @@
 namespace GisoFramework.Item
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>Implements IncidentFilterItem class</summary>
     public class IncidentFilterItem
@@ -108,6 +105,16 @@ namespace GisoFramework.Item
             }
 
             return this.Id == other.Id;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

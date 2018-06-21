@@ -15,19 +15,18 @@ using System.Web.Script.Services;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.DataVisualization.Charting;
+using DR = System.Drawing;
+using iTS = iTextSharp.text;
+using iTSpdf = iTextSharp.text.pdf;
 using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 using iTextSharp.text;
-using iTextSharp.text.pdf;
 using NPOI.HSSF.Model;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using PDF_Tests;
-using DR = System.Drawing;
-using iTS = iTextSharp.text;
-using iTSpdf = iTextSharp.text.pdf;
 
 /// <summary>Implements reporting in PDF and Excel for "indicador" records</summary>
 public partial class ExportIndicadorRecords : Page
@@ -355,21 +354,7 @@ public partial class ExportIndicadorRecords : Page
 
         pdfDoc.Open();
 
-        var backgroundColor = new iTS.BaseColor(220, 220, 220);
-
-        // ------------ FONTS 
-        string pathFonts = System.Web.HttpContext.Current.Request.PhysicalApplicationPath;
-        if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
-        {
-            pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
-        }
-
-        var dataFont = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\calibri.ttf", pathFonts), BaseFont.CP1250, BaseFont.EMBEDDED);
-        var times = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        var timesBold = new iTS.Font(dataFont, 10, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        var headerFont = new iTS.Font(dataFont, 10, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-        var titleFont = new iTS.Font(dataFont, 18, iTS.Font.BOLD, iTS.BaseColor.BLACK);
-        // -------------------        
+        var backgroundColor = new iTS.BaseColor(220, 220, 220);    
 
         string periode = string.Empty;
 
@@ -514,18 +499,18 @@ public partial class ExportIndicadorRecords : Page
                 color = 3;
             }
 
-            table.AddCell(ToolsPdf.DataCell(statusLabel, times));
+            table.AddCell(ToolsPdf.DataCell(statusLabel, ToolsPdf.LayoutFonts.Times));
 
             metaText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", metaText, registro.Meta);
             alarmText = string.Format(CultureInfo.InvariantCulture, "{0} {1:#,##0.00}", alarmText, registro.Alarma);
-            table.AddCell(ToolsPdf.DataCellRight(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", registro.Value), times));
-            table.AddCell(ToolsPdf.DataCell(registro.Date, times));
-            table.AddCell(ToolsPdf.DataCell(registro.Comments, times));
-            table.AddCell(ToolsPdf.DataCell(metaText, times));
-            table.AddCell(ToolsPdf.DataCell(alarmText, times));
-            table.AddCell(ToolsPdf.DataCell(registro.Responsible.FullName, times));
+            table.AddCell(ToolsPdf.DataCellRight(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", registro.Value)));
+            table.AddCell(ToolsPdf.DataCell(registro.Date));
+            table.AddCell(ToolsPdf.DataCell(registro.Comments));
+            table.AddCell(ToolsPdf.DataCell(metaText));
+            table.AddCell(ToolsPdf.DataCell(alarmText));
+            table.AddCell(ToolsPdf.DataCell(registro.Responsible.FullName));
 
-            dataPoints.Add(new PointData()
+            dataPoints.Add(new PointData
             {
                 Value = registro.Value,
                 Meta = registro.Meta,
@@ -539,7 +524,7 @@ public partial class ExportIndicadorRecords : Page
             CultureInfo.InvariantCulture,
             @"{0}: {1}",
             dictionary["Common_RegisterCount"],
-            cont), times))
+            cont), ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = backgroundColor,
@@ -548,7 +533,7 @@ public partial class ExportIndicadorRecords : Page
             Colspan = 2
         });
 
-        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, times))
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = backgroundColor,
@@ -623,7 +608,7 @@ public partial class ExportIndicadorRecords : Page
 
         pdfDoc.Add(table);
         pdfDoc.NewPage();
-        pdfDoc.Add(new iTS.Phrase("Grafico", times));
+        pdfDoc.Add(new iTS.Phrase("Grafico", ToolsPdf.LayoutFonts.Times));
         pdfDoc.Add(tif);
 
         var logoIssus = Image.GetInstance(string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path));
@@ -635,7 +620,7 @@ public partial class ExportIndicadorRecords : Page
         res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
         return res;
     }
-
+    
     /// <summary>Data that represents a record in chart</summary>
     private struct PointData
     {
