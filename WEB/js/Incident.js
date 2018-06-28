@@ -21,20 +21,20 @@ function IncidentFormAfterLoad() {
             $("#costes .btn-info").hide();
             $("#costes .btn-danger").hide();
         }
-        if (Incident.Department.Id > 0) { document.getElementById('RReporterType1').checked = true; document.getElementById('CmbReporterType1').value = Incident.Department.Id; }
-        if (Incident.Provider.Id > 0) { document.getElementById('RReporterType2').checked = true; document.getElementById('CmbReporterType2').value = Incident.Provider.Id; }
-        if (Incident.Customer.Id > 0) { document.getElementById('RReporterType3').checked = true; document.getElementById('CmbReporterType3').value = Incident.Customer.Id; }
+        if (Incident.Department.Id > 0) { document.getElementById("RReporterType1").checked = true; document.getElementById("CmbReporterType1").value = Incident.Department.Id; }
+        if (Incident.Provider.Id > 0) { document.getElementById("RReporterType2").checked = true; document.getElementById("CmbReporterType2").value = Incident.Provider.Id; }
+        if (Incident.Customer.Id > 0) { document.getElementById("RReporterType3").checked = true; document.getElementById("CmbReporterType3").value = Incident.Customer.Id; }
 
         if (IncidentAction.Id > 0) {
-            document.getElementById('Tabaccion').style.display = "";
-            if (document.getElementById('Tabaccion') !== null) {
+            $("#Tabaccion").show();
+            if (document.getElementById("Tabaccion") !== null) {
                 document.getElementById("RActionYes").checked = true;
             }
         }
         else {
             document.getElementById("RActionNo").checked = true;
             if (document.getElementById("Tabaccion") !== null) {
-                document.getElementById("Tabaccion").style.display = "none";
+                $("#Tabaccion").hide();
             }
         }
 

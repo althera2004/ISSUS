@@ -63,11 +63,19 @@ public partial class ExportObjetivoRecords : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+        string formatedDescription = objetivoName.Replace("?", string.Empty);
+        formatedDescription = formatedDescription.Replace("#", string.Empty);
+        formatedDescription = formatedDescription.Replace("/", string.Empty);
+        formatedDescription = formatedDescription.Replace("\\", string.Empty);
+        formatedDescription = formatedDescription.Replace(":", string.Empty);
+        formatedDescription = formatedDescription.Replace(";", string.Empty);
+        formatedDescription = formatedDescription.Replace(".", string.Empty);
+
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.xls",
             Dictionary["Item_Objetivo_RecordsReportTitle"],
-            objetivoName,
+            formatedDescription,
             Constant.Now);
 
         var wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());

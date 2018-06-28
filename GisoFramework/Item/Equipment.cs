@@ -138,7 +138,7 @@ namespace GisoFramework.Item
                 res.Append("\t\"SerialNumber\":\"").Append(Tools.JsonCompliant(this.SerialNumber)).Append("\",").Append(Environment.NewLine);
                 res.Append("\t\"Location\":\"").Append(Tools.JsonCompliant(this.Location)).Append("\",").Append(Environment.NewLine);
                 res.Append("\t\"MeasureRange\":\"").Append(Tools.JsonCompliant(this.MeasureRange)).Append("\",").Append(Environment.NewLine);
-                res.Append("\t\"ScaleDivision\":\"").Append(this.ScaleDivisionValue.HasValue ? this.ScaleDivisionValue.Value.ToString("#0.00", CultureInfo.GetCultureInfo("en-us")) : string.Empty).Append("\",").Append(Environment.NewLine);
+                res.Append("\t\"ScaleDivision\":\"").Append(this.ScaleDivisionValue.HasValue ? this.ScaleDivisionValue.Value.ToString("#0.0000", CultureInfo.GetCultureInfo("en-us")) : string.Empty).Append("\",").Append(Environment.NewLine);
                 res.Append("\t\"MeasureUnit\":").Append(this.MeasureUnit == null ? "null" : this.MeasureUnit.JsonKeyValue).Append(",").Append(Environment.NewLine);
                 res.Append("\t\"Responsible\":").Append(this.Responsible.JsonSimple).Append(",").Append(Environment.NewLine);
                 res.Append("\t\"IsCalibration\":").Append(this.IsCalibration ? "true" : "false").Append(",").Append(Environment.NewLine);

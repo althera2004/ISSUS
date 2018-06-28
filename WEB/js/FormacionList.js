@@ -202,7 +202,7 @@ jQuery(function ($) {
             "data": JSON.stringify(data, null, 2),
             "success": function (response) {
                 if (response.d.Success === true) {
-                    document.location = document.location + '';
+                    document.location = document.location + "";
                 }
                 if (response.d.Success !== true) {
                     alertUI(response.d.MessageError);
@@ -292,23 +292,23 @@ window.onresize = function () {
 function DateChange(){
 	$("#TxtDateFromErrorDateRange").hide();
 	$("#TxtDateToErrorDateRange").hide();
-	document.getElementById("TxtDateFromLabel").style.color="#000";
-	document.getElementById("TxtDateToLabel").style.color="#000";
-	var dateFrom = GetDate($("#TxtDateFrom").val(),"/", false);
-	var dateTo = GetDate($("#TxtDateTo").val(),"/", false);
+    document.getElementById("TxtDateFromLabel").style.color = "#000";
+    document.getElementById("TxtDateToLabel").style.color = "#000";
+    var dateFrom = GetDate($("#TxtDateFrom").val(), "/", false);
+    var dateTo = GetDate($("#TxtDateTo").val(), "/", false);
 	console.log(dateFrom, dateTo);
 	
 	var ok = true;
 	
-	if($("#TxtDateFrom").val() !== "" && $("#TxtDateTo").val() !== ""){
-		if(dateFrom > dateTo){
-			document.getElementById("TxtDateFromLabel").style.color="#f00";
-			document.getElementById("TxtDateToLabel").style.color="#f00";
-			$("#TxtDateFromErrorDateRange").show();
-			$("#TxtDateToErrorDateRange").show();
-			ok = false;
-		}
-	}
+    if ($("#TxtDateFrom").val() !== "" && $("#TxtDateTo").val() !== "") {
+        if (dateFrom > dateTo) {
+            document.getElementById("TxtDateFromLabel").style.color = "#f00";
+            document.getElementById("TxtDateToLabel").style.color = "#f00";
+            $("#TxtDateFromErrorDateRange").show();
+            $("#TxtDateToErrorDateRange").show();
+            ok = false;
+        }
+    }
 
     if (ok === true) {
         Go();

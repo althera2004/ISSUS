@@ -63,11 +63,19 @@ public partial class ExportIncidentExportList : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+        string formatedDescription = company.Name.Replace("?", string.Empty);
+        formatedDescription = formatedDescription.Replace("#", string.Empty);
+        formatedDescription = formatedDescription.Replace("/", string.Empty);
+        formatedDescription = formatedDescription.Replace("\\", string.Empty);
+        formatedDescription = formatedDescription.Replace(":", string.Empty);
+        formatedDescription = formatedDescription.Replace(";", string.Empty);
+        formatedDescription = formatedDescription.Replace(".", string.Empty);
+
         var fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_IncidentList"],
-            company.Name,
+            formatedDescription,
             DateTime.Now);
 
         // FONTS

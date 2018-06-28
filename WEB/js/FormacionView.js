@@ -11,20 +11,20 @@ function EmployeeDelete(id, name) {
         "title": Dictionary.Common_Delete,
         "title_html": true,
         "buttons": [
-                {
-                    "html": "<i class=\"con-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
-                    "class": "btn btn-danger btn-xs",
-                    "click": function () {
-                        DeleteEmployeeConfirmed(id);
-                    }
-                },
-                {
-                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                    "class": "btn btn-xs",
-                    "click": function () {
-                        $(this).dialog("close");
-                    }
+            {
+                "html": "<i class=\"con-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
+                "class": "btn btn-danger btn-xs",
+                "click": function () {
+                    DeleteEmployeeConfirmed(id);
                 }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () {
+                    $(this).dialog("close");
+                }
+            }
         ]
     });
 }
@@ -290,10 +290,14 @@ function Item_LearningAssistant_Status_Evaluated() {
     }
 
     if (assistants.length === 0) {
-        alert("Hay que seleccionar algún asistente");
+        alert(Dictionary.Item_Learning_Message_SelectOneAssistant);
     }
     else {
-        var data = { assistants: assistants, companyId: Company.Id, userId: user.Id };
+        var data = {
+            "assistants": assistants,
+            "companyId": Company.Id,
+            "userId": user.Id
+        };
         LoadingShow(Dictionary.Common_Message_Saving);
         $.ajax({
             "type": "POST",

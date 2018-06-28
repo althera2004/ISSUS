@@ -39,11 +39,20 @@ public partial class ExportPrintActionData : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+
+        string formatedDescription = action.Description.Replace("?", string.Empty);
+        formatedDescription = formatedDescription.Replace("#", string.Empty);
+        formatedDescription = formatedDescription.Replace("/", string.Empty);
+        formatedDescription = formatedDescription.Replace("\\", string.Empty);
+        formatedDescription = formatedDescription.Replace(":", string.Empty);
+        formatedDescription = formatedDescription.Replace(";", string.Empty);
+        formatedDescription = formatedDescription.Replace(".", string.Empty);
+
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_Data_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_IncidentAction"],
-            action.Description.Replace(@"""", "'"),
+            formatedDescription,
             DateTime.Now);
 
         string type = string.Empty;

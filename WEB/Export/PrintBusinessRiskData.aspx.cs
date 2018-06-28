@@ -96,7 +96,7 @@ public partial class ExportPrintBusinessRiskData : Page
             HorizontalAlignment = 0
         };
 
-        table.SetWidths(new float[] { 25f, 50f, 25f, 50f });
+        table.SetWidths(new float[] { 30f, 50f, 30f, 50f });
 
         table.AddCell(new PdfPCell(new Phrase(businessRisk.Description, descriptionFont))
         {

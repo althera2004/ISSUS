@@ -67,11 +67,19 @@ public partial class ExportEquipmentRecords : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+        string formatedDescription = equipment.Description.Replace("?", string.Empty);
+        formatedDescription = formatedDescription.Replace("#", string.Empty);
+        formatedDescription = formatedDescription.Replace("/", string.Empty);
+        formatedDescription = formatedDescription.Replace("\\", string.Empty);
+        formatedDescription = formatedDescription.Replace(":", string.Empty);
+        formatedDescription = formatedDescription.Replace(";", string.Empty);
+        formatedDescription = formatedDescription.Replace(".", string.Empty);
+
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.xls",
             dictionary["Item_Equipment"],
-            equipment.Description,
+            formatedDescription,
             DateTime.Now);
 
         var wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());

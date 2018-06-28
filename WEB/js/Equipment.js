@@ -6,7 +6,7 @@ var EquipmentNewId;
 
 var initialDateText = Dictionary.Item_EquipmentErrorInitialDate + " " + limitInitialDate
 $("#TxtStartDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtStartDatePostInitial\" style=\"display:none;\">" + initialDateText + "</span>");
-$("#TxtScaleDivision").val(ToMoneyFormat(Equipment.ScaleDivision,4));
+//$("#TxtScaleDivision").val(ToMoneyFormat(Equipment.ScaleDivision,4));
 function CalibrationCheckChanged() {
     if (Equipment.Id === 0) {
         return;

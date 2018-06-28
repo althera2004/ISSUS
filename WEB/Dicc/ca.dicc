@@ -1301,6 +1301,7 @@ Item_Learning_Help_Year::Any de la formació
 Item_Learning_Help_YearPrevisto::Any previst d'inici de la formació
 Item_Learning_Message_Evaluation::Guardant una formació amb tots els assistents avaluats, quedarà com avaluada i ja no es podrà modificar
 Item_Learning_Message_NoAssistants::No hi ha assistents al curs
+Item_Learning_Message_SelectOneAssistant::Hay que seleccionar algún asistente
 Item_Learning_Objetive::Objectiu
 Item_Learning_PopupDelete_Message::Vol eliminar la formació
 Item_Learning_SelectAssistants::Afegir

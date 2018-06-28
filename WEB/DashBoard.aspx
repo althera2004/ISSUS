@@ -193,7 +193,7 @@
                 target.appendChild(tr);
             }
 
-            if (user.PrimaryUser !== true) {
+            if (user.Admin !== true) {
                 $("#SelectRow").hide();
             }
         </script>

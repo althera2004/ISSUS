@@ -2,13 +2,13 @@
 var ItemIdDelete;
 var ItemIdUpdate;
 var Cmb;
-var itemName = 'Customer';
-var popupDialogId = '#dialog' + itemName;
-var popupInsertDialogId = '#' + itemName + 'InsertDialog';
-var popupUpdateDialogId = '#' + itemName + 'UpdateDialog';
-var popupDeleteDialogId = '#' + itemName + 'DeleteDialog';
+var itemName = "Customer";
+var popupDialogId = "#dialog" + itemName;
+var popupInsertDialogId = "#" + itemName + "InsertDialog";
+var popupUpdateDialogId = "#" + itemName + "UpdateDialog";
+var popupDeleteDialogId = "#" + itemName + "DeleteDialog";
 var sourceList;
-eval('sourceList = ' + itemName + 's;');
+eval("sourceList = " + itemName + "s;");
 
 // Bar popup for bar item Customer
 function ShowCustomerBarPopup(cmb) {
@@ -16,25 +16,26 @@ function ShowCustomerBarPopup(cmb) {
     CustomerSelected = cmb.val() * 1;
     CustomerRenderPopup();
     var dialog = $(popupDialogId).removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: eval("Dictionary.Item_" + itemName + "s"),
-        title_html: true,
-        width: 600,
-        buttons:
-        [
-            {
-                id: 'Btn'+ itemName +'Save',
-                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
-                "class": "btn btn-success btn-xs",
-                click: function () { CustomerInsert(); }
-            },
-            {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                "class": "btn btn-xs",
-                click: function () { $(this).dialog("close"); }
-            }
-        ]
+        "resizable": false,
+        "modal": true,
+        "title": eval("Dictionary.Item_" + itemName + "s"),
+        "title_html": true,
+        "width": 600,
+        "buttons":
+            [
+                {
+                    "id": "Btn" + itemName + "Save",
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () { CustomerInsert(); }
+                },
+                {
+                    "id": "Btn" + itemName + "SaveCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () { $(this).dialog("close"); }
+                }
+            ]
     });
 }
 
@@ -47,45 +48,45 @@ function CustomerChanged(sender) {
 
 // Insert functions for bar item Customer
 function CustomerInsert(sender) {
-    document.getElementById('TxtCustomerNewNameErrorRequired').style.display = 'none';
-    document.getElementById('TxtCustomerNewNameErrorDuplicated').style.display = 'none';
-    $('#TxtCustomerNewName').val('');
+    $("#TxtCustomerNewNameErrorRequired").hide();
+    $("#TxtCustomerNewNameErrorDuplicated").hide();
+    $("#TxtCustomerNewName").val("");
     var Selected = 0;
     var dialog = $(popupInsertDialogId).removeClass("hide").dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Equipment_Popup_AddCustomer_Title + '</h4>',
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Equipment_Popup_AddCustomer_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     var ok = true;
                     var duplicated = false;
                     for (var x = 0; x < Customers.length; x++) {
-                        if (document.getElementById('TxtCustomerNewName').value.toLowerCase() == Customers[x].Description.toLowerCase()) {
+                        if ($("#TxtCustomerNewName").val().toLowerCase() === Customers[x].Description.toLowerCase()) {
                             duplicated = true;
                             break;
                         }
                     }
 
                     if (duplicated === true) {
-                        document.getElementById('TxtCustomerNewNameErrorDuplicated').style.display = 'block';
+                        $("#TxtCustomerNewNameErrorDuplicated").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById('TxtCustomerNewNameErrorDuplicated').style.display = 'none';
+                        $("#TxtCustomerNewNameErrorDuplicated").hide();
                     }
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
 
-                    document.getElementById('TxtCustomerNewNameErrorRequired').style.display = 'none';
-                    document.getElementById('TxtCustomerNewNameErrorDuplicated').style.display = 'none';
+                    $("#TxtCustomerNewNameErrorRequired").hide();
+                    $("#TxtCustomerNewNameErrorDuplicated").hide();
                     $(this).dialog("close");
-                    CustomerInsertConfirmed(document.getElementById('TxtCustomerNewName').value);
+                    CustomerInsertConfirmed(document.getElementById("TxtCustomerNewName").value);
                 }
             },
             {
@@ -101,22 +102,22 @@ function CustomerInsert(sender) {
 function CustomerInsertConfirmed(newDescription) {
     // 1.- Modificar en la BBDD
     var webMethod = "/Async/" + itemName + "Actions.asmx/Insert";
-    var description = '';
+    var description = "";
     var data = {
-        'description': newDescription,
-        'companyId': Company.Id,
-        'userId': user.Id
+        "description": newDescription,
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     var newId = 0;
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
                 newId = response.d.MessageError * 1;
@@ -133,7 +134,7 @@ function CustomerInsertConfirmed(newDescription) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -142,60 +143,60 @@ function CustomerInsertConfirmed(newDescription) {
 
 // Update function for bar item Customer
 function CustomerUpdate(sender) {
-    document.getElementById('TxtCustomerNameErrorRequired').style.display = 'none';
-    document.getElementById('TxtCustomerNameErrorDuplicated').style.display = 'none';
-    $('#TxtCustomerName').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    $("#TxtCustomerNameErrorRequired").hide();
+    $("#TxtCustomerNameErrorDuplicated").hide();
+    $("#TxtCustomerName").val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     ItemIdUpdate = sender.parentNode.parentNode.parentNode.id * 1;
     var dialog = $(popupUpdateDialogId).removeClass("hide").dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: Dictionary.Common_Edit,
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": Dictionary.Common_Edit,
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     var ok = true;
-                    if (document.getElementById('TxtCustomerName').value === '') {
-                        document.getElementById('TxtCustomerNameErrorRequired').style.display = 'block';
+                    if ($("#TxtCustomerName").val() === "") {
+                        $("#TxtCustomerNameErrorRequired").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById('TxtCustomerNameErrorRequired').style.display = 'none';
+                        $("#TxtCustomerNameErrorRequired").hide();
                     }
 
                     var duplicated = false;
                     for (var x = 0; x < Customers.length; x++) {
-                        if (document.getElementById('TxtCustomerName').value.toLowerCase() == Customers[x].Description.toLowerCase() && Selected != Customers[x].Id && Customers[x].Active === true) {
+                        if ($("#TxtCustomerName").val().toLowerCase() === Customers[x].Description.toLowerCase() && Selected !== Customers[x].Id && Customers[x].Active === true) {
                             duplicated = true;
                             break;
                         }
                     }
 
                     if (duplicated === true) {
-                        document.getElementById('TxtCustomerNameErrorDuplicated').style.display = 'block';
+                        $("#TxtCustomerNameErrorDuplicated").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById('TxtCustomerNameErrorDuplicated').style.display = 'none';
+                        $("#TxtCustomerNameErrorDuplicated").hide();
                     }
 
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
 
-                    document.getElementById('TxtCustomerNameErrorRequired').style.display = 'none';
-                    document.getElementById('TxtCustomerNameErrorDuplicated').style.display = 'none';
+                    $("#TxtCustomerNameErrorRequired").hide();
+                    $("#TxtCustomerNameErrorDuplicated").hide();
                     $(this).dialog("close");
-                    CustomerUpdateConfirmed(ItemIdUpdate, document.getElementById('TxtCustomerName').value);
+                    CustomerUpdateConfirmed(ItemIdUpdate, $("#TxtCustomerName").val());
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -223,18 +224,18 @@ function CustomerUpdateConfirmed(id, newDescription) {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -260,7 +261,7 @@ function CustomerUpdateConfirmed(id, newDescription) {
     // 3.- Modificar la fila de la tabla del popup
     var target = document.getElementById("SelectableCustomer");
     for (var x4 = 0; x4 < target.childNodes.length; x4++) {
-        if (target.childNodes[x4].id == ItemIdUpdate) {
+        if (target.childNodes[x4].id === ItemIdUpdate) {
             target.childNodes[x4].childNodes[0].innerHTML = newDescription;
             break;
         }
@@ -352,7 +353,7 @@ function CustomerDeleteConfirmed(id) {
     // 3.- Eliminar la fila de la tabla del popup
     var target = document.getElementById("Selectable" + itemName);
     for (var x3 = 0; x3 < target.childNodes.length; x3++) {
-        if (target.childNodes[x3].id *1  == id * 1) {
+        if (target.childNodes[x3].id *1  === id * 1) {
             target.childNodes[x3].style.display = "none";
             break;
         }
@@ -364,8 +365,8 @@ function CustomerDeleteConfirmed(id) {
 
 // Common scripts
 function CustomerRenderPopup() {
-    VoidTable('Selectable' + itemName);
-    var target = document.getElementById('Selectable' + itemName);
+    VoidTable("Selectable" + itemName);
+    var target = document.getElementById("Selectable" + itemName);
     sourceList.sort(CompareCustomers);
     for (var x = 0; x < sourceList.length; x++) {
         CustomerPopupRow(sourceList[x], target);
@@ -380,21 +381,21 @@ function CompareCustomers(a, b) {
 
 function CustomerPopupRow(item, target) {
     if (item.Active === false) { return; }
-    var tr = document.createElement('tr');
+    var tr = document.createElement("tr");
     tr.id = item.Id;
-    var td1 = document.createElement('td');
-    var td2 = document.createElement('td');
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
     if (CustomerSelected === item.Id) {
-        td1.style.fontWeight = 'bold';
+        td1.style.fontWeight = "bold";
     }
     td1.appendChild(document.createTextNode(item.Description));
 
-    var div = document.createElement('div');
-    var span1 = document.createElement('span');
-    span1.className = 'btn btn-xs btn-success';
+    var div = document.createElement("div");
+    var span1 = document.createElement("span");
+    span1.className = "btn btn-xs btn-success";
     span1.title = Dictionary.Common_SelectAll;
-    var i1 = document.createElement('i');
-    i1.className = 'icon-star bigger-120';
+    var i1 = document.createElement("i");
+    i1.className = "icon-star bigger-120";
     span1.appendChild(i1);
 
     if (CustomerSelected === item.Id) {
@@ -406,13 +407,13 @@ function CustomerPopupRow(item, target) {
 
     div.appendChild(span1);
 
-    var span2 = document.createElement('span');
-    span2.className = 'btn btn-xs btn-info';
+    var span2 = document.createElement("span");
+    span2.className = "btn btn-xs btn-info";
     span2.title = Dictionary.Common_Edit;
-    var i2 = document.createElement('i');
-    i2.className = 'icon-edit bigger-120';
+    var i2 = document.createElement("i");
+    i2.className = "icon-edit bigger-120";
     span2.appendChild(i2);
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span2);
 
     if (item.Id < 0) {
@@ -422,11 +423,11 @@ function CustomerPopupRow(item, target) {
         span2.onclick = function () { CustomerUpdate(this); };
     }
 
-    var span3 = document.createElement('span');
-    span3.className = 'btn btn-xs btn-danger';
+    var span3 = document.createElement("span");
+    span3.className = "btn btn-xs btn-danger";
     span3.title = Dictionary.Common_Delete;
-    var i3 = document.createElement('i');
-    i3.className = 'icon-trash bigger-120';
+    var i3 = document.createElement("i");
+    i3.className = "icon-trash bigger-120";
     span3.appendChild(i3);
 
     if (CustomerSelected === item.Id) {
@@ -441,7 +442,7 @@ function CustomerPopupRow(item, target) {
     else {
         span3.onclick = function () { CustomerDelete(this); };
     }
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span3);
     td2.appendChild(div);
 

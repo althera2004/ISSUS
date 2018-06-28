@@ -149,8 +149,8 @@ function RenderTable() {
         $("#th0").click();
     }
     else {
-        var column = listOrder.split('|')[0];
-        var order = listOrder.split('|')[1];
+        var column = listOrder.split("|")[0];
+        var order = listOrder.split("|")[1];
 
         $("#" + column).click();
         if (document.getElementById(column).className.indexOf(order) === -1) {

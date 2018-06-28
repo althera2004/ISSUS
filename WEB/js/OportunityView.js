@@ -187,9 +187,9 @@ function ApplyActionRadio() {
     // Para elegir las acciones hay que tener evaluado el riesgo
     if (Oportunity.Cost === 0 || Oportunity.Impact === 0) {
         alertUI(Dictionary.Item_BusinessRisk_ErrorMessage_ResultRequired);
-        document.getElementById("ApplyAction").checked = false;
-        //document.getElementById("ApplyActionYes").checked = false;
-        //document.getElementById("ApplyActionNo").checked = false;
+        //document.getElementById("ApplyAction").checked = false;
+        document.getElementById("ApplyActionYes").checked = false;
+        document.getElementById("ApplyActionNo").checked = false;
         return false;
     }
 
@@ -304,9 +304,9 @@ function OportunityInsert(previousId) {
     UpdateResult();
 
     var startAction = 0;
-    //if (document.getElementById("ApplyActionNo").checked === true) { startAction = 2; }
-    //if (document.getElementById("ApplyActionYes").checked === true) { startAction = 3; }
-    if (document.getElementById("ApplyAction").checked === true) { startAction = 3; }
+    if (document.getElementById("ApplyActionNo").checked === true) { startAction = 2; }
+    if (document.getElementById("ApplyActionYes").checked === true) { startAction = 3; }
+    //if (document.getElementById("ApplyAction").checked === true) { startAction = 3; }
 
     var result = 0;
     if ($("#Result").val() !== "" && $("#Result").val() !== "-") {
@@ -319,7 +319,7 @@ function OportunityInsert(previousId) {
             "AnulateBy": { "Id": -1 },
             "AnulateDate": null,
             "AnulateReason": "",
-            "ApplyAction": document.getElementById("ApplyAction").checked,
+            "ApplyAction": document.getElementById("ApplyActionYes").checked.checked,
             "Causes": $("#TxtCauses").val(),
             "Control": $("#TxtControl").val(),
             "Cost": Oportunity.Cost,
@@ -381,11 +381,11 @@ function OportunityInsert(previousId) {
 function OportunityUpdate(sender) {
     // 1.- Modificar en la BBDD
     var startAction = 0;
-    //if (document.getElementById("ApplyActionNo").checked === true) { startAction = 2; }
-    //if (document.getElementById("ApplyActionYes").checked === true) { startAction = 3; }
-    if (document.getElementById("ApplyAction").checked === true) { startAction = 3; }
+    if (document.getElementById("ApplyActionNo").checked === true) { startAction = 2; }
+    if (document.getElementById("ApplyActionYes").checked === true) { startAction = 3; }
+    //if (document.getElementById("ApplyAction").checked === true) { startAction = 3; }
 
-    SaveAction = document.getElementById("ApplyAction").checked
+    SaveAction = document.getElementById("ApplyActionYes").checked
 
     var data = {
         "oportunity": {
@@ -1219,14 +1219,14 @@ function syncFields(target, source) {
 }
 
 if (Oportunity.Result > 0) {
-    document.getElementById("ApplyActionYes").checked = Oportunity.ApplyAction;
-    /*if (Oportunity.ApplyAction === true) {
+    //document.getElementById("ApplyActionYes").checked = Oportunity.ApplyAction;
+    if (Oportunity.ApplyAction === true) {
         document.getElementById("ApplyActionYes").checked = true;
     }
     else {
 
         document.getElementById("ApplyActionNo").checked = true;
-    }*/
+    }
 }
 
 // No se puede cerrar el riesgo si la acción no está cerrada
@@ -1240,20 +1240,20 @@ else {
 }
 
 if (Action.Id > 0) {
-    //document.getElementById("ApplyActionYes").disabled = true;
-    //document.getElementById("ApplyActionNo").disabled = true;
-    document.getElementById("ApplyAction").disabled = true;
-    document.getElementById("ApplyAction").checked = true;
+    document.getElementById("ApplyActionYes").disabled = true;
+    document.getElementById("ApplyActionNo").disabled = true;
+    //document.getElementById("ApplyAction").disabled = true;
+    //document.getElementById("ApplyAction").checked = true;
 }
 
 // Controles iniciales
 if (Oportunity.StartAction === 2) {
-    //document.getElementById("ApplyActionNo").checked = true;
+    document.getElementById("ApplyActionNo").checked = true;
     document.getElementById("Tabgraphic").style.display = "none";
 }
 if (Oportunity.StartAction === 3) {
-    //document.getElementById("ApplyActionYes").checked = true;
-    document.getElementById("ApplyAction").checked = true;
+    document.getElementById("ApplyActionYes").checked = true;
+    //document.getElementById("ApplyAction").checked = true;
 }
 
 if (ApplicationUser.Grants.Rules !== null) {
@@ -1289,11 +1289,13 @@ window.onload = function () {
     if (Oportunity.ApplyAction === false) {
         $("#Tabaccion").hide();
         $("#Tabcostes").hide();
+        document.getElementById("ApplyActionNo").checked = true;
     }
     else {
         $("#Tabaccion").show();
         $("#Tabcostes").show();
-        document.getElementById("ApplyAction").checked = true;
+        //document.getElementById("ApplyAction").checked = true;
+        document.getElementById("ApplyActionYes").checked = true;
     }
 
     Resize();

@@ -607,6 +607,18 @@
 				}
             }
 
+            function numberDecimalBlur6(e) {
+                var value = e.currentTarget.value;
+                if(e.currentTarget.className.indexOf("nullable") != -1 && value ===""){
+                }
+                else{
+					value = Math.round(value * 1000000) / 1000000;
+					// @alex: poner puntos de millar
+					// e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
+					e.currentTarget.value = ToMoneyFormat(value, 6);
+				}
+            }
+
             function numberIntegerBlur(e){
                 e.currentTarget.value = ToMoneyFormat(e.currentTarget.value * 1, 0);
             }
@@ -625,6 +637,11 @@
             $("input.decimalFormated4").on("keydown", numberDecimalDown);
             $("input.decimalFormated4").on("focus", numberDecimalFocus);
             $("input.decimalFormated4").on("blur", numberDecimalBlur4);
+
+            $("input.decimalFormated6").on("keyup", numberDecimalUp);
+            $("input.decimalFormated6").on("keydown", numberDecimalDown);
+            $("input.decimalFormated6").on("focus", numberDecimalFocus);
+            $("input.decimalFormated6").on("blur", numberDecimalBlur6);
 
             //$("input.integerFormated").on("keyup", numberIntegerUp);
             $("input.integerFormated").on("keydown", numberIntegerDown);

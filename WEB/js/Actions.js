@@ -491,6 +491,9 @@ function Resize() {
 }
 
 window.onload = function () {
+    CmbReporterProvidersFill();
+    CmbReporterCustomersFill();
+    CmbReporterDepartmentsFill();
     SetLayout();
     FormLoad();
     Resize();
@@ -516,9 +519,6 @@ window.onload = function () {
     $("#BtnRestaurar").on("click", Restore);
     $("#BtnAnular").hide();
     $("#BtnRestaurar").hide();
-    CmbReporterProvidersFill();
-    CmbReporterCustomersFill();
-    CmbReporterDepartmentsFill();
     if (document.getElementById("IncidentActionCostsTableData") !== null) {
         IncidentActionCostRenderTable("IncidentActionCostsTableData");
     }
@@ -716,7 +716,6 @@ function AnularPopup() {
     });
 }
 
-
 function AnularConfirmed() {
     $("#TxtClosedDateLabel").css("color", "#000");
     $("#CmbClosedResponsibleLabel").css("color", "#000");
@@ -863,10 +862,13 @@ function SetLayout() {
         $("#ObjetivoDiv").hide();
         $("#OportunityDiv").show();
     }
-    else {
+
+    if (IncidentAction.Origin === 2) 
+    {
         if (IncidentAction.ReporterType === 1) {
             document.getElementById("RReporterType1").checked = true;
             $("#CmbReporterType1").val(IncidentAction.Department.Id);
+            console.log("Department", IncidentAction.Department.Id);
         }
 
         if (IncidentAction.ReporterType === 2) {

@@ -54,11 +54,19 @@ public partial class ExportIndicadorRecords : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+        string formatedDescription = indicadorName.Replace("?", string.Empty);
+        formatedDescription = formatedDescription.Replace("#", string.Empty);
+        formatedDescription = formatedDescription.Replace("/", string.Empty);
+        formatedDescription = formatedDescription.Replace("\\", string.Empty);
+        formatedDescription = formatedDescription.Replace(":", string.Empty);
+        formatedDescription = formatedDescription.Replace(";", string.Empty);
+        formatedDescription = formatedDescription.Replace(".", string.Empty);
+
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.xls",
             dictionary["Item_Indicador_RecordsReportTitle"],
-            indicadorName,
+            formatedDescription,
             DateTime.Now);
 
         var wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());

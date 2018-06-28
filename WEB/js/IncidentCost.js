@@ -27,11 +27,11 @@ function IncidentCostRenderTable(tableName) {
     }
 
     if (count === 0) {
-        document.getElementById("IncidentCostsTableVoid").style.display = "";
+        $("#IncidentCostsTableVoid").show();
         target.style.display = "none";
     }
     else {
-        document.getElementById("IncidentCostsTableVoid").style.display = "none";
+        $("#IncidentCostsTableVoid").hide();
         target.style.display = "";        
     }
 
@@ -50,11 +50,11 @@ function IncidentCostRenderRow(incidentCost, target) {
     row.id = incidentCost.Id;
 
     tdDescription.style.width = "290px";
-    tdAmount.align = 'right';
+    tdAmount.align = "right";
     tdAmount.style.width = "90px";
-    tdQuantity.align = 'right';
+    tdQuantity.align = "right";
     tdQuantity.style.width = "90px";
-    tdTotal.align = 'right';
+    tdTotal.align = "right";
     tdTotal.style.width = "120px";
 
     tdDescription.appendChild(document.createTextNode(incidentCost.Description));
@@ -62,30 +62,30 @@ function IncidentCostRenderRow(incidentCost, target) {
     tdQuantity.appendChild(document.createTextNode(ToMoneyFormat(incidentCost.Quantity,2)));
     tdTotal.appendChild(document.createTextNode(ToMoneyFormat(incidentCost.Amount * incidentCost.Quantity, 2)));
     tdResponsible.appendChild(document.createTextNode(incidentCost.Responsible.Value));
-    var iconEdit = document.createElement('SPAN');
-    iconEdit.className = 'btn btn-xs btn-info';
-    var innerEdit = document.createElement('I');
-    innerEdit.className = 'icon-edit bigger-120';
+    var iconEdit = document.createElement("SPAN");
+    iconEdit.className = "btn btn-xs btn-info";
+    var innerEdit = document.createElement("I");
+    innerEdit.className = "icon-edit bigger-120";
     iconEdit.appendChild(innerEdit);
     iconEdit.onclick = function () { IncidentCostEdit(this.parentNode.parentNode.id); };
 
 
-    var iconDelete = document.createElement('SPAN');
-    iconDelete.className = 'btn btn-xs btn-danger';
-    var innerDelete = document.createElement('I');
-    innerDelete.className = 'icon-trash bigger-120';
+    var iconDelete = document.createElement("SPAN");
+    iconDelete.className = "btn btn-xs btn-danger";
+    var innerDelete = document.createElement("I");
+    innerDelete.className = "icon-trash bigger-120";
     iconDelete.appendChild(innerDelete);
     iconDelete.onclick = function () { IncidentCostDelete(this.parentNode.parentNode.id); };
 
-    var tdActions = document.createElement('TD');
+    var tdActions = document.createElement("TD");
     tdActions.style.width = "90px";
     tdActions.appendChild(iconEdit);
-    tdActions.appendChild(document.createTextNode(' '));
+    tdActions.appendChild(document.createTextNode(" "));
     tdActions.appendChild(iconDelete);
 
-    tdTotal.className = 'hidden-480';
-    tdResponsible.className = 'hidden-480';
-    tdActions.className = 'hidden-480';
+    tdTotal.className = "hidden-480";
+    tdResponsible.className = "hidden-480";
+    tdActions.className = "hidden-480";
 
     row.appendChild(tdDescription);
     row.appendChild(tdAmount);
@@ -99,51 +99,51 @@ function IncidentCostRenderRow(incidentCost, target) {
 }
 
 function IncidentCostSetPopupFormFill() {
-    ClearFieldTextMessages('TxtIncidentActionCostDescription');
-    ClearFieldTextMessages('TxtIncidentActionCostAmount');
-    ClearFieldTextMessages('TxtIncidentCostQuantity');
-    ClearFieldTextMessages('CmdIncidentCostResponsible');
+    ClearFieldTextMessages("TxtIncidentActionCostDescription");
+    ClearFieldTextMessages("TxtIncidentActionCostAmount");
+    ClearFieldTextMessages("TxtIncidentCostQuantity");
+    ClearFieldTextMessages("CmdIncidentCostResponsible");
     SelectedIncidentCost = IncidentCostGetById(SelectedIncidentCostId, IncidentCosts);
-    $('#TxtIncidentActionCostDescription').val(SelectedIncidentCost.Description);
-    $('#TxtIncidentActionCostAmount').val(ToMoneyFormat(SelectedIncidentCost.Amount, 2));
-    $('#TxtIncidentCostQuantity').val(ToMoneyFormat(SelectedIncidentCost.Quantity, 2));
-    $('#CmdIncidentCostResponsible').val(SelectedIncidentCost.Responsible.Id);
-    //document.getElementById('RIncidentCostRow').style.display = 'none';
-    //document.getElementById('RIncidentCostNew').checked = true;
+    $("#TxtIncidentActionCostDescription").val(SelectedIncidentCost.Description);
+    $("#TxtIncidentActionCostAmount").val(ToMoneyFormat(SelectedIncidentCost.Amount, 2));
+    $("#TxtIncidentCostQuantity").val(ToMoneyFormat(SelectedIncidentCost.Quantity, 2));
+    $("#CmdIncidentCostResponsible").val(SelectedIncidentCost.Responsible.Id);
+    //document.getElementById("RIncidentCostRow").style.display = "none";
+    //document.getElementById("RIncidentCostNew").checked = true;
     //RIncidentCostChanged();
 }
 
 function IncidentCostSetPopupFormReset(newIncidentCost) {
-    ClearFieldTextMessages('TxtIncidentActionCostDescription');
-    ClearFieldTextMessages('TxtIncidentActionCostAmount');
-    ClearFieldTextMessages('TxtIncidentCostQuantity');
-    ClearFieldTextMessages('CmdIncidentCostResponsible');
-    /*document.getElementById('RIncidentCostRow').style.display = '';
+    ClearFieldTextMessages("TxtIncidentActionCostDescription");
+    ClearFieldTextMessages("TxtIncidentActionCostAmount");
+    ClearFieldTextMessages("TxtIncidentCostQuantity");
+    ClearFieldTextMessages("CmdIncidentCostResponsible");
+    /*document.getElementById("RIncidentCostRow").style.display = "";
     CmbIncidentCostDescriptionFill();
     if (CompanyIncidentCosts.length === 0) {
-        $('#RIncidentCostBased').prop('disabled', true);
-        document.getElementById('RIncidentCostNew').checked = true;
+        $("#RIncidentCostBased").prop("disabled", true);
+        document.getElementById("RIncidentCostNew").checked = true;
     }
     else {
-        $('#RIncidentCostBased').prop('disabled', false);
-        document.getElementById('RIncidentCostBased').checked = true;
+        $("#RIncidentCostBased").prop("disabled", false);
+        document.getElementById("RIncidentCostBased").checked = true;
     }
 
     RIncidentCostChanged();*/
-    $('#TxtIncidentActionCostDescription').val('');
-    $('#TxtIncidentActionCostAmount').val('');
-    $('#TxtIncidentCostQuantity').val('');
-    $('#CmbCmbIncidentCostDescription').val(0);
-    $('#CmdIncidentCostResponsible').val(ApplicationUser.Employee.Id);
+    $("#TxtIncidentActionCostDescription").val("");
+    $("#TxtIncidentActionCostAmount").val("");
+    $("#TxtIncidentCostQuantity").val("");
+    $("#CmbCmbIncidentCostDescription").val(0);
+    $("#CmdIncidentCostResponsible").val(ApplicationUser.Employee.Id);
 }
 
 function RIncidentCostChanged() {
     return;
-    var IncidentCostNew = document.getElementById('RIncidentCostNew').checked;
+    /*var IncidentCostNew = document.getElementById("RIncidentCostNew").checked;
 
-    document.getElementById('CmbIncidentCostDescriptionRow').style.display = IncidentCostNew ? 'none' : '';
-    document.getElementById('TxtIncidentCostDescriptionRow').style.display = IncidentCostNew ? '' : 'none';
-    $('#TxtIncidentCostAmount').prop('readonly', !IncidentCostNew);
+    document.getElementById("CmbIncidentCostDescriptionRow").style.display = IncidentCostNew ? "none" : "";
+    document.getElementById("TxtIncidentCostDescriptionRow").style.display = IncidentCostNew ? "" : "none";
+    $("#TxtIncidentCostAmount").prop("readonly", !IncidentCostNew);*/
 }
 
 function CmbIncidentCostDescriptionChanged() {
@@ -340,7 +340,7 @@ function IncidentCostGetById(id, incidentCostsList) {
 
 function CmbIncidentCostDescriptionFill() {
     return;
-    var target = document.getElementById('CmbIncidentCostDescription');
+    /*var target = document.getElementById('CmbIncidentCostDescription');
     VoidTable('CmbIncidentCostDescription');
     var optionDefault = document.createElement('OPTION');
     optionDefault.value = 0;
@@ -364,7 +364,7 @@ function CmbIncidentCostDescriptionFill() {
                 target.appendChild(option);
             }
         }
-    }
+    }*/
 }
 
 function UpdateIncidentCosts(indicentCost) {
@@ -443,7 +443,7 @@ function IncidentCostDelete(id) {
         "buttons":
         [
             {
-                "id": "BtnNewAddresSave",
+                "id": "BtnCostDeleteOk",
                 "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
                 "class": "btn btn-danger btn-xs",
                 "click": function () {
@@ -451,6 +451,7 @@ function IncidentCostDelete(id) {
                 }
             },
             {
+                "id": "BtnCostDeleteCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -462,21 +463,25 @@ function IncidentCostDelete(id) {
 }
 
 function IncidentCostDelteConfirmed() {
-    var webMethod = "/Async/IncidentCostActions.asmx/Delete";
-    var data = { incidentId: SelectedIncidentCostId, reason: '', userId: user.Id, companyId: Company.Id };
+    var data = {
+        "incidentId": SelectedIncidentCostId,
+        "reason": "",
+        "userId": user.Id,
+        "companyId": Company.Id
+    };
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/IncidentCostActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             DeleteIncidentCosts(SelectedIncidentCost);
             DeleteCompanyIncidentCosts(SelectedIncidentCost);
-            IncidentCostRenderTable('IncidentCostsTableData');
-            $("#dialogIncidentCostDelete").dialog('close');
+            IncidentCostRenderTable("IncidentCostsTableData");
+            $("#dialogIncidentCostDelete").dialog("close");
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
