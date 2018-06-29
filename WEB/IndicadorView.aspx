@@ -104,21 +104,21 @@
                                                             <div class="form-group">
                                                                 <label id="CmbMetaLabel" class="col-sm-1 control-label no-padding-right">Meta<span style="color:#f00">*</span></label>
                                                                 <div class="col-sm-5" id="DivCmbMetaComparer" style="" title="" data-rel="tooltip">
-                                                                    <select style="float:left;width:60%;" class="form-control" id="CmbMetaComparer" data-placeholder="" onchange="">
+                                                                    <select style="float:left;width:60%;" class="form-control" id="CmbMetaComparer" data-placeholder="" onchange="Compute();">
                                                                         <option value="0">Seleccionar</option>
-                                                                        <option value="eq"><%=this.Dictionary["Common_Comparer_eq"] %> (=)</option>
+                                                                        <!--<option value="eq"><%=this.Dictionary["Common_Comparer_eq"] %> (=)</option>-->
                                                                         <option value="gt"><%=this.Dictionary["Common_Comparer_gt"] %> (&gt;)</option>
                                                                         <option value="eqgt"><%=this.Dictionary["Common_Comparer_eqgt"] %> (=&gt;)</option>
                                                                         <option value="lt"><%=this.Dictionary["Common_Comparer_lt"] %> (&lt;)</option>
                                                                         <option value="eqlt"><%=this.Dictionary["Common_Comparer_eqlt"] %> (&lt;=)</option>
                                                                     </select>
                                                                     &nbsp;
-                                                                    <input style="display:inline;width:33%;height:30px;" type="text" id="TxtMeta" placeholder="Meta" class="tooltip-info money-bank" value="0" maxlength="10" />
+                                                                    <input style="display:inline;width:33%;height:30px;" type="text" id="TxtMeta" placeholder="Meta" class="tooltip-info money-bank" value="0" maxlength="10" onblur="Compute();" />
                                                                     <span class="ErrorMessage" id="CmbMetaErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>	
                                                                 <label id="CmbAlarmaLabel" class="col-sm-1 control-label no-padding-right">Alarma</label>
                                                                 <div class="col-sm-5" id="DivCmbAlarmaComparer" style="height:35px !important;" title="" data-rel="tooltip"><!-- data-placement="top"> -->
-                                                                    <select style="float:left;width:60%;" class="form-control" id="CmbAlarmaComparer" data-placeholder="" onchange="">
+                                                                    <select style="float:left;width:60%;" class="form-control" id="CmbAlarmaComparer" data-placeholder="" onchange="Compute();">
                                                                         <option value="">Seleccionar</option>
                                                                         <option value="eq"><%=this.Dictionary["Common_Comparer_eq"] %> (=)</option>
                                                                         <option value="gt"><%=this.Dictionary["Common_Comparer_gt"] %> (&gt;)</option>
@@ -127,10 +127,25 @@
                                                                         <option value="eqlt"><%=this.Dictionary["Common_Comparer_eqlt"] %> (&lt;=)</option>
                                                                     </select> 
                                                                     &nbsp;                                                                                                                     
-                                                                    <input style="display:inline;width:33%;height:30px;"  type="text" id="TxtAlarma" placeholder="Alarma" class="tooltip-info money-bank nullable" value="0" maxlength="10" />                                                                                       
+                                                                    <input style="display:inline;width:33%;height:30px;"  type="text" id="TxtAlarma" placeholder="Alarma" class="tooltip-info money-bank nullable" value="0" maxlength="10" onblur="Compute();" />                                                                                       
                                                                 </div>
                                                             </div>
-                                                            <div class="form-group">	
+                                                                <div class="form-group" style="margin-bottom:24px;">
+                                                                <table style="width:100%;">
+                                                                    <tr>
+                                                                        <td style="width:11%" rowspan="2">&nbsp;</td>
+                                                                        <td style="text-align:center;width:26%;"id="celldangerLabel">Alarma</td>
+                                                                        <td style="text-align:center;width:26%;">Meta no alcanzada</td>
+                                                                        <td style="text-align:center;width:26%;">Meta alcanzada</td>
+                                                                        <td style="width:11%" rowspan="2">&nbsp;</td>
+                                                                    </tr>
+                                                                    <tr style="height:25px;">
+                                                                        <td style="text-align:center;width:26%;" class="btn-danger" id="celldanger">&nbsp;</td>
+                                                                        <td style="text-align:center;width:26%;" class="btn-warning" id="cellwarning">&nbsp;</td>
+                                                                        <td style="text-align:center;width:26%;" class="btn-success" id="cellsuccess">&nbsp;</td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>                                                            <div class="form-group">	
                                                                 <label id="CmbUnidadLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Indicador_Field_Unidad"] %><span style="color:#f00">*</span></label>
                                                                 <div class="col-sm-3" id="DivCmbUnidad" style="height:35px !important;" title="" data-rel="tooltip"><!-- data-placement="top"> -->
                                                                     <select class="form-control col-xs-12 col-sm-12" id="CmbUnidad" data-placeholder="" onchange="">
