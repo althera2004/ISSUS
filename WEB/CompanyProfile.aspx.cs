@@ -18,14 +18,11 @@ public partial class CompanyProfile : Page
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    /// <summary>Company of session</summary>
-    private Company company;
-
     public string Logo
     {
         get
         {
-            return Company.GetLogoFileName(this.company.Id);
+            return Company.GetLogoFileName(this.Company.Id);
         }
     }
 
@@ -42,15 +39,7 @@ public partial class CompanyProfile : Page
     {
         get
         {
-            return string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.company.DiskQuote / (1024M * 1024M)).Replace(',', '*').Replace('.', ',').Replace('*', '.');
-        }
-    }
-
-    public string CompanyId
-    {
-        get
-        {
-            return this.company.Id.ToString().Trim();
+            return string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.Company.DiskQuote / (1024M * 1024M)).Replace(',', '*').Replace('.', ',').Replace('*', '.');
         }
     }
 
@@ -58,7 +47,7 @@ public partial class CompanyProfile : Page
     {
         get
         {
-            return UploadFile.GetQuota(this.company);
+            return UploadFile.GetQuota(this.Company);
         }
     }
 
@@ -68,9 +57,9 @@ public partial class CompanyProfile : Page
     {
         get
         {
-            foreach (Country country in this.company.Countries)
+            foreach (Country country in this.Company.Countries)
             {
-                if (country.Id.ToString() == this.company.DefaultAddress.Country)
+                if (country.Id.ToString() == this.Company.DefaultAddress.Country)
                 {
                     return country.Description;
                 }
@@ -112,13 +101,7 @@ public partial class CompanyProfile : Page
         }
     }
 
-    public Company Company
-    {
-        get
-        {
-            return this.company;
-        }
-    }
+    public Company Company { get; private set; }
 
     public CompanyAddress CompanyDefaultAddress
     {
@@ -159,8 +142,7 @@ public partial class CompanyProfile : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
@@ -168,21 +150,23 @@ public partial class CompanyProfile : Page
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
+
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = Session["User"] as ApplicationUser;
-        this.company = Session["Company"] as Company;
+        this.Company = Session["Company"] as Company;
         this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
@@ -213,7 +197,7 @@ public partial class CompanyProfile : Page
     private void RenderCountries()
     {
         var res = new StringBuilder();
-        string countryCompare = this.company.Id < 0 ? this.Dictionary["Common_None"] : this.company.DefaultAddress.Country;
+        string countryCompare = this.Company.Id < 0 ? this.Dictionary["Common_None"] : this.Company.DefaultAddress.Country;
         res.Append(string.Format(@"{{
             ""text"": ""{0}"",
             ""value"": ""0"",
@@ -263,7 +247,7 @@ public partial class CompanyProfile : Page
         var availables = new StringBuilder();
         var countries = new StringBuilder(Environment.NewLine).Append("        [");
         bool first = true;
-        foreach (var country in Country.GetAll(this.company.Id))
+        foreach (var country in Country.GetAll(this.Company.Id))
         {
             if (country.Selected)
             {

@@ -7,7 +7,6 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
         scaleImages = true;
-        
         var addresses= <%=this.Addresses %>;
         var addressSelected = <%=this.DefaultAddressId %>;
         var ddData = [<%=this.CountryData %>];
@@ -26,15 +25,9 @@
                                         <li class="active" id="TabHomeSelector">
                                             <a data-toggle="tab" href="#home"><%=this.Dictionary["Item_Company_Tab_Principal"] %></a>
                                         </li>
-                                        <!--<li class="" id="TabCountrySelector">
-                                            <a data-toggle="tab" href="#countries"><%=this.Dictionary["Item_Company_Tab_Countries"] %></a>
-                                        </li>-->
                                         <li class="" id="TabDisk"onclick="$('#PieWidget').show();">
                                             <a data-toggle="tab" href="#disk"><%=this.Dictionary["Item_Company_Tab_DiskQuote"] %></a>
                                         </li>
-                                        <!--<li class="" id="TabTrazaSelector">
-                                            <a data-toggle="tab" href="#trazas"><%=this.Dictionary["Item_Company_Tab_Traces"] %></a>
-                                        </li>-->
                                     </ul>                                    
                                     <div class="tab-content no-border padding-24">
                                         <div id="home" class="tab-pane active">
@@ -375,13 +368,7 @@
         <script type="text/javascript" src="/nv.d3/nv.d3.js"></script>
         <script type="text/javascript">
             var chartPie1, chartPie1Data;
-            var dataPie1 =
-                [
-                    {"label": "ALPHABET", "value": 313},
-                    {"label": "ARVAL", "value": 241},
-                    {"label": "LEASEPLAN", "value": 12},
-                    {"label": "LEASEPLAN RUMANIA", "value": 2}
-                ];
+            var dataPie1 = [];
             nv.addGraph(function () {
                 console.log("DiskQuote",diskQuote);
                 chartPie1 = nv.models.pieChart()
@@ -393,7 +380,7 @@
                     .labelType("percent")
                     .donut(true).donutRatio(0.1);
 
-                chartPie1Data = d3.select('#Pie1 svg').datum(diskQuote);
+                chartPie1Data = d3.select("#Pie1 svg").datum(diskQuote);
                 chartPie1Data.transition().duration(500).call(chartPie1);
                 nv.utils.windowResize(chartPie1.update);
 
@@ -423,4 +410,3 @@
             $("#CmbIdioma").val(Company.Language);
         </script>
 </asp:Content>
-

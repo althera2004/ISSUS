@@ -32,9 +32,9 @@
                                             <table class="table table-bordered table-striped" style="margin:0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
-                                                        <th onclick="Sort(this,'ListDataTable');" id="th0" class="sort search"><%=this.Dictionary["Item_Proccess_ListHeader_Name"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable');" id="th1" class="sort search" style="width:300px;" ><%=this.Dictionary["Item_Proccess_ListHeader_Responsible"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable');" id="th2" class="sort" style="width:200px; text-align:center;"><%=this.Dictionary["Item_Proccess_ListHeader_ProcessType"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable');" id="th0" class="sort search"><%=this.Dictionary["Item_Process_ListHeader_Name"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable');" id="th1" class="sort search" style="width:300px;" ><%=this.Dictionary["Item_Process_ListHeader_Responsible"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable');" id="th2" class="sort" style="width:200px; text-align:center;"><%=this.Dictionary["Item_Process_ListHeader_ProcessType"] %></th>
                                                         <th style="width:107px;">&nbsp;</th>
                                                     </tr>
                                                 </thead>

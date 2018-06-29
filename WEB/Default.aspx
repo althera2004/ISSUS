@@ -133,13 +133,11 @@
                                                 <label class="block clearfix">
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="Email" id="TxtUserName" value="" />
-                                                        <i class="icon-user"></i>
                                                     </span>
                                                 </label>
                                                 <label class="block clearfix">
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="password" class="form-control" placeholder="Password" id="TxtPassword" value="" />
-                                                        <i class="icon-lock"></i>
                                                     </span>
                                                 </label>
                                                 <div class="space"></div>

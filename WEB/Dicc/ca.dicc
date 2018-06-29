@@ -23,7 +23,7 @@ Common_All_Male::Tot
 Common_All_Male_Plural::Tots
 Common_AlreadyExists::Ja existeix
 Common_Back::Tornar
-Common_Cancel::Cancelar
+Common_Cancel::Cancel·lar
 Common_CanNotDelete::No es pot eliminar
 Common_Change::Canviar
 Common_Chronometer_Hours::hores
@@ -62,15 +62,15 @@ Common_Error_IncorrectPassword::Contrasenya no vàlida
 Common_Error_Kernel_Delete::No es pot eliminar perquè és part bàsica de l'aplicació
 Common_Error_Kernel_Edit::No es pot modificar perquè és part bàsica de l'aplicació
 Common_Error_LastActive::No es pot eliminar perquè és la única definida
-Common_Error_MaximumToday::La data no pot ser superior a la d'avui
-Common_Error_MinimumOneAction::Com a mínim una opció
+ommon_Error_MaximumToday::La data no pot ser posterior a la d'avui
+Common_Error_MinimumOneAction::Escollir una opció
 Common_Error_MoneyMalformed::No és un valor correcte
 Common_Error_NameAlreadyExists::Ja existeix
 Common_Error_NoAccess::L'element seleccionat no està disponible
 Common_Error_NoCalibrationsDefined::Ho hi ha calibratges definits
 Common_Error_NoDeletable::No es pot eliminar
 Common_Error_NoEditable::No es pot modificar
-Common_Error_NoFileSelected::S'ha de seleccionar un fitxer
+Common_Error_NoFileSelected::Seleccionar un fitxer
 Common_Error_NoVerificationsDefined::No hi ha verificacions definides
 Common_Error_UnsupportedFile::Tipus de document no admès
 Common_Error_UserCanNotAccess::L'usuari no té permisos per fer servir l'aplicació
@@ -81,7 +81,8 @@ Common_Exit::Sortir
 Common_External::Extern
 Common_Filter::Filtrar
 Common_FinishDate::Finalització
-Common_Form_Errors::Revisi les dades del formulari
+Common_Form_CheckError::Revisar les dades obligatòries
+Common_Form_Errors::Revisar les dades del formulari
 Common_From::Des de
 Common_Here::aquí
 Common_Home::Inici
@@ -95,8 +96,8 @@ Common_Label_Years::anys
 Common_LastWeek::Darrera setmana
 Common_ListPdf::Imprimir
 Common_Message_Deleting::Eliminant...
-Common_Message_FormErrors::Revisi les dades del formulari
-Common_Message_Saving::Desant...
+Common_Message_FormErrors::Revisar les dades del formulari
+Common_Message_Saving::Guardant...
 Common_ModifiedBy::Modificat per
 Common_Modify::Modificar
 Common_Month::Mes
@@ -113,7 +114,7 @@ Common_MonthName_November::Novembre
 Common_MonthName_October::Octubre
 Common_MonthName_September::Setembre
 Common_Months::Mesos
-Common_Name::Usuari
+Common_Name::Usuari/a
 Common_New::Nou
 Common_Next::Següent
 Common_No::No
@@ -127,7 +128,7 @@ Common_NoSaveData::Dades sense guardar
 Common_NotSet_Female::No especificada
 Common_NotSet_Male::No especificat
 Common_Period::Període
-Common_PeriodAll::Tot el periode
+Common_PeriodAll::Tot el període
 Common_Previous::Anterior
 Common_PrintExcel::Imprimir en Excel
 Common_PrintPdf::PDF
@@ -140,6 +141,7 @@ Common_Search::Cercar
 Common_SearchCriteria::Criteris de cerca
 Common_SelectAll todos::Seleccionar tots
 Common_SelectAll::Seleccionar
+Common_SelectAll todos::Seleccionar tots
 Common_Selected::Seleccionat
 Common_SelectOne::Seleccionar
 Common_ShowAll::Veure tot
@@ -148,13 +150,14 @@ Common_Target::Objectiu
 Common_Task::Tasca
 Common_ThisMonth::Aquest mes
 Common_ThisWeek::Aquesta setmana
-Common_TiemoutSessionTitle::La sessió ha expirat
+Common_TiemoutSessionTitle::La sessió ha acabat
 Common_TimeoutSessionMessage::S'ha superat el temps permès d'inactivitat
 Common_Title_Views::Visualitzacions
 Common_To::Fins
 Common_Today::Avui
 Common_Total::Total
 Common_Update::Modificar
+Common_UserSetGrant::L'empleat no té permissos per a realitzar aquesta acció.<br />&iquest;Vol donar-li permissos per a poder realitzar-la?
 Common_View::Veure
 Common_ViewAll::Veure tot
 Common_VoidData::Sense dades
@@ -162,9 +165,9 @@ Common_VoidSearchResult::La cerca no ha retornat dades
 Common_Warning::Avís
 Common_Warning_BrowserOld::Actualitzar el navegador
 Common_Warning_ImageRequired::Seleccionar una imatge
-Common_Warning_ImageTooBig:: Imatge massa gran <br />Reduir la mida de la imatge
-Common_Warning_MimeType::tipus de fitxer no admès
-Common_Warning_Undelete::No es pot eliminar perquè té registres associats
+Common_Warning_ImageTooBig::Imatge massa gran <br />Reduir la mida
+Common_Warning_MimeType::Tipus de fitxer no admès
+Common_Warning_Undelete::No es pot eliminar perquè té registres vinculats
 Common_Week::Setmana
 Common_WeekDayName_Friday::Divendres
 Common_WeekDayName_Monday::Dilluns
@@ -185,9 +188,12 @@ Common_Working::Acció en procés
 Common_Year::Any
 Common_Years::Anys
 Common_Yes::Si
-CompanyProfile::Dades empresa
+CompanyProfile::Dades de l'empresa
 DashBoard_SelectOwner::Les meves tasques
 DashBoard_SelectOthers::Les dels altres usuaris
+DashBoard_OnlyPassed::Caducades
+DiskQuote_Free::Espai lliure
+DiskQuote_Other::Altres
 Email::Correu
 Fin::Fi
 Item_Action_Popup_Details_Title::Detalls de l'acció
@@ -196,9 +202,9 @@ Item_Alert_ListHeader_Reason::Motiu
 Item_Alerts::Avisos
 Item_Attach_DiskFreeLabel1::Disponible el 
 Item_Attach_DiskFreeLabel2::% d'assignació de disc
-Item_Attach_DiskQuote::Quota de disc assignada:
+tem_Attach_DiskQuote::Quota de disc assignada
 Item_Attach_FreeDisk::Espai disponible
-Item_Attach_Popup_Delete_Question::Vol eliminar l'adjunt
+Item_Attach_Popup_Delete_Question::Eliminar l'adjunt
 Item_Attach_Popup_Delete_Title::Eliminar adjunt
 Item_Attachment_Btn_New::Afegir
 Item_Attachment_CreateDate::Pujat el
@@ -221,19 +227,19 @@ Item_BusinesRisk_ListHeader_Type::Tipus
 Item_BusinessRisk::Risc
 Item_BusinessRisk_Btn_NewIPR::Fixar nou IPR
 Item_BusinessRisk_Button_CategoryBAR::Gestió de normes
-Item_BusinessRisk_Button_New::Afegir risc
-Item_BusinessRisk_Button_CloseAction::Tancar acció
-Item_BusinessRisk_Button_RestoreAction::Restaurar acció
+Item_BusinessRisk_Button_CloseAction::Tancar l'acció
+Item_BusinessRisk_Button_New::Afegir
+Item_BusinessRisk_Button_RestoreAction::Restaurar l'acció
 Item_BusinessRisk_ErrorMesagge_OutOfDate::La data ha de ser posterior a
-Item_BusinessRisk_ErrorMessage_ClosedRequiredDataOutTime::No es pot tancar l´acción abans que les actuacions
 Item_BusinessRisk_ErrorMessage_ClosedRequiredData::Si es tanca, indicar si aplica acció o s'assumeix el risc
+Item_BusinessRisk_ErrorMessage_ClosedRequiredDataOutTime::No es pot tancar l'acció abans que les actuacions
 Item_BusinessRisk_ErrorMessage_CloseEarlierThanStart::La data de tancament no pot ser anterior a la data d'alta
-Item_BusinessRisk_ErrorMessage_DateCloseRequired::Especificar una data de tancament del risc
+Item_BusinessRisk_ErrorMessage_DateCloseRequired::Especificar una data de tancament
 Item_BusinessRisk_ErrorMessage_DateStartRequired::Especificar una data d'alta
-Item_BusinessRisk_ErrorMessage_DateUpToLimit::La data no pot ser posterior a la d'avui.
+Item_BusinessRisk_ErrorMessage_DateUpToLimit::La data no pot ser posterior a la d'avui
 Item_BusinessRisk_ErrorMessage_FinalProbabilityRequired::Indicar el nivell de probabilitat
 Item_BusinessRisk_ErrorMessage_FinalSeverityRequired::Indicar el nivell de severitat
-Item_BusinessRisk_ErrorMessage_InitialValueBadRange::El valor inicial ha d'estar entre 0 i 25
+Item_BusinessRisk_ErrorMessage_InitialValueBadRange::El valor inicial ha d'estar entre 1 i 25
 Item_BusinessRisk_ErrorMessage_InitialValueRequired::Especificar un valor inicial
 Item_BusinessRisk_ErrorMessage_NameRequired::Especificar un nom
 Item_BusinessRisk_ErrorMessage_NewProbabiliySeverity_Required::Indicar els nous nivells de probabilitat i severitat
@@ -242,13 +248,13 @@ Item_BusinessRisk_ErrorMessage_ProcessRequired::Especificar un procés
 Item_BusinessRisk_ErrorMessage_ResultRequired::Especificar un resultat (probabilitat x severitat)
 Item_BusinessRisk_ErrorMessage_RulesRequired::Especificar una norma
 Item_BusinessRisk_ErrorMessage_SeverityRequired::Especificar una severitat
-Item_BusinessRisk_ErrorMessage_StartNotApply::Una vegada avaluat el risc, decidir si es realitza una acció o no, o si s'assumeix
+Item_BusinessRisk_ErrorMessage_StartNotApply::Una vegada avaluat el risc, decidir si es realitza una acció, o si s'assumeix
 Item_BusinessRisk_Filter_NoData::Aquest risc no té costos 
-Item_BusinessRisk_Help_CostBlocked::Per porder afegir costos primer s'ha de desar l'acció
+Item_BusinessRisk_Help_CostBlocked::Per poder afegir costos, guardar l'acció
 Item_BusinessRisk_LabelField_ActualResult::Resultat actual
 Item_BusinessRisk_LabelField_ApplyAction::Aplicar una acció
 Item_BusinessRisk_LabelField_ApplyActionNo::No aplicar cap acció
-Item_BusinessRisk_LabelField_Assumed::Asumir el risc
+Item_BusinessRisk_LabelField_Assumed::Assumir el risc
 Item_BusinessRisk_LabelField_Causes::Causes
 Item_BusinessRisk_LabelField_CloseDate::Data de tancament
 Item_BusinessRisk_LabelField_Code::Codi
@@ -300,18 +306,18 @@ Item_BusinessRisk_Title_FinalResult::Resultat d'anàlisi de risc
 Item_BusinessRisk_Title_Graph::Gràfic
 Item_BusinessRisk_Title_List::Llistat
 Item_BusinessRisk_Title_StartResult::Accions després d'avaluar el risc
-Item_BusinessRisk_Warning_ActionTabAvailable::A la pestanya d'acció s'ha de posar les dades de l'acció
 Item_BusinessRisk_Warning_ActionTabAvailable::A la pestanya d'acció, indicar les dades de l'acció
 Item_BusinessRisks::Riscos
+Item_BusinessRisksAndOportunities::Riscos i oportunitats
 Item_CalibrationAct_Button_New::Afegir
-Item_CalibrationAct_Warning_DefinitionRequired::Per afegir nous calibratges, s'ha de desar almenys una definició
+Item_CalibrationAct_Warning_DefinitionRequired::Per afegir nous calibratges, guardar almenys una configuració
 Item_CalibrationType_External::Configuració externa
 Item_CalibrationType_Internal::Configuració interna
 Item_Company_Button_CompanyAddressBAR::Gestió d'adreces
 Item_Company_Help_Address::Indicar l'adreça, inclou el tipus de via
 Item_Company_Help_BAR_Addresses::Gestió d'adreces
 Item_Company_Help_City::Indicar la població
-Item_Company_Help_Common_SelectAddress::Seleccionar adreça
+Item_Company_Help_Common_SelectAddress::Seleccionar una adreça
 Item_Company_Help_Email::Indicar l'adreça de correu
 Item_Company_Help_Fax::Indicar el número de fax
 Item_Company_Help_Mobile::Indicar el número de mòbil
@@ -334,17 +340,17 @@ Item_CompanyAddress_FieldLabel_PostalCode::C.P.
 Item_CompanyAddress_FieldLabel_Province::Província
 Item_CompanyAddress_FielLabel_Phone::Telèfon
 Item_CompanyAddress_Header_Address::Adreça
-Item_CompanyAddress_PopupDelete_Message::Vol eliminar l'adreça
-Item_CompanyAddress_PopupTile_Add::Afegir adreça
-Item_CompanyAddress_PopupTile_Edit::Editar adreça
-Item_CompanyAddress_PopupTitle::Seleccionar adreça principal
+tem_CompanyAddress_PopupDelete_Message::Eliminar l'adreça
+Item_CompanyAddress_PopupTile_Add::Afegir una adreça
+Item_CompanyAddress_PopupTile_Edit::Editar una adreça
+Item_CompanyAddress_PopupTitle::Seleccionar l'adreça principal
 Item_CompanyAddress_ToolTip_SetAsPrincipal::Establir com a principal
 Item_CompanyCountries_Status_Availables::Països disponibles
 Item_CompanyCountries_Status_Selected::Països seleccionats
 Item_CompanyCountry_Button_Discard::Descartar països
 Item_CompanyCountry_Button_Select::Seleccionar països
 Item_CompanyCountry_FieldLabel_Name::Nom
-Item_CompanyData::Dades Empresa
+Item_CompanyData::Dades de l'Empresa
 Item_CompanyData_Button_ChangeLogo::Canviar el logo
 Item_CompanyData_Error_Message_PhoneOrCellular::Indicar el mòbil
 Item_CompanyData_FieldLabel_Address::Direcció
@@ -368,13 +374,13 @@ Item_CostDefinition_ListHeader_Amount::Import
 Item_CostDefinition_ListHeader_Name::Cost habitual
 Item_CostDefinition_Popup_AddCost_Title::Afegir un cost habitual
 Item_CostDefinition_Popup_Delete_Title::Eliminar el cost
-Item_CostDefinition_PopupDelete_Message::Vol eliminar el cost
+Item_CostDefinition_PopupDelete_Message::Eliminar el cost
 Item_CostDefinition_Tab_Principal::Dades bàsiques
 Item_CostDefinitions::Costos habituals
 Item_CostDefinitions_Title::Fitxa de Costos habituals
 Item_Country_Message_NoDelete::No es pot eliminar perquè forma part d'una adreça
-Item_Country_Message_SaveWarning::Els països seleccionats estaran disponibles fins que es desin les dades de l'empresa
-Item_Country_WarningMessage::Els canvis als països seran efectius quan es desin les dades de l'empresa
+Item_Country_Message_SaveWarning::Els països seleccionats estaran disponibles fins guardar les dades de l'empresa
+Item_Country_WarningMessage::Els canvis als països seran efectius al guardar les dades de l'empresa
 Item_Customer::Client
 Item_Customer_Btn_New::Afegir
 Item_Customer_Detail::Fitxa del client
@@ -386,7 +392,7 @@ Item_Customer_Header_Type::Tipus
 Item_Customer_Help_Name::Nom del client
 Item_Customer_Label_Costs::Calibratges / Manteniments / Reparacions
 Item_Customer_ListHeader_Name::Client
-Item_Customer_Popup_Delete_Question::Vol eliminar el client
+Item_Customer_Popup_Delete_Question::Eliminar el client
 Item_Customer_Popup_Delete_Title::Eliminar el client
 Item_Customer_Section_Incidents::Incidències i accions
 Item_Customers::Clients
@@ -400,7 +406,7 @@ Item_Department_Button_New::Afegir
 Item_Department_Help_Field_Name::Indicar el nom del departament
 Item_Department_ListEmployees::Empleats/des
 Item_Department_ListEmployees_Header_Email::Correu
-Item_Department_ListEmployees_Header_Name::Empleat
+Item_Department_ListEmployees_Header_Name::Empleat/da
 Item_Department_ListEmployees_Header_Nif::NIF
 Item_Department_ListEmployees_Header_Phone::Telèfon
 Item_Department_ListHeader_Name::Departament
@@ -411,7 +417,7 @@ Item_Department_ListJobPositions_Header_Name::Càrrec
 Item_Department_Message_WithoutEmployees::Sense empleats/des
 Item_Department_Popup_Delete_Title::Eliminar el departament
 Item_Department_PopupAdd_Title::Afegir un departament
-Item_Department_PopupDelete_Message::Vol eliminar el departament
+Item_Department_PopupDelete_Message::Eliminar el departament
 Item_Department_Status_Deleted::Departament eliminat
 Item_Department_Tab_Principal::Dades bàsiques
 Item_Department_Tab_Traces::Traces
@@ -421,7 +427,6 @@ Item_Document::Document
 Item_Document_Button_CategoryBAR::Gestió de categories
 Item_Document_Button_New::Afegir
 Item_Document_Button_NewVersion::Versió
-Item_Document_Button_SourceBAR::Gestió de procedències
 Item_Document_Button_SourceBAR::Seleccionar una procedència
 Item_Document_Btn_Anular::Inactivar
 Item_Document_Btn_Restaurar::Reactivar
@@ -434,7 +439,7 @@ Item_Document_ErrorMessage_CrossDate::CLG
 Item_Document_FieldLabel_Category::Categoria
 Item_Document_FieldLabel_Code::Codi
 Item_Document_FieldLabel_Conservation::Conservació
-Item_Document_FieldLabel_CreationDate::Data alta
+Item_Document_FieldLabel_CreationDate::Data d´alta
 Item_Document_FieldLabel_InactiveDate::Data
 Item_Document_FieldLabel_EndReason::Motiu
 Item_Document_FieldLabel_Location::Ubicació
@@ -445,7 +450,7 @@ Item_Document_FieldLabel_RevisionAttachment::Adjunt
 Item_Document_FieldLabel_RevisionDate::D.revisió
 Item_Document_FieldLabel_Source::Procedència
 Item_Document_FieldLabel_Version::Versió
-Item_Document_NewAttachTitle::Adjuntar nouy document
+Item_Document_NewAttachTitle::Adjuntar nou document
 Item_Document_Help_BARCategoria::Gestionar les categories
 Item_Document_Help_BARProcedencia::Gestionar les procedències
 Item_Document_Help_Categoria::Seleccionar una categoria
@@ -558,13 +563,13 @@ Item_Employee_Help_AbilitiesValidYes::Indicar si són vàlides
 Item_Employee_Help_Academic::Formació acadèmica
 Item_Employee_Help_AcademicValidNo::Indicar si és vàlida
 Item_Employee_Help_AcademicValidYes::Indicar si no és vàlida
-Item_Employee_Help_Btn_Link::Associa l'empleat/da a un càrrec
+Item_Employee_Help_Btn_Link::Vincula l'empleat/da a un càrrec
 Item_Employee_Help_BtnUserName::Nom d'usuari/a
 Item_Employee_Help_ConfirmarNuevoPassword::Confirmar contrasenya
-Item_Employee_Help_Direccion::Adreça de l'empleat/da, inclou el tipus de via
+Item_Employee_Help_Direccion::Adreça de l'empleat/da
 Item_Employee_Help_DisactivateDate::Data de baixa. Si s'omple aquest camp, l'empleat/da restarà inactiu/va
 Item_Employee_Help_DisactivateDateSelfLocked::Un empleat/da no pot donar-se de baixa a ell/a mateix/a
-Item_Employee_Help_Email::Adreça de correu electrònic
+Item_Employee_Help_Email::Adreça de correu
 Item_Employee_Help_Especific::Formació específica
 Item_Employee_Help_EspecificValidNo::Indicar si no és vàlida
 Item_Employee_Help_EspecificValidYes::Indicar si és vàlida
@@ -577,12 +582,12 @@ Item_Employee_Help_IconCommon_Color_Red::Vermell
 Item_Employee_Help_IconCommon_Color_Yellow::Groc
 Item_Employee_Help_Language::Idioma
 Item_Employee_Help_LastName::Cognoms
-Item_Employee_Help_NewPassword::Indicar nova contrasenya
+Item_Employee_Help_NewPassword::Indicar una nova contrasenya
 Item_Employee_Help_Nif::NIF de l'empleat/da
 Item_Employee_Help_Nombre::Nom de l'empleat/da
 Item_Employee_Help_Notes::Afegir notes
 Item_Employee_Help_OnlineHelp::Activar ajut en línia
-Item_Employee_Help_Pais::Indicar el país
+Item_Employee_Help_Pais::Indicar un país
 Item_Employee_Help_PasswordActual::Indicar la contrasenya actual
 Item_Employee_Help_PermisoAdministracion::Permís per a administració
 Item_Employee_Help_PermisoDocumentos::Permís per a documents
@@ -591,13 +596,13 @@ Item_Employee_Help_PermisoProceso::Permís per a processos
 Item_Employee_Help_Poblacion::Indicar la població
 Item_Employee_Help_PostalCode::Indicar el codi postal
 Item_Employee_Help_Provincia::Indicar la província
-Item_Employee_Help_ResetPassword::Restablir contrasenya
+Item_Employee_Help_ResetPassword::Restablir la contrasenya
 Item_Employee_Help_Shortcuts::Dreceres
 Item_Employee_Help_Telefono::Indicar el telèfon
 Item_Employee_Help_UserName::Indicar el nom de l'empleat/da
+Item_Employee_Label_DesiredWorkExperience::Experiència laboral desitjada
 Item_Employee_Label_InactiveTitle::Empleat/da inactiu/va
 Item_Employee_Label_InactiveDate::Data
-Item_Employee_Label_DesiredWorkExperience::Experiència laboral desitjada
 Item_Employee_Label_RealWorkExperience::Experiència laboral real
 Item_Employee_List_Delete::Elements
 Item_Employee_List_Delete_Error::Informar un substitut per a cada assignació
@@ -649,7 +654,6 @@ Item_Employee_Title_EmployeeData::Fitxa de l'empleat/da
 Item_Employees::Empleats/des
 Item_Equipment::Equip
 Item_Equipment_Button_New::Afegir
-Item_Equipment_Button_New::Nou equip
 Item_Equipment_Field_Calibration_Cost::Cost
 Item_Equipment_Field_Calibration_Expiration::Vcmt.
 Item_Equipment_Field_Calibration_Notes::Notes

@@ -163,7 +163,7 @@
                 }
             }));                
 
-                <%if(this.ShowHelp) { %>
+                <%if(this.User.ShowHelp) { %>
                 SetToolTip('TxtName',"<%=this.Dictionary["Item_CostDefinition_Field_Description"] %>");
                 $('[data-rel=tooltip]').tooltip();
                 <% } %>
