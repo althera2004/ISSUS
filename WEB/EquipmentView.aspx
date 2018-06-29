@@ -48,12 +48,12 @@
         var typeItemId = 11;
         var itemId = Equipment.Id;
         
-        /*var EquipmentForm =
+        var EquipmentForm =
         {
             FieldsFormat:
             [
-                {Id:'TxtMeasure',Format:'decimal'},
-                {Id:'TxtScaleDivision',Format:'decimal'}
+                {"Id":'TxtMeasure',Format:'decimal'},
+                {"Id":'TxtScaleDivision',Format:'decimal'}
             ],
             RequiredFields:
             [
@@ -69,7 +69,7 @@
             [
                 {Minimum:1, Options:['Contentholder1_status0','Contentholder1_status1','Contentholder1_status2'], Message:'MinimumOptionsError'}
             ]
-        };*/
+        };
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
@@ -774,6 +774,25 @@
                                             <span class="ErrorMessage" id="CmbNewMaintainmentResponsibleErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label id="TxtNewMaintainmentFirstDateLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate"] %></label>
+                                        <div class="col-sm-9">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtNewMaintainmentFirstDateDiv">
+                                                    <div class="input-group">
+                                                        <input class="form-control date-picker" id="NewMaintainmentFirstDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                        <span id="NewMaintainmentFirstDateBtn" class="input-group-addon" onclick="document.getElementById('NewMaintainmentFirstDate').focus();">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateOverTime" style="display:none;">No pot ser anterior al darrer manteniment</span>
+                                        
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                             
@@ -1405,11 +1424,11 @@
             });
 
             function dialogNewMaintaimentTypeChanged() {
-                if (document.getElementById('RMaintainmentTypeExternal').checked === true) {
-                    document.getElementById('dialogNewMaintaimentProviderRow').style.display = '';
+                if (document.getElementById("RMaintainmentTypeExternal").checked === true) {
+                    $("#dialogNewMaintaimentProviderRow").show();
                 }
                 else {
-                    document.getElementById('dialogNewMaintaimentProviderRow').style.display = 'none';
+                    $("#dialogNewMaintaimentProviderRow").hide();
                 }
             }
 
