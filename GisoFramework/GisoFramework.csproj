@@ -123,6 +123,7 @@
     <Compile Include="Item\Binding\ColumnsRulesGetAll.cs" />
     <Compile Include="Item\Binding\ColumnsRulesGetBAR.cs" />
     <Compile Include="Item\Binding\ColumnsRulesGetById.cs" />
+    <Compile Include="Item\Binding\ColumnsRulesHistoryGetByRule.cs" />
     <Compile Include="Item\Binding\ColumnsScheduleTaskGetByEmployee.cs" />
     <Compile Include="Item\Binding\ColumnsUnidadGet.cs" />
     <Compile Include="Item\Binding\ColumnsUploadFileGet.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Item\ProbabilitySeverityRange.cs" />
     <Compile Include="Item\ProcessTypeKernel.cs" />
     <Compile Include="Item\Revision.cs" />
+    <Compile Include="Item\RuleHistory.cs" />
     <Compile Include="Item\Rules.cs" />
     <Compile Include="Item\Unidad.cs" />
     <Compile Include="Item\UploadFile.cs" />

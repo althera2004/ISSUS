@@ -42,8 +42,10 @@
     </style>
     <script type="text/javascript">
         var rule = <%=this.Rule.Json %>;
+        var oldIPR = rule.Limit;
         var companyRules = <%=RulesJson %>;
         var companyId = <%=this.company.Id %>;
+        var businessRisk = <%=this.BusinessRisksJson %>;
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
@@ -58,6 +60,11 @@
                                             <li class="active">
                                                 <a data-toggle="tab" href="#home"><%=this.Dictionary["Item_Rules_Tab_Principal"]%></a>
                                             </li>
+                                            <% if (this.Rule.Id > 0) { %>
+                                            <li class="" id="History">
+                                                <a data-toggle="tab" href="#history"><%=this.Dictionary["Item_Rules_Tab_History"]%></a>
+                                            </li>
+                                            <% } %>
                                             <% if (this.GrantTraces && false) { %>
                                             <li class="" id="TabTrazas">
                                                 <a data-toggle="tab" href="#trazas"><%=this.Dictionary["Item_Rules_Tab_Traces"]%></a>
@@ -135,6 +142,33 @@
                                                     <%=this.FormFooter %>
                                                 </div>
                                             </div>
+
+                                            <div id="history" class="tab-pane">
+                                                <div class="col-sm-6">
+                                                    <h4><%=this.Dictionary["Item_Rules_HistoryTitle"] %></h4>
+                                                </div>
+                                                <!--<div class="col-sm-6" style="text-align:right;">                                                            
+                                                    <h4 class="pink" style="right:0;">
+                                                        <button class="btn btn-success" type="button" id="BtnNewUploadfile" onclick="UploadFile();">
+                                                            <i class="icon-plus-sign bigger-110"></i>
+                                                            <%=this.Dictionary["Item_DocumentAttachment_Button_New"] %>
+                                                        </button>
+                                                    </h4>
+                                                </div>	-->											
+                                                <table class="table table-bordered table-striped">
+                                                    <thead class="thin-border-bottom">
+                                                        <tr>
+                                                            <th style="width:80px;"><%= this.Dictionary["Item_Rule_HistoryHeader_IPR"] %></th>
+                                                            <th><%=this.Dictionary["Item_Rule_HistoryHeader_Reason"] %></th>
+                                                            <th style="width:100px;"><%= this.Dictionary["Item_Rule_HistoryHeader_Date"] %></th>
+                                                            <th style="width:250px;"><%= this.Dictionary["Item_Rule_HistoryHeader_ApprovedBy"] %></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="TableRuleHistory">
+                                                        <asp:Literal runat="server" ID="LtHistorico"></asp:Literal>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             <div id="trazas" class="tab-pane">													
                                                 <table class="table table-bordered table-striped">
                                                     <thead class="thin-border-bottom">
@@ -167,6 +201,21 @@
                                     </table>
                                 </div><!-- /.table-responsive -->
                             </div><!-- #dialog-message -->
+
+                            <div id="dialogChangeIPR" class="hide" style="width:800px;">
+                                <div class="col col-xs-12" style="height:300px;overflow:auto">    
+                                    <ul id="BusinessRiskList"></ul>
+                                </div>
+                                <div class="col col-xs-12"><%=this.Dictionary["Item_Rule_ChangeIPRMessage"] %></div>                                
+                            </div><!-- #dialog-message -->
+
+                            <div id="dialogChangeIPRReason" class="hide" style="width:800px;">
+                                <div class="col col-xs-12"><%=this.Dictionary["Item_Rule_ChangeIPRLabel"] %></div>
+                                <div class="col col-xs-12" style="height:150px;overflow:auto">    
+                                    <textarea id="TxtReason" rows="5" style="width:99%;"></textarea>
+                                </div>
+                            </div><!-- #dialog-message -->
+
                             <div id="DepartmentDeleteDialog" class="hide" style="width:500px;">
                                 <p><%=this.Dictionary["Item_Department_PopupDelete_Message"] %>&nbsp;<strong><span id="DepartmentName"></span></strong>?</p>
                             </div>
@@ -204,6 +253,6 @@
         <script type="text/javascript" src="/assets/js/jquery.maskedinput.min.js"></script>
         <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
         <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
-        <script type="text/javascript" src="/js/RulesView.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/js/RulesView.js"></script>
 </asp:Content>
 
