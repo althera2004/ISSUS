@@ -213,6 +213,7 @@
                                 <div class="col col-xs-12"><%=this.Dictionary["Item_Rule_ChangeIPRLabel"] %></div>
                                 <div class="col col-xs-12" style="height:150px;overflow:auto">    
                                     <textarea id="TxtReason" rows="5" style="width:99%;"></textarea>
+                                    <span class="ErrorMessage" id="TxtReasonErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                 </div>
                             </div><!-- #dialog-message -->
 

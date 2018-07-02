@@ -282,6 +282,7 @@ function ShowIPRChanges(newIPR, oldIPR) {
 }
 
 function AskReason() {
+    $("#TxtReasonErrorRequired").hide();
     $("TxtReason").val();
     var dialog = $("#dialogChangeIPRReason").removeClass("hide").dialog({
         "resizable": false,
@@ -296,6 +297,11 @@ function AskReason() {
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
                         reason = $("#TxtReason").val();
+                        if (reason === "") {
+                            $("#TxtReasonErrorRequired").show();
+                            return false;
+                        }
+
                         $(this).dialog("close");
                         SaveConfirmed();
                     }
