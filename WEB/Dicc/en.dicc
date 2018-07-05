@@ -308,6 +308,16 @@ Item_BusinessRisk_Title_FinalResult::Result of risk analysis
 Item_BusinessRisk_Title_Graph::Graphic
 Item_BusinessRisk_Title_List::List
 Item_BusinessRisk_Title_StartResult::Actions after assessing the risk
+Item_BusinessRisk_Tooltip_Probability_1::Remote or nonexistent (Low or zero)
+Item_BusinessRisk_Tooltip_Probability_2::Ocasional (Posible pero aislada)
+Item_BusinessRisk_Tooltip_Probability_3::Moderate (Uncommon but can pass reasonably)
+Item_BusinessRisk_Tooltip_Probability_4::High (Frequent)
+Item_BusinessRisk_Tooltip_Probability_5::Very high (Almost inevitable)
+Item_BusinessRisk_Tooltip_Severity_1::Negligible (No damage or appreciable economic costs)
+Item_BusinessRisk_Tooltip_Severity_2::Minor (Mild damage, low economic costs involved)
+Item_BusinessRisk_Tooltip_Severity_3::Major (High Costs or damages involved)
+Item_BusinessRisk_Tooltip_Severity_4::Criticism (Persistent or permanent damage, significant economic costs)
+Item_BusinessRisk_Tooltip_Severity_5::Catastrophic (serious or very serious damage, very significant costs that jeopardize viability)
 Item_BusinessRisk_Warning_ActionTabAvailable::In the action tab, indicate the action data
 Item_BusinessRisks::Risks
 Item_BusinessRisksAndOportunities::Risks and opportunities
@@ -1482,6 +1492,16 @@ Item_Oportunity_Tab_UploadFiles::Attached
 Item_Oportunity_Title_OportunityDetails::Opportunity file
 Item_Oportunity_Title_OportunityDetailsNou::New opportunity
 Item_Oportunity_Title_Result::Result
+Item_Oportunity_Tooltip_Cost_1::Exorbitant (Very high costs, impossible to amortize)
+Item_Oportunity_Tooltip_Cost_2::High (High cost. A great positive impact on the process will be essential for its implementation)
+Item_Oportunity_Tooltip_Cost_3::Moderate (Good amortization rate in the medium term)
+Item_Oportunity_Tooltip_Cost_4::Interesting (Very interesting costs, short-term amortizable)
+Item_Oportunity_Tooltip_Cost_5::Very interesting (Low cost or very good amortization)
+Item_Oportunity_Tooltip_Impact_1::Negligible (Does not bring any advantage)
+Item_Oportunity_Tooltip_Impact_2::Minor (Little contribution to the improvement although it may be interesting)
+Item_Oportunity_Tooltip_Impact_3::Interesting (Significant contribution)
+Item_Oportunity_Tooltip_Impact_4::High (Impact on the very significant improvement)
+Item_Oportunity_Tooltip_Impact_5::Priority (Very clear direct impact if the action is implemented)
 Item_Oportunity_Warning_ActionTabAvailable::The action data can already be filled
 Item_Process::Process
 Item_Proccess::Process

@@ -157,7 +157,7 @@ Common_To::Hasta
 Common_Today::Hoy
 Common_Total::Total
 Common_Update::Modificar
-Common_Uploading::Pujant arxiu
+Common_Uploading::Subiendo archivo
 Common_UserSetGrant::El empleado no tiene permisos para realizar esta acción.<br /> &iquest; Quiere darle permisos para poder realizarla?
 Common_View::Ver
 Common_ViewAll::Ver todo
@@ -308,6 +308,16 @@ Item_BusinessRisk_Title_FinalResult::Resultado del análisis de riesgo
 Item_BusinessRisk_Title_Graph::Gráfico
 Item_BusinessRisk_Title_List::Listado
 Item_BusinessRisk_Title_StartResult::Acciones después de evaluar el riesgo
+Item_BusinessRisk_Tooltip_Probability_1::Remota o inexistente (Baja o nula)
+Item_BusinessRisk_Tooltip_Probability_2::Ocasional (Posible pero aislada)
+Item_BusinessRisk_Tooltip_Probability_3::Moderada (Infrecuente pero puede pasar razonablemente)
+Item_BusinessRisk_Tooltip_Probability_4::Alta (Frecuente)
+Item_BusinessRisk_Tooltip_Probability_5::Muy alta (Casi inevitable)
+Item_BusinessRisk_Tooltip_Severity_1::Insignificante (No se producen daños ni costes económicos apreciables)
+Item_BusinessRisk_Tooltip_Severity_2::Menor (Daño leve. Costes económicos implicados de poca consideración)
+Item_BusinessRisk_Tooltip_Severity_3::Mayor (Costes o daños implicados de consideración)
+Item_BusinessRisk_Tooltip_Severity_4::Crítica (Daño persistente o permanente. Costes económicos importantes)
+Item_BusinessRisk_Tooltip_Severity_5::Catastrófica (Daño grave o muy grave. Costes muy significativos que ponen en peligro la viavilidad)
 Item_BusinessRisk_Warning_ActionTabAvailable::En la pestaña de acción, indicar los datos de la acción
 Item_BusinessRisks::Riesgos
 Item_BusinessRisksAndOportunities::Riesgos y oportunidades
@@ -1342,7 +1352,8 @@ Item_Learning_ListHeader_EstimatedDate::Prevista
 Item_Learning_ListHeader_Status::Estado
 Item_Learning_Message_Evaluation::Guardando una formación con todos los participantes evaluados, queda cerrada y ya no se puede modificar
 Item_Learning_Message_NoAssistants::No existen asistentes al curso
-Item_Learning_Objetive::Objetivo
+Item_Learning_Message_SelectOneAssistant::Obligatoro algún assistente
+Item_Learning_Objetive::Objetivo 
 Item_Learning_PopupDelete_Message::¿Eliminar la formación?
 Item_Learning_SelectAssistants::Añadir
 Item_Learning_Status_Done::Realizada
@@ -1480,6 +1491,16 @@ Item_Oportunity_Tab_UploadFiles::Adjuntos
 Item_Oportunity_Title_OportunityDetails::Ficha de la oportunidad
 Item_Oportunity_Title_OportunityDetailsNou::Nueva oportunidad
 Item_Oportunity_Title_Result::Resultado
+Item_Oportunity_Tooltip_Cost_1::Desorbitado (Costes elevadísimos. Imposibles de amortizar)
+Item_Oportunity_Tooltip_Cost_2::Elevado (Coste elevado. Para su implantación será imprescindible un gran impacto positivo en el proceso)
+Item_Oportunity_Tooltip_Cost_3::Moderado (Buena tasa de amortización a medio plazo)
+Item_Oportunity_Tooltip_Cost_4::Interesante (Costes muy interesantes. Amortizables a corto plazo)
+Item_Oportunity_Tooltip_Cost_5::Muy interesante (Coste bajos o muy buena amortización)
+Item_Oportunity_Tooltip_Impact_1::Insignificante (No aporta ninguna ventaja)
+Item_Oportunity_Tooltip_Impact_2::Menor (Poco aporte a la mejora aunque puede ser interesante)
+Item_Oportunity_Tooltip_Impact_3::Interesante (Aporte significativo)
+Item_Oportunity_Tooltip_Impact_4::Alto (Impacto en la mejora muy significativo)
+Item_Oportunity_Tooltip_Impact_5::Prioritario (Muy claro impacto directo si se implanta la acción)
 Item_Oportunity_Warning_ActionTabAvailable::Ya se pueden entrar los datos de la acción
 Item_Process::Proceso
 Item_Proccess::Proceso
