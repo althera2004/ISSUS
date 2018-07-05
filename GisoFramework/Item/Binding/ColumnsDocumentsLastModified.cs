@@ -6,9 +6,7 @@
 // --------------------------------
 namespace GisoFramework.Item.Binding
 {
-    /// <summary>
-    /// Index of columns of Documents_GetInactive result rows
-    /// </summary>
+    /// <summary>Index of columns of Documents_GetInactive result rows</summary>
     public static class ColumnsDocumentsLastModified
     {
         /// <summary> Index of Id column</summary>

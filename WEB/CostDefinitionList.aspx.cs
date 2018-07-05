@@ -12,20 +12,11 @@ public partial class CostDefinitionList : Page
     /// <summary> Master of page</summary>
     private Giso master;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
     /// <summary>Gets the dictionary for interface texts</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return master.Dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
@@ -46,7 +37,6 @@ public partial class CostDefinitionList : Page
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
@@ -55,20 +45,21 @@ public partial class CostDefinitionList : Page
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)this.Session["User"];
-        this.dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = this.Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         this.master.AddBreadCrumb("Item_CostDefinition");
@@ -82,8 +73,8 @@ public partial class CostDefinitionList : Page
         }
 
         this.DataHeader = new UIDataHeader { Id = "ListDataHeader", ActionsItem = 2 };
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_CostDefinition_ListHeader_Name"], Sortable = true, Filterable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_CostDefinition_ListHeader_Amount"], HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_CostDefinition_ListHeader_Name"], Sortable = true, Filterable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_CostDefinition_ListHeader_Amount"], HiddenMobile = true });
     }
 
     private void RenderDepartmentData()
@@ -102,7 +93,7 @@ public partial class CostDefinitionList : Page
                     searchItems.Add(cost.Description);
                 }
 
-                res.Append(cost.ListRow(this.dictionary, this.user.Grants));
+                res.Append(cost.ListRow(this.Dictionary, this.user.Grants));
                 cont++;
             }
         }

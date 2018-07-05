@@ -564,6 +564,7 @@ function MaintainmentNewSave() {
         "Periodicity": periodicity,
         "Accessories": $("#TxtNewMaintainmentAccessories").val(),
         "Cost": cost,
+        "FirstDate": GetDate($("#NewMaintainmentFirstDate").val(), "/", true),
         "Provider": { Id: $("#CmbNewMaintainmentProvider").val() },
         "Responsible": { Id: $("#CmbNewMaintainmentResponsible").val() }
     };

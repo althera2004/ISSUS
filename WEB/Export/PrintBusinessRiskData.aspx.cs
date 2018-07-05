@@ -54,16 +54,7 @@ public partial class ExportPrintBusinessRiskData : Page
         formatedDescription = formatedDescription.Replace(";", string.Empty);
         formatedDescription = formatedDescription.Replace(".", string.Empty);
 
-        var borderNone = Rectangle.NO_BORDER;
-        var borderSides = Rectangle.RIGHT_BORDER + Rectangle.LEFT_BORDER;
-        var borderAll = Rectangle.RIGHT_BORDER + Rectangle.TOP_BORDER + Rectangle.LEFT_BORDER + Rectangle.BOTTOM_BORDER;
-        var borderTBL = Rectangle.TOP_BORDER + Rectangle.BOTTOM_BORDER + Rectangle.LEFT_BORDER;
-        var borderTBR = Rectangle.TOP_BORDER + Rectangle.BOTTOM_BORDER + Rectangle.RIGHT_BORDER;
-        var borderBL = Rectangle.BOTTOM_BORDER + Rectangle.LEFT_BORDER;
-        var borderBR = Rectangle.BOTTOM_BORDER + Rectangle.RIGHT_BORDER;
-
         var alignLeft = Element.ALIGN_LEFT;
-        var alignRight = Element.ALIGN_RIGHT;
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
@@ -105,7 +96,7 @@ public partial class ExportPrintBusinessRiskData : Page
             HorizontalAlignment = 0
         };
 
-        table.SetWidths(new float[] { 25f, 50f, 25f, 50f });
+        table.SetWidths(new float[] { 30f, 50f, 30f, 50f });
 
         table.AddCell(new PdfPCell(new Phrase(businessRisk.Description, descriptionFont))
         {
@@ -143,15 +134,15 @@ public partial class ExportPrintBusinessRiskData : Page
         // WhatHappend
         table.AddCell(SeparationRow());
         table.AddCell(TitleCell(dictionary["Item_BusinessRisk_LabelField_Description"]));
-        table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.Description, borderAll, alignLeft, 4));
+        table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.Description, ToolsPdf.BorderAll, alignLeft, 4));
 
         table.AddCell(SeparationRow());
         table.AddCell(TitleCell(dictionary["Item_BusinessRisk_LabelField_Causes"]));
-        table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.Causes, borderAll, alignLeft, 4));
+        table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.Causes, ToolsPdf.BorderAll, alignLeft, 4));
 
         table.AddCell(SeparationRow());
         table.AddCell(TitleCell(dictionary["Item_BusinessRisk_LabelField_Notes"]));
-        table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.Notes, borderAll, alignLeft, 4));
+        table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.Notes, ToolsPdf.BorderAll, alignLeft, 4));
 
 
 

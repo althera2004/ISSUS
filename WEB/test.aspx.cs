@@ -14,11 +14,7 @@ using GisoFramework.Item;
 
 public partial class test : Page
 {
-    UIDataHeader dataheader;
-
-    /// <summary>
-    /// Page's load event
-    /// </summary>
+    /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
     protected void Page_Load(object sender, EventArgs e)

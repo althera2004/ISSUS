@@ -80,5 +80,15 @@ namespace GisoFramework.Item
 
             return this.Indicador.Id == other.Indicador.Id;
         }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

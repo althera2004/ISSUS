@@ -98,7 +98,7 @@ function EquipmentMaintenanceDefinitionRenderRow(equipmentMaintenance, targetNam
 
 function EquipmentMaintenanceDefinitiongetById(id) {
     for (var x = 0; x < EquipmentMaintenanceDefinitionList.length; x++) {
-        if (EquipmentMaintenanceDefinitionList[x].Id == id) {
+        if (EquipmentMaintenanceDefinitionList[x].Id === id) {
             return EquipmentMaintenanceDefinitionList[x];
         }
     }
@@ -110,7 +110,7 @@ function EquipmentMaintenanceDefinitionRemoveFromList(id) {
     var temp = new Array();
 
     for (var x = 0; x < EquipmentMaintenanceDefinitionList.length; x++) {
-        if (EquipmentMaintenanceDefinitionList[x].Id != id) {
+        if (EquipmentMaintenanceDefinitionList[x].Id !== id) {
             temp.push(EquipmentMaintenanceDefinitionList[x]);
         }
     }
@@ -124,13 +124,14 @@ function EquipmentMaintenanceDefinitionRemoveFromList(id) {
 
 function EquipmentMaintenanceDefinitionListUpdate(equipmentMaintenance) {
     for (var x = 0; x < EquipmentMaintenanceDefinitionList.length; x++) {
-        if (EquipmentMaintenanceDefinitionList[x].Id == equipmentMaintenance.Id) {
+        if (EquipmentMaintenanceDefinitionList[x].Id === equipmentMaintenance.Id) {
             EquipmentMaintenanceDefinitionList[x] = equipmentMaintenance;
         }
     }
 }
 
 function EquipmentMaintenanceNewFormReset() {
+    $("#RMaintainmentTypeErrorRequired").hide();
     ClearFieldTextMessages("TxtNewMaintainmentOperation");
     ClearFieldTextMessages("TxtNewMaintainmentPeriodicity");
     ClearFieldTextMessages("TxtNewMaintainmentCost");
@@ -138,17 +139,17 @@ function EquipmentMaintenanceNewFormReset() {
     ClearFieldTextMessages("CmbNewMaintainmentResponsible");
     $("#RMaintainmentTypeInternal").prop("checked", false);
     $("#RMaintainmentTypeExternal").prop("checked", false);
-    document.getElementById("RMaintainmentTypeErrorRequired").style.display = "none";
     $("#TxtNewMaintainmentOperation").val("");
     $("#TxtNewMaintainmentPeriodicity").val("");
     $("#TxtNewMaintainmentAccessories").val("");
     $("#TxtNewMaintainmentCost").val("");
     $("#CmbNewMaintainmentProvider").val(0);
+    $("#NewMaintainmentFirstDate").val("");
     $("#CmbNewMaintainmentResponsible").val(ApplicationUser.Employee.Id);
 }
 
 function EquipmentMaintenanceEditFormFill(equipmentMaintenanceDefinition) {
-    document.getElementById("RMaintainmentTypeErrorRequired").style.display = "none";
+    $("#RMaintainmentTypeErrorRequired").hide();
     ClearFieldTextMessages("TxtNewMaintainmentOperation");
     ClearFieldTextMessages("TxtNewMaintainmentPeriodicity");
     ClearFieldTextMessages("TxtNewMaintainmentCost");
@@ -166,6 +167,14 @@ function EquipmentMaintenanceEditFormFill(equipmentMaintenanceDefinition) {
     else {
         $("#TxtNewMaintainmentCost").val("");
     }
+    if (equipmentMaintenanceDefinition.FirstDate !== null) {
+        //GetDateYYYYMMDDText(date, separator, nullable)
+        var fecha = GetDateYYYYMMDDText(equipmentMaintenanceDefinition.FirstDate, "/");
+        $("#NewMaintainmentFirstDate").val(fecha);
+    }
+    else {
+        $("#NewMaintainmentFirstDate").val("");
+    }
     $("#CmbNewMaintainmentProvider").val(equipmentMaintenanceDefinition.Provider.Id);
     $("#CmbNewMaintainmentResponsible").val(equipmentMaintenanceDefinition.Responsible.Id);
     if ($("#CmbNewMaintainmentResponsible").val() === null) {
@@ -175,29 +184,29 @@ function EquipmentMaintenanceEditFormFill(equipmentMaintenanceDefinition) {
 
 function EquipmentMaintenanceDefinitionValidateForm() {
     var ok = true;
-    if (!document.getElementById('RMaintainmentTypeInternal').checked && !document.getElementById('RMaintainmentTypeExternal').checked) {
+    if (!document.getElementById("RMaintainmentTypeInternal").checked && !document.getElementById("RMaintainmentTypeExternal").checked) {
         ok = false;
-        document.getElementById('RMaintainmentTypeErrorRequired').style.display = '';
+        $("#RMaintainmentTypeErrorRequired").show();
     }
     else {
-        document.getElementById('RMaintainmentTypeErrorRequired').style.display = 'none';
+        $("#RMaintainmentTypeErrorRequired").hide();
     }
 
-    if (!RequiredFieldText('TxtNewMaintainmentOperation')) {
+    if (!RequiredFieldText("TxtNewMaintainmentOperation")) {
         ok = false;
     }
-    if (!RequiredFieldText('TxtNewMaintainmentPeriodicity')) {
+    if (!RequiredFieldText("TxtNewMaintainmentPeriodicity")) {
         ok = false;
     }
     /* ISSUS-18
-    if (!RequiredFieldText('TxtNewMaintainmentCost')) {
+    if (!RequiredFieldText("TxtNewMaintainmentCost")) {
         ok = false;
     }
     */
-    if (!RequiredFieldCombo('CmbNewMaintainmentProvider') && document.getElementById('RMaintainmentTypeExternal').checked) {
+    if (!RequiredFieldCombo("CmbNewMaintainmentProvider") && document.getElementById("RMaintainmentTypeExternal").checked) {
         ok = false;
     }
-    if (!RequiredFieldCombo('CmbNewMaintainmentResponsible')) {
+    if (!RequiredFieldCombo("CmbNewMaintainmentResponsible")) {
         ok = false;
     }
 
@@ -212,11 +221,11 @@ function FillCmbNewMaintainmentResponsible() {
     document.getElementById("CmbNewMaintainmentResponsible").appendChild(optionDefault);
 
     for (var x = 0; x < Employees.length; x++) {
-        if ((Employees[x].Active === true && Employees[x].DisabledDate === null) || MaintainmentNewResponsibleSelected == Employees[x].Id) {
+        if ((Employees[x].Active === true && Employees[x].DisabledDate === null) || MaintainmentNewResponsibleSelected === Employees[x].Id) {
             var option = document.createElement("option");
             option.value = Employees[x].Id;
             option.appendChild(document.createTextNode(Employees[x].FullName));
-            if (MaintainmentNewResponsibleSelected == Employees[x].Id) {
+            if (MaintainmentNewResponsibleSelected === Employees[x].Id) {
                 option.selected = true;
             }
 
@@ -238,7 +247,7 @@ function EquipmentMaintenanceDefinitionEdit(sender) {
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentMaintenance_PopupConfigurationUpdate_Title + "</h4></div>",
         "title_html": true,
         "width": 500,
-        buttons: [
+        "buttons": [
             {
                 "id": "BtnNewMaintenanceDefinitionSave",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Save,
@@ -248,6 +257,7 @@ function EquipmentMaintenanceDefinitionEdit(sender) {
                 }
             },
             {
+                "id": "BtnNewMaintenanceDefinitionSaveCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -275,31 +285,38 @@ function EquipmentMaintenanceDefinitionEditConfirmed() {
     }
 
     var providerId = $("#CmbNewMaintainmentProvider").val();
-    if (providerId == null) { providerId = -1;}
+    if (providerId === null) { providerId = -1;}
 
-    var webMethod = "/Async/EquipmentMaintenanceActions.asmx/Update";
     SelectedEquipmentMaintenanceDefinition = {
-        Id: SelectedEquipmentDefinitionSelectedId,
-        CompanyId: Company.Id,
-        EquipmentId: Equipment.Id,
-        MaintenanceType: document.getElementById("RMaintainmentTypeInternal").checked ? 0 : 1,
-        Description: $("#TxtNewMaintainmentOperation").val(),
-        Periodicity: ParseInputValueToNumber($("#TxtNewMaintainmentPeriodicity").val()),
-        Accessories: $("#TxtNewMaintainmentAccessories").val(),
-        Cost: cost,
-        Provider: { Id: providerId },
-        Responsible: { Id: $("#CmbNewMaintainmentResponsible").val() }
+        "Id": SelectedEquipmentDefinitionSelectedId,
+        "CompanyId": Company.Id,
+        "EquipmentId": Equipment.Id,
+        "MaintenanceType": document.getElementById("RMaintainmentTypeInternal").checked ? 0 : 1,
+        "Description": $("#TxtNewMaintainmentOperation").val(),
+        "Periodicity": ParseInputValueToNumber($("#TxtNewMaintainmentPeriodicity").val()),
+        "Accessories": $("#TxtNewMaintainmentAccessories").val(),
+        "Cost": cost,
+        "FirstDate": GetDate($("#NewMaintainmentFirstDate").val(), "/", true),
+        "Provider": { "Id": providerId },
+        "Responsible": { "Id": $("#CmbNewMaintainmentResponsible").val() }
     };
 
+    console.log(SelectedEquipmentMaintenanceDefinition);
+
     var oldEquipmentMaintenanceDefinition = EquipmentMaintenanceDefinitiongetById(SelectedEquipmentDefinitionSelectedId);
-    var data = { newEquipmentMaintenanceDefinition: SelectedEquipmentMaintenanceDefinition, oldEquipmentMaintenanceDefinition: oldEquipmentMaintenanceDefinition, userId: user.Id };
+    oldEquipmentMaintenanceDefinition.FirstDate = GetDateYYYYMMDD(oldEquipmentMaintenanceDefinition.FirstDate, "/");
+    var data = {
+        "newEquipmentMaintenanceDefinition": SelectedEquipmentMaintenanceDefinition,
+        "oldEquipmentMaintenanceDefinition": oldEquipmentMaintenanceDefinition,
+        "userId": user.Id
+    };
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/EquipmentMaintenanceActions.asmx/Update",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             EquipmentMaintenanceDefinitionListUpdate(SelectedEquipmentMaintenanceDefinition);
             EquipmentMaintenanceDefinitionRenderTable("TableEquipmentMaintenanceDefinition");
             $("#dialogNewMaintaiment").dialog("close");
@@ -317,7 +334,7 @@ function EquipmentMaintananceDefinitionDelete(sender) {
     if (EquipmentMaintenanceDefinition === null) { return false; }
 
     for (var x = 0; x < EquipmentMaintenanceActList.length; x++) {
-        if (EquipmentMaintenanceActList[x].EquipmentMaintenanceDefinitionId == EquipmentMaintenanceDefinition.Id) {
+        if (EquipmentMaintenanceActList[x].EquipmentMaintenanceDefinitionId === EquipmentMaintenanceDefinition.Id) {
             warningInfoUI(Dictionary.Item_EquipmentMaintenance_ErrorMessage_AsociateRecords, null, 300);
             return false;
         }
@@ -364,7 +381,7 @@ function dialogEquipmentMaintananceDefinitionDeleteConfirmed() {
         "data": JSON.stringify(data, null, 2),
         success: function (msg) {
             EquipmentMaintenanceDefinitionRemoveFromList(SelectedEquipmentDefinitionSelectedId);
-            EquipmentMaintenanceDefinitionRenderTable('TableEquipmentMaintenanceDefinition');
+            EquipmentMaintenanceDefinitionRenderTable("TableEquipmentMaintenanceDefinition");
             $("#dialogEquipmentMaintananceDefinitionDelete").dialog("close");
 
         },

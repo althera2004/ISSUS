@@ -33,5 +33,6 @@ namespace GisoFramework.Item.Binding
         public static readonly int ModifiedByUserId = 14;
         public static readonly int ModifiedByUserName = 16;
         public static readonly int ModifiedOn = 18;
+        public static readonly int FirstDate = 19;
     }
 }

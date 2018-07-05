@@ -63,11 +63,19 @@ public partial class ExportIncidentExportList : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+        string formatedDescription = company.Name.Replace("?", string.Empty);
+        formatedDescription = formatedDescription.Replace("#", string.Empty);
+        formatedDescription = formatedDescription.Replace("/", string.Empty);
+        formatedDescription = formatedDescription.Replace("\\", string.Empty);
+        formatedDescription = formatedDescription.Replace(":", string.Empty);
+        formatedDescription = formatedDescription.Replace(";", string.Empty);
+        formatedDescription = formatedDescription.Replace(".", string.Empty);
+
         var fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_IncidentList"],
-            company.Name,
+            formatedDescription,
             DateTime.Now);
 
         // FONTS
@@ -232,7 +240,7 @@ public partial class ExportIncidentExportList : Page
         }
         #endregion
 
-        var criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"] + " :", ToolsPdf.TimesBold))
+        var criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"] + " :", ToolsPdf.LayoutFonts.TimesBold))
         {
             Border = borderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -240,7 +248,7 @@ public partial class ExportIncidentExportList : Page
             PaddingTop = 4f
         };
 
-        var criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, ToolsPdf.Times))
+        var criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, ToolsPdf.LayoutFonts.Times))
         {
             Border = borderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -248,7 +256,7 @@ public partial class ExportIncidentExportList : Page
             PaddingTop = 4f
         };
 
-        var criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.TimesBold))
+        var criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.TimesBold))
         {
             Border = borderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -256,7 +264,7 @@ public partial class ExportIncidentExportList : Page
             PaddingTop = 4f
         };
 
-        var criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.Times))
+        var criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.Times))
         {
             Border = borderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -264,7 +272,7 @@ public partial class ExportIncidentExportList : Page
             PaddingTop = 4f
         };
 
-        var criteria3Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Status"] + " :", ToolsPdf.TimesBold))
+        var criteria3Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Status"] + " :", ToolsPdf.LayoutFonts.TimesBold))
         {
             Border = borderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -272,7 +280,7 @@ public partial class ExportIncidentExportList : Page
             PaddingTop = 4f
         };
 
-        var criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(statusText, ToolsPdf.Times))
+        var criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(statusText, ToolsPdf.LayoutFonts.Times))
         {
             Border = borderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -280,7 +288,7 @@ public partial class ExportIncidentExportList : Page
             PaddingTop = 4f
         };
 
-        var criteria4Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Origin"] + " :", ToolsPdf.TimesBold))
+        var criteria4Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Origin"] + " :", ToolsPdf.LayoutFonts.TimesBold))
         {
             Border = borderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -288,7 +296,7 @@ public partial class ExportIncidentExportList : Page
             PaddingTop = 4f
         };
 
-        var criteria4 = new iTSpdf.PdfPCell(new iTS.Phrase(criteriaOrigin, ToolsPdf.Times))
+        var criteria4 = new iTSpdf.PdfPCell(new iTS.Phrase(criteriaOrigin, ToolsPdf.LayoutFonts.Times))
         {
             Border = borderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -426,20 +434,20 @@ public partial class ExportIncidentExportList : Page
                 default: originText = string.Empty; break;
             }
 
-            table.AddCell(ToolsPdf.DataCell(incidentFilter.Description, ToolsPdf.Times));
-            table.AddCell(ToolsPdf.DataCellCenter(incidentFilter.Open, ToolsPdf.Times));
-            table.AddCell(ToolsPdf.DataCell(statustext, ToolsPdf.Times));
-            table.AddCell(ToolsPdf.DataCell(incidentFilter.OriginText, ToolsPdf.Times));
-            table.AddCell(ToolsPdf.DataCell(actionDescription, ToolsPdf.Times));
-            table.AddCell(ToolsPdf.DataCellMoney(incidentFilter.Amount, ToolsPdf.Times));
-            table.AddCell(ToolsPdf.DataCellCenter(incidentFilter.Close, ToolsPdf.Times));
+            table.AddCell(ToolsPdf.DataCell(incidentFilter.Description, ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCellCenter(incidentFilter.Open, ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCell(statustext, ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCell(incidentFilter.OriginText, ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCell(actionDescription, ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCellMoney(incidentFilter.Amount, ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCellCenter(incidentFilter.Close, ToolsPdf.LayoutFonts.Times));
         }
 
         table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(
             CultureInfo.InvariantCulture,
             @"{0}: {1}",
             dictionary["Common_RegisterCount"],
-            cont), ToolsPdf.Times))
+            cont), ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = rowEven,
@@ -448,7 +456,7 @@ public partial class ExportIncidentExportList : Page
             Colspan = 4
         });
 
-        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant(), ToolsPdf.Times))
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant(), ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = rowEven,
@@ -457,7 +465,7 @@ public partial class ExportIncidentExportList : Page
             HorizontalAlignment = 2
         });
 
-        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Tools.PdfMoneyFormat(totalCost), ToolsPdf.Times))
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Tools.PdfMoneyFormat(totalCost), ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = rowEven,
@@ -466,7 +474,7 @@ public partial class ExportIncidentExportList : Page
             HorizontalAlignment = 2
         });
 
-        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.Times))
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = rowEven,

@@ -187,12 +187,9 @@
                                                         </div>
                                                         <div class="form-group" id="ActionActivator">
                                                             <div class="col-sm-3">
-                                                                <input type="checkbox" value="1" id="ApplyAction" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_Oportunity_LabelField_ApplyActionYes"] %>
-                                                            </div>
-                                                            <div class="col-sm-3" style="display:none;">
                                                                 <input type="radio" value="1" id="ApplyActionYes" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_Oportunity_LabelField_ApplyActionYes"] %>
                                                             </div>
-                                                            <div class="col-sm-3" id="ApplyActionNoStart" style="display:none;">
+                                                            <div class="col-sm-3" id="ApplyActionNoStart">
                                                                 <input type="radio" value="2" id="ApplyActionNo" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_Oportunity_LabelField_ApplyActionNo"] %>
                                                             </div>
                                                         </div>

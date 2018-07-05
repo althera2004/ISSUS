@@ -9,6 +9,7 @@ namespace PDF_Tests
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
     using System.Web;
     using GisoFramework;
     using iTextSharp.text;
@@ -67,7 +68,7 @@ namespace PDF_Tests
             catch (DocumentException de)
             {
             }
-            catch (System.IO.IOException ioe)
+            catch (IOException ioe)
             {
             }
         }

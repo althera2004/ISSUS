@@ -32,6 +32,9 @@
                                         <div class="col-xs-4">
                                             <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["DashBoard_SelectOthers"] %>
                                         </div>
+                                        <div class="col-xs-4">
+                                            <input type="checkbox" id="Chk3" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["DashBoard_OnlyPassed"] %>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -90,6 +93,7 @@
                 console.log(Filter);
                 document.getElementById("Chk1").checked = Filter.Owners;
                 document.getElementById("Chk2").checked = Filter.Others;
+                document.getElementById("Chk3").checked = Filter.Passed;
             }
 
             function FilterChanged() {
@@ -97,7 +101,8 @@
                 var filterData =
                     {
                         "owners": document.getElementById("Chk1").checked,
-                        "others": document.getElementById("Chk2").checked
+                        "others": document.getElementById("Chk2").checked,
+                        "passed": document.getElementById("Chk3").checked
                     };
 
                 $.ajax({
@@ -116,9 +121,14 @@
             function RenderTaskTable() {
                 var owners = document.getElementById("Chk1").checked;
                 var others = document.getElementById("Chk2").checked;
+                var passed = document.getElementById("Chk3").checked;
                 $("#ListDataTable").html("");
                 var count = 0;
                 for (var x = 0; x < Tasks.length; x++) {
+                    if (passed === true && Tasks[x].color !== "#f00") {
+                        continue;
+                    }
+
                     if (owners === true && others === true) {
                         RenderTaskRow(Tasks[x]);
                         count++;
@@ -193,7 +203,7 @@
                 target.appendChild(tr);
             }
 
-            if (user.PrimaryUser !== true) {
+            if (user.Admin !== true) {
                 $("#SelectRow").hide();
             }
         </script>

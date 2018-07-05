@@ -3,22 +3,27 @@
 //     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
-
 namespace GisoFramework.Item.Binding
 {
     /// <summary>Index columns of stored ApplicationUserGetGrants result</summary>
-    public sealed class ColumnsApplicationUserGetGrants
+    public static class ColumnsApplicationUserGetGrants
     {
-        public static readonly int UserId = 0;
-        public static readonly int ItemId = 1;
-        public static readonly int GrantToRead = 2;
-        public static readonly int GrantToWrite = 3;
-        public static readonly int GrantToDelete = 4;
-        public static readonly int UrlList = 5;
+        /// <summary>Index of UserId column</summary>
+        public const int UserId = 0;
 
-        private ColumnsApplicationUserGetGrants()
-        {
+        /// <summary>Index of ItemId column</summary>
+        public const int ItemId = 1;
 
-        }
+        /// <summary>Index of GrantToRead column</summary>
+        public const int GrantToRead = 2;
+
+        /// <summary>Index of GrantToWrite column</summary>
+        public const int GrantToWrite = 3;
+
+        /// <summary>Index of GrantToDelete column</summary>
+        public const int GrantToDelete = 4;
+
+        /// <summary>Index of UrlList column</summary>
+        public const int UrlList = 5;
     }
 }

@@ -1,19 +1,4 @@
-﻿// --------------------------------
-// <copyright file="IncidentActionExportList.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
-// </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
-// --------------------------------
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.Script.Services;
-using System.Web.Services;
-using System.Web.UI;
+﻿
 using iTS = iTextSharp.text;
 using iTSpdf = iTextSharp.text.pdf;
 using GisoFramework;
@@ -22,18 +7,37 @@ using GisoFramework.Item;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PDF_Tests;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Web;
+using System.Web.Script.Services;
+using System.Web.Services;
+using System.Configuration;
+using System.IO;
 
-public partial class ExportIncidentActionExportList : Page
+/// <summary>
+/// Descripción breve de IncidentActionExportList
+/// </summary>
+[WebService(Namespace = "http://tempuri.org/")]
+[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+[ScriptService]
+public class IncidentActionExportList : System.Web.Services.WebService
 {
-    public static Dictionary<string, string> dictionary;
 
-    protected void Page_Load(object sender, EventArgs e)
+    public IncidentActionExportList()
     {
+
+        //Elimine la marca de comentario de la línea siguiente si utiliza los componentes diseñados 
+        //InitializeComponent(); 
     }
+
+    public Dictionary<string, string> dictionary;
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult PDF(
+    public ActionResult PDF(
         int companyId,
         string from,
         string to,
@@ -59,19 +63,11 @@ public partial class ExportIncidentActionExportList : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        string formatedDescription = company.Name.Replace("?", string.Empty);
-        formatedDescription = formatedDescription.Replace("#", string.Empty);
-        formatedDescription = formatedDescription.Replace("/", string.Empty);
-        formatedDescription = formatedDescription.Replace("\\", string.Empty);
-        formatedDescription = formatedDescription.Replace(":", string.Empty);
-        formatedDescription = formatedDescription.Replace(";", string.Empty);
-        formatedDescription = formatedDescription.Replace(".", string.Empty);
-
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_IncidentActionList"],
-            formatedDescription,
+            company.Name,
             DateTime.Now);
 
         var pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
@@ -106,7 +102,7 @@ public partial class ExportIncidentActionExportList : Page
         };
 
         titleTable.AddCell(titleCell);
-        
+
         //------ CRITERIA
         var criteriatable = new iTSpdf.PdfPTable(4);
         criteriatable.SetWidths(new float[] { 20f, 50f, 15f, 100f });
@@ -295,7 +291,7 @@ public partial class ExportIncidentActionExportList : Page
 
         pdfDoc.Add(criteriatable);
         //---------------------------
-        
+
         var table = new iTSpdf.PdfPTable(8)
         {
             WidthPercentage = 100,
@@ -313,12 +309,12 @@ public partial class ExportIncidentActionExportList : Page
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Cost"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_ImplementDate"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Close"]));
-        
+
         int cont = 0;
         decimal totalCost = 0;
         var data = HttpContext.Current.Session["IncidentActionFilterData"] as List<IncidentActionFilterItem>;
 
-        foreach(IncidentActionFilterItem item in data)
+        foreach (IncidentActionFilterItem item in data)
         {
             string originText = string.Empty;
             if (item.Origin == 1) { originText = dictionary["Item_IncidentAction_Origin1"]; }
@@ -421,7 +417,7 @@ public partial class ExportIncidentActionExportList : Page
                 PaddingTop = 4f,
                 HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
-            
+
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(statustext, ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
@@ -439,7 +435,7 @@ public partial class ExportIncidentActionExportList : Page
                 PaddingTop = 4f,
                 HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
-            
+
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Tools.PdfMoneyFormat(action.Amount), ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
@@ -448,7 +444,7 @@ public partial class ExportIncidentActionExportList : Page
                 PaddingTop = 4f,
                 HorizontalAlignment = Rectangle.ALIGN_RIGHT
             });
-            
+
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.ImplementationDate), ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
@@ -482,7 +478,7 @@ public partial class ExportIncidentActionExportList : Page
             PaddingTop = 4f,
             Colspan = 4
         });
-        
+
         table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant(), ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
@@ -491,7 +487,7 @@ public partial class ExportIncidentActionExportList : Page
             PaddingTop = 4f,
             HorizontalAlignment = 2
         });
-        
+
         table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Tools.PdfMoneyFormat(totalCost), ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
@@ -500,7 +496,7 @@ public partial class ExportIncidentActionExportList : Page
             PaddingTop = 4f,
             HorizontalAlignment = 2
         });
-        
+
         table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,

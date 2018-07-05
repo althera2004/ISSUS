@@ -21,14 +21,10 @@ public partial class CostDefinitionView : Page
     private Giso master;
 
     private int costDefinitionId;
-    private CostDefinition costDefinition;
     private FormFooter formFooter;
 
     /// <summary>Company of session</summary>
     private Company company;
-
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
 
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
@@ -38,9 +34,6 @@ public partial class CostDefinitionView : Page
             return Guid.NewGuid().ToString();
         }
     }
-
-    /// <summary>Application user logged in session</summary>
-    private ApplicationUser user;
 
     private TabBar tabBar = new TabBar { Id = "CostDefinitionTabBar" };
 
@@ -59,14 +52,14 @@ public partial class CostDefinitionView : Page
             return new FormText
             {
                 Name = "TxtName",
-                Value = this.costDefinition.Description,
+                Value = this.CostDefinitionItem.Description,
                 ColumnSpan = 11,
-                Placeholder = this.dictionary["Item_CostDefinition_Field_Description"],
+                Placeholder = this.Dictionary["Item_CostDefinition_Field_Description"],
                 Required = true,
-                RequiredMessage = this.dictionary["Common_Required"],
+                RequiredMessage = this.Dictionary["Common_Required"],
                 Duplicated = true,
-                DuplicatedMessage = this.dictionary["Common_Error_NameAlreadyExists"],
-                GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Provider),
+                DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
+                GrantToWrite = this.User.HasGrantToWrite(ApplicationGrant.Provider),
                 MaximumLength = 100
             }.Render;
         }
@@ -84,7 +77,7 @@ public partial class CostDefinitionView : Page
     {
         get
         {
-            return this.formFooter.Render(this.dictionary);
+            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -123,45 +116,11 @@ public partial class CostDefinitionView : Page
         }
     }
 
-    public CostDefinition CostDefinitionItem
-    {
-        get
-        {
-            return this.costDefinition;
-        }
-    }
+    public CostDefinition CostDefinitionItem { get; private set; }
 
-    public Company Company
-    {
-        get
-        {
-            return this.company;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
-
-    public new ApplicationUser User
-    {
-        get
-        {
-            return this.user;
-        }
-    }
-
-    public bool ShowHelp
-    {
-        get
-        {
-            return this.user.ShowHelp;
-        }
-    }
+    public new ApplicationUser User { get; private set; }
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -171,14 +130,12 @@ public partial class CostDefinitionView : Page
         if (this.Session["User"] == null)
         {
             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
             if (this.Request.QueryString["id"] == null)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
@@ -186,20 +143,21 @@ public partial class CostDefinitionView : Page
                 if (!int.TryParse(this.Request.QueryString["id"], out test))
                 {
                     this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                    Context.ApplicationInstance.CompleteRequest();
                 }
             }
 
             this.Go();
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.company = (Company)Session["company"];
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
-        this.user = Session["User"] as ApplicationUser;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.User = Session["User"] as ApplicationUser;
 
         if (this.Request.QueryString["id"] != null)
         {
@@ -216,30 +174,30 @@ public partial class CostDefinitionView : Page
 
         this.formFooter = new FormFooter();
         this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.costDefinitionId != -1)
         {
-            this.costDefinition = CostDefinition.ById(this.costDefinitionId, this.company.Id);
-            if (this.costDefinition.CompanyId != this.company.Id)
+            this.CostDefinitionItem = CostDefinition.ById(this.costDefinitionId, this.company.Id);
+            if (this.CostDefinitionItem.CompanyId != this.company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
                 Context.ApplicationInstance.CompleteRequest();
-                this.costDefinition = CostDefinition.Empty;
+                this.CostDefinitionItem = CostDefinition.Empty;
             }
 
             this.formFooter.ModifiedBy = this.CostDefinitionItem.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.CostDefinitionItem.ModifiedOn;
 
-            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Cost"], this.costDefinition.Description);
+            label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Cost"], this.CostDefinitionItem.Description);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
         }
         else
         {
-            this.costDefinition = CostDefinition.Empty;
+            this.CostDefinitionItem = CostDefinition.Empty;
         }
 
-        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_CostDefinition_Tab_Principal"] });
+        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.Dictionary["Item_CostDefinition_Tab_Principal"] });
     }
 }

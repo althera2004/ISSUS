@@ -23,8 +23,6 @@ namespace GisoFramework.Item
     {
         public long EquipmentId { get; set; }
 
-        public string Description { get; set; }
-
         public int MaintenanceType { get; set; }
 
         public int Periodicity { get; set; }
@@ -32,6 +30,8 @@ namespace GisoFramework.Item
         public string Accessories { get; set; }
 
         public decimal? Cost { get; set; }
+
+        public DateTime? FirstDate { get; set; }
 
         public Provider Provider { get; set; }
 
@@ -71,6 +71,15 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("Cost", this.Cost)).Append(",");
                 res.Append(Tools.JsonPair("Active", this.Active)).Append(",");
 
+                if (this.FirstDate == null)
+                {
+                    res.Append("\"FirstDate\":null,");
+                }
+                else
+                {
+                    res.Append("\"FirstDate\":").AppendFormat(CultureInfo.InvariantCulture, "{0:yyyyMMdd}", this.FirstDate).Append(",");
+                }
+
                 if (this.Provider == null)
                 {
                     res.Append("\"Provider\":null,");
@@ -96,7 +105,7 @@ namespace GisoFramework.Item
         public static string JsonList(long equipmentId, int companyId)
         {
             var res = new StringBuilder("[");
-            var maintenance = GetByCompany(equipmentId, companyId);
+            var maintenance = ByCompany(equipmentId, companyId);
             bool first = true;
             foreach (EquipmentMaintenanceDefinition item in maintenance)
             {
@@ -152,7 +161,7 @@ namespace GisoFramework.Item
             return res.ToString();
         }*/
 
-        public static ReadOnlyCollection<EquipmentMaintenanceDefinition> GetByCompany(long equipmentId, int companyId)
+        public static ReadOnlyCollection<EquipmentMaintenanceDefinition> ByCompany(long equipmentId, int companyId)
         {
             /*CREATE PROCEDURE EquipmentMaintenance_GetByEquipmentId
              *   @EquipmentId bigint,
@@ -201,6 +210,11 @@ namespace GisoFramework.Item
                                     },
                                     ModifiedOn = rdr.GetDateTime(ColumnsEquipmentMaintenanceGetByEquipmentId.ModifiedOn)
                                 };
+
+                                if (!rdr.IsDBNull(ColumnsEquipmentMaintenanceGetByEquipmentId.FirstDate))
+                                {
+                                    newEquipmentMaintenanceDefinition.FirstDate = rdr.GetDateTime(ColumnsEquipmentMaintenanceGetByEquipmentId.FirstDate);
+                                }
 
                                 if (!rdr.IsDBNull(ColumnsEquipmentMaintenanceGetByEquipmentId.Cost))
                                 {
@@ -337,7 +351,7 @@ namespace GisoFramework.Item
 
         public ActionResult Insert(int userId)
         {
-            var source = string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description);
+            var source = string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name:{1}", this.Id, this.Description);
             /* CREATE PROCEDURE EquipmentMaintenance_Insert
              *   @EquipmentMaintenanceId bigint output,
              *   @EquipmentId bigint,
@@ -368,6 +382,8 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@Periodicity", this.Periodicity));
                         cmd.Parameters.Add(DataParameter.Input("@Accessories", this.Accessories ?? string.Empty));
                         cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
+                        cmd.Parameters.Add(DataParameter.Input("@FirstDate", this.FirstDate));
+
                         if (this.Provider == null)
                         {
                             cmd.Parameters.Add(DataParameter.InputNull("@ProviderId"));
@@ -381,7 +397,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
-                        this.Id = Convert.ToInt32(cmd.Parameters["@EquipmentMaintenanceId"].Value, CultureInfo.GetCultureInfo("en-us"));
+                        this.Id = Convert.ToInt32(cmd.Parameters["@EquipmentMaintenanceId"].Value, CultureInfo.InvariantCulture);
                         result.Success = true;
                         result.MessageError = this.Id.ToString(CultureInfo.InvariantCulture);
                     }
@@ -456,6 +472,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@Periodicity", this.Periodicity));
                         cmd.Parameters.Add(DataParameter.Input("@Accessories", this.Accessories));
                         cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
+                        cmd.Parameters.Add(DataParameter.Input("@FirstDate", this.FirstDate));
 
                         if (this.Responsible == null)
                         {

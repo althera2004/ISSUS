@@ -1,4 +1,5 @@
 ﻿var MinStepValue = rule.Id > 0 ? 1 : 0;
+var reason = "";
 
 function ValidateForm()
 {
@@ -55,20 +56,37 @@ function Save() {
         return false;
     }
 
+    var newIPR = $("#TxtLimit").val() * 1;
+
+    if (oldIPR !== newIPR) {
+        if (ShowIPRChanges(newIPR, oldIPR) === false) {
+            return false;
+        }
+
+        AskReason();
+        return false;
+    }
+
+    SaveConfimed();
+}
+
+function SaveConfirmed() {
     var webMethod = "";
     var data = null;
     if (rule.Id > 0) {
+        rule.Limit = oldIPR;
         webMethod = "/Async/RulesActions.asmx/RulesUpdate";
         data = {
             "newRules":
-            {
-                "Id": rule.Id,
-                "Description": document.getElementById('TxtName').value.trim(),
-                "Limit": document.getElementById('TxtLimit').value.trim() * 1,
-                "Notes": document.getElementById('TxtNotes').value.trim(),
-                "CompanyId": companyId
-            },
+                {
+                    "Id": rule.Id,
+                    "Description": $("#TxtName").val().trim(),
+                    "Limit": $("#TxtLimit").val().trim() * 1,
+                    "Notes": $("#TxtNotes").val().trim(),
+                    "CompanyId": companyId
+                },
             "oldRules": rule,
+            "reason": reason,
             "companyId": Company.Id,
             "userId": ApplicationUser.Id
         };
@@ -77,13 +95,13 @@ function Save() {
         webMethod = "/Async/RulesActions.asmx/RulesInsert";
         data = {
             "rules":
-            {
-                "Id": rule.Id,
-                "Description": document.getElementById('TxtName').value.trim(),
-                "Limit": document.getElementById('TxtLimit').value.trim() * 1,
-                "Notes": document.getElementById('TxtNotes').value.trim(),
-                "CompanyId": companyId
-            },
+                {
+                    "Id": rule.Id,
+                    "Description": $("#TxtName").val().trim(),
+                    "Limit": $("#TxtLimit").val().trim() * 1,
+                    "Notes": $("#TxtNotes").val().trim(),
+                    "CompanyId": companyId
+                },
             "companyId": Company.Id,
             "userId": ApplicationUser.Id
         };
@@ -202,3 +220,100 @@ window.onload = function () {
 }
 
 window.onresize = function () { Resize(); }
+
+function ShowIPRChanges(newIPR, oldIPR) {
+    var risks = [];
+    $("#BusinessRiskList").html("");
+    for (var x = 0; x < businessRisk.length; x++) {
+        var risk = businessRisk[x];
+        if (newIPR > oldIPR) {
+            if (risk.Value > oldIPR && risk.Value <= newIPR) {
+                risks.push(risk);
+            }
+        }
+
+        if (newIPR < oldIPR) {
+            if (risk.Value < oldIPR && risk.Value >= newIPR) {
+                risks.push(risk);
+            }
+        }
+    }
+
+    if (risks.length > 0) {
+        for (var h = 0; h < risks.length; h++) {
+            var li = document.createElement("LI");
+            li.appendChild(document.createTextNode(risks[h].Name));
+            document.getElementById("BusinessRiskList").appendChild(li);
+        }
+
+        var dialog = $("#dialogChangeIPR").removeClass("hide").dialog({
+            "resizable": false,
+            "width": 500,
+            "modal": true,
+            "title": "<h4 class=\"smaller\">" + Dictionary.Item_Rule_ChangeIPRTitle + "</h4>",
+            "title_html": true,
+            "buttons":
+                [
+                    {
+                        "id": "DeleteUploadFileBtnOk",
+                        "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                        "class": "btn btn-danger btn-xs",
+                        "click": function () {
+                            $(this).dialog("close");
+                            AskReason();
+                        }
+                    },
+                    {
+                        "id": "DeleteUploadFileBtnCancel",
+                        "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                        "class": "btn btn-xs",
+                        "click": function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                ]
+        });
+    }
+    else {
+        return true;
+    }
+
+    return false;
+}
+
+function AskReason() {
+    $("#TxtReasonErrorRequired").hide();
+    $("TxtReason").val();
+    var dialog = $("#dialogChangeIPRReason").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Rule_ChangeIPRTitle + "</h4>",
+        "title_html": true,
+        "buttons":
+            [
+                {
+                    "id": "DeleteUploadFileBtnOk",
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        reason = $("#TxtReason").val();
+                        if (reason === "") {
+                            $("#TxtReasonErrorRequired").show();
+                            return false;
+                        }
+
+                        $(this).dialog("close");
+                        SaveConfirmed();
+                    }
+                },
+                {
+                    "id": "DeleteUploadFileBtnCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+}

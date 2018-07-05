@@ -43,7 +43,7 @@ public partial class DashBoard : Page
     {
         get
         {
-            string filter = @"{""Owners"":true,""Others"":true}";
+            string filter = @"{""Owners"":true,""Others"":true,""Passed"": false}";
 
             if (Session["DashBoardFilter"] != null)
             {

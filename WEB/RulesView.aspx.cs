@@ -36,9 +36,9 @@ public partial class RulesView : Page
     /// <summary>Company of session</summary>
     public Company company { get; set; }
 
-    /// <summary>
-    /// Gets a random value to prevents static cache files
-    /// </summary>
+    public string BusinessRisksJson { get; private set; }
+
+    /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
         get
@@ -125,9 +125,7 @@ public partial class RulesView : Page
         }
     }
 
-    /// <summary>
-    /// Begin page running after session validations
-    /// </summary>
+    /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)Session["User"];
@@ -171,6 +169,7 @@ public partial class RulesView : Page
             this.formFooter.ModifiedBy = this.Rule.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Rule.ModifiedOn;
             this.master.TitleInvariant = true;
+            this.RenderHistoryTable();
         }
         else
         {
@@ -193,15 +192,42 @@ public partial class RulesView : Page
         this.RenderBusinessRiskTable();
     }
 
+    private void RenderHistoryTable()
+    {
+        var ruleHistory = RuleHistory.ByRule(this.RuleId);
+        var res = new StringBuilder();
+        foreach(var history in ruleHistory)
+        {
+            res.AppendFormat(
+                CultureInfo.InvariantCulture,
+                @"
+                <tr>
+                    <td style=""text-align:right;width:80px;"">{0}&nbsp;</td>
+                    <td>{1}</td>
+                    <td style=""width:100px;text-align:center;"">{3:dd/MM/yyyy}</td>
+                    <td style=""width:200px;"">{2}&nbsp;</td>
+                </tr>
+                ",
+                history.IPR,
+                history.Reason,
+                history.CreatedBy.Employee.FullName ?? history.CreatedBy.UserName,
+                history.CreatedOn);
+        }
+
+        this.LtHistorico.Text = res.ToString();
+    }
+
     private void RenderBusinessRiskTable()
     {
+        var resJson = new StringBuilder("[");
         int total = 0;
         if (this.RuleId > 0)
         {
-            StringBuilder res = new StringBuilder();
-            ReadOnlyCollection<BusinessRisk> risks = BusinessRisk.GetByRulesId(this.RuleId, this.company.Id);
+            var res = new StringBuilder();
+            var risks = BusinessRisk.GetByRulesId(this.RuleId, this.company.Id);
             if (risks.Count > 0)
             {
+                bool first = true;
                 foreach (BusinessRisk risk in risks)
                 {
                     long result = risk.FinalResult;
@@ -246,12 +272,27 @@ public partial class RulesView : Page
                         status,
                         result == 0 ? string.Empty : result.ToString(),
                         color);
+
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        resJson.Append(",");
+                    }
+
+                    resJson.AppendFormat(
+                        CultureInfo.InvariantCulture,
+                        @"{{""Name"":""{0}"", ""Value"":{1}}}",
+                        risk.Description,
+                        risk.FinalResult != 0 ? risk.FinalResult : risk.StartResult);
                 }
             }
             else
             {
                 res.AppendFormat(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     @"<td colspan=""4"" align=""center"" style=""background-color:#ddddff;color:#0000aa;""><table style=""border:none;""><tbody><tr><td rowspan=""2"" style=""border:none;""><i class=""icon-info-sign"" style=""font-size:48px;""></i></td><td style=""border:none;""><h4>{0}</h4></td></tr></tbody></table></td>",
                     this.dictionary["Item_Rules_Section_BusinessRisk_NoData"]
                 );
@@ -260,5 +301,8 @@ public partial class RulesView : Page
             this.TableBusiness.Text = res.ToString();
             this.TotalData.Text = total.ToString();
         }
+
+        resJson.Append("]");
+        this.BusinessRisksJson = resJson.ToString();
     }
 }

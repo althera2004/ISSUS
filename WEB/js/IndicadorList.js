@@ -503,8 +503,8 @@ function ExportPDF() {
             link.download = msg.d.MessageError;
             link.target = "_blank";
             document.body.appendChild(link);
-            document.body.removeChild(link);
             $("#download").trigger("click");
+            document.body.removeChild(link);
             window.open(msg.d.MessageError);
             $("#dialogAddAddress").dialog("close");
         },

@@ -12,19 +12,10 @@ public partial class RulesList : Page
     /// <summary> Master of page</summary>
     private Giso master;
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     private ApplicationUser user;
 
     /// <summary>Gets the dictionary for interface texts</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
@@ -42,30 +33,30 @@ public partial class RulesList : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
             this.user = this.Session["User"] as ApplicationUser;
-            Guid token = new Guid(this.Session["UniqueSessionId"].ToString());
+            var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))
             {
-                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
+                this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
         this.user = (ApplicationUser)Session["User"];
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
 
         // Security access control
         if (!this.user.HasGrantToRead(ApplicationGrant.Customer))
@@ -85,7 +76,7 @@ public partial class RulesList : Page
         {
             this.master.ButtonNewItem = new UIButton()
             {
-                Text = this.dictionary["Item_Rules_Btn_New"],
+                Text = this.Dictionary["Item_Rules_Btn_New"],
                 Action = "success",
                 Icon = "icon-plus",
                 Id = "BtnNewRule"
@@ -94,26 +85,26 @@ public partial class RulesList : Page
 
     private void RenderCustomersData()
     {
-        StringBuilder res = new StringBuilder();
-        StringBuilder sea = new StringBuilder();
-        List<string> s = new List<string>();
+        var res = new StringBuilder();
+        var sea = new StringBuilder();
+        var searchItems = new List<string>();
         bool first = true;
         int contData = 0;
-        foreach (Rules rule in Rules.GetActive(((Company)Session["Company"]).Id))
+        foreach (var rule in Rules.GetActive(((Company)Session["Company"]).Id))
         {
-            if (!s.Contains(rule.Description))
+            if (!searchItems.Contains(rule.Description))
             {
-                s.Add(rule.Description);
+                searchItems.Add(rule.Description);
             }
 
-            res.Append(rule.ListRow(this.dictionary, this.user.Grants));
+            res.Append(rule.ListRow(this.Dictionary, this.user.Grants));
             contData++;
         }
 
         this.RulesDataTotal.Text = contData.ToString();
 
-        s.Sort();
-        foreach (string item in s)
+        searchItems.Sort();
+        foreach (string item in searchItems)
         {
             if (first)
             {

@@ -67,11 +67,19 @@ public partial class ExportEquipmentRecords : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+        string formatedDescription = equipment.Description.Replace("?", string.Empty);
+        formatedDescription = formatedDescription.Replace("#", string.Empty);
+        formatedDescription = formatedDescription.Replace("/", string.Empty);
+        formatedDescription = formatedDescription.Replace("\\", string.Empty);
+        formatedDescription = formatedDescription.Replace(":", string.Empty);
+        formatedDescription = formatedDescription.Replace(";", string.Empty);
+        formatedDescription = formatedDescription.Replace(".", string.Empty);
+
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.xls",
             dictionary["Item_Equipment"],
-            equipment.Description,
+            formatedDescription,
             DateTime.Now);
 
         var wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
@@ -454,7 +462,7 @@ public partial class ExportEquipmentRecords : Page
 
         criteriatable.SetWidths(new float[] { 25f, 250f });
         
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment"], ToolsPdf.TimesBold))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment"], ToolsPdf.LayoutFonts.TimesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -462,7 +470,7 @@ public partial class ExportEquipmentRecords : Page
             PaddingTop = 4f
         });
         
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Description, ToolsPdf.Times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Description, ToolsPdf.LayoutFonts.Times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -470,7 +478,7 @@ public partial class ExportEquipmentRecords : Page
             PaddingTop = 4f
         });
         
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], ToolsPdf.TimesBold))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], ToolsPdf.LayoutFonts.TimesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -478,7 +486,7 @@ public partial class ExportEquipmentRecords : Page
             PaddingTop = 4f
         });
 
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, ToolsPdf.Times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, ToolsPdf.LayoutFonts.Times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -486,7 +494,7 @@ public partial class ExportEquipmentRecords : Page
             PaddingTop = 4f
         });
         
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Customer_Header_Type"], ToolsPdf.TimesBold))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Customer_Header_Type"], ToolsPdf.LayoutFonts.TimesBold))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -577,7 +585,7 @@ public partial class ExportEquipmentRecords : Page
             typeText += dictionary["Item_EquipmentRecord_Filter_RepairExternal"];
         }
         
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(typeText + listOrder, ToolsPdf.Times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(typeText + listOrder, ToolsPdf.LayoutFonts.Times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,
@@ -650,11 +658,11 @@ public partial class ExportEquipmentRecords : Page
         
         foreach (var equipmentRecord in data)
         {
-            table.AddCell(ToolsPdf.DataCellCenter(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", equipmentRecord.Date), ToolsPdf.Times));
-            table.AddCell(ToolsPdf.DataCell(equipmentRecord.RecordTypeText, ToolsPdf.Times));
-            table.AddCell(ToolsPdf.DataCell(equipmentRecord.Operation, ToolsPdf.Times));
-            table.AddCell(ToolsPdf.DataCell(equipmentRecord.Responsible.FullName, ToolsPdf.Times));
-            table.AddCell(ToolsPdf.DataCellMoney(equipmentRecord.Cost, ToolsPdf.Times));
+            table.AddCell(ToolsPdf.DataCellCenter(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", equipmentRecord.Date), ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCell(equipmentRecord.RecordTypeText, ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCell(equipmentRecord.Operation, ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCell(equipmentRecord.Responsible.FullName, ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCellMoney(equipmentRecord.Cost, ToolsPdf.LayoutFonts.Times));
 
             if (equipmentRecord.Cost.HasValue)
             {
@@ -671,7 +679,7 @@ public partial class ExportEquipmentRecords : Page
            dictionary["Common_RegisterCount"],
            cont);
 
-        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, ToolsPdf.Times))
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(totalRegistros, ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = ToolsPdf.SummaryBackgroundColor,
@@ -680,7 +688,7 @@ public partial class ExportEquipmentRecords : Page
             Colspan = 2
         });
 
-        table.AddCell(new PdfPCell(new iTS.Phrase(dictionary["Common_Total"], ToolsPdf.Times))
+        table.AddCell(new PdfPCell(new iTS.Phrase(dictionary["Common_Total"], ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             HorizontalAlignment = iTS.Element.ALIGN_RIGHT,
@@ -688,7 +696,7 @@ public partial class ExportEquipmentRecords : Page
             Colspan = 2
         });
 
-        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", totalCost), ToolsPdf.Times))
+        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", totalCost), ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = ToolsPdf.SummaryBackgroundColor,

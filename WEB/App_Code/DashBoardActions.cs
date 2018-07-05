@@ -7,6 +7,7 @@
 using System.Globalization;
 using System.Web.Script.Services;
 using System.Web.Services;
+using GisoFramework;
 using GisoFramework.Activity;
 
 /// <summary>Descripción breve de DashBoardActions</summary>
@@ -22,14 +23,15 @@ public class DashBoardActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult SetFilter(bool owners, bool others)
+    public ActionResult SetFilter(bool owners, bool others, bool passed)
     {
         var res = ActionResult.NoAction;
         string filter = string.Format(
             CultureInfo.InvariantCulture,
-            @"{{""Owners"":{0},""Others"":{1}}}",
-            owners ? "true" : "false",
-            others ? "true" : "false");
+            @"{{""Owners"":{0},""Others"":{1},""Passed"":{2}}}",
+            owners ? Constant.JavaScriptTrue : Constant.JavaScriptFalse,
+            others ? Constant.JavaScriptTrue : Constant.JavaScriptFalse,
+            passed ? Constant.JavaScriptTrue : Constant.JavaScriptFalse);
         Session["DashBoardFilter"] = filter;
         res.SetSuccess();
         return res;

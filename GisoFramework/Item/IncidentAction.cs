@@ -14,15 +14,14 @@ namespace GisoFramework.Item
     using System.Data.SqlClient;
     using System.Globalization;
     using System.Text;
+    using System.Web;
     using GisoFramework.Activity;
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
-    using System.Web;
 
     /// <summary>Implements IncidentAction class</summary>
     public class IncidentAction : BaseItem
     {
-        #region Fields
         public static IncidentAction Empty
         {
             get
@@ -41,7 +40,12 @@ namespace GisoFramework.Item
                     Department = Department.Empty,
                     Provider = Provider.Empty,
                     Customer = Customer.Empty,
-                    ModifiedBy = ApplicationUser.Empty
+                    ModifiedBy = ApplicationUser.Empty,
+                    Objetivo = Objetivo.Empty,
+                    BusinessRiskId = Constant.DefaultId,
+                    IncidentId = Constant.DefaultId,
+                    Oportunity = Oportunity.Empty,
+                    CanBeDeleted = true
                 };
             }
         }
@@ -116,7 +120,6 @@ namespace GisoFramework.Item
         public DateTime? ClosedExecutorOn { get; set; }
 
         public string Notes { get; set; }
-        #endregion
 
         /// <summary>Gets an identifier/description json item</summary>
         public override string JsonKeyValue
@@ -1300,14 +1303,17 @@ namespace GisoFramework.Item
             }
         }
 
-        /// <summary>
-        /// Return an historical list of a businessRisk action
-        /// </summary>
+        /// <summary>Return an historical list of a businessRisk action</summary>
         /// <param name="code">Code identifier of the BusinessRisk</param>
         /// <param name="companyId">Company identifier</param>
         /// <returns>ReadOnlyCollection of BusinessRisk items</returns>
         public static ReadOnlyCollection<IncidentAction> ByBusinessRiskCode(long code, int companyId)
         {
+            var source = string.Format(
+                CultureInfo.InvariantCulture,
+                @"IndicentAction::ByBusinessRiskCode({0},{1})",
+                code,
+                companyId);
             var res = new List<IncidentAction>();
             string query = "IncidentAction_GetByBusinessRiskCode";
             using (var cmd = new SqlCommand(query))
@@ -1329,8 +1335,21 @@ namespace GisoFramework.Item
                             res.Add(IncidentAction.ById(rdr.GetInt64(0), companyId));
                         }
                     }
-                    catch (Exception ex)
+                    catch (NullReferenceException ex)
                     {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {
@@ -1345,9 +1364,7 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<IncidentAction>(res);
         }
 
-        /// <summary>
-        /// Insert incident action in database
-        /// </summary>
+        /// <summary>Insert incident action in database</summary>
         /// <param name="userId">User identififer</param>
         /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
@@ -1402,13 +1419,18 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", this.BusinessRiskId));
                         cmd.Parameters.Add(DataParameter.Input("@ObjetivoId", this.ObjetivoId));
 
+                        if (this.Oportunity != null && this.Oportunity.Id > 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@OportunityId", this.Oportunity.Id));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@OportunityId"));
+                        }
+
                         cmd.Parameters.Add(DataParameter.Input("@DeparmentId", this.Department));
                         cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider));
                         cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer));
-
-                        //// if (this.Department == null) { cmd.Parameters.Add(DataParameter.InputNull("@DeparmentId")); } else { cmd.Parameters.Add(DataParameter.Input("@DeparmentId", this.Department.Id)); }
-                        //// if (this.Provider == null) { cmd.Parameters.Add(DataParameter.InputNull("@ProviderId")); } else { cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id)); }
-                        //// if (this.Customer == null) { cmd.Parameters.Add(DataParameter.InputNull("@CustomerId")); } else { cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer.Id)); }
 
                         cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy.Id));
@@ -1460,9 +1482,7 @@ namespace GisoFramework.Item
             return result;
         }
 
-        /// <summary>
-        /// Update incident action in database
-        /// </summary>
+        /// <summary>Update incident action in database</summary>
         /// <param name="userId">User identififer</param>
         /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
@@ -1521,6 +1541,15 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@DepartmentId", this.Department));
                         cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider));
                         cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer));
+
+                        if(this.Oportunity != null && this.Oportunity.Id > 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@OportunityId", this.Oportunity.Id));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@OportunityId"));
+                        }
 
                         cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy.Id));
@@ -1586,9 +1615,7 @@ namespace GisoFramework.Item
             return result;
         }
 
-        /// <summary>
-        /// Delete incident action in database
-        /// </summary>
+        /// <summary>Delete incident action in database</summary>
         /// <param name="userId">User identififer</param>
         /// <returns>Result of action</returns>
         public ActionResult Delete(int userId)
@@ -1653,9 +1680,7 @@ namespace GisoFramework.Item
             return result;
         }
 
-        /// <summary>
-        /// HTML Table containing fields to be showed
-        /// </summary>
+        /// <summary>HTML Table containing fields to be showed</summary>
         /// <param name="dictionary">Dictionary containing terms to be showed</param>
         /// <param name="grants">Gets the grants of the user</param>
         /// <returns>String containing HTML table</returns>

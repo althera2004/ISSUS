@@ -47,13 +47,13 @@
         var ProviderVerificationDefinition = <%=this.VerificationProviderId %>;
         var typeItemId = 11;
         var itemId = Equipment.Id;
-
+        
         var EquipmentForm =
         {
             FieldsFormat:
             [
-                {Id:'TxtMeasure',Format:'decimal'},
-                {Id:'TxtScaleDivision',Format:'decimal'}
+                {"Id":'TxtMeasure',Format:'decimal'},
+                {"Id":'TxtScaleDivision',Format:'decimal'}
             ],
             RequiredFields:
             [
@@ -111,10 +111,6 @@
                                                             <div class="col-sm-2">
                                                                 <%=this.ImgEquipment.Render %>
                                                             </div>
-                                                            <!--div style="clear:both">&nbsp;</div-->
-                                                            <!--div class="form-group">
-                                                                <!--%=this.CmbResponsible.Render %-->
-                                                            </div-->
                                                             <div class="form-group col-sm-12">
 						
 				  
@@ -158,7 +154,7 @@
                                                                 <div class="form-group">
                                                                     <%=this.CalibrationInternalTxtPeriodicity.Render%>
                                                                     <label id="Label11" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Label_Days"] %></label>
-                                                                    <%=this.CalibrationInternalTxtUncertainty.Render%>
+                                                                    <%=this.CalibrationInternalTxtUncertainty.Render.Replace("decimalFormated","decimalFormated6") %>
                                                                 </div>   
                                                                 <div class="form-group">
                                                                     <%=this.CalibrationInternalTxtRange.Render%>
@@ -198,7 +194,7 @@
                                                                 <div class="form-group">
                                                                     <%=this.CalibrationExternalTxtPeriodicity.Render%>
                                                                     <label id="Label1" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Label_Days"] %></label>
-                                                                    <%=this.CalibrationExternalTxtUncertainty.Render%>
+                                                                    <%=this.CalibrationExternalTxtUncertainty.Render.Replace("decimalFormated","decimalFormated6") %>
                                                                 </div>   
                                                                 <div class="form-group">
                                                                     <%=this.CalibrationExternalTxtRange.Render%>
@@ -309,7 +305,7 @@
                                                                 <div class="form-group">
                                                                     <%=this.VerificationInternalTxtPeriodicity.Render%>
                                                                     <label id="Label3" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Label_Days"] %></label>
-                                                                    <%=this.VerificationInternalTxtUncertainty.Render%>
+                                                                    <%=this.VerificationInternalTxtUncertainty.Render.Replace("decimalFormated","decimalFormated6") %>
                                                                 </div>   
                                                                 <div class="form-group">
                                                                     <%=this.VerificationInternalTxtRange.Render%>
@@ -348,7 +344,7 @@
                                                                 <div class="form-group">
                                                                     <%=this.VerificationExternalTxtPeriodicity.Render%>
                                                                     <label id="Label4" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Label_Days"] %></label>
-                                                                    <%=this.VerificationExternalTxtUncertainty.Render%>
+                                                                    <%=this.VerificationExternalTxtUncertainty.Render.Replace("decimalFormated","decimalFormated6") %>
                                                                 </div>   
                                                                 <div class="form-group">
                                                                     <%=this.VerificationExternalTxtRange.Render%>
@@ -778,6 +774,25 @@
                                             <span class="ErrorMessage" id="CmbNewMaintainmentResponsibleErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label id="TxtNewMaintainmentFirstDateLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate"] %></label>
+                                        <div class="col-sm-9">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtNewMaintainmentFirstDateDiv">
+                                                    <div class="input-group">
+                                                        <input class="form-control date-picker" id="NewMaintainmentFirstDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                        <span id="NewMaintainmentFirstDateBtn" class="input-group-addon" onclick="document.getElementById('NewMaintainmentFirstDate').focus();">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateOverTime" style="display:none;">No pot ser anterior al darrer manteniment</span>
+                                        
+                                            </div>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                             
@@ -975,7 +990,7 @@
                                     <div class="form-group">
                                         <label id ="TxtEquipmentCalibrationActResultLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentCalibrationActResult">Resultado<span class="required">*</span></label>
                                         <div class="col-sm-3">
-                                            <input type="text" class="col-xs-12 col-sm-12 decimalFormated" id="TxtEquipmentCalibrationActResult" placeholder="Resultado" value="" maxlength="8" />
+                                            <input type="text" class="col-xs-12 col-sm-12 decimalFormated6" id="TxtEquipmentCalibrationActResult" placeholder="Resultado" value="" maxlength="8" />
                                             <span class="ErrorMessage" id="TxtEquipmentCalibrationActResultErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div>   
@@ -1039,7 +1054,7 @@
                                     <div class="form-group">
                                         <label id ="TxtEquipmentVerificationActResultLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentVerificationActResult">Resultado<span class="required">*</span></label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="col-xs-4 col-sm-4 decimalFormated" id="TxtEquipmentVerificationActResult" placeholder="Resultado" value="" maxlength="8" />
+                                            <input type="text" class="col-xs-4 col-sm-4 decimalFormated6" id="TxtEquipmentVerificationActResult" placeholder="Resultado" value="" maxlength="8" />
                                             <span class="ErrorMessage" id="TxtEquipmentVerificationActErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div>   
@@ -1187,7 +1202,6 @@
         <script type="text/javascript" src="/assets/js/jquery.maskedinput.min.js"></script>
         <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
         <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>""></script>
-        <!--script type="text/javascript" src="js/BarScripts.aspx"></script-->
         <script type="text/javascript" src="/js/Equipment.js?ac=<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/Provider.js?ac=<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/EquipmentMaintenanceDefinition.js?ac=<%=this.AntiCache %>"></script>
@@ -1410,11 +1424,11 @@
             });
 
             function dialogNewMaintaimentTypeChanged() {
-                if (document.getElementById('RMaintainmentTypeExternal').checked === true) {
-                    document.getElementById('dialogNewMaintaimentProviderRow').style.display = '';
+                if (document.getElementById("RMaintainmentTypeExternal").checked === true) {
+                    $("#dialogNewMaintaimentProviderRow").show();
                 }
                 else {
-                    document.getElementById('dialogNewMaintaimentProviderRow').style.display = 'none';
+                    $("#dialogNewMaintaimentProviderRow").hide();
                 }
             }
 
@@ -1450,29 +1464,29 @@
                 FillCmbEquipmentCalibrationActProvider();
                 EquipmentCalibrationActEditFormFill(SelectedEquipmentCalibrationAct);
                 var dialog = $("#dialogEquipmentCalibrationForm").removeClass("hide").dialog({
-                resizable: false,
-                modal: true,
-                title: '<h4 class="smaller">' + Dictionary.Item_EquipmentCalibrationAct_PopupUpdate_Title + '</h4>',
-                title_html: true,
-                width: 400,
-                buttons: [
+                    "resizable": false,
+                    "modal": true,
+                    "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentCalibrationAct_PopupUpdate_Title + "</h4>",
+                    "title_html": true,
+                    "width": 400,
+                    "buttons": [
                                 {
-                                    id: 'BtnNewEquipmentCalibrationActSave',
-                                    html: "<i class='icon-refresh bigger-110'></i>&nbsp;" + Dictionary.Common_Update,
+                                    "id": 'BtnNewEquipmentCalibrationActSave',
+                                    "html": "<i class='icon-refresh bigger-110'></i>&nbsp;" + Dictionary.Common_Update,
                                     "class": "btn btn-success btn-xs",
-                                    click: function () {
+                                    "click": function () {
                                         EquipmentCalibrationSave();
                                     }
                                 },
                                 {
-                                    html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                                    "id": 'BtnNewEquipmentCalibrationActCancel',
+                                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                                     "class": "btn btn-xs",
-                                    click: function () {
+                                    "click": function () {
                                         $(this).dialog("close");
                                     }
                                 }
                             ]
-
                 });
 
                 if (Equipment.EndDate !== null) {
@@ -1481,31 +1495,32 @@
             }
 
             function EquipmentCalibrationActDelete(sender){
-                SelectedEquipmentCalibrationActId = sender.parentNode.parentNode.id.substring(23)*1;
+                SelectedEquipmentCalibrationActId = sender.parentNode.parentNode.id.substring(23) * 1;
                 SelectedEquipmentCalibrationAct = EquipmentCalibrationActgetById(SelectedEquipmentCalibrationActId);
                 if(SelectedEquipmentCalibrationAct==null){return false;}
 
-                document.getElementById('dialogEquipmentCalibrationActDeleteName').innerHTML = ' la calibración?';
+                $("#dialogEquipmentCalibrationActDeleteName").html(" la calibración?");
 
                 var dialog = $("#dialogEquipmentCalibrationActDelete").removeClass("hide").dialog({
-                        resizable: false,
-                        modal: true,
-                        title: '<h4 class="smaller">' + Dictionary.Item_EquipmentCalibrationAct_PopupDelete_Title + '</h4>',
-                        title_html: true,
-                        width: 500,
-                        buttons: [
+                        "resizable": false,
+                        "modal": true,
+                        "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentCalibrationAct_PopupDelete_Title + "</h4>",
+                        "title_html": true,
+                        "width": 500,
+                        "buttons": [
                         {
-                            id: 'BtnNewAddresSave',
-                            html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
+                            "id": "BtnNewCalibrationActSave",
+                            "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
                             "class": "btn btn-danger btn-xs",
-                            click: function () {
+                            "click": function () {
                                 EquipmentCalibrationDeleteConfirmed();
                             }
                         },
                         {
-                            html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                            "id": "BtnNewCalibrationActCancel",
+                            "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                             "class": "btn btn-xs",
-                            click: function () {
+                            "click": function () {
                                 $(this).dialog("close");
                             }
                         }
@@ -1720,12 +1735,12 @@
                 if(user.Grants.Provider.Write === false)
                 {
                     $("#MaintenanceDefinitionDivProviderBar").hide();
-                    document.getElementById('CmbNewMaintainmentProviderDiv').className = 'col-sm-9';
+                    document.getElementById("CmbNewMaintainmentProviderDiv").className = "col-sm-9";
                 }
             }
             else{                
                 $("#MaintenanceDefinitionDivProviderBar").hide();
-                document.getElementById('CmbNewMaintainmentProviderDiv').className = 'col-sm-9';
+                document.getElementById("CmbNewMaintainmentProviderDiv").className = "col-sm-9";
             }
 
             for (var x = 0; x < EquipmentScaleDivision.length; x++) {
@@ -1781,12 +1796,12 @@
                 $(".btn-danger").hide();
                 $("#BtnCalibrationExternalProviderBAR").hide();
                 $("#BtnVerificationExternalProviderBAR").hide();
-                $("input").attr("disabled",true);
-                $("textarea").attr("disabled",true);
-                $("select").attr("disabled",true);
+                $("input").attr("disabled", true);
+                $("textarea").attr("disabled", true);
+                $("select").attr("disabled", true);
                 
-                $("#registros input").attr("disabled",false);
-                $("#registros select").attr("disabled",false);
+                $("#registros input").attr("disabled", false);
+                $("#registros select").attr("disabled", false);
             }
         </script>
 </asp:Content>

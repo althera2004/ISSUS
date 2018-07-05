@@ -227,7 +227,6 @@ public partial class IndicadorView : Page
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
@@ -237,22 +236,21 @@ public partial class IndicadorView : Page
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else if (this.Request.QueryString["id"] == null)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else if (!int.TryParse(this.Request.QueryString["id"].ToString(), out test))
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
+
+            Context.ApplicationInstance.CompleteRequest();
         }
     }
 
@@ -281,7 +279,16 @@ public partial class IndicadorView : Page
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Indicadores", "IndicadorList.aspx", false);
+
+        if (user.HasGrantToRead(ApplicationGrant.Indicador))
+        {
+            this.master.AddBreadCrumb("Item_Indicadores", "IndicadorList.aspx", false);
+        }
+        else
+        {
+            this.master.AddBreadCrumb("Item_Indicadores");
+        }
+
         this.grantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Indicador);
 
         if (this.IndicadorId > 0)

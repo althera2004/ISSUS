@@ -238,17 +238,20 @@ namespace GisoFramework.Item
                 res.Append("Cost:").Append(item2.Cost).Append("; ");
             }
 
-            if (item1.Provider != null || item2.Provider != null)
+            if (item1.Provider != null)
             {
-                if (item1.Provider == null)
-                {
-                    res.Append("Provider:").Append(item2.Provider.Id).Append("; ");
-                }
-                else if (item2.Provider == null)
+                if (item2.Provider == null)
                 {
                     res.Append("Provider:null; ");
                 }
                 else if (item1.Provider.Id != item2.Provider.Id)
+                {
+                    res.Append("Provider:").Append(item2.Provider.Id).Append("; ");
+                }
+            }
+            else
+            {
+                if (item2.Provider != null)
                 {
                     res.Append("Provider:").Append(item2.Provider.Id).Append("; ");
                 }

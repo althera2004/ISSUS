@@ -1,19 +1,9 @@
-﻿// --------------------------------
-// <copyright file="EquipmentList.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
-// </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
-// --------------------------------
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
-using System.Web.UI;
 using iTS = iTextSharp.text;
 using iTSpdf = iTextSharp.text.pdf;
 using GisoFramework;
@@ -21,9 +11,23 @@ using GisoFramework.Activity;
 using GisoFramework.Item;
 using iTextSharp.text.pdf;
 using PDF_Tests;
+using System.Globalization;
+using System.Configuration;
+using System.IO;
 
-public partial class ExportEquipmentList : Page
+/// <summary>
+/// Descripción breve de EquipmentExportList
+/// </summary>
+[WebService(Namespace = "http://tempuri.org/")]
+[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+[ScriptService]
+public class EquipmentExportList : System.Web.Services.WebService
 {
+
+    public EquipmentExportList()
+    {
+    }
+
     public static Dictionary<string, string> dictionary;
 
     private static string GetFilter()
@@ -36,14 +40,9 @@ public partial class ExportEquipmentList : Page
         return HttpContext.Current.Session["EquipmentFilter"].ToString().ToUpperInvariant();
     }
 
-    protected void Page_Load(object sender, EventArgs e)
-    {
-
-    }
-
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult PDF(int companyId, string listOrder)
+    public ActionResult PDF(int companyId, string listOrder)
     {
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -56,19 +55,11 @@ public partial class ExportEquipmentList : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        string formatedDescription = company.Name.Replace("?", string.Empty);
-        formatedDescription = formatedDescription.Replace("#", string.Empty);
-        formatedDescription = formatedDescription.Replace("/", string.Empty);
-        formatedDescription = formatedDescription.Replace("\\", string.Empty);
-        formatedDescription = formatedDescription.Replace(":", string.Empty);
-        formatedDescription = formatedDescription.Replace(";", string.Empty);
-        formatedDescription = formatedDescription.Replace(".", string.Empty);
-
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_EquipmentList"],
-            formatedDescription,
+            company.Name,
             DateTime.Now);
 
         // FONTS
@@ -113,7 +104,7 @@ public partial class ExportEquipmentList : Page
         };
 
         titleTable.AddCell(titleCell);
-        
+
         var table = new iTSpdf.PdfPTable(4)
         {
             WidthPercentage = 100,
@@ -295,7 +286,7 @@ public partial class ExportEquipmentList : Page
             total += equipment.TotalCost;
 
             var lineBackground = pair ? rowEven : rowPair;
-            
+
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Code + " - " + equipment.Description, ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
@@ -303,7 +294,7 @@ public partial class ExportEquipmentList : Page
                 Padding = 6f,
                 PaddingTop = 4f
             });
-            
+
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Location, ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
@@ -321,7 +312,7 @@ public partial class ExportEquipmentList : Page
                 PaddingTop = 4f,
                 HorizontalAlignment = 2
             });
-            
+
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Responsible.FullName, ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
@@ -345,7 +336,7 @@ public partial class ExportEquipmentList : Page
             Padding = 6f,
             PaddingTop = 4f
         });
-        
+
         table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant(), ToolsPdf.LayoutFonts.Times))
         {
             Border = iTS.Rectangle.TOP_BORDER,
@@ -378,4 +369,5 @@ public partial class ExportEquipmentList : Page
         res.SetSuccess(string.Format(CultureInfo.InvariantCulture, @"{0}Temp/{1}", ConfigurationManager.AppSettings["siteUrl"], fileName));
         return res;
     }
+
 }

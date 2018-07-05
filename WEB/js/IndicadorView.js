@@ -94,6 +94,8 @@ window.onload = function () {
             $("#BtnRecordNew").click();
         }
     }
+
+    Compute();
 }
 
 window.onresize = function () { Resize(); }
@@ -1603,3 +1605,47 @@ function RenderHistoricoRow(data) {
 
     target.appendChild(tr);
 }
+
+function Compute() {
+    var alarmComparer = $("#CmbAlarmaComparer").val();
+    var metaComparer = $("#CmbMetaComparer").val();
+    $("#CmbAlarmaComparer").html("");
+    $("#CmbAlarmaComparer").attr("disabled", "disabled");
+
+    if (metaComparer.indexOf("gt") !== -1) {
+        res = "<option value=\"\">Seleccionar</option>";
+        res += "<option value=\"lt\">" + Dictionary.Common_Comparer_lt + " (&lt;)</option>";
+        res += "<option value=\"eqlt\">" + Dictionary.Common_Comparer_eqlt + "(&lt;=)</option>";
+        $("#CmbAlarmaComparer").html(res);
+        $("#CmbAlarmaComparer").removeAttr("disabled");
+        $("#CmbAlarmaComparer").val(alarmComparer);
+    }
+
+    if (metaComparer.indexOf("lt") !== -1) {
+        res = "<option value=\"\">Seleccionar</option>";
+        res += "<option value=\"gt\">" + Dictionary.Common_Comparer_gt + " (&gt;)</option>";
+        res += "<option value=\"eqgt\">" + Dictionary.Common_Comparer_eqgt + "(&gt;=)</option>";
+        $("#CmbAlarmaComparer").html(res);
+        $("#CmbAlarmaComparer").removeAttr("disabled");
+        $("#CmbAlarmaComparer").val(alarmComparer);
+    }
+
+
+    if (alarmComparer === "") {
+        $("#TxtAlarma").attr("disabled", "disabled");
+        $("#TxtAlarma").val("");
+        document.getElementById("celldanger").className = "btn-warning";
+        $("#celldanger").html("");
+        $("#celldangerLabel").html("");
+    }
+    else {
+        $("#TxtAlarma").removeAttr("disabled");
+        document.getElementById("celldanger").className = "btn-danger";
+
+        $("#celldanger").html($("#CmbAlarmaComparer option:selected").text() + " " + $("#TxtAlarma").val());
+        $("#celldangerLabel").html("Alarma");
+    }
+
+    $("#cellsuccess").html($("#CmbMetaComparer option:selected").text() + " " + $("#TxtMeta").val());
+}
+

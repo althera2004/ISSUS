@@ -60,17 +60,32 @@ public class RulesActions : WebService
     /// <summary>Update item in database</summary>
     /// <param name="newRules">New object identifier</param>
     /// <param name="oldRules">Old object identifier</param>
+    /// <param name="reason">Reason of changes</param>
     /// <param name="companyId">Company identifier</param>
     /// <param name="userId">User identifier</param>
     /// <returns>Result of action</returns>
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult RulesUpdate(Rules newRules, Rules oldRules, int companyId, int userId)
+    public ActionResult RulesUpdate(Rules newRules, Rules oldRules,string reason, int companyId, int userId)
     {
         var res = newRules.Update(userId);
         if (res.Success)
         {
             Session["Company"] = new Company(companyId);
+        }
+
+        if(newRules.Limit != oldRules.Limit)
+        {
+            var history = new RuleHistory
+            {
+                RuleId = newRules.Id,
+                Active = true,
+                CompanyId = newRules.CompanyId,
+                Reason = reason,
+                IPR = Convert.ToInt32(newRules.Limit)
+            };
+
+            history.Insert(userId);
         }
 
         return res;
@@ -88,10 +103,18 @@ public class RulesActions : WebService
         var res = rules.Insert(userId);
         if (res.Success)
         {
-            //string differences = Rules.Differences(Rules.Empty);
-            //ActionResult logRes = ActivityLog.Rules(Convert.ToInt64(res.MessageError), userId, companyId, DepartmentLogActions.Create, differences);
             Session["Company"] = new Company(companyId);
         }
+
+        var history = new RuleHistory
+        {
+            Active = true,
+            CompanyId = rules.CompanyId,
+            Reason = "Insert",
+            IPR = Convert.ToInt32(rules.Limit)
+        };
+
+        history.Insert(userId);
 
         return res;
     }
