@@ -1484,6 +1484,7 @@ Item_Oportunity_Title_OportunityDetailsNou::New opportunity
 Item_Oportunity_Title_Result::Result
 Item_Oportunity_Warning_ActionTabAvailable::The action data can already be filled
 Item_Process::Process
+Item_Proccess::Process
 Item_Process_ListHeader_Name::Process
 Item_Process_ListHeader_ProcessType::Kind
 Item_Process_ListHeader_Responsible::Responsible

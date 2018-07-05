@@ -1484,6 +1484,7 @@ Item_Oportunity_Title_OportunityDetailsNou::Nova oportunitat
 Item_Oportunity_Title_Result::Resultat
 Item_Oportunity_Warning_ActionTabAvailable::Ja es poden omplir les dades de l'acció
 Item_Process::Procés
+Item_Proccess:: Procés
 Item_Process_ListHeader_Name::Procés
 Item_Process_ListHeader_ProcessType::Tipus
 Item_Process_ListHeader_Responsible::Responsable

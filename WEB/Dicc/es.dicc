@@ -1482,6 +1482,7 @@ Item_Oportunity_Title_OportunityDetailsNou::Nueva oportunidad
 Item_Oportunity_Title_Result::Resultado
 Item_Oportunity_Warning_ActionTabAvailable::Ya se pueden entrar los datos de la acción
 Item_Process::Proceso
+Item_Proccess::Proceso
 Item_Process_ListHeader_Name::Proceso
 Item_Process_ListHeader_ProcessType::Tipo
 Item_Process_ListHeader_Responsible::Responsable
