@@ -83,7 +83,6 @@ Common_External::Extern
 Common_Filter::Filtrar
 Common_FinishDate::Finalització
 Common_Form_CheckError::Revisar les dades obligatòries
-Common_Form_CheckError::Revisi les dades obligatòries
 Common_Form_Errors::Revisar les dades del formulari
 Common_From::Des de
 Common_Here::aquí
@@ -97,6 +96,7 @@ Common_Label_Weeks::setmanes
 Common_Label_Years::anys
 Common_LastWeek::Darrera setmana
 Common_ListPdf::Imprimir
+Common_MaximumUploadSize::The maximum allowed is 5MB
 Common_Message_Deleting::Eliminant...
 Common_Message_FormErrors::Revisar les dades del formulari
 Common_Message_Saving::Guardant...
@@ -141,9 +141,7 @@ Common_Responsible::Responsable
 Common_Save::Acceptar
 Common_Search::Cercar
 Common_SearchCriteria::Criteris de cerca
-Common_SelectAll todos::Seleccionar tots
-Common_SelectAll todos::Seleccionar tots
-Common_SelectAll::Seleccionar
+Common_SelectAll::Seleccionar tots
 Common_Selected::Seleccionat
 Common_SelectOne::Seleccionar
 Common_ShowAll::Veure tot
@@ -159,7 +157,8 @@ Common_To::Fins
 Common_Today::Avui
 Common_Total::Total
 Common_Update::Modificar
-Common_UserSetGrant::L'empleat no té permissos per a realitzar aquesta acció.<br />&iquest;Vol donar-li permissos per a poder realitzar-la?
+Common_Uploading::Pujant arxiu
+Common_UserSetGrant::L'empleat no té permissos per a realitzar aquesta acció.<br />&iquest;Vol donar-li permissos per a poder realitzar-la?						  
 Common_View::Veure
 Common_ViewAll::Veure tot
 Common_VoidData::Sense dades
@@ -278,9 +277,9 @@ Item_BusinessRisk_LabelField_Severity::Severitat
 Item_BusinessRisk_LabelField_StartControl::Control inicial
 Item_BusinessRisk_LabelField_Status::Estat
 Item_BusinessRisk_List_Filter_From::Des de
+Item_BusinessRisk_List_Filter_To::Fins
 Item_BusinessRisk_List_Filter_Process::Processos
 Item_BusinessRisk_List_Filter_Rules::Normes
-Item_BusinessRisk_List_Filter_To::Fins
 Item_BusinessRisk_List_Filter_Type::Tipus
 Item_BusinessRisk_List_Filter_Type_Assumed::Assumit
 Item_BusinessRisk_List_Filter_Type_NotSignificant::No significatiu
@@ -293,7 +292,6 @@ Item_BusinessRisk_MessageClosingNotAvailable::No es pot donar per resolt un risc
 Item_BusinessRisk_MessageHistoric::Aquest risc té un nou estat a data #. Per accedir-hi cliqueu
 Item_BusinessRisk_Popup_Delete_Title::Eliminar l'anàlisi de risc
 Item_BusinessRisk_PopupDelete_Message::Vol eliminar el risc
-Item_BusinessRisk_PopupDelete_Message::Vol eliminar risc
 Item_BusinessRisk_SelectProbabilitySeverity::Seleccionar una probabilitat i una severitat
 Item_BusinessRisk_SelectRuleType::Seleccionar una norma
 Item_BusinessRisk_Status_Assumed::Assumit
@@ -435,7 +433,7 @@ Item_Document_Button_CategoryBAR::Gestió de categories
 Item_Document_Button_New::Afegir
 Item_Document_Button_NewVersion::Versió
 Item_Document_Button_SourceBAR::Gestió de procedències
-Item_Document_Category::Categoria documents
+Item_Document_Category::Categoria de document
 Item_Document_Error_DeleteReasonRequired::Especificar el motiu de l'eliminació
 Item_Document_ErrorMessage_AlreadyExists::Ja existeix
 Item_Document_ErrorMessage_CrossDate::CLG
@@ -636,9 +634,9 @@ Item_Employee_Message_NoDeletableByJobPositionLink::No es pot eliminar perquè té
 Item_Employee_Popup_Delete_Title::Eliminar l'empleat/da
 Item_Employee_Popup_LinkJobPosition_Message::Assignar un càrrec
 Item_Employee_Popup_UnlinkDepartment_Message::Desvincular un departament
+Item_Employee_Popup_UnlinkJobPosition_Message::Desvincular
 Item_Employee_Popup_UnlinkJobPosition_Message cargo::Desvincular el càrrec
 Item_Employee_Popup_UnlinkJobPosition_Message empleado::Desvincular empleat/da
-Item_Employee_Popup_UnlinkJobPosition_Message::Desvincular
 Item_Employee_Popup_UnlinkJobPosition_Message2::Indicar la data de finalització
 Item_Employee_PopupAnular_Title::Inactivar empleat/da
 Item_Employee_PopupDelete_Message::Eliminar l'empleat/da
@@ -817,7 +815,7 @@ Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitions::Definir un manteni
 Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitionSelected::Seleccionar el tipus de manteniment
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Amount::Cost
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Date::Data
-Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate::Primera data
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate::Primer venciment																		   
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Observations::Observacions
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Provider::Proveïdor
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Responsible::Responsable
@@ -1240,7 +1238,6 @@ Item_Indicador_TableRecords_Header_Value::Valor
 Item_IndicadorAction_List_Filter_ShowActive::Actius
 Item_IndicadorAction_List_Filter_ShowClosed::Tancats
 Item_Indicadores::Indicadors
-Item_Indicadors::Indicadors
 Item_IndicatorRecord_FieldLabel_Comments::Comentaris
 Item_IndicatorRecord_FieldLabel_Date::Data
 Item_IndicatorRecord_FieldLabel_Reason::Motiu
@@ -1346,7 +1343,7 @@ Item_Learning_ListHeader_EstimatedDate::Prevista
 Item_Learning_ListHeader_Status::Estat
 Item_Learning_Message_Evaluation::Guardant una formació amb tots els assistents avaluats, queda tancada i ja no es pot modificar
 Item_Learning_Message_NoAssistants::No hi ha assistents al curs
-Item_Learning_Message_SelectOneAssistant::Hay que seleccionar algún asistente
+Item_Learning_Message_SelectOneAssistant::Obligatori algún assistent																			 
 Item_Learning_Objetive::Objectiu
 Item_Learning_PopupDelete_Message::Vol eliminar la formació
 Item_Learning_SelectAssistants::Afegir
@@ -1410,8 +1407,8 @@ Item_Objetivo_ListHeader_ResponsibleName::Responsable
 Item_Objetivo_ListHeader_StartDate::Data d'inici
 Item_Objetivo_Message_IndicadorBlocked::No es pot modificar perquè té registres vinculats
 Item_Objetivo_Message_IndicadorClosed::No es pot afegir un registre perquè l'indicador està tancat
-Item_Objetivo_Message_IndicadorClosedDelete::No es pot eliminar perque l'indicador està tancat
-Item_Objetivo_Message_IndicadorClosedUpdate::No es pot modificar perque l'indicador està tancat
+Item_Objetivo_Message_IndicadorClosedDelete::No es pot eliminar perquè l'indicador està tancat
+Item_Objetivo_Message_IndicadorClosedUpdate::No es pot modificar perquè l'indicador està tancat
 Item_Objetivo_Message_IndicatorNoGrants::No té permissos per afegir indicador
 Item_Objetivo_Message_NoMeta::No es pot afegir un registre sense una meta definida
 Item_Objetivo_Message_ObjetivoClosed::No es pot afegir un registrè perquè l'objectiu està tancat
@@ -1486,8 +1483,10 @@ Item_Oportunity_Title_OportunityDetails::Fitxa de la oportunitat
 Item_Oportunity_Title_OportunityDetailsNou::Nova oportunitat
 Item_Oportunity_Title_Result::Resultat
 Item_Oportunity_Warning_ActionTabAvailable::Ja es poden omplir les dades de l'acció
-Item_Proccess::Procés
 Item_Process::Procés
+Item_Process_ListHeader_Name::Procés
+Item_Process_ListHeader_ProcessType::Tipus
+Item_Process_ListHeader_Responsible::Responsable
 Item_Process_Button_Edit::Fitxa de procés
 Item_Process_Button_New::Afegir
 Item_Process_Button_ProcessTypeBAR::Gestió de tipus de procés
@@ -1504,9 +1503,6 @@ Item_Process_Help_Name::Indicar el nom del procés
 Item_Process_Help_ProcessType::Seleccionar el tipus de procés
 Item_Process_Help_Responsible::Indicar responsable del procés
 Item_Process_Help_Start::Indicar l'inici del procés
-Item_Process_ListHeader_Name::Procés
-Item_Process_ListHeader_ProcessType::Tipus
-Item_Process_ListHeader_Responsible::Responsable
 Item_Process_ListIndicatorsHeader_Alarm::Alarma
 Item_Process_ListIndicatorsHeader_Meta::Meta
 Item_Process_ListIndicatorsHeader_Name::Nom
@@ -1525,7 +1521,6 @@ Item_Process_Status_WhitoutResponsible::Procés sense responsable actiu
 Item_Process_Tab_Indicators::Indicadors
 Item_Process_Tab_Principal::Dades bàsiques
 Item_Process_Tab_Traces::Traces
-Item_Processes::Processos
 Item_Processes::Processos
 Item_ProcessType::Tipus
 Item_ProcessType_Name_Estrategic::Estratègic
@@ -1569,7 +1564,7 @@ Item_Review::Revisió per la direcció
 Item_Rule::Norma
 Item_Rule_ChangeIPRLabel::Especifiqui el motiu del canvi
 Item_Rule_ChangeIPRMessage::Vol continuar amb el canvi?
-Item_Rule_ChangeIPRTitle::Riscos afectats pel canvi d'IPR
+Item_Rule_ChangeIPRTitle::Riscos afectats pel canvi
 Item_Rule_HistoryHeader_ApprovedBy::Aprovat per
 Item_Rule_HistoryHeader_Date::Data
 Item_Rule_HistoryHeader_IPR::IPR
@@ -1581,7 +1576,7 @@ Item_Rules_Error_LimitOutOfRange::El límit ha d'estar entre 1 i 25
 Item_Rules_FieldLabel_Limit::Límit
 Item_Rules_FieldLabel_Name::Nom
 Item_Rules_FieldLabel_Notes::Notes
-Item_Rules_HistoryTitle::Històric de canvis de IPR
+Item_Rules_HistoryTitle::Històric de canvis de IPR												  
 Item_Rules_Popup_AddRule_Title::Afegir norma
 Item_Rules_Popup_DeleteProcessType_Title::Eliminar norma
 Item_Rules_Popup_Header::Normes
@@ -1595,7 +1590,7 @@ Item_Rules_Section_BusinessRisk_Header_Name::Risc
 Item_Rules_Section_BusinessRisk_Header_Result::Resultat
 Item_Rules_Section_BusinessRisk_Header_Status::Estat
 Item_Rules_Section_BusinessRisk_NoData::Aquesta norma no té riscos vinculats
-Item_Rules_Tab_History::Històric
+Item_Rules_Tab_History::Històric								
 Item_Rules_Tab_Principal::Dades bàsiques
 Item_Rules_Tab_Traces::Traces
 Item_ScheduledTasks::Tasques previstes
@@ -1676,148 +1671,7 @@ semana::setmana
 Servicio::Servei
 SkillsFor::Formació per l'empleat/da
 Tipo::Tipus
-User_Admin::Administrador/a
-User_PrimaryUser::Propietari/a
+User_Admin::Propietari/a
+User_PrimaryUser::Administrador/a
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
