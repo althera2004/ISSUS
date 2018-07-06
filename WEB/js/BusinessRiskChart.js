@@ -89,7 +89,7 @@ function exampleData() {
             //console.log(BusinessRiskGraph[x].Description, BusinessRiskGraph[x].Assumed);
             if (BusinessRiskGraph[x].Assumed === false && BusinessRiskGraph[x].FinalAction !== 1) {
                 var limit = typeof actualRuleLimit === "undefined" ? 0 : actualRuleLimit;
-                if (limit < 0 ) {
+                if (limit < 0) {
                     limit = BusinessRiskGraph[x].RuleLimit;
                 }
                 if (BusinessRiskGraph[x].Result < limit) {
@@ -108,15 +108,15 @@ function exampleData() {
 
     linedata = [
         {
-            key: "Cumulative Return",
-            values: myData
+            "key": "Cumulative Return",
+            "values": myData
         }
     ]
 
-    graphicdata= [
+    graphicdata = [
         {
-            key: "Cumulative Return",
-            values: y()
+            "key": "Cumulative Return",
+            "values": y()
         }
     ]
 }

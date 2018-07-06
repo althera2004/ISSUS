@@ -201,7 +201,6 @@ function SaveAction() {
     }
 
     if (IncidentClosedRequired === true) {
-
         if (document.getElementById("CmbClosedResponsible").value * 1 === 0) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseResponsibleRequired);
@@ -407,7 +406,6 @@ function SaveAction() {
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
             document.location = referrer;
-
         },
         "error": function (msg) {
             alertUI(msg.responseText);
@@ -804,16 +802,16 @@ function Restore() {
     };
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: "/Async/IncidentActionsActions.asmx/Restore",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/IncidentActionsActions.asmx/Restore",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             Incident.ClosedOn = null;
             document.location = document.location + "";
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }

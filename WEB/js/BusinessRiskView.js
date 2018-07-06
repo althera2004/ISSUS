@@ -1496,13 +1496,13 @@ function RenderStartSliders() {
     }
 
     for (var x2 = MinStepValue; x2 < 6; x2++) {
-        var spanStep = document.createElement('span');
+        var spanStep = document.createElement("span");
         spanStep.id = x2;
-        spanStep.className = 'tick';
+        spanStep.className = "tick";
         spanStep.appendChild(document.createTextNode(x2));
-        spanStep.appendChild(document.createElement('BR'));
-        spanStep.appendChild(document.createTextNode('|'));
-        spanStep.style.left = ((100 / (5 - MinStepValue)) * (x2 - MinStepValue)) + '%';
+        spanStep.appendChild(document.createElement("BR"));
+        spanStep.appendChild(document.createTextNode("|"));
+        spanStep.style.left = ((100 / (5 - MinStepValue)) * (x2 - MinStepValue)) + "%";
         switch (x2) {
             case 1:
                 spanStep.title = Dictionary.Item_BusinessRisk_Tooltip_Severity_1;
@@ -1520,16 +1520,16 @@ function RenderStartSliders() {
                 spanStep.title = Dictionary.Item_BusinessRisk_Tooltip_Severity_5;
                 break;
         }
-        document.getElementById('stepsStartSeverity').appendChild(spanStep);
+        document.getElementById("stepsStartSeverity").appendChild(spanStep);
         if (Action.Id < 1) {
             spanStep.onclick = function () {
                 if (SlidersStartActive) {
-                    $("#input-span-slider-startseverity").slider({ value: this.id });
+                    $("#input-span-slider-startseverity").slider({ "value": this.id });
                     businessRisk.StartSeverity = this.id * 1;
                     UpdateResult();
                 }
             };
-            //spanStep.style.cursor = 'default';
+            //spanStep.style.cursor = "default";
         }
     }
     if (businessRisk.Id > 0) {
@@ -1545,49 +1545,49 @@ function RenderStepsSliders() {
     //Sliders in "Situació final" refering the initial situation of the risk//
     //////////////////////////////////////////////////////////////////////////
     $("#Initial-input-span-slider-probability").slider({
-        value: businessRisk.StartProbability,
-        range: "min",
-        min: 1,
-        max: 5,
-        step: 1,
-        slide: function (event, ui) { return null; }
+        "value": businessRisk.StartProbability,
+        "range": "min",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "slide": function (event, ui) { return null; }
     });
-    $("#Initial-input-span-slider-probability").slider('disable');
+    $("#Initial-input-span-slider-probability").slider("disable");
     $("#Initial-input-span-slider-severity").slider({
-        value: businessRisk.StartSeverity,
-        range: "min",
-        min: 1,
-        max: 5,
-        step: 1,
-        slide: function (event, ui) { return null; }
+        "value": businessRisk.StartSeverity,
+        "range": "min",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "slide": function (event, ui) { return null; }
     });
-    $("#Initial-input-span-slider-severity").slider('disable');
-    VoidTable('InitialStepsProbability');
+    $("#Initial-input-span-slider-severity").slider("disable");
+    VoidTable("InitialStepsProbability");
     for (var x = 1; x < 6; x++) {
-        var span = document.createElement('span');
+        var span = document.createElement("span");
         span.id = x;
-        span.className = 'tick';
+        span.className = "tick";
         span.appendChild(document.createTextNode(x));
-        span.appendChild(document.createElement('BR'));
-        span.appendChild(document.createTextNode('|'));
-        span.style.left = ((100 / (5 - MinStepValue)) * (x - MinStepValue)) + '%';
-        document.getElementById('InitialStepsProbability').appendChild(span);
+        span.appendChild(document.createElement("BR"));
+        span.appendChild(document.createTextNode("|"));
+        span.style.left = ((100 / (5 - MinStepValue)) * (x - MinStepValue)) + "%";
+        document.getElementById("InitialStepsProbability").appendChild(span);
     }
-    VoidTable('InitialStepsSeverity');
+    VoidTable("InitialStepsSeverity");
     for (var x2 = 1; x2 < 6; x2++) {
-        var spanStep = document.createElement('span');
+        var spanStep = document.createElement("span");
         spanStep.id = x2;
-        spanStep.className = 'tick';
+        spanStep.className = "tick";
         spanStep.appendChild(document.createTextNode(x2));
-        spanStep.appendChild(document.createElement('BR'));
-        spanStep.appendChild(document.createTextNode('|'));
-        spanStep.style.left = ((100 / (5 - MinStepValue)) * (x2 - MinStepValue)) + '%';
-        document.getElementById('InitialStepsSeverity').appendChild(spanStep);
+        spanStep.appendChild(document.createElement("BR"));
+        spanStep.appendChild(document.createTextNode("|"));
+        spanStep.style.left = ((100 / (5 - MinStepValue)) * (x2 - MinStepValue)) + "%";
+        document.getElementById("InitialStepsSeverity").appendChild(spanStep);
     }
 
-    var rangeColor = ['#777', '#4aa4ce', '#4aa4ce', '#fd3', '#ffb752', '#d40'];
-    document.getElementById('InitialProbabilityRange').style.backgroundColor = rangeColor[businessRisk.StartProbability];
-    document.getElementById('InitialSeverityRange').style.backgroundColor = rangeColor[businessRisk.StartSeverity];
+    var rangeColor = ["#777", "#4aa4ce", "#4aa4ce", "#fd3", "#ffb752", "#d40"];
+    document.getElementById("InitialProbabilityRange").style.backgroundColor = rangeColor[businessRisk.StartProbability];
+    document.getElementById("InitialSeverityRange").style.backgroundColor = rangeColor[businessRisk.StartSeverity];
     //////////////////////////////////////////////////////////////////////////
     //Sliders in "Situació final" refering the initial situation of the risk//
     //////////////////////////////////////////////////////////////////////////
@@ -1605,70 +1605,70 @@ function RenderStepsSliders() {
     console.log("Final==> P:" + finalProbability + " S:" + finalSeverity);
 
     $("#Final-input-span-slider-probability").slider({
-        value: businessRisk.FinalProbability,
-        range: "min",
-        min: MinStepValueFinalProbability,
-        max: 5,
-        step: 1,
-        slide: function (event, ui) {
+        "value": businessRisk.FinalProbability,
+        "range": "min",
+        "min": MinStepValueFinalProbability,
+        "max": 5,
+        "step": 1,
+        "slide": function (event, ui) {
             var val = parseInt(ui.value);
             if (val === 0) {
                 return false;
             }
-            $("#input-span-slider-probability").slider({ value: this.id });
+            $("#input-span-slider-probability").slider({ "value": this.id });
             businessRisk.FinalProbability = val;
             UpdateFinalResult();
             return null;
         }
     });
     $("#Final-input-span-slider-severity").slider({
-        value: businessRisk.FinalSeverity,
-        range: "min",
-        min: MinStepValueFinalSeverity,
-        max: 5,
-        step: 1,
-        slide: function (event, ui) {
+        "value": businessRisk.FinalSeverity,
+        "range": "min",
+        "min": MinStepValueFinalSeverity,
+        "max": 5,
+        "step": 1,
+        "slide": function (event, ui) {
             var val = parseInt(ui.value);
             if (val === 0) {
                 return false;
             }
-            $("#input-span-slider-severity").slider({ value: this.id });
+            $("#input-span-slider-severity").slider({ "value": this.id });
             businessRisk.FinalSeverity = val;
             UpdateFinalResult();
             return null;
         }
     });
-    VoidTable('FinalStepsProbability');
+    VoidTable("FinalStepsProbability");
     for (var x = MinStepValueFinalProbability; x < 6; x++) {
-        var span = document.createElement('span');
+        var span = document.createElement("span");
         span.id = x;
-        span.className = 'tick';
+        span.className = "tick";
         span.appendChild(document.createTextNode(x));
-        span.appendChild(document.createElement('BR'));
-        span.appendChild(document.createTextNode('|'));
-        span.style.left = ((100 / (5 - MinStepValueFinalProbability)) * (x - MinStepValueFinalProbability)) + '%';
-        document.getElementById('FinalStepsProbability').appendChild(span);
+        span.appendChild(document.createElement("BR"));
+        span.appendChild(document.createTextNode("|"));
+        span.style.left = ((100 / (5 - MinStepValueFinalProbability)) * (x - MinStepValueFinalProbability)) + "%";
+        document.getElementById("FinalStepsProbability").appendChild(span);
         if (x > 0) {
             span.onclick = function () {
-                $("#Final-input-span-slider-probability").slider({ value: this.id });
+                $("#Final-input-span-slider-probability").slider({ "value": this.id });
                 businessRisk.FinalProbability = this.id * 1;
                 UpdateFinalResult();
             };
         }
     }
-    VoidTable('FinalStepsSeverity');
+    VoidTable("FinalStepsSeverity");
     for (var x2 = MinStepValueFinalSeverity; x2 < 6; x2++) {
-        var spanStep = document.createElement('span');
+        var spanStep = document.createElement("span");
         spanStep.id = x2;
-        spanStep.className = 'tick';
+        spanStep.className = "tick";
         spanStep.appendChild(document.createTextNode(x2));
-        spanStep.appendChild(document.createElement('BR'));
-        spanStep.appendChild(document.createTextNode('|'));
-        spanStep.style.left = ((100 / (5 - MinStepValueFinalSeverity)) * (x2 - MinStepValueFinalSeverity)) + '%';
-        document.getElementById('FinalStepsSeverity').appendChild(spanStep);
+        spanStep.appendChild(document.createElement("BR"));
+        spanStep.appendChild(document.createTextNode("|"));
+        spanStep.style.left = ((100 / (5 - MinStepValueFinalSeverity)) * (x2 - MinStepValueFinalSeverity)) + "%";
+        document.getElementById("FinalStepsSeverity").appendChild(spanStep);
         if (x2 > 0) {
             spanStep.onclick = function () {
-                $("#Final-input-span-slider-severity").slider({ value: this.id });
+                $("#Final-input-span-slider-severity").slider({ "value": this.id });
                 businessRisk.FinalSeverity = this.id * 1;
                 UpdateFinalResult();
             };
@@ -1683,7 +1683,7 @@ function syncFields(target, source) {
     document.getElementById(target).value = document.getElementById(source).value;
 }
 
-if (document.getElementById('TxtFinalProbabilityLabel') !== null)
+if (document.getElementById("TxtFinalProbabilityLabel") !== null)
 {
     UpdateFinalResult();
 }
@@ -1691,16 +1691,16 @@ UpdateResult();
 
 function ValidateCloseAction() {
     if (businessRisk.FinalProbability === 0 || businessRisk.FinalSeverity === 0) {
-        document.getElementById('TxtFinalDate').disabled = true;
-        document.getElementById('TxtFinalDateBtn').disabled = true;
+        document.getElementById("TxtFinalDate").disabled = true;
+        document.getElementById("TxtFinalDateBtn").disabled = true;
     }
     else {
-        document.getElementById('TxtFinalDate').disabled = false;
-        document.getElementById('TxtFinalDateBtn').disabled = false;
+        document.getElementById("TxtFinalDate").disabled = false;
+        document.getElementById("TxtFinalDateBtn").disabled = false;
     }
 }
 
-//$('#TxtFinalDate').on('focus', ValidateCloseAction);
+//$("#TxtFinalDate").on("focus", ValidateCloseAction);
 
 // Establecer el resultado inicial
 console.log("businessRisk.Assumed", businessRisk.Assumed);
@@ -1708,16 +1708,16 @@ if (businessRisk.Result > 0)
 {
     if(businessRisk.Assumed === true)
     {
-        document.getElementById('StartApplyActionAssumed').checked = true;
+        document.getElementById("StartApplyActionAssumed").checked = true;
     }
     else {
         if(businessRisk.ApplyAction === true)
         {
-            document.getElementById('StartApplyActionYes').checked = true;
+            document.getElementById("StartApplyActionYes").checked = true;
         }
         else {
 
-            document.getElementById('StartApplyActionNo').checked = true;
+            document.getElementById("StartApplyActionNo").checked = true;
         }
     }
 }
@@ -1725,14 +1725,14 @@ if (businessRisk.Result > 0)
 // No se puede cerrar el riesgo si la acción no está cerrada
 if (Action.ClosedOn === null) {
     if (document.getElementById("DivClosingRisk") !== null) {
-        document.getElementById("DivClosingRisk").style.display = "none";
-        document.getElementById("DivClosingRiskUnavailable").style.display = "";
+        $("#DivClosingRisk").hide();;
+        $("#DivClosingRiskUnavailable").show();
     }
 }
 else {
     if (document.getElementById("DivClosingRisk") !== null) {
-        document.getElementById("DivClosingRisk").style.display = "";
-        document.getElementById("DivClosingRiskUnavailable").style.display = "none";
+        $("#DivClosingRisk").show();
+        $("#DivClosingRiskUnavailable").hide();;
     }
 }
 
@@ -1747,30 +1747,30 @@ ValidateCloseAction();
 
 // Controles iniciales
 if (businessRisk.StartAction === 0) {
-    document.getElementById("Tabgraphic").style.display = "none";
+    $("#Tabgraphic").hide();
 }
 if (businessRisk.StartAction === 1) {
     document.getElementById("StartApplyActionAssumed").checked = true;
-    document.getElementById("Tabgraphic").style.display = "none";
+    $("Tabgraphic").hide();
 }
 if (businessRisk.StartAction === 2) {
     document.getElementById("StartApplyActionNo").checked = true;
-    document.getElementById("Tabgraphic").style.display = "none";
+    $("Tabgraphic").hide();
 }
 if (businessRisk.StartAction === 3) { document.getElementById("StartApplyActionYes").checked = true; }
 
 // Controles finales
-if (document.getElementById('FinalApplyActionAssumed') !== null) {
-    if (businessRisk.FinalAction === 1) { document.getElementById('FinalApplyActionAssumed').checked = true; }
-    if (businessRisk.FinalAction === 2) { document.getElementById('FinalApplyActionNo').checked = true; }
-    if (businessRisk.FinalAction === 3) { document.getElementById('FinalApplyActionYes').checked = true; }
+if (document.getElementById("FinalApplyActionAssumed") !== null) {
+    if (businessRisk.FinalAction === 1) { document.getElementById("FinalApplyActionAssumed").checked = true; }
+    if (businessRisk.FinalAction === 2) { document.getElementById("FinalApplyActionNo").checked = true; }
+    if (businessRisk.FinalAction === 3) { document.getElementById("FinalApplyActionYes").checked = true; }
 }
 
 if (ApplicationUser.Grants.Rules !== null)
 {
     if(ApplicationUser.Grants.Rules.Write == false)
     {
-        $('#BtnSelectRules').hide();
+        $("#BtnSelectRules").hide();
     }
 }
 
@@ -1788,9 +1788,8 @@ if (typeof ApplicationUser.Grants.BusinessRisk === "undefined" || ApplicationUse
 
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 450) + 'px';
+    $("#ListDataDiv").height(containerHeight - 450);
 }
 
 function PrintData() {
@@ -1926,8 +1925,8 @@ function AnularConfirmed() {
 
     if ($("#TxtActionClosedDate").val() === "") {
         ok = false;
-        document.getElementById("TxtActionClosedDateLabel").style.color = "#f00";
-        document.getElementById("TxtActionClosedDateDateRequired").style.display = "";
+        $("@TxtActionClosedDateLabel").css("color", "#f00");
+        $("#TxtActionClosedDateDateRequired").show();
     }
     else {
         if (validateDate($("#TxtActionClosedDate").val()) === false) {
@@ -1948,8 +1947,8 @@ function AnularConfirmed() {
 
     if ($("#CmbActionClosedResponsible").val() * 1 < 1) {
         ok = false;
-        document.getElementById("CmbActionClosedResponsibleLabel").style.color = "#f00";
-        document.getElementById("CmbActionClosedResponsibleErrorRequired").style.display = "";
+        $("#CmbActionClosedResponsibleLabel").css("color", "#f00");
+        $("#CmbActionClosedResponsibleErrorRequired").show();
     }
 
     if (ok === false) {

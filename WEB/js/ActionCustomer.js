@@ -52,12 +52,12 @@ function CustomerInsert(sender) {
     $("#TxtCustomerNewName").val("");
     var Selected = 0;
     var dialog = $(popupInsertDialogId).removeClass("hide").dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: "<h4 class=\"smaller\">" + Dictionary.Item_Equipment_Popup_AddCustomer_Title + "</h4>",
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Equipment_Popup_AddCustomer_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
@@ -111,12 +111,12 @@ function CustomerInsertConfirmed(newDescription) {
     var newId = 0;
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
                 newId = response.d.MessageError * 1;
@@ -133,7 +133,7 @@ function CustomerInsertConfirmed(newDescription) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -142,53 +142,53 @@ function CustomerInsertConfirmed(newDescription) {
 
 // Update function for bar item Customer
 function CustomerUpdate(sender) {
-    document.getElementById("TxtCustomerNameErrorRequired").style.display = "none";
-    document.getElementById("TxtCustomerNameErrorDuplicated").style.display = "none";
+    $("#TxtCustomerNameErrorRequired").hide();
+    $("#TxtCustomerNameErrorDuplicated").hide();
     $("#TxtCustomerName").val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     ItemIdUpdate = sender.parentNode.parentNode.parentNode.id * 1;
     var dialog = $(popupUpdateDialogId).removeClass("hide").dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: Dictionary.Common_Edit,
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": Dictionary.Common_Edit,
+        "title_html": true,
+        "buttons":
         [
             {
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
                     var ok = true;
-                    if (document.getElementById("TxtCustomerName").value === "") {
-                        document.getElementById("TxtCustomerNameErrorRequired").style.display = "block";
+                    if ($("#TxtCustomerName").val() === "") {
+                        $("#TxtCustomerNameErrorRequired").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById("TxtCustomerNameErrorRequired").style.display = "none";
+                        $("#TxtCustomerNameErrorRequired").hide();
                     }
 
                     var duplicated = false;
                     for (var x = 0; x < Customers.length; x++) {
-                        if (document.getElementById("TxtCustomerName").value.toLowerCase() === Customers[x].Description.toLowerCase() && Selected !== Customers[x].Id && Customers[x].Active === true) {
+                        if ($("#TxtCustomerName").val().toLowerCase() === Customers[x].Description.toLowerCase() && Selected !== Customers[x].Id && Customers[x].Active === true) {
                             duplicated = true;
                             break;
                         }
                     }
 
                     if (duplicated === true) {
-                        document.getElementById("TxtCustomerNameErrorDuplicated").style.display = "block";
+                        $("#TxtCustomerNameErrorDuplicated").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById("TxtCustomerNameErrorDuplicated").style.display = "none";
+                        $("#TxtCustomerNameErrorDuplicated").hide();
                     }
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
 
-                    document.getElementById("TxtCustomerNameErrorRequired").style.display = "none";
-                    document.getElementById("TxtCustomerNameErrorDuplicated").style.display = "none";
+                    $("#TxtCustomerNameErrorRequired").hide();
+                    $("#TxtCustomerNameErrorDuplicated").hide();
                     $(this).dialog("close");
-                    CustomerUpdateConfirmed(ItemIdUpdate, document.getElementById("TxtCustomerName").value);
+                    CustomerUpdateConfirmed(ItemIdUpdate, $("#TxtCustomerName").val());
                     return null;
                 }
             },
@@ -225,18 +225,18 @@ function CustomerUpdateConfirmed(id, newDescription) {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -282,11 +282,11 @@ function CustomerDelete(sender) {
     $("#CustomerName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     ItemIdDelete = sender.parentNode.parentNode.parentNode.id * 1;
     var dialog = $(popupDeleteDialogId).removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
         [
             {
                 "html": "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
@@ -325,16 +325,16 @@ function CustomerDeleteConfirmed(id) {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) { alertUI(response.d.MessageError); }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }

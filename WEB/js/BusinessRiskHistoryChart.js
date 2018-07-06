@@ -123,7 +123,7 @@ function resizegrafico(transparent) {
     .attr("x2", width)
     .attr("y2", height);
 
-    d3.select('#chart svg').append("line")
+    d3.select("#chart svg").append("line")
     .style("stroke", "gray")
     .attr("x1", 65)
     .attr("y1", 0)

@@ -186,12 +186,12 @@ function OportunityGetFilter(exportType) {
     console.log("filter oportunity", data);
 
     $.ajax({
-        type: "POST",
-        url: "/Async/OportunityActions.asmx/GetFilter",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/OportunityActions.asmx/GetFilter",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             eval("OportunityList=" + msg.d + ";");
             originalLimits = OportunityList;
             OportunityRenderTable(OportunityList);
@@ -201,7 +201,7 @@ function OportunityGetFilter(exportType) {
                 }
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
@@ -231,23 +231,23 @@ function BusinessRiskGetFilter(exportType) {
     }
 
     var data = {
-        companyId: Company.Id,
-        from: from,
-        to: to,
-        rulesId: rulesId,
-        processId: processId,
-        type: type
+        "companyId": Company.Id,
+        "from": from,
+        "to": to,
+        "rulesId": rulesId,
+        "processId": processId,
+        "type": type
     };
 
     console.log("businessfilter", data);
 
     $.ajax({
-        type: "POST",
-        url: "/Async/BusinessRiskActions.asmx/GetFilter",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/BusinessRiskActions.asmx/GetFilter",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             eval("BusinessRiskList=" + msg.d + ";");
             originalLimits = BusinessRiskList;
             BusinessRiskRenderTable(BusinessRiskList);
@@ -257,7 +257,7 @@ function BusinessRiskGetFilter(exportType) {
                 }
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });

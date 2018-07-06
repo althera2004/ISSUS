@@ -58,7 +58,7 @@ function ProviderInsert(sender) {
                     var ok = true;
                     var duplicated = false;
                     for (var x = 0; x < Providers.length; x++) {
-                        if (document.getElementById("TxtProviderNewName").value.toLowerCase() === Providers[x].Description.toLowerCase()) {
+                        if ($("#TxtProviderNewName").val().toLowerCase() === Providers[x].Description.toLowerCase()) {
                             duplicated = true;
                             break;
                         }
@@ -99,12 +99,12 @@ function ProviderInsertConfirmed(newDescription) {
     var newId = 0;
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: "/Async/ProviderActions.asmx/Insert",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/ProviderActions.asmx/Insert",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
                 newId = response.d.MessageError * 1;
@@ -120,7 +120,7 @@ function ProviderInsertConfirmed(newDescription) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
