@@ -200,7 +200,7 @@
                                                                                     <tr>
                                                                                         <% if (this.Learning.Status == 1)
                                                                                            { %>
-                                                                                        <th style="width:23px;"><input type="checkbox" title="<%=this.Dictionary["Common_SelectAll todos"] %>" onclick="SelectAllAssistants(this);" /></th>
+                                                                                        <th style="width:23px;"><input type="checkbox" title="<%=this.Dictionary["Common_SelectAll"] %>" onclick="SelectAllAssistants(this);" /></th>
                                                                                         <% } %>
                                                                                         <th><%=this.Dictionary["Item_LearningAssistants"] %></th>
 
@@ -340,7 +340,7 @@
                                             <thead class="thin-border-bottom">
                                                 <tr>
                                                     <th class="hidden-480" style="width:20px;">
-                                                        <input type="checkbox" title="<%=this.Dictionary["Common_SelectAll todos"] %>" onclick="SelectAll(this);" />
+                                                        <input type="checkbox" title="<%=this.Dictionary["Common_SelectAll"] %>" onclick="SelectAll(this);" />
                                                     </th>
                                                     <th>
                                                         <i class="icon-caret-right blue"></i><%=this.Dictionary["Common_Name"] %>

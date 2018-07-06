@@ -1123,16 +1123,33 @@ function RenderStartSliders() {
     for (var x = MinStepValue; x < 6; x++) {
         var span = document.createElement("span");
         span.id = x;
-        span.className = "tick";
+        span.className = 'tick';
         span.appendChild(document.createTextNode(x));
         span.appendChild(document.createElement("BR"));
-        span.appendChild(document.createTextNode("|"));
+        span.appendChild(document.createTextNode('|'));
         span.style.left = ((100 / (5 - MinStepValue)) * (x - MinStepValue)) + "%";
-        document.getElementById("stepsCost").appendChild(span);
+        switch (x) {
+            case 1:
+                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_1;
+                break;
+            case 2:
+                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_2;
+                break;
+            case 3:
+                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_3;
+                break;
+            case 4:
+                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_4;
+                break;
+            case 5:
+                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_5;
+                break;
+        }
+        document.getElementById('stepsCost').appendChild(span);
         if (Action.Id < 1) {
             span.onclick = function () {
                 if (SlidersActive) {
-                    $("#input-span-slider-cost").slider({ "value": this.id });
+                    $("#input-span-slider-cost").slider({ 'value': this.id });
                     Oportunity.Cost = this.id * 1;
                     UpdateResult();
                 }
@@ -1142,23 +1159,40 @@ function RenderStartSliders() {
     }
 
     for (var x2 = MinStepValue; x2 < 6; x2++) {
-        var spanStep = document.createElement("span");
+        var spanStep = document.createElement('span');
         spanStep.id = x2;
-        spanStep.className = "tick";
+        spanStep.className = 'tick';
         spanStep.appendChild(document.createTextNode(x2));
-        spanStep.appendChild(document.createElement("BR"));
-        spanStep.appendChild(document.createTextNode("|"));
-        spanStep.style.left = ((100 / (5 - MinStepValue)) * (x2 - MinStepValue)) + "%";
-        document.getElementById("stepsImpact").appendChild(spanStep);
+        spanStep.appendChild(document.createElement('BR'));
+        spanStep.appendChild(document.createTextNode('|'));
+        spanStep.style.left = ((100 / (5 - MinStepValue)) * (x2 - MinStepValue)) + '%';
+        switch (x2) {
+            case 1:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_1;
+                break;
+            case 2:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_2;
+                break;
+            case 3:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_3;
+                break;
+            case 4:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_4;
+                break;
+            case 5:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_5;
+                break;
+        }
+        document.getElementById('stepsImpact').appendChild(spanStep);
         if (Action.Id < 1) {
             spanStep.onclick = function () {
                 if (SlidersActive) {
-                    $("#input-span-slider-impact").slider({ "value": this.id });
+                    $("#input-span-slider-impact").slider({ value: this.id });
                     Oportunity.Impact = this.id * 1;
                     UpdateResult();
                 }
             };
-            span.style.cursor = "default";
+            span.style.cursor = 'default';
         }
     }
     if (Oportunity.Id > 0) {

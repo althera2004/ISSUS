@@ -34,19 +34,20 @@
                                 <!-- PAGE CONTENT BEGINS -->
                                 <div class="row" style="padding-bottom:8px;" id="SelectRow">
                                     <div class="col-xs-12">
-                                        <div class="col-xs-2">
+                                        <div class="col-xs-1">
                                             <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Active_Plural"] %>
                                         </div>
-                                        <div class="col-xs-2">
+                                        <div class="col-xs-2"> 
                                             <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Inactive_Plural"] %>
                                         </div>
-                                        <label class="col-xs-1"><%=this.Dictionary["Item_Document_FieldLabel_Category"] %></label>
+                                        <!-- col-xs-1  col-sm-1 control-label no-padding-right  -->
+                                        <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Category"] %></label>
                                         <div class="col-xs-3">
                                             <select style="width:200px;" id="CmbCategory">
                                                 <option value="-1"><%=this.Dictionary["Common_All_Female_Plural"] %></option>
                                             </select>
                                         </div>
-                                        <label class="col-xs-1"><%=this.Dictionary["Item_Document_FieldLabel_Origin"] %></label>
+                                        <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Origin"] %></label>
                                         <div class="col-xs-3">
                                             <select style="width:200px" id="CmbOrigin">
                                                 <option value="-1"><%=this.Dictionary["Common_All"] %></option>
@@ -78,7 +79,7 @@
 			                                                        <th id="th2" onclick="Sort(this,'ListDataTable','text');" class="sort" style="width:180px;"><%=this.Dictionary["Item_Document_ListHeader_Category"] %></th>
 			                                                        <th id="th3" onclick="Sort(this,'ListDataTable','text');" class="sort" style="width:110px;"><%=this.Dictionary["Item_Document_ListHeader_Origin"] %></th>
 			                                                        <th id="th4" onclick="Sort(this,'ListDataTable','text');" class="search sort" style="width:180px;"><%=this.Dictionary["Item_Document_ListHeader_Location"] %></th>
-			                                                        <th id="th5" onclick="Sort(this,'ListDataTable','money');" class="sort" style="width:50px;"><%=this.Dictionary["Item_Document_ListHeader_Revision"] %></th>
+			                                                        <th id="th5" onclick="Sort(this,'ListDataTable','money');" class="sort" style="width:80px;"><%=this.Dictionary["Item_Document_ListHeader_Revision"] %></th>
 			                                                        <th style="width:107px;">&nbsp;</th>
 		                                                        </tr>
                                                             </thead>
