@@ -255,11 +255,11 @@ function RenderDocumentRow(data) {
     }
 
     tdCode.style.width = "110px";
-    tdRevision.style.width = "50px";
-	tdRevision.align = "right";
     tdCategory.style.width = "180px";
     tdOrigin.style.width = "110px";
     tdLocation.style.width = "180px";
+    tdRevision.style.width = "80px";
+	tdRevision.align = "right";
     tdActions.style.width = "90px";
 
     var target = document.getElementById("ListDataTable");
