@@ -195,19 +195,25 @@ function promptInfoUI(message, width, actionYes, actionNo) {
     });
 }
 
-function LoadingShow(message) {
-    return;
-    /*$("#LoadingMessage").html(message);
+// @alex la variable forced que se envía desde el upload hace que salga el mensaje
+function LoadingShow(message, forced) {
+    if (typeof forced === "undefined" || forced === null || forced === false) {
+        return;
+    }
+
+    $("#LoadingMessage").html(message);
     var dialog = $("#LoadingDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": Dictionary.Common_Working,
+        "title": message,
         "title_html": true
 
-    });*/
+    });
 }
 
 function LoadingHide() {
-    return;
-    /*$("#LoadingDialog").dialog("close");*/
+    try {
+        $("#LoadingDialog").dialog("close");
+    }
+    catch (e) { }
 }

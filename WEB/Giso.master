@@ -399,7 +399,7 @@
     <script type="text/javascript" src="/assets/js/ace.min.js"></script>
     <script type="text/javascript" src="/assets/js/jquery.ddslick.min.js"></script>
     <script type="text/javascript" src="/assets/js/chosen.jquery.js"></script>
-    <script type="text/javascript" src="/js/PopupAlerts.js"></script>
+    <script type="text/javascript" src="/js/PopupAlerts.js?ac=<%=this.AntiCache %>"></script>
     <script type="text/javascript" src="/js/moment.js"></script>
     <asp:ContentPlaceHolder id="ScriptBodyContentHolder" runat="server">
     </asp:ContentPlaceHolder>

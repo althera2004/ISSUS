@@ -1965,7 +1965,7 @@ function AnulateLayout() {
         $("#accion").append(message);
         $("#BtnAnular").hide();
         $("#BtnRestaurar").show();
-        $("#BtnSave2").hide();
+        //$("#BtnSave2").hide();
     }
     else {
         $("#DivAnulateMessage").hide();

@@ -179,8 +179,8 @@ namespace GisoFramework.Item
                     CultureInfo.GetCultureInfo("en-us"),
                     @"{{""Id"":{0},""Description"":""{1}"",""Notes"":""{2}"",""Limit"":{3},""Editable"":""true"",""Deletable"":{4}}}",
                     this.Id,
-                    this.Description,
-                    this.Notes,
+                    Tools.JsonCompliant(this.Description),
+                    Tools.JsonCompliant(this.Notes),
                     this.Limit,
                     this.Deletable? "true":"false"
                 );

@@ -2211,15 +2211,19 @@ box-shadow: 4px 4px 3px 0px rgba(166,159,166,1);
                 });
             }
 
-            function LoadingShow(message)
+            // @alex la variable forced que se envía desde el upload hace que salga el mensaje
+            function LoadingShow(message, forced)
             {
-                return;
-                $('#LoadingMessage').html(message);
+                if (typeof forced === "undefined" || forced === null || forced === false) {
+                    return;
+                }
+
+                $("#LoadingMessage").html(message);
                 var dialog = $("#LoadingDialog").removeClass("hide").dialog({
-                    resizable: false,
-                    modal: true,
-                    title: Dictionary.Common_Working,
-                    title_html: true
+                    "resizable": false,
+                    "modal": true,
+                    "title": message,
+                    "title_html": true
 
                 });
             }

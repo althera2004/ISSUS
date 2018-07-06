@@ -56,7 +56,6 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">        
-        var RulesCompany = <%=this.RulesJson%>;
         var rule = <%=this.BusinessRisk.Rules.Json%>;
         var RulesSelected = this.rule.Id;
         var businessRisk = <%=this.BusinessRisk.Json%>;
@@ -78,6 +77,7 @@
         var Costs = <%=this.CostsJson %>;
         var typeItemId = 18;
         var itemId = <%=this.BusinessRisk.Id %>;
+        var RulesCompany = <%=this.RulesJson%>;
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">

@@ -67,7 +67,7 @@ function Save() {
         return false;
     }
 
-    SaveConfimed();
+    SaveConfirmed();
 }
 
 function SaveConfirmed() {

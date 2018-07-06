@@ -180,6 +180,7 @@ public partial class BusinessRiskView : Page
                 }
                 res.Append(rule.JsonBAR);
             }
+
             res.Append("]");
             return res.ToString();
         }

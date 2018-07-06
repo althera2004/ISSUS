@@ -10,9 +10,9 @@ namespace GisoFramework.Item
     using System.Collections.ObjectModel;
     using System.Configuration;
     using System.Data;
-    using System.Linq;
     using System.Data.SqlClient;
     using System.Globalization;
+    using System.Linq;
     using System.Text;
     using System.Web;
     using GisoFramework.Activity;
@@ -22,8 +22,12 @@ namespace GisoFramework.Item
     /// <summary>Item representation of a Business Risk </summary>
     public class BusinessRisk : BaseItem
     {
+        /// <summary>Only active flag for filter</summary>
         public const bool OnlyActive = true;
+
+        /// <summary>Inactive and active flag for filter</summary>
         public const bool ActiveAndInactive = false;
+
         #region Properties
 
         /// <summary>Gets a empty instance of BusinessRisk</summary>
@@ -298,8 +302,7 @@ namespace GisoFramework.Item
                     this.Rules.Limit,
                     this.Probability,
                     this.Severity,
-                    this.FinalAction
-                );
+                    this.FinalAction);
             }
         }
 
@@ -487,7 +490,7 @@ namespace GisoFramework.Item
         {
             return new ReadOnlyCollection<BusinessRisk>(All(companyId, OnlyActive).Where(r => r.Rules.Id == rulesId).ToList());
         }
-        
+
         /// <summary>Return an historical list of a businessRisk actions</summary>
         /// <param name="code">Code identifier of the BusinessRisk</param>
         /// <param name="companyId">Company identifier</param>
@@ -524,18 +527,22 @@ namespace GisoFramework.Item
                                     BusinessRiskId = rdr.GetInt64(2),
                                     WhatHappenedOn = rdr.GetDateTime(3)
                                 };
+
                                 if (!rdr.IsDBNull(4))
                                 {
                                     newAction.CausesOn = rdr.GetDateTime(4);
                                 }
+
                                 if (!rdr.IsDBNull(5))
                                 {
                                     newAction.ActionsOn = rdr.GetDateTime(5);
                                 }
+
                                 if (!rdr.IsDBNull(6))
                                 {
                                     newAction.ClosedOn = rdr.GetDateTime(6);
                                 }
+
                                 res.Add(IncidentAction.ById(rdr.GetInt64(0), companyId));
                             }
                         }
@@ -1396,7 +1403,7 @@ namespace GisoFramework.Item
                 }
             }
 
-            if(type > 0)
+            if (type > 0)
             {
                 res = res.Where(br => br.Status == type).ToList();
             }

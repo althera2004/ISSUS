@@ -146,7 +146,7 @@ function UploadFileGo() {
             return false
         }
 
-        var fsize = $("#fileName")[0].files[0].size; //get file size
+        var fsize = $("#fileName")[0].files[0].size; // get file size
         var ftype = $("#fileName")[0].files[0].type; // get file type
 
         console.log(ftype);
@@ -169,11 +169,17 @@ function UploadFileGo() {
                 break;
             default:
                 alertUI("<i>" + ftype + "</i><br />&nbsp;" + Dictionary.Common_Warning_MimeType);
-                return false
+                return false;
         }
+		
+        if (fsize > 1024 * 1024 * 4) {
+            alertUI(Dictionary.Common_MaximumUploadSize);
+            return false;
+        }
+			
 
         document.getElementById("BtnUploadOk").disabled = true;
-        LoadingShow(Dictionary.Save);
+        LoadingShow(Dictionary.Common_Uploading, true);
         var fd = new FormData();
         var file = document.getElementById('imageInput');
         for (var i = 0; i < $('#fileName')[0].files.length; i++) {
@@ -194,6 +200,7 @@ function UploadFileGo() {
                 eval("result= " + xhr.responseText + ";");
                 console.log(result);
                 RenderNewUploadFile(result.Id, result.Description, result.Extension, result.FileName, result.ModifiedOn, result.Size);
+                LoadingHide();
             }
         };
         xhr.send(fd);
@@ -213,56 +220,7 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
     var fileNameToShow = fileName.split("_")[2];
 
     var finalSize = (size / 1024 / 1024);
-    if (finalSize < 0.01) {
-        finalSize = 0.01;
-    }
-
-    /*<div class="col-sm-3 document-container" id="1">
-                        <div class="col-sm-6">&nbsp;</div>
-                        <div class="col-sm-2 btn-success" onclick="ShowPDF('Employees_3_Juan Castilla Calderón.pdf');"><i class="icon-eye-open bigger-120"></i></div>
-                        <div class="col-sm-2 btn-info"><a class="icon-download bigger-120" href="/DOCS/12/Employees_3_Juan Castilla Calderón.pdf" target="_blank" style="color:#fff;"></a></div>
-                        <div class="col-sm-2 btn-danger" onclick="DeleteUploadFile(1,'Currículum');">
-                            <i class="icon-trash bigger-120"></i>
-                        </div>
-                        <div class="col-sm-12 iconfile">
-                            <div class="col-sm-4">
-                                <img src="/images/FileIcons/PDF.png">
-                            </div>
-                            <div class="col-sm-8 document-name" style="max-width:100%;">Currículum</div>
-                        </div>
-                    </div>*/
-
-    /*<div id="104" class="col-sm-3 document-container">
-                        <div class="col-sm-6">&nbsp;</div>
-                        <div class="col-sm-2">&nbsp;</div>
-                        <div class="col-sm-2 btn-info"><a class="icon-download bigger-120" href="/DOCS/12/Equipments_2_Doc1.docx" target="_blank" style="color:#fff;"></a></div>
-                        <div class="col-sm-2 btn-danger" onclick="DeleteUploadFile(104,'documento de pruebas');"><i class="icon-trash bigger-120"></i></div>
-                        <div class="col-sm-12 iconfile" style="max-width: 100%;">
-                            <div class="col-sm-12" style="margin-bottom:8px;"><strong title="documento de pruebas">documento de pruebas</strong></div>
-                            <div class="col-sm-4"><img src="/images/FileIcons/DOCX.png"></div>
-                            <div class="col-sm-8 document-name" style="font-size:12px;">   
-                                Pujat el: <strong>22/02/2017</strong><br>
-                                Tamany: <strong>0.01 MB</strong>
-                            </div>
-                            <div class="col-sm-12"></div>
-                        </div>
-                    </div>*/
-
-    /*<div id="216" class="col-sm-3 document-container">
-                        <div class="col-sm-6">&nbsp;</div>
-                        <div class="col-sm-2">&nbsp;</div>
-                        <div class="col-sm-2 btn-info"><a class="icon-download bigger-120" href="/DOCS/12/Processes_17_estado issus.docx" target="_blank" style="color:#fff;"></a></div>
-                        <div class="col-sm-2 btn-danger" onclick="DeleteUploadFile(216,'Processes_17_estado issus.docx');"><i class="icon-trash bigger-120"></i></div>
-                        <div class="col-sm-12 iconfile" style="max-width: 100%;">
-                            <div class="col-sm-4"><img src="/images/FileIcons/nofile.png"></div>
-                            <div class="col-sm-8 document-name">
-                                <strong title="Processes_17_estado issus.docx">Processes_17_es...</strong><br>
-                                Pujat el: 24/11/2017
-                                Mida: 0.01 MB
-                            </div>
-                        </div>
-                    </div>*/
-
+    if (finalSize < 0.01) { finalSize = 0.01; }
 
     if (description === "") {
         description = fileNameToShow;
@@ -293,30 +251,12 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
     res += "            <div class=\"col-sm-8 document-name\">";
     res += "                <strong title=\"Processes_17_estado issus.docx\">" + description + "</strong><br>";
     res += "                    " + Dictionary.Item_Attachment_CreateDate + ": " + date;
-    res += "                            " + Dictionary.Item_Attachment_Size + ": " + ToMoneyFormat(finalSize, 2) + " MB";
-    res += "                        </div>";
-    res += "            </div>";
+    res += "                    " + Dictionary.Item_Attachment_Size + ": " + ToMoneyFormat(finalSize, 2) + " MB";
+    res += "        </div>";
+    res += "    </div>";
 
     target.appendChild(div);
     $("#" + id).html(res);
-
-    /*<tr>
-                    <td>logo.jpg</td>
-                    <td></td>
-                    <td>20/01/2017</td>
-                    <td align="right">5.74 KB</td>
-                    <td style="width:150px;">
-                        <span class="btn btn-xs btn-success" onclick="ShowPDF('logo.jpg');">
-                            <i class="icon-eye-open bigger-120"></i>
-                        </span>
-                        <span class="btn btn-xs btn-info">
-                            <a class="icon-download bigger-120" href="/DOCS/12/logo.jpg" target="_blank" style="color:#fff;"></a>
-                        </span>
-                        <span class="btn btn-xs btn-danger" onclick="DeleteUploadFile(25,'');">
-                            <i class="icon-trash bigger-120"></i>
-                        </span>
-                    </td>
-                </tr>*/
 
     var tr = document.createElement("TR");
     tr.id = "tr" + id;
@@ -339,10 +279,12 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
     var td3 = document.createElement("TD");
     td3.style.width = "160px";
 
-    var tdSpan1 = document.createElement("SPAN"); tdSpan1.className = "btn btn-xs btn-success";
-    var tdSpan2 = document.createElement("SPAN"); tdSpan2.className = "btn btn-xs btn-info";
-    var tdSpan3 = document.createElement("SPAN"); tdSpan3.className = "btn btn-xs btn-danger";
-
+    var tdSpan1 = document.createElement("SPAN");
+	tdSpan1.className = "btn btn-xs btn-success";
+    var tdSpan2 = document.createElement("SPAN");
+	tdSpan2.className = "btn btn-xs btn-info";
+    var tdSpan3 = document.createElement("SPAN");
+	tdSpan3.className = "btn btn-xs btn-danger";
 
     if (extension !== "txt" && extension !== "png" && extension !== "gif" && extension !== "jpg") {
         tdSpan1.style.visibility = "hidden";

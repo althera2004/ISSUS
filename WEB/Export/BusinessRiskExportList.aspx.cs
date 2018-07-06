@@ -88,7 +88,7 @@ public partial class ExportBusinessRiskExportList : Page
             WidthPercentage = 100
         };
 
-        criteriatable.SetWidths(new float[] { 10f, 50f, 10f, 100f });
+        criteriatable.SetWidths(new float[] { 10f, 50f, 10f, 80f });
 
         #region texts
 
@@ -137,13 +137,13 @@ public partial class ExportBusinessRiskExportList : Page
         }
         #endregion
 
-        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Common_Period"] + " :"));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Common_Period"]));
         criteriatable.AddCell(ToolsPdf.CriteriaCellData(periode));
-        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Process"] + " :"));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Process"]));
         criteriatable.AddCell(ToolsPdf.CriteriaCellData(typetext));
-        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Rule"] + " :"));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Rule"]));
         criteriatable.AddCell(ToolsPdf.CriteriaCellData(ruleDescription));
-        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Type"] + " :"));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Type"]));
         criteriatable.AddCell(ToolsPdf.CriteriaCellData(criteriaProccess));
 
         pdfDoc.Add(criteriatable);

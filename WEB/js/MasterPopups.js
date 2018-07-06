@@ -183,6 +183,9 @@ function LoadingShow(message) {
 }
 
 function LoadingHide() {
-    return;
-    /* $("#LoadingDialog").dialog("close"); */
+    try {
+        $("#LoadingDialog").dialog("close");
+    }
+    catch()
+    {}
 }

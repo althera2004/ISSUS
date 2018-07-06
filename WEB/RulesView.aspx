@@ -254,6 +254,6 @@
         <script type="text/javascript" src="/assets/js/jquery.maskedinput.min.js"></script>
         <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
         <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
-        <script type="text/javascript" src="/js/RulesView.js"></script>
+        <script type="text/javascript" src="/js/RulesView.js?<%=this.AntiCache %>"></script>
 </asp:Content>
 

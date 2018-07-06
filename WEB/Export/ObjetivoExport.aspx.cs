@@ -259,6 +259,7 @@ public partial class ExportObjetivoExport : Page
             table.AddCell(ToolsPdf.DataCell(item.Objetivo.Responsible.FullName, ToolsPdf.LayoutFonts.Times));
             table.AddCell(ToolsPdf.DataCellCenter(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", item.Objetivo.StartDate), ToolsPdf.LayoutFonts.Times));
             table.AddCell(ToolsPdf.DataCellCenter(endDateText, ToolsPdf.LayoutFonts.Times));
+            cont++;
         }
 
         string totalRegistros = string.Format(
