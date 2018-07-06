@@ -222,7 +222,7 @@ public partial class DocumentView : Page
             this.DocumentId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
-        string label = this.DocumentId == -1 ? "Item_Document_Button_New" : "Item_Document_Tab_Details";
+        string label = this.DocumentId == -1 ? "Item_Document_Tab_Details" : "Item_Document_Tab_Details";
         this.master = this.Master as Giso;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Documents", "Documents.aspx", Constant.NotLeaft);
@@ -262,8 +262,11 @@ public partial class DocumentView : Page
             this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.DocumentId, TargetType.Document);
         }
 
-        this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Document_Btn_Restaurar"], Action = "primary", Hidden = !this.Document.EndDate.HasValue });
-        this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Document_Btn_Anular"], Action = "danger", Hidden = this.Document.EndDate.HasValue });
+        if (this.DocumentId != -1)
+        {
+            this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Document_Btn_Restaurar"], Action = "primary", Hidden = !this.Document.EndDate.HasValue });
+            this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Document_Btn_Anular"], Action = "danger", Hidden = this.Document.EndDate.HasValue });
+        }
         this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
         this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
     }
