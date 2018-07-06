@@ -1,20 +1,24 @@
-﻿
-
+﻿// --------------------------------
+// <copyright file="Unidad.cs" company="Sbrinna">
+//     Copyright (c) Sbrinna. All rights reserved.
+// </copyright>
+// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// --------------------------------
 namespace GisoFramework.Item
 {
     using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using GisoFramework.Item.Binding;
-    using GisoFramework.Activity;
-    using System.Data.SqlClient;
-    using GisoFramework.DataAccess;
     using System.Configuration;
     using System.Data;
+    using System.Data.SqlClient;
+    using System.Globalization;
+    using System.Text;
     using System.Web;
+    using GisoFramework.Activity;
+    using GisoFramework.DataAccess;
+    using GisoFramework.Item.Binding;
+
     public class Unidad : BaseItem
     {
         public static Unidad Empty
@@ -37,7 +41,8 @@ using System.Text;
 
         public override string Json
         {
-            get {
+            get
+            {
                 return string.Format(
                     CultureInfo.InvariantCulture,
                     @"{{""Id"":{0},""CompanyId"":{1},""Description"":""{2}"",""CreatedBy"":{3},""CreatedOn"":""{4:dd/MM/yyyy}"",""ModifiedBy"":{5},""ModifiedOn"":""{6:dd/MM/yyyy}"",""Active"":{7}}}",
@@ -79,7 +84,7 @@ using System.Text;
         {
             StringBuilder res = new StringBuilder("[");
             bool first = true;
-            foreach(Unidad unidad in GetAll(companyId))
+            foreach (Unidad unidad in GetAll(companyId))
             {
                 if (first)
                 {
@@ -99,7 +104,7 @@ using System.Text;
 
         public static ReadOnlyCollection<Unidad> GetAll(Company company)
         {
-            if(company == null)
+            if (company == null)
             {
                 return new ReadOnlyCollection<Unidad>(new List<Unidad>());
             }
@@ -316,17 +321,17 @@ using System.Text;
                 @"Unidad::Activate({0}, {1})",
                 unidadId,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Objetivo_Activate]
              *   @UnidadId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Unidad_Activate"))
+            using (var cmd = new SqlCommand("Unidad_Activate"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@UnidadId", unidadId));
@@ -380,17 +385,17 @@ using System.Text;
                 @"Unidad::Inactivate({0}, {1})",
                 unidadId,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Objetivo_Inactivate]
              *   @UnidadId int,
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Unidad_Inactivate"))
+            using (var cmd = new SqlCommand("Unidad_Inactivate"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@UnidadId", unidadId));
@@ -444,18 +449,18 @@ using System.Text;
                 @"Unidad::Unidad_Insert({0}, {1})",
                 this.Id,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Unidad_Insert]
              *   @UnidadId int,
              *   @Description nvarchar(50),
              *   @CompanyId int,
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Unidad_Insert"))
+            using (var cmd = new SqlCommand("Unidad_Insert"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.OutputInt("@UnidadId"));
@@ -515,18 +520,18 @@ using System.Text;
                 @"Unidad::Unidad_Update({0}, {1})",
                 this.Id,
                 applicationUserId);
-            ActionResult res = ActionResult.NoAction;
+            var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Unidad_Update]
              *   @UnidadId int,
              *   @CompanyId int,
              *   @Description nvarchar(50),
              *   @ApplicationUserId int */
-            using (SqlCommand cmd = new SqlCommand("Unidad_Update"))
+            using (var cmd = new SqlCommand("Unidad_Update"))
             {
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    using (SqlConnection cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                    using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                     {
                         cmd.Connection = cnn;
                         cmd.Parameters.Add(DataParameter.Input("@UnidadId", this.Id));

@@ -5,9 +5,7 @@
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item.Binding
 {
-    /// <summary>
-    /// Index of columns of Cargos_GetAll procedure result rows
-    /// </summary>
+    /// <summary>Index of columns of Cargos_GetAll procedure result rows</summary>
     public static class ColumnsJobPositionGetAll
     {
         /// <summary> Index of Id column</summary>
