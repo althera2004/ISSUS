@@ -25,7 +25,10 @@ namespace GisoFramework.Item
         public int CompanyId { get; set; }
         public int ItemLinked { get; set; }
         public long ItemId { get; set; }
+
+        /// <summary>Gets or sets file name</summary>
         public string FileName { get; set; }
+
         public string Description { get; set; }
         public string Extension { get; set; }
         public long Size { get; set; }
@@ -518,6 +521,7 @@ namespace GisoFramework.Item
             }
 
             path = string.Format(CultureInfo.InvariantCulture, @"{0}DOCS\{1}\", path, companyId);
+            string source = string.Format(CultureInfo.InvariantCulture, "UploadFile::Delete {0} {1} {2}", attachId, companyId, path);
             using (var cmd = new SqlCommand("UploadFiled_Inactive"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -531,6 +535,7 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess(attachId);
+                        // @alex: una vez eliminado de la bbdd se elimina físicamente del directorio
                         try
                         {
                             path = string.Format(CultureInfo.InvariantCulture, "{0}{1}", path, uploadFile.FileName);
@@ -538,13 +543,26 @@ namespace GisoFramework.Item
                             {
                                 File.Delete(path);
                             }
+                            else
+                            {
+                                ExceptionManager.Trace(new NotSupportedException(), source);
+                            }
                         }
-                        catch (Exception ex)
+                        catch (FormatException ex)
                         {
-                            ExceptionManager.Trace(ex, "UploadFile::Delete");
+                            ExceptionManager.Trace(ex, source);
                         }
-                        finally
+                        catch (IOException ex)
                         {
+                            ExceptionManager.Trace(ex, source);
+                        }
+                        catch (NullReferenceException ex)
+                        {
+                            ExceptionManager.Trace(ex, source);
+                        }
+                        catch (NotSupportedException ex)
+                        {
+                            ExceptionManager.Trace(ex, source);
                         }
                     }
                     catch (Exception ex)
@@ -553,6 +571,7 @@ namespace GisoFramework.Item
                     }
                 }
             }
+
             return res;
         }
 

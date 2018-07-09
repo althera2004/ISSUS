@@ -197,7 +197,7 @@ namespace GisoFramework
                             {
                                 while (rdr.Read())
                                 {
-                                    res.Add(new UserGrant()
+                                    res.Add(new UserGrant
                                     {
                                         UserId = -1,
                                         Item = ApplicationGrant.FromIntegerUrl(rdr.GetInt32(ColumnsApplicationUserGetGrants.ItemId), rdr[ColumnsApplicationUserGetGrants.UrlList].ToString()),
@@ -843,14 +843,10 @@ namespace GisoFramework
                     cmd.CommandType = CommandType.StoredProcedure;
                     try
                     {
-                        cmd.Parameters.Add("@ApplicationUserId", SqlDbType.Int);
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters.Add("@SecurityGroupId", SqlDbType.Int);
-                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                        cmd.Parameters["@ApplicationUserId"].Value = applicationUserId;
-                        cmd.Parameters["@CompanyId"].Value = companyId;
-                        cmd.Parameters["@SecurityGroupId"].Value = grant;
-                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@SecurityGroupId", grant));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();
@@ -950,10 +946,8 @@ namespace GisoFramework
                     cmd.CommandType = CommandType.StoredProcedure;
                     try
                     {
-                        cmd.Parameters.Add("@EmployeeId", SqlDbType.Int);
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters["@EmployeeId"].Value = employeeId;
-                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Connection.Open();
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -1004,16 +998,11 @@ namespace GisoFramework
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                        cmd.Parameters.Add("@OldPassword", SqlDbType.NVarChar);
-                        cmd.Parameters.Add("@NewPassword", SqlDbType.NVarChar);
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters.Add("@Result", SqlDbType.Int);
-                        cmd.Parameters["@UserId"].Value = userId;
-                        cmd.Parameters["@OldPassword"].Value = oldPassword;
-                        cmd.Parameters["@NewPassword"].Value = newPassword;
-                        cmd.Parameters["@CompanyId"].Value = companyId;
-                        cmd.Parameters["@Result"].Value = DBNull.Value;
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@OldPassword", oldPassword));
+                        cmd.Parameters.Add(DataParameter.Input("@NewPassword", newPassword));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.OutputInt("@Result"));
                         cmd.Parameters["@Result"].Direction = ParameterDirection.Output;
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
@@ -1129,7 +1118,7 @@ namespace GisoFramework
                             }
 
                             string body = string.Format(
-                                CultureInfo.GetCultureInfo("en-us"),
+                                CultureInfo.InvariantCulture,
                                 dictionary["MailTemplate_ResetPassword_DefaultBody"],
                                 userName,
                                 password);
@@ -1243,12 +1232,9 @@ namespace GisoFramework
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                        cmd.Parameters.Add("@Avatar", SqlDbType.NVarChar);
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters["@UserId"].Value = userId;
-                        cmd.Parameters["@Avatar"].Value = avatar;
-                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@Avatar", avatar));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();
@@ -1949,7 +1935,7 @@ namespace GisoFramework
 
                             if (File.Exists(templatePath))
                             {
-                                using (StreamReader input = new StreamReader(templatePath))
+                                using (var input = new StreamReader(templatePath))
                                 {
                                     body = input.ReadToEnd();
                                 }
@@ -1957,10 +1943,12 @@ namespace GisoFramework
                                 body = body.Replace("#USERNAME#", this.UserName).Replace("#PASSWORD#", userpass).Replace("#EMAIL#", this.Email).Replace("#EMPRESA#", company.Name);
                             }
 
+                            var localDictionary = ApplicationDictionary.Load(this.Language);
+
                             var mail = new MailMessage(senderMail, to)
                             {
                                 IsBodyHtml = true,
-                                Subject = "Benvingut/uda a ISSUS",
+                                Subject = localDictionary["MailTemplate_Welcome_Subject"],
                                 Body = body
                             };
 

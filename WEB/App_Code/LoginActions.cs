@@ -108,10 +108,10 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult ChangePassword(int userId, string oldPassword, string newPassword, int companyId)
         {
+            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             var res = ApplicationUser.ChangePassword(userId, oldPassword, newPassword, companyId);
             if (res.MessageError == "NOPASS")
             {
-                var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
                 if (dictionary != null)
                 {
                     res.MessageError = dictionary["Common_Error_IncorrectPassword"];
@@ -126,7 +126,7 @@ namespace GISOWeb
             var company = new Company(companyId);
             if (userFromDB.PrimaryUser)
             {
-                SendMailUserMother(userFromDB.UserName, company.Name);
+                SendMailUserMother(userFromDB, company.Name);
             }
 
             return res;
@@ -219,7 +219,7 @@ namespace GISOWeb
             return res;
         }
 
-        private void SendMailUserMother(string userName, string companyName)
+        private void SendMailUserMother(ApplicationUser user, string companyName)
         {
             string sender = ConfigurationManager.AppSettings["mailaddress"];
             string pass = ConfigurationManager.AppSettings["mailpass"];
@@ -230,7 +230,7 @@ namespace GISOWeb
             {
                 Host = "smtp.scrambotika.com",
                 Credentials = new System.Net.NetworkCredential(sender, pass),
-                Port = 25,
+                Port = Constant.SmtpPort,
                 DeliveryMethod = SmtpDeliveryMethod.Network
             };
 
@@ -242,10 +242,11 @@ namespace GISOWeb
             string body = string.Format(
                 CultureInfo.InvariantCulture,
                 "Se ha reestablecido la contraseña en ISSUS de un administrador primario.<br />User:<b>{0}</b><br/>Empresa:<b>{1}</b>",
-                userName,
+                user.UserName,
                 companyName);
 
-            mail.Subject = "Reinicio de contraseña en ISSUS de usuario primario";
+            var userDictionary = ApplicationDictionary.Load(user.Language);
+            mail.Subject = userDictionary["Item_User_MailResetPassword_Subject"];
             mail.Body = body;
             client.Send(mail);
         }

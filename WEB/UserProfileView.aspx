@@ -12,7 +12,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
         var CompanyCode = "<%=this.CompanyCode %>";
-        var User = <%=this.UserJson %>;
+        var User = <%=this.ApplicationUser.Json %>;
         var Employee = {};
         var colorBlue = Dictionary.Common_Color_Blue;
         var colorRed = Dictionary.Common_Color_Red;
@@ -80,15 +80,15 @@
                 "companyId": Company.Id
             };
 
-            LoadingShow("");
+            //LoadingShow("");
             $.ajax({
-                type: "POST",
-                url: "/Async/LoginActions.asmx/SaveProfile",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                data: JSON.stringify(data, null, 2),
-                success: function (response) {
-                    LoadingHide();
+                "type": "POST",
+                "url": "/Async/LoginActions.asmx/SaveProfile",
+                "contentType": "application/json; charset=utf-8",
+                "dataType": "json",
+                "data": JSON.stringify(data, null, 2),
+                "success": function (response) {
+                    //LoadingHide();
                     if (response.d.Success === true) {
                         document.location = HomePage;
                     }
@@ -96,7 +96,7 @@
                         alertUI(response.d.MessageError);
                     }
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                "error": function (jqXHR, textStatus, errorThrown) {
                     LoadingHide();
                     alertUI(jqXHR.responseText);
                 }
@@ -187,8 +187,6 @@
             }
         }
     </script>
-</asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                                 <div>
@@ -335,15 +333,15 @@
                     "companyId": Company.Id
                 };
 
-                LoadingShow("");
+                //LoadingShow("");
                 $.ajax({
-                    type: "POST",
-                    url: "/Async/LoginActions.asmx/Changeavatar",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(data, null, 2),
-                    success: function (response) {
-                        LoadingHide();
+                    "type": "POST",
+                    "url": "/Async/LoginActions.asmx/Changeavatar",
+                    "contentType": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "data": JSON.stringify(data, null, 2),
+                    "success": function (response) {
+                        //LoadingHide();
                         if (response.d.Success === true) {
                             for (var x = 0; x < document.getElementById("TableAvatars").childNodes.length; x++) {
                                 document.getElementById("TableAvatars").childNodes[x].className = "avatar";
@@ -355,7 +353,7 @@
                             alertUI(response.d.MessageError);
                         }
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
+                    "error": function (jqXHR, textStatus, errorThrown) {
                         LoadingHide();
                         alertUI(jqXHR.responseText);
                     }
@@ -381,15 +379,15 @@
                     "companyId": Company.Id
                 };
 
-                LoadingShow('');
+                //LoadingShow("");
                 $.ajax({
-                    type: "POST",
-                    url: "/Async/LoginActions.asmx/ChangePassword",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    data: JSON.stringify(data, null, 2),
-                    success: function (response) {
-                        LoadingHide();
+                    "type": "POST",
+                    "url": "/Async/LoginActions.asmx/ChangePassword",
+                    "contentType": "application/json; charset=utf-8",
+                    "dataType": "json",
+                    "data": JSON.stringify(data, null, 2),
+                    "success": function (response) {
+                        //LoadingHide();
                         if (response.d.Success === true) {
                             document.location = "LogOut.aspx?company=" + CompanyCode;
                         }
@@ -397,7 +395,7 @@
                             alertUI(response.d.MessageError);
                         }
                     },
-                    error: function (jqXHR, textStatus, errorThrown) {
+                    "error": function (jqXHR, textStatus, errorThrown) {
                         LoadingHide();
                         alertUI(jqXHR.responseText);
                     }
@@ -417,7 +415,7 @@
                     }
                 }));
                 
-                <%if(this.ShowHelp) { %>
+                <%if(this.ApplicationUser.ShowHelp) { %>
                 SetToolTip("DivCmbIdioma","<%=this.Dictionary["Item_Employee_Help_Language"] %>");
                 SetToolTip("chkShowHelp","<%=this.Dictionary["Item_Employee_Help_OnlineHelp"] %>");
                 SetToolTip("ButtonBlue","<%=this.Dictionary["Item_Employee_Help_IconCommon_Color_Blue"] %>");
@@ -430,7 +428,7 @@
                 SetToolTip("TxtPassNew2","<%=this.Dictionary["Item_Employee_Help_ConfirmarNuevoPassword"] %>");
 
                 $("[data-rel=tooltip]").tooltip();
-                $("[data-rel=popover]").popover({ container: "body" });
+                $("[data-rel=popover]").popover({ "container": "body" });
                 <% } %>
 
                 $("#BtnPasswordOk").click(ChangePassword);

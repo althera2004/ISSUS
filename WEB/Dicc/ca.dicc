@@ -1672,12 +1672,14 @@ Item_User_Title_Account::Gestió del compte
 Item_User_Title_Add::Fitxa de l'Usuari/a
 Item_User_Title_ResetPassword::Restablir la contrasenya
 Item_Users::Usuaris/es
+Item_User_MailResetPassword_Subject::Reinici de paraula de pass a ISSUS de usuari propietari
 LoginPage_BtnAccess::Accedir
 LoginPage_Title::Accés a l'aplicació
 Mail_Message_WelcomeSubject::Benvingut/uda {0} a ISSUS
 MailTemplate_ResetPassword_DefaultBody::S'ha restablert la contrasenya.<br />Accedir a http://issus.scrambotika.com/ <br/> User:<b>{0}</b><br/>Password:<b>{1}</b>
 MailTemplate_ResetPassword_Error::No s'ha restablert la contrasenya
 MailTemplate_ResetPassword_Subject::Restabliment de la contrasenya
+MailTemplate_Welcome_Subject::Benvingut/uda a ISSUS
 Maintenance-Ext::Manteniment extern
 Maintenance-Int::Manteniment intern
 NumericDecimalSeparator::,

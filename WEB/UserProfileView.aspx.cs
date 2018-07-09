@@ -22,8 +22,8 @@ public partial class UserProfileView : Page
     /// <summary> Master of page</summary>
     private Giso master;
 
-    /// <summary>User logged in session</summary>
-    private ApplicationUser user;
+    /// <summary>Gets user logged in session</summary>
+    public ApplicationUser ApplicationUser { get; private set; }
 
     /// <summary>Company of session</summary>
     private Company company;
@@ -48,12 +48,12 @@ public partial class UserProfileView : Page
     {
         get
         {
-            if(!string.IsNullOrEmpty(this.user.Description))
+            if(!string.IsNullOrEmpty(this.ApplicationUser.Description))
             {
-                return this.user.Description;
+                return this.ApplicationUser.Description;
             }
 
-            return this.user.UserName;
+            return this.ApplicationUser.UserName;
         }
     }
 
@@ -62,23 +62,6 @@ public partial class UserProfileView : Page
         get
         {
             return this.formFooter.Render(this.Dictionary);
-        }
-    }
-
-    public string Avatar
-    {
-        get
-        {
-            return this.user.AvatarImage;
-        }
-    }
-
-    /// <summary>Gets a value indicating if user has Admin privileges in Company</summary>
-    public bool Admin
-    {
-        get
-        {
-            return this.user.Admin;
         }
     }
 
@@ -98,35 +81,11 @@ public partial class UserProfileView : Page
         }
     }
 
-    public ApplicationUser ApplicationUser
-    {
-        get
-        {
-            return this.user;
-        }
-    }
-
-    public bool ShowHelp
-    {
-        get
-        {
-            return this.user.ShowHelp;
-        }
-    }
-
     public string ShowHelpChecked
     {
         get
         {
-            return this.user.ShowHelp ? " checked=\"checked\"" : string.Empty;
-        }
-    }
-
-    public string UserJson
-    {
-        get
-        {
-            return this.user.Json;
+            return this.ApplicationUser.ShowHelp ? " checked=\"checked\"" : string.Empty;
         }
     }
 
@@ -153,9 +112,9 @@ public partial class UserProfileView : Page
         }
         else
         {
-            this.user = this.Session["User"] as ApplicationUser;
+            this.ApplicationUser = this.Session["User"] as ApplicationUser;
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
-            if (!UniqueSession.Exists(token, this.user.Id))
+            if (!UniqueSession.Exists(token, this.ApplicationUser.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
             }
@@ -171,21 +130,20 @@ public partial class UserProfileView : Page
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
-        this.user = Session["User"] as ApplicationUser;
+        this.ApplicationUser = Session["User"] as ApplicationUser;
         this.company = Session["company"] as Company;
-        this.user = new ApplicationUser(this.user.Id);
-        //this.user.Employee = new Employee(this.user.Employee.Id, false);
+        this.ApplicationUser = new ApplicationUser(this.ApplicationUser.Id);
         this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
-        this.master.AddBreadCrumbInvariant(this.user.UserName);
-        this.master.Titulo = this.user.UserName;
+        this.master.AddBreadCrumbInvariant(this.ApplicationUser.UserName);
+        this.master.Titulo = this.ApplicationUser.UserName;
         this.master.TitleInvariant = true;
 
         this.CmbShorcuts.Items.Clear();
         this.CmbShorcuts.Items.Add(new ListItem(this.Dictionary["Common_None"], "0"));
         bool first = true;
         this.shortcutsJson = new StringBuilder("[");
-        foreach (var shortcut in Shortcut.Available(this.user.Id))
+        foreach (var shortcut in Shortcut.Available(this.ApplicationUser.Id))
         {
             if (first)
             {
@@ -215,7 +173,7 @@ public partial class UserProfileView : Page
             string title = this.Dictionary["Common_SelectAll"];
             string color = "avatar";
             string action = string.Format(CultureInfo.InvariantCulture, @"SelectAvatar('{0}');", Path.GetFileName(fileName));
-            if (fileName.IndexOf(this.user.Avatar) != -1)
+            if (fileName.IndexOf(this.ApplicationUser.Avatar) != -1)
             {
                 color = "avatarSelected";
                 title = this.Dictionary["Common_Selected"];
@@ -241,7 +199,7 @@ public partial class UserProfileView : Page
 
         //if (this.user.MenuShortcuts != null)
         //{
-            if (this.user.MenuShortcuts.Blue != null && !string.IsNullOrEmpty(this.user.MenuShortcuts.Blue.Label))
+            if (this.ApplicationUser.MenuShortcuts.Blue != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Blue.Label))
             {
                 big.AppendFormat(
                     CultureInfo.InvariantCulture,
@@ -249,9 +207,9 @@ public partial class UserProfileView : Page
                             <span id=""ButtonBlue"" class=""btn btn-info"" style=""height:32px;"" onclick=""select('Blue','{0}');"" title=""{0}"">
                                 <i id=""IconBlue"" class=""{1}""></i>
                             </span>",
-                    this.Dictionary[this.user.MenuShortcuts.Blue.Label],
-                    this.user.MenuShortcuts.Blue.Icon);
-                this.userShortcuts.Append(string.Format(@"{{""Color"":""Blue"", ""Id"":{0}}},", this.user.MenuShortcuts.Blue.Id));
+                    this.Dictionary[this.ApplicationUser.MenuShortcuts.Blue.Label],
+                    this.ApplicationUser.MenuShortcuts.Blue.Icon);
+                this.userShortcuts.Append(string.Format(@"{{""Color"":""Blue"", ""Id"":{0}}},", this.ApplicationUser.MenuShortcuts.Blue.Id));
             }
             else
             {
@@ -266,13 +224,13 @@ public partial class UserProfileView : Page
                 this.userShortcuts.Append(@"{""Color"":""Blue"", ""Id"":null},");
             }
 
-            if (this.user.MenuShortcuts.Green != null && !string.IsNullOrEmpty(this.user.MenuShortcuts.Green.Label))
+            if (this.ApplicationUser.MenuShortcuts.Green != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Green.Label))
             {
                 big.Append(string.Format(@"
                             <span id=""ButtonGreen"" class=""btn btn-success"" style=""height:32px;"" onclick=""select('Green','{1}');"" title=""{1}"">
                                 <i id=""IconGreen"" class=""{2}""></i>
-                            </span>", this.user.MenuShortcuts.Green.Link, this.Dictionary[this.user.MenuShortcuts.Green.Label], this.user.MenuShortcuts.Green.Icon));
-                this.userShortcuts.Append(string.Format(@"{{""Color"":""Green"", ""Id"":{0}}},", this.user.MenuShortcuts.Green.Id));
+                            </span>", this.ApplicationUser.MenuShortcuts.Green.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Green.Label], this.ApplicationUser.MenuShortcuts.Green.Icon));
+                this.userShortcuts.Append(string.Format(@"{{""Color"":""Green"", ""Id"":{0}}},", this.ApplicationUser.MenuShortcuts.Green.Id));
             }
             else
             {
@@ -283,13 +241,13 @@ public partial class UserProfileView : Page
                 this.userShortcuts.Append(@"{""Color"":""Green"", ""Id"":null},");
             }
 
-            if (this.user.MenuShortcuts.Red != null && !string.IsNullOrEmpty(this.user.MenuShortcuts.Red.Label))
+            if (this.ApplicationUser.MenuShortcuts.Red != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Red.Label))
             {
                 big.Append(string.Format(@"
                             <span id=""ButtonRed"" class=""btn btn-danger"" style=""height:32px;"" onclick=""select('Red','{1}');"" title=""{1}"">
                                 <i id=""IconRed"" class=""{2}""></i>
-                            </span>", this.user.MenuShortcuts.Red.Link, this.Dictionary[this.user.MenuShortcuts.Red.Label], this.user.MenuShortcuts.Red.Icon));
-                this.userShortcuts.Append(string.Format(@"{{""Color"":""Red"", ""Id"":{0}}},", this.user.MenuShortcuts.Red.Id));
+                            </span>", this.ApplicationUser.MenuShortcuts.Red.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Red.Label], this.ApplicationUser.MenuShortcuts.Red.Icon));
+                this.userShortcuts.Append(string.Format(@"{{""Color"":""Red"", ""Id"":{0}}},", this.ApplicationUser.MenuShortcuts.Red.Id));
             }
             else
             {
@@ -300,13 +258,13 @@ public partial class UserProfileView : Page
                 this.userShortcuts.Append(@"{""Color"":""Red"", ""Id"":null},");
             }
 
-            if (this.user.MenuShortcuts.Yellow != null && !string.IsNullOrEmpty(this.user.MenuShortcuts.Yellow.Label))
+            if (this.ApplicationUser.MenuShortcuts.Yellow != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Yellow.Label))
             {
                 big.Append(string.Format(@"
                             <span id=""ButtonYellow"" class=""btn btn-warning"" style=""height:32px;"" onclick=""select('Yellow','{1}');"" title=""{1}"">
                                 <i id=""IconYellow"" class=""{2}""></i>
-                            </span>", this.user.MenuShortcuts.Yellow.Link, this.Dictionary[this.user.MenuShortcuts.Yellow.Label], this.user.MenuShortcuts.Yellow.Icon));
-                this.userShortcuts.Append(string.Format(@"{{""Color"":""Yellow"", ""Id"":{0}}}", this.user.MenuShortcuts.Yellow.Id));
+                            </span>", this.ApplicationUser.MenuShortcuts.Yellow.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Yellow.Label], this.ApplicationUser.MenuShortcuts.Yellow.Icon));
+                this.userShortcuts.Append(string.Format(@"{{""Color"":""Yellow"", ""Id"":{0}}}", this.ApplicationUser.MenuShortcuts.Yellow.Id));
             }
             else
             {
@@ -327,7 +285,7 @@ public partial class UserProfileView : Page
 
         this.LtMenuShortCuts.Text = res.ToString();
 
-        this.LtIdiomas.Text = "<option value=\"es\"" + (this.user.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
-        this.LtIdiomas.Text += "<option value=\"ca\"" + (this.user.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
+        this.LtIdiomas.Text = "<option value=\"es\"" + (this.ApplicationUser.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
+        this.LtIdiomas.Text += "<option value=\"ca\"" + (this.ApplicationUser.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
     }
 }
