@@ -151,7 +151,7 @@ public partial class ProcesosView : Page
             this.processId = Convert.ToInt32(this.Request.QueryString["id"]);
         }
 
-        string label = this.processId == -1 ? "Item_Process_Button_New" : "Item_Process_Button_Edit";
+        string label = this.processId == -1 ? "Item_Process_Button_NewLabel" : "Item_Process_Button_Edit";
         this.master = this.Master as Giso;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Processes", "ProcesosList.aspx", Constant.NotLeaft);

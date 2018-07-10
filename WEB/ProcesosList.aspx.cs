@@ -82,7 +82,7 @@ public partial class ProcesosList : Page
             {
                 Text = this.Dictionary["Item_Process_Button_New"],
                 Action = "success",
-                Icon = "icon-plus-sign",
+                Icon = "icon-plus",
                 Id = "BtnNewDocument",
                 EventClick = "document.location='ProcesosView.aspx?id=-1';"
             };

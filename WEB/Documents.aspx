@@ -42,8 +42,8 @@
                                         </div>
                                         <!-- col-xs-1  col-sm-1 control-label no-padding-right  -->
                                         <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Category"] %></label>
-                                        <div class="col-xs-3">
-                                            <select style="width:200px;" id="CmbCategory">
+                                        <div class="col-xs-4">
+                                            <select style="width:350px;" id="CmbCategory">
                                                 <option value="-1"><%=this.Dictionary["Common_All_Female_Plural"] %></option>
                                             </select>
                                         </div>

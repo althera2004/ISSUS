@@ -1510,6 +1510,7 @@ Item_Process_ListHeader_ProcessType::Tipus
 Item_Process_ListHeader_Responsible::Responsable
 Item_Process_Button_Edit::Fitxa de procés
 Item_Process_Button_New::Afegir
+Item_Process_Button_NewLabel::Fitxa del Procés
 Item_Process_Button_ProcessTypeBAR::Gestió de tipus de procés
 Item_Process_FieldLabel_Development::Desenvolupament
 Item_Process_FieldLabel_End::Fi

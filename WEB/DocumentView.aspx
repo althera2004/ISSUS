@@ -262,7 +262,7 @@
                                         </div>
                                     </form>
                                     <div class="alert alert-danger" id="AttachWarning">
-                                        <strong><%=this.Dictionary["Item_DocumentAttachment_ReplaceWarning"] %></strong>
+                                        <i class="ace-icon icon-warning-sign fa-2x">&nbsp;</i><strong><%=this.Dictionary["Item_DocumentAttachment_ReplaceWarning"] %></strong>
                                     </div>
                                     <div class="col-sm-12">
                                         <label class="input-append col-sm-2"><%=this.Dictionary["Item_DocumentAttachment_PopupUpload_Description_Label"] %></label>

@@ -1509,6 +1509,7 @@ Item_Process_ListHeader_ProcessType::Tipo
 Item_Process_ListHeader_Responsible::Responsable
 Item_Process_Button_Edit::Ficha de proceso
 Item_Process_Button_New::Añadir
+Item_Process_Button_NewLabel::Ficha del Proceso
 Item_Process_Button_ProcessTypeBAR::Gestión de tipos de proceso
 Item_Process_FieldLabel_Development::Desarrollo
 Item_Process_FieldLabel_End::Fin

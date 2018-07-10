@@ -1510,6 +1510,7 @@ Item_Process_ListHeader_ProcessType::Kind
 Item_Process_ListHeader_Responsible::Responsible
 Item_Process_Button_Edit::Process tab
 Item_Process_Button_New::Add
+Item_Process_Button_NewLabel::Add
 Item_Process_Button_ProcessTypeBAR::Management of process types
 Item_Process_FieldLabel_Development::Development
 Item_Process_FieldLabel_End::End
