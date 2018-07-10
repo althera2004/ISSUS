@@ -185,9 +185,8 @@ function UpdateResult() {
 
 function ApplyActionRadio() {
     // Para elegir las acciones hay que tener evaluado el riesgo
-    if (Oportunity.Cost === 0 || Oportunity.Impact === 0) {
+    if (Oportunity.Cost === 0 || Oportunity.Impact === 0 || Oportunity.Cost === null || Oportunity.Impact === null) {
         alertUI(Dictionary.Item_BusinessRisk_ErrorMessage_ResultRequired);
-        //document.getElementById("ApplyAction").checked = false;
         document.getElementById("ApplyActionYes").checked = false;
         document.getElementById("ApplyActionNo").checked = false;
         return false;
@@ -306,7 +305,6 @@ function OportunityInsert(previousId) {
     var startAction = 0;
     if (document.getElementById("ApplyActionNo").checked === true) { startAction = 2; }
     if (document.getElementById("ApplyActionYes").checked === true) { startAction = 3; }
-    //if (document.getElementById("ApplyAction").checked === true) { startAction = 3; }
 
     var result = 0;
     if ($("#Result").val() !== "" && $("#Result").val() !== "-") {
@@ -383,7 +381,6 @@ function OportunityUpdate(sender) {
     var startAction = 0;
     if (document.getElementById("ApplyActionNo").checked === true) { startAction = 2; }
     if (document.getElementById("ApplyActionYes").checked === true) { startAction = 3; }
-    //if (document.getElementById("ApplyAction").checked === true) { startAction = 3; }
 
     SaveAction = document.getElementById("ApplyActionYes").checked
 
@@ -1276,18 +1273,15 @@ else {
 if (Action.Id > 0) {
     document.getElementById("ApplyActionYes").disabled = true;
     document.getElementById("ApplyActionNo").disabled = true;
-    //document.getElementById("ApplyAction").disabled = true;
-    //document.getElementById("ApplyAction").checked = true;
 }
 
 // Controles iniciales
 if (Oportunity.StartAction === 2) {
     document.getElementById("ApplyActionNo").checked = true;
-    document.getElementById("Tabgraphic").style.display = "none";
+    $("#Tabgraphic").hide();
 }
 if (Oportunity.StartAction === 3) {
     document.getElementById("ApplyActionYes").checked = true;
-    //document.getElementById("ApplyAction").checked = true;
 }
 
 if (ApplicationUser.Grants.Rules !== null) {
@@ -1323,12 +1317,13 @@ window.onload = function () {
     if (Oportunity.ApplyAction === false) {
         $("#Tabaccion").hide();
         $("#Tabcostes").hide();
-        document.getElementById("ApplyActionNo").checked = true;
+        if (Oportunity.Cost !== 0 && Oportunity.Cost !== null && Oportunity.Impact !== 0 && Oportunity.Impact !== null) {
+            document.getElementById("ApplyActionNo").checked = true;
+        }
     }
     else {
         $("#Tabaccion").show();
         $("#Tabcostes").show();
-        //document.getElementById("ApplyAction").checked = true;
         document.getElementById("ApplyActionYes").checked = true;
     }
 

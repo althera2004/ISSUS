@@ -185,12 +185,15 @@
                                                                 <span id="IPR" class="col-sm-3" style="margin-left:10px;text-align:center;font-size:20px;font-weight:bold;"><%= this.ActualLimit %></span>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group" id="ActionActivator">
-                                                            <div class="col-sm-3">
-                                                                <input type="radio" value="1" id="ApplyActionYes" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_Oportunity_LabelField_ApplyActionYes"] %>
-                                                            </div>
-                                                            <div class="col-sm-3" id="ApplyActionNoStart">
-                                                                <input type="radio" value="2" id="ApplyActionNo" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_Oportunity_LabelField_ApplyActionNo"] %>
+                                                        <div style="border: 1px solid #777; background-color: #f0f0ff; padding: 12px; margin-bottom: 12px;">
+                                                            <h4><strong><%=this.Dictionary["Item_Oportunity_Title_StartResult"] %></strong></h4>
+                                                            <div class="form-group" id="ActionActivator">
+                                                                <div class="col-sm-3">
+                                                                    <input type="radio" value="1" id="ApplyActionYes" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_BusinessRisk_LabelField_ApplyAction"] %>
+                                                                </div>
+                                                                <div class="col-sm-3" id="ApplyActionNoStart">
+                                                                    <input type="radio" value="2" id="ApplyActionNo" name="ApplyAction" onclick="ApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_BusinessRisk_LabelField_ApplyActionNo"] %>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -646,9 +649,6 @@
                                             <label class="input-append col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_DocumentAttachment_PopupUpload_Description_Label"] %></label>
                                             <label class="input-append col-sm-10"><input class="col-sm-11" id="UploadFileDescription" name="UploadFileDescription" /></label>
                                         </div>
-                                        <!--<div class="col-sm-12">
-                                            <p><input type="checkbox" /> Guardar como copia local</p>
-                                        </div>-->
                                 </div><!-- /.table-responsive -->
                             </div><!-- #dialog-message -->
 

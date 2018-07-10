@@ -1492,6 +1492,7 @@ Item_Oportunity_Tab_Costs::Costos
 Item_Oportunity_Tab_UploadFiles::Adjunts
 Item_Oportunity_Title_OportunityDetails::Fitxa de la oportunitat
 Item_Oportunity_Title_OportunityDetailsNou::Nova oportunitat
+Item_Oportunity_Title_StartResult::Accions després d'avaluar la oportunitat
 Item_Oportunity_Title_Result::Resultat
 Item_Oportunity_Tooltip_Cost_1::Desorbitat (Costos elevadíssims. Impossibles d'amortitzar)
 Item_Oportunity_Tooltip_Cost_2::Elevat (Cost elevat. Per a la seva implantació serà imprescindible un gran impacte positiu en el procés)
