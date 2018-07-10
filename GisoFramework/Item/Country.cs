@@ -84,7 +84,7 @@ namespace GisoFramework.Item
         /// <returns>JSON list of countries</returns>
         public static string JsonList(ReadOnlyCollection<Country> list)
         {
-            if(list == null)
+            if (list == null)
             {
                 return Constant.EmptyJsonList;
             }

@@ -252,7 +252,9 @@
     <Compile Include="Item\CompanyAddress.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
-    <Compile Include="Item\Department.cs" />
+    <Compile Include="Item\Department.cs">
+      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Item\Document.cs" />
     <Compile Include="Item\DocumentVersion.cs" />
     <Compile Include="Item\Learning.cs" />
