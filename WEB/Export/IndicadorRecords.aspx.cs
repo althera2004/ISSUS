@@ -61,6 +61,7 @@ public partial class ExportIndicadorRecords : Page
         formatedDescription = formatedDescription.Replace(":", string.Empty);
         formatedDescription = formatedDescription.Replace(";", string.Empty);
         formatedDescription = formatedDescription.Replace(".", string.Empty);
+        formatedDescription = formatedDescription.Replace("\"", "ʺ");
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,

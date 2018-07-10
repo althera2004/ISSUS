@@ -70,6 +70,7 @@ public partial class ExportIncidentExportList : Page
         formatedDescription = formatedDescription.Replace(":", string.Empty);
         formatedDescription = formatedDescription.Replace(";", string.Empty);
         formatedDescription = formatedDescription.Replace(".", string.Empty);
+        formatedDescription = formatedDescription.Replace("\"", "ʺ");
 
         var fileName = string.Format(
             CultureInfo.InvariantCulture,

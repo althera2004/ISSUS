@@ -53,6 +53,7 @@ public partial class ExportFormacionExportList : Page
         formatedDescription = formatedDescription.Replace(":", string.Empty);
         formatedDescription = formatedDescription.Replace(";", string.Empty);
         formatedDescription = formatedDescription.Replace(".", string.Empty);
+        formatedDescription = formatedDescription.Replace("\"", "ʺ");
 
         // le damos nombre al fichero final item_company_fecha.pdf
         string fileName = string.Format(

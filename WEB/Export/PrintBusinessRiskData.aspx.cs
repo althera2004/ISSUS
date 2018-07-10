@@ -53,6 +53,7 @@ public partial class ExportPrintBusinessRiskData : Page
         formatedDescription = formatedDescription.Replace(":", string.Empty);
         formatedDescription = formatedDescription.Replace(";", string.Empty);
         formatedDescription = formatedDescription.Replace(".", string.Empty);
+        formatedDescription = formatedDescription.Replace("\"", "ʺ");
 
         var alignLeft = Element.ALIGN_LEFT;
 

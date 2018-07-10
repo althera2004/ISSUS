@@ -62,6 +62,7 @@ public partial class ExportObjetivoExport : Page
         formatedDescription = formatedDescription.Replace(":", string.Empty);
         formatedDescription = formatedDescription.Replace(";", string.Empty);
         formatedDescription = formatedDescription.Replace(".", string.Empty);
+        formatedDescription = formatedDescription.Replace("\"", "ʺ");
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,

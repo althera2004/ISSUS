@@ -6,14 +6,9 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Globalization;
 using System.IO;
-using System.Text;
 using System.Web;
-using System.Web.Script.Services;
-using System.Web.Services;
 using System.Web.UI;
 using iTS = iTextSharp.text;
 using iTSpdf = iTextSharp.text.pdf;
@@ -53,6 +48,7 @@ public partial class ExportPrintFormacionData : Page
         formatedDescription = formatedDescription.Replace(":", string.Empty);
         formatedDescription = formatedDescription.Replace(";", string.Empty);
         formatedDescription = formatedDescription.Replace(".", string.Empty);
+        formatedDescription = formatedDescription.Replace("\"", "ʺ");
 
         var fileName = string.Format(
             CultureInfo.InvariantCulture,

@@ -46,6 +46,7 @@ public partial class ExportPrintIncidentData : Page
         formatedDescription = formatedDescription.Replace(":", string.Empty);
         formatedDescription = formatedDescription.Replace(";", string.Empty);
         formatedDescription = formatedDescription.Replace(".", string.Empty);
+        formatedDescription = formatedDescription.Replace("\"", "ʺ");
 
         var fileName = string.Format(
             CultureInfo.InvariantCulture,
