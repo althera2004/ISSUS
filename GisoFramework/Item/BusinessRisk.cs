@@ -543,7 +543,10 @@ namespace GisoFramework.Item
                                     newAction.ClosedOn = rdr.GetDateTime(6);
                                 }
 
-                                res.Add(IncidentAction.ById(rdr.GetInt64(0), companyId));
+                                //res.Add(IncidentAction.ById(rdr.GetInt64(0), companyId));
+                                // res.Add(newAction);
+                                // TODO: cargar todos los datos de la acción para mostrar el popup
+                                res.Add(IncidentAction.ById(newAction.Id, companyId));
                             }
                         }
                     }

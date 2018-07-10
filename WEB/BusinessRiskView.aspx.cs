@@ -1118,7 +1118,7 @@ public partial class BusinessRiskView : Page
         var incidentActionCollection = BusinessRisk.FindHistoryAction(businessRisk.Code, this.Company.Id);
         var res = new StringBuilder();
         var searchItem = new List<string>();
-        foreach (var incidentAction in incidentActionCollection.OrderBy(incidentAction => incidentAction.WhatHappenedOn))
+        foreach (var incidentAction in incidentActionCollection.Where(ia=>ia.BusinessRiskId != this.BusinessRiskId).OrderBy(incidentAction => incidentAction.WhatHappenedOn))
         {
             if (!searchItem.Contains(incidentAction.Description))
             {

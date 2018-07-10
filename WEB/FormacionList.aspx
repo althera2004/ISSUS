@@ -60,6 +60,9 @@
 											    <span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                             </div>
 										</td>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <td><strong><%=this.Dictionary["Item_Learning_FieldLabel_Status"] %>:</strong></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input runat="server" type="radio" id="status0" name="status" value="0" onclick="Go(2,0);" /><%=this.Dictionary["Item_Learning_Status_InProgress"] %></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input runat="server" type="radio" id="status1" name="status" value="1" onclick="Go(2,1);" /><%=this.Dictionary["Item_Learning_Status_Done"] %></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input runat="server" type="radio" id="status2" name="status" value="2" onclick="Go(2,2);" /><%=this.Dictionary["Item_Learning_Status_Evaluated"] %></td>
