@@ -351,7 +351,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
                         cmd.Parameters.Add(DataParameter.Input("@EquipmentMaintenanceDefinitionId", this.EquipmentMaintenanceDefinitionId));
                         cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
-                        cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description, 200));
                         cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations));
                         cmd.Parameters.Add(DataParameter.Input("@Vto", this.Expiration));
                         cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
@@ -420,7 +420,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@EquipmentMaintenanceActId", this.Id));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                         cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
-                        cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description, 200));
                         cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations));
 
                         if (this.Provider == null)

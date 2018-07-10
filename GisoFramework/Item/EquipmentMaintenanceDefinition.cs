@@ -377,7 +377,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.OutputInt("@EquipmentMaintenanceId"));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                         cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
-                        cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description, 200));
                         cmd.Parameters.Add(DataParameter.Input("@EquipmentMaintenanceType", this.MaintenanceType));
                         cmd.Parameters.Add(DataParameter.Input("@Periodicity", this.Periodicity));
                         cmd.Parameters.Add(DataParameter.Input("@Accessories", this.Accessories ?? string.Empty));
@@ -467,7 +467,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@EquipmentMaintenanceDefinitionId", this.Id));
                         cmd.Parameters.Add(DataParameter.Input("@EquipmentId", this.EquipmentId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description));
+                        cmd.Parameters.Add(DataParameter.Input("@Operation", this.Description, 200));
                         cmd.Parameters.Add(DataParameter.Input("@MaintenanceType", this.MaintenanceType));
                         cmd.Parameters.Add(DataParameter.Input("@Periodicity", this.Periodicity));
                         cmd.Parameters.Add(DataParameter.Input("@Accessories", this.Accessories));
