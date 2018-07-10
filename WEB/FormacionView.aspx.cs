@@ -217,14 +217,14 @@ public partial class FormacionView : Page
         string label =  string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Learning"], this.learning.Description);
         if (this.learningId == -1)
         {
-            label = "Item_Learning_ToolTip_New";
+            label = "Item_Learning_NewLabel";
         }
 
         this.master = this.Master as Giso;
         this.master.TitleInvariant = this.learningId != -1;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Learnings", "FormacionList.aspx", Constant.NotLeaft);
-        this.master.AddBreadCrumb("Item_Learning_Edit");
+        this.master.AddBreadCrumb("Item_Learning_NewLabel");
         this.master.Titulo = label;
 
         var tableAssistance = new StringBuilder();

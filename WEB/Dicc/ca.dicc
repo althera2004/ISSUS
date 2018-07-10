@@ -1354,6 +1354,7 @@ Item_Learning_ListHeader_Status::Estat
 Item_Learning_Message_Evaluation::Guardant una formació amb tots els assistents avaluats, queda tancada i ja no es pot modificar
 Item_Learning_Message_NoAssistants::No hi ha assistents al curs
 Item_Learning_Message_SelectOneAssistant::Obligatori algún assistent																			 
+Item_Learning_NewLabel::Fitxa de la formació
 Item_Learning_Objetive::Objectiu
 Item_Learning_PopupDelete_Message::Vol eliminar la formació
 Item_Learning_SelectAssistants::Afegir

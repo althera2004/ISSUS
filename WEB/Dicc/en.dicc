@@ -1354,6 +1354,7 @@ Item_Learning_ListHeader_Status::State
 Item_Learning_Message_Evaluation::Saving a training with all the evaluated participants, is closed and can no longer be modified
 Item_Learning_Message_NoAssistants::There are no assistants to the course
 Item_Learning_Message_SelectOneAssistant::Required some assistent
+Item_Learning_NewLabel::Add
 Item_Learning_Objetive::objective
 Item_Learning_PopupDelete_Message::Eliminate the training?
 Item_Learning_SelectAssistants::Add

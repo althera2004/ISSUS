@@ -1353,6 +1353,7 @@ Item_Learning_ListHeader_Status::Estado
 Item_Learning_Message_Evaluation::Guardando una formación con todos los participantes evaluados, queda cerrada y ya no se puede modificar
 Item_Learning_Message_NoAssistants::No existen asistentes al curso
 Item_Learning_Message_SelectOneAssistant::Obligatoro algún assistente
+Item_Learning_NewLabel::Ficha de la formación
 Item_Learning_Objetive::Objetivo 
 Item_Learning_PopupDelete_Message::¿Eliminar la formación?
 Item_Learning_SelectAssistants::Añadir
