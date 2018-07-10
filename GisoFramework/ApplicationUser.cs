@@ -438,14 +438,14 @@ namespace GisoFramework
             get
             {
                 var res = new StringBuilder("{").Append(Environment.NewLine);
-                res.Append("    \"Id\":").Append(this.Id).Append(",").Append(Environment.NewLine);
-                res.Append("    \"CompanyId\":").Append(this.CompanyId).Append(",").Append(Environment.NewLine);
-                res.Append("    \"Login\":\"").Append(this.UserName).Append("\",").Append(Environment.NewLine);
-                res.Append("    \"PrimaryUser\":").Append(this.PrimaryUser ? "true" : "false").Append(",").Append(Environment.NewLine);
+                res.Append("    \"Id\": ").Append(this.Id).Append(",").Append(Environment.NewLine);
+                res.Append("    \"CompanyId\": ").Append(this.CompanyId).Append(",").Append(Environment.NewLine);
+                res.Append("    \"Login\": \"").Append(this.UserName).Append("\",").Append(Environment.NewLine);
+                res.Append("    \"PrimaryUser\": ").Append(this.PrimaryUser ? "true" : "false").Append(",").Append(Environment.NewLine);
                 res.Append("    \"Admin\":").Append(this.Admin ? "true" : "false").Append(",").Append(Environment.NewLine);
-                res.Append("    \"Language\":\"").Append(this.Language).Append("\",").Append(Environment.NewLine);
-                res.Append("    \"ShowHelp\":").Append(this.ShowHelp ? "true" : "false").Append(",").Append(Environment.NewLine);
-                res.Append("    \"Status\":\"").Append(this.status).Append("\",");
+                res.Append("    \"Language\": \"").Append(this.Language).Append("\",").Append(Environment.NewLine);
+                res.Append("    \"ShowHelp\": ").Append(this.ShowHelp ? "true" : "false").Append(",").Append(Environment.NewLine);
+                res.Append("    \"Status\": \"").Append(this.status).Append("\",");
                 /*if (this.Employee != null)
                 {
                     res.Append(",").Append(Environment.NewLine).Append("\t\"Employee\":").Append(Environment.NewLine).Append("\t{").Append(Environment.NewLine);
@@ -455,10 +455,10 @@ namespace GisoFramework
                     res.Append("        },");
                 }*/
 
-                res.Append("    \"Employee\":").Append(this.Employee.Json).Append(",");
+                res.Append("    \"Employee\": ").Append(this.Employee.Json).Append(",");
 
                 res.Append(Environment.NewLine);
-                res.Append("        \"Grants\":").Append(Environment.NewLine);
+                res.Append("        \"Grants\": ").Append(Environment.NewLine);
                 res.Append("        {");
                 bool firstGrant = true;
 
@@ -475,13 +475,13 @@ namespace GisoFramework
                     }
                     else
                     {
-                        res.Append(",");
+                        res.Append(", ");
                     }
 
                     res.Append(Environment.NewLine);
                     res.Append(string.Format(
-                        CultureInfo.GetCultureInfo("en-us"),
-                        @"            ""{0}"":{{""Read"": {1}, ""Write"": {2}, ""Delete"": {3}}}",
+                        CultureInfo.InvariantCulture,
+                        @"            ""{0}"": {{""Read"": {1}, ""Write"": {2}, ""Delete"": {3}}}",
                         grant.Item.Description,
                         grant.GrantToRead ? "true" : "false",
                         grant.GrantToWrite ? "true" : "false",

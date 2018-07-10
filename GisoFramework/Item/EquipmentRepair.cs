@@ -85,33 +85,33 @@ namespace GisoFramework.Item
             get
             {
                 var res = new StringBuilder("{");
-                res.Append(GisoFramework.Tools.JsonPair("Id", this.Id)).Append(",");
-                res.Append(GisoFramework.Tools.JsonPair("EquipmentId", this.EquipmentId)).Append(",");
-                res.Append(GisoFramework.Tools.JsonPair("CompanyId", this.CompanyId)).Append(",");
-                res.Append(GisoFramework.Tools.JsonPair("RepairType", this.RepairType)).Append(",");
-                res.Append(GisoFramework.Tools.JsonPair("Description", this.Description)).Append(",");
-                res.Append(GisoFramework.Tools.JsonPair("Observations", this.Observations)).Append(",");
-                res.Append(GisoFramework.Tools.JsonPair("Tools", this.Tools)).Append(",");
-                res.Append(GisoFramework.Tools.JsonPair("Date", this.Date)).Append(",");
-                res.Append(GisoFramework.Tools.JsonPair("Cost", this.Cost)).Append(",");
-                res.Append(GisoFramework.Tools.JsonPair("Active", this.Active)).Append(",");
+                res.Append(GisoFramework.Tools.JsonPair("Id", this.Id)).Append(", ");
+                res.Append(GisoFramework.Tools.JsonPair("EquipmentId", this.EquipmentId)).Append(", ");
+                res.Append(GisoFramework.Tools.JsonPair("CompanyId", this.CompanyId)).Append(", ");
+                res.Append(GisoFramework.Tools.JsonPair("RepairType", this.RepairType)).Append(", ");
+                res.Append(GisoFramework.Tools.JsonPair("Description", this.Description)).Append(", ");
+                res.Append(GisoFramework.Tools.JsonPair("Observations", this.Observations)).Append(", ");
+                res.Append(GisoFramework.Tools.JsonPair("Tools", this.Tools)).Append(", ");
+                res.Append(GisoFramework.Tools.JsonPair("Date", this.Date)).Append(", ");
+                res.Append(GisoFramework.Tools.JsonPair("Cost", this.Cost)).Append(", ");
+                res.Append(GisoFramework.Tools.JsonPair("Active", this.Active)).Append(", ");
 
                 if (this.Provider == null)
                 {
-                    res.Append("\"Provider\":null,");
+                    res.Append("\"Provider\": null,");
                 }
                 else
                 {
-                    res.Append("\"Provider\":").Append(this.Provider.JsonKeyValue).Append(",");
+                    res.Append("\"Provider\": ").Append(this.Provider.JsonKeyValue).Append(",");
                 }
 
                 if (this.Responsible == null)
                 {
-                    res.Append("\"Responsible\":null}");
+                    res.Append("\"Responsible\": null}");
                 }
                 else
                 {
-                    res.Append("\"Responsible\":").Append(this.Responsible.JsonKeyValue).Append("}");
+                    res.Append("\"Responsible\": ").Append(this.Responsible.JsonKeyValue).Append("}");
                 }
 
                 res.Append(Environment.NewLine);

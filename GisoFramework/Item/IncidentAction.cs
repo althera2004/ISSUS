@@ -1187,18 +1187,18 @@ namespace GisoFramework.Item
                 }
 
                 res.Append("{");
-                res.Append(Tools.JsonPair("Id", item.IncidentActionId)).Append(",");
-                res.Append(Tools.JsonPair("Number", item.Number)).Append(",");
-                res.Append(Tools.JsonPair("ActionType", item.ActionType)).Append(",");
-                res.Append(Tools.JsonPair("Origin", item.Origin)).Append(",");
-                res.Append(Tools.JsonPair("ReporterType", item.ReporterType)).Append(",");
-                res.Append(Tools.JsonPair("Status", item.Status)).Append(",");
-                res.Append(Tools.JsonPair("Description", item.Description)).Append(",");
-                res.Append(Tools.JsonPair("OpenDate", item.OpenDate)).Append(",");
-                res.Append(Tools.JsonPair("ImplementationDate", item.ImplementationDate)).Append(",");
-                res.Append(Tools.JsonPair("CloseDate", item.CloseDate)).Append(",");
-                res.Append(Tools.JsonPair("Amount", item.Amount)).Append(",");
-                res.Append("\"Associated\":{\"Id\":").Append(item.Incident.Id).Append(",\"Description\":\"").Append(string.Format(CultureInfo.InvariantCulture, "{0}", Tools.JsonCompliant(item.Incident.Description))).Append("\"}");
+                res.Append(Tools.JsonPair("Id", item.IncidentActionId)).Append(", ");
+                res.Append(Tools.JsonPair("Number", item.Number)).Append(", ");
+                res.Append(Tools.JsonPair("ActionType", item.ActionType)).Append(", ");
+                res.Append(Tools.JsonPair("Origin", item.Origin)).Append(", ");
+                res.Append(Tools.JsonPair("ReporterType", item.ReporterType)).Append(", ");
+                res.Append(Tools.JsonPair("Status", item.Status)).Append(", ");
+                res.Append(Tools.JsonPair("Description", item.Description)).Append(", ");
+                res.Append(Tools.JsonPair("OpenDate", item.OpenDate)).Append(", ");
+                res.Append(Tools.JsonPair("ImplementationDate", item.ImplementationDate)).Append(", ");
+                res.Append(Tools.JsonPair("CloseDate", item.CloseDate)).Append(", ");
+                res.Append(Tools.JsonPair("Amount", item.Amount)).Append(", ");
+                res.Append("\"Associated\": {\"Id\": ").Append(item.Incident.Id).Append(", \"Description\": \"").Append(string.Format(CultureInfo.InvariantCulture, "{0}", Tools.JsonCompliant(item.Incident.Description))).Append("\"}");
                 res.Append("}");
             }
 

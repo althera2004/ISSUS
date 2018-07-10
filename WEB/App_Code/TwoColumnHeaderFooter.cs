@@ -47,10 +47,6 @@ namespace PDF_Tests
         {
             try
             {
-                //PrintTime = DateTime.Now;
-                //this.bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-                //cb = writer.DirectContent;
-                //template = cb.CreateTemplate(50, 50);
                 // ------------ FONTS 
                 var path = HttpContext.Current.Request.PhysicalApplicationPath;
                 var pathFonts = HttpContext.Current.Request.PhysicalApplicationPath;
@@ -60,7 +56,6 @@ namespace PDF_Tests
                 }
 
                 PrintTime = Constant.Now;
-                //this.bf = BaseFont.CreateFont(BaseFont.Ar, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
                 this.bf = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
                 cb = writer.DirectContent;
                 template = cb.CreateTemplate(50, 50);

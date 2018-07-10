@@ -77,10 +77,10 @@ public class OportunityActions : WebService {
     public string GetFilter(int companyId, DateTime? from, DateTime? to, long rulesId, long processId)
     {
         var filter = new StringBuilder("{");
-        filter.Append(Tools.JsonPair("companyId", companyId)).Append(",");
-        filter.Append(Tools.JsonPair("from", from)).Append(",");
-        filter.Append(Tools.JsonPair("to", to)).Append(",");
-        filter.Append(Tools.JsonPair("rulesId", rulesId)).Append(",");
+        filter.Append(Tools.JsonPair("companyId", companyId)).Append(", ");
+        filter.Append(Tools.JsonPair("from", from)).Append(", ");
+        filter.Append(Tools.JsonPair("to", to)).Append(", ");
+        filter.Append(Tools.JsonPair("rulesId", rulesId)).Append(", ");
         filter.Append(Tools.JsonPair("processId", processId)).Append("}");
         this.Session["OportunityFilter"] = filter.ToString();
         return Oportunity.FilterList(companyId, from, to, rulesId, processId);

@@ -126,29 +126,29 @@ namespace GisoFramework.Item
         {
             get
             {
-                var res = new StringBuilder("{").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("Id", this.Id)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("Code", this.Code)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("Description", this.Description)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("Origin", this.Origin)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("Department", this.Department)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("Provider", this.Provider)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("Customer", this.Customer)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("WhatHappened", this.WhatHappened)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("WhatHappenedBy", this.WhatHappenedBy)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("WhatHappenedOn", this.WhatHappenedOn)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("Causes", this.Causes)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("CausesBy", this.CausesBy)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("CausesOn", this.CausesOn)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("Actions", this.Actions)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("ActionsBy", this.ActionsBy)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("ActionsOn", this.ActionsOn)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("ClosedBy", this.ClosedBy)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("ClosedOn", this.ClosedOn)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("ApplyAction", this.ApplyAction)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("Notes", this.Notes)).Append(",").Append(Environment.NewLine).Append("\t");
-                res.Append(Tools.JsonPair("Active", this.Active)).Append(Environment.NewLine).Append("\t}");
+                var res = new StringBuilder("{");
+                res.Append(Tools.JsonPair("Id", this.Id)).Append(", ");
+                res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(", ");
+                res.Append(Tools.JsonPair("Code", this.Code)).Append(", ");
+                res.Append(Tools.JsonPair("Description", this.Description)).Append(", ");
+                res.Append(Tools.JsonPair("Origin", this.Origin)).Append(", ");
+                res.Append(Tools.JsonPair("Department", this.Department)).Append(", ");
+                res.Append(Tools.JsonPair("Provider", this.Provider)).Append(", ");
+                res.Append(Tools.JsonPair("Customer", this.Customer)).Append(", ");
+                res.Append(Tools.JsonPair("WhatHappened", this.WhatHappened)).Append(", ");
+                res.Append(Tools.JsonPair("WhatHappenedBy", this.WhatHappenedBy)).Append(", ");
+                res.Append(Tools.JsonPair("WhatHappenedOn", this.WhatHappenedOn)).Append(", ");
+                res.Append(Tools.JsonPair("Causes", this.Causes)).Append(", ");
+                res.Append(Tools.JsonPair("CausesBy", this.CausesBy)).Append(", ");
+                res.Append(Tools.JsonPair("CausesOn", this.CausesOn)).Append(", ");
+                res.Append(Tools.JsonPair("Actions", this.Actions)).Append(", ");
+                res.Append(Tools.JsonPair("ActionsBy", this.ActionsBy)).Append(", ");
+                res.Append(Tools.JsonPair("ActionsOn", this.ActionsOn)).Append(", ");
+                res.Append(Tools.JsonPair("ClosedBy", this.ClosedBy)).Append(", ");
+                res.Append(Tools.JsonPair("ClosedOn", this.ClosedOn)).Append(", ");
+                res.Append(Tools.JsonPair("ApplyAction", this.ApplyAction)).Append(", ");
+                res.Append(Tools.JsonPair("Notes", this.Notes)).Append(", ");
+                res.Append(Tools.JsonPair("Active", this.Active)).Append("}");
                 return res.ToString();
             }
         }

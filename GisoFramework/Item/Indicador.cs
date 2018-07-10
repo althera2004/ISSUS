@@ -1465,17 +1465,17 @@ namespace GisoFramework.Item
                 }
 
                 res.Append("{");
-                res.Append(Tools.JsonPair("IndicadorId", item.Indicador.Id)).Append(",");
-                res.Append(Tools.JsonPair("IndicadorDescription", item.Indicador.Description)).Append(",");
-                res.Append(Tools.JsonPair("StartDate", item.StartDate)).Append(",");
-                res.Append(Tools.JsonPair("EndDate", item.EndDate)).Append(",");
-                res.Append(Tools.JsonPair("ProcessId", item.Proceso.Id)).Append(",");
-                res.Append(Tools.JsonPair("ProcessDescription", item.Proceso.Description)).Append(",");
-                res.Append(Tools.JsonPair("ProcessType", item.Proceso.ProcessType)).Append(",");
-                res.Append(Tools.JsonPair("ProcessResponsible", item.ProcessResponsible)).Append(",");
-                res.Append(Tools.JsonPair("ObjetivoId", item.Objetivo.Id)).Append(",");
-                res.Append(Tools.JsonPair("ObjetivoDescription", item.Objetivo.Description)).Append(",");
-                res.Append(Tools.JsonPair("ObjetivoResponsible", item.ObjetivoResponsible)).Append(",");
+                res.Append(Tools.JsonPair("IndicadorId", item.Indicador.Id)).Append(", ");
+                res.Append(Tools.JsonPair("IndicadorDescription", item.Indicador.Description)).Append(", ");
+                res.Append(Tools.JsonPair("StartDate", item.StartDate)).Append(", ");
+                res.Append(Tools.JsonPair("EndDate", item.EndDate)).Append(", ");
+                res.Append(Tools.JsonPair("ProcessId", item.Proceso.Id)).Append(", ");
+                res.Append(Tools.JsonPair("ProcessDescription", item.Proceso.Description)).Append(", ");
+                res.Append(Tools.JsonPair("ProcessType", item.Proceso.ProcessType)).Append(", ");
+                res.Append(Tools.JsonPair("ProcessResponsible", item.ProcessResponsible)).Append(", ");
+                res.Append(Tools.JsonPair("ObjetivoId", item.Objetivo.Id)).Append(", ");
+                res.Append(Tools.JsonPair("ObjetivoDescription", item.Objetivo.Description)).Append(", ");
+                res.Append(Tools.JsonPair("ObjetivoResponsible", item.ObjetivoResponsible)).Append(", ");
                 res.Append(Tools.JsonPair("Status", item.Status)).Append("}");
             }
 
