@@ -99,7 +99,7 @@ public partial class ProcesosView : Page
                 Duplicated = true,
                 DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
                 GrantToWrite = this.user.HasGrantToWrite(ApplicationGrant.Provider),
-                MaximumLength = 100
+                MaximumLength = 150
             }.Render;
         }
     }
