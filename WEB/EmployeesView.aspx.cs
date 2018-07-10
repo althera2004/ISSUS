@@ -402,7 +402,7 @@ public partial class EmployeesView : Page
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Employees", "EmployeesList.aspx", false);
-        this.master.AddBreadCrumb(label);
+        this.master.AddBreadCrumb("Item_Employee_Title_EmployeeData");
         this.master.TitleInvariant = true;
         this.master.Titulo = this.Dictionary["Item_Employee_Title_EmployeeData"];
 

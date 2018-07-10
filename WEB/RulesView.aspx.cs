@@ -186,7 +186,7 @@ public partial class RulesView : Page
 
         string label = this.RuleId == -1 ? "Item_Rules_Button_New" : string.Format("{0}: <strong>{1}</strong>", this.dictionary["Item_Rule"], this.Rule.Description);
         this.master.AddBreadCrumb("Item_Rules", "RulesList.aspx", false);
-        this.master.AddBreadCrumb("Item_Rule");
+        this.master.AddBreadCrumb("Item_Rules_Button_New");
         this.master.Titulo = label;
 
         this.RenderBusinessRiskTable();
