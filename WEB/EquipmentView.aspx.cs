@@ -1465,7 +1465,7 @@ public partial class EquipmentView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        var files = UploadFile.GetByItem(11, this.equipmentId, this.Company.Id);
+        var files = UploadFile.GetByItem(ItemValues.Equipment, this.equipmentId, this.Company.Id);
         var res = new StringBuilder();
         var resList = new StringBuilder();
         int contCells = 0;

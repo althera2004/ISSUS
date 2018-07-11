@@ -3548,7 +3548,6 @@
                     }
                     //The padding between datasets is to the right of each bar, providing that there are more than 1 dataset
                     var baseWidth = this.calculateBaseWidth() - ((datasetCount - 1) * options.barDatasetSpacing);
-
                     return (baseWidth / datasetCount);
                 }
             });

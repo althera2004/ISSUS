@@ -466,7 +466,7 @@
         <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
         <script type="text/javascript" src="/assets/js/dx.chartjs.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
-        <script type="text/javascript" src="/js/Chart.js"></script>
+        <script type="text/javascript" src="/js/Chart.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/IndicadorView.js?<%=this.AntiCache %>"></script>
 </asp:Content>
 

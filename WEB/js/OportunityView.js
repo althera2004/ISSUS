@@ -1230,6 +1230,23 @@ function RenderStepsSliders() {
         span.appendChild(document.createElement("BR"));
         span.appendChild(document.createTextNode("|"));
         span.style.left = ((100 / (5 - MinStepValue)) * (x - MinStepValue)) + "%";
+        switch (x) {
+            case 1:
+                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_1;
+                break;
+            case 2:
+                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_2;
+                break;
+            case 3:
+                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_3;
+                break;
+            case 4:
+                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_4;
+                break;
+            case 5:
+                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_5;
+                break;
+        }
         document.getElementById("stepsCost").appendChild(span);
     }
     VoidTable("stepsImpact");
@@ -1241,6 +1258,23 @@ function RenderStepsSliders() {
         spanStep.appendChild(document.createElement("BR"));
         spanStep.appendChild(document.createTextNode("|"));
         spanStep.style.left = ((100 / (5 - MinStepValue)) * (x2 - MinStepValue)) + "%";
+        switch (x2) {
+            case 1:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_1;
+                break;
+            case 2:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_2;
+                break;
+            case 3:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_3;
+                break;
+            case 4:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_4;
+                break;
+            case 5:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_5;
+                break;
+        }
         document.getElementById("stepsImpact").appendChild(spanStep);
     }
 }

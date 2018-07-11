@@ -33,6 +33,9 @@ namespace GisoFramework
         /// <summary>Cell with only bottom border</summary>
         public const int BorderBottom = Rectangle.BOTTOM_BORDER;
 
+        /// <summary>Cell with only bottom border</summary>
+        public const int BorderTop= Rectangle.TOP_BORDER;
+
         /// <summary>Background color for summary row</summary>
         public static readonly BaseColor SummaryBackgroundColor = BaseColor.LIGHT_GRAY;
 

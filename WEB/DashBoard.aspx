@@ -43,10 +43,10 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
-                                                        <th onclick="Sort(this,'ListDataTable');" id="th0" class="search sort"><%=this.Dictionary["Common_Task"] %></th>
-                                                        <th style="width: 350px;cursor:pointer;" onclick="Sort(this,'ListDataTable');" id="th2" class="search sort"><%=this.Dictionary["Common_Target"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable');" id="th3" class="search sort" style="cursor:pointer;width:250px;"><%=this.Dictionary["Common_Responsible"] %></th>
-                                                        <th class="search sort" style="width: 107px;cursor:pointer;" onclick="Sort(this,'ListDataTable', 'Date');"><%=this.Dictionary["Common_Date"] %></th>
+                                                        <th id="th0" class="search sort" onclick="Sort(this,'ListDataTable');"><%=this.Dictionary["Common_Task"] %></th>
+                                                        <th id="th1" class="search sort" onclick="Sort(this,'ListDataTable');" style="width:350px;cursor:pointer;"><%=this.Dictionary["Common_Target"] %></th>
+                                                        <th id="th2" class="search sort" onclick="Sort(this,'ListDataTable');" style="cursor:pointer;width:250px;"><%=this.Dictionary["Common_Responsible"] %></th>
+                                                        <th id="th3" class="search sort" onclick="Sort(this,'ListDataTable', 'date');" style="width:107px;cursor:pointer;"><%=this.Dictionary["Common_Date"] %></th>
                                                     </tr>
                                                 </thead>
                                             </table>
@@ -84,6 +84,7 @@
             window.onload = function () {
                 SetFilter();
                 RenderTaskTable();
+                $("#th3").click();
                 Resize();
                 $(".page-header .col-sm-4").html("<button class=\"btn btn-success\" type=\"button\" id=\"BtnShowSchedule\" onclick=\"document.location='Schedule.aspx';\"><i class=\"icon-calendar bigger-110\"></i> " + Dictionary.Common_ViewAll + "</button>");
             }

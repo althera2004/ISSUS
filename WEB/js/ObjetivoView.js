@@ -1071,6 +1071,10 @@ function DrawGraphics(stop) {
             lastLabel = recordsGraph[x].Date;
         }
 
+        while (labels.length < 6) {
+            labels.push("");
+        }
+
         var overlayData = {
             labels: labels,
             datasets: [
