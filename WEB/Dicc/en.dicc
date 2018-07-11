@@ -306,7 +306,7 @@ Item_BusinessRisk_Tab_HistoryActions::History of actions
 Item_BusinessRisk_Title_BusinessRiskDetails::Risk sheet
 Item_BusinessRisk_Title_FinalResult::Result of risk analysis
 Item_BusinessRisk_Title_Graph::Graphic
-Item_BusinessRisk_Title_List::List
+Item_BusinessRisk_Title_List::Risks
 Item_BusinessRisk_Title_StartResult::Actions after assessing the risk
 Item_BusinessRisk_Tooltip_Probability_1::Remote or nonexistent (Low or zero)
 Item_BusinessRisk_Tooltip_Probability_2::Ocasional (Posible pero aislada)
@@ -320,7 +320,8 @@ Item_BusinessRisk_Tooltip_Severity_4::Criticism (Persistent or permanent damage,
 Item_BusinessRisk_Tooltip_Severity_5::Catastrophic (serious or very serious damage, very significant costs that jeopardize viability)
 Item_BusinessRisk_Warning_ActionTabAvailable::In the action tab, indicate the action data
 Item_BusinessRisks::Risks
-Item_BusinessRisksAndOportunities::Risks and opportunities
+Item_BusinessRisksAndOportunities::Risks and Opportunities
+Item_BusinessRisksAndOportunities_Short::Risks & Opport.
 Item_CalibrationAct_Button_New::Add
 Item_CalibrationAct_Warning_DefinitionRequired::To add new calibrations, record an initial configuration
 Item_CalibrationType_External::External configuration
@@ -1121,7 +1122,7 @@ Item_IncidentAction_Origin1::Audit
 Item_IncidentAction_Origin2::Proposed by address
 Item_IncidentAction_Origin3::Incidence
 Item_IncidentAction_Origin4::Risk analysis
-Item_IncidentAction_Origin46::Risks and opportunities
+Item_IncidentAction_Origin46::Risks and Opportunities
 Item_IncidentAction_Origin5::objective
 Item_IncidentAction_Origin6::Opportunity
 Item_IncidentAction_PopupAnular_Title::Close the action
@@ -1486,6 +1487,9 @@ Item_Oportunity_LabelField_Result::Result
 Item_Oportunity_LabelField_Rules::Standard
 Item_Oportunity_New::New opportunity
 Item_Oportunity_PopupDelete_Message::Eliminate the opportunity?
+Item_Oportunity_Status_NotSignificant::Not significant
+Item_Oportunity_Status_Significant::Significant
+Item_Oportunity_Status_Unevaluated::Not rated
 Item_Oportunity_Tab_Action::Action
 Item_Oportunity_Tab_Basic::Basic data
 Item_Oportunity_Tab_Costs::Costs

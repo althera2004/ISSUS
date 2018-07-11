@@ -159,7 +159,7 @@
                                         </div>
                                         <div class="col-sm-2" style="text-align:right;">&nbsp;</div>
                                         <div class="col-sm-3" style="text-align:right;">                                        
-                                            <button style="width:100px;" class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
+                                            <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
                                             <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
                                         </div>
                                             </td> 
@@ -224,7 +224,7 @@
                                         </div>
                                         <div class="col-sm-2" style="text-align:right;">&nbsp;</div>
                                         <div class="col-sm-3" style="text-align:right;">                                        
-                                            <button style="width:100px;" class="btn btn-success" type="button" id="BtnRecordShowAllOportunity"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
+                                            <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowAllOportunity"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
                                         </div>
                                             </td> 
                                         </tr>

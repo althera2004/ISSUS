@@ -336,17 +336,17 @@ function OportunityRenderTable(list) {
 
         if (item.Result === 0) {
             icon.style.color = "#777777";
-            icon.title = Dictionary.Item_BusinessRisk_Status_Unevaluated;
+            icon.title = Dictionary.Item_Oportunity_Status_Unevaluated;
             icon.className = "icon-warning-sign bigger-110";
         }else {
             if (item.Result < item.RuleLimit) {
                 icon.style.color = "#A5CA9F";
-                icon.title = Dictionary.Item_BusinessRisk_Status_NotSignificant;
+                icon.title = Dictionary.Item_Oportunity_Status_NotSignificant;
                 icon.className = "icon-circle bigger-110";
             }
             else {
                 icon.style.color = "#DC8475";
-                icon.title = Dictionary.Item_BusinessRisk_Status_Significant;
+                icon.title = Dictionary.Item_Oportunity_Status_Significant;
                 icon.className = "icon-circle bigger-110";
             }
         }
