@@ -1571,6 +1571,23 @@ function RenderStepsSliders() {
         span.appendChild(document.createElement("BR"));
         span.appendChild(document.createTextNode("|"));
         span.style.left = ((100 / (5 - MinStepValue)) * (x - MinStepValue)) + "%";
+        switch (x) {
+            case 1:
+                span.title = Dictionary.Item_BusinessRisk_Tooltip_Probability_1;
+                break;
+            case 2:
+                span.title = Dictionary.Item_BusinessRisk_Tooltip_Probability_2;
+                break;
+            case 3:
+                span.title = Dictionary.Item_BusinessRisk_Tooltip_Probability_3;
+                break;
+            case 4:
+                span.title = Dictionary.Item_BusinessRisk_Tooltip_Probability_4;
+                break;
+            case 5:
+                span.title = Dictionary.Item_BusinessRisk_Tooltip_Probability_5;
+                break;
+        }
         document.getElementById("InitialStepsProbability").appendChild(span);
     }
     VoidTable("InitialStepsSeverity");
@@ -1582,6 +1599,23 @@ function RenderStepsSliders() {
         spanStep.appendChild(document.createElement("BR"));
         spanStep.appendChild(document.createTextNode("|"));
         spanStep.style.left = ((100 / (5 - MinStepValue)) * (x2 - MinStepValue)) + "%";
+        switch (x2) {
+            case 1:
+                spanStep.title = Dictionary.Item_BusinessRisk_Tooltip_Severity_1;
+                break;
+            case 2:
+                spanStep.title = Dictionary.Item_BusinessRisk_Tooltip_Severity_2;
+                break;
+            case 3:
+                spanStep.title = Dictionary.Item_BusinessRisk_Tooltip_Severity_3;
+                break;
+            case 4:
+                spanStep.title = Dictionary.Item_BusinessRisk_Tooltip_Severity_4;
+                break;
+            case 5:
+                spanStep.title = Dictionary.Item_BusinessRisk_Tooltip_Severity_5;
+                break;
+        }
         document.getElementById("InitialStepsSeverity").appendChild(spanStep);
     }
 
@@ -1647,6 +1681,23 @@ function RenderStepsSliders() {
         span.appendChild(document.createElement("BR"));
         span.appendChild(document.createTextNode("|"));
         span.style.left = ((100 / (5 - MinStepValueFinalProbability)) * (x - MinStepValueFinalProbability)) + "%";
+        switch (x) {
+            case 1:
+                span.title = Dictionary.Item_BusinessRisk_Tooltip_Probability_1;
+                break;
+            case 2:
+                span.title = Dictionary.Item_BusinessRisk_Tooltip_Probability_2;
+                break;
+            case 3:
+                span.title = Dictionary.Item_BusinessRisk_Tooltip_Probability_3;
+                break;
+            case 4:
+                span.title = Dictionary.Item_BusinessRisk_Tooltip_Probability_4;
+                break;
+            case 5:
+                span.title = Dictionary.Item_BusinessRisk_Tooltip_Probability_5;
+                break;
+        }
         document.getElementById("FinalStepsProbability").appendChild(span);
         if (x > 0) {
             span.onclick = function () {
@@ -1665,6 +1716,23 @@ function RenderStepsSliders() {
         spanStep.appendChild(document.createElement("BR"));
         spanStep.appendChild(document.createTextNode("|"));
         spanStep.style.left = ((100 / (5 - MinStepValueFinalSeverity)) * (x2 - MinStepValueFinalSeverity)) + "%";
+        switch (x2) {
+            case 1:
+                spanStep.title = Dictionary.Item_BusinessRisk_Tooltip_Severity_1;
+                break;
+            case 2:
+                spanStep.title = Dictionary.Item_BusinessRisk_Tooltip_Severity_2;
+                break;
+            case 3:
+                spanStep.title = Dictionary.Item_BusinessRisk_Tooltip_Severity_3;
+                break;
+            case 4:
+                spanStep.title = Dictionary.Item_BusinessRisk_Tooltip_Severity_4;
+                break;
+            case 5:
+                spanStep.title = Dictionary.Item_BusinessRisk_Tooltip_Severity_5;
+                break;
+        }
         document.getElementById("FinalStepsSeverity").appendChild(spanStep);
         if (x2 > 0) {
             spanStep.onclick = function () {

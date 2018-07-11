@@ -159,7 +159,7 @@
                                         </div>
                                         <div class="col-sm-2" style="text-align:right;">&nbsp;</div>
                                         <div class="col-sm-3" style="text-align:right;">                                        
-                                            <button style="width:100px;" class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
+                                            <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
                                             <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
                                         </div>
                                             </td> 
@@ -224,7 +224,7 @@
                                         </div>
                                         <div class="col-sm-2" style="text-align:right;">&nbsp;</div>
                                         <div class="col-sm-3" style="text-align:right;">                                        
-                                            <button style="width:100px;" class="btn btn-success" type="button" id="BtnRecordShowAllOportunity"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
+                                            <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowAllOportunity"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
                                         </div>
                                             </td> 
                                         </tr>
@@ -334,12 +334,12 @@
                                                             <thead class="thin-border-bottom">
 		                                                        <tr id="ListDataHeaderOportunity">
                                                                     <th style="width:40px">&nbsp;</th>
-			                                                        <th onclick="Sort(this,'ListDataTable','date');" id="th1" class="sort search" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Date"] %></th>
-                                                                    <th onclick="Sort(this,'ListDataTable', 'text');" id="th2" class="search sort"><%=this.Dictionary["Item_Oportunity"] %></th>
-                                                                    <th onclick="Sort(this,'ListDataTable', 'text');" id="th3" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Process"] %></th>
-																	<th onclick="Sort(this,'ListDataTable', 'text');" id="th4" class="hidden-480 search sort" style="width:120px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Rule"] %></th>
-																	<th onclick="Sort(this,'ListDataTable', 'money');" id="th5" class="hidden-480 search sort" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"] %></th>
-																	<th onclick="Sort(this,'ListDataTable', 'money');" id="th6" class="hidden-480 search sort" style="width:80px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_IPR"] %></th>
+			                                                        <th onclick="Sort(this,'ListDataTableOportunity','date');" id="th1" class="sort search" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Date"] %></th>
+                                                                    <th onclick="Sort(this,'ListDataTableOportunity', 'text');" id="th2" class="search sort"><%=this.Dictionary["Item_Oportunity"] %></th>
+                                                                    <th onclick="Sort(this,'ListDataTableOportunity', 'text');" id="th3" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Process"] %></th>
+																	<th onclick="Sort(this,'ListDataTableOportunity', 'text');" id="th4" class="hidden-480 search sort" style="width:120px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Rule"] %></th>
+																	<th onclick="Sort(this,'ListDataTableOportunity', 'money');" id="th5" class="hidden-480 search sort" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"] %></th>
+																	<th onclick="Sort(this,'ListDataTableOportunity', 'money');" id="th6" class="hidden-480 search sort" style="width:80px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_IPR"] %></th>
 																	<th style="width:107px;">&nbsp;</th>
 		                                                        </tr>
 	                                                        </thead>

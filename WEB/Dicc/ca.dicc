@@ -306,7 +306,7 @@ Item_BusinessRisk_Tab_HistoryActions::Historial d'accions
 Item_BusinessRisk_Title_BusinessRiskDetails::Fitxa del risc
 Item_BusinessRisk_Title_FinalResult::Resultat de l'anàlisi de risc
 Item_BusinessRisk_Title_Graph::Gràfic
-Item_BusinessRisk_Title_List::Llistat
+Item_BusinessRisk_Title_List::Riscos
 Item_BusinessRisk_Title_StartResult::Accions després d'avaluar el risc
 Item_BusinessRisk_Tooltip_Probability_1::Remota o inexistent (Baixa o nula)
 Item_BusinessRisk_Tooltip_Probability_2::Ocasional (Possible però aïllada)
@@ -320,7 +320,8 @@ Item_BusinessRisk_Tooltip_Severity_4::Crítica (Dany persistent o permanent. Cost
 Item_BusinessRisk_Tooltip_Severity_5::Catastròfica (Dany greu o molt greu. Costos molt significatius que posen en perill la viavilitat)
 Item_BusinessRisk_Warning_ActionTabAvailable::A la pestanya d'acció, indicar les dades de l'acció
 Item_BusinessRisks::Riscos
-Item_BusinessRisksAndOportunities::Riscos i oportunitats
+Item_BusinessRisksAndOportunities::Riscos i Oportunitats
+Item_BusinessRisksAndOportunities_Short::Riscos y Oport.
 Item_CalibrationAct_Button_New::Afegir
 Item_CalibrationAct_Warning_DefinitionRequired::Per afegir nous calibratges, guardar almenys una configuració
 Item_CalibrationType_External::Configuració externa
@@ -1121,7 +1122,7 @@ Item_IncidentAction_Origin1::Auditoria
 Item_IncidentAction_Origin2::Proposat per direcció
 Item_IncidentAction_Origin3::Incidència
 Item_IncidentAction_Origin4::Anàlisi de risc
-Item_IncidentAction_Origin46::Riscos i oportunitats
+Item_IncidentAction_Origin46::Riscos i Oportunitats
 Item_IncidentAction_Origin5::Objectiu
 Item_IncidentAction_Origin6::Oportunitat
 Item_IncidentAction_PopupAnular_Title::Tancar l'acció
@@ -1486,6 +1487,9 @@ Item_Oportunity_LabelField_Result::Resultat
 Item_Oportunity_LabelField_Rules::Norma
 Item_Oportunity_New::Nova oportunitat
 Item_Oportunity_PopupDelete_Message::Eliminar la oportunitat?
+Item_Oportunity_Status_NotSignificant::No significativa
+Item_Oportunity_Status_Significant::Significativa
+Item_Oportunity_Status_Unevaluated::No avaluada
 Item_Oportunity_Tab_Action::Acció
 Item_Oportunity_Tab_Basic::Dades bàsiques
 Item_Oportunity_Tab_Costs::Costos
@@ -1675,7 +1679,7 @@ Item_User_Title_Account::Gestió del compte
 Item_User_Title_Add::Fitxa de l'Usuari/a
 Item_User_Title_ResetPassword::Restablir la contrasenya
 Item_Users::Usuaris/es
-Item_User_MailResetPassword_Subject::Reinici de paraula de pass a ISSUS de usuari propietari
+Item_User_MailResetPassword_Subject::Reinici de contrasenya a ISSUS de un usuari propietari
 LoginPage_BtnAccess::Accedir
 LoginPage_Title::Accés a l'aplicació
 Mail_Message_WelcomeSubject::Benvingut/uda {0} a ISSUS
@@ -1701,5 +1705,3 @@ User_Admin::Propietari/a
 User_PrimaryUser::Administrador/a
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
-Common_MaximumUploadSize::El màxim permés són 4B
-Common_Uploading::Pujant arxiu
