@@ -31,7 +31,7 @@
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
-                                <div class="col-sm-12">
+                                <div class="col-sm-6">
                                     <table style="width:100%;">
                                         <tr>
                                             <td style="width:120px;">
@@ -47,8 +47,12 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                    </table>
+                                    </div>
+                                <div class="col-sm-6">
+                                    <table style="width:100%;">
                                         <tr>     
-                                            <td>
+                                            <td style="width:120px;">
                                                 <strong><%=this.Dictionary["Item_Equipment_List_Filter_ShowByStatus"] %>:</strong>
                                             </td>                                       
                                             <td>
@@ -62,6 +66,7 @@
                                             </td>
                                         </tr>
                                     </table>
+                                    <br />
                                 </div> 
                                 <div style="height:8px;clear:both;"></div>
                                 <!-- PAGE CONTENT BEGINS -->

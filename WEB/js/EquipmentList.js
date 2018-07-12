@@ -248,6 +248,11 @@ function RenderRow(equipment) {
             tdAcciones.appendChild(document.createTextNode(" "));
             tdAcciones.appendChild(buttonDelete);
         }
+
+        if (equipment.Baja === true) {
+            tr.style.fontStyle = "italic";
+        }
+
     }
 
     //tr.appendChild(tdCodigo);

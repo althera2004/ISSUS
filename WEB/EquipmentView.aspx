@@ -112,11 +112,10 @@
                                                                 <%=this.ImgEquipment.Render %>
                                                             </div>
                                                             <div class="form-group col-sm-12">
-						
-				  
-                                                            <label id="Label99" class="col-sm-1 control-label no-padding-right"><!--%=this.Dictionary["Item_Equipment_Actions"] %--></label>
-                                                                <div class="col-sm-1" style="text-align:center;" ><input runat="server" type="checkbox" id="status0" name="status" value="0" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsCalibration_Label"] %></div>
-                                                                <div class="col-sm-1" style="text-align:center;" ><input runat="server" type="checkbox" id="status1" name="status" value="1" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsVerification_Label"] %></div>
+
+                                                            <label id="Label99" class="col-sm-1"><%=this.Dictionary["Item_Equipment_List_Filter_ShowByOperation"] %></label>
+                                                                <div class="col-sm-1" style="text-align:left;" ><input runat="server" type="checkbox" id="status0" name="status" value="0" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsCalibration_Label"] %></div>
+                                                                <div class="col-sm-1" style="text-align:left;" ><input runat="server" type="checkbox" id="status1" name="status" value="1" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsVerification_Label"] %></div>
                                                                 <div class="col-sm-1" style="text-align:center; padding-left:5px; padding-right:5px;"><input runat="server" type="checkbox" id="status2" name="status" value="2" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsMaintenance_Label"]%></div>
 																																																			  
 																
@@ -153,7 +152,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <%=this.CalibrationInternalTxtPeriodicity.Render%>
-                                                                    <label id="Label11" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Label_Days"] %></label>
+                                                                    <label id="Label11" class="col-sm-2"><%=this.Dictionary["Common_Label_Days"] %></label>
                                                                     <%=this.CalibrationInternalTxtUncertainty.Render.Replace("decimalFormated","decimalFormated6") %>
                                                                 </div>   
                                                                 <div class="form-group">
@@ -161,6 +160,7 @@
                                                                 </div>  
                                                                 <div class="form-group">
                                                                     <%=this.CalibrationInternalTxtPattern.Render%>
+                                                                    <label id="Label111" class="col-sm-1">&nbsp;</label>
                                                                     <%=this.CalibrationInternalTxtCost.Render%>
                                                                 </div>
                                                                 <div class="form-group">
@@ -193,7 +193,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <%=this.CalibrationExternalTxtPeriodicity.Render%>
-                                                                    <label id="Label1" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Label_Days"] %></label>
+                                                                    <label id="Label1" class="col-sm-2"><%=this.Dictionary["Common_Label_Days"] %></label>
                                                                     <%=this.CalibrationExternalTxtUncertainty.Render.Replace("decimalFormated","decimalFormated6") %>
                                                                 </div>   
                                                                 <div class="form-group">
@@ -201,6 +201,7 @@
                                                                 </div>  
                                                                 <div class="form-group">
                                                                     <%=this.CalibrationExternalTxtPattern.Render%>
+                                                                    <label id="Label111" class="col-sm-1">&nbsp;</label>
                                                                     <%=this.CalibrationExternalTxtCost.Render%>
                                                                 </div>
                                                                 <div class="form-group">
@@ -210,8 +211,8 @@
                                                                     <%=this.ExternalCalibrationResponsible%>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label id="CmbCalibrationExternalProviderLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Equipment_Field_Calibration_Provider"] %><span class="required">*</span></label>
-                                                                    <div class="col-sm-7" id="CmbCalibrationExternalProviderrDiv" style="height:35px !important;">
+                                                                    <label id="CmbCalibrationExternalProviderLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Equipment_Field_Calibration_Provider"] %><span class="required">*</span></label>
+                                                                    <div class="col-sm-9" id="CmbCalibrationExternalProviderrDiv" style="height:35px !important;">
                                                                         <select id="CmbCalibrationExternalProvider" class="form-control col-xs-12 col-sm-12"></select>
                                                                         <input style="display:none;" type="text" readonly="readonly" id="CmbCalibrationExternalProviderValue" placeholder="Proveedor" class="col-xs-12 col-sm-12" />
                                                                         <span class="ErrorMessage" id="CmbCalibrationExternalProviderErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>

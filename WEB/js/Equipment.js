@@ -499,7 +499,7 @@ function AnularConfirmed() {
 function AnulateLayout() {
     $("#BtnRestaurar").hide();
     if (Equipment.EndDate !== null) {
-        var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+        var message = "<br /><div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
         message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Equipment_AnulateMessageTile + "</h3>";
         message += "    <p style=\"margin-left:50px;\">";
@@ -507,8 +507,9 @@ function AnulateLayout() {
         message += "        " + Dictionary.Item_Equipment_FieldLabel_EndDate + ": <strong>" + Equipment.EndDate + "</strong><br />";
         message += "        " + Dictionary.Item_Equipment_FieldLabel_EndResponsible + ": <strong>" + Equipment.EndResponsible.Value + "</strong>";
         message += "    </p>";
-        message += "</div><br /><br /><br />";
-        $("#home").append(message);
+        message += "</div>";
+        //$("#home").append(message);
+        $("#oldFormFooter").before(message);
         $("#BtnAnular").hide();
         $("#BtnRestaurar").show();
 

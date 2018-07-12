@@ -103,7 +103,7 @@ namespace GisoFramework.UserInterface
             return string.Format(
                 CultureInfo.InvariantCulture,
                 @"{{""Id"":{0},""Label"":""{1}"",""Icon"":""{2}""}}",
-                this.Id, 
+                this.Id,
                 Tools.JsonCompliant(dictionary[this.Label]), 
                 this.Icon);
         }

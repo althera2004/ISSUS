@@ -531,7 +531,7 @@ public partial class EquipmentView : Page
         }
         else
         {
-            this.master.Titulo = "Item_Equipment_Button_New";
+            this.master.Titulo = "Item_Equipment_Tab_Details";
             this.Equipment = Equipment.Empty;
             this.formFooter.ModifiedBy = this.Dictionary["Common_New"];
             this.formFooter.ModifiedOn = DateTime.Now;
@@ -609,8 +609,8 @@ public partial class EquipmentView : Page
         this.CalibrationInternalTxtOperation = new FormText
         {
             Name = "TxtCalibrationInternalOperation",
-            ColumnSpan = 9,
-            ColumnSpanLabel = 3,
+            ColumnSpan = 10,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Operation"],
             MaximumLength = 100,
@@ -624,7 +624,7 @@ public partial class EquipmentView : Page
         {
             Name = "TxtCalibrationInternalPeriodicity",
             ColumnSpan = 2,
-            ColumnSpanLabel = 3,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Periodicity"],
             MaximumLength = 5,
@@ -639,8 +639,8 @@ public partial class EquipmentView : Page
         this.CalibrationInternalTxtUncertainty = new FormTextFreeDecimal
         {
             Name = "TxtCalibrationInternalUncertainty",
-            ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpan = 4,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Uncertainty"],
             MaximumLength = 8,
@@ -656,7 +656,7 @@ public partial class EquipmentView : Page
         {
             Name = "TxtCalibrationInternalRange",
             ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Range"],
             MaximumLength = 50,
@@ -670,7 +670,7 @@ public partial class EquipmentView : Page
         {
             Name = "TxtCalibrationInternalPattern",
             ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Pattern"],
             MaximumLength = Constant.DefaultDatabaseVarChar,
@@ -683,8 +683,8 @@ public partial class EquipmentView : Page
         this.CalibrationInternalTxtCost = new FormTextDecimal
         {
             Name = "TxtCalibrationInternalCost",
-            ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpan = 4,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Cost"],
             MaximumLength = 8,
@@ -707,9 +707,9 @@ public partial class EquipmentView : Page
 
         this.CalibrationInternalCmbResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 3,
+            ColumnsSpanLabel = 2,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Responsible"],
-            ColumnsSpan = 9,
+            ColumnsSpan = 10,
             Name = "CmbCalibrationInternalResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
@@ -743,8 +743,8 @@ public partial class EquipmentView : Page
         this.CalibrationExternalTxtOperation = new FormText
         {
             Name = "TxtCalibrationExternalOperation",
-            ColumnSpan = 9,
-            ColumnSpanLabel = 3,
+            ColumnSpan = 10,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = "Operación",
             MaximumLength = 100,
@@ -758,7 +758,7 @@ public partial class EquipmentView : Page
         {
             Name = "TxtCalibrationExternalPeriodicity",
             ColumnSpan = 2,
-            ColumnSpanLabel = 3,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = "Periodicidad",
             MaximumLength = 5,
@@ -773,8 +773,8 @@ public partial class EquipmentView : Page
         this.CalibrationExternalTxtUncertainty = new FormTextFreeDecimal
         {
             Name = "TxtCalibrationExternalUncertainty",
-            ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpan = 4,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Uncertainty"],
             MaximumLength = 8,
@@ -790,7 +790,7 @@ public partial class EquipmentView : Page
         {
             Name = "TxtCalibrationExternalRange",
             ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Range"],
             MaximumLength = Constant.DefaultDatabaseVarChar,
@@ -804,7 +804,7 @@ public partial class EquipmentView : Page
         {
             Name = "TxtCalibrationExternalPattern",
             ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Pattern"],
             MaximumLength = Constant.DefaultDatabaseVarChar,
@@ -816,8 +816,8 @@ public partial class EquipmentView : Page
         this.CalibrationExternalTxtCost = new FormTextDecimal
         {
             Name = "TxtCalibrationExternalCost",
-            ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpan = 4,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Cost"],
             MaximumLength = 8,
@@ -840,9 +840,9 @@ public partial class EquipmentView : Page
 
         this.CalibrationExternalCmbResponsible = new FormSelect
         {
-            ColumnsSpanLabel = 3,
+            ColumnsSpanLabel = 2,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Responsible"],
-            ColumnsSpan = 9,
+            ColumnsSpan = 10,
             Name = "CmbCalibrationExternalResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
@@ -852,9 +852,9 @@ public partial class EquipmentView : Page
 
         this.CalibrationExternalCmbProvider = new FormSelect
         {
-            ColumnsSpanLabel = 3,
+            ColumnsSpanLabel = 2,
             Label = this.Dictionary["Item_Equipment_Field_Calibration_Provider"],
-            ColumnsSpan = 9,
+            ColumnsSpan = 10,
             Name = "CmbCalibrationExternalProvider",
             GrantToWrite = this.grantToWrite,
             Required = true,
