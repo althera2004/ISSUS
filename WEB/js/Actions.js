@@ -285,7 +285,13 @@ function SaveAction() {
     var ROrigin = 0;
     if (document.getElementById("ROrigin1").checked) { ROrigin = 1; }
     if (document.getElementById("ROrigin2").checked) { ROrigin = 2; }
-    if (document.getElementById("ROrigin3").checked) { ROrigin = 5; }
+    if (document.getElementById("ROrigin3") !== null) {
+        if (document.getElementById("ROrigin3").checked) { ROrigin = 5; }
+    }
+   
+    if (IncidentAction.Origin === 6) {
+        ROrigin = 6;
+    }
 
     var Rtype = 0;
     if (document.getElementById("RType1").checked) { Rtype = 1; }
