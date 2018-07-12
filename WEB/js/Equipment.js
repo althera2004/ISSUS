@@ -30,12 +30,12 @@ function MaintenanceCheckChanged() {
 
 function ShowNewVerificationButton() {
     if (document.getElementById("VerificationInternalActive").checked === true || document.getElementById("VerificationExternalActive").checked) {
-        document.getElementById("BtnNewVerification").style.display = "";
-        document.getElementById("VerificationWarning").style.display = "none";
+        $("#BtnNewVerification").show();
+        $("#VerificationWarning").hide();
     }
     else {
-        document.getElementById("BtnNewVerification").style.display = "none";
-        document.getElementById("VerificationWarning").style.display = "";
+        $("#BtnNewVerification").hide();
+        $("#VerificationWarning").show();
     }
 }
 
@@ -46,6 +46,7 @@ function SaveEquipment() {
         for (var x = 0; x < resultValidate.length; x++) {
             text += "<li>" + resultValidate[x] + "</li>";
         }
+
         text += "</ul>";
         warningInfoUI(text, null, 600);
         return false;
@@ -161,7 +162,6 @@ function SaveEquipment() {
     }
 
     if (Equipment.Id > 0) {
-        var webMethodUpdate = "/Async/EquipmentActions.asmx/Update";
         var dataUpdate = {
             "newItem": NewEquipment,
             "oldItem": Equipment,
@@ -170,21 +170,20 @@ function SaveEquipment() {
             "scaleDivision": $("#TxtScaleDivision").val()
         };
         $.ajax({
-            type: "POST",
-            url: webMethodUpdate,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(dataUpdate, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentActions.asmx/Update",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(dataUpdate, null, 2),
+            "success": function (msg) {
                 document.location = referrer;
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
     }
     else {
-        var webMethodInsert = "/Async/EquipmentActions.asmx/Insert";
         var dataInsert = {
             "equipment": NewEquipment,
             "companyId": Company.Id,
@@ -192,18 +191,18 @@ function SaveEquipment() {
             "scaleDivision": $("#TxtScaleDivision").val()
         };
         $.ajax({
-            type: "POST",
-            url: webMethodInsert,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(dataInsert, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/EquipmentActions.asmx/Insert",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(dataInsert, null, 2),
+            "success": function (msg) {
                 if (msg.d.MessageError * 1 > 0) {
                     alertInfoUI(Dictionary.Item_Equipment_Message_InsertSucess, Reload);
                     EquipmentNewId = msg.d.MessageError * 1;
                 }
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });
@@ -385,7 +384,8 @@ function ValidateForm(form) {
             }
         }
 
-        if ($("#TxtStartDate").val() !== "") {
+        // @cristina no tener en cuenta fecha alta al validar datos
+        /*if ($("#TxtStartDate").val() !== "") {
             if (limitInitialDate !== "") {
                 var date1 = GetDate($("#TxtStartDate").val(), "/", false);
                 var date2 = GetDate(limitInitialDate, "/", false);
@@ -394,7 +394,7 @@ function ValidateForm(form) {
                     result.push(Dictionary.Item_EquipmentErrorInitialDate + " " + limitInitialDate);
                 }
             }
-        }
+        }*/
     }
 
     return result;
@@ -406,11 +406,11 @@ function AnularPopup() {
     $("#TxtAnularComments").html("");
     $("#CmbEndResponsible").val(user.Employee.Id);
     var dialog = $("#dialogAnular").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Item_Equipment_PopupAnular_Title,
-        width: 600,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Equipment_PopupAnular_Title,
+        "width": 600,
+        "buttons":
         [
             {
                 "id": "BtnAnularSave",
@@ -432,22 +432,22 @@ function AnularConfirmed() {
     document.getElementById("TxtEndReasonLabel").style.color = "#000";
     document.getElementById("TxtEndDateLabel").style.color = "#000";
     document.getElementById("CmbEndResponsibleLabel").style.color = "#000";
-    document.getElementById("TxtEndReasonErrorRequired").style.display = "none";
-    document.getElementById("TxtEndDateErrorRequired").style.display = "none";
-    document.getElementById("TxtEndDateMalformed").style.display = "none";
-    document.getElementById("CmbEndResponsibleErrorRequired").style.display = "none";
+    $("#TxtEndReasonErrorRequired").hide();
+    $("#TxtEndDateErrorRequired").hide();
+    $("#TxtEndDateMalformed").hide();
+    $("#CmbEndResponsibleErrorRequired").hide();
 
     var ok = true;
     if ($("#TxtEndReason").val() === "") {
         ok = false;
         document.getElementById("TxtEndReasonLabel").style.color = "#f00";
-        document.getElementById("TxtEndReasonErrorRequired").style.display = "";
+        $("#TxtEndReasonErrorRequired").show();
     }
 
     if ($("#TxtEndDate").val() === "") {
         ok = false;
         document.getElementById("TxtEndDateLabel").style.color = "#f00";
-        document.getElementById("TxtEndDateRequired").style.display = "";
+        $("#TxtEndDateRequired").show();
     }
     else {
         if (validateDate($("#TxtEndDate").val()) === false) {
@@ -460,15 +460,13 @@ function AnularConfirmed() {
     if ($("#CmbEndResponsible").val() * 1 < 1) {
         ok = false;
         document.getElementById("CmbEndResponsibleLabel").style.color = "#f00";
-        document.getElementById("CmbEndResponsibleErrorRequired").style.display = "";
+        $("#CmbEndResponsibleErrorRequired").show();
     }
 
     if (ok === false) {
         return false;
     }
 
-    //Anulate(int indicadorId, int companyId, int applicationUserId, string reason, DateTime date, int responsible)
-    var webMethod = "/Async/EquipmentActions.asmx/Anulate";
     var data = {
         "equipmentId": Equipment.Id,
         "companyId": Company.Id,
@@ -481,15 +479,15 @@ function AnularConfirmed() {
     $("#dialogAnular").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/EquipmentActions.asmx/Anulate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             document.location = referrer;
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -543,7 +541,6 @@ function AnulateLayout() {
 }
 
 function Restore() {
-    var webMethod = "/Async/EquipmentActions.asmx/Restore";
     var data = {
         "equipmentId": Equipment.Id,
         "companyId": Company.Id,
@@ -551,15 +548,15 @@ function Restore() {
     };
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/EquipmentActions.asmx/Restore",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             document.location = document.location + "";
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
