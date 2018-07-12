@@ -826,7 +826,8 @@ Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitions::Definir un manteni
 Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitionSelected::Seleccionar el tipo de mantenimiento
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Amount::Coste
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Date::Fecha
-Item_EquipmentMaintenance_Popup_Register_FieldLabel_Observations::Observaciones
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate::Primer vencimiento	
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_Observations::Observaciones																			  
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Provider::Proveedor
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Responsible::Responsable
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Type::Mantenimiento
@@ -1496,6 +1497,7 @@ Item_Oportunity_Tab_UploadFiles::Adjuntos
 Item_Oportunity_Title_OportunityDetails::Ficha de la oportunidad
 Item_Oportunity_Title_OportunityDetailsNou::Nueva oportunidad
 Item_Oportunity_Title_Result::Resultado
+Item_Oportunity_Title_Result::Resultado									  
 Item_Oportunity_Tooltip_Cost_1::Desorbitado (Costes elevadísimos. Imposibles de amortizar)
 Item_Oportunity_Tooltip_Cost_2::Elevado (Coste elevado. Para su implantación será imprescindible un gran impacto positivo en el proceso)
 Item_Oportunity_Tooltip_Cost_3::Moderado (Buena tasa de amortización a medio plazo)
@@ -1677,12 +1679,14 @@ Item_User_Title_Account::Gestión de la cuenta
 Item_User_Title_Add::Ficha del/a Usuario/a
 Item_User_Title_ResetPassword::Restablecer la contraseña
 Item_Users::Usuarios/as
+Item_User_MailResetPassword_Subject::Reinicio de contraseña en ISSUS de un usuario propietario																					
 LoginPage_BtnAccess::Acceder
 LoginPage_Title::Acceso a la aplicación
 Mail_Message_WelcomeSubject::Bienvenido/da {0} a ISSUS
 MailTemplate_ResetPassword_DefaultBody::Se ha restablecido su contraseña.<br />Acceder a http://issus.scrambotika.com/ <br/> User:<b>{0}</b><br/>Password:<b>{1}</b>
 MailTemplate_ResetPassword_Error::No se ha restablecido la contraseña
 MailTemplate_ResetPassword_Subject::Restablecer la contraseña de acceso
+MailTemplate_Welcome_Subject::Bienvenido/a a ISSUS												   
 Maintenance-Ext::Mantenimiento externo
 Maintenance-Int::Mantenimiento interno
 NumericDecimalSeparator::,
@@ -1701,3 +1705,4 @@ User_Admin::Propietario/a
 User_PrimaryUser::Administrador/a
 Verification-Ext::Verificación externa
 Verification-Int::Verificación interna
+ZZZZZ::Las nuevas claves a partir de aquí hacia abajo

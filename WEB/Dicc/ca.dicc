@@ -1679,7 +1679,7 @@ Item_User_Title_Account::Gestió del compte
 Item_User_Title_Add::Fitxa de l'Usuari/a
 Item_User_Title_ResetPassword::Restablir la contrasenya
 Item_Users::Usuaris/es
-Item_User_MailResetPassword_Subject::Reinici de paraula de pass a ISSUS de usuari propietari
+Item_User_MailResetPassword_Subject::Reinici de contrasenya a ISSUS de un usuari propietari
 LoginPage_BtnAccess::Accedir
 LoginPage_Title::Accés a l'aplicació
 Mail_Message_WelcomeSubject::Benvingut/uda {0} a ISSUS
@@ -1705,5 +1705,4 @@ User_Admin::Propietari/a
 User_PrimaryUser::Administrador/a
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
-Common_MaximumUploadSize::El màxim permés són 4B
-Common_Uploading::Pujant arxiu
+ZZZZZ::Les noves claus a partir d'aquí cap avall

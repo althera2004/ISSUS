@@ -334,12 +334,12 @@
                                                             <thead class="thin-border-bottom">
 		                                                        <tr id="ListDataHeaderOportunity">
                                                                     <th style="width:40px">&nbsp;</th>
-			                                                        <th onclick="Sort(this,'ListDataTable','date');" id="th1" class="sort search" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Date"] %></th>
-                                                                    <th onclick="Sort(this,'ListDataTable', 'text');" id="th2" class="search sort"><%=this.Dictionary["Item_Oportunity"] %></th>
-                                                                    <th onclick="Sort(this,'ListDataTable', 'text');" id="th3" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Process"] %></th>
-																	<th onclick="Sort(this,'ListDataTable', 'text');" id="th4" class="hidden-480 search sort" style="width:120px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Rule"] %></th>
-																	<th onclick="Sort(this,'ListDataTable', 'money');" id="th5" class="hidden-480 search sort" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"] %></th>
-																	<th onclick="Sort(this,'ListDataTable', 'money');" id="th6" class="hidden-480 search sort" style="width:80px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_IPR"] %></th>
+			                                                        <th onclick="Sort(this,'ListDataTableOportunity','date');" id="th1" class="sort search" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Date"] %></th>
+                                                                    <th onclick="Sort(this,'ListDataTableOportunity', 'text');" id="th2" class="search sort"><%=this.Dictionary["Item_Oportunity"] %></th>
+                                                                    <th onclick="Sort(this,'ListDataTableOportunity', 'text');" id="th3" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Process"] %></th>
+																	<th onclick="Sort(this,'ListDataTableOportunity', 'text');" id="th4" class="hidden-480 search sort" style="width:120px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Rule"] %></th>
+																	<th onclick="Sort(this,'ListDataTableOportunity', 'money');" id="th5" class="hidden-480 search sort" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"] %></th>
+																	<th onclick="Sort(this,'ListDataTableOportunity', 'money');" id="th6" class="hidden-480 search sort" style="width:80px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_IPR"] %></th>
 																	<th style="width:107px;">&nbsp;</th>
 		                                                        </tr>
 	                                                        </thead>

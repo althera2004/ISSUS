@@ -1678,12 +1678,14 @@ Item_User_Title_Account::Account management
 Item_User_Title_Add::User's file
 Item_User_Title_ResetPassword::Reset your password
 Item_Users::Users
+Item_User_MailResetPassword_Subject::Password renewed in ISSUS for a proprietary user						   
 LoginPage_BtnAccess::To access
 LoginPage_Title::Access to the application
 Mail_Message_WelcomeSubject::Welcome to ISSUS {0}
 MailTemplate_ResetPassword_DefaultBody::Your password has been reset. <br /> Access http://issus.scrambotika.com/ <br/> User: <b> {0} </ b> <br/> Password: <b> {1} </ b>
 MailTemplate_ResetPassword_Error::The password has not been reset
 MailTemplate_ResetPassword_Subject::Reset the access password
+MailTemplate_Welcome_Subject::Welcome to ISSUS												   
 Maintenance-Ext::External maintenance
 Maintenance-Int::Internal maintenance
 NumericDecimalSeparator::,
@@ -1702,3 +1704,4 @@ User_Admin::Owner
 User_PrimaryUser::Administrator
 Verification-Ext::External verification
 Verification-Int::Internal verification
+ZZZZZ::The new keys from here downwards
