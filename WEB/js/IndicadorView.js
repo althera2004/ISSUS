@@ -34,7 +34,7 @@ window.onload = function () {
 
     Resize();
 
-    var options = $.extend({}, $.datepicker.regional[userLanguage], { autoclose: true, todayHighlight: true });
+    var options = $.extend({}, $.datepicker.regional[userLanguage], { "autoclose": true, "todayHighlight": true });
     $(".date-picker").datepicker(options);
 
     $("#BtnRecordShowNone").on("click", IndicadorRegistroNone);
@@ -112,11 +112,9 @@ function CmbProcessChanged() {
 }
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
-    var histTable = document.getElementById("ListDataDivHistorico");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 480) + "px";
-    histTable.style.height = (containerHeight - 370) + "px";
+    $("#ListDataDiv").height(containerHeight - 480);
+    $("#ListDataDivHistorico").height(containerHeight - 370);
 }
 
 function IndicadorTypeLayout() {
@@ -244,23 +242,23 @@ function Validate() {
     var errorMessage = "";
 
     document.getElementById("TxtDescriptionLabel").style.color = "#000";
-    document.getElementById("TxtDescriptionErrorRequired").style.display = "none";
-    document.getElementById("TxtStartDateErrorRequired").style.display = "none";
-    document.getElementById("TxtStartDateErrorMalformed").style.display = "none";
     document.getElementById("TxtStartDateLabel").style.color = "#000";
     document.getElementById("TxtCalculoLabel").style.color = "#000";
-    document.getElementById("TxtCalculoErrorRequired").style.display = "none";
     document.getElementById("TxtPeriodicityLabel").style.color = "#000";
-    document.getElementById("TxtPeriodicityErrorRequired").style.display = "none";
     document.getElementById("CmbUnidadLabel").style.color = "#000";
-    document.getElementById("CmbUnidadErrorRequired").style.display = "none";
     document.getElementById("CmbMetaLabel").style.color = "#000";
-    document.getElementById("CmbMetaErrorRequired").style.display = "none";
+    $("#TxtDescriptionErrorRequired").hide();
+    $("#TxtStartDateErrorRequired").hide();
+    $("#TxtStartDateErrorMalformed").hide();
+    $("#TxtCalculoErrorRequired").hide();
+    $("#TxtPeriodicityErrorRequired").hide();
+    $("#CmbUnidadErrorRequired").hide();
+    $("#CmbMetaErrorRequired").hide();
 
     if ($("#TxtDescription").val() === "") {
         ok = false;
         document.getElementById("TxtDescriptionLabel").style.color = "#f00";
-        document.getElementById("TxtDescriptionErrorRequired").style.display = "";
+        $("#TxtDescriptionErrorRequired").show();
     }
 
     if ($("#TxtStartDate").val() === "") {
@@ -277,7 +275,7 @@ function Validate() {
     if ($("#TxtCalculo").val() === "") {
         ok = false;
         document.getElementById("TxtCalculoLabel").style.color = "#f00";
-        document.getElementById("TxtCalculoErrorRequired").style.display = "";
+        $("#TxtCalculoErrorRequired").show();
     }
     else {
     }
@@ -285,19 +283,19 @@ function Validate() {
     if ($("#TxtPeriodicity").val() === "" || $("#TxtPeriodicity").val() * 1 === 0) {
         ok = false;
         document.getElementById("TxtPeriodicityLabel").style.color = "#f00";
-        document.getElementById("TxtPeriodicityErrorRequired").style.display = "";
+        $("#TxtPeriodicityErrorRequired").show();
     }
 
     if ($("#CmbUnidad").val() * 1 === 0) {
         ok = false;
         document.getElementById("CmbUnidadLabel").style.color = "#f00";
-        document.getElementById("CmbUnidadErrorRequired").style.display = "";
+        $("#CmbUnidadErrorRequired").show();
     }
 
     if ($("#CmbMetaComparer").val() * 1 === 0 || $("#TxtMeta").val() * 1 == 0) {
         ok = false;
         document.getElementById("CmbMetaLabel").style.color = "#f00";
-        document.getElementById("CmbMetaErrorRequired").style.display = "";
+        $("#CmbMetaErrorRequired").show();
     }
 
     return ok;
@@ -559,19 +557,20 @@ function AnularPopup() {
     $("#TxtAnularComments").html("");
     $("#CmbResponsibleAnularRecord").val(user.Employee.Id);
     var dialog = $("#dialogAnular").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Item_Indicador_PopupAnular_Title,
-        width: 600,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Indicador_PopupAnular_Title,
+        "width": 600,
+        "buttons":
         [
             {
-                "id": "BtnAnujlarSave",
+                "id": "BtnAnularSave",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Indicador_Btn_Anular,
                 "class": "btn btn-success btn-xs",
                 "click": function () { AnularConfirmed(); }
             },
             {
+                "id": "BtnAnularCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
@@ -581,26 +580,26 @@ function AnularPopup() {
 }
 
 function AnularConfirmed() {
-    document.getElementById("TxtAnularCommentsLabel").style.color = "#000";
-    document.getElementById("TxtAnularDateLabel").style.color = "#000";
-    document.getElementById("CmbResponsibleAnularRecordLabel").style.color = "#000";
-    document.getElementById("TxtAnularCommentsErrorRequired").style.display = "none";
-    document.getElementById("TxtAnularDateRequired").style.display = "none";
-    document.getElementById("TxtAnularDateMalformed").style.display = "none";
-    document.getElementById("TxtAnularDateMaximumToday").style.display = "none";
-    document.getElementById("CmbResponsibleAnularRecordErrorRequired").style.display = "none";
+    $("#TxtAnularCommentsLabel").css("color", "#000");
+    $("#TxtAnularDateLabel").css("color", "#000");
+    $("#CmbResponsibleAnularRecordLabel").css("color", "#000");
+    $("#TxtAnularCommentsErrorRequired").hide();
+    $("#TxtAnularDateRequired").hide();
+    $("#TxtAnularDateMalformed").hide();
+    $("#TxtAnularDateMaximumToday").hide();
+    $("#CmbResponsibleAnularRecordErrorRequired").hide();
 
     var ok = true;
     if ($("#TxtAnularComments").val() === "") {
         ok = false;
-        document.getElementById("TxtAnularCommentsLabel").style.color = "#f00";
-        document.getElementById("TxtAnularCommentsErrorRequired").style.display = "";
+        document.getElementById("TxtAnularCommentsLabel").css("color", "#f00");
+        document.getElementById("TxtAnularCommentsErrorRequired").show();
     }
 
     if ($("#TxtAnularDate").val() === "") {
         ok = false;
-        document.getElementById("TxtAnularDateLabel").style.color = "#f00";
-        document.getElementById("TxtAnularDateRequired").style.display = "";
+        $("#TxtAnularDateLabel").css("color", "#f00");
+        $("#TxtAnularDateRequired").show();
     }
     else {
         if (validateDate($("#TxtAnularDate").val()) === false) {
@@ -619,8 +618,8 @@ function AnularConfirmed() {
 
     if ($("#CmbResponsibleAnularRecord").val() * 1 < 1) {
         ok = false;
-        document.getElementById("CmbResponsibleAnularRecordLabel").style.color = "#f00";
-        document.getElementById("CmbResponsibleAnularRecordErrorRequired").style.display = "";
+        $("#CmbResponsibleAnularRecordLabel").css("color", "#f00");
+        $("#CmbResponsibleAnularRecordErrorRequired").show();
     }
 
     if (ok === false) {
@@ -687,6 +686,7 @@ function RecordEdit(id) {
                 "click": function () { IndicadorRegistroSave(); }
             },
             {
+                "id": "BtnNewRegistroCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
@@ -993,6 +993,10 @@ function DrawGraphics(stop) {
             lastLabel = selectedRegistros[x].Date;
         }
 
+        while (labels.length < 6) {
+            labels.push("");
+        }
+
         var overlayData = {
             "labels": labels,
             "datasets": [
@@ -1026,11 +1030,12 @@ function DrawGraphics(stop) {
 
         $("#barChartDiv").html("");
         this.div = document.getElementById("barChartDiv");
-        this.div.style.height = "500px";
+        this.div.style.height = "800px";
         this.chartCanvas = document.createElement("canvas");
         this.div.appendChild(this.chartCanvas);
         this.chartCanvas.style.width = $("#barChartDiv").width() + "px";
         this.chartCanvas.width = $("#barChartDiv").width();
+        this.chartCanvas.height = 500;
         this.chartCanvas.id = "canvas";
 
         this.ctx = this.chartCanvas.getContext("2d");

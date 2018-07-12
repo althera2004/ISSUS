@@ -201,16 +201,16 @@ namespace GisoFramework.Item
                 }
                 else
                 {
-                    res.Append(",");
+                    res.Append(", ");
                 }
 
                 res.Append("{");
-                res.Append(Tools.JsonPair("Id", item.Objetivo.Id)).Append(",");
-                res.Append(Tools.JsonPair("Name", item.Objetivo.Name)).Append(",");
-                res.Append(Tools.JsonPair("ResponsibleId", item.Objetivo.Responsible.Id)).Append(",");
-                res.Append(Tools.JsonPair("ResponsibleName", item.Objetivo.Responsible.FullName)).Append(",");
-                res.Append(Tools.JsonPair("StartDate", item.Objetivo.StartDate)).Append(",");
-                res.Append(Tools.JsonPair("EndDate", item.Objetivo.EndDate)).Append(",");
+                res.Append(Tools.JsonPair("Id", item.Objetivo.Id)).Append(", ");
+                res.Append(Tools.JsonPair("Name", item.Objetivo.Name)).Append(", ");
+                res.Append(Tools.JsonPair("ResponsibleId", item.Objetivo.Responsible.Id)).Append(", ");
+                res.Append(Tools.JsonPair("ResponsibleName", item.Objetivo.Responsible.FullName)).Append(", ");
+                res.Append(Tools.JsonPair("StartDate", item.Objetivo.StartDate)).Append(", ");
+                res.Append(Tools.JsonPair("EndDate", item.Objetivo.EndDate)).Append(", ");
                 res.Append(Tools.JsonPair("PreviewEndDate", item.Objetivo.PreviewEndDate));
                 res.Append("}");
             }

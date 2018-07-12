@@ -273,7 +273,7 @@ public partial class FormacionView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        var files = UploadFile.GetByItem(10, this.learningId, this.company.Id);
+        var files = UploadFile.GetByItem(ItemValues.Learning, this.learningId, this.company.Id);
         var res = new StringBuilder();
         var resList = new StringBuilder();
         int contCells = 0;

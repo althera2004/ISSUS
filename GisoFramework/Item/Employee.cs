@@ -413,7 +413,7 @@ namespace GisoFramework.Item
                     activeValue = "false";
                 }
 
-                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0},""Value"":""{1}"", ""Active"":{2}}}", this.Id, this.FullName, activeValue);
+                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"": {0}, ""Value"": ""{1}"", ""Active"": {2}}}", this.Id, this.FullName, activeValue);
             }
         }
 
@@ -429,7 +429,7 @@ namespace GisoFramework.Item
 
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    @"{{""Id"":{0},""CompanyId"":{1},""FullName"":""{2}"",""HasUserAssigned"":{3},""Active"":{4},""DisabledDate"":{5}}}",
+                    @"{{""Id"": {0}, ""CompanyId"": {1}, ""FullName"": ""{2}"", ""HasUserAssigned"": {3}, ""Active"": {4}, ""DisabledDate"": {5}}}",
                     this.Id,
                     this.CompanyId,
                     Tools.JsonCompliant(this.FullName),
@@ -445,7 +445,7 @@ namespace GisoFramework.Item
             {
                 return string.Format(
                        CultureInfo.InvariantCulture,
-                       @"{{""Id"":{0},""CompanyId"":{1},""Name"":""{2}"",""LastName"":""{3}""}}",
+                       @"{{""Id"" :{0}, ""CompanyId"": {1}, ""Name"": ""{2}"", ""LastName"": ""{3}""}}",
                        this.Id,
                        this.CompanyId,
                        Tools.JsonCompliant(this.Name),
@@ -531,7 +531,7 @@ namespace GisoFramework.Item
                 {
                     if (this.User.Id > 0)
                     {
-                        res.Append(",\"User\":").Append(this.User.Json);
+                        res.Append(",\"User\" :").Append(this.User.Json);
                     }
                 }
 

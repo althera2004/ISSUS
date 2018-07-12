@@ -22,6 +22,7 @@ namespace GisoFramework.Item
     /// <summary>Implements customer item</summary>
     public class Customer : BaseItem
     {
+        /// <summary>Gets an empty intance of Customer object</summary>
         public static Customer Empty
         {
             get
@@ -74,6 +75,7 @@ namespace GisoFramework.Item
             }
         }
 
+        /// <summary>Gets a link to customer profile page</summary>
         public override string Link
         {
             get
@@ -98,6 +100,9 @@ namespace GisoFramework.Item
             return string.Empty;
         }*/
 
+        /// <summary>Gets all customers of company</summary>
+        /// <param name="companyId">Company indentifier</param>
+        /// <returns>List of all customers of company</returns>
         public static ReadOnlyCollection<Customer> ByCompany(int companyId)
         {
             /* CREATE PROCEDURE Customer_GetByCompany
@@ -158,6 +163,9 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<Customer>(res);
         }
 
+        /// <summary>Gets a Json list of all customers of company</summary>
+        /// <param name="companyId">Company identifier</param>
+        /// <returns>Json list of all customers of company</returns>
         public static string ByCompanyJson(int companyId)
         {
             var res = new StringBuilder("[");
@@ -183,6 +191,10 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
+        /// <summary>Gets a customer from database based on identifier</summary>
+        /// <param name="id">Customer identifier</param>
+        /// <param name="companyId">Company identifier</param>
+        /// <returns>Customer from database based on identifier</returns>
         public static Customer ById(long id, int companyId)
         {
             var res = new Customer();
@@ -233,6 +245,10 @@ namespace GisoFramework.Item
             return res;
         }
 
+        /// <summary>Gets HTML code for customers row list</summary>
+        /// <param name="dictionary">Dictionary for fixed labels</param>
+        /// <param name="grants">Grants of users</param>
+        /// <returns>HTML code for customers row list</returns>
         public string ListRow(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> grants)
         {
             if (grants == null)
@@ -291,6 +307,9 @@ namespace GisoFramework.Item
                 iconDelete);
         }
 
+        /// <summary>Insert a customer in data base</summary>
+        /// <param name="userId">Identifier of user that perfoms action</param>
+        /// <returns>Result of action</returns>
         public ActionResult Insert(int userId)
         {
             var result = ActionResult.NoAction;
@@ -334,6 +353,9 @@ namespace GisoFramework.Item
             return result;
         }
 
+        /// <summary>Update a customer in data base</summary>
+        /// <param name="userId">Identifier of user that perfoms action</param>
+        /// <returns>Result of action</returns>
         public ActionResult Update(int userId)
         {
             var result = ActionResult.NoAction;
@@ -376,6 +398,9 @@ namespace GisoFramework.Item
             return result;
         }
 
+        /// <summary>Delete a customer from data base</summary>
+        /// <param name="userId">Identifier of user that perfoms action</param>
+        /// <returns>Result of action</returns>
         public ActionResult Delete(int userId)
         {
             var result = ActionResult.NoAction;

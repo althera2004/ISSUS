@@ -850,7 +850,7 @@ public partial class IncidentView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        var files = UploadFile.GetByItem(12, this.IncidentId, this.company.Id);
+        var files = UploadFile.GetByItem(ItemValues.Incident, this.IncidentId, this.company.Id);
         var res = new StringBuilder();
         var resList = new StringBuilder();
         int contCells = 0;

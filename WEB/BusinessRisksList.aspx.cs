@@ -171,13 +171,16 @@ public partial class BusinessRisksList : Page
         }
 
         this.DataHeader = new UIDataHeader { Id = "ListDataHeader", ActionsItem = 2 };
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Date"], Sortable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Description"], Filterable = true, Sortable = true});
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Process"], HiddenMobile = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th3", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Rule"], HiddenMobile = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th4", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"], HiddenMobile = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th5", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Result"], HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Date"], Sortable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Description"], Filterable = true, Sortable = true});
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th3", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Process"], HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th4", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Rule"], HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th5", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"], HiddenMobile = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th6", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Result"], HiddenMobile = true });
        
+        //GTK
+
+
         if (this.Request.QueryString["id"] != null)
         {
             this.businessRiskId = Convert.ToInt64(this.Request.QueryString["id"]);

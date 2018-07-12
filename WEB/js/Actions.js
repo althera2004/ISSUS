@@ -285,12 +285,9 @@ function SaveAction() {
     var ROrigin = 0;
     if (document.getElementById("ROrigin1").checked) { ROrigin = 1; }
     if (document.getElementById("ROrigin2").checked) { ROrigin = 2; }
+
     if (document.getElementById("ROrigin3") !== null) {
         if (document.getElementById("ROrigin3").checked) { ROrigin = 5; }
-    }
-   
-    if (IncidentAction.Origin === 6) {
-        ROrigin = 6;
     }
 
     var Rtype = 0;
@@ -383,6 +380,7 @@ function SaveAction() {
             "IncidentId": IncidentAction.IncidentId,
             "BusinessRiskId": IncidentAction.BusinessRiskId,
             "Objetivo": Objetivo,
+            "Oportunity": IncidentAction.Oportunity,
             "WhatHappened": $("#TxtWhatHappened").val(),
             "WhatHappenedBy": { "Id": $("#CmbWhatHappenedResponsible").val() },
             "WhatHappenedOn": whatHappenedOn,
@@ -402,11 +400,10 @@ function SaveAction() {
             "Notes": $("#TxtNotes").val()
         };
 
-    var webMethod = "/Async/IncidentActionsActions.asmx/Save";
     var data = { "incidentAction": action, "userId": user.Id };
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/IncidentActionsActions.asmx/Save",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
@@ -486,7 +483,6 @@ if (typeof ApplicationUser.Grants.IncidentActions === "undefined" || Application
     $("#BtnNewCost").hide();
     $("#BtnNewUploadfile").hide();
     $("#IncidentActionCostsTableData .btn-info").hide();
-
 }
 
 function Resize() {
@@ -687,7 +683,7 @@ function AnularPopup() {
     if ($("#CmbActionsResponsible").val() * 1 < 1) { ok = false; }
 
     if (ok === false) {
-        alertUI("Revise los campos obligatorios");
+        alertUI(Dictionary.Common_Form_CheckError);
         return false;
     }
 

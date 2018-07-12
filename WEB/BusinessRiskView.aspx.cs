@@ -890,7 +890,7 @@ public partial class BusinessRiskView : Page
         this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = true, Label = this.Dictionary["Item_Learning_Tab_UploadFiles"], Hidden = this.businessRisk.Id < 1 });
 
         RenderProcess();
-        RenderLimit();
+        //RenderLimit();
         RenderProbabilitySeverity();
         RenderActionsForm();
         this.RenderDocuments();
@@ -1082,7 +1082,7 @@ public partial class BusinessRiskView : Page
         }
     }
 
-    private void RenderRemainder()
+    /*private void RenderRemainder()
     {
         var probabilitySeverityCollection = ProbabilitySeverityRange.GetActive(this.Company.Id);
         var severityList = new StringBuilder();
@@ -1111,14 +1111,14 @@ public partial class BusinessRiskView : Page
 
         this.LTProbabilityData.Text = probabilityList.ToString();
         this.LTSeverityData.Text = severityList.ToString();
-    }
+    }*/
 
     private void RenderActionHistory()
     {
         var incidentActionCollection = BusinessRisk.FindHistoryAction(businessRisk.Code, this.Company.Id);
         var res = new StringBuilder();
         var searchItem = new List<string>();
-        foreach (var incidentAction in incidentActionCollection.Where(ia=>ia.BusinessRiskId != this.BusinessRiskId).OrderBy(incidentAction => incidentAction.WhatHappenedOn))
+        foreach (var incidentAction in incidentActionCollection.Where(ia => ia.BusinessRiskId != this.BusinessRiskId).OrderBy(incidentAction => incidentAction.WhatHappenedOn))
         {
             if (!searchItem.Contains(incidentAction.Description))
             {
@@ -1142,11 +1142,11 @@ public partial class BusinessRiskView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        var files = UploadFile.GetByItem(18, this.BusinessRiskId, this.Company.Id).ToList();
+        var files = UploadFile.GetByItem(ItemValues.BusinessRisk, this.BusinessRiskId, this.Company.Id).ToList();
 
         if (this.incidentAction.Id > 0)
         {
-            files.AddRange(UploadFile.GetByItem(13, this.incidentAction.Id, this.Company.Id));
+            files.AddRange(UploadFile.GetByItem(ItemValues.IncidentActions, this.incidentAction.Id, this.Company.Id));
         }
 
         var res = new StringBuilder();

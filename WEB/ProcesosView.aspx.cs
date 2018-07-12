@@ -230,7 +230,7 @@ public partial class ProcesosView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        var files = UploadFile.GetByItem(9, this.processId, this.company.Id);
+        var files = UploadFile.GetByItem(ItemValues.Proccess, this.processId, this.company.Id);
         var res = new StringBuilder();
         var resList = new StringBuilder();
         int contCells = 0;

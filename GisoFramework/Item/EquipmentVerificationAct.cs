@@ -88,33 +88,33 @@ namespace GisoFramework.Item
             get
             {
                 var res = new StringBuilder("{");
-                res.Append(Tools.JsonPair("Id", this.Id)).Append(",");
-                res.Append(Tools.JsonPair("EquipmentId", this.EquipmentId)).Append(",");
-                res.Append(Tools.JsonPair("EquipmentVerificationType", this.EquipmentVerificationType)).Append(",");
-                res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(",");
-                res.Append(Tools.JsonPair("Date", this.Date)).Append(",");
-                res.Append(Tools.JsonPair("Vto", this.Expiration)).Append(",");
-                res.Append(Tools.JsonPair("Result", this.Result, 6)).Append(",");
-                res.Append(Tools.JsonPair("MaxResult", this.MaxResult, 6)).Append(",");
-                res.Append(Tools.JsonPair("Cost", this.Cost)).Append(",");
-                res.Append(Tools.JsonPair("Active", this.Active)).Append(",");
+                res.Append(Tools.JsonPair("Id", this.Id)).Append(", ");
+                res.Append(Tools.JsonPair("EquipmentId", this.EquipmentId)).Append(", ");
+                res.Append(Tools.JsonPair("EquipmentVerificationType", this.EquipmentVerificationType)).Append(", ");
+                res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(", ");
+                res.Append(Tools.JsonPair("Date", this.Date)).Append(", ");
+                res.Append(Tools.JsonPair("Vto", this.Expiration)).Append(", ");
+                res.Append(Tools.JsonPair("Result", this.Result, 6)).Append(", ");
+                res.Append(Tools.JsonPair("MaxResult", this.MaxResult, 6)).Append(", ");
+                res.Append(Tools.JsonPair("Cost", this.Cost)).Append(", ");
+                res.Append(Tools.JsonPair("Active", this.Active)).Append(", ");
 
                 if (this.Provider == null)
                 {
-                    res.Append("\"Provider\":null,");
+                    res.Append("\"Provider\" :null, ");
                 }
                 else
                 {
-                    res.Append("\"Provider\":").Append(this.Provider.JsonKeyValue).Append(",");
+                    res.Append("\"Provider\": ").Append(this.Provider.JsonKeyValue).Append(",");
                 }
 
                 if (this.Responsible == null)
                 {
-                    res.Append("\"Responsible\":null}");
+                    res.Append("\"Responsible\": null}");
                 }
                 else
                 {
-                    res.Append("\"Responsible\":").Append(this.Responsible.JsonKeyValue).Append("}");
+                    res.Append("\"Responsible\": ").Append(this.Responsible.JsonKeyValue).Append("}");
                 }
 
                 return res.ToString();

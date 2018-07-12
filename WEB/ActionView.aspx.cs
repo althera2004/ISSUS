@@ -617,7 +617,7 @@ public partial class ActionView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        var files = UploadFile.GetByItem(13, this.IncidentActionId, this.Company.Id);
+        var files = UploadFile.GetByItem(ItemValues.IncidentActions, this.IncidentActionId, this.Company.Id);
         var res = new StringBuilder();
         var resList = new StringBuilder();
         int contCells = 0;

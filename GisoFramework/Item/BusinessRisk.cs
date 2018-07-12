@@ -1234,22 +1234,22 @@ namespace GisoFramework.Item
                 }
                 else
                 {
-                    res.Append(",");
+                    res.Append(", ");
                 }
 
                 res.Append("{");
-                res.Append(Tools.JsonPair("BusinessRiskId", item.Id)).Append(",");
-                res.Append(Tools.JsonPair("OpenDate", item.OpenDate)).Append(",");
-                res.Append(Tools.JsonPair("Description", item.Description)).Append(",");
-                res.Append(Tools.JsonPair("Code", item.Code)).Append(",");
-                res.Append(Tools.JsonPair("CloseDate", item.CloseDate)).Append(",");
-                res.Append(Tools.JsonPair("Process", item.Process.JsonKeyValue)).Append(",");
-                res.Append(Tools.JsonPair("Rules", item.Rule.JsonKeyValue)).Append(",");
-                res.Append(Tools.JsonPair("StartAction", item.StartAction)).Append(",");
-                res.Append(Tools.JsonPair("FinalAction", item.FinalAction)).Append(",");
-                res.Append(Tools.JsonPair("StartResult", item.InitialResult)).Append(",");
-                res.Append(Tools.JsonPair("FinalResult", item.FinalResult)).Append(",");
-                res.Append(Tools.JsonPair("RuleLimit", item.Rule.Limit)).Append(",");
+                res.Append(Tools.JsonPair("BusinessRiskId", item.Id)).Append(", ");
+                res.Append(Tools.JsonPair("OpenDate", item.OpenDate)).Append(", ");
+                res.Append(Tools.JsonPair("Description", item.Description)).Append(", ");
+                res.Append(Tools.JsonPair("Code", item.Code)).Append(", ");
+                res.Append(Tools.JsonPair("CloseDate", item.CloseDate)).Append(", ");
+                res.Append(Tools.JsonPair("Process", item.Process.JsonKeyValue)).Append(", ");
+                res.Append(Tools.JsonPair("Rules", item.Rule.JsonKeyValue)).Append(", ");
+                res.Append(Tools.JsonPair("StartAction", item.StartAction)).Append(", ");
+                res.Append(Tools.JsonPair("FinalAction", item.FinalAction)).Append(", ");
+                res.Append(Tools.JsonPair("StartResult", item.InitialResult)).Append(", ");
+                res.Append(Tools.JsonPair("FinalResult", item.FinalResult)).Append(", ");
+                res.Append(Tools.JsonPair("RuleLimit", item.Rule.Limit)).Append(", ");
                 res.Append(Tools.JsonPair("Assumed", item.Assumed)).Append("}");
             }
 

@@ -15,6 +15,9 @@ namespace GisoFramework
     /// <summary>Implements Tools class.</summary>
     public static class Tools
     {
+        /// <summary>Gets a date from text</summary>
+        /// <param name="text">Text to convert</param>
+        /// <returns>Date from text</returns>
         public static DateTime? TextToDate(string text)
         {
             if (string.IsNullOrEmpty(text))
@@ -31,6 +34,9 @@ namespace GisoFramework
             return null;
         }
 
+        /// <summary>Gets a text to represent a money value for pdf content</summary>
+        /// <param name="value">Value to convert</param>
+        /// <returns>Text to represent a money value for pdf content</returns>
         public static string PdfMoneyFormat(decimal value)
         {
             return string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", value).Replace(",", "*").Replace(".", ",").Replace("*", ".");
@@ -142,7 +148,7 @@ namespace GisoFramework
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, string value)
         {
-            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":""{1}""", key, JsonCompliant(value));
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"": ""{1}""", key, JsonCompliant(value));
         }
 
         /// <summary>Create a JSON pair key/value from a string value</summary>
@@ -151,7 +157,7 @@ namespace GisoFramework
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, bool value)
         {
-            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1}", key, value == true ? "true" : "false");
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"": {1}", key, value == true ? "true" : "false");
         }
 
         /// <summary>Create a JSON pair key/value from a DateTime value</summary>
@@ -160,7 +166,7 @@ namespace GisoFramework
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, DateTime value)
         {
-            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1:yyyyMMdd}", key, value);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"": {1:yyyyMMdd}", key, value);
         }
 
         /// <summary>Create a JSON pair key/value from a integer value</summary>
@@ -169,7 +175,7 @@ namespace GisoFramework
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, int value)
         {
-            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1}", key, value);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"": {1}", key, value);
         }
 
         /// <summary>Create a JSON pair key/value from a long value</summary>
@@ -178,7 +184,7 @@ namespace GisoFramework
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, long value)
         {
-            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1}", key, value);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"": {1}", key, value);
         }
 
         /// <summary>Create a JSON pair key/value from a decimal value</summary>
@@ -187,7 +193,7 @@ namespace GisoFramework
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, decimal value)
         {
-            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1:#0.00}", key, value);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"": {1:#0.00}", key, value);
         }
 
         /// <summary>Create a JSON pair key/value from a decimal value</summary>
@@ -197,7 +203,7 @@ namespace GisoFramework
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, decimal value, int decimals)
         {
-            string pattern = @"""{0}"":{1:#0.";
+            string pattern = @"""{0}"": {1:#0.";
             for (int x = 0; x < decimals; x++)
             {
                 pattern += "0";
@@ -215,10 +221,10 @@ namespace GisoFramework
         {
             if (value.HasValue)
             {
-                return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1:#0.00}", key, value);
+                return string.Format(CultureInfo.InvariantCulture, @"""{0}"": {1:#0.00}", key, value);
             }
 
-            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":null", key);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"": null", key);
         }
 
         /// <summary>Create a JSON pair key/value from a decimal nullable value</summary>
@@ -230,7 +236,7 @@ namespace GisoFramework
         {
             if (value.HasValue)
             {
-                string pattern = @"""{0}"":{1:#0.";
+                string pattern = @"""{0}"": {1:#0.";
                 for (int x = 0; x < decimals; x++)
                 {
                     pattern += "0";
@@ -240,7 +246,7 @@ namespace GisoFramework
                 return string.Format(CultureInfo.InvariantCulture, pattern, key, value);
             }
 
-            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":null", key);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"": null", key);
         }
 
         /// <summary>Create a JSON pair key/value from a Double value</summary>
@@ -249,7 +255,7 @@ namespace GisoFramework
         /// <returns>Json representation of key/value pair</returns>
         public static string JsonPair(string key, double value)
         {
-            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"":{1:#0.00}", key, value);
+            return string.Format(CultureInfo.GetCultureInfo("en-us"), @"""{0}"": {1:#0.00}", key, value);
         }
 
         /// <summary>Create a JSON pair key/value from a string value</summary>
@@ -260,10 +266,10 @@ namespace GisoFramework
         {
             if (value == null)
             {
-                return string.Format(CultureInfo.InvariantCulture, @"""{0}"":null", key);
+                return string.Format(CultureInfo.InvariantCulture, @"""{0}"": null", key);
             }
 
-            return string.Format(CultureInfo.InvariantCulture, @"""{0}"":{1:yyyyMMdd}", key, value);
+            return string.Format(CultureInfo.InvariantCulture, @"""{0}"": {1:yyyyMMdd}", key, value);
         }
 
         /// <summary>Replace quote for literal quote</summary>
@@ -289,7 +295,9 @@ namespace GisoFramework
                 return string.Empty;
             }
 
-            text = text.Replace("\n", "\\n").Replace("\\r", string.Empty);
+            text = text.Replace("\n", "\\n");
+            text = text.Replace("\r", string.Empty);
+            text = text.Replace("\\", "\\\\");
             return text.Replace("\"", "\\\"");
         }
 

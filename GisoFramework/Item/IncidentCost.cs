@@ -62,7 +62,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"":{0}, ""Description"":""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
+                return string.Format(CultureInfo.InvariantCulture, @"{{""Id"": {0}, ""Description"": ""{1}""}}", this.Id, Tools.JsonCompliant(this.Description));
             }
         }
 
@@ -72,15 +72,15 @@ namespace GisoFramework.Item
             get
             {
                 var res = new StringBuilder("{");
-                res.Append(Tools.JsonPair("Id", this.Id)).Append(",");
-                res.Append(Tools.JsonPair("IncidentId", this.IncidentId)).Append(",");
-                res.Append(Tools.JsonPair("BusinessRiskId", this.BusinessRiskId)).Append(",");
-                res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(",");
-                res.Append(Tools.JsonPair("Description", this.Description)).Append(",");
-                res.Append(Tools.JsonPair("Amount", this.Amount)).Append(",");
-                res.Append(Tools.JsonPair("Quantity", this.Quantity)).Append(",");
-                res.Append(Tools.JsonPair("Responsible", this.Responsible)).Append(",");
-                res.Append(Tools.JsonPair("Active", this.Active)).Append(",");
+                res.Append(Tools.JsonPair("Id", this.Id)).Append(", ");
+                res.Append(Tools.JsonPair("IncidentId", this.IncidentId)).Append(", ");
+                res.Append(Tools.JsonPair("BusinessRiskId", this.BusinessRiskId)).Append(", ");
+                res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(", ");
+                res.Append(Tools.JsonPair("Description", this.Description)).Append(", ");
+                res.Append(Tools.JsonPair("Amount", this.Amount)).Append(", ");
+                res.Append(Tools.JsonPair("Quantity", this.Quantity)).Append(", ");
+                res.Append(Tools.JsonPair("Responsible", this.Responsible)).Append(", ");
+                res.Append(Tools.JsonPair("Active", this.Active)).Append(", ");
                 res.Append(Tools.JsonPair("Source", this.Source)).Append("}");
                 return res.ToString();
             }

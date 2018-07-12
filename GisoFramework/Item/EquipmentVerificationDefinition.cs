@@ -86,18 +86,18 @@ namespace GisoFramework.Item
                 }
 
                 var res = new StringBuilder("{");
-                res.Append(Tools.JsonPair("Id", this.Id)).Append(",");
-                res.Append(Tools.JsonPair("EquipmentId", this.EquipmentId)).Append(",");
-                res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(",");
-                res.Append(Tools.JsonPair("CalibrationType", this.VerificationType)).Append(",");
-                res.Append(Tools.JsonPair("Operation", this.Description)).Append(",");
-                res.Append(Tools.JsonPair("Periodicity", this.Periodicity)).Append(",");
-                res.Append(Tools.JsonPair("Uncertainty", this.Uncertainty, 6)).Append(",");
-                res.Append(Tools.JsonPair("Range", this.Range)).Append(",");
-                res.Append(Tools.JsonPair("Pattern", this.Pattern)).Append(",");
-                res.Append(Tools.JsonPair("Cost", this.Cost)).Append(",");
-                res.Append(Tools.JsonPair("Notes", this.Notes)).Append(","); ;
-                res.Append("\"Provider\":").Append(this.Provider.JsonKeyValue).Append(",");
+                res.Append(Tools.JsonPair("Id", this.Id)).Append(", ");
+                res.Append(Tools.JsonPair("EquipmentId", this.EquipmentId)).Append(", ");
+                res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(", ");
+                res.Append(Tools.JsonPair("CalibrationType", this.VerificationType)).Append(", ");
+                res.Append(Tools.JsonPair("Operation", this.Description)).Append(", ");
+                res.Append(Tools.JsonPair("Periodicity", this.Periodicity)).Append(", ");
+                res.Append(Tools.JsonPair("Uncertainty", this.Uncertainty, 6)).Append(", ");
+                res.Append(Tools.JsonPair("Range", this.Range)).Append(", ");
+                res.Append(Tools.JsonPair("Pattern", this.Pattern)).Append(", ");
+                res.Append(Tools.JsonPair("Cost", this.Cost)).Append(", ");
+                res.Append(Tools.JsonPair("Notes", this.Notes)).Append(", ");
+                res.Append("\"Provider\":").Append(this.Provider.JsonKeyValue).Append(", ");
                 res.Append("\"Responsible\":").Append(this.Responsible.JsonSimple);
                 res.Append("}");
                 return res.ToString();

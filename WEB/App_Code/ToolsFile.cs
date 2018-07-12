@@ -20,14 +20,14 @@ public class ToolsFile
     {
         get
         {
-            List<string> res = new List<string>();
-            res.Add(".txt");
-            //res.Add(".pdf");
-            res.Add(".png");
-            res.Add(".gif");
-            res.Add(".jpg");
-
-            return new ReadOnlyCollection<string>(res);
+            return new ReadOnlyCollection<string>(new List<string>
+            {
+                ".txt",
+                //res.Add(".pdf");
+                ".png",
+                ".gif",
+                ".jpg"
+            });
         }
     }
 
