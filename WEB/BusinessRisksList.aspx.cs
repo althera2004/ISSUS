@@ -190,9 +190,7 @@ public partial class BusinessRisksList : Page
             this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th5", HeaderId = "ListDataHeaderOportunity", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"], HiddenMobile = true });
             this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th6", HeaderId = "ListDataHeaderOportunity", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Result"], HiddenMobile = true });
         }
-        //GTK
-
-
+       
         if (this.Request.QueryString["id"] != null)
         {
             this.businessRiskId = Convert.ToInt64(this.Request.QueryString["id"]);
