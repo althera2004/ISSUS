@@ -240,7 +240,7 @@ window.onload = function () {
     $("#CalInt").on("click", EquipmentRecordGetFromFilter);
     $("#CalExt").on("click", EquipmentRecordGetFromFilter);
     $("#VerInt").on("click", EquipmentRecordGetFromFilter);
-    $("#CalExt").on("click", EquipmentRecordGetFromFilter);
+    $("#VerExt").on("click", EquipmentRecordGetFromFilter);
     $("#ManInt").on("click", EquipmentRecordGetFromFilter);
     $("#ManExt").on("click", EquipmentRecordGetFromFilter);
     $("#RepInt").on("click", EquipmentRecordGetFromFilter);
