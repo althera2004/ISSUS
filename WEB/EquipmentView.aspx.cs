@@ -913,8 +913,8 @@ public partial class EquipmentView : Page
         this.VerificationInternalTxtOperation = new FormText()
         {
             Name = "TxtVerificationInternalOperation",
-            ColumnSpan = 9,
-            ColumnSpanLabel = 3,
+            ColumnSpan = 10,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_EquipmentVerification_Field_Operation"],
             MaximumLength = 100,
@@ -928,7 +928,7 @@ public partial class EquipmentView : Page
         {
             Name = "TxtVerificationInternalPeriodicity",
             ColumnSpan = 2,
-            ColumnSpanLabel = 3,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_EquipmentVerification_Field_Periodicity"],
             MaximumLength = 5,
@@ -943,8 +943,8 @@ public partial class EquipmentView : Page
         this.VerificationInternalTxtUncertainty = new FormTextFreeDecimal()
         {
             Name = "TxtVerificationInternalUncertainty",
-            ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpan = 4,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_EquipmentVerification_Field_Uncertainty"],
             MaximumLength = 8,
@@ -959,7 +959,7 @@ public partial class EquipmentView : Page
         {
             Name = "TxtVerificationInternalRange",
             ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_EquipmentVerification_Field_Range"],
             MaximumLength = Constant.DefaultDatabaseVarChar,
@@ -971,7 +971,7 @@ public partial class EquipmentView : Page
         {
             Name = "TxtVerificationInternalPattern",
             ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = "Patrón",
             MaximumLength = Constant.DefaultDatabaseVarChar,
@@ -982,8 +982,8 @@ public partial class EquipmentView : Page
         this.VerificationInternalTxtCost = new FormTextDecimal()
         {
             Name = "TxtVerificationInternalCost",
-            ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpan = 4,
+            ColumnSpanLabel =2 ,
             GrantToWrite = this.grantToWrite,
             Label = "Coste",
             MaximumLength = 8,
@@ -1007,9 +1007,9 @@ public partial class EquipmentView : Page
 
         this.VerificationInternalCmbResponsible = new FormSelect()
         {
-            ColumnsSpanLabel = 3,
+            ColumnsSpanLabel = 2,
             Label = this.Dictionary["Item_Equipment_Field_Responsible_Label"],
-            ColumnsSpan = 9,
+            ColumnsSpan = 10,
             Name = "CmbVerificationInternalResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
@@ -1043,8 +1043,8 @@ public partial class EquipmentView : Page
         this.VerificationExternalTxtOperation = new FormText()
         {
             Name = "TxtVerificationExternalOperation",
-            ColumnSpan = 9,
-            ColumnSpanLabel = 3,
+            ColumnSpan = 10,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = "Operación",
             MaximumLength = 100,
@@ -1058,7 +1058,7 @@ public partial class EquipmentView : Page
         {
             Name = "TxtVerificationExternalPeriodicity",
             ColumnSpan = 2,
-            ColumnSpanLabel = 3,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = "Periodicidad",
             MaximumLength = 5,
@@ -1073,8 +1073,8 @@ public partial class EquipmentView : Page
         this.VerificationExternalTxtUncertainty = new FormTextFreeDecimal()
         {
             Name = "TxtVerificationExternalUncertainty",
-            ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpan = 4,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_EquipmentVerification_Field_Uncertainty"],
             MaximumLength = 8,
@@ -1089,7 +1089,7 @@ public partial class EquipmentView : Page
         {
             Name = "TxtVerificationExternalRange",
             ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_EquipmentVerification_Field_Range"],
             MaximumLength = Constant.DefaultDatabaseVarChar,
@@ -1101,7 +1101,7 @@ public partial class EquipmentView : Page
         {
             Name = "TxtVerificationExternalPattern",
             ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_EquipmentVerification_Field_Pattern"],
             MaximumLength = Constant.DefaultDatabaseVarChar,
@@ -1112,8 +1112,8 @@ public partial class EquipmentView : Page
         this.VerificationExternalTxtCost = new FormTextDecimal()
         {
             Name = "TxtVerificationExternalCost",
-            ColumnSpan = 3,
-            ColumnSpanLabel = 3,
+            ColumnSpan = 4,
+            ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_EquipmentVerification_Field_Cost"],
             MaximumLength = 8,
@@ -1137,9 +1137,9 @@ public partial class EquipmentView : Page
 
         this.VerificationExternalCmbResponsible = new FormSelect()
         {
-            ColumnsSpanLabel = 3,
+            ColumnsSpanLabel = 2,
             Label = this.Dictionary["Item_Equipment_Field_Responsible_Label"],
-            ColumnsSpan = 9,
+            ColumnsSpan = 10,
             Name = "CmbVerificationExternalResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
@@ -1175,7 +1175,7 @@ public partial class EquipmentView : Page
         this.MaintenanceNewConfiguration = new UIButton()
         {
             Action = "success",
-            Icon = "icon-plus-sign",
+            Icon = "icon-save",
             Id = "BtnNewMaintainment",
             Text = this.Dictionary["Item_Equipment_Maintenance_Button_AddConfiguration"]
         };
@@ -1183,7 +1183,7 @@ public partial class EquipmentView : Page
         this.MaintenanceNewAct = new UIButton()
         {
             Action = "success",
-            Icon = "icon-plus-sign",
+            Icon = "icon-plus",
             Id = "BtnNewMaintainmentAct",
             Text = this.Dictionary["Item_Equipment_Maintenance_Button_AddAct"]
         };

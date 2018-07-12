@@ -241,7 +241,7 @@
                                                     <div class="row" id="CalibrationDivTable">
                                                     	<div class="form-group col-sm-12">
                                                     	<div class="col-sm-10"><h4><%=this.Dictionary["Item_EquipmentCalibration_Reg"] %></h4></div>
-                                                               <div class="col-sm-1 no-padding-right">
+                                                               <div class="col-sm-2" style="text-align:right;">
                                                         <!--div class="col-sm-12" style="margin-bottom:8px;"-->
                                                             <button class="btn btn-success" type="button" id="BtnNewCalibration">
                                                                 <i class="icon-plus bigger-110"></i>
@@ -261,7 +261,7 @@
                                                                                 <th id="th3" class="sort hidden-480" style="width:120px;" onclick="Sort(this,'TableEquipmentCalibrationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %></th>	
                                                                                 <th class="hidden-480"><%=this.Dictionary["Item_Equipment_Field_Calibration_Responsible"] %></th>	
                                                                                 <th id="th5" class="sort hidden-480" style="width:120px;" onclick="Sort(this,'TableEquipmentCalibrationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %></th>	
-                                                                                <th id="th6" class="sort hidden-480" style="width:90px;"  onclick="Sort(this,'TableEquipmentCalibrationAct','date');" ><%=this.Dictionary["Item_Equipment_Field_Calibration_Expiration"] %></th>	
+                                                                                <th id="th6" class="sort hidden-480" style="width:120px;"  onclick="Sort(this,'TableEquipmentCalibrationAct','date');" ><%=this.Dictionary["Item_Equipment_Field_Calibration_Expiration"] %></th>	
                                                                                 <th class="hidden-480" style="width:110px;">&nbsp;</th>												
                                                                             </tr>
                                                                         </thead>
@@ -305,7 +305,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <%=this.VerificationInternalTxtPeriodicity.Render%>
-                                                                    <label id="Label3" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Label_Days"] %></label>
+                                                                    <label id="Label3" class="col-sm-2"><%=this.Dictionary["Common_Label_Days"] %></label>
                                                                     <%=this.VerificationInternalTxtUncertainty.Render.Replace("decimalFormated","decimalFormated6") %>
                                                                 </div>   
                                                                 <div class="form-group">
@@ -313,6 +313,7 @@
                                                                 </div>  
                                                                 <div class="form-group">
                                                                     <%=this.VerificationInternalTxtPattern.Render%>
+                                                                    <label id="Label31" class="col-sm-1">&nbsp;</label>
                                                                     <%=this.VerificationInternalTxtCost.Render%>
                                                                 </div>
                                                                 <div class="form-group">
@@ -344,7 +345,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <%=this.VerificationExternalTxtPeriodicity.Render%>
-                                                                    <label id="Label4" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Label_Days"] %></label>
+                                                                    <label id="Label4" class="col-sm-2"><%=this.Dictionary["Common_Label_Days"] %></label>
                                                                     <%=this.VerificationExternalTxtUncertainty.Render.Replace("decimalFormated","decimalFormated6") %>
                                                                 </div>   
                                                                 <div class="form-group">
@@ -352,6 +353,7 @@
                                                                 </div>  
                                                                 <div class="form-group">
                                                                     <%=this.VerificationExternalTxtPattern.Render%>
+                                                                    <label id="Label311" class="col-sm-1">&nbsp;</label>
                                                                     <%=this.VerificationExternalTxtCost.Render%>
                                                                 </div>
                                                                 <div class="form-group">
@@ -361,8 +363,8 @@
                                                                     <%=this.VerificationExternalCmbResponsible.Render%>
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label id="CmbVerificationExternalProviderLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Equipment_Field_Verification_Provider"] %><span class="required">*</span></label>
-                                                                    <div class="col-sm-7" id="CmbVerificationExternalProviderrDiv" style="height:35px !important;">
+                                                                    <label id="CmbVerificationExternalProviderLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Equipment_Field_Verification_Provider"] %><span class="required">*</span></label>
+                                                                    <div class="col-sm-9" id="CmbVerificationExternalProviderrDiv" style="height:35px !important;">
                                                                         <select id="CmbVerificationExternalProvider" class="form-control col-xs-12 col-sm-12"></select>
                                                                         <input style="display:none;" type="text" readonly="readonly" id="CmbVerificationExternalProviderValue" placeholder="Proveedor" class="col-xs-12 col-sm-12" />
                                                                         <span class="ErrorMessage" id="CmbVerificationExternalProviderErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
@@ -391,7 +393,7 @@
                                                     <div class="row" id="VerificationDivTable">
                                                         <div class="form-group col-sm-12">
                                                     	<div class="col-sm-10"><h4><%=this.Dictionary["Item_EquipmentVerification_Reg"] %></h4></div>
-                                                               <div class="col-sm-1 no-padding-right">
+                                                               <div class="col-sm-2" style="text-align:right;">
                                                         <!--div class="col-sm-12" style="margin-bottom:8px;"-->
                                                             <button class="btn btn-success" type="button" id="BtnNewVerification">
                                                                 <i class="icon-plus bigger-110"></i>
@@ -412,7 +414,7 @@
                                                                                 <th id="th3" class="sort hidden-480" style="width:120px;" onclick="Sort(this,'TableEquipmentVerificationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %></th>	
                                                                                 <th class="hidden-480"><%=this.Dictionary["Common_Responsible"] %></th>	
                                                                                 <th id="th5" class="sort hidden-480" style="width:120px;" onclick="Sort(this,'TableEquipmentVerificationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %></th>	
-                                                                                <th id="th6" class="sort hidden-480" style="width:90px;"  onclick="Sort(this,'TableEquipmentVerificationAct','date');" ><%=this.Dictionary["Item_Equipment_Field_Calibration_Expiration"] %></th>	
+                                                                                <th id="th6" class="sort hidden-480" style="width:120px;"  onclick="Sort(this,'TableEquipmentVerificationAct','date');" ><%=this.Dictionary["Item_Equipment_Field_Calibration_Expiration"] %></th>	
                                                                                 <th class="hidden-480" style="width:110px;">&nbsp;</th>												
                                                                             </tr>
                                                                         </thead>
@@ -452,9 +454,9 @@
                                                             <tr>
                                                                 <th onclick="Sort(this,'TableEquipmentMaintenanceDefinition','text',false);" id="th0" class="sort" style="width:400px;"><%=this.Dictionary["Item_EquipmentMaintenanceDefinition_Header_Operation"] %></th>
                                                                 <th style="width:90px;cursor:pointer;"><%=this.Dictionary["Item_EquipmentMaintenanceDefinition_Header_Type"] %></th>	
-                                                                <th onclick="Sort(this,'TableEquipmentMaintenanceDefinition','money',false);" id="th2" class="sort" style="width:100px;cursor:pointer;"><%=this.Dictionary["Item_EquipmentMaintenanceDefinition_Header_Periodicity"] %></th>	
+                                                                <th onclick="Sort(this,'TableEquipmentMaintenanceDefinition','money',false);" id="th2" class="sort" style="width:150px;cursor:pointer;"><%=this.Dictionary["Item_EquipmentMaintenanceDefinition_Header_Periodicity"] %></th>	
                                                                 <th><%=this.Dictionary["Item_EquipmentMaintenanceDefinition_Header_Accesories"] %></th>	
-                                                                <th onclick="Sort(this,'TableEquipmentMaintenanceDefinition','money',false);" id="th4" class="sort" style="width:70px;cursor:pointer;"><%=this.Dictionary["Item_EquipmentMaintenanceDefinition_Header_Cost"] %></th>	
+                                                                <th onclick="Sort(this,'TableEquipmentMaintenanceDefinition','money',false);" id="th4" class="sort" style="width:90px;cursor:pointer;"><%=this.Dictionary["Item_EquipmentMaintenanceDefinition_Header_Cost"] %></th>	
                                                                 <th style="width:110px;">&nbsp;</th>											
                                                             </tr>
                                                         </thead>
@@ -482,7 +484,7 @@
                                                                 <th id="th14" class=""><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Observations"] %></th>	
                                                                 <th id="th15" class="" style="width:200px;"><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Responsible"] %></th>	
                                                                 <th onclick="Sort(this,'TableEquipmentMaintenanceAct','money');" id="th4" class="sort" style="width:70px;"><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Cost"] %></th>	
-                                                                <th onclick="Sort(this,'TableEquipmentMaintenanceAct','date');" id="th5" class="sort" style="width:90px;"><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Expiration"] %></th>
+                                                                <th onclick="Sort(this,'TableEquipmentMaintenanceAct','date');" id="th5" class="sort" style="width:120px;"><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Expiration"] %></th>
                                                                 <th style="width:110px;">&nbsp;</th>														
                                                             </tr>
                                                         </thead>
@@ -524,7 +526,7 @@
                                                                 <th onclick="Sort(this,'TableEquipmentRepair', 'text');" id="th1" class="sort" style="cursor:pointer;"><%=this.Dictionary["Item_EquipmentRepair_Header_Operation"] %></th>
                                                                 <!--<th><%=this.Dictionary["Item_EquipmentRepair_Header_Observations"] %></th>	-->
                                                                 <th onclick="Sort(this,'TableEquipmentRepair', 'text');" id="th3" class="sort" style="width:200px;cursor:pointer;"><%=this.Dictionary["Item_EquipmentRepair_Header_Responsible"] %></th>	
-                                                                <th onclick="Sort(this,'TableEquipmentRepair', 'money');" id="th4" class="sort" style="width:70px;cursor:pointer;"><%=this.Dictionary["Item_EquipmentRepair_Header_Cost"] %></th>	
+                                                                <th onclick="Sort(this,'TableEquipmentRepair', 'money');" id="th4" class="sort" style="width:90px;cursor:pointer;"><%=this.Dictionary["Item_EquipmentRepair_Header_Cost"] %></th>	
                                                                 <th style="width:110px;" align="center">&nbsp;</th>										
                                                             </tr>
                                                         </thead>

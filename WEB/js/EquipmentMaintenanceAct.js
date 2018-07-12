@@ -67,7 +67,7 @@ function EquipmentMaintenanceActRenderRow(equipmentMaintenanceAct, targetName) {
     tdOperation.style.width = "220px";
     tdResponsible.style.width = "200px";
     tdCost.style.width = "70px";
-    tdVto.style.width = "90px";
+    tdVto.style.width = "120px";
 
     row.appendChild(tdFecha);
     row.appendChild(tdOperation);

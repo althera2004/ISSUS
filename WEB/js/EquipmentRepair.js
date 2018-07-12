@@ -49,7 +49,7 @@ function EquipmentRepairRenderRow(EquipmentRepair, targetName) {
 
     tdFecha.style.width = "90px";
     //tdDescription.style.width = "180px";
-    tdCost.style.width = "70px";
+    tdCost.style.width = "90px";
     tdResponsible.style.width = "200px";
 
     tdFecha.align = "center";

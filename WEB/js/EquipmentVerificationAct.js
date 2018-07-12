@@ -209,7 +209,7 @@ function EquipmentVerificationActRenderRow(equipmentVerificationAct, targetName)
     tdMax.style.width = "130px";
     tdResult.style.width = "120px";
     tdCost.style.width = "120px";
-    tdVto.style.width = "90px";
+    tdVto.style.width = "120px";
 
     tdFecha.align = "center";
     tdVto.align = "center";

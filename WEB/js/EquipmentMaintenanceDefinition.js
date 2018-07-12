@@ -43,8 +43,8 @@ function EquipmentMaintenanceDefinitionRenderRow(equipmentMaintenance, targetNam
 
     tdOperation.style.width = "400px";
     tdType.style.width = "90px";
-    tdPeriodicity.style.width = "100px";
-    tdCost.style.width = "70px";
+    tdPeriodicity.style.width = "150px";
+    tdCost.style.width = "90px";
 
     row.appendChild(tdOperation);
     row.appendChild(tdType);

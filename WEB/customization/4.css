@@ -294,7 +294,7 @@ button.btn:active{top:1px;left:1px}
 #BtnNewDepartmentSave.btn-success:hover,.open #BtnNewDepartmentSave.btn-success.dropdown-toggle{background-color:#629b58!important;border-color:#87b87f}
 #BtnNewDepartmentSave.btn-success.no-border:hover{border-color:#629b58}
 #BtnNewDepartmentSave.btn-success.no-hover:hover{background-color:#87b87f!important}
-#BtnNewDepartmentSave.btn-success.active{background-color:#75aa6c!important;border-color:#629959}
+#BtnNewDepartmentSave.btn-success.active{background-color:#75aa6c!important;border-color:#}
 #BtnNewDepartmentSave.btn-success.no-border.active{background-color:#6ba462!important;border-color:#6ba462}
 #BtnNewDepartmentSave.btn-success.disabled, #BtnNewDepartmentSave.btn-success[disabled],fieldset[disabled] #BtnNewDepartmentSave.btn-success, #BtnNewDepartmentSave.btn-success.disabled:hover, #BtnNewDepartmentSave.btn-success[disabled]:hover,fieldset[disabled] #BtnNewDepartmentSave.btn-success:hover,  #BtnNewDepartmentSave.btn-success.disabled:focus, #BtnNewDepartmentSave.btn-success[disabled]:focus,fieldset[disabled] #BtnNewDepartmentSave.btn-success:focus, #BtnNewDepartmentSave.btn-success.disabled:active, #BtnNewDepartmentSave.btn-success[disabled]:active,fieldset[disabled] #BtnNewDepartmentSave.btn-success:active, #BtnNewDepartmentSave.btn-success.disabled.active, #BtnNewDepartmentSave.btn-success[disabled].active,fieldset[disabled] #BtnNewDepartmentSave.btn-success.active{background-color:#87b87f!important;border-color:#87b87f}
 
@@ -308,13 +308,13 @@ button.btn:active{top:1px;left:1px}
 #BtnEquipmentChangeImage.btn-success.disabled,#BtnEquipmentChangeImage.btn-success[disabled],fieldset[disabled] #BtnEquipmentChangeImage.btn-success,#BtnEquipmentChangeImage.btn-success.disabled:hover,#BtnEquipmentChangeImage.btn-success[disabled]:hover,fieldset[disabled] #BtnEquipmentChangeImage.btn-success:hover,#BtnEquipmentChangeImage.btn-success.disabled:focus,#BtnEquipmentChangeImage.btn-success[disabled]:focus,fieldset[disabled] #BtnEquipmentChangeImage.btn-success:focus,#BtnEquipmentChangeImage.btn-success.disabled:active,#BtnEquipmentChangeImage.btn-success[disabled]:active,fieldset[disabled] #BtnEquipmentChangeImage.btn-success:active,#BtnEquipmentChangeImage.btn-success.disabled.active,#BtnEquipmentChangeImage.btn-success[disabled].active,fieldset[disabled] #BtnEquipmentChangeImage.btn-success.active{background-color:#6fb3e0!important;border-color:#6fb3e0}
 
 
-#BtnNewVerification.btn-success, #BtnNewVerification.btn-success:focus{background-color:#6fb3e0!important;border-color:#6fb3e0}
-#BtnNewVerification.btn-success:hover,.open #BtnNewVerification.btn-success.dropdown-toggle{background-color:#4f99c6!important;border-color:#6fb3e0}
-#BtnNewVerification.btn-success.no-border:hover{border-color:#4f99c6}
-#BtnNewVerification.btn-success.no-hover:hover{background-color:#6fb3e0!important}
-#BtnNewVerification.btn-success.active{background-color:#5fa6d3!important;border-color:#4396cb}
-#BtnNewVerification.btn-success.no-border.active{background-color:#539fd0!important;border-color:#539fd0}
-#BtnNewVerification.btn-success.disabled,#BtnNewVerification.btn-success[disabled],fieldset[disabled] #BtnNewVerification.btn-success,#BtnNewVerification.btn-success.disabled:hover,#BtnNewVerification.btn-success[disabled]:hover,fieldset[disabled] #BtnNewVerification.btn-success:hover,#BtnNewVerification.btn-success.disabled:focus,#BtnNewVerification.btn-success[disabled]:focus,fieldset[disabled] #BtnNewVerification.btn-success:focus,#BtnNewVerification.btn-success.disabled:active,#BtnNewVerification.btn-success[disabled]:active,fieldset[disabled] #BtnNewVerification.btn-success:active,#BtnNewVerification.btn-success.disabled.active,#BtnNewVerification.btn-success[disabled].active,fieldset[disabled] #BtnNewVerification.btn-success.active{background-color:#6fb3e0!important;border-color:#6fb3e0}
+#BtnNewVerification.btn-success, #BtnNewVerification.btn-success:focus{background-color:#87b87f!important;border-color:#87b87f}
+#BtnNewVerification.btn-success:hover,.open #BtnNewVerification.btn-success.dropdown-toggle{background-color:#629b58!important;border-color:#87b87f}
+#BtnNewVerification.btn-success.no-border:hover{border-color:#629b58}
+#BtnNewVerification.btn-success.no-hover:hover{background-color:#87b87f!important}
+#BtnNewVerification.btn-success.active{background-color:#75aa6c!important;border-color:#75aa6c}
+#BtnNewVerification.btn-success.no-border.active{background-color:#87b87f!important;border-color:#87b87f}
+#BtnNewVerification.btn-success.disabled,#BtnNewVerification.btn-success[disabled],fieldset[disabled] #BtnNewVerification.btn-success,#BtnNewVerification.btn-success.disabled:hover,#BtnNewVerification.btn-success[disabled]:hover,fieldset[disabled] #BtnNewVerification.btn-success:hover,#BtnNewVerification.btn-success.disabled:focus,#BtnNewVerification.btn-success[disabled]:focus,fieldset[disabled] #BtnNewVerification.btn-success:focus,#BtnNewVerification.btn-success.disabled:active,#BtnNewVerification.btn-success[disabled]:active,fieldset[disabled] #BtnNewVerification.btn-success:active,#BtnNewVerification.btn-success.disabled.active,#BtnNewVerification.btn-success[disabled].active,fieldset[disabled] #BtnNewVerification.btn-success.active{background-color:#87b87f!important;border-color:#87b87f}
 
 
 #BtnPrint.btn-success, #BtnPrint.btn-success:focus{background-color:#6fb3e0!important;border-color:#6fb3e0}
