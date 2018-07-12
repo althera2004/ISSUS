@@ -1706,3 +1706,9 @@ User_PrimaryUser::Administrador/a
 Verification-Ext::Verificación externa
 Verification-Int::Verificación interna
 ZZZZZ::Las nuevas claves a partir de aquí hacia abajo
+Item_Learning_Filter_Periode1::Período
+Item_Learning_Filter_Periode2::-
+Item_Document_FieldLabel_Status::Estado
+Item_EquipmentRecord_Filter_Periode1::Período
+Item_EquipmentRecord_Filter_Periode2::-
+Item_EquipmentRecord_Filter_Type::Tipo

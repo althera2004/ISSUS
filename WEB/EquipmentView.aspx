@@ -551,16 +551,100 @@
                                                 </div>
                                                 <div id="registros" class="tab-pane">
                                                     <h4><%=this.Dictionary["Item_Equipment_Tab_Records"] %></h4>                                                    
+
+
+                                                    
+                                                    <!-- GTK CLG -->
+
+                                                    <div class="col-xs-12">
+                                                        <table cellpadding="2" cellspacing="2">
+                                                            <tr>
+                                                                <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_EquipmentRecord_Filter_Periode1"] %>:</strong></td>
+										                        <td>
+                                                                    <div class="col-xs-12 col-sm-12">
+												                        <div class="input-group">
+													                        <input class="form-control date-picker" style="width:100px;" id="TxtRecordsFromDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													                        <span class="input-group-addon" onclick="document.getElementById('TxtRecordsFromDate').focus();" id="TxtRecordsFromDateBtn">
+														                        <i class="icon-calendar bigger-110"></i>
+													                        </span>
+												                        </div>
+											                            <span class="ErrorMessage" id="TxtDateFromErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateFromErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                                    </div>
+										                        </td>
+                                                                <td id="TxtDateToLabel"><%=this.Dictionary["Item_EquipmentRecord_Filter_Periode2"] %></td>
+										                        <td>
+                                                                    <div class="col-xs-12 col-sm-12">
+												                        <div class="input-group">
+													                        <input class="form-control date-picker" style="width:100px;" id="TxtRecordsToDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													                        <span class="input-group-addon" onclick="document.getElementById('TxtRecordsToDate').focus();" id="TxtRecordsToDateBtn">
+														                        <i class="icon-calendar bigger-110"></i>
+													                        </span>
+												                        </div>
+											                            <span class="ErrorMessage" id="TxtDateToErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateToErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                                    </div>
+										                        </td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td><strong><%=this.Dictionary["Item_EquipmentRecord_Filter_Type"] %>:</strong></td>
+                                                                <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="CalInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_CalibrationInternal"] %></td>
+                                                                <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="VerInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_VerificationInternal"] %></td>
+                                                                <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="ManInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_MaintenanceInternal"] %></td>
+                                                                <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="RepInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_RepairInternal"] %></td>
+
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+										                        <td>
+                                                                    <div class="col-xs-12 col-sm-12">
+												                        <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
+                                                                        <!--<button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display:none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>-->
+										                        </td>
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td>&nbsp;</td>
+										                        <td>&nbsp;</td>
+                                                                <td>&nbsp;</td>
+										                        <td>&nbsp;</td>
+
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="CalExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_CalibrationExternal"] %></td>
+                                                                <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="VerExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_VerificationExternal"] %></td>
+                                                                <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="ManExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_MaintenanceExternal"] %></td>
+                                                                <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="RepExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_RepairExternal"] %></td>
+
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+										                        <td>
+                                                                    <div class="col-xs-12 col-sm-12">
+                                                                        <!--<button class="btn btn-success" type="button" id="BtnRecordFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_EquipmentRecord_Filter_Button"] %></button>-->
+                                                                    </div>
+										                        </td>
+
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+
+                                                    <!-- GTL CLG -->
+
+
+
+                                                    <!-- LALALA  GTK 
                                                     <div class="row">
-                                                        <div class="col-sm-2"><input type="checkbox" id="CalInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_CalibrationInternal"] %></div>
-                                                        <div class="col-sm-2"><input type="checkbox" id="VerInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_VerificationInternal"] %></div>
-                                                        <div class="col-sm-2"><input type="checkbox" id="ManInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_MaintenanceInternal"] %></div>
-                                                        <div class="col-sm-2"><input type="checkbox" id="RepInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_RepairInternal"] %></div>
-                                                        <div class="col-sm-2">
+                                                        <label class="col-sm-1 control-label no-padding-right" style="font-size:13px;"><strong><%=this.Dictionary["Item_EquipmentRecord_Filter_Periode1"] %>:</strong></label>
+                                                        <div class="col-sm-1" style="text-align:left;">
                                                             <div class="row">
                                                                 <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtRecordsFromDateDiv">
                                                                     <div class="input-group">
-                                                                        <input class="form-control date-picker" id="TxtRecordsFromDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                                        <input class="form-control date-picker" style="width:100px;" id="TxtRecordsFromDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
                                                                         <span id="TxtRecordsFromDateBtn" class="input-group-addon" onclick="document.getElementById('TxtRecordsFromDate').focus();">
                                                                             <i class="icon-calendar bigger-110"></i>
                                                                         </span>
@@ -568,20 +652,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-2">
-                                                            <!--<button class="btn btn-success" type="button" id="BtnRecordFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_EquipmentRecord_Filter_Button"] %></button>-->
-                                                        </div>
-                                                    </div>
-                                                    <div class="row" style="margin-top:2px;">
-                                                        <div class="col-sm-2"><input type="checkbox" id="CalExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_CalibrationExternal"] %></div>
-                                                        <div class="col-sm-2"><input type="checkbox" id="VerExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_VerificationExternal"] %></div>
-                                                        <div class="col-sm-2"><input type="checkbox" id="ManExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_MaintenanceExternal"] %></div>
-                                                        <div class="col-sm-2"><input type="checkbox" id="RepExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_RepairExternal"] %></div>
-                                                        <div class="col-sm-2">
+                                                        <label class="col-sm-1" style="font-size:13px;"><strong><%=this.Dictionary["Item_EquipmentRecord_Filter_Periode2"] %></strong></label>
+                                                        <div class="col-sm-1" style="text-align:left;">
                                                             <div class="row">
                                                                 <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtRecordsToDateDiv">
                                                                     <div class="input-group">
-                                                                        <input class="form-control date-picker" id="TxtRecordsToDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                                        <input class="form-control date-picker" style="width:100px;" id="TxtRecordsToDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
                                                                         <span id="TxtRecordsToDateBtn" class="input-group-addon" onclick="document.getElementById('TxtRecordsToDate').focus();">
                                                                             <i class="icon-calendar bigger-110"></i>
                                                                         </span>
@@ -589,11 +665,33 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+
+
+                                                        <div class="col-sm-2"><input type="checkbox" id="CalInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_CalibrationInternal"] %></div>
+                                                        <div class="col-sm-2"><input type="checkbox" id="VerInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_VerificationInternal"] %></div>
+                                                        <div class="col-sm-2"><input type="checkbox" id="ManInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_MaintenanceInternal"] %></div>
+                                                        <div class="col-sm-2"><input type="checkbox" id="RepInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_RepairInternal"] %></div>
+                                                        
+                                                    </div>
+                                                    <div class="row" style="margin-top:2px;">
                                                         <div class="col-sm-2">
                                                             <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
-                                                            <!--<button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display:none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>-->
-                                                        </div>
-                                                    </div>
+                                                            <!-- <button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display:none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>-->
+                                                        <!--/div>
+                                                        <div class="col-sm-2">
+                                                            <!--<button class="btn btn-success" type="button" id="BtnRecordFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_EquipmentRecord_Filter_Button"] %></button>-->
+                                                        <!--/div>
+
+                                                        <div class="col-sm-2"><input type="checkbox" id="CalExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_CalibrationExternal"] %></div>
+                                                        <div class="col-sm-2"><input type="checkbox" id="VerExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_VerificationExternal"] %></div>
+                                                        <div class="col-sm-2"><input type="checkbox" id="ManExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_MaintenanceExternal"] %></div>
+                                                        <div class="col-sm-2"><input type="checkbox" id="RepExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_RepairExternal"] %></div>
+                                                        
+                                                    </div-->
+                                                    <!-- LALALA GTK -->
+
+
+
                                                     <div style="height:12px;clear:both"></div>
                                                     <table class="table table-bordered table-striped">
                                                         <thead class="thin-border-bottom" id="RegistrosTHead">

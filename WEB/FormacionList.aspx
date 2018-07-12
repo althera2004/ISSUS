@@ -32,7 +32,7 @@
                             <div class="col-xs-12">
                                 <table cellpadding="2" cellspacing="2">
                                     <tr>
-                                        <td id="TxtDateFromLabel"><%=this.Dictionary["Item_Learning_Filter_FromYear"] %>:</td>
+                                        <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_Learning_Filter_Periode1"] %>:</strong></td>
 										<td>
                                             <div class="col-xs-12 col-sm-12">
 												<div class="input-group">
@@ -46,7 +46,7 @@
 											    <span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                             </div>
 										</td>
-                                        <td id="TxtDateToLabel"><%=this.Dictionary["Item_Learning_Filter_ToYear"] %>:</td>
+                                        <td id="TxtDateToLabel"><%=this.Dictionary["Item_Learning_Filter_Periode2"] %></td>
 										<td>
                                             <div class="col-xs-12 col-sm-12">
 												<div class="input-group">

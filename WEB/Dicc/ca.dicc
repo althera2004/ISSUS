@@ -1706,3 +1706,9 @@ User_PrimaryUser::Administrador/a
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
 ZZZZZ::Les noves claus a partir d'aquí cap avall
+Item_Learning_Filter_Periode1::Període
+Item_Learning_Filter_Periode2::-
+Item_Document_FieldLabel_Status::Estat
+Item_EquipmentRecord_Filter_Periode1::Període
+Item_EquipmentRecord_Filter_Periode2::-
+Item_EquipmentRecord_Filter_Type::Tipus

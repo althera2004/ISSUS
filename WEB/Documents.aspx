@@ -34,6 +34,7 @@
                                 <!-- PAGE CONTENT BEGINS -->
                                 <div class="row" style="padding-bottom:8px;" id="SelectRow">
                                     <div class="col-xs-12">
+                                        <label class="col-sm-1 control-label no-padding-right" style="font-size:13px;"><strong><%=this.Dictionary["Item_Document_FieldLabel_Status"] %>:</strong></label>
                                         <div class="col-xs-1">
                                             <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Active_Plural"] %>
                                         </div>
@@ -41,13 +42,13 @@
                                             <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Inactive_Plural"] %>
                                         </div>
                                         <!-- col-xs-1  col-sm-1 control-label no-padding-right  -->
-                                        <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Category"] %></label>
-                                        <div class="col-xs-4">
+                                        <label class="col-sm-1 control-label no-padding-right" style="font-size:13px;"><strong><%=this.Dictionary["Item_Document_FieldLabel_Category"] %>:</strong></label>
+                                        <div class="col-xs-3">
                                             <select style="width:350px;" id="CmbCategory">
                                                 <option value="-1"><%=this.Dictionary["Common_All_Female_Plural"] %></option>
                                             </select>
                                         </div>
-                                        <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Origin"] %></label>
+                                        <label class="col-sm-1 control-label no-padding-right" style="font-size:13px;"><strong><%=this.Dictionary["Item_Document_FieldLabel_Origin"] %>:</strong></label>
                                         <div class="col-xs-3">
                                             <select style="width:200px" id="CmbOrigin">
                                                 <option value="-1"><%=this.Dictionary["Common_All"] %></option>
