@@ -169,6 +169,11 @@ function RenderRow(equipment) {
     var tdAdjuntos = document.createElement("td");
     var tdAcciones = document.createElement("td");
 
+    // @cristina --> aquí se decide el tipo de fuente para toda la fila
+    if (equipment.Activo === false) {
+        tr.style.fontStyle = "italic";
+    }
+
     tdCodigo.style.width = "110px";
     tdUbicacion.style.width = "350px";
     tdResponsable.style.width = "250px";
