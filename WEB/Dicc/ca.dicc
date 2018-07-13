@@ -1213,7 +1213,7 @@ Item_Indicador_Header_Objetivo::Objectiu
 Item_Indicador_Header_ObjetivoResponsible::Responsable
 Item_Indicador_Header_Process::Procés
 Item_Indicador_Header_ProcessResponsible::Responsable
-Item_Indicador_Header_ProcessType::Tipus de procés
+Item_Indicador_Header_ProcessType::Tipus procés
 Item_Indicador_Header_StartDate::Inici
 Item_Indicador_Label_Type::Tipus
 Item_Indicador_Label_TypeObjetivo::Objectiu
@@ -1713,3 +1713,4 @@ Item_EquipmentRecord_Filter_Periode1::Període
 Item_EquipmentRecord_Filter_Periode2::-
 Item_EquipmentRecord_Filter_Type::Tipus
 Item_BusinesRisk_ListHeader_Status::Estat
+Item_Employee_Filter_Status::Estat
