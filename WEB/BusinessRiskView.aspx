@@ -442,7 +442,7 @@
                                                             <div style="clear:both;height:20px;">&nbsp;</div>
                                                             <div class="form-group">
                                                                 <div id='chart' style="width:100%">
-                                                                    <svg style='height:500px;width:100%' id="svggrafic"></svg>
+                                                                    <svg style='height:500px;width:100%' id="svggraficBusinessRisk"></svg>
                                                                     <table id="GraphicTableVoid" style="height:500px;width:100%;display:none;">
                                                                         <tr>
                                                                             <td colspan="10" align="center" style="background-color:#ddddff;color:#0000aa;">
@@ -936,7 +936,7 @@
         $(document).mousemove(function(event) {
             currentMousePos.x = event.pageX;
             currentMousePos.y = event.pageY;
-            var position = $('#svggrafic').offset();
+            var position = $('#svggraficBusinessRisk').offset();
             $('.xy-tooltip').css({top: currentMousePos.y - position.top - 30, left: currentMousePos.x - position.left + 10});
         });
 

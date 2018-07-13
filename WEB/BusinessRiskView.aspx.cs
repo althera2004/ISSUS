@@ -1112,10 +1112,10 @@ public partial class BusinessRiskView : Page
         this.LTProbabilityData.Text = probabilityList.ToString();
         this.LTSeverityData.Text = severityList.ToString();
     }*/
-
+    
     private void RenderActionHistory()
     {
-        var incidentActionCollection = BusinessRisk.FindHistoryAction(businessRisk.Code, this.Company.Id);
+        var incidentActionCollection = IncidentAction.ByBusinessRiskCode(businessRisk.Code, this.Company.Id);
         var res = new StringBuilder();
         var searchItem = new List<string>();
         foreach (var incidentAction in incidentActionCollection.Where(ia => ia.BusinessRiskId != this.BusinessRiskId).OrderBy(incidentAction => incidentAction.WhatHappenedOn))
@@ -1136,7 +1136,7 @@ public partial class BusinessRiskView : Page
 
         this.BusinessRiskActionData.Text = res.ToString();
     }
-
+    
     private void RenderDocuments()
     {
         this.LtDocumentsList.Text = string.Empty;

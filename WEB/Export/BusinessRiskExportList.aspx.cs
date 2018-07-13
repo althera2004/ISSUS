@@ -126,13 +126,13 @@ public partial class ExportBusinessRiskExportList : Page
         if (typeId == 3) { typetext = Dictionary["Item_BusinessRisk_Status_NotSignificant"]; }
         if (typeId == 4) { typetext = Dictionary["Item_BusinessRisk_Status_Unevaluated"]; }
 
-        string ruleDescription = Dictionary["Common_All_Female_Plural"];
+        string ruleDescriptionBusinessRisk = Dictionary["Common_All_Female_Plural"];
         if (rulesId > 0)
         {
             var rule = Rules.GetById(companyId, rulesId);
             if (!string.IsNullOrEmpty(rule.Description))
             {
-                ruleDescription = rule.Description;
+                ruleDescriptionBusinessRisk = rule.Description;
             }
         }
         #endregion
@@ -142,7 +142,7 @@ public partial class ExportBusinessRiskExportList : Page
         criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Process"]));
         criteriatable.AddCell(ToolsPdf.CriteriaCellData(typetext));
         criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Rule"]));
-        criteriatable.AddCell(ToolsPdf.CriteriaCellData(ruleDescription));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellData(ruleDescriptionBusinessRisk));
         criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Type"]));
         criteriatable.AddCell(ToolsPdf.CriteriaCellData(criteriaProccess));
 

@@ -1716,3 +1716,5 @@ Item_BusinesRisk_ListHeader_Status::Estat
 Item_Employee_Filter_Status::Estat
 Item_BusinessRisksAndOportunities_Short::Riscos y Oport.
 Item_Oportunity_Message_InsertSucess::Ja es poden fer servir les altres pestanyes
+Item_Oportunity_Title_Graph::Gràfic
+Item_Oportunity_Btn_NewIPR::Fixar nou IPR

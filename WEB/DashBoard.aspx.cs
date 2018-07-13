@@ -107,7 +107,7 @@ public partial class DashBoard : Page
         bool first = true;
         foreach (var task in tasks)
         {
-            if(printedTasks.Any(t=> t.Description.Equals(task.Description) && t.Equipment.Id == task.Equipment.Id && task.TaskType == t.TaskType))
+            if(printedTasks.Any(t=> t.Action == task.Action && t.Equipment.Id == task.Equipment.Id && task.TaskType == t.TaskType))
             {
                 continue;
             }

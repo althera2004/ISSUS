@@ -490,7 +490,7 @@ namespace GisoFramework.Item
         {
             return new ReadOnlyCollection<BusinessRisk>(All(companyId, OnlyActive).Where(r => r.Rules.Id == rulesId).ToList());
         }
-
+        /*
         /// <summary>Return an historical list of a businessRisk actions</summary>
         /// <param name="code">Code identifier of the BusinessRisk</param>
         /// <param name="companyId">Company identifier</param>
@@ -504,7 +504,7 @@ namespace GisoFramework.Item
                    companyId);
             var res = new List<IncidentAction>();
             string query = "IncidentAction_GetByBusinessRiskCode";
-            using (SqlCommand cmd = new SqlCommand(query))
+            using (var cmd = new SqlCommand(query))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -566,7 +566,7 @@ namespace GisoFramework.Item
 
             return new ReadOnlyCollection<IncidentAction>(res);
         }
-
+        */
         /// <summary>Return an historical list of a businessRisk</summary>
         /// <param name="code">Code identifier of the BusinessRisk</param>
         /// <param name="companyId">Company identifier</param>
