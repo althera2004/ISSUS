@@ -599,8 +599,9 @@
                                                                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 										                        <td>
                                                                     <div class="col-xs-12 col-sm-12">
-												                        <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
-                                                                        <!--<button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display:none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>-->
+												                        <button class="btn btn-success" type="button" id="BtnRecordShowAll" title="<%=this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-list"></i></button>
+                                                                        <button class="btn btn-success" type="button" id="BtnRecordShowNone" title="<%=this.Dictionary["Common_None_Male"] %>"><i class="icon-remove-circle"></i></button>
+                                                                    </div>
 										                        </td>
 
                                                             </tr>
@@ -624,7 +625,7 @@
 										                        <td>
                                                                     <div class="col-xs-12 col-sm-12">
                                                                         <!--<button class="btn btn-success" type="button" id="BtnRecordFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_EquipmentRecord_Filter_Button"] %></button>-->
-                                                                        <button class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
+                                                                        <!--button class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button-->
                                                                     </div>
 										                        </td>
 

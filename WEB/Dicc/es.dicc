@@ -1714,3 +1714,9 @@ Item_EquipmentRecord_Filter_Periode2::-
 Item_EquipmentRecord_Filter_Type::Tipo
 Item_BusinesRisk_ListHeader_Status::Estado
 Item_Employee_Filter_Status::Estado
+Item_BusinessRisksAndOportunities_Short::Riesgos y Oport.
+Item_Oportunity_Message_InsertSucess::Ya se pueden usar las otras pestañas
+Item_Oportunity_Title_Graph::Gráfico
+Item_Oportunity_Btn_NewIPR::Fijar nuevo IPR
+Item_Incident_List_Filter_Periode1::Período
+Item_Incident_List_Filter_Periode2::-

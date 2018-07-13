@@ -70,6 +70,7 @@
                                     </tr>
                                 </table>
                             </div>
+
                             <div style="height:12px;clear:both;"></div>
                             <div class="col-xs-12">
                                 <div class="row">
