@@ -280,7 +280,7 @@ Item_BusinessRisk_List_Filter_From::Since
 Item_BusinessRisk_List_Filter_To::Until
 Item_BusinessRisk_List_Filter_Process::Processes
 Item_BusinessRisk_List_Filter_Rules::Rules
-Item_BusinessRisk_List_Filter_Type::Kind
+Item_BusinessRisk_List_Filter_Type::Status
 Item_BusinessRisk_List_Filter_Type_Assumed::Taken
 Item_BusinessRisk_List_Filter_Type_NotSignificant::Not significant
 Item_BusinessRisk_List_Filter_Type_Significant::Significant
@@ -1711,3 +1711,5 @@ Item_Document_FieldLabel_Status::Status
 Item_EquipmentRecord_Filter_Periode1::Period
 Item_EquipmentRecord_Filter_Periode2::-
 Item_EquipmentRecord_Filter_Type::Type
+Item_BusinesRisk_ListHeader_Status::Status
+Item_Employee_Filter_Status::Status

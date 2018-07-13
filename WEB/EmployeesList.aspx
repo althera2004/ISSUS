@@ -30,16 +30,33 @@
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                                 <div class="col-xs-12">
-                                <div class="row" style="padding-bottom:8px;" id="SelectRow">
+                                    <div class="row" style="padding-bottom:8px;" id="SelectRow">
+                                        <!--div class="col-xs-12">
+                                            <div class="col-xs-2">
+                                                <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Active_Plural"] %>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Inactive_Plural"] %>
+                                            </div>
+                                        </!--div>
+                                    </div-->
+
+                                    <!-- GTK CLG STart -->
+
                                     <div class="col-xs-12">
-                                        <div class="col-xs-2">
-                                            <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Active_Plural"] %>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Inactive_Plural"] %>
-                                        </div>
+                                        <table cellpadding="2" cellspacing="2">
+                                            <tr>
+                                                <td><strong><%=this.Dictionary["Item_Employee_Filter_Status"] %>:</strong></td>
+										        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Active_Plural"] %></td>
+                                                <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Inactive_Plural"] %></td>
+                                            </tr>
+                                        </table>
                                     </div>
-                                </div>
+                                    <br /><br />
+
+                                    <!-- GTL CLG End -->
+
+
                                     <div id="user-profile-2" class="user-profile">
                                         <div class="tabbable">
                                             <!--<ul class="nav nav-tabs padding-18">
@@ -50,7 +67,7 @@
                                                     <a data-toggle="tab" href="#inactive" id="SelectorTabInactive"><%=this.Dictionary["Common_Inactive_Plural"] %></a>
                                                 </li>
                                             </ul>-->
-                                            <div class="tab-content no-border padding-24" style="height:500px;">
+                                            <div class="tab-content no-border " style="height:500px;">
                                                 <div id="active" class="tab-pane active"> 
                                                     <div class="row">
                                                         <div class="table-responsive" id="scrollTableDiv">

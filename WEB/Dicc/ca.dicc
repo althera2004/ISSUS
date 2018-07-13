@@ -280,7 +280,7 @@ Item_BusinessRisk_List_Filter_From::Des de
 Item_BusinessRisk_List_Filter_To::Fins
 Item_BusinessRisk_List_Filter_Process::Processos
 Item_BusinessRisk_List_Filter_Rules::Normes
-Item_BusinessRisk_List_Filter_Type::Tipus
+Item_BusinessRisk_List_Filter_Type::Estat
 Item_BusinessRisk_List_Filter_Type_Assumed::Assumit
 Item_BusinessRisk_List_Filter_Type_NotSignificant::No significatiu
 Item_BusinessRisk_List_Filter_Type_Significant::Significatiu
@@ -1213,7 +1213,7 @@ Item_Indicador_Header_Objetivo::Objectiu
 Item_Indicador_Header_ObjetivoResponsible::Responsable
 Item_Indicador_Header_Process::Procés
 Item_Indicador_Header_ProcessResponsible::Responsable
-Item_Indicador_Header_ProcessType::Tipus de procés
+Item_Indicador_Header_ProcessType::Tipus procés
 Item_Indicador_Header_StartDate::Inici
 Item_Indicador_Label_Type::Tipus
 Item_Indicador_Label_TypeObjetivo::Objectiu
@@ -1712,5 +1712,7 @@ Item_Document_FieldLabel_Status::Estat
 Item_EquipmentRecord_Filter_Periode1::Període
 Item_EquipmentRecord_Filter_Periode2::-
 Item_EquipmentRecord_Filter_Type::Tipus
+Item_BusinesRisk_ListHeader_Status::Estat
+Item_Employee_Filter_Status::Estat
 Item_BusinessRisksAndOportunities_Short::Riscos y Oport.
 Item_Oportunity_Message_InsertSucess::Ja es poden fer servir les altres pestanyes

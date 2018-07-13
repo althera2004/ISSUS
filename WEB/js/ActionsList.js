@@ -220,9 +220,9 @@ function ItemRenderTable(list) {
         tdAmount.style.width = "100px";
         tdAmount.align = "right";
         
-        row.appendChild(tdDescription);
-        row.appendChild(tdOpen);
         row.appendChild(tdStatus);
+        row.appendChild(tdOpen);
+        row.appendChild(tdDescription);
         row.appendChild(tdOrigin);
         row.appendChild(tdType);
         row.appendChild(tdAction);
@@ -305,8 +305,8 @@ function ItemRenderTable(list) {
     $("#TotalCosts").html(ToMoneyFormat(total, 2));
 
     if (lockOrderList === false) {
-        $("#th2").click();
-        if (document.getElementById("th2").className.indexOf("DESC") !== -1) { $("#th2").click(); }
+        $("#th1").click();
+        if (document.getElementById("th1").className.indexOf("DESC") !== -1) { $("#th1").click(); }
     }
     else {
         var column = listOrder.split('|')[0];

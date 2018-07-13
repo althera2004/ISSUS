@@ -408,9 +408,9 @@ function ItemRenderTable(list) {
 		//tdClose.align = "center"
 
         //row.appendChild(tdNumber);
-        row.appendChild(tdDescription);
-        row.appendChild(tdOpen);
         row.appendChild(tdStatus);
+        row.appendChild(tdOpen);
+        row.appendChild(tdDescription);
         row.appendChild(tdOrigin);
         row.appendChild(tdAction);
         row.appendChild(tdAmount);

@@ -33,31 +33,35 @@
                             <div class="col-xs-12">
                                 <!-- PAGE CONTENT BEGINS -->
                                 <div class="row" style="padding-bottom:8px;" id="SelectRow">
-                                    <div class="col-xs-12">
-                                        <label class="col-sm-1 control-label no-padding-right" style="font-size:13px;"><strong><%=this.Dictionary["Item_Document_FieldLabel_Status"] %>:</strong></label>
-                                        <div class="col-xs-1">
-                                            <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Active_Plural"] %>
-                                        </div>
-                                        <div class="col-xs-2"> 
-                                            <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Inactive_Plural"] %>
-                                        </div>
-                                        <!-- col-xs-1  col-sm-1 control-label no-padding-right  -->
-                                        <label class="col-sm-1 control-label no-padding-right" style="font-size:13px;"><strong><%=this.Dictionary["Item_Document_FieldLabel_Category"] %>:</strong></label>
-                                        <div class="col-xs-3">
-                                            <select style="width:350px;" id="CmbCategory">
-                                                <option value="-1"><%=this.Dictionary["Common_All_Female_Plural"] %></option>
-                                            </select>
-                                        </div>
-                                        <label class="col-sm-1 control-label no-padding-right" style="font-size:13px;"><strong><%=this.Dictionary["Item_Document_FieldLabel_Origin"] %>:</strong></label>
-                                        <div class="col-xs-3">
-                                            <select style="width:200px" id="CmbOrigin">
-                                                <option value="-1"><%=this.Dictionary["Common_All"] %></option>
-                                                <option value="0"><%=this.Dictionary["Common_Internal"] %></option>
-                                                <option value="1"><%=this.Dictionary["Common_External"] %></option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                <div class="col-xs-12">
+                                    <table cellpadding="2" cellspacing="2">
+                                        <tr>
+                                            <td><strong><%=this.Dictionary["Item_Document_FieldLabel_Status"] %>:</strong></td>
+										    <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Active_Plural"] %></td>
+                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Inactive_Plural"] %></td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td><strong><%=this.Dictionary["Item_Document_FieldLabel_Category"] %>:</strong></td>
+										    <td>
+                                                <select style="width:350px;" id="CmbCategory">
+                                                    <option value="-1"><%=this.Dictionary["Common_All_Female_Plural"] %></option>
+                                                </select>
+										    </td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td><strong><%=this.Dictionary["Item_Document_FieldLabel_Origin"] %>:</strong></td>
+                                            <td>
+                                                <select style="width:200px" id="CmbOrigin">
+                                                    <option value="-1"><%=this.Dictionary["Common_All"] %></option>
+                                                    <option value="0"><%=this.Dictionary["Common_Internal"] %></option>
+                                                    <option value="1"><%=this.Dictionary["Common_External"] %></option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
+                                <br /><br />
+
                                 <div class="tabbable">
                                     <!--<ul class="nav nav-tabs padding-18">
                                         <li class="active">
@@ -67,7 +71,7 @@
                                             <a data-toggle="tab" href="#inactive" onclick="document.getElementById('BtnNewItem').parentNode.style.visibility='hidden';"><%=this.Dictionary["Item_Document_Status_InactivePlural"] %></a>
                                         </li>
                                     </ul>-->
-                                    <div class="tab-content no-border padding-24" style="height:500px;">
+                                    <div class="tab-content no-border " style="height:500px;">
                                         <div id="active" class="tab-pane active">  
                                             <div class="row">
                                                 <div class="col-xs-12">
