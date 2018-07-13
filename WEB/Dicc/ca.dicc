@@ -321,7 +321,7 @@ Item_BusinessRisk_Tooltip_Severity_5::Catastròfica (Dany greu o molt greu. Costo
 Item_BusinessRisk_Warning_ActionTabAvailable::A la pestanya d'acció, indicar les dades de l'acció
 Item_BusinessRisks::Riscos
 Item_BusinessRisksAndOportunities::Riscos i Oportunitats
-Item_BusinessRisksAndOportunities_Short::Riscos y Oport.
+Item_BusinessRisksAndOportunities_Short::Risc/Oportunitat
 Item_CalibrationAct_Button_New::Afegir
 Item_CalibrationAct_Warning_DefinitionRequired::Per afegir nous calibratges, guardar almenys una configuració
 Item_CalibrationType_External::Configuració externa
@@ -1712,3 +1712,6 @@ Item_Document_FieldLabel_Status::Estat
 Item_EquipmentRecord_Filter_Periode1::Període
 Item_EquipmentRecord_Filter_Periode2::-
 Item_EquipmentRecord_Filter_Type::Tipus
+Item_Incident_List_Filter_Periode1::Període
+Item_Incident_List_Filter_Periode2::-
+Item_Employee_Filter_Status::Estat

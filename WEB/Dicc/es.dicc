@@ -321,7 +321,7 @@ Item_BusinessRisk_Tooltip_Severity_5::Catastrófica (Daño grave o muy grave. Co
 Item_BusinessRisk_Warning_ActionTabAvailable::En la pestaña de acción, indicar los datos de la acción
 Item_BusinessRisks::Riesgos
 Item_BusinessRisksAndOportunities::Riesgos y Oportunidades
-Item_BusinessRisksAndOportunities_Short::Riesgos y Oport.
+Item_BusinessRisksAndOportunities_Short::Riesgo/Oportunidad
 Item_CalibrationAct_Button_New::Añadir
 Item_CalibrationAct_Warning_DefinitionRequired::Para añadir nuevas calibraciones, grabar una configuración inicial
 Item_CalibrationType_External::Configuración externa
@@ -1712,3 +1712,6 @@ Item_Document_FieldLabel_Status::Estado
 Item_EquipmentRecord_Filter_Periode1::Período
 Item_EquipmentRecord_Filter_Periode2::-
 Item_EquipmentRecord_Filter_Type::Tipo
+Item_Incident_List_Filter_Periode1::Període
+Item_Incident_List_Filter_Periode2::-
+Item_Employee_Filter_Status::Estado

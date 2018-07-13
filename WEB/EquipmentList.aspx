@@ -34,7 +34,7 @@
                                 <div class="col-sm-6">
                                     <table style="width:100%;">
                                         <tr>
-                                            <td style="width:120px;">
+                                            <td>
                                                 <strong><%=this.Dictionary["Item_Equipment_List_Filter_ShowByOperation"] %>:</strong>
                                             </td>
                                             <td>
@@ -46,13 +46,13 @@
                                                     <input type="checkbox" name="RBOperation" id="RBOperation3" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowMaintenance"] %>
                                                 </div>
                                             </td>
-                                        </tr>
+                                        <!--/tr>
                                     </table>
                                     </div>
                                 <div class="col-sm-6">
                                     <table style="width:100%;">
-                                        <tr>     
-                                            <td style="width:120px;">
+                                        <tr   style="width:120px;"-->     
+                                            <td>
                                                 <strong><%=this.Dictionary["Item_Equipment_List_Filter_ShowByStatus"] %>:</strong>
                                             </td>                                       
                                             <td>
