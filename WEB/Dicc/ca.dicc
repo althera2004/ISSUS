@@ -280,7 +280,7 @@ Item_BusinessRisk_List_Filter_From::Des de
 Item_BusinessRisk_List_Filter_To::Fins
 Item_BusinessRisk_List_Filter_Process::Processos
 Item_BusinessRisk_List_Filter_Rules::Normes
-Item_BusinessRisk_List_Filter_Type::Tipus
+Item_BusinessRisk_List_Filter_Type::Estat
 Item_BusinessRisk_List_Filter_Type_Assumed::Assumit
 Item_BusinessRisk_List_Filter_Type_NotSignificant::No significatiu
 Item_BusinessRisk_List_Filter_Type_Significant::Significatiu
@@ -321,7 +321,7 @@ Item_BusinessRisk_Tooltip_Severity_5::Catastròfica (Dany greu o molt greu. Costo
 Item_BusinessRisk_Warning_ActionTabAvailable::A la pestanya d'acció, indicar les dades de l'acció
 Item_BusinessRisks::Riscos
 Item_BusinessRisksAndOportunities::Riscos i Oportunitats
-Item_BusinessRisksAndOportunities_Short::Risc/Oportunitat
+Item_BusinessRisksAndOportunities_Short::Riscos y Oport.
 Item_CalibrationAct_Button_New::Afegir
 Item_CalibrationAct_Warning_DefinitionRequired::Per afegir nous calibratges, guardar almenys una configuració
 Item_CalibrationType_External::Configuració externa
@@ -1213,7 +1213,7 @@ Item_Indicador_Header_Objetivo::Objectiu
 Item_Indicador_Header_ObjetivoResponsible::Responsable
 Item_Indicador_Header_Process::Procés
 Item_Indicador_Header_ProcessResponsible::Responsable
-Item_Indicador_Header_ProcessType::Tipus de procés
+Item_Indicador_Header_ProcessType::Tipus procés
 Item_Indicador_Header_StartDate::Inici
 Item_Indicador_Label_Type::Tipus
 Item_Indicador_Label_TypeObjetivo::Objectiu
@@ -1712,6 +1712,5 @@ Item_Document_FieldLabel_Status::Estat
 Item_EquipmentRecord_Filter_Periode1::Període
 Item_EquipmentRecord_Filter_Periode2::-
 Item_EquipmentRecord_Filter_Type::Tipus
-Item_Incident_List_Filter_Periode1::Període
-Item_Incident_List_Filter_Periode2::-
+Item_BusinesRisk_ListHeader_Status::Estat
 Item_Employee_Filter_Status::Estat

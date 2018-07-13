@@ -360,8 +360,10 @@ function OportunityRenderTable(list) {
         tdInitialResult.align = "center";
         tdFinalResult.align = "center";
 
-        tdStatus.style.width = "40px";
-        tdRules.style.width = "120px";
+        tdStatus.style.width = "60px";
+        tdStatus.align = "center"
+
+        tdRules.style.width = "200px";
         tdProcess.style.width = "200px";
         tdInitialResult.style.width = "90px";
         tdFinalResult.style.width = "80px";
@@ -420,9 +422,9 @@ function OportunityRenderTable(list) {
 
     $("#NumberCostsOportunity").html(list.length);
     if (lockOrderListOportunity === false) {
-        $("#th1").click();
-        if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
-            $("#th1").click();
+        $("#ListDataHeaderOportunity #th1").click();
+        if ($("#ListDataHeaderOportunity #th1").hasClass("DESC")) {
+            $("#ListDataHeaderOportunity #th1").click();
         }
     }
     else {
@@ -579,8 +581,10 @@ function BusinessRiskRenderTable(list) {
         tdInitialResult.align = "center";
         tdFinalResult.align = "center";
 
-        tdStatus.style.width = "40px";
-        tdRules.style.width = "120px";
+        tdStatus.style.width = "60px";
+        tdStatus.align = "center";
+
+        tdRules.style.width = "200px";
         tdProcess.style.width = "200px";
         tdInitialResult.style.width = "90px";
         tdFinalResult.style.width = "80px";

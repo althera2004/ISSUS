@@ -280,7 +280,7 @@ Item_BusinessRisk_List_Filter_From::Desde
 Item_BusinessRisk_List_Filter_To::Hasta
 Item_BusinessRisk_List_Filter_Process::Procesos
 Item_BusinessRisk_List_Filter_Rules::Normas
-Item_BusinessRisk_List_Filter_Type::Tipo
+Item_BusinessRisk_List_Filter_Type::Estado
 Item_BusinessRisk_List_Filter_Type_Assumed::Asumido
 Item_BusinessRisk_List_Filter_Type_NotSignificant::No significativo
 Item_BusinessRisk_List_Filter_Type_Significant::Significativo
@@ -321,7 +321,7 @@ Item_BusinessRisk_Tooltip_Severity_5::Catastrófica (Daño grave o muy grave. Co
 Item_BusinessRisk_Warning_ActionTabAvailable::En la pestaña de acción, indicar los datos de la acción
 Item_BusinessRisks::Riesgos
 Item_BusinessRisksAndOportunities::Riesgos y Oportunidades
-Item_BusinessRisksAndOportunities_Short::Riesgo/Oportunidad
+Item_BusinessRisksAndOportunities_Short::Riesgos y Oport.
 Item_CalibrationAct_Button_New::Añadir
 Item_CalibrationAct_Warning_DefinitionRequired::Para añadir nuevas calibraciones, grabar una configuración inicial
 Item_CalibrationType_External::Configuración externa
@@ -1213,7 +1213,7 @@ Item_Indicador_Header_Objetivo::Objetivo
 Item_Indicador_Header_ObjetivoResponsible::Responsable
 Item_Indicador_Header_Process::Proceso
 Item_Indicador_Header_ProcessResponsible::Responsable
-Item_Indicador_Header_ProcessType::Tipo de proceso
+Item_Indicador_Header_ProcessType::Tipo proceso
 Item_Indicador_Header_StartDate::Inicio
 Item_Indicador_Label_Type::Tipo
 Item_Indicador_Label_TypeObjetivo::Objetivo
@@ -1712,6 +1712,5 @@ Item_Document_FieldLabel_Status::Estado
 Item_EquipmentRecord_Filter_Periode1::Período
 Item_EquipmentRecord_Filter_Periode2::-
 Item_EquipmentRecord_Filter_Type::Tipo
-Item_Incident_List_Filter_Periode1::Període
-Item_Incident_List_Filter_Periode2::-
+Item_BusinesRisk_ListHeader_Status::Estado
 Item_Employee_Filter_Status::Estado
