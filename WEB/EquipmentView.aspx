@@ -78,7 +78,7 @@
                                     <div id="user-profile-2" class="user-profile">
                                         <div class="tabbable">
                                             <%=this.TabBar %>
-                                            <div class="tab-content no-border padding-24" style="height:500px;">
+                                            <div class="tab-content no-border " style="height:500px;">
                                                 <div id="home" class="tab-pane<%=this.SelectedTab =="home" ? " active" : String.Empty %>">       
                                                     <div class="row">
                                                         <form class="form-horizontal" role="form">
@@ -474,7 +474,7 @@
                                                     </table>
                                                     <div class="col-sm-12" style="margin-bottom:4px;">
                                                         <div class="col-sm-6"><h4><%=this.Dictionary["Item_EquipmentMaintenanceAct_Plural"] %></h4></div>
-                                                        <div class="col-sm-6" style="text-align:right"><%=this.MaintenanceNewAct.Render  %></div>
+                                                        <div class="col-sm-6" style="text-align:right"><%=this.MaintenanceNewAct.Render %></div>
                                                     </div>                                                                                                       
                                                     <table class="table table-bordered table-striped" id="EquipmentMaintenanceActTable">
                                                         <thead class="thin-border-bottom">
@@ -511,12 +511,12 @@
                                                     <div class="col-sm-12" style="margin-bottom:4px;">
                                                         <div class="col-sm-6"><h4><%=this.Dictionary["Item_EquipmentRepair_Title"] %></h4></div>
                                                         <div class="col-sm-6" style="text-align:right">                                                                 
-                                                            <h4 class="pink">
+                                                            <!--h4 class="pink"-->
                                                                 <button class="btn btn-success" type="button" id="EquipmentRepairNewBtn">
                                                                     <i class="icon-plus bigger-110"></i>
                                                                     <%=this.Dictionary["Item_EquipmentRepair_ButtonNew"] %>
                                                                 </button>
-                                                            </h4>	
+                                                            <!--/h4-->	
                                                         </div>
                                                     </div>										
                                                     <table class="table table-bordered table-striped" id="TableEquipmentRepairMain">
@@ -556,7 +556,7 @@
                                                     
                                                     <!-- GTK CLG -->
 
-                                                    <div class="col-xs-12">
+                                                    <!--div class="col-xs-12" -->
                                                         <table cellpadding="2" cellspacing="2">
                                                             <tr>
                                                                 <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_EquipmentRecord_Filter_Periode1"] %>:</strong></td>
@@ -597,7 +597,6 @@
 
                                                                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                                                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 										                        <td>
                                                                     <div class="col-xs-12 col-sm-12">
 												                        <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
@@ -622,75 +621,18 @@
 
                                                                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                                                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 										                        <td>
                                                                     <div class="col-xs-12 col-sm-12">
                                                                         <!--<button class="btn btn-success" type="button" id="BtnRecordFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_EquipmentRecord_Filter_Button"] %></button>-->
+                                                                        <button class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
                                                                     </div>
 										                        </td>
 
                                                             </tr>
                                                         </table>
-                                                    </div>
+                                                    <!-- /div-->
 
                                                     <!-- GTL CLG -->
-
-
-
-                                                    <!-- LALALA  GTK 
-                                                    <div class="row">
-                                                        <label class="col-sm-1 control-label no-padding-right" style="font-size:13px;"><strong><%=this.Dictionary["Item_EquipmentRecord_Filter_Periode1"] %>:</strong></label>
-                                                        <div class="col-sm-1" style="text-align:left;">
-                                                            <div class="row">
-                                                                <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtRecordsFromDateDiv">
-                                                                    <div class="input-group">
-                                                                        <input class="form-control date-picker" style="width:100px;" id="TxtRecordsFromDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                                        <span id="TxtRecordsFromDateBtn" class="input-group-addon" onclick="document.getElementById('TxtRecordsFromDate').focus();">
-                                                                            <i class="icon-calendar bigger-110"></i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <label class="col-sm-1" style="font-size:13px;"><strong><%=this.Dictionary["Item_EquipmentRecord_Filter_Periode2"] %></strong></label>
-                                                        <div class="col-sm-1" style="text-align:left;">
-                                                            <div class="row">
-                                                                <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtRecordsToDateDiv">
-                                                                    <div class="input-group">
-                                                                        <input class="form-control date-picker" style="width:100px;" id="TxtRecordsToDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                                        <span id="TxtRecordsToDateBtn" class="input-group-addon" onclick="document.getElementById('TxtRecordsToDate').focus();">
-                                                                            <i class="icon-calendar bigger-110"></i>
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-                                                        <div class="col-sm-2"><input type="checkbox" id="CalInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_CalibrationInternal"] %></div>
-                                                        <div class="col-sm-2"><input type="checkbox" id="VerInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_VerificationInternal"] %></div>
-                                                        <div class="col-sm-2"><input type="checkbox" id="ManInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_MaintenanceInternal"] %></div>
-                                                        <div class="col-sm-2"><input type="checkbox" id="RepInt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_RepairInternal"] %></div>
-                                                        
-                                                    </div>
-                                                    <div class="row" style="margin-top:2px;">
-                                                        <div class="col-sm-2">
-                                                            <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
-                                                            <!-- <button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display:none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>-->
-                                                        <!--/div>
-                                                        <div class="col-sm-2">
-                                                            <!--<button class="btn btn-success" type="button" id="BtnRecordFilter"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_EquipmentRecord_Filter_Button"] %></button>-->
-                                                        <!--/div>
-
-                                                        <div class="col-sm-2"><input type="checkbox" id="CalExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_CalibrationExternal"] %></div>
-                                                        <div class="col-sm-2"><input type="checkbox" id="VerExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_VerificationExternal"] %></div>
-                                                        <div class="col-sm-2"><input type="checkbox" id="ManExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_MaintenanceExternal"] %></div>
-                                                        <div class="col-sm-2"><input type="checkbox" id="RepExt" /><%=this.Dictionary["Item_EquipmentRecord_Filter_RepairExternal"] %></div>
-                                                        
-                                                    </div-->
-                                                    <!-- LALALA GTK -->
-
-
 
                                                     <div style="height:12px;clear:both"></div>
                                                     <table class="table table-bordered table-striped">
@@ -807,7 +749,7 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                            </div>                                            
+                                            </!--div>                                            
                                         </div>
                                     </div>
                                 </div>                                
