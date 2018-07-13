@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.IO;
 using System.Web;
 using System.Web.UI;
@@ -276,7 +277,7 @@ public partial class ExportPrintBusinessRiskData : Page
         }
 
         #region Historico acciones
-        var historico = BusinessRisk.FindHistoryAction(businessRisk.Code, company.Id);
+        var historico = IncidentAction.ByBusinessRiskCode(businessRisk.Code, company.Id).Where(ia => ia.BusinessRiskId != businessRisk.Id).OrderBy(incidentAction => incidentAction.WhatHappenedOn).ToList();
         if (historico.Count > 0)
         {
             var backgroundColor = new iTS.BaseColor(225, 225, 225);
@@ -373,7 +374,7 @@ public partial class ExportPrintBusinessRiskData : Page
 
             tableCost.SetWidths(new float[] { 90f, 40f, 30f, 60f, 20f });
 
-            tableCost.AddCell(new PdfPCell(new Phrase(dictionary["Item_BusinessRisk_Tab_HistoryActions"], descriptionFont))
+            tableCost.AddCell(new PdfPCell(new Phrase(dictionary["Item_Incident_Tab_Costs"], descriptionFont))
             {
                 Colspan = 5,
                 Border = Rectangle.NO_BORDER,

@@ -1,19 +1,18 @@
 ﻿//  the data that powers the bar chart, a simple array of numeric values
-var chartdata = [];
-var graphicshow = false;
-var chart;
-var myColors = ["#1f77b4", "#ff7f0e", "#2ca02c"];
-var graphicdata;
-var linedata;
-var myData = new Array;
-var chartData;
-exampleData();
+var chartdataBusinessRisk = [];
+var graphicShowBusinessRisk = false;
+var chartBusinessRisk;
+var myColorsBusinessRisk = ["#1f77b4", "#ff7f0e", "#2ca02c"];
+var graphicDataBusinessRisk;
+var BusinessRisk;
+var myDataBusinessRisk = [];
+exampleDataBusinessRisk();
 
-function RenderChart() {
+function RenderChartBusinessRisk() {
 
     nv.addGraph(function () {
         //Create BarChart
-        chart = nv.models.discreteBarChart()
+        chartBusinessRisk = nv.models.discreteBarChart()
             .x(function (d) { return d.label })    //Specify the data accessors.
             .y(function (d) { return d.value })
             .tooltips(false)
@@ -22,28 +21,28 @@ function RenderChart() {
 
             .transitionDuration(150)
             .forceY([0, 25])
-            .color(myColors);
+            .color(myColorsBusinessRisk);
 
-        chart.yAxis.tickFormat(d3.format(',.0f'));
-        chart.yAxis.tickValues([5, 10, 15, 20]);
-        chart.valueFormat(d3.format('d'));
+        chartBusinessRisk.yAxis.tickFormat(d3.format(',.0f'));
+        chartBusinessRisk.yAxis.tickValues([5, 10, 15, 20]);
+        chartBusinessRisk.valueFormat(d3.format('d'));
 
         //Add data to BarChart
-        chartData = d3.select('#chart svg').datum(graphicdata);
-        chartData.call(chart);
+        chartDataBusinessRisk = d3.select('#chartBusinessRisk svg').datum(graphicDataBusinessRisk);
+        chartDataBusinessRisk.call(chartBusinessRisk);
 
         nv.utils.windowResize(chart.update);
-        return chart;
+        return chartBusinessRisk;
     });
 }
 
-RenderChart();
+RenderChartBusinessRisk();
 $(".discreteBar").on("click", function (e) { console.log(e) });
 
-function exampleData() {
+function exampleDataBusinessRisk() {
     function y() {
-        myColors = new Array();
-        var y = new Array();
+        myColorsBusinessRisk = [];
+        var y = [];
         var diferenciador = " ";
         console.log(BusinessRiskHistory);
         for (var x = 0; x < BusinessRiskHistory.length; x++) {
@@ -78,13 +77,13 @@ function exampleData() {
                 }
             }
 
-            myColors.push(finalColor);
+            myColorsBusinessRisk.push(finalColor);
 
         }
         return y;
     }
 
-    graphicdata = [
+    graphicDataBusinessRisk = [
         {
             key: "Cumulative Return",
             values: y()
@@ -93,12 +92,12 @@ function exampleData() {
 }
 
 function resizegrafico(transparent) {
-    if (graphicshow === true && transparent === false) {
+    if (graphicShowBusinessRisk === true && transparent === false) {
         return false;
     }
 
     //var width = $('#ListForm').width();
-    //var widthS = $('#svggrafic').width();
+    //var widthS = $('#svggraficBusinessRisk').width();
     //var width1 = $('#IncidentCostsTableData').width();
     //var width2 = $('#IncidentCostsTableVoid').width();
     //var width3 = $('#DivHistoryTableDiv').width();
@@ -110,28 +109,28 @@ function resizegrafico(transparent) {
 
     var width = $('#user-profile-2').width() - 100;
 
-    chart.width(width);
-    chart.update();
+    chartBusinessRisk.width(width);
+    chartBusinessRisk.update();
 
-    var canvas = document.getElementById("svggrafic");
-    var height = $("#svggrafic").height() - 50;
+    var canvas = document.getElementById("svggraficBusinessRisk");
+    var height = $("#svggraficBusinessRisk").height() - 50;
 
-    d3.select("#chart svg").append("line")
+    d3.select("#chartBusinessRisk svg").append("line")
     .style("stroke", "gray")
     .attr("x1", 65)
     .attr("y1", height)
     .attr("x2", width)
     .attr("y2", height);
 
-    d3.select("#chart svg").append("line")
+    d3.select("#chartBusinessRisk svg").append("line")
     .style("stroke", "gray")
     .attr("x1", 65)
     .attr("y1", 0)
     .attr("x2", 65)
     .attr("y2", height);
-    graphicshow = true;
+    graphicShowBusinessRisk = true;
 }
 
 function unresizegrafico() {
-    graphicshow = false;
+    graphicShowBusinessRisk = false;
 }

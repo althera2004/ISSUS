@@ -85,6 +85,7 @@
         var BussinessRiskList = [];
         var OportunityList = [];
         var BusinessRiskGraph = <%=this.RiskJson%>;
+        var OportunityGraph = [];
         var CompanyRules = <%=RulesJson%>;
         var FilterType = 1;
     </script>
@@ -242,6 +243,9 @@
                                         <li class="">
                                             <a data-toggle="tab" href="#oportunity" id="taboportunity" style="display:none;"><%=this.Dictionary["Item_Oportunities"] %></a>
                                         </li>
+                                        <li class="">
+                                            <a data-toggle="tab" href="#graphicoportunity" id="tabgraficosoportunity" style="display:none;"><%=this.Dictionary["Item_Oportunity_Title_Graph"] %></a>
+                                        </li>
                                     </ul>
                                     <div class="tab-content no-border padding-24">
                                         <div id="list" class="tab-pane active">  
@@ -253,11 +257,11 @@
 		                                                        <tr id="ListDataHeader">
                                                                     <th style="width:60px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Status"] %></th>
 			                                                        <th onclick="Sort(this,'ListDataTable','date');" id="th1" class="sort search" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Date"] %></th>
-                                                                    <th onclick="Sort(this,'ListDataTable', 'text');" id="th2" class="search sort"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Description"] %></th>
-                                                                    <th onclick="Sort(this,'ListDataTable', 'text');" id="th3" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Process"] %></th>
-																	<th onclick="Sort(this,'ListDataTable', 'text');" id="th4" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Rule"] %></th>
-																	<th onclick="Sort(this,'ListDataTable', 'money');" id="th5" class="hidden-480 search sort" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"] %></th>
-																	<th onclick="Sort(this,'ListDataTable', 'money');" id="th6" class="hidden-480 search sort" style="width:80px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_IPR"] %></th>
+                                                                    <th onclick="Sort(this,'ListDataTable','text');" id="th2" class="search sort"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Description"] %></th>
+                                                                    <th onclick="Sort(this,'ListDataTable','text');" id="th3" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Process"] %></th>
+																	<th onclick="Sort(this,'ListDataTable','text');" id="th4" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Rule"] %></th>
+																	<th onclick="Sort(this,'ListDataTable','money');" id="th5" class="hidden-480 search sort" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"] %></th>
+																	<th onclick="Sort(this,'ListDataTable','money');" id="th6" class="hidden-480 search sort" style="width:80px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_IPR"] %></th>
 																	<th style="width:107px;">&nbsp;</th>
 		                                                        </tr>
 	                                                        </thead>
@@ -294,7 +298,7 @@
                                         </div><!-- /.col -->
                                         <div id="graphic" class="tab-pane">                                            
                                             <div class="col-sm-12">
-                                                <div id="DivChangeRule"><%=this.Dictionary["Item_Rule"] %>:&nbsp;<span id="RuleDescription"></span></div>
+                                                <div id="DivChangeRule"><%=this.Dictionary["Item_Rule"] %>:&nbsp;<span id="RuleDescriptionBusinessRisk"></span></div>
                                             </div>
                                             <div class="row" id="BtnChangeIpr" style="display:none;">
                                                 <div class="col-sm-10">
@@ -308,8 +312,8 @@
                                                 </div>
                                             </div>
                                             <div class="cols-sm-12">
-                                                <div id='chart' style="width:100%;">
-                                                    <svg style='height:420px;width:100%' id="svggrafic"></svg>
+                                                <div id="chartBusinessRisk" style="width:100%;">
+                                                    <svg style='height:420px;width:100%' id="svggraficBusinessRisk"></svg>
                                                     <table id="GraphicTableVoid" style="height:500px;width:100%;display:none;">
                                                         <tr>
                                                             <td colspan="10" align="center" style="background-color:#ddddff;color:#0000aa;">
@@ -327,8 +331,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="oportunity" class="tab-pane">
-                                            
+                                        <div id="oportunity" class="tab-pane">                                            
                                                     <div class="table-responsive" id="scrollTableDivOportunity">
                                                         <table class="table table-bordered table-striped" style="margin: 0">
                                                             <thead class="thin-border-bottom">
@@ -373,6 +376,41 @@
                                                     </div><!-- /.table-responsive -->
                                                 
                                         </div>
+                                        <div id="graphicoportunity" class="tab-pane">                                            
+                                            <div class="col-sm-12">
+                                                <div id="DivChangeRuleOportunity"><%=this.Dictionary["Item_Rule"] %>:&nbsp;<span id="RuleDescriptionOportunity"></span></div>
+                                            </div>
+                                            <div class="row" id="BtnChangeIprOportunity" style="display:none;">
+                                                <div class="col-sm-10">
+                                                    <div class="steps" id="stepsoportunity"></div>
+                                                    <div class="help-block ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="input-span-slideroportunity">                                                        
+                                                        <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" style="left: 9.09091%;"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <input id="BtnNewIproportunity" type="button" value="<%=this.Dictionary["Item_Oportunity_Btn_NewIPR"] %>" onclick="NewIproportunity()" />											            
+                                                </div>
+                                            </div>
+                                            <div class="cols-sm-12">
+                                                <div id="chartOportunity" style="width:100%;">
+                                                    <svg style='height:420px;width:100%' id="svggraficoportunity"></svg>
+                                                    <table id="GraphicTableVoidOportunity" style="height:500px;width:100%;display:none;">
+                                                        <tr>
+                                                            <td colspan="10" align="center" style="background-color:#ddddff;color:#0000aa;">
+                                                                <table style="border:none;">
+                                                                    <tr>
+                                                                        <td rowspan="2" style="border:none;"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
+                                                                        <td style="border:none;">
+                                                                            <h4><%=this.Dictionary["Common_VoidSearchResult"] %></h4>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -403,6 +441,7 @@
         <script type="text/javascript" src="//d3js.org/d3.v3.min.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/nv.d3.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/BusinessRiskChart.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/js/OportunityChart.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript">            
             var currentMousePos = { x: -1, y: -1 };
             jQuery(function ($) {
@@ -456,13 +495,15 @@
                     e.preventDefault();
                     BusinessRiskListGetNone();
                 });
-
-                $("#tabgraficos").on("click", resizegrafico);
-                $("#tabbasic").on("click", unresizegrafico);
+                
+                $("#tabgraficos").on("click", BusinessRiskGetFilter);
+                $("#tabbasic").on("click", BusinessRiskGetFilter);
+                $("#tabgraficosoportunity").on("click", OportunityGetFilter);
+                $("#taboportunity").on("click", OportunityGetFilter);
             });
             
             $("#input-span-slider").slider({
-                "value": RuleLimitFromDB,
+                "value": RuleLimitFromDBBusinessRisk,
                 "range": "min",
                 "min": 1,
                 "max": 25,
@@ -472,11 +513,23 @@
                     SetRule(val);
                 }
             });
+            
+            $("#input-span-sliderOportunity").slider({
+                "value": RuleLimitFromDBOportunity,
+                "range": "min",
+                "min": 1,
+                "max": 25,
+                "step": 1,
+                "slide": function (event, ui) {
+                    var val = parseInt(ui.value);
+                    SetRuleOportunity(val);
+                }
+            });
 
             $(document).mousemove(function(event) {
                 currentMousePos.x = event.pageX;
                 currentMousePos.y = event.pageY;
-                var position = $("#svggrafic").offset();
+                var position = $("#svggraficBusinessRisk").offset();
                 $(".xy-tooltip").css({top: currentMousePos.y - position.top - 30, left: currentMousePos.x - position.left + 10});
             });
         </script>
