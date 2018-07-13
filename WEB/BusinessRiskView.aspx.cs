@@ -250,6 +250,7 @@ public partial class BusinessRiskView : Page
                 {
                     res.Append(",");
                 }
+
                 res.Append(BusinessRiskHistory.JsonHistory);
             }
 
@@ -264,15 +265,14 @@ public partial class BusinessRiskView : Page
                         ""Assumed"": {2}
                     }}";
 
-                string lastResult =  string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                string lastResult = string.Format(
+                    CultureInfo.InvariantCulture,
                     formattedJson,
                     businessRisk.FinalDate,
                     businessRisk.FinalResult,
                     "false",
                     businessRisk.Id,
-                    businessRisk.Description
-                );
+                    GisoFramework.Tools.JsonCompliant(businessRisk.Description));
 
                 res.Append(",").Append(lastResult);
             }
@@ -1142,11 +1142,11 @@ public partial class BusinessRiskView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        var files = UploadFile.GetByItem(ItemValues.BusinessRisk, this.BusinessRiskId, this.Company.Id).ToList();
+        var files = UploadFile.GetByItem(ItemIdentifiers.BusinessRisk, this.BusinessRiskId, this.Company.Id).ToList();
 
         if (this.incidentAction.Id > 0)
         {
-            files.AddRange(UploadFile.GetByItem(ItemValues.IncidentActions, this.incidentAction.Id, this.Company.Id));
+            files.AddRange(UploadFile.GetByItem(ItemIdentifiers.IncidentActions, this.incidentAction.Id, this.Company.Id));
         }
 
         var res = new StringBuilder();

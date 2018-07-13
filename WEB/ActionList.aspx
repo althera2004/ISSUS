@@ -121,11 +121,11 @@
                                                     <tr id="ListDataHeader">
                                                         <!-- <th id="th0" class="search"><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th> -->
 														<th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="sort search"><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th>
-														<th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
+														<th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="sort" style="width:100px; text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
                                                         <th id="th2" style="width:60px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"] %></th>
                                                         <!-- <th id="th4" class="search sort" style="width:150px;"><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %></th> -->
-														<th onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="sort search" style="width:250px;"><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th4" class="sort search" style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_Type"] %></th>
+														<th onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="sort" style="width:250px;"><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th4" class="sort" style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_Type"] %></th>
 														<th onclick="Sort(this,'ListDataTable','date',false);" id="th5" class="sort hidden-480 search" style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_ImplementDate"] %></th>
                                                         <!-- <th onclick="Sort(this,'ListDataTable','date',false);" id="th6" class="sort hidden-480 search" style="width:100px;text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Close"] %></th> -->
                                                         <th onclick="Sort(this,'ListDataTable','money',false);" id="th6" class="sort hidden-480 search" style="width:100px; text-align:center"><%=this.Dictionary["Item_IncidentAction_Header_Cost"] %></th>

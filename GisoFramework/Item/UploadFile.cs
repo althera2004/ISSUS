@@ -42,28 +42,28 @@ namespace GisoFramework.Item
         {
             switch (itemLinked)
             {
-                case ItemValues.Dashboard: return "DashBoard";
-                case ItemValues.CompanyProfile: return "CompanyData";
-                case ItemValues.JobPosition: return "JobPositions";
-                case ItemValues.Department: return "Departments";
-                case ItemValues.Employee: return "Employees";
-                case ItemValues.User: return "Users";
-                case ItemValues.Trace: return "Traces";
-                case ItemValues.Document: return "Documents";
-                case ItemValues.Proccess: return "Processes";
-                case ItemValues.Learning: return "Learning";
-                case ItemValues.Equipment: return "Equipments";
-                case ItemValues.Incident: return "Incidents";
-                case ItemValues.IncidentActions: return "IncidentActions";
-                case ItemValues.Provider: return "Providers";
-                case ItemValues.Customer: return "Customers";
-                case ItemValues.Cost: return "IncidentCosts";
-                case ItemValues.BusinessRisk: return "BusinessRisks";
-                case ItemValues.Rules: return "Rules";
-                case ItemValues.CostDefinition: return "CostDefinition";
-                case ItemValues.Objetivo: return "Objetivo";
-                case ItemValues.Indicador: return "Inicador";
-                case ItemValues.Oportunity: return "Oportunity";
+                case ItemIdentifiers.Dashboard: return "DashBoard";
+                case ItemIdentifiers.CompanyProfile: return "CompanyData";
+                case ItemIdentifiers.JobPosition: return "JobPositions";
+                case ItemIdentifiers.Department: return "Departments";
+                case ItemIdentifiers.Employee: return "Employees";
+                case ItemIdentifiers.User: return "Users";
+                case ItemIdentifiers.Trace: return "Traces";
+                case ItemIdentifiers.Document: return "Documents";
+                case ItemIdentifiers.Proccess: return "Processes";
+                case ItemIdentifiers.Learning: return "Learning";
+                case ItemIdentifiers.Equipment: return "Equipments";
+                case ItemIdentifiers.Incident: return "Incidents";
+                case ItemIdentifiers.IncidentActions: return "IncidentActions";
+                case ItemIdentifiers.Provider: return "Providers";
+                case ItemIdentifiers.Customer: return "Customers";
+                case ItemIdentifiers.Cost: return "IncidentCosts";
+                case ItemIdentifiers.BusinessRisk: return "BusinessRisks";
+                case ItemIdentifiers.Rules: return "Rules";
+                case ItemIdentifiers.CostDefinition: return "CostDefinition";
+                case ItemIdentifiers.Objetivo: return "Objetivo";
+                case ItemIdentifiers.Indicador: return "Inicador";
+                case ItemIdentifiers.Oportunity: return "Oportunity";
                 default:return string.Empty;
             }
         }

@@ -607,7 +607,7 @@ public partial class EmployeesView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        var files = UploadFile.GetByItem(ItemValues.Employee, this.employeeId, this.company.Id);
+        var files = UploadFile.GetByItem(ItemIdentifiers.Employee, this.employeeId, this.company.Id);
         var res = new StringBuilder();
         var resList = new StringBuilder();
         int contCells = 0;

@@ -278,9 +278,9 @@ function ItemRenderTable(list) {
             items.push(item.Description);
         }
 
-        if ($.inArray(item.Associated.Description, items) === -1) {
+        /*if ($.inArray(item.Associated.Description, items) === -1) {
             items.push(item.Associated.Description);
-        }
+        }*/
     }
 
     if (items.length === 0) {

@@ -321,7 +321,7 @@ namespace GisoFramework.Item
                     }}";
 
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     formattedJson,
                     this.DateStart,
                     this.StartResult,

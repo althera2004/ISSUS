@@ -192,7 +192,7 @@ function ApplyActionRadio() {
         return false;
     }
 
-    if (document.getElementById("ApplyAction").checked === true) {
+    if (document.getElementById("ApplyActionYes").checked === true) {
         //Show action, cost and final status tabs and content
         $("#Tabaccion").show();
         $("#Tabcostes").show();
@@ -317,7 +317,7 @@ function OportunityInsert(previousId) {
             "AnulateBy": { "Id": -1 },
             "AnulateDate": null,
             "AnulateReason": "",
-            "ApplyAction": document.getElementById("ApplyActionYes").checked.checked,
+            "ApplyAction": document.getElementById("ApplyActionYes").checked,
             "Causes": $("#TxtCauses").val(),
             "Control": $("#TxtControl").val(),
             "Cost": Oportunity.Cost,
@@ -1356,6 +1356,7 @@ window.onload = function () {
         }
     }
     else {
+        SaveAction = true;
         $("#Tabaccion").show();
         $("#Tabcostes").show();
         document.getElementById("ApplyActionYes").checked = true;

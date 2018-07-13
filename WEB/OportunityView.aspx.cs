@@ -822,11 +822,11 @@ public partial class OportunityView : Page
         this.LtDocumentsList.Text = string.Empty;
         this.LtDocuments.Text = string.Empty;
 
-        var files = UploadFile.GetByItem(ItemValues.Oportunity, this.OportunityId, this.Company.Id).ToList();
+        var files = UploadFile.GetByItem(ItemIdentifiers.Oportunity, this.OportunityId, this.Company.Id).ToList();
 
         if (this.IncidentAction.Id > 0)
         {
-            files.AddRange(UploadFile.GetByItem(ItemValues.IncidentActions, this.IncidentAction.Id, this.Company.Id));
+            files.AddRange(UploadFile.GetByItem(ItemIdentifiers.IncidentActions, this.IncidentAction.Id, this.Company.Id));
         }
 
         var res = new StringBuilder();

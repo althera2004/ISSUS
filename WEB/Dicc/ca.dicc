@@ -1712,3 +1712,5 @@ Item_Document_FieldLabel_Status::Estat
 Item_EquipmentRecord_Filter_Periode1::Període
 Item_EquipmentRecord_Filter_Periode2::-
 Item_EquipmentRecord_Filter_Type::Tipus
+Item_BusinessRisksAndOportunities_Short::Riscos y Oport.
+Item_Oportunity_Message_InsertSucess::Ja es poden fer servir les altres pestanyes
