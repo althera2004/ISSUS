@@ -87,20 +87,33 @@
                                             </td>
                                             
                                         </tr>
-
+                                    </table>
+                                    <table>
                                         <tr>
+                                            <td style="padding-top:20px;">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+										    <td style="width:100px;">&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-										    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+										    <td style="width:100px;">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-										    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
-                                            <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %>:</strong></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="radio" id="ROrigin0" name="ROrigin" onclick="ShowCombos(0);" checked="checked" /><%=this.Dictionary["Item_Incident_Origin0"] %></td>
+                                            <td style="width:100px;padding-left:20px;">&nbsp;<strong><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %>:</strong></td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" id="ROrigin0" name="ROrigin" onclick="ShowCombos(0);" checked="checked" /><%=this.Dictionary["Item_Incident_Origin0"] %></td>
                                             <td>&nbsp;&nbsp;&nbsp;<input type="radio" id="ROrigin1" name="ROrigin" onclick="ShowCombos(1);" /><%=this.Dictionary["Item_Incident_Origin1"] %></td>
                                             <td>&nbsp;&nbsp;&nbsp;<input type="radio" id="ROrigin2" name="ROrigin" onclick="ShowCombos(2);" /><%=this.Dictionary["Item_Incident_Origin2"] %></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="radio" id="ROrigin3" name="ROrigin" onclick="ShowCombos(3);" /><%=this.Dictionary["Item_Incident_Origin3"] %></td>
+                                            <td style="padding-right:30px;">&nbsp;&nbsp;&nbsp;<input type="radio" id="ROrigin3" name="ROrigin" onclick="ShowCombos(3);" /><%=this.Dictionary["Item_Incident_Origin3"] %></td>
                                             <td>
                                                 <select style="width:200px;display:none;" id="CmbOrigin1"></select>
                                                 <select style="width:200px;display:none;" id="CmbOrigin2"></select>
@@ -113,86 +126,8 @@
                                 </div> 
 
 
-
-                                <!-- GTK CLG Start -->
-
-                                <!--div class="col-sm-12">
-                                    <table style="width:100%;">
-                                        <tr>
-                                            <td style="width:250px;">
-                                                <div class="row">
-                                                    <label id="TxtDateFromLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Incident_List_Filter_From"] %></label>										
-                                                    <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtDateFromDiv">
-                                                        <div class="input-group">
-                                                            <input class="form-control date-picker" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                            <span id="TxtDateFromBtn" class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td style="width:100px;">&nbsp;</td>
-                                            <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_Incident_List_Filter_Status"] %>:</strong></td>
-                                            <td><input type="checkbox" id="RIncidentStatus1" checked="checked" /><%=this.Dictionary["Item_Incident_Status1"] %></td>
-                                            <td><input type="checkbox" id="RIncidentStatus2" checked="checked" /><%=this.Dictionary["Item_Incident_Status2"] %></td>
-                                            <td><input type="checkbox" id="RIncidentStatus3" checked="checked" /><%=this.Dictionary["Item_Incident_Status3"] %></td>
-                                            <td><input type="checkbox" id="RIncidentStatus4" /><%=this.Dictionary["Item_Incident_Status4"] %></td>
-                                            <!--td style="width:200px;">&nbsp;-->
-                                            <!--td>--
-                                            <!--div class="row">
-                                                <div class="col-sm-1"></div>                                        
-                                                <div class="col-sm-11" style="text-align:right"-->
-                                                    <!--button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></!--button>
-                                                    <button style="width:100px;" class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Female_Plural"] %></button>
-                                                    <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i>Cap</button>
-                                                <!--/div>
-                                            </!--div-->
-                                            <!--/td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:250px;">
-                                                <div class="row">
-                                                    <label id="TxtDateToLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Incident_List_Filter_To"] %></label>										
-                                                    <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtDateToDiv">
-                                                        <div class="input-group">
-                                                            <input class="form-control date-picker" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                            <span id="TxtDateToBtn" class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td style="width:100px;">&nbsp;</td>
-                                            <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %>:</strong></td>
-                                            <td><input type="radio" id="ROrigin0" name="ROrigin" onclick="ShowCombos(0);" checked="checked" /><%=this.Dictionary["Item_Incident_Origin0"] %></td>
-                                            <td><input type="radio" id="ROrigin1" name="ROrigin" onclick="ShowCombos(1);" /><%=this.Dictionary["Item_Incident_Origin1"] %></td>
-                                            <td><input type="radio" id="ROrigin2" name="ROrigin" onclick="ShowCombos(2);" /><%=this.Dictionary["Item_Incident_Origin2"] %></td>
-                                            <td><input type="radio" id="ROrigin3" name="ROrigin" onclick="ShowCombos(3);" /><%=this.Dictionary["Item_Incident_Origin3"] %></td>
-                                            <td>
-                                                <select style="width:200px;display:none;" id="CmbOrigin1"></select>
-                                                <select style="width:200px;display:none;" id="CmbOrigin2"></select>
-                                                <select style="width:200px;display:none;" id="CmbOrigin3"></select>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <!--div class="row">
-                                        <div class="col-sm-9"></div>                                        
-                                        <div class="col-sm-3" style="text-align:right">
-                                            <button class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><//%=this.Dictionary["Common_Filter"] %></button>
-                                            <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i>Tots</button>
-                                            <button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i>Cap</button>
-                                        </div>
-                                    </div-->                                
-                                <!--/div> 
-
-                                <!-- GTK CLG End -->
-
-
-
                                 <div style="height:8px;clear:both;"></div>
-                                <div class="row" style="margin-top:20px;">
+                                <div class="row" style="margin-top:10px;">
                                     <div class="col-xs-12">
                                         <div class="table-responsive" id="scrollTableDiv">
                                             <table class="table table-bordered table-striped" style="margin: 0">

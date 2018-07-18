@@ -31,7 +31,7 @@
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
-                                <div class="col-sm-8">
+                                <div class="col-sm-10">
                                     <table style="width:100%;">
                                         <tr>
                                             <td>

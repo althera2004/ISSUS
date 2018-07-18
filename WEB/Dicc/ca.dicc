@@ -1720,3 +1720,5 @@ Item_Oportunity_Title_Graph::Gràfic
 Item_Oportunity_Btn_NewIPR::Fixar nou IPR
 Item_Incident_List_Filter_Periode1::Període
 Item_Incident_List_Filter_Periode2::-
+Item_IncidentAction_List_Filter_Periode1::Període
+Item_IncidentAction_List_Filter_Periode2::-
