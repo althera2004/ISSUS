@@ -604,9 +604,9 @@ public partial class IncidentView : Page
 
         this.WhatHappenedDate = new FormDatePicker
         {
-            Id = "TxtWhatHappenedDate",
-            Label = this.Dictionary["Item_Incident_Field_WhatHappenedDate"],
             ColumnsSpanLabel = Constant.ColumnSpan4,
+            Label = this.Dictionary["Item_Incident_Field_WhatHappenedDate"],
+            Id = "TxtWhatHappenedDate",
             ColumnsSpan = Constant.ColumnSpan8,
             Value = this.Incident.WhatHappenedOn,
             GrantToWrite = this.grantToWrite
@@ -714,9 +714,9 @@ public partial class IncidentView : Page
 
         this.CmbActionClosedResponsible = new FormSelect
         {
-            ColumnsSpanLabel = Constant.ColumnSpan2,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
             Label = this.Dictionary["Item_IncidentAction_Field_Responsible"],
-            ColumnsSpan = Constant.ColumnSpan6,
+            ColumnsSpan = Constant.ColumnSpan8,
             Name = "CmbActionClosedResponsible",
             GrantToWrite = this.grantToWrite,
             Required = true,
@@ -838,8 +838,8 @@ public partial class IncidentView : Page
         {
             Id = "TxtActionClosedDate",
             Label = this.Dictionary["Common_Date"],
-            ColumnsSpanLabel = Constant.ColumnSpan2,
-            ColumnsSpan = Constant.ColumnSpan2,
+            ColumnsSpanLabel = Constant.ColumnSpan4,
+            ColumnsSpan = Constant.ColumnSpan8,
             Value = this.IncidentAction.ClosedOn,
             Required = true
         };

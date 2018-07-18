@@ -73,34 +73,35 @@
                                                             </div> 
                                                             <span class="ErrorMessage" id="RTypeErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
                                                             <div class="form-group">
-                                                                <label id="RReporterTypeLabel" class="col-sm-2"><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %></label>
-                                                                <div class="col-sm-2"><input type="radio" value="0" id="RReporterType1" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType1"] %></div>
-                                                                <div class="col-sm-2"><input type="radio" value="1" id="RReporterType2" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType2"] %></div>
-                                                                <div class="col-sm-2"><input type="radio" value="2" id="RReporterType3" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType3"] %></div>
+                                                                <label id="RReporterTypeLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %></label>
+                                                                <div class="col-sm-1"><input type="radio" value="0" id="RReporterType1" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType1"] %></div>
+                                                                <div class="col-sm-1"><input type="radio" value="1" id="RReporterType2" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType2"] %></div>
+                                                                <div class="col-sm-1"><input type="radio" value="2" id="RReporterType3" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType3"] %></div>
                                                                 <div class="col-sm-4" style="display: none" id="RReporterTypeCmb">
                                                                     <div id="DivCmbReporterType3">
-                                                                        <div class="col-sm-9" id="" style="height: 35px !important;">
+                                                                        <div class="col-sm-11" id="" style="height: 35px !important;">
                                                                             <select id="CmbReporterType3" class="form-control col-xs-12 col-sm-12"></select>
                                                                             <input style="display: none;" type="text" readonly="readonly" id="CmbReporterType3Value" placeholder="Proveedor" class="col-xs-12 col-sm-12" />
                                                                         </div>
-                                                                        <div class="col-sm-3" id="CmbReporterType3Bar"><button class="btn btn-light" style="height: 30px;" title="Proveïdors" id="BtnCmbReporterType3BAR" disabled="">...</button></div>
+                                                                        <div class="col-sm-1" id="CmbReporterType3Bar"><button class="btn btn-light" style="height: 30px;" title="Proveïdors" id="BtnCmbReporterType3BAR" disabled="">...</button></div>
                                                                     </div>
                                                                     <div id="DivCmbReporterType2">
-                                                                        <div class="col-sm-9" id="" style="height: 35px !important;">
+                                                                        <div class="col-sm-11" id="" style="height: 35px !important;">
                                                                             <select id="CmbReporterType2" class="form-control col-xs-12 col-sm-12"></select>
                                                                             <input style="display: none;" type="text" readonly="readonly" id="CmbReporterType2Value" placeholder="Proveedor" class="col-xs-12 col-sm-12" />
                                                                         </div>
-                                                                        <div class="col-sm-3" id="CmbReporterType2Bar"><button class="btn btn-light" style="height: 30px;" title="Proveïdors" id="BtnCmbReporterType2BAR" disabled="">...</button></div>
+                                                                        <div class="col-sm-1" id="CmbReporterType2Bar"><button class="btn btn-light" style="height: 30px;" title="Proveïdors" id="BtnCmbReporterType2BAR" disabled="">...</button></div>
                                                                     </div>
                                                                     <div id="DivCmbReporterType1">
-                                                                        <div class="col-sm-12" id="" style="height: 35px !important;">
+                                                                        <div class="col-sm-11" id="" style="height: 35px !important;">
                                                                             <select id="CmbReporterType1" class="form-control col-xs-12 col-sm-12"></select>
                                                                             <input style="display: none;" type="text" readonly="readonly" id="CmbReporterType1Value" placeholder="Proveedor" class="col-xs-12 col-sm-12" />
                                                                         </div>
-                                                                        <!--<div class="col-sm-3" id="CmbReporterType1Bar"><button class="btn btn-light" style="height:30px;" title="Proveïdors" id="BtnCmbReporterType1BAR" disabled="">...</button></div>-->
+                                                                        <!--<div class="col-sm-1" id="CmbReporterType1Bar"><button class="btn btn-light" style="height:30px;" title="Proveïdors" id="BtnCmbReporterType1BAR" disabled="">...</button></div>-->
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <!--div class="col-sm-4">&nbsp;&nbsp;&nbsp;&nbsp;</!--div-->
                                                             <span class="ErrorMessage" id="RReporterTypeErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
                                                             <div class="form-group">
                                                                 <%=this.TxtWhatHappened.Render %>
@@ -127,7 +128,7 @@
                                                             </div>   
                                                             <hr /> 
                                                             <div class="form-group">
-                                                                <label class="col-sm-3"><%=this.Dictionary["Item_IncidentAction_Label_ApplyAction"] %></label>
+                                                                <label class="col-sm-2"><%=this.Dictionary["Item_IncidentAction_Label_ApplyAction"] %></label>
                                                                 <div class="col-sm-1"><input type="radio" name="RAction" id="RActionYes" onclick="RActionChanged();" />Sí</div>
                                                                 <div class="col-sm-1"><input type="radio" name="RAction" id="RActionNo" onclick="RActionChanged();" />No</div>
                                                             </div> 
@@ -178,25 +179,26 @@
                                                 </div>
                                                 <div id="costes" class="tab-pane">
                                                     <div class="col-sm-12">                                                        
-                                                        <div class="col-sm-8" style="padding-bottom:8px;" id="SelectRow">
-                                                            <div class="col-xs-12">
-                                                                <div class="col-xs-3">
+                                                        <div class="col-sm-8" id="SelectRow">
+                                                            <!--div class="col-xs-12"-->
+                                                                <div class="col-sm-4">
                                                                     <input type="checkbox" id="Chk1" onchange="FilterChanged();" checked="checked" />&nbsp;<%=this.Dictionary["Item_Incident_Cost_IncidentCheck"] %>
                                                                 </div>
-                                                                <div class="col-xs-3">
+                                                                <div class="col-sm-4">
                                                                     <input type="checkbox" id="Chk2" onchange="FilterChanged();" checked="checked" />&nbsp;<%=this.Dictionary["Item_Incident_Cost_IncidentActionCheck"] %>
                                                                 </div>
-                                                            </div>
+                                                            <!--/div-->
                                                         </div>
                                                         <div class="col-sm-4" style="text-align:right;">
-                                                            <h4 class="pink" style="right:0;">
+                                                            <!--h4 class="pink" style="right:0;"-->
                                                                 <button class="btn btn-success" type="button" id="BtnNewCost">
                                                                     <i class="icon-plus-sign bigger-110"></i>
                                                                     <%=this.Dictionary["Item_IncidentCost_Btn_New"] %>
                                                                 </button>
-                                                            </h4>
+                                                                <br /><br />
+                                                            <!--/h4-->
                                                         </div>
-                                                    </div>	
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-xs-12">
                                                             <div class="table-responsive" id="scrollTableDiv">

@@ -1346,15 +1346,16 @@ function AnulateLayout() {
     $("#BtnRestaurar").hide();
     if (Incident.ClosedOn !== null) {
         $("#DivAnulateMessage").remove();
-        var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+        var message = "<br /><div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
         message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Incident_AnulateMessageTile + "</h3>";
         message += "    <p style=\"margin-left:50px;\">";
         message += "        " + Dictionary.Item_Incident_Field_CloseResponsible + ": <strong>" + Incident.ClosedBy.Value + "</strong><br />";
         message += "        " + Dictionary.Item_Incident_Field_CloseDate + ": <strong>" + $("#TxtClosedDate").val() + "</strong><br />";
         message += "    </p>";
-        message += "</div><br /><br /><br />";
-        $("#home").append(message);
+        message += "</div>";
+        //$("#home").append(message);
+        $("#oldFormFooter").before(message);
         $("#BtnAnular").hide();
         $("#BtnRestaurar").show();
         $("#BtnSave").hide();
@@ -1502,7 +1503,7 @@ function AnulateLayoutAccion() {
     $("#BtnRestaurarAccion").hide();
     if (IncidentAction.ClosedOn !== null) {
         $("#DivAnulateMessageAccion").remove();
-        var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessageAccion\">";
+        var message = "<br /><div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessageAccion\">";
         message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_IncidentAction_AnulateMessageTile + "</h3>";
         message += "    <p style=\"margin-left:50px;\">";

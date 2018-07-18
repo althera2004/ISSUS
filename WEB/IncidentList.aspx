@@ -76,14 +76,14 @@
                                             <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="RIncidentStatus3" checked="checked" /><%=this.Dictionary["Item_Incident_Status3"] %></td>
                                             <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="RIncidentStatus4" /><%=this.Dictionary["Item_Incident_Status4"] %></td>
 
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td> 
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>
-                                                <div class="col-xs-12 col-sm-12">                                      
+                                                <!--div class="col-xs-12 col-sm-12"-->                                      
                                                     <!--button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></button-->
                                                     <button class="btn btn-success" type="button" id="BtnRecordShowAll" title="<%=this.Dictionary["Common_All_Female_Plural"] %>"><i class="icon-list"></i></button>
                                                     <button class="btn btn-success" type="button" id="BtnRecordShowNone" title="<%=this.Dictionary["Common_None_Female"] %>"><i class="icon-remove-circle"></i></button>
-                                                </div>
+                                                <!--/div-->
                                             </td>
                                             
                                         </tr>
@@ -106,10 +106,6 @@
                                                 <select style="width:200px;display:none;" id="CmbOrigin2"></select>
                                                 <select style="width:200px;display:none;" id="CmbOrigin3"></select>
                                             </td>
-
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
                                         </tr>
                                     </table>
