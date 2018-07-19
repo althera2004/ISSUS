@@ -388,7 +388,7 @@ public partial class IncidentView : Page
         }
         else
         {
-            this.master.Titulo = "Item_Incident_New_Label";
+            this.master.Titulo = "Item_Incident_Detail";
             this.Incident = Incident.Empty;
             this.IncidentAction = IncidentAction.Empty;
             this.formFooter.ModifiedBy = this.Dictionary["Common_New"];
@@ -446,11 +446,11 @@ public partial class IncidentView : Page
 
     public void RenderForm()
     {
-        this.TxtWhatHappened = new FormTextArea { Rows = 3, Value = this.Incident.WhatHappened, Name = "TxtWhatHappened", Label = this.Dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
-        this.TxtCauses = new FormTextArea { Rows = 3, Value = this.Incident.Causes, Name = "TxtCauses", Label = this.Dictionary["Item_Incident_Field_Causes"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
-        this.TxtActions = new FormTextArea { Rows = 3, Value = this.Incident.Actions, Name = "TxtActions", Label = this.Dictionary["Item_Incident_Field_Actions"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
-        this.TxtAnotations = new FormTextArea { Rows = 3, Value = this.Incident.Annotations, Name = "TxtAnotations", Label = this.Dictionary["Item_Incident_Field_Anotations"], MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
-        this.TxtNotes = new FormTextArea { Rows = 3, Value = this.Incident.Notes, Name = "TxtNotes", Label = this.Dictionary["Item_Incident_Field_Notes"], ColumnsSpan = 12, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
+        this.TxtWhatHappened = new FormTextArea { Rows = 5, Value = this.Incident.WhatHappened, Name = "TxtWhatHappened", Label = this.Dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
+        this.TxtCauses = new FormTextArea { Rows = 5, Value = this.Incident.Causes, Name = "TxtCauses", Label = this.Dictionary["Item_Incident_Field_Causes"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
+        this.TxtActions = new FormTextArea { Rows = 5, Value = this.Incident.Actions, Name = "TxtActions", Label = this.Dictionary["Item_Incident_Field_Actions"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
+        this.TxtAnotations = new FormTextArea { Rows = 5, Value = this.Incident.Annotations, Name = "TxtAnotations", Label = this.Dictionary["Item_Incident_Field_Anotations"], MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
+        this.TxtNotes = new FormTextArea { Rows = 5, Value = this.Incident.Notes, Name = "TxtNotes", Label = this.Dictionary["Item_Incident_Field_Notes"], ColumnsSpan = 12, ColumnsSpanLabel = 12, Embedded = true, MaxLength = Constant.MaximumTextAreaLength, GrantToWrite = this.grantToWrite };
 
         var defaultOption = FormSelectOption.DefaultOption(this.Dictionary);
 

@@ -181,10 +181,13 @@
                                                     <div class="col-sm-12">                                                        
                                                         <div class="col-sm-8" id="SelectRow">
                                                             <!--div class="col-xs-12"-->
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-2">
+                                                                    <h4><%=this.Dictionary["Item_IncidentAction_Tab_Costs"] %></h4>
+                                                                </div>
+                                                                <div class="col-sm-3" style="padding-top:10px;" >
                                                                     <input type="checkbox" id="Chk1" onchange="FilterChanged();" checked="checked" />&nbsp;<%=this.Dictionary["Item_Incident_Cost_IncidentCheck"] %>
                                                                 </div>
-                                                                <div class="col-sm-4">
+                                                                <div class="col-sm-3" style="padding-top:10px;">
                                                                     <input type="checkbox" id="Chk2" onchange="FilterChanged();" checked="checked" />&nbsp;<%=this.Dictionary["Item_Incident_Cost_IncidentActionCheck"] %>
                                                                 </div>
                                                             <!--/div-->
