@@ -30,7 +30,76 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
                                 <div class="col-sm-12">
-                                    <table style="width:100%;">
+
+                                    <table cellpadding="2" cellspacing="2">
+                                        <tr>
+                                            <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_Indicador_Filter_Periode1"] %>:</strong></td>
+										    <td>
+                                                <div class="col-xs-12 col-sm-12">
+												    <div class="input-group">
+													    <input class="form-control date-picker" style="width:100px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <span class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();" id="TxtDateFromBtn">
+														    <i class="icon-calendar bigger-110"></i>
+													    </span>
+												    </div>
+											        <span class="ErrorMessage" id="TxtDateFromErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											        <span class="ErrorMessage" id="TxtDateFromErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											        <span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                </div>
+										    </td>
+                                            <td id="TxtDateToLabel"><%=this.Dictionary["Item_Indicador_Filter_Periode2"] %></td>
+										    <td>
+                                                <div class="col-xs-12 col-sm-12">
+												    <div class="input-group">
+													    <input class="form-control date-picker" style="width:100px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <span class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();" id="TxtDateToBtn">
+														    <i class="icon-calendar bigger-110"></i>
+													    </span>
+												    </div>
+											        <span class="ErrorMessage" id="TxtDateToErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											        <span class="ErrorMessage" id="TxtDateToErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											        <span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                </div>
+										    </td>
+
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                                            <td><strong><%=this.Dictionary["Item_Indicaddor_Filter_TypeLabel"] %>:</strong></td>
+                                            <td>
+                                                <select id="CmbTipusIndicador" class="col-sm-12" onchange="CmbTipusIndicadorChange()" style="max-width:300px;">
+                                                    <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>
+                                                    <option value ="1"><%=this.Dictionary["Item_Indicaddor_Filter_TypeProcess"] %></option>
+                                                    <option value="2"><%=this.Dictionary["Item_Indicaddor_Filter_TypeObjetivo"] %></option>
+                                                </select>
+                                            </td>
+
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                                            <td><strong><%=this.Dictionary["Item_Indicador_Filter_Status"] %>:</strong></td>
+                                            <td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus1" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowActive"] %></td>
+                                            <td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus2" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %></td>
+											<td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %></td>
+
+
+                                            <td style="padding-bottom:35px;">&nbsp;&nbsp;&nbsp;&nbsp;</td> 
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>
+                                                <!--div class="col-xs-12 col-sm-12"-->                                      
+                                                <button style="display:none;" class="btn btn-success" type="button" id="BtnSearch" title="<%= this.Dictionary["Common_Filter"] %><"><i class="icon-filter bigger-110"></i>/button>
+                                                <button class="btn btn-success" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-list bigger-110"></i></button>
+                                                <button class="btn btn-success" type="button" id="BtnRecordShowNone" title="<%= this.Dictionary["Common_None_Male"] %>"><i class="icon-remove-circle bigger-110"></i></button>
+                                                <!--/div-->
+                                            </td>
+                                            
+                                        </tr>
+                                    </table>
+
+
+                                    <!-- GTK CLG Start -->
+
+                                    <!--table style="width:100%;">
                                         <tr>
                                             <td style="width: 200px;">
                                                 <div class="row">
@@ -102,8 +171,15 @@
                                                 <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%= this.Dictionary["Common_None_Male"] %></button>
                                             </td>
                                         </tr>
-                                    </table>
-                                </div> 
+                                    </table-->
+
+                                    <!-- GTK CLG End -->
+
+
+
+
+                                </div>
+                                
                                 <div style="height:8px;clear:both;"></div>
                                 <div class="row">
                                     <div class="col-xs-12">

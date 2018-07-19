@@ -1730,3 +1730,5 @@ Item_ObjetivoAction_List_Filter_Status::Estat
 Item_Objetivo_Detail::Fitxa de l'Objectiu
 Item_Indicador_Filter_Periode1::Període
 Item_Indicador_Filter_Periode2::-
+Item_Indicador_Detail::Fitxa de l'Indicador
+Item_Indicador_Filter_Status::Estat

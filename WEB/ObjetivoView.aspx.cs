@@ -266,8 +266,8 @@ public partial class ObjetivoView : Page
         }
         else
         {
-            this.master.AddBreadCrumb("Item_Objetivo");
-            this.master.Titulo = "Item_Objetivo_New_Label";
+            //this.master.AddBreadCrumb("Item_Objetivo");
+            this.master.Titulo = "Item_Objetivo_Detail";
             this.Objetivo = Objetivo.Empty;
             this.formFooter.ModifiedBy = this.Dictionary["Common_New"];
             this.formFooter.ModifiedOn = DateTime.Now;

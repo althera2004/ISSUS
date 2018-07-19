@@ -82,52 +82,6 @@
                                         </tr>
                                     </table>
 
-
-                                    <!-- GTK CLG Start -->
-                                    
-                                    <!--table style="width:100%;">
-                                        <tr>
-                                            <td style="width:250px;">
-                                                <div class="row">
-                                                    <label id="TxtDateFromLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_ObjetivoAction_List_Filter_Periode1"] %></label>										
-                                                    <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtDateFromDiv">
-                                                        <div class="input-group">
-                                                            <input class="form-control date-picker" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                            <span id="TxtDateFromBtn" class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td style="width:250px;">
-                                                <div class="row">
-                                                    <label id="TxtDateToLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_ObjetivoAction_List_Filter_Periode2"] %></label>										
-                                                    <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtDateToDiv">
-                                                        <div class="input-group">
-                                                            <input class="form-control date-picker" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                            <span id="TxtDateToBtn" class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td style="width:250px;padding-left:12px;">
-                                                    <input type="radio" name="RBStatus" id="RBStatus1" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowActive"] %>
-                                                    <input type="radio" name="RBStatus" id="RBStatus2" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %>
-													<input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %>
-											</td>
-                                            <td colspan="2" align="right">
-                                                <button style="width:100px;display:none;" class="btn-minier btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
-                                                <button style="width:100px;" class="btn-minier btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%= this.Dictionary["Common_All_Male_Plural"] %></button>
-                                                <button style="width:100px;display:none;" class="btn-minier btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%= this.Dictionary["Common_None_Male"] %></button>
-                                            </td>
-                                        </tr>
-                                    </table-->
-
-                                    <!-- GTK CLG End -->
-
                                 </div> 
                                 <div style="height:8px;clear:both;"></div>
                                 <div class="row">

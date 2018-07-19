@@ -1506,7 +1506,8 @@ function AnulateLayout() {
         message += "        " + Dictionary.Item_Indicador_Field_EndResponsible + ": <strong>" + Indicador.EndResponsible.Value + "</strong>";
         message += "    </p>";
         message += "</div>";
-        $("#home").append(message);
+        //$("#home").append(message);
+        $("#oldFormFooter").before(message);
         $("#BtnAnular").hide();
         $("#BtnRestaurar").show();
     }
