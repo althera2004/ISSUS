@@ -110,14 +110,15 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div style="height:12px;clear:both;">&nbsp;</div>
                                                             <div class="for-group">
                                                                 <label id="TxtVinculatedToIndicatorLabel" class="col-sm-1 control-label no-padding-right" style="padding: 0;"><%=this.Dictionary["Item_Objetivo_FieldLabel_Viculated"] %></label>
                                                                 <div class="col-sm-1"><input runat="server" type="radio" id="RVinculatedYes" name="status" value="0" />&nbsp;<%=this.Dictionary["Common_Yes"] %></div>
                                                                 <div class="col-sm-2"><input runat="server" type="radio" id="RVinculatedNo" name="status" value="1" />&nbsp;<%=this.Dictionary["Common_No"] %></div>
                                                                 <%=this.CmbIndicador.Render %>
                                                                 <label id="CmbMetaLabel" class="col-sm-1 control-label no-padding-right" style="display: none;">Meta</label>
-                                                                <div class="col-sm-5" id="DivCmbMetaComparer" style="height: 35px !important; display: none;" title="" data-rel="tooltip">
-                                                                    <select style="float: left; width: 60%;" class="form-control" id="CmbMetaComparer" data-placeholder="">
+                                                                <div class="col-sm-4" id="DivCmbMetaComparer" style="height: 35px !important; display: none;" title="" data-rel="tooltip">
+                                                                    <select style="float: left; width: 55%;" class="form-control" id="CmbMetaComparer" data-placeholder="">
                                                                         <option value="">Seleccionar</option>
                                                                         <option value="eq"><%=this.Dictionary["Common_Comparer_eq"] %> (=)</option>
                                                                         <option value="gt"><%=this.Dictionary["Common_Comparer_gt"] %> (&gt;)</option>
@@ -135,7 +136,7 @@
                                                                     <input type="text" id="TxtPeriodicity" placeholder="Periodicitat" class="col-xs-12 col-sm-12 tooltip-info integerFormated" value="0" maxlength="3" onblur="this.value=$.trim(this.value);" />
                                                                     <span class="ErrorMessage" id="TxtPeriodicityErrorRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
                                                                 </div>
-																<label id="Label1" class="col-sm-2"><%=this.Dictionary["Common_Label_Days"] %></label>
+																<label id="Label1" class="col-sm-1"><%=this.Dictionary["Common_Label_Days"] %></label>
 															</div>
                                                             <div style="height:12px;clear:both;">&nbsp;</div>
                                                             <div class="form-group">
@@ -314,9 +315,65 @@
                                                     </div>
                                                 </div>
 
-                                                <div id="records" class="tab-pane">
+                                                <div id="records" class="tab-pane">                                                 
+                                                    
                                                     <h4 id="RecordListTitle"><%=this.Dictionary["Item_Objetivo_Tab_Records"] %></h4>
-                                                    <div class="alert alert-info" style="display: none;" id="DivIndicadorRecordsMessage">
+
+
+                                                    <div class="row">
+                                                    <div class="col-sm-12">
+                                    
+                                                        <table cellpadding="2" cellspacing="2">
+                                                            <tr>
+
+                                                                <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_Indicador_Filter_Periode1"] %>:</strong></td>
+										                        <td>
+                                                                    <div class="col-xs-12 col-sm-12">
+												                        <div class="input-group">
+													                        <input class="form-control date-picker" style="width:100px;" id="TxtRecordsFromDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													                        <span class="input-group-addon" onclick="document.getElementById('TxtRecordsFromDate').focus();" id="TxtRecordsFromDateBtn">
+														                        <i class="icon-calendar bigger-110"></i>
+													                        </span>
+												                        </div>
+											                            <span class="ErrorMessage" id="TxtDateFromErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateFromErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                                    </div>
+										                        </td>
+
+                                                                <td id="TxtDateToLabel"><%=this.Dictionary["Item_Indicador_Filter_Periode2"] %></td>
+										                        <td>
+                                                                    <div class="col-xs-12 col-sm-12">
+												                        <div class="input-group">
+													                        <input class="form-control date-picker" style="width:100px;" id="TxtRecordsToDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													                        <span class="input-group-addon" onclick="document.getElementById('TxtRecordsToDate').focus();" id="TxtRecordsToDateBtn">
+														                        <i class="icon-calendar bigger-110"></i>
+													                        </span>
+												                        </div>
+											                            <span class="ErrorMessage" id="TxtDateToErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateToErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                                    </div>
+										                        </td>
+
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                                                                <td style="width:100%; text-align:right;">
+                                                                    <button class="btn btn-success" type="button" id="BtnRecordNew"><i class="icon-plus bigger-110"></i><%=this.Dictionary["Item_Indicador_New_Button"] %></button>
+                                                                    <button class="btn btn-success" type="button" id="BtnRecordFilter" style="display:none;"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_Indicador_Filter_Button"] %></button>
+                                                                    <button class="btn btn-success" type="button" id="BtnRecordShowAll" style="display:none;"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
+                                                                    <button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                    </div>
+
+
+                                                    <!--div class="alert alert-info" style="display: none;" id="DivIndicadorRecordsMessage">
                                                         <strong><i class="icon-info-sign"></i></strong>
                                                         <h5 style="display: inline;"><%=this.Dictionary["Item_Objetivo_Tab_RecordsFromIndicatorMessage"].ToString().Replace("##", "<strong>" + this.IndicadorName + "</strong>") %></h5>
                                                     </div>
@@ -353,7 +410,9 @@
                                                             <button class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
                                                             <button class="btn btn-success" type="button" id="BtnRecordShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
                                                         </div>
-                                                    </div>
+                                                    </div-->
+
+
                                                     <div class="table-responsive" id="scrollTableDiv">
                                                         <table class="table table-bordered table-striped" style="margin-top: 4px; margin-bottom: 0;">
                                                             <thead class="thin-border-bottom" id="RegistrosTHead">

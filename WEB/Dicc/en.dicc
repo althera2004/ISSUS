@@ -1725,3 +1725,5 @@ Item_ObjetivoAction_List_Filter_Periode1::Period
 Item_ObjetivoAction_List_Filter_Periode2::-
 Item_ObjetivoAction_List_Filter_Status::Status
 Item_Objetivo_Detail::Objective Card
+Item_Indicador_Filter_Periode1::Period
+Item_Indicador_Filter_Periode2::-

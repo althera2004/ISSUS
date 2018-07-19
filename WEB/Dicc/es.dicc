@@ -1726,3 +1726,5 @@ Item_ObjetivoAction_List_Filter_Periode1::Período
 Item_ObjetivoAction_List_Filter_Periode2::-
 Item_ObjetivoAction_List_Filter_Status::Estado
 Item_Objetivo_Detail::Ficha del Objetivo
+Item_Indicador_Filter_Periode1::Período
+Item_Indicador_Filter_Periode2::-
