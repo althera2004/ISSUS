@@ -1705,6 +1705,8 @@ User_Admin::Propietari/a
 User_PrimaryUser::Administrador/a
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
+Common_MaximumUploadSize::El màxim permés són 4B
+Common_Uploading::Pujant arxiu
 ZZZZZ::Les noves claus a partir d'aquí cap avall
 Item_Learning_Filter_Periode1::Període
 Item_Learning_Filter_Periode2::-

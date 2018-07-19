@@ -21,6 +21,7 @@
             border-top:none;
             display:block;
         }
+
         .truncate {
             white-space: nowrap;
             overflow: hidden;
@@ -126,24 +127,36 @@
                                                             <div class="form-group">
                                                                 <%=this.TxtWhatHappened.Render %>
                                                                 <div class="col-sm-4">
-                                                                    <%=this.CmbWhatHappenedResponsible.Render %>
-                                                                    <%=this.WhatHappenedDate.Render %>
+                                                                    <div class="row">
+                                                                        <%=this.CmbWhatHappenedResponsible.Render %>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <%=this.WhatHappenedDate.Render %>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <hr />
                                                             <div class="form-group">
                                                                 <%=this.TxtCauses.Render %>
                                                                 <div class="col-sm-4">
-                                                                    <%=this.CmbCausesResponsible.Render %>
-                                                                    <%=this.CausesDate.Render %>
+                                                                    <div class="row">
+                                                                        <%=this.CmbCausesResponsible.Render %>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <%=this.CausesDate.Render %>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <hr />
                                                             <div class="form-group">
                                                                 <%=this.TxtActions.Render %>
                                                                 <div class="col-sm-4">
-                                                                    <%=this.CmbActionsResponsible.Render %>
-                                                                    <%=this.ActionsDate.Render %>
+                                                                    <div class="row">
+                                                                        <%=this.CmbActionsResponsible.Render %>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <%=this.ActionsDate.Render %>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <hr />

@@ -654,10 +654,10 @@ function SetCloseRequired() {
 
     if (IncidentClosedRequired === true)
     {
-        FieldSetRequired('CmbClosedResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleClose, true);
-        FieldSetRequired('TxtClosedDateLabel', Dictionary.Common_Date, true);
-        if (document.getElementById('CmbClosedResponsible').value * 1 === 0) { document.getElementById('CmbClosedResponsible').value = ApplicationUser.Employee.Id; }
-        if ($("#TxtClosedDate").val() === "") { document.getElementById('TxtClosedDate').value = FormatDate(new Date, '/'); }
+        FieldSetRequired("CmbClosedResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleClose, true);
+        FieldSetRequired("TxtClosedDateLabel", Dictionary.Common_Date, true);
+        if (document.getElementById("CmbClosedResponsible").value * 1 === 0) { document.getElementById("CmbClosedResponsible").value = ApplicationUser.Employee.Id; }
+        if ($("#TxtClosedDate").val() === "") { document.getElementById("TxtClosedDate").value = FormatDate(new Date, "/"); }
         TxtActionsChanged(true);
     }
     else {
@@ -822,69 +822,71 @@ function Restore() {
 }
 
 function SetLayout() {
-    if (IncidentAction.Origin === 1) { document.getElementById("ROrigin1").checked = true; }
-    if (IncidentAction.Origin === 2) { document.getElementById("ROrigin2").checked = true; }
+    switch (IncidentAction.Origin) {
+        case 1:
+        case 2:
+            document.getElementById("ROrigin" + IncidentAction.Origin).checked = true;
+            switch (IncidentAction.ReporterType) {
+                case 1:
+                    document.getElementById("RReporterType1").checked = true;
+                    $("#CmbReporterType1").val(IncidentAction.Department.Id);
+                    console.log("Department", IncidentAction.Department.Id);
+                    break;
+                case 2:
+                    document.getElementById("RReporterType2").checked = true;
+                    $("#CmbReporterType2").val(IncidentAction.Provider.Id);
+                    break;
+                case 3:
+                    document.getElementById("RReporterType3").checked = true;
+                    $("#CmbReporterType3").val(IncidentAction.Customer.Id);
+                    break;
+            }
 
-    if (IncidentAction.Origin === 3) {
-        $("#ROriginDiv").hide();
-        $("#RTypeDiv").hide();
-        $("#RReporterDiv").hide();
-        $("#IncidentDiv").show();
-        $("#BusinessRiskDiv").hide();
-        $("#ObjetivoDiv").hide();
-        $("#OportunityDiv").hide();
-    }
-    else if (IncidentAction.Origin === 4) {
-        $("#ROriginDiv").hide();
-        $("#RTypeDiv").hide();
-        $("#RReporterDiv").hide();
-        $("#IncidentDiv").hide();
-        $("#BusinessRiskDiv").show();
-        $("#ObjetivoDiv").hide();
-        $("#OportunityDiv").hide();
-    }
-    else if (IncidentAction.Origin === 5) {
-        $("#ROriginDiv").hide();
-        $("#RTypeDiv").hide();
-        $("#RReporterDiv").hide();
-        $("#IncidentDiv").hide();
-        $("#BusinessRiskDiv").hide();
-        $("#ObjetivoDiv").show();
-        $("#OportunityDiv").hide();
-        document.getElementById("ROrigin3").checked = true;
-        document.getElementById("RType1").checked = true;
-    }
-    else if (IncidentAction.Origin === 6) {
-        $("#ROriginDiv").hide();
-        $("#RTypeDiv").hide();
-        $("#RReporterDiv").hide();
-        $("#IncidentDiv").hide();
-        $("#BusinessRiskDiv").hide();
-        $("#ObjetivoDiv").hide();
-        $("#OportunityDiv").show();
-    }
+            switch (IncidentAction.ActionType) {
+                case 1: document.getElementById("RType1").checked = true; break;
+                case 2: document.getElementById("RType2").checked = true; break;
+                case 3: document.getElementById("RType3").checked = true; break;
+            }
 
-    if (IncidentAction.Origin === 2) 
-    {
-        if (IncidentAction.ReporterType === 1) {
-            document.getElementById("RReporterType1").checked = true;
-            $("#CmbReporterType1").val(IncidentAction.Department.Id);
-            console.log("Department", IncidentAction.Department.Id);
-        }
-
-        if (IncidentAction.ReporterType === 2) {
-            document.getElementById("RReporterType2").checked = true;
-            $("#CmbReporterType2").val(IncidentAction.Provider.Id);
-        }
-
-        if (IncidentAction.ReporterType === 3) {
-            document.getElementById("RReporterType3").checked = true;
-            $("#CmbReporterType3").val(IncidentAction.Customer.Id);
-        }
-
-        if (IncidentAction.ActionType === 1) { document.getElementById("RType1").checked = true; }
-        if (IncidentAction.ActionType === 2) { document.getElementById("RType2").checked = true; }
-        if (IncidentAction.ActionType === 3) { document.getElementById("RType3").checked = true; }
-        RReporterTypeChanged();
+            RReporterTypeChanged();
+            break;
+        case 3:
+            $("#ROriginDiv").hide();
+            $("#RTypeDiv").hide();
+            $("#RReporterDiv").hide();
+            $("#IncidentDiv").show();
+            $("#BusinessRiskDiv").hide();
+            $("#ObjetivoDiv").hide();
+            $("#OportunityDiv").hide();
+            break;
+        case 4:
+            $("#ROriginDiv").hide();
+            $("#RTypeDiv").hide();
+            $("#RReporterDiv").hide();
+            $("#IncidentDiv").hide();
+            $("#BusinessRiskDiv").show();
+            $("#ObjetivoDiv").hide();
+            $("#OportunityDiv").hide();
+            break;
+        case 5:
+            $("#ROriginDiv").hide();
+            $("#RTypeDiv").hide();
+            $("#RReporterDiv").hide();
+            $("#IncidentDiv").hide();
+            $("#BusinessRiskDiv").hide();
+            $("#ObjetivoDiv").show();
+            $("#OportunityDiv").hide();
+            document.getElementById("ROrigin3").checked = true;
+            document.getElementById("RType1").checked = true;
+            break;
+        case 6:
+            $("#ROriginDiv").hide();
+            $("#RTypeDiv").hide();
+            $("#RReporterDiv").hide();
+            $("#IncidentDiv").hide();
+            $("#BusinessRiskDiv").hide();
+            $("#ObjetivoDiv").hide();
+            $("#OportunityDiv").show();
+            break;
     }
 }
