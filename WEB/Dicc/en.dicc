@@ -1406,7 +1406,7 @@ Item_Objetivo_FieldLabel_Notes::Notes
 Item_Objetivo_FieldLabel_Periodicity::Periodicity
 Item_Objetivo_FieldLabel_Resources::Means
 Item_Objetivo_FieldLabel_Responsible::Responsable
-Item_Objetivo_FieldLabel_Viculated::Linked to an indicator
+Item_Objetivo_FieldLabel_Viculated::Linked Indicator
 Item_Objetivo_GraphicsNoData::There are no records linked to the indicator
 Item_Objetivo_Header_Name::objective
 Item_Objetivo_Header_PreviewEndDate::F. planned
@@ -1721,3 +1721,7 @@ Item_Incident_List_Filter_Periode1::Period
 Item_Incident_List_Filter_Periode2::-
 Item_IncidentAction_List_Filter_Periode1::Period
 Item_IncidentAction_List_Filter_Periode2::-
+Item_ObjetivoAction_List_Filter_Periode1::Period
+Item_ObjetivoAction_List_Filter_Periode2::-
+Item_ObjetivoAction_List_Filter_Status::Status
+Item_Objetivo_Detail::Objective Card

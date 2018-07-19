@@ -111,9 +111,9 @@
                                                                 </div>
                                                             </div>
                                                             <div class="for-group">
-                                                                <label id="TxtVinculatedToIndicatorLabel" class="col-sm-2 control-label no-padding-right" style="padding: 0;"><%=this.Dictionary["Item_Objetivo_FieldLabel_Viculated"] %></label>
+                                                                <label id="TxtVinculatedToIndicatorLabel" class="col-sm-1 control-label no-padding-right" style="padding: 0;"><%=this.Dictionary["Item_Objetivo_FieldLabel_Viculated"] %></label>
                                                                 <div class="col-sm-1"><input runat="server" type="radio" id="RVinculatedYes" name="status" value="0" />&nbsp;<%=this.Dictionary["Common_Yes"] %></div>
-                                                                <div class="col-sm-1"><input runat="server" type="radio" id="RVinculatedNo" name="status" value="1" />&nbsp;<%=this.Dictionary["Common_No"] %></div>
+                                                                <div class="col-sm-2"><input runat="server" type="radio" id="RVinculatedNo" name="status" value="1" />&nbsp;<%=this.Dictionary["Common_No"] %></div>
                                                                 <%=this.CmbIndicador.Render %>
                                                                 <label id="CmbMetaLabel" class="col-sm-1 control-label no-padding-right" style="display: none;">Meta</label>
                                                                 <div class="col-sm-5" id="DivCmbMetaComparer" style="height: 35px !important; display: none;" title="" data-rel="tooltip">
@@ -139,29 +139,29 @@
 															</div>
                                                             <div style="height:12px;clear:both;">&nbsp;</div>
                                                             <div class="form-group">
-                                                                <label class="col-sm-1 control-label no-padding-right" id="TxtMetodologiaLabel"><%= this.Dictionary["Item_Objetivo_FieldLabel_Methodology"] %></label>
-                                                                <div class="col-sm-11">
-                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtMetodologia"><%=this.Objetivo.Methodology %></textarea>
+                                                                <label class="col-sm-12" id="TxtMetodologiaLabel"><%= this.Dictionary["Item_Objetivo_FieldLabel_Methodology"] %></label>
+                                                                <div class="col-sm-12">
+                                                                    <textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtMetodologia"><%=this.Objetivo.Methodology %></textarea>
                                                                     <span class="ErrorMessage" id="TxtMetodologiaRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
                                                                 </div>
-                                                                <div class="col-sm-11">&nbsp;</div>
+                                                                <!--div class="col-sm-11">&nbsp;</div-->
                                                             </div>
                                                             <div style="height:12px;clear:both;">&nbsp;</div>                                                            
                                                             <div class="form-group">
-                                                                <label class="col-sm-1 control-label no-padding-right" id="TxtRecursosLabel"><%= this.Dictionary["Item_Objetivo_FieldLabel_Resources"] %></label>
-                                                                <div class="col-sm-11">
-                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtRecursos"><%=this.Objetivo.Resources %></textarea>
+                                                                <label class="col-sm-12" id="TxtRecursosLabel"><%= this.Dictionary["Item_Objetivo_FieldLabel_Resources"] %></label>
+                                                                <div class="col-sm-12">
+                                                                    <textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtRecursos"><%=this.Objetivo.Resources %></textarea>
                                                                     <span class="ErrorMessage" id="TxtRecursosRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
                                                                 </div>
-                                                                <div class="col-sm-11">&nbsp;</div>
+                                                                <!--div class="col-sm-11">&nbsp;</div-->
                                                             </div>
                                                             <div style="height:12px;clear:both;">&nbsp;</div>                                                           
                                                             <div class="form-group">
-                                                                <label class="col-sm-1 control-label no-padding-right" id="TxtNotesLabel"><%= this.Dictionary["Item_Objetivo_FieldLabel_Notes"] %></label>
-                                                                <div class="col-sm-11">
-                                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtNotes"></textarea>
+                                                                <label class="col-sm-12" id="TxtNotesLabel"><%= this.Dictionary["Item_Objetivo_FieldLabel_Notes"] %></label>
+                                                                <div class="col-sm-12">
+                                                                    <textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtNotes"></textarea>
                                                                 </div>
-                                                                <div class="col-sm-11">&nbsp;</div>
+                                                                <!--div class="col-sm-11">&nbsp;</div-->
                                                             </div>
                                                         </form>
                                                     </div>
@@ -212,9 +212,9 @@
                                                                 <tr>
                                                                     <th id="th0" onclick="Sort(this,'ObjetivoActionsTable','text',false);" class="sort" ><%=this.Dictionary["Item_IncidentAction_Header_Description"]%></th>
                                                                     <th id="th1" onclick="Sort(this,'ObjetivoActionsTable','date',false);" class="sort" style="width: 100px;"><%=this.Dictionary["Item_IncidentAction_Header_Open"]%></th>
-                                                                    <th id="th2" onclick="Sort(this,'ObjetivoActionsTable','text',false);" class="sort" style="width: 60px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"]%></th>
+                                                                    <th id="th2" onclick="Sort(this,'ObjetivoActionsTable','text',false);" class="sort" style="width: 90px;text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Status"]%></th>
                                                                     <th id="th3" onclick="Sort(this,'ObjetivoActionsTable','date',false);" class="sort"  style="width: 100px;"><%=this.Dictionary["Item_IncidentAction_Header_ImplementDate"]%></th>
-                                                                    <th id="th4" onclick="Sort(this,'ObjetivoActionsTable','money',false);" class="sort" style="width: 150px;"><%=this.Dictionary["Item_IncidentAction_Header_Cost"]%></th>
+                                                                    <th id="th4" onclick="Sort(this,'ObjetivoActionsTable','money',false);" class="sort" style="width: 150px;text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Cost"]%></th>
                                                                     <th style="width: 107px;">&nbsp;</th>
                                                                 </tr>
                                                             </thead>

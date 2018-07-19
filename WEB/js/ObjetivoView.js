@@ -1304,7 +1304,7 @@ function AnularConfirmed() {
 function AnulateLayout() {
     $("#BtnRestaurar").hide();
     if (ItemData.EndDate !== null) {
-        var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+        var message = "<br /><div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
         message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Objetivo_AnulateMessageTile + "</h3>";
         message += "    <p style=\"margin-left:50px;\">";
@@ -1312,8 +1312,9 @@ function AnulateLayout() {
         message += "        " + Dictionary.Item_IndicatorRecord_FieldLabel_Date + ": <strong>" + ItemData.EndDate + "</strong><br />";
         message += "        " + Dictionary.Item_Indicador_Field_EndResponsible + ": <strong>" + ItemData.EndResponsible.Value + "</strong>";
         message += "    </p>";
-        message += "</div><br /><br /><br />";
-        $("#home").append(message);
+        message += "</div>";
+        //$("#home").append(message);
+        $("#oldFormFooter").before(message);
         $("#BtnAnular").hide();
         $("#BtnRestaurar").show();
     }
@@ -1470,7 +1471,7 @@ function RenderActionsRow(actionData) {
     var res = "<tr id=\"" + actionData.Id + "\">";
     res += "<td><a href=\"#\" onclick=\"GoAction(this);\">" + actionData.Description + "</a></td>";
     res += "<td align=\"center\" style=\"width: 100px;\">" + actionData.OpenDate + "</td>";
-    res += "<td align=\"center\" style=\"width:60px;\">" + actionData.Status.split('*').join('"') + "</td>";
+    res += "<td align=\"center\" style=\"width:90px;\">" + actionData.Status.split('*').join('"') + "</td>";
     res += "<td align=\"center\" style=\"width: 100px;\">" + actionData.PreviewDate + "</td>";
     res += "<td align=\"right\" style=\"width:150px;\">" + ToMoneyFormat(actionData.Cost, 2) + "</td>";
     res += "<td style=\"width:90px;\">";
