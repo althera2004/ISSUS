@@ -74,9 +74,9 @@
                                                             <span class="ErrorMessage" id="RTypeErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
                                                             <div class="form-group">
                                                                 <label id="RReporterTypeLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %></label>
-                                                                <div class="col-sm-1"><input type="radio" value="0" id="RReporterType1" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType1"] %></div>
-                                                                <div class="col-sm-1"><input type="radio" value="1" id="RReporterType2" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType2"] %></div>
-                                                                <div class="col-sm-1"><input type="radio" value="2" id="RReporterType3" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType3"] %></div>
+                                                                <div class="col-sm-1" style="width:115px;"><input type="radio" value="0" id="RReporterType1" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType1"] %></div>
+                                                                <div class="col-sm-1" style="width:115px;"><input type="radio" value="1" id="RReporterType2" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType2"] %></div>
+                                                                <div class="col-sm-1" style="width:115px;"><input type="radio" value="2" id="RReporterType3" name="RReporterType" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_ReporterType3"] %></div>
                                                                 <div class="col-sm-4" style="display: none" id="RReporterTypeCmb">
                                                                     <div id="DivCmbReporterType3">
                                                                         <div class="col-sm-11" id="" style="height: 35px !important;">

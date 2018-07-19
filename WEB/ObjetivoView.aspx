@@ -171,41 +171,65 @@
                                                 </div>
 
                                                 <div id="actions" class="tab-pane">
-                                                    <h4 id="ActionsListTitle"><%=this.Dictionary["Item_Objetivo_TabActions"] %></h4>
+                                                    <!--h4 id="ActionsListTitle"><%=this.Dictionary["Item_Objetivo_TabActions"] %></h4-->
+                                                    
                                                     <div class="row">
-                                                        <label id="TxtActionsFromDateLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_From"] %></label>
-                                                        <div class="col-sm-2">
-                                                            <div class="row">
-                                                                <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtActionsFromDateDiv">
-                                                                    <div class="input-group">
-                                                                        <input class="form-control date-picker" id="TxtActionsFromDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                                        <span id="TxtActionsFromDateBtn" class="input-group-addon" onclick="document.getElementById('TxtActionsFromDate').focus();">
-                                                                            <i class="icon-calendar bigger-110"></i>
-                                                                        </span>
+                                                    <div class="col-sm-12">
+                                    
+                                                        <table cellpadding="2" cellspacing="2">
+                                                            <tr>
+                                                                <td><h4 id="ActionsListTitle"><%=this.Dictionary["Item_Objetivo_TabActions"] %></h4></td>
+
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                                                                <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Periode1"] %>:</strong></td>
+										                        <td>
+                                                                    <div class="col-xs-12 col-sm-12">
+												                        <div class="input-group">
+													                        <input class="form-control date-picker" style="width:100px;" id="TxtActionsFromDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													                        <span class="input-group-addon" onclick="document.getElementById('TxtActionsFromDate').focus();" id="TxtActionsFromDateBtn">
+														                        <i class="icon-calendar bigger-110"></i>
+													                        </span>
+												                        </div>
+											                            <span class="ErrorMessage" id="TxtDateFromErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateFromErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <label id="TxtActionsToDateLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_To"] %></label>
-                                                        <div class="col-sm-2">
-                                                            <div class="row">
-                                                                <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtActionsToDateDiv">
-                                                                    <div class="input-group">
-                                                                        <input class="form-control date-picker" id="TxtActionsToDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                                        <span id="TxtActionsToDateBtn" class="input-group-addon" onclick="document.getElementById('TxtActionsToDate').focus();">
-                                                                            <i class="icon-calendar bigger-110"></i>
-                                                                        </span>
+										                        </td>
+                                                                <td id="TxtDateToLabel"><%=this.Dictionary["Item_IncidentAction_List_Filter_Periode2"] %></td>
+										                        <td>
+                                                                    <div class="col-xs-12 col-sm-12">
+												                        <div class="input-group">
+													                        <input class="form-control date-picker" style="width:100px;" id="TxtActionsToDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													                        <span class="input-group-addon" onclick="document.getElementById('TxtActionsToDate').focus();" id="TxtActionsToDateBtn">
+														                        <i class="icon-calendar bigger-110"></i>
+													                        </span>
+												                        </div>
+											                            <span class="ErrorMessage" id="TxtDateToErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateToErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6" style="text-align: right;">
-                                                            <button class="btn btn-success" type="button" id="BtnActionsNew"><i class="icon-plus bigger-110"></i><%=this.Dictionary["Item_Indicador_New_Button"] %></button>
-                                                            <button class="btn btn-success" type="button" id="BtnActionsFilter" style="display: none;"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_Indicador_Filter_Button"] %></button>
-                                                            <button class="btn btn-success" type="button" id="BtnActionsShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
-                                                            <button class="btn btn-success" type="button" id="BtnActionsShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
-                                                        </div>
+										                        </td>
+
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                                                                <td style="width:100%; text-align:right;">
+                                                                    <button class="btn btn-success" type="button" id="BtnActionsNew"><i class="icon-plus bigger-110"></i><%=this.Dictionary["Item_Indicador_New_Button"] %></button>
+                                                                    <button class="btn btn-success" type="button" id="BtnActionsFilter" style="display: none;"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Item_Indicador_Filter_Button"] %></button>
+                                                                    <button class="btn btn-success" type="button" id="BtnActionsShowAll" style="display: none;"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
+                                                                    <button class="btn btn-success" type="button" id="BtnActionsShowNone" style="display: none;"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
                                                     </div>
+                                                    </div>
+
                                                     <div class="table-responsive" id="scrollTableDivActions">
                                                         <table class="table table-bordered table-striped" style="margin-top: 4px; margin-bottom: 0;">
                                                             <thead class="thin-border-bottom" id="RegistrosTHeadActions">
