@@ -14,14 +14,28 @@ namespace SbrinnaCoreFramework.UI
     /// <summary>Implements FormDatePicker control</summary>
     public class FormDatePicker
     {
+        /// <summary>Gets or sets control identifier</summary>
         public string Id { get; set; }
+
+        /// <summary>Gets or sets the number of columns for control</summary>
         public int ColumnsSpan { get; set; }
+
+        /// <summary>Gets or sets the number of columns for label control</summary>
         public int ColumnsSpanLabel { get; set; }
+
+        /// <summary>Gets or sets text of label control</summary>
         public string Label { get; set; }
+
+        /// <summary>Gets or sets value to show</summary>
         public DateTime? Value { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether user grants</summary>
         public bool? GrantToWrite { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether if field is required</summary>
         public bool Required { get; set; }
 
+        /// <summary>Gets HTML code of control</summary>
         public string Render
         {
             get
@@ -32,7 +46,7 @@ namespace SbrinnaCoreFramework.UI
                 {
                     labelSpan = string.Format(
                         CultureInfo.InvariantCulture,
-                        @"<label id=""{1}Label"" class=""col-sm-{2}"">{0}</label>",
+                        @"<label id=""{1}Label"" class=""col-sm-{2} control-label no-padding-right"">{0}</label>",
                         this.Label,
                         this.Id,
                         this.ColumnsSpanLabel);
@@ -41,9 +55,7 @@ namespace SbrinnaCoreFramework.UI
                 string malformedLabel = string.Format(CultureInfo.InvariantCulture, @"<span class=""ErrorMessage"" id=""{0}DateMalformed"" style=""display:none;"">{1}</span>", this.Id, dictionary["Common_Error_DateMalformed"]);
                 string requiredLabel = string.Format(CultureInfo.InvariantCulture, @"<span class=""ErrorMessage"" id=""{0}DateRequired"" style=""display:none;"">{1}</span>", this.Id, dictionary["Common_Required"]);
 
-                return string.Format(
-                    CultureInfo.InvariantCulture,
-                    @"{0}
+                string pattern = @"{0}
                       <div class=""col-sm-{1}"">
                         <div class=""row"">
                             <div class=""col-xs-12 col-sm-12 tooltip-info"" id=""{2}Div"">
@@ -57,9 +69,13 @@ namespace SbrinnaCoreFramework.UI
                                 {7}
                             </div>
                         </div>
-                    </div>",
+                    </div>";
+
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    pattern,
                     labelSpan,
-                    ColumnsSpan,
+                    this.ColumnsSpan,
                     this.Id,
                     this.Value.HasValue ? string.Format("{0:dd/MM/yyyy}", this.Value.Value) : string.Empty,
                     malformedLabel,
