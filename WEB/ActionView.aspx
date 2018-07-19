@@ -21,6 +21,7 @@
             border-top:none;
             display:block;
         }
+
         .truncate {
             white-space: nowrap;
             overflow: hidden;
