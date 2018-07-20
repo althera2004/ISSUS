@@ -1728,7 +1728,7 @@ Item_Oportunity_Tab_Graphics::Situació final
 Item_Oportunity_Tab_HistoryActions::Hitòric d'accions
 Item_Oportunity_MessageClosingNotAvailable::No es pot donar per resolta una oportunitat mentre l'acció està oberta
 Item_Oportunity_Title_FinalResult::Resultat de l'oportunitat
-Item_Oportunity_Message_Reevaluate::::Avaluar oportunitat després d'aplicar l'acció
+Item_Oportunity_Message_Reevaluate::Avaluar oportunitat després d'aplicar l'acció
 Item_Oportunity_ErrorMessage_ResultRequired::Especificar un resultat (cost x impacte)
 Item_IncidentAction_List_Filter_Periode2::-
 Item_ObjetivoAction_List_Filter_Periode1::Període
@@ -1740,3 +1740,5 @@ Item_Indicador_Detail::Fitxa de l'Indicador
 Item_Indicador_Filter_Status::Estat
 Item_BusinessRisksAndOportunities_Filter_Periode1::Període
 Item_BusinessRisksAndOportunities_Filter_Periode2::-
+Item_ObjetivoAction_List_Filter_Periode2::-
+Item_ObjetivoAction_List_Filter_Periode1::Període
