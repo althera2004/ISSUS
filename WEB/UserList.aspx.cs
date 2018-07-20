@@ -127,9 +127,9 @@ public partial class UserList : Page
         }
 
         this.DataHeader = new UIDataHeader { Id = "ListDataHeader", ActionsItem = 2 };
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th0", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_User_List_Header_UserName"], Sortable = true, Filterable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_User_List_Header_EmployeeName"], Sortable = true, Filterable = true });
-        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_User_List_Header_Email"], Sortable = true, Filterable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_User_List_Header_UserName"], Sortable = true, Filterable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th2", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_User_List_Header_EmployeeName"], Sortable = true, Filterable = true });
+        this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th3", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.dictionary["Item_User_List_Header_Email"], Sortable = true, Filterable = true });
     }
 
     private void RenderUserData()
@@ -143,7 +143,8 @@ public partial class UserList : Page
         foreach (var userItem in users)
         {
             active.Append(userItem.ListRow(this.dictionary, this.user.Grants));
-            if(!searchedItem.Contains(userItem.UserName))
+
+            if (!searchedItem.Contains(userItem.UserName))
             {
                 searchedItem.Add(userItem.UserName);
             }
