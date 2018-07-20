@@ -1730,3 +1730,5 @@ Item_Indicador_Filter_Periode1::Período
 Item_Indicador_Filter_Periode2::-
 Item_Indicador_Detail::Ficha del Indicador
 Item_Indicador_Filter_Status::Estado
+Item_BusinessRisksAndOportunities_Filter_Periode1::Período
+Item_BusinessRisksAndOportunities_Filter_Periode2::-
