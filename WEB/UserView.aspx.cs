@@ -277,6 +277,7 @@ public partial class UserView : Page
 
             this.LtIdiomas.Text = "<option value=\"es\"" + (this.userItem.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
             this.LtIdiomas.Text += "<option value=\"ca\"" + (this.userItem.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
+            this.LtIdiomas.Text += "<option value=\"en\"" + (this.userItem.Language == "en" ? " selected=\"selected\"" : string.Empty) + ">English</option>";
         }
         else
         {

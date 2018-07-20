@@ -287,5 +287,6 @@ public partial class UserProfileView : Page
 
         this.LtIdiomas.Text = "<option value=\"es\"" + (this.ApplicationUser.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
         this.LtIdiomas.Text += "<option value=\"ca\"" + (this.ApplicationUser.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
+        this.LtIdiomas.Text += "<option value=\"en\"" + (this.ApplicationUser.Language == "en" ? " selected=\"selected\"" : string.Empty) + ">English</option>";
     }
 }
