@@ -250,11 +250,91 @@
 
                                     <!-- GTK CLG End -->
 
-
                                 </div> 
                                 
                                 <div class="col-sm-12" id="widthTestOportunity" style="display:none;">
-                                    <table style="width:100%;">
+
+                                    <table cellpadding="2" cellspacing="2">
+                                        <tr>
+                                            <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_BusinessRisksAndOportunities_Filter_Periode1"] %>:</strong></td>
+										    <td>
+                                                <div class="col-xs-12 col-sm-12">
+												    <div class="input-group">
+													    <input class="form-control date-picker" style="width:100px;" id="TxtOportunityDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <span class="input-group-addon" onclick="document.getElementById('TxtOportunityDateFrom').focus();" id="TxtOportunityDateFromBtn">
+														    <i class="icon-calendar bigger-110"></i>
+													    </span>
+												    </div>
+											        <span class="ErrorMessage" id="TxtDateFromErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											        <span class="ErrorMessage" id="TxtDateFromErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											        <span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                </div>
+										    </td>
+                                            <td id="TxtDateToLabel"><%=this.Dictionary["Item_BusinessRisksAndOportunities_Filter_Periode2"] %></td>
+										    <td>
+                                                <div class="col-xs-12 col-sm-12">
+												    <div class="input-group">
+													    <input class="form-control date-picker" style="width:100px;" id="TxtOportunityDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <span class="input-group-addon" onclick="document.getElementById('TxtOportunityDateTo').focus();" id="TxtOportunityDateToBtn">
+														    <i class="icon-calendar bigger-110"></i>
+													    </span>
+												    </div>
+											        <span class="ErrorMessage" id="TxtDateToErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+											        <span class="ErrorMessage" id="TxtDateToErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											        <span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                </div>
+										    </td>
+
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                                            <td><strong><%=this.Dictionary["Item_BusinessRisk_List_Filter_Rules"] %>:</strong></td>
+                                            <td>
+                                                <select id="OportunityCmbRules" class="col-sm-12">
+                                                    <asp:Literal runat="server" ID="LtCmbRulesOportunityOptions"></asp:Literal>
+                                                </select>
+                                            </td>
+
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                                            <!-- // @JUAN Añadido el filtro de Estado ... Falta hacer que funcione ;D -->
+                                            <td><strong><%=this.Dictionary["Item_BusinessRisk_List_Filter_Type"] %>:</strong></!--td>
+                                            <td>
+                                                <select id="CmbType" class="col-sm-12">
+                                                    <option value="0"><%=this.Dictionary["Common_All_Female_Plural"] %></option>
+                                                    <option value="1"><%=this.Dictionary["Item_Oportunity_Status_Significant"] %></option>
+                                                    <option value="2"><%=this.Dictionary["Item_Oportunity_Status_NotSignificant"] %></option>
+                                                    <option value="3"><%=this.Dictionary["Item_Oportunity_Status_Unevaluated"] %></option>
+                                                </select>
+                                            </td>
+                                            <!-- // @JUAN End -->
+                                            
+                                        </tr>
+
+                                        <tr>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+                                            <td><strong><%=this.Dictionary["Item_BusinessRisk_List_Filter_Process"] %>:</strong></td>
+                                            <td>
+                                                <select id="OportunityCmbProcess" class="col-sm-12">
+                                                    <asp:Literal runat="server" ID="LtCmbProcessOportunityOptions"></asp:Literal>
+                                                </select>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+
+
+
+                                <!-- GTK CLG Start -->
+                                
+                                    <!--table style="width:100%;">
                                         <tr>
                                             <td style="width:250px;">
                                                 <div class="row">
@@ -273,7 +353,7 @@
                                             <td><%=this.Dictionary["Item_BusinessRisk_List_Filter_Rules"] %>:</td>
                                             <td>
                                                 <select id="OportunityCmbRules" class="col-sm-10">
-                                                    <asp:Literal runat="server" ID="LtCmbRulesOportunityOptions"></asp:Literal>
+                                                    <asp:Literal runat="server" ID="LtCmbRulesOportunityOptions_CLG"></asp:Literal>
                                                 </select>
                                             </td>
                                             <td style="width: 25px;">&nbsp;</td>
@@ -298,7 +378,7 @@
                                             <td><%=this.Dictionary["Item_BusinessRisk_List_Filter_Process"] %>:</td>
                                             <td>
                                                 <select id="OportunityCmbProcess" class="col-sm-10">
-                                                    <asp:Literal runat="server" ID="LtCmbProcessOportunityOptions"></asp:Literal>
+                                                    <asp:Literal runat="server" ID="LtCmbProcessOportunityOptions_CLG"></asp:Literal>
                                                 </select>
                                             </td>
                                              
@@ -314,12 +394,11 @@
                                         </div>
                                             </td> 
                                         </tr>
-                                    </table>
+                                    </table-->
+
+                                <!-- GTK CLG End -->
+
                                 </div> 
-
-
-
-
 
                                 <div style="height:8px;clear:both;"></div>
                                 <div class="tabbable">

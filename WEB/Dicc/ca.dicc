@@ -1742,3 +1742,7 @@ Item_BusinessRisksAndOportunities_Filter_Periode1::Període
 Item_BusinessRisksAndOportunities_Filter_Periode2::-
 Item_ObjetivoAction_List_Filter_Periode2::-
 Item_ObjetivoAction_List_Filter_Periode1::Període
+Item_Oportunity_Type_Assumed::Assumida
+Item_Oportunity_Status_NotSignificant::No significativa
+Item_Oportunity_Status_Significant::Significativa
+Item_Oportunity_Status_Unevaluated::No evaluada

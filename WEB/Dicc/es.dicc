@@ -1732,3 +1732,7 @@ Item_Indicador_Detail::Ficha del Indicador
 Item_Indicador_Filter_Status::Estado
 Item_BusinessRisksAndOportunities_Filter_Periode1::Período
 Item_BusinessRisksAndOportunities_Filter_Periode2::-
+Item_Oportunity_Status_Assumed::Asumida
+Item_Oportunity_Status_NotSignificant::No significativa
+Item_Oportunity_Status_Significant::Significativa
+Item_Oportunity_Status_Unevaluated::No evaluada

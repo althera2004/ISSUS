@@ -1731,3 +1731,7 @@ Item_Indicador_Detail::Indicator Card
 Item_Indicador_Filter_Status::Status
 Item_BusinessRisksAndOportunities_Filter_Periode1::Period
 Item_BusinessRisksAndOportunities_Filter_Periode2::-
+Item_Oportunity_Status_Assumed::Assumed
+Item_Oportunity_Status_NotSignificant::Not significative
+Item_Oportunity_Status_Significant::Significative
+Item_Oportunity_Status_Unevaluated:: Not evaluated
