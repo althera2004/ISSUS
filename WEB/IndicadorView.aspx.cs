@@ -294,7 +294,8 @@ public partial class IndicadorView : Page
         if (this.IndicadorId > 0)
         {
             this.Indicador = Indicador.ById(this.IndicadorId, this.company.Id);
-            this.master.AddBreadCrumbInvariant(this.Indicador.Description);
+            //this.master.AddBreadCrumbInvariant(this.Indicador.Description);
+            this.master.AddBreadCrumb("Item_Indicador_Detail");
             if (this.Indicador.CompanyId != this.company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", false);
@@ -303,7 +304,7 @@ public partial class IndicadorView : Page
             }
 
             this.master.TitleInvariant = true;
-            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Indicador"], this.Indicador.Description);
+            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Indicador_Header_Description"], this.Indicador.Description);
 
             this.formFooter.ModifiedBy = this.Indicador.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Indicador.ModifiedOn;
@@ -315,8 +316,8 @@ public partial class IndicadorView : Page
         }
         else
         {
-            this.master.AddBreadCrumb("Item_Indicador");
-            this.master.Titulo = "Item_Indicador_New_Label";
+            this.master.AddBreadCrumb("Item_Indicador_Detail");
+            this.master.Titulo = "Item_Indicador_Detail";
             this.Indicador = Indicador.Empty;
             this.formFooter.ModifiedBy = this.dictionary["Common_New"];
             this.formFooter.ModifiedOn = DateTime.Now;
@@ -463,7 +464,7 @@ public partial class IndicadorView : Page
         {
             Label = this.dictionary["Item_Indicador_Field_Process"],
             ColumnsSpanLabel = 1,
-            ColumnsSpan = 3,
+            ColumnsSpan = 4,
             Name = "CmbProcess",
             GrantToWrite = this.grantToWrite,
             DefaultOption = new FormSelectOption { Text = this.dictionary["Common_SelectOne"], Value = "0" }

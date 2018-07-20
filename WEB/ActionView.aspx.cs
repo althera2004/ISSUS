@@ -322,7 +322,7 @@ public partial class ActionView : Page
         }
         else
         {
-            this.master.Titulo = "Item_IncidentActions_New_Label";
+            this.master.Titulo = "Item_IncidentActions_Detail";
             this.IncidentAction = IncidentAction.Empty;
             this.formFooter = new FormFooter(this.Dictionary, this.grantToWrite);
 
@@ -380,11 +380,11 @@ public partial class ActionView : Page
 
     public void RenderForm()
     {
-        this.TxtWhatHappened = new FormTextArea { TitleLabel=true,  Rows = 5, Value = this.IncidentAction.WhatHappened, Name = "TxtWhatHappened", Label = this.Dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12,MaxLength= Constant.MaximumTextAreaLength, Embedded = true };
-        this.TxtCauses = new FormTextArea { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Causes, Name = "TxtCauses", Label = this.Dictionary["Item_IncidentAction_Field_Causes"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
-        this.TxtActions = new FormTextArea { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Actions, Name = "TxtActions", Label = this.Dictionary["Item_IncidentAction_Field_Actions"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
-        this.TxtMonitoring = new FormTextArea { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Monitoring, Name = "TxtMonitoring", Label = this.Dictionary["Item_IncidentAction_Field_Monitoring"], ColumnsSpan = 12, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
-        this.TxtNotes = new FormTextArea { TitleLabel = true, Rows = 5, Value = this.IncidentAction.Notes, Name = "TxtNotes", Label = this.Dictionary["Item_IncidentAction_Field_Notes"], ColumnsSpan = 12, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
+        this.TxtWhatHappened = new FormTextArea { /*TitleLabel=true,*/  Rows = 5, Value = this.IncidentAction.WhatHappened, Name = "TxtWhatHappened", Label = this.Dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12,MaxLength= Constant.MaximumTextAreaLength, Embedded = true };
+        this.TxtCauses = new FormTextArea {Rows = 5, Value = this.IncidentAction.Causes, Name = "TxtCauses", Label = this.Dictionary["Item_IncidentAction_Field_Causes"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
+        this.TxtActions = new FormTextArea {Rows = 5, Value = this.IncidentAction.Actions, Name = "TxtActions", Label = this.Dictionary["Item_IncidentAction_Field_Actions"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
+        this.TxtMonitoring = new FormTextArea {Rows = 5, Value = this.IncidentAction.Monitoring, Name = "TxtMonitoring", Label = this.Dictionary["Item_IncidentAction_Field_Monitoring"], ColumnsSpan = 12, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
+        this.TxtNotes = new FormTextArea {Rows = 5, Value = this.IncidentAction.Notes, Name = "TxtNotes", Label = this.Dictionary["Item_IncidentAction_Field_Notes"], ColumnsSpan = 12, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
 
         this.CmbWhatHappenedResponsible = new FormSelect
         {
@@ -543,7 +543,7 @@ public partial class ActionView : Page
         this.TxtDescription = new FormText
         {
             ColumnSpan = 10,
-            ColumnSpanLabel = 2,
+            ColumnSpanLabel = 1,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_IncidentAction_Label_Description"],
             MaximumLength = 100,

@@ -239,8 +239,8 @@ public partial class ObjetivoView : Page
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Objetivos", "ObjetivoList.aspx", Constant.NotLeaft);
-        this.master.AddBreadCrumb("Item_Objetivo");
-        this.master.Titulo = "Item_Objetivo";
+        this.master.AddBreadCrumb("Item_Objetivo_Detail");
+        this.master.Titulo = "Item_Objetivo_Detail";
         this.formFooter = new FormFooter();
 
         this.ActionsOpen = 0;
@@ -256,7 +256,7 @@ public partial class ObjetivoView : Page
             }
 
             this.master.TitleInvariant = true;
-            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Objetivo"], this.Objetivo.Name);
+            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Objetivo_Header_Name"], this.Objetivo.Name);
 
             this.formFooter.ModifiedBy = this.Objetivo.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Objetivo.ModifiedOn;
@@ -266,8 +266,8 @@ public partial class ObjetivoView : Page
         }
         else
         {
-            this.master.AddBreadCrumb("Item_Objetivo");
-            this.master.Titulo = "Item_Objetivo_New_Label";
+            //this.master.AddBreadCrumb("Item_Objetivo");
+            this.master.Titulo = "Item_Objetivo_Detail";
             this.Objetivo = Objetivo.Empty;
             this.formFooter.ModifiedBy = this.Dictionary["Common_New"];
             this.formFooter.ModifiedOn = DateTime.Now;

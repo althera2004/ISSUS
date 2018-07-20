@@ -1406,7 +1406,7 @@ Item_Objetivo_FieldLabel_Notes::Notas
 Item_Objetivo_FieldLabel_Periodicity::Periodicidad
 Item_Objetivo_FieldLabel_Resources::Recursos
 Item_Objetivo_FieldLabel_Responsible::Responsable
-Item_Objetivo_FieldLabel_Viculated::Vinculado a un indicador
+Item_Objetivo_FieldLabel_Viculated::Indicador Vinculado
 Item_Objetivo_GraphicsNoData::No existen registros vinculados al indicador
 Item_Objetivo_Header_Name::Objetivo
 Item_Objetivo_Header_PreviewEndDate::F. prevista
@@ -1722,3 +1722,11 @@ Item_Incident_List_Filter_Periode1::Período
 Item_Incident_List_Filter_Periode2::-
 Item_IncidentAction_List_Filter_Periode1::Período
 Item_IncidentAction_List_Filter_Periode2::-
+Item_ObjetivoAction_List_Filter_Periode1::Período
+Item_ObjetivoAction_List_Filter_Periode2::-
+Item_ObjetivoAction_List_Filter_Status::Estado
+Item_Objetivo_Detail::Ficha del Objetivo
+Item_Indicador_Filter_Periode1::Período
+Item_Indicador_Filter_Periode2::-
+Item_Indicador_Detail::Ficha del Indicador
+Item_Indicador_Filter_Status::Estado

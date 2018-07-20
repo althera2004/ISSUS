@@ -95,12 +95,6 @@
                                                 </div>
                                             </td>
 
-                                            <!--td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Status"] %>:</strong></!--td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="chkStatus1" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status1"] %></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="chkStatus2" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status2"] %></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="chkStatus3" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status3"] %></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="chkStatus4"/>&nbsp;<%=this.Dictionary["Item_IndicentAction_Status4"] %></td-->
-
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td> 
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>
@@ -115,13 +109,6 @@
                                     </table>
                                     <table>
                                         <tr>
-                                            <!--td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-										    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-										    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td-->
 
                                             <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Type"] %>:</strong></td>
                                             <td><input type="checkbox" id="RType1" name="Rtype" checked="checked" /><%=this.Dictionary["Item_IncidentAction_Type1"]%></td>
@@ -147,124 +134,6 @@
                                         </tr>
 
                                     </table>
-                                    
-                                    <!--table cellpadding="2" cellspacing="2">
-                                        <tr>
-                                            <td><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Source"] %>:</strong></td>
-                                            <td>
-                                                <div class="col-xs-12 col-sm-12">
-                                                    <select id="CmbOrigin" style="width:200px;">
-                                                        <option value="-1"><%=this.Dictionary["Common_All_Female_Plural"] %></option>
-                                                        <option value="1"><%=this.Dictionary["Item_IncidentAction_Origin1"] %></option>
-                                                        <option value="2"><%=this.Dictionary["Item_IncidentAction_Origin2"] %></option>
-                                                        <option value="3"><%=this.Dictionary["Item_IncidentAction_Origin3"] %></option>
-                                                        <option value="4"><%=this.Dictionary["Item_IncidentAction_Origin46"] %></option>
-                                                        <option value="5"><%=this.Dictionary["Item_IncidentAction_Origin5"] %></option>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td><strong><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %>:</strong></td>
-                                            <td>
-                                                <div class="col-xs-12 col-sm-12">
-                                                    <select id="CmbReporter">
-                                                        <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>
-                                                        <option value="1"><%=this.Dictionary["Item_IncidentAction_ReporterType1"] %></option>
-                                                        <option value="2"><%=this.Dictionary["Item_IncidentAction_ReporterType2"] %></option>
-                                                        <option value="3"><%=this.Dictionary["Item_IncidentAction_ReporterType3"] %></option>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            
-                                            <td>&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;</td>
-                                        </tr>
-                                    </table-->
-
-                                    <!-- GTK CLG Start -->
-
-                                    <!--table style="width:100%;">
-                                        <tr>
-                                            <td style="width:250px;">
-                                                <div class="row">
-                                                    <label id="TxtDateFromLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_IncidentAction_List_Filter_From"] %></label>										
-                                                    <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtDateFromDiv">
-                                                        <div class="input-group">
-                                                            <input class="form-control date-picker" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                            <span id="TxtDateFromBtn" class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td style="width:100px;">&nbsp;</td>
-                                            <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Status"] %>:</strong></td>
-                                            <td><input type="checkbox" id="chkStatus1" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status1"] %></td>
-                                            <td><input type="checkbox" id="chkStatus2" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status2"] %></td>
-                                            <td><input type="checkbox" id="chkStatus3" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status3"] %></td>
-                                            <td><input type="checkbox" id="chkStatus4"/>&nbsp;<%=this.Dictionary["Item_IndicentAction_Status4"] %></td>
-                                            
-                                            <td>
-                                                <button class="btn btn-success" style="width:100px;display:none;" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
-                                                <button class="btn btn-success" style="width:100px;" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%= this.Dictionary["Common_All_Male_Plural"] %></button>
-                                                <button class="btn btn-success" style="width:100px;display:none;" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%= this.Dictionary["Common_None_Male"] %></button>
-                                            </td>
-                                            </tr>
-                                        <tr>
-                                            <td style="width:250px;">
-                                                <div class="row">
-                                                    <label id="TxtDateToLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_IncidentAction_List_Filter_To"] %></label>										
-                                                    <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtDateToDiv">
-                                                        <div class="input-group">
-                                                            <input class="form-control date-picker" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                            <span id="TxtDateToBtn" class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td style="width:100px;">&nbsp;</td>
-                                            <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Type"] %>:</strong></td>
-                                            <td><input type="checkbox" id="RType1" name="Rtype" checked="checked" /><%=this.Dictionary["Item_IncidentAction_Type1"]%></td>
-                                            <td><input type="checkbox" id="RType2" name="Rtype" checked="checked" /><%=this.Dictionary["Item_IncidentAction_Type2"]%></td>
-                                            <td><input type="checkbox" id="RType3" name="Rtype" checked="checked" /><%=this.Dictionary["Item_IncidentAction_Type3"]%></td>
-                                            <td>
-                                                
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                    <table style="width:100%;">
-                                        <tr>
-                                            <td style="width:250px;">&nbsp;</td>
-                                            <td style="width:100px;">&nbsp;</td>
-                                            <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Source"] %>:</strong></td>
-                                            <td>
-                                                <select id="CmbOrigin">
-                                                    <option value="-1"><%=this.Dictionary["Common_All_Female_Plural"] %></option>
-                                                    <option value="1"><%=this.Dictionary["Item_IncidentAction_Origin1"] %></option>
-                                                    <option value="2"><%=this.Dictionary["Item_IncidentAction_Origin2"] %></option>
-                                                    <option value="3"><%=this.Dictionary["Item_IncidentAction_Origin3"] %></option>
-                                                    <option value="4"><%=this.Dictionary["Item_IncidentAction_Origin46"] %></option>
-                                                    <option value="5"><%=this.Dictionary["Item_IncidentAction_Origin5"] %></option>
-                                                </select>  
-                                            </td>
-                                            <td style="width:125px;padding-left:20px;"><strong><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %>:</strong></td>
-                                            <td>
-                                                <select id="CmbReporter">
-                                                    <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>
-                                                    <option value="1"><%=this.Dictionary["Item_IncidentAction_ReporterType1"] %></option>
-                                                    <option value="2"><%=this.Dictionary["Item_IncidentAction_ReporterType2"] %></option>
-                                                    <option value="3"><%=this.Dictionary["Item_IncidentAction_ReporterType3"] %></option>
-                                                </select>  
-                                            </td>
-                                            <td style="width:40%;">&nbsp;</td>
-                                        </tr>
-                                    </table-->
-
-                                    <!-- GTK CLG End -->
-
 
                                 </div> 
                                 <div style="height:8px;clear:both;"></div>
