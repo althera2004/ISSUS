@@ -457,30 +457,83 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<IncidentActionCost>(res);
         }
 
-        public static string GetByBusinessRisk(long businessRiskId, int companyId)
+        public static string JsonList(ReadOnlyCollection<IncidentActionCost> list)
         {
             var res = new StringBuilder("[");
-            bool first = true;
-            var costs = IncidentActionCost.GetByBusinessRiskId(businessRiskId, companyId);
-            foreach (var cost in costs)
-            {
-                if (first)
-                {
-                    first = false;
-                }
-                else
-                {
-                    res.Append(",");
-                }
 
-                res.Append(cost.Json);
+            if(list != null && list.Count> 0)
+            {
+                bool first = true;
+                foreach(var cost in list)
+                {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        res.Append(",");
+                    }
+
+                    res.Append(cost.Json);
+                }
             }
 
             res.Append("]");
             return res.ToString();
         }
 
-        public static ReadOnlyCollection<IncidentActionCost> GetByBusinessRiskId(long businessRiskId, int companyId)
+        public static ReadOnlyCollection<IncidentActionCost> ByOportunityId(long oportunityId, int companyId)
+        {
+            var res = new List<IncidentActionCost>();
+            using (var cmd = new SqlCommand("IndecidentCost_GetByOportunityId"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@OportunityId", oportunityId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                res.Add(new IncidentActionCost()
+                                {
+                                    Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
+                                    IncidentActionId = rdr.GetInt64(ColumnsIncidentCostGet.IncidentActionId),
+                                    Description = rdr.GetString(ColumnsIncidentCostGet.Description),
+                                    Amount = rdr.GetDecimal(ColumnsIncidentCostGet.Amount),
+                                    Quantity = rdr.GetDecimal(ColumnsIncidentCostGet.Quantity),
+                                    Responsible = new Employee()
+                                    {
+                                        Id = Convert.ToInt64(rdr.GetInt32(ColumnsIncidentCostGet.ResponsibleId)),
+                                        Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
+                                        LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
+                                    },
+                                    Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
+                                });
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return new ReadOnlyCollection<IncidentActionCost>(res);
+        }
+
+        public static ReadOnlyCollection<IncidentActionCost> ByBusinessRiskId(long businessRiskId, int companyId)
         {
             var res = new List<IncidentActionCost>();
             using (var cmd = new SqlCommand("IndecidentCost_GetByBusinessRiskId"))

@@ -229,7 +229,7 @@ public partial class BusinessRiskView : Page
                 return Constant.EmptyJsonList;
             }
 
-            return IncidentActionCost.GetByBusinessRisk(this.businessRisk.Id, this.Company.Id);
+            return IncidentActionCost.JsonList(IncidentActionCost.ByBusinessRiskId(this.BusinessRiskId, this.Company.Id));
         }
     }
 

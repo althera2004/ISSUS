@@ -40,6 +40,8 @@ public partial class OportunityView : Page
     /// <summary>Gets oportinity identifier</summary>
     public long OportunityId { get; private set; }
 
+    public bool historyActionActive;
+
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
@@ -200,7 +202,7 @@ public partial class OportunityView : Page
                 return Constant.EmptyJsonList;
             }
 
-            return IncidentActionCost.GetByBusinessRisk(this.Oportunity.Id, this.Company.Id);
+            return IncidentActionCost.JsonList(IncidentActionCost.ByOportunityId(this.OportunityId, this.Company.Id));
         }
     }
     #endregion
@@ -318,6 +320,21 @@ public partial class OportunityView : Page
                 Value = this.Oportunity.Causes,
                 ColumnsSpan = 12,
                 MaxLength = Constant.MaximumTextAreaLength
+            }.Render;
+        }
+    }
+
+    /// <summary>DatePicker for FinalDate</summary>
+    public string TxtFinalDate
+    {
+        get
+        {
+            return new FormDatePicker
+            {
+                Id = "TxtFinalDate",
+                ColumnsSpan = Constant.ColumnSpan6,
+                GrantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk),
+                Value = this.Oportunity.FinalDate
             }.Render;
         }
     }
@@ -621,6 +638,8 @@ public partial class OportunityView : Page
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Basic"], Available = true });
         this.tabBar.AddTab(new Tab { Id = "accion", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Action"], Hidden = true });
         this.tabBar.AddTab(new Tab { Id = "costes", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.Cost), Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Costs"], Hidden = true });
+        this.tabBar.AddTab(new Tab { Id = "graphic", Available = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Graphics"], Hidden = true });
+        this.tabBar.AddTab(new Tab { Id = "historyActions",Available = true, Active = historyActionActive == true, Label = this.Dictionary["Item_Oportunity_Tab_HistoryActions"], Hidden = !historyActionActive });
         this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_UploadFiles"], Hidden = this.Oportunity.Id < 1 });
 
         RenderProcess();
@@ -628,7 +647,6 @@ public partial class OportunityView : Page
         RenderProbabilitySeverity();
         RenderActionsForm();
         this.RenderDocuments();
-        //RenderRemainder();
     }
 
     /// <summary>Renders the selectable Processes</summary>

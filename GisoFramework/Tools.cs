@@ -285,6 +285,37 @@ namespace GisoFramework
             return text.Replace('\'', '´');
         }
 
+        public static string JsonValue(DateTime? value)
+        {
+            if (value.HasValue)
+            {
+                return string.Format(CultureInfo.InvariantCulture, @"""{0:dd/MM/yyyy}""", value.Value);
+            }
+
+            return Constant.JavaScriptNull;
+        }
+
+        /// <summary>Gets Javascript value for boolean value</summary>
+        /// <param name="value">Boolean value</param>
+        /// <returns>Javascript value</returns>
+        public static string JsonValue(bool value)
+        {
+            return value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse;
+        }
+
+        /// <summary>Gets Javascript value for boolean value</summary>
+        /// <param name="value">Boolean value</param>
+        /// <returns>Javascript value</returns>
+        public static string JsonValue(bool? value)
+        {
+            if (value.HasValue)
+            {
+                return value.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse;
+            }
+
+            return Constant.JavaScriptNull;
+        }
+
         /// <summary>Create a JSON compliant text</summary>
         /// <param name="text">Original text</param>
         /// <returns>JSON compliant text</returns>

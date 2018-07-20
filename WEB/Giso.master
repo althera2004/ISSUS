@@ -142,7 +142,7 @@
     <asp:ContentPlaceHolder id="PageScripts" runat="server"></asp:ContentPlaceHolder>
     <asp:ContentPlaceHolder id="ScriptHeadContentHolder" runat="server"></asp:ContentPlaceHolder>
 </head>
-<body oncontextmenu="return false;">
+<body _oncontextmenu="return false;">
     <form id="form1" runat="server">
         <div class="navbar navbar-fixed-top" id="navbar">
             <script type="text/javascript">

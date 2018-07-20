@@ -1491,7 +1491,7 @@ Item_Oportunity_Status_NotSignificant::No significativa
 Item_Oportunity_Status_Significant::Significativa
 Item_Oportunity_Status_Unevaluated::No avaluada
 Item_Oportunity_Tab_Action::Acció
-Item_Oportunity_Tab_Basic::Dades bàsiques
+Item_Oportunity_Tab_Basic::Situació inicial
 Item_Oportunity_Tab_Costs::Costos
 Item_Oportunity_Tab_UploadFiles::Adjunts
 Item_Oportunity_Title_OportunityDetails::Fitxa de la oportunitat
@@ -1724,3 +1724,9 @@ Item_Incident_List_Filter_Periode1::Període
 Item_Incident_List_Filter_Periode2::-
 Item_IncidentAction_List_Filter_Periode1::Període
 Item_IncidentAction_List_Filter_Periode2::-
+Item_Oportunity_Tab_Graphics::Situació final
+Item_Oportunity_Tab_HistoryActions::Hitòric d'accions
+Item_Oportunity_MessageClosingNotAvailable::No es pot donar per resolta una oportunitat mentre l'acció està oberta
+Item_Oportunity_Title_FinalResult::Resultat de l'oportunitat
+Item_Oportunity_Message_Reevaluate::::Avaluar oportunitat després d'aplicar l'acció
+Item_Oportunity_ErrorMessage_ResultRequired::Especificar un resultat (cost x impacte)

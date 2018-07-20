@@ -179,31 +179,6 @@ namespace GisoFramework.Item
         {
             get
             {
-                string academicValidText = Constant.JavaScriptNull;
-                string specificValidText = Constant.JavaScriptNull;
-                string workExperienceValidText = Constant.JavaScriptNull;
-                string abilityValidText = Constant.JavaScriptNull;
-
-                if (this.AcademicValid.HasValue)
-                {
-                    academicValidText = this.AcademicValid.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse;
-                }
-
-                if (this.SpecificValid.HasValue)
-                {
-                    specificValidText = this.SpecificValid.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse;
-                }
-
-                if (this.WorkExperienceValid.HasValue)
-                {
-                    workExperienceValidText = this.WorkExperienceValid.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse;
-                }
-
-                if (this.AbilityValid.HasValue)
-                {
-                    abilityValidText = this.AbilityValid.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse;
-                }
-
                 string pattern = @"
                     {{
                         ""Id"":{0},
@@ -228,10 +203,10 @@ namespace GisoFramework.Item
                     Tools.JsonCompliant(this.Specific),
                     Tools.JsonCompliant(this.WorkExperience),
                     Tools.JsonCompliant(this.Ability),
-                    academicValidText,
-                    specificValidText,
-                    workExperienceValidText,
-                    abilityValidText);
+                    Tools.JsonValue(this.AcademicValid.Value),
+                    Tools.JsonValue(this.SpecificValid.Value),
+                    Tools.JsonValue(this.WorkExperienceValid.Value),
+                    Tools.JsonValue(this.AbilityValid.Value));
             }
         }
         

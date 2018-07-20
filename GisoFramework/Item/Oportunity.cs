@@ -7,18 +7,17 @@
 namespace GisoFramework.Item
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Configuration;
     using System.Data;
     using System.Data.SqlClient;
     using System.Globalization;
+    using System.Text;
+    using System.Web;
     using GisoFramework.Activity;
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
-    using System.Collections.ObjectModel;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Web;
-    using System.Linq;
 
     public class Oportunity : BaseItem
     {
@@ -35,11 +34,13 @@ namespace GisoFramework.Item
         public DateTime DateStart { get; set; }
         public int Code { get; set; }
 
-        //public ApplicationUser CreatedBy { get; set; }
-        //public ApplicationUser ModifiedBy { get; set; }
-        //public DateTime CreatedOn { get; set; }
-        //public DateTime ModifiedOn { get; set; }
-        //public bool Active { get; set; }
+        public int? FinalCost { get; set; }
+        public int? FinalImpact { get; set; }
+        public int? FinalResult { get; set; }
+        public bool? FinalApplyAction { get; set; }
+        public DateTime? FinalDate { get; set; }
+
+        public long? PreviousOportunityId { get; set; }
 
         public ApplicationUser AnulateBy { get; set; }
         public DateTime? AnulateDate { get; set; }
@@ -49,15 +50,6 @@ namespace GisoFramework.Item
         {
             get
             {
-                var anulateDateText = Constant.JavaScriptNull;
-                if (this.AnulateDate.HasValue)
-                {
-                    anulateDateText = string.Format(
-                        CultureInfo.InvariantCulture,
-                        @"{0:dd/MM/yyyy}",
-                        this.AnulateDate);
-                }
-
                 return string.Format(
                     CultureInfo.InvariantCulture,
                     @"{{
@@ -81,16 +73,22 @@ namespace GisoFramework.Item
                         ""Active"":{17},
                         ""AnulateBy"":{18},
                         ""AnulateDate"":""{19}"",
-                        ""AnulateReason"":""{20}""}}",
+                        ""AnulateReason"":""{20}"",
+                        ""FinalCost"":{21},
+                        ""FinalImpact"":{22},
+                        ""FinalResult"":{23},
+                        ""FinalDate"":{24},
+                        ""FinalApplyAction"":{25},
+                        ""PreviousOportunityId"":{26}}}",
                     this.Id,
                     Tools.JsonCompliant(this.Description),
                     this.DateStart,
-                    this.Cost.HasValue ? string.Format(CultureInfo.InvariantCulture,"{0}", this.Cost) : Constant.JavaScriptNull,
+                    this.Cost.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.Cost) : Constant.JavaScriptNull,
                     this.Impact.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.Impact) : Constant.JavaScriptNull,
                     this.Result.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.Result) : Constant.JavaScriptNull,
                     this.Rule.Json,
                     this.Process.Json,
-                    this.ApplyAction ? Constant.JavaScriptTrue : Constant.JavaScriptFalse,
+                    Tools.JsonValue(this.ApplyAction),
                     Tools.JsonCompliant(this.Causes),
                     Tools.JsonCompliant(this.ItemDescription),
                     Tools.JsonCompliant(this.Control),
@@ -99,10 +97,16 @@ namespace GisoFramework.Item
                     this.CreatedOn,
                     this.ModifiedBy.JsonKeyValue,
                     this.ModifiedOn,
-                    this.Active ? Constant.JavaScriptTrue : Constant.JavaScriptFalse,
+                    Tools.JsonValue(this.Active),
                     this.AnulateBy.JsonKeyValue,
-                    anulateDateText,
-                    Tools.JsonCompliant(this.AnulateReason));
+                    Tools.JsonValue(this.AnulateDate),
+                    Tools.JsonCompliant(this.AnulateReason),
+                    this.FinalCost.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.FinalCost) : Constant.JavaScriptNull,
+                    this.FinalImpact.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.FinalImpact) : Constant.JavaScriptNull,
+                    this.FinalResult.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.FinalResult) : Constant.JavaScriptNull,
+                    Tools.JsonValue(this.FinalDate.HasValue),
+                    Tools.JsonValue(this.FinalApplyAction.HasValue),
+                    this.PreviousOportunityId.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.PreviousOportunityId) : Constant.JavaScriptNull);
             }
         }
 
@@ -115,7 +119,7 @@ namespace GisoFramework.Item
                     @"{{""Id"":{0},""Description"":""{1}"",""Active"":{2}}}",
                     this.Id,
                     Tools.JsonCompliant(this.Description),
-                    this.Active ? Constant.JavaScriptTrue : Constant.JavaScriptFalse);
+                    Tools.JsonValue(this.Active));
             }
         }
 
@@ -373,6 +377,35 @@ namespace GisoFramework.Item
                                         UserName = rdr.GetString(ColumnsOportunityGet.AnulateByName)
                                     };
                                 }
+
+                                if (!rdr.IsDBNull(ColumnsOportunityGet.FinalCost))
+                                {
+                                    res.FinalCost = rdr.GetInt32(ColumnsOportunityGet.FinalCost);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsOportunityGet.FinalImpact))
+                                {
+                                    res.FinalImpact = rdr.GetInt32(ColumnsOportunityGet.FinalImpact);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsOportunityGet.FinalResult))
+                                {
+                                    res.FinalResult = rdr.GetInt32(ColumnsOportunityGet.FinalResult);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsOportunityGet.FinalDate))
+                                {
+                                    res.FinalDate = rdr.GetDateTime(ColumnsOportunityGet.FinalDate);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsOportunityGet.FinalApplyAction))
+                                {
+                                    res.FinalApplyAction = rdr.GetBoolean(ColumnsOportunityGet.FinalApplyAction);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsOportunityGet.PreviousOportunityId)){
+                                    res.PreviousOportunityId = rdr.GetInt64(ColumnsOportunityGet.PreviousOportunityId);
+                                }
                             }
                         }
                     }
@@ -425,60 +458,18 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@ApplyAction", this.ApplyAction));
                     cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@DateStart", this.DateStart));
-
-                    if (this.Cost == null)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@Cost"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
-                    }
-
-
-                    if (this.Impact == null)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@Impact"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@Impact", this.Impact));
-                    }
-
-                    if (this.Result == null)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@Result"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
-                    }
-
-                    if (this.Process == null || this.Process.Id < 1)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@ProcessId"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
-                    }
-
-                    if (this.Rule == null || this.Rule.Id < 1)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@RuleId"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rule.Id));
-                    }
-
+                    cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
+                    cmd.Parameters.Add(DataParameter.Input("@Impact", this.Impact));
+                    cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
+                    cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rule.Id));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
-
                     try
                     {
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
-                        res.SetSuccess(Convert.ToInt32(cmd.Parameters["@Id"].Value.ToString()));
+                        this.Id = Convert.ToInt64(cmd.Parameters["@Id"].Value);
+                        res.SetSuccess(this.Id);
                     }
                     catch(Exception ex)
                     {
@@ -501,6 +492,27 @@ namespace GisoFramework.Item
         public ActionResult Update(int applicationUserId)
         {
             var res = ActionResult.NoAction;
+            /* CREATE PROCEDURE Oportunity_Update
+             *   @Id int,
+             *   @CompanyId int,
+             *   @Description nvarchar(100),
+             *   @Code bigint,
+             *   @ItemDescription nvarchar(2000),
+             *   @StartControl nvarchar(2000),
+             *   @Notes nvarchar(2000),
+             *   @ApplyAction bit,
+             *   @DateStart datetime,
+             *   @Causes nvarchar(2000),
+             *   @Cost int,
+             *   @Impact int,
+             *   @Result int,
+             *   @ProcessId bigint,
+             *   @RuleId bigint,
+             *   @FinalCost int,
+             *   @FinalImpact int,
+             *   @FinalResult int,
+             *   @FinalDate datetime,
+             *   @ApplicationUserId int */
             using (var cmd = new SqlCommand("Oportunity_Update"))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -509,7 +521,7 @@ namespace GisoFramework.Item
                     cmd.Connection = cnn;
                     cmd.Parameters.Add(DataParameter.Input("@Id", this.Id));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, Constant.MaximumTextAreaLength));
+                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
                     cmd.Parameters.Add(DataParameter.Input("@Code", 0));
                     cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@StartControl", this.Control, Constant.MaximumTextAreaLength));
@@ -518,52 +530,19 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@DateStart", this.DateStart));
 
-                    if (this.Cost == null)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@Cost"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
-                    }
+                    cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
+                    cmd.Parameters.Add(DataParameter.Input("@Impact", this.Impact));
+                    cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
+                    cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rule.Id));
 
+                    cmd.Parameters.Add(DataParameter.Input("@FinalCost", this.FinalCost));
+                    cmd.Parameters.Add(DataParameter.Input("@FinalImpact", this.FinalImpact));
+                    cmd.Parameters.Add(DataParameter.Input("@FinalResult", this.FinalResult));
+                    cmd.Parameters.Add(DataParameter.Input("@FinalDate", this.FinalDate));
+                    cmd.Parameters.Add(DataParameter.Input("@FinalApplyAction", this.FinalApplyAction));
 
-                    if (this.Impact == null)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@Impact"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@Impact", this.Impact));
-                    }
-
-                    if (this.Result == null)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@Result"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
-                    }
-
-                    if (this.Process == null || this.Process.Id < 1)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@ProcessId"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
-                    }
-
-                    if (this.Rule == null || this.Rule.Id < 1)
-                    {
-                        cmd.Parameters.Add(DataParameter.InputNull("@RuleId"));
-                    }
-                    else
-                    {
-                        cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rule.Id));
-                    }
-
+                    cmd.Parameters.Add(DataParameter.Input("@PreviousOportunityId", this.PreviousOportunityId));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
 
                     try

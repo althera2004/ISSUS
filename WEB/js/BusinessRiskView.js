@@ -335,68 +335,68 @@ function FinalApplyActionRadio() {
 
 function ApplyActionTrue() {
     //Show action, cost and final status tabs and content
-    document.getElementById("Tabaccion").style.display = '';
-    document.getElementById("accion").style.display = '';
-    document.getElementById("Tabcostes").style.display = '';
-    document.getElementById("costes").style.display = '';
-    document.getElementById("Tabgraphic").style.display = '';
-    document.getElementById("graphic").style.display = '';
+    $("#Tabaccion").show();
+    $("#accion").show();
+    $("#Tabcostes").show();
+    $("#costes").show();
+    $("#Tabgraphic").show();
+    $("#graphic").show();
 
     //Disable information editing on the risk
-    $('#Name').prop('disabled', true);
-    $('#DateStart').prop('disabled', true);
-    $('#CmbRules').prop('disabled', true);
+    $("#Name").prop("disabled", true);
+    $("#DateStart").prop("disabled", true);
+    $("#CmbRules").prop("disabled", true);
     $("#BtnSelectRules").hide();
-    $('#CmbProcess').prop('disabled', true);
-    $('#ApplyAction2').prop('disabled', true);
-    $('#input-span-slider-probability').slider('disable');
-    $('#input-span-slider-severity').slider('disable');
+    $("#CmbProcess").prop("disabled", true);
+    $("#ApplyAction2").prop("disabled", true);
+    $("#input-span-slider-probability").slider("disable");
+    $("#input-span-slider-severity").slider("disable");
     SlidersActive = false;
 
     //Apply value to the final status tab
     $("#Initial-input-span-slider-probability").slider({ value: businessRisk.StartProbability });
     $("#Initial-input-span-slider-severity").slider({ value: businessRisk.StartSeverity });
-    document.getElementById('InitialResult').value = businessRisk.StartResult;
+    document.getElementById("InitialResult").value = businessRisk.StartResult;
 
     SaveAction = true;
     if (Action.Description === "") {
-        document.getElementById("TxtActionDescription").value = $('#Name').val();
+        document.getElementById("TxtActionDescription").value = $("#Name").val();
     }
 
     if (Action.WhatHappened === "") {
-        document.getElementById("TxtActionWhatHappened").value = $('#Description').val();
+        document.getElementById("TxtActionWhatHappened").value = $("#Description").val();
     }
 
     if (Action.Causes === "") {
-        document.getElementById("TxtActionCauses").value = $('#Causes').val();
+        document.getElementById("TxtActionCauses").value = $("#Causes").val();
     }
 
     if (Action.WhatHappenedBy.Id < 0) {
-        $('#CmbActionWhatHappenedResponsible').val(ApplicationUser.Employee.Id);
+        $("#CmbActionWhatHappenedResponsible").val(ApplicationUser.Employee.Id);
     }
 
     if (Action.WhatHappenedOn === null) {
-        $('#TxtActionWhatHappenedDate').val(FormatDate(new Date(), '/'));
+        $("#TxtActionWhatHappenedDate").val(FormatDate(new Date(), "/"));
     }
 
     if (Action.CausesBy.Id < 0) {
-        $('#CmbActionCausesResponsible').val(ApplicationUser.Employee.Id);
+        $("#CmbActionCausesResponsible").val(ApplicationUser.Employee.Id);
     }
 
     if (Action.CausesOn === null) {
-        $('#TxtActionCausesDate').val(FormatDate(new Date(), '/'));
+        $("#TxtActionCausesDate").val(FormatDate(new Date(), "/"));
     }
 
-    var rangeColor = ['#777', '#4aa4ce', '#4aa4ce', '#fd3', '#ffb752', '#d40'];
-    if (document.getElementById('InitialSeverityRange') !== null) {
-        if (document.getElementById('InitialSeverityRange').nextElementSibling !== null) {
-            document.getElementById('InitialSeverityRange').nextElementSibling.style.backgroundColor = rangeColor[businessRisk.StartSeverity];
+    var rangeColor = ["#777", "#4aa4ce", "#4aa4ce", "#fd3", "#ffb752", "#d40"];
+    if (document.getElementById("InitialSeverityRange") !== null) {
+        if (document.getElementById("InitialSeverityRange").nextElementSibling !== null) {
+            document.getElementById("InitialSeverityRange").nextElementSibling.style.backgroundColor = rangeColor[businessRisk.StartSeverity];
         }
     }
 
-    if (document.getElementById('InitialProbabilityRange') !== null) {
-        if (document.getElementById('InitialProbabilityRange').nextElementSibling !== null) {
-            document.getElementById('InitialProbabilityRange').nextElementSibling.style.backgroundColor = rangeColor[businessRisk.StartProbability];
+    if (document.getElementById("InitialProbabilityRange") !== null) {
+        if (document.getElementById("InitialProbabilityRange").nextElementSibling !== null) {
+            document.getElementById("InitialProbabilityRange").nextElementSibling.style.backgroundColor = rangeColor[businessRisk.StartProbability];
         }
     }
 }

@@ -2,6 +2,7 @@
 var SelectedIncidentActionCost;
 
 function IncidentActionCostRenderTable(tableName) {
+    console.log("IncidentActionCostRenderTable");
     VoidTable(tableName);
     var target = document.getElementById(tableName);
 

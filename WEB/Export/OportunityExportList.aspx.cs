@@ -96,7 +96,7 @@ public partial class ExportOportunityExportList : Page
             WidthPercentage = 100
         };
 
-        criteriatable.SetWidths(new float[] { 10f, 50f, 10f, 100f });
+        criteriatable.SetWidths(new float[] { 15f, 50f, 15f, 100f });
 
         #region texts
 

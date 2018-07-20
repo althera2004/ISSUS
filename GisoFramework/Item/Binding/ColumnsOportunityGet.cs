@@ -35,5 +35,11 @@ namespace GisoFramework.Item.Binding
         public const int AnulateByName = 25;
         public const int AnulateDate = 26;
         public const int AnulateReason = 27;
+        public const int FinalCost = 28;
+        public const int FinalImpact =  29;
+        public const int FinalResult = 30;
+        public const int FinalDate = 31;
+        public const int FinalApplyAction = 32;
+        public const int PreviousOportunityId = 33;
     }
 }

@@ -354,7 +354,7 @@ public partial class ExportPrintBusinessRiskData : Page
         #endregion
 
         #region Costes
-        var costs = IncidentActionCost.GetByBusinessRiskId(businessRisk.Id, company.Id);
+        var costs = IncidentActionCost.ByBusinessRiskId(businessRisk.Id, company.Id);
         if(costs.Count > 0)
         {
             var backgroundColor = new iTS.BaseColor(225, 225, 225);

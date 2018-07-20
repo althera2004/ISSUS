@@ -928,3 +928,7 @@ function EmployeeSetGrant(employeeId, itemId) {
         }
     });
 }
+
+function InputToLabel(imputName) {
+    $("#" + imputName).parent().html("<strong>" + $("#" + imputName).val() + "</strong>");
+}

@@ -88,7 +88,7 @@
                                                                 <label id="ROriginLabel" class="col-sm-2"><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %><span style="color: #f00;">*</span></label>
                                                                 <div class="col-sm-2"><input type="radio" value="0" id="ROrigin1" name="ROrigin" /><%=this.Dictionary["Item_IncidentAction_Origin1"] %></div>
                                                                 <div class="col-sm-2"><input type="radio" value="1" id="ROrigin2" name="ROrigin" /><%=this.Dictionary["Item_IncidentAction_Origin2"] %></div>
-                                                                <!--<div class="col-sm-2"><input type="radio" value="1" id="ROrigin3" name="ROrigin" /><%=this.Dictionary["Item_IncidentAction_Origin5"] %></div>-->
+                                                                <div class="col-sm-2"><input type="radio" value="1" id="ROrigin3" name="ROrigin" style="display:none;" /><%=this.Dictionary["Item_IncidentAction_Origin5"] %></div>
                                                                 <div class="col-sm-2"><span class="ErrorMessage" id="ROriginErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"]%></span></div>
                                                             </div>
                                                             <div class="form-group" id="RTypeDiv" style="display: _none;">

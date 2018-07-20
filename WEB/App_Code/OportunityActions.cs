@@ -62,7 +62,59 @@ public class OportunityActions : WebService {
     [ScriptMethod]
     public ActionResult Update(Oportunity oportunity, int applicationUserId)
     {
-        return oportunity.Update(applicationUserId);
+        var res = oportunity.Update(applicationUserId);
+        if(oportunity.FinalDate.HasValue && oportunity.FinalDate.Value.Year < 2000)
+        {
+            oportunity.FinalDate = null;
+        }
+
+        if (res.Success && oportunity.FinalDate.HasValue)
+        {
+            var newOportunity = new Oportunity
+            {
+                Code = oportunity.Code,
+                CompanyId = oportunity.CompanyId,
+                DateStart = oportunity.FinalDate.Value,
+                Cost = oportunity.FinalCost,
+                Impact = oportunity.FinalImpact,
+                Description = oportunity.Description,
+                ApplyAction = oportunity.FinalApplyAction.Value,
+                Result = oportunity.FinalResult,
+                Causes = oportunity.Causes,
+                Notes = oportunity.Notes,
+                ItemDescription = oportunity.ItemDescription,
+                PreviousOportunityId = oportunity.Id,
+                Process = oportunity.Process,
+                Rule = oportunity.Rule,
+                Control = oportunity.Control
+            };
+
+            res = newOportunity.Insert(applicationUserId);
+            var employee = Employee.ByUserId(applicationUserId);
+            var actualAction = IncidentAction.ByOportunityId(oportunity.Id, oportunity.CompanyId);
+            var newAction = new IncidentAction
+            {
+                Oportunity = newOportunity,
+                Origin = actualAction.Origin,
+                ReporterType = actualAction.ReporterType,
+                WhatHappened = actualAction.WhatHappened,
+                WhatHappenedBy = employee,
+                WhatHappenedOn = newOportunity.DateStart,
+                Causes = actualAction.Causes,
+                CausesBy = employee,
+                CausesOn = newOportunity.DateStart,
+                ActionType = actualAction.ActionType,
+                Description = actualAction.Description,
+                CompanyId = actualAction.CompanyId,
+                Provider = actualAction.Provider,
+                Customer = actualAction.Customer,
+                Department = actualAction.Department
+            };
+
+            res = newAction.Insert(applicationUserId);
+        }
+
+        return res;
     }
 
     /// <summary>Obtain oportunities by filter</summary>

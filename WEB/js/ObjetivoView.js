@@ -78,15 +78,15 @@ window.onload = function () {
     AnulateLayout();
 
     $("#CmbResponsible").chosen();
-    //$("#CmbMetaComparer").chosen();
 
     if (ItemData.EndDate !== null) {
         DisableLayout();
     }
 	
-	//gtk aquí ocultar botón
-	if (ItemData.EndDate !== null) {
+	// @cristina: aquí se ocultan los botones de añadir acción y registro
+    if (ItemData.EndDate !== null) {
         $("#BtnRecordNew").hide();
+        $("#BtnActionsNew").hide();
     }
 
     $("#CmbResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbResponsible").val() * 1, Employees, this); });
@@ -1363,9 +1363,11 @@ function DisableLayout() {
     $("#TxtAnularDate").removeAttr("disabled");
     $("#CmbResponsibleAnularRecord").removeAttr("disabled");
 
-    // los filtros
+    // @cristina: las fechas de los filtros hay que salvarlas de la inactivación
     $("#TxtRecordsFromDate").removeAttr("disabled");
     $("#TxtRecordsToDate").removeAttr("disabled");
+    $("#TxtActionsFromDate").removeAttr("disabled");
+    $("#TxtActionsToDate").removeAttr("disabled");
 }
 
 function EnableLayout() {

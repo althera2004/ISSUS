@@ -66,7 +66,7 @@ public partial class ObjetivoView : Page
             if (this.Objetivo.IndicatorId.HasValue && this.Objetivo.IndicatorId > 0)
             {
                 var indicador = Indicador.ById(this.Objetivo.IndicatorId.Value, this.Company.Id);
-                return indicador.Description;
+                return GisoFramework.Tools.JsonCompliant(indicador.Description);
             }
 
             return string.Empty;

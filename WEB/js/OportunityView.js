@@ -183,31 +183,45 @@ function UpdateResult() {
     }
 }
 
+function UpdateFinalResult() {
+    var cost = Oportunity.FinalCost;
+    var impact = Oportunity.FinalImpact;
+
+    var rangeColor = ["#777", "#d40", "#ffb752", "#fd3", "#4aa4ce", "#4aa4ce"];
+    if (document.getElementById("FinalImpactRange") !== null) {
+        if (document.getElementById("FinalImpactRange").nextElementSibling !== null) {
+            document.getElementById("FinalImpactRange").nextElementSibling.style.backgroundColor = rangeColor[impact];
+        }
+    }
+
+    if (document.getElementById("FinalCostRange") !== null) {
+        if (document.getElementById("FinalCostRange").nextElementSibling !== null) {
+            document.getElementById("FinalCostRange").nextElementSibling.style.backgroundColor = rangeColor[cost];
+        }
+    }
+
+    var calculatedResult = cost * impact;
+    if (calculatedResult > 0) {
+        $("#FinalResult").html(calculatedResult);
+        $("#FinalResult").css("color", calculatedResult < rule.Limit ? "#4aa4ce" : "#3f3");
+    }
+    else {
+        $("#FinalResult").html("-");
+        $("#FinalResult").css("color", "#fff");
+    }
+}
+
 function ApplyActionRadio() {
     // Para elegir las acciones hay que tener evaluado el riesgo
     if (Oportunity.Cost === 0 || Oportunity.Impact === 0 || Oportunity.Cost === null || Oportunity.Impact === null) {
-        alertUI(Dictionary.Item_BusinessRisk_ErrorMessage_ResultRequired);
+        alertUI(Dictionary.Item_Oportunity_ErrorMessage_ResultRequired);
         document.getElementById("ApplyActionYes").checked = false;
         document.getElementById("ApplyActionNo").checked = false;
         return false;
     }
 
     if (document.getElementById("ApplyActionYes").checked === true) {
-        //Show action, cost and final status tabs and content
-        $("#Tabaccion").show();
-        $("#Tabcostes").show();
-
-        //Disable information editing on the risk
-        $("#TxtDescription").prop("disabled", true);
-        $("#DateStart").attr("disabled", true);
-        $("#CmbRules").attr("disabled", true);
-        $("#BtnSelectRules").hide();
-        $("#CmbProcess").attr("disabled", true);
-        $("#ApplyAction2").attr("disabled", true);
-        SlidersActive = false;
-        SaveAction = true;
-        SetCloseRequired();
-        alertUI(Dictionary.Item_Oportunity_Warning_ActionTabAvailable, null, 600);
+        ApplyActionTrue();
     }
     else {
         ApplyActionFalse();
@@ -219,16 +233,26 @@ function ApplyActionTrue() {
     $("#Tabaccion").show();
     $("#Tabcostes").show();
 
-    //Disable information editing on the risk
-    $("#TxtDescription").prop("disabled", true);
-    $("#DateStart").attr("disabled", true);
-    $("#CmbRules").attr("disabled", true);
-    $("#BtnSelectRules").hide();
-    $("#CmbProcess").attr("disabled", true);
+    // Sólo se muestra la pestaña Final si no es una oportunidad nueva
+    if (OportunityId > 0) {
+        $("#Tabgraphic").show();
+
+        //Disable information editing on oportunity
+        $("#TxtDescription").prop("disabled", true);
+        $("#DateStart").attr("disabled", true);
+        $("#CmbRules").attr("disabled", true);
+        $("#CmbRules").css("background-color", "#eee");
+        $("#BtnSelectRules").hide();
+        $("#CmbProcess").attr("disabled", true);
+        $("#CmbProcess").css("background-color", "#eee");
+    }
+
     $("#ApplyAction2").attr("disabled", true);
-    //$("#input-span-slider-cost").slider("disable");
-    //$("#input-span-slider-impact").slider("disable");
+
     SlidersActive = false;
+    SaveAction = true;
+    SetCloseRequired();
+    alertUI(Dictionary.Item_Oportunity_Warning_ActionTabAvailable, null, 600);
 
     //Apply value to the final status tab
     $("#Initial-input-span-slider-cost").slider({ "value": Oportunity.Cost });
@@ -265,23 +289,26 @@ function ApplyActionTrue() {
     }
 
     var rangeColor = ["#777", "#4aa4ce", "#4aa4ce", "#fd3", "#ffb752", "#d40"];
-    if (document.getElementById("ImpactRange") !== null) {
-        if (document.getElementById("ImpactRange").nextElementSibling !== null) {
-            document.getElementById("ImpactRange").nextElementSibling.style.backgroundColor = rangeColor[Oportunity.Impact];
+    if (document.getElementById("InitialImpactRange") !== null) {
+        $("#InitialImpactRange").hide();
+        if (document.getElementById("InitialImpactRange").nextElementSibling !== null) {
+            document.getElementById("InitialImpactRange").nextElementSibling.style.backgroundColor = rangeColor[Oportunity.Impact];
         }
     }
 
-    if (document.getElementById("CostRange") !== null) {
-        if (document.getElementById("CostRange").nextElementSibling !== null) {
-            document.getElementById("CostRange").nextElementSibling.style.backgroundColor = rangeColor[Oportunity.Cost];
+    if (document.getElementById("InitialCostRange") !== null) {
+        $("#InitialCostRange").hide();
+        if (document.getElementById("InitialCostRange").nextElementSibling !== null) {
+            document.getElementById("InitialCostRange").nextElementSibling.style.backgroundColor = rangeColor[Oportunity.Cost];
         }
     }
 }
 
 function ApplyActionFalse() {
-    //Hide action, cost and final status tabs and content
+    //Show action, cost and final status tabs and content
     $("#Tabaccion").hide();
     $("#Tabcostes").hide();
+    $("#Tabgraphic").hide();
 
     //Enable information editing on the oportunity
     $("#TxtDescription").prop("disabled");
@@ -340,8 +367,6 @@ function OportunityInsert(previousId) {
         "applicationUserId": user.Id
     };
 
-    console.log(data);
-
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
@@ -384,6 +409,16 @@ function OportunityUpdate(sender) {
 
     SaveAction = document.getElementById("ApplyActionYes").checked
 
+    var finalApplyAction = null;
+    if (document.getElementById("FinalApplyActionYes").checked === true) {
+        finalApplyAction = true;
+    }
+    else {
+        if (document.getElementById("FinalApplyActionNo").checked === true) {
+            finalApplyAction = false;
+        }
+    }
+
     var data = {
         "oportunity": {
             "Active": true,
@@ -402,19 +437,24 @@ function OportunityUpdate(sender) {
             "CompanyId": Company.Id,
             "Impact": Oportunity.Impact,
             "ItemDescription": $("#TxtItemDescription").val(),
-            "ModifiedBy": { Id: -1 },
+            "ModifiedBy": { "Id": -1 },
             "ModifiedOn": GetDate(Oportunity.CreatedOn, "/", false),
             "Notes": $("#TxtNotes").val(),
-            "Process": { Id: $("#CmbProcess").val() * 1 },
+            "Process": { "Id": $("#CmbProcess").val() * 1 },
             "Result": Oportunity.Impact * Oportunity.Cost,
-            "Rule": { Id: $("#CmbRules").val() * 1 }
+            "Rule": { "Id": $("#CmbRules").val() * 1 },
+            "FinalDate": GetDate($("#TxtFinalDate").val(), "/", true),
+            "FinalCost": Oportunity.FinalCost,
+            "FinalImpact": Oportunity.FinalImpact,
+            "FinalResult": Oportunity.FinalCost * Oportunity.FinalImpact,
+            "FinalApplyAction": finalApplyAction
         },
         "companyId": Company.Id,
         "applicationUserId": user.Id
     };
 
     console.log(data);
-
+    return false;
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
@@ -1069,50 +1109,10 @@ function ActionsDialog(sender) {
     }
 }
 
-
+/*
 function RenderStartSliders() {
     //console.log("RenderStartSliders");
-    var MinStepValue = 1;
-
-    $("#input-span-slider-cost").slider({
-        "value": Oportunity.Cost,
-        "range": "min",
-        "min": MinStepValue,
-        "max": 5,
-        "step": 1,
-        "slide": function (event, ui) {
-            if (Action.Id > 0) {
-                return false;
-            }
-            var val = parseInt(ui.value);
-            if (val === 0) {
-                return false;
-            }
-            $("#input-span-slider-cost").slider({ "value": this.id });
-            Oportunity.Cost = val;
-            UpdateResult();
-            return null;
-        }
-    });
-
-    $("#input-span-slider-impact").slider({
-        "value": Oportunity.Impact,
-        "range": "min",
-        "min": MinStepValue,
-        "max": 5,
-        "step": 1,
-        "slide": function (event, ui) {
-            if (Action.Id > 0) { return false; }
-            var val = parseInt(ui.value);
-            if (val === 0) {
-                return false;
-            }
-            $("#input-span-slider-impact").slider({ "value": this.id });
-            Oportunity.Impact = val;
-            UpdateResult();
-            return null;
-        }
-    });
+    
 
     VoidTable("stepsCost");
     VoidTable("stepsImpact");
@@ -1196,60 +1196,146 @@ function RenderStartSliders() {
         UpdateResult();
     }
 }
-
+*/
 function RenderStepsSliders() {
-    //console.log("RenderStepsSliders");
     var MinStepValue = 1;
-    RenderStartSliders();
+    //RenderStartSliders();
 
-    //////////////////////////////////////////////////////////////////////////
-    //Sliders in "Situació final" refering the initial situation of the risk//
-    //////////////////////////////////////////////////////////////////////////
+    var MinStepValue = 1;
+
+    // Sliders situación inicial
+    $("#input-span-slider-cost").slider({
+        "value": Oportunity.Cost,
+        "range": "min",
+        "min": MinStepValue,
+        "max": 5,
+        "step": 1,
+        "slide": function (event, ui) {
+            if (Action.Id > 0) {
+                return false;
+            }
+            var val = parseInt(ui.value);
+            if (val === 0) {
+                return false;
+            }
+            $("#input-span-slider-cost").slider({ "value": this.id });
+            Oportunity.Cost = val;
+            UpdateResult();
+            return null;
+        }
+    });
+
+    $("#input-span-slider-impact").slider({
+        "value": Oportunity.Impact,
+        "range": "min",
+        "min": MinStepValue,
+        "max": 5,
+        "step": 1,
+        "slide": function (event, ui) {
+            if (Action.Id > 0) { return false; }
+            var val = parseInt(ui.value);
+            if (val === 0) {
+                return false;
+            }
+            $("#input-span-slider-impact").slider({ "value": this.id });
+            Oportunity.Impact = val;
+            UpdateResult();
+            return null;
+        }
+    });
+
+    // Sliders inicio de situación final
     $("#Initial-input-span-slider-cost").slider({
         "value": Oportunity.Cost,
         "range": "min",
-        "min": 1,
+        "min": MinStepValue,
         "max": 5,
         "step": 1,
         "slide": function (event, ui) { return null; }
     });
+
     $("#Initial-input-span-slider-impact").slider({
         "value": Oportunity.Impact,
+        "range": "min",
+        "min": MinStepValue,
+        "max": 5,
+        "step": 1,
+        "slide": function (event, ui) { return null; }
+    });
+
+    // Sliders situación final
+    $("#Final-input-span-slider-cost").slider({
+        "value": Oportunity.FinalCost,
         "range": "min",
         "min": 1,
         "max": 5,
         "step": 1,
-        "slide": function (event, ui) { return null; }
-    });
-    VoidTable("stepsCost");
-    for (var x = 1; x < 6; x++) {
-        var span = document.createElement("span");
-        span.id = x;
-        span.className = "tick";
-        span.appendChild(document.createTextNode(x));
-        span.appendChild(document.createElement("BR"));
-        span.appendChild(document.createTextNode("|"));
-        span.style.left = ((100 / (5 - MinStepValue)) * (x - MinStepValue)) + "%";
-        switch (x) {
-            case 1:
-                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_1;
-                break;
-            case 2:
-                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_2;
-                break;
-            case 3:
-                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_3;
-                break;
-            case 4:
-                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_4;
-                break;
-            case 5:
-                span.title = Dictionary.Item_Oportunity_Tooltip_Cost_5;
-                break;
+        "slide": function (event, ui) {
+            var val = parseInt(ui.value);
+            if (val > 0) {
+                $("#inputFinal-input-span-slider-cost").slider({ "value": this.id });
+                Oportunity.FinalCost = val;
+                UpdateFinalResult();
+            }
+            return null;
         }
-        document.getElementById("stepsCost").appendChild(span);
+    });
+
+    $("#Final-input-span-slider-impact").slider({
+        "value": Oportunity.FinalImpact,
+        "range": "min",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "slide": function (event, ui) {
+            var val = parseInt(ui.value);
+            if (val > 0) {
+                $("#Final-input-span-slider-impact").slider({ "value": this.id });
+                Oportunity.FinalImpact = val;
+                UpdateFinalResult();
+            }
+            return null;
+        }
+    });
+
+    RenderCostSlider("stepsCost");
+    RenderCostSlider("InitialStepsCost");
+    RenderCostSlider("FinalStepsCost");
+
+    RenderImpactSlider("stepsImpact");
+    RenderImpactSlider("InitialStepsImpact");
+    RenderImpactSlider("FinalStepsImpact");
+
+    // Los slider de la situación inicial en la pestaña final se eliminan
+    $("#InitialCostRange").remove();
+    $("#InitialImpactRange").remove();
+
+    $("#FinalIPR").html($("#IPR").html());
+
+    UpdateResult();
+    UpdateFinalResult();
+
+    if (Oportunity.FinalApplyAction === null) {
+        $("#TxtFinalDate").attr("disabled", "disabled");
     }
-    VoidTable("stepsImpact");
+
+    if (Oportunity.FinalApplyAction === true) {
+        document.getElementById("FinalApplyActionYes").checked = true;
+    }
+
+    if (Oportunity.FinalApplyAction === false) {
+        document.getElementById("FinalApplyActionNo").checked = true;
+    }
+
+    if (Oportunity.FinalDate !== null) {
+        $("#FinalApplyActionYes").attr("disabled", "disabled");
+        $("#FinalApplyActionNo").attr("disabled", "disabled");
+        $("#TxtFinalDate").attr("disabled", "disabled");
+    }
+}
+
+function RenderCostSlider(contentName) {
+    VoidTable(contentName);
     for (var x2 = 1; x2 < 6; x2++) {
         var spanStep = document.createElement("span");
         spanStep.id = x2;
@@ -1275,7 +1361,40 @@ function RenderStepsSliders() {
                 spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_5;
                 break;
         }
-        document.getElementById("stepsImpact").appendChild(spanStep);
+
+        document.getElementById(contentName).appendChild(spanStep);
+    }
+}
+
+function RenderImpactSlider(contentName) {
+    VoidTable(contentName);
+    for (var x2 = 1; x2 < 6; x2++) {
+        var spanStep = document.createElement("span");
+        spanStep.id = x2;
+        spanStep.className = "tick";
+        spanStep.appendChild(document.createTextNode(x2));
+        spanStep.appendChild(document.createElement("BR"));
+        spanStep.appendChild(document.createTextNode("|"));
+        spanStep.style.left = ((100 / (5 - MinStepValue)) * (x2 - MinStepValue)) + "%";
+        switch (x2) {
+            case 1:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_1;
+                break;
+            case 2:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_2;
+                break;
+            case 3:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_3;
+                break;
+            case 4:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_4;
+                break;
+            case 5:
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_5;
+                break;
+        }
+
+        document.getElementById(contentName).appendChild(spanStep);
     }
 }
 
@@ -1360,6 +1479,32 @@ window.onload = function () {
         $("#Tabaccion").show();
         $("#Tabcostes").show();
         document.getElementById("ApplyActionYes").checked = true;
+
+        if (OportunityId > 0) {
+            $("#Tabgraphic").show();
+
+            //Disable information editing on oportunity
+            $("#TxtDescription").prop("disabled", true);
+            $("#DateStart").attr("disabled", true);
+            $("#CmbRules").attr("disabled", true);
+            $("#CmbRules").css("background-color", "#eee");
+            $("#BtnSelectRules").hide();
+            $("#CmbProcess").attr("disabled", true);
+            $("#CmbProcess").css("background-color", "#eee");
+
+            $("#CostRange").hide();
+            $("#ImpactRange").hide();
+        }
+
+        $("#ApplyAction2").attr("disabled", true);
+
+        SlidersActive = false;
+        SaveAction = true;
+
+        //Apply value to the final status tab
+        $("#Initial-input-span-slider-cost").slider({ "value": Oportunity.Cost });
+        $("#Initial-input-span-slider-impact").slider({ "value": Oportunity.Impact });
+        $("#Result").val(Oportunity.Result);
     }
 
     Resize();
@@ -1606,4 +1751,19 @@ function ShowAnulateActionButton() {
         $("#BtnRestaurar").show();
         AnulateLayout();
     }
+}
+
+function FinalApplyActionRadio() {
+    // Para elegir las acciones hay que tener evaluada oportunidad
+    if (Oportunity.FinalCost === null || Oportunity.FinalImpact === null) {
+        alertUI(Dictionary.Item_Oportunity_ErrorMessage_ResultRequired);
+        document.getElementById("FinalApplyActionYes").checked = false;
+        document.getElementById("FinalApplyActionNo").checked = false;
+        document.getElementById("TxtFinalDate").disabled = true;
+        document.getElementById("TxtFinalDateBtn").disabled = true;
+        return false;
+    }
+
+    document.getElementById("TxtFinalDate").disabled = false;
+    document.getElementById("TxtFinalDateBtn").disabled = false;
 }

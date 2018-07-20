@@ -128,6 +128,29 @@ namespace GisoFramework.DataAccess
         /// <param name="name">Parameter name</param>
         /// <param name="value">Float value</param>
         /// <returns>Sql parameter</returns>
+        public static SqlParameter Input(string name, float? value)
+        {
+            var res = new SqlParameter(name, SqlDbType.BigInt)
+            {
+                Direction = ParameterDirection.Input
+            };
+
+            if (value.HasValue)
+            {
+                res.Value = value.Value;
+            }
+            else
+            {
+                res.Value = DBNull.Value;
+            }
+
+            return res;
+        }
+
+        /// <summary>Gets a input SqlParameter with float value</summary>
+        /// <param name="name">Parameter name</param>
+        /// <param name="value">Float value</param>
+        /// <returns>Sql parameter</returns>
         public static SqlParameter Input(string name, float value)
         {
             return new SqlParameter(name, SqlDbType.BigInt)
@@ -135,6 +158,29 @@ namespace GisoFramework.DataAccess
                 Direction = ParameterDirection.Input,
                 Value = value
             };
+        }
+
+        /// <summary>Gets a input SqlParameter with long value</summary>
+        /// <param name="name">Parameter name</param>
+        /// <param name="value">Long value</param>
+        /// <returns>Sql parameter</returns>
+        public static SqlParameter Input(string name, long? value)
+        {
+            var res = new SqlParameter(name, SqlDbType.BigInt)
+            {
+                Direction = ParameterDirection.Input
+            };
+
+            if (value.HasValue)
+            {
+                res.Value = value.Value;
+            }
+            else
+            {
+                res.Value = DBNull.Value;
+            }
+
+            return res;
         }
 
         /// <summary>Gets a input SqlParameter with long value</summary>
@@ -161,6 +207,29 @@ namespace GisoFramework.DataAccess
                 Direction = ParameterDirection.Input,
                 Value = value
             };
+        }
+
+        /// <summary>Gets a input SqlParameter with boolean value</summary>
+        /// <param name="name">Parameter name</param>
+        /// <param name="value">Boolean value</param>
+        /// <returns>Sql parameter</returns>
+        public static SqlParameter Input(string name, bool? value)
+        {
+            var res = new SqlParameter(name, SqlDbType.Bit)
+            {
+                Direction = ParameterDirection.Input
+            };
+
+            if (value.HasValue)
+            {
+                res.Value = value.Value;
+            }
+            else
+            {
+                res.Value = DBNull.Value;
+            }
+
+            return res;
         }
 
         /// <summary>Gets a input SqlParameter with boolean value</summary>

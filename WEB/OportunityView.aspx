@@ -301,6 +301,193 @@
                                                         </div><!-- /span -->
                                                     </div>
                                                 </div>
+                                                <div id="graphic" class="tab-pane">                                            
+                                                    <div>
+                                                        <form class="form-horizontal" role="form">
+                                                            <div class="col-sm-12" style="border:1px solid #eee;background-color:#fcfcfc;">
+                                                                <h4><strong><%=this.Dictionary["Item_Oportunity_Message_Reevaluate"] %></strong></h4>
+                                                                <hr />
+                                                                <h5><strong><%=this.Dictionary["Item_Oportunity_Tab_Basic"] %></strong></h5>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-4 no-padding-left">
+                                                                        <label id="TxtInitialProbabilityLabel" class="col-sm-12 no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Cost"]%></label>
+                                                                        <div class="row col-sm-11">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="steps" id="InitialStepsCost"></div>
+                                                                                <div class="help-block ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="Initial-input-span-slider-cost">
+                                                                                    <span class="ui-slider-handle ui-state-default ui-corner-all" id="InitialCostRange" tabindex="0" style="left: 9.09091%;"></span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <label class="col-sm-1 no-padding-right" style="padding-top:25px;padding-left: 25px;">X</label>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <label id="TxtInitialSeverityLabel" class="col-sm-12 no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Impact"]%></label>
+                                                                        <div class="row col-sm-11">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="steps" id="InitialStepsImpact"></div>
+                                                                                <div class="help-block ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="Initial-input-span-slider-impact">
+                                                                                    <span class="ui-slider-handle ui-state-default ui-corner-all" id="InitialImpactRange" tabindex="0" style="left: 9.09091%;"></span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <label class="col-sm-1 no-padding-right" style="padding-top:25px;padding-left: 25px;">=</label>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        <label id="TxtInitialResultLabel" class="col-sm-12 no-padding-right" style="padding-bottom: 20px;"><%=this.Dictionary["Item_BusinessRisk_LabelField_ActualResult"]%></label>
+                                                                        <span id="InitialResult" class="col-sm-12" style="margin-left:10px;text-align:left;font-size:20px;font-weight:bold;"><%= this.Oportunity.Result %></span>
+                                                                    </div>
+                                                                </div>      
+                                                                <h5><strong><%=this.Dictionary["Item_BusinessRisk_Tab_Graphics"] %></strong></h5>
+                                                                <div class="form-group">
+                                                                    <div class="col-sm-4 no-padding-left">
+                                                                        <label id="TxtFinalCostLabel" class="col-sm-12 no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Cost"]%></label>
+                                                                        <div class="row col-sm-11">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="steps" id="FinalStepsCost"></div>
+                                                                                <div class="help-block ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="Final-input-span-slider-cost">
+                                                                                    <span class="ui-slider-handle ui-state-default ui-corner-all" id="FinalCostRange" tabindex="0" style="left: 9.09091%;"></span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <label class="col-sm-1 no-padding-right" style="padding-top:25px;padding-left: 25px;">X</label>
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <label id="TxtFinalImpactLabel" class="col-sm-12 no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Impact"]%></label>
+                                                                        <div class="row col-sm-11">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="steps" id="FinalStepsImpact"></div>
+                                                                                <div class="help-block ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="Final-input-span-slider-impact">
+                                                                                    <span class="ui-slider-handle ui-state-default ui-corner-all" id="FinalImpactRange" tabindex="0" style="left: 9.09091%;"></span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <label class="col-sm-1 no-padding-right" style="padding-top:25px;padding-left: 25px;">=</label>
+                                                                    </div>
+                                                                    <div class="col-sm-1">
+                                                                        <label id="TxtFinalResultLabel" class="col-sm-12 no-padding-right" style="padding-bottom: 20px;"><%=this.Dictionary["Item_Oportunity_LabelField_Result"]%></label>
+                                                                        <span id="FinalResult" class="col-sm-12" style="margin-left:10px;text-align:left;font-size:20px;font-weight:bold;"><%= this.Oportunity.FinalResult.HasValue ? this.Oportunity.FinalResult.Value.ToString() : string.Empty %></span>
+                                                                    </div>
+                                                                    <div class="col-sm-2">
+                                                                        <label id="TxtFinalIPRLabel" class="col-sm-12 no-padding-right" style="padding-bottom: 20px;"><%=this.Dictionary["Item_Oportunity_LabelField_IPR"]%></label>
+                                                                        <span id="FinalIPR" class="col-sm-12" style="margin-left:10px;text-align:left;font-size:20px;font-weight:bold;"><%= this.Oportunity.Rule.Limit %></span>
+                                                                    </div>
+                                                                </div>                                                                
+                                                                <div style="border: 1px solid #777; background-color: #f0f0ff; padding: 12px; margin-bottom: 12px;" id="DivClosingRisk">
+                                                                    <h4><strong><%=this.Dictionary["Item_Oportunity_Title_FinalResult"] %></strong></h4>
+                                                                    <div class="form-group" id="FinalActionActivator">
+                                                                        <div class="col-sm-6">
+                                                                            <div class="col-sm-4">
+                                                                                <input type="radio" value="1" id="FinalApplyActionYes" name="ApplyAction" onclick="FinalApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_Oportunity_LabelField_ApplyActionYes"] %>
+                                                                            </div>
+                                                                            <div class="col-sm-4" id="ApplyActionNoFinal">
+                                                                                <input type="radio" value="2" id="FinalApplyActionNo" name="ApplyAction" onclick="FinalApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_Oportunity_LabelField_ApplyActionNo"] %>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <label id="TxtFinalDateLabel" class="col-sm-6 right"><%=this.Dictionary["Item_BusinessRisk_LabelField_CloseDate"] %></label>
+                                                                            <%=this.TxtFinalDate %>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div style="border:1px solid #777;background-color:#f33;color:#ff3;padding:12px;margin-bottom:12px;" id="DivClosingRiskUnavailable">
+                                                                    <table style="border:none;">
+                                                                        <tr>
+                                                                            <td rowspan="2" style="border:none;"><i class="icon-info-sign" style="font-size:36px;"></i></td>        
+                                                                            <td style="border:none;">
+                                                                                <h4><%=this.Dictionary["Item_Oportunity_MessageClosingNotAvailable"] %></h4>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <div style="clear:both;height:20px;">&nbsp;</div>
+                                                            <div class="form-group">
+                                                                <div id="chart" style="width:100%">
+                                                                    <svg style="height:500px;width:100%" id="svggraficOportunity"></svg>
+                                                                    <table id="GraphicTableVoid" style="height:500px;width:100%;display:none;">
+                                                                        <tr>
+                                                                            <td colspan="10" style="background-color:#ddddff;color:#0000aa;text-align:center;">
+                                                                                <table style="border:none;">
+                                                                                    <tr>
+                                                                                        <td rowspan="2" style="border:none;"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
+                                                                                        <td style="border:none;">
+                                                                                            <h4><%=this.Dictionary["Common_VoidSearchResult"] %></h4>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div id="historyActions" class="tab-pane">
+                                                    <div class="col-sm-12" id="DivHistoryTableDiv">
+                                                        <div class="row">
+                                                            <div class="col-xs-12">
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-bordered table-striped">
+                                                                        <thead class="thin-border-bottom">
+                                                                            <tr id="ListDataHeader">
+                                                                                <th id="th0" style="width: 90px;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
+                                                                                <th id="th1" style="width: 120px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"] %></th>
+                                                                                <th id="th2" class="search"><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th>
+                                                                                <th id="th3" style="width: 90px;"><%=this.Dictionary["Item_IncidentAction_Header_ImplementDate"] %></th>
+                                                                                <th id="th4" style="width: 90px;"><%=this.Dictionary["Item_IncidentAction_Header_Close"] %></th>
+                                                                                <th class="hidden-480" style="width: 90px !important;">&nbsp;</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="ListDataTable">
+                                                                            <asp:Literal runat="server" ID="OportunityActionData"></asp:Literal>
+                                                                        </tbody>
+                                                                        <tfoot id="ItemTableError" style="display: none;">
+                                                                            <tr>
+                                                                                <td colspan="10" align="center" style="background-color: #ffffdd; color: #aa0000;">
+                                                                                    <table style="border: none;">
+                                                                                        <tr>
+                                                                                            <td rowspan="2" style="border: none;"><i class="icon-warning-sign" style="font-size: 48px;"></i></td>
+                                                                                            <td style="border: none;">
+                                                                                                <h4><%=this.Dictionary["Item_IncidentAction_List_Filter_ErrorRequired"] %></h4>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td style="border: none;">
+                                                                                                <ul>
+                                                                                                    <li id="ErrorDate"><%=this.Dictionary["Item_IncidentAction_List_Filter_ErrorDate"] %></li>
+                                                                                                    <li id="ErrorStatus"><%=this.Dictionary["Item_IncidentAction_List_Filter_ErrorStatus"] %></li>
+                                                                                                    <li id="ErrorType"><%=this.Dictionary["Item_IncidentAction_List_Filter_ErrorType"] %></li>
+                                                                                                </ul>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                        <tfoot id="ItemTableVoid" style="display: none;">
+                                                                            <tr>
+                                                                                <td colspan="10" align="center" style="background-color: #ddddff; color: #0000aa;">
+                                                                                    <table style="border: none;">
+                                                                                        <tr>
+                                                                                            <td rowspan="2" style="border: none;"><i class="icon-info-sign" style="font-size: 48px;"></i></td>
+                                                                                            <td style="border: none;">
+                                                                                                <h4><%=this.Dictionary["Common_VoidSearchResult"] %></h4>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    </table>
+                                                                </div>
+                                                                <!-- /.table-responsive -->
+                                                            </div>
+                                                            <!-- /span -->
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div id="uploadFiles" class="tab-pane">
                                                     <div class="col-sm-12">
                                                         <div class="col-sm-8">
@@ -431,7 +618,7 @@
                                                 <th style="width:150px;"  class="hidden-480">&nbsp;</th>													
                                             </tr>
                                         </thead>
-                                        <tbody id="SelectableCost"><asp:Literal runat="server" ID="LTCostData"></asp:Literal></tbody>
+                                        <tbody id="_SelectableCost"><asp:Literal runat="server" ID="LTCostData"></asp:Literal></tbody>
                                     </table>
                                 </div>
                                 <div class="col-sm-6">
