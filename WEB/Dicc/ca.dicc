@@ -1732,7 +1732,6 @@ Item_Oportunity_Message_Reevaluate::::Avaluar oportunitat després d'aplicar l'ac
 Item_Oportunity_ErrorMessage_ResultRequired::Especificar un resultat (cost x impacte)
 Item_IncidentAction_List_Filter_Periode2::-
 Item_ObjetivoAction_List_Filter_Periode1::Període
-Item_ObjetivoAction_List_Filter_Periode2::-
 Item_ObjetivoAction_List_Filter_Status::Estat
 Item_Objetivo_Detail::Fitxa de l'Objectiu
 Item_Indicador_Filter_Periode1::Període
