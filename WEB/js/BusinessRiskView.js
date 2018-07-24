@@ -9,11 +9,21 @@ var MinStepValueFinalProbability = 1;
 var MinStepValueFinalSeverity = 1;
 var SlidersStartActive = true;
 
-$("#Tabhome").on("click", function () { $("#oldFormFooter").show(); });
-$("#Tabaccion").on("click", function () { $("#oldFormFooter").show(); });
-$("#Tabcostes").on("click", function () { $("#oldFormFooter").show(); });
-$("#Tabgraphic").on("click", function () { $("#oldFormFooter").show(); });
-$("#TabhistoryActions").on("click", function () { $("#oldFormFooter").show(); });
+$("#Tabhome").on("click", function () { $("#BtnCancel").show();$("#oldFormFooter").show(); });
+$("#Tabaccion").on("click", function () {
+    $("#oldFormFooter").show();
+    if (Action.Id < 0) {
+        $("#BtnCancel").hide();
+    }
+});
+$("#Tabcostes").on("click", function () {
+    $("#oldFormFooter").show();
+    if (Action.Id < 0) {
+        $("#BtnCancel").hide();
+    }
+});
+$("#Tabgraphic").on("click", function () { $("#oldFormFooter").show(); $("#oldFormFooter").show(); });
+$("#TabhistoryActions").on("click", function () { $("#BtnCancel").show(); });
 $("#TabuploadFiles").on("click", function () { $("#oldFormFooter").hide(); });
 
 jQuery(function ($) {
@@ -127,14 +137,11 @@ jQuery(function ($) {
     $("#BtnCancel2").on("click", function (e) { Cancel(); });
 
     if (document.getElementById("StartApplyActionYes").checked === true) {
-        document.getElementById("Tabaccion").style.display = "";
-        document.getElementById("accion").style.display = "";
+        $("#Tabaccion").show();
         SaveAction = true;
     } else {
-        document.getElementById("Tabaccion").style.display = "none";
-        document.getElementById("accion").style.display = "none";
-        document.getElementById("Tabcostes").style.display = "none";
-        document.getElementById("costes").style.display = "none";
+        $("#Tabaccion").hide();
+        $("#Tabcostes").hide();
         SaveAction = false;
     }
 
@@ -262,38 +269,38 @@ function UpdateFinalResult() {
             severityName = ProbabilitySeverityList[x].Description;
         }
     }
-    var rangeColor = ['#777', '#4aa4ce', '#4aa4ce', '#fd3', '#ffb752', '#d40'];
-    if (document.getElementById('FinalSeverityRange') !== null) {
-        if (document.getElementById('FinalSeverityRange').nextElementSibling !== null) {
-            document.getElementById('FinalSeverityRange').nextElementSibling.style.backgroundColor = rangeColor[businessRisk.FinalSeverity];
+    var rangeColor = ["#777", "#4aa4ce", "#4aa4ce", "#fd3", "#ffb752", "#d40"];
+    if (document.getElementById("FinalSeverityRange") !== null) {
+        if (document.getElementById("FinalSeverityRange").nextElementSibling !== null) {
+            document.getElementById("FinalSeverityRange").nextElementSibling.style.backgroundColor = rangeColor[businessRisk.FinalSeverity];
         }
     }
-    if (document.getElementById('FinalProbabilityRange') !== null) {
-        if (document.getElementById('FinalProbabilityRange').nextElementSibling !== null) {
-            document.getElementById('FinalProbabilityRange').nextElementSibling.style.backgroundColor = rangeColor[businessRisk.FinalProbability];
+    if (document.getElementById("FinalProbabilityRange") !== null) {
+        if (document.getElementById("FinalProbabilityRange").nextElementSibling !== null) {
+            document.getElementById("FinalProbabilityRange").nextElementSibling.style.backgroundColor = rangeColor[businessRisk.FinalProbability];
         }
     }
 
-    $('#TxtFinalProbabilityLabel').html(Dictionary.Item_BusinessRisk_LabelField_Probability + ':&nbsp;<strong>' + probabilityName + '</strong>');
-    $('#TxtFinalSeverityLabel').html(Dictionary.Item_BusinessRisk_LabelField_Severity + ':&nbsp;<strong>' + severityName + '</strong>');
+    $("#TxtFinalProbabilityLabel").html(Dictionary.Item_BusinessRisk_LabelField_Probability + ":&nbsp;<strong>" + probabilityName + "</strong>");
+    $("#TxtFinalSeverityLabel").html(Dictionary.Item_BusinessRisk_LabelField_Severity + ":&nbsp;<strong>" + severityName + "</strong>");
     $("#FinalResult").html(businessRisk.FinalProbability * businessRisk.FinalSeverity);
     businessRisk.FinalResult = businessRisk.FinalProbability * businessRisk.FinalSeverity;
 
     if (businessRisk.FinalResult === 0)
     {
-        $("#FinalResult").html('-');
-        $("#FinalResult").css('color', '#333');
-        document.getElementById('ApplyActionNoFinal').style.visibility = 'visible';
+        $("#FinalResult").html("-");
+        $("#FinalResult").css("color", "#333");
+        document.getElementById("ApplyActionNoFinal").style.visibility = "visible";
     }
     else if(businessRisk.FinalResult < rule.Limit)
     {
-        $("#FinalResult").css('color', '#87b87f');
-        document.getElementById('ApplyActionNoFinal').style.visibility = 'visible';
+        $("#FinalResult").css("color", "#87b87f");
+        document.getElementById("ApplyActionNoFinal").style.visibility = "visible";
     }
     else
     {
-        $("#FinalResult").css('color', '#f00');
-        document.getElementById('ApplyActionNoFinal').style.visibility = 'hidden';
+        $("#FinalResult").css("color", "#f00");
+        document.getElementById("ApplyActionNoFinal").style.visibility = "hidden";
     }
 }
 
@@ -301,13 +308,13 @@ function ApplyActionRadio() {
     // Para elegir las acciones hay que tener evaluado el riesgo
     if (businessRisk.StartProbability === 0 || businessRisk.StartSeverity === 0) {
         alertUI(Dictionary.Item_BusinessRisk_ErrorMessage_ResultRequired);
-        document.getElementById('StartApplyActionAssumed').checked = false;
-        document.getElementById('StartApplyActionYes').checked = false;
-        document.getElementById('StartApplyActionNo').checked = false;
+        document.getElementById("StartApplyActionAssumed").checked = false;
+        document.getElementById("StartApplyActionYes").checked = false;
+        document.getElementById("StartApplyActionNo").checked = false;
         return false;
     }
 
-    if (document.getElementById('StartApplyActionYes').checked === true) {
+    if (document.getElementById("StartApplyActionYes").checked === true) {
         ApplyActionTrue();
         SetCloseRequired();
         alertUI(Dictionary.Item_BusinessRisk_Warning_ActionTabAvailable, null, 500);
@@ -321,26 +328,23 @@ function FinalApplyActionRadio() {
     // Para elegir las acciones hay que tener evaluado el riesgo
     if (businessRisk.FinalProbability === 0 || businessRisk.FinalSeverity === 0) {
         alertUI(Dictionary.Item_BusinessRisk_ErrorMessage_ResultRequired);
-        document.getElementById('FinalApplyActionAssumed').checked = false;
-        document.getElementById('FinalApplyActionYes').checked = false;
-        document.getElementById('FinalApplyActionNo').checked = false;
-        document.getElementById('TxtFinalDate').disabled = true;
-        document.getElementById('TxtFinalDateBtn').disabled = true;
+        document.getElementById("FinalApplyActionAssumed").checked = false;
+        document.getElementById("FinalApplyActionYes").checked = false;
+        document.getElementById("FinalApplyActionNo").checked = false;
+        document.getElementById("TxtFinalDate").disabled = true;
+        document.getElementById("TxtFinalDateBtn").disabled = true;
         return false;
     }
 
-    document.getElementById('TxtFinalDate').disabled = false;
-    document.getElementById('TxtFinalDateBtn').disabled = false;
+    document.getElementById("TxtFinalDate").disabled = false;
+    document.getElementById("TxtFinalDateBtn").disabled = false;
 }
 
 function ApplyActionTrue() {
     //Show action, cost and final status tabs and content
     $("#Tabaccion").show();
-    $("#accion").show();
     $("#Tabcostes").show();
-    $("#costes").show();
     $("#Tabgraphic").show();
-    $("#graphic").show();
 
     //Disable information editing on the risk
     $("#Name").prop("disabled", true);
@@ -404,11 +408,8 @@ function ApplyActionTrue() {
 function ApplyActionFalse() {
     //Hide action, cost and final status tabs and content
     $("#Tabaccion").hide();
-    $("#accion").hide();
     $("#Tabcostes").hide();
-    $("#costes").hide();
     $("#Tabgraphic").hide();
-    $("#graphic").hide();
 
     //Enable information editing on the risk
     $("#Name").prop("disabled", false);

@@ -1385,10 +1385,17 @@ function Resize() {
 }
 
 window.onload = function () {
-    $("#Tabhome").on("click", function () { $("#BtnAnular").hide(); $("#oldFormFooter").show(); });
-    $("#Tabaccion").on("click", function () { if (Action.Id > 0) { $("#BtnAnular").show(); } $("#oldFormFooter").show(); });
-    $("#Tabcostes").on("click", function () { $("#BtnAnular").hide(); $("#oldFormFooter").show(); });
-    $("#TabuploadFiles").on("click", function () { $("#BtnAnular").hide(); $("#oldFormFooter").hide(); });
+    $("#Tabhome").on("click", function () { $("#BtnAnular").hide(); $("#BtnCancel").show(); $("#oldFormFooter").show(); });
+
+    $("#Tabaccion").on("click", function () {
+        if (Action.Id > 0) { $("#BtnAnular").show(); $("#BtnCancel").show(); }
+        else {
+            $("#BtnCancel").hide();
+        }
+        $("#oldFormFooter").show();
+    });
+    $("#Tabcostes").on("click", function () { $("#BtnCancel").hide(); $("#BtnAnular").hide(); $("#oldFormFooter").show(); });
+    $("#TabuploadFiles").on("click", function () { $("#BtnCancel").hide(); $("#BtnAnular").hide(); $("#oldFormFooter").hide(); });
 
     if (Oportunity.Id > 0) {
         $("#BtnPrint").on("click", PrintData);
@@ -1443,7 +1450,11 @@ window.onload = function () {
     $("#Tabhome").on("click", HideAnulateActionButton);
     $("#Tabaccion").on("click", ShowAnulateActionButton);
     $("#Tabcostes").on("click", HideAnulateActionButton);
-    $("#Tabgraphic").on("click", HideAnulateActionButton);
+    $("#Tabgraphic").on("click", function () {
+        $("#BtnAnular").hide();
+        $("#BtnRestaurar").hide();
+        $("#BtnCancel").show();
+    });
     $("#TabhistoryActions").on("click", HideAnulateActionButton);
     $("#TabuploadFiles").on("click", HideAnulateActionButton);
 

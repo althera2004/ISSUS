@@ -854,7 +854,7 @@ public partial class BusinessRiskView : Page
         
         this.formFooterActions = new FormFooter();
         this.formFooterActions.AddButton(new UIButton { Id = "BtnSave2", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooterActions.AddButton(new UIButton { Id = "BtnCancel2", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.formFooterActions.AddButton(new UIButton { Id = "BtnCancel2", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"], Hidden = this.incidentAction.Id < 1 });
         
         if (this.BusinessRiskId != -1)
         {

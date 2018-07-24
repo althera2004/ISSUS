@@ -160,7 +160,7 @@ namespace GISOWeb
         /// <returns>Risk compliant by filter</returns>
         [WebMethod(EnableSession = true)]
         [ScriptMethod]
-        public string GetFilter(int companyId, DateTime? from, DateTime? to, long rulesId, long processId, int type)
+        public string GetFilter(int companyId, DateTime? from, DateTime? to, long rulesId, long processId, int type, int itemType)
         {
             var filter = new StringBuilder("{");
             filter.Append(Tools.JsonPair("companyId", companyId)).Append(",");
@@ -168,9 +168,9 @@ namespace GISOWeb
             filter.Append(Tools.JsonPair("to", to)).Append(",");
             filter.Append(Tools.JsonPair("rulesId", rulesId)).Append(",");
             filter.Append(Tools.JsonPair("processId", processId)).Append(",");
+            filter.Append(Tools.JsonPair("itemType", itemType)).Append(",");
             filter.Append(Tools.JsonPair("type", type)).Append("}");
             this.Session["BusinessRiskFilter"] = filter.ToString();
-
             return BusinessRisk.FilterList(companyId, from, to, rulesId, processId, type);
         }
     }

@@ -194,7 +194,8 @@ function OportunityGetFilter(exportType) {
         "from": from,
         "to": to,
         "rulesId": rulesId,
-        "processId": processId
+        "processId": processId,
+        "itemType": 1
     };
 
     $.ajax({
@@ -248,7 +249,8 @@ function BusinessRiskGetFilter(exportType) {
         "to": to,
         "rulesId": rulesId,
         "processId": processId,
-        "type": type
+        "type": type,
+        "itemType": 0
     };
 
     $.ajax({
@@ -972,8 +974,8 @@ window.onload = function () {
 
     $("H1").html("<input type=\"radio\" id=\"RR\" name=\"RType\" checked=\"checked\" style=\"margin-top:12px;\" />&nbsp;" + Dictionary.Item_BusinessRisks + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"radio\" id=\"RO\" name=\"RType\" style=\"margin-top:12px;\" />&nbsp;" + Dictionary.Item_Oportunities);
 
-    $("#RR").on("click", function () { SetLayout(1); });
-    $("#RO").on("click", function () { SetLayout(2); });
+    $("#RR").on("click", function () { SetLayout(1); BusinessRiskGetFilter(); });
+    $("#RO").on("click", function () { SetLayout(2); OportunityGetFilter(); });
 
     $("#BtnRecordShowAll").click();
     $("#BtnRecordShowAllOportunity").click();
@@ -997,6 +999,16 @@ window.onload = function () {
 
         if (Filter.to !== null) {
             $("#TxtDateTo").val(GetDateYYYYMMDDText(Filter.to, "/", false));
+        }
+
+        if (Filter.itemType !== null) {
+            if (Filter.itemType === 0) {
+                document.getElementById("RR").checked = true;
+            }
+
+            if (Filter.itemType === 1) {
+                document.getElementById("RO").checked = true;
+            }
         }
     }
 

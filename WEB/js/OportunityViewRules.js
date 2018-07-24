@@ -361,7 +361,7 @@ function RulesInsertConfirmed(newDescription, newNotes, newLimit) {
     var webMethod = "/Async/RulesActions.asmx/RulesInsert";
     var id = 0;
     var data = {
-        "Rules": {
+        "rules": {
             "CompanyId": Company.Id,
             "Description": newDescription,
             "Notes": newNotes,
