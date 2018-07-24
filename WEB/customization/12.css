@@ -341,7 +341,6 @@ th,td,.table-bordered{border-radius:0!important}.table thead tr{background-posit
 @media only screen and (max-width:767px){.page-content{padding-left:12px;padding-right:12px}}
 @media(max-width:991px){body.breadcrumbs-fixed{padding-top:45px}.navbar-fixed-top{margin-bottom:0}.sidebar.fixed,.sidebar.sidebar-fixed{position:absolute}}@media(max-width:460px){body.navbar-fixed{padding-top:90px}}@media only screen and (max-width:767px){.error-container{margin:12px}}@media only screen and (max-width:480px){.error-container{margin:6px}}@media only screen and (max-width:360px){.grid2,.grid3,.grid4{float:none;display:block;width:96%;border-left:none;position:relative;margin-bottom:11px;border-bottom:1px solid #e3e3e3;padding-bottom:4px}.grid2>[class*="pull-"],.grid3>[class*="pull-"],.grid4>[class*="pull-"]{float:none!important;display:inline-block;position:absolute;right:11px;top:0;margin-top:0}.grid2:last-child,.grid3:last-child,.grid4:last-child{border-bottom:0}}@media only screen and (max-width:480px){.ace-settings-container,body.breadcrumbs-fixed .ace-settings-container{top:65px}}
 
-.ErrorMessage{color:#f00;}
 
 /* Titulo pagina */
 .navbar-brand small{

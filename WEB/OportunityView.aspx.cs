@@ -629,19 +629,19 @@ public partial class OportunityView : Page
             this.IncidentAction = IncidentAction.Empty;
         }
 
-        this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Basic"], Available = true });
-        this.tabBar.AddTab(new Tab { Id = "accion", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Action"], Hidden = true });
-        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.Cost), Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Costs"], Hidden = true });
-        this.tabBar.AddTab(new Tab { Id = "graphic", Available = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Graphics"], Hidden = true });
-        this.tabBar.AddTab(new Tab { Id = "historyActions",Available = true, Active = historyActionActive == true, Label = this.Dictionary["Item_Oportunity_Tab_HistoryActions"], Hidden = !historyActionActive });
-        this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_UploadFiles"], Hidden = this.Oportunity.Id < 1 });
-
         this.RenderProcess();
         this.RenderLimit();
         this.RenderProbabilitySeverity();
         this.RenderActionsForm();
         this.RenderActionHistory();
         this.RenderDocuments();
+
+        this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Basic"], Available = true });
+        this.tabBar.AddTab(new Tab { Id = "accion", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Action"], Hidden = true });
+        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.Cost), Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Costs"], Hidden = true });
+        this.tabBar.AddTab(new Tab { Id = "graphic", Available = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Graphics"], Hidden = true });
+        this.tabBar.AddTab(new Tab { Id = "historyActions",Available = true, Active = historyActionActive == true, Label = this.Dictionary["Item_Oportunity_Tab_HistoryActions"], Hidden = !historyActionActive });
+        this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_UploadFiles"], Hidden = this.Oportunity.Id < 1 });
     }
 
     /// <summary>Renders the selectable Processes</summary>
@@ -688,20 +688,20 @@ public partial class OportunityView : Page
     {
         var incidentActionCollection = IncidentAction.ByOportunityCode(this.Oportunity.Code, this.Company.Id);
         var res = new StringBuilder();
-        var searchItem = new List<string>();
+        //var searchItem = new List<string>();
         foreach (var incidentAction in incidentActionCollection.Where(ia => ia.Oportunity.Id != this.OportunityId).OrderBy(incidentAction => incidentAction.WhatHappenedOn))
         {
-            if (!searchItem.Contains(incidentAction.Description))
-            {
-                searchItem.Add(incidentAction.Description);
-            }
+            //if (!searchItem.Contains(incidentAction.Description))
+            //{
+            //    searchItem.Add(incidentAction.Description);
+            //}
 
             res.Append(incidentAction.ListBusinessRiskRow(this.Dictionary, this.ApplicationUser.Grants));
 
-            if (incidentAction.BusinessRiskId != this.OportunityId)
-            {
+            //if (incidentAction.Oportunity.Id != this.OportunityId)
+            //{
                 historyActionActive = true;
-            }
+            //}
 
         }
 

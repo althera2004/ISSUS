@@ -501,49 +501,48 @@
                                             </div>
                                         </div>
                                         <div id="oportunity" class="tab-pane">                                            
-                                                    <div class="table-responsive" id="scrollTableDivOportunity">
-                                                        <table class="table table-bordered table-striped" style="margin: 0">
-                                                            <thead class="thin-border-bottom">
-		                                                        <tr id="ListDataHeaderOportunity">
-                                                                    <th style="width:60px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Status"] %></th>
-			                                                        <th onclick="Sort(this,'ListDataTableOportunity','date');" id="th1" class="sort search" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Date"] %></th>
-                                                                    <th onclick="Sort(this,'ListDataTableOportunity', 'text');" id="th2" class="search sort"><%=this.Dictionary["Item_Oportunity"] %></th>
-                                                                    <th onclick="Sort(this,'ListDataTableOportunity', 'text');" id="th3" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Process"] %></th>
-																	<th onclick="Sort(this,'ListDataTableOportunity', 'text');" id="th4" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Rule"] %></th>
-																	<th onclick="Sort(this,'ListDataTableOportunity', 'money');" id="th5" class="hidden-480 search sort" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"] %></th>
-																	<th onclick="Sort(this,'ListDataTableOportunity', 'money');" id="th6" class="hidden-480 search sort" style="width:80px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_IPR"] %></th>
-																	<th style="width:107px;">&nbsp;</th>
-		                                                        </tr>
-	                                                        </thead>
-                                                        </table>
-                                                        <div id="ListDataDivOportunity" style="overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                            <table class="table table-bordered table-striped" style="border-top: none;">
-                                                                <tbody id="ListDataTableOportunity"><asp:Literal runat="server" ID="Literal1"></asp:Literal></tbody>
-                                                            </table>
-                                                            <table id="ItemTableVoidOportunity" style="display:none;width:100%">
-                                                                <tr>
-                                                                    <td colspan="10" align="center" style="color:#0000aa;">
-                                                                        <table style="border:none;width:100%">
-                                                                            <tr>
-                                                                                <td rowspan="2" style="border:none;text-align:right"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
-                                                                                <td style="border:none;">
-                                                                                    <h4><%=this.Dictionary["Common_VoidSearchResult"] %></h4>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                        <table class="table table-bordered table-striped" style="margin: 0;">
-                                                            <thead class="thin-border-bottom">
-                                                                <tr id="ListDataFooterOportunity">
-                                                                    <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="NumberCostsOportunity"></span></i></th>
-                                                                </tr>
-                                                            </thead>
-                                                        </table>
-                                                    </div><!-- /.table-responsive -->
-                                                
+                                            <div class="table-responsive" id="scrollTableDivOportunity">
+                                                <table class="table table-bordered table-striped" style="margin: 0">
+                                                    <thead class="thin-border-bottom">
+		                                                <tr id="ListDataHeaderOportunity">
+                                                            <th style="width:60px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Status"] %></th>
+			                                                <th onclick="Sort(this,'ListDataTableOportunity','date');" id="th1" class="sort search" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Date"] %></th>
+                                                            <th onclick="Sort(this,'ListDataTableOportunity', 'text');" id="th2" class="search sort"><%=this.Dictionary["Item_Oportunity"] %></th>
+                                                            <th onclick="Sort(this,'ListDataTableOportunity', 'text');" id="th3" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Process"] %></th>
+															<th onclick="Sort(this,'ListDataTableOportunity', 'text');" id="th4" class="hidden-480 search sort" style="width:200px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_Rule"] %></th>
+															<th onclick="Sort(this,'ListDataTableOportunity', 'money');" id="th5" class="hidden-480 search sort" style="width:90px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"] %></th>
+															<th onclick="Sort(this,'ListDataTableOportunity', 'money');" id="th6" class="hidden-480 search sort" style="width:80px;"><%=this.Dictionary["Item_BusinesRisk_ListHeader_IPR"] %></th>
+															<th style="width:107px;">&nbsp;</th>
+		                                                </tr>
+	                                                </thead>
+                                                </table>
+                                                <div id="ListDataDivOportunity" style="overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                    <table class="table table-bordered table-striped" style="border-top: none;">
+                                                        <tbody id="ListDataTableOportunity"><asp:Literal runat="server" ID="Literal1"></asp:Literal></tbody>
+                                                    </table>
+                                                    <table id="ItemTableVoidOportunity" style="display:none;width:100%">
+                                                        <tr>
+                                                            <td colspan="10" style="color:#0000aa;text-align:center;">
+                                                                <table style="border:none;width:100%">
+                                                                    <tr>
+                                                                        <td rowspan="2" style="border:none;text-align:right"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
+                                                                        <td style="border:none;">
+                                                                            <h4><%=this.Dictionary["Common_VoidSearchResult"] %></h4>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <table class="table table-bordered table-striped" style="margin: 0;">
+                                                    <thead class="thin-border-bottom">
+                                                        <tr id="ListDataFooterOportunity">
+                                                            <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="NumberCostsOportunity"></span></i></th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div><!-- /.table-responsive -->                                                
                                         </div>
                                         <div id="graphicoportunity" class="tab-pane">                                            
                                             <div class="col-sm-12">
@@ -565,7 +564,7 @@
                                                     <svg style='height:420px;width:100%' id="svggraficoportunity"></svg>
                                                     <table id="GraphicTableVoidOportunity" style="height:500px;width:100%;display:none;">
                                                         <tr>
-                                                            <td colspan="10" align="center" style="background-color:#ddddff;color:#0000aa;">
+                                                            <td colspan="10" style="background-color:#ddddff;color:#0000aa;text-align:center;">
                                                                 <table style="border:none;">
                                                                     <tr>
                                                                         <td rowspan="2" style="border:none;"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
@@ -611,95 +610,4 @@
         <script type="text/javascript" src="/js/nv.d3.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/BusinessRiskChart.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/OportunityChart.js?<%=this.AntiCache %>"></script>
-        <script type="text/javascript">            
-            var currentMousePos = { x: -1, y: -1 };
-            jQuery(function ($) {
-                $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
-                    _title: function (title) {
-                        var $title = this.options.title || "&nbsp;";
-                        if (("title_html" in this.options) && this.options.title_html === true) {
-                            title.html($title);
-                        }
-                        else {
-                            title.text($title);
-                        }
-                    }
-                }));
-
-                var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { autoclose: true, todayHighlight: true });
-                $(".date-picker").datepicker(options);
-                $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
-
-                $("#BtnNewBusinessRisk").on("click", function (e) {
-                    document.location = "BusinessRiskView.aspx?id=-1";
-                    return false;
-                });
-
-                $("#BtnNewOportunity").on("click", function (e) {
-                    document.location = "OportunityView.aspx?id=-1";
-                    return false;
-                });
-
-                $("#BtnSearchOportunity").on("click", function (e) {
-                    e.preventDefault();
-                    OportunityGetFilter();
-                });
-
-                $("#BtnSearch").on("click", function (e) {
-                    e.preventDefault();
-                    BusinessRiskGetFilter();
-                });
-
-                $("#BtnRecordShowAll").on("click", function (e) {
-                    e.preventDefault();
-                    BussinesRiskListGetAll();
-                });
-
-                $("#BtnRecordShowAllOportunity").on("click", function (e) {
-                    e.preventDefault();
-                    OportunityListGetAll();
-                });
-
-                $("#BtnRecordShowNone").on("click", function (e) {
-                    e.preventDefault();
-                    BusinessRiskListGetNone();
-                });
-                
-                $("#tabgraficos").on("click", BusinessRiskGetFilter);
-                $("#tabbasic").on("click", BusinessRiskGetFilter);
-                $("#tabgraficosoportunity").on("click", OportunityGetFilter);
-                $("#taboportunity").on("click", OportunityGetFilter);
-            });
-            
-            $("#input-span-slider").slider({
-                "value": RuleLimitFromDBBusinessRisk,
-                "range": "min",
-                "min": 1,
-                "max": 25,
-                "step": 1,
-                "slide": function (event, ui) {
-                    var val = parseInt(ui.value);
-                    SetRule(val);
-                }
-            });
-            
-            $("#input-span-sliderOportunity").slider({
-                "value": RuleLimitFromDBOportunity,
-                "range": "min",
-                "min": 1,
-                "max": 25,
-                "step": 1,
-                "slide": function (event, ui) {
-                    var val = parseInt(ui.value);
-                    SetRuleOportunity(val);
-                }
-            });
-
-            $(document).mousemove(function(event) {
-                currentMousePos.x = event.pageX;
-                currentMousePos.y = event.pageY;
-                var position = $("#svggraficBusinessRisk").offset();
-                $(".xy-tooltip").css({top: currentMousePos.y - position.top - 30, left: currentMousePos.x - position.left + 10});
-            });
-        </script>
 </asp:Content>

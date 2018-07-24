@@ -312,7 +312,7 @@ namespace GisoFramework.Item
                                 rdr.Read();
                                 res.Id = id;
                                 res.CompanyId = companyId;
-                                res.Code = rdr.GetInt32(ColumnsOportunityGet.Code);
+                                res.Code = rdr.GetInt64(ColumnsOportunityGet.Code);
                                 res.Description = rdr.GetString(ColumnsOportunityGet.Description);
                                 res.ItemDescription = rdr.GetString(ColumnsOportunityGet.ItemDescription);
                                 res.Control = rdr.GetString(ColumnsOportunityGet.StartControl);

@@ -1,11 +1,26 @@
-﻿var originalLimits = [];
-var RuleLimitFromDBBusinessRisk;
-var RuleLimitFromDBoportunity;
+﻿var currentMousePos = { "x": -1, "y": -1 };
+var originalLimits = [];
+var RuleLimitFromDBBusinessRisk = null;
+var RuleLimitFromDBoportunity = null;
 var rule = { "Id": 0 };
 var BusinessRiskSelected;
 var OportunitySelected;
 var lockOrderList = false;
 var lockOrderListOportunity = false;
+
+jQuery(function ($) {
+    $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
+        _title: function (title) {
+            var $title = this.options.title || "&nbsp;";
+            if (("title_html" in this.options) && this.options.title_html === true) {
+                title.html($title);
+            }
+            else {
+                title.text($title);
+            }
+        }
+    }));
+});
 
 function BusinessRiskDeleteConfirmed() {
     var data = {
@@ -218,12 +233,12 @@ function BusinessRiskGetFilter(exportType) {
     if (from !== null && to !== null) {
         if (from > to) {
             ok = false;
-            document.getElementById("ErrorDate").style.display = "";
+            $("#TxtDateFromErrorDateRange").show();
         }
     }
 
     if (ok === false) {
-        document.getElementById("ItemTableError").style.display = "";
+        $("#ItemTableError").show();
         return false;
     }
 
@@ -1001,6 +1016,74 @@ window.onload = function () {
     Resize();
     SetLayout(layout);
 
+    var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { autoclose: true, todayHighlight: true });
+    $(".date-picker").datepicker(options);
+    $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
+
+    $("#BtnNewBusinessRisk").on("click", function (e) {
+        document.location = "BusinessRiskView.aspx?id=-1";
+        return false;
+    });
+
+    $("#BtnNewOportunity").on("click", function (e) {
+        document.location = "OportunityView.aspx?id=-1";
+        return false;
+    });
+
+    $("#BtnSearchOportunity").on("click", function (e) {
+        e.preventDefault();
+        OportunityGetFilter();
+    });
+
+    $("#BtnSearch").on("click", function (e) {
+        e.preventDefault();
+        BusinessRiskGetFilter();
+    });
+
+    $("#BtnRecordShowAll").on("click", function (e) {
+        e.preventDefault();
+        BussinesRiskListGetAll();
+    });
+
+    $("#BtnRecordShowAllOportunity").on("click", function (e) {
+        e.preventDefault();
+        OportunityListGetAll();
+    });
+
+    $("#BtnRecordShowNone").on("click", function (e) {
+        e.preventDefault();
+        BusinessRiskListGetNone();
+    });
+
+    $("#tabgraficos").on("click", BusinessRiskGetFilter);
+    $("#tabbasic").on("click", BusinessRiskGetFilter);
+    $("#tabgraficosoportunity").on("click", OportunityGetFilter);
+    $("#taboportunity").on("click", OportunityGetFilter);
+
+    $("#input-span-slider").slider({
+        "value": RuleLimitFromDBBusinessRisk,
+        "range": "min",
+        "min": 1,
+        "max": 25,
+        "step": 1,
+        "slide": function (event, ui) {
+            var val = parseInt(ui.value);
+            SetRule(val);
+        }
+    });
+
+    $("#input-span-sliderOportunity").slider({
+        "value": RuleLimitFromDBOportunity,
+        "range": "min",
+        "min": 1,
+        "max": 25,
+        "step": 1,
+        "slide": function (event, ui) {
+            var val = parseInt(ui.value);
+            SetRuleOportunity(val);
+        }
+    });
+
     if (layout == 2) {
         $("#RO").click();
     }
@@ -1141,3 +1224,10 @@ function SetLayout(type) {
         }
     });
 }
+
+$(document).mousemove(function (event) {
+    currentMousePos.x = event.pageX;
+    currentMousePos.y = event.pageY;
+    var position = $("#svggraficBusinessRisk").offset();
+    $(".xy-tooltip").css({ top: currentMousePos.y - position.top - 30, left: currentMousePos.x - position.left + 10 });
+});
