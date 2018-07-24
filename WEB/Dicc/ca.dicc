@@ -1703,8 +1703,8 @@ semana::setmana
 Servicio::Servei
 SkillsFor::Formació per l'empleat/da
 Tipo::Tipus
-User_Admin::Propietari/a
-User_PrimaryUser::Administrador/a
+User_Admin::Administrador/a
+User_PrimaryUser::Propietari/a
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
 Common_MaximumUploadSize::El màxim permés són 4B
