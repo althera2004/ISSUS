@@ -65,6 +65,19 @@ namespace GisoFramework
                 return string.Format(CultureInfo.InvariantCulture, @"{0}fonts\ARIAL.TTF", HttpContext.Current.Request.PhysicalApplicationPath);
             }
         }
+
+        public static string NormalizeFileName(string fileName)
+        {
+            string res = fileName.Replace("?", string.Empty);
+            res = res.Replace("#", string.Empty);
+            res = res.Replace("/", string.Empty);
+            res = res.Replace("\\", string.Empty);
+            res = res.Replace(":", string.Empty);
+            res = res.Replace(";", string.Empty);
+            res = res.Replace(".", string.Empty);
+            res = res.Replace("\"", "ʺ");
+            return res;
+        }
         
         /// <summary>Creates a label cell for criteria table</summary>
         /// <param name="label">Label to show</param>

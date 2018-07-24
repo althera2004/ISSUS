@@ -83,10 +83,16 @@ public partial class SiteError : Page
                 DeliveryMethod = SmtpDeliveryMethod.Network
             })
             {
+                var errorText = "Error no definido";
+                if(exception != null)
+                {
+                    errorText = exception.Message;
+                }
+
                 using (var mail = new MailMessage(senderMail, to)
                 {
                     IsBodyHtml = true,
-                    Body = exception.Message,
+                    Body = errorText,
                     Subject = "Error en " + ConfigurationManager.AppSettings["issusVersion"].ToString()
                 })
                 {

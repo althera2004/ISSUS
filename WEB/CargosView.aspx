@@ -83,7 +83,7 @@
                                                         <div class="col-sm-4" id="DivCmbDepartment" style="height:35px !important;">
                                                             <select id="CmbDepartment" class="col-xs-12 col-sm-12 tooltip-info" onchange="CmbDepartmentChanged();"></select>
                                                             <input style="display:none;" type="text" readonly="readonly" id="TxtDepartmentName" placeholder="<%=this.Dictionary["Item_JobPosition_FieldLabel_Department"] %>" class="col-xs-12 col-sm-12" />
-                                                            <span class="ErrorMessage" id="TxtDepartmentNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                            <span class="ErrorMessage" id="TxtDepartmentNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                         <div class="col-sm-1"><span class="btn btn-light" style="height:30px;" id="BtnDepartment" title="<%=this.Dictionary["Item_JobPosition_Button_DepartmentsBAR"] %>">...</span></div>
                                                             
@@ -92,7 +92,7 @@
                                                             <select class="form-control col-xs-12 col-sm-12 tooltip-info" id="CmbDepartamentos" data-placeholder="<%=this.Dictionary["Item_Employees"] %>" onchange="GetEmployeesByDepartment(this.value);">
                                                                 <asp:Literal runat="server" ID="LtDepartamentos"></asp:Literal>
                                                             </select>
-                                                            <span class="ErrorMessage" id="CmbDepartamentosErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                                            <span class="ErrorMessage" id="CmbDepartamentosErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                                         </div>
                                                     <!--div class="form-group"-->
                                                         <label class="col-sm-1 control-label no-padding-right" style="margin-right:15px;" id="CmbEmpleadosLabel"><%=this.Dictionary["Common_Responsible"] %></label>                                        
@@ -223,8 +223,8 @@
                                     &nbsp;&nbsp;
                                     <input type="text" id="TxtDepartmentUpdateName" size="50" placeholder="<%= this.Dictionary["Item_JobPosition_FieldLabel_Name"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
                                 </p>
-                                <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorRequired" style="display:none;"><%= this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorDuplicated" style="display:none;"><%= this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorDuplicated"><%= this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
                             <div id="DepartmentInsertDialog" class="hide" style="width:600px;">
                                 <p>
@@ -232,8 +232,8 @@
                                     &nbsp;&nbsp;
                                     <input type="text" id="TxtDepartmentNewName" size="50" placeholder="<%= this.Dictionary["Item_JobPosition_FieldLabel_DepartmentName"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
                                 </p>
-                                <span class="ErrorMessage" id="TxtDepartmentNewNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtDepartmentNewNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentNewNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentNewNameErrorDuplicated"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
 
                             <div id="PopupUploadFile" class="hide" style="width:800px;">

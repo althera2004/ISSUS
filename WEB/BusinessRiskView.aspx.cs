@@ -889,12 +889,10 @@ public partial class BusinessRiskView : Page
         this.tabBar.AddTab(new Tab { Id = "historyActions", Available = true, Active = historyActionActive == true, Label = this.Dictionary["Item_BusinessRisk_Tab_HistoryActions"], Hidden = !historyActionActive });
         this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = true, Label = this.Dictionary["Item_Learning_Tab_UploadFiles"], Hidden = this.businessRisk.Id < 1 });
 
-        RenderProcess();
-        //RenderLimit();
-        RenderProbabilitySeverity();
-        RenderActionsForm();
+        this.RenderProcess();
+        this.RenderProbabilitySeverity();
+        this.RenderActionsForm();
         this.RenderDocuments();
-        //RenderRemainder();
     }
 
     /// <summary>Renders the selectable Processes</summary>

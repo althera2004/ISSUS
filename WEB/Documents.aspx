@@ -115,7 +115,7 @@
                                 <p><%=this.Dictionary["Item_Document_PopupDelete_Message"] %>&nbsp;<strong><span id="DocumentName"></span></strong>?</p>
                                 <span id="TxtNewReasonLabel"><%=this.Dictionary["Item_Document_PopupDelete_Message"]%><br /></span>
                                 <textarea id="TxtNewReason" cols="40" rows="3"></textarea>
-                                <span class="ErrorMessage" id="TxtNewReasonErrorRequired" style="display:none;"> <%=this.Dictionary["Item_Document_Error_DeleteReasonRequired"] %></span>
+                                <span class="ErrorMessage" id="TxtNewReasonErrorRequired"> <%=this.Dictionary["Item_Document_Error_DeleteReasonRequired"] %></span>
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server"> 

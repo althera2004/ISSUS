@@ -55,11 +55,13 @@ public class EquipmentExportList : System.Web.Services.WebService
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+        var formatedDescription = ToolsPdf.NormalizeFileName(company.Name);
+
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_EquipmentList"],
-            company.Name,
+            formatedDescription,
             DateTime.Now);
 
         // FONTS

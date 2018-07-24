@@ -65,14 +65,14 @@
                                                             <label id="TxtCodigoLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Code"]%></label>
                                                             <div class="col-sm-2">
                                                                 <input type="text" id="TxtCodigo" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Code"] %>" class="col-xs-12 col-sm-12 tooltip-info" maxlength="10" onblur="this.value=$.trim(this.value);" />
-                                                                <span class="ErrorMessage" id="TxtCodigoErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                <span class="ErrorMessage" id="TxtCodigoErrorDuplicated" style="display: none;"><%=this.Dictionary["Item_Document_ErrorMessage_AlreadyExists"] %></span>
+                                                                <span class="ErrorMessage" id="TxtCodigoErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtCodigoErrorDuplicated"><%=this.Dictionary["Item_Document_ErrorMessage_AlreadyExists"] %></span>
                                                             </div>
                                                             <label id="TxtDocumentoLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Name"]%></label>
                                                             <div class="col-sm-8">
                                                                 <input type="text" id="TxtDocumento" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Name"] %>" class="col-xs-12 col-sm-12 tooltip-info" maxlength="100" onblur="this.value=$.trim(this.value);" />
-                                                                <span class="ErrorMessage" id="TxtDocumentoErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                <span class="ErrorMessage" id="TxtDocumentoErrorDuplicated" style="display: none;"><%=this.Dictionary["Item_Document_ErrorMessage_AlreadyExists"] %></span>
+                                                                <span class="ErrorMessage" id="TxtDocumentoErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtDocumentoErrorDuplicated"><%=this.Dictionary["Item_Document_ErrorMessage_AlreadyExists"] %></span>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -88,8 +88,8 @@
                                                                             </span>
                                                                         </div>
                                                                     </div>
-                                                                    <span class="ErrorMessage" id="TxtStartDateErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtStartDatePreviousRevision" style="display: none;"><%=this.Dictionary["Item_Document_ErrorMessage_StartDatePreviousRevision"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtStartDateErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtStartDatePreviousRevision"><%=this.Dictionary["Item_Document_ErrorMessage_StartDatePreviousRevision"] %></span>
                                                                 </div>
                                                             </div>
                                                             <label id="Label6" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_RevisionDate"]%></label>
@@ -99,7 +99,7 @@
                                                             <div class="col-sm-1">
                                                                 <input type="text" <% if (this.DocumentId > 0)
                                                                                       { %>readonly="readonly" <% } %>id="TxtRevision" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Version"] %>" class="col-xs-12 col-sm-12" value="<%= this.Document.LastVersion.Version == 0 ? string.Empty : this.Document.LastVersion.Version.ToString().Trim() %>" maxlength="4" onkeypress="validate(event)" onblur="this.value=$.trim(this.value);" />
-                                                                <span class="ErrorMessage" id="TxtRevisionErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtRevisionErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                             <div class="cols-sm-1">
                                                                 <button class="btn btn-info" type="button" id="BtnNewVersion" style="padding: 0 !important">
@@ -130,7 +130,7 @@
                                                             <div class="col-sm-6" id="DivCmbCategory" style="height: 35px !important;">
                                                                 <select id="CmbCategory" onchange="CmbCategoryChanged();" class="col-xs-12 col-sm-12"></select>
                                                                 <input style="display: none;" type="text" readonly="readonly" id="TxtCategory" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Category"] %>" class="col-xs-12 col-sm-12" />
-                                                                <span class="ErrorMessage" id="TxtCategoryErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtCategoryErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                             <div class="col-sm-1"><span class="btn btn-light" style="height: 30px;" title="<%=this.Dictionary["Item_Document_Button_CategoryBAR"] %>" id="BtnCategory">...</span></div>
                                                         <!--/div>
@@ -139,13 +139,13 @@
                                                             <label id="TxtConservacionLabel" class="col-sm-1 control-label no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Document_FieldLabel_Conservation"] %></label>
                                                             <div class="col-sm-1">
                                                                 <input type="text" class="col-xs-10 col-sm-12" id="TxtConservacion" maxlength="4" onkeypress="validate(event)" onblur="this.value=$.trim(this.value);" />
-                                                                <span class="ErrorMessage" id="TxtConservacionErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtConservacionErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                             <div class="col-sm-2" id="DivCmbConservacion" style="height: 35px !important;">
                                                                 <select class="form-control col-xs-10 col-sm-10" id="CmbConservacion" data-placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Conservation"] %>">
                                                                     <asp:Literal runat="server" ID="LtConservacion"></asp:Literal>
                                                                 </select>
-                                                                <span class="ErrorMessage" id="CmbConservacionErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="CmbConservacionErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                         </div>
                                                         <div class="space-4"></div>
@@ -161,7 +161,7 @@
                                                             <div class="col-sm-6" id="DivCmbProcedencia" style="height: 35px !important;">
                                                                 <select id="CmbProcedencia" onchange="CmbProcedenciaChanged();" class="col-xs-12 col-sm-12"></select>
                                                                 <input style="display: none;" type="text" readonly="readonly" id="TxtProcedencia" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Source"] %>" class="col-xs-12 col-sm-12" />
-                                                                <span class="ErrorMessage" id="TxtProcedenciaErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtProcedenciaErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                             <div class="col-sm-1"><span class="btn btn-light" style="height: 30px;" title="<%=this.Dictionary["Item_Document_Button_SourceBAR"] %>" id="BtnProcedencia">...</span></div>
                                                         </div>
@@ -170,7 +170,7 @@
                                                             <label id="TxtUbicacionLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Location"]%></label>
                                                             <div class="col-sm-11">
                                                                 <input type="text" id="TxtUbicacion" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Location"] %>" class="col-xs-12 col-sm-12" maxlength="100" onblur="this.value=$.trim(this.value);" />
-                                                                <span class="ErrorMessage" id="TxtUbicacionErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtUbicacionErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                         </div>
                                                         <div class="space-4"></div>
@@ -305,7 +305,7 @@
                                 <p><%=this.Dictionary["Item_Document_Message_NewVersion"] %></p>
                                 <%=this.Dictionary["Item_Document_FieldLabel_Reason"] %><br />
                                 <textarea id="TxtNewReason" cols="40" rows="3" onblur="this.value=$.trim(this.value);"></textarea>
-                                <span class="ErrorMessage" id="TxtNewReasonErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtNewReasonErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                             </div>
                             
                             <div id="CategoryDeleteDialog" class="hide" style="width:500px;">
@@ -314,13 +314,13 @@
 
                             <div id="CategoryUpdateDialog" class="hide" style="width:500px;">
                                 <p><%=this.Dictionary["Common_Name"] %>&nbsp;<input type="text" id="TxtCategoryName" placeholder="<%=this.Dictionary["Common_Name"] %>" onblur="this.value=$.trim(this.value);" size="50" maxlength="50" /></p>
-                                <span class="ErrorMessage" id="TxtCategoryNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtCategoryNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtCategoryNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtCategoryNameErrorDuplicated"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
 
                             <div id="CategoryInsertDialog" class="hide" style="width:500px;">
                                 <p><%=this.Dictionary["Common_Name"] %>&nbsp;<input type="text" id="TxtCategoryNewName" placeholder="<%=this.Dictionary["Common_Name"] %>" onblur="this.value=$.trim(this.value);" size="50" maxlength="50" /></p>
-                                <span class="ErrorMessage" id="TxtCategoryNewNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtCategoryNewNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                 <span class="ErrorMessage" id="TxtCategoryNewNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
                             
@@ -330,14 +330,14 @@
 
                             <div id="ProcedenciaUpdateDialog" class="hide" style="width:500px;">
                                 <p><%=this.Dictionary["Common_Name"] %>&nbsp;<input type="text" id="TxtProcedenciaName" placeholder="<%=this.Dictionary["Common_Name"] %>" onblur="this.value=$.trim(this.value);" size="50" maxlength="50" /></p>
-                                <span class="ErrorMessage" id="TxtProcedenciaNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtProcedenciaNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtProcedenciaNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtProcedenciaNameErrorDuplicated"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
 
                             <div id="ProcedenciaInsertDialog" class="hide" style="width:500px;">
                                 <p><%=this.Dictionary["Common_Name"] %>&nbsp;<input type="text" id="TxtProcedenciaNewName" placeholder="<%=this.Dictionary["Common_Name"] %>" onblur="this.value=$.trim(this.value);" size="50" maxlength="50" /></p>
-                                <span class="ErrorMessage" id="TxtProcedenciaNewNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtProcedenciaNewNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtProcedenciaNewNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtProcedenciaNewNameErrorDuplicated"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
 
     
@@ -355,9 +355,9 @@
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
                                                     </div>
-                                                    <span class="ErrorMessage" id="TxtEndDateErrorRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
-                                                    <span class="ErrorMessage" id="TxtEndDateMalformed" style="display: none;"><%= this.Dictionary["Common_Error_DateMalformed"] %></span>
-                                                    <span class="ErrorMessage" id="TxtEndDateCrossDate" style="display: none;"><%= this.Dictionary["Item_Document_ErrorMessage_CrossDate"] %></span>
+                                                    <span class="ErrorMessage" id="TxtEndDateErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
+                                                    <span class="ErrorMessage" id="TxtEndDateMalformed"><%= this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                    <span class="ErrorMessage" id="TxtEndDateCrossDate"><%= this.Dictionary["Item_Document_ErrorMessage_CrossDate"] %></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -366,7 +366,7 @@
                                         <label id="TxtAnularCommentsLabel" class="col-sm-3 control-label no-padding-right" for="TxtRegistroComments"><%=this.Dictionary["Item_ObjetivoRecord_FieldLabel_Reason"] %></label>
                                         <div class="col-sm-9">
                                             <textarea class="col-xs-12 col-sm-12" id="TxtAnularComments" rows="5"></textarea>
-                                            <span class="ErrorMessage" id="TxtAnularCommentsErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="TxtAnularCommentsErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                     </div>
                                 </form>

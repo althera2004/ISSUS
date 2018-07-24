@@ -63,11 +63,13 @@ public class IncidentActionExportList : System.Web.Services.WebService
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+        var formatedDescription = ToolsPdf.NormalizeFileName(company.Name);
+
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
             dictionary["Item_IncidentActionList"],
-            company.Name,
+            formatedDescription,
             DateTime.Now);
 
         var pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
@@ -76,7 +78,7 @@ public class IncidentActionExportList : System.Web.Services.WebService
                string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, fileName),
                FileMode.Create));
 
-        writer.PageEvent = new TwoColumnHeaderFooter()
+        writer.PageEvent = new TwoColumnHeaderFooter
         {
             CompanyLogo = string.Format(CultureInfo.InvariantCulture, @"{0}\images\logos\{1}.jpg", path, company.Id),
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),

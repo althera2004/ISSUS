@@ -1,5 +1,5 @@
 ﻿// --------------------------------
-// <copyright file="PrintBusinessRiskData.aspx.cs" company="Sbrinna">
+// <copyright file="PrintOportunityData.aspx.cs" company="Sbrinna">
 //     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
@@ -20,7 +20,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PDF_Tests;
 
-public partial class ExportPrintBusinessRiskData : Page
+public partial class ExportPrintOportunityData : Page
 {
     BaseFont headerFont = null;
     BaseFont arial = null;
@@ -34,13 +34,13 @@ public partial class ExportPrintBusinessRiskData : Page
         var borderTBR = Rectangle.TOP_BORDER + Rectangle.BOTTOM_BORDER + Rectangle.RIGHT_BORDER;
         var alignRight = Element.ALIGN_RIGHT;
 
-        long businessRiskId = Convert.ToInt64(Request.QueryString["id"]);
+        long oportunityId = Convert.ToInt64(Request.QueryString["id"]);
         int companyId = Convert.ToInt32(Request.QueryString["companyId"]);
         var company = new Company(companyId);
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
         var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        var businessRisk = BusinessRisk.ById( user.CompanyId, businessRiskId);
+        var oportunity = Oportunity.ById(oportunityId, user.CompanyId);
 
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
@@ -49,14 +49,14 @@ public partial class ExportPrintBusinessRiskData : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        var formatedDescription = ToolsPdf.NormalizeFileName(businessRisk.Description);
+        var formatedDescription = ToolsPdf.NormalizeFileName(oportunity.Description);
 
         var alignLeft = Element.ALIGN_LEFT;
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_Data_{2:yyyyMMddhhmmss}.pdf",
-            dictionary["Item_BusinessRisk"],
+            dictionary["Item_Oportunity"],
             formatedDescription,
             DateTime.Now);
 
@@ -78,7 +78,7 @@ public partial class ExportPrintBusinessRiskData : Page
             IssusLogo = string.Format(CultureInfo.InvariantCulture, "{0}issus.png", path),
             Date = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", DateTime.Now),
             CreatedBy = string.Format(CultureInfo.InvariantCulture, "{0}", user.UserName),
-            CompanyId = businessRisk.CompanyId,
+            CompanyId = oportunity.CompanyId,
             CompanyName = company.Name,
             Title = dictionary["Item_BusinessRisk"]
         };
@@ -95,7 +95,7 @@ public partial class ExportPrintBusinessRiskData : Page
 
         table.SetWidths(new float[] { 30f, 50f, 30f, 50f });
 
-        table.AddCell(new PdfPCell(new Phrase(businessRisk.Description, descriptionFont))
+        table.AddCell(new PdfPCell(new Phrase(oportunity.Description, descriptionFont))
         {
             Colspan = 4,
             Border = Rectangle.NO_BORDER,
@@ -107,81 +107,81 @@ public partial class ExportPrintBusinessRiskData : Page
         table.AddCell(TitleCell(dictionary["Item_BusinessRisk_Tab_Basic"], 4));
 
         table.AddCell(TitleLabel(dictionary["Item_BusinessRisk_LabelField_DateStart"]));
-        table.AddCell(TitleData(string.Format(CultureInfo.InvariantCulture, @"{0:dd/MM/yyyy}", businessRisk.DateStart)));
+        table.AddCell(TitleData(string.Format(CultureInfo.InvariantCulture, @"{0:dd/MM/yyyy}", oportunity.DateStart)));
 
         table.AddCell(TitleLabel(dictionary["Item_Process"]));
-        table.AddCell(TitleData(businessRisk.Process.Description));
+        table.AddCell(TitleData(oportunity.Process.Description));
 
         table.AddCell(TitleLabel(dictionary["Item_Rule"]));
-        table.AddCell(TitleData(businessRisk.Rules.Description));
+        table.AddCell(TitleData(oportunity.Rule.Description));
 
-        table.AddCell(TitleLabel(dictionary["Item_BusinessRisk_LabelField_IPR"]));
-        table.AddCell(TitleData(businessRisk.Rules.Limit.ToString()));
+        table.AddCell(TitleLabel(dictionary["Item_Oportunity_LabelField_IPR"]));
+        table.AddCell(TitleData(oportunity.Rule.Limit.ToString()));
 
-        string startProbabilityText = businessRisk.StartProbability.ToString();
-        if (startProbabilityText == "0")
+        string costText = oportunity.Cost.ToString();
+        if (costText == "0")
         {
-            startProbabilityText = "-";
+            costText = "-";
         }
 
-        table.AddCell(TitleLabel(dictionary["Item_BusinessRisk_LabelField_Probability"]));
-        table.AddCell(TitleData(startProbabilityText));
+        table.AddCell(TitleLabel(dictionary["Item_Oportunity_LabelField_Cost"]));
+        table.AddCell(TitleData(costText));
 
-        string startSeverityText = businessRisk.StartSeverity.ToString();
-        if(startSeverityText == "0")
+        string impactText = oportunity.Impact.ToString();
+        if (impactText == "0")
         {
-            startSeverityText = "-";
+            impactText = "-";
         }
 
-        table.AddCell(TitleLabel(dictionary["Item_BusinessRisk_LabelField_Severity"]));
-        table.AddCell(TitleData(startSeverityText));
+        table.AddCell(TitleLabel(dictionary["Item_Oportunity_LabelField_Impact"]));
+        table.AddCell(TitleData(impactText));
 
-        table.AddCell(TitleLabel(dictionary["Item_BusinessRisk_LabelField_Status"]));
+        table.AddCell(TitleLabel(dictionary["Item_Oportunity_LabelField_Status"]));
         table.AddCell(TitleData(dictionary["Item_BusinessRisk_Status_Assumed"]));
 
         table.AddCell(SeparationRow());
-        table.AddCell(TitleCell(dictionary["Item_BusinessRisk_LabelField_Description"]));
-        table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.Description, ToolsPdf.BorderAll, alignLeft, 4));
+        table.AddCell(TitleCell(dictionary["Item_Oportunity_LabelField_Description"]));
+        table.AddCell(TextAreaCell(Environment.NewLine + oportunity.Description, ToolsPdf.BorderAll, alignLeft, 4));
 
         table.AddCell(SeparationRow());
-        table.AddCell(TitleCell(dictionary["Item_BusinessRisk_LabelField_Causes"]));
-        table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.Causes, ToolsPdf.BorderAll, alignLeft, 4));
+        table.AddCell(TitleCell(dictionary["Item_Oportunity_LabelField_Causes"]));
+        table.AddCell(TextAreaCell(Environment.NewLine + oportunity.Causes, ToolsPdf.BorderAll, alignLeft, 4));
 
         table.AddCell(SeparationRow());
-        table.AddCell(TitleCell(dictionary["Item_BusinessRisk_LabelField_Notes"]));
-        table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.Notes, ToolsPdf.BorderAll, alignLeft, 4));
+        table.AddCell(TitleCell(dictionary["Item_Oportunity_LabelField_Notes"]));
+        table.AddCell(TextAreaCell(Environment.NewLine + oportunity.Notes, ToolsPdf.BorderAll, alignLeft, 4));
 
-        table.AddCell(TitleCell(dictionary["Item_BusinessRisk_Tab_Graphics"], 4));
+        table.AddCell(TitleCell(dictionary["Item_Oportunity_Tab_Graphics"], 4));
 
-        table.AddCell(TitleLabel(dictionary["Item_BusinessRisk_LabelField_IPR"]));
-        table.AddCell(TitleData(businessRisk.Rules.Limit.ToString()));
+        table.AddCell(TitleLabel(dictionary["Item_Oportunity_LabelField_IPR"]));
+        table.AddCell(TitleData(oportunity.Rule.Limit.ToString()));
 
-        table.AddCell(TitleLabel(dictionary["Item_BusinessRisk_LabelField_Status"]));
+        table.AddCell(TitleLabel(dictionary["Item_Oportunity_LabelField_Status"]));
         table.AddCell(TitleData(dictionary["Item_BusinessRisk_Status_Assumed"]));
 
-        string finalProbabilityText = businessRisk.FinalProbability.ToString();
-        if(finalProbabilityText == "0")
+        string finalCostText = oportunity.FinalCost.ToString();
+        if (finalCostText == "0")
         {
-            finalProbabilityText = "-";
+            finalCostText = "-";
         }
 
-        table.AddCell(TitleLabel(dictionary["Item_BusinessRisk_LabelField_Probability"]));
-        table.AddCell(TitleData(finalProbabilityText));
+        table.AddCell(TitleLabel(dictionary["Item_Oportunity_LabelField_Cost"]));
+        table.AddCell(TitleData(finalCostText));
 
-        string finalSeverityText = businessRisk.FinalProbability.ToString();
-        if(finalSeverityText == "0")
+        string finalImpactText = oportunity.FinalImpact.ToString();
+        if (finalImpactText == "0")
         {
-            finalSeverityText = "-";
+            finalImpactText = "-";
         }
 
-        table.AddCell(TitleLabel(dictionary["Item_BusinessRisk_LabelField_Severity"]));
-        table.AddCell(TitleData(finalSeverityText));
+        table.AddCell(TitleLabel(dictionary["Item_Oportunity_LabelField_Impact"]));
+        table.AddCell(TitleData(finalImpactText));
 
         document.Add(table);
         #endregion
 
         // Añadir posible acción
-        var action = IncidentAction.ByBusinessRiskId(businessRisk.Id, companyId);
+        var action = IncidentAction.ByOportunityId(oportunity.Id, companyId);
         if (action.Id > 0)
         {
             var tableAction = new PdfPTable(4)
@@ -193,7 +193,6 @@ public partial class ExportPrintBusinessRiskData : Page
             tableAction.SetWidths(new float[] { 15f, 30f, 15f, 30f });
 
             // Descripción
-            //tableAction.AddCell(valueCell(dictionary["Item_Incident_PDF_ActionPageTitle"]+"*", borderNone, alignLeft, 4));
             var headerFont = new Font(this.arial, 15, Font.NORMAL, BaseColor.BLACK);
             tableAction.AddCell(new PdfPCell(new Phrase(dictionary["Item_Incident_PDF_ActionPageTitle"], headerFont))
             {
@@ -270,7 +269,7 @@ public partial class ExportPrintBusinessRiskData : Page
         }
 
         #region Historico acciones
-        var historico = IncidentAction.ByBusinessRiskCode(businessRisk.Code, company.Id).Where(ia => ia.BusinessRiskId != businessRisk.Id).OrderBy(incidentAction => incidentAction.WhatHappenedOn).ToList();
+        var historico = IncidentAction.ByOportunityCode(oportunity.Code, company.Id).Where(ia => ia.Oportunity.Id != oportunity.Id).OrderBy(incidentAction => incidentAction.WhatHappenedOn).ToList();
         if (historico.Count > 0)
         {
             var backgroundColor = new iTS.BaseColor(225, 225, 225);
@@ -335,7 +334,7 @@ public partial class ExportPrintBusinessRiskData : Page
                 cont++;
             }
 
-            tableHistoric.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ": "  + cont.ToString(), ToolsPdf.LayoutFonts.Times))
+            tableHistoric.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ": " + cont.ToString(), ToolsPdf.LayoutFonts.Times))
             {
                 Border = ToolsPdf.BorderTop,
                 Colspan = 5,
@@ -347,8 +346,8 @@ public partial class ExportPrintBusinessRiskData : Page
         #endregion
 
         #region Costes
-        var costs = IncidentActionCost.ByBusinessRiskId(businessRisk.Id, company.Id);
-        if(costs.Count > 0)
+        var costs = IncidentActionCost.ByOportunityId(oportunity.Id, company.Id);
+        if (costs.Count > 0)
         {
             var backgroundColor = new iTS.BaseColor(225, 225, 225);
             var rowPair = new iTS.BaseColor(255, 255, 255);
@@ -413,7 +412,7 @@ public partial class ExportPrintBusinessRiskData : Page
                 HorizontalAlignment = alignRight
             });
 
-            tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Tools.PdfMoneyFormat( costTotal), ToolsPdf.LayoutFonts.Times))
+            tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Tools.PdfMoneyFormat(costTotal), ToolsPdf.LayoutFonts.Times))
             {
                 Border = ToolsPdf.BorderTop,
                 Colspan = 1,

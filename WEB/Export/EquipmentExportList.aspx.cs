@@ -56,14 +56,7 @@ public partial class ExportEquipmentList : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        string formatedDescription = company.Name.Replace("?", string.Empty);
-        formatedDescription = formatedDescription.Replace("#", string.Empty);
-        formatedDescription = formatedDescription.Replace("/", string.Empty);
-        formatedDescription = formatedDescription.Replace("\\", string.Empty);
-        formatedDescription = formatedDescription.Replace(":", string.Empty);
-        formatedDescription = formatedDescription.Replace(";", string.Empty);
-        formatedDescription = formatedDescription.Replace(".", string.Empty);
-        formatedDescription = formatedDescription.Replace("\"", "ʺ");
+        var formatedDescription = ToolsPdf.NormalizeFileName(company.Name);
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,

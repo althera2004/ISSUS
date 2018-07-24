@@ -42,11 +42,13 @@ public partial class ExportDocumentExportList : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+        var formatedDescription = ToolsPdf.NormalizeFileName(company.Name);
+
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
             Dictionary["Item_DocumentList"],
-            company.Name,
+            formatedDescription,
             DateTime.Now);
 
         var pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);

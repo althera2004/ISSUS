@@ -46,16 +46,8 @@ public partial class ExportFormacionExportList : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        string formatedDescription = company.Name.Replace("?", string.Empty);
-        formatedDescription = formatedDescription.Replace("#", string.Empty);
-        formatedDescription = formatedDescription.Replace("/", string.Empty);
-        formatedDescription = formatedDescription.Replace("\\", string.Empty);
-        formatedDescription = formatedDescription.Replace(":", string.Empty);
-        formatedDescription = formatedDescription.Replace(";", string.Empty);
-        formatedDescription = formatedDescription.Replace(".", string.Empty);
-        formatedDescription = formatedDescription.Replace("\"", "ʺ");
+        var formatedDescription = ToolsPdf.NormalizeFileName(company.Name);
 
-        // le damos nombre al fichero final item_company_fecha.pdf
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",

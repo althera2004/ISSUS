@@ -47,11 +47,13 @@ public partial class ExportBusinessRiskExportList : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+        var formatedDescription = ToolsPdf.NormalizeFileName(company.Name);
+
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
             Dictionary["Item_BusinessRisks"],
-            company.Name,
+            formatedDescription,
             DateTime.Now);
 
        

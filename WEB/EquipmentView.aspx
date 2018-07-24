@@ -215,7 +215,7 @@
                                                                     <div class="col-sm-9" id="CmbCalibrationExternalProviderrDiv" style="height:35px !important;">
                                                                         <select id="CmbCalibrationExternalProvider" class="form-control col-xs-12 col-sm-12"></select>
                                                                         <input style="display:none;" type="text" readonly="readonly" id="CmbCalibrationExternalProviderValue" placeholder="Proveedor" class="col-xs-12 col-sm-12" />
-                                                                        <span class="ErrorMessage" id="CmbCalibrationExternalProviderErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                        <span class="ErrorMessage" id="CmbCalibrationExternalProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                     </div>
                                                                     <div class="col-sm-1" id="CmbCalibrationExternalProviderBar"><button class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnCalibrationExternalProviderBAR">...</button></div>
                                                                 </div>
@@ -367,7 +367,7 @@
                                                                     <div class="col-sm-9" id="CmbVerificationExternalProviderrDiv" style="height:35px !important;">
                                                                         <select id="CmbVerificationExternalProvider" class="form-control col-xs-12 col-sm-12"></select>
                                                                         <input style="display:none;" type="text" readonly="readonly" id="CmbVerificationExternalProviderValue" placeholder="Proveedor" class="col-xs-12 col-sm-12" />
-                                                                        <span class="ErrorMessage" id="CmbVerificationExternalProviderErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                        <span class="ErrorMessage" id="CmbVerificationExternalProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                     </div>
                                                                     <div class="col-sm-1" id="CmbVerificationExternalProviderBar"><button class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnVerificationExternalProviderBAR">...</button></div>
                                                                 </div>
@@ -568,9 +568,9 @@
 														                        <i class="icon-calendar bigger-110"></i>
 													                        </span>
 												                        </div>
-											                            <span class="ErrorMessage" id="TxtDateFromErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-											                            <span class="ErrorMessage" id="TxtDateFromErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-											                            <span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateFromErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateFromErrorDateRange"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                                     </div>
 										                        </td>
                                                                 <td id="TxtDateToLabel"><%=this.Dictionary["Item_EquipmentRecord_Filter_Periode2"] %></td>
@@ -582,9 +582,9 @@
 														                        <i class="icon-calendar bigger-110"></i>
 													                        </span>
 												                        </div>
-											                            <span class="ErrorMessage" id="TxtDateToErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-											                            <span class="ErrorMessage" id="TxtDateToErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-											                            <span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateToErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateToErrorDateRange"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateToDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                                     </div>
 										                        </td>
                                                                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -769,22 +769,22 @@
                                         </div>
                                     </div>  
                                     <div class="form-group">
-                                        <span class="ErrorMessage" id="RMaintainmentTypeErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                        <span class="ErrorMessage" id="RMaintainmentTypeErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                     </div>                              
                                     <div class="form-group">
                                         <label id ="TxtNewMaintainmentOperationLabel" class="col-sm-3 control-label no-padding-right" for="TxtNewMaintainmentOperation"><%=this.Dictionary["Item_EquipmentMaintenance_Popup_FieldLabel_Operation"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <!--<input type="text" class="col-xs-12 col-sm-12" id="TxtNewMaintainmentOperation" placeholder="<%=this.Dictionary["Item_EquipmentMaintenance_Popup_FieldLabel_Operation"] %>" value="" maxlength="200" onblur="this.value=$.trim(this.value);" />-->
                                             <textarea class="col-xs-12 col-sm-12" id="TxtNewMaintainmentOperation" placeholder="<%=this.Dictionary["Item_EquipmentMaintenance_Popup_FieldLabel_Operation"] %>" rows="4" maxlength="200" onblur="this.value=$.trim(this.value);"></textarea>
-                                            <span class="ErrorMessage" id="TxtNewMaintainmentOperationErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
-                                            <span class="ErrorMessage" id="TxtNewMaintainmentOperationErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"]%></span>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentOperationErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentOperationErrorDuplicated"><%=this.Dictionary["Common_Error_NameAlreadyExists"]%></span>
                                         </div>
                                     </div>                             
                                     <div class="form-group">
                                         <label id ="TxtNewMaintainmentPeriodicityLabel" class="col-sm-3 control-label no-padding-right" for="TxtNewMaintainmentPeriodicity"><%=this.Dictionary["Item_EquipmentMaintenance_Popup_FieldLabel_Periodicity"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <input type="text" class="col-xs-12 col-sm-12 integerFormated" id="TxtNewMaintainmentPeriodicity" placeholder="<%=this.Dictionary["Item_EquipmentMaintenance_Popup_FieldLabel_Periodicity"] %>" value="" maxlength="8" />
-                                            <span class="ErrorMessage" id="TxtNewMaintainmentPeriodicityErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentPeriodicityErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div>                             
                                     <div class="form-group">
@@ -806,7 +806,7 @@
                                         <div class="col-sm-7" id="CmbNewMaintainmentProviderDiv" style="height:35px !important;">
                                             <select id="CmbNewMaintainmentProvider" class="col-xs-12 col-sm-12"></select>
                                             <input style="display:none;" type="text" readonly="readonly" id="CmbNewMaintainmentProviderValue" placeholder="<%=this.Dictionary["Item_EquipmentMaintenance_Popup_FieldLabel_Provider"] %>" class="col-xs-12 col-sm-12" />
-                                            <span class="ErrorMessage" id="CmbNewMaintainmentProviderErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="CmbNewMaintainmentProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                         <div class="col-sm-1" id="MaintenanceDefinitionDivProviderBar"><span class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnNewMaintainmentProviderBAR">...</span></div>
                                     </div>
@@ -815,7 +815,7 @@
                                         <div class="col-sm-9">
                                                 <select id="CmbNewMaintainmentResponsible" class="col-xs-12 col-sm-12"></select>
                                             <input style="display:none;" type="text" readonly="readonly" id="CmbNewMaintainmentResponsibleValue" placeholder="<%=this.Dictionary["Item_EquipmentMaintenance_Popup_FieldLabel_Responsible"] %>" class="col-xs-12 col-sm-12" />
-                                            <span class="ErrorMessage" id="CmbNewMaintainmentResponsibleErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="CmbNewMaintainmentResponsibleErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -830,9 +830,9 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
-                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
-                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateOverTime" style="display:none;">No pot ser anterior al darrer manteniment</span>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateOverTime">No pot ser anterior al darrer manteniment</span>
                                         
                                             </div>
                                         </div>
@@ -857,7 +857,7 @@
                                         <div class="col-sm-9">
                                             <select id="CmbEquipmentMaintenanceType" class="col-xs-12 col-sm-12" onchange="CmbEquipmentMaintenanceTypeChanged(this);"></select>
                                             <input style="display:none;" type="text" readonly="readonly" id="CmbEquipmentMaintenanceTypeValue" placeholder="<%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_FieldLabel_Responsible"] %>" class="col-xs-12 col-sm-12" />
-                                            <span class="ErrorMessage" id="CmbEquipmentMaintenanceTypeErrorRequired" style="display:none;"><%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitionSelected"] %></span>
+                                            <span class="ErrorMessage" id="CmbEquipmentMaintenanceTypeErrorRequired"><%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitionSelected"] %></span>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -872,9 +872,9 @@
                                                         </span>
                                                     </div>
                                                 </div>
-                                            <span class="ErrorMessage" id="TxtEquipmentMaintenanceActDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
-                                            <span class="ErrorMessage" id="TxtEquipmentMaintenanceActDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
-                                            <span class="ErrorMessage" id="TxtEquipmentMaintenanceActDateOverTime" style="display:none;">No pot ser anterior al darrer manteniment</span>
+                                            <span class="ErrorMessage" id="TxtEquipmentMaintenanceActDateErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentMaintenanceActDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentMaintenanceActDateOverTime">No pot ser anterior al darrer manteniment</span>
                                         
                                             </div>
                                         </div>
@@ -897,7 +897,7 @@
                                         <div class="col-sm-7" id="CmbEquipmentMaintenanceActProviderDiv" style="height:35px !important;">
                                             <select id="CmbEquipmentMaintenanceActProvider" class="col-xs-12 col-sm-12"></select>
                                             <input style="display:none;" type="text" readonly="readonly" id="CmbEquipmentMaintenanceActProviderValue" placeholder="<%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_FieldLabel_Provider"] %>" class="col-xs-12 col-sm-12" />
-                                            <span class="ErrorMessage" id="CmbEquipmentMaintenanceActProviderErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="CmbEquipmentMaintenanceActProviderErrorRequired""><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                         <div class="col-sm-1" id="CmbEquipmentMaintenanceActProviderBar"><span class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnCmbEquipmentMaintenanceActProviderBAR">...</span></div>
                                     </div>
@@ -906,7 +906,7 @@
                                         <div class="col-sm-9">
                                             <select id="CmbEquipmentMaintenanceActResponsible" class="form-control col-xs-12 col-sm-12"></select>
                                             <input style="display:none;" type="text" readonly="readonly" id="CmbEquipmentMaintenanceActResponsibleValue" placeholder="<%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_FieldLabel_Responsible"] %>" class="col-xs-12 col-sm-12" />
-                                            <span class="ErrorMessage" id="CmbEquipmentMaintenanceActResponsibleErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="CmbEquipmentMaintenanceActResponsibleErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                     </div>
                                 </form>
@@ -929,7 +929,7 @@
                                         </div>
                                     </div>  
                                     <div class="form-group">
-                                        <span class="ErrorMessage" id="REquipmentRepairTypeErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                        <span class="ErrorMessage" id="REquipmentRepairTypeErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                     </div> 
                                     <div class="form-group">
                                         <label id="TxtEquipmentRepairDateLabel" class="col-sm-3 control-label no-padding-right">Data<span class="required">*</span></label>
@@ -948,7 +948,7 @@
                                         <label id ="TxtEquipmentRepairCostLabel" class="col-sm-2 control-label no-padding-right" for="TxtEquipmentRepairCost">Coste</label>
                                         <div class="col-sm-3">
                                             <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtEquipmentRepairCost" placeholder="Coste" value="" maxlength="8" />
-                                            <span class="ErrorMessage" id="TxtEquipmentRepairCostErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentRepairCostErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -957,7 +957,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-12">
                                             <textarea class="col-xs-12 col-sm-12" id="TxtEquipmentRepairDescription" maxlength="250" rows="3"></textarea>
-                                            <span class="ErrorMessage" id="TxtEquipmentRepairDescriptionErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentRepairDescriptionErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -981,7 +981,7 @@
                                         <div class="col-sm-7" id="CmbEquipmentRepairProviderDiv" style="height:35px !important;">
                                             <select id="CmbEquipmentRepairProvider" class="col-xs-12 col-sm-12"></select>
                                             <input style="display:none;" type="text" readonly="readonly" id="CmbEquipmentRepairProviderValue" placeholder="Proveedor" class="col-xs-12 col-sm-12" />
-                                            <span class="ErrorMessage" id="CmbEquipmentRepairProviderErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="CmbEquipmentRepairProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                         <div class="col-sm-1" id="CmbEquipmentRepairProviderBar"><span class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnCmbEquipmentRepairProviderBAR">...</span></div>
                                     </div>
@@ -989,7 +989,7 @@
                                         <label id="CmbEquipmentRepairResponsibleLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Common_Responsible"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <select id="CmbEquipmentRepairResponsible" class="col-xs-12 col-sm-12"></select>
-                                            <span class="ErrorMessage" id="CmbEquipmentRepairResponsibleErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="CmbEquipmentRepairResponsibleErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                     </div>
                                 </form>
@@ -1011,7 +1011,7 @@
                                         </div>
                                     </div>      
                                     <div class="form-group">
-                                        <span class="ErrorMessage" id="REquipmentCalibrationActTypeErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                        <span class="ErrorMessage" id="REquipmentCalibrationActTypeErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                     </div> 
                                     <div class="form-group">
                                         <label id="TxtEquipmentCalibrationActDateLabel" class="col-sm-3 control-label no-padding-right">Data<span class="required">*</span></label>
@@ -1026,16 +1026,16 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <span class="ErrorMessage" id="TxtEquipmentCalibrationActDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
-                                            <span class="ErrorMessage" id="TxtEquipmentCalibrationActDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
-                                            <span class="ErrorMessage" id="TxtEquipmentCalibrationActDateOverTime" style="display:none;">No pot ser anterior a la darrera calibració</span>
+                                            <span class="ErrorMessage" id="TxtEquipmentCalibrationActDateErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentCalibrationActDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentCalibrationActDateOverTime">No pot ser anterior a la darrera calibració</span>
                                         </div>
                                     </div>    
                                     <div class="form-group">
                                         <label id ="TxtEquipmentCalibrationActResultLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentCalibrationActResult">Resultado<span class="required">*</span></label>
                                         <div class="col-sm-3">
                                             <input type="text" class="col-xs-12 col-sm-12 decimalFormated6" id="TxtEquipmentCalibrationActResult" placeholder="Resultado" value="" maxlength="8" />
-                                            <span class="ErrorMessage" id="TxtEquipmentCalibrationActResultErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentCalibrationActResultErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div>   
                                     <div class="form-group">
@@ -1050,7 +1050,7 @@
                                         <div class="col-sm-7" id="CmbEquipmentCalibrationActProviderDiv" style="height:35px !important;">
                                             <select id="CmbEquipmentCalibrationActProvider" class="col-xs-12 col-sm-12"></select>
                                             <input style="display:none;" type="text" readonly="readonly" id="CmbEquipmentCalibrationActProviderValue" placeholder="><%=this.Dictionary["Item_Equipment_Field_Calibration_Provider"] %>" class="col-xs-12 col-sm-12" />
-                                            <span class="ErrorMessage" id="CmbEquipmentCalibrationActProviderErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="CmbEquipmentCalibrationActProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                         <div class="col-sm-1" id="CmbCalibrationActProviderBar"><span class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnCalibrationActProviderBAR">...</span></div>
                                     </div>
@@ -1058,7 +1058,7 @@
                                         <label id="CmbEquipmentCalibrationActResponsibleLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Common_Responsible"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <select id="CmbEquipmentCalibrationActResponsible" class="col-xs-12 col-sm-12"></select>
-                                            <span class="ErrorMessage" id="CmbEquipmentCalibrationActResponsibleErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="CmbEquipmentCalibrationActResponsibleErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                     </div>
                                 </form>
@@ -1075,7 +1075,7 @@
                                         </div>
                                     </div>      
                                     <div class="form-group">
-                                        <span class="ErrorMessage" id="REquipmentVerificationActTypeErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                        <span class="ErrorMessage" id="REquipmentVerificationActTypeErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                     </div>  
                                     <div class="form-group">
                                         <label id="TxtEquipmentVerificationActDateLabel" class="col-sm-3 control-label no-padding-right">Data<span class="required">*</span></label>
@@ -1090,16 +1090,16 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
-                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>                                        
-                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActDateOverTime" style="display:none;">No pot ser anterior a la darrera verificació</span>
+                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActDateErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>                                        
+                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActDateOverTime">No pot ser anterior a la darrera verificació</span>
                                         </div>
                                     </div>    
                                     <div class="form-group">
                                         <label id ="TxtEquipmentVerificationActResultLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentVerificationActResult">Resultado<span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <input type="text" class="col-xs-4 col-sm-4 decimalFormated6" id="TxtEquipmentVerificationActResult" placeholder="Resultado" value="" maxlength="8" />
-                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div>   
                                     <div class="form-group">
@@ -1107,7 +1107,7 @@
                                         <label id ="TxtEquipmentVerificationActCostLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentVerificationActCost">Coste</label>
                                         <div class="col-sm-9">
                                             <input type="text" class="col-xs-4 col-sm-4 money-bank" id="TxtEquipmentVerificationActCost" placeholder="Coste" value="" maxlength="8" />
-                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActCostMalformed" style="display:none;"><%=this.Dictionary["Common_Error_MoneyMalformed"] %></span>
+                                            <span class="ErrorMessage" id="TxtEquipmentVerificationActCostMalformed"><%=this.Dictionary["Common_Error_MoneyMalformed"] %></span>
                                         </div>
                                     </div>                                   
                                     <div class="form-group" id="CmbEquipmentVerificationActProviderRow">
@@ -1115,7 +1115,7 @@
                                         <div class="col-sm-7" id="CmbEquipmentVerificationActProviderDiv" style="height:35px !important;">
                                             <select id="CmbEquipmentVerificationActProvider" class="col-xs-12 col-sm-12"></select>
                                             <input style="display:none;" type="text" readonly="readonly" id="CmbEquipmentVerificationActProviderValue" placeholder="><%=this.Dictionary["Item_Equipment_Field_Verification_Provider"] %>" class="col-xs-12 col-sm-12" />
-                                            <span class="ErrorMessage" id="CmbEquipmentVerificationActProviderErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="CmbEquipmentVerificationActProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                         <div class="col-sm-1" id="CmbVerificationActProviderBar"><span class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnVerificationActProviderBAR">...</span></div>
                                     </div>
@@ -1123,7 +1123,7 @@
                                         <label id="CmbEquipmentVerificationActResponsibleLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Common_Responsible"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <select id="CmbEquipmentVerificationActResponsible" class="col-xs-12 col-sm-12"></select>
-                                            <span class="ErrorMessage" id="CmbEquipmentVerificationActResponsibleErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="CmbEquipmentVerificationActResponsibleErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                     </div>
                                 </form>
@@ -1201,7 +1201,7 @@
                                         <label id="TxtEndReasonLabel" class="col-sm-3 control-label no-padding-right" for="TxtRegistroComments"><%=this.Dictionary["Item_Equipment_FieldLabel_EndReason"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <textarea class="col-xs-12 col-sm-12" id="TxtEndReason" rows="5"></textarea>
-                                            <span class="ErrorMessage" id="TxtEndReasonErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="TxtEndReasonErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -1215,8 +1215,8 @@
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
                                                     </div>
-                                                    <span class="ErrorMessage" id="TxtEndDateErrorRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
-                                                    <span class="ErrorMessage" id="TxtEndDateMalformed" style="display: none;"><%= this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                    <span class="ErrorMessage" id="TxtEndDateErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
+                                                    <span class="ErrorMessage" id="TxtEndDateMalformed"><%= this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
                                             </div>
                                         </div>

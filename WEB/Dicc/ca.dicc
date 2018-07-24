@@ -59,6 +59,7 @@ Common_Error_Application::S'ha produït un error a l'aplicació
 Common_Error_BeforeStart::La data no pot ser anterior a la d'inici
 Common_Error_DateMalformed::La data no és correcta
 Common_Error_IncorrectMail::El correu és incorrecte
+Common_Error_IncorrectNIF::El NIF és incorrecte
 Common_Error_IncorrectPassword::Contrasenya no vàlida
 Common_Error_Kernel_Delete::No es pot eliminar perquè és part bàsica de l'aplicació
 Common_Error_Kernel_Edit::No es pot modificar perquè és part bàsica de l'aplicació
@@ -1485,6 +1486,7 @@ Item_Oportunity_LabelField_Notes::Notes
 Item_Oportunity_LabelField_Process::Procés
 Item_Oportunity_LabelField_Result::Resultat
 Item_Oportunity_LabelField_Rules::Norma
+Item_Oportunity_LabelField_Status::Estat
 Item_Oportunity_New::Nova oportunitat
 Item_Oportunity_PopupDelete_Message::Eliminar la oportunitat?
 Item_Oportunity_Status_NotSignificant::No significativa

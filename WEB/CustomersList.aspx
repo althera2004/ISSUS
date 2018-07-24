@@ -59,13 +59,13 @@
                                                     </div>
                                                     <div id="CustomerUpdateDialog" class="hide" style="width:500px;">
                                                         <p><span id="TxtDepartmentNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtCustomerName" /></p>
-                                                        <span class="ErrorMessage" id="TxtCustomerNameErrorRequired" style="display:none;"> <%=this.Dictionary["Common_Required"] %></span>
-                                                        <span class="ErrorMessage" id="TxtCustomerNameErrorDuplicated" style="display:none;"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                                        <span class="ErrorMessage" id="TxtCustomerNameErrorRequired"> <%=this.Dictionary["Common_Required"] %></span>
+                                                        <span class="ErrorMessage" id="TxtCustomerNameErrorDuplicated"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                                                     </div>
                                                     <div id="CustomerInsertDialog" class="hide" style="width:500px;">
                                                         <p><span id="TxtCustomerNewNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtCustomerNewName" /></p>
-                                                        <span class="ErrorMessage" id="TxtCustomerNewNameErrorRequired" style="display:none;"> <%=this.Dictionary["Common_Required"] %></span>
-                                                        <span class="ErrorMessage" id="TxtCustomerNewNameErrorDuplicated" style="display:none;"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                                        <span class="ErrorMessage" id="TxtCustomerNewNameErrorRequired"> <%=this.Dictionary["Common_Required"] %></span>
+                                                        <span class="ErrorMessage" id="TxtCustomerNewNameErrorDuplicated"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                                                     </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">

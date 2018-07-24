@@ -54,14 +54,7 @@ public partial class ExportIndicadorRecords : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        string formatedDescription = indicadorName.Replace("?", string.Empty);
-        formatedDescription = formatedDescription.Replace("#", string.Empty);
-        formatedDescription = formatedDescription.Replace("/", string.Empty);
-        formatedDescription = formatedDescription.Replace("\\", string.Empty);
-        formatedDescription = formatedDescription.Replace(":", string.Empty);
-        formatedDescription = formatedDescription.Replace(";", string.Empty);
-        formatedDescription = formatedDescription.Replace(".", string.Empty);
-        formatedDescription = formatedDescription.Replace("\"", "ʺ");
+        var formatedDescription = ToolsPdf.NormalizeFileName(indicadorName);
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,

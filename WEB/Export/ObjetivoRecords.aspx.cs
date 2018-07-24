@@ -63,14 +63,7 @@ public partial class ExportObjetivoRecords : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        string formatedDescription = objetivoName.Replace("?", string.Empty);
-        formatedDescription = formatedDescription.Replace("#", string.Empty);
-        formatedDescription = formatedDescription.Replace("/", string.Empty);
-        formatedDescription = formatedDescription.Replace("\\", string.Empty);
-        formatedDescription = formatedDescription.Replace(":", string.Empty);
-        formatedDescription = formatedDescription.Replace(";", string.Empty);
-        formatedDescription = formatedDescription.Replace(".", string.Empty);
-        formatedDescription = formatedDescription.Replace("\"", "ʺ");
+        var formatedDescription = ToolsPdf.NormalizeFileName(objetivoName);
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,

@@ -62,61 +62,61 @@
                                                                 <label id="TxtNombreLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Name"] %><span style="color:#f00">*</span></label>
                                                                 <div class="col-sm-3">
                                                                     <input type="text" id="TxtNombre" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Name"] %>" value="<%=this.Employee.Name %>" class="col-xs-12 col-sm-12" maxlength="50" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
-                                                                    <span class="ErrorMessage" id="TxtNombreErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtNombreErrorDuplicated" style="display:none;"><%=this.Dictionary["Item_Employee_ErrorMessage_AmployeeAlreadyExists"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtNombreErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtNombreErrorDuplicated"><%=this.Dictionary["Item_Employee_ErrorMessage_AmployeeAlreadyExists"] %></span>
                                                                 </div>
                                                                 <label id="TxtApellido1Label" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_LastName"] %><span style="color:#f00">*</span></label>
                                                                 <div class="col-sm-4">
                                                                     <input type="text" id="TxtApellido1" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_LastName"] %>" value="<%=this.Employee.LastName %>" class="col-xs-12 col-sm-12" maxlength="50" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
-                                                                    <span class="ErrorMessage" id="TxtApellido1ErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtApellido1ErrorDuplicated" style="display:none;"><%=this.Dictionary["Item_Employee_ErrorMessage_AmployeeAlreadyExists"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtApellido1ErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtApellido1ErrorDuplicated"><%=this.Dictionary["Item_Employee_ErrorMessage_AmployeeAlreadyExists"] %></span>
                                                                 </div>
                                                                 <label id="TxtNifLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_NIF"]%></label>
                                                                 <div class="col-sm-2">
                                                                     <input type="text" id="TxtNif" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_NIF"] %>" value="<%=this.Employee.Nif %>" class="col-xs-12 col-sm-12" maxlength="15" onblur="this.value=$.trim(this.value.toUpperCase());" <%if(!this.Active) { %> readonly="readonly" <% } %> />
-                                                                    <span class="ErrorMessage" id="TxtNifErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtNifErrorMalformed" style="display:none;">El nif no es correcto</span>
-                                                                    <span class="ErrorMessage" id="TxtNifErrorDuplicated" style="display:none;"><%=this.Dictionary["Item_Employee_ErrorMessage_NifAlreadyExists"]%></span>
+                                                                    <span class="ErrorMessage" id="TxtNifErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtNifErrorMalformed"><%=this.Dictionary["Common_Error_IncorrectNIF"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtNifErrorDuplicated"><%=this.Dictionary["Item_Employee_ErrorMessage_NifAlreadyExists"]%></span>
                                                                 </div>
                                                             </div>                                                            
                                                             <div class="form-group">
                                                                 <label id="TxtTelefonoLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Phone"]%></label>
                                                                 <div class="col-sm-3">
                                                                     <input type="text" id="TxtTelefono" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Phone"] %>" value="<%=this.Employee.Phone %>" class="col-xs-12 col-sm-12" onkeypress="validate(event)" maxlength="15" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
-                                                                    <span class="ErrorMessage" id="TxtTelefonoErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtTelefonoErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                                 <label id="TxtEmailLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Email"]%><span style="color:#f00">*</span></label>
                                                                 <div class="col-sm-7">
                                                                     <input type="text" id="TxtEmail" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Email"] %>" value="<%=this.Employee.Email %>" class="col-xs-12 col-sm-12" maxlength="50" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
-                                                                    <span class="ErrorMessage" id="TxtEmailErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtEmailErrorMalformed" style="display:none;"><%=this.Dictionary["Item_Employee_ErrorMessage_MailMalformed"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtEmailErrorDuplicated" style="display:none;"><%=this.Dictionary["Item_Employee_ErrorMessage_AmployeeAlreadyExists"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtEmailErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtEmailErrorMalformed"><%=this.Dictionary["Item_Employee_ErrorMessage_MailMalformed"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtEmailErrorDuplicated"><%=this.Dictionary["Item_Employee_ErrorMessage_AmployeeAlreadyExists"] %></span>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label id="TxtDireccionLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Address"]%></label>
                                                                 <div class="col-sm-11">
                                                                     <input type="text" id="TxtDireccion" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Address"] %>" value="<%=this.Employee.Address.Address %>" class="col-xs-12 col-sm-12" maxlength="50" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
-                                                                    <span class="ErrorMessage" id="TxtDireccionErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtDireccionErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label id="TxtCpLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_PostalCode"]%></label>
                                                                 <div class="col-sm-3">
                                                                     <input type="text" id="TxtCp" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_PostalCode"] %>" value="<%=this.Employee.Address.PostalCode %>" class="col-xs-12 col-sm-12" maxlength="10" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
-                                                                    <span class="ErrorMessage" id="TxtCpErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtCpErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                                 <label id="TxtPoblacionLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_City"]%></label>
                                                                 <div class="col-sm-7">
                                                                     <input type="text" id="TxtPoblacion" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_City"] %>" value="<%=this.Employee.Address.City %>" class="col-xs-12 col-sm-12" maxlength="50" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
-                                                                    <span class="ErrorMessage" id="TxtPoblacionErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtPoblacionErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label id="TxtProvinciaLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Province"]%></label>
                                                                 <div class="col-sm-6">
                                                                     <input type="text" id="TxtProvincia" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Province"] %>" value="<%=this.Employee.Address.Province %>" class="col-xs-12 col-sm-12" maxlength="50" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
-                                                                    <span class="ErrorMessage" id="TxtProvinciaErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtProvinciaErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                                 <label id="TxtPaisLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Country"]%></label>
                                                                 <div class="col-sm-3" id="DivCmbPais" style="height:35px !important;">
@@ -126,7 +126,7 @@
                                                                     </select>
                                                                     <% } %>
                                                                     <input <%if (this.Active) { %>style="display:none;"<% } %> type="text" id="TxtPais" placeholder="<%=this.Dictionary["Item_Employee_FieldLabel_Country"] %>" value="<%=this.Employee.Address.Country %>" class="col-xs-12 col-sm-12" maxlength="15" onblur="this.value=$.trim(this.value);" <%if(!this.Active) { %> readonly="readonly" <% } %> />
-                                                                    <span class="ErrorMessage" id="TxtPaisErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtPaisErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
@@ -425,11 +425,11 @@
                             </div><!-- #dialog-message -->
                             <div id="DepartmentNewAsociationDialog" class="hide" style="width:600px;">
                                 <div class="form-group">
-                                    <label id="DepartmentNewAsociationTextLabel" class="col-sm-2 control-label no-padding-right" id="TxtNameLabel"><%=this.Dictionary["Item_Employee_FieldLabel_Name"] %></label>                                        
+                                    <label id="DepartmentNewAsociationTextLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Employee_FieldLabel_Name"] %></label>                                        
                                     <div class="col-sm-10">
-                                        <input type="text" maxlength="50" size="50" id="DepartmentNewAsociationText" placeholder="" class="col-xs-12 col-sm-12" value="" />
-                                        <span class="ErrorMessage" id="DepartmentNewAsociationTextErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                        <span class="ErrorMessage" id="DepartmentNewAsociationTextErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_AlreadyExists"] %></span>
+                                        <input type="text" maxlength="50" size="50" id="DepartmentNewAsociationText" class="col-xs-12 col-sm-12" value="" />
+                                        <span class="ErrorMessage" id="DepartmentNewAsociationTextErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                        <span class="ErrorMessage" id="DepartmentNewAsociationTextErrorDuplicated"><%=this.Dictionary["Common_AlreadyExists"] %></span>
                                     </div>
                                 </div>
                             </div>
@@ -449,9 +449,9 @@
                                                     <i class="icon-calendar bigger-110"></i>
                                                 </span>                                                
                                             </div>
-                                            <span class="ErrorMessage" id="TxtFinishDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                            <span class="ErrorMessage" id="TxtFinishDateErrorMaximumToday" style="display:none;"><%=this.Dictionary["Common_Error_MaximumToday"] %></span>
-                                            <span class="ErrorMessage" id="TxtFinishDateErrorBeforeStart" style="display:none;"><%=this.Dictionary["Common_Error_BeforeStart"] %></span>
+                                            <span class="ErrorMessage" id="TxtFinishDateErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="TxtFinishDateErrorMaximumToday"><%=this.Dictionary["Common_Error_MaximumToday"] %></span>
+                                            <span class="ErrorMessage" id="TxtFinishDateErrorBeforeStart"><%=this.Dictionary["Common_Error_BeforeStart"] %></span>
                                         </div>
                                     </div>
                                 </div>
@@ -468,8 +468,8 @@
                                                     <i class="icon-calendar bigger-110"></i>
                                                 </span>                                                
                                             </div>
-                                            <span class="ErrorMessage" id="TxtStartDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                            <span class="ErrorMessage" id="TxtStartDateErrorMaximumToday" style="display:none;"><%=this.Dictionary["Common_Error_MaximumToday"] %></span>
+                                            <span class="ErrorMessage" id="TxtStartDateErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="TxtStartDateErrorMaximumToday"><%=this.Dictionary["Common_Error_MaximumToday"] %></span>
                                         </div>
                                     </div>
                                 </div>
@@ -511,8 +511,8 @@
                                     &nbsp;&nbsp;
                                     <input type="text" id="TxtDepartmentUpdateName" size="50" placeholder="<%= this.Dictionary["Common_Name"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
                                 </p>
-                                <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorDuplicated"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
 
                             <div id="dialogAnular" class="hide" style="width: 500px;">
@@ -528,8 +528,8 @@
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
                                                     </div>
-                                                    <span class="ErrorMessage" id="TxtEndDateErrorRequired" style="display:none;"><%= this.Dictionary["Common_Required"] %></span>
-                                                    <span class="ErrorMessage" id="TxtEndDateMalformed" style="display:none;"><%= this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                    <span class="ErrorMessage" id="TxtEndDateErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
+                                                    <span class="ErrorMessage" id="TxtEndDateMalformed"><%= this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
                                             </div>
                                         </div>

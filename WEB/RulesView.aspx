@@ -78,8 +78,8 @@
                                                         <label class="col-sm-1 control-label no-padding-right" id="TxtNameLabel"><%=this.Dictionary["Item_Rules_FieldLabel_Name"] %><span style="color:#f00;">*</span></label>                                        
                                                         <div class="col-sm-5">
                                                             <input type="text" id="TxtName" placeholder="<%=this.Dictionary["Item_Rules_FieldLabel_Name"] %>" value="<%=this.Rule.Description %>" class="col-xs-12 col-sm-12 tooltip-info" maxlength="50" onblur="this.value=$.trim(this.value);" />
-                                                            <span class="ErrorMessage" id="TxtNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                            <span class="ErrorMessage" id="TxtNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_AlreadyExists"] %></span>
+                                                            <span class="ErrorMessage" id="TxtNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                            <span class="ErrorMessage" id="TxtNameErrorDuplicated"><%=this.Dictionary["Common_AlreadyExists"] %></span>
                                                         </div>
                                                         <label class="col-sm-1 control-label no-padding-right" id="TxtLimitLabel"><%=this.Dictionary["Item_Rules_FieldLabel_Limit"] %><span style="color:#f00;">*</span></label>                                        
                                                         <div class="col-sm-5">
@@ -90,8 +90,8 @@
                                                                     </div>
                                                                 </div>
                                                             <input type="text" size="2" id="TxtLimit" placeholder="<%=this.Dictionary["Item_Rules_FieldLabel_Limit"] %>" value="<%=this.Rule.Limit %>" class="col-xs-12 col-sm-12 tooltip-info integerFormated" maxlength="2" style="display:none;" />
-                                                            <span class="ErrorMessage" id="TxtLimitErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                            <span class="ErrorMessage" id="TxtLimitErrorOutOfRange" style="display:none;"><%=this.Dictionary["Item_Rules_Error_LimitOutOfRange"] %></span>
+                                                            <span class="ErrorMessage" id="TxtLimitErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                            <span class="ErrorMessage" id="TxtLimitErrorOutOfRange"><%=this.Dictionary["Item_Rules_Error_LimitOutOfRange"] %></span>
                                                         </div>					                    
                                                     </div>
                                                     <div class="for-group">
@@ -213,7 +213,7 @@
                                 <div class="col col-xs-12"><%=this.Dictionary["Item_Rule_ChangeIPRLabel"] %></div>
                                 <div class="col col-xs-12" style="height:150px;overflow:auto">    
                                     <textarea id="TxtReason" rows="5" style="width:99%;"></textarea>
-                                    <span class="ErrorMessage" id="TxtReasonErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                    <span class="ErrorMessage" id="TxtReasonErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                 </div>
                             </div><!-- #dialog-message -->
 
@@ -226,8 +226,8 @@
                                     &nbsp;&nbsp;
                                     <input type="text" id="TxtDepartmentUpdateName" size="50" placeholder="<%= this.Dictionary["Item_JobPosition_FieldLabel_Name"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
                                 </p>
-                                <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentUpdateNameErrorDuplicated"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
                             <div id="DepartmentInsertDialog" class="hide" style="width:600px;">
                                 <p>
@@ -235,8 +235,8 @@
                                     &nbsp;&nbsp;
                                     <input type="text" id="TxtDepartmentNewName" size="50" placeholder="<%= this.Dictionary["Item_JobPosition_FieldLabel_DepartmentName"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
                                 </p>
-                                <span class="ErrorMessage" id="TxtDepartmentNewNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtDepartmentNewNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentNewNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentNewNameErrorDuplicated"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">

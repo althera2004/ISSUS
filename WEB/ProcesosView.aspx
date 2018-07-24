@@ -89,7 +89,7 @@
                                                             <div class="col-sm-3" id="DivCmbTipo" style="height:35px !important;">
                                                                 <select id="CmbTipo" onchange="CmbTipoChanged();" class="col-xs-12 col-sm-12"></select>
                                                                 <input style="display:none;" readonly="readonly" type="text" id="TxtProcessType" placeholder="<%=this.Dictionary["Item_Process_FieldLabel_Type"] %>" class="col-xs-12 col-sm-12" value="" />
-                                                                <span class="ErrorMessage" id="TxtProcessTypeErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtProcessTypeErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                             <div class="col-sm-1"><span class="btn btn-light" style="height:30px;" id="BtnSelectProcessType" title="<%=this.Dictionary["Item_Process_Button_ProcessTypeBAR"] %>">...</span></div>
                                                         
@@ -98,7 +98,7 @@
                                                             <div class="col-sm-5" id="DivCmbJobPosition" style="height:35px !important;">
                                                                 <select id="CmbJobPosition" onchange="CmbJobPositionChanged();" class="col-xs-12 col-sm-12"></select>
                                                                 <input style="display:none;" readonly="readonly" type="text" id="TxtJobPosition" placeholder="<%=this.Dictionary["Item_Process_FieldLabel_Responsible"] %>" class="col-xs-12 col-sm-12" value="<%=this.Proceso.JobPosition.Description %>" />
-                                                                <span class="ErrorMessage" id="TxtJobPositionErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtJobPositionErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                             <!-- <div class="col-sm-1"><span class="btn btn-light" style="height:30px;" id="BtnSelectJobPosition" title="<%=this.Dictionary["Item_Process_SelectJobPosition"] %>">...</span></div> -->
                                                         </div>
@@ -290,13 +290,13 @@
                             </div>
                             <div id="ProcessTypeUpdateDialog" class="hide" style="width:600px;">
                                 <p><%=this.Dictionary["Item_Process_FieldLabel_Name"] %>&nbsp;&nbsp;<input type="text" id="TxtProcessTypeName" size="50" placeholder="<%= this.Dictionary["Item_Process_FieldLabel_Name"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" /></p>
-                                <span class="ErrorMessage" id="TxtProcessTypeNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtProcessTypeNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_AlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtProcessTypeNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtProcessTypeNameErrorDuplicated"><%=this.Dictionary["Common_AlreadyExists"] %></span>
                             </div>
                             <div id="ProcessTypeInsertDialog" class="hide" style="width:600px;">
                                 <p><%=this.Dictionary["Item_Process_FieldLabel_Name"] %>&nbsp;&nbsp;<input type="text" id="TxtProcessTypeNewName" size="50" placeholder="<%= this.Dictionary["Item_Process_FieldLabel_Name"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" /></p>
-                                <span class="ErrorMessage" id="TxtProcessTypeNewNameErrorRequired" style="display:none;"><%= this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtProcessTypeNewNameErrorDuplicated" style="display:none;"><%= this.Dictionary["Common_AlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtProcessTypeNewNameErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtProcessTypeNewNameErrorDuplicated"><%= this.Dictionary["Common_AlreadyExists"] %></span>
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">

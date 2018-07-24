@@ -32,7 +32,7 @@ namespace GisoFramework.Item
         public bool ApplyAction { get; set; }
         public string Causes { get; set; }
         public DateTime DateStart { get; set; }
-        public int Code { get; set; }
+        public long Code { get; set; }
 
         public int? FinalCost { get; set; }
         public int? FinalImpact { get; set; }
@@ -104,8 +104,8 @@ namespace GisoFramework.Item
                     this.FinalCost.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.FinalCost) : Constant.JavaScriptNull,
                     this.FinalImpact.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.FinalImpact) : Constant.JavaScriptNull,
                     this.FinalResult.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.FinalResult) : Constant.JavaScriptNull,
-                    Tools.JsonValue(this.FinalDate.HasValue),
-                    Tools.JsonValue(this.FinalApplyAction.HasValue),
+                    Tools.JsonValue(this.FinalDate),
+                    Tools.JsonValue(this.FinalApplyAction),
                     this.PreviousOportunityId.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.PreviousOportunityId) : Constant.JavaScriptNull);
             }
         }
@@ -312,6 +312,7 @@ namespace GisoFramework.Item
                                 rdr.Read();
                                 res.Id = id;
                                 res.CompanyId = companyId;
+                                res.Code = rdr.GetInt32(ColumnsOportunityGet.Code);
                                 res.Description = rdr.GetString(ColumnsOportunityGet.Description);
                                 res.ItemDescription = rdr.GetString(ColumnsOportunityGet.ItemDescription);
                                 res.Control = rdr.GetString(ColumnsOportunityGet.StartControl);
@@ -451,7 +452,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.OutputInt("@Id"));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                     cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, Constant.MaximumTextAreaLength));
-                    cmd.Parameters.Add(DataParameter.Input("@Code", 0));
+                    cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
                     cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@StartControl", this.Control, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, Constant.MaximumTextAreaLength));
@@ -522,7 +523,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Id", this.Id));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                     cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
-                    cmd.Parameters.Add(DataParameter.Input("@Code", 0));
+                    cmd.Parameters.Add(DataParameter.Input("@Code", this.Code));
                     cmd.Parameters.Add(DataParameter.Input("@ItemDescription", this.ItemDescription, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@StartControl", this.Control, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, Constant.MaximumTextAreaLength));

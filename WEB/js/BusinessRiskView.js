@@ -1243,80 +1243,6 @@ function CmbResponsibleFill() {
     }
 }
 
-function ItemRenderStatus() {
-
-    var list = document.getElementsByTagName(____________________________);
-
-    var tdNumber = document.createElement('TD');
-
-    var tdStatus = document.createElement('TD');
-
-    for (var x = 0; x < list.length; x++) {
-        var item = list[x];
-
-        var status = '';
-        var colorStatus = '#fff;';
-        if (item.Status == 1) { status = Dictionary.Item_IndicentAction_Status1; colorStatus = '#f00'; }
-        if (item.Status == 2) { status = Dictionary.Item_IndicentAction_Status2; colorStatus = '#dd0'; }
-        if (item.Status == 3) { status = Dictionary.Item_IndicentAction_Status3; colorStatus = '#070'; }
-        if (item.Status == 4) { status = Dictionary.Item_IndicentAction_Status4; colorStatus = '#000'; }
-
-
-    }
-
-    /*
-    actionLink.appendChild(document.createTextNode(item.Number));
-    actionLink.href = 'ActionView.aspx?id=' + item.Id;
-    */
-
-
-    //<i class="fa fa-pie-chart"></i>
-    var iconStatus = document.createElement('I');
-    iconStatus.className = "fa icon-pie-chart";
-    if (item.Status === 3) {
-        iconStatus.className = "fa icon-play";
-    }
-    if (item.Status === 4) {
-        iconStatus.className = "fa icon-lock";
-    }
-    iconStatus.style.color = colorStatus;
-    tdNumber.appendChild(iconStatus);
-
-
-
-    tdStatus.appendChild(iconStatus);
-    tdStatus.appendChild(document.createTextNode(' ' + status));
-
-    row.appendChild(tdStatus);
-
-
-    var iconEdit = document.createElement('SPAN');
-    iconEdit.className = 'btn btn-xs btn-info';
-    iconEdit.id = item.Number;
-    var innerEdit = document.createElement('I');
-    innerEdit.className = 'icon-edit bigger-120';
-    iconEdit.appendChild(innerEdit);
-    iconEdit.onclick = function () { document.location = 'ActionView.aspx?id=' + this.parentNode.parentNode.id; };
-
-    var iconDelete = document.createElement('SPAN');
-    iconDelete.className = 'btn btn-xs btn-danger';
-    iconDelete.id = item.Number;
-    var innerDelete = document.createElement('I');
-    innerDelete.className = 'icon-trash bigger-120';
-    iconDelete.appendChild(innerDelete);
-    iconDelete.onclick = function () { IncidentActionDelete(this); };
-
-    var tdActions = document.createElement('TD');
-
-    tdActions.appendChild(iconEdit);
-    tdActions.appendChild(document.createTextNode(' '));
-    tdActions.appendChild(iconDelete);
-    row.appendChild(tdActions);
-
-    target.appendChild(row);
-
-}
-
 SetCloseRequired();
 
 function IsHistoric() {
@@ -1324,18 +1250,18 @@ function IsHistoric() {
     if (BusinessRiskHistory.length > 0) {
         var actualId = BusinessRiskHistory[BusinessRiskHistory.length - 1].Id;
         if (businessRisk.Id !== actualId) {
-            document.getElementById('HistoricMessageDiv').style.display = '';
-            document.getElementById('HistoricMessageDiv').innerHTML = '';
-            var message = Dictionary.Item_BusinessRisk_MessageHistoric.split('#');
+            $("#HistoricMessageDiv").hide();
+            $("#HistoricMessageDiv").html("");
+            var message = Dictionary.Item_BusinessRisk_MessageHistoric.split("#");
 
-            message = message[0] + BusinessRiskHistory[BusinessRiskHistory.length - 1].DateStart + message[1] + ' ';
+            message = message[0] + BusinessRiskHistory[BusinessRiskHistory.length - 1].DateStart + message[1] + " ";
 
-            document.getElementById('HistoricMessageDiv').appendChild(document.createTextNode(message));
-            var a = document.createElement('A');
-            a.href = '/BusinessRiskView.aspx?id=' + actualId;
-            a.style.fontWeight = 'bold';
+            document.getElementById("HistoricMessageDiv").appendChild(document.createTextNode(message));
+            var a = document.createElement("A");
+            a.href = "/BusinessRiskView.aspx?id=" + actualId;
+            a.style.fontWeight = "bold";
             a.appendChild(document.createTextNode(Dictionary.Common_Here));
-            document.getElementById('HistoricMessageDiv').appendChild(a);
+            document.getElementById("HistoricMessageDiv").appendChild(a);
         }
     }
 }
@@ -1343,24 +1269,16 @@ function IsHistoric() {
 IsHistoric();
 
 if (businessRisk.Id > 0) {
-    $('#DateStart').val(businessRisk.DateStart);
+    $("#DateStart").val(businessRisk.DateStart);
 }
 else {
-    $('#DateStart').val(FormatDate(new Date(), '/'));
+    $("#DateStart").val(FormatDate(new Date(), "/"));
 }
 
-$("#DateStart").datepicker({ maxDate: '0' });
-$("#DateClose").datepicker({ minDate: GetDate(businessRisk.DateStart, '/', false) });
+$("#DateStart").datepicker({ maxDate: "0" });
+$("#DateClose").datepicker({ minDate: GetDate(businessRisk.DateStart, "/", false) });
 $(".date-picker").on("blur", function () { DatePickerChanged(this); });
 
-/*
-function GetMinimimDateStart()
-{
-    if (businessRisk.Id < 1) { return null; }
-    if (BusinessRiskHistory.length < 2) { return null; }
-    return GetDate(BusinessRiskHistory[BusinessRiskHistory.length - 2].DateStart, '/', false);
-}
-*/
 CmbResponsibleFill();
 
 // Problemas de comillas en el nombre
@@ -1371,11 +1289,11 @@ if (businessRisk.Id > 0) {
 function ActionsDialog(sender) {
     var id = sender.parentNode.parentNode.id * 1;
     var dialog = $("#dialogActionDetails").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Item_Action_Popup_Details_Title,
-        title_html: true,
-        width: 800
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Action_Popup_Details_Title,
+        "title_html": true,
+        "width": 800
     });
 
     var actualAction = null;
@@ -1387,34 +1305,33 @@ function ActionsDialog(sender) {
     }
 
     if (actualAction !== null) {
-        document.getElementById("TxtActionDescriptionView").value = actualAction.Description;
-        document.getElementById("TxtActionWhatHappenedView").value = actualAction.WhatHappened;
-        document.getElementById("TxtActionWhatHappenedByView").value = actualAction.WhatHappenedBy.Value;
-        document.getElementById("TxtActionWhatHappenedOnView").value = FormatYYYYMMDD(actualAction.WhatHappenedOn, '/');
-        document.getElementById("TxtActionCausesView").value = actualAction.Causes;
-        document.getElementById("TxtActionCausesByView").value = actualAction.CausesBy.Value;
-        document.getElementById("TxtActionCausesOnView").value = FormatYYYYMMDD(actualAction.CausesOn, '/');
-        document.getElementById("TxtActionActionsView").value = actualAction.Actions;
-        document.getElementById("TxtActionActionsByView").value = actualAction.ActionsBy.Value;
-        document.getElementById("TxtActionActionsOnView").value = FormatYYYYMMDD(actualAction.ActionsOn, '/');
-        document.getElementById("TxtActionMonitoringView").value = actualAction.Monitoring;
-        document.getElementById("TxtActionClosedByView").value = actualAction.ClosedBy.Value;
-        document.getElementById("TxtActionClosedOnView").value = FormatYYYYMMDD(actualAction.ClosedOn, '/');
-        document.getElementById("TxtActionNotesView").value = actualAction.Notes;
+        $("#TxtActionDescriptionView").val(actualAction.Description);
+        $("#TxtActionWhatHappenedView").val(actualAction.WhatHappened);
+        $("#TxtActionWhatHappenedByView").val(actualAction.WhatHappenedBy.Value);
+        $("#TxtActionWhatHappenedOnView").val(FormatYYYYMMDD(actualAction.WhatHappenedOn, "/"));
+        $("#TxtActionCausesView").val(actualAction.Causes);
+        $("#TxtActionCausesByView").val(actualAction.CausesBy.Value);
+        $("#TxtActionCausesOnView").val(FormatYYYYMMDD(actualAction.CausesOn, "/"));
+        $("#TxtActionActionsView").val(actualAction.Actions);
+        $("#TxtActionActionsByView").val(actualAction.ActionsBy.Value);
+        $("#TxtActionActionsOnView").val(FormatYYYYMMDD(actualAction.ActionsOn, "/"));
+        $("#TxtActionMonitoringView").val(actualAction.Monitoring);
+        $("#TxtActionClosedByView").val(actualAction.ClosedBy.Value);
+        $("#TxtActionClosedOnView").val(FormatYYYYMMDD(actualAction.ClosedOn, "/"));
+        $("#TxtActionNotesView").val(actualAction.Notes);
     }
 }
-
 
 function RenderStartSliders() {
     var MinStepValue = 1;
 
         $("#input-span-slider-startprobability").slider({
-            value: businessRisk.StartProbability,
-            range: "min",
-            min: MinStepValue,
-            max: 5,
-            step: 1,
-            slide: function (event, ui) {
+            "value": businessRisk.StartProbability,
+            "range": "min",
+            "min": MinStepValue,
+            "max": 5,
+            "step": 1,
+            "slide": function (event, ui) {
                 if (Action.Id > 0) {
                     return false;
                 }
@@ -1422,7 +1339,7 @@ function RenderStartSliders() {
                 if (val === 0) {
                     return false;
                 }
-                $("#input-span-slider-startprobability").slider({ value: this.id });
+                $("#input-span-slider-startprobability").slider({ "value": this.id });
                 businessRisk.StartProbability = val;
                 UpdateResult();
                 return null;
@@ -1430,18 +1347,18 @@ function RenderStartSliders() {
         });
 
         $("#input-span-slider-startseverity").slider({
-            value: businessRisk.StartSeverity,
-            range: "min",
-            min: MinStepValue,
-            max: 5,
-            step: 1,
-            slide: function (event, ui) {
+            "value": businessRisk.StartSeverity,
+            "range": "min",
+            "min": MinStepValue,
+            "max": 5,
+            "step": 1,
+            "slide": function (event, ui) {
                 if (Action.Id > 0) { return false; }
                 var val = parseInt(ui.value);
                 if (val === 0) {
                     return false;
                 }
-                $("#input-span-slider-severity").slider({ value: this.id });
+                $("#input-span-slider-severity").slider({ "value": this.id });
                 businessRisk.StartSeverity = val;
                 UpdateResult();
                 return null;
@@ -1460,7 +1377,7 @@ function RenderStartSliders() {
     for (var x = MinStepValue; x < 6; x++) {
         var span = document.createElement("span");
         span.id = x;
-        span.className = 'tick';
+        span.className = "tick";
         span.appendChild(document.createTextNode(x));
         span.appendChild(document.createElement("BR"));
         span.appendChild(document.createTextNode('|'));
@@ -1491,7 +1408,6 @@ function RenderStartSliders() {
                     UpdateResult();
                 }
             };
-            //span.style.cursor = "default";
         }
     }
 
@@ -1529,9 +1445,9 @@ function RenderStartSliders() {
                     UpdateResult();
                 }
             };
-            //spanStep.style.cursor = "default";
         }
     }
+
     if (businessRisk.Id > 0) {
         UpdateResult();
     }
@@ -1854,7 +1770,6 @@ if (typeof ApplicationUser.Grants.BusinessRisk === "undefined" || ApplicationUse
     $("#DivHistoryTableDiv .btn-info").hide();
 }
 
-
 function Resize() {
     var containerHeight = $(window).height();
     $("#ListDataDiv").height(containerHeight - 450);
@@ -1921,7 +1836,6 @@ if (Action.ClosedOn === null && Action.Id > 0) {
     AnulateLayout();
 }
 
-
 function AnularPopup() {
     var ok = true;
     if ($("#TxtActionDescription").val() === "") { ok = false; }
@@ -1935,8 +1849,8 @@ function AnularPopup() {
     if ($("#CmbActionCausesResponsible").val() * 1 < 1) { ok = false; }
     if ($("#CmbActionActionsResponsible").val() * 1 < 1) { ok = false; }
 
-    document.getElementById("CmbActionClosedResponsibleLabel").style.color = "#000";
-    document.getElementById("TxtActionClosedDateLabel").style.color = "#000";
+    $("#CmbActionClosedResponsibleLabel").css("color", "#000");
+    $("#TxtActionClosedDateLabel").css("color", "#000");
     $("#CmbActionClosedResponsibleErrorRequired").hide();
     $("#TxtActionClosedDateDateMalformed").hide();
     $("#TxtActionClosedDateDateRequired").hide();
@@ -1969,6 +1883,7 @@ function AnularPopup() {
                 "click": function () { AnularConfirmed(); }
             },
             {
+                "id": "BtnAnularCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
@@ -1982,8 +1897,8 @@ var anulationData = null;
 
 function AnularConfirmed() {
     console.log("AnularConfirmed");
-    document.getElementById("TxtActionClosedDateLabel").style.color = "#000";
-    document.getElementById("CmbActionClosedResponsibleLabel").style.color = "#000";
+    $("#TxtActionClosedDateLabel").css("color", "#000");
+    $("#CmbActionClosedResponsibleLabel").css("color", "#000");
     $("#TxtActionClosedDateDateRequired").hide();
     $("#TxtActionClosedDateDateMalformed").hide();
     $("#CmbActionClosedResponsibleErrorRequired").hide();
@@ -2059,8 +1974,8 @@ function AnulateLayout() {
         message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_IncidentAction_AnulateMessageTile + "</h3>";
         message += "    <p style=\"margin-left:50px;\">";
-        message += "        " + Dictionary.Item_IncidentAction_Label_EndDate + ": <strong>" + GetDateYYYYMMDDText(Action.ClosedOn,"/", false) + "</strong><br />";
-        message += "        " + Dictionary.Item_IncidentAction_Label_EndResponsible + ": <strong>" + Action.ClosedBy.Value + "</strong>";
+        message += "        " + Dictionary.Item_IncidentAction_Label_EndDate + ":&nbsp;<strong>" + GetDateYYYYMMDDText(Action.ClosedOn,"/", false) + "</strong><br />";
+        message += "        " + Dictionary.Item_IncidentAction_Label_EndResponsible + ":&nbsp;<strong>" + Action.ClosedBy.Value + "</strong>";
         message += "    </p>";
         message += "</div><br /><br /><br />";
         $("#accion").append(message);

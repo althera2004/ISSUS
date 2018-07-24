@@ -22,7 +22,6 @@ jQuery(function ($) {
         }
     }));
 
-    // Internacionalizad datepicker en catalán
     var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { "autoclose": true, "todayHighlight": true });
     $(".date-picker").datepicker(options);
     $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
@@ -40,7 +39,7 @@ jQuery(function ($) {
             "buttons":
             [
                 {
-                    "id": "BtnNewAddresSave",
+                    "id": "BtnNewRuleSave",
                     "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                     "class": "btn btn-success btn-xs",
                     "click": function () {
@@ -48,6 +47,7 @@ jQuery(function ($) {
                     }
                 },
                 {
+                    "id": "BtnNewRuleCancel",
                     "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     "click": function () {
@@ -55,7 +55,6 @@ jQuery(function ($) {
                     }
                 }
             ]
-
         });
     });
 
@@ -261,15 +260,15 @@ function ApplyActionTrue() {
 
     SaveAction = true;
     if (Action.Description === "") {
-        document.getElementById("TxtActionDescription").value = $("#TxtDescription").val();
+        $("#TxtActionDescription").val($("#TxtDescription").val());
     }
 
     if (Action.WhatHappened === "") {
-        document.getElementById("TxtActionWhatHappened").value = $("#TxtItemDescription").val();
+        $("#TxtActionWhatHappened").val($("#TxtItemDescription").val());
     }
 
     if (Action.Causes === "") {
-        document.getElementById("TxtActionCauses").value = $("#TxtCauses").val();
+        $("#TxtActionCauses").val($("#TxtCauses").val());
     }
 
     if (Action.WhatHappenedBy.Id < 0) {
@@ -356,12 +355,12 @@ function OportunityInsert(previousId) {
             "CompanyId": Company.Id,
             "Impact": Oportunity.Impact,
             "ItemDescription": $("#TxtItemDescription").val(),
-            "ModifiedBy": { Id: -1 },
+            "ModifiedBy": { "Id": -1 },
             "ModifiedOn": GetDate(Oportunity.CreatedOn, "/", false),
             "Notes": $("#TxtNotes").val(),
-            "Process": { Id: $("#CmbProcess").val() * 1 },
+            "Process": { "Id": $("#CmbProcess").val() * 1 },
             "Result": Oportunity.Impact * Oportunity.Cost,
-            "Rule": { Id: $("#CmbRules").val() * 1 }
+            "Rule": { "Id": $("#CmbRules").val() * 1 }
         },
         "companyId": Company.Id,
         "applicationUserId": user.Id
@@ -454,7 +453,7 @@ function OportunityUpdate(sender) {
     };
 
     console.log(data);
-    return false;
+
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
@@ -566,7 +565,6 @@ function SetCloseRequired() {
     /////////////////////////////////
     //Set required fields for risks//
     /////////////////////////////////
-
     FieldSetRequired("TxtRulesLabel", Dictionary.Item_Oportunity_LabelField_Rules, true);
     FieldSetRequired("TxtProcessLabel", Dictionary.Item_Oportunity_LabelField_Process, true);
     FieldSetRequired("TxtDateStartLabel", Dictionary.Item_Oportunity_LabelField_DateStart, true);
@@ -724,7 +722,7 @@ function ValidateData() {
         ClearFieldTextMessages("TxtActionWhatHappenedDate");
 
         // La descripción de la acción es obligatoria
-        if (document.getElementById("TxtActionDescription").value === "") {
+        if ($("#TxtActionDescription").val() === "") {
             ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_DescriptionRequired);
             SetFieldTextMessages("TxtActionDescription");
             ok = false;
@@ -770,7 +768,7 @@ function ValidateData() {
                 SetFieldTextMessages("TxtActionCauses");
 
             }
-            if (document.getElementById("CmbActionCausesResponsible").value * 1 === 0) {
+            if ($("#CmbActionCausesResponsible").val() * 1 === 0) {
                 ok = false;
                 ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequiredResponsible);
                 SetFieldTextMessages("CmbActionCausesResponsible");
@@ -802,7 +800,7 @@ function ValidateData() {
                 SetFieldTextMessages("TxtActionActions");
             }
 
-            if (document.getElementById("CmbActionActionsResponsible").value * 1 === 0) {
+            if ($("#CmbActionActionsResponsible").val() * 1 === 0) {
                 ok = false;
                 ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredResponsible);
                 SetFieldTextMessages("CmbActionActionsResponsible");
@@ -920,20 +918,20 @@ function ValidateData() {
     else {
         return true;
     }
-
 }
 
 function SetImpact(code, object) {
-    document.getElementById("ImpactDataContainer").value = code;
+    $("#ImpactDataContainer").val(code);
     var num = document.getElementById("SelectableImpact").childNodes.length;
     for (var x = 0; x < num; x++) {
         document.getElementById("SelectableImpact").childNodes[x].style.fontWeight = "normal";
     }
+
     object.parentNode.parentNode.style.fontWeight = "bold";
 }
 
 function SetCost(code, object) {
-    document.getElementById("CostDataContainer").value = code;
+    $("#CostDataContainer").val(code);
     var num = document.getElementById("SelectableCost").childNodes.length;
     for (var x = 0; x < num; x++) {
         document.getElementById("SelectableCost").childNodes[x].style.fontWeight = "normal";
@@ -977,81 +975,6 @@ function CmbResponsibleFill() {
         }
     }
 }
-
-function ItemRenderStatus() {
-
-    var list = document.getElementsByTagName(____________________________);
-
-    var tdNumber = document.createElement('TD');
-
-    var tdStatus = document.createElement('TD');
-
-    for (var x = 0; x < list.length; x++) {
-        var item = list[x];
-
-        var status = "";
-        var colorStatus = '#fff;';
-        if (item.Status === 1) { status = Dictionary.Item_IndicentAction_Status1; colorStatus = '#f00'; }
-        if (item.Status === 2) { status = Dictionary.Item_IndicentAction_Status2; colorStatus = '#dd0'; }
-        if (item.Status === 3) { status = Dictionary.Item_IndicentAction_Status3; colorStatus = '#070'; }
-        if (item.Status === 4) { status = Dictionary.Item_IndicentAction_Status4; colorStatus = '#000'; }
-
-
-    }
-
-    /*
-    actionLink.appendChild(document.createTextNode(item.Number));
-    actionLink.href = 'ActionView.aspx?id=' + item.Id;
-    */
-
-
-    //<i class="fa fa-pie-chart"></i>
-    var iconStatus = document.createElement('I');
-    iconStatus.className = "fa icon-pie-chart";
-    if (item.Status === 3) {
-        iconStatus.className = "fa icon-play";
-    }
-    if (item.Status === 4) {
-        iconStatus.className = "fa icon-lock";
-    }
-    iconStatus.style.color = colorStatus;
-    tdNumber.appendChild(iconStatus);
-
-
-
-    tdStatus.appendChild(iconStatus);
-    tdStatus.appendChild(document.createTextNode(' ' + status));
-
-    row.appendChild(tdStatus);
-
-
-    var iconEdit = document.createElement('SPAN');
-    iconEdit.className = 'btn btn-xs btn-info';
-    iconEdit.id = item.Number;
-    var innerEdit = document.createElement('I');
-    innerEdit.className = 'icon-edit bigger-120';
-    iconEdit.appendChild(innerEdit);
-    iconEdit.onclick = function () { document.location = 'ActionView.aspx?id=' + this.parentNode.parentNode.id; };
-
-    var iconDelete = document.createElement('SPAN');
-    iconDelete.className = 'btn btn-xs btn-danger';
-    iconDelete.id = item.Number;
-    var innerDelete = document.createElement('I');
-    innerDelete.className = 'icon-trash bigger-120';
-    iconDelete.appendChild(innerDelete);
-    iconDelete.onclick = function () { IncidentActionDelete(this); };
-
-    var tdActions = document.createElement('TD');
-
-    tdActions.appendChild(iconEdit);
-    tdActions.appendChild(document.createTextNode(' '));
-    tdActions.appendChild(iconDelete);
-    row.appendChild(tdActions);
-
-    target.appendChild(row);
-
-}
-
 
 if (Oportunity.Id > 0) {
     $("#DateStart").val(Oportunity.DateStart);
@@ -1467,6 +1390,13 @@ window.onload = function () {
     $("#Tabcostes").on("click", function () { $("#BtnAnular").hide(); $("#oldFormFooter").show(); });
     $("#TabuploadFiles").on("click", function () { $("#BtnAnular").hide(); $("#oldFormFooter").hide(); });
 
+    if (Oportunity.Id > 0) {
+        $("#BtnPrint").on("click", PrintData);
+    }
+    else {
+        $("#BtnPrint").hide();
+    }
+
     if (Oportunity.ApplyAction === false) {
         $("#Tabaccion").hide();
         $("#Tabcostes").hide();
@@ -1766,4 +1696,9 @@ function FinalApplyActionRadio() {
 
     document.getElementById("TxtFinalDate").disabled = false;
     document.getElementById("TxtFinalDateBtn").disabled = false;
+}
+
+function PrintData() {
+    window.open("/export/PrintOportunityData.aspx?id=" + Oportunity.Id + "&companyId=" + Company.Id);
+    return false;
 }

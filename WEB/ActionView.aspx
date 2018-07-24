@@ -89,14 +89,14 @@
                                                                 <div class="col-sm-1" style="width:115px;"><input type="radio" value="0" id="ROrigin1" name="ROrigin"/><%=this.Dictionary["Item_IncidentAction_Origin1"] %></div>
                                                                 <div class="col-sm-3"><input type="radio" value="1" id="ROrigin2" name="ROrigin" /><%=this.Dictionary["Item_IncidentAction_Origin2"] %></div>
                                                                 <div class="col-sm-2" style="display:none;"><input type="radio" value="1" id="ROrigin3" name="ROrigin" /><%=this.Dictionary["Item_IncidentAction_Origin5"] %></div>
-                                                                <div class="col-sm-1"><span class="ErrorMessage" id="ROriginErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"]%></span></div>
+                                                                <div class="col-sm-1"><span class="ErrorMessage" id="ROriginErrorRequired"><%=this.Dictionary["Common_Required"]%></span></div>
                                                             </div>
                                                             <div class="form-group" id="RTypeDiv" style="display: _none;">
                                                                 <label id="RTypeLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Type"] %><span style="color: #f00;">*</span></label>
                                                                 <div class="col-sm-1" style="width:115px;"><input type="radio" value="0" id="RType1" name="RType" /><%=this.Dictionary["Item_IncidentAction_Type1"] %></div>
                                                                 <div class="col-sm-1" style="width:115px;"><input type="radio" value="1" id="RType2" name="RType" /><%=this.Dictionary["Item_IncidentAction_Type2"] %></div>
                                                                 <div class="col-sm-1" style="width:115px;"><input type="radio" value="2" id="RType3" name="RType" /><%=this.Dictionary["Item_IncidentAction_Type3"] %></div>
-                                                                <div class="col-sm-1"><span class="ErrorMessage" id="RTypeErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"]%></span></div>
+                                                                <div class="col-sm-1"><span class="ErrorMessage" id="RTypeErrorRequired"><%=this.Dictionary["Common_Required"]%></span></div>
                                                             </div>
                                                             <div class="form-group" id="RReporterDiv" style="display: _none;">
                                                                 <label id="RReporterTypeLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %><span style="color: #f00;">*</span></label>
@@ -123,7 +123,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <span class="ErrorMessage" id="RReporterTypeErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"]%></span>
+                                                            <span class="ErrorMessage" id="RReporterTypeErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                                             <div class="form-group">
                                                                 <%=this.TxtWhatHappened.Render %>
                                                                 <div class="col-sm-4">
@@ -348,7 +348,7 @@
                                         <label id ="TxtIncidentActionCostDescriptionLabel" class="col-sm-3 control-label no-padding-right" for="TxtIncidentActionCostDescription"><%=this.Dictionary["Item_IncidentActionCost_FieldLabel_Description"] %><span class="required">*</span></label>
                                         <div class="col-sm-7">
                                             <input type="text" class="col-xs-12 col-sm-12" id="TxtIncidentActionCostDescription" placeholder="<%=this.Dictionary["Item_IncidentActionCost_FieldLabel_Description"] %>" value="" maxlength="100" />
-                                            <span class="ErrorMessage" id="TxtIncidentActionCostDescriptionErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtIncidentActionCostDescriptionErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                         <div class="col-sm-2" id="DivBtnCostBAR">
                                             <button class="btn btn-light" style="height: 30px;" title="<%=this.Dictionary["Item_CostDefinitions"] %>" id="BtnCostBAR">...</button>
@@ -360,7 +360,7 @@
                                             <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtIncidentActionCostAmount" placeholder="<%=this.Dictionary["Item_IncidentActionCost_FieldLabel_Amount"] %>" value="" maxlength="8" />
                                         </div>
                                         <div class="col-sm-6">
-                                            <span class="ErrorMessage" id="TxtIncidentActionCostAmountErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtIncidentActionCostAmountErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div>                             
                                     <div class="form-group">
@@ -369,14 +369,14 @@
                                             <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtIncidentActionCostQuantity" placeholder="<%=this.Dictionary["Item_IncidentActionCost_FieldLabel_Quantity"] %>" value="<%=this.Dictionary["Item_IncidentActionCost_FieldLabel_Quantity"] %>" maxlength="8" onblur="this.value=$.trim(this.value);" />
                                         </div>
                                         <div class="col-sm-6">
-                                            <span class="ErrorMessage" id="TxtIncidentActionCostQuantityErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtIncidentActionCostQuantityErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div>   
                                     <div class="form-group">
                                         <label id="CmdIncidentActionCostResponsibleLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_IncidentActionCost_FieldLabel_ReportedBy"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <select id="CmdIncidentActionCostResponsible" class="col-xs-12 col-sm-12"></select>
-                                            <span class="ErrorMessage" id="CmdIncidentActionCostResponsibleRequiredLabel" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="CmdIncidentActionCostResponsibleRequiredLabel"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                     </div>
                                 </form>
@@ -407,8 +407,8 @@
                                     <label id="TxtCostNewNameLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_CostDefinition_Field_Description"] %><span style="color: #f00;">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="text" name="name" value=" " class="col-sm-12" id="TxtCostNewName" size="100" placeholder="<%=this.Dictionary["Item_CostDefinition_Field_Description"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
-                                        <span class="ErrorMessage" id="TxtCostNewNameErrorRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
-                                        <span class="ErrorMessage" id="TxtCostNewNameErrorDuplicated" style="display: none;"><%= this.Dictionary["Common_AlreadyExists"] %></span>
+                                        <span class="ErrorMessage" id="TxtCostNewNameErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
+                                        <span class="ErrorMessage" id="TxtCostNewNameErrorDuplicated"><%= this.Dictionary["Common_AlreadyExists"] %></span>
                                     </div>
                                 </div>
                                 <div style="clear:both;height:12px;"></div>
@@ -416,7 +416,7 @@
                                     <label id="TxtCostNewAmountLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_CostDefinition_Field_Amount"] %><span style="color: #f00;">*</span></label>
                                     <div class="col-sm-9">
                                         <input class="col-sm-12 money-bank" type="text" id="TxtCostNewAmount" size="50" placeholder="<%=this.Dictionary["Item_CostDefinition_Field_Amount"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
-                                        <span class="ErrorMessage" id="TxtCostNewAmountErrorRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
+                                        <span class="ErrorMessage" id="TxtCostNewAmountErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>
                             </div>
@@ -426,8 +426,8 @@
                                     <label id="TxtCostNameLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_CostDefinition_Field_Description"] %><span style="color: #f00;">*</span></label>
                                     <div class="col-sm-9">
                                         <input type="text" name="name" value=" " class="col-sm-12" id="TxtCostName" size=100" placeholder="<%=this.Dictionary["Item_CostDefinition_Field_Description"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
-                                        <span class="ErrorMessage" id="TxtCostNameErrorRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
-                                        <span class="ErrorMessage" id="TxtCostNameErrorDuplicated" style="display: none;"><%= this.Dictionary["Common_AlreadyExists"] %></span>
+                                        <span class="ErrorMessage" id="TxtCostNameErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
+                                        <span class="ErrorMessage" id="TxtCostNameErrorDuplicated"><%= this.Dictionary["Common_AlreadyExists"] %></span>
                                     </div>
                                 </div>
                                 <div style="clear:both;height:12px;"></div>
@@ -435,7 +435,7 @@
                                     <label id="TxtCostAmountLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_CostDefinition_Field_Amount"] %><span style="color: #f00;">*</span></label>
                                     <div class="col-sm-9">
                                         <input class="col-sm-12 money-bank" type="text" id="TxtCostAmount" size="50" placeholder="<%=this.Dictionary["Item_CostDefinition_Field_Amount"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
-                                        <span class="ErrorMessage" id="TxtCostAmountErrorRequired" style="display: none;"><%= this.Dictionary["Common_Required"] %></span>
+                                        <span class="ErrorMessage" id="TxtCostAmountErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>
                             </div>

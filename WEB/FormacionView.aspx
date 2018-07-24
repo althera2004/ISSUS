@@ -68,7 +68,7 @@
                                                             <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Course"] %><span style="color:#f00;">*</span></label>
                                                             <div class="col-sm-11">
                                                                 <input <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>type="text" id="TxtName" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Course"] %>" class="col-xs-12 col-sm-12"<% if(this.ShowHelp) { %> title="<%=this.Dictionary["Item_Learning_FieldLabel_Name"]%>"<% } %> maxlength="100" />
-                                                                <span class="ErrorMessage" id="TxtNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                         </div>
                                                         <div class="space-4"></div>
@@ -87,8 +87,8 @@
                                                                             </span>
                                                                         </div>
                                                                     </div>
-                                                                    <span class="ErrorMessage" id="TxtFechaPrevistaErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtFechaPrevistaDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtFechaPrevistaErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtFechaPrevistaDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                                 </div>
                                                             </div><!--
                                                             <div class="col-sm-2" id="DivCmbFechaPrevistaMes" style="height:35px !important;">
@@ -126,19 +126,19 @@
                                                             <label id="TxtHoursLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Hours"] %><span style="color:#f00;">*</span></label>
                                                             <div class="col-sm-2">
                                                                 <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtHours" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Hours"] %>" class="col-xs-12 col-sm-12 integerFormated" maxlength="9" />
-                                                                <span class="ErrorMessage" id="TxtHoursErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtHoursErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                             <label id="TxtAmountLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %></label>
                                                             <div class="col-sm-2">
                                                                 <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtAmount" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %>" class="col-xs-12 col-sm-12 money-bank" maxlength="9" />
-                                                                <span class="ErrorMessage" id="TxtAmountErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtAmountErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label id="TxtMasterLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Coach"] %><span style="color:#f00;">*</span></label>
                                                             <div class="col-sm-5">
                                                                 <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtMaster" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Coach"] %>" class="col-xs-12 col-sm-12" maxlength="100" />
-                                                                <span class="ErrorMessage" id="TxtMasterErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                <span class="ErrorMessage" id="TxtMasterErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                         <!--/div>
                                                         <div class="form-group"-->
@@ -153,9 +153,9 @@
                                                                             </span>
                                                                         </div>
                                                                     </div>
-                                                                    <span class="ErrorMessage" id="TxtRealStartErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtRealStartErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtRealStartDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtRealStartErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtRealStartErrorDateRange"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtRealStartDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                                 </div>
                                                             </div>
                                                             <label id="TxtRealFinishLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_EndDate"] %></label>
@@ -169,9 +169,9 @@
                                                                             </span>
                                                                         </div>
                                                                     </div>
-                                                                    <span class="ErrorMessage" id="TxtRealFinishErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtRealFinishErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtRealFinishDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtRealFinishErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtRealFinishErrorDateRange"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtRealFinishDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                                 </div>
                                                             </div>
                                                         </div>

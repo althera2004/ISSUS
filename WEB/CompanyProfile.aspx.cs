@@ -1,14 +1,19 @@
-﻿using System;
+﻿// --------------------------------
+// <copyright file="CompanyProfile.aspx.cs" company="Sbrinna">
+//     Copyright (c) Sbrinna. All rights reserved.
+// </copyright>
+// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// --------------------------------
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text;
 using System.Web.UI;
+using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
-using GisoFramework;
-using SbrinnaCoreFramework.UI;
-using System.Globalization;
 using SbrinnaCoreFramework;
+using SbrinnaCoreFramework.UI;
 
 public partial class CompanyProfile : Page
 {
@@ -57,7 +62,7 @@ public partial class CompanyProfile : Page
     {
         get
         {
-            foreach (Country country in this.Company.Countries)
+            foreach (var country in this.Company.Countries)
             {
                 if (country.Id.ToString() == this.Company.DefaultAddress.Country)
                 {
@@ -180,7 +185,7 @@ public partial class CompanyProfile : Page
         this.formFooter.AddButton(new UIButton { Id = "BtnSave", Action = "success", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"] });
         this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
-        this.ImgLogo = new ImageSelector()
+        this.ImgLogo = new ImageSelector
         {
             Name = "Equipment",
             ImageName = string.Format(CultureInfo.InvariantCulture, @"images\Logos\{0}", this.Logo),
@@ -246,7 +251,7 @@ public partial class CompanyProfile : Page
     {
         var selected = new StringBuilder();
         var availables = new StringBuilder();
-        var countries = new StringBuilder(Environment.NewLine).Append("        [");
+        var countries = new StringBuilder(Environment.NewLine).Append("[");
         bool first = true;
         foreach (var country in Country.GetAll(this.Company.Id))
         {
@@ -269,7 +274,7 @@ public partial class CompanyProfile : Page
             }
 
             countries.Append(Environment.NewLine);
-            string pattern = @"            {{""Id"":{0}, ""Description"":""{1}"", ""Selected"": {2}, ""Deletable"": {3}}}";
+            string pattern = @"{{""Id"":{0}, ""Description"":""{1}"", ""Selected"": {2}, ""Deletable"": {3}}}";
 
             countries.Append(string.Format(
                 CultureInfo.InvariantCulture,
@@ -280,6 +285,6 @@ public partial class CompanyProfile : Page
                 country.CanBeDelete ? "true" : "false"));
         }
 
-        this.Countries = countries.Append(Environment.NewLine).Append("        ]").ToString();
+        this.Countries = countries.Append(Environment.NewLine).Append("]").ToString();
     }
 }

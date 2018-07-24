@@ -1366,6 +1366,67 @@ namespace GisoFramework.Item
             return new ReadOnlyCollection<IncidentAction>(res);
         }
 
+        /// <summary>Return an historical list of a businessRisk action</summary>
+        /// <param name="code">Code identifier of the BusinessRisk</param>
+        /// <param name="companyId">Company identifier</param>
+        /// <returns>ReadOnlyCollection of BusinessRisk items</returns>
+        public static ReadOnlyCollection<IncidentAction> ByOportunityCode(long code, int companyId)
+        {
+            var source = string.Format(
+                CultureInfo.InvariantCulture,
+                @"IndicentAction::ByOportunityRiskCode({0},{1})",
+                code,
+                companyId);
+            var res = new List<IncidentAction>();
+            string query = "IncidentAction_GetByOportunityCode";
+            using (var cmd = new SqlCommand(query))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.Parameters.Add(DataParameter.Input("@OportunityCode", code));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+
+                    try
+                    {
+                        cmd.Connection.Open();
+                        var rdr = cmd.ExecuteReader();
+
+                        while (rdr.Read())
+                        {
+                            res.Add(IncidentAction.ById(rdr.GetInt64(0), companyId));
+                        }
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return new ReadOnlyCollection<IncidentAction>(res);
+        }
+
         /// <summary>Insert incident action in database</summary>
         /// <param name="userId">User identififer</param>
         /// <returns>Result of action</returns>

@@ -109,9 +109,9 @@
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
 												    </div>
-											        <span class="ErrorMessage" id="TxtDateFromErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-											        <span class="ErrorMessage" id="TxtDateFromErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-											        <span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+											        <span class="ErrorMessage" id="TxtDateFromErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+											        <span class="ErrorMessage" id="TxtDateFromErrorDateRange"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											        <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
                                             <td id="TxtDateToLabel"><%=this.Dictionary["Item_BusinessRisksAndOportunities_Filter_Periode2"] %></td>
@@ -123,9 +123,9 @@
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
 												    </div>
-											        <span class="ErrorMessage" id="TxtDateToErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-											        <span class="ErrorMessage" id="TxtDateToErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-											        <span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+											        <span class="ErrorMessage" id="TxtDateToErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+											        <span class="ErrorMessage" id="TxtDateToErrorDateRange"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											        <span class="ErrorMessage" id="TxtDateToDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
 
@@ -265,9 +265,9 @@
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
 												    </div>
-											        <span class="ErrorMessage" id="TxtDateFromErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-											        <span class="ErrorMessage" id="TxtDateFromErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-											        <span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+											        <span class="ErrorMessage" id="TxtDateFromErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+											        <span class="ErrorMessage" id="TxtDateFromErrorDateRange"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											        <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
                                             <td id="TxtDateToLabel"><%=this.Dictionary["Item_BusinessRisksAndOportunities_Filter_Periode2"] %></td>
@@ -279,9 +279,9 @@
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
 												    </div>
-											        <span class="ErrorMessage" id="TxtDateToErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-											        <span class="ErrorMessage" id="TxtDateToErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-											        <span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+											        <span class="ErrorMessage" id="TxtDateToErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+											        <span class="ErrorMessage" id="TxtDateToErrorDateRange"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											        <span class="ErrorMessage" id="TxtDateToDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
 
@@ -585,7 +585,7 @@
                             </div>
     
                                                         <div id="OportunityDeleteDialog" class="hide" style="width:500px;">
-                                                            <p><%=this.Dictionary["Item_Oportunity_PopupDelete_Message"] %>&nbsp;<strong><span id="BusinessRiskName"></span></strong>?</p>
+                                                            <p><%=this.Dictionary["Item_Oportunity_PopupDelete_Message"] %>&nbsp;<strong><span id="OportunityName"></span></strong>?</p>
                                                         </div>
     
                                                         <div id="BusinessRiskDeleteDialog" class="hide" style="width:500px;">
@@ -593,13 +593,13 @@
                                                         </div>
                                                         <div id="BusinessRiskUpdateDialog" class="hide" style="width:500px;">
                                                             <p><span id="TxtBusinessRiskNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtBusinessRiskName" /></p>
-                                                            <span class="ErrorMessage" id="TxtBusinessRiskNameErrorRequired" style="display:none;"> <%=this.Dictionary["Common_Required"] %></span>
-                                                            <span class="ErrorMessage" id="TxtBusinessRiskNameErrorDuplicated" style="display:none;"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                                            <span class="ErrorMessage" id="TxtBusinessRiskNameErrorRequired"> <%=this.Dictionary["Common_Required"] %></span>
+                                                            <span class="ErrorMessage" id="TxtBusinessRiskNameErrorDuplicated"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                                                         </div>
                                                         <div id="BusinessRiskInsertDialog" class="hide" style="width:500px;">
                                                             <p><span id="TxtBusinessRiskNewNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtBusinessRiskNewName" /></p>
-                                                            <span class="ErrorMessage" id="TxtBusinessRiskNewNameErrorRequired" style="display:none;"> <%=this.Dictionary["Common_Required"] %></span>
-                                                            <span class="ErrorMessage" id="TxtBusinessRiskNewNameErrorDuplicated" style="display:none;"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                                            <span class="ErrorMessage" id="TxtBusinessRiskNewNameErrorRequired"> <%=this.Dictionary["Common_Required"] %></span>
+                                                            <span class="ErrorMessage" id="TxtBusinessRiskNewNameErrorDuplicated"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                                                         </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server"> 

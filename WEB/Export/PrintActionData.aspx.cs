@@ -39,15 +39,7 @@ public partial class ExportPrintActionData : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-
-        string formatedDescription = action.Description.Replace("?", string.Empty);
-        formatedDescription = formatedDescription.Replace("#", string.Empty);
-        formatedDescription = formatedDescription.Replace("/", string.Empty);
-        formatedDescription = formatedDescription.Replace("\\", string.Empty);
-        formatedDescription = formatedDescription.Replace(":", string.Empty);
-        formatedDescription = formatedDescription.Replace(";", string.Empty);
-        formatedDescription = formatedDescription.Replace(".", string.Empty);
-        formatedDescription = formatedDescription.Replace("\"", "ʺ");
+        var formatedDescription = ToolsPdf.NormalizeFileName(action.Description);
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,

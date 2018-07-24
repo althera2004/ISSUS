@@ -62,13 +62,13 @@
                             </div>
                             <div id="DepartmentUpdateDialog" class="hide" style="width: 500px;">
                                 <p><span id="TxtDepartmentNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtDepartmentName" /></p>
-                                <span class="ErrorMessage" id="TxtDepartmentNameErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtDepartmentNameErrorDuplicated" style="display: none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentNameErrorDuplicated"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
                             <div id="DepartmentInsertDialog" class="hide" style="width: 500px;">
                                 <p><span id="TxtDepartmentNewNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtDepartmentNewName" /></p>
-                                <span class="ErrorMessage" id="TxtDepartmentNewNameErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtDepartmentNewNameErrorDuplicated" style="display: none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentNewNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtDepartmentNewNameErrorDuplicated"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server"> 

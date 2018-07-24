@@ -61,8 +61,8 @@
                                                                 <label id="TxtDescriptionLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Indicador_Field_Name"] %><span style="color:#f00">*</span></label>
                                                                 <div class="col-sm-8">                                                                                                                            
                                                                     <input type="text" id="TxtDescription" placeholder="<%=this.Dictionary["Item_Indicador_Field_Name"] %>" class="col-xs-12 col-sm-12 tooltip-info" value="" maxlength="100" onblur="this.value=$.trim(this.value);" />
-                                                                    <span class="ErrorMessage" id="TxtDescriptionErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtDescriptionErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_AlreadyExists"] %></span>                                                                                       
+                                                                    <span class="ErrorMessage" id="TxtDescriptionErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtDescriptionErrorDuplicated"><%=this.Dictionary["Common_AlreadyExists"] %></span>                                                                                       
                                                                 </div>
                                                                 <label id="TxtStartDateLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Indicador_Field_StartDate"] %><span style="color:#f00">*</span></label>
                                                                 <div class="col-sm-2">
@@ -76,8 +76,8 @@
                                                                         </div>
                                                                     </div>
                                                                     </div>
-                                                                    <span class="ErrorMessage" id="TxtStartDateErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                    <span class="ErrorMessage" id="TxtStartDateErrorMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>                                                                                       
+                                                                    <span class="ErrorMessage" id="TxtStartDateErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtStartDateErrorMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>                                                                                       
                                                                 </div>	
                                                             </div>
                                                             <div class="form-group">
@@ -85,7 +85,7 @@
                                                                 <label id="TxtPeriodicityLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Indicador_Field_Periodicity"] %><span style="color: #f00">*</span></label>
                                                                 <div class="col-sm-1">
                                                                     <input type="text" id="TxtPeriodicity" placeholder="Periodicitat" class="col-xs-12 col-sm-12 tooltip-info integerFormated" value="0" maxlength="3" onblur="this.value=$.trim(this.value);" />
-                                                                    <span class="ErrorMessage" id="TxtPeriodicityErrorRequired" style="display: none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtPeriodicityErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                                 <label id="Label1" class="col-sm-1"><%=this.Dictionary["Common_Label_Days"] %></label>
                                                                 <%=this.CmbProcess.Render %>
@@ -98,7 +98,7 @@
                                                                 <label class="col-sm-1 control-label no-padding-right" id="TxtCalculoLabel"><%=this.Dictionary["Item_Indicador_Field_Calculo"] %><span style="color:#f00">*</span></label>
                                                                 <div class="col-sm-11">
                                                                     <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="500" id="TxtCalculo"></textarea>
-                                                                    <span class="ErrorMessage" id="TxtCalculoErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtCalculoErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                             </div>
                                                             <div class="form-group">
@@ -114,7 +114,7 @@
                                                                     </select>
                                                                     &nbsp;
                                                                     <input style="display:inline;width:33%;height:30px;" type="text" id="TxtMeta" placeholder="Meta" class="tooltip-info money-bank" value="0" maxlength="10" onblur="Compute();" />
-                                                                    <span class="ErrorMessage" id="CmbMetaErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="CmbMetaErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>	
                                                                 <label id="CmbAlarmaLabel" class="col-sm-1 control-label no-padding-right">Alarma</label>
                                                                 <div class="col-sm-5" id="DivCmbAlarmaComparer" style="height:35px !important;" title="" data-rel="tooltip"><!-- data-placement="top"> -->
@@ -151,7 +151,7 @@
                                                                     <select class="form-control col-xs-12 col-sm-12" id="CmbUnidad" data-placeholder="" onchange="">
                                                                         <option value="0">...</option>
                                                                     </select>
-                                                                    <span class="ErrorMessage" id="CmbUnidadErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="CmbUnidadErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>
                                                                 <div class="col-sm-1"><span class="btn btn-light" style="height:30px;" id="BtnUnitsBAR" title="<%=this.Dictionary["Item_Indicador_Btn_UnitsBAR"] %>">...</span></div>
                                                             </div>
@@ -186,9 +186,9 @@
 														                        <i class="icon-calendar bigger-110"></i>
 													                        </span>
 												                        </div>
-											                            <span class="ErrorMessage" id="TxtDateFromErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-											                            <span class="ErrorMessage" id="TxtDateFromErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-											                            <span class="ErrorMessage" id="TxtDateFromDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateFromErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateFromErrorDateRange"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                                     </div>
 										                        </td>
 
@@ -201,9 +201,9 @@
 														                        <i class="icon-calendar bigger-110"></i>
 													                        </span>
 												                        </div>
-											                            <span class="ErrorMessage" id="TxtDateToErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-											                            <span class="ErrorMessage" id="TxtDateToErrorDateRange" style="display:none;"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
-											                            <span class="ErrorMessage" id="TxtDateToDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateToErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateToErrorDateRange"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
+											                            <span class="ErrorMessage" id="TxtDateToDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                                     </div>
 										                        </td>
 
@@ -422,7 +422,7 @@
                                         <label id ="TxtAnularCommentsLabel" class="col-sm-3 control-label no-padding-right" for="TxtRegistroComments"><%=this.Dictionary["Item_IndicatorRecord_FieldLabel_Reason"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <textarea class="col-xs-12 col-sm-12" id="TxtAnularComments" rows="5"></textarea>
-                                            <span class="ErrorMessage" id="TxtAnularCommentsErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="TxtAnularCommentsErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                     </div>   
                                     <div class="form-group">
@@ -436,9 +436,9 @@
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
                                                     </div>
-                                                    <span class="ErrorMessage" id="TxtAnularDateRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                    <span class="ErrorMessage" id="TxtAnularDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
-                                                    <span class="ErrorMessage" id="TxtAnularDateMaximumToday" style="display:none"><%=this.Dictionary["Common_Error_MaximumToday"] %></span>
+                                                    <span class="ErrorMessage" id="TxtAnularDateRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                    <span class="ErrorMessage" id="TxtAnularDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                    <span class="ErrorMessage" id="TxtAnularDateMaximumToday"><%=this.Dictionary["Common_Error_MaximumToday"] %></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -455,7 +455,7 @@
                                         <label id ="TxtRegistroValueLabel" class="col-sm-3 control-label no-padding-right" for="TxtRegistroValue"><%=this.Dictionary["Item_IndicatorRecord_FieldLabel_Value"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtRegistroValue" placeholder="" value="" maxlength="8" onkeypress="validate(event);" />
-                                            <span class="ErrorMessage" id="TxtRegistroValueErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtRegistroValueErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div> 
                                     <div class="form-group">
@@ -469,10 +469,10 @@
                                                             <i class="icon-calendar bigger-110"></i>
                                                         </span>
                                                     </div>
-                                                    <span class="ErrorMessage" id="TxtRecordDateRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                    <span class="ErrorMessage" id="TxtRecordDateMalformed" style="display:none;"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
-                                                    <span class="ErrorMessage" id="TxtRecordDateMaximumToday" style="display:none"><%=this.Dictionary["Common_Error_MaximumToday"] %></span>
-                                                    <span class="ErrorMessage" id="TxtRecordDatePrevious" style="display:none"><%=this.Dictionary["Item_Indicador_Error_PreviousIndicadorDate"] %></span>
+                                                    <span class="ErrorMessage" id="TxtRecordDateRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                    <span class="ErrorMessage" id="TxtRecordDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                    <span class="ErrorMessage" id="TxtRecordDateMaximumToday"><%=this.Dictionary["Common_Error_MaximumToday"] %></span>
+                                                    <span class="ErrorMessage" id="TxtRecordDatePrevious"><%=this.Dictionary["Item_Indicador_Error_PreviousIndicadorDate"] %></span>
                                                 </div>
                                             </div>
                                         </div>

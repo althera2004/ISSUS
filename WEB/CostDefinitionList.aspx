@@ -59,13 +59,13 @@
                             </div>
                             <div id="CostDefinitionUpdateDialog" class="hide" style="width:500px;">
                                 <p><span id="TxtCostDefinitionNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtCostDefinitionName" /></p>
-                                <span class="ErrorMessage" id="TxtCostDefinitionNameErrorRequired" style="display:none;"> <%=this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtCostDefinitionNameErrorDuplicated" style="display:none;"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtCostDefinitionNameErrorRequired"> <%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtCostDefinitionNameErrorDuplicated"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
                             <div id="CostDefinitionInsertDialog" class="hide" style="width:500px;">
                                 <p><span id="TxtCostDefinitionNewNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtCostDefinitionNewName" /></p>
-                                <span class="ErrorMessage" id="TxtCostDefinitionNewNameErrorRequired" style="display:none;"> <%=this.Dictionary["Common_Required"] %></span>
-                                <span class="ErrorMessage" id="TxtCostDefinitionNewNameErrorDuplicated" style="display:none;"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
+                                <span class="ErrorMessage" id="TxtCostDefinitionNewNameErrorRequired"> <%=this.Dictionary["Common_Required"] %></span>
+                                <span class="ErrorMessage" id="TxtCostDefinitionNewNameErrorDuplicated"> <%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">

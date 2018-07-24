@@ -1,8 +1,47 @@
-﻿jQuery(function ($) {
+﻿var chartPie1, chartPie1Data;
+var dataPie1 = [];
+nv.addGraph(function () {
+    console.log("DiskQuote", diskQuote);
+    chartPie1 = nv.models.pieChart()
+        .x(function (d) { return d.label })
+        .y(function (d) { return d.value })
+
+        .height(300)
+        .showLabels(true)
+        .labelType("percent")
+        .donut(true).donutRatio(0.1);
+
+    chartPie1Data = d3.select("#Pie1 svg").datum(diskQuote);
+    chartPie1Data.transition().duration(500).call(chartPie1);
+    nv.utils.windowResize(chartPie1.update);
+    $("#PieWidget").hide();
+    return chartPie1;
+});
+
+if (typeof ApplicationUser.Grants.CompanyProfile === "undefined" || ApplicationUser.Grants.CompanyProfile.Write === false) {
+    $(".btn-danger").hide();
+    $("input").attr("disabled", true);
+    $("textarea").attr("disabled", true);
+    $("select").attr("disabled", true);
+    $("select").css("background-color", "#eee");
+    $("#BtnEquipmentChangeImage").hide();
+}
+
+if (user.PrimaryUser) {
+    var res = "<button class=\"btn btn-info\" type=\"button\" id=\"BtnAgreement\" onclick=\"DownloadAgreement();\"><i class=\"icon-file bigger-110\"></i> "  + Dictionary.Agreement_Button_Download + "</button>&nbsp;&nbsp;";
+    $("#ItemButtons").prepend(res);
+}
+
+function DownloadAgreement() {
+    window.open("/Agreement/Agreement_" + CompanyName + ".pdf");
+}
+
+jQuery(function ($) {
+    $("#CmbIdioma").val(Company.Language);
 
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || '&nbsp;'
+            var $title = this.options.title || "&nbsp;"
             if (("title_html" in this.options) && this.options.title_html === true) {
                 title.html($title);
             }
@@ -62,26 +101,15 @@
     $("#CmbPais").ddslick({ data: ddData });
 
     if (ApplicationUser.ShowHelp === true) {
-        $('#DivCmbPais .dd-options').on("mouseover", function (e) { $("#DivCmbPais").tooltip("destroy"); });
-        $("#DivCmbPais .dd-options").on("mouseout", function (e) { SetToolTip('DivCmbPais', Dictionary.Item_Employee_Help_Pais); });
+        $("#DivCmbPais .dd-options").on("mouseover", function (e) { $("#DivCmbPais").tooltip("destroy"); });
+        $("#DivCmbPais .dd-options").on("mouseout", function (e) { SetToolTip("DivCmbPais", Dictionary.Item_Employee_Help_Pais); });
     }
 
-    // ISSUS-1
-    // --------------------------------------------
     $("#EquipmentImg").css("width", "");
     $("#EquipmentImg").css("height", "");
     $("#EquipmentImg").css("max-height", "30px");
-    // --------------------------------------------
 
-
-    var placeholder = $('#piechart-placeholder').css({ "width": "90%", "min-height": "150px" });
-    /*var data = [
-      { "label": Dictionary.Item_Document, "data": diskQuote.Documents, "color": "#000000" },
-      { "label": Dictionary.Item_Equipment, "data": diskQuote.Equipments, "color": "#2091CF" },
-      { "label": Dictionary.Item_Incident, "data": diskQuote.Incidents, "color": "#AF4E96" },
-      { "label": Dictionary.Item_IncidentAction, "data": diskQuote.IncidentActions, "color": "#DA5430" },
-      { "label": Dictionary.Item_Attach_FreeDisk, "data": diskQuote.Free, "color": "#DADADA" }
-    ]*/
+    var placeholder = $("#piechart-placeholder").css({ "width": "90%", "min-height": "150px" });
 
     console.log("QuotePercentage", ToMoneyFormat(diskQuote[12].value, 2));
     $("#QuotePercentage").html(ToMoneyFormat(diskQuote[12].value, 2));
@@ -121,11 +149,6 @@
 
     drawPieChart(placeholder, diskQuote);
     document.getElementById("disk").className = "tab-pane";
-
-    /**
-    we saved the drawing function and the data to redraw with different position later when switching to RTL mode dynamically
-    so that's not needed actually.
-    */
     placeholder.data("chart", data);
     placeholder.data("draw", drawPieChart);
 });
@@ -230,38 +253,39 @@ function GetCountryById(id) {
             return ddData[x].description;
         }
     }
+
     return "";
 }
 
 function ValidateForm() {
     var ok = true;
-    if (document.getElementById('TxtName').value === '') {
+    if ($("#TxtName").val() === "") {
         ok = false;
-        document.getElementById('TxtNameErrorRequired').style.display = 'block';
-        document.getElementById('TxtNameLabel').style.color = '#f00';
+        $("#TxtNameErrorRequired").style.display = "block";
+        $("#TxtNameLabel").css("color", "#f00");
     }
     else {
-        document.getElementById('TxtNameErrorRequired').style.display = 'none';
-        document.getElementById('TxtNameLabel').style.color = '#000';
+        $("#TxtNameErrorRequired").hide();
+        $("#TxtNameLabel").css("color", "#000");
     }
 
-    if (document.getElementById('TxtNif').value === '') {
+    if ($("#TxtNif").val() === "") {
         ok = false;
-        document.getElementById('TxtNifErrorRequired').style.display = 'block';
-        document.getElementById('TxtNifErrorMalformed').style.display = 'none';
-        document.getElementById('TxtNifLabel').style.color = '#f00';
+        $("#TxtNifErrorRequired").show();;
+        $("#TxtNifErrorMalformed").hide();
+        $("#TxtNifLabel").css("color", "#f00");
     }
     else {
-        document.getElementById('TxtNifErrorRequired').style.display = 'none';
+        $("#TxtNifErrorRequired").hide();
 
-        if (valida_nif_cif_nie(document.getElementById('TxtNif').value) < 1 && document.getElementById('TxtCountry').value === 'España') {
+        if (valida_nif_cif_nie(document.getElementById("TxtNif").value) < 1 && $("#TxtCountry").val() === "España") {
             ok = false;
-            document.getElementById('TxtNifErrorMalformed').style.display = 'block';
-            document.getElementById('TxtNifLabel').style.color = '#f00';
+            $("#TxtNifErrorMalformed").style.display = "block";
+            $("#TxtNifLabel").css("color", "#f00");
         }
         else {
-            document.getElementById('TxtNifErrorMalformed').style.display = 'none';
-            document.getElementById('TxtNifLabel').style.color = '#000';
+            $("#TxtNifErrorMalformed").hide();
+            $("#TxtNifLabel").css("color", "#000");
         }
     }
 
@@ -491,7 +515,7 @@ function SaveCompany() {
             "Id": Company.Id,
             "Name": $("#TxtName").val(),
             "FiscalNumber": $("#TxtNif").val(),
-            "DefaultAddress": { Id: addressSelected },
+            "DefaultAddress": { "Id": addressSelected },
             "Language": Company.Language
         },
         "userId": user.Id
@@ -542,6 +566,5 @@ if (ApplicationUser.Grants.CompanyProfile.Write === false) {
     document.getElementById("CmbAddress").style.backgroundColor = "#f5f5f5";
 }
 else {
-    // ISSUS-190
     document.getElementById("TxtName").focus();
 }

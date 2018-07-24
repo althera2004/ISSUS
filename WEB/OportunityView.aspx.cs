@@ -85,9 +85,7 @@ public partial class OportunityView : Page
         }
     }
 
-    /// <summary>
-    /// Render of formFooter
-    /// </summary>
+    /// <summary>Render of formFooter</summary>
     public string FormFooter
     {
         get
@@ -96,9 +94,7 @@ public partial class OportunityView : Page
         }
     }
 
-    /// <summary>
-    /// Render of formFooterActions
-    /// </summary>
+    /// <summary>Render of formFooterActions</summary>
     public string FormFooterActions
     {
         get
@@ -107,9 +103,7 @@ public partial class OportunityView : Page
         }
     }
 
-    /// <summary>
-    /// Public access to incidentAction
-    /// </summary>
+    /// <summary>Public access to incidentAction</summary>
     public IncidentAction IncidentAction { get; private set; }
 
     /// <summary>Cost definitions by company</summary>
@@ -164,7 +158,6 @@ public partial class OportunityView : Page
         get
         {
             return Employee.CompanyListJson(this.Company.Id);
-            //return Employee.GetByCompanyJson(this.Company.Id);
         }
     }
 
@@ -589,7 +582,7 @@ public partial class OportunityView : Page
         this.master.Titulo = label;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
 
-        if (this.ApplicationUser.HasGrantToRead(26))
+        if (this.ApplicationUser.HasGrantToRead(ApplicationGrant.Oportunity))
         {
             this.master.AddBreadCrumb("Item_BusinessRisksAndOportunities", "BusinessRisksList.aspx", Constant.NotLeaft);
         }
@@ -605,6 +598,7 @@ public partial class OportunityView : Page
         }
 
         this.formFooter = new FormFooter();
+        this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success" });
         this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
         this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
@@ -642,10 +636,11 @@ public partial class OportunityView : Page
         this.tabBar.AddTab(new Tab { Id = "historyActions",Available = true, Active = historyActionActive == true, Label = this.Dictionary["Item_Oportunity_Tab_HistoryActions"], Hidden = !historyActionActive });
         this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_UploadFiles"], Hidden = this.Oportunity.Id < 1 });
 
-        RenderProcess();
-        RenderLimit();
-        RenderProbabilitySeverity();
-        RenderActionsForm();
+        this.RenderProcess();
+        this.RenderLimit();
+        this.RenderProbabilitySeverity();
+        this.RenderActionsForm();
+        this.RenderActionHistory();
         this.RenderDocuments();
     }
 
@@ -687,6 +682,30 @@ public partial class OportunityView : Page
 
         limitList.Append(probabilityList);
         limitList.Append(severityList);
+    }
+
+    private void RenderActionHistory()
+    {
+        var incidentActionCollection = IncidentAction.ByOportunityCode(this.Oportunity.Code, this.Company.Id);
+        var res = new StringBuilder();
+        var searchItem = new List<string>();
+        foreach (var incidentAction in incidentActionCollection.Where(ia => ia.Oportunity.Id != this.OportunityId).OrderBy(incidentAction => incidentAction.WhatHappenedOn))
+        {
+            if (!searchItem.Contains(incidentAction.Description))
+            {
+                searchItem.Add(incidentAction.Description);
+            }
+
+            res.Append(incidentAction.ListBusinessRiskRow(this.Dictionary, this.ApplicationUser.Grants));
+
+            if (incidentAction.BusinessRiskId != this.OportunityId)
+            {
+                historyActionActive = true;
+            }
+
+        }
+
+        this.OportunityActionData.Text = res.ToString();
     }
 
     /// <summary>Renders the selectable ProbabilitySeverityRanges</summary>
@@ -780,7 +799,7 @@ public partial class OportunityView : Page
         long actionsExecuterId = this.IncidentAction.ActionsExecuter == null ? 0 : this.IncidentAction.ActionsExecuter.Id;
         long closedResponsibleId = this.IncidentAction.ClosedBy == null ? 0 : this.IncidentAction.ClosedBy.Id;
 
-        foreach (Employee e in this.Company.Employees)
+        foreach (var e in this.Company.Employees)
         {
             if (e.Active && e.DisabledDate == null)
             {

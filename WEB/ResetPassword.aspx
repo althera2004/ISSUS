@@ -120,7 +120,7 @@
                                                     </div>
                                                     <div class="space-4"></div>
                                                     <h4>
-                                                        <span id="ErrorMessage" style="color:#f00;display:none;"></span>
+                                                        <span id="ErrorMessage"></span>
                                                     </h4>
                                                 </fieldset>
                                             </form>
