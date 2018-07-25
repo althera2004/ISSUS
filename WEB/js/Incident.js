@@ -60,9 +60,7 @@ function IncidentFormAfterLoad() {
         if (IncidentStatus > 2) {
             FieldSetRequired("TxtActionsLabel", Dictionary.Item_Incident_Field_Actions, true);
             FieldSetRequired("CmbActionsResponsibleLabel", Dictionary.Item_Incident_Field_ActionsResponsible, true);
-            // ISSUS-74 FieldSetRequired("CmbActionsExecuterLabel", Dictionary.Item_Incident_Field_ActionsExecuter, true);
             FieldSetRequired("TxtActionsDateLabel", Dictionary.Common_DateExecution, true);
-            // ISSUS-74 FieldSetRequired("TxtActionsScheduleLabel", Dictionary.Item_Incident_Field_ActionsSchedule, true);
             if (IncidentStatus > 3) {
                 FieldSetRequired("CmbClosedResponsibleLabel", Dictionary.Item_Incident_Field_CloseResponsible, true);
                 FieldSetRequired("TxtClosedDateLabel", Dictionary.Item_Incident_Field_CloseDate, true);
@@ -105,23 +103,6 @@ function RReporterTypeChanged() {
     document.getElementById("DivCmbReporterType1").style.display = document.getElementById("RReporterType1").checked ? "" : "none";
     document.getElementById("DivCmbReporterType2").style.display = document.getElementById("RReporterType2").checked ? "" : "none";
     document.getElementById("DivCmbReporterType3").style.display = document.getElementById("RReporterType3").checked ? "" : "none";
-
-    /* ISSUS-91
-    if (document.getElementById("RReporterType1").checked) {
-        document.getElementById("CmbReporterType2").value = 0;
-        document.getElementById("CmbReporterType3").value = 0;
-    }
-
-    if (document.getElementById("RReporterType2").checked) {
-        document.getElementById("CmbReporterType1").value = 0;
-        document.getElementById("CmbReporterType3").value = 0;
-    }
-
-    if (document.getElementById("RReporterType3").checked) {
-        document.getElementById("CmbReporterType1").value = 0;
-        document.getElementById("CmbReporterType2").value = 0;
-    }
-    */
 }
 
 function CmbReporterDepartmentsFill() {
@@ -1441,7 +1422,9 @@ function AnularPopupAccion() {
 }
 
 var anulationDataAccion = null;
+var reloadAfterCloseAction = false;
 function AnularConfirmedAccion() {
+    reloadAfterCloseAction = true;
     document.getElementById("TxtActionClosedDateLabel").style.color = "#000";
     document.getElementById("CmbActionClosedResponsibleLabel").style.color = "#000";
     $("#TxtActionClosedDateDateRequired").hide();
@@ -1490,6 +1473,7 @@ function AnularConfirmedAccion() {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
+            IncidentAction.ClosedOn = actionClosedOn;
             SaveIncidentAction();
         },
         "error": function (msg) {
@@ -1556,6 +1540,8 @@ function RestoreAccion() {
     });
 }
 
+var actionClosedOn = null;
+var actionClosedBy = null;
 function SaveIncidentAction() {
     var action =
         {
@@ -1591,6 +1577,12 @@ function SaveIncidentAction() {
         "userId": user.Id
     };
 
+    actionClosedOn = action.ClosedOn;
+    actionClosedBy = {
+        "Id": $("#CmbActionClosedResponsible").val(),
+        "Value": $("#CmbActionClosedResponsible option:selected").text()
+    };
+
     $.ajax({
         "type": "POST",
         "url": "/Async/IncidentActionsActions.asmx/Save",
@@ -1598,6 +1590,9 @@ function SaveIncidentAction() {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
+            IncidentAction.ClosedOn = actionClosedOn;
+            IncidentAction.ClosedBy = actionClosedBy;
+            AnulateLayoutAccion();
         },
         "error": function (msg) {
             alertUI(msg.responseText);

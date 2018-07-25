@@ -306,7 +306,7 @@ public partial class UserView : Page
             //this.LtGrantList.Text = res.ToString(); this.LtIdiomas.Text = "<option value=\"es\"" + (this.company.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
             this.LtIdiomas.Text += "<option value=\"es\"" + (this.company.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
             this.LtIdiomas.Text += "<option value=\"ca\"" + (this.company.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
-            this.LtIdiomas.Text += "<option value=\"en\"" + (this.company.Language == "en" ? " selected=\"selected\"" : string.Empty) + ">English</option>";
+            this.LtIdiomas.Text += "<option value=\"en\"" + (this.userItem.Language == "en" ? " selected=\"selected\"" : string.Empty) + ">English</option>";
         }
 
         this.companyUserNames = new StringBuilder();

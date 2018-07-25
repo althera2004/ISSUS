@@ -6,6 +6,7 @@ var MinStepValue = 1;
 var SlidersActive = true;
 var CostBlocked = false;
 var anulationData = null;
+var reloadAfterAnulate = false;
 
 jQuery(function ($) {
     FillCmbRules();
@@ -485,6 +486,7 @@ function OportunityUpdate(sender) {
 }
 
 function SaveIncidentAction(OportunityId, reload) {
+    reloadAfterAnulate = reload;
     var data =
         {
             "incidentAction": {
@@ -528,7 +530,7 @@ function SaveIncidentAction(OportunityId, reload) {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
-            if (reload === true) {
+            if (reloadAfterAnulate === true) {
                 Reload();
             }
             else {
@@ -754,6 +756,12 @@ function ValidateData() {
             }
             else {
                 dateWhatHappened = GetDate($("#TxtActionWhatHappenedDate").val(), "/", false);
+                var startDate = GetDate($("#DateStart").val(), "/", false);
+                if (startDate > dateWhatHappened) {
+                    $("#TxtActionWhatHappenedDateLabel").css("color", "#f00");
+                    ErrorMessageAccion.push(Dictionary.Item_BusinessRisk_ErrorMessage_ActionVerDate);
+                    ok = false;
+                }
             }
         }
         //--------------------------------------------------------------------------
@@ -1385,6 +1393,9 @@ function Resize() {
 }
 
 window.onload = function () {
+    $("#TxtActionWhatHappenedDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtActionWhatHappenedDateOverDate\" style=\"display: none;\">" + Dictionary.Item_BusinessRisk_ErrorMessage_ActionVerDate + "</span>");
+
+
     $("#Tabhome").on("click", function () { $("#BtnAnular").hide(); $("#BtnCancel").show(); $("#oldFormFooter").show(); });
 
     $("#Tabaccion").on("click", function () {
@@ -1543,6 +1554,7 @@ function AnularPopup() {
                 "click": function () { AnularConfirmed(); }
             },
             {
+                "id": "BtnAnularCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
@@ -1553,8 +1565,8 @@ function AnularPopup() {
 
 function AnularConfirmed() {
     console.log("AnularConfirmed");
-    document.getElementById("TxtActionClosedDateLabel").style.color = "#000";
-    document.getElementById("CmbActionClosedResponsibleLabel").style.color = "#000";
+    $("#TxtActionClosedDateLabel").css("color", "#000");
+    $("#CmbActionClosedResponsibleLabel").css("color", "#000");
     $("#TxtActionClosedDateDateRequired").hide();
     $("#TxtActionClosedDateDateMalformed").hide();
     $("#CmbActionClosedResponsibleErrorRequired").hide();
@@ -1564,7 +1576,7 @@ function AnularConfirmed() {
 
     if ($("#TxtActionClosedDate").val() === "") {
         ok = false;
-        document.getElementById("TxtActionClosedDateLabel").style.color = "#f00";
+        $("#TxtActionClosedDateLabel").css("color", "#f00");
         $("#TxtActionClosedDateDateRequired").show();
     }
     else {
@@ -1613,7 +1625,7 @@ function AnularConfirmed() {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
-            SaveIncidentAction(Oportunity.Id, msg.d.MessageError * 1, true);
+            SaveIncidentAction(Oportunity.Id, true);
         },
         "error": function (msg) {
             LoadingHide();
@@ -1641,7 +1653,6 @@ function AnulateLayout() {
         $("#accion input").attr("disabled", "disabled");
         $("#accion select").attr("disabled", "disabled");
         $("#accion textarea").attr("disabled", "disabled");
-        $("#TxtActionNotes").removeAttr("disabled");
     }
     else {
         $("#DivAnulateMessage").hide();

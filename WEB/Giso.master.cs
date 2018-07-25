@@ -395,7 +395,7 @@ public partial class Giso : MasterPage
             printedTasks.Add(task);
         }
 
-        this.PendentTasks = printedTasks.Count(t => t.Expiration <= DateTime.Now);
+        this.PendentTasks = printedTasks.Count;
     }
 
     private void RenderShortCuts()

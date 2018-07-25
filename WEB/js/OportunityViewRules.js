@@ -1,4 +1,6 @@
-﻿function RulesRenderPopup() {
+﻿var updatedRule = null;
+
+function RulesRenderPopup() {
     VoidTable("SelectableRules");
     RulesCompany.sort(CompareRules);
     var target = document.getElementById("SelectableRules");
@@ -230,67 +232,69 @@ function RulesUpdate(sender) {
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Rules_Popup_UpdateRules_Title + "</h4>",
         "title_html": true,
         "buttons":
-        [
-            {
-                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
-                "class": "btn btn-success btn-xs",
-                "click": function () {
-                    var ok = true;
-                    if ($("#TxtRulesName").val() === "") {
-                        $("#TxtRulesNameErrorRequired").show();
-                        ok = false;
-                    }
-                    else {
-                        $("#TxtRulesNameErrorRequired").hide();
-                    }
-
-                    var duplicated = false;
-                    for (var x = 0; x < RulesCompany.length; x++) {
-                        if ($("#TxtRulesName").val().toLowerCase() === RulesCompany[x].Description.toLowerCase() && Selected !== RulesCompany[x].Id && RulesCompany[x].Active === true) {
-                            duplicated = true;
-                            break;
-                        }
-                    }
-
-                    if (duplicated === true) {
-                        $("#TxtRulesNameErrorDuplicated").show();
-                        ok = false;
-                    }
-                    else {
-                        $("#TxtRulesNameErrorDuplicated").hide();
-                    }
-
-                    if ($("#TxtLimitLabel").val() === "") {
-                        document.getElementById("TxtNewLimitLabel").style.color = "#f00";
-                        $("#CmbUpdateLimitErrorRequired").show();
-                        ok = false;
-
-                    } else {
-                        if ($("#TxtLimitLabel").val() * 1 < 1 || $("#CmbUpdateLimit").val() * 1 > 25) {
+            [
+                {
+                    "id": "BtnUpdateRuleOk",
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        var ok = true;
+                        if ($("#TxtRulesName").val() === "") {
+                            $("#TxtRulesNameErrorRequired").show();
                             ok = false;
-                            document.getElementById("TxtNewLimitLabel").style.color = "#f00";
-                            $("#CmbUpdateLimitOutOfRange").show();
                         }
+                        else {
+                            $("#TxtRulesNameErrorRequired").hide();
+                        }
+
+                        var duplicated = false;
+                        for (var x = 0; x < RulesCompany.length; x++) {
+                            if ($("#TxtRulesName").val().toLowerCase() === RulesCompany[x].Description.toLowerCase() && Selected !== RulesCompany[x].Id && RulesCompany[x].Active === true) {
+                                duplicated = true;
+                                break;
+                            }
+                        }
+
+                        if (duplicated === true) {
+                            $("#TxtRulesNameErrorDuplicated").show();
+                            ok = false;
+                        }
+                        else {
+                            $("#TxtRulesNameErrorDuplicated").hide();
+                        }
+
+                        if ($("#CmbUpdateLimit").val() === "") {
+                            $("#TxtNewLimitLabel").css("color", "#f00");
+                            $("#CmbUpdateLimitErrorRequired").show();
+                            ok = false;
+
+                        } else {
+                            if ($("#CmbUpdateLimit").val() * 1 < 1 || $("#CmbUpdateLimit").val() * 1 > 25) {
+                                ok = false;
+                                $("#TxtNewLimitLabel").css("color", "#f00");
+                                $("#CmbUpdateLimitOutOfRange").show();
+                            }
+                        }
+
+
+                        if (ok === false) { window.scrollTo(0, 0); return false; }
+
+                        $("#TxtRulesNameErrorRequired").hide();
+                        $("#TxtRulesNameErrorDuplicated").hide();
+                        $(this).dialog("close");
+                        RulesUpdateConfirmed(Selected, document.getElementById("TxtRulesName").value, document.getElementById("TxtRulesNotes").value, document.getElementById("CmbUpdateLimit").value);
+                        return null;
                     }
-
-
-                    if (ok === false) { window.scrollTo(0, 0); return false; }
-
-                    $("#TxtRulesNameErrorRequired").hide();
-                    $("#TxtRulesNameErrorDuplicated").hide();
-                    $(this).dialog("close");
-                    RulesUpdateConfirmed(Selected, document.getElementById("TxtRulesName").value, document.getElementById("TxtRulesNotes").value, document.getElementById("CmbUpdateLimit").value);
-                    return null;
+                },
+                {
+                    "id": "BtnUpdateRuleCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
                 }
-            },
-            {
-                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                "class": "btn btn-xs",
-                "click": function () {
-                    $(this).dialog("close");
-                }
-            }
-        ],
+            ],
         "close": function () {
             document.getElementById("dialogRules").parentNode.style.cssText += "z-Index:1050 !important";
         }
@@ -298,7 +302,6 @@ function RulesUpdate(sender) {
 }
 
 function RulesDeleteConfirmed(id) {
-    var webMethod = "/Async/RulesActions.asmx/RulesDelete";
     var description = "";
     for (var x = 0; x < RulesCompany.length; x++) {
         if (RulesCompany[x].Id === id) {
@@ -307,25 +310,25 @@ function RulesDeleteConfirmed(id) {
         }
     }
     var data = {
-        "RulesId": id,
+        "rulesId": id,
         "companyId": Company.Id,
         "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/RulesActions.asmx/RulesDelete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -431,8 +434,11 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
             "Limit": limit
         },
         "companyId": Company.Id,
-        "userId": user.Id
+        "userId": user.Id,
+        "reason": ""
     };
+
+    updatedRule = data.newRules;
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
@@ -446,17 +452,22 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
+            else {
+                AfterUpdateRule();
+            }
         },
         "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
     });
+}
 
+function AfterUpdateRule(id) {
     // 2.- Modificar en HTML
     var temp = new Array();
     for (var x = 0; x < RulesCompany.length; x++) {
-        if (RulesCompany[x].Id !== id) {
+        if (RulesCompany[x].Id !== updatedRule.Id) {
             temp.push(RulesCompany[x]);
         }
         else {
@@ -464,10 +475,10 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
             var item = RulesCompany[x];
             temp.push(
                 {
-                    "Id": item.Id,
-                    "Description": newDescription,
-                    "Notes": newNotes,
-                    "Limit": newLimit,
+                    "Id": updatedRule.Id,
+                    "Description": updatedRule.Description,
+                    "Notes": updatedRule.Notes,
+                    "Limit": updatedRule.Limit,
                     "Editable": item.Editable,
                     "Deletable": item.Delete
                 });
@@ -495,6 +506,7 @@ function RulesUpdateConfirmed(id, newDescription, newNotes, newLimit) {
     }
 
     FillCmbRules();
+    RulesRenderPopup();
 }
 
 function FillCmbRules() {

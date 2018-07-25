@@ -8,6 +8,7 @@ var MinStepValue = 1;
 var MinStepValueFinalProbability = 1;
 var MinStepValueFinalSeverity = 1;
 var SlidersStartActive = true;
+var reloadAfterSave = false;
 
 $("#Tabhome").on("click", function () { $("#BtnCancel").show();$("#oldFormFooter").show(); });
 $("#Tabaccion").on("click", function () {
@@ -513,12 +514,6 @@ function BusinessRiskInsert(previousId) {
                     SaveIncidentAction(businessRisk.Id, response.d.MessageError * 1);
                     //document.location = 'BusinessRisksList.aspx';
                 }
-                /*else if (SaveAction === true && ApplyActionFinal === false) {
-                    businessRisk.Id = response.d.MessageError * 1;
-                    console.log('risk+action');
-                    SaveIncidentAction(businessRisk.Id, 0);
-                    //document.location = 'BusinessRisksList.aspx';
-                }*/
                 else {
                     console.log('risk updated');
                     document.location = 'BusinessRisksList.aspx';
@@ -606,10 +601,10 @@ function BusinessRiskUpdate(sender) {
                 if (SaveAction === true) {
                     if (businessRisk.FinalDate !== null) {
                         var newBusinessRiskId = response.d.MessageError * 1;
-                        SaveIncidentAction(businessRisk.Id,newBusinessRiskId);
+                        SaveIncidentAction(businessRisk.Id, newBusinessRiskId, false);
                     }
                     else {
-                        SaveIncidentAction(businessRisk.Id, 0);
+                        SaveIncidentAction(businessRisk.Id, 0, false);
                     }
                 }
                 else {
@@ -628,6 +623,7 @@ function BusinessRiskUpdate(sender) {
 }
 
 function SaveIncidentAction(businessRiskId, newBusinessRiskId, reload) {
+    var reloadAfterSave = reload;
     var action =
         {
             "Id": Action.Id,
@@ -657,42 +653,27 @@ function SaveIncidentAction(businessRiskId, newBusinessRiskId, reload) {
             "Notes": $('#TxtActionNotes').val(),
             "Active": true
         };
+    data = {
+        "incidentAction": action,
+        "userId": user.Id
+    };
 
-    // Ya no hay newBusinessRisk, se decidirá en la pestaña de situación final
-    //if (newBusinessRiskId == 0) {
-    //    webMethod = "/Async/IncidentActionsActions.asmx/Save";
-    //    data = { incidentAction: action, userId: user.Id };
-    //}
-    //else {
-    //    webMethod = "/Async/IncidentActionsActions.asmx/SaveAndCopy";
-    //    var applyAction = document.getElementById('FinalApplyAction2').checked;
-    //    data = {
-    //        incidentAction: action,
-    //        applyAction: applyAction,
-    //        businessRiskId: newBusinessRiskId,
-    //        userId: user.Id
-    //    };
-    //}
-    //-------------------------------------------------------
-    webMethod = "/Async/IncidentActionsActions.asmx/Save";
-    data = { incidentAction: action, userId: user.Id };
-    //-------------------------------------------------------
 
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
-            if (reload === true) {
+        "type": "POST",
+        "url": "/Async/IncidentActionsActions.asmx/Save",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            if (reloadAfterSave === true) {
                 Reload();
             }
             else {
-                document.location = 'BusinessRisksList.aspx';
+                document.location = "BusinessRisksList.aspx";
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
@@ -702,12 +683,8 @@ function SaveBtnPressed() {
     if (ValidateData() === true) {
         if (this.businessRisk.Id === -1) {
             BusinessRiskInsert(-1);
-        } /*else if (ApplyActionFinal && SaveAction) {
-            BusinessRiskInsert(this.businessRisk.Id);
-        }*/ else {
-
-            console.log('saveaction', SaveAction);
-            console.log('FinalDate', $('#TxtFinalDate').val());
+        }
+        else {
             BusinessRiskUpdate();
         }
     }
@@ -722,48 +699,43 @@ function SetCloseRequired() {
     //Set required fields for risks//
     /////////////////////////////////
 
-    FieldSetRequired('TxtRulesLabel', Dictionary.Item_BusinessRisk_LabelField_Rules, true);
-    FieldSetRequired('TxtProcessLabel', Dictionary.Item_BusinessRisk_LabelField_Process, true);
-    FieldSetRequired('TxtDateStartLabel', Dictionary.Item_BusinessRisk_LabelField_DateStart, true);
-    //FieldSetRequired('TxtProbabilityLabel', Dictionary.Item_BusinessRisk_LabelField_Probability, true);
-    //FieldSetRequired('TxtSeverityLabel', Dictionary.Item_BusinessRisk_LabelField_Severity, true);
-    FieldSetRequired('TxtResultLabel', Dictionary.Item_BusinessRisk_LabelField_Result, true);
-    FieldSetRequired('TxtNameLabel', Dictionary.Item_BusinessRisk_LabelField_Name, true);
-    //FieldSetRequired('TxtInitialValueLabel', Dictionary.Item_BusinessRisk_LabelField_InitialValue, true);
-    //FieldSetRequired('TxtApplyActionLabel', Dictionary.Item_BusinessRisk_LabelField_ApplyAction, true);
-    //FieldSetRequired('TxtAssumedLabel', Dictionary.Item_BusinessRisk_LabelField_Assumed, true);
+    FieldSetRequired("TxtRulesLabel", Dictionary.Item_BusinessRisk_LabelField_Rules, true);
+    FieldSetRequired("TxtProcessLabel", Dictionary.Item_BusinessRisk_LabelField_Process, true);
+    FieldSetRequired("TxtDateStartLabel", Dictionary.Item_BusinessRisk_LabelField_DateStart, true);
+    FieldSetRequired("TxtResultLabel", Dictionary.Item_BusinessRisk_LabelField_Result, true);
+    FieldSetRequired("TxtNameLabel", Dictionary.Item_BusinessRisk_LabelField_Name, true);
 
     ///////////////////////////////////
     //Set required fields for actions//
     ///////////////////////////////////
-    FieldSetRequired('TxtActionDescriptionLabel', Dictionary.Item_IncidentAction_Label_Description, true);
-    FieldSetRequired('TxtActionWhatHappenedLabel', Dictionary.Item_IncidentAction_Field_WhatHappened, true);
-    FieldSetRequired('CmbActionWhatHappenedResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleWhatHappend, true);
-    FieldSetRequired('TxtActionWhatHappenedDateLabel', Dictionary.Common_Date, true);
+    FieldSetRequired("TxtActionDescriptionLabel", Dictionary.Item_IncidentAction_Label_Description, true);
+    FieldSetRequired("TxtActionWhatHappenedLabel", Dictionary.Item_IncidentAction_Field_WhatHappened, true);
+    FieldSetRequired("CmbActionWhatHappenedResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleWhatHappend, true);
+    FieldSetRequired("TxtActionWhatHappenedDateLabel", Dictionary.Common_Date, true);
 
     //Checking if Causes is required
-    if (document.getElementById('CmbActionCausesResponsible').value * 1 !== 0 || document.getElementById('StartApplyActionYes').checked === true) {
-        FieldSetRequired('TxtActionCausesLabel', Dictionary.Item_IncidentAction_Field_Causes, true);
-        FieldSetRequired('CmbActionCausesResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
-        FieldSetRequired('TxtActionCausesDateLabel', Dictionary.Common_Date, true);
+    if (document.getElementById("CmbActionCausesResponsible").value * 1 !== 0 || document.getElementById("StartApplyActionYes").checked === true) {
+        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
+        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
+        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, true);
         CausesRequired = true;
     }
-    else if (document.getElementById('TxtActionCauses').value !== '') {
-        FieldSetRequired('TxtActionCausesLabel', Dictionary.Item_IncidentAction_Field_Causes, true);
-        FieldSetRequired('CmbActionCausesResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
-        FieldSetRequired('TxtActionCausesDateLabel', Dictionary.Common_Date, true);
+    else if (document.getElementById("TxtActionCauses").value !== "") {
+        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
+        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
+        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, true);
         CausesRequired = true;
     }
-    else if (document.getElementById('TxtActionCausesDate').value !== '') {
-        FieldSetRequired('TxtActionCausesLabel', Dictionary.Item_IncidentAction_Field_Causes, true);
-        FieldSetRequired('CmbActionCausesResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
-        FieldSetRequired('TxtActionCausesDateLabel', Dictionary.Common_Date, true);
+    else if (document.getElementById("TxtActionCausesDate").value !== "") {
+        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
+        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
+        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, true);
         CausesRequired = true;
     }
     else {
-        FieldSetRequired('TxtActionCausesLabel', Dictionary.Item_IncidentAction_Field_Causes, false);
-        FieldSetRequired('CmbActionCausesResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleCauses, false);
-        FieldSetRequired('TxtActionCausesDateLabel', Dictionary.Common_Date, false);
+        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, false);
+        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, false);
+        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, false);
         CausesRequired = false;
     }
 
@@ -813,81 +785,59 @@ function SetCloseRequired() {
 }
 
 function ValidateData() {
-
-    //SetCloseRequired();
-
     var ok = true;
     var ErrorMessageInicial = new Array();
     var ErrorMessageAccion = new Array();
     var ErrorMessageFinal = new Array();
 
-    ClearFieldTextMessages('TxtRules');
-    ClearFieldTextMessages('TxtProcess');
-    ClearFieldTextMessages('TxtProbability');
-    ClearFieldTextMessages('TxtSeverity');
-    ClearFieldTextMessages('TxtName');
-    ClearFieldTextMessages('TxtDateStart');
-    ClearFieldTextMessages('TxtResult');
-    ClearFieldTextMessages('TxtInitialValue');
-    document.getElementById('DateStartDateOutOfDate').style.display = 'none';
-    document.getElementById('DateStartDateUpToLimit').style.display = 'none';
+    ClearFieldTextMessages("TxtRules");
+    ClearFieldTextMessages("TxtProcess");
+    ClearFieldTextMessages("TxtProbability");
+    ClearFieldTextMessages("TxtSeverity");
+    ClearFieldTextMessages("TxtName");
+    ClearFieldTextMessages("TxtDateStart");
+    ClearFieldTextMessages("TxtResult");
+    ClearFieldTextMessages("TxtInitialValue");
+    $("#DateStartDateOutOfDate").hide();
+    $("#DateStartDateUpToLimit").hide();
 
     // Es obligatorio indicar la norma
-    if (document.getElementById('CmbRules').value * 1 === 0) {
+    if (document.getElementById("CmbRules").value * 1 === 0) {
         ErrorMessageInicial.push(Dictionary.Item_BusinessRisk_ErrorMessage_RulesRequired);
-        SetFieldTextMessages('TxtRules');
+        SetFieldTextMessages("TxtRules");
         ok = false;
     }
 
     // Es obligatorio indicar el proceso
-    if (document.getElementById('CmbProcess').value * 1 === 0) {
+    if (document.getElementById("CmbProcess").value * 1 === 0) {
         ErrorMessageInicial.push(Dictionary.Item_BusinessRisk_ErrorMessage_ProcessRequired);
-        SetFieldTextMessages('TxtProcess');
+        SetFieldTextMessages("TxtProcess");
         ok = false;
     }
 
     // Es obligatorio indicar el nombre del riesgo
-    if (document.getElementById('Name').value === '') {
+    if (document.getElementById("Name").value === "") {
         ErrorMessageInicial.push(Dictionary.Item_BusinessRisk_ErrorMessage_NameRequired);
-        SetFieldTextMessages('TxtName');
+        SetFieldTextMessages("TxtName");
         ok = false;
     }
 
     // Es obligatorio indicar la fecha de inicio del riesgo
-    if (document.getElementById('DateStart').value === '') {
+    if ($("#DateStart").val() === "") {
         ErrorMessageInicial.push(Dictionary.Item_BusinessRisk_ErrorMessage_DateStartRequired);
-        SetFieldTextMessages('TxtDateStart');
+        SetFieldTextMessages("TxtDateStart");
         ok = false;
     } else {
-        var data = GetDate(document.getElementById('DateStart').value, '/', false);
+        var data = GetDate(document.getElementById("DateStart").value, "/", false);
 
         // El inicio del riesgo no puede ser superior a hoy
         if (data > new Date()) {
             ErrorMessageInicial.push(Dictionary.Item_BusinessRisk_ErrorMessage_DateUpToLimit);
-            document.getElementById('TxtDateStartLabel').style.color = '#f00';
-            document.getElementById('DateStartDateUpToLimit').style.display = '';
+            document.getElementById("TxtDateStartLabel").style.color = "#f00";
+            document.getElementById("DateStartDateUpToLimit").style.display = "";
             ok = false;
         }
-    }
-
-    /*
-    // Si se indica que aplica acción o está asumido hay que valorar el riesgo
-    if (document.getElementById('ApplyAction2').checked===true || document.getElementById('Assumed').checked===true)
-    {
-        if (document.getElementById('Result').value * 1 === 0) {
-            ErrorMessageInicial.push(Dictionary.Item_BusinessRisk_ErrorMessage_ResultRequired);
-            SetFieldTextMessages('TxtResult');
-            ok = false;
-        }
-    }*/
-
-    /* No puede ser que el resultado sea mayor que 25 porquye se definen con los slides
-    if (businessRisk.PreviousBusinessRiskId < 1 && (document.getElementById('InitialValue').value * 1 > 25 || document.getElementById('InitialValue').value * 1 < 0)) {
-        ErrorMessageInicial.push(Dictionary.Item_BusinessRisk_ErrorMessage_InitialValueBadRange);
-        SetFieldTextMessages('TxtInitialValue');
-        ok = false;
-    }
-    */    
+    }   
 
     // Si hay acción, se aplican las misma validaciones que en el resto de acciones de la aplicación
     console.log("SaveAction", SaveAction);
@@ -900,66 +850,73 @@ function ValidateData() {
         var dateClose = null;
         var dateCloseExecution = null;
 
-        ClearFieldTextMessages('TxtActionDescription');
-        ClearFieldTextMessages('TxtActionWhatHappened');
-        ClearFieldTextMessages('TxtActionWhatHappenedResponsible');
-        ClearFieldTextMessages('TxtActionWhatHappenedDate');
+        ClearFieldTextMessages("TxtActionDescription");
+        ClearFieldTextMessages("TxtActionWhatHappened");
+        ClearFieldTextMessages("TxtActionWhatHappenedResponsible");
+        ClearFieldTextMessages("TxtActionWhatHappenedDate");
 
-        document.getElementById('TxtFinalResultLabel').style.color = '#000';
-        document.getElementById('TxtFinalProbabilityLabel').style.color = '#000';
-        document.getElementById('TxtFinalSeverityLabel').style.color = '#000';
+        document.getElementById("TxtFinalResultLabel").style.color = "#000";
+        document.getElementById("TxtFinalProbabilityLabel").style.color = "#000";
+        document.getElementById("TxtFinalSeverityLabel").style.color = "#000";
 
         // La descripción de la acción es obligatoria
-        if (document.getElementById('TxtActionDescription').value === '') {
+        if (document.getElementById("TxtActionDescription").value === "") {
             ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_DescriptionRequired);
-            SetFieldTextMessages('TxtActionDescription');
+            SetFieldTextMessages("TxtActionDescription");
             ok = false;
         }
 
         // ¿Qué ha pasado? es obligatorio
         //--------------------------------------------------------------------------
-        if ($('#TxtActionWhatHappened').val() === '') {
+        if ($("#TxtActionWhatHappened").val() === "") {
             ok = false;
             ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequired);
-            SetFieldTextMessages('TxtActionWhatHappened');
+            SetFieldTextMessages("TxtActionWhatHappened");
         }
 
-        if (document.getElementById('CmbActionWhatHappenedResponsible').value * 1 === 0) {
+        if (document.getElementById("CmbActionWhatHappenedResponsible").value * 1 === 0) {
             ok = false;
             ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequiredResponsible);
-            SetFieldTextMessages('CmbActionWhatHappenedResponsible');
+            SetFieldTextMessages("CmbActionWhatHappenedResponsible");
         }
 
-        if ($('#TxtActionWhatHappenedDate').val() === '') {
+        if ($("#TxtActionWhatHappenedDate").val() === "") {
             ok = false;
             ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequiredDate);
-            SetFieldTextMessages('TxtActionWhatHappenedDate');
+            SetFieldTextMessages("TxtActionWhatHappenedDate");
         }
         else {
-            if (!RequiredDateValue('TxtActionWhatHappenedDate')) {
+            if (!RequiredDateValue("TxtActionWhatHappenedDate")) {
                 ok = false;
                 ErrorMessageAccion.push(Dictionary.Item_IncidentAction_Error_DateMalformed_WhatHappened);
             }
             else {
-                dateWhatHappened = GetDate($('#TxtActionWhatHappenedDate').val(), '/', false);
+                dateWhatHappened = GetDate($("#TxtActionWhatHappenedDate").val(), "/", false);
+                var riskStartDate = GetDate($("#DateStart").val(), "/", false);
+                if (riskStartDate > dateWhatHappened) {
+                    $("#TxtActionWhatHappenedDateOverDate").show();
+                    $("#TxtActionWhatHappenedDateLabel").css("color", "#f00");
+                    ErrorMessageAccion.push(Dictionary.Item_BusinessRisk_ErrorMessage_ActionVerDate);
+                    ok = false;
+                }
             }
         }
         //--------------------------------------------------------------------------
 
         if (CausesRequired === true) {
-            ClearFieldTextMessages('TxtActionCauses');
-            ClearFieldTextMessages('TxtActionCausesResponsible');
-            ClearFieldTextMessages('TxtActionCausesDate');
-            if ($('#TxtActionCauses').val() === '') {
+            ClearFieldTextMessages("TxtActionCauses");
+            ClearFieldTextMessages("TxtActionCausesResponsible");
+            ClearFieldTextMessages("TxtActionCausesDate");
+            if ($("#TxtActionCauses").val() === "") {
                 ok = false;
                 ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequired);
-                SetFieldTextMessages('TxtActionCauses');
+                SetFieldTextMessages("TxtActionCauses");
 
             }
-            if (document.getElementById('CmbActionCausesResponsible').value * 1 === 0) {
+            if (document.getElementById("CmbActionCausesResponsible").value * 1 === 0) {
                 ok = false;
                 ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequiredResponsible);
-                SetFieldTextMessages('CmbActionCausesResponsible');
+                SetFieldTextMessages("CmbActionCausesResponsible");
             }
 
             if ($('#TxtActionCausesDate').val() === '') {
@@ -1791,6 +1748,8 @@ window.onload = function () {
     $("#TabhistoryActions").on("click", HideAnulateActionButton);
     $("#TabuploadFiles").on("click", HideAnulateActionButton);
 
+    $("#TxtActionWhatHappenedDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtActionWhatHappenedDateOverDate\" style=\"display: none;\">" + Dictionary.Item_BusinessRisk_ErrorMessage_ActionVerDate + "</span>");
+
     if (BusinessRiskId > 0) {
         $("#BtnPrint").on("click", PrintData);
     }
@@ -1982,6 +1941,10 @@ function AnulateLayout() {
         $("#accion").append(message);
         $("#BtnAnular").hide();
         $("#BtnRestaurar").show();
+
+        $("#accion input").attr("readonly", "readonly");
+        $("#accion select").attr("readonly", "readonly");
+        $("#accion textarea").attr("readonly", "readonly");
         //$("#BtnSave2").hide();
     }
     else {
@@ -1989,6 +1952,9 @@ function AnulateLayout() {
         if (Action.Id > 0) {
             $("#BtnAnular").show();
         }
+        $("#accion input").removeAttr("readonly");
+        $("#accion select").removeAttr("readonly");
+        $("#accion textarea").removeAttr("readonly");
     }
 }
 
