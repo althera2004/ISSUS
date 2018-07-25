@@ -1701,8 +1701,8 @@ semana::semana
 Servicio::Servicio
 SkillsFor::Formación para el/la empleado/a
 Tipo::Tipo
-User_Admin::Propietario/a
-User_PrimaryUser::Administrador/a
+User_Admin::Administrador/a
+User_PrimaryUser::Propietario/a
 Verification-Ext::Verificación externa
 Verification-Int::Verificación interna
 ZZZZZ::Las nuevas claves a partir de aquí hacia abajoo

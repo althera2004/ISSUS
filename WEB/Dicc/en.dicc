@@ -1700,8 +1700,8 @@ semana::week
 Servicio::Service
 SkillsFor::Training for the employee
 Tipo::Kind
-User_Admin::Owner
-User_PrimaryUser::Administrator
+User_Admin::Administrator
+User_PrimaryUser::Owner
 Verification-Ext::External verification
 Verification-Int::Internal verification
 ZZZZZ::The new keys from here downwards
