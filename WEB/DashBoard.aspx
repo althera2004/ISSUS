@@ -76,9 +76,8 @@
             var Tasks = <%=this.Tasks %>;
 
             function Resize() {
-                var listTable = document.getElementById("ListDataDiv");
                 var containerHeight = $(window).height();
-                listTable.style.height = (containerHeight - 350) + "px";
+                $("#ListDataDiv").height(containerHeight - 350);
             }
 
             window.onload = function () {

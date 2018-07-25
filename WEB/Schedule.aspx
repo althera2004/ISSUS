@@ -2,6 +2,11 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" Runat="Server">
         <link rel="stylesheet" href="assets/css/fullcalendar.min.css" />
+        <style>
+            .fc-title {
+                white-space:normal;
+            }
+        </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
@@ -491,28 +496,42 @@
 
         function RenderTask(task) {
             var href = "EquipmentView";
+            var tooltip = "";
             switch (task.Type)
             {
                 case "M":
-                    tooltip = "Mantenimento";
+                    tooltip = Dictionary.Item_EquipmentMaintenance;
                     href +='.aspx?id=' + task.Equipment.Id + "&Tab=mantenimiento&OperationId="+ task.OperationId+"&Action="+task.ActionId+"&Type=" + task.Internal;
                     break;
                 case "V":
-                    tooltip = "Verificación";
+                    tooltip = Dictionary.Item_EquipmentVerification;
                     href +='.aspx?id=' + task.Equipment.Id + "&Tab=verificacion&OperationId="+ task.OperationId+"&Action="+task.ActionId+"&Type=" + task.Internal;
                     break;
                 case "C":
-                    tooltip = "Calibración";
+                    tooltip = Dictionary.Item_EquipmentCalibration;
                     href +='.aspx?id=' + task.Equipment.Id + "&Tab=calibracion&OperationId="+ task.OperationId+"&Action="+task.ActionId+"&Type=" + task.Internal;
                     break;
                 case "I":
-                    tooltip = "Incidencia";
-                    href = "IncidentView.aspx?id=' + task.Equipment.Id";
+                    tooltip = Dictionary.Item_Incident;
+                    href = "IncidentView.aspx?id=" + task.Equipment.Id;
                     break;
                 case "A":
-                    tooltip = "Acción";
-                    href = "ActionView.aspx?id=' + task.Equipment.Id";
+                    tooltip = Dictionary.Item_IncidentAction;
+                    href = "ActionView.aspx?id=" + task.Equipment.Id;
                     break;
+                case "O":
+                    tooltip = Dictionary.Item_Objetivo;
+                    href = "ObjetivoView.aspx?id=" + task.Equipment.Id;
+                    break;
+                case "X":
+                    tooltip = Dictionary.Item_Indicador;
+                    href = "IndicadorView.aspx?id=" + task.Equipment.Id;
+                    break;
+                default:
+                    tooltip = task.Type;
+                    href = "ActionView.aspx?id=" + task.Equipment.Id;
+                    break;
+
             }
 
             var link = document.createElement("A");
@@ -530,6 +549,9 @@
             if (task.Type == "I" || task.Type == "A") {
                 link.className = "fc-day-grid-event fc-event";
             }
+            if (task.Type == "X" || task.Type == "O") {
+                link.className = "fc-day-grid-event fc-event";
+            }
 
             var div = document.createElement("DIV");
             div.className = "fc-content";
@@ -540,30 +562,43 @@
                 span1.innerHTML = "<i class=\"icon-laptop\"></i>&nbsp;";
                 span1.appendChild(document.createTextNode(Dictionary.Item_EquipmentMaintenance));
             }
-            if (task.Type == "R") {
+            else if (task.Type == "R") {
                 span1.innerHTML = "<i class=\"icon-laptop\"></i>&nbsp;";
                 span1.appendChild(document.createTextNode(Dictionary.Item_EquipmentRepair));
             }
-            if (task.Type.charAt(0) == "C") {
+            else if (task.Type.charAt(0) == "C") {
                 span1.innerHTML = "<i class=\"icon-laptop\"></i>&nbsp;";
                 span1.appendChild(document.createTextNode(Dictionary.Item_EquipmentCalibration));
             }
-            if (task.Type.charAt(0) == "V") {
+            else if (task.Type.charAt(0) == "V") {
                 span1.innerHTML = "<i class=\"icon-laptop\"></i>&nbsp;";
                 span1.appendChild(document.createTextNode(Dictionary.Item_EquipmentVerification));
             }
-            if (task.Type == "I") {
+            else if (task.Type == "I") {
                 span1.innerHTML = "<i class=\"icon-warning-sign\"></i>&nbsp;";
                 span1.appendChild(document.createTextNode(Dictionary.Item_Incident));
             }
-            if (task.Type == "A") {
+            else if (task.Type == "A") {
                 span1.innerHTML = "<i class=\"icon-tags\"></i>&nbsp;";
                 span1.appendChild(document.createTextNode(Dictionary.Item_IncidentAction));
+            }
+            else if (task.Type == "X") {
+                span1.innerHTML = "<i class=\"icon-tags\"></i>&nbsp;";
+                span1.appendChild(document.createTextNode(Dictionary.Item_Indicador));
+            }
+            else if (task.Type == "O") {
+                span1.innerHTML = "<i class=\"icon-tags\"></i>&nbsp;";
+                span1.appendChild(document.createTextNode(Dictionary.Item_Objetivo));
+            }
+            else {
+                span1.innerHTML = "<i class=\"icon-tags\"></i>&nbsp;";
+                span1.appendChild(document.createTextNode(task.Type + "*" + Dictionary.Item_IncidentAction));
             }
 
             var span2 = document.createElement("SPAN");
             span2.className = "fc-title";
-            span2.innerHTML = task.Equipment.Description;
+            span2.innerHTML = task.Equipment.Description.length > 50 ? (task.Equipment.Description.substr(0,49) + "...") : task.Equipment.Description;
+            link.title = task.Equipment.Description;
 
             div.appendChild(span1);
             div.appendChild(document.createElement("BR"));

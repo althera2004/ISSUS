@@ -369,7 +369,7 @@ function AdminLayout() {
     if (itemUser.Admin === true) {
         $("#DivPrimaryUser").show();
         for (var x = 0; x < CBR.length; x++) { CBR[x].disabled = true; CBR[x].checked = true; }
-        for (var x = 0; x < CBW.length; x++) { CBW[x].disabled = true; CBW[x].checked = true; }
+        for (var y = 0; y < CBW.length; y++) { CBW[y].disabled = true; CBW[y].checked = true; }
         document.getElementById("RAll").disabled = true;
         document.getElementById("WAll").disabled = true;
         document.getElementById("RAll").checked = true;
@@ -377,8 +377,8 @@ function AdminLayout() {
     }
     else {
         $("#DivPrimaryUser").hide();
-        for (var x = 0; x < CBR.length; x++) { CBR[x].disabled = false; }
-        for (var x = 0; x < CBW.length; x++) { CBW[x].disabled = false; }
+        for (var z = 0; z < CBR.length; z++) { CBR[z].disabled = false; }
+        for (var w = 0; w < CBW.length; w++) { CBW[w].disabled = false; }
         document.getElementById("RAll").disabled = false;
         document.getElementById("WAll").disabled = false;
     }

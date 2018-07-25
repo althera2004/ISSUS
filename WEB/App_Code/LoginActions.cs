@@ -9,24 +9,18 @@ namespace GISOWeb
     using System;
     using System.Collections.Generic;
     using System.Configuration;
-    using System.Data;
-    using System.Data.SqlClient;
     using System.Globalization;
-    using System.IO;
     using System.Net.Mail;
     using System.Web;
     using System.Web.Script.Services;
     using System.Web.Services;
     using GisoFramework;
     using GisoFramework.Activity;
-    using GisoFramework.DataAccess;
     using GisoFramework.Item;
     using GisoFramework.LogOn;
     using SbrinnaCoreFramework;
 
-    /// <summary>
-    /// Summary description for LoginActions
-    /// </summary>
+    /// <summary>Summary description for LoginActions</summary>
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [ScriptService]
@@ -80,6 +74,8 @@ namespace GISOWeb
                 res = employee.SetUser();
             }
 
+            var actualUser = ApplicationUser.GetById(userId, itemUser.CompanyId);
+            ApplicationDictionary.Load(actualUser.Language);
             return res;
         }
 
