@@ -1638,6 +1638,7 @@ function AnulateLayout() {
     $("#BtnRestaurar").hide();
     $("#DivAnulateMessage").remove();
     if (Action.ClosedOn !== null) {
+        $("#BtnNewCost").hide();
         var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
         message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_IncidentAction_AnulateMessageTile + "</h3>";
@@ -1655,6 +1656,7 @@ function AnulateLayout() {
         $("#accion textarea").attr("disabled", "disabled");
     }
     else {
+        $("#BtnNewCost").show();
         $("#DivAnulateMessage").hide();
         $("#accion input").removeAttr("disabled");
         $("#accion select").removeAttr("disabled");

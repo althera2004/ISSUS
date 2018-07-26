@@ -13,11 +13,6 @@ jQuery(function ($) {
         }
     }));
 
-    /*$('.date-picker').datepicker({
-        autoclose: true,
-        todayHighlight: true,
-        language: 'ca'
-    });*/
     var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
     $(".date-picker").datepicker(options);
     $(".date-picker").on("blur", function () { DatePickerChanged(this); });
@@ -36,6 +31,55 @@ jQuery(function ($) {
         e.preventDefault();
         IncidentListGetNone();
     });
+
+    var optionsRanger = $.extend({}, $.datepicker.regional["ca"], {
+        "autoclose": true,
+        "todayHighlight": true,
+        "autoApply": true,
+        "applyClass": "btn-sm btn-success",
+        "cancelClass": "btn-sm btn-default",
+        "format": "DD/MM/YYYY",
+        "startDate": GetDateYYYYMMDDText(Filter.from, '/', false),
+        "endDate": GetDateYYYYMMDDText(Filter.to, '/', false),
+        "locale": {
+            "applyLabel": "<i class=\"fa icon-check\"></i>",
+            "cancelLabel": "<i class=\"fa icon-remove\"></i>",
+            "fromLabel": Dictionary.Common_DateRangeFrom,
+            "toLabel": Dictionary.Common_DateRangeTo,
+            "daysOfWeek": [
+                Dictionary.Common_WeekDayShortName_Sunday,
+                Dictionary.Common_WeekDayShortName_Monday,
+                Dictionary.Common_WeekDayShortName_Tuesday,
+                Dictionary.Common_WeekDayShortName_Wednesday,
+                Dictionary.Common_WeekDayShortName_Thursday,
+                Dictionary.Common_WeekDayShortName_Friday,
+                Dictionary.Common_WeekDayShortName_Saturday
+            ],
+            "monthNames": [
+                Dictionary.Common_MonthName_January,
+                Dictionary.Common_MonthName_February,
+                Dictionary.Common_MonthName_March,
+                Dictionary.Common_MonthName_April,
+                Dictionary.Common_MonthName_May,
+                Dictionary.Common_MonthName_June,
+                Dictionary.Common_MonthName_July,
+                Dictionary.Common_MonthName_August,
+                Dictionary.Common_MonthName_September,
+                Dictionary.Common_MonthName_October,
+                Dictionary.Common_MonthName_November,
+                Dictionary.Common_MonthName_December
+            ],
+            "firstDay": 1
+        }
+    });
+
+    $("#TxtPeriode").daterangepicker(optionsRanger)
+        .prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });    $(".applyBtn").click();    $(".applyBtn").on("click", function () { IncidentGetFilter(); });    $('#TxtPeriode').on('apply.daterangepicker', function (ev, picker) {
+        alert('hello');
+    });
+    LoadSessionFilter();
 });
 
 function IncidentListGetAll() {
@@ -61,8 +105,9 @@ function IncidentListGetAll() {
     document.getElementById("ErrorDepartment").style.display = "none";
     document.getElementById("ErrorProvider").style.display = "none";
     document.getElementById("ErrorCustomer").style.display = "none";
-    var from = GetDate($("#TxtDateFrom").val(), "-");
-    var to = GetDate($("#TxtDateTo").val(), "-");
+    var from = $('#TxtPeriode').data('daterangepicker').startDate._d;// GetDate($("#TxtDateFrom").val(), "-");
+    var to = $('#TxtPeriode').data('daterangepicker').endDate._d;//GetDate($("#TxtDateTo").val(), "-");
+    alert(1);
     IncidentGetFilter();
 }
 
@@ -156,21 +201,29 @@ function ShowCombos(x) {
 ShowCombos(0);
 
 function IncidentGetFilter(exportType) {
-    document.getElementById("nav-search-input").display = "none";
+    $("#nav-search-input").hide();
     var ok = true;
     VoidTable("ListDataTable");
-    document.getElementById("ItemTableError").style.display = "none";
-    document.getElementById("ItemTableVoid").style.display = "none";
-    document.getElementById("ErrorDateFrom").style.display = "none";
-    document.getElementById("ErrorDateTo").style.display = "none";
-    document.getElementById("ErrorDate").style.display = "none";
-    document.getElementById("ErrorStatus").style.display = "none";
-    document.getElementById("ErrorOrigin").style.display = "none";
-    document.getElementById("ErrorDepartment").style.display = "none";
-    document.getElementById("ErrorProvider").style.display = "none";
-    document.getElementById("ErrorCustomer").style.display = "none";
-    var from = GetDate($("#TxtDateFrom").val(), "-");
-    var to = GetDate($("#TxtDateTo").val(), "-");
+    $("#ItemTableError").hide();
+    $("#ItemTableVoid").hide();
+    $("#ErrorDateFrom").hide();
+    $("#ErrorDateTo").hide();
+    $("#ErrorDate").hide();
+    $("#ErrorStatus").hide();
+    $("#ErrorOrigin").hide();
+    $("#ErrorDepartment").hide();
+    $("#ErrorProvider").hide();
+    $("#ErrorCustomer").hide();
+    var from = null;
+
+    if (typeof $('#TxtPeriode').data('daterangepicker').startDate !== "undefined") {
+        from = $('#TxtPeriode').data('daterangepicker').startDate._d;
+    }
+
+    var to = null;
+    if (typeof $('#TxtPeriode').data('daterangepicker').endDate !== "undefined") {
+        to = $('#TxtPeriode').data('daterangepicker').endDate._d;
+    }
 
     var status1 = document.getElementById("RIncidentStatus1").checked;
     var status2 = document.getElementById("RIncidentStatus2").checked;
@@ -182,7 +235,7 @@ function IncidentGetFilter(exportType) {
     var origin2 = document.getElementById("ROrigin2").checked;
     var origin3 = document.getElementById("ROrigin3").checked;
 
-    if ($("#TxtDateFrom").val() !== "") {
+    /*if ($("#TxtDateFrom").val() !== "") {
         if (!validateDate($('#TxtDateFrom').val())) {
             ok = false;
             document.getElementById('ErrorDateFrom').style.display = "";
@@ -204,7 +257,7 @@ function IncidentGetFilter(exportType) {
             ok = false;
             document.getElementById("ErrorDate").style.display = "";
         }
-    }
+    }*/
 
     if (!status1 && !status2 && !status3 && !status4) {
         ok = false;
@@ -493,38 +546,6 @@ function ItemRenderTable(list) {
     }
 }
 
-if (Filter !== null) {
-    document.getElementById('TxtDateFrom').value = GetDateYYYYMMDDText(Filter.from, '/', false);
-    document.getElementById('TxtDateTo').value = GetDateYYYYMMDDText(Filter.to, '/', false);
-    document.getElementById('RIncidentStatus1').checked = Filter.statusIdnetified;
-    document.getElementById('RIncidentStatus2').checked = Filter.statusAnalyzed;
-    document.getElementById('RIncidentStatus3').checked = Filter.statusInProgress;
-    document.getElementById('RIncidentStatus4').checked = Filter.statusClose;
-    if (Filter.origin === 0) {
-        document.getElementById('ROrigin0').checked = true;
-    }
-
-    if (Filter.origin === 1) {
-        document.getElementById('ROrigin1').checked = true;
-        document.getElementById('CmbOrigin1').value = Filter.departmentId;
-        document.getElementById('CmbOrigin1').style.display = 'block';
-    }
-
-    if (Filter.origin === 2) {
-        document.getElementById('ROrigin2').checked = true;
-        document.getElementById('CmbOrigin2').value = Filter.providerId;
-        document.getElementById('CmbOrigin2').style.display = 'block';
-    }
-
-    if (Filter.origin === 3) {
-        document.getElementById('ROrigin3').checked = true;
-        document.getElementById('CmbOrigin3').value = Filter.customerId;
-        document.getElementById('CmbOrigin3').style.display = 'block';
-    }
-
-    IncidentGetFilter();
-}
-
 function IncidentDelete(sender) {
     IncidentSelectedId = sender.parentNode.parentNode.id;
     IncidentSelected = IncidentGetById(IncidentSelectedId);
@@ -587,10 +608,6 @@ function IncidentGetById(id) {
     return null;
 }
 
-IncidentGetFilter();
-
-$("#nav-search").hide();
-
 function Resize() {
     var listTable = document.getElementById('ListDataDiv');
     var containerHeight = $(window).height();
@@ -614,6 +631,8 @@ window.onload = function () {
     $("#RIncidentStatus4").on("click", IncidentGetFilter);
     $("#TxtDateFrom").on("change", IncidentGetFilter);
     $("#TxtDateTo").on("change", IncidentGetFilter);
+    $("#nav-search").hide();
+    IncidentGetFilter();
 }
 
 window.onresize = function () { Resize(); }
@@ -686,4 +705,39 @@ function ExportPDF() {
             alertUI("error:" + msg.responseText);
         }
     });
+}
+
+function LoadSessionFilter () {
+    if (Filter !== null) {
+        //document.getElementById('TxtDateFrom').value = GetDateYYYYMMDDText(Filter.from, '/', false);
+        //document.getElementById('TxtDateTo').value = GetDateYYYYMMDDText(Filter.to, '/', false);
+
+        document.getElementById('RIncidentStatus1').checked = Filter.statusIdnetified;
+        document.getElementById('RIncidentStatus2').checked = Filter.statusAnalyzed;
+        document.getElementById('RIncidentStatus3').checked = Filter.statusInProgress;
+        document.getElementById('RIncidentStatus4').checked = Filter.statusClose;
+        if (Filter.origin === 0) {
+            document.getElementById('ROrigin0').checked = true;
+        }
+
+        if (Filter.origin === 1) {
+            document.getElementById('ROrigin1').checked = true;
+            document.getElementById('CmbOrigin1').value = Filter.departmentId;
+            document.getElementById('CmbOrigin1').style.display = 'block';
+        }
+
+        if (Filter.origin === 2) {
+            document.getElementById('ROrigin2').checked = true;
+            document.getElementById('CmbOrigin2').value = Filter.providerId;
+            document.getElementById('CmbOrigin2').style.display = 'block';
+        }
+
+        if (Filter.origin === 3) {
+            document.getElementById('ROrigin3').checked = true;
+            document.getElementById('CmbOrigin3').value = Filter.customerId;
+            document.getElementById('CmbOrigin3').style.display = 'block';
+        }
+
+        IncidentGetFilter();
+    }
 }

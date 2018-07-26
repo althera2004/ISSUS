@@ -207,8 +207,9 @@ function UpdateStartLabels() {
         }
     }
 
-    $('#TxtStartProbabilityLabel').html(Dictionary.Item_BusinessRisk_LabelField_Probability + ':&nbsp;<strong>' + probabilityName + '</strong>');
-    $('#TxtStartSeverityLabel').html(Dictionary.Item_BusinessRisk_LabelField_Severity + ':&nbsp;<strong>' + severityName + '</strong>');
+    // @cristina: lo dejo oculto hasta que nos pongamos con los layouts
+    //$('#TxtStartProbabilityLabel').html(Dictionary.Item_BusinessRisk_LabelField_Probability + ':&nbsp;<strong>' + probabilityName + '</strong>');
+    //$('#TxtStartSeverityLabel').html(Dictionary.Item_BusinessRisk_LabelField_Severity + ':&nbsp;<strong>' + severityName + '</strong>');
 }
 
 function UpdateResult() {
@@ -282,8 +283,9 @@ function UpdateFinalResult() {
         }
     }
 
-    $("#TxtFinalProbabilityLabel").html(Dictionary.Item_BusinessRisk_LabelField_Probability + ":&nbsp;<strong>" + probabilityName + "</strong>");
-    $("#TxtFinalSeverityLabel").html(Dictionary.Item_BusinessRisk_LabelField_Severity + ":&nbsp;<strong>" + severityName + "</strong>");
+    // @cristina: lo dejo oculto hasta que nos pongamos con los layouts
+    //$("#TxtFinalProbabilityLabel").html(Dictionary.Item_BusinessRisk_LabelField_Probability + ":&nbsp;<strong>" + probabilityName + "</strong>");
+    //$("#TxtFinalSeverityLabel").html(Dictionary.Item_BusinessRisk_LabelField_Severity + ":&nbsp;<strong>" + severityName + "</strong>");
     $("#FinalResult").html(businessRisk.FinalProbability * businessRisk.FinalSeverity);
     businessRisk.FinalResult = businessRisk.FinalProbability * businessRisk.FinalSeverity;
 
@@ -1929,6 +1931,7 @@ function AnulateLayout() {
     $("#BtnRestaurar").hide();
     $("#DivAnulateMessage").remove();
     if (Action.ClosedOn !== null) {
+        $("#BtnNewCost").hide();
         var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
         message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_IncidentAction_AnulateMessageTile + "</h3>";
@@ -1947,6 +1950,7 @@ function AnulateLayout() {
         //$("#BtnSave2").hide();
     }
     else {
+        $("#BtnNewCost").show();
         $("#DivAnulateMessage").hide();
         if (Action.Id > 0) {
             $("#BtnAnular").show();

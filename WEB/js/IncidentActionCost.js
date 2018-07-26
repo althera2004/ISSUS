@@ -2,17 +2,16 @@
 var SelectedIncidentActionCost;
 
 function IncidentActionCostRenderTable(tableName) {
-    console.log("IncidentActionCostRenderTable");
     VoidTable(tableName);
     var target = document.getElementById(tableName);
 
     if (IncidentActionCosts.length === 0) {
         $("#IncidentActionCostsTableVoid").show();
-        $("#" + tableName).parent().hide();
+        //$("#" + tableName).parent().hide();
     }
     else {
         $("#IncidentActionCostsTableVoid").hide();
-        $("#" + tableName).parent().show();
+        //$("#" + tableName).parent().show();
     }
 
     var total = 0;

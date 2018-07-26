@@ -296,7 +296,7 @@
                                                                         <tbody id="IncidentActionCostsTableData"></tbody>
                                                                         <table id="IncidentActionCostsTableVoid" style="display:none;height:100%;width:100%;">
                                                                             <tr>
-                                                                                <td colspan="10" align="center" style="background-color:#ddddff;color:#0000aa;">
+                                                                                <td colspan="10" style="background-color:#ddddff;color:#0000aa;text-align:center;">
                                                                                     <table style="border:none;">
                                                                                         <tr>
                                                                                             <td rowspan="2" style="border:none;"><i class="icon-info-sign" style="font-size:48px;"></i></td>        

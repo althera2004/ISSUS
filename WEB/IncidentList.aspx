@@ -34,27 +34,25 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
-                            <!--/div class="col-xs-12">
                                 <!-- PAGE CONTENT BEGINS -->
-                                <div class="col-sm-12">
-                                    
+                                <div class="col-sm-12">                                    
                                     <table cellpadding="2" cellspacing="2">
                                         <tr>
                                             <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_Incident_List_Filter_Periode1"] %>:</strong></td>
 										    <td>
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-													    <span class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();" id="TxtDateFromBtn">
-														    <i class="icon-calendar bigger-110"></i>
-													    </span>
-												    </div>
+														<span class="input-group-addon">
+															<i class="fa fa-calendar bigger-110"></i>
+														</span>
+														<input class="form-control" type="text" name="date-range-picker" id="TxtPeriode" style="width:180px;" />
+													</div>
 											        <span class="ErrorMessage" id="TxtDateFromErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
 											        <span class="ErrorMessage" id="TxtDateFromErrorDateRange"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
 											        <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
-                                            <td id="TxtDateToLabel"><%=this.Dictionary["Item_Incident_List_Filter_Periode2"] %></td>
+                                            <!--<td id="TxtDateToLabel"><%=this.Dictionary["Item_Incident_List_Filter_Periode2"] %></td>
 										    <td>
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
@@ -67,7 +65,7 @@
 											        <span class="ErrorMessage" id="TxtDateToErrorDateRange"><%=this.Dictionary["Item_Learning_ErrorMessage_UntemporalyDates"] %></span>
 											        <span class="ErrorMessage" id="TxtDateToDateMalformed""><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
-										    </td>
+										    </td>-->
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_Incident_List_Filter_Status"] %>:</strong></td>
@@ -121,8 +119,7 @@
                                             </td>
 
                                         </tr>
-                                    </table>
-                                    
+                                    </table>                                    
                                 </div> 
 
 
@@ -146,12 +143,12 @@
                                                 </thead>
                                             </table>
                                             <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                <table class="table table-bordered table-striped" style="border-top: none;">
+                                                <table class="table table-bordered table-striped" style="border-top: none;margin:0;">
                                                     <tbody id="ListDataTable"></tbody>
                                                 </table>
                                                 <table id="ItemTableError" style="display:none;width:100%;">
                                                     <tr>
-                                                        <td colspan="10" align="center" style="color:#aa0000;">
+                                                        <td colspan="10" style="color:#aa0000;text-align:center;">
                                                             <table style="border:none;width:100%;">
                                                                 <tr>
                                                                     <td rowspan="2" style="border:none;text-align:right;"><i class="icon-warning-sign" style="font-size:48px;"></i></td>        
@@ -177,17 +174,13 @@
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <table id="ItemTableVoid" style="display:none;width:100%;">
+                                                <table id="ItemTableVoid" style="display:none;width:100%;margin:0;height:100%;">
                                                     <tr>
-                                                        <td colspan="10" align="center" style="color:#0000aa;">
-                                                            <table style="border:none;width:100%;">
-                                                                <tr>
-                                                                    <td rowspan="2" style="border:none;text-align:right;"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
-                                                                    <td style="border:none;">
-                                                                        <h4><%=this.Dictionary["Common_VoidSearchResult"] %></h4>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
+                                                        <td style="color:#434382;background-color:#ccccff;">
+                                                            <div style="width:100%;text-align:center;">
+                                                                <span><i class="icon-info-sign" style="font-size:24px;"></i></span>        
+                                                                <span style="font-size:20px;"><%=this.Dictionary["Common_VoidSearchResult"] %></span>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -208,10 +201,11 @@
                                                     </tr>
                                                 </thead>
                                             </table>
-                                        </div><!-- /.table-responsive -->
-                                    </div><!-- /span -->
-                                </div><!-- /row -->						
-                            </!--div><!-- /.col -->
+                                        </div>
+                                    </div>
+                                </div>	
+
+
                             <div id="IncidentDeleteDialog" class="hide" style="width:600px;">
                                 <p><%=this.Dictionary["Item_Incident_PopupDelete_Message"] %>&nbsp;<strong><span id="IncidentDeleteName"></span></strong>?</p>
                                 <div class="alert alert-danger"><%=this.Dictionary["Item_Incident_PopupDelete_Message_Actions"] %></div>
@@ -231,7 +225,7 @@
         <script type="text/javascript" src="/assets/js/jquery.inputlimiter.1.3.1.min.js"></script>
         <script type="text/javascript" src="/assets/js/jquery.maskedinput.min.js"></script>
         <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
-        <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/js/common.js"></script>
         <script type="text/javascript" src="/js/IncidentList.js?<%=this.AntiCache %>"></script>
 </asp:Content>
 

@@ -155,6 +155,8 @@ Common_TiemoutSessionTitle::La sessió ha acabat
 Common_TimeoutSessionMessage::S'ha superat el temps permès d'inactivitat
 Common_Title_Views::Visualitzacions
 Common_To::Fins
+Common_DateRangeFrom::Des de
+Common_DateRangeTo::Fins
 Common_Today::Avui
 Common_Total::Total
 Common_Update::Modificar
@@ -1753,3 +1755,4 @@ Item_Oportunity_ErrorMessage_ActionVerDate::La acció no pot començar abans que l
 Item_BusinessRisk_ErrorMessage_StartDateOverdate::No pot ser posterior a 'Què ha passat' de l'acció
 Item_BusinessRisk_ErrorMessage_WhatHappendOverdate::La data no pot ser anterior al inici del risc
 Item_BusinessRisk_ErrorMessage_CloseBeforeAction::No es pot tacar anteriorment a l'acció
+Item_Oportunity_Filter_CostsNoData::Aquesta oportunitat no té costos

@@ -278,7 +278,7 @@
                                                                                         <tr>
                                                                                             <td rowspan="2" style="border:none;"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
                                                                                             <td style="border:none;">
-                                                                                                <h4><%=this.Dictionary["Item_Oportunity_Filter_NoData"] %></h4>
+                                                                                                <h4><%=this.Dictionary["Item_Oportunity_Filter_CostsNoData"] %></h4>
                                                                                             </td>
                                                                                         </tr>
                                                                                     </table>
