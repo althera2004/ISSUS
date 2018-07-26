@@ -455,7 +455,7 @@ public partial class BusinessRiskView : Page
             return new FormDatePicker
             { 
                 Id = "TxtFinalDate",
-                ColumnsSpan = Constant.ColumnSpan6,
+                ColumnsSpan = Constant.ColumnSpan4,
                 GrantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk),
                 Value = this.businessRisk.FinalDate,
                 Required = GrantToWriteBusinessRisk
@@ -833,11 +833,11 @@ public partial class BusinessRiskView : Page
 
         if (ApplicationUser.HasGrantToRead(ApplicationGrant.BusinessRisk))
         {
-            this.master.AddBreadCrumb("Item_BusinessRisks", "BusinessRisksList.aspx", Constant.NotLeaft);
+            this.master.AddBreadCrumb("Item_BusinessRisksAndOportunities", "BusinessRisksList.aspx", Constant.NotLeaft);
         }
         else
         {
-            this.master.AddBreadCrumb("Item_BusinessRisks");
+            this.master.AddBreadCrumb("Item_BusinessRisksAndOportunities");
         }
 
         this.master.AddBreadCrumb(label);

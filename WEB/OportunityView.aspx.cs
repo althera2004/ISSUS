@@ -325,7 +325,7 @@ public partial class OportunityView : Page
             return new FormDatePicker
             {
                 Id = "TxtFinalDate",
-                ColumnsSpan = Constant.ColumnSpan6,
+                ColumnsSpan = Constant.ColumnSpan4,
                 GrantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk),
                 Value = this.Oportunity.FinalDate
             }.Render;
@@ -343,7 +343,7 @@ public partial class OportunityView : Page
             return new FormText
             {
                 ColumnSpan = 10,
-                ColumnSpanLabel = 2,
+                ColumnSpanLabel = 1,
                 GrantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk),
                 Label = this.Dictionary["Item_IncidentAction_Label_Description"],
                 MaximumLength = 100,
@@ -579,7 +579,7 @@ public partial class OportunityView : Page
         string label = "Item_Oportunity";
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
-        this.master.Titulo = label;
+        //this.master.Titulo = label;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
 
         if (this.ApplicationUser.HasGrantToRead(ApplicationGrant.Oportunity))
@@ -588,10 +588,10 @@ public partial class OportunityView : Page
         }
         else
         {
-            this.master.AddBreadCrumb("Item_Oportunity");
+            this.master.AddBreadCrumb("Item_Oportunity_Detail");
         }
 
-        this.master.AddBreadCrumb(label);
+        this.master.AddBreadCrumb("Item_Oportunity_Detail");
         if (!this.Page.IsPostBack)
         {
             //this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.businessRisk, TargetTypes.BusinessRisk);
@@ -620,10 +620,12 @@ public partial class OportunityView : Page
             this.formFooter.ModifiedBy = this.Oportunity.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Oportunity.ModifiedOn;
             label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Oportunity"], this.Oportunity.Description);
+            this.master.TitleInvariant = true;
+            this.master.Titulo = label;
         }
         else
         {
-            this.master.Titulo = this.Dictionary["Item_Oportunity_New"];
+            this.master.Titulo = this.Dictionary["Item_Oportunity_Detail"];
             this.master.TitleInvariant = true;
             this.Oportunity = Oportunity.Empty;
             this.IncidentAction = IncidentAction.Empty;

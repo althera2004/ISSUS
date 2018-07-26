@@ -1638,15 +1638,14 @@ function AnulateLayout() {
     $("#BtnRestaurar").hide();
     $("#DivAnulateMessage").remove();
     if (Action.ClosedOn !== null) {
-        $("#BtnNewCost").hide();
-        var message = "<div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+        var message = "<br /><div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
         message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_IncidentAction_AnulateMessageTile + "</h3>";
         message += "    <p style=\"margin-left:50px;\">";
         message += "        " + Dictionary.Item_IncidentAction_Label_EndDate + ": <strong>" + GetDateYYYYMMDDText(Action.ClosedOn, "/", false) + "</strong><br />";
         message += "        " + Dictionary.Item_IncidentAction_Label_EndResponsible + ": <strong>" + Action.ClosedBy.Value + "</strong>";
         message += "    </p>";
-        message += "</div><br /><br /><br />";
+        message += "</div>";
         $("#accion").append(message);
         $("#BtnAnular").hide();
         $("#BtnRestaurar").show();
