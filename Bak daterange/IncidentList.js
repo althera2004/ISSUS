@@ -13,11 +13,6 @@ jQuery(function ($) {
         }
     }));
 
-    /*$('.date-picker').datepicker({
-        autoclose: true,
-        todayHighlight: true,
-        language: 'ca'
-    });*/
     var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
     $(".date-picker").datepicker(options);
     $(".date-picker").on("blur", function () { DatePickerChanged(this); });
@@ -36,6 +31,61 @@ jQuery(function ($) {
         e.preventDefault();
         IncidentListGetNone();
     });
+
+
+    var config = {
+        "autoclose": true,
+        "todayHighlight": true,
+        "autoApply": true,
+        "applyClass": "btn-sm btn-success",
+        "cancelClass": "btn-sm btn-default",
+        "format": "DD/MM/YYYY",
+        "locale": {
+            "applyLabel": "<i class=\"fa icon-check\"></i>",
+            "cancelLabel": "<i class=\"fa icon-remove\"></i>",
+            "fromLabel": Dictionary.Common_DateRangeFrom,
+            "toLabel": Dictionary.Common_DateRangeTo,
+            "daysOfWeek": [
+                Dictionary.Common_WeekDayShortName_Sunday,
+                Dictionary.Common_WeekDayShortName_Monday,
+                Dictionary.Common_WeekDayShortName_Tuesday,
+                Dictionary.Common_WeekDayShortName_Wednesday,
+                Dictionary.Common_WeekDayShortName_Thursday,
+                Dictionary.Common_WeekDayShortName_Friday,
+                Dictionary.Common_WeekDayShortName_Saturday
+            ],
+            "monthNames": [
+                Dictionary.Common_MonthName_January,
+                Dictionary.Common_MonthName_February,
+                Dictionary.Common_MonthName_March,
+                Dictionary.Common_MonthName_April,
+                Dictionary.Common_MonthName_May,
+                Dictionary.Common_MonthName_June,
+                Dictionary.Common_MonthName_July,
+                Dictionary.Common_MonthName_August,
+                Dictionary.Common_MonthName_September,
+                Dictionary.Common_MonthName_October,
+                Dictionary.Common_MonthName_November,
+                Dictionary.Common_MonthName_December
+            ],
+            "firstDay": 1
+        }
+    };
+
+    if (Filter !== null) {
+        config["startDate"] = GetDateYYYYMMDD(Filter.from, '/', false);
+        config["endDate"] = GetDateYYYYMMDD(Filter.to, '/', false)
+    }
+
+    console.log("confrgi", config);
+
+    var optionsRanger = $.extend({}, $.datepicker.regional["ca"], config);
+
+    $("#TxtPeriode").daterangepicker(optionsRanger)
+        .prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });    // Actualizar sólo si hay fechas    if (Filter !== null) {        $(".applyBtn").click();    }    $(".applyBtn").on("click", function () { IncidentGetFilter(); });
+    LoadSessionFilter();
 });
 
 function IncidentListGetAll() {
@@ -61,8 +111,8 @@ function IncidentListGetAll() {
     document.getElementById("ErrorDepartment").style.display = "none";
     document.getElementById("ErrorProvider").style.display = "none";
     document.getElementById("ErrorCustomer").style.display = "none";
-    var from = GetDate($("#TxtDateFrom").val(), "-");
-    var to = GetDate($("#TxtDateTo").val(), "-");
+    var from = $('#TxtPeriode').data('daterangepicker').startDate._d;// GetDate($("#TxtDateFrom").val(), "-");
+    var to = $('#TxtPeriode').data('daterangepicker').endDate._d;//GetDate($("#TxtDateTo").val(), "-");
     IncidentGetFilter();
 }
 
@@ -156,21 +206,37 @@ function ShowCombos(x) {
 ShowCombos(0);
 
 function IncidentGetFilter(exportType) {
-    document.getElementById("nav-search-input").display = "none";
+    $("#nav-search-input").hide();
     var ok = true;
     VoidTable("ListDataTable");
-    document.getElementById("ItemTableError").style.display = "none";
-    document.getElementById("ItemTableVoid").style.display = "none";
-    document.getElementById("ErrorDateFrom").style.display = "none";
-    document.getElementById("ErrorDateTo").style.display = "none";
-    document.getElementById("ErrorDate").style.display = "none";
-    document.getElementById("ErrorStatus").style.display = "none";
-    document.getElementById("ErrorOrigin").style.display = "none";
-    document.getElementById("ErrorDepartment").style.display = "none";
-    document.getElementById("ErrorProvider").style.display = "none";
-    document.getElementById("ErrorCustomer").style.display = "none";
-    var from = GetDate($("#TxtDateFrom").val(), "-");
-    var to = GetDate($("#TxtDateTo").val(), "-");
+    $("#ItemTableError").hide();
+    $("#ItemTableVoid").hide();
+    $("#ErrorDateFrom").hide();
+    $("#ErrorDateTo").hide();
+    $("#ErrorDate").hide();
+    $("#ErrorStatus").hide();
+    $("#ErrorOrigin").hide();
+    $("#ErrorDepartment").hide();
+    $("#ErrorProvider").hide();
+    $("#ErrorCustomer").hide();
+    var from = null;
+    var to = null;
+
+    console.log(Filter);
+    console.log("xxx",$('#TxtPeriode').val());
+
+    if ($('#TxtPeriode').val() === "") {
+
+    }
+    else {
+        if (typeof $('#TxtPeriode').data('daterangepicker').startDate !== "undefined") {
+            from = $('#TxtPeriode').data('daterangepicker').startDate._d;
+        }
+
+        if (typeof $('#TxtPeriode').data('daterangepicker').endDate !== "undefined") {
+            to = $('#TxtPeriode').data('daterangepicker').endDate._d;
+        }
+    }
 
     var status1 = document.getElementById("RIncidentStatus1").checked;
     var status2 = document.getElementById("RIncidentStatus2").checked;
@@ -182,7 +248,7 @@ function IncidentGetFilter(exportType) {
     var origin2 = document.getElementById("ROrigin2").checked;
     var origin3 = document.getElementById("ROrigin3").checked;
 
-    if ($("#TxtDateFrom").val() !== "") {
+    /*if ($("#TxtDateFrom").val() !== "") {
         if (!validateDate($('#TxtDateFrom').val())) {
             ok = false;
             document.getElementById('ErrorDateFrom').style.display = "";
@@ -198,12 +264,13 @@ function IncidentGetFilter(exportType) {
         }
     }
 
-    if (from !== null && to !== null) {
+    if (from !== null && to !== null)
+    {
         if (from > to) {
             ok = false;
             document.getElementById("ErrorDate").style.display = "";
         }
-    }
+    }*/
 
     if (!status1 && !status2 && !status3 && !status4) {
         ok = false;
@@ -236,19 +303,19 @@ function IncidentGetFilter(exportType) {
     if (origin2 === true) { origin = 2; originId = $("#CmbOrigin2").val() * 1; }
     if (origin3 === true) { origin = 3; originId = $("#CmbOrigin3").val() * 1; }
     var data =
-        {
-            companyId: Company.Id,
-            from: from,
-            to: to,
-            statusIdnetified: status1,
-            statusAnalyzed: status2,
-            statusInProgress: status3,
-            statusClose: status4,
-            origin: origin,
-            departmentId: $("#CmbOrigin1").val() * 1,
-            providerId: $("#CmbOrigin2").val() * 1,
-            customerId: $("#CmbOrigin3").val() * 1
-        };
+    {
+        companyId: Company.Id,
+        from: from,
+        to: to,
+        statusIdnetified: status1,
+        statusAnalyzed: status2,
+        statusInProgress: status3,
+        statusClose: status4,
+        origin: origin,
+        departmentId: $("#CmbOrigin1").val() * 1,
+        providerId: $("#CmbOrigin2").val() * 1,
+        customerId: $("#CmbOrigin3").val() * 1
+    };
     $.ajax({
         "type": "POST",
         "url": "/Async/IncidentActions.asmx/GetFilter",
@@ -343,13 +410,13 @@ function ItemRenderTable(list) {
         else {
             if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
                 //tdAction.appendChild(document.createTextNode(item.Action.Description));
-                tdAction.appendChild(document.createTextNode(Dictionary.Common_View));
+				tdAction.appendChild(document.createTextNode(Dictionary.Common_View));
             }
             else {
                 var link3 = document.createElement('A');
                 link3.href = 'ActionView.aspx?id=' + item.Action.Id;
                 //link3.appendChild(document.createTextNode(item.Action.Description));
-                link3.appendChild(document.createTextNode(Dictionary.Common_View));
+				link3.appendChild(document.createTextNode(Dictionary.Common_View));
                 tdAction.appendChild(link3);
             }
         }
@@ -364,22 +431,22 @@ function ItemRenderTable(list) {
         tdOpen.appendChild(document.createTextNode(FormatYYYYMMDD(item.Open, '/')));
 
         var iconStatus = document.createElement('I');
-
-        if (item.Status === 1) {
+		
+		if (item.Status === 1) {
             iconStatus.className = "fa icon-pie-chart";
-            iconStatus.title = Dictionary.Item_Incident_Status1;
+			iconStatus.title = Dictionary.Item_Incident_Status1;
         }
-        if (item.Status === 2) {
+		if (item.Status === 2) {
             iconStatus.className = "fa icon-pie-chart";
-            iconStatus.title = Dictionary.Item_Incident_Status2;
+			iconStatus.title = Dictionary.Item_Incident_Status2;
         }
-        if (item.Status === 3) {
+		if (item.Status === 3) {
             iconStatus.className = "fa icon-play";
-            iconStatus.title = Dictionary.Item_Incident_Status3;
+			iconStatus.title = Dictionary.Item_Incident_Status3;
         }
         if (item.Status === 4) {
             iconStatus.className = "fa icon-lock";
-            iconStatus.title = Dictionary.Item_Incident_Status4;
+			iconStatus.title = Dictionary.Item_Incident_Status4;
         }
         iconStatus.style.color = colorStatus;
         tdStatus.appendChild(iconStatus);
@@ -395,16 +462,16 @@ function ItemRenderTable(list) {
         tdAmount.appendChild(document.createTextNode(ToMoneyFormat(item.Amount, 2)));
 
         tdOpen.style.width = "100px";
-        tdOpen.align = "center"
-        tdStatus.style.width = "60px";
-        tdStatus.align = "center"
+		tdOpen.align = "center"
+		tdStatus.style.width = "60px";
+		tdStatus.align = "center"
         tdOrigin.style.width = "250px";
-        tdAction.style.width = "90px";
+		tdAction.style.width = "90px";
         tdAction.align = "center"
         tdAmount.style.width = "100px";
         tdAmount.align = "right";
-        //tdClose.style.width = "100px";
-        //tdClose.align = "center"
+		//tdClose.style.width = "100px";
+		//tdClose.align = "center"
 
         //row.appendChild(tdNumber);
         row.appendChild(tdStatus);
@@ -492,38 +559,6 @@ function ItemRenderTable(list) {
     }
 }
 
-if (Filter !== null) {
-    document.getElementById('TxtDateFrom').value = GetDateYYYYMMDDText(Filter.from, '/', false);
-    document.getElementById('TxtDateTo').value = GetDateYYYYMMDDText(Filter.to, '/', false);
-    document.getElementById('RIncidentStatus1').checked = Filter.statusIdnetified;
-    document.getElementById('RIncidentStatus2').checked = Filter.statusAnalyzed;
-    document.getElementById('RIncidentStatus3').checked = Filter.statusInProgress;
-    document.getElementById('RIncidentStatus4').checked = Filter.statusClose;
-    if (Filter.origin === 0) {
-        document.getElementById('ROrigin0').checked = true;
-    }
-
-    if (Filter.origin === 1) {
-        document.getElementById('ROrigin1').checked = true;
-        document.getElementById('CmbOrigin1').value = Filter.departmentId;
-        document.getElementById('CmbOrigin1').style.display = 'block';
-    }
-
-    if (Filter.origin === 2) {
-        document.getElementById('ROrigin2').checked = true;
-        document.getElementById('CmbOrigin2').value = Filter.providerId;
-        document.getElementById('CmbOrigin2').style.display = 'block';
-    }
-
-    if (Filter.origin === 3) {
-        document.getElementById('ROrigin3').checked = true;
-        document.getElementById('CmbOrigin3').value = Filter.customerId;
-        document.getElementById('CmbOrigin3').style.display = 'block';
-    }
-
-    IncidentGetFilter();
-}
-
 function IncidentDelete(sender) {
     IncidentSelectedId = sender.parentNode.parentNode.id;
     IncidentSelected = IncidentGetById(IncidentSelectedId);
@@ -532,25 +567,25 @@ function IncidentDelete(sender) {
     var dialog = $("#IncidentDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Incident_Popup_Delete_Title + '</h4>',
+        title: '<h4 class="smaller">' + Dictionary.Item_Incident_Popup_Delete_Title+'</h4>',
         title_html: true,
         buttons:
-            [
-                {
-                    html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
-                    "class": "btn btn-danger btn-xs",
-                    click: function () {
-                        IncidentDeleteConfirmed();
-                    }
-                },
-                {
-                    html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
-                    "class": "btn btn-xs",
-                    click: function () {
-                        $(this).dialog("close");
-                    }
+        [
+            {
+                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "class": "btn btn-danger btn-xs",
+                click: function () {
+                    IncidentDeleteConfirmed();
                 }
-            ]
+            },
+            {
+                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                "class": "btn btn-xs",
+                click: function () {
+                    $(this).dialog("close");
+                }
+            }
+        ]
     });
 }
 
@@ -586,10 +621,6 @@ function IncidentGetById(id) {
     return null;
 }
 
-IncidentGetFilter();
-
-$("#nav-search").hide();
-
 function Resize() {
     var listTable = document.getElementById('ListDataDiv');
     var containerHeight = $(window).height();
@@ -613,6 +644,7 @@ window.onload = function () {
     $("#RIncidentStatus4").on("click", IncidentGetFilter);
     $("#TxtDateFrom").on("change", IncidentGetFilter);
     $("#TxtDateTo").on("change", IncidentGetFilter);
+    IncidentGetFilter();
 }
 
 window.onresize = function () { Resize(); }
@@ -643,20 +675,20 @@ function ExportPDF() {
     if (origin3 === true) { origin = 3; originId = $("#CmbOrigin3").val() * 1; }
 
     var data =
-        {
-            "companyId": Company.Id,
-            "from": from,
-            "to": to,
-            "statusIdnetified": status1,
-            "statusAnalyzed": status2,
-            "statusInProgress": status3,
-            "statusClose": status4,
-            "origin": origin,
-            "departmentId": $("#CmbOrigin1").val() * 1,
-            "providerId": $("#CmbOrigin2").val() * 1,
-            "customerId": $("#CmbOrigin3").val() * 1,
-            "listOrder": listOrder
-        };
+    {
+        "companyId": Company.Id,
+        "from": from,
+        "to": to,
+        "statusIdnetified": status1,
+        "statusAnalyzed": status2,
+        "statusInProgress": status3,
+        "statusClose": status4,
+        "origin": origin,
+        "departmentId": $("#CmbOrigin1").val() * 1,
+        "providerId": $("#CmbOrigin2").val() * 1,
+        "customerId": $("#CmbOrigin3").val() * 1,
+        "listOrder": listOrder
+    };
 
     var webMethod = "/Export/IncidentExportList.aspx/PDF";
     LoadingShow(Dictionary.Common_Report_Rendering);
@@ -685,4 +717,39 @@ function ExportPDF() {
             alertUI("error:" + msg.responseText);
         }
     });
+}
+
+function LoadSessionFilter () {
+    if (Filter !== null) {
+        //document.getElementById('TxtDateFrom').value = GetDateYYYYMMDDText(Filter.from, '/', false);
+        //document.getElementById('TxtDateTo').value = GetDateYYYYMMDDText(Filter.to, '/', false);
+
+        document.getElementById('RIncidentStatus1').checked = Filter.statusIdnetified;
+        document.getElementById('RIncidentStatus2').checked = Filter.statusAnalyzed;
+        document.getElementById('RIncidentStatus3').checked = Filter.statusInProgress;
+        document.getElementById('RIncidentStatus4').checked = Filter.statusClose;
+        if (Filter.origin === 0) {
+            document.getElementById('ROrigin0').checked = true;
+        }
+
+        if (Filter.origin === 1) {
+            document.getElementById('ROrigin1').checked = true;
+            document.getElementById('CmbOrigin1').value = Filter.departmentId;
+            document.getElementById('CmbOrigin1').style.display = 'block';
+        }
+
+        if (Filter.origin === 2) {
+            document.getElementById('ROrigin2').checked = true;
+            document.getElementById('CmbOrigin2').value = Filter.providerId;
+            document.getElementById('CmbOrigin2').style.display = 'block';
+        }
+
+        if (Filter.origin === 3) {
+            document.getElementById('ROrigin3').checked = true;
+            document.getElementById('CmbOrigin3').value = Filter.customerId;
+            document.getElementById('CmbOrigin3').style.display = 'block';
+        }
+
+        IncidentGetFilter();
+    }
 }

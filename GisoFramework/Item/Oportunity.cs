@@ -54,6 +54,7 @@ namespace GisoFramework.Item
                     CultureInfo.InvariantCulture,
                     @"{{
                         ""Id"":{0},
+                        ""Code"": {27},
                         ""Description"":""{1}"",
                         ""DateStart"":""{2:dd/MM/yyyy}"",
                         ""Cost"":{3},
@@ -106,7 +107,8 @@ namespace GisoFramework.Item
                     this.FinalResult.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.FinalResult) : Constant.JavaScriptNull,
                     Tools.JsonValue(this.FinalDate),
                     Tools.JsonValue(this.FinalApplyAction),
-                    this.PreviousOportunityId.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.PreviousOportunityId) : Constant.JavaScriptNull);
+                    this.PreviousOportunityId.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.PreviousOportunityId) : Constant.JavaScriptNull,
+                    this.Code);
             }
         }
 

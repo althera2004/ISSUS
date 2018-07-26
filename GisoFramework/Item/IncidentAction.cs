@@ -1391,11 +1391,12 @@ namespace GisoFramework.Item
                     try
                     {
                         cmd.Connection.Open();
-                        var rdr = cmd.ExecuteReader();
-
-                        while (rdr.Read())
+                        using (var rdr = cmd.ExecuteReader())
                         {
-                            res.Add(IncidentAction.ById(rdr.GetInt64(0), companyId));
+                            while (rdr.Read())
+                            {
+                                res.Add(IncidentAction.ById(rdr.GetInt64(0), companyId));
+                            }
                         }
                     }
                     catch (NullReferenceException ex)

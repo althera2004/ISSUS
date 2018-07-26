@@ -1,7 +1,7 @@
 ﻿{
     "CompanyId": 0,
     "ItemType": 13,
-    "ItemUrl": "IncidentView.aspx?id=",
+    "ItemUrl": "ActionView.aspx?id=",
     "AlertDescription": "Identificada sin analizar",
     "Query": "SELECT
                 IA.Id,
