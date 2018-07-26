@@ -466,13 +466,14 @@
                                                                     <table class="table table-bordered table-striped">
                                                                         <thead class="thin-border-bottom">
                                                                             <tr id="ListDataHeader">
-                                                                                <th id="th0" style="width: 90px;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
-                                                                                <th id="th1" style="width: 120px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"] %></th>
+                                                                                <th id="th0" style="width: 120px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"] %></th>
+                                                                                <th id="th1" style="width: 90px;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
                                                                                 <th id="th2" class="search"><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th>
                                                                                 <th id="th3" style="width: 90px;"><%=this.Dictionary["Item_IncidentAction_Header_ImplementDate"] %></th>
                                                                                 <th id="th4" style="width: 90px;"><%=this.Dictionary["Item_IncidentAction_Header_Close"] %></th>
                                                                                 <th class="hidden-480" style="width: 90px !important;">&nbsp;</th>
                                                                             </tr>
+
                                                                         </thead>
                                                                         <tbody id="ListDataTable">
                                                                             <asp:Literal runat="server" ID="BusinessRiskActionData"></asp:Literal>
