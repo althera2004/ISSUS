@@ -190,7 +190,7 @@ Common_Year::Year
 Common_Years::Years
 Common_Yes::Yes
 CompanyProfile::Company data
-DashBoard_OnlyPassed::Expired
+DashBoard_OnlyPassed::Only Expired
 DashBoard_SelectOthers::Tasks of other users
 DashBoard_SelectOwner::My tasks
 DiskQuote_Free::Free disk quote

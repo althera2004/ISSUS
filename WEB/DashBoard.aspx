@@ -29,7 +29,7 @@
                                         <div class="col-xs-2">
                                             <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["DashBoard_SelectOwner"] %>
                                         </div>
-                                        <div class="col-xs-4">
+                                        <div class="col-xs-2">
                                             <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["DashBoard_SelectOthers"] %>
                                         </div>
                                         <div class="col-xs-4">
