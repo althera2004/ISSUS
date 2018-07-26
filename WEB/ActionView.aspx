@@ -163,7 +163,7 @@
                                                             <div class="form-group">
                                                                 <%=this.TxtMonitoring.Render %>
                                                             </div>
-                                                            <hr />
+
                                                             <div class="form-group">
                                                                 <%=this.TxtNotes.Render %>
                                                             </div>

@@ -1735,3 +1735,7 @@ Item_Oportunity_Status_Assumed::Assumed
 Item_Oportunity_Status_NotSignificant::Not significative
 Item_Oportunity_Status_Significant::Significative
 Item_Oportunity_Status_Unevaluated:: Not evaluated
+Item_BusinessRisk_ErrorMessage_ActionVerDate::La acció no pot començar abans que el risk
+Item_Oportunity_ErrorMessage_ActionVerDate::La acció no pot començar abans que la oportunitat
+Item_Oportunity_Detail::Oportunity Card
+Item_BusinessRisk_Title_InitialValoration::Initial Valoration
