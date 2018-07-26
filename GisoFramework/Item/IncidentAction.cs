@@ -1778,14 +1778,14 @@ namespace GisoFramework.Item
 
             if (this.ClosedOn.HasValue)
             {
-                //this.Status = @"<i tittle='" + dictionary["Item_Incident_Status4"] + "' class=""fa icon-lock"" style=""color: rgb(0, 0, 0);""></i>" + dictionary["Item_Incident_Status4"];
-                this.Status = @"<i class=""fa icon-lock"" style=""color: rgb(0, 0, 0);""></i>" + dictionary["Item_Incident_Status4"];
+                //this.Status = @"<i title='" + dictionary["Item_Incident_Status4"] + "' class=""fa icon-lock"" style=""color: rgb(0, 0, 0);""></i>" + dictionary["Item_Incident_Status4"];
+                this.Status = @"<i class=""fa icon-lock"" style=""color: rgb(0, 0, 0);"" title=""" + dictionary["Item_Incident_Status4"] + "\"></i>";
             }
 
             return string.Format(
                 CultureInfo.InvariantCulture,
                 //@"<tr id=""{1}""><td>{0:dd/MM/yyyy}</td><td>{2}</td><td class=""hidden-480"">{3}</td><td class=""hidden-480""> {4:dd/MM/yyyy}</td><td class=""hidden-480"">{5:dd/MM/yyyy}</td><td>{6}</td></tr>",
-                @"<tr id=""{1}""><td>{2}</td><td>{0:dd/MM/yyyy}</td><td class=""hidden-480"">{3}</td><td class=""hidden-480""> {4:dd/MM/yyyy}</td><td class=""hidden-480"">{5:dd/MM/yyyy}</td><td>{6}</td></tr>",
+                @"<tr id=""{1}""><td style=""text-align:center;"">{2}</td><td>{0:dd/MM/yyyy}</td><td class=""hidden-480"">{3}</td><td class=""hidden-480""> {4:dd/MM/yyyy}</td><td class=""hidden-480"">{5:dd/MM/yyyy}</td><td>{6}</td></tr>",
                 this.WhatHappenedOn,
                 this.Id,
                 this.Status,
