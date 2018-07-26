@@ -435,6 +435,7 @@
                                                             </div>
                                                             <div style="clear:both;height:20px;">&nbsp;</div>
                                                             <div class="form-group">
+                                                                <br />
                                                                 <div id="chartBusinessRisk" style="width:100%">
                                                                     <svg style='height:500px;width:100%' id="svggraficBusinessRisk"></svg>
                                                                     <table id="GraphicTableVoid" style="height:500px;width:100%;display:none;">

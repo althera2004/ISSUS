@@ -325,7 +325,7 @@ public partial class OportunityView : Page
             return new FormDatePicker
             {
                 Id = "TxtFinalDate",
-                ColumnsSpan = Constant.ColumnSpan6,
+                ColumnsSpan = Constant.ColumnSpan4,
                 GrantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk),
                 Value = this.Oportunity.FinalDate
             }.Render;
@@ -343,7 +343,7 @@ public partial class OportunityView : Page
             return new FormText
             {
                 ColumnSpan = 10,
-                ColumnSpanLabel = 2,
+                ColumnSpanLabel = 1,
                 GrantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.BusinessRisk),
                 Label = this.Dictionary["Item_IncidentAction_Label_Description"],
                 MaximumLength = 100,

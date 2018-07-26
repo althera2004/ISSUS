@@ -119,7 +119,7 @@
                                                                 <div class="col-sm-2"><span class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Oportunity_Button_CategoryBAR"] %>" id="BtnSelectRules">...</span></div>
                                                             </div>                                                            
                                                             
-                                                            <label id="TxtProcessLabel" class="col-sm-1 no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Process"]%></label>
+                                                            <label id="TxtProcessLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Process"]%></label>
                                                             <div class="col-sm-5" id="DivCmbProcess" style="height:35px !important;">
                                                                 <select id="CmbProcess" onchange="" class="col-xs-12 col-sm-12"><asp:Literal runat="server" ID ="LTProcess"></asp:Literal></select>
                                                                 <input style="display:none;" type="text" readonly="readonly" id="TxtProcess" placeholder="<%=this.Dictionary["Item_Oportunity_LabelField_Process"] %>" class="col-xs-12 col-sm-12" />
@@ -129,28 +129,31 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label id="TxtDescriptionLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Description"]%></label>
-                                                        </div>
-                                                        <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                                                        <!--/div>
+                                                        <div class="form-group" style="margin-left:0px;margin-right:0px;"-->
                                                             <%=this.TxtItemDescription %>
                                                         </div>
                                                         <div class="form-group">
                                                             <label id="TxtCausesLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Causes"]%></label>
-                                                        </div>
-                                                        <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                                                        <!--/div>
+                                                        <div class="form-group" style="margin-left:0px;margin-right:0px;"-->
                                                             <%=this.TxtCauses %>
                                                         </div>
                                                         <div class="form-group">
                                                             <label id="TxtControlLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Control"]%></label>
-                                                        </div>
-                                                        <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                                                        <!--/div>
+                                                        <div class="form-group" style="margin-left:0px;margin-right:0px;"-->
                                                             <%=this.TxtControl %>
                                                         </div>
                                                         <div class="form-group">
                                                             <label id="TxtNotesLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Notes"]%></label>
-                                                        </div>
-                                                        <div class="form-group" style="margin-left:0px;margin-right:0px;">
+                                                        <!--/div>
+                                                        <div class="form-group" style="margin-left:0px;margin-right:0px;"-->
                                                             <%=this.TxtNotes %>
                                                         </div>
+                                                        <hr />
+                                                        <h4><strong><%=this.Dictionary["Item_BusinessRisk_Title_InitialValoration"] %></strong></h4>
+                                                        <br />
                                                         <div class="form-group">
                                                             <div class="col-sm-4 no-padding-left">
                                                                 <label id="TxtCostLabel" class="col-sm-12 no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Cost"]%></label>
@@ -337,7 +340,8 @@
                                                                         <label id="TxtInitialResultLabel" class="col-sm-12 no-padding-right" style="padding-bottom: 20px;"><%=this.Dictionary["Item_BusinessRisk_LabelField_ActualResult"]%></label>
                                                                         <span id="InitialResult" class="col-sm-12" style="margin-left:10px;text-align:left;font-size:20px;font-weight:bold;"><%= this.Oportunity.Result %></span>
                                                                     </div>
-                                                                </div>      
+                                                                </div>
+                                                                <br />
                                                                 <h5><strong><%=this.Dictionary["Item_BusinessRisk_Tab_Graphics"] %></strong></h5>
                                                                 <div class="form-group">
                                                                     <div class="col-sm-4 no-padding-left">
@@ -377,15 +381,15 @@
                                                                     <h4><strong><%=this.Dictionary["Item_Oportunity_Title_FinalResult"] %></strong></h4>
                                                                     <div class="form-group" id="FinalActionActivator">
                                                                         <div class="col-sm-6">
-                                                                            <div class="col-sm-4">
+                                                                            <div class="col-sm-3">
                                                                                 <input type="radio" value="1" id="FinalApplyActionYes" name="ApplyAction" onclick="FinalApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_Oportunity_LabelField_ApplyActionYes"] %>
                                                                             </div>
-                                                                            <div class="col-sm-4" id="ApplyActionNoFinal">
+                                                                            <div class="col-sm-3" id="ApplyActionNoFinal">
                                                                                 <input type="radio" value="2" id="FinalApplyActionNo" name="ApplyAction" onclick="FinalApplyActionRadio();" />&nbsp;<%=this.Dictionary["Item_Oportunity_LabelField_ApplyActionNo"] %>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-sm-6">
-                                                                            <label id="TxtFinalDateLabel" class="col-sm-6 right"><%=this.Dictionary["Item_BusinessRisk_LabelField_CloseDate"] %></label>
+                                                                            <label id="TxtFinalDateLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_BusinessRisk_LabelField_CloseDate"] %></label>
                                                                             <%=this.TxtFinalDate %>
                                                                         </div>
                                                                     </div>
@@ -403,6 +407,7 @@
                                                             </div>
                                                             <div style="clear:both;height:20px;">&nbsp;</div>
                                                             <div class="form-group">
+                                                                <br />
                                                                 <div id="chart" style="width:100%">
                                                                     <svg style="height:500px;width:100%" id="svggraficOportunity"></svg>
                                                                     <table id="GraphicTableVoid" style="height:500px;width:100%;display:none;">
