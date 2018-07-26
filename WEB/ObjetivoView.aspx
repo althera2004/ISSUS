@@ -235,9 +235,9 @@
                                                         <table class="table table-bordered table-striped" style="margin-top: 4px; margin-bottom: 0;">
                                                             <thead class="thin-border-bottom" id="RegistrosTHeadActions">
                                                                 <tr>
-                                                                    <th id="th0" onclick="Sort(this,'ObjetivoActionsTable','text',false);" class="sort" ><%=this.Dictionary["Item_IncidentAction_Header_Description"]%></th>
+                                                                    <th id="th0" onclick="Sort(this,'ObjetivoActionsTable','text',false);" class="sort" style="width: 90px;text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Status"]%></th>
                                                                     <th id="th1" onclick="Sort(this,'ObjetivoActionsTable','date',false);" class="sort" style="width: 100px;"><%=this.Dictionary["Item_IncidentAction_Header_Open"]%></th>
-                                                                    <th id="th2" onclick="Sort(this,'ObjetivoActionsTable','text',false);" class="sort" style="width: 90px;text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Status"]%></th>
+                                                                    <th id="th2" onclick="Sort(this,'ObjetivoActionsTable','text',false);" class="sort" ><%=this.Dictionary["Item_IncidentAction_Header_Description"]%></th>
                                                                     <th id="th3" onclick="Sort(this,'ObjetivoActionsTable','date',false);" class="sort"  style="width: 100px;"><%=this.Dictionary["Item_IncidentAction_Header_ImplementDate"]%></th>
                                                                     <th id="th4" onclick="Sort(this,'ObjetivoActionsTable','money',false);" class="sort" style="width: 150px;text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Cost"]%></th>
                                                                     <th style="width: 107px;">&nbsp;</th>
