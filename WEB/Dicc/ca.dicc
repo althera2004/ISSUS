@@ -1750,6 +1750,6 @@ Item_Oportunity_Status_Significant::Significativa
 Item_Oportunity_Status_Unevaluated::No evaluada
 Item_BusinessRisk_ErrorMessage_ActionVerDate::La acció no pot començar abans que el risk
 Item_Oportunity_ErrorMessage_ActionVerDate::La acció no pot començar abans que la oportunitat
-Item_Oportunity_Detail::Fitxa de l'Oportunitat
-Item_Oportunity_Detail::Oportunity Card
-Item_BusinessRisk_Title_InitialValoration::Valoració Inicial
+Item_BusinessRisk_ErrorMessage_StartDateOverdate::No pot ser posterior a 'Què ha passat' de l'acció
+Item_BusinessRisk_ErrorMessage_WhatHappendOverdate::La data no pot ser anterior al inici del risc
+Item_BusinessRisk_ErrorMessage_CloseBeforeAction::No es pot tacar anteriorment a l'acció

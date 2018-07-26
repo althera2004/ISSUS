@@ -31,7 +31,7 @@ function RenderChartBusinessRisk() {
         chartDataBusinessRisk = d3.select('#chartBusinessRisk svg').datum(graphicDataBusinessRisk);
         chartDataBusinessRisk.call(chartBusinessRisk);
 
-        nv.utils.windowResize(chart.update);
+        nv.utils.windowResize(chartBusinessRisk.update);
         return chartBusinessRisk;
     });
 }

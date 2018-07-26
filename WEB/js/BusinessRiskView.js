@@ -874,12 +874,6 @@ function ValidateData() {
             SetFieldTextMessages("TxtActionWhatHappened");
         }
 
-        if (document.getElementById("CmbActionWhatHappenedResponsible").value * 1 === 0) {
-            ok = false;
-            ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequiredResponsible);
-            SetFieldTextMessages("CmbActionWhatHappenedResponsible");
-        }
-
         if ($("#TxtActionWhatHappenedDate").val() === "") {
             ok = false;
             ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequiredDate);
@@ -895,11 +889,20 @@ function ValidateData() {
                 var riskStartDate = GetDate($("#DateStart").val(), "/", false);
                 if (riskStartDate > dateWhatHappened) {
                     $("#TxtActionWhatHappenedDateOverDate").show();
+                    $("#DateStartDateOutOfDate").show();
                     $("#TxtActionWhatHappenedDateLabel").css("color", "#f00");
-                    ErrorMessageAccion.push(Dictionary.Item_BusinessRisk_ErrorMessage_ActionVerDate);
+                    $("#TxtDateStartLabel").css("color", "#f00");
+                    ErrorMessageInicial.push(Dictionary.Item_BusinessRisk_ErrorMessage_StartDateOverdate);
+                    ErrorMessageAccion.push(Dictionary.Item_BusinessRisk_ErrorMessage_WhatHappendOverdate);
                     ok = false;
                 }
             }
+        }
+
+        if (document.getElementById("CmbActionWhatHappenedResponsible").value * 1 === 0) {
+            ok = false;
+            ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequiredResponsible);
+            SetFieldTextMessages("CmbActionWhatHappenedResponsible");
         }
         //--------------------------------------------------------------------------
 
@@ -1039,7 +1042,7 @@ function ValidateData() {
     }
 
     // Si se marca la fecha de situación final se creará un nuevo riesgo y hay que rellenar los datos
-    if ($('#TxtFinalDate').val() !== '') {
+    if ($("#TxtFinalDate").val() !== "") {
         console.log(businessRisk.FinalProbability);
         console.log(businessRisk.FinalSeverity);
 
@@ -1071,39 +1074,35 @@ function ValidateData() {
             }
         }
 
-        if (document.getElementById('FinalApplyActionYes').checked === false &&
-            document.getElementById('FinalApplyActionNo').checked === false &&
-            document.getElementById('FinalApplyActionAssumed').checked === false) {
+        if (document.getElementById("FinalApplyActionYes").checked === false &&
+            document.getElementById("FinalApplyActionNo").checked === false &&
+            document.getElementById("FinalApplyActionAssumed").checked === false) {
             ok = false;
             ErrorMessageFinal.push(Dictionary.Item_BusinessRisk_ErrorMessage_ClosedRequiredData);
         }
 
         //Close date check
-        if (document.getElementById('TxtFinalDate').value === '') {
+        if (document.getElementById("TxtFinalDate").value === "") {
             ErrorMessageFinal.push(Dictionary.Item_BusinessRisk_ErrorMessage_DateCloseRequired);
-            SetFieldTextMessages('TxtFinalDate');
+            SetFieldTextMessages("TxtFinalDate");
             ok = false;
         }
         else {
-            var data = GetDate(document.getElementById('TxtFinalDate').value, '/', false);
+            var data = GetDate(document.getElementById("TxtFinalDate").value, "/", false);
+            var closeAction = GetDateYYYYMMDD(Action.ClosedOn, false);
 
-            if (data > new Date()) {
-                ErrorMessageFinal.push(Dictionary.Item_BusinessRisk_ErrorMessage_DateUpToLimit);
-                document.getElementById('TxtFinalDateLabel').style.color = '#f00';
-                ok = false;
-            }
-            else if (data < GetDate(document.getElementById('DateStart').value, '/', false)) {
-                ErrorMessageFinal.push(Dictionary.Item_BusinessRisk_ErrorMessage_CloseEarlierThanStart);
-                document.getElementById('TxtFinalDateLabel').style.color = '#f00';
+            if (data < closeAction) {
+                ErrorMessageFinal.push(Dictionary.Item_BusinessRisk_ErrorMessage_CloseBeforeAction);
+                document.getElementById("TxtFinalDateLabel").style.color = "#f00";
                 ok = false;
             }
             else {
-                if (!RequiredDateValue('TxtFinaldate')) {
+                if (!RequiredDateValue("TxtFinaldate")) {
                     ok = false;
                     ErrorMessageFinal.push(Dictionary.Common_Error_DateMalformed);
                 }
                 else {
-                    dateActions = GetDate($('#TxtFinalDate').val(), '/', false);
+                    dateActions = GetDate($("#TxtFinalDate").val(), "/", false);
                 }
             }
         }

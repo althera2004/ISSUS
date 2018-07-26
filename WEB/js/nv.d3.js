@@ -824,8 +824,11 @@ window.nv.tooltip.* also has various helper methods.
                 var tLeft = tooltipLeft(container);
                 var tTop = tooltipTop(container);
                 break;
-      }
+            }
 
+            //var position = $('#svggrafic').offset();
+            //container.style.left = (currentMousePos.x - position.left + 10) + 'px';//left+'px';
+            //container.style.top = (currentMousePos.y - position.top -10 ) + 'px';//top+'px';
             container.style.opacity = 1;
             container.style.position = 'absolute'; 
 

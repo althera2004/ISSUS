@@ -204,7 +204,7 @@ namespace GisoFramework.Alerts
                                     data.Add(rdr[columnName].ToString());
                                 }
 
-                                res.Add(string.Format(CultureInfo.GetCultureInfo("en-us"), this.Tag.Replace("#AlertDescription#", this.AlertDescription), data.ToArray()));
+                                res.Add(string.Format(CultureInfo.InvariantCulture, this.Tag.Replace("#AlertDescription#", this.AlertDescription), data.ToArray()));
                             }
                         }
                     }
