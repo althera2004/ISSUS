@@ -1758,3 +1758,4 @@ Item_BusinessRisk_ErrorMessage_CloseBeforeAction::No es pot tacar anteriorment a
 Item_Oportunity_Filter_CostsNoData::Aquesta oportunitat no té costos
 Item_Oportunity_Detail::Fitxa de l'Oportunitat
 Item_BusinessRisk_Title_InitialValoration::Valoració Inicial
+Item_Process_NoIndicators::No hi ha cap indicador associat

@@ -201,6 +201,7 @@ public partial class ProcesosView : Page
         }
 
         this.IndicatorsData.Text = res.ToString();
+        this.IndicadoresDataTotal.Text = indicators.Count.ToString();
     }
 
     private void RenderProcesosData()

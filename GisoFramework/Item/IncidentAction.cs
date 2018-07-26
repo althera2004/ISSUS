@@ -1779,7 +1779,12 @@ namespace GisoFramework.Item
             if (this.ClosedOn.HasValue)
             {
                 //this.Status = @"<i title='" + dictionary["Item_Incident_Status4"] + "' class=""fa icon-lock"" style=""color: rgb(0, 0, 0);""></i>" + dictionary["Item_Incident_Status4"];
-                this.Status = @"<i class=""fa icon-lock"" style=""color: rgb(0, 0, 0);"" title=""" + dictionary["Item_Incident_Status4"] + "\"></i>";
+                //this.Status = @"<i class=""fa icon-lock"" style=""color: rgb(0, 0, 0);"" title=""" + dictionary["Item_Incident_Status4"] + "\"></i>";
+                // @cristina: la forma correcta es así, pero era muy dificil explicarla por telefono
+                this.Status = string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"<i class=""fa icon-lock"" style=""color: rgb(0, 0, 0);"" title=""{0}""></i>",
+                    dictionary["Item_Incident_Status4"]);
             }
 
             return string.Format(

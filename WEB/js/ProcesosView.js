@@ -6,7 +6,7 @@
     {
         var duplicated = false;
         for (var x = 0; x < processList.length; x++) {
-            if (processList[x].Description.toLowerCase() === document.getElementById('TxtName').value.toLowerCase() && processList[x].Id != process.Id) {
+            if (processList[x].Description.toLowerCase() === document.getElementById('TxtName').value.toLowerCase() && processList[x].Id !== process.Id) {
                 duplicated = true;
                 break;
             }
@@ -36,29 +36,28 @@
 }
 
 function ProcessInsert() {
-    var webMethod = "/Async/ProcessActions.asmx/Insert";
     var data = {
-        'newProcess': {
+        "newProcess": {
             "Id": process.Id,
-            "Description": $('#TxtName').val(),
+            "Description": $("#TxtName").val(),
             "CompanyId": Company.Id,
             "JobPosition": { "Id": jobPositionSelected },
             "ProcessType": processTypeSelected,
-            "Start": $('#TxtInicio').val(),
-            "Work": $('#TxtDesarrollo').val(),
-            "End": $('#TxtFinalizacion').val(),
+            "Start": $("#TxtInicio").val(),
+            "Work": $("#TxtDesarrollo").val(),
+            "End": $("#TxtFinalizacion").val(),
         },
         "userId": user.Id
     };
 
     LoadingShow("");
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/ProcessActions.asmx/Insert",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
                 document.location = referrer;
@@ -67,7 +66,7 @@ function ProcessInsert() {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -75,30 +74,29 @@ function ProcessInsert() {
 }
 
 function ProcessUpdate() {
-    var webMethod = "/Async/ProcessActions.asmx/Update";
     var data = {
-        'oldProcess': process,
-        'newProcess': {
+        "oldProcess": process,
+        "newProcess": {
             "Id": process.Id,
-            "Description": $('#TxtName').val(),
+            "Description": $("#TxtName").val(),
             "CompanyId": process.CompanyId,
             "JobPosition": { "Id": jobPositionSelected },
             "ProcessType": processTypeSelected,
-            "Start": $('#TxtInicio').val(),
-            "Work": $('#TxtDesarrollo').val(),
-            "End": $('#TxtFinalizacion').val(),
+            "Start": $("#TxtInicio").val(),
+            "Work": $("#TxtDesarrollo").val(),
+            "End": $("#TxtFinalizacion").val(),
         },
-        'userId': user.Id
+        "userId": user.Id
     };
 
-    LoadingShow('');
+    LoadingShow("");
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/ProcessActions.asmx/Update",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
                 document.location = referrer;
@@ -107,7 +105,7 @@ function ProcessUpdate() {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -116,7 +114,7 @@ function ProcessUpdate() {
 
 function jobPositionChanged(sender) {
     var id = sender.parentNode.parentNode.parentNode.id * 1;
-    $("#dialogJobPosition").dialog('close');
+    $("#dialogJobPosition").dialog("close");
     for (var x = 0; x < processTypeCompany.length; x++) {
         if (jobPositionCompany[x].Id === id) {
             jobPositionSelected = id;
@@ -202,7 +200,7 @@ function ProcessTypeUpdate(sender) {
 
                     var duplicated = false;
                     for (var x = 0; x < processTypeCompany.length; x++) {
-                        if (document.getElementById('TxtProcessTypeName').value.toLowerCase() == processTypeCompany[x].Description.toLowerCase() && Selected != processTypeCompany[x].Id && processTypeCompany[x].Active === true) {
+                        if (document.getElementById('TxtProcessTypeName').value.toLowerCase() === processTypeCompany[x].Description.toLowerCase() && Selected !== processTypeCompany[x].Id && processTypeCompany[x].Active === true) {
                             duplicated = true;
                             break;
                         }
@@ -238,35 +236,35 @@ function ProcessTypeUpdate(sender) {
 }
 
 function ProcessTypeInsert(sender) {
-    document.getElementById('dialogProcessType').parentNode.style.cssText += 'z-Index:1039 !important';
-    document.getElementById('TxtProcessTypeNewNameErrorRequired').style.display = 'none';
-    document.getElementById('TxtProcessTypeNewNameErrorDuplicated').style.display = 'none';
-    $('#TxtProcessTypeNewName').val('');
+    document.getElementById("dialogProcessType").parentNode.style.cssText += "z-Index:1039 !important";
+    $("#TxtProcessTypeNewNameErrorRequired").hide();
+    $("#TxtProcessTypeNewNameErrorDuplicated").hide();
+    $("#TxtProcessTypeNewName").val("");
     var Selected = 0;
     var dialog = $("#ProcessTypeInsertDialog").removeClass("hide").dialog({
-        resizable: false,
-        width: 600,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Process_Popup_AddProcessType_Title + '</h4>',
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Process_Popup_AddProcessType_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     var ok = true;
-                    if (document.getElementById('TxtProcessTypeNewName').value == '') {
-                        document.getElementById('TxtProcessTypeNewNameErrorRequired').style.display = 'block';
+                    if ($("#TxtProcessTypeNewName").val() === "") {
+                        $("#TxtProcessTypeNewNameErrorRequired").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById('TxtProcessTypeNewNameErrorRequired').style.display = 'none';
+                        $("#TxtProcessTypeNewNameErrorRequired").hide();
                     }
 
                     var duplicated = false;
                     for (var x = 0; x < processTypeCompany.length; x++) {
-                        if (document.getElementById('TxtProcessTypeNewName').value.toLowerCase() == processTypeCompany[x].Description.toLowerCase()) {
+                        if (document.getElementById('TxtProcessTypeNewName').value.toLowerCase() === processTypeCompany[x].Description.toLowerCase()) {
                             duplicated = true;
                             break;
                         }
@@ -289,21 +287,21 @@ function ProcessTypeInsert(sender) {
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
         ],
-        close: function () { document.getElementById('dialogProcessType').parentNode.style.cssText += 'z-Index:1050 !important'; }
+        "close": function () { document.getElementById('dialogProcessType').parentNode.style.cssText += 'z-Index:1050 !important'; }
     });
 }
 
 function ProcessTypeDeleteConfirmed(id) {
     // 1.- Desactivar en la BBDD
     var webMethod = "/Async/ProcessActions.asmx/DesactiveProcessType";
-    var description = '';
+    var description = "";
     for (var x = 0; x < processTypeCompany.length; x++) {
         if (processTypeCompany[x].Id === id) {
             description = processTypeCompany[x].Description;
@@ -352,7 +350,7 @@ function ProcessTypeDeleteConfirmed(id) {
     // 3.- Eliminar la fila de la tabla del popup
     var target = document.getElementById('SelectableProcessType');
     for (var x = 0; x < target.childNodes.length; x++) {
-        if (target.childNodes[x].id == id) {
+        if (target.childNodes[x].id === id) {
             target.childNodes[x].style.display = 'none';
             break;
         }
@@ -423,7 +421,7 @@ function ProcessTypeUpdateConfirmed(id, newDescription) {
     // 3.- Modificar la fila de la tabla del popup
     var target = document.getElementById('SelectableProcessType');
     for (var x = 0; x < target.childNodes.length; x++) {
-        if (target.childNodes[x].id == id) {
+        if (target.childNodes[x].id === id) {
             target.childNodes[x].childNodes[0].innerHTML = newDescription;
             break;
         }
@@ -492,7 +490,7 @@ jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
             var $title = this.options.title || '&nbsp;'
-            if (("title_html" in this.options) && this.options.title_html == true)
+            if (("title_html" in this.options) && this.options.title_html === true)
                 title.html($title);
             else title.text($title);
         }
@@ -629,7 +627,7 @@ function FillCmbJobPosition() {
         var option = document.createElement('option');
         option.value = jobPositionCompany[x].Id;
         option.appendChild(document.createTextNode(jobPositionCompany[x].Description));
-        if (jobPositionSelected == jobPositionCompany[x].Id) {
+        if (jobPositionSelected === jobPositionCompany[x].Id) {
             option.selected = true;
         }
 
@@ -648,7 +646,7 @@ function FillCmbTipo() {
         var option = document.createElement('option');
         option.value = processTypeCompany[x].Id;
         option.appendChild(document.createTextNode(processTypeCompany[x].Description));
-        if (processTypeSelected == processTypeCompany[x].Id) {
+        if (processTypeSelected === processTypeCompany[x].Id) {
             option.selected = true;
         }
 
@@ -660,30 +658,27 @@ function CmbJobPositionChanged() {
     jobPositionSelected = document.getElementById('CmbJobPosition').value * 1;
     var text = '';
     for (var x = 0; x < jobPositionCompany.length; x++) {
-        if (jobPositionSelected == jobPositionCompany[x].Id) {
+        if (jobPositionSelected === jobPositionCompany[x].Id) {
             text = jobPositionCompany[x].Description;
             break;
         }
     }
 
-    document.getElementById('TxtJobPosition').value = text;
+    $("#TxtJobPosition").val(text);
 }
 
 function CmbTipoChanged() {
     processTypeSelected = document.getElementById('CmbTipo').value * 1;
     var text = '';
     for (var x = 0; x < processTypeCompany.length; x++) {
-        if (processTypeSelected == processTypeCompany[x].Id) {
+        if (processTypeSelected === processTypeCompany[x].Id) {
             text = processTypeCompany[x].Description;
             break;
         }
     }
 
-    document.getElementById('TxtProcessType').value = text;
+    $("#TxtProcessType").val(text);
 }
-
-// ISSUS-190
-document.getElementById('CmbJobPosition').focus();
 
 if (ApplicationUser.Grants.Proccess.Write === false) {
     document.getElementById("CmbJobPosition").disabled = true;
@@ -699,6 +694,7 @@ if (ApplicationUser.Grants.Proccess.Write === false) {
 
 window.onload = function()
 {
+    document.getElementById("CmbJobPosition").focus();
     FillCmbJobPosition();
     FillCmbTipo();
     Resize();
@@ -706,7 +702,6 @@ window.onload = function()
 window.onresize = function () { Resize(); }
 
 function Resize() {
-    var listTable = document.getElementById('ListDataDiv');
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 360) + 'px';
+    $("#ListDataDiv").height(containerHeight - 360);
 }

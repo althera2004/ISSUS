@@ -66,12 +66,6 @@
                                                     <a data-toggle="tab" href="#uploadFiles"><%=this.Dictionary["Item_IncidentAction_Tab_UploadFiles"] %></a>
                                                 </li>
                                                 <% } %>
-                                                <% if (this.Admin)
-                                                   { %>
-                                                <li class="" id="TabTrazas">
-                                                    <a data-toggle="tab" href="#trazas"><%=this.Dictionary["Item_Process_Tab_Traces"]%></a>
-                                                </li>
-                                                <% } %>
                                             </ul>
                                             <div class="tab-content no-border padding-24">
                                                 <div id="home" class="tab-pane active">                                                
@@ -79,11 +73,6 @@
                                                         <div class="form-group">
                                                             <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right" id="TxtNameLabel"><%=this.Dictionary["Item_Process_FieldLabel_Name"] %><span style="color:#f00">*</span></label>
                                                             <%=this.TxtName %>
-                                                            <!--<div class="col-sm-7">
-                                                                <input type="text" id="TxtName" placeholder="<%=this.Dictionary["Item_Process_FieldLabel_Name"] %>" class="col-xs-12 col-sm-12" value="<%=this.Proceso.Description.Replace("\"","\\\"") %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
-                                                                <span class="ErrorMessage" id="TxtNameErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                                <span class="ErrorMessage" id="TxtNameErrorDuplicated" style="display:none;"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
-                                                            </div>-->
                                                         </div>
                                                         <div class="form-group">                                                             <label id="TxtProcessTypeLabel" class="col-sm-1 control-label no-padding-right" id="Label2"><%=this.Dictionary["Item_Process_FieldLabel_Type"] %><span style="color:#f00">*</span></label>
                                                             <div class="col-sm-3" id="DivCmbTipo" style="height:35px !important;">
@@ -100,19 +89,7 @@
                                                                 <input style="display:none;" readonly="readonly" type="text" id="TxtJobPosition" placeholder="<%=this.Dictionary["Item_Process_FieldLabel_Responsible"] %>" class="col-xs-12 col-sm-12" value="<%=this.Proceso.JobPosition.Description %>" />
                                                                 <span class="ErrorMessage" id="TxtJobPositionErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
-                                                            <!-- <div class="col-sm-1"><span class="btn btn-light" style="height:30px;" id="BtnSelectJobPosition" title="<%=this.Dictionary["Item_Process_SelectJobPosition"] %>">...</span></div> -->
-                                                        </div>
-                                                        <!--div class="form-group">
-																																																					 
-																																  
-																																					   
-																																																															
-																																																 
-																  
-																																																												 
-															  
-																				
-                                                        </div-->		
+                                                        </div>	
                                                         <div class="form-group">
                                                             <label class="col-sm-12">1.- <%=this.Dictionary["Item_Process_FieldLabel_Start"] %></label>
                                                             <div class="col-sm-12"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="500" id="TxtInicio"><%=this.Proceso.Start %></textarea></div>
@@ -147,14 +124,24 @@
                                                             </thead>
                                                         </table>
                                                         <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                            <table class="table table-bordered table-striped" style="border-top: none;">
+                                                            <table class="table table-bordered table-striped" style="<%=this.IndicadoresDataTotal.Text != "0" ? "" : "display:none;" %>border-top: none;margin:0;">
                                                                 <tbody id="ListDataTable"><asp:Literal runat="server" ID="IndicatorsData"></asp:Literal></tbody>
+                                                            </table>
+                                                            <table id="IndicadoresTableVoid" style="<%=this.IndicadoresDataTotal.Text == "0" ? "" : "display:none;" %>width:100%;margin:0;height:100%;">
+                                                                <tr>
+                                                                    <td style="color:#434382;background-color:#ccccff;">
+                                                                        <div style="width:100%;text-align:center;">
+                                                                            <span><i class="icon-info-sign" style="font-size:24px;"></i></span>        
+                                                                            <span style="font-size:20px;"><%=this.Dictionary["Item_Process_NoIndicators"] %></span>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
                                                             </table>
                                                         </div>
                                                         <table class="table table-bordered table-striped" style="margin: 0">
                                                             <thead class="thin-border-bottom">
                                                                 <tr id="ListDataFooter">
-                                                                    <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="ProviderDataTotal"></asp:Literal></i></th>
+                                                                    <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="IndicadoresDataTotal"></asp:Literal></i></th>
                                                                 </tr>
                                                             </thead>
                                                         </table>

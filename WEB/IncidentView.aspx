@@ -230,20 +230,16 @@
                                                                     </thead>
                                                                 </table>
                                                                 <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                                    <table class="table table-bordered table-striped" style="border-top: none;">
+                                                                    <table class="table table-bordered table-striped" style="border-top: none;margin:0;">
                                                                         <tbody id="IncidentCostsTableData"></tbody>
-                                                                    </table>
-                                                                    <table id="IncidentCostsTableVoid" style="display:none;">
+                                                                    </table>                                                                    
+                                                                    <table id="IncidentCostsTableVoid" style="display:none;width:100%;margin:0;height:100%;">
                                                                         <tr>
-                                                                            <td colspan="10" align="center" style="background-color:#ddddff;color:#0000aa;">
-                                                                                <table style="border:none;">
-                                                                                    <tr>
-                                                                                        <td rowspan="2" style="border:none;"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
-                                                                                        <td style="border:none;">
-                                                                                            <h4><%=this.Dictionary["Item_IncidentCost_Filter_NoData"] %></h4>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                </table>
+                                                                            <td style="color:#434382;background-color:#ccccff;">
+                                                                                <div style="width:100%;text-align:center;">
+                                                                                    <span><i class="icon-info-sign" style="font-size:24px;"></i></span>        
+                                                                                    <span style="font-size:20px;"><%=this.Dictionary["Item_IncidentCost_Filter_NoData"] %></span>
+                                                                                </div>
                                                                             </td>
                                                                         </tr>
                                                                     </table>
