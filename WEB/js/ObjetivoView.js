@@ -1471,12 +1471,13 @@ function RenderActionsTable() {
 function RenderActionsRow(actionData) {
     totalCostActions += actionData.Cost;
     var res = "<tr id=\"" + actionData.Id + "\">";
-    res += "<td><a href=\"#\" onclick=\"GoAction(this);\">" + actionData.Description + "</a></td>";
-    res += "<td align=\"center\" style=\"width: 100px;\">" + actionData.OpenDate + "</td>";
     res += "<td align=\"center\" style=\"width:90px;\">" + actionData.Status.split('*').join('"') + "</td>";
+    res += "<td align=\"center\" style=\"width: 100px;\">" + actionData.OpenDate + "</td>";
+    res += "<td><a href=\"#\" onclick=\"GoAction(this);\">" + actionData.Description + "</a></td>";
     res += "<td align=\"center\" style=\"width: 100px;\">" + actionData.PreviewDate + "</td>";
     res += "<td align=\"right\" style=\"width:150px;\">" + ToMoneyFormat(actionData.Cost, 2) + "</td>";
     res += "<td style=\"width:90px;\">";
+
     if (ApplicationUser.Grants.IncidentActions.Write === true) {
         res += "    <span class=\"btn btn-xs btn-info\" onclick=\"GoAction(this);\"><i class=\"icon-edit bigger- 120\"></i></span>";
         res += "    &nbsp;"
