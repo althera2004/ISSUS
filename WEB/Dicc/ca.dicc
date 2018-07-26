@@ -1753,3 +1753,5 @@ Item_Oportunity_ErrorMessage_ActionVerDate::La acció no pot començar abans que l
 Item_BusinessRisk_ErrorMessage_StartDateOverdate::No pot ser posterior a 'Què ha passat' de l'acció
 Item_BusinessRisk_ErrorMessage_WhatHappendOverdate::La data no pot ser anterior al inici del risc
 Item_BusinessRisk_ErrorMessage_CloseBeforeAction::No es pot tacar anteriorment a l'acció
+Item_Oportunity_Detail::Fitxa de l'Oportunitat
+Item_BusinessRisk_Title_InitialValoration::Valoració Inicial
