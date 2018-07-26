@@ -304,7 +304,10 @@ function EquipmentMaintenanceDefinitionEditConfirmed() {
     console.log(SelectedEquipmentMaintenanceDefinition);
 
     var oldEquipmentMaintenanceDefinition = EquipmentMaintenanceDefinitiongetById(SelectedEquipmentDefinitionSelectedId);
-    oldEquipmentMaintenanceDefinition.FirstDate = GetDateYYYYMMDD(oldEquipmentMaintenanceDefinition.FirstDate, "/");
+	if(oldEquipmentMaintenanceDefinition.FirstDate != null)
+	{
+		oldEquipmentMaintenanceDefinition.FirstDate = GetDateYYYYMMDD(oldEquipmentMaintenanceDefinition.FirstDate, "/");
+	}
     var data = {
         "newEquipmentMaintenanceDefinition": SelectedEquipmentMaintenanceDefinition,
         "oldEquipmentMaintenanceDefinition": oldEquipmentMaintenanceDefinition,

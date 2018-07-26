@@ -6,16 +6,16 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Web.UI;
-using GisoFramework.Item;
 using GisoFramework;
-using SbrinnaCoreFramework.UI;
-using System.Collections.ObjectModel;
 using GisoFramework.Alerts;
 using SbrinnaCoreFramework;
+using SbrinnaCoreFramework.UI;
 
+/// <summary>Implements alerts page</summary>
 public partial class Alerts : Page
 {
     /// <summary> Master of page</summary>
@@ -36,8 +36,8 @@ public partial class Alerts : Page
     /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary { get; private set; }
 
-    public UIDataHeader DataHeader { get; set; }
-
+    /// <summary>Gets header for data</summary>
+    public UIDataHeader DataHeader { get; private set; }
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -47,7 +47,6 @@ public partial class Alerts : Page
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
             this.Response.Redirect("Default.aspx", Constant.EndResponse);
-            Context.ApplicationInstance.CompleteRequest();
         }
         else
         {
@@ -56,13 +55,14 @@ public partial class Alerts : Page
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-                Context.ApplicationInstance.CompleteRequest();
             }
             else
             {
                 this.Go();
             }
         }
+
+        Context.ApplicationInstance.CompleteRequest();
     }
 
     /// <summary>Begin page running after session validations</summary>
@@ -81,6 +81,7 @@ public partial class Alerts : Page
         this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_Alert_ListHeader_Description"], HiddenMobile = true });
     }
 
+    /// <summary>Generates HTML to show alerts</summary>
     private void RenderAlerts()
     {
         int cont = 0;
@@ -111,8 +112,8 @@ public partial class Alerts : Page
 
             alertOther.Append("<div></div>");
         }
-        
-        if(cont == 0)
+
+        if (cont == 0)
         {
             alertOther.Append(@"<tr><td colspan=""3"" align=""center"" style=""width:100%;height:200px;background-color:#A3DC99;color:#527D4A""><br /><br /><br /><h3><i class=""icon-check""></i>" + this.Dictionary["Common_NoAlerts"] + "</h3></td></tr>");
         }

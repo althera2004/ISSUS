@@ -268,6 +268,12 @@
                 $("#BtnCancel").click(function (e) { document.location = "/DashBoard.aspx"; });
             });
 
+            $(document).keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $("#BtnSave").click();
+                }
+            });
+
         function SaveProfile()
         {
             var showHelp = document.getElementById("chkShowHelp").checked;
@@ -333,7 +339,7 @@
                 "data": JSON.stringify(data, null, 2),
                 "success": function (response) {
                     if (response.d.Success === true) {
-                        document.location = "/UserProfileView.aspx";
+                        document.location = "/DashBoard.aspx";
                     }
                     if (response.d.Success !== true) {
                         alertUI(response.d.MessageError);

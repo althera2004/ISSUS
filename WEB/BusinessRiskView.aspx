@@ -429,7 +429,7 @@
                                                             </div>
                                                             <div style="clear:both;height:20px;">&nbsp;</div>
                                                             <div class="form-group">
-                                                                <div id='chart' style="width:100%">
+                                                                <div id="chartBusinessRisk" style="width:100%">
                                                                     <svg style='height:500px;width:100%' id="svggraficBusinessRisk"></svg>
                                                                     <table id="GraphicTableVoid" style="height:500px;width:100%;display:none;">
                                                                         <tr>
@@ -914,26 +914,30 @@
     <script type="text/javascript" src="/js/BusinessRiskView.js?<%=this.AntiCache %>"></script>
     <script type="text/javascript" src="/js/BusinessRiskViewRules.js?<%=this.AntiCache %>"></script>
     <script src="//d3js.org/d3.v3.min.js"></script>
-    <script type="text/javascript" src="/js/nv.d3.js"></script>
-    <script type="text/javascript" src="/js/BusinessRiskHistoryChart.js"></script>
+    <script type="text/javascript" src="http://issus.scrambotika.com/js/nv.d3.js"></script>
+    <script type="text/javascript" src="/js/BusinessRiskHistoryChart.js?<%=this.AntiCache %>"></script>
     <script type="text/javascript" src="/js/CostBar.js?<%=this.AntiCache %>"></script>
     <script type="text/javascript" src="/js/UploadFile.js?ac<%= this.AntiCache %>"></script>
     <script type="text/javascript">
-        var currentMousePos = { x: -1, y: -1 };
+        var currentMousePos = { "x": -1, "y": -1 };
         FillCmbRules();
-        $(document).mousemove(function(event) {
+        $(document).mousemove(function (event) {
             currentMousePos.x = event.pageX;
             currentMousePos.y = event.pageY;
-            var position = $('#svggraficBusinessRisk').offset();
-            $('.xy-tooltip').css({top: currentMousePos.y - position.top - 30, left: currentMousePos.x - position.left + 10});
+            var position = $("#svggraficBusinessRisk").offset();
+            $(".xy-tooltip").css(
+                {
+                    "top": currentMousePos.y - position.top - 30,
+                    "left": currentMousePos.x - position.left + 10
+                });
         });
 
         // ISSUS-190
-        document.getElementById('Name').focus();
+        document.getElementById("Name").focus();
 
         // Se desactiva el pulsador de los valores iniciales en la pestaña final
-        $('#InitialProbabilityRange').css('display','none');
-        $('#InitialSeverityRange').css('display','none');
+        $("#InitialProbabilityRange").hide();
+        $("#InitialSeverityRange").hide();
     </script>
 </asp:Content>
 

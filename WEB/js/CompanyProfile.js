@@ -1,42 +1,4 @@
-﻿var chartPie1, chartPie1Data;
-var dataPie1 = [];
-nv.addGraph(function () {
-    console.log("DiskQuote", diskQuote);
-    chartPie1 = nv.models.pieChart()
-        .x(function (d) { return d.label })
-        .y(function (d) { return d.value })
-
-        .height(300)
-        .showLabels(true)
-        .labelType("percent")
-        .donut(true).donutRatio(0.1);
-
-    chartPie1Data = d3.select("#Pie1 svg").datum(diskQuote);
-    chartPie1Data.transition().duration(500).call(chartPie1);
-    nv.utils.windowResize(chartPie1.update);
-    $("#PieWidget").hide();
-    return chartPie1;
-});
-
-if (typeof ApplicationUser.Grants.CompanyProfile === "undefined" || ApplicationUser.Grants.CompanyProfile.Write === false) {
-    $(".btn-danger").hide();
-    $("input").attr("disabled", true);
-    $("textarea").attr("disabled", true);
-    $("select").attr("disabled", true);
-    $("select").css("background-color", "#eee");
-    $("#BtnEquipmentChangeImage").hide();
-}
-
-if (user.PrimaryUser) {
-    var res = "<button class=\"btn btn-info\" type=\"button\" id=\"BtnAgreement\" onclick=\"DownloadAgreement();\"><i class=\"icon-file bigger-110\"></i> "  + Dictionary.Agreement_Button_Download + "</button>&nbsp;&nbsp;";
-    $("#ItemButtons").prepend(res);
-}
-
-function DownloadAgreement() {
-    window.open("/Agreement/Agreement_" + CompanyName + ".pdf");
-}
-
-jQuery(function ($) {
+﻿jQuery(function ($) {
     $("#CmbIdioma").val(Company.Language);
 
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
