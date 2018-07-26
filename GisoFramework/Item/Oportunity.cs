@@ -466,6 +466,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Result", this.Result));
                     cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
                     cmd.Parameters.Add(DataParameter.Input("@RuleId", this.Rule.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@PreviousOportunityId", this.PreviousOportunityId));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                     try
                     {
@@ -545,7 +546,6 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@FinalDate", this.FinalDate));
                     cmd.Parameters.Add(DataParameter.Input("@FinalApplyAction", this.FinalApplyAction));
 
-                    cmd.Parameters.Add(DataParameter.Input("@PreviousOportunityId", this.PreviousOportunityId));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
 
                     try

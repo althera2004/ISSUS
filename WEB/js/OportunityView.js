@@ -422,6 +422,7 @@ function OportunityUpdate(sender) {
     var data = {
         "oportunity": {
             "Active": true,
+            "Code": Oportunity.Code,
             "AnulateBy": { "Id": -1 },
             "AnulateDate": null,
             "AnulateReason": "",
@@ -1638,6 +1639,7 @@ function AnulateLayout() {
     $("#BtnRestaurar").hide();
     $("#DivAnulateMessage").remove();
     if (Action.ClosedOn !== null) {
+        $("#BtnNewCost").hide();
         var message = "<br /><div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
         message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_IncidentAction_AnulateMessageTile + "</h3>";

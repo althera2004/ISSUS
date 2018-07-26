@@ -980,6 +980,11 @@ window.onload = function () {
     $("#BtnRecordShowAll").click();
     $("#BtnRecordShowAllOportunity").click();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
+
+    if (Filter === null && FilterOportunity !== null) {
+        document.getElementById("RO").checked = true;
+    }
+
     if (Filter !== null) {
         if (Filter.rulesId !== null) {
             $("#CmbRules").val(Filter.rulesId);

@@ -126,15 +126,17 @@ public class OportunityActions : WebService {
     /// <returns>Risk compliant by filter</returns>
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public string GetFilter(int companyId, DateTime? from, DateTime? to, long rulesId, long processId)
+    public string GetFilter(int companyId, DateTime? from, DateTime? to, long rulesId, long processId, int itemType)
     {
         var filter = new StringBuilder("{");
         filter.Append(Tools.JsonPair("companyId", companyId)).Append(", ");
         filter.Append(Tools.JsonPair("from", from)).Append(", ");
         filter.Append(Tools.JsonPair("to", to)).Append(", ");
         filter.Append(Tools.JsonPair("rulesId", rulesId)).Append(", ");
+        filter.Append(Tools.JsonPair("itemType", itemType)).Append(", ");
         filter.Append(Tools.JsonPair("processId", processId)).Append("}");
         this.Session["OportunityFilter"] = filter.ToString();
+        this.Session["BusinessRiskFilter"] = null;
         return Oportunity.FilterList(companyId, from, to, rulesId, processId);
     }
 }

@@ -296,22 +296,18 @@
                                                                     </thead>
                                                                 </table>
                                                                 <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                                    <table class="table table-bordered table-striped" style="border-top: none;">
+                                                                    <table class="table table-bordered table-striped" style="border-top: none;margin:0;">
                                                                         <tbody id="IncidentActionCostsTableData"></tbody>
-                                                                        <table id="IncidentActionCostsTableVoid" style="display:none;height:100%;width:100%;">
-                                                                            <tr>
-                                                                                <td colspan="10" style="background-color:#ddddff;color:#0000aa;text-align:center;">
-                                                                                    <table style="border:none;">
-                                                                                        <tr>
-                                                                                            <td rowspan="2" style="border:none;"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
-                                                                                            <td style="border:none;">
-                                                                                                <h4><%=this.Dictionary["Item_BusinessRisk_Filter_NoData"] %></h4>
-                                                                                            </td>
-                                                                                        </tr>
-                                                                                    </table>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
+                                                                    </table>
+                                                                    <table id="IncidentActionCostsTableVoid" style="display:none;width:100%;margin:0;height:100%;">
+                                                                        <tr>
+                                                                            <td style="color:#434382;background-color:#ccccff;">
+                                                                                <div style="width:100%;text-align:center;">
+                                                                                    <span><i class="icon-info-sign" style="font-size:24px;"></i></span>        
+                                                                                    <span style="font-size:20px;"><%=this.Dictionary["Item_BusinessRisk_Filter_NoData"] %></span>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
                                                                     </table>
                                                                 </div>
                                                                 <table class="table table-bordered table-striped" style="margin: 0">

@@ -965,4 +965,30 @@ public partial class OportunityView : Page
         this.LtDocuments.Text = res.ToString();
         this.LtDocumentsList.Text = resList.ToString();
     }
+
+    /// <summary>Json containing the actions in the BusinessRisk</summary>
+    public string IncidentActionHistoryJson
+    {
+        get
+        {
+            var res = new StringBuilder("[");
+            bool first = true;
+            foreach (var IncidentActionHistory in IncidentAction.ByOportunityCode(this.Oportunity.Code, Company.Id))
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    res.Append(",");
+                }
+
+                res.Append(IncidentActionHistory.Json);
+            }
+
+            res.Append("]");
+            return res.ToString();
+        }
+    }
 }

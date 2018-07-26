@@ -43,7 +43,7 @@ public partial class BusinessRiskView : Page
     private IncidentAction incidentAction = IncidentAction.Empty;
     
     /// <summary>Action List associated to businessRisk</summary>
-    private IncidentAction incidentActionHistory = IncidentAction.Empty;
+    //private IncidentAction incidentActionHistory = IncidentAction.Empty;
 
     private bool GrantToWriteBusinessRisk;
 
@@ -131,13 +131,13 @@ public partial class BusinessRiskView : Page
     }
 
     /// <summary>Public access to all incidentAction</summary>
-    public IncidentAction IncidentActionHistory
-    {
-        get
-        {
-            return this.incidentActionHistory;
-        }
-    }
+    //public IncidentAction IncidentActionHistory
+    //{
+    //    get
+    //    {
+    //        return this.incidentActionHistory;
+    //    }
+    //}
 
     /// <summary>Cost definitions by company</summary>
     public string CompanyIncidentCosts
@@ -301,6 +301,7 @@ public partial class BusinessRiskView : Page
                 }
                 res.Append(IncidentActionHistory.Json);
             }
+
             res.Append("]");
             return res.ToString();
         }
