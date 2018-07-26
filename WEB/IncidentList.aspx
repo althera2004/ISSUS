@@ -37,14 +37,14 @@
                             <!--/div class="col-xs-12">
                                 <!-- PAGE CONTENT BEGINS -->
                                 <div class="col-sm-12">
-                                    
-                                    <table cellpadding="2" cellspacing="2">
+
+                                    <table cellpadding="0" cellspacing="0">
                                         <tr>
                                             <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_Incident_List_Filter_Periode1"] %>:</strong></td>
 										    <td>
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <input class="form-control date-picker" style="width:85px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													    <span class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();" id="TxtDateFromBtn">
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
@@ -58,7 +58,7 @@
 										    <td>
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <input class="form-control date-picker" style="width:85px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													    <span class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();" id="TxtDateToBtn">
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
@@ -68,56 +68,28 @@
 											        <span class="ErrorMessage" id="TxtDateToDateMalformed""><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td style="width:100px;padding-left:20px;"><strong><%=this.Dictionary["Item_Incident_List_Filter_Status"] %>:</strong></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="RIncidentStatus1" checked="checked" /><%=this.Dictionary["Item_Incident_Status1"] %></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="RIncidentStatus2" checked="checked" /><%=this.Dictionary["Item_Incident_Status2"] %></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="RIncidentStatus3" checked="checked" /><%=this.Dictionary["Item_Incident_Status3"] %></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="RIncidentStatus4" /><%=this.Dictionary["Item_Incident_Status4"] %></td>
-
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td> 
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>
-                                                <!--div class="col-xs-12 col-sm-12"-->                                      
-                                                    <!--button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></button-->
-                                                    <button class="btn btn-success" type="button" id="BtnRecordShowAll" title="<%=this.Dictionary["Common_All_Female_Plural"] %>"><i class="icon-list"></i></button>
-                                                    <button class="btn btn-success" type="button" id="BtnRecordShowNone" title="<%=this.Dictionary["Common_None_Female"] %>"><i class="icon-remove-circle"></i></button>
-                                                <!--/div-->
+                                            <td style="white-space:nowrap;"><input type="checkbox" id="RIncidentStatus1" checked="checked" /><%=this.Dictionary["Item_Incident_Status1"] %>&nbsp;&nbsp;&nbsp;</td>
+                                            <td style="white-space:nowrap;"><input type="checkbox" id="RIncidentStatus2" checked="checked" /><%=this.Dictionary["Item_Incident_Status2"] %>&nbsp;&nbsp;&nbsp;</td>
+                                            <td style="white-space:nowrap;"><input type="checkbox" id="RIncidentStatus3" checked="checked" /><%=this.Dictionary["Item_Incident_Status3"] %>&nbsp;&nbsp;&nbsp;</td>
+                                            <td colspan="2" valign="middle"><input type="checkbox" id="RIncidentStatus4" /><%=this.Dictionary["Item_Incident_Status4"] %>
+                                                <div style="float:right">
+                                                    <button class="btn btn-success" style="height:24px;padding-top:0;" type="button" id="BtnRecordShowAll" title="<%=this.Dictionary["Common_All_Female_Plural"] %>"><i class="icon-list" style="margin-top:-2px;"></i></button>
+                                                    <button class="btn btn-success" style="height:24px;padding-top:0;display:none;" type="button" id="BtnRecordShowNone" title="<%=this.Dictionary["Common_None_Female"] %>"><i class="icon-remove-circle" style="margin-top:-2px;"></i></button>
+                                                </div>
                                             </td>
-                                            
                                         </tr>
-                                    </table>
-                                    <table>
                                         <tr>
-                                            <td style="padding-top:20px;">&nbsp;&nbsp;&nbsp;&nbsp;</td>
-										    <td style="width:100px;">&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-										    <td style="width:100px;">&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
+                                            <td colspan="4"></td>
                                             <td style="width:100px;padding-left:20px;">&nbsp;<strong><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %>:</strong></td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" id="ROrigin0" name="ROrigin" onclick="ShowCombos(0);" checked="checked" /><%=this.Dictionary["Item_Incident_Origin0"] %></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="radio" id="ROrigin1" name="ROrigin" onclick="ShowCombos(1);" /><%=this.Dictionary["Item_Incident_Origin1"] %></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="radio" id="ROrigin2" name="ROrigin" onclick="ShowCombos(2);" /><%=this.Dictionary["Item_Incident_Origin2"] %></td>
-                                            <td style="padding-right:30px;">&nbsp;&nbsp;&nbsp;<input type="radio" id="ROrigin3" name="ROrigin" onclick="ShowCombos(3);" /><%=this.Dictionary["Item_Incident_Origin3"] %></td>
-                                            <td>
-                                                <select style="width:200px;display:none;" id="CmbOrigin1"></select>
-                                                <select style="width:200px;display:none;" id="CmbOrigin2"></select>
-                                                <select style="width:200px;display:none;" id="CmbOrigin3"></select>
+                                            <td style="white-space:nowrap;">&nbsp;<input type="radio" id="ROrigin0" name="ROrigin" onclick="ShowCombos(0);" checked="checked" /><%=this.Dictionary["Item_Incident_Origin0"] %></td>
+                                            <td style="white-space:nowrap;"><input type="radio" id="ROrigin1" name="ROrigin" onclick="ShowCombos(1);" /><%=this.Dictionary["Item_Incident_Origin1"] %>&nbsp;&nbsp;&nbsp;</td>
+                                            <td style="white-space:nowrap;"><input type="radio" id="ROrigin2" name="ROrigin" onclick="ShowCombos(2);" /><%=this.Dictionary["Item_Incident_Origin2"] %>&nbsp;&nbsp;&nbsp;</td>
+                                            <td style="white-space:nowrap;"><input type="radio" id="ROrigin3" name="ROrigin" onclick="ShowCombos(3);" /><%=this.Dictionary["Item_Incident_Origin3"] %>&nbsp;&nbsp;&nbsp;</td>
+                                            <td style="width:180px;">
+                                                <select style="width:180px;display:none;" id="CmbOrigin1"></select>
+                                                <select style="width:180px;display:none;" id="CmbOrigin2"></select>
+                                                <select style="width:180px;display:none;" id="CmbOrigin3"></select>
                                             </td>
 
                                         </tr>
@@ -146,7 +118,7 @@
                                                 </thead>
                                             </table>
                                             <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                <table class="table table-bordered table-striped" style="border-top: none;">
+                                                <table class="table table-bordered table-striped" style="border-top: none;margin:0;">
                                                     <tbody id="ListDataTable"></tbody>
                                                 </table>
                                                 <table id="ItemTableError" style="display:none;width:100%;">

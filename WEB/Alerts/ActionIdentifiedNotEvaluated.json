@@ -13,6 +13,7 @@
         AND IA.Active = 1", "Index":
     [
         { "Position": 0, "FieldName": "Id" },
+
         { "Position": 1, "FieldName": "Description" }
     ],
     Tag: '<li>

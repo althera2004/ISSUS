@@ -171,6 +171,7 @@ namespace GISOWeb
             filter.Append(Tools.JsonPair("itemType", itemType)).Append(",");
             filter.Append(Tools.JsonPair("type", type)).Append("}");
             this.Session["BusinessRiskFilter"] = filter.ToString();
+            this.Session["OportunityFilter"] = null;
             return BusinessRisk.FilterList(companyId, from, to, rulesId, processId, type);
         }
     }

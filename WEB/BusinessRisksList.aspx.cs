@@ -141,7 +141,7 @@ public partial class BusinessRisksList : Page
 
         if (Session["BusinessRiskFilter"] == null)
         {
-            this.FilterBusinessRisk = "null";
+            this.FilterBusinessRisk = Constant.JavaScriptNull;
         }
         else
         {
@@ -150,7 +150,7 @@ public partial class BusinessRisksList : Page
 
         if (Session["OportunityFilter"] == null)
         {
-            this.FilterOportunity = "null";
+            this.FilterOportunity = Constant.JavaScriptNull;
         }
         else
         {
