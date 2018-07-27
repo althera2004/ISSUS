@@ -346,7 +346,11 @@ function FinalApplyActionRadio() {
 function ApplyActionTrue() {
     //Show action, cost and final status tabs and content
     $("#Tabaccion").show();
-    $("#Tabcostes").show();
+
+    if (Action.Id > 0) {
+        $("#Tabcostes").show();
+    }
+
     $("#Tabgraphic").show();
 
     //Disable information editing on the risk

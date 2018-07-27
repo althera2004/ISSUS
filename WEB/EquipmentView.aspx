@@ -833,6 +833,7 @@
                                             <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                             <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
                                             <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateOverTime">No pot ser anterior al darrer manteniment</span>
+                                            <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateOverTimeEquipment">No pot ser anterior a l'alta del equip</span>
                                         
                                             </div>
                                         </div>

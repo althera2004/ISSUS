@@ -15,6 +15,11 @@
     if (typeof documento.EndDate !== "undefined" && documento.EndDate !== null && documento.EndDate !== "") {
         AnulateLayout();
     }
+
+    if (documentId > 0) {
+        $("#TxtRevisionDate").attr("readonly", "readonly");
+        $("#TxtRevisionDateBtn").hide();
+    }
 });
 
 function Versioned() {
@@ -32,13 +37,38 @@ function Versioned() {
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
-                    if (document.getElementById("TxtNewReason").value === "") {
+                    var ok = true;
+                    $("#TxtNewReasonErrorRequired").hide();
+                    $("#TxtNewRevisionErrorRequired").hide();
+                    $("#TxtNewRevisionMalformed").hide();
+                    $("#TxtNewRevisionCrossDate").hide();
+
+                    if ($("#TxtNewReason").val() === "") {
                         $("#TxtNewReasonErrorRequired").show();
-                        return false;
+                        ok = false;
+                    }
+
+                    if ($("#TxtNewRevision").val() === "") {
+                        ok = false;
+                        $("#TxtNewRevisionErrorRequired").show();
                     }
                     else {
-                        $("#TxtNewReasonErrorRequired").hide();
-                        selectedReason = document.getElementById("TxtNewReason").value;
+                        if (validateDate($("#TxtNewRevision").val()) === false) {
+                            ok = false;
+                            $("#TxtNewRevisionMalformed").show();
+                        }
+                        else {
+                            var revdate = GetDate($("#TxtNewRevision").val(), "/", false);
+                            var oldDate = GetDate($("#TxtRevisionDate").val(), "/", false);
+                            if (revdate < oldDate) {
+                                ok = false;
+                                $("#TxtNewRevisionCrossDate").html(Dictionary.Item_Document_ErrorMessage_RevisionOverDate + " " + $("#TxtRevisionDate").val());
+                                $("#TxtNewRevisionCrossDate").show();
+                            }
+                        }
+                    }
+
+                    if (ok === true) {
                         VersionedConfirmed();
                     }
 
@@ -61,11 +91,12 @@ function Versioned() {
 function VersionedConfirmed() {
     var webMethod = "/Async/DocumentActions.asmx/Versioned";
     var data = {
+        "date": $("#TxtNewRevision").val(),
         "documentId": documentId,
         "userId": userId,
         "companyId": Company.Id,
         "version": $("#TxtRevision").val(),
-        "reason": selectedReason
+        "reason": $("#TxtNewReason").val()
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
@@ -136,23 +167,23 @@ function Insert() {
     var webMethod = "/Async/DocumentActions.asmx/Insert";
     var data = {
         "newDocument":
-        {
-            "Id": -1,
-            "CompanyId": Company.Id,
-            "Code": document.getElementById('TxtCodigo').value,
-            "Description": document.getElementById('TxtDocumento').value,
-            "StartDate": GetDate(document.getElementById('TxtStartDate').value,'-'),
-            "EndDate": GetDate(document.getElementById('TxtEndDate').value,'-'),
-            "Category": { "Id": categorySelected },
-            "RevisionDate": GetDate(document.getElementById('TxtRevisionDate').value, '-'),
-            "Origin": { "Id": procedenciaSelected },
-            "Conservation": document.getElementById('TxtConservacion').value,
-            "ConservationType": document.getElementById('CmbConservacion').value,
-            "Source": document.getElementById('CmbOrigen').value === 2,
-            "Location": document.getElementById('TxtUbicacion').value,
-            "Active": true
-        },
-        "version": document.getElementById('TxtRevision').value * 1,
+            {
+                "Id": -1,
+                "CompanyId": Company.Id,
+                "Code": $("#TxtCodigo").val(),
+                "Description": $("#TxtDocumento").val(),
+                "StartDate": GetDate($("#TxtStartDate").val(), '-'),
+                "EndDate": GetDate($("#TxtEndDate").val(), '-'),
+                "Category": { "Id": categorySelected },
+                "Origin": { "Id": procedenciaSelected },
+                "Conservation": $("#TxtConservacion").val(),
+                "ConservationType": $("#CmbConservacion").val(),
+                "Source": $("#CmbOrigen").val() === 2,
+                "Location": $("#TxtUbicacion").val(),
+                "Active": true
+            },
+        "revisionDate": $("#TxtRevisionDate").val(),
+        "version": $("#TxtRevision").val() * 1,
         "reason": selectedReason,
         "userId": userId
     };

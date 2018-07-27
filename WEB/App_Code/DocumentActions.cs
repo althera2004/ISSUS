@@ -9,6 +9,7 @@ namespace GISOWeb
     using System;
     using System.Web.Script.Services;
     using System.Web.Services;
+    using GisoFramework;
     using GisoFramework.Activity;
     using GisoFramework.Item;
 
@@ -212,9 +213,10 @@ namespace GISOWeb
 
         [WebMethod(EnableSession = true)]
         [ScriptMethod]
-        public ActionResult Versioned(int documentId, int userId, int companyId, int version, string reason)
+        public ActionResult Versioned(int documentId, int userId, int companyId, int version, string reason, string date)
         {
-            return Document.Versioned(documentId, userId, companyId, version + 1, reason);
+            var realDate = Tools.TextToDate(date);
+            return Document.Versioned(documentId, userId, companyId, version + 1, reason, realDate.Value);
         }
 
         /// <summary>Asynchronous action to call document insert</summary>
@@ -224,9 +226,10 @@ namespace GISOWeb
         /// <returns>Result of action</returns>
         [WebMethod(EnableSession = true)]
         [ScriptMethod]
-        public ActionResult Insert(Document newDocument, string reason, int version, int userId)
+        public ActionResult Insert(Document newDocument, string reason, int version,string revisionDate, int userId)
         {
-            var res = newDocument.Insert(userId, version);
+            var realRevisionDate = Tools.TextToDate(revisionDate);
+            var res = newDocument.Insert(userId, version, realRevisionDate.Value);
             if (res.Success)
             {
                 res = ActivityLog.Document(Convert.ToInt32(newDocument.Id), userId, newDocument.CompanyId, DocumentLogAction.Create, newDocument.Json);

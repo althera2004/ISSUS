@@ -231,7 +231,10 @@ function ApplyActionRadio() {
 function ApplyActionTrue() {
     //Show action, cost and final status tabs and content
     $("#Tabaccion").show();
-    $("#Tabcostes").show();
+
+    if (Action.Id > 0) {
+        $("#Tabcostes").show();
+    }
 
     // Sólo se muestra la pestaña Final si no es una oportunidad nueva
     if (OportunityId > 0) {

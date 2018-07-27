@@ -717,7 +717,7 @@ namespace GisoFramework.Item
         /// <param name="version">Number of version</param>
         /// <param name="reason">Reason to upgrade version</param>
         /// <returns>Result of action</returns>
-        public static ActionResult Versioned(int documentId, int userId, int companyId, int version, string reason)
+        public static ActionResult Versioned(int documentId, int userId, int companyId, int version, string reason, DateTime date)
         {
             var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Document_Versioned
@@ -736,6 +736,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Version", version));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Parameters.Add(DataParameter.Input("@Reason", reason, 100));
+                    cmd.Parameters.Add(DataParameter.Input("@Date", date));
 
                     try
                     {
@@ -1007,7 +1008,7 @@ namespace GisoFramework.Item
         /// <param name="userId">Identifier of user that performs the action</param>
         /// <param name="version">Document version</param>
         /// <returns>Result of action with new document identifier if success</returns>
-        public ActionResult Insert(int userId, int version)
+        public ActionResult Insert(int userId, int version, DateTime revisionDate)
         {
             var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Document_Insert
@@ -1041,6 +1042,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code));
                     cmd.Parameters.Add(DataParameter.Input("@Ubicacion", this.Location));
                     cmd.Parameters.Add(DataParameter.Input("@Version", version));
+                    cmd.Parameters.Add(DataParameter.Input("@Revisiondate", revisionDate));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Parameters.Add(DataParameter.Input("@FechaAlta", this.StartDate));
                     if (this.Origin.Id == 0)

@@ -92,9 +92,21 @@
                                                                     <span class="ErrorMessage" id="TxtStartDatePreviousRevision"><%=this.Dictionary["Item_Document_ErrorMessage_StartDatePreviousRevision"] %></span>
                                                                 </div>
                                                             </div>
-                                                            <label id="Label6" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_RevisionDate"]%></label>
+                                                            <label id="TxtRevisionDateLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_RevisionDate"]%></label>
                                                             <div class="col-sm-2">
-                                                                <input type="text" readonly="readonly" id="TxtRevisionDate" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_RevisionDate"] %>" class="col-xs-12 col-sm-12" /></div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-12 col-sm-12 tooltip-info" id="DivTxtRevisionDate">
+                                                                        <div class="input-group">
+                                                                            <input class="form-control date-picker_start" id="TxtRevisionDate" type="text" data-date-format="dd/mm/yyyy" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_RevisionDate"] %>" maxlength="10" />
+                                                                            <span class="input-group-addon" onclick="document.getElementById('TxtRevisionDate').focus();" id="TxtRevisionDateBtn">
+                                                                                <i class="icon-calendar bigger-110"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <span class="ErrorMessage" id="TxtRevisionDateErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                                    <span class="ErrorMessage" id="TxtRevisionDatePreviousRevision"><%=this.Dictionary["Item_Document_ErrorMessage_StartDatePreviousRevision"] %></span>
+                                                                </div>
+                                                            </div>
                                                             <label id="TxtRevisionLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Version"]%></label>
                                                             <div class="col-sm-1">
                                                                 <input type="text" <% if (this.DocumentId > 0)
@@ -303,9 +315,29 @@
 
                             <div id="ReasonDialog" class="hide" style="width:350px;">
                                 <p><%=this.Dictionary["Item_Document_Message_NewVersion"] %></p>
-                                <%=this.Dictionary["Item_Document_FieldLabel_Reason"] %><br />
-                                <textarea id="TxtNewReason" cols="40" rows="3" onblur="this.value=$.trim(this.value);"></textarea>
-                                <span class="ErrorMessage" id="TxtNewReasonErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                <div class="form-group">
+                                    <%=this.Dictionary["Item_Document_FieldLabel_Reason"] %><br />
+                                    <textarea id="TxtNewReason" cols="40" rows="3" onblur="this.value=$.trim(this.value);"></textarea>
+                                    <span class="ErrorMessage" id="TxtNewReasonErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                </div>
+                                <div class="form-group">
+                                        <label id="TxtNewRevisionDateLabel" class="col-sm-3 control-label no-padding-right" for="TxtEndDate"><%=this.Dictionary["Item_Document_FieldLabel_InactiveDate"] %><span class="required">*</span></label>
+                                        <div class="col-sm-4">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 tooltip-info">
+                                                    <div class="input-group">
+                                                        <input class="form-control date-picker" style="width:100px;" id="TxtNewRevision" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                        <span id="TxtNewRevisionBtn" class="input-group-addon" onclick="document.getElementById('TxtNewRevision').focus();">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                                                    </div>
+                                                    <span class="ErrorMessage" id="TxtNewRevisionErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
+                                                    <span class="ErrorMessage" id="TxtNewRevisionMalformed"><%= this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                    <span class="ErrorMessage" id="TxtNewRevisionCrossDate"><%= this.Dictionary["Item_Document_ErrorMessage_RevisionOverDate"] %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                             
                             <div id="CategoryDeleteDialog" class="hide" style="width:500px;">
@@ -410,11 +442,11 @@
 
             function SetReason() {                
                 var ok = true;
-                document.getElementById("TxtCodigoErrorDuplicated").style.display = "none";
-                document.getElementById("TxtDocumentoErrorDuplicated").style.display = "none";
+                $("#TxtCodigoErrorDuplicated").hide();
+                $("#TxtDocumentoErrorDuplicated").hide();
                 document.getElementById("TxtStartDateLabel").style.color = "#000";
-                document.getElementById("TxtStartDateErrorRequired").style.display = "none";
-                document.getElementById("TxtStartDatePreviousRevision").style.display = "none";
+                $("#TxtStartDateErrorRequired").hide();
+                $("#TxtStartDatePreviousRevision").hide();
                 if(!RequiredFieldText("TxtCodigo")) { ok = false; }
                 if(!RequiredFieldText("TxtDocumento")) { ok = false; }
 
@@ -493,9 +525,26 @@
                     }
                 }
 
+                if ($("#TxtRevisionDate").val() === "") {
+                    ok = false;
+                    document.getElementById("TxtRevisionDateLabel").style.color = "#f00";
+                    $("#TxtRevisionDateErrorRequired").show();
+                }
+                else {
+                    var startdate = GetDate($("#TxtStartDate").val(), "-");
+                    var revdate = GetDate($("#TxtRevisionDate").val(), "-");
+                    if (revdate < startdate) {
+                        ok = false;
+                        document.getElementById("TxtRevisionDateLabel").style.color = "#f00";
+                        $("#TxtRevisionDatePreviousRevision").html(Dictionary.Item_Document_ErrorMessage_RevisionOverDate + " " + $("#TxtStartDate").val());
+                        $("#TxtRevisionDatePreviousRevision").show();
+                    }
+                }
+
+
                 if(ok===false)
                 {
-                 window.scrollTo(0, 0); 
+                    window.scrollTo(0, 0); 
                     return false;
                 }
 
@@ -517,6 +566,7 @@
                
                 var options = $.extend({}, $.datepicker.regional["<%=this.ApplicationUser.Language %>"], { autoclose: true, todayHighlight: true });
                 $("#TxtEndDate").datepicker(options);
+                $("#TxtNewRevision").datepicker(options);
                 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
                 var options = $.extend({}, $.datepicker.regional["<%=this.ApplicationUser.Language %>"], { autoclose: true, todayHighlight: true, maxDate: firstDate });

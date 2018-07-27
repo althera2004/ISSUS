@@ -97,6 +97,7 @@ function EquipmentMaintenanceDefinitionRenderRow(equipmentMaintenance, targetNam
 }
 
 function EquipmentMaintenanceDefinitiongetById(id) {
+    id = id * 1;
     for (var x = 0; x < EquipmentMaintenanceDefinitionList.length; x++) {
         if (EquipmentMaintenanceDefinitionList[x].Id === id) {
             return EquipmentMaintenanceDefinitionList[x];
@@ -108,7 +109,7 @@ function EquipmentMaintenanceDefinitiongetById(id) {
 
 function EquipmentMaintenanceDefinitionRemoveFromList(id) {
     var temp = new Array();
-
+    id = id * 1;
     for (var x = 0; x < EquipmentMaintenanceDefinitionList.length; x++) {
         if (EquipmentMaintenanceDefinitionList[x].Id !== id) {
             temp.push(EquipmentMaintenanceDefinitionList[x]);
@@ -167,14 +168,18 @@ function EquipmentMaintenanceEditFormFill(equipmentMaintenanceDefinition) {
     else {
         $("#TxtNewMaintainmentCost").val("");
     }
+
+    var fecha = "";
     if (equipmentMaintenanceDefinition.FirstDate !== null) {
-        //GetDateYYYYMMDDText(date, separator, nullable)
-        var fecha = GetDateYYYYMMDDText(equipmentMaintenanceDefinition.FirstDate, "/");
-        $("#NewMaintainmentFirstDate").val(fecha);
+        if (typeof equipmentMaintenanceDefinition.FirstDate === "number") {
+            fecha = GetDateYYYYMMDDText(equipmentMaintenanceDefinition.FirstDate, "/");
+        }
+        else {
+            fecha = FormatDate(equipmentMaintenanceDefinition.FirstDate, "/");
+        }
     }
-    else {
-        $("#NewMaintainmentFirstDate").val("");
-    }
+    $("#NewMaintainmentFirstDate").val(fecha);
+
     $("#CmbNewMaintainmentProvider").val(equipmentMaintenanceDefinition.Provider.Id);
     $("#CmbNewMaintainmentResponsible").val(equipmentMaintenanceDefinition.Responsible.Id);
     if ($("#CmbNewMaintainmentResponsible").val() === null) {
@@ -183,6 +188,7 @@ function EquipmentMaintenanceEditFormFill(equipmentMaintenanceDefinition) {
 }
 
 function EquipmentMaintenanceDefinitionValidateForm() {
+    $("#TxtNewMaintainmentFirstDateOverTimeEquipment").hide();
     var ok = true;
     if (!document.getElementById("RMaintainmentTypeInternal").checked && !document.getElementById("RMaintainmentTypeExternal").checked) {
         ok = false;
@@ -198,16 +204,22 @@ function EquipmentMaintenanceDefinitionValidateForm() {
     if (!RequiredFieldText("TxtNewMaintainmentPeriodicity")) {
         ok = false;
     }
-    /* ISSUS-18
-    if (!RequiredFieldText("TxtNewMaintainmentCost")) {
-        ok = false;
-    }
-    */
+
     if (!RequiredFieldCombo("CmbNewMaintainmentProvider") && document.getElementById("RMaintainmentTypeExternal").checked) {
         ok = false;
     }
+
     if (!RequiredFieldCombo("CmbNewMaintainmentResponsible")) {
         ok = false;
+    }
+
+    if ($("#NewMaintainmentFirstDate").val() !== "" && $("#TxtStartDate").val() !== "") {
+        var date = GetDate($("#NewMaintainmentFirstDate").val(), "/", false);
+        var eqdate = GetDate($("#TxtStartDate").val(), "/", false);
+        if (date < eqdate) {
+            ok = false;
+            $("#TxtNewMaintainmentFirstDateOverTimeEquipment").show();
+        }
     }
 
     return ok;
@@ -304,7 +316,7 @@ function EquipmentMaintenanceDefinitionEditConfirmed() {
     console.log(SelectedEquipmentMaintenanceDefinition);
 
     var oldEquipmentMaintenanceDefinition = EquipmentMaintenanceDefinitiongetById(SelectedEquipmentDefinitionSelectedId);
-	if(oldEquipmentMaintenanceDefinition.FirstDate != null)
+	if(oldEquipmentMaintenanceDefinition.FirstDate !== null)
 	{
 		oldEquipmentMaintenanceDefinition.FirstDate = GetDateYYYYMMDD(oldEquipmentMaintenanceDefinition.FirstDate, "/");
 	}
