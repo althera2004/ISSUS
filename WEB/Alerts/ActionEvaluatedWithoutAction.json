@@ -1,8 +1,8 @@
 ﻿{
     "CompanyId": 0,
     "ItemType": 13,
-    "ItemUrl": "ActionView.aspx?id=",
-    "AlertDescription": "Analizada sin actuación",
+    "ItemUrl":  "ActionView.aspx?id=",
+    "AlertDescription": "Alert_ActionEvaluatedWithoutAction",
     "Query": "SELECT
                 IA.Id,
                 IA.Description
@@ -18,7 +18,7 @@
     ],
     Tag: '<li>
                                     <a href="ActionView.aspx?id={0}">
-                                                <strong>Analizada sin actuación</strong><br />
+                                                <strong>#AlertDescription#</strong><br />
                                         <div class="clearfix">
                                             <span class="pull-left">
                                                 <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">{1}</span></td></tr></table>                                            </span>

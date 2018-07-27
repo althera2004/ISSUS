@@ -1743,3 +1743,6 @@ Item_BusinessRisk_ErrorMessage_WhatHappendOverdate::La fecha no puede ser anteri
 Item_BusinessRisk_ErrorMessage_CloseBeforeAction::No se puede cerrar anteriormente a la acción
 Item_Oportunity_Detail::Ficha de la Oportunidad
 Item_BusinessRisk_Title_InitialValoration::Valoración Inicial
+ZZZZZ::Les noves claus a partir d'aquí cap avall
+Alert_BusinessRiskActionNeeded::Riesgo significativo
+Alert_ActionEvaluatedWithoutAction::Analizada sin actuación

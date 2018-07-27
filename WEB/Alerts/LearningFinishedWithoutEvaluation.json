@@ -2,7 +2,7 @@
     "CompanyId": 0,
     "ItemType": 10,
     "ItemUrl": "FormacionView.aspx?id=",
-    "AlertDescription": "Curso finalizado sin evaluar",
+    "AlertDescription": "LearningFinishedWithoutEvaluation",
     "Query": "select distinct
     L.Id,
     L.Description
@@ -27,7 +27,7 @@
     ],
     "Tag": "<li>
                                     <a href=\"FormacionView.aspx?id={0}\">
-                                                <strong>Curso finalizado sin evaluar</strong><br />
+                                                <strong>#AlertDescription#</strong><br />
                                         <div class=\"clearfix\">
                                             <span class=\"pull-left\">
                                                 <table><tr><td align=\"top\"> <i class=\"btn btn-xs no-hover btn-warning icon-graduation-cap\"></i></td><td><span style=\"width:150px;white-space:normal;\">{1}</span></td></tr></table>

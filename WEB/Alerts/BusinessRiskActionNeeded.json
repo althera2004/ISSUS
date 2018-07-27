@@ -2,7 +2,7 @@
     "CompanyId": 0,
     "ItemType": 13,
     "ItemUrl": "BusinessRiskView.aspx?id=",
-    "AlertDescription": "Riesgo significativo",
+    "AlertDescription": "Alert_BusinessRiskActionNeeded", 
     "Query": "select
                      BR.Id,
                      BR.[Description] AS Description
@@ -27,7 +27,7 @@
     ],
     Tag: '<li>
                                     <a href="BusinessRiskView.aspx?id={0}">
-                                                <strong>Riesgo significativo</strong><br />
+                                                <strong>#AlertDescription#</strong><br />
                                         <div class="clearfix">
                                             <span class="pull-left">
                                                 <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-warning-sign"></i></td><td><span style="width:150px;white-space:normal;">{1}</span></td></tr></table>                                            </span>

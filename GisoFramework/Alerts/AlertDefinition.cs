@@ -56,54 +56,45 @@ namespace GisoFramework.Alerts
         /// <summary>Read alert definition from disk</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <returns>Alert definition structure</returns>
-        public static ReadOnlyCollection<AlertDefinition> GetFromDisk(Dictionary<string, string> dictionary)
+        public static ReadOnlyCollection<AlertDefinition> GetFromDisk
         {
-            int companyId = Convert.ToInt32(HttpContext.Current.Session["CompanyId"], CultureInfo.InvariantCulture);
-            var res = new List<AlertDefinition>();
-            string path = HttpContext.Current.Request.PhysicalApplicationPath + "Alerts";
-            if (!path.EndsWith(@"\", StringComparison.Ordinal))
+            get
             {
-                path += @"\";
+                int companyId = Convert.ToInt32(HttpContext.Current.Session["CompanyId"], CultureInfo.InvariantCulture);
+                var res = new List<AlertDefinition>();
+                string path = HttpContext.Current.Request.PhysicalApplicationPath + "Alerts";
+                if (!path.EndsWith(@"\", StringComparison.Ordinal))
+                {
+                    path += @"\";
+                }
+
+                var myFiles = Directory.GetFiles(path, "*.json", SearchOption.TopDirectoryOnly).ToList();
+                string userid = HttpContext.Current.Session["UserId"].ToString();
+
+                foreach (string fileName in myFiles)
+                {
+                    res.Add(GetDefinitionByFile(companyId, fileName, userid));
+                }
+
+                return new ReadOnlyCollection<AlertDefinition>(res);
             }
-
-            var myFiles = Directory.GetFiles(path, "*.json", SearchOption.TopDirectoryOnly).ToList();
-
-            foreach (string fileName in myFiles)
-            {
-                res.Add(GetDefinitionByFile(companyId, fileName, dictionary));
-            }
-
-            return new ReadOnlyCollection<AlertDefinition>(res);
         }
 
         /// <summary>Read alert definition from file</summary>
         /// <param name="companyId">Company identifier</param>
         /// <param name="fileName">File name of alert</param>
-        /// <param name="dictionary">Dictionary for fixed labels</param>
+        /// <param name="userId">Identifier of actual user</param>
         /// <returns>AlertDefinition structure</returns>
-        public static AlertDefinition GetDefinitionByFile(int companyId, string fileName, Dictionary<string, string> dictionary)
+        public static AlertDefinition GetDefinitionByFile(int companyId, string fileName, string userId)
         {
-            if (dictionary == null)
-            {
-                dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-            }
-
-            string userid = HttpContext.Current.Session["UserId"].ToString();
-
             var alert = new AlertDefinition();
             if (File.Exists(fileName))
             {
                 using (var input = new StreamReader(fileName))
                 {
                     alert = JsonConvert.DeserializeObject<AlertDefinition>(input.ReadToEnd());
-
-                    if (dictionary.ContainsKey(alert.AlertDescription))
-                    {
-                        alert.AlertDescription = dictionary[alert.AlertDescription];
-                    }
-
-                    alert.Query = alert.Query.Replace("#CompanyId#", companyId.ToString(CultureInfo.GetCultureInfo("en-us")));
-                    alert.Query = alert.Query.Replace("#ActualUser#", userid);
+                    alert.Query = alert.Query.Replace("#CompanyId#", companyId.ToString(CultureInfo.InvariantCulture));
+                    alert.Query = alert.Query.Replace("#ActualUser#", userId);
                     if (alert.CompanyId != 0 && alert.CompanyId != companyId)
                     {
                         return new AlertDefinition();
@@ -150,13 +141,31 @@ namespace GisoFramework.Alerts
                                     data.Add(rdr[columnName].ToString());
                                 }
 
+                                var description = this.AlertDescription;
+                                if (this.AlertDescription.StartsWith("Alert_", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    if (dictionary.ContainsKey(this.AlertDescription))
+                                    {
+                                        description = dictionary[this.AlertDescription];
+                                    }
+                                }
+
                                 if (!string.IsNullOrEmpty(this.Row))
                                 {
-                                    res.Add(string.Format(CultureInfo.InvariantCulture, this.Row.Replace("#AlertDescription#", this.AlertDescription), data.ToArray()));
+                                    res.Add(string.Format(
+                                        CultureInfo.InvariantCulture,
+                                        this.Row.Replace("#AlertDescription#", description),
+                                        data.ToArray()));
                                 }
                                 else
                                 {
-                                    res.Add("<tr><td>" + this.AlertDescription + "</td><td>" + data[1] + "</td><td><span class=\"btn btn-xs btn-info\" onclick=\"document.location='" + this.ItemUrl + data[0] + "';\"><i class=\"icon-edit bigger-1202\"></i></span></td></tr>");
+                                    res.Add(string.Format(
+                                        CultureInfo.InvariantCulture,
+                                        "<tr><td>{0}</td><td>{1}</td><td><span class=\"btn btn-xs btn-info\" onclick=\"document.location='{2}{3}';\"><i class=\"icon-edit bigger-1202\"></i></span></td></tr>",
+                                        description,
+                                        data[1],
+                                        ItemUrl,
+                                        data[0]));
                                 }
                             }
                         }
@@ -179,6 +188,7 @@ namespace GisoFramework.Alerts
         public ReadOnlyCollection<string> Extract()
         {
             var res = new List<string>();
+            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
             var columns = new List<string>();
             foreach (var position in this.Index.OrderBy(x => x.Position))
             {
@@ -204,7 +214,16 @@ namespace GisoFramework.Alerts
                                     data.Add(rdr[columnName].ToString());
                                 }
 
-                                res.Add(string.Format(CultureInfo.InvariantCulture, this.Tag.Replace("#AlertDescription#", this.AlertDescription), data.ToArray()));
+                                var description = this.AlertDescription;
+                                if (this.AlertDescription.StartsWith("Alert_", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    if (dictionary.ContainsKey(this.AlertDescription))
+                                    {
+                                        description = dictionary[this.AlertDescription];
+                                    }
+                                }
+
+                                res.Add(string.Format(CultureInfo.InvariantCulture, this.Tag.Replace("#AlertDescription#", description), data.ToArray()));
                             }
                         }
                     }

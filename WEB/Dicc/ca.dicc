@@ -1760,3 +1760,7 @@ Item_Oportunity_Detail::Fitxa de l'Oportunitat
 Item_BusinessRisk_Title_InitialValoration::Valoració Inicial
 Item_Process_NoIndicators::No hi ha cap indicador associat
 Item_Document_ErrorMessage_RevisionOverDate::La data no pot ser anterior a
+Alert_BusinessRiskActionNeeded::Risc significatiu
+Alert_ActionEvaluatedWithoutAction::Analitzada sense actuació
+Alert_ActionIdentifiedNotEvaluated::Identificada sin analizar
+Alert_LearningFinishedWithoutEvaluation::Curso finalizado sin evaluar

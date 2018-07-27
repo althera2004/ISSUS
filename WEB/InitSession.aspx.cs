@@ -52,7 +52,7 @@ public partial class InitSession : Page
             dictionary = ApplicationDictionary.LoadNewLanguage(user.Language);
         }
 
-        this.Session["AlertsDefinition"] = AlertDefinition.GetFromDisk(dictionary);
+        this.Session["AlertsDefinition"] = AlertDefinition.GetFromDisk;
         this.Session["Menu"] = MenuOption.GetMenu(user.Id, user.Admin);
 
         if (user.Grants.Count == 0)
