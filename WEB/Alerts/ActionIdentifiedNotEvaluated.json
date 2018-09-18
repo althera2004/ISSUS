@@ -2,7 +2,8 @@
     "CompanyId": 0,
     "ItemType": 13,
     "ItemUrl": "ActionView.aspx?id=",
-    "AlertDescription": "Alert_ActionIdentifiedNotEvaluated",
+    "AlertDescription": "Alert_Short_ActionIdentifiedNotEvaluated",
+    "AlertExplanation": "Alert_Large_ActionIdentifiedNotEvaluated",
     "Query": "SELECT
                 IA.Id,
                 IA.Description

@@ -22,6 +22,7 @@ function GetRiskNameById(id)
             return BusinessRiskList[x].Description;
         }
     }
+
     return "";
 }
 
@@ -30,8 +31,8 @@ function RenderChartBusinessRisk() {
     nv.addGraph(function () {
         //Create BarChart
         chartBusinessRisk = nv.models.discreteBarChart()
-            .x(function (d) { return d.label })
-            .y(function (d) { return d.value })
+            .x(function (d) { return d.label; })
+            .y(function (d) { return d.value; })
             .tooltips(true)
 
             .showValues(true)
@@ -54,7 +55,6 @@ function RenderChartBusinessRisk() {
         //Add data to BarChart
         chartDataBusinessRisk = d3.select("#chartBusinessRisk svg").datum(graphicDataBusinessRisk);
         chartDataBusinessRisk.call(chartBusinessRisk);
-        console.log(graphicDataBusinessRisk);
 
         nv.utils.windowResize(chartBusinessRisk.update);
         return chartBusinessRisk;
@@ -72,18 +72,10 @@ function exampleDataBusinessRisk() {
         myDataBusinessRisk = [];
         var y = [];
 
-        BusinessRiskGraph.sort(function (a, b) {
-            return parseFloat(b.Result) - parseFloat(a.Result);
-        });
-
+        BusinessRiskGraph.sort(function (a, b) { return parseFloat(b.Result) - parseFloat(a.Result); });
         for (var x = 0; x < BusinessRiskGraph.length; x++) {
             var label = BusinessRiskGraph[x].Id.toString();
-            y.push(
-                {
-                    "label": label,
-                    "value": BusinessRiskGraph[x].Result
-                }
-            );
+            y.push({ "label": label, "value": BusinessRiskGraph[x].Result });
 
             var finalColor = "#ffb752";
             if (BusinessRiskGraph[x].Assumed === false && BusinessRiskGraph[x].FinalAction !== 1) {
@@ -101,24 +93,13 @@ function exampleDataBusinessRisk() {
 
             myColorsBusinessRisk.push(finalColor);
             myDataBusinessRisk.push({ "label": label, "value": 5 });
-            console.log("BR", myDataBusinessRisk);
         }
+
         return y;
     }
 
-    linedataBusinessRisk = [
-        {
-            "key": "Cumulative Return",
-            "values": myDataBusinessRisk
-        }
-    ]
-
-    graphicDataBusinessRisk = [
-        {
-            "key": "Cumulative Return",
-            "values": y()
-        }
-    ]
+    linedataBusinessRisk = [{ "key": "Cumulative Return", "values": myDataBusinessRisk }];
+    graphicDataBusinessRisk = [{ "key": "Cumulative Return", "values": y() }];
 }
 
 function resizegrafico(transparent)

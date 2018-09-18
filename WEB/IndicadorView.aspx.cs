@@ -308,6 +308,7 @@ public partial class IndicadorView : Page
 
             this.formFooter.ModifiedBy = this.Indicador.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Indicador.ModifiedOn;
+            this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success" });
             this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Objetivo_Btn_Restaurar"], Action = "primary" });
             this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Indicador_Btn_Anular"], Action = "danger" });
             this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });

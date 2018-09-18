@@ -1,8 +1,9 @@
 ﻿{
-    CompanyId:0, // Para todas la compañías
-    ItemType:10, // Id del tipo Learning, para determinar quien tiene acceso
+    "CompanyId":0, // Para todas la compañías
+    "ItemType":10, // Id del tipo Learning, para determinar quien tiene acceso
     "ItemUrl": "FormacionView.aspx?id=",
-    AlertDescription:'Alert_Started_Wihtout_Assistans',
+    "AlertDescription": "Alert_Short_Started_Wihtout_Assistants",
+    "AlertExplanation": "Alert_Large_Started_Without_Assistants",
     Query:'SELECT
         L.Id,
         L.Description

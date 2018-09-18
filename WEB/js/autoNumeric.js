@@ -34,21 +34,14 @@
  */
 (function ($) {
     "use strict";
-    /*jslint browser: true*/
-    /*global jQuery: false*/
-    /*Cross browser routine for getting selected range/cursor position
-     */
 
-   /**
-     * Cross browser routine for getting selected range/cursor position
-     */
     function getElementSelection(that) {
         var position = {};
         if (that.selectionStart === undefined) {
             that.focus();
             var select = document.selection.createRange();
             position.length = select.text.length;
-            select.moveStart('character', -that.value.length);
+            select.moveStart("character", -that.value.length);
             position.end = select.text.length;
             position.start = position.end - position.length;
         } else {
@@ -59,9 +52,6 @@
         return position;
     }
 
-    /**
-     * Cross browser routine for setting selected range/cursor position
-     */
     function setElementSelection(that, start, end) {
         if (that.selectionStart === undefined) {
             that.focus();
@@ -76,12 +66,6 @@
         }
     }
 
-    /**
-     * run callbacks in parameters if any
-     * any parameter could be a callback:
-     * - a function, which invoked with jQuery element, parameters and this parameter name and returns parameter value
-     * - a name of function, attached to $(selector).autoNumeric.functionName(){} - which was called previously
-     */
     function runCallbacks($this, settings) {
         /**
          * loops through the settings object (option array) to find the following
@@ -91,28 +75,18 @@
         $.each(settings, function (k, val) {
             if (typeof val === 'function') {
                 settings[k] = val($this, settings, k);
-            } else if (typeof $this.autoNumeric[val] === 'function') {
-                /**
-                 * calls the attached function from the html5 data example: data-a-sign="functionName"
-                 */
+            } else if (typeof $this.autoNumeric[val] === "function") {
                 settings[k] = $this.autoNumeric[val]($this, settings, k);
             }
         });
     }
 
-    /**
-     * Converts the vMin, vMax & mDec string to numeric value
-     */
     function convertKeyToNumber(settings, key) {
-        if (typeof (settings[key]) === 'string') {
+        if (typeof (settings[key]) === "string") {
             settings[key] *= 1;
         }
     }
 
-    /**
-     * Preparing user defined options for further usage
-     * merge them with defaults appropriately
-     */
     function autoCode($this, settings) {
         runCallbacks($this, settings);
         settings.tagList = ['b', 'caption', 'cite', 'code', 'dd', 'del', 'div', 'dfn', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ins', 'kdb', 'label', 'li', 'output', 'p', 'q', 's', 'sample', 'span', 'strong', 'td', 'th', 'u', 'var'];
@@ -156,11 +130,8 @@
         return settings;
     }
 
-    /**
-     * strips all unwanted characters and leave only a number alert
-     */
     function autoStrip(s, settings, strip_zero) {
-        if (settings.aSign) { /** remove currency sign */
+        if (settings.aSign) {
             while (s.indexOf(settings.aSign) > -1) {
                 s = s.replace(settings.aSign, '');
             }
@@ -194,10 +165,6 @@
         return s;
     }
 
-    /**
-     * places or removes brackets on negative values
-     * works only when with pSign: 'p'
-     */
     function negativeBracket(s, settings) {
         if (settings.pSign === 'p') {
             var brackets = settings.nBracket.split(',');
@@ -212,9 +179,6 @@
         return s;
     }
 
-    /**
-     * function to handle numbers less than 0 that are stored in Exponential notation ex: .0000001 stored as 1e-7
-     */
     function checkValue(value, settings) {
         if (value) {
             var checkSmall = +value;
@@ -244,9 +208,6 @@
         return (settings.lZero === 'keep') ? value : value.replace(/^0*(\d)/, '$1');
     }
 
-    /**
-     * prepare number string to be converted to real number
-     */
     function fixNumber(s, aDec, aNeg) {
         if (aDec && aDec !== '.') {
             s = s.replace(aDec, '.');
@@ -260,9 +221,7 @@
         return s;
     }
 
-    /**
-     * prepare real number to be converted to our format
-     */
+
     function presentNumber(s, aDec, aNeg) {
         if (aNeg && aNeg !== '-') {
             s = s.replace('-', aNeg);
@@ -273,9 +232,6 @@
         return s;
     }
 
-    /**
-     * private function to check for empty value
-     */
     function checkEmpty(iv, settings, signOnEmpty) {
         if (iv === '' || iv === settings.aNeg) {
             if (settings.wEmpty === 'zero') {
@@ -289,9 +245,6 @@
         return null;
     }
 
-    /**
-     * private function that formats our number
-     */
     function autoGroup(iv, settings) {
         iv = autoStrip(iv, settings);
         var testNeg = iv.replace(',', '.'),
@@ -339,12 +292,6 @@
         return iv;
     }
 
-    /**
-     * round number after setting by pasting or $().autoNumericSet()
-     * private function for round the number
-     * please note this handled as text - JavaScript math function can return inaccurate values
-     * also this offers multiple rounding methods that are not easily accomplished in JavaScript
-     */
     function autoRound(iv, settings) { /** value to string */
         iv = (iv === '') ? '0' : iv.toString();
         convertKeyToNumber(settings, 'mDec'); /** set mDec to number needed when mDec set by 'update method */
@@ -461,9 +408,6 @@
         return (+ivRounded === 0) ? ivRounded : nSign + ivRounded;
     }
 
-    /**
-     * truncate decimal part of a number
-     */
     function truncateDecimal(s, settings, paste) {
         var aDec = settings.aDec,
             mDec = settings.mDec;
@@ -484,11 +428,6 @@
         return s;
     }
 
-    /**
-     * checking that number satisfy format conditions
-     * and lays between settings.vMin and settings.vMax
-     * and the string length does not exceed the digits in settings.vMin and settings.vMax
-     */
     function autoCheck(s, settings) {
         s = autoStrip(s, settings);
         s = truncateDecimal(s, settings);
@@ -497,9 +436,6 @@
         return value >= settings.vMin && value <= settings.vMax;
     }
 
-    /**
-     * Holder object for field properties
-     */
     function AutoNumericHolder(that, settings) {
         this.settings = settings;
         this.that = that;
@@ -551,9 +487,6 @@
             return parts;
         },
 
-        /**
-         * strip parts from excess characters and leading zeroes
-         */
         normalizeParts: function (left, right) {
             var settingsClone = this.settingsClone;
             right = autoStrip(right, settingsClone); /** if right is not empty and first character is not aDec, */
@@ -579,9 +512,6 @@
             return [left, right];
         },
 
-        /**
-         * set part of number to value keeping position of cursor
-         */
         setValueParts: function (left, right, paste) {
             var settingsClone = this.settingsClone,
                 parts = this.normalizeParts(left, right),
@@ -599,10 +529,6 @@
             return false;
         },
 
-        /**
-         * helper function for expandSelectionOnSign
-         * returns sign position of a formatted value
-         */
         signPosition: function () {
             var settingsClone = this.settingsClone,
                 aSign = settingsClone.aSign,
@@ -619,10 +545,6 @@
             return [1000, -1];
         },
 
-        /**
-         * expands selection to cover whole sign
-         * prevents partial deletion/copying/overwriting of a sign
-         */
         expandSelectionOnSign: function (setReal) {
             var sign_position = this.signPosition(),
                 selection = this.selection;
@@ -639,9 +561,6 @@
             }
         },
 
-        /**
-         * try to strip pasted value to digits
-         */
         checkPaste: function () {
             if (this.valuePartsBeforePaste !== undefined) {
                 var parts = this.getBeforeAfter(),
@@ -656,10 +575,6 @@
             }
         },
 
-        /**
-         * process pasting, cursor moving and skipping of not interesting keys
-         * if returns true, further processing is not performed
-         */
         skipAllways: function (e) {
             var kdCode = this.kdCode,
                 which = this.which,
@@ -717,10 +632,6 @@
             return false;
         },
 
-        /**
-         * process deletion of characters
-         * returns true if processing performed
-         */
         processAllways: function () {
             var parts; /** process backspace or delete */
             if (this.kdCode === 8 || this.kdCode === 46) {
@@ -742,10 +653,6 @@
             return false;
         },
 
-        /**
-         * process insertion of characters
-         * returns true if processing performed
-         */
         processKeypress: function () {
             var settingsClone = this.settingsClone,
                 cCode = String.fromCharCode(this.which),
@@ -805,9 +712,6 @@
             return true;
         },
 
-        /**
-         * formatting of just processed value with keeping of cursor position
-         */
         formatQuick: function () {
             var settingsClone = this.settingsClone,
                 parts = this.getBeforeAfterStriped(),
@@ -859,9 +763,6 @@
         }
     };
 
-    /**
-    * thanks to Anthony & Evan C
-    */
     function autoGet(obj) {
         if (typeof obj === 'string') {
             obj = obj.replace(/\[/g, "\\[").replace(/\]/g, "\\]");
@@ -872,10 +773,6 @@
         return $(obj);
     }
 
-    /**
-    * function to attach data to the element
-    * and imitate the holder
-    */
     function getHolder($that, settings, update) {
         var data = $that.data('autoNumeric');
         if (!data) {
@@ -891,15 +788,6 @@
     }
 
     var methods = {
-
-        /**
-         * Method to initiate autoNumeric and attached the settings (default and options passed as a parameter
-         * $(someSelector).autoNumeric('init'); // initiate autoNumeric with defaults
-         * $(someSelector).autoNumeric('init', {option}); // initiate autoNumeric with options
-         * $(someSelector).autoNumeric(); // initiate autoNumeric with defaults
-         * $(someSelector).autoNumeric({option}); // initiate autoNumeric with options
-         * options passes as a parameter example '{aSep: '.', aDec: ',', aSign: '€ '}
-         */
         init: function (options) {
             return this.each(function () {
                 var $this = $(this),
@@ -941,11 +829,7 @@
                             $this[0].value = settings.aSign;
                             setValue = false;
                         }
-                         /** checks for page reload from back button
-                          * also checks for ASP.net form post back
-                          * the following HTML data attribute is REQUIRED (data-an-default="same value as the value attribute")
-                          * example: <asp:TextBox runat="server" id="someID" value="1234.56" data-an-default="1234.56">
-                          */
+
                         if (setValue && $this.val() !== '' && ((settings.anDefault === null && $this[0].value === $this.prop('defaultValue')) || (settings.anDefault !== null && settings.anDefault.toString() === $this.val()))) {
                             $this.autoNumeric('set', $this.val());
                         }
@@ -1074,11 +958,6 @@
             });
         },
 
-        /**
-         * method to remove settings and stop autoNumeric() - does not remove the formatting
-         * $(someSelector).autoNumeric('destroy'); // destroy autoNumeric
-         * no parameters accepted
-         */
         destroy: function () {
             return $(this).each(function () {
                 var $this = $(this);
@@ -1087,11 +966,6 @@
             });
         },
 
-        /**
-         * method to update settings - can be call as many times
-         * $(someSelector).autoNumeric('update', {options}); // updates the settings
-         * options passes as a parameter example '{aSep: '.', aDec: ',', aSign: '€ '}
-         */
         update: function (options) {
             return $(this).each(function () {
                 var $this = autoGet($(this)),
@@ -1113,12 +987,6 @@
             });
         },
 
-        /**
-         * method to format value sent as a parameter ""
-         * $(someSelector).autoNumeric('set', 'value'}); // formats the value being passed
-         * value passed as a string - can be a integer '1234' or double '1234.56789'
-         * must contain only numbers and one decimal (period) character
-         */
         set: function (valueIn) {
             if (valueIn === null) {
                 return;
@@ -1160,12 +1028,6 @@
             });
         },
 
-        /**
-         * method to get the unformatted that accepts up to one parameter
-         * $(someSelector).autoNumeric('get'); no parameters accepted
-         * values returned as ISO numeric string "1234.56" where the decimal character is a period
-         * only the first element in the selector is returned
-         */
         get: function () {
             var $this = autoGet($(this)),
                 settings = $this.data('autoNumeric');
@@ -1203,12 +1065,6 @@
             return getValue; /** returned Numeric String */
         },
 
-        /**
-         * The 'getString' method used jQuerys .serialize() method that creates a text string in standard URL-encoded notation
-         * it then loops through the string and un-formats the inputs with autoNumeric
-         * $(someSelector).autoNumeric('getString'); no parameter accepted
-         * values returned as ISO numeric string "1234.56" where the decimal character is a period
-         */
         getString: function () {
             var isAutoNumeric = false,
                 $this = autoGet($(this)),
@@ -1268,12 +1124,6 @@
             return formParts.join('&');
         },
 
-        /**
-         * The 'getString' method used jQuerys .serializeArray() method that creates array or objects that can be encoded as a JSON string
-         * it then loops through the string and un-formats the inputs with autoNumeric
-         * $(someSelector).autoNumeric('getArray'); no parameter accepted
-         * values returned as ISO numeric string "1234.56" where the decimal character is a period
-         */
         getArray: function () {
             var isAutoNumeric = false,
                 $this = autoGet($(this)),
@@ -1290,7 +1140,7 @@
             /*jslint unparam: true*/
             /* index of successful elements */
             $.each(allFormElements[0], function (i, field) {
-                if (field.name !== '' && rsubmittable.test(field.localName) && !rsubmitterTypes.test(field.type) && !field.disabled && (field.checked || !rcheckableType.test(field.type))) {
+                if (field.name !== "" && rsubmittable.test(field.localName) && !rsubmitterTypes.test(field.type) && !field.disabled && (field.checked || !rcheckableType.test(field.type))) {
                     scIndex.push(count);
                     count = count + 1;
                 } else {
@@ -1300,12 +1150,12 @@
             /* index of all inputs tags */
             count = 0;
             $.each(allFormElements[0], function (i, field) {
-                if (field.localName === 'input' && (field.type === '' || field.type === 'text' || field.type === 'hidden' || field.type === 'tel')) {
+                if (field.localName === "input" && (field.type === "" || field.type === "text" || field.type === "hidden" || field.type === "tel")) {
                     aiIndex.push(count);
                     count = count + 1;
                 } else {
                     aiIndex.push(-1);
-                    if (field.localName === 'input' && rnonAutoNumericTypes.test(field.type)) {
+                    if (field.localName === "input" && rnonAutoNumericTypes.test(field.type)) {
                         count = count + 1;
                     }
                 }
@@ -1314,8 +1164,8 @@
                 var scElement = $.inArray(i, scIndex);
                 if (scElement > -1 && aiIndex[scElement] > -1) {
                     var testInput = $('form:eq(' + formIndex + ') input:eq(' + aiIndex[scElement] + ')'),
-                        settings = testInput.data('autoNumeric');
-                    if (typeof settings === 'object') {
+                        settings = testInput.data("autoNumeric");
+                    if (typeof settings === "object") {
                         field.value = $('form:eq(' + formIndex + ') input:eq(' + aiIndex[scElement] + ')').autoNumeric('get').toString();
                         isAutoNumeric = true;
                     }
@@ -1328,36 +1178,22 @@
             return formFields;
         },
 
-        /**
-        * The 'getSteetings returns the object with autoNumeric settings for those who need to look under the hood
-        * $(someSelector).autoNumeric('getSettings'); // no parameters accepted
-        * $(someSelector).autoNumeric('getSettings').aDec; // return the aDec setting as a string - ant valid setting can be used
-        */
         getSettings: function () {
             var $this = autoGet($(this));
-            return $this.eq(0).data('autoNumeric');
+            return $this.eq(0).data("autoNumeric");
         }
     };
 
-    /**
-    * autoNumeric function
-    */
     $.fn.autoNumeric = function (method) {
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
         }
-        if (typeof method === 'object' || !method) {
+        if (typeof method === "object" || !method) {
             return methods.init.apply(this, arguments);
         }
         $.error('Method "' + method + '" is not supported by autoNumeric()');
     };
 
-    /**
-    * Defaults are public - these can be overridden by the following:
-    * HTML5 data attributes
-    * Options passed by the 'init' or 'update' methods
-    * Use jQuery's $.extend method - great way to pass ASP.NET current culture settings
-    */
     $.fn.autoNumeric.defaults = {
         /** allowed thousand separator characters
          * comma = ','
@@ -1367,18 +1203,18 @@
          * none = ''
          * NOTE: do not use numeric characters
          */
-        aSep: ',',
+        aSep: ",",
         /** digital grouping for the thousand separator used in Format
          * dGroup: '2', results in 99,99,99,999 common in India for values less than 1 billion and greater than -1 billion
          * dGroup: '3', results in 999,999,999 default
          * dGroup: '4', results in 9999,9999,9999 used in some Asian countries
          */
-        dGroup: '3',
+        dGroup: "3",
         /** allowed decimal separator characters
          * period "full stop" = '.'
          * comma = ','
          */
-        aDec: '.',
+        aDec: ".",
         /** allow to declare alternative decimal separator which is automatically replaced by aDec
          * developed for countries the use a comma ',' as the decimal character
          * and have keyboards\numeric pads that have a period 'full stop' as the decimal characters (Spain is an example)
@@ -1387,22 +1223,22 @@
         /** allowed currency symbol
          * Must be in quotes aSign: '$', a space is allowed aSign: '$ '
          */
-        aSign: '',
+        aSign: "",
         /** placement of currency sign
          * for prefix pSign: 'p',
          * for suffix pSign: 's',
          */
-        pSign: 'p',
+        pSign: "p",
         /** maximum possible value
          * value must be enclosed in quotes and use the period for the decimal point
          * value must be larger than vMin
          */
-        vMax: '9999999999999.99',
+        vMax: "9999999999999.99",
         /** minimum possible value
          * value must be enclosed in quotes and use the period for the decimal point
          * value must be smaller than vMax
          */
-        vMin: '-9999999999999.99',
+        vMin: "-9999999999999.99",
         /** max number of decimal places = used to override decimal places set by the vMin & vMax values
          * value must be enclosed in quotes example mDec: '3',
          * This can also set the value via a call back function mDec: 'css:#
@@ -1437,13 +1273,13 @@
          * wEmpty: 'zero', - displays zero
          * wEmpty: 'sign', - displays the currency sign
          */
-        wEmpty: 'empty',
+        wEmpty: "empty",
         /** controls leading zero behavior
          * lZero: 'allow', - allows leading zeros to be entered. Zeros will be truncated when entering additional digits. On focusout zeros will be deleted.
          * lZero: 'deny', - allows only one leading zero on values less than one
          * lZero: 'keep', - allows leading zeros to be entered. on fousout zeros will be retained.
          */
-        lZero: 'allow',
+        lZero: "allow",
         /** determine if the select all keyboard command will select
          * the complete input text or only the input numeric value
          * if the currency symbol is between the numeric value and the negative sign only the numeric value will sellected

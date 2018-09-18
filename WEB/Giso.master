@@ -120,6 +120,13 @@
             color: #f00;
             display: none;
         }
+
+        .MenuAlertTitle {
+            width: 220px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-weight: bold;
+        }
     </style>
     <!-- Specific style of page -->
     <script type="text/javascript" src="/js/Data.aspx"></script>

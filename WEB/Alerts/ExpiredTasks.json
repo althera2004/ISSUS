@@ -1,7 +1,8 @@
 ﻿{
     CompanyId:0,
     ItemType:13,
-    AlertDescription:'Expired tasks',
+  "AlertDescription": 'Expired tasks',
+  "AlertExplanation":  "Alert_Large_ExpiredTasks",
     Query:"SELECT
         TOTAL.EquipmentId as Id,
         TOTAL.Description

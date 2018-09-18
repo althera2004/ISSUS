@@ -260,6 +260,7 @@ public partial class ObjetivoView : Page
 
             this.formFooter.ModifiedBy = this.Objetivo.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Objetivo.ModifiedOn;
+            this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success" });
             this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.Dictionary["Item_Objetivo_Btn_Restaurar"], Action = "primary" });
             this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Objetivo_Btn_Anular"], Action = "danger" });
             this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Save"], Action = "success" });

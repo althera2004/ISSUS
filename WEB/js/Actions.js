@@ -541,9 +541,9 @@ window.onload = function () {
         $("#Tabcostes").hide();
         $("#TabuploadFiles").hide();
     }
-}
+};
 
-window.onresize = function () { Resize(); }
+window.onresize = function () { Resize(); };
 
 function CmdResponsibleFill() {
     for (var x = 0; x < Employees.length; x++) {
@@ -696,7 +696,7 @@ function AnularPopup() {
     var dialog = $("#dialogAnular").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": Dictionary.Item_IncidentAction_PopupAnular_Title,
+        "title": "<h4 class=\"smaller\">" +  Dictionary.Item_IncidentAction_PopupAnular_Title + "</h4>",
         "width": 400,
         "buttons":
         [

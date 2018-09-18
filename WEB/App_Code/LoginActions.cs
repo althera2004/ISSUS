@@ -74,8 +74,8 @@ namespace GISOWeb
                 res = employee.SetUser();
             }
 
-            var actualUser = ApplicationUser.GetById(userId, itemUser.CompanyId);
-            ApplicationDictionary.Load(actualUser.Language);
+            // var actualUser = ApplicationUser.GetById(userId, itemUser.CompanyId);
+            // ApplicationDictionary.Load(actualUser.Language);
             return res;
         }
 

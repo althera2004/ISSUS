@@ -1101,12 +1101,12 @@ window.onload = function () {
         }
     });
 
-    if (layout == 2) {
+    if (layout === 2) {
         $("#RO").click();
     }
-}
+};
 
-window.onresize = function () { Resize(); }
+window.onresize = function () { Resize(); };
 
 function Export() {
     lockOrderList = true;
@@ -1120,9 +1120,10 @@ function ExportPDF() {
     var rulesId = $("#CmbRules").val() * 1;
     var processId = $("#CmbProcess").val() * 1;
     var typeId = $("#CmbType").val() * 1;
+    var data = null;
 
     if (document.getElementById("RR").checked === true) {
-        var data =
+        data =
             {
                 "companyId": Company.Id,
                 "from": from,
@@ -1161,7 +1162,7 @@ function ExportPDF() {
     }
 
     if (document.getElementById("RO").checked === true) {
-        var data =
+        data =
             {
                 "companyId": Company.Id,
                 "from": from,

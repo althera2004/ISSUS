@@ -78,6 +78,66 @@ namespace GisoFramework
             res = res.Replace("\"", "ʺ");
             return res;
         }
+
+        public static void AddTableTitle(PdfPTable table, string title)
+        {
+            table.AddCell(new PdfPCell(new Phrase(title))
+            {
+                Colspan = table.NumberOfColumns,
+                Border = Rectangle.NO_BORDER,
+                PaddingTop = 20f,
+                PaddingBottom = 20f,
+                HorizontalAlignment = Element.ALIGN_CENTER
+            });
+        }
+
+        public static void AddDataLabel(PdfPTable table, string label, string value)
+        {
+            AddDataLabel(table, label, value, 1);
+        }
+
+        public static void AddDataLabel(PdfPTable table, string label, DateTime value)
+        {
+            AddDataLabel(table, label, string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), 1);
+        }
+
+        public static void AddDataLabel(PdfPTable table, string label, int value)
+        {
+            AddDataLabel(table, label, string.Format(CultureInfo.InvariantCulture, "{0}", value), 1);
+        }
+
+        public static void AddDataLabel(PdfPTable table, string label, string value, int colsSpan)
+        {
+            table.AddCell(new PdfPCell(new Phrase(label + ":", new Font(ToolsPdf.Arial, 10, Font.BOLD, BaseColor.BLACK)))
+            {
+                Border = ToolsPdf.BorderNone
+            });
+
+            table.AddCell(new PdfPCell(new Phrase(value, new Font(ToolsPdf.Arial, 10, Font.NORMAL, BaseColor.BLACK)))
+            {
+                Border = ToolsPdf.BorderNone,
+                Colspan = colsSpan
+            });
+        }
+
+        public static void AddCriteria(PdfPTable table, string labelString, string value)
+        {
+            table.AddCell(new PdfPCell(new Phrase(labelString + " :", ToolsPdf.LayoutFonts.TimesBold))
+            {
+                Border = ToolsPdf.BorderNone,
+                HorizontalAlignment = Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            });
+
+            table.AddCell(new PdfPCell(new Phrase(value, ToolsPdf.LayoutFonts.Times))
+            {
+                Border = ToolsPdf.BorderNone,
+                HorizontalAlignment = Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            });
+        }
         
         /// <summary>Creates a label cell for criteria table</summary>
         /// <param name="label">Label to show</param>
@@ -246,6 +306,14 @@ namespace GisoFramework
         }
 
         /// <summary>Creates a cell table with content</summary>
+        /// <param name="value">Integer value to show</param>
+        /// <returns>Cell table</returns>
+        public static PdfPCell DataCell(decimal value)
+        {
+            return DataCell(value.ToString(), LayoutFonts.Times, Rectangle.ALIGN_RIGHT);
+        }
+
+        /// <summary>Creates a cell table with content</summary>
         /// <param name="value">Long value to show</param>
         /// <returns>Cell table</returns>
         public static PdfPCell DataCell(long value)
@@ -277,6 +345,20 @@ namespace GisoFramework
         public static PdfPCell DataCell(long value, Font font)
         {
             return DataCell(value.ToString(CultureInfo.InvariantCulture), font, Rectangle.ALIGN_LEFT);
+        }
+
+        /// <summary>Creates a cell table with content</summary>
+        /// <param name="value">Long value to show</param>
+        /// <param name="font">Font for content</param>
+        /// <returns>Cell table</returns>
+        public static PdfPCell DataCell(DateTime? value)
+        {
+            if(value == null)
+            {
+                return DataCell(string.Empty, LayoutFonts.Times, Rectangle.ALIGN_CENTER);
+            }
+
+            return DataCell(string.Format(CultureInfo.InvariantCulture,"{0:dd/MM/yyyy}", value.Value), LayoutFonts.Times, Rectangle.ALIGN_LEFT);
         }
 
         /// <summary>Creates a cell table with content</summary>
@@ -323,7 +405,7 @@ namespace GisoFramework
         /// <returns>Cell table</returns>
         public static PdfPCell DataCell(DateTime value)
         {
-            return DataCell(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), LayoutFonts.Times);
+            return DataCell(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), LayoutFonts.Times, Rectangle.ALIGN_CENTER);
         }
 
         /// <summary>Creates a cell table with content</summary>
@@ -332,7 +414,7 @@ namespace GisoFramework
         /// <returns>Cell table</returns>
         public static PdfPCell DataCell(DateTime value, Font font)
         {
-            return DataCell(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), font);
+            return DataCell(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", value), font, Rectangle.ALIGN_CENTER);
         }
 
         /// <summary>Creates a cell table with content with alignment</summary>

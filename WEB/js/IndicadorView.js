@@ -10,7 +10,7 @@ window.onload = function () {
     IndicadorTypeLayout();
     FillComboUnidad();
     $("#CmbType").on("change", IndicadorTypeLayout);
-    $("#CmbProcess").on("change", ProcessLayout)
+    $("#CmbProcess").on("change", ProcessLayout);
     $("#BtnSave").on("click", Save);
     $("#BtnCancel").on("click", function (e) { document.location = referrer; });
     $("#BtnAnular").on("click", AnularPopup);
@@ -23,13 +23,13 @@ window.onload = function () {
 
     FillForm();
 
-    if (Registros.length == 0) {
+    if (Registros.length === 0) {
         $("#IndicadorRegistrosTable").hide();
         $("#ItemTableVoid").show();
     }
 
-	if (typeof Indicador.EndDate !== "undefined" && Indicador.EndDate !== null) {
-		$("#BtnRecordNew").hide();
+    if (typeof Indicador.EndDate !== "undefined" && Indicador.EndDate !== null) {
+        $("#BtnRecordNew").hide();
     }
 
     Resize();
@@ -89,16 +89,23 @@ window.onload = function () {
         $("#Tabhistoric").hide();
     }
     else {
-        if (document.location.toString().indexOf("&Tab=Records") != -1) {
+        if (document.location.toString().indexOf("&Tab=Records") !== -1) {
             $("#Tabrecords a").click();
             $("#BtnRecordNew").click();
         }
     }
 
     Compute();
-}
 
-window.onresize = function () { Resize(); }
+    if (IndicadorId > 0) {
+        $("#BtnPrint").on("click", PrintData);
+    }
+    else {
+        $("#BtnPrint").hide();
+    }
+};
+
+window.onresize = function () { Resize(); };
 
 function CmbProcessChanged() {
     if ($("#CmbProcess").val() * 1 > 0) {
@@ -264,37 +271,35 @@ function Validate() {
     if ($("#TxtStartDate").val() === "") {
         ok = false;
         $("#TxtStartDateErrorRequired").show();
-        document.getElementById("TxtStartDateLabel").style.color = "#f00";
+        $("#TxtStartDateLabel").css("color", "#f00");
     }
     else if (!validateDate($("#TxtStartDate").val())) {
         ok = false;
         $("#TxtStartDateErrorMalformed").show();
-        document.getElementById("TxtStartDateLabel").style.color = "#f00";
+        $("#TxtStartDateLabel").css("color", "#f00");
     }
 
     if ($("#TxtCalculo").val() === "") {
         ok = false;
-        document.getElementById("TxtCalculoLabel").style.color = "#f00";
+        $("TxtCalculoLabel").css("color", "#f00");
         $("#TxtCalculoErrorRequired").show();
-    }
-    else {
     }
 
     if ($("#TxtPeriodicity").val() === "" || $("#TxtPeriodicity").val() * 1 === 0) {
         ok = false;
-        document.getElementById("TxtPeriodicityLabel").style.color = "#f00";
+        $("TxtPeriodicityLabel").css("color", "#f00");
         $("#TxtPeriodicityErrorRequired").show();
     }
 
     if ($("#CmbUnidad").val() * 1 === 0) {
         ok = false;
-        document.getElementById("CmbUnidadLabel").style.color = "#f00";
+        $("CmbUnidadLabel").css("color", "#f00");
         $("#CmbUnidadErrorRequired").show();
     }
 
-    if ($("#CmbMetaComparer").val() * 1 === 0 || $("#TxtMeta").val() * 1 == 0) {
+    if ($("#CmbMetaComparer").val() * 1 === 0 || $("#TxtMeta").val() * 1 === 0) {
         ok = false;
-        document.getElementById("CmbMetaLabel").style.color = "#f00";
+        $("#CmbMetaLabel").css("color", "#f00");
         $("#CmbMetaErrorRequired").show();
     }
 
@@ -412,6 +417,7 @@ function RenderRegistroRow(registro) {
     row += "     </td>";
     row += "</tr>";
     $("#IndicadorRegistrosTable").append(row);
+    return color;
 }
 
 function IndicadorRegistroFilterValidate() {
@@ -434,7 +440,7 @@ function IndicadorRegistroFilterValidate() {
         }
     }
 
-    if (ok == true) {
+    if (ok === true) {
         if ($("#TxtRecordsFromDate").val() !== "" && $("#TxtRecordsToDate").val()!=="")
         {
             var dateFrom = GetDate($("#TxtRecordsFromDate").val(), "/", true);
@@ -490,10 +496,11 @@ function IndicadorRegistroFilter(exportType) {
 
         if (show === true) {
             count++;
-            RenderRegistroRow(Registros[x]);
+            Registros[x]["Color"] = RenderRegistroRow(Registros[x]);
             selectedRegistros.push(Registros[x]);
         }
     }
+    console.log(Registros);
 
     $("#NumberCosts").html(count);
 
@@ -506,6 +513,7 @@ function IndicadorRegistroFilter(exportType) {
     if (listOrder === null) {
         listOrder = "th2|DESC";
     }
+
     console.log(listOrder);
     if (lockOrderList) {
         var th = listOrder.split('|')[0];
@@ -671,7 +679,7 @@ function RecordEdit(id) {
 
     selectedRecordId = id * 1;
     FillFormRegistro(selectedRecordId);
-    var title = selectedRecordId == -1 ? Dictionary.Item_IndicatorRecord_PopupTitle_Insert : Dictionary.Item_IndicatorRecord_PopupTitle_Update;
+    var title = selectedRecordId === -1 ? Dictionary.Item_IndicatorRecord_PopupTitle_Insert : Dictionary.Item_IndicatorRecord_PopupTitle_Update;
     var dialog = $("#dialogNewRecord").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
@@ -966,7 +974,7 @@ function DrawGraphics(stop) {
                     "fontColor": "rgb(255, 99, 132)"
                 }
             }
-        }
+        };
 
         var labels = new Array();
         var values = new Array();
@@ -980,12 +988,13 @@ function DrawGraphics(stop) {
 
 
         selectedRegistros.sort(RegistrosDateSort);
-
+        var colors = [];
         for (var x = 0; x < selectedRegistros.length; x++) {
             labels.push(selectedRegistros[x].Date);
             values.push(selectedRegistros[x].Value);
             metas.push(selectedRegistros[x].Meta);
             alarmas.push(selectedRegistros[x].Alarma);
+            colors.push(selectedRegistros[x].Color);
 
             lastValue = selectedRegistros[x].Value * 1;
             lastMeta = selectedRegistros[x].Meta * 1;
@@ -998,6 +1007,7 @@ function DrawGraphics(stop) {
         }
 
         var overlayData = {
+            "colors": colors,
             "labels": labels,
             "datasets": [
                 {
@@ -1042,7 +1052,7 @@ function DrawGraphics(stop) {
         this.chart = new Chart(this.ctx).Overlay(overlayData, {
             populateSparseData: true,
             overlayBars: false,
-            datasetFill: true,
+            datasetFill: true
         });
         this.div.style.display = "none";
 
@@ -1580,9 +1590,7 @@ function RenderTableHistorico() {
 
 function RenderHistoricoRow(data) {
     var target = document.getElementById("ObjetivoHistoricoTable");
-
     var tr = document.createElement("TR");
-
     var tdAction = document.createElement("TD");
     var tdDate = document.createElement("TD");
     var tdReason = document.createElement("TD");
@@ -1595,7 +1603,7 @@ function RenderHistoricoRow(data) {
     var actionText = "Anular";
     var reason = data.Reason;
     if (data.Reason === "Restore") {
-        actionText = "Restaurar"
+        actionText = "Restaurar";
         reason = "";
     }
 
@@ -1636,7 +1644,6 @@ function Compute() {
         $("#CmbAlarmaComparer").val(alarmComparer);
     }
 
-
     if (alarmComparer === "") {
         $("#TxtAlarma").attr("disabled", "disabled");
         $("#TxtAlarma").val("");
@@ -1655,3 +1662,7 @@ function Compute() {
     $("#cellsuccess").html($("#CmbMetaComparer option:selected").text() + " " + $("#TxtMeta").val());
 }
 
+function PrintData() {
+    window.open("/export/IndicadorExportData.aspx?id=" + IndicadorId + "&companyId=" + Company.Id);
+    return false;
+}

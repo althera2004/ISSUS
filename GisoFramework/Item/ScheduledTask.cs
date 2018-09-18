@@ -75,9 +75,9 @@ namespace GisoFramework.Item
             }
         }
 
-        public static string ByEmployeeJson(int employeeId, int companyId)
+        public static string ByEmployeeJson(ApplicationUser user, int companyId)
         {
-            var tasks = ByEmployee(employeeId, companyId);
+            var tasks = ByEmployee(user, companyId);
             var res = new StringBuilder("[");
             bool first = true;
             foreach (var task in tasks)
@@ -98,9 +98,8 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static ReadOnlyCollection<ScheduledTask> ByEmployee(long employeeId, int companyId)
+        public static ReadOnlyCollection<ScheduledTask> ByEmployee(ApplicationUser user, int companyId)
         {
-            var user = ApplicationUser.GetByEmployee(employeeId, companyId);
             var res = new List<ScheduledTask>();
             using (var cmd = new SqlCommand("ScheduleTask_GetByEmployee"))
             {
@@ -110,14 +109,14 @@ namespace GisoFramework.Item
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", user.Employee.Id));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Connection.Open();
                         using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
                             {
-                                if (user.PrimaryUser || rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId) == employeeId)
+                                if (user.Admin || rdr.GetInt32(ColumnsScheduleTaskGetByEmployee.EmployeeId) == user.Employee.Id)
                                 {
                                     var newTask = new ScheduledTask
                                     {

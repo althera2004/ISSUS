@@ -1762,7 +1762,6 @@ namespace GisoFramework.Item
 
             if (this.WhatHappenedOn.HasValue)
             {
-                //this.Status = @"<i tittle=" + dictionary["Item_Incident_Status1"] + " class=""fa icon-pie-chart"" style=""color: rgb(255, 0, 0);""></i>" + dictionary["Item_Incident_Status1"];
                 this.Status = @"<i class=""fa icon-pie-chart"" style=""color: rgb(255, 0, 0);""></i>" + dictionary["Item_Incident_Status1"];
             }
 

@@ -126,7 +126,7 @@ public partial class ExportIncidentExportList : Page
 
         var borderNone = iTS.Rectangle.NO_BORDER;
 
-        //------ CRITERIA
+        #region Criteria
         var criteriatable = new iTSpdf.PdfPTable(2)
         {
             WidthPercentage = 100
@@ -234,81 +234,13 @@ public partial class ExportIncidentExportList : Page
         }
         #endregion
 
-        var criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = borderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-
-        var criteria1 = new iTSpdf.PdfPCell(new iTS.Phrase(periode, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = borderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-
-        var criteria2Label = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = borderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-
-        var criteria2 = new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = borderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-
-        var criteria3Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Status"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = borderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-
-        var criteria3 = new iTSpdf.PdfPCell(new iTS.Phrase(statusText, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = borderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-
-        var criteria4Label = new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Origin"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = borderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-
-        var criteria4 = new iTSpdf.PdfPCell(new iTS.Phrase(criteriaOrigin, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = borderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        };
-
-
-        criteriatable.AddCell(criteria1Label);
-        criteriatable.AddCell(criteria1);
-        criteriatable.AddCell(criteria3Label);
-        criteriatable.AddCell(criteria3);
-        criteriatable.AddCell(criteria4Label);
-        criteriatable.AddCell(criteria4);
-
+        ToolsPdf.AddCriteria(criteriatable, dictionary["Common_Period"], periode);
+        ToolsPdf.AddCriteria(criteriatable, string.Empty, string.Empty);
+        ToolsPdf.AddCriteria(criteriatable, dictionary["Item_IncidentAction_Header_Status"], statusText);
+        ToolsPdf.AddCriteria(criteriatable, dictionary["Item_IncidentAction_Header_Origin"], criteriaOrigin);
         pdfDoc.Add(criteriatable);
-        //---------------------------
-        
+        #endregion
+
         var table = new iTSpdf.PdfPTable(7)
         {
             WidthPercentage = 100,

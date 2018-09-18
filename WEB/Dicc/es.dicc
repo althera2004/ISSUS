@@ -2,7 +2,15 @@ Acción::Acción
 afectados::afectados
 Agreement_Button_Download::Descargar condiciones
 Agreement_Document_Title::Condiciones de uso
-Alert_Started_Wihtout_Assistans::Curso empezado sin alumnos
+Alert_Short_ActionEvaluatedWithoutAction::Analizada sin actuación con un testo muuuuuuuy largo
+Alert_Short_Started_Wihtout_Assistants::Curso sin alumnos
+Alert_Large_Started_Without_Assistants::Curso con fecha inicio ya pasada sin alumnos inscritos
+Alert_Short_BusinessRiskNotEvaluated::Riesgo no evaluado
+Alert_Large_BusinessRiskNotEvaluated::Riesgo sin evaluación especificada
+Alert_Short_ActionIdentifiedNotEvaluated::Acción identificada no evaluada
+Alert_Short_EquipmentMaintenance::Mantenimiento sin registro
+Alert_Large_EquipmentMaintenance::Mantenimiento configurado sin registro inicial
+Alert_Large_ExpiredTasks::La tarea está fuera de término
 Añadir::Añadir
 Auditorías::Auditorías
 Avatar::Avatar

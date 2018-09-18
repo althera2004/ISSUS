@@ -1115,33 +1115,35 @@ function ValidateData() {
     }
 
     if (ok === false) {
-        var ErrorContent = '';
-
+        var ErrorContent = "";
 
         if (ErrorMessageInicial.length > 0) {
-            ErrorContent += '<strong>' + Dictionary.Item_BusinessRisk_Tab_Basic + '</strong><ul>';
-            for (var x = 0; x < ErrorMessageInicial.length; x++) {
-                ErrorContent += '<li>' + ErrorMessageInicial[x] + '</li>';
+            ErrorContent += "<strong>" + Dictionary.Item_BusinessRisk_Tab_Basic + "</strong><ul>";
+            for (var emi = 0; x < ErrorMessageInicial.length; emi++) {
+                ErrorContent += "<li>" + ErrorMessageInicial[emi] + "</li>";
             }
-            ErrorContent += '</ul>';
+
+            ErrorContent += "</ul>";
         }
 
 
         if (ErrorMessageAccion.length > 0) {
-            ErrorContent += '<strong>' + Dictionary.Item_BusinessRisk_Tab_Action + '</strong><ul>';
-            for (var x = 0; x < ErrorMessageAccion.length; x++) {
-                ErrorContent += '<li>' + ErrorMessageAccion[x] + '</li>';
+            ErrorContent += "<strong>" + Dictionary.Item_BusinessRisk_Tab_Action + "</strong><ul>";
+            for (var ema = 0; x < ErrorMessageAccion.length; ema++) {
+                ErrorContent += "<li>" + ErrorMessageAccion[ema] + "</li>";
             }
-            ErrorContent += '</ul>';
+
+            ErrorContent += "</ul>";
         }
 
 
         if (ErrorMessageFinal.length > 0) {
-            ErrorContent += '<strong>' + Dictionary.Item_BusinessRisk_Tab_Graphics + '</strong><ul>';
-            for (var x = 0; x < ErrorMessageFinal.length; x++) {
-                ErrorContent += '<li>' + ErrorMessageFinal[x] + '</li>';
+            ErrorContent += "<strong>" + Dictionary.Item_BusinessRisk_Tab_Graphics + "</strong><ul>";
+            for (var emf = 0; x < ErrorMessageFinal.length; emf++) {
+                ErrorContent += "<li>" + ErrorMessageFinal[emf] + "</li>";
             }
-            ErrorContent += '</ul>';
+
+            ErrorContent += "</ul>";
         }
 
         warningInfoUI("<strong>" + Dictionary.Common_Message_FormErrors + "</strong><br />" + ErrorContent, null, 600);
@@ -1715,7 +1717,7 @@ if (document.getElementById("FinalApplyActionAssumed") !== null) {
 
 if (ApplicationUser.Grants.Rules !== null)
 {
-    if(ApplicationUser.Grants.Rules.Write == false)
+    if(ApplicationUser.Grants.Rules.Write === false)
     {
         $("#BtnSelectRules").hide();
     }

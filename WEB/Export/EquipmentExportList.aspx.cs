@@ -216,37 +216,8 @@ public partial class ExportEquipmentList : Page
             operativaText += dictionary["Item_Equipment_List_Filter_ShowMaintenance"];
         }
 
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_List_Filter_ShowByOperation"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(operativaText, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Equipment_List_Filter_ShowByStatus"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(statusText, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
+        ToolsPdf.AddCriteria(criteriatable, dictionary["Item_Equipment_List_Filter_ShowByOperation"], operativaText);
+        ToolsPdf.AddCriteria(criteriatable, dictionary["Item_Equipment_List_Filter_ShowByStatus"], statusText);
 
         bool pair = false;
         decimal total = 0;

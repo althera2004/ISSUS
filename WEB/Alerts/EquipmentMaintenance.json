@@ -1,7 +1,9 @@
 ﻿{
-    CompanyId:0, // si es 0 es para todas las empresas, en caso contrario solo es para la empresa que lo pida.
-    ItemType:13, // identificador del item, sale de la tabla applicationItem
-    AlertDescription:"Mantenimiento configurado sin registro inicial",
+    "CompanyId":0, // si es 0 es para todas las empresas, en caso contrario solo es para la empresa que lo pida.
+    "ItemType":13, // identificador del item, sale de la tabla applicationItem
+    "Icon":"icon-wrench", // icono del mensaje
+    "AlertDescription": "Alert_Short_EquipmentMaintenance",
+    "AlertExplanation": "Alert_Large_EquipmentMaintenance",
     "ItemUrl": "EquipmentView.aspx?id=", // en esta linea se define la url de la ficha afectada por la alerta
     Query:"select distinct
 	E.Id,
@@ -24,7 +26,7 @@ AND EMD.Active = 1 AND E.Active = 1
     ],
     Tag: '<li>
                                     <a href="EquipmentView.aspx?id={0}">
-                                                <strong>Mantenimiento configurado sin registro inicial</strong><br />
+                                                <div style="width:220px;text-overflow: ellipsis;overflow:hidden;"><strong>Mantenimiento configurado sin registro inicial</div></strong>
                                         <div class="clearfix">
                                             <span class="pull-left">
                                                 <i class="btn btn-xs no-hover btn-warning icon-ray"></i>{1}

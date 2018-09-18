@@ -76,6 +76,6 @@ public partial class Schedule : Page
         this.master.AddBreadCrumb("Item_ScheduledTasks");
         this.master.Titulo = "Item_ScheduledTasks";
 
-        this.Tasks = ScheduledTask.ByEmployeeJson(Convert.ToInt32(this.user.Employee.Id), this.company.Id);
+        this.Tasks = ScheduledTask.ByEmployeeJson(this.user, this.company.Id);
     }
 }

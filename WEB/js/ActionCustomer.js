@@ -27,9 +27,10 @@ function ShowCustomerBarPopup(cmb) {
                 "id": "Btn" + itemName + "Save",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
-                click: function () { CustomerInsert(); }
+                "click": function () { CustomerInsert(); }
             },
             {
+                "id": "Btn" + itemName + "SaveCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
@@ -47,8 +48,8 @@ function CustomerChanged(sender) {
 
 // Insert functions for bar item Customer
 function CustomerInsert(sender) {
-    document.getElementById("TxtCustomerNewNameErrorRequired").style.display = "none";
-    document.getElementById("TxtCustomerNewNameErrorDuplicated").style.display = "none";
+    $("#TxtCustomerNewNameErrorRequired").hide();
+    $("#TxtCustomerNewNameErrorDuplicated").hide();
     $("#TxtCustomerNewName").val("");
     var Selected = 0;
     var dialog = $(popupInsertDialogId).removeClass("hide").dialog({
@@ -73,19 +74,19 @@ function CustomerInsert(sender) {
                     }
 
                     if (duplicated === true) {
-                        document.getElementById("TxtCustomerNewNameErrorDuplicated").style.display = "block";
+                        $("#TxtCustomerNewNameErrorDuplicated").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById("TxtCustomerNewNameErrorDuplicated").style.display = "none";
+                        $("#TxtCustomerNewNameErrorDuplicated").hide();;
                     }
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
 
-                    document.getElementById("TxtCustomerNewNameErrorRequired").style.display = "none";
-                    document.getElementById("TxtCustomerNewNameErrorDuplicated").style.display = "none";
+                    $("#TxtCustomerNewNameErrorRequired").hide();
+                    $("#TxtCustomerNewNameErrorDuplicated").hide();
                     $(this).dialog("close");
-                    CustomerInsertConfirmed(document.getElementById("TxtCustomerNewName").value);
+                    CustomerInsertConfirmed($("#TxtCustomerNewName").val());
                     return false;
                 }
             },
@@ -100,8 +101,6 @@ function CustomerInsert(sender) {
 
 function CustomerInsertConfirmed(newDescription) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/" + itemName + "Actions.asmx/Insert";
-    var description = "";
     var data = {
         "description": newDescription,
         "companyId": Company.Id,
@@ -112,7 +111,7 @@ function CustomerInsertConfirmed(newDescription) {
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/" + itemName + "Actions.asmx/Insert",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
@@ -129,6 +128,7 @@ function CustomerInsertConfirmed(newDescription) {
                 CmbReporterCustomersFill();
                 Cmb.val(CustomerSelected);
             }
+
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
@@ -206,7 +206,6 @@ function CustomerUpdate(sender) {
 
 function CustomerUpdateConfirmed(id, newDescription) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/" + itemName + "Actions.asmx/Update";
     var description = "";
     for (var x = 0; x < Customers.length; x++) {
         if (Customers[x].Id === id) {
@@ -214,6 +213,7 @@ function CustomerUpdateConfirmed(id, newDescription) {
             break;
         }
     }
+
     var data = {
         "customerId": id,
         "description": newDescription,
@@ -221,12 +221,10 @@ function CustomerUpdateConfirmed(id, newDescription) {
         "userId": user.Id
     };
 
-    console.log("delete cliente", data);
-
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/" + itemName + "Actions.asmx/Update",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),

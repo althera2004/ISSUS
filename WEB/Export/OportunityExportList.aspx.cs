@@ -92,13 +92,13 @@ public partial class ExportOportunityExportList : Page
             Border = iTS.Rectangle.NO_BORDER
         });
 
-        //------ CRITERIA
-        var criteriatable = new iTSpdf.PdfPTable(4)
+        #region Criteria
+        var criteriatable = new iTSpdf.PdfPTable(6)
         {
             WidthPercentage = 100
         };
 
-        criteriatable.SetWidths(new float[] { 15f, 50f, 15f, 100f });
+        criteriatable.SetWidths(new float[] { 15f, 50f, 15f, 50f, 15f, 50f });
 
         #region texts
 
@@ -143,64 +143,11 @@ public partial class ExportOportunityExportList : Page
         }
         #endregion
 
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Common_Period"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_BusinesRisk_ListHeader_Process"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(typetext, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Item_BusinesRisk_ListHeader_Rule"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(ruleDescription, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(criteriaProccess, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
+        ToolsPdf.AddCriteria(criteriatable, Dictionary["Common_Period"], periode);
+        ToolsPdf.AddCriteria(criteriatable, Dictionary["Item_BusinesRisk_ListHeader_Process"], typetext);
+        ToolsPdf.AddCriteria(criteriatable, Dictionary["Item_BusinesRisk_ListHeader_Rule"], ruleDescription);
         pdfDoc.Add(criteriatable);
-        //---------------------------
+        #endregion
 
         var table = new iTSpdf.PdfPTable(7)
         {

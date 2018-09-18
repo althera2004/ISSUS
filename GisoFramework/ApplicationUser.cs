@@ -1943,7 +1943,7 @@ namespace GisoFramework
                                 body = body.Replace("#USERNAME#", this.UserName).Replace("#PASSWORD#", userpass).Replace("#EMAIL#", this.Email).Replace("#EMPRESA#", company.Name);
                             }
 
-                            var localDictionary = ApplicationDictionary.Load(this.Language);
+                            var localDictionary = ApplicationDictionary.LoadLocal(this.Language);
 
                             var mail = new MailMessage(senderMail, to)
                             {

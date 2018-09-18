@@ -8,6 +8,7 @@ window.onload = function () {
     if (ItemData.Id < 1) {
         $("#TxtFechaCierrePrevista").val("");
         document.getElementById("Contentholder1_RVinculatedNo").checked = true;
+        $("#BtnPrint").hide();
     }
     else {
         periodicityIndicador = ItemData.RevisionId;
@@ -40,6 +41,7 @@ window.onload = function () {
         ObjetivoRegistroFilter();
 
         $("#BtnActionsNew").on("click", ActionNew);
+        $("#BtnPrint").on("click", PrintData);
     }
 
     var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { "autoclose": true, "todayHighlight": true });
@@ -57,7 +59,7 @@ window.onload = function () {
     $("#CmbIndicador").on("change", CmbIndicadorChanged);
     IndicatorVinculatedLayout();
 
-    if (Registros.length == 0) {
+    if (Registros.length === 0) {
         $("#ObjetivoRegistrosTable").hide();
         $("#ItemTableVoid").show();
     }
@@ -94,7 +96,7 @@ window.onload = function () {
 
     RenderTableHistorico();
 
-    if (document.location.toString().indexOf("&Tab=Records") != -1) {
+    if (document.location.toString().indexOf("&Tab=Records") !== -1) {
         $("#Tabrecords a").click();
         $("#BtnRecordNew").click();
     }
@@ -163,7 +165,7 @@ function CmbIndicadorChanged() {
 var newObjetivo = ItemData.Id < 1;
 function Save(goAction, actionId) {
     var validationResult = Validate();
-    if (validationResult != "") {
+    if (validationResult !== "") {
         warningInfoUI(validationResult, null, 300);
         return false;
     }
@@ -471,7 +473,7 @@ function ObjetivoRegistroFilterValidate() {
         }
     }
 
-    if (ok == true) {
+    if (ok === true) {
         if ($("#TxtRecordsFromDate").val() !== "" && $("#TxtRecordsToDate").val() !== "") {
             var dateFrom = GetDate($("#TxtRecordsFromDate").val(), "/", true);
             var dateTo = GetDate($("#TxtRecordsToDate").val(), "/", true);
@@ -511,13 +513,13 @@ function ObjetivoRegistroFilter(exportType) {
     }
 
     recordsGraph = [];
-    for (var x = 0; x < Registros.length; x++) {
+    for (var y = 0; y < Registros.length; y++) {
         var dateFrom = GetDate($("#TxtRecordsFromDate").val(), "/", false);
         var dateTo = GetDate($("#TxtRecordsToDate").val(), "/", false);
 
         var show = true;
         var dateInicio = GetDate(ItemData.StartDate, "/", false);
-        dateFromRegistro = GetDate(Registros[x].Date, "/", false);
+        dateFromRegistro = GetDate(Registros[y].Date, "/", false);
         if (dateFromRegistro < dateInicio) {
             show = false;
         }
@@ -532,7 +534,7 @@ function ObjetivoRegistroFilter(exportType) {
 
         if (show === true) {
             if (dateTo !== null) {
-                dateToRegistro = GetDate(Registros[x].Date, "/", false);
+                dateToRegistro = GetDate(Registros[y].Date, "/", false);
                 if (dateToRegistro > dateTo) {
                     show = false;
                 }
@@ -541,8 +543,8 @@ function ObjetivoRegistroFilter(exportType) {
 
         if (show === true) {
             count++;
-            RenderRegistroRow(Registros[x]);
-            recordsGraph.push(Registros[x]);
+            RenderRegistroRow(Registros[y]);
+            recordsGraph.push(Registros[y]);
         }
     }
 
@@ -685,7 +687,7 @@ function RecordEdit(id) {
 
     selectedRecordId = id * 1;
     FillFormRegistro(selectedRecordId);
-    var title = selectedRecordId == -1 ? Dictionary.Item_IndicatorRecord_PopupTitle_Insert : Dictionary.Item_IndicatorRecord_PopupTitle_Update;
+    var title = selectedRecordId === -1 ? Dictionary.Item_IndicatorRecord_PopupTitle_Insert : Dictionary.Item_IndicatorRecord_PopupTitle_Update;
     var dialog = $("#dialogNewRecord").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
@@ -990,8 +992,8 @@ function RecordDeleteConfirmed() {
             Registros = temp;
 
             // Poner fecha real en los registros
-            for (var x = 0; x < Registros.length; x++) {
-                Registros[x].RealDate = GetDate(Registros[x].Date, "/", false);
+            for (var y = 0; y < Registros.length; y++) {
+                Registros[y].RealDate = GetDate(Registros[y].Date, "/", false);
             }
 
             ObjetivoRegistroFilter();
@@ -1191,7 +1193,7 @@ function DisableVinculatedTo(disable) {
 
 function AnularPopup() {
 
-    if (ActionsOpen == true) {
+    if (ActionsOpen === true) {
         alertInfoUI(Dictionary.Item_Objetivo_OpenActionsWarning);
         return false;
     }
@@ -1403,10 +1405,10 @@ function RenderHistoricoRow(data) {
     tdDate.style.width = "95px";
     tdEmployee.style.width = "240px";
 
-    var actionText = "Anular";
+    var actionText = Dictionary.Item_ObjetivoHistorico_StatusAnulate;
     var reason = data.Reason;
     if (data.Reason === "Restore") {
-        actionText = "Restaurar"
+        actionText = Dictionary.Item_ObjetivoHistorico_StatusRestore;
         reason = "";
     }
 
@@ -1678,4 +1680,9 @@ function IncidentActiongetById(id) {
         }
     }
     return null;
+}
+
+function PrintData() {
+    window.open("/export/ObjetivoExportData.aspx?id=" + ItemData.Id + "&companyId=" + Company.Id);
+    return false;
 }

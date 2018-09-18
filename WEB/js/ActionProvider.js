@@ -9,7 +9,7 @@ function ShowProviderBarPopup(cmb) {
     var dialog = $("#dialogProvider").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": Dictionary.Item_Providers,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Providers + "</h4>",
         "title_html": true,
         "width": 600,
         "buttons":
@@ -46,7 +46,7 @@ function ProviderInsert(sender) {
         "resizable": false,
         "width": 600,
         "modal": true,
-        "title": "<h4 class=\"smaller\">"+ Dictionary.Item_Equipment_Popup_AddProvider_Title + "</h4>",
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Equipment_Popup_AddProvider_Title + "</h4>",
         "title_html": true,
         "buttons":
         [
@@ -139,7 +139,7 @@ function ProviderUpdate(sender) {
         "resizable": false,
         "width": 600,
         "modal": true,
-        "title": Dictionary.Common_Edit,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Edit + "</h4>",
         "title_html": true,
         "buttons": [
             {
@@ -271,7 +271,7 @@ function ProviderDelete(sender) {
     var dialog = $('#ProviderDeleteDialog').removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": Dictionary.Common_Delete,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Delete + "</h4>,
         "title_html": true,
         "buttons":
         [

@@ -100,8 +100,8 @@ public partial class ExportIncidentActionExportList : Page
         };
 
         titleTable.AddCell(titleCell);
-        
-        //------ CRITERIA
+
+        #region Criteria
         var criteriatable = new iTSpdf.PdfPTable(4);
         criteriatable.SetWidths(new float[] { 20f, 50f, 15f, 100f });
         criteriatable.WidthPercentage = 100;
@@ -206,90 +206,15 @@ public partial class ExportIncidentActionExportList : Page
         }
         #endregion
 
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"], ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(periode, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_Customer_Header_Type"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-        criteriatable.AddCell(new PdfPCell(new iTS.Phrase(typetext, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Status"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(statusText, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Header_Origin"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(criteriaOrigin, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Item_IncidentAction_Label_Reporter"] + " :", ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(reporterText, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f
-        });
-
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.TimesBold))
-        {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f,
-            Colspan = 2
-        });
-
+        ToolsPdf.AddCriteria(criteriatable, dictionary["Common_Period"], periode);
+        ToolsPdf.AddCriteria(criteriatable, dictionary["Item_Customer_Header_Type"], typetext);
+        ToolsPdf.AddCriteria(criteriatable, dictionary["Item_IncidentAction_Header_Status"], statusText);
+        ToolsPdf.AddCriteria(criteriatable, dictionary["Item_IncidentAction_Header_Origin"], criteriaOrigin);
+        ToolsPdf.AddCriteria(criteriatable, dictionary["Item_IncidentAction_Label_Reporter"], reporterText);
+        ToolsPdf.AddCriteria(criteriatable, string.Empty, string.Empty);
         pdfDoc.Add(criteriatable);
-        //---------------------------
-        
+        #endregion
+
         var table = new iTSpdf.PdfPTable(8)
         {
             WidthPercentage = 100,

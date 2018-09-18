@@ -1453,6 +1453,8 @@ Item_Objetivo_TableRecords_Header_Status::Estat
 Item_Objetivo_TableRecords_Header_Value::Valor
 Item_Objetivo_TabRecords::Registres
 Item_Objetivo_TitleClose::Tancament real
+Item_ObjetivoHistorico_StatusAnulate::Anular
+Item_ObjetivoHistorico_StatusRestore::Restaurar
 Item_ObjetivoAction_List_Filter_From::Des de
 Item_ObjetivoAction_List_Filter_ShowActive::Actius
 Item_ObjetivoAction_List_Filter_ShowClosed::Tancats

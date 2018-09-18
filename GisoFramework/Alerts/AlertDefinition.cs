@@ -29,9 +29,17 @@ namespace GisoFramework.Alerts
         [JsonProperty("ItemType")]
         public int ItemType { get; set; }
 
-        /// <summary>Gets or sets the alert description</summary>
+        /// <summary>Gets or sets icon</summary>
+        [JsonProperty("Icon")]
+        public string Icon { get; set; }
+
+        /// <summary>Gets or sets the alert short description</summary>
         [JsonProperty("AlertDescription")]
         public string AlertDescription { get; set; }
+
+        /// <summary>Gets or sets the alert large explanation</summary>
+        [JsonProperty("AlertExplanation")]
+        public string AlertExplanation { get; set; }
 
         /// <summary>Gets or sets the query to extract alert occurrences</summary>
         [JsonProperty("Query")]
@@ -141,20 +149,46 @@ namespace GisoFramework.Alerts
                                     data.Add(rdr[columnName].ToString());
                                 }
 
-                                var description = this.AlertDescription;
-                                if (this.AlertDescription.StartsWith("Alert_", StringComparison.OrdinalIgnoreCase))
+                                var shortDescription = this.AlertDescription;
+                                if (this.AlertDescription != null)
                                 {
-                                    if (dictionary.ContainsKey(this.AlertDescription))
+                                    if (this.AlertDescription.StartsWith("Alert_Short_", StringComparison.OrdinalIgnoreCase))
                                     {
-                                        description = dictionary[this.AlertDescription];
+                                        if (dictionary.ContainsKey(this.AlertDescription))
+                                        {
+                                            shortDescription = dictionary[this.AlertDescription];
+                                        }
                                     }
+                                }
+
+                                var largeExplanation = this.AlertExplanation;
+                                if (this.AlertExplanation != null)
+                                {
+                                    if (this.AlertExplanation.StartsWith("Alert_Large_", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        if (dictionary.ContainsKey(this.AlertExplanation))
+                                        {
+                                            largeExplanation = dictionary[this.AlertExplanation];
+                                        }
+                                    }
+                                }
+
+                                // Comporbar si están vacías
+                                if (string.IsNullOrEmpty(largeExplanation))
+                                {
+                                    largeExplanation = shortDescription;
+                                }
+
+                                if (string.IsNullOrEmpty(shortDescription))
+                                {
+                                    shortDescription = largeExplanation;
                                 }
 
                                 if (!string.IsNullOrEmpty(this.Row))
                                 {
                                     res.Add(string.Format(
                                         CultureInfo.InvariantCulture,
-                                        this.Row.Replace("#AlertDescription#", description),
+                                        this.Row.Replace("#AlertDescription#", largeExplanation),
                                         data.ToArray()));
                                 }
                                 else
@@ -162,7 +196,7 @@ namespace GisoFramework.Alerts
                                     res.Add(string.Format(
                                         CultureInfo.InvariantCulture,
                                         "<tr><td>{0}</td><td>{1}</td><td><span class=\"btn btn-xs btn-info\" onclick=\"document.location='{2}{3}';\"><i class=\"icon-edit bigger-1202\"></i></span></td></tr>",
-                                        description,
+                                        shortDescription,
                                         data[1],
                                         ItemUrl,
                                         data[0]));
@@ -214,16 +248,56 @@ namespace GisoFramework.Alerts
                                     data.Add(rdr[columnName].ToString());
                                 }
 
-                                var description = this.AlertDescription;
-                                if (this.AlertDescription.StartsWith("Alert_", StringComparison.OrdinalIgnoreCase))
+                                var shortDescription = this.AlertDescription;
+                                if (this.AlertDescription != null)
                                 {
-                                    if (dictionary.ContainsKey(this.AlertDescription))
+                                    if (this.AlertDescription.StartsWith("Alert_Short_", StringComparison.OrdinalIgnoreCase))
                                     {
-                                        description = dictionary[this.AlertDescription];
+                                        if (dictionary.ContainsKey(this.AlertDescription))
+                                        {
+                                            shortDescription = dictionary[this.AlertDescription];
+                                        }
                                     }
                                 }
 
-                                res.Add(string.Format(CultureInfo.InvariantCulture, this.Tag.Replace("#AlertDescription#", description), data.ToArray()));
+                                var largeExplanation = this.AlertExplanation;
+                                if (this.AlertExplanation != null)
+                                {
+                                    if (this.AlertExplanation.StartsWith("Alert_Large_", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        if (dictionary.ContainsKey(this.AlertExplanation))
+                                        {
+                                            largeExplanation = dictionary[this.AlertExplanation];
+                                        }
+                                    }
+                                }
+
+                                // Comporbar si están vacías
+                                if (string.IsNullOrEmpty(largeExplanation))
+                                {
+                                    largeExplanation = shortDescription;
+                                }
+
+                                if (string.IsNullOrEmpty(shortDescription))
+                                {
+                                    shortDescription = largeExplanation;
+                                }
+
+                                string icon = this.Icon ?? "icon-warning-sign";
+
+                                data.Add(shortDescription);
+                                data.Add(this.ItemUrl);
+                                data.Add(icon);
+
+                                res.Add(string.Format(CultureInfo.InvariantCulture,
+                                    @"<li>
+                                          <a href=""{3}{0}"">
+                                          <div class=""MenuAlertTitle"">{2}</div>
+                                          <div class=""clearfix"">
+                                            <span class=""pull-left"">
+                                                <i class=""btn btn-xs no-hover btn-warning {4}""></i>{1}
+                                            </span></div></a></li>",
+                                    data.ToArray()));
                             }
                         }
                     }

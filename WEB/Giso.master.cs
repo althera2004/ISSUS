@@ -382,7 +382,7 @@ public partial class Giso : MasterPage
         this.ImgCompany.ImageUrl = string.Format("/images/Logos/{0}?ac={1}", logo, Guid.NewGuid());
         this.ImgCompany.Attributes.Add("height", "30");
 
-        var tasks = ScheduledTask.ByEmployee(this.ApplicationUser.Employee.Id, this.Company.Id).Where(t => t.Expiration >= DateTime.Now.AddYears(-1)).ToList();
+        var tasks = ScheduledTask.ByEmployee(this.ApplicationUser, this.Company.Id).Where(t => t.Expiration >= DateTime.Now.AddYears(-1)).ToList();
         tasks = tasks.OrderByDescending(t => t.Expiration).ToList();
         var printedTasks = new List<ScheduledTask>();
         foreach (var task in tasks)

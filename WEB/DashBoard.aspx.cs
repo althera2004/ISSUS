@@ -90,7 +90,6 @@ public partial class DashBoard : Page
         this.master = this.Master as Giso;
         this.company = Session["Company"] as Company;
         this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
-
         this.master.AddBreadCrumb("Item_DashBoard");
         this.master.Titulo = "Item_DashBoard";
         this.RenderScheludedTasksList();
@@ -100,7 +99,7 @@ public partial class DashBoard : Page
     {
         var searchItems = new List<string>();
         var tasksJson = new StringBuilder("[");
-        var tasks = ScheduledTask.ByEmployee(this.user.Employee.Id, this.company.Id).Where(t => t.Expiration >= Constant.Now.AddYears(-1)).ToList();
+        var tasks = ScheduledTask.ByEmployee(this.user, this.company.Id).Where(t => t.Expiration >= Constant.Now.AddYears(-1)).ToList();
         var printedTasks = new List<ScheduledTask>();
         var res = new StringBuilder();
         tasks = tasks.OrderByDescending(t => t.Expiration).ToList();
@@ -162,16 +161,12 @@ public partial class DashBoard : Page
             }
 
             if (!searchItems.Contains(text)) { searchItems.Add(text); };
-
             tasksJson.Append(task.JsonRow(this.Dictionary));
         }
 
-        //this.DataTotal.Text = string.Format(CultureInfo.InvariantCulture, "{0}", tasks.Count);
         this.LtScheduledTasks.Text = res.ToString();
-
         tasksJson.Append("]");
         this.Tasks = tasksJson.ToString();
-
         var searchItem = new StringBuilder();
         first = true;
         foreach (string item in searchItems.OrderBy(s => s))

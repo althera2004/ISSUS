@@ -24,14 +24,12 @@ function GetOportunityNameById(id) {
 }
 
 function RenderchartOportunity() {
-    console.log("RenderchartOportunity");
     nv.addGraph(function () {
         //Create BarChart
         chartOportunity = nv.models.discreteBarChart()
-            .x(function (d) { return d.label })
-            .y(function (d) { return d.value })
+            .x(function (d) { return d.label; })
+            .y(function (d) { return d.value; })
             .tooltips(true)
-
             .showValues(true)
             .showXAxis(false)
             .transitionDuration(0)
@@ -39,7 +37,7 @@ function RenderchartOportunity() {
             .color(myColorsoportunity)
             .tooltipContent(function (key, x, y, e) {
                 if (e.value >= 0) {
-                    return '<div style="min-width:150px;-webkit-border-radius: 40px;-moz-border-radius: 10px;border-radius: 10px;border:3px solid #DBE6FF;background:rgba(242,246,252,0.8);-webkit-box-shadow: #B3B3B3 2px 2px 2px;-moz-box-shadow: #B3B3B3 2px 2px 2px; box-shadow: #B3B3B3 2px 2px 2px;padding-top:4px;padding-left:4px;"><strong>' + GetRiskNameById(x) + '</strong><p>' + Dictionary.Item_BusinessRisk_LabelField_Result + ': <strong>' + y + '</strong></p></div>';
+                    return "<div style=\"min-width:150px;-webkit-border-radius: 40px;-moz-border-radius: 10px;border-radius: 10px;border:3px solid #DBE6FF;background:rgba(242,246,252,0.8);-webkit-box-shadow: #B3B3B3 2px 2px 2px;-moz-box-shadow: #B3B3B3 2px 2px 2px; box-shadow: #B3B3B3 2px 2px 2px;padding-top:4px;padding-left:4px;\"><strong>" + GetRiskNameById(x) + "</strong><p>" + Dictionary.Item_BusinessRisk_LabelField_Result + ": <strong>" + y + "</strong></p></div>";
                 } else {
                     return "";
                 }
@@ -65,27 +63,18 @@ function RenderchartOportunity() {
 }
 
 function exampleDataoportunity() {
-    console.log("exampleDataoportunity");
     function y() {
         myColorsoportunity = [];
         myDataOportunity = [];
         var y = [];
 
-        OportunityGraph.sort(function (a, b) {
-            return parseFloat(b.Result) - parseFloat(a.Result);
-        });
+        OportunityGraph.sort(function (a, b) { return parseFloat(b.Result) - parseFloat(a.Result); });
 
         for (var x = 0; x < OportunityGraph.length; x++) {
             var label = OportunityGraph[x].Id.toString();
-            y.push(
-                {
-                    "label": label,
-                    "value": OportunityGraph[x].Result
-                }
-            );
+            y.push({ "label": label, "value": OportunityGraph[x].Result });
 
             var finalColor = "#ffb752";
-            //console.log(BusinessRiskGraph[x].Description, BusinessRiskGraph[x].Assumed);
             if (OportunityGraph[x].Assumed === false && OportunityGraph[x].FinalAction !== 1) {
                 var limit = typeof actualRuleLimitOportunity === "undefined" ? 0 : actualRuleLimitBusinessRisk;
                 if (limit < 0) {
@@ -101,24 +90,13 @@ function exampleDataoportunity() {
 
             myColorsoportunity.push(finalColor);
             myDataOportunity.push({ "label": label, "value": 5 });
-            console.log("OP", myDataOportunity);
         }
+
         return y;
     }
 
-    linedataoportunity = [
-        {
-            "key": "Cumulative Return",
-            "values": myDataOportunity
-        }
-    ]
-
-    graphicDataOportunity = [
-        {
-            "key": "Cumulative Return",
-            "values": y()
-        }
-    ]
+    linedataoportunity = [{ "key": "Cumulative Return", "values": myDataOportunity }];
+    graphicDataOportunity = [{ "key": "Cumulative Return", "values": y() }];
 }
 
 function resizeGraficoOportunity(transparent) {
