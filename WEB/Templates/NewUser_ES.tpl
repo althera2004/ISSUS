@@ -5,12 +5,12 @@
   <p>Hola #USERNAME#!</p>
   <p>La empresa #EMPRESA# te ha dado de alta como usuario en ISSUS, la aplicación online que te ayudará con tu sistema de gestión.</p>
   <p>Puedes acceder a la aplicación desde <a href="http://issus.scrambotika.com/">este enlace</a> con los siguientes datos:</p>
-<li>
-  Usuario: <strong>#EMAIL#</strong>
-</li>
-<li>
+  <li>
+    Usuario: <strong>#EMAIL#</strong>
+  </li>
+  <li>
     Contraseña: <strong>#PASSWORD#</strong>
-</li>
+  </li>
   <p>Gracias por confiar en ISSUS.</p>
   <p>
     El equipo Scrambòtika<br/>

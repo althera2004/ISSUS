@@ -3,14 +3,14 @@
 </center>
 <FONT FACE="calibri" SIZE="4" COLOR="black">
   <p>Hello #USERNAME#!</p>
-  <p>The company # EMPRESA # has registered you as a user in ISSUS, the online application that will help you with your management system.</p>
+  <p>The company #EMPRESA# has registered you as a user in ISSUS, the online application that will help you with your management system.</p>
   <p>You can access to the application from <a href="http://issus.scrambotika.com/">this link</a> with the following information:</p>
-<li>
-  User: <strong>#EMAIL#</strong>
-</li>
-<li>
+  <li>
+    User: <strong>#EMAIL#</strong>
+  </li>
+  <li>
     Password: <strong>#PASSWORD#</strong>
-</li>
+  </li>
   <p>Thank you for trusting in ISSUS.</p>
   <p>
     The Scrambòtika team<br/>
