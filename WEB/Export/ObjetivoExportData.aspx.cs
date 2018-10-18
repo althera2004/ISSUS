@@ -117,7 +117,7 @@ public partial class ExportObjetivoExportData : Page
             };
 
             tableAcciones.SetWidths(new float[] { 20f, 120f, 20f, 20f, 20f });
-            ToolsPdf.AddTableTitle(tableAcciones, dictionary["Item_Objetivo_RecordsReportTitle"]);
+            ToolsPdf.AddTableTitle(tableAcciones, dictionary["Item_Objetivo_ActionsReportTitle"]);
             tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"]));
             tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
             tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
@@ -125,18 +125,24 @@ public partial class ExportObjetivoExportData : Page
             tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Cost"]));
                                    
             int cont = 0;
+            decimal totalAcciones = 0;
             foreach (var accion in acciones)
             {
                 tableAcciones.AddCell(ToolsPdf.DataCell(accion.Status));
-                tableAcciones.AddCell(ToolsPdf.DataCell(accion.WhatHappenedOn));
                 tableAcciones.AddCell(ToolsPdf.DataCell(accion.Description));
+                tableAcciones.AddCell(ToolsPdf.DataCell(accion.WhatHappenedOn));
                 tableAcciones.AddCell(ToolsPdf.DataCell(accion.ActionsOn));
                 tableAcciones.AddCell(ToolsPdf.DataCell(0));
                 cont++;
+                var costs = IncidentActionCost.GetByIncidentActionId(accion.Id, company.Id);
+                foreach(var cost in costs)
+                {
+                    totalAcciones = cost.Amount;
+                }
             }
 
             // TotalRow
-            tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
+            tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_RegisterCount"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
             {
                 Border = Rectangle.TOP_BORDER,
                 HorizontalAlignment = Element.ALIGN_LEFT,
@@ -144,6 +150,21 @@ public partial class ExportObjetivoExportData : Page
             });
 
             tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", cont), ToolsPdf.LayoutFonts.TimesBold))
+            {
+                Border = Rectangle.TOP_BORDER,
+                HorizontalAlignment = Element.ALIGN_RIGHT,
+                Padding = 8f
+            });
+
+            tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
+            {
+                Border = Rectangle.TOP_BORDER,
+                HorizontalAlignment = Element.ALIGN_LEFT,
+                Padding = 8f,
+                Colspan = 2
+            });
+
+            tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", totalAcciones), ToolsPdf.LayoutFonts.TimesBold))
             {
                 Border = Rectangle.TOP_BORDER,
                 HorizontalAlignment = Element.ALIGN_RIGHT,
@@ -185,7 +206,8 @@ public partial class ExportObjetivoExportData : Page
                 foreach (var registro in registros)
                 {
                     string meta = dictionary["Common_Comparer_" + registro.MetaComparer] + " " + registro.Meta.ToString();
-                    tableRegistros.AddCell(ToolsPdf.DataCell(registro.Value));
+                    // WEKE ALEX: con datacellmoney el dato debe ser decimal y lo poen con dos decimales
+                    tableRegistros.AddCell(ToolsPdf.DataCellMoney(registro.Value));
                     tableRegistros.AddCell(ToolsPdf.DataCell(registro.Date));
                     tableRegistros.AddCell(ToolsPdf.DataCell(registro.Comments));
                     tableRegistros.AddCell(ToolsPdf.DataCell(meta));
@@ -194,7 +216,7 @@ public partial class ExportObjetivoExportData : Page
                 }
 
                 // TotalRow
-                tableRegistros.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
+                tableRegistros.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_RegisterCount"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
                 {
                     Border = Rectangle.TOP_BORDER,
                     HorizontalAlignment = Element.ALIGN_LEFT,
