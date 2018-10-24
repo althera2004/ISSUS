@@ -2,7 +2,8 @@
     "CompanyId": 0,
     "ItemType": 13,
     "ItemUrl": "BusinessRiskView.aspx?id=",
-    "AlertDescription": "Alert_BusinessRiskActionNeeded", 
+    "AlertDescription": "Alert_Short_BusinessRiskActionNeeded",
+    "AlertExplanation": "Alert_Large_BusinessRiskActionNeeded",
     "Query": "select
                      BR.Id,
                      BR.[Description] AS Description

@@ -1,10 +1,10 @@
 ﻿{
     "CompanyId": 0,
     "ItemType": 13,
-    "ItemUrl": "ActionView.aspx?id=",
-    "AlertDescription": "Alert_Short_ActionEvaluatedWithoutAction",
-    "AlertExplanation": "Alert_Large_ActionEvaluatedWithoutAction",
-    "Query": "SELECT IA.Id, IA.Description FROM IncidentAction IA WHERE IA.CompanyId = #CompanyId# AND IA.CausesOn IS NOT NULL AND IA.ActionsOn IS NULL AND IA.Active = 1",
+    "ItemUrl": "IncidentView.aspx?id=",
+    "AlertDescription": "Alert_Short_IncidentEvaluatedWithoutAction",
+    "AlertExplanation": "Alert_Large_IncidentEvaluatedWithoutAction",
+    "Query": "SELECT I.Id, I.Description FROM Incident I WHERE I.CompanyId = #CompanyId# AND I.CausesOn IS NOT NULL AND I.ActionsOn IS NULL AND I.Active = 1",
     "Index":
     [
         {Position:0, FieldName:'Id'},

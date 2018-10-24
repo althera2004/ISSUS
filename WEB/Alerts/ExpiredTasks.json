@@ -1,8 +1,8 @@
 ﻿{
     CompanyId:0,
     ItemType:13,
-  "AlertDescription": 'Expired tasks',
-  "AlertExplanation":  "Alert_Large_ExpiredTasks",
+  "AlertDescription": 'Alert_Short_ExpiredTasks',
+  "AlertExplanation": 'Alert_Large_ExpiredTasks',
     Query:"SELECT
         TOTAL.EquipmentId as Id,
         TOTAL.Description
@@ -116,7 +116,7 @@
     ],
     Tag: '<li>
                                     <a href="EquipmentView.aspx?id={0}">
-                                                <strong>Expired tasks</strong><br />
+                                                <strong>#AlertDescription#</strong><br />
                                         <div class="clearfix">
                                             <span class="pull-left">
                                                 <i class="btn btn-xs no-hover btn-warning icon-laptop"></i>{1}

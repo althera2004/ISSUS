@@ -185,7 +185,7 @@ public partial class Agreement : Page
         var pdfDoc = new iTS.Document(iTS.PageSize.A4, 40, 40, 80, 50);
         var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,
            new FileStream(
-               string.Format(CultureInfo.InvariantCulture, @"{0}DOCS\{1}", path, fileName),
+               string.Format(CultureInfo.InvariantCulture, @"{0}{1}", path, fileName),
                FileMode.Create));
 
         writer.PageEvent = new TwoColumnHeaderFooter

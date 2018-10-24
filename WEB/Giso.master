@@ -734,7 +734,7 @@
             }
 
             // @alex: ocultar entrada de menú para oportunidades
-            $("#menuoption-26").hide();
+            //$("#menuoption-26").hide();
         </script>
     </body>
 </html>

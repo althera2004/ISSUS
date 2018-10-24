@@ -2,8 +2,9 @@
     CompanyId:0, // Para todas la compañías
     ItemType:13, // Id del tipo Learning, para determinar quien tiene acceso
     "ItemUrl": "EquipmentView.aspx?id=",
-    AlertDescription:'Equipo incompleto',
-    Query:"SELECT
+	AlertDescription: 'Alert_Short_EquipmentIncomplete',
+    AlertExplanation: 'Alert_Large_EquipmentIncomplete',
+   Query:"SELECT
 DATA.Id,
 'Falta ' +
 CASE WHEN SUM(Data.Verification) > 0 THEN 'verificación ' ELSE '' END +
@@ -91,11 +92,11 @@ GROUP BY
     ],  // Datos de cada aviso generado por la alerta
     Tag: '<li>
                                     <a href="EquipmentView.aspx?id={0}">
-                                                <strong>Equipo incompleto</strong><br />
+                                                <strong>#AlertDescription#</strong><br />
                                         <div class="clearfix">
                                             <span class="pull-left">
                                                 <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-tag"></i></td><td><span style="width:150px;white-space:normal;">{1}</span></td></tr></table>                                            </span>
                                         </div>
                                     </a>
-                                </li>'
+                                </li>' // Cómo se muestra la alerta en la aplicación (desplegable campana)
 }

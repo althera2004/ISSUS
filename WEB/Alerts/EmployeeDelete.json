@@ -2,8 +2,9 @@
     "CompanyId": 0,
     "ItemType": 11,
     "ItemUrl": "Employee.aspx?id=",
-    "AlertDescription": "Responsable no activo",
-    "Query": "
+    "AlertDescription": "Alert_Short_EmployeeDelete",
+    "AlertExplanation": "Alert_Large_EmployeeDelete",
+	"Query": "
 
 SELECT
 	DATA.Id as Id,

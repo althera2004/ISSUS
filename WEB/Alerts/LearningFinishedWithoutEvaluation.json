@@ -2,8 +2,9 @@
     "CompanyId": 0,
     "ItemType": 10,
     "ItemUrl": "FormacionView.aspx?id=",
-    "AlertDescription": "LearningFinishedWithoutEvaluation",
-    "Query": "select distinct
+    "AlertDescription": "Alert_Short_LearningFinishedWithoutEvaluation",
+	"AlertExplanation": "Alert_Large_LearningFinishedWithoutEvaluation",
+	"Query": "select distinct
     L.Id,
     L.Description
     FROM Learning L
