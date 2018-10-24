@@ -30,9 +30,14 @@ public partial class AsyncUploadFile : Page
         long itemId = Convert.ToInt64(this.Request.Form["ItemId"]);
         int companyId = Convert.ToInt32(this.Request.Form["CompanyId"]);
         string description = this.Request.Form["Description"];
+        if (string.IsNullOrEmpty(description))
+        {
+            description = file.FileName;
+        }
+
         int applicationUserId = Convert.ToInt32(this.Request.Form["ApplicationUserId"]);
         string itemLinkedText = UploadFile.ResolveItemLinked(itemLinked);
-        string fileName = string.Format(@"{0}_{1}_{2}", itemLinkedText, itemId, Path.GetFileName(file.FileName)).Replace("/", "-").Replace("/", "-");
+        string fileName = string.Format(@"{0}_{1}_{2}", itemLinkedText, itemId, Path.GetFileName(ToolsPdf.NormalizeFileName(file.FileName))).Replace("/", "-").Replace("/", "-");
         string fileDisk = string.Format(@"{0}DOCS\{1}\{2}", path, companyId, fileName);
 
         bool exists = File.Exists(fileDisk);

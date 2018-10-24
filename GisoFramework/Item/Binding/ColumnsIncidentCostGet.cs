@@ -21,5 +21,6 @@ namespace GisoFramework.Item.Binding
         public static readonly int ResponsibleName = 7;
         public static readonly int ResponsibleLastName = 8;
         public static readonly int Active = 9;
+        public static readonly int Date = 10;
     }
 }

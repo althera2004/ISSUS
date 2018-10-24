@@ -4,7 +4,7 @@ var VerificationInternalExists = false;
 var VerificationExternalExists = false;
 var EquipmentNewId;
 
-var initialDateText = Dictionary.Item_EquipmentErrorInitialDate + " " + limitInitialDate
+var initialDateText = Dictionary.Item_EquipmentErrorInitialDate + " " + limitInitialDate;
 $("#TxtStartDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtStartDatePostInitial\" style=\"display:none;\">" + initialDateText + "</span>");
 $("#TxtScaleDivision").val(ToMoneyFormat(Equipment.ScaleDivision,4));
 function CalibrationCheckChanged() {
@@ -385,7 +385,7 @@ function ValidateForm(form) {
         }
 
         // @cristina no tener en cuenta fecha alta al validar datos
-        /*if ($("#TxtStartDate").val() !== "") {
+        if ($("#TxtStartDate").val() !== "") {
             if (limitInitialDate !== "") {
                 var date1 = GetDate($("#TxtStartDate").val(), "/", false);
                 var date2 = GetDate(limitInitialDate, "/", false);
@@ -394,7 +394,7 @@ function ValidateForm(form) {
                     result.push(Dictionary.Item_EquipmentErrorInitialDate + " " + limitInitialDate);
                 }
             }
-        }*/
+        }
     }
 
     return result;
@@ -566,8 +566,7 @@ function Restore() {
 
 $("#CmbCalibrationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbCalibrationInternalResponsible").val() * 1, Employees, this); });
 $("#CmbCalibrationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbCalibrationExternalResponsible").val() * 1, Employees, this); });
-$("#CmbEquipmentCalibrationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentCalibrationActResponsible").val() * 1, Employees, this); });
-$("#CmbVerificationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationInternalResponsible").val() * 1, Employees, this); });
+//("#CmbVerificationInternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationInternalResponsible").val() * 1, Employees, this); });
 $("#CmbVerificationExternalResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbVerificationExternalResponsible").val() * 1, Employees, this); });
-$("#CmbEquipmentVerificationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentVerificationActResponsible").val() * 1, Employees, this); });
+//$("#CmbEquipmentVerificationActResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbEquipmentVerificationActResponsible").val() * 1, Employees, this); });
 $("#CmbNewMaintainmentResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbNewMaintainmentResponsible").val() * 1, Employees, this); });

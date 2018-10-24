@@ -139,7 +139,7 @@ function ShowCombos(x) {
 ShowCombos(0);
 
 function IncidentGetFilter(exportType) {
-    $("#nav-search-input").hide();
+    //$("#nav-search-input").hide();
     var ok = true;
     VoidTable("ListDataTable");
     $("#ItemTableError").hide();

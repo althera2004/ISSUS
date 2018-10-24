@@ -80,6 +80,7 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("IncidentActionId", this.IncidentActionId)).Append(",");
                 res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(",");
                 res.Append(Tools.JsonPair("Description", this.Description)).Append(",");
+                res.AppendFormat(CultureInfo.InvariantCulture, @"""Date"":""{0:yyyyMMdd}"", ", this.Date);
                 res.Append(Tools.JsonPair("Amount", this.Amount)).Append(",");
                 res.Append(Tools.JsonPair("Quantity", this.Quantity)).Append(",");
                 res.Append(Tools.JsonPair("Responsible", this.Responsible)).Append(",");
@@ -233,6 +234,7 @@ namespace GisoFramework.Item
              *   @IncidentActionId bigint,
              *   @CompanyId int,
              *   @Description nvarchar(50),
+             *   @Date datetime,
              *   @Amount numeric(18,3),
              *   @Quantity numeric(18,3),
              *   @ResponsablebleId int,
@@ -251,6 +253,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", this.IncidentActionId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                         cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
                         cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
                         cmd.Parameters.Add(DataParameter.Input("@Quantity", this.Quantity));
                         cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
@@ -294,6 +297,7 @@ namespace GisoFramework.Item
              *   @IncidentActionId bigint,
              *   @CompanyId int,
              *   @Description nvarchar(50),
+             *   @Date datetime,
              *   @Amount numeric(18,3),
              *   @Quantity numeric(18,3),
              *   @ResponsableId int,
@@ -313,6 +317,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", this.IncidentActionId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                         cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
                         cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
                         cmd.Parameters.Add(DataParameter.Input("@Quantity", this.Quantity));
                         cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
@@ -374,7 +379,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new IncidentActionCost()
+                                var newIncidentActionCost = new IncidentActionCost
                                 {
                                     Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
@@ -389,7 +394,14 @@ namespace GisoFramework.Item
                                         LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
                                     },
                                     Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
-                                });
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsIncidentCostGet.Date))
+                                {
+                                    newIncidentActionCost.Date = rdr.GetDateTime(ColumnsIncidentCostGet.Date);
+                                }
+
+                                res.Add(newIncidentActionCost);
                             }
                         }
                     }
@@ -425,7 +437,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new IncidentActionCost()
+                                var newIncidentActionCost = new IncidentActionCost
                                 {
                                     Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
@@ -440,7 +452,14 @@ namespace GisoFramework.Item
                                         LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
                                     },
                                     Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
-                                });
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsIncidentCostGet.Date))
+                                {
+                                    newIncidentActionCost.Date = rdr.GetDateTime(ColumnsIncidentCostGet.Date);
+                                }
+
+                                res.Add(newIncidentActionCost);
                             }
                         }
                     }
@@ -501,7 +520,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new IncidentActionCost()
+                                var newIncidentActionCost = new IncidentActionCost
                                 {
                                     Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
@@ -516,7 +535,14 @@ namespace GisoFramework.Item
                                         LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
                                     },
                                     Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
-                                });
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsIncidentCostGet.Date))
+                                {
+                                    newIncidentActionCost.Date = rdr.GetDateTime(ColumnsIncidentCostGet.Date);
+                                }
+
+                                res.Add(newIncidentActionCost);
                             }
                         }
                     }
@@ -551,7 +577,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new IncidentActionCost()
+                                var newIncidentActionCost = new IncidentActionCost
                                 {
                                     Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
@@ -566,7 +592,14 @@ namespace GisoFramework.Item
                                         LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
                                     },
                                     Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
-                                });
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsIncidentCostGet.Date))
+                                {
+                                    newIncidentActionCost.Date = rdr.GetDateTime(ColumnsIncidentCostGet.Date);
+                                }
+
+                                res.Add(newIncidentActionCost);
                             }
                         }
                     }

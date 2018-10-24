@@ -974,6 +974,10 @@ window.onload = function () {
 
     $("H1").html("<input type=\"radio\" id=\"RR\" name=\"RType\" checked=\"checked\" style=\"margin-top:12px;\" />&nbsp;" + Dictionary.Item_BusinessRisks + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"radio\" id=\"RO\" name=\"RType\" style=\"margin-top:12px;\" />&nbsp;" + Dictionary.Item_Oportunities);
 
+    BusinessRiskGetFilter();
+    OportunityGetFilter();
+    SetLayout(layout);
+
     $("#RR").on("click", function () { SetLayout(1); BusinessRiskGetFilter(); });
     $("#RO").on("click", function () { SetLayout(2); OportunityGetFilter(); });
 
@@ -1028,10 +1032,7 @@ window.onload = function () {
     $("#TxtOportunityDateFrom").on("change", OportunityGetFilter);
     $("#TxtOportunityDateTo").on("change", OportunityGetFilter);
 
-    BusinessRiskGetFilter();
-    OportunityGetFilter();
     Resize();
-    SetLayout(layout);
 
     var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { autoclose: true, todayHighlight: true });
     $(".date-picker").datepicker(options);

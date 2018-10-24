@@ -39,6 +39,8 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets the last modification date of item</summary>
         public DateTime ModifiedOn { get; set; }
 
+        public DateTime? Date { get; set; }
+
         /// <summary>Gets or sets a value indicating whether item is active</summary>
         public bool Active { get; set; }
 

@@ -3,7 +3,8 @@
     "ItemType": 13,
     "Icon": "icon-edit",
     "ItemUrl":  "ActionView.aspx?id=",
-    "AlertDescription": "Alert_Short_ActionEvaluatedWithoutAction",
+    "AlertDescription": "corto",
+    "AlertExplanation": "largo",
     "Query": "SELECT
                 IA.Id,
                 IA.Description

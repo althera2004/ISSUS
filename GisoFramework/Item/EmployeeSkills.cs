@@ -203,10 +203,10 @@ namespace GisoFramework.Item
                     Tools.JsonCompliant(this.Specific),
                     Tools.JsonCompliant(this.WorkExperience),
                     Tools.JsonCompliant(this.Ability),
-                    Tools.JsonValue(this.AcademicValid.Value),
-                    Tools.JsonValue(this.SpecificValid.Value),
-                    Tools.JsonValue(this.WorkExperienceValid.Value),
-                    Tools.JsonValue(this.AbilityValid.Value));
+                    Tools.JsonValue(this.AcademicValid),
+                    Tools.JsonValue(this.SpecificValid),
+                    Tools.JsonValue(this.WorkExperienceValid),
+                    Tools.JsonValue(this.AbilityValid));
             }
         }
         

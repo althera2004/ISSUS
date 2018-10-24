@@ -33,6 +33,8 @@ namespace GisoFramework.Item
 
         public string Source { get; set; }
 
+        public DateTime? Date { get; set; }
+
         public static IncidentCost Empty
         {
             get
@@ -77,6 +79,7 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("BusinessRiskId", this.BusinessRiskId)).Append(", ");
                 res.Append(Tools.JsonPair("CompanyId", this.CompanyId)).Append(", ");
                 res.Append(Tools.JsonPair("Description", this.Description)).Append(", ");
+                res.AppendFormat(CultureInfo.InvariantCulture,@"""Date"":""{0:yyyyMMdd}"", ",this.Date);
                 res.Append(Tools.JsonPair("Amount", this.Amount)).Append(", ");
                 res.Append(Tools.JsonPair("Quantity", this.Quantity)).Append(", ");
                 res.Append(Tools.JsonPair("Responsible", this.Responsible)).Append(", ");
@@ -120,30 +123,6 @@ namespace GisoFramework.Item
             var res = new StringBuilder("[");
             var first = true;
             var costs = AllCosts(incidentId, companyId);
-            /*List<IncidentCost> costs = GetByIncidentId(incidentId, companyId).ToList();
-            ReadOnlyCollection<IncidentActionCost> actionCosts = new ReadOnlyCollection<IncidentActionCost>(new List<IncidentActionCost>());
-
-            IncidentAction action = IncidentAction.GetByIncidentId(incidentId,companyId);
-            if(action.Id > 0){
-                actionCosts = IncidentActionCost.GetByIncidentActionId(action.Id, companyId);
-                foreach (IncidentActionCost actionCost in actionCosts)
-                {
-                    costs.Add(new IncidentCost()
-                    {
-                        Id = actionCost.Id,
-                        IncidentId = incidentId,
-                        BusinessRiskId = actionCost.IncidentActionId,
-                        Description = actionCost.Description,
-                        Quantity = actionCost.Quantity,
-                        CompanyId = actionCost.CompanyId,
-                        Responsible = actionCost.Responsible,
-                        Amount = actionCost.Amount,
-                        Active = actionCost.Active,
-                        Source = "A"
-                    });
-                }
-            }*/
-
             foreach (var cost in costs)
             {
                 if (first)
@@ -229,7 +208,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new IncidentCost
+                                var newIncidentCost = new IncidentCost
                                 {
                                     Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
@@ -245,7 +224,14 @@ namespace GisoFramework.Item
                                     },
                                     Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active),
                                     Source = "I"
-                                });
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsIncidentCostGet.Date))
+                                {
+                                    newIncidentCost.Date = rdr.GetDateTime(ColumnsIncidentCostGet.Date);
+                                }
+
+                                res.Add(newIncidentCost);
                             }
                         }
                     }
@@ -281,7 +267,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new IncidentCost
+                                var newIncidentCost = new IncidentCost
                                 {
                                     Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
@@ -296,7 +282,14 @@ namespace GisoFramework.Item
                                         LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
                                     },
                                     Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
-                                });
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsIncidentCostGet.Date))
+                                {
+                                    newIncidentCost.Date = rdr.GetDateTime(ColumnsIncidentCostGet.Date);
+                                }
+
+                                res.Add(newIncidentCost);
                             }
                         }
                     }
@@ -331,7 +324,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new IncidentCost
+                                var newIncidentCost = new IncidentCost
                                 {
                                     Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
                                     CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
@@ -347,8 +340,14 @@ namespace GisoFramework.Item
                                         LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
                                     },
                                     Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
+                                };
 
-                                });
+                                if (!rdr.IsDBNull(ColumnsIncidentCostGet.Date))
+                                {
+                                    newIncidentCost.Date = rdr.GetDateTime(ColumnsIncidentCostGet.Date);
+                                }
+
+                                res.Add(newIncidentCost);
                             }
                         }
                     }
@@ -400,6 +399,7 @@ namespace GisoFramework.Item
              * @IncidentId bigint,
              * @CompanyId int,
              * @Description nvarchar(50),	
+             * @Date datetime,
              * @Amount numeric(18,3),
              * @Quantity numeric(18,3),
              * @ResponsablebleId int,
@@ -419,6 +419,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", this.BusinessRiskId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                         cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
                         cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
                         cmd.Parameters.Add(DataParameter.Input("@Quantity", this.Quantity));
                         cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
@@ -459,6 +460,7 @@ namespace GisoFramework.Item
              *   @IncidentId bigint,
              *   @CompanyId int,
              *   @Description nvarchar(50),
+             *   @Date datetime,
              *   @Amount numeric(18,3),
              *   @Quantity numeric(18,3),
              *   @ResponsableId int,
@@ -479,6 +481,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@BusinessRiskId", this.BusinessRiskId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                         cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
                         cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
                         cmd.Parameters.Add(DataParameter.Input("@Quantity", this.Quantity));
                         cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));

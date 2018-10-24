@@ -12,6 +12,11 @@ using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Data;
+using GisoFramework.DataAccess;
+using System.Globalization;
 
 /// <summary>Implements equipments list page</summary>
 public partial class EquipmentList : Page
@@ -32,6 +37,8 @@ public partial class EquipmentList : Page
             return Equipment.GetListJson(this.company.Id);
         }
     }
+
+    public string Costs { get; private set; }
 
     public string Filter
     {
@@ -152,5 +159,60 @@ public partial class EquipmentList : Page
         }
 
         this.master.SearcheableItems = sea.ToString();
+
+        this.RenderCosts();
+    }
+
+    private void RenderCosts()
+    {
+        var res = new StringBuilder("[");
+        using (var cmd = new SqlCommand("Equipment_GetCosts"))
+        {
+            using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+            {
+                cmd.Connection = cnn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.company.Id));
+                try
+                {
+                    cmd.Connection.Open();
+                    using(var rdr = cmd.ExecuteReader())
+                    {
+                        bool first = true;
+                        while (rdr.Read())
+                        {
+                            if (first)
+                            {
+                                first = false;
+                            }
+                            else
+                            {
+                                res.Append(",");
+                            }
+
+                            res.AppendFormat(
+                                CultureInfo.InvariantCulture,
+                                @"{{""T"":""{0}"", ""E"":{3},""A"":{1:#0.00},""D"":""{2:yyyyMMdd}""}}",
+                                rdr.GetString(0),
+                                rdr.GetDecimal(1),
+                                rdr.GetDateTime(2),
+                                rdr.GetInt64(3));
+
+                        }
+                    }
+                }
+                finally
+                {
+                    if(cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+        }
+
+
+        res.Append("]");
+        this.Costs = res.ToString();
     }
 }

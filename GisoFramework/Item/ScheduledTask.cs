@@ -363,7 +363,8 @@ namespace GisoFramework.Item
                 ""Responsible"":""{12}"",
                 ""ResponsibleId"":{14},
                 ""Provider"":""{13}"",
-                ""Date"":""{3:dd/MM/yyyy}""}}";
+                ""Date"":""{3:dd/MM/yyyy}"",
+                ""Type"":""{15}""}}";
             return string.Format(
                 CultureInfo.InvariantCulture,
                 pattern,
@@ -381,7 +382,8 @@ namespace GisoFramework.Item
                 action,
                 Tools.JsonCompliant(this.Responsible.FullName),
                 Tools.JsonCompliant(this.Provider != null ? this.Provider.Description : string.Empty),
-                this.Responsible.Id);
+                this.Responsible.Id,
+                this.TaskType);
         }
     }
 }

@@ -167,7 +167,7 @@ namespace GisoFramework.Item
                 }
             }
 
-            HttpContext.Current.Session["EquipmentFilter"] = res;
+            HttpContext.Current.Session["EquipmentRecordsFilter"] = res;
             return new ReadOnlyCollection<EquipmentRecord>(res);
         }
     }

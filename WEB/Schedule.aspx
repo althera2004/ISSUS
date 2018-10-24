@@ -11,6 +11,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
         var tasks = <%= this.Tasks %>;
+        var Filter = <%=this.Filter %>;
         var MonthName =
         [
             Dictionary.Common_MonthName_January,
@@ -34,6 +35,19 @@
 
 <div class="col-xs-12">
                                 <!-- PAGE CONTENT BEGINS -->
+                                <div class="row" style="padding-bottom:8px;" id="SelectRow">
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-2">
+                                            <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["DashBoard_SelectOwner"] %>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["DashBoard_SelectOthers"] %>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input type="checkbox" id="Chk3" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["DashBoard_OnlyPassed"] %>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="space"></div>
@@ -208,13 +222,7 @@
                                                                                                 <td id="w3d2d"></td>
                                                                                                 <td id="w3d3d"></td>
                                                                                                 <td id="w3d4d"></td>
-                                                                                                <td id="w3d5d" class="fc-event-container">
-                                                                                                    <a class="fc-day-grid-event fc-event fc-start fc-not-end label-success fc-draggable">
-                                                                                                        <div class="fc-content">
-                                                                                                            <span class="fc-title">Long Event</span>
-                                                                                                        </div>
-                                                                                                    </a>
-                                                                                                </td>
+                                                                                                <td id="w3d5d"></td>
                                                                                                 <td id="w3d6d"></td>
                                                                                                 <td id="w3d7d"></td>
                                                                                             </tr>
@@ -253,13 +261,7 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr>
-                                                                                                <td id="w4d1d" class="fc-event-container">
-                                                                                                    <a class="fc-day-grid-event fc-event fc-not-start fc-end label-success fc-draggable fc-resizable">
-                                                                                                        <div class="fc-content">
-                                                                                                            <span class="fc-title">Long Event</span>
-                                                                                                        </div>
-                                                                                                    </a>
-                                                                                                </td>
+                                                                                                <td id="w4d1d"></td>
                                                                                                 <td id="w4d2d"></td>
                                                                                                 <td id="w4d3d"></td>
                                                                                                 <td id="w4d4d"></td>
@@ -373,6 +375,7 @@
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
     <script type="text/javascript" src="assets/js/jquery-ui-1.10.3.full.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript">
         var firstDay;
         var lastDay;
@@ -472,6 +475,7 @@
 
         function GetTask(day, counter) {
             var dayCode = referenceDate.getFullYear().toString();
+            var todayYYYYMMDD = GetDateYYYYMMDDToText(new Date(), "");
             var month = referenceDate.getMonth() + 1
             if (month < 10) {
                 dayCode += "0";
@@ -486,56 +490,48 @@
             dayCode += (counter).toString();
 
             for (var t = 0; t < tasks.length; t++) {
-                if (tasks[t].Expiration == dayCode) {
-                    return RenderTask(tasks[t]);
+                var caducada = false;
+                var taskDate = GetDate(tasks[t].Date, "/");
+                if (GetDateYYYYMMDDToText(taskDate) == dayCode) {
+                    var show = false;
+                    if (document.getElementById("Chk1").checked === true) {
+                        if (tasks[t].ResponsibleId === ApplicationUser.Employee.Id) {
+                            show = true;
+                        }
+                    }
+
+                    if (document.getElementById("Chk2").checked === true) {
+                        if (tasks[t].ResponsibleId !== ApplicationUser.Employee.Id) {
+                            show = true;
+                        }
+                    }
+
+                    if (document.getElementById("Chk3").checked === true) {
+                        if (taskDate > new Date()) {
+                            show = false;
+                        }
+                    }
+
+                    if (taskDate <= new Date()) {
+                        caducada = true;
+                    }
+
+                    if (show === true) {
+                        return RenderTask(tasks[t], caducada);
+                    }
                 }
             }
 
             return null;
         }
 
-        function RenderTask(task) {
+        function RenderTask(task, caducada) {
             var href = "EquipmentView";
             var tooltip = "";
-            switch (task.Type)
-            {
-                case "M":
-                    tooltip = Dictionary.Item_EquipmentMaintenance;
-                    href +='.aspx?id=' + task.Equipment.Id + "&Tab=mantenimiento&OperationId="+ task.OperationId+"&Action="+task.ActionId+"&Type=" + task.Internal;
-                    break;
-                case "V":
-                    tooltip = Dictionary.Item_EquipmentVerification;
-                    href +='.aspx?id=' + task.Equipment.Id + "&Tab=verificacion&OperationId="+ task.OperationId+"&Action="+task.ActionId+"&Type=" + task.Internal;
-                    break;
-                case "C":
-                    tooltip = Dictionary.Item_EquipmentCalibration;
-                    href +='.aspx?id=' + task.Equipment.Id + "&Tab=calibracion&OperationId="+ task.OperationId+"&Action="+task.ActionId+"&Type=" + task.Internal;
-                    break;
-                case "I":
-                    tooltip = Dictionary.Item_Incident;
-                    href = "IncidentView.aspx?id=" + task.Equipment.Id;
-                    break;
-                case "A":
-                    tooltip = Dictionary.Item_IncidentAction;
-                    href = "ActionView.aspx?id=" + task.Equipment.Id;
-                    break;
-                case "O":
-                    tooltip = Dictionary.Item_Objetivo;
-                    href = "ObjetivoView.aspx?id=" + task.Equipment.Id;
-                    break;
-                case "X":
-                    tooltip = Dictionary.Item_Indicador;
-                    href = "IndicadorView.aspx?id=" + task.Equipment.Id;
-                    break;
-                default:
-                    tooltip = task.Type;
-                    href = "ActionView.aspx?id=" + task.Equipment.Id;
-                    break;
-
-            }
 
             var link = document.createElement("A");
-            link.href = href;
+            link.href = task.location;
+            tooltip = task.title;
 
             if (task.Type == "M") {
                 link.className = "fc-day-grid-event fc-event";
@@ -597,17 +593,59 @@
 
             var span2 = document.createElement("SPAN");
             span2.className = "fc-title";
-            span2.innerHTML = task.Equipment.Description.length > 50 ? (task.Equipment.Description.substr(0,49) + "...") : task.Equipment.Description;
-            link.title = task.Equipment.Description;
+            span2.appendChild(document.createTextNode(Ellipsys(task.labelType, 50)));
+            span2.appendChild(document.createElement("br"));
+            span2.appendChild(document.createTextNode(task.Responsible));
+            link.title = task.title;
 
             div.appendChild(span1);
-            div.appendChild(document.createElement("BR"));
+            div.appendChild(document.createElement("br"));
             div.appendChild(span2);
             link.appendChild(div);
+
+            if (caducada === true) {
+                link.style.backgroundColor = "#f00";
+                link.style.color = "#ff0";
+            }
+
             return link;
         }
 
-        FillCalendar();
+
+        window.onload = function () {
+            SetFilter();
+            FillCalendar();
+            $(".page-header .col-sm-4").html("<button class=\"btn btn-success\" type=\"button\" id=\"BtnShowTasks\" onclick=\"document.location='Dashboard.aspx';\"><i class=\"icon-calendar bigger-110\"></i> " + Dictionary.Common_Home + "</button>");
+        }
+
+        function SetFilter() {
+            console.log(Filter);
+            document.getElementById("Chk1").checked = Filter.Owners;
+            document.getElementById("Chk2").checked = Filter.Others;
+            document.getElementById("Chk3").checked = Filter.Passed;
+        }
+
+        function FilterChanged() {
+            FillCalendar();
+            var filterData =
+                {
+                    "owners": document.getElementById("Chk1").checked,
+                    "others": document.getElementById("Chk2").checked,
+                    "passed": document.getElementById("Chk3").checked
+                };
+
+            $.ajax({
+                "type": "POST",
+                "url": "/Async/DashBoardActions.asmx/SetFilter",
+                "contentType": "application/json; charset=utf-8",
+                "dataType": "json",
+                "data": JSON.stringify(filterData, null, 2),
+                "success": function (msg) { },
+                "error": function (msg) {
+                    alertUI(msg.responseText);
+                }
+            });
+        }
     </script>
 </asp:Content>
 

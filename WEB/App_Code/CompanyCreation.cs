@@ -44,7 +44,8 @@ public class CompanyCreation : WebService
         string companyMobile,
         string companyFax,
         string userName,
-        string companyEmail)
+        string companyEmail,
+        string language)
     {
         var res = CreateDB(
             companyName,
@@ -59,11 +60,12 @@ public class CompanyCreation : WebService
             companyMobile,
             companyFax,
             userName,
-            companyEmail);
+            companyEmail,
+            language);
 
         if (res.Success)
         {
-            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+            var dictionary = ApplicationDictionary.Load(language);
             string path = HttpContext.Current.Request.PhysicalApplicationPath;
             string destino = path;
             if (!path.EndsWith("\\", StringComparison.Ordinal))
@@ -149,7 +151,7 @@ public class CompanyCreation : WebService
     /// <param name="employeePhone">Admin employee phone</param>
     /// <param name="employeeEmail">Admin employee email</param>
     /// <returns>Result of action</returns>
-    public static ActionResult CreateDB(string companyName, string companyCode, string companyNif, string companyAddress, string companyPostalCode, string companyCity, string companyProvince, string companyCountry, string companyPhone, string companyMobile, string companyFax, string userName, string companyEmail)
+    public static ActionResult CreateDB(string companyName, string companyCode, string companyNif, string companyAddress, string companyPostalCode, string companyCity, string companyProvince, string companyCountry, string companyPhone, string companyMobile, string companyFax, string userName, string companyEmail, string language)
     {
         /* CREATE PROCEDURE Company_Create
          *   @CompanyId int out,
@@ -198,6 +200,7 @@ public class CompanyCreation : WebService
                     cmd.Parameters.Add(DataParameter.Input("@UserName", userName, 50));
                     cmd.Parameters.Add(DataParameter.Input("@Email", companyEmail, 50));
                     cmd.Parameters.Add(DataParameter.Input("@Fax", companyFax, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@language", language, 2));
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
 

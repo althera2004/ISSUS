@@ -1766,3 +1766,5 @@ Alert_BusinessRiskActionNeeded::Risc significatiu
 Alert_ActionEvaluatedWithoutAction::Analitzada sense actuació
 Alert_ActionIdentifiedNotEvaluated::Identificada sin analizar
 Alert_LearningFinishedWithoutEvaluation::Curso finalizado sin evaluar
+IncidentCost_Error_Range::No pot ser anterior a 
+IncidentActionCost_Error_Range::No pot ser anterior a 
