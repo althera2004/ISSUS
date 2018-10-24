@@ -2,15 +2,34 @@ Acción::Acción
 afectados::afectados
 Agreement_Button_Download::Descargar condiciones
 Agreement_Document_Title::Condiciones de uso
-Alert_Short_ActionEvaluatedWithoutAction::Analizada sin actuación con un testo muuuuuuuy largo
-Alert_Short_Started_Wihtout_Assistants::Curso sin alumnos
-Alert_Large_Started_Without_Assistants::Curso con fecha inicio ya pasada sin alumnos inscritos
-Alert_Short_BusinessRiskNotEvaluated::Riesgo no evaluado
-Alert_Large_BusinessRiskNotEvaluated::Riesgo sin evaluación especificada
-Alert_Short_ActionIdentifiedNotEvaluated::Acción identificada no evaluada
-Alert_Short_EquipmentMaintenance::Mantenimiento sin registro
-Alert_Large_EquipmentMaintenance::Mantenimiento configurado sin registro inicial
-Alert_Large_ExpiredTasks::La tarea está fuera de término
+Alert_Large_ActionEvaluatedWithoutAction::Falta rellenar el campo 'Actuaciones' de la acción
+Alert_Large_ActionIdentifiedNotEvaluated::Falta rellenar el campo 'Por qué ha pasado' de la acción
+Alert_Large_ActionLastWeek::La fecha prevista para el cierre de la acción ha vencido
+Alert_Large_BusinessRiskActionNeeded::Riesgo sin acción
+Alert_Large_BusinessRiskNotEvaluated::Falta hacer la valoración inicial del riesgo
+Alert_Large_EmployeeDelete::Responsable no activo
+Alert_Large_EquipmentIncomplete::Equipo incompleto
+Alert_Large_EquipmentMaintenance::Falta configurar el registro inicial del mantenimiento
+Alert_Large_ExpiredTasks::La fecha propuesta para la tarea ha vencido
+Alert_Large_IncidentEvaluatedWithoutAction::Falta rellenar el campo 'Actuaciones' de la incidencia
+Alert_Large_IncidentIdentifiedNotEvaluated::Falta rellenar el campo 'Por qué ha pasado' de la incidencia
+Alert_Large_IncidentLastWeek::La fecha prevista para el cierre de la incidencia ha vencido
+Alert_Large_LearningFinishedWithoutEvaluation::Curso finalizado pendiente de evaluación
+Alert_Large_LearningStartedWithoutAssistants::Curso iniciado sin alumnos inscritos
+Alert_Short_ActionEvaluatedWithoutAction::Acción sin actuaciones
+Alert_Short_ActionIdentifiedNotEvaluated::Acción no analizada
+Alert_Short_ActionLastWeek::Acción vencida
+Alert_Short_BusinessRiskActionNeeded::Riesgo sin acción
+Alert_Short_BusinessRiskNotEvaluated::Riesgo no valorado
+Alert_Short_EmployeeDelete::Responsable no activo
+Alert_Short_EquipmentIncomplete::Equipo incompleto
+Alert_Short_EquipmentMaintenance::Mantenimento sin registro
+Alert_Short_ExpiredTasks::Tarea vencida
+Alert_Short_IncidentEvaluatedWithoutAction::Incidencia sin actuaciones
+Alert_Short_IncidentIdentifiedNotEvaluated::Incidencia no analizada
+Alert_Short_IncidentLastWeek::Incidencia vencida
+Alert_Short_LearningFinishedWithoutEvaluation::Curso sin evaluar
+Alert_Short_LearningStartedWithoutAssistants::Curso sin alumnos
 Añadir::Añadir
 Auditorías::Auditorías
 Avatar::Avatar
@@ -53,10 +72,13 @@ Common_ComparerSign_eqlt::<=
 Common_ComparerSign_gt::>
 Common_ComparerSign_lt::<
 Common_Configuration::Panel de control
+Common_Costs_Action_Related::Costes de la acción relacionada
 Common_CreatedBy::Generado por
 Common_Date::Fecha
 Common_DateClose::Fecha cierre
 Common_DateExecution::F. prevista
+Common_DateRangeFrom::Des de
+Common_DateRangeTo::Hasta
 Common_Day::Día
 Common_Days::Días
 Common_Delete::Eliminar
@@ -67,6 +89,7 @@ Common_Error_Application::Se ha producido un error en la aplicación
 Common_Error_BeforeStart::La fecha no puede ser anterior a la de inicio
 Common_Error_DateMalformed::La fecha no es correcta
 Common_Error_IncorrectMail::El correo es incorrecto
+Common_Error_IncorrectNIF::El NIF es incorrecto
 Common_Error_IncorrectPassword::Contraseña no válida
 Common_Error_Kernel_Delete::No se puede eliminar porqué es parte básica de la aplicación
 Common_Error_Kernel_Edit::No se puede modificar porqué es parte básica de la aplicación
@@ -104,7 +127,8 @@ Common_Label_Weeks::semanas
 Common_Label_Years::años
 Common_LastWeek::Última semana
 Common_ListPdf::Imprimir
-Common_MaximumUploadSize::El máximo permitido son 5MB												 
+Common_MaximumUploadSize::El máximo permitido son 5MB
+Common_MaximumUploadSize::El máximo permitido son 4B
 Common_Message_Deleting::Eliminando...
 Common_Message_FormErrors::Revisar los datos del formulario
 Common_Message_Saving::Guardando...
@@ -235,6 +259,7 @@ Item_BusinesRisk_ListHeader_Process::Proceso
 Item_BusinesRisk_ListHeader_Result::Final
 Item_BusinesRisk_ListHeader_Rule::Norma
 Item_BusinesRisk_ListHeader_StartValue::Actual
+Item_BusinesRisk_ListHeader_Status::Estado
 Item_BusinesRisk_ListHeader_Type::Tipo
 Item_BusinessRisk::Riesgo
 Item_BusinessRisk_Btn_NewIPR::Fijar nuevo IPR
@@ -243,6 +268,8 @@ Item_BusinessRisk_Button_CloseAction::Cerrar la acción
 Item_BusinessRisk_Button_New::Añadir
 Item_BusinessRisk_Button_RestoreAction::Restaurar la acción
 Item_BusinessRisk_ErrorMesagge_OutOfDate::La fecha debe ser posterior a
+Item_BusinessRisk_ErrorMessage_ActionVerDate::La acción no puede empezar antes que el Riesgo
+Item_BusinessRisk_ErrorMessage_CloseBeforeAction::No se puede cerrar anteriormente a la acción
 Item_BusinessRisk_ErrorMessage_ClosedRequiredData::Si se cierra, indicar si aplica acción o si se asume el riesgo
 Item_BusinessRisk_ErrorMessage_ClosedRequiredDataOutTime::No se puede cerrar la acción antes que las actuaciones
 Item_BusinessRisk_ErrorMessage_CloseEarlierThanStart::La fecha de cierre no puede ser anterior a la fecha de alta
@@ -260,7 +287,9 @@ Item_BusinessRisk_ErrorMessage_ProcessRequired::Especificar un proceso
 Item_BusinessRisk_ErrorMessage_ResultRequired::Especificar un resultado (probabilidad x severidad)
 Item_BusinessRisk_ErrorMessage_RulesRequired::Especificar una norma
 Item_BusinessRisk_ErrorMessage_SeverityRequired::Especificar una severidad
+Item_BusinessRisk_ErrorMessage_StartDateOverdate::No puede ser posterior a 'Qué ha pasado' de la acción
 Item_BusinessRisk_ErrorMessage_StartNotApply::Una vez evaluado el riesgo, establecer si se realiza una acción, o si se asume
+Item_BusinessRisk_ErrorMessage_WhatHappendOverdate::La fecha no puede ser anterior al inicio del riesgo
 Item_BusinessRisk_Filter_NoData::Este riesgo no tiene costes
 Item_BusinessRisk_Help_CostBlocked::Para poder añadir costes, cerrar la acción
 Item_BusinessRisk_LabelField_ActualResult::Resultado actual
@@ -285,9 +314,9 @@ Item_BusinessRisk_LabelField_Severity::Severidad
 Item_BusinessRisk_LabelField_StartControl::Control inicial
 Item_BusinessRisk_LabelField_Status::Estado
 Item_BusinessRisk_List_Filter_From::Desde
-Item_BusinessRisk_List_Filter_To::Hasta
 Item_BusinessRisk_List_Filter_Process::Procesos
 Item_BusinessRisk_List_Filter_Rules::Normas
+Item_BusinessRisk_List_Filter_To::Hasta
 Item_BusinessRisk_List_Filter_Type::Estado
 Item_BusinessRisk_List_Filter_Type_Assumed::Asumido
 Item_BusinessRisk_List_Filter_Type_NotSignificant::No significativo
@@ -314,6 +343,7 @@ Item_BusinessRisk_Tab_HistoryActions::Historial de acciones
 Item_BusinessRisk_Title_BusinessRiskDetails::Ficha del riesgo
 Item_BusinessRisk_Title_FinalResult::Resultado del análisis de riesgo
 Item_BusinessRisk_Title_Graph::Gráfico
+Item_BusinessRisk_Title_InitialValoration::Valoración Inicial
 Item_BusinessRisk_Title_List::Riesgos
 Item_BusinessRisk_Title_StartResult::Acciones después de evaluar el riesgo
 Item_BusinessRisk_Tooltip_Probability_1::Remota o inexistente (Baja o nula)
@@ -329,6 +359,8 @@ Item_BusinessRisk_Tooltip_Severity_5::Catastrófica (Daño grave o muy grave. Co
 Item_BusinessRisk_Warning_ActionTabAvailable::En la pestaña de acción, indicar los datos de la acción
 Item_BusinessRisks::Riesgos
 Item_BusinessRisksAndOportunities::Riesgos y Oportunidades
+Item_BusinessRisksAndOportunities_Filter_Periode1::Período
+Item_BusinessRisksAndOportunities_Filter_Periode2::-
 Item_BusinessRisksAndOportunities_Short::Riesgos y Oport.
 Item_CalibrationAct_Button_New::Añadir
 Item_CalibrationAct_Warning_DefinitionRequired::Para añadir nuevas calibraciones, grabar una configuración inicial
@@ -398,7 +430,7 @@ Item_CostDefinition_Popup_Delete_Title::Eliminar el coste
 Item_CostDefinition_PopupDelete_Message::¿Eliminar el coste?
 Item_CostDefinition_Tab_Principal::Datos básicos
 Item_CostDefinitions::Costes habituales
-Item_CostDefinitions_Title::Ficha de Costes habituales
+Item_CostDefinitions_Title::Ficha del coste habitual
 Item_Country_Message_NoDelete::No se puede eliminar porque forma parte de una dirección
 Item_Country_Message_SaveWarning::Los países seleccionados estarán disponibles hasta guardar los datos de la empresa
 Item_Country_WarningMessage::Los cambios en los países serán efectivos al guardar los datos de la empresa
@@ -456,6 +488,7 @@ Item_Document_Category::Categoría del documento
 Item_Document_Error_DeleteReasonRequired::Especificar el motivo de la eliminación
 Item_Document_ErrorMessage_AlreadyExists::Ya existe
 Item_Document_ErrorMessage_CrossDate::CLG
+Item_Document_ErrorMessage_RevisionOverDate::La fecha no puede ser antrior a
 Item_Document_ErrorMessage_StartDatePreviousRevision::La fecha de inicio no puede ser posterior a la primera revisión
 Item_Document_FieldLabel_Category::Categoría
 Item_Document_FieldLabel_Code::Código
@@ -470,6 +503,7 @@ Item_Document_FieldLabel_Reason::Motivo del cambio
 Item_Document_FieldLabel_RevisionAttachment::Adjunto
 Item_Document_FieldLabel_RevisionDate::F.Revisión
 Item_Document_FieldLabel_Source::Procedencia
+Item_Document_FieldLabel_Status::Estado
 Item_Document_FieldLabel_Version::Versión
 Item_Document_Help_BARCategoria::Gestionar las categorías
 Item_Document_Help_BARProcedencia::Gestionar las procedencias
@@ -578,6 +612,7 @@ Item_Employee_FieldLabel_Notes::Notas
 Item_Employee_FieldLabel_Phone::Teléfono
 Item_Employee_FieldLabel_PostalCode::Código Postal
 Item_Employee_FieldLabel_Province::Provincia
+Item_Employee_Filter_Status::Estado
 Item_Employee_Help_Abilities::Indicar las habilidades
 Item_Employee_Help_AbilitiesValidNo::Indicar si no son válidas
 Item_Employee_Help_AbilitiesValidYes::Indicar si son válidas
@@ -834,8 +869,8 @@ Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitions::Definir un manteni
 Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitionSelected::Seleccionar el tipo de mantenimiento
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Amount::Coste
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Date::Fecha
-Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate::Primer vencimiento	
-Item_EquipmentMaintenance_Popup_Register_FieldLabel_Observations::Observaciones																			  
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate::Primer vencimiento
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_Observations::Observaciones
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Provider::Proveedor
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Responsible::Responsable
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Type::Mantenimiento
@@ -871,8 +906,11 @@ Item_EquipmentRecord_Filter_CalibrationExternal::Calibración EXT
 Item_EquipmentRecord_Filter_CalibrationInternal::Calibración INT
 Item_EquipmentRecord_Filter_MaintenanceExternal::Mnto. EXT
 Item_EquipmentRecord_Filter_MaintenanceInternal::Mnto. INT
+Item_EquipmentRecord_Filter_Periode1::Período
+Item_EquipmentRecord_Filter_Periode2::-
 Item_EquipmentRecord_Filter_RepairExternal::Reparación EXT
 Item_EquipmentRecord_Filter_RepairInternal::Reparación INT
+Item_EquipmentRecord_Filter_Type::Tipo
 Item_EquipmentRecord_Filter_VerificationExternal::Verificación EXT
 Item_EquipmentRecord_Filter_VerificationInternal::Verificación INT
 Item_EquipmentRecords_FilterError_Dates::La fecha de finalización no puede ser inferior a la inicial
@@ -945,6 +983,7 @@ Item_Incident_Btn_Restaurar::Reabrir
 Item_Incident_Btn_RestaurarAction::Reabrir acción
 Item_Incident_Button_New::Añadir
 Item_Incident_Button_Print::Imprimir
+Item_Incident_Cost_Error_Range::No puede ser anterior a 
 Item_Incident_Cost_IncidentActionCheck::Costes propios de la acción
 Item_Incident_Cost_IncidentCheck::Costes propios de la incidencia
 Item_Incident_Detail::Ficha de la incidencia
@@ -1017,6 +1056,8 @@ Item_Incident_Label_Responsible::Responsable
 Item_Incident_label_To::Hasta
 Item_Incident_Label_WhatHappened::¿Qué ha pasado?
 Item_Incident_List_Filter_From::Desde
+Item_Incident_List_Filter_Periode1::Período
+Item_Incident_List_Filter_Periode2::-
 Item_Incident_List_Filter_Status::Estado
 Item_Incident_List_Filter_To::Hasta
 Item_Incident_Message_DeleteAction::Se eliminará la acción vinculada a esta incidencia
@@ -1047,6 +1088,7 @@ Item_IncidentAction_AnulateMessageTile::Acción cerrada
 Item_IncidentAction_Btn_Anular::Cerrar
 Item_IncidentAction_Btn_Restaurar::Reabrir
 Item_IncidentAction_Button_New::Añadir
+Item_IncidentAction_Cost_Error_Range::No puede ser anterior a
 Item_IncidentAction_Error_DateMalformed_Actions::La fecha de acciones no es correcta
 Item_IncidentAction_Error_DateMalformed_Causes::La fecha de las causas no es correcta
 Item_IncidentAction_Error_DateMalformed_Close::La fecha de cierre no es correcta
@@ -1122,6 +1164,8 @@ Item_IncidentAction_List_Filter_ErrorRequired::Faltan datos para poder realizar 
 Item_IncidentAction_List_Filter_ErrorStatus::Seleccionar un estado
 Item_IncidentAction_List_Filter_ErrorType::Seleccionar un tipo de acción
 Item_IncidentAction_List_Filter_From::Desde
+Item_IncidentAction_List_Filter_Periode1::Período
+Item_IncidentAction_List_Filter_Periode2::-
 Item_IncidentAction_List_Filter_Source::Origen
 Item_IncidentAction_List_Filter_Status::Estado
 Item_IncidentAction_List_Filter_To::Hasta
@@ -1197,6 +1241,7 @@ Item_Indicador_AnulateMessageTile::Indicador cerrado
 Item_Indicador_Btn_Anular::Cerrar
 Item_Indicador_Btn_UnitsBAR::Editar las unidades
 Item_Indicador_Button_New::Añadir
+Item_Indicador_Detail::Ficha del Indicador
 Item_Indicador_Error_PreviousIndicadorDate::No puede ser anterior a la fecha de inicio
 Item_Indicador_ErrorMessage_NoDelete::No se puede eliminar porque está vinculado a un objetivo
 Item_Indicador_Field_Alarma::Alarma
@@ -1214,6 +1259,9 @@ Item_Indicador_Field_StartDate::Fecha inicio
 Item_Indicador_Field_Unidad::Unidades
 Item_Indicador_Filter_Button::Filtrar
 Item_Indicador_Filter_From::Inicio desde
+Item_Indicador_Filter_Periode1::Período
+Item_Indicador_Filter_Periode2::-
+Item_Indicador_Filter_Status::Estado
 Item_Indicador_Filter_To::Inicio hasta
 Item_Indicador_GraphicsNoData::No existen registros en el indicador
 Item_Indicador_Header_Description::Indicador
@@ -1340,6 +1388,8 @@ Item_Learning_FieldLabel_Status::Estado
 Item_Learning_FieldLabel_Year::Año de realización del curso
 Item_Learning_Filter_AllPeriode::Todos los años
 Item_Learning_Filter_FromYear::Desde
+Item_Learning_Filter_Periode1::Período
+Item_Learning_Filter_Periode2::-
 Item_Learning_Filter_ToYear::Hasta
 Item_Learning_Help_Coach::Indicar formador/a
 Item_Learning_Help_FinalReal::Fecha real de finalización
@@ -1390,6 +1440,7 @@ Item_LearningList::Formación
 Item_LearningList_NoAssistants::Sin alumnos
 Item_Learnings::Formaciones
 Item_Objetivo::Objetivos
+Item_Objetivo_ActionsReportTitle::Acciones del objetivo
 Item_Objetivo_AnulateMessageTile::Objetivo cerrado
 Item_Objetivo_Btn_Anular::Cerrar
 Item_Objetivo_Btn_Restaurar::Reabrir
@@ -1398,6 +1449,7 @@ Item_Objetivo_Button_New::Añadir
 Item_Objetivo_DataChangedWarning::Han habido cambios en el objetivo. Quiere guardar los cambios para continuar?
 Item_Objetivo_DataChangedWarning_continue::Continuar sin guardar
 Item_Objetivo_DataChangedWarning_save::Guardar i continuar
+Item_Objetivo_Detail::Ficha del Objetivo
 Item_Objetivo_Error_DateMinimum::No puede ser anterior a la fecha de inicio
 Item_Objetivo_Error_PreviewEndDate::No puede ser anterior a la fecha de inicio
 Item_Objetivo_Error_PreviousObjetivoDate::No puede ser anterior a la fecha de inicio
@@ -1459,23 +1511,33 @@ Item_Objetivo_TableRecords_Header_Value::Valor
 Item_Objetivo_TabRecords::Registros
 Item_Objetivo_TitleClose::Cierre real
 Item_ObjetivoAction_List_Filter_From::Desde
+Item_ObjetivoAction_List_Filter_Periode1::Período
+Item_ObjetivoAction_List_Filter_Periode2::-
 Item_ObjetivoAction_List_Filter_ShowActive::Activos
 Item_ObjetivoAction_List_Filter_ShowClosed::Cerrados
+Item_ObjetivoAction_List_Filter_Status::Estado
 Item_ObjetivoAction_List_Filter_To::Hasta
+Item_ObjetivoHistorico_StatusAnulate::Anular
+Item_ObjetivoHistorico_StatusRestore::Restaurar
 Item_ObjetivoList::Objetivos
 Item_ObjetivoRecord_FieldLabel_Reason::Motivo
 Item_Objetivos::Objetivos
 Item_Opoprtunity_Popup_Delete_Title::Eliminar oportunidad
 Item_Oportunities::Oportunidades
 Item_Oportunity::Oportunidad
+Item_Oportunity_Btn_NewIPR::Fijar nuevo IPR
 Item_Oportunity_Button_CategoryBAR::Gestión de normas
 Item_Oportunity_Button_New::Añadir
+Item_Oportunity_Detail::Ficha de la Oportunidad
 Item_Oportunity_ErrorMesagge_OutOfDate::Fecha no válida
+Item_Oportunity_ErrorMessage_ActionVerDate::La acción no puede empezar antes que la Oportunidad
 Item_Oportunity_ErrorMessage_DateStartRequired::Fecha de inicio no válida
 Item_Oportunity_ErrorMessage_DateUpToLimit::La fecha no puedes ser posterior a hoy
 Item_Oportunity_ErrorMessage_NameRequired::Nombre obligatorio
 Item_Oportunity_ErrorMessage_ProcessRequired::Se debe indicar el proceso
+Item_Oportunity_ErrorMessage_ResultRequired::Especificar un resultado (coste x impacto)
 Item_Oportunity_ErrorMessage_RulesRequired::Se debe indicar la norma
+Item_Oportunity_Filter_CostsNoData::Esta oportunidad no tiene costes
 Item_Oportunity_Filter_NoData::No hay datos
 Item_Oportunity_Help_CostBlocked::Para añadir costes primero se debe guardar la acción
 Item_Oportunity_LabelField_ApplyActionNo::No aplicar acción
@@ -1493,19 +1555,31 @@ Item_Oportunity_LabelField_Notes::Notas
 Item_Oportunity_LabelField_Process::Proceso
 Item_Oportunity_LabelField_Result::Resultado
 Item_Oportunity_LabelField_Rules::Norma
+Item_Oportunity_LabelField_Status::Estado
+Item_Oportunity_Message_InsertSucess::Ya se pueden usar las otras pestañas
+Item_Oportunity_Message_Reevaluate::Avaluar oportunitat després d'aplicar l'acció
+Item_Oportunity_MessageClosingNotAvailable::No es pot donar per resolta una oportunitat mentre l'acció està oberta
 Item_Oportunity_New::Nueva oportunidad
 Item_Oportunity_PopupDelete_Message::Eliminar la oportunidad?
+Item_Oportunity_Status_Assumed::Asumida
+Item_Oportunity_Status_NotSignificant::No significativa
 Item_Oportunity_Status_NotSignificant::No significativa
 Item_Oportunity_Status_Significant::Significativa
+Item_Oportunity_Status_Significant::Significativa
+Item_Oportunity_Status_Unevaluated::No evaluada
 Item_Oportunity_Status_Unevaluated::No evaluada
 Item_Oportunity_Tab_Action::Acción
 Item_Oportunity_Tab_Basic::Datos básicos
 Item_Oportunity_Tab_Costs::Costes
+Item_Oportunity_Tab_Graphics::Situació final
+Item_Oportunity_Tab_HistoryActions::Hitòric d'accions
 Item_Oportunity_Tab_UploadFiles::Adjuntos
+Item_Oportunity_Title_FinalResult::Resultat de l'oportunitat
+Item_Oportunity_Title_Graph::Gráfico
 Item_Oportunity_Title_OportunityDetails::Ficha de la oportunidad
 Item_Oportunity_Title_OportunityDetailsNou::Nueva oportunidad
 Item_Oportunity_Title_Result::Resultado
-Item_Oportunity_Title_Result::Resultado									  
+Item_Oportunity_Title_StartResult::Acciones después de evaluar la oportunitad
 Item_Oportunity_Tooltip_Cost_1::Desorbitado (Costes elevadísimos. Imposibles de amortizar)
 Item_Oportunity_Tooltip_Cost_2::Elevado (Coste elevado. Para su implantación será imprescindible un gran impacto positivo en el proceso)
 Item_Oportunity_Tooltip_Cost_3::Moderado (Buena tasa de amortización a medio plazo)
@@ -1517,11 +1591,8 @@ Item_Oportunity_Tooltip_Impact_3::Interesante (Aporte significativo)
 Item_Oportunity_Tooltip_Impact_4::Alto (Impacto en la mejora muy significativo)
 Item_Oportunity_Tooltip_Impact_5::Prioritario (Muy claro impacto directo si se implanta la acción)
 Item_Oportunity_Warning_ActionTabAvailable::Ya se pueden entrar los datos de la acción
-Item_Process::Proceso
 Item_Proccess::Proceso
-Item_Process_ListHeader_Name::Proceso
-Item_Process_ListHeader_ProcessType::Tipo
-Item_Process_ListHeader_Responsible::Responsable
+Item_Process::Proceso
 Item_Process_Button_Edit::Ficha de proceso
 Item_Process_Button_New::Añadir
 Item_Process_Button_NewLabel::Ficha del Proceso
@@ -1539,11 +1610,15 @@ Item_Process_Help_Name::Indicar el nombre del proceso
 Item_Process_Help_ProcessType::Seleccionar el tipo de proceso
 Item_Process_Help_Responsible::Indicar responsable del proceso
 Item_Process_Help_Start::Indicar el inicio del proceso
+Item_Process_ListHeader_Name::Proceso
+Item_Process_ListHeader_ProcessType::Tipo
+Item_Process_ListHeader_Responsible::Responsable
 Item_Process_ListIndicatorsHeader_Alarm::Alarma
 Item_Process_ListIndicatorsHeader_Meta::Meta
 Item_Process_ListIndicatorsHeader_Name::Nombre
 Item_Process_ListIndicatorsHeader_Responsible::Responsable
 Item_Process_ListIndicatorsHeader_Unit::Unidad
+Item_Process_NoIndicators::No hay ningún indicador asociado
 Item_Process_Popup_AddProcessType_Title::Añadir un tipo de proceso
 Item_Process_Popup_Delete_Title::Eliminar el proceso
 Item_Process_Popup_DeleteProcessType_Title::Eliminar el tipo de proceso
@@ -1612,7 +1687,7 @@ Item_Rules_Error_LimitOutOfRange::El límite debe estar entre 1 y 25
 Item_Rules_FieldLabel_Limit::Límite
 Item_Rules_FieldLabel_Name::Nombre
 Item_Rules_FieldLabel_Notes::Notas
-Item_Rules_HistoryTitle::Histórico de cambios de IPR												  																
+Item_Rules_HistoryTitle::Histórico de cambios de IPR
 Item_Rules_Popup_AddRule_Title::Añadir norma
 Item_Rules_Popup_DeleteProcessType_Title::Eliminar norma
 Item_Rules_Popup_Header::Normas
@@ -1626,7 +1701,7 @@ Item_Rules_Section_BusinessRisk_Header_Name::Riesgo
 Item_Rules_Section_BusinessRisk_Header_Result::Resultado
 Item_Rules_Section_BusinessRisk_Header_Status::Estado
 Item_Rules_Section_BusinessRisk_NoData::Esta norma no tiene riesgos vinculados
-Item_Rules_Tab_History::Histórico										
+Item_Rules_Tab_History::Histórico
 Item_Rules_Tab_Principal::Datos básicos
 Item_Rules_Tab_Traces::Trazas
 Item_ScheduledTasks::Tareas previstas
@@ -1671,6 +1746,7 @@ Item_User_List_Header_Grant::Permiso
 Item_User_List_Header_Read::Lectura
 Item_User_List_Header_UserName::Usuario/a
 Item_User_List_Header_Write::Modificación
+Item_User_MailResetPassword_Subject::Reinicio de contraseña en ISSUS de un usuario propietario
 Item_User_Message_AfterChangePassword::Al cambiar la contraseña se reinicia la sesión, para entrar con la nueva
 Item_User_Message_GrantsAvaiable::Se ha generado la pestaña de permisos. Activarlos para que el/la usuario/a pueda utilizar la aplicación
 Item_User_Message_ResetPassword_Ok::Se ha restablecido la contraseña
@@ -1687,14 +1763,13 @@ Item_User_Title_Account::Gestión de la cuenta
 Item_User_Title_Add::Ficha del/a Usuario/a
 Item_User_Title_ResetPassword::Restablecer la contraseña
 Item_Users::Usuarios/as
-Item_User_MailResetPassword_Subject::Reinicio de contraseña en ISSUS de un usuario propietario																					
 LoginPage_BtnAccess::Acceder
 LoginPage_Title::Acceso a la aplicación
 Mail_Message_WelcomeSubject::Bienvenido/da {0} a ISSUS
-MailTemplate_ResetPassword_DefaultBody::Se ha restablecido su contraseña.<br />Acceder a http://issus.scrambotika.com/ <br/> User:<b>{0}</b><br/>Password:<b>{1}</b>
+MailTemplate_ResetPassword_DefaultBody::Se ha restablecido su contraseña.<br />Acceder a http
 MailTemplate_ResetPassword_Error::No se ha restablecido la contraseña
 MailTemplate_ResetPassword_Subject::Restablecer la contraseña de acceso
-MailTemplate_Welcome_Subject::Bienvenido/a a ISSUS												   
+MailTemplate_Welcome_Subject::Bienvenido/a a ISSUS
 Maintenance-Ext::Mantenimiento externo
 Maintenance-Int::Mantenimiento interno
 NumericDecimalSeparator::,
@@ -1713,44 +1788,4 @@ User_Admin::Administrador/a
 User_PrimaryUser::Propietario/a
 Verification-Ext::Verificación externa
 Verification-Int::Verificación interna
-ZZZZZ::Las nuevas claves a partir de aquí hacia abajoo
-Item_Learning_Filter_Periode1::Período
-Item_Learning_Filter_Periode2::-
-Item_Document_FieldLabel_Status::Estado
-Item_EquipmentRecord_Filter_Periode1::Período
-Item_EquipmentRecord_Filter_Periode2::-
-Item_EquipmentRecord_Filter_Type::Tipo
-Item_BusinesRisk_ListHeader_Status::Estado
-Item_Employee_Filter_Status::Estado
-Item_BusinessRisksAndOportunities_Short::Riesgos y Oport.
-Item_Oportunity_Message_InsertSucess::Ya se pueden usar las otras pestañas
-Item_Oportunity_Title_Graph::Gráfico
-Item_Oportunity_Btn_NewIPR::Fijar nuevo IPR
-Item_Incident_List_Filter_Periode1::Período
-Item_Incident_List_Filter_Periode2::-
-Item_IncidentAction_List_Filter_Periode1::Período
-Item_IncidentAction_List_Filter_Periode2::-
-Item_ObjetivoAction_List_Filter_Periode1::Período
-Item_ObjetivoAction_List_Filter_Periode2::-
-Item_ObjetivoAction_List_Filter_Status::Estado
-Item_Objetivo_Detail::Ficha del Objetivo
-Item_Indicador_Filter_Periode1::Período
-Item_Indicador_Filter_Periode2::-
-Item_Indicador_Detail::Ficha del Indicador
-Item_Indicador_Filter_Status::Estado
-Item_BusinessRisksAndOportunities_Filter_Periode1::Período
-Item_BusinessRisksAndOportunities_Filter_Periode2::-
-Item_Oportunity_Status_Assumed::Asumida
-Item_Oportunity_Status_NotSignificant::No significativa
-Item_Oportunity_Status_Significant::Significativa
-Item_Oportunity_Status_Unevaluated::No evaluada
-Item_BusinessRisk_ErrorMessage_ActionVerDate::La acción no puede empezar antes que el Riesgo
-Item_Oportunity_ErrorMessage_ActionVerDate::La acción no puede empezar antes que la Oportunidad
-Item_BusinessRisk_ErrorMessage_StartDateOverdate::No puede ser posterior a 'Qué ha pasado' de la acción
-Item_BusinessRisk_ErrorMessage_WhatHappendOverdate::La fecha no puede ser anterior al inicio del riesgo
-Item_BusinessRisk_ErrorMessage_CloseBeforeAction::No se puede cerrar anteriormente a la acción
-Item_Oportunity_Detail::Ficha de la Oportunidad
-Item_BusinessRisk_Title_InitialValoration::Valoración Inicial
-ZZZZZ::Les noves claus a partir d'aquí cap avall
-Alert_BusinessRiskActionNeeded::Riesgo significativo
-Alert_ActionEvaluatedWithoutAction::Analizada sin actuación
+ZZZZZ::Las nuevas claves a partir de aquí hacia abajo

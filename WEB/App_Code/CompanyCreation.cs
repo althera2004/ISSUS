@@ -102,6 +102,7 @@ public class CompanyCreation : WebService
                 bodyPattern = bodyPattern.Replace("#USERNAME#", "{2}");
                 bodyPattern = bodyPattern.Replace("#EMAIL#", "{0}");
                 bodyPattern = bodyPattern.Replace("#PASSWORD#", "{1}");
+                bodyPattern = bodyPattern.Replace("#EMPRESA#", "{3}");
             }
 
             string subject = string.Format(dictionary["Mail_Message_WelcomeSubject"], res.MessageError.Split('|')[0]);
@@ -110,7 +111,8 @@ public class CompanyCreation : WebService
                 bodyPattern,
                 res.MessageError.Split('|')[1],
                 res.MessageError.Split('|')[2],
-                res.MessageError.Split('|')[0]);
+                res.MessageError.Split('|')[0],
+                res.MessageError.Split('|'),companyName);
             var mail = new MailMessage
             {
                 From = new MailAddress("issus@scrambotika.com", "ISSUS"),
@@ -118,7 +120,8 @@ public class CompanyCreation : WebService
                 Subject = subject,
                 Body = body
             };
-            mail.To.Add("hola@scrambotika.com");
+            mail.To.Add("alex@scrambotika.com");
+            //mail.To.Add("hola@scrambotika.com");
             //mail.CC.Add(companyEmail);
 
             var smtpServer = new SmtpClient("mail.scrambotika.com")
@@ -200,7 +203,7 @@ public class CompanyCreation : WebService
                     cmd.Parameters.Add(DataParameter.Input("@UserName", userName, 50));
                     cmd.Parameters.Add(DataParameter.Input("@Email", companyEmail, 50));
                     cmd.Parameters.Add(DataParameter.Input("@Fax", companyFax, 50));
-                    cmd.Parameters.Add(DataParameter.Input("@language", language, 2));
+                    cmd.Parameters.Add(DataParameter.Input("@Language", language, 2));
                     cmd.Connection.Open();
                     cmd.ExecuteNonQuery();
 

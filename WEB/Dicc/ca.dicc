@@ -2,7 +2,34 @@ Acción::Acció
 afectados::afectats
 Agreement_Button_Download::Descarregar condicions
 Agreement_Document_Title::Condicions d´ús
-Alert_Started_Wihtout_Assistans::Curs començat sense alumnes
+Alert_Large_ActionEvaluatedWithoutAction::Falta omplir el camp 'Actuacions' de l'acció
+Alert_Large_ActionIdentifiedNotEvaluated::Falta omplir el camp 'Perqué ha passat' de l'acció
+Alert_Large_ActionLastWeek::La data prevista per al tancament de l'acció ha vençut
+Alert_Large_BusinessRiskActionNeeded::Risc sense acció
+Alert_Large_BusinessRiskNotEvaluated::Falta fer la valoració inicial del risc
+Alert_Large_EmployeeDelete::Responsable no actiu
+Alert_Large_EquipmentIncomplete::Equip incomplet
+Alert_Large_EquipmentMaintenance::Falta configurar el registre inicial de manteniment
+Alert_Large_ExpiredTasks::La data prevista per a la tasca ha vençut
+Alert_Large_IncidentEvaluatedWithoutAction::Falta omplir el camp 'Actuacions' de la incidència
+Alert_Large_IncidentIdentifiedNotEvaluated::Falta omplir el camp 'Perqué ha passat' de la incidència
+Alert_Large_IncidentLastWeek::La data prevista per al tancament de la incidència ha vençut
+Alert_Large_LearningFinishedWithoutEvaluation::Curs fnalitzat pendent d'avaluació
+Alert_Large_LearningStartedWithoutAssistants::Curs iniciat sense alumnes inscrits
+Alert_Short_ActionEvaluatedWithoutAction::Acció sense actuacions
+Alert_Short_ActionIdentifiedNotEvaluated::Acció no analitzada
+Alert_Short_ActionLastWeek::Acció vençuda
+Alert_Short_BusinessRiskActionNeeded::Risc sense acció
+Alert_Short_BusinessRiskNotEvaluated::Risc sense valorar
+Alert_Short_EmployeeDelete::Responsable no actiu
+Alert_Short_EquipmentIncomplete::Equip incomplet
+Alert_Short_EquipmentMaintenance::Manteniment sense registre
+Alert_Short_ExpiredTasks::Tasca vençuda
+Alert_Short_IncidentEvaluatedWithoutAction::Incidència sense actuacions
+Alert_Short_IncidentIdentifiedNotEvaluated::Incidència no analitzada
+Alert_Short_IncidentLastWeek::Incidència vençuda
+Alert_Short_LearningFinishedWithoutEvaluation::Curs sense avaluar
+Alert_Short_LearningStartedWithoutAssistants::Curs sense alumnes
 Añadir::Afegir
 Auditorías::Auditories
 Avatar::Avatar
@@ -45,10 +72,13 @@ Common_ComparerSign_eqlt::<=
 Common_ComparerSign_gt::>
 Common_ComparerSign_lt::<
 Common_Configuration::Panell de control
+Common_Costs_Action_Related::Costs de l'acció relacionada
 Common_CreatedBy::Generat per
 Common_Date::Data
 Common_DateClose::Data de tancament
 Common_DateExecution::D. prevista
+Common_DateRangeFrom::Des de
+Common_DateRangeTo::Fins
 Common_Day::Dia
 Common_Days::Dies
 Common_Delete::Eliminar
@@ -98,6 +128,7 @@ Common_Label_Years::anys
 Common_LastWeek::Darrera setmana
 Common_ListPdf::Imprimir
 Common_MaximumUploadSize::The maximum allowed is 5MB
+Common_MaximumUploadSize::El màxim permés són 4B
 Common_Message_Deleting::Eliminant...
 Common_Message_FormErrors::Revisar les dades del formulari
 Common_Message_Saving::Guardant...
@@ -155,13 +186,11 @@ Common_TiemoutSessionTitle::La sessió ha acabat
 Common_TimeoutSessionMessage::S'ha superat el temps permès d'inactivitat
 Common_Title_Views::Visualitzacions
 Common_To::Fins
-Common_DateRangeFrom::Des de
-Common_DateRangeTo::Fins
 Common_Today::Avui
 Common_Total::Total
 Common_Update::Modificar
 Common_Uploading::Pujant arxiu
-Common_UserSetGrant::L'empleat no té permissos per a realitzar aquesta acció.<br />&iquest;Vol donar-li permissos per a poder realitzar-la?						  
+Common_UserSetGrant::L'empleat no té permissos per a realitzar aquesta acció.<br />&iquest; Vol donar-li permissos per a poder realitzar-la?
 Common_View::Veure
 Common_ViewAll::Veure tot
 Common_VoidData::Sense dades
@@ -230,6 +259,7 @@ Item_BusinesRisk_ListHeader_Process::Procés
 Item_BusinesRisk_ListHeader_Result::Final
 Item_BusinesRisk_ListHeader_Rule::Norma
 Item_BusinesRisk_ListHeader_StartValue::Actual
+Item_BusinesRisk_ListHeader_Status::Estat
 Item_BusinesRisk_ListHeader_Type::Tipus
 Item_BusinessRisk::Risc
 Item_BusinessRisk_Btn_NewIPR::Fixar nou IPR
@@ -238,6 +268,8 @@ Item_BusinessRisk_Button_CloseAction::Tancar l'acció
 Item_BusinessRisk_Button_New::Afegir
 Item_BusinessRisk_Button_RestoreAction::Restaurar l'acció
 Item_BusinessRisk_ErrorMesagge_OutOfDate::La data ha de ser posterior a
+Item_BusinessRisk_ErrorMessage_ActionVerDate::La acció no pot començar abans que el risk
+Item_BusinessRisk_ErrorMessage_CloseBeforeAction::No es pot tacar anteriorment a l'acció
 Item_BusinessRisk_ErrorMessage_ClosedRequiredData::Si es tanca, indicar si aplica acció o s'assumeix el risc
 Item_BusinessRisk_ErrorMessage_ClosedRequiredDataOutTime::No es pot tancar l'acció abans que les actuacions
 Item_BusinessRisk_ErrorMessage_CloseEarlierThanStart::La data de tancament no pot ser anterior a la data d'alta
@@ -255,7 +287,9 @@ Item_BusinessRisk_ErrorMessage_ProcessRequired::Especificar un procés
 Item_BusinessRisk_ErrorMessage_ResultRequired::Especificar un resultat (probabilitat x severitat)
 Item_BusinessRisk_ErrorMessage_RulesRequired::Especificar una norma
 Item_BusinessRisk_ErrorMessage_SeverityRequired::Especificar una severitat
+Item_BusinessRisk_ErrorMessage_StartDateOverdate::No pot ser posterior a 'Què ha passat' de l'acció
 Item_BusinessRisk_ErrorMessage_StartNotApply::Una vegada avaluat el risc, decidir si es realitza una acció, o si s'assumeix
+Item_BusinessRisk_ErrorMessage_WhatHappendOverdate::La data no pot ser anterior al inici del risc
 Item_BusinessRisk_Filter_NoData::Aquest risc no té costos 
 Item_BusinessRisk_Help_CostBlocked::Per poder afegir costos, guardar l'acció
 Item_BusinessRisk_LabelField_ActualResult::Resultat actual
@@ -280,9 +314,9 @@ Item_BusinessRisk_LabelField_Severity::Severitat
 Item_BusinessRisk_LabelField_StartControl::Control inicial
 Item_BusinessRisk_LabelField_Status::Estat
 Item_BusinessRisk_List_Filter_From::Des de
-Item_BusinessRisk_List_Filter_To::Fins
 Item_BusinessRisk_List_Filter_Process::Processos
 Item_BusinessRisk_List_Filter_Rules::Normes
+Item_BusinessRisk_List_Filter_To::Fins
 Item_BusinessRisk_List_Filter_Type::Estat
 Item_BusinessRisk_List_Filter_Type_Assumed::Assumit
 Item_BusinessRisk_List_Filter_Type_NotSignificant::No significatiu
@@ -309,6 +343,7 @@ Item_BusinessRisk_Tab_HistoryActions::Historial d'accions
 Item_BusinessRisk_Title_BusinessRiskDetails::Fitxa del risc
 Item_BusinessRisk_Title_FinalResult::Resultat de l'anàlisi de risc
 Item_BusinessRisk_Title_Graph::Gràfic
+Item_BusinessRisk_Title_InitialValoration::Valoració Inicial
 Item_BusinessRisk_Title_List::Riscos
 Item_BusinessRisk_Title_StartResult::Accions després d'avaluar el risc
 Item_BusinessRisk_Tooltip_Probability_1::Remota o inexistent (Baixa o nula)
@@ -324,7 +359,9 @@ Item_BusinessRisk_Tooltip_Severity_5::Catastròfica (Dany greu o molt greu. Costo
 Item_BusinessRisk_Warning_ActionTabAvailable::A la pestanya d'acció, indicar les dades de l'acció
 Item_BusinessRisks::Riscos
 Item_BusinessRisksAndOportunities::Riscos i Oportunitats
-Item_BusinessRisksAndOportunities_Short::Riscos y Oport.
+Item_BusinessRisksAndOportunities_Filter_Periode1::Període
+Item_BusinessRisksAndOportunities_Filter_Periode2::-
+Item_BusinessRisksAndOportunities_Short::Riscos i Oportunitats
 Item_CalibrationAct_Button_New::Afegir
 Item_CalibrationAct_Warning_DefinitionRequired::Per afegir nous calibratges, guardar almenys una configuració
 Item_CalibrationType_External::Configuració externa
@@ -393,7 +430,7 @@ Item_CostDefinition_Popup_Delete_Title::Eliminar el cost
 Item_CostDefinition_PopupDelete_Message::Eliminar el cost
 Item_CostDefinition_Tab_Principal::Dades bàsiques
 Item_CostDefinitions::Costos habituals
-Item_CostDefinitions_Title::Fitxa de Costos habituals
+Item_CostDefinitions_Title::Fitxa del cost habitual
 Item_Country_Message_NoDelete::No es pot eliminar perquè forma part d'una adreça
 Item_Country_Message_SaveWarning::Els països seleccionats estaran disponibles fins guardar les dades de l'empresa
 Item_Country_WarningMessage::Els canvis als països seran efectius al guardar les dades de l'empresa
@@ -451,6 +488,7 @@ Item_Document_Category::Categoria de document
 Item_Document_Error_DeleteReasonRequired::Especificar el motiu de l'eliminació
 Item_Document_ErrorMessage_AlreadyExists::Ja existeix
 Item_Document_ErrorMessage_CrossDate::CLG
+Item_Document_ErrorMessage_RevisionOverDate::La data no pot ser anterior a
 Item_Document_ErrorMessage_StartDatePreviousRevision::La data d'inici no pot posterior a la primera revisió
 Item_Document_FieldLabel_Category::Categoria
 Item_Document_FieldLabel_Code::Codi
@@ -465,6 +503,7 @@ Item_Document_FieldLabel_Reason::Motiu del canvi
 Item_Document_FieldLabel_RevisionAttachment::Adjunt
 Item_Document_FieldLabel_RevisionDate::D.revisió
 Item_Document_FieldLabel_Source::Procedència
+Item_Document_FieldLabel_Status::Estat
 Item_Document_FieldLabel_Version::Versió
 Item_Document_Help_BARCategoria::Gestionar les categories
 Item_Document_Help_BARProcedencia::Gestionar les procedències
@@ -573,6 +612,7 @@ Item_Employee_FieldLabel_Notes::Notes
 Item_Employee_FieldLabel_Phone::Telèfon
 Item_Employee_FieldLabel_PostalCode::Códi Postal
 Item_Employee_FieldLabel_Province::Província
+Item_Employee_Filter_Status::Estat
 Item_Employee_Help_Abilities::Indicar les habilitats
 Item_Employee_Help_AbilitiesValidNo::Indicar si no són vàlides
 Item_Employee_Help_AbilitiesValidYes::Indicar si són vàlides
@@ -829,7 +869,7 @@ Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitions::Definir un manteni
 Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitionSelected::Seleccionar el tipus de manteniment
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Amount::Cost
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Date::Data
-Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate::Primer venciment																		   
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate::Primer venciment
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Observations::Observacions
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Provider::Proveïdor
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Responsible::Responsable
@@ -866,8 +906,11 @@ Item_EquipmentRecord_Filter_CalibrationExternal::Calibratge EXT
 Item_EquipmentRecord_Filter_CalibrationInternal::Calibratge INT
 Item_EquipmentRecord_Filter_MaintenanceExternal::Mnt. EXT
 Item_EquipmentRecord_Filter_MaintenanceInternal::Mnt. INT
+Item_EquipmentRecord_Filter_Periode1::Període
+Item_EquipmentRecord_Filter_Periode2::-
 Item_EquipmentRecord_Filter_RepairExternal::Reparació EXT
 Item_EquipmentRecord_Filter_RepairInternal::Reparació INT
+Item_EquipmentRecord_Filter_Type::Tipus
 Item_EquipmentRecord_Filter_VerificationExternal::Verificació EXT
 Item_EquipmentRecord_Filter_VerificationInternal::Verificació INT
 Item_EquipmentRecords_FilterError_Dates::La data de finalització no pot ser anterior a la d'inici
@@ -940,6 +983,7 @@ Item_Incident_Btn_Restaurar::Reobrir
 Item_Incident_Btn_RestaurarAction::Reobrir acció
 Item_Incident_Button_New::Afegir
 Item_Incident_Button_Print::Imprimir
+Item_Incident_Cost_Error_Range::No pot ser anterior a 
 Item_Incident_Cost_IncidentActionCheck::Costos propis de l'acció
 Item_Incident_Cost_IncidentCheck::Costos propis de la incidència
 Item_Incident_Detail::Fitxa de la incidència
@@ -1012,6 +1056,8 @@ Item_Incident_Label_Responsible::Responsable
 Item_Incident_label_To::Fins
 Item_Incident_Label_WhatHappened::Què ha passat?
 Item_Incident_List_Filter_From::Des de
+Item_Incident_List_Filter_Periode1::Període
+Item_Incident_List_Filter_Periode2::-
 Item_Incident_List_Filter_Status::Estat
 Item_Incident_List_Filter_To::Fins
 Item_Incident_Message_DeleteAction::S'eliminarà l'acció vinculada a aquesta incidència
@@ -1042,6 +1088,7 @@ Item_IncidentAction_AnulateMessageTile::Acció tancada
 Item_IncidentAction_Btn_Anular::Tancar
 Item_IncidentAction_Btn_Restaurar::Reobrir
 Item_IncidentAction_Button_New::Afegir
+Item_IncidentAction_Cost_Error_Range::No pot ser anterior a 
 Item_IncidentAction_Error_DateMalformed_Actions::La data d'accions no és correcta
 Item_IncidentAction_Error_DateMalformed_Causes::La data de les causes no és correcta
 Item_IncidentAction_Error_DateMalformed_Close::La data de tancament no és correcta
@@ -1117,6 +1164,8 @@ Item_IncidentAction_List_Filter_ErrorRequired::Falten dades per poder realitzar 
 Item_IncidentAction_List_Filter_ErrorStatus::Seleccionar un estat
 Item_IncidentAction_List_Filter_ErrorType::Seleccionar un tipus d'acció
 Item_IncidentAction_List_Filter_From::Des de
+Item_IncidentAction_List_Filter_Periode1::Període
+Item_IncidentAction_List_Filter_Periode2::-
 Item_IncidentAction_List_Filter_Source::Origen
 Item_IncidentAction_List_Filter_Status::Estat
 Item_IncidentAction_List_Filter_To::Fins
@@ -1192,6 +1241,7 @@ Item_Indicador_AnulateMessageTile::Indicador tancat
 Item_Indicador_Btn_Anular::Tancar
 Item_Indicador_Btn_UnitsBAR::Editar les unitats
 Item_Indicador_Button_New::Afegir
+Item_Indicador_Detail::Fitxa de l'Indicador
 Item_Indicador_Error_PreviousIndicadorDate::No pot ser anterior a la data d'inici
 Item_Indicador_ErrorMessage_NoDelete::No es pot eliminar perquè està vinculat a un objectiu
 Item_Indicador_Field_Alarma::Alarma
@@ -1209,6 +1259,9 @@ Item_Indicador_Field_StartDate::Data d'inici
 Item_Indicador_Field_Unidad::Unitats
 Item_Indicador_Filter_Button::Filtrar
 Item_Indicador_Filter_From::Inici des de
+Item_Indicador_Filter_Periode1::Període
+Item_Indicador_Filter_Periode2::-
+Item_Indicador_Filter_Status::Estat
 Item_Indicador_Filter_To::Inici fins
 Item_Indicador_GraphicsNoData::No hi ha registres a l'indicador
 Item_Indicador_Header_Description::Indicador
@@ -1335,6 +1388,8 @@ Item_Learning_FieldLabel_Status::Estat
 Item_Learning_FieldLabel_Year::Any de realització del curs
 Item_Learning_Filter_AllPeriode::Tots els anys
 Item_Learning_Filter_FromYear::Des de
+Item_Learning_Filter_Periode1::Període
+Item_Learning_Filter_Periode2::-
 Item_Learning_Filter_ToYear::Fins
 Item_Learning_Help_Coach::Indicar formador/a
 Item_Learning_Help_FinalReal::Data real de finalització
@@ -1357,7 +1412,7 @@ Item_Learning_ListHeader_EstimatedDate::Prevista
 Item_Learning_ListHeader_Status::Estat
 Item_Learning_Message_Evaluation::Guardant una formació amb tots els assistents avaluats, queda tancada i ja no es pot modificar
 Item_Learning_Message_NoAssistants::No hi ha assistents al curs
-Item_Learning_Message_SelectOneAssistant::Obligatori algún assistent																			 
+Item_Learning_Message_SelectOneAssistant::Obligatori algún assistent
 Item_Learning_NewLabel::Fitxa de la formació
 Item_Learning_Objetive::Objectiu
 Item_Learning_PopupDelete_Message::Vol eliminar la formació
@@ -1385,6 +1440,7 @@ Item_LearningList::Formació
 Item_LearningList_NoAssistants::Sense alumnes
 Item_Learnings::Formacions
 Item_Objetivo::Objectius
+Item_Objetivo_ActionsReportTitle::Accions de l'objectiu
 Item_Objetivo_AnulateMessageTile::Objectiu tancat
 Item_Objetivo_Btn_Anular::Tancar
 Item_Objetivo_Btn_Restaurar::Reobrir
@@ -1393,6 +1449,7 @@ Item_Objetivo_Button_New::Afegir
 Item_Objetivo_DataChangedWarning::Hi han hagut canvis a l'objetiu. Vol guardar els canvis per continuar?
 Item_Objetivo_DataChangedWarning_continue::Continuar sense guardar
 Item_Objetivo_DataChangedWarning_save::Guardar i continuar
+Item_Objetivo_Detail::Fitxa de l'Objectiu
 Item_Objetivo_Error_DateMinimum::No pot ser anterior a la data d'inici
 Item_Objetivo_Error_PreviewEndDate::No pot ser anterior a la data d'inici
 Item_Objetivo_Error_PreviousObjetivoDate::No pot ser anterior a la data d'inici
@@ -1453,26 +1510,34 @@ Item_Objetivo_TableRecords_Header_Status::Estat
 Item_Objetivo_TableRecords_Header_Value::Valor
 Item_Objetivo_TabRecords::Registres
 Item_Objetivo_TitleClose::Tancament real
-Item_ObjetivoHistorico_StatusAnulate::Anular
-Item_ObjetivoHistorico_StatusRestore::Restaurar
 Item_ObjetivoAction_List_Filter_From::Des de
+Item_ObjetivoAction_List_Filter_Periode1::Període
+Item_ObjetivoAction_List_Filter_Periode2::-
 Item_ObjetivoAction_List_Filter_ShowActive::Actius
 Item_ObjetivoAction_List_Filter_ShowClosed::Tancats
+Item_ObjetivoAction_List_Filter_Status::Estat
 Item_ObjetivoAction_List_Filter_To::Fins
+Item_ObjetivoHistorico_StatusAnulate::Anular
+Item_ObjetivoHistorico_StatusRestore::Restaurar
 Item_ObjetivoList::Objectius
 Item_ObjetivoRecord_FieldLabel_Reason::Motiu
 Item_Objetivos::Objectius
 Item_Opoprtunity_Popup_Delete_Title::Eliminar oportunitat
 Item_Oportunities::Oportunitats
 Item_Oportunity::Oportunitat
+Item_Oportunity_Btn_NewIPR::Fixar nou IPR
 Item_Oportunity_Button_CategoryBAR::Gestió de normes
 Item_Oportunity_Button_New::Afegir
+Item_Oportunity_Detail::Fitxa de l'Oportunitat
 Item_Oportunity_ErrorMesagge_OutOfDate::Data no vàlida
+Item_Oportunity_ErrorMessage_ActionVerDate::La acció no pot començar abans que la oportunitat
 Item_Oportunity_ErrorMessage_DateStartRequired::La data d'inici no és vàlida
 Item_Oportunity_ErrorMessage_DateUpToLimit::La data no pot ser posterior a avui
 Item_Oportunity_ErrorMessage_NameRequired::Nom obligatori
 Item_Oportunity_ErrorMessage_ProcessRequired::S'ha d'indicar el procès
+Item_Oportunity_ErrorMessage_ResultRequired::Especificar un resultat (cost x impacte)
 Item_Oportunity_ErrorMessage_RulesRequired::S'ha d'indicar la norma
+Item_Oportunity_Filter_CostsNoData::Aquesta oportunitat no té costos
 Item_Oportunity_Filter_NoData::No hi han dades
 Item_Oportunity_Help_CostBlocked::Per porder afegir costos primer s'ha de desar l'acció
 Item_Oportunity_LabelField_ApplyActionNo::No aplicar acció
@@ -1491,19 +1556,30 @@ Item_Oportunity_LabelField_Process::Procés
 Item_Oportunity_LabelField_Result::Resultat
 Item_Oportunity_LabelField_Rules::Norma
 Item_Oportunity_LabelField_Status::Estat
+Item_Oportunity_Message_InsertSucess::Ja es poden fer servir les altres pestanyes
+Item_Oportunity_Message_Reevaluate::Avaluar oportunitat després d'aplicar l'acció
+Item_Oportunity_MessageClosingNotAvailable::No es pot donar per resolta una oportunitat mentre l'acció està oberta
 Item_Oportunity_New::Nova oportunitat
 Item_Oportunity_PopupDelete_Message::Eliminar la oportunitat?
+Item_Oportunity_Status_Assumed::Assumida
+Item_Oportunity_Status_NotSignificant::No significativa
 Item_Oportunity_Status_NotSignificant::No significativa
 Item_Oportunity_Status_Significant::Significativa
+Item_Oportunity_Status_Significant::Significativa
 Item_Oportunity_Status_Unevaluated::No avaluada
+Item_Oportunity_Status_Unevaluated::No evaluada
 Item_Oportunity_Tab_Action::Acció
 Item_Oportunity_Tab_Basic::Situació inicial
 Item_Oportunity_Tab_Costs::Costos
+Item_Oportunity_Tab_Graphics::Situació final
+Item_Oportunity_Tab_HistoryActions::Hitòric d'accions
 Item_Oportunity_Tab_UploadFiles::Adjunts
+Item_Oportunity_Title_FinalResult::Resultat de l'oportunitat
+Item_Oportunity_Title_Graph::Gràfic
 Item_Oportunity_Title_OportunityDetails::Fitxa de la oportunitat
 Item_Oportunity_Title_OportunityDetailsNou::Nova oportunitat
-Item_Oportunity_Title_StartResult::Accions després d'avaluar la oportunitat
 Item_Oportunity_Title_Result::Resultat
+Item_Oportunity_Title_StartResult::Accions després d'avaluar la oportunitat
 Item_Oportunity_Tooltip_Cost_1::Desorbitat (Costos elevadíssims. Impossibles d'amortitzar)
 Item_Oportunity_Tooltip_Cost_2::Elevat (Cost elevat. Per a la seva implantació serà imprescindible un gran impacte positiu en el procés)
 Item_Oportunity_Tooltip_Cost_3::Moderat (Bona taxa d'amortització a mig termini)
@@ -1515,11 +1591,8 @@ Item_Oportunity_Tooltip_Impact_3::Interessant (Aportació significativa)
 Item_Oportunity_Tooltip_Impact_4::Alt (Impacte en la millora molt significatiu)
 Item_Oportunity_Tooltip_Impact_5::Prioritari (Molt clar impacte directe si implantem l'acció)
 Item_Oportunity_Warning_ActionTabAvailable::Ja es poden omplir les dades de l'acció
-Item_Process::Procés
 Item_Proccess:: Procés
-Item_Process_ListHeader_Name::Procés
-Item_Process_ListHeader_ProcessType::Tipus
-Item_Process_ListHeader_Responsible::Responsable
+Item_Process::Procés
 Item_Process_Button_Edit::Fitxa de procés
 Item_Process_Button_New::Afegir
 Item_Process_Button_NewLabel::Fitxa del Procés
@@ -1537,11 +1610,15 @@ Item_Process_Help_Name::Indicar el nom del procés
 Item_Process_Help_ProcessType::Seleccionar el tipus de procés
 Item_Process_Help_Responsible::Indicar responsable del procés
 Item_Process_Help_Start::Indicar l'inici del procés
+Item_Process_ListHeader_Name::Procés
+Item_Process_ListHeader_ProcessType::Tipus
+Item_Process_ListHeader_Responsible::Responsable
 Item_Process_ListIndicatorsHeader_Alarm::Alarma
 Item_Process_ListIndicatorsHeader_Meta::Meta
 Item_Process_ListIndicatorsHeader_Name::Nom
 Item_Process_ListIndicatorsHeader_Responsible::Responsable
 Item_Process_ListIndicatorsHeader_Unit::Unitat
+Item_Process_NoIndicators::No hi ha cap indicador associat
 Item_Process_Popup_AddProcessType_Title::Afegir un tipus de procés
 Item_Process_Popup_Delete_Title::Eliminar el procés
 Item_Process_Popup_DeleteProcessType_Title::Eliminar el tipus de procés
@@ -1610,7 +1687,7 @@ Item_Rules_Error_LimitOutOfRange::El límit ha d'estar entre 1 i 25
 Item_Rules_FieldLabel_Limit::Límit
 Item_Rules_FieldLabel_Name::Nom
 Item_Rules_FieldLabel_Notes::Notes
-Item_Rules_HistoryTitle::Històric de canvis de IPR												  
+Item_Rules_HistoryTitle::Històric de canvis de IPR
 Item_Rules_Popup_AddRule_Title::Afegir norma
 Item_Rules_Popup_DeleteProcessType_Title::Eliminar norma
 Item_Rules_Popup_Header::Normes
@@ -1624,7 +1701,7 @@ Item_Rules_Section_BusinessRisk_Header_Name::Risc
 Item_Rules_Section_BusinessRisk_Header_Result::Resultat
 Item_Rules_Section_BusinessRisk_Header_Status::Estat
 Item_Rules_Section_BusinessRisk_NoData::Aquesta norma no té riscos vinculats
-Item_Rules_Tab_History::Històric								
+Item_Rules_Tab_History::Històric
 Item_Rules_Tab_Principal::Dades bàsiques
 Item_Rules_Tab_Traces::Traces
 Item_ScheduledTasks::Tasques previstes
@@ -1669,6 +1746,7 @@ Item_User_List_Header_Grant::Permís
 Item_User_List_Header_Read::Lectura
 Item_User_List_Header_UserName::Usuari/a
 Item_User_List_Header_Write::Modificació
+Item_User_MailResetPassword_Subject::Reinici de contrasenya a ISSUS de un usuari propietari
 Item_User_Message_AfterChangePassword::Al canviar la contrasenya es reinicia la sessió, per entrar amb la nova
 Item_User_Message_GrantsAvaiable::S'ha generat la pestanya de permisos. Configurar-los per tal que l'usuari/a pugui utilitzar l'aplicació
 Item_User_Message_ResetPassword_Ok::S'ha restablert la contrasenya
@@ -1685,11 +1763,10 @@ Item_User_Title_Account::Gestió del compte
 Item_User_Title_Add::Fitxa de l'Usuari/a
 Item_User_Title_ResetPassword::Restablir la contrasenya
 Item_Users::Usuaris/es
-Item_User_MailResetPassword_Subject::Reinici de contrasenya a ISSUS de un usuari propietari
 LoginPage_BtnAccess::Accedir
 LoginPage_Title::Accés a l'aplicació
 Mail_Message_WelcomeSubject::Benvingut/uda {0} a ISSUS
-MailTemplate_ResetPassword_DefaultBody::S'ha restablert la contrasenya.<br />Accedir a http://issus.scrambotika.com/ <br/> User:<b>{0}</b><br/>Password:<b>{1}</b>
+MailTemplate_ResetPassword_DefaultBody::S'ha restablert la contrasenya.<br />Accedir a http
 MailTemplate_ResetPassword_Error::No s'ha restablert la contrasenya
 MailTemplate_ResetPassword_Subject::Restabliment de la contrasenya
 MailTemplate_Welcome_Subject::Benvingut/uda a ISSUS

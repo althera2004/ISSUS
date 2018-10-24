@@ -1,0 +1,31 @@
+﻿{
+    CompanyId:0,
+    ItemType:13,
+    "ItemUrl": "ActionView.aspx?id=",
+    AlertDescription:'Alert_Short_ActionLastWeek',
+	AlertExplanation:'Alert_Large_ActionLastWeek',
+    Query:'select
+        IA.Id,
+        IA.Description
+    FROM IncidentAction IA
+    WHERE
+        IA.CompanyId = #CompanyId#
+    AND IA.ActionsSchedule <= GETDATE()
+    AND IA.ClosedOn IS NULL
+    AND IA.Active = 1',
+    Index:
+    [
+        {Position:0, FieldName:'Id'},
+        {Position:1, FieldName:'Description'}
+    ],
+    Tag: '<li>
+                                    <a href="ActionView.aspx?id={0}">
+                                               <strong>#AlertDescription#</strong><br />
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-warning-sign"></i></td><td><span style="width:150px;white-space:normal;">{1}</span></td></tr></table>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>'
+}

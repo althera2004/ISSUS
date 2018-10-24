@@ -1,26 +1,22 @@
 ﻿{
-    CompanyId:0,
-    ItemType:13,
+"CompanyId": 0,
+    "ItemType": 13,
+    "ItemUrl": "BusinessRiskView.aspx?id=",
     "AlertDescription": "Alert_Short_BusinessRiskNotEvaluated",
     "AlertExplanation": "Alert_Large_BusinessRiskNotEvaluated",
-    Query:"select id, description
-    From businessrisk with(nolock)
-    where result  = 0
-    and active = 1
-    and companyid = #CompanyId#",
-    Index:
+    "Query": "select id, description From businessrisk with(nolock) where result  = 0 and active = 1 and companyid = #CompanyId#",
+    "Index":
     [
-        {Position:0, FieldName:'Id'},
-        {Position:1, FieldName:'Description'}
+        { "Position": 0, "FieldName": "Id" },
+        { "Position": 1, "FieldName": "Description" }
     ],
     Tag: '<li>
-                                    <a href="EquipmentView.aspx?id={0}">
-                                                <div style="width:220px;text-overflow: ellipsis;overflow:hidden;"><strong>Riesgo sin valorar</strong></div>
+                                    <a href="BusinessRiskView.aspx?id={0}">
+                                                <strong>#AlertDescription#</strong><br />
                                         <div class="clearfix">
                                             <span class="pull-left">
-                                                <i class="btn btn-xs no-hover btn-warning icon-ray"></i>{1}
-                                            </span>
+                                                <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-warning-sign"></i></td><td><span style="width:150px;white-space:normal;">{1}</span></td></tr></table>                                            </span>
                                         </div>
                                     </a>
-                                </li>'
+    </li>'
 }

@@ -2,7 +2,8 @@
     CompanyId:0,
     ItemType:12,
     "ItemUrl": "IncidentView.aspx?id=",
-    AlertDescription:'Incidencia identificada y no evaluada',
+    AlertDescription: 'Alert_Short_IncidentIdentifiedNotEvaluated',
+	AlertExplanation: 'Alert_Large_IncidentIdentifiedNotEvaluated',
     Query:'select
                 IA.Id,
                 IA.Description
@@ -19,7 +20,7 @@
     ],
     Tag: '<li>
                                     <a href="IncidentView.aspx?id={0}">
-                                                <strong>Incidencia identificada y no evaluada</strong><br />
+                                                <strong>#AlertDescription#</strong><br />
                                         <div class="clearfix">
                                             <span class="pull-left">
                                                 <table><tr><td align="top"> <i class="btn btn-xs no-hover btn-warning icon-warning-sign"></i></td><td><span style="width:150px;white-space:normal;">{1}</span></td></tr></table>

@@ -26,7 +26,7 @@ AND EMD.Active = 1 AND E.Active = 1
     ],
     Tag: '<li>
                                     <a href="EquipmentView.aspx?id={0}">
-                                                <div style="width:220px;text-overflow: ellipsis;overflow:hidden;"><strong>Mantenimiento configurado sin registro inicial</div></strong>
+                                                <div style="width:220px;text-overflow: ellipsis;overflow:hidden;"><strong>#AlertDescription#</div></strong>
                                         <div class="clearfix">
                                             <span class="pull-left">
                                                 <i class="btn btn-xs no-hover btn-warning icon-ray"></i>{1}
