@@ -127,8 +127,7 @@ Common_Label_Weeks::weeks
 Common_Label_Years::years
 Common_LastWeek::Last week
 Common_ListPdf::To print
-Common_MaximumUploadSize::El màxim permés són 5MB
-Common_MaximumUploadSize::El màxim permés són 4B
+Common_MaximumUploadSize::El màxim permés són 4MB
 Common_Message_Deleting::Removing...
 Common_Message_FormErrors::Review the form data
 Common_Message_Saving::Saving ...
@@ -176,7 +175,6 @@ Common_SearchCriteria::Search criteria
 Common_SelectAll::Select all
 Common_Selected::Selected
 Common_SelectOne::Select
-Common_ShowAll::See everything
 Common_Status::State
 Common_Target::objective
 Common_Task::Homework
@@ -222,6 +220,8 @@ Common_Year::Year
 Common_Years::Years
 Common_Yes::Yes
 CompanyProfile::Company data
+DashBoard_Calendar::Calendar
+DashBoard_List::List
 DashBoard_OnlyPassed::Only Expired
 DashBoard_SelectOthers::Tasks of other users
 DashBoard_SelectOwner::My tasks
@@ -361,7 +361,7 @@ Item_BusinessRisks::Risks
 Item_BusinessRisksAndOportunities::Risks and Opportunities
 Item_BusinessRisksAndOportunities_Filter_Periode1::Period
 Item_BusinessRisksAndOportunities_Filter_Periode2::-
-Item_BusinessRisksAndOportunities_Short::Risks & Opportunities
+Item_BusinessRisksAndOportunities_Short::Risks & Opport.
 Item_CalibrationAct_Button_New::Add
 Item_CalibrationAct_Warning_DefinitionRequired::To add new calibrations, record an initial configuration
 Item_CalibrationType_External::External configuration
@@ -381,6 +381,7 @@ Item_Company_Help_Phone::Indicate the telephone number
 Item_Company_Help_Provincia::Indicate the province
 Item_Company_Help_ZipCode::Enter the postal code
 Item_Company_Logo::Logo
+Item_Company_Tab_Agreement::Agreement
 Item_Company_Tab_Countries::Countries
 Item_Company_Tab_DiskQuote::Disk use
 Item_Company_Tab_Principal::Main data
@@ -1563,11 +1564,8 @@ Item_Oportunity_New::New opportunity
 Item_Oportunity_PopupDelete_Message::Eliminate the opportunity?
 Item_Oportunity_Status_Assumed::Assumed
 Item_Oportunity_Status_NotSignificant::Not significant
-Item_Oportunity_Status_NotSignificant::Not significative
 Item_Oportunity_Status_Significant::Significant
-Item_Oportunity_Status_Significant::Significative
 Item_Oportunity_Status_Unevaluated::Not rated
-Item_Oportunity_Status_Unevaluated:: Not evaluated
 Item_Oportunity_Tab_Action::Action
 Item_Oportunity_Tab_Basic::Basic data
 Item_Oportunity_Tab_Costs::Costs
@@ -1590,12 +1588,13 @@ Item_Oportunity_Tooltip_Impact_2::Minor (Little contribution to the improvement 
 Item_Oportunity_Tooltip_Impact_3::Interesting (Significant contribution)
 Item_Oportunity_Tooltip_Impact_4::High (Impact on the very significant improvement)
 Item_Oportunity_Tooltip_Impact_5::Priority (Very clear direct impact if the action is implemented)
+Item_Oportunity_Type_Assumed::Assumida
 Item_Oportunity_Warning_ActionTabAvailable::The action data can already be filled
 Item_Proccess::Process
 Item_Process::Process
 Item_Process_Button_Edit::Process tab
 Item_Process_Button_New::Add
-Item_Process_Button_NewLabel::Add
+Item_Process_Button_NewLabel::Process tab
 Item_Process_Button_ProcessTypeBAR::Management of process types
 Item_Process_FieldLabel_Development::Development
 Item_Process_FieldLabel_End::End

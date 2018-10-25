@@ -127,8 +127,7 @@ Common_Label_Weeks::setmanes
 Common_Label_Years::anys
 Common_LastWeek::Darrera setmana
 Common_ListPdf::Imprimir
-Common_MaximumUploadSize::The maximum allowed is 5MB
-Common_MaximumUploadSize::El màxim permés són 4B
+Common_MaximumUploadSize::El màxim permés són 4MB
 Common_Message_Deleting::Eliminant...
 Common_Message_FormErrors::Revisar les dades del formulari
 Common_Message_Saving::Guardant...
@@ -176,7 +175,6 @@ Common_SearchCriteria::Criteris de cerca
 Common_SelectAll::Seleccionar tots
 Common_Selected::Seleccionat
 Common_SelectOne::Seleccionar
-Common_ShowAll::Veure tot
 Common_Status::Estat
 Common_Target::Objectiu
 Common_Task::Tasca
@@ -222,6 +220,8 @@ Common_Year::Any
 Common_Years::Anys
 Common_Yes::Si
 CompanyProfile::Dades de l'empresa
+DashBoard_Calendar::Calendari
+DashBoard_List::Llista
 DashBoard_OnlyPassed::Només Caducades
 DashBoard_SelectOthers::Les dels altres usuaris
 DashBoard_SelectOwner::Les meves tasques
@@ -361,7 +361,7 @@ Item_BusinessRisks::Riscos
 Item_BusinessRisksAndOportunities::Riscos i Oportunitats
 Item_BusinessRisksAndOportunities_Filter_Periode1::Període
 Item_BusinessRisksAndOportunities_Filter_Periode2::-
-Item_BusinessRisksAndOportunities_Short::Riscos i Oportunitats
+Item_BusinessRisksAndOportunities_Short::Riscos i Oport.
 Item_CalibrationAct_Button_New::Afegir
 Item_CalibrationAct_Warning_DefinitionRequired::Per afegir nous calibratges, guardar almenys una configuració
 Item_CalibrationType_External::Configuració externa
@@ -381,6 +381,7 @@ Item_Company_Help_Phone::Indicar el número de telèfon
 Item_Company_Help_Provincia::Indicar la província
 Item_Company_Help_ZipCode::Indicar el codi postal
 Item_Company_Logo::Logo
+Item_Company_Tab_Agreement::Contracte
 Item_Company_Tab_Countries::Països
 Item_Company_Tab_DiskQuote::Ús de disc
 Item_Company_Tab_Principal::Dades principals
@@ -1563,11 +1564,8 @@ Item_Oportunity_New::Nova oportunitat
 Item_Oportunity_PopupDelete_Message::Eliminar la oportunitat?
 Item_Oportunity_Status_Assumed::Assumida
 Item_Oportunity_Status_NotSignificant::No significativa
-Item_Oportunity_Status_NotSignificant::No significativa
-Item_Oportunity_Status_Significant::Significativa
 Item_Oportunity_Status_Significant::Significativa
 Item_Oportunity_Status_Unevaluated::No avaluada
-Item_Oportunity_Status_Unevaluated::No evaluada
 Item_Oportunity_Tab_Action::Acció
 Item_Oportunity_Tab_Basic::Situació inicial
 Item_Oportunity_Tab_Costs::Costos
@@ -1590,6 +1588,7 @@ Item_Oportunity_Tooltip_Impact_2::Menor (Poca aportació a la millora encara que 
 Item_Oportunity_Tooltip_Impact_3::Interessant (Aportació significativa)
 Item_Oportunity_Tooltip_Impact_4::Alt (Impacte en la millora molt significatiu)
 Item_Oportunity_Tooltip_Impact_5::Prioritari (Molt clar impacte directe si implantem l'acció)
+Item_Oportunity_Type_Assumed::Assumida
 Item_Oportunity_Warning_ActionTabAvailable::Ja es poden omplir les dades de l'acció
 Item_Proccess:: Procés
 Item_Process::Procés

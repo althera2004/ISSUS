@@ -65,11 +65,11 @@
             {
                 "es": {
                     "Title": "Acuerdo de prestación de servicios",
-                    "Message": "Para hacer uso de la aplicación la persona de contacto debe aceptar los términos y condiciones."
+                    "Message": "Para hacer uso de la aplicación, el propietario/a debe aceptar los términos y condiciones. Por favor, contacta con él/ella."
                 },
                 "ca": {
                     "Title": "Acord de prestació de serveis",
-                    "Message": "Per fer ús de l'aplicació la persona de contacte han d'acceptar els termes i condicions."
+                    "Message": "Per fer ús de l'aplicatiu, el propietari/a ha d'acceptar els termes i condicions. Sisplau, contacta amb ell/ella."
                 }
             };
 
