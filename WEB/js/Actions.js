@@ -608,6 +608,7 @@ function TxtCausesChanged(locked) {
         FieldSetRequired("CmbCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, false);
         FieldSetRequired("TxtCausesDateLabel", Dictionary.Item_IncidentAction_Field_Date, false);
         $("#CmbCausesResponsible").val(0);
+        $("#TxtCausesDate").val("");
         IncidentCausesRequired = false;
         TxtWhatHappenedChanged(false);
     }

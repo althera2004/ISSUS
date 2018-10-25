@@ -145,26 +145,18 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label id="TxtDescriptionLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_BusinessRisk_LabelField_Description"]%></label>
-                                                        <!--/div>
-                                                        <div class="form-group" style="margin-left: 0px; margin-right: 0px;"-->
                                                             <%=this.TxtDescription %>
                                                         </div>
                                                         <div class="form-group">
                                                             <label id="TxtCausesLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_BusinessRisk_LabelField_Causes"]%></label>
-                                                        <!--/div>
-                                                        <div class="form-group" style="margin-left: 0px; margin-right: 0px;"-->
                                                             <%=this.TxtCauses %>
                                                         </div>
                                                         <div class="form-group">
                                                             <label id="TxtStartControlLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_BusinessRisk_LabelField_StartControl"]%></label>
-                                                        <!--/div>
-                                                        <div class="form-group" style="margin-left: 0px; margin-right: 0px;"-->
                                                             <%=this.TxtStartControl %>
                                                         </div>
                                                         <div class="form-group">
                                                             <label id="TxtNotesLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_BusinessRisk_LabelField_Notes"]%></label>
-                                                        <!--/div>
-                                                        <div class="form-group" style="margin-left: 0px; margin-right: 0px;"-->
                                                             <%=this.TxtNotes %>
                                                         </div>
                                                         <hr />
@@ -286,11 +278,12 @@
                                                                 <table class="table table-bordered table-striped" style="margin: 0">
                                                                     <thead class="thin-border-bottom">
                                                                         <tr>
-                                                                            <th style="width:290px;"><%=this.Dictionary["Item_IncidentCost_Header_Description"] %></th>   
+                                                                            <th><%=this.Dictionary["Item_IncidentCost_Header_Description"] %></th>   
+                                                                            <th style="width:90px;"><%=this.Dictionary["Common_Date"]%></th>  
                                                                             <th style="width:90px;"><%=this.Dictionary["Item_IncidentCost_Header_Amount"]%></th>  
                                                                             <th class="hidden-480" style="width:90px;""><%=this.Dictionary["Item_IncidentCost_Header_Quantity"]%></th>   
                                                                             <th style="width:120px;"><%=this.Dictionary["Item_IncidentCost_Header_Total"]%></th>  
-                                                                            <th class="hidden-480"><%=this.Dictionary["Item_IncidentCost_Header_ReportedBy"]%></th>
+                                                                            <th style="width:200px;" class="hidden-480"><%=this.Dictionary["Item_IncidentCost_Header_ReportedBy"]%></th>
                                                                             <th class="hidden-480" style="width:107px;"></th>                                                
                                                                         </tr>
                                                                     </thead>
@@ -436,7 +429,7 @@
                                                                     <svg style='height:500px;width:100%' id="svggraficBusinessRisk"></svg>
                                                                     <table id="GraphicTableVoid" style="height:500px;width:100%;display:none;">
                                                                         <tr>
-                                                                            <td colspan="10" align="center" style="background-color:#ddddff;color:#0000aa;">
+                                                                            <td colspan="10" style="background-color:#ddddff;color:#0000aa;text-align:center;">
                                                                                 <table style="border:none;">
                                                                                     <tr>
                                                                                         <td rowspan="2" style="border:none;"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
@@ -670,22 +663,7 @@
                             </div>
 
                             <div id="dialogNewCost" class="hide" style="width:500px;">
-                                <form class="form-horizontal" role="form" id="FormDialogNewMaintaiment">    
-                                    <!--<div class="form-group" id="RIncidentCostRow">
-                                        <div class="col-sm-6">
-                                            <input type="radio" name="RIncidentCost" id="RIncidentCostBased" onclick="RIncidentCostChanged();" /><%=this.Dictionary["Item_IncidentCost_Radio_SelectCost"] %>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <input type="radio" name="RIncidentCost" id="RIncidentCostNew" onclick="RIncidentCostChanged();" /><%=this.Dictionary["Item_IncidentCost_Radio_ManualEntry"] %>
-                                        </div>
-                                    </div>     
-                                    <div class="form-group" id="CmbIncidentCostDescriptionRow">
-                                        <label id="CmbIncidentCostDescriptionLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_IncidentCost_FieldLabel_Cost"] %><span class="required">*</span></label>
-                                        <div class="col-sm-9">
-                                            <select id="CmbIncidentCostDescription" onchange="CmbIncidentCostDescriptionChanged();" class="col-xs-12 col-sm-12"></select>
-                                            <span class="ErrorMessage" id="CmbIncidentCostDescriptionErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                        </div>
-                                    </div>    -->                 
+                                <form class="form-horizontal" role="form" id="FormDialogNewMaintaiment">              
                                     <div class="form-group" id="TxtIncidentCostDescriptionRow">
                                         <label id ="TxtIncidentActionCostDescriptionLabel" class="col-sm-3 control-label no-padding-right" for="TxtIncidentActionCostDescription"><%=this.Dictionary["Item_IncidentActionCost_FieldLabel_Description"] %><span class="required">*</span></label>
                                         <div class="col-sm-7">
@@ -781,7 +759,7 @@
                                 </div>
                             </div>
 
-                            <div id="CostDeleteDialog" class="hide" style="width:600px;">
+                            <div id="dialogIncidentActionCostDelete" class="hide" style="width:600px;">
                                 <p>Borrar coste&nbsp;<strong><span id="CostName"></span></strong>?</p>
                             </div>
                             <!-- -------------------------------------->
@@ -850,14 +828,11 @@
                                     </tr>
                                 </table>
                             </div>
-
     
-
-                                
                             <div id="PopupUploadFile" class="hide" style="width:800px;">
                                 <div class="table-responsive">
                                     <form action="/dummy.html" class="dropzone well dz-clickable" id="dropzone">
-                                        <input type="file" id="fileName" name="fileName" multiple style="position:absolute;top:-100000px;"/>
+                                        <input type="file" id="fileName" name="fileName" multiple="multiple" style="position:absolute;top:-100000px;"/>
                                         <div class="dz-default dz-message">
                                             <span id="UploadMessage">
                                                 <span class="bigger-125 bolder">
@@ -882,9 +857,6 @@
                                             <label class="input-append col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_DocumentAttachment_PopupUpload_Description_Label"] %></label>
                                             <label class="input-append col-sm-10"><input class="col-sm-11" id="UploadFileDescription" name="UploadFileDescription" /></label>
                                         </div>
-                                        <!--<div class="col-sm-12">
-                                            <p><input type="checkbox" /> Guardar como copia local</p>
-                                        </div>-->
                                 </div><!-- /.table-responsive -->
                             </div><!-- #dialog-message -->
 

@@ -227,12 +227,12 @@ function ProviderUpdateConfirmed(id, newDescription) {
 
     // 2.- Modificar en HTML
     var temp = new Array();
-    for (var x = 0; x < Providers.length; x++) {
-        if (Providers[x].Id !== id) {
-            temp.push(Providers[x]);
+    for (var y = 0; y < Providers.length; y++) {
+        if (Providers[y].Id !== id) {
+            temp.push(Providers[y]);
         }
         else {
-            var item = Providers[x];
+            var item = Providers[y];
             temp.push({
                 "Id": item.Id,
                 "Description": newDescription,
@@ -243,8 +243,8 @@ function ProviderUpdateConfirmed(id, newDescription) {
     }
 
     Providers = new Array();
-    for (var y = 0; y < temp.length; y++) {
-        Providers.push(temp[y]);
+    for (var w = 0; w < temp.length; w++) {
+        Providers.push(temp[w]);
     }
 
     // 3.- Modificar la fila de la tabla del popup
@@ -271,7 +271,7 @@ function ProviderDelete(sender) {
     var dialog = $('#ProviderDeleteDialog').removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Delete + "</h4>,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Delete + "</h4>",
         "title_html": true,
         "buttons":
         [
@@ -328,8 +328,8 @@ function ProviderDeleteConfirmed(id) {
 
     // 2.- Desactivar en HTML
     var temp = new Array();
-    for (var x = 0; x < Providers.length; x++) {
-        if (Providers[x].Id !== id) { temp.push(Providers[x]); }
+    for (var w = 0; w < Providers.length; w++) {
+        if (Providers[w].Id !== id) { temp.push(Providers[w]); }
     }
 
     Providers = new Array();

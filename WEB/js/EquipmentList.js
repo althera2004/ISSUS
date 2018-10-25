@@ -138,8 +138,7 @@ function RenderTable() {
     var total = 0;
     if (temp.length > 0) {
         for (var y = 0; y < temp.length; y++) {
-            RenderRow(temp[y]);
-            total += temp[y].Coste;
+            total += RenderRow(temp[y]);
         }
     }
 
@@ -214,7 +213,17 @@ function RenderRow(equipment) {
         tdResponsable.appendChild(document.createTextNode(equipment.Responsable.FullName));
     }
 
-    tdCoste.appendChild(document.createTextNode(ToMoneyFormat(equipment.Coste, 2)));
+    var rowCost = 0;
+    for (var c = 0; c < Costs.length; c++) {
+        if (Costs[c].E === equipment.Id) {
+            if (Costs[c].T === "R") { rowCost += Costs[c].A; }
+            if (Costs[c].T === "C" && document.getElementById("RBOperation1").checked === true) { rowCost += Costs[c].A; }
+            if (Costs[c].T === "V" && document.getElementById("RBOperation2").checked === true) { rowCost += Costs[c].A; }
+            if (Costs[c].T === "M" && document.getElementById("RBOperation3").checked === true) { rowCost += Costs[c].A; }
+        }
+    }
+
+    tdCoste.appendChild(document.createTextNode(ToMoneyFormat(rowCost, 2)));
 
     if (equipment.Adjuntos === true) {
         var icon = document.createElement("i");
@@ -269,6 +278,8 @@ function RenderRow(equipment) {
     tr.appendChild(tdAcciones);
 
     document.getElementById("ListDataTable").appendChild(tr);
+
+    return rowCost;
 }
 
 function SetFilter() {

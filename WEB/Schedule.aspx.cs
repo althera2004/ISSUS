@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
+using System.Text;
+using System.Linq;
 
 /// <summary>Implements Schedule page</summary>
 public partial class Schedule : Page
@@ -37,6 +39,21 @@ public partial class Schedule : Page
 
     /// <summary>Gets tasks to show</summary>
     public string Tasks { get; private set; }
+
+    public string Filter
+    {
+        get
+        {
+            string filter = @"{""Owners"":true,""Others"":true,""Passed"": false}";
+
+            if (Session["DashBoardFilter"] != null)
+            {
+                filter = Session["DashBoardFilter"].ToString();
+            }
+
+            return filter;
+        }
+    }
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -76,6 +93,108 @@ public partial class Schedule : Page
         this.master.AddBreadCrumb("Item_ScheduledTasks");
         this.master.Titulo = "Item_ScheduledTasks";
 
-        this.Tasks = ScheduledTask.ByEmployeeJson(this.user, this.company.Id);
+        this.RenderScheludedTasksList();
+
+        //this.Tasks = ScheduledTask.ByEmployeeJson(this.user, this.company.Id);
+
+        /*var tasksJson = new StringBuilder("[");
+        var tasks = ScheduledTask.ByEmployee(this.user, this.company.Id).Where(t => t.Expiration >= Constant.Now.AddYears(-1)).ToList();
+        var printedTasks = new List<ScheduledTask>();
+        var res = new StringBuilder();
+        tasks = tasks.OrderByDescending(t => t.Expiration).ToList();
+        bool first = true;
+        foreach (var task in tasks)
+        {
+            if (printedTasks.Any(t => t.Action == task.Action && t.Equipment.Id == task.Equipment.Id && task.TaskType == t.TaskType))
+            {
+                continue;
+            }
+
+            if (first)
+            {
+                first = false;
+            }
+            else
+            {
+                tasksJson.Append(",");
+            }
+
+            printedTasks.Add(task);
+            tasksJson.Append(task.Json);
+        }
+
+        tasksJson.Append("]");
+        this.Tasks = tasksJson.ToString();*/
+    }
+
+    private void RenderScheludedTasksList()
+    {
+        var searchItems = new List<string>();
+        var tasksJson = new StringBuilder("[");
+        var tasks = ScheduledTask.ByEmployee(this.user, this.company.Id).Where(t => t.Expiration >= Constant.Now.AddYears(-1)).ToList();
+        var printedTasks = new List<ScheduledTask>();
+        tasks = tasks.OrderByDescending(t => t.Expiration).ToList();
+        bool first = true;
+        foreach (var task in tasks)
+        {
+            if (printedTasks.Any(t => t.Action == task.Action && t.Equipment.Id == task.Equipment.Id && task.TaskType == t.TaskType))
+            {
+                continue;
+            }
+
+            printedTasks.Add(task);
+            if (first)
+            {
+                first = false;
+            }
+            else
+            {
+                tasksJson.Append(",");
+            }
+
+            if (!searchItems.Contains(task.Equipment.Description)) { searchItems.Add(task.Equipment.Description); };
+
+            if (!searchItems.Contains(task.Responsible.FullName)) { searchItems.Add(task.Responsible.FullName); };
+
+            if (task.Provider != null)
+            {
+                if (!searchItems.Contains(task.Provider.Description)) { searchItems.Add(task.Provider.Description); };
+            }
+
+            var text = string.Empty;
+            switch (task.TaskType)
+            {
+                case "M":
+                    text = task.Internal == "I" ? Dictionary["Item_EquipmentMaintenance_Label_Internal"] : Dictionary["Item_EquipmentMaintenance_Label_External"];
+                    break;
+                case "V":
+                    text = task.Internal == "I" ? Dictionary["Item_EquipmentVerification_Label_Internal"] : Dictionary["Item_EquipmentVerification_Label_External"];
+                    break;
+                case "C":
+                    text = task.Internal == "I" ? Dictionary["Item_EquipmentCalibration_Label_Internal"] : Dictionary["Item_EquipmentCalibration_Label_External"];
+                    break;
+                case "I":
+                    text = Dictionary["Item_Incident"];
+                    break;
+                case "A":
+                    text = Dictionary["Item_IncidentAction"];
+                    break;
+                case "X":
+                    text = Dictionary["Item_Indicador"];
+                    break;
+                case "O":
+                    text = Dictionary["Item_Objetivo"];
+                    break;
+                case "B":
+                    text = Dictionary["Item_BusinessRisk"];
+                    break;
+            }
+
+            if (!searchItems.Contains(text)) { searchItems.Add(text); };
+            tasksJson.Append(task.JsonRow(this.Dictionary));
+        }
+
+        tasksJson.Append("]");
+        this.Tasks = tasksJson.ToString();
     }
 }

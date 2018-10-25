@@ -263,11 +263,12 @@
                                                                 <table class="table table-bordered table-striped" style="margin: 0">
                                                                     <thead class="thin-border-bottom">
                                                                         <tr>
-                                                                            <th style="width:290px;"><%=this.Dictionary["Item_IncidentCost_Header_Description"] %></th>   
+                                                                            <th><%=this.Dictionary["Item_IncidentCost_Header_Description"] %></th>
+                                                                            <th style="width:90px;"><%=this.Dictionary["Common_Date"]%></th>  
                                                                             <th style="width:90px;"><%=this.Dictionary["Item_IncidentCost_Header_Amount"]%></th>  
                                                                             <th style="width:90px;"><%=this.Dictionary["Item_IncidentCost_Header_Quantity"]%></th>   
                                                                             <th style="width:120px;"><%=this.Dictionary["Item_IncidentCost_Header_Total"]%></th>  
-                                                                            <th class="hidden-480"><%=this.Dictionary["Item_IncidentCost_Header_ReportedBy"]%></th>
+                                                                            <th style="width:200px;" class="hidden-480"><%=this.Dictionary["Item_IncidentCost_Header_ReportedBy"]%></th>
                                                                             <th class="hidden-480" style="width:107px;"></th>                                                
                                                                         </tr>
                                                                     </thead>

@@ -7,11 +7,9 @@ function IncidentActionCostRenderTable(tableName) {
 
     if (IncidentActionCosts.length === 0) {
         $("#IncidentActionCostsTableVoid").show();
-        //$("#" + tableName).parent().hide();
     }
     else {
         $("#IncidentActionCostsTableVoid").hide();
-        //$("#" + tableName).parent().show();
     }
 
     var total = 0;
@@ -28,24 +26,33 @@ function IncidentActionCostRenderTable(tableName) {
 function IncidentActionCostRenderRow(incidentActionCost, target) {
     var row = document.createElement("TR");
     var tdDescription = document.createElement("TD");
+    var tdDate = document.createElement("TD");
     var tdAmount = document.createElement("TD");
     var tdQuantity = document.createElement("TD");
     var tdTotal = document.createElement("TD");
     var tdResponsible = document.createElement("TD");
 
     //tdDescription.style.width = "290px";
-    tdAmount.style.width = "120px";
-    tdQuantity.style.width = "120px";
-    tdTotal.style.width = "150px";
-	tdResponsible.style.width = "300px";
+    tdAmount.style.width = "90px";
+    tdDate.style.width = "90px";
+    tdQuantity.style.width = "90px";
+    tdTotal.style.width = "120px";
+	tdResponsible.style.width = "200px";
 
     row.id = incidentActionCost.Id;
 
+    tdDate.align = "center";
     tdAmount.align = "right";
     tdQuantity.align = "right";
     tdTotal.align = "right";
 
+    var fecha = "";
+    if (incidentActionCost.Date !== null) {
+        fecha = FormatDate(GetDateYYYYMMDD(incidentActionCost.Date), "/");
+    }
+
     tdDescription.appendChild(document.createTextNode(incidentActionCost.Description));
+    tdDate.appendChild(document.createTextNode(fecha));
     tdAmount.appendChild(document.createTextNode(ToMoneyFormat(incidentActionCost.Amount, 2)));
     tdQuantity.appendChild(document.createTextNode(ToMoneyFormat(incidentActionCost.Quantity, 2)));
     tdTotal.appendChild(document.createTextNode(ToMoneyFormat(incidentActionCost.Amount * incidentActionCost.Quantity, 2)));
@@ -76,6 +83,7 @@ function IncidentActionCostRenderRow(incidentActionCost, target) {
     tdActions.style.width = "90px";
 
     row.appendChild(tdDescription);
+    row.appendChild(tdDate);
     row.appendChild(tdAmount);
     row.appendChild(tdQuantity);
     row.appendChild(tdTotal);
@@ -94,11 +102,13 @@ function IncidentActionCostSetPopupFormFill() {
     ClearFieldTextMessages("CmdIncidentActionCostResponsible");
     SelectedIncidentActionCost = IncidentActionCostGetById(SelectedIncidentActionCostId, IncidentActionCosts);
     $("#TxtIncidentActionCostDescription").val(SelectedIncidentActionCost.Description);
+    $("#TxtIncidentActionCostDate").val(SelectedIncidentActionCost.Date);
     $("#TxtIncidentActionCostAmount").val(ToMoneyFormat(SelectedIncidentActionCost.Amount, 2));
     $("#TxtIncidentActionCostQuantity").val(ToMoneyFormat(SelectedIncidentActionCost.Quantity, 2));
     $("#CmdIncidentActionCostResponsible").val(SelectedIncidentActionCost.Responsible.Id);
-    /*document.getElementById("RIncidentActionCostRow").style.display = "none";
-    document.getElementById("RIncidentActionCostNew").checked = true;*/
+    $("#TxtIncidentActionCostDateErrorRequired").hide();
+    $("#TxtIncidentActionCostDateErrorMalformed").hide();
+    $("#TxtIncidentActionCostDateErrorRange").hide();
     RIncidentActionCostChanged();
 }
 
@@ -108,23 +118,15 @@ function IncidentActionCostSetPopupFormReset(newIncidentActionCost) {
     ClearFieldTextMessages("TxtIncidentActionCostAmount");
     ClearFieldTextMessages("TxtIncidentActionCostQuantity");
     ClearFieldTextMessages("CmdIncidentActionCostResponsible");
-    /*document.getElementById("RIncidentActionCostRow").style.display = "";
-    CmbIncidentActionCostDescriptionFill();
-    if (CompanyIncidentActionCosts.length === 0) {
-        $("#RIncidentActionCostBased").prop("disabled", true);
-        document.getElementById("RIncidentActionCostNew").checked = true;
-    }
-    else {
-        $("#RIncidentActionCostBased").prop("disabled", false);
-        document.getElementById("RIncidentActionCostBased").checked = true;
-    }
-
-    RIncidentActionCostChanged();*/
     $("#TxtIncidentActionCostDescription").val("");
     $("#TxtIncidentActionCostAmount").val("");
     $("#TxtIncidentActionCostQuantity").val("");
+    $("#TxtIncidentActionCostDate").val("");
     $("#CmbCmbIncidentActionCostDescription").val(0);
     $("#CmdIncidentActionCostResponsible").val(ApplicationUser.Employee.Id);
+    $("#TxtIncidentActionCostDateErrorRequired").hide();
+    $("#TxtIncidentActionCostDateErrorMalformed").hide();
+    $("#TxtIncidentActionCostDateErrorRange").hide();
 }
 
 function RIncidentActionCostChanged() {
@@ -212,37 +214,18 @@ function ShowNewCostPopup(actionSelected) {
 
 function IncidentActionCostValidateForm() {
     var ok = true;
-    //var based = document.getElementById('RIncidentActionCostBased').checked;
-
     ClearFieldTextMessages("CmbIncidentActionCostDescription");
     ClearFieldTextMessages("TxtIncidentActionCostDescription");
     ClearFieldTextMessages("TxtIncidentActionCostAmount");
     ClearFieldTextMessages("TxtIncidentActionCostQuantity");
     ClearFieldTextMessages("CmdIncidentActionCostResponsible");
-
-    //if (based === true) {
-    //    if (!RequiredFieldCombo("CmbIncidentActionCostDescription")) {
-    //        ok = false;
-    //    }
-    //}
-    //else {
-        if (!RequiredFieldText("TxtIncidentActionCostDescription")) {
-            ok = false;
-        }
-    //}
-
-    if (!RequiredFieldText("TxtIncidentActionCostAmount")) {
-        ok = false;
-    }
-
-    if (!RequiredFieldText("TxtIncidentActionCostQuantity")) {
-        ok = false;
-    }
-
-    if (!RequiredFieldCombo("CmdIncidentActionCostResponsible")) {
-        ok = false;
-    }
-
+    $("#TxtIncidentActionCostDateErrorRequired").hide();
+    $("#TxtIncidentActionCostDateErrorMalformed").hide();
+    $("#TxtIncidentActionCostDateErrorRange").hide();
+    if (!RequiredFieldText("TxtIncidentActionCostDescription")) { ok = false; }
+    if (!RequiredFieldText("TxtIncidentActionCostAmount")) { ok = false; }
+    if (!RequiredFieldText("TxtIncidentActionCostQuantity")) { ok = false; }
+    if (!RequiredFieldCombo("CmdIncidentActionCostResponsible")) { ok = false; }
     return ok;
 }
 
@@ -253,16 +236,7 @@ function IncidentActionCostSave() {
     }
 
     var Description = $("#TxtIncidentActionCostDescription").val();
-    /*if (document.getElementById("RIncidentActionCostBased").checked) {
-        var id = $("#CmbIncidentActionCostDescription").val();
-        var IncidentActionCostSearched = IncidentActionCostGetById(id, CompanyIncidentActionCosts);
-        if (IncidentActionCostSearched !== null) {
-            Description = IncidentActionCostSearched.Description;
-        }
-    }*/
-
     var IncidentActionCost = SelectedIncidentActionCost;
-
     var amount = ParseInputValueToNumber($("#TxtIncidentActionCostAmount").val());
     var quantity = ParseInputValueToNumber($("#TxtIncidentActionCostQuantity").val());
 
@@ -276,12 +250,12 @@ function IncidentActionCostSave() {
         finalAction = IncidentAction;
     }
 
-    SelectedIncidentActionCost =
-    {
+    SelectedIncidentActionCost = {
         "Id": SelectedIncidentActionCostId,
         "IncidentActionId": finalAction.Id,
         "CompanyId": Company.Id,
         "Description": Description,
+        "Date": GetDate($("#TxtIncidentActionCostDate").val(), "/", false),
         "Amount": amount,
         "Quantity": quantity,
         "Responsible": { "Id": $("#CmdIncidentActionCostResponsible").val() * 1, "Value": $("#CmdIncidentActionCostResponsible option:selected").text(), Active: true },
@@ -439,7 +413,7 @@ function IncidentActionCostDelete(id) {
     SelectedIncidentActionCostId = id * 1;
     SelectedIncidentActionCost = IncidentActionCostGetById(SelectedIncidentActionCostId, IncidentActionCosts);
     if (SelectedIncidentActionCost === null) { return false; }
-    document.getElementById('dialogIncidentActionCostDeleteName').innerHTML = SelectedIncidentActionCost.Description + ' - ' + decimalFormat(SelectedIncidentActionCost.Amount);
+    $("#CostName").html( SelectedIncidentActionCost.Description + ' - ' + decimalFormat(SelectedIncidentActionCost.Amount));
     var dialog = $("#dialogIncidentActionCostDelete").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,

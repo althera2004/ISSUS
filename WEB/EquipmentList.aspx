@@ -24,6 +24,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
         var Equipments = <%=this.EquipmentsJson %>;
+        var Costs = <%=this.Costs %>;
         var Filter = "<%=this.Filter %>";
     </script>
 </asp:Content>

@@ -36,7 +36,7 @@ public partial class Giso : MasterPage
         }
     }
 
-    public int PendentTasks { get; set; }
+    public int PendentTasks { get; private set; }
 
     public string IssusVersion
     {
@@ -382,12 +382,14 @@ public partial class Giso : MasterPage
         this.ImgCompany.ImageUrl = string.Format("/images/Logos/{0}?ac={1}", logo, Guid.NewGuid());
         this.ImgCompany.Attributes.Add("height", "30");
 
-        var tasks = ScheduledTask.ByEmployee(this.ApplicationUser, this.Company.Id).Where(t => t.Expiration >= DateTime.Now.AddYears(-1)).ToList();
-        tasks = tasks.OrderByDescending(t => t.Expiration).ToList();
+        var tasks = ScheduledTask.ByEmployee(this.ApplicationUser, this.Company.Id).Where(t => t.Expiration >= Constant.Now.AddYears(-1)).ToList();
         var printedTasks = new List<ScheduledTask>();
+
+        tasks = tasks.OrderByDescending(t => t.Expiration).ToList();
+
         foreach (var task in tasks)
         {
-            if (printedTasks.Any(t => t.Description.Equals(task.Description) && t.Equipment.Id == task.Equipment.Id && task.TaskType == t.TaskType))
+            if (printedTasks.Any(t => t.Action == task.Action && t.Equipment.Id == task.Equipment.Id && task.TaskType == t.TaskType))
             {
                 continue;
             }
@@ -395,6 +397,7 @@ public partial class Giso : MasterPage
             printedTasks.Add(task);
         }
 
+        printedTasks = printedTasks.Where(t => t.Expiration <= DateTime.Now).ToList();
         this.PendentTasks = printedTasks.Count;
     }
 

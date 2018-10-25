@@ -227,15 +227,19 @@ public partial class ExportObjetivoRecords : Page
         foreach (var registroObjetivo in registros)
         {
             if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
-            string metaText = IndicadorRegistro.ComparerLabel(registroObjetivo.MetaComparer, Dictionary); string statusLabel = Dictionary["Item_Objetivo_StatusLabelWithoutMeta"];
-            if (metaText == "eq" && registroObjetivo.Value == registroObjetivo.Meta) { statusLabel = Dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "gt" && registroObjetivo.Value > registroObjetivo.Meta) { statusLabel = Dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "eqgt" && registroObjetivo.Value >= registroObjetivo.Meta) { statusLabel = Dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "lt" && registroObjetivo.Value < registroObjetivo.Meta) { statusLabel = Dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else if (metaText == "eqlt" && registroObjetivo.Value <= registroObjetivo.Meta) { statusLabel = Dictionary["Item_Objetivo_StatusLabelMeta"]; }
-            else
+            string metaText = IndicadorRegistro.ComparerLabel(registroObjetivo.MetaComparer, Dictionary);
+            string statusLabel = Dictionary["Item_Objetivo_StatusLabelWithoutMeta"];
+            if (!string.IsNullOrEmpty(metaText))
             {
-                statusLabel = Dictionary["Item_Objetivo_StatusLabelNoMeta"];
+                if (metaText == "eq" && registroObjetivo.Value == registroObjetivo.Meta) { statusLabel = Dictionary["Item_Objetivo_StatusLabelMeta"]; }
+                else if (metaText == "gt" && registroObjetivo.Value > registroObjetivo.Meta) { statusLabel = Dictionary["Item_Objetivo_StatusLabelMeta"]; }
+                else if (metaText == "eqgt" && registroObjetivo.Value >= registroObjetivo.Meta) { statusLabel = Dictionary["Item_Objetivo_StatusLabelMeta"]; }
+                else if (metaText == "lt" && registroObjetivo.Value < registroObjetivo.Meta) { statusLabel = Dictionary["Item_Objetivo_StatusLabelMeta"]; }
+                else if (metaText == "eqlt" && registroObjetivo.Value <= registroObjetivo.Meta) { statusLabel = Dictionary["Item_Objetivo_StatusLabelMeta"]; }
+                else
+                {
+                    statusLabel = Dictionary["Item_Objetivo_StatusLabelNoMeta"];
+                }
             }
 
             // Status

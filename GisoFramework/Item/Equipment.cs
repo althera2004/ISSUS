@@ -436,7 +436,7 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                var equipemnt = new Equipment
+                                var equipment = new Equipment
                                 {
                                     Id = rdr.GetInt64(ColumnsEquipmentGetList.Id),
                                     Code = rdr.GetString(ColumnsEquipmentGetList.Code),
@@ -452,15 +452,15 @@ namespace GisoFramework.Item
                                     IsVerification = rdr.GetBoolean(ColumnsEquipmentGetList.IsVerification),
                                     IsMaintenance = rdr.GetBoolean(ColumnsEquipmentGetList.IsMaintenance),
                                     HasAttachments = rdr.GetBoolean(ColumnsEquipmentGetList.HasAttachments),
-                                    TotalCost = rdr.GetDecimal(ColumnsEquipmentGetList.TotalCost)
+                                    TotalCost = 0
                                 };
 
                                 if (!rdr.IsDBNull(ColumnsEquipmentGetList.EndDate))
                                 {
-                                    equipemnt.EndDate = rdr.GetDateTime(ColumnsEquipmentGetList.EndDate);
+                                    equipment.EndDate = rdr.GetDateTime(ColumnsEquipmentGetList.EndDate);
                                 }
 
-                                res.Add(equipemnt);
+                                res.Add(equipment);
                             }
                         }
                     }

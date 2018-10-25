@@ -126,6 +126,30 @@ function FormatYYYYMMDD(date, separator) {
     return res += month + separator + year;
 }
 
+function GetDateYYYYMMDDToText(date, nullable) {
+
+    if (date === null || date === "") {
+        if (nullable === null) {
+            return null;
+        }
+        else {
+            if (nullable === false) {
+                return null;
+            }
+            else {
+                return "";
+            }
+        }
+    }
+
+    var day = date.getDate().toString();
+    if (day.length < 2) { day = "0" + day; }
+    var month = (date.getMonth() + 1).toString();
+    if (month.length < 2) { month = "0" + month; }
+    var year = date.getFullYear().toString();
+    return year +  month +  day;
+}
+
 function GetDateYYYYMMDDText(date, separator, nullable) {
 
     if (date === null || date === "") {
@@ -931,4 +955,10 @@ function EmployeeSetGrant(employeeId, itemId) {
 
 function InputToLabel(imputName) {
     $("#" + imputName).parent().html("<strong>" + $("#" + imputName).val() + "</strong>");
+}
+
+function Ellipsys(text, length) {
+    var res = text;
+    res = text > 50 ? (text.substr(0, 49) + "...") : text;
+    return res;
 }

@@ -196,7 +196,7 @@ namespace GisoFramework.Alerts
                                     res.Add(string.Format(
                                         CultureInfo.InvariantCulture,
                                         "<tr><td>{0}</td><td>{1}</td><td><span class=\"btn btn-xs btn-info\" onclick=\"document.location='{2}{3}';\"><i class=\"icon-edit bigger-1202\"></i></span></td></tr>",
-                                        shortDescription,
+                                        largeExplanation,
                                         data[1],
                                         ItemUrl,
                                         data[0]));

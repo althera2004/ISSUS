@@ -65,7 +65,7 @@ public class CompanyCreation : WebService
 
         if (res.Success)
         {
-            var dictionary =  ApplicationDictionary.Load(language);
+            var dictionary = ApplicationDictionary.Load(language);
             string path = HttpContext.Current.Request.PhysicalApplicationPath;
             string destino = path;
             if (!path.EndsWith("\\", StringComparison.Ordinal))

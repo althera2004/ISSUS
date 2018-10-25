@@ -25,6 +25,7 @@ public partial class InitSession : Page
         this.Session["CompanyId"] = this.Request.Form["CompanyId"];
         var company = new Company(Convert.ToInt32(this.Request.Form["CompanyId"]));
         this.Session["Company"] = company;
+        this.Session["TasksFilter"] = @"{""Owners"":true,""Others"":true,""Passed"": false}";
         var user = new ApplicationUser(Convert.ToInt32(this.Request.Form["UserId"]));
         if (user.CompanyId == 0)
         {
@@ -65,7 +66,14 @@ public partial class InitSession : Page
             string landPage = user.Grants[0].Item.Page;
             if (!company.Agreement)
             {
-                landPage = "/Agreement.aspx";
+                if (user.PrimaryUser)
+                {
+                    landPage = "/Agreement.aspx";
+                }
+                else
+                {
+                    landPage = "/AgreementNotice.aspx";
+                }
             }
             else if (true || user.HasGrantToRead(ApplicationGrant.CompanyProfile))
             {

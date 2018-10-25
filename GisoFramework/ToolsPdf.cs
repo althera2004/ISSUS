@@ -8,6 +8,7 @@ namespace GisoFramework
 {
     using System;
     using System.Globalization;
+    using System.IO;
     using System.Web;
     using iTextSharp.text;
     using iTextSharp.text.pdf;
@@ -68,15 +69,15 @@ namespace GisoFramework
 
         public static string NormalizeFileName(string fileName)
         {
-            string res = fileName.Replace("?", string.Empty);
-            res = res.Replace("#", string.Empty);
-            res = res.Replace("/", string.Empty);
-            res = res.Replace("\\", string.Empty);
-            res = res.Replace(":", string.Empty);
-            res = res.Replace(";", string.Empty);
-            res = res.Replace(".", string.Empty);
-            res = res.Replace("\"", "ʺ");
-            return res;
+            if (fileName.IndexOfAny(Path.GetInvalidFileNameChars()) != -1)
+            {
+                foreach (char c in Path.GetInvalidFileNameChars())
+                {
+                    fileName = fileName.Replace(c, '_');
+                }
+            }
+
+            return fileName.Replace('#', '_').Replace('%', '_');
         }
 
         public static void AddTableTitle(PdfPTable table, string title)
