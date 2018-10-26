@@ -1788,5 +1788,3 @@ User_PrimaryUser::Propietari/a
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
 ZZZZZ::Les noves claus a partir d'aquí cap avall
-Item_IncidentAction_Error_BeforeActions::No pot ser anterior a la data de actuacions
-Item_Incident_Error_BeforeActions::No pot ser anterior a la data de actuaions

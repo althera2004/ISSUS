@@ -615,7 +615,7 @@
         window.onload = function () {
             SetFilter();
             FillCalendar();
-            $(".page-header .col-sm-4").html("<button class=\"btn btn-success\" type=\"button\" id=\"BtnShowTasks\" onclick=\"document.location='Dashboard.aspx';\"><i class=\"icon-calendar bigger-110\"></i> " + Dictionary.Common_Home + "</button>");
+            $(".page-header .col-sm-4").html("<button class=\"btn btn-success\" type=\"button\" id=\"BtnShowTasks\" onclick=\"document.location='Dashboard.aspx';\"><i class=\"icon-calendar bigger-110\"></i> " + Dictionary.DashBoard_List + "</button>");
         }
 
         function SetFilter() {

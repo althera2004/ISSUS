@@ -90,8 +90,8 @@ public partial class DashBoard : Page
         this.master = this.Master as Giso;
         this.company = Session["Company"] as Company;
         this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
-        this.master.AddBreadCrumb("Item_DashBoard");
-        this.master.Titulo = "Item_DashBoard";
+        this.master.AddBreadCrumb("Item_ScheduledTasks");
+        this.master.Titulo = "Item_ScheduledTasks";
         this.RenderScheludedTasksList();
     }
 

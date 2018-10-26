@@ -1,9 +1,21 @@
-﻿<style type="text/css">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="eng">
+<head>
+<title>Scrambòtika - ISSUS: Contracte d'Ús</title>
+<style type="text/css" >
 <!--
 p {
 	color:#3d464d; 
 	size:10px;
 	font-family:Calibri;
+}
+p.gtkcenter {
+        align:center;
+		text-align:center;
+}
+p.gtkright {
+        align:right;
+		text-align:right;
 }
 
 h1 {
@@ -11,12 +23,14 @@ h1 {
 	color:#595959;
 	font-weight:bold;
 	font-family:Calibri;
+	text-align:center;
 }
 h2 {
 	font-size:12px;
 	color:#595959;
 	font-weight:bold;
 	font-family:Calibri;
+	text-align:center;
 }
 
 img {
@@ -38,21 +52,22 @@ li {
 
 -->
 </style>
-<p>&nbsp;</p>
-<p align="center"><img src="http://issus.scrambotika.com/scrambotika_agreement.jpg" alt="Scrambotika" style="max-width:90%" /></p>
+</head>
+<body>
+<p class="gtkcenter"><br /><img src="http://issus.scrambotika.com/scrambotika_agreement.jpg" alt="Scrambotika" style="max-width:60%" /><br /></p>
 
-<h1 align="center">Contracte d’Ús - LALA<br />
+<h1><br />Contracte d’Ús<br />
 Condicions d’Utilizació del Software<br />
 </h1>
 
-<p align="right">Rev. 1.0.</p>
-<p align="center">  <img src="http://issus.scrambotika.com/issus_agreement.jpg" alt="ISSUS" style="max-width:90%" /></p>
-<p align="right">Sabadell, 6 de març de 2018</p>
+<p class="gtkright">Rev. 1.0.</p>
+<p class="gtkcenter"> <img src="http://issus.scrambotika.com/issus_agreement.jpg" alt="ISSUS" style="max-width:60%" /><br /></p>
+<p class="gtkright">Sabadell, 6 de març de 2018</p>
 
-<h2 align="center">Gràcies per formar part del projecte ISSUS!</h2>
+<h2>Gràcies per formar part del projecte ISSUS!<br /></h2>
 
 <p>&nbsp;</p>
-<p>Aquest contracte s’estableix entre <strong>SCRAMBÒTIKA, SL</strong> i tots els Usuaris d’<img src="http://issus.scrambotika.com/issus_agreement_petit.jpg" alt="ISSUS" style="max-width:90%"/>, i cobreix l'ús i accés als nostres serveis, el software i els nostres llocs web.</p>
+<p>Aquest contracte s’estableix entre <strong>SCRAMBÒTIKA, SL</strong> i tots els Usuaris d’<img src="http://issus.scrambotika.com/issus_agreement_petit.jpg" alt="ISSUS" style="max-width:60%"/>, i cobreix l'ús i accés als nostres serveis, el software i els nostres llocs web.</p>
 <p><strong>Si acceptes les presents condicions i continues utilitzant el nostre software, estàs acceptant la nostra política comercial, d'ús, de privacitat, de protecció de dades i de compliment legal, aquí detallades.</strong></p>
 
 <p><strong>1. El nostre producte</strong></p>
@@ -148,3 +163,5 @@ SCRAMBÒTIKA pot modificar les presents polítiques de privacitat per adaptar-le
 <p>Si tens algun dubte o pregunta sobre ISSUS, els nostres Serveis o la política de privacitat, posa't en contacte amb nosaltres a en <a href="mailto:hola@scrambotika.com">hola@scrambotika.com</a>.</p>
 <p>L’equip <strong>SCRAMBÒTIKA</strong>.</p>
 <p>&nbsp;</p>
+</body>
+</html>
