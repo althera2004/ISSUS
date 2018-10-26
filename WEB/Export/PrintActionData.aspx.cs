@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.UI;
 using GisoFramework;
@@ -197,6 +198,109 @@ public partial class ExportPrintActionData : Page
         table.AddCell(TextAreaCell(Environment.NewLine + action.Notes, ToolsPdf.BorderAll, alignLeft, 4));
 
         document.Add(table);
+
+        // Costes
+        var costs = IncidentActionCost.GetByIncidentActionId(actionId, companyId);
+        if (costs.Count > 0)
+        {
+            var times = new Font(arial, 8, Font.NORMAL, BaseColor.BLACK);
+            var fontSummary = new Font(arial, 9, Font.BOLD, BaseColor.BLACK);
+            var headerFontFinal = new Font(headerFont, 9, Font.NORMAL, BaseColor.BLACK);
+            
+            // @alex: hay que crear la tabla con 6 columnas en lugar de 5
+            //var tableCosts = new PdfPTable(5)
+            var tableCosts = new PdfPTable(6)
+            {
+                WidthPercentage = 100,
+                HorizontalAlignment = 1,
+                SpacingBefore = 20f,
+                SpacingAfter = 30f
+            };
+
+            // @alex: se añade una nueva columna de 10f para la fecha
+            //tableCosts.SetWidths(new float[] { 35f, 10f, 10f, 10f, 20f });
+            tableCosts.SetWidths(new float[] { 35f, 10f, 10f, 10f, 10f, 20f });
+
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Description"]));
+            // @alex: se añade una nueva cabecera
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Common_Date"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Amount"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Quantity"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Total"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_ReportedBy"]));
+
+            decimal total = 0;
+            decimal totalAccion = 0;
+            int cont = 0;
+            int contAccion = 0;
+
+            // Acciones
+            foreach (var cost in costs.Where(c => c.Active == true))
+            {
+                tableCosts.AddCell(ToolsPdf.DataCell(cost.Description, times));
+
+                // @alex: se añade la columna en la misma posición que en el listado de la ficha
+                tableCosts.AddCell(ToolsPdf.DataCellCenter(cost.Date, times));
+
+                tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Amount, times));
+                tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Quantity, times));
+                tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Quantity * cost.Amount, times));
+                tableCosts.AddCell(ToolsPdf.DataCellCenter(cost.Responsible.FullName, times));
+                total += cost.Amount * cost.Quantity;
+                totalAccion = cost.Amount * cost.Quantity;
+                cont++;
+                contAccion++;
+            }
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(
+                CultureInfo.InvariantCulture,
+                @"{0} {2}: {1}",
+                dictionary["Common_RegisterCount"],
+                contAccion,
+               dictionary["Item_IncidentAction"]), times))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 3//@ alex: al haber una columna más el colspan crece de 2 a 3
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(dictionary["Common_Total"], times))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1,
+                HorizontalAlignment = Rectangle.ALIGN_RIGHT
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(Tools.PdfMoneyFormat(totalAccion), times))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1,
+                HorizontalAlignment = Rectangle.ALIGN_RIGHT,
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(string.Empty, times)))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1
+            });
+
+            
+            document.SetPageSize(PageSize.A4.Rotate());
+            document.NewPage();
+            document.Add(tableCosts);
+        }
+
         document.Close();
 
         Response.ClearContent();

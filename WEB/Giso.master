@@ -451,7 +451,7 @@
                                 }
                             }
 
-                            row.style.display = match ? '' : 'none';
+                            row.style.display = match ? "" : "none";
                         }
                     }
 
@@ -518,27 +518,25 @@
                 }              
             }
 
-            function numberIntegerDown(e)
-            {
+            function numberIntegerDown(e) {
                 var code = (e.keyCode ? e.keyCode : e.which);
                 numberActual = e.currentTarget.value;
 
-                if(AcceptKey(code,"integer") === false) {
+                if (AcceptKey(code, "integer") === false) {
                     e.preventDefault();
                     e.stopPropagation();
                 }
             }
 
-            function numberDecimalUp(e)
-            {
+            function numberDecimalUp(e) {
                 var code = (e.keyCode ? e.keyCode : e.which);
                 numberActual = e.currentTarget.value;
 
-                if(numberActual.indexOf(",") != -1){
+                if (numberActual.indexOf(",") != -1) {
                     e.currentTarget.value = numberActual.split(",").join(".");
                 }
 
-                if(numberActual.split(".").length > 2){
+                if (numberActual.split(".").length > 2) {
                     console.log("doble-up");
                     e.currentTarget.value = numberActual;
                     e.preventDefault();
@@ -550,19 +548,20 @@
                 console.log("numberDecimalFocus", e.currentTarget.value * 1);
                 e.currentTarget.value = e.currentTarget.value.toString().split(".").join("").split(",").join(".");
                 console.log("numberDecimalFocus", e.currentTarget.value * 1);
-                if(e.currentTarget.value * 1 === 0){
+                if (e.currentTarget.value * 1 === 0) {
                     e.currentTarget.value = "";
                 }
+
                 e.currentTarget.value = e.currentTarget.value.toString().split(Dictionary.NumericDecimalSeparator).join(".");
             }
 
-            function numberIntegerFocus(e){
-                if(e.currentTarget.value * 1 === 0){
+            function numberIntegerFocus(e) {
+                if (e.currentTarget.value * 1 === 0) {
                     e.currentTarget.value = "";
                 }
-				
-				// @alex: poner el formato en magnitud (sin puntos de millares)
-				e.currentTarget.value = e.currentTarget.value.toString().split(".").join("").split(",").join(".");
+
+                // @alex: poner el formato en magnitud (sin puntos de millares)
+                e.currentTarget.value = e.currentTarget.value.toString().split(".").join("").split(",").join(".");
             }
 
             function numberDecimalBlur(e) {
@@ -583,12 +582,12 @@
                 }
 
                 if ($.isNumeric(value) === false) {
-                    value = value = StringToNumberNullable(value, '.', ',');
+                    value = value = StringToNumberNullable(value, ".", ",");
                 }
 
-                if(e.currentTarget.className.indexOf("nullable") != -1 && value ===""){
+                if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
                 }
-                else{
+                else {
                     value = Math.round(value * 100) / 100;
                     value = ToMoneyFormat(value, 2);
                     e.currentTarget.value = value;
@@ -597,41 +596,41 @@
 
             function numberDecimalBlur6(e) {
                 var value = e.currentTarget.value;
-                if(e.currentTarget.className.indexOf("nullable") != -1 && value ===""){
+                if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
                 }
-                else{
+                else {
                     value = Math.round(value * 1000000) / 1000000;
                     // @alex: poner puntos de millar
-					// e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
-					e.currentTarget.value = ToMoneyFormat(value, 6);
+                    // e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
+                    e.currentTarget.value = ToMoneyFormat(value, 6);
                 }
             }
 
             function numberDecimalBlur4(e) {
                 var value = e.currentTarget.value;
-                if(e.currentTarget.className.indexOf("nullable") != -1 && value ===""){
+                if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
                 }
-                else{
-					value = Math.round(value * 10000) / 10000;
-					// @alex: poner puntos de millar
-					// e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
-					e.currentTarget.value = ToMoneyFormat(value, 4);
-				}
+                else {
+                    value = Math.round(value * 10000) / 10000;
+                    // @alex: poner puntos de millar
+                    // e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
+                    e.currentTarget.value = ToMoneyFormat(value, 4);
+                }
             }
 
             function numberDecimalBlur6(e) {
                 var value = e.currentTarget.value;
-                if(e.currentTarget.className.indexOf("nullable") != -1 && value ===""){
+                if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
                 }
-                else{
-					value = Math.round(value * 1000000) / 1000000;
-					// @alex: poner puntos de millar
-					// e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
-					e.currentTarget.value = ToMoneyFormat(value, 6);
-				}
+                else {
+                    value = Math.round(value * 1000000) / 1000000;
+                    // @alex: poner puntos de millar
+                    // e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
+                    e.currentTarget.value = ToMoneyFormat(value, 6);
+                }
             }
 
-            function numberIntegerBlur(e){
+            function numberIntegerBlur(e) {
                 e.currentTarget.value = ToMoneyFormat(e.currentTarget.value * 1, 0);
             }
 
@@ -713,12 +712,13 @@
             });
 			// --------------------------------------------------------------------------------------------
 
-            function EmployeeGetById(id){
+            function EmployeeGetById(id) {
                 for (var x = 0; x < Employees.length; x++) {
                     if (Employees[x].Id === id) {
                         return Employees[x];
                     }
                 }
+
                 return null;
             }
 
@@ -732,9 +732,10 @@
                 $("#menuoption-6").hide();
                 $("#menuoption-0").hide();
             }
-
-            // @alex: ocultar entrada de menú para oportunidades
-            //$("#menuoption-26").hide();
+			
+			$(".pull-left").css("max-width","90%");
+			$(".pull-left").css("overflow","hidden");
+			$(".pull-left").css("text-overflow","ellipsis");
         </script>
     </body>
 </html>

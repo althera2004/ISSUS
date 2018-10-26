@@ -3,15 +3,14 @@
 </center>
 <FONT FACE="calibri" SIZE="4" COLOR="black">
   <p>Hola #USERNAME#!</p>
-  <p>La teva contrasenya ha estat regenerada.</p>
+  <p>L'empresa #EMPRESA# ha regenerat la teva contrasenya d'accés.</p>
   <p>
-    Pots accedir a l’aplicació des d’<a href="http://issus.scrambotika.com/">aquest enllaç</a> amb les següents dades:
-  </p>
+    Pots accedir a l’aplicació des d’<a href="http://issus.scrambotika.com/">aquest enllaç</a> amb les següents dades:</p>
+<li>
+  Usuari: <strong>#EMAIL#</strong>
+</li>
   <li>
-    Usuari: <strong>#EMAIL#</strong>
-  </li>
-  <li>
-    Contrassenya: <strong>#PASSWORD#</strong>
+    Contrasenya: <strong>#PASSWORD#</strong>
   </li>
   <p>Gràcies per confiar en ISSUS.</p>
   <p>

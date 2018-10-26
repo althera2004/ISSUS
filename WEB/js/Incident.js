@@ -157,7 +157,7 @@ function CmbReporterCustomersFill() {
 
 function CmdResponsibleFill() {
     for (var x = 0; x < Employees.length; x++) {
-        if (Employees[x].Active === true) {
+        if (Employees[x].Active === true && Employees[x].DisabledDate === null) {
             var option = document.createElement("OPTION");
             option.value = Employees[x].Id;
             option.appendChild(document.createTextNode(Employees[x].FullName));
@@ -1286,6 +1286,18 @@ function AnularConfirmed() {
             ok = false;
             $("#TxtClosedDateLabel").css("color", "#f00");
             $("#TxtClosedDateDateMalformed").show();
+        }
+        else {
+            var d1 = GetDate($("#TxtClosedDate").val(), "/", false);
+            var d0 = GetDate($("#TxtActionsDate").val(), "/", false);
+            if (d1 < d0) {
+                if ($("#TxtClosedDateDateOutRange").length === 0) {
+                    $("#TxtClosedDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtClosedDateDateOutRange\" style=\"display:none;\">" + Dictionary.Item_Incident_Error_BeforeActions + "</span>");
+                }
+
+                ok = false;
+                $("#TxtClosedDateDateOutRange").show();
+            }
         }
     }
 

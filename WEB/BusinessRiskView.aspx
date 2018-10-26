@@ -279,7 +279,7 @@
                                                                     <thead class="thin-border-bottom">
                                                                         <tr>
                                                                             <th><%=this.Dictionary["Item_IncidentCost_Header_Description"] %></th>   
-                                                                            <th style="width:90px;"><%=this.Dictionary["Common_Date"]%></th>  
+                                                                            <th style="width:90px;"><%=this.Dictionary["Common_Date"]%></th>
                                                                             <th style="width:90px;"><%=this.Dictionary["Item_IncidentCost_Header_Amount"]%></th>  
                                                                             <th class="hidden-480" style="width:90px;""><%=this.Dictionary["Item_IncidentCost_Header_Quantity"]%></th>   
                                                                             <th style="width:120px;"><%=this.Dictionary["Item_IncidentCost_Header_Total"]%></th>  

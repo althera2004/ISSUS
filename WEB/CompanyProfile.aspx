@@ -29,6 +29,9 @@
                                         <li class="" id="TabDisk"onclick="$('#PieWidget').show();">
                                             <a data-toggle="tab" href="#disk"><%=this.Dictionary["Item_Company_Tab_DiskQuote"] %></a>
                                         </li>
+                                        <li class="" id="TabContrato"onclick="$('#PieWidget').show();">
+                                            <a data-toggle="tab" href="#contrato"><%=this.Dictionary["Item_Company_Tab_Agreement"] %></a>
+                                        </li>
                                     </ul>                                    
                                     <div class="tab-content no-border padding-24">
                                         <div id="home" class="tab-pane active">
@@ -229,7 +232,10 @@
                                                 <input type="text" id="SelectedCountriesDelete" style="display:block;" />
                                                 <input type="text" id="SelectedCountries" style="display:block;" />
                                             </div>
-                                        </div> -->
+                                        </div> -->                                        
+                                        <div id="contrato" class="tab-pane active">
+                                            <iframe src="/viewer/viewer.html?file=/Agreement/Agreement_<%=this.Company.Name %>.pdf" style="width:100%;" id="pdfViewer"></iframe>
+                                        </div>
                                         <div id="trazas" class="tab-pane">													
                                             <table class="table table-bordered table-striped">
                                                 <thead class="thin-border-bottom">
@@ -412,5 +418,13 @@
             }
 
             $("#CmbIdioma").val(Company.Language);
+
+            function Resize() {
+                var listTable = document.getElementById('pdfViewer');
+                var containerHeight = $(window).height();
+                listTable.style.height = (containerHeight - 310) + 'px';
+            }
+
+            Resize();
         </script>
 </asp:Content>

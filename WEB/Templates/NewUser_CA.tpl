@@ -3,10 +3,12 @@
 </center>
 <FONT FACE="calibri" SIZE="4" COLOR="black">
   <p>Hola #USERNAME#!</p>
-  <p>L'empresa #EMPRESA# t'ha dona't d'alta com a usuari a ISSUS, l’aplicació online que t’ajudarà amb el teu sistema de gestió.</p>
-  <p>Pots accedir a l’aplicació des d’<a href="http://issus.scrambotika.com/">aquest enllaç</a> amb les següents dades:</p>
-  <li>
-    Usuari: <strong>#EMAIL#</strong>
+  <p>L'empresa #EMPRESA# t'ha dona't d'alta com a usuari a ISSUS, l’aplicació online que t’ajudarà amb el teu sistema de gestió.
+  </p><p>
+    Pots accedir a l’aplicació des d’<a href="http://issus.scrambotika.com/">aquest enllaç</a> amb les següents dades:
+</p>
+<li>
+  Usuari: <strong>#EMAIL#</strong>
   </li>
   <li>
     Contrasenya: <strong>#PASSWORD#</strong>

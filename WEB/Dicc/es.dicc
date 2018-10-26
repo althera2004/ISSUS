@@ -127,8 +127,7 @@ Common_Label_Weeks::semanas
 Common_Label_Years::años
 Common_LastWeek::Última semana
 Common_ListPdf::Imprimir
-Common_MaximumUploadSize::El máximo permitido son 5MB
-Common_MaximumUploadSize::El máximo permitido son 4B
+Common_MaximumUploadSize::El máximo permitido son 4MB
 Common_Message_Deleting::Eliminando...
 Common_Message_FormErrors::Revisar los datos del formulario
 Common_Message_Saving::Guardando...
@@ -176,7 +175,6 @@ Common_SearchCriteria::Criterios de búsqueda
 Common_SelectAll::Seleccionar todos
 Common_Selected::Seleccionado
 Common_SelectOne::Seleccionar
-Common_ShowAll::Ver todo
 Common_Status::Estado
 Common_Target::Objetivo
 Common_Task::Tarea
@@ -222,6 +220,8 @@ Common_Year::Año
 Common_Years::Años
 Common_Yes::Sí
 CompanyProfile::Datos de la empresa
+DashBoard_Calendar::Calendario
+DashBoard_List::Lista
 DashBoard_OnlyPassed::Sólo Caducadas
 DashBoard_SelectOthers::Tareas de otros usuarios
 DashBoard_SelectOwner::Mis tareas
@@ -381,6 +381,7 @@ Item_Company_Help_Phone::Indicar el número de teléfono
 Item_Company_Help_Provincia::Indicar la provincia
 Item_Company_Help_ZipCode::Indicar el código postal
 Item_Company_Logo::Logo
+Item_Company_Tab_Agreement::Contrato
 Item_Company_Tab_Countries::Países
 Item_Company_Tab_DiskQuote::Uso de disco
 Item_Company_Tab_Principal::Datos principales
@@ -1563,10 +1564,7 @@ Item_Oportunity_New::Nueva oportunidad
 Item_Oportunity_PopupDelete_Message::Eliminar la oportunidad?
 Item_Oportunity_Status_Assumed::Asumida
 Item_Oportunity_Status_NotSignificant::No significativa
-Item_Oportunity_Status_NotSignificant::No significativa
 Item_Oportunity_Status_Significant::Significativa
-Item_Oportunity_Status_Significant::Significativa
-Item_Oportunity_Status_Unevaluated::No evaluada
 Item_Oportunity_Status_Unevaluated::No evaluada
 Item_Oportunity_Tab_Action::Acción
 Item_Oportunity_Tab_Basic::Datos básicos
@@ -1590,6 +1588,7 @@ Item_Oportunity_Tooltip_Impact_2::Menor (Poco aporte a la mejora aunque puede se
 Item_Oportunity_Tooltip_Impact_3::Interesante (Aporte significativo)
 Item_Oportunity_Tooltip_Impact_4::Alto (Impacto en la mejora muy significativo)
 Item_Oportunity_Tooltip_Impact_5::Prioritario (Muy claro impacto directo si se implanta la acción)
+Item_Oportunity_Type_Assumed::Assumida
 Item_Oportunity_Warning_ActionTabAvailable::Ya se pueden entrar los datos de la acción
 Item_Proccess::Proceso
 Item_Process::Proceso

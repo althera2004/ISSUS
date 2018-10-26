@@ -92,7 +92,7 @@ function ItemRenderTable(list) {
     target.style.display = "";
 
     if (list.length === 0) {
-        document.getElementById("ItemTableVoid").style.display = "";
+        $("#ItemTableVoid").show();
         $("#NumberCosts").html("0");
         target.style.display = "none";
         return false;
@@ -328,14 +328,16 @@ window.onload = function () {
     console.log("Filter", Filter);
 
     ObjetivoGetFilter();
-}
+};
 
-window.onresize = function () { Resize(); }
+window.onresize = function () { Resize(); };
 
 function ExportPDF() {
     console.clear();
-    console.log(filterData);
     var data = filterData;
+    if (typeof listOrder === "undefined" || listOrder === null) {
+        listOrder = "TH0|ASC";
+    }
     data["listOrder"] = listOrder;
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({

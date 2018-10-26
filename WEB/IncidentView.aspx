@@ -341,7 +341,7 @@
                                         <div class="col-sm-6">
                                             <span class="ErrorMessage" id="TxtIncidentCostDateErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                             <span class="ErrorMessage" id="TxtIncidentCostDateErrorMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
-                                            <span class="ErrorMessage" id="TxtIncidentCostDateErrorRange"><%=this.Dictionary["IncidentCost_Error_Range"] %></span>
+                                            <span class="ErrorMessage" id="TxtIncidentCostDateErrorRange"><%=this.Dictionary["Item_Incident_Cost_Error_Range"] %></span>
                                         </div>
                                     </div>                         
                                     <div class="form-group">

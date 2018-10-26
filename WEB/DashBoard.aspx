@@ -85,7 +85,7 @@
                 RenderTaskTable();
                 $("#th3").click();
                 Resize();
-                $(".page-header .col-sm-4").html("<button class=\"btn btn-success\" type=\"button\" id=\"BtnShowSchedule\" onclick=\"document.location='Schedule.aspx';\"><i class=\"icon-calendar bigger-110\"></i> " + Dictionary.Common_ViewAll + "</button>");
+                $(".page-header .col-sm-4").html("<button class=\"btn btn-success\" type=\"button\" id=\"BtnShowSchedule\" onclick=\"document.location='Schedule.aspx';\"><i class=\"icon-calendar bigger-110\"></i> " + Dictionary.DashBoard_Calendar + "</button>");
             }
             window.onresize = function () { Resize(); }
 
@@ -157,7 +157,10 @@
                 tr.location = task.location;
                 tr.ResponsibleId = task.ResponsibleId;
 
-                tr.onclick = function () { document.location = this.location; };
+                if (task.Type === "A") {
+                    task.location = "/ActionView.aspx?" + task.location.split('?')[1];
+                }
+                tr.onclick = function () { document.location = task.location; };
 
                 var tdName = document.createElement("TD");
                 var tdTarget = document.createElement("TD");
@@ -175,7 +178,16 @@
                 tdResponsible.style.color = task.color;
                 tdDate.style.color = task.color;
 
-                tdName.appendChild(document.createTextNode(task.labelType));
+				
+				var divName = document.createElement("DIV");
+                divName.style.textOverflow = "ellipsis";
+                divName.style.overflow = "hidden";
+                divName.style.whiteSpace = "nowrap";
+                divName.style.width = "320px";
+                divName.appendChild(document.createTextNode(task.labelType));
+                tdName.title = task.labelType;
+                tdName.appendChild(divName);				
+				
                 tdDate.appendChild(document.createTextNode(task.Date));
 
                 var divTarget = document.createElement("DIV");

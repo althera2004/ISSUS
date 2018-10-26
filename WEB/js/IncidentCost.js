@@ -62,7 +62,13 @@ function IncidentCostRenderRow(incidentCost, target) {
 
     var fecha = "";
     if (incidentCost.Date !== null) {
-        fecha = FormatDate(GetDateYYYYMMDD(incidentCost.Date.toString()), "/");
+        console.log();
+        if (typeof incidentCost.Date === "string") {
+            fecha = FormatDate(GetDateYYYYMMDD(incidentCost.Date.toString()), "/");
+        }
+        else {
+            fecha = FormatDate(incidentCost.Date, "/");
+        }
     }
 
     tdDescription.appendChild(document.createTextNode(incidentCost.Description));
@@ -117,7 +123,12 @@ function IncidentCostSetPopupFormFill() {
     $("#TxtIncidentActionCostDescription").val(SelectedIncidentCost.Description);
     $("#TxtIncidentActionCostAmount").val(ToMoneyFormat(SelectedIncidentCost.Amount, 2));
     $("#TxtIncidentCostQuantity").val(ToMoneyFormat(SelectedIncidentCost.Quantity, 2));
-    $("#TxtIncidentCostDate").val(SelectedIncidentCost.Date);
+    if (typeof SelectedIncidentCost.Date === "string") {
+        $("#TxtIncidentCostDate").val(FormatDate(GetDateYYYYMMDD(SelectedIncidentCost.Date), "/"));
+    }
+    else {
+        $("#TxtIncidentCostDate").val(FormatDate(SelectedIncidentCost.Date, "/"));
+    }
     $("#CmdIncidentCostResponsible").val(SelectedIncidentCost.Responsible.Id);
     $("#TxtIncidentCostDateErrorRequired").hide();
     $("#TxtIncidentCostDateErrorMalformed").hide();
@@ -284,6 +295,13 @@ function IncidentCostSave() {
 
     var Description = $("#TxtIncidentActionCostDescription").val();
     var IncidentCost = SelectedIncidentCost;
+
+    if (typeof IncidentCost !== "undefined") {
+        if (typeof IncidentCost.Date === "string") {
+            IncidentCost.Date = GetDateYYYYMMDD(IncidentCost.Date);
+        }
+    }
+
     var amount = ParseInputValueToNumber($("#TxtIncidentActionCostAmount").val());
     var quantity = ParseInputValueToNumber($("#TxtIncidentCostQuantity").val());
 
@@ -318,8 +336,8 @@ function IncidentCostSave() {
                 SelectedIncidentCost.Id = msg.d.MessageError * 1;
                 IncidentCosts.push(SelectedIncidentCost);
                 CompanyIncidentCosts.push(SelectedIncidentCost);
-                IncidentCostRenderTable('IncidentCostsTableData');
-                $("#dialogNewCost").dialog('close');
+                IncidentCostRenderTable("IncidentCostsTableData");
+                $("#dialogNewCost").dialog("close");
             },
             "error": function (msg) {
                 alertUI(msg.responseText);

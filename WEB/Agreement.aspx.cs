@@ -18,6 +18,8 @@ using GisoFramework.Item;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PDF_Tests;
+using iTextSharp.text.html.simpleparser;
+using System.Text;
 
 public partial class Agreement : Page
 {
@@ -99,7 +101,7 @@ public partial class Agreement : Page
         string language = this.Company.Language;
 
         // Se genera el path completo de la plantilla del idioma en concreto
-        path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_{1}.tpl", path, "es");
+        path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_{1}.tpl", path, language);
 
         // Si no existiera la plantilla se genera el path completo de la plantilla sin traducir
         if(!File.Exists(path))
@@ -108,6 +110,8 @@ public partial class Agreement : Page
         }
 
         string textEs = string.Empty;
+		
+        path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_es.tpl", this.Request.PhysicalApplicationPath);
         using(var rdr = new StreamReader(path))
         {
             textEs = rdr.ReadToEnd();
@@ -123,7 +127,8 @@ public partial class Agreement : Page
         this.LTEs.Text = "<p>" + textEs;
 
         // Se genera el path completo de la plantilla del idioma en concreto
-        path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_{1}.tpl", path, "ca");
+        
+        path = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_ca.tpl", this.Request.PhysicalApplicationPath);
 
         // Si no existiera la plantilla se genera el path completo de la plantilla sin traducir
         if (!File.Exists(path))
@@ -173,7 +178,7 @@ public partial class Agreement : Page
             company.Name);
 
         // FONTS
-        string pathFonts = HttpContext.Current.Request.PhysicalApplicationPath;
+        /*string pathFonts = HttpContext.Current.Request.PhysicalApplicationPath;
         if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
         {
             pathFonts = string.Format(CultureInfo.InstalledUICulture, @"{0}\", pathFonts);
@@ -200,7 +205,7 @@ public partial class Agreement : Page
             NoFooter = true
         };
 
-        pdfDoc.Open();
+        pdfDoc.Open();*/
 
         if (!path.EndsWith("\\", StringComparison.OrdinalIgnoreCase))
         {
@@ -211,7 +216,7 @@ public partial class Agreement : Page
         var templatepath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_{1}.tpl", path, language);
 
         // Si no existiera la plantilla se genera el path completo de la plantilla sin traducir
-        if (!File.Exists(path))
+        if (!File.Exists(templatepath))
         {
             templatepath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement.tpl", path);
         }
@@ -228,19 +233,14 @@ public partial class Agreement : Page
         text = text.Replace("\r", string.Empty);
         text = text.Replace("#DATE#", Constant.NowText);
 
+
         var paragraphs = text.Split('\n');
 
-        foreach (string paragraph in paragraphs) {
+        /*foreach (string paragraph in paragraphs) {
             pdfDoc.Add(new Paragraph(paragraph));
-        }
-
-        pdfDoc.Open();
-        pdfDoc.CloseDocument();
-
-        /*using(StreamWriter fileText = new StreamWriter(path + fileName.Replace(".pdf",".txt")))
-        {
-            fileText.Write(HttpContext.Current.Request.ToString());
         }*/
+
+        CreatePDFFromHTMLFile(text, string.Format(CultureInfo.InvariantCulture, @"{0}{1}", path, fileName));
 
         using (var cmd = new SqlCommand(string.Format(CultureInfo.InvariantCulture, "UPDATE Company SET Agreement = 1 WHERE Id = {0}", company.Id)))
         {
@@ -269,5 +269,24 @@ public partial class Agreement : Page
         }
 
         return res;
+    }
+
+    public static void CreatePDFFromHTMLFile(string html, string file)
+    {
+        try
+        {
+            var document = new iTS.Document();
+            PdfWriter.GetInstance(document, new FileStream(file, FileMode.Create));
+            document.Open();
+            iTextSharp.text.html.simpleparser.HTMLWorker hw =
+                         new iTextSharp.text.html.simpleparser.HTMLWorker(document);
+            hw.Parse(new StringReader(html));
+            document.Close();
+
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
     }
 }

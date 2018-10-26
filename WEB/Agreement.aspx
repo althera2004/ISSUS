@@ -76,8 +76,8 @@
             };
 
         window.onload = function () {
-            $("#PageTitle").html(Dictionary[language].Title);
-            $("#Message").html(Dictionary[language].Message);
+           // $("#PageTitle").html(Dictionary[language].Title);
+            //$("#Message").html(Dictionary[language].Message);
             $("#BtnLoginEs").html(Dictionary["es"].Btn);
             $("#BtnLoginCa").html(Dictionary["ca"].Btn);
 

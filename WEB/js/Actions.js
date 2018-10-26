@@ -547,7 +547,7 @@ window.onresize = function () { Resize(); };
 
 function CmdResponsibleFill() {
     for (var x = 0; x < Employees.length; x++) {
-        if (Employees[x].Active === true) {
+        if (Employees[x].Active === true && Employees[x].DisabledDate === null) {
             // Incident cost
             var option = document.createElement("OPTION");
             option.value = Employees[x].Id;
@@ -697,7 +697,7 @@ function AnularPopup() {
     var dialog = $("#dialogAnular").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": "<h4 class=\"smaller\">" +  Dictionary.Item_IncidentAction_PopupAnular_Title + "</h4>",
+        "title": Dictionary.Item_IncidentAction_PopupAnular_Title,
         "width": 400,
         "buttons":
         [
@@ -723,6 +723,7 @@ function AnularConfirmed() {
     $("#TxtClosedDateDateRequired").hide();
     $("#TxtClosedDateDateMalformed").hide();
     $("#CmbClosedResponsibleErrorRequired").hide();
+    $("#TxtClosedDateDateOutRange").hide();
 
     var ok = true;
 
@@ -736,6 +737,18 @@ function AnularConfirmed() {
             ok = false;
             $("#TxtClosedDateLabel").css("color", "#f00");
             $("#TxtClosedDateDateMalformed").show();
+        }
+        else {
+            var d1 = GetDate($("#TxtClosedDate").val(), "/", false);
+            var d0 = GetDate($("#TxtActionsDate").val(), "/", false);
+            if (d1 < d0) {
+                if ($("#TxtClosedDateDateOutRange").length === 0) {
+                    $("#TxtClosedDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtClosedDateDateOutRange\" style=\"display:none;\">" + Dictionary.Item_IncidentAction_Error_BeforeActions + "</span>");
+                }
+
+                ok = false;
+                $("#TxtClosedDateDateOutRange").show();
+            }
         }
     }
 

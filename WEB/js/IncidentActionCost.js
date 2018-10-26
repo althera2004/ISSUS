@@ -48,7 +48,13 @@ function IncidentActionCostRenderRow(incidentActionCost, target) {
 
     var fecha = "";
     if (incidentActionCost.Date !== null) {
-        fecha = FormatDate(GetDateYYYYMMDD(incidentActionCost.Date), "/");
+        console.log();
+        if (typeof incidentActionCost.Date === "string") {
+            fecha = FormatDate(GetDateYYYYMMDD(incidentActionCost.Date.toString()), "/");
+        }
+        else {
+            fecha = FormatDate(incidentActionCost.Date, "/");
+        }
     }
 
     tdDescription.appendChild(document.createTextNode(incidentActionCost.Description));
@@ -102,7 +108,13 @@ function IncidentActionCostSetPopupFormFill() {
     ClearFieldTextMessages("CmdIncidentActionCostResponsible");
     SelectedIncidentActionCost = IncidentActionCostGetById(SelectedIncidentActionCostId, IncidentActionCosts);
     $("#TxtIncidentActionCostDescription").val(SelectedIncidentActionCost.Description);
-    $("#TxtIncidentActionCostDate").val(SelectedIncidentActionCost.Date);
+
+    if (typeof SelectedIncidentActionCost.Date === "string") {
+        $("#TxtIncidentActionCostDate").val(FormatDate(GetDateYYYYMMDD(SelectedIncidentActionCost.Date), "/"));
+    }
+    else {
+        $("#TxtIncidentActionCostDate").val(FormatDate(SelectedIncidentActionCost.Date, "/"));
+    }
     $("#TxtIncidentActionCostAmount").val(ToMoneyFormat(SelectedIncidentActionCost.Amount, 2));
     $("#TxtIncidentActionCostQuantity").val(ToMoneyFormat(SelectedIncidentActionCost.Quantity, 2));
     $("#CmdIncidentActionCostResponsible").val(SelectedIncidentActionCost.Responsible.Id);
@@ -237,6 +249,13 @@ function IncidentActionCostSave() {
 
     var Description = $("#TxtIncidentActionCostDescription").val();
     var IncidentActionCost = SelectedIncidentActionCost;
+
+    if (typeof SelectedIncidentActionCost !== "undefined") {
+        if (typeof SelectedIncidentActionCost.Date === "string") {
+            SelectedIncidentActionCost.Date = GetDateYYYYMMDD(SelectedIncidentActionCost.Date);
+        }
+    }
+
     var amount = ParseInputValueToNumber($("#TxtIncidentActionCostAmount").val());
     var quantity = ParseInputValueToNumber($("#TxtIncidentActionCostQuantity").val());
 

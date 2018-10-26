@@ -486,6 +486,9 @@ function ExportPDF() {
     console.clear();
     console.log(filterData);
     var data = filterData;
+    if (typeof listOrder === "undefined" || listOrder === null) {
+        listOrder = "TH0|ASC";
+    }
     data["listOrder"] = listOrder;
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
