@@ -87,7 +87,7 @@
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>
                                                 <!--div class="col-xs-12 col-sm-12"-->                                      
-                                                <button style="display:none;" class="btn btn-success" type="button" id="BtnSearch" title="<%= this.Dictionary["Common_Filter"] %><"><i class="icon-filter bigger-110"></i>/button>
+                                                <button style="display:none;" class="btn btn-success" type="button" id="BtnSearch" title="<%= this.Dictionary["Common_Filter"] %><"><i class="icon-filter bigger-110"></i></button>
                                                 <button class="btn btn-success" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-list bigger-110"></i></button>
                                                 <button class="btn btn-success" type="button" id="BtnRecordShowNone" title="<%= this.Dictionary["Common_None_Male"] %>"><i class="icon-remove-circle bigger-110"></i></button>
                                                 <!--/div-->

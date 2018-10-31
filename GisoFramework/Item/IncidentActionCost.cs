@@ -51,6 +51,8 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets the responsible of cost</summary>
         public Employee Responsible { get; set; }
 
+        public DateTime? Date { get; set; }
+
         /// <summary>Create a link for the cost</summary>
         public override string Link
         {

@@ -53,7 +53,7 @@
                                     <div id="user-profile-2" class="user-profile">
                                         <div class="tabbable">
                                             <%=this.TabBar %>
-                                            <div-- class="tab-content no-border padding-24" style="height:500px;">
+                                            <div class="tab-content no-border padding-24" style="height:500px;">
                                                 <div id="home" class="tab-pane active">       
                                                     <div class="row">
                                                         <form class="form-horizontal" role="form">   

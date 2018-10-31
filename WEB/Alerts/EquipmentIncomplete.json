@@ -35,8 +35,8 @@ ON	EV.EquipmentId = E.Id
 WHERE
 	E.IsVerification = 1
 AND	EV.Id IS NULL
-    AND E.CompanyId   = #CompanyId#
-        AND E.Active=1
+AND E.CompanyId = #CompanyId#
+AND E.Active=1
 
 UNION 
 

@@ -4,7 +4,6 @@ var lockOrderList = false;
 
 function CmbTipusIndicadorChange() {
     var tipus = $("#CmbTipusIndicador").val() * 1;
-
     $("#CmdObjetivoLabel").hide();
     $("#CmbProcesoLabel").hide();
     $("#CmbProcesoTipoLabel").hide();
@@ -36,6 +35,7 @@ function GetProcessById(id) {
             return Procesos[x];
         }
     }
+
     return null;
 }
 
@@ -55,9 +55,7 @@ function CmbProcessChanged() {
 }
 
 function CmbProcessTypeChanged() {
-
     IndicadorGetFilter();
-
 }
 
 jQuery(function ($) {
@@ -94,14 +92,14 @@ jQuery(function ($) {
 });
 
 function IndicadorGetFilter(exportType) {
-    document.getElementById("nav-search-input").value = "";
+    $("#nav-search-input").val();
     var ok = true;
-    document.getElementById("ListDataTable").style.display = "none";
-    document.getElementById("ItemTableError").style.display = "none";
-    document.getElementById("ItemTableVoid").style.display = "none";
-    document.getElementById("ErrorDate").style.display = "none";
-    document.getElementById("ErrorStatus").style.display = "none";
-    document.getElementById("ErrorType").style.display = "none";
+    $("#ListDataTable").hide();
+    $("#ItemTableError").hide();
+    $("#ItemTableVoid").hide();
+    $("#ErrorDate").hide();
+    $("#ErrorStatus").hide();
+    $("#ErrorType").hide();
     var from = GetDate($("#TxtDateFrom").val(), "-");
     var to = GetDate($("#TxtDateTo").val(), "-");
 
@@ -113,7 +111,7 @@ function IndicadorGetFilter(exportType) {
     if (from !== null && to !== null) {
         if (from > to) {
             ok = false;
-            document.getElementById("ErrorDate").style.display = "";
+            $("#ErrorDate").show();
         }
     }
 
@@ -148,17 +146,17 @@ function IndicadorGetFilter(exportType) {
                 }
             }
         },
-        error: function (msg) {
+        "error": function (msg) {
             alertUI(msg.responseText);
         }
     });
 }
 
 function IndicadorGetNone() {
-    document.getElementById("BtnRecordShowAll").style.display = "";
-    document.getElementById("BtnRecordShowNone").style.display = "none";
-    document.getElementById("TxtDateFrom").value = "";
-    document.getElementById("TxtDateTo").value = "";
+    $("#BtnRecordShowAll").show();
+    $("#BtnRecordShowNone").hide();
+    $("#TxtDateFrom").val("");
+    $("#TxtDateTo").val("");
     $("#CmbProcess").val(0);
     $("#CmbProcessType").val(0);
     $("#CmbObjetivo").val(0);
@@ -168,10 +166,8 @@ function IndicadorGetNone() {
 }
 
 function IndicadorGetAll() {
-    //document.getElementById("BtnRecordShowAll").style.display = "none";
-    //document.getElementById("BtnRecordShowNone").style.display = "";
-    document.getElementById("TxtDateFrom").value = "";
-    document.getElementById("TxtDateTo").value = "";
+    $("#TxtDateFrom").val("");
+    $("#TxtDateTo").val("");
     $("#CmbProcess").val(0);
     $("#CmbProcessType").val(0);
     $("#CmbObjetivo").val(0);
@@ -187,14 +183,13 @@ function ItemRenderTable(list) {
     target.style.display = "";
 
     if (list.length === 0) {
-        document.getElementById("ItemTableVoid").style.display = "";
+        $("#ItemTableVoid").show();
         $("#NumberCosts").html("0");
-        target.style.display = "none";
+        $("#ListDataTable").hide();
         return false;
     }
 
     var total = 0;
-
     for (var x = 0; x < list.length; x++) {
         var item = list[x];
         console.log("Item", item);
@@ -304,6 +299,7 @@ function ItemRenderTable(list) {
         if ($.inArray(item.IndicadorDescription, items) === -1) {
             items.push(item.IndicadorDescription);
         }
+
         if ($.inArray(item.ProcessDescription, items) === -1) {
             items.push(item.ProcessDescription);
         }
@@ -311,16 +307,17 @@ function ItemRenderTable(list) {
 
 
     if (items.length === 0) {
-        document.getElementById("nav-search").style.display = "none";
+        $("#nav-search").hide();
     }
     else {
-        document.getElementById("nav-search").style.display = "";
+        $("#nav-search").show();
 
         items.sort(function (a, b) {
             if (a < b) return -1;
             if (a > b) return 1;
             return 0;
         });
+
         var autocomplete = $(".nav-search-input").typeahead();
         autocomplete.data("typeahead").source = items;
 
@@ -353,25 +350,23 @@ function IndicadorDelete(sender) {
     if (IndicadorSelectedId === null) { return false; }
     $("#IndicadorDeleteName").html(IndicadorSelected.IndicadorDescription);
     var dialog = $("#IndicadorDeleteDialog").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Common_Delete,
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Common_Delete,
+        "title_html": true,
+        "buttons":
         [
             {
+                "id": "IndicadorDeleteBtnOk",
                 "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                "click": function () {
-                    IndicadorDeleteConfirmed();
-                }
+                "click": function () { IndicadorDeleteConfirmed(); }
             },
             {
+                "id": "IndicadorDeleteBtnCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                "click": function () {
-                    $(this).dialog("close");
-                }
+                "click": function () { $(this).dialog("close"); }
             }
         ]
     });
@@ -387,15 +382,15 @@ function IndicadorDeleteConfirmed() {
     $("#IndicadorDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             IndicadorGetFilter();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -423,29 +418,16 @@ function NoDeleteIncident() {
 $("#nav-search").hide();
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 420) + "px";
+    $("#ListDataDiv").height = (containerHeight - 420);
 }
 
 window.onload = function () {
-    /*$(".breadcrumb").css("font-size", "18px");
-    $(".breadcrumb").css("margin-top", "8px");
-    $(".page-header").hide();
-    $("#FooterButton").css("height", "40px");
-    $("#ImgCompany").hide();
-    $("#HeaderButtons").hide();
-    $("#ImgCompany").parent().append($("#HeaderButtons").html());*/
-
-
-    //$("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export("PDF");\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
     Resize();
-
-    console.log("Filter", Filter);
     if (Filter !== null) {
         console.log("Filter", Filter);
-        document.getElementById("TxtDateFrom").value = GetDateYYYYMMDDText(Filter.from, "/", false);
-        document.getElementById("TxtDateTo").value = GetDateYYYYMMDDText(Filter.to, "/", false);
+        $("#TxtDateFrom").val(GetDateYYYYMMDDText(Filter.from, "/", false));
+        $("#TxtDateTo").val(GetDateYYYYMMDDText(Filter.to, "/", false));
         $("#CmbTipusIndicador").val(Filter.indicatorType);
         if (Filter.status === 0) { document.getElementById("RBStatus0").checked = true; }
         if (Filter.status === 1) { document.getElementById("RBStatus1").checked = true; }
@@ -457,6 +439,7 @@ window.onload = function () {
         else {
             $("#CmbProcessType").val(Filter.processType);
         }
+
         $("#CmbObjetivo").val(Filter.objetivo);
         CmbTipusIndicadorChange();
     }

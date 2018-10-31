@@ -19,8 +19,10 @@
                     where br2.id is null
                     AND BR.CompanyId = #CompanyId#
                     AND BR.Assumed = 0
-                    AND R.Limit <= BR.Result AND BR.Active = 1
-                    --AND IA.Id IS NULL",
+                    AND R.Limit <= BR.Result 
+					AND BR.Active = 1
+					AND IA.Active = 1
+                    AND IA.Id IS NULL",
     "Index":
     [
         { "Position": 0, "FieldName": "Id" },

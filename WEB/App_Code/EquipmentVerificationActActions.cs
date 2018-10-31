@@ -13,8 +13,8 @@ using GisoFramework.Item;
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
-public class EquipmentVerificationActActions : WebService {
-
+public class EquipmentVerificationActActions : WebService
+{
     public EquipmentVerificationActActions()
     {
     }

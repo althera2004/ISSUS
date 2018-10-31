@@ -1124,15 +1124,23 @@ function UnitUpdate(sender) {
     $("#TxtUnitsNewNameErrorDuplicated").hide();
     $("#TxtUnitsNewNameErrorRequired").hide();
     $("#TxtUnitsNewName").val("");
+    var unidad = null;
     if (sender === null) {
         UnitSelected = -1;
     }
     else {
         UnitSelected = sender.parentNode.parentNode.parentNode.id * 1;
-        var unidad = UnitGetById(UnitSelected * 1);
-        if (unidad !== null) {
-            $("#TxtUnitsNewName").val(unidad.Description);
-        }
+        unidad = UnitGetById(UnitSelected * 1);
+        console.log(unidad);
+    }
+
+    $("#TxtUnitsNewName").attr("placeholder", Dictionary.Item_Unidad);
+
+    var html = $("#TxtUnitsNewName").parent().html();
+    console.log(html);
+    $("#TxtUnitsNewName").parent().html(Dictionary.Item_Unidad + ":&nbsp;&nbsp;" + $("#TxtUnitsNewName").parent().html().split('&nbsp;&nbsp;')[1]);
+    if (unidad !== null) {
+        $("#TxtUnitsNewName").val(unidad.Description);
     }
 
     $(".dialogUnits").css("z-index", 1000);
@@ -1141,7 +1149,7 @@ function UnitUpdate(sender) {
         "id": "UnitsInsertDialog",
         "resizable": false,
         "modal": true,
-        "title": Dictionary.Common_Modify,
+        "title": UnitSelected > 0 ? Dictionary.Common_Modify : Dictionary.Common_Add,
         "title_html": true,
         "width": 600,
         "buttons": [
@@ -1193,7 +1201,7 @@ function UnitSave() {
         "description": description,
         "companyId": Company.Id,
         "userId": ApplicationUser.Id
-    }
+    };
 
     if (UnitSelected < 0) {
         webMethod = "/Async/UnidadActions.asmx/Insert";
@@ -1202,7 +1210,7 @@ function UnitSave() {
             "description": $("#TxtUnitsNewName").val(),
             "companyId": Company.Id,
             "userId": ApplicationUser.Id
-        }
+        };
     }
 
     // Insert(string description, int companyId, int userId)
@@ -1380,21 +1388,23 @@ function UnitDelete(sender) {
         "title": Dictionary.Common_Delete,
         "title_html": true,
         "buttons": [
-                {
-                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
-                    "class": "btn btn-danger btn-xs",
-                    "click": function () {
-                        UnitDeleteConfirmed();
-                    }
-                },
-                {
-                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                    "class": "btn btn-xs",
-                    "click": function () {
-                        $(this).dialog("close");
-                    }
+            {
+                "id": "UnitDeleteBtnOK",
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
+                "class": "btn btn-danger btn-xs",
+                "click": function () {
+                    UnitDeleteConfirmed();
                 }
-            ]
+            },
+            {
+                "id": "UnitDeleteBtnCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () {
+                    $(this).dialog("close");
+                }
+            }
+        ]
     });
 }
 

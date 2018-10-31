@@ -11,16 +11,17 @@
     INNER JOIN LearningAssistant LA
     ON	LA.LearningId = L.Id
     AND	LA.CompanyId = L.CompanyId
-
     WHERE
         L.CompanyId = #CompanyId#
+	AND L.Active = 1	
     AND L.RealFinish IS NOT NULL
     AND
         (
             LA.Completed IS NULL
             OR
             LA.Completed = 1 AND LA.Success IS NULL
-        )",
+        )
+	",
     "Index":
     [
         {"Position": 0, "FieldName": "Id"},
