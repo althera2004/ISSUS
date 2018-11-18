@@ -16,6 +16,7 @@ Alert_Large_IncidentIdentifiedNotEvaluated::Falta omplir el camp 'Perqué ha pass
 Alert_Large_IncidentLastWeek::La data prevista per al tancament de la incidència ha vençut
 Alert_Large_LearningFinishedWithoutEvaluation::Curs fnalitzat pendent d'avaluació
 Alert_Large_LearningStartedWithoutAssistants::Curs iniciat sense alumnes inscrits
+Alert_Large_LearningExpired::La data prevista per a l'inici del curs ha vençut
 Alert_Short_ActionEvaluatedWithoutAction::Acció sense actuacions
 Alert_Short_ActionIdentifiedNotEvaluated::Acció no analitzada
 Alert_Short_ActionLastWeek::Acció vençuda
@@ -30,6 +31,7 @@ Alert_Short_IncidentIdentifiedNotEvaluated::Incidència no analitzada
 Alert_Short_IncidentLastWeek::Incidència vençuda
 Alert_Short_LearningFinishedWithoutEvaluation::Curs sense avaluar
 Alert_Short_LearningStartedWithoutAssistants::Curs sense alumnes
+Alert_Short_LearningExpired::Curs no iniciat
 Añadir::Afegir
 Auditorías::Auditories
 Avatar::Avatar
@@ -963,7 +965,7 @@ Item_EquipmentVerification_Field_Provider::Proveïdor
 Item_EquipmentVerification_Field_Range::Rang
 Item_EquipmentVerification_Field_Responsible::Responsable
 Item_EquipmentVerification_Field_Result::Resultat
-Item_EquipmentVerification_Field_Uncertainty::Error
+Item_EquipmentVerification_Field_Uncertainty::Error màxim
 Item_EquipmentVerification_Label_External::Verificació externa
 Item_EquipmentVerification_Label_Internal::Verificació interna
 Item_EquipmentVerification_Message_WarningNew::Per afegir noves verificacions, guardar abans les configuracions
@@ -1383,7 +1385,7 @@ Item_Learning_FieldLabel_EstimatedDate::D.Prevista
 Item_Learning_FieldLabel_Hours::Hores
 Item_Learning_FieldLabel_Methodology::Metodologia
 Item_Learning_FieldLabel_Name::Nom de l'acció formativa
-Item_Learning_FieldLabel_Notes::Notes
+Item_Learning_FieldLabel_Notes::Notes / Evidències de la validació de l'eficàcia
 Item_Learning_FieldLabel_StartDate::D.Inici real
 Item_Learning_FieldLabel_Status::Estat
 Item_Learning_FieldLabel_Year::Any de realització del curs
@@ -1415,7 +1417,7 @@ Item_Learning_Message_Evaluation::Guardant una formació amb tots els assistents 
 Item_Learning_Message_NoAssistants::No hi ha assistents al curs
 Item_Learning_Message_SelectOneAssistant::Obligatori algún assistent
 Item_Learning_NewLabel::Fitxa de la formació
-Item_Learning_Objetive::Objectiu
+Item_Learning_Objetive::Objectiu / Valoració de l'eficàcia
 Item_Learning_PopupDelete_Message::Vol eliminar la formació
 Item_Learning_SelectAssistants::Afegir
 Item_Learning_Status_Done::Realitzada
@@ -1788,3 +1790,6 @@ User_PrimaryUser::Propietari/a
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
 ZZZZZ::Les noves claus a partir d'aquí cap avall
+Common_Message_ItemNoAccess::No tiene acceso a este elemento, contecte con el administrador
+Item_IncidentAction_Error_BeforeActions::No pot ser anterior a la data d'actuacions
+Item_Incident_Error_BeforeActions::No pot ser anterior a la data d'actuacions

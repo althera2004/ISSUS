@@ -872,6 +872,10 @@ function SetLayout() {
             $("#BusinessRiskDiv").hide();
             $("#ObjetivoDiv").hide();
             $("#OportunityDiv").hide();
+            if (typeof user.Grants.Incident === "undefined" || user.Grants.Incident.Read === false) {
+                $("#IncidentLink").html(Dictionary.Item_Incident + " <i style=\"color:#777;\">" + Dictionary.Common_Message_ItemNoAccess + "</i>");
+            }
+
             break;
         case 4:
             $("#ROriginDiv").hide();
@@ -881,6 +885,10 @@ function SetLayout() {
             $("#BusinessRiskDiv").show();
             $("#ObjetivoDiv").hide();
             $("#OportunityDiv").hide();
+            if (typeof user.Grants.BusinessRisk === "undefined" || user.Grants.BusinessRisk.Read === false) {
+                $("#IncidentBusinessRisk").html(Dictionary.Item_BusinessRisk + " <i style=\"color:#777;\">" + Dictionary.Common_Message_ItemNoAccess + "</i>");
+            }
+
             break;
         case 5:
             $("#ROriginDiv").hide();
@@ -892,6 +900,10 @@ function SetLayout() {
             $("#OportunityDiv").hide();
             document.getElementById("ROrigin3").checked = true;
             document.getElementById("RType1").checked = true;
+            if (typeof user.Grants.Objetivo === "undefined" || user.Grants.Objetivo.Read === false) {
+                $("#ObjetivoLink").html(Dictionary.Item_Objetivo + " <i style=\"color:#777;\">" + Dictionary.Common_Message_ItemNoAccess + "</i>");
+            }
+
             break;
         case 6:
             $("#ROriginDiv").hide();
@@ -901,6 +913,10 @@ function SetLayout() {
             $("#BusinessRiskDiv").hide();
             $("#ObjetivoDiv").hide();
             $("#OportunityDiv").show();
+            if (typeof user.Grants.Oportunity === "undefined" || user.Grants.Oportunity.Read === false) {
+                $("#OportunityLink").html(Dictionary.Item_Oportunity + " <i style=\"color:#777;\">" + Dictionary.Common_Message_ItemNoAccess + "</i>");
+            }
+
             break;
     }
 }

@@ -701,9 +701,9 @@ function SaveIncident() {
     if (document.getElementById("RReporterType2").checked) { RReporter = 2; }
     if (document.getElementById("RReporterType3").checked) { RReporter = 3; }
 
-    var incidentDepartment = { Id: RReporter == 1 ? $("#CmbReporterType1").val() * 1 : 0 };
-    var incidentProvider = { Id: RReporter == 2 ? $("#CmbReporterType2").val() * 1 : 0 };
-    var incidentCustomer = { Id: RReporter == 3 ? $("#CmbReporterType3").val() * 1 : 0 };
+    var incidentDepartment = { Id: RReporter === 1 ? $("#CmbReporterType1").val() * 1 : 0 };
+    var incidentProvider = { Id: RReporter === 2 ? $("#CmbReporterType2").val() * 1 : 0 };
+    var incidentCustomer = { Id: RReporter === 3 ? $("#CmbReporterType3").val() * 1 : 0 };
 
     var incident =
         {
@@ -911,7 +911,7 @@ function RActionChanged() {
     }
     else {
         if (IncidentAction.Id > 0) {
-            promptInfoUI(Dictionary.Item_Incident_Message_DeleteAction, 300, RActionChangedNoAccept, RActionChangedNoCancel)
+            promptInfoUI(Dictionary.Item_Incident_Message_DeleteAction, 300, RActionChangedNoAccept, RActionChangedNoCancel);
         }
         else {
             RActionChangedNoAccept();
@@ -1145,25 +1145,24 @@ if (typeof ApplicationUser.Grants.IncidentActions.Write === "undefined" || Appli
     if (document.getElementById("TxtActionWhatHappened") !== null) {
         document.getElementById("TxtActionWhatHappened").disabled = true;
         document.getElementById("TxtActionWhatHappenedDate").disabled = true;
-        document.getElementById("TxtActionWhatHappenedDateBtn").style.display = "none";
+        $("#TxtActionWhatHappenedDateBtn").hide();
         document.getElementById("TxtActionCauses").disabled = true;
         document.getElementById("TxtActionCausesDate").disabled = true;
-        document.getElementById("TxtActionCausesDateBtn").style.display = "none";
+        $("#TxtActionCausesDateBtn").hide();
         document.getElementById("TxtActionActions").disabled = true;
         document.getElementById("TxtActionActionsDate").disabled = true;
-        document.getElementById("TxtActionActionsDateBtn").style.display = "none";
+        $("#TxtActionActionsDateBtn").hide();
         document.getElementById("TxtActionMonitoring").disabled = true;
         document.getElementById("TxtActionClosedDate").disabled = true;
-        document.getElementById("TxtActionClosedDateBtn").style.display = "none";
+        $("#TxtActionClosedDateBtn").hide();
         document.getElementById("TxtActionNotes").disabled = true;
         $("#BtnSaveAction").hide();
     }
 }
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 450) + "px";
+    $("#ListDataDiv").height(containerHeight - 450);
 }
 
 window.onload = function () {
@@ -1180,7 +1179,6 @@ window.onload = function () {
 
         $("#CmbClosedResponsible").removeAttr("disabled");
         $("#TxtClosedDate").removeAttr("disabled");
-        //$("#TxtNotes").removeAttr("disabled");
 
         $("#Chk1").removeAttr("disabled");
         $("#Chk2").removeAttr("disabled");
@@ -1188,9 +1186,23 @@ window.onload = function () {
 
     $("#menuoption-12 a").show();
     $("#menuoption-13 a").show();
-}
 
-window.onresize = function () { Resize(); }
+    if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
+        var res = "";
+        res += "<div class=\"alert alert-danger\">";
+        res += "<strong> <i class=\"icon-warning-sign fa-2x\"></i></strong >";
+        res += "<h3 style=\"display:inline;\">" + Dictionary.Common_Message_ItemNoAccess + "</h3>";
+        res += "</div>";
+        $("#accion").html(res);
+        $("#ChkActionCosts").remove();
+        document.getElementById("Chk1").disabled = true;
+    }
+
+    $("#TxtCauses").bind("paste", TxtCausesChanged);
+    $("#TxtActions").bind("paste", TxtActionsChanged);
+};
+
+window.onresize = function () { Resize(); };
 
 $("#CmbActionsResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionsResponsible").val() * 1, Employees, this); });
 $("#CmbClosedResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbClosedResponsible").val() * 1, Employees, this); });
@@ -1316,6 +1328,7 @@ function AnularConfirmed() {
         "date": GetDate($("#TxtClosedDate").val(), "/"),
         "applicationUserId": user.Id
     };
+
     anulationData = data;
     $("#dialogAnular").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
@@ -1367,22 +1380,21 @@ function Restore() {
     };
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: "/Async/IncidentActions.asmx/Restore",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/IncidentActions.asmx/Restore",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function () {
             Incident.EndDate = null;
             document.location = document.location + "";
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
     });
 }
-
 //---- anular acciones
 
 
@@ -1509,17 +1521,14 @@ function AnulateLayoutAccion() {
         $("#AccionAnulada").html(message);
         $("#BtnAnularAction").hide();
         $("#BtnRestaurarAction").show();
-
         $("#accion textarea").attr("disabled", true);
         $("#accion input").attr("disabled", true);
         $("#accion select").attr("disabled", true);
-
     }
     else {
         $("#DivAnulateMessageAccion").hide();
         $("#BtnAnularAction").show();
         $("#BtnRestaurarAction").hide();
-
         $("#accion textarea").removeAttr("disabled");
         $("#accion input").removeAttr("disabled");
         $("#accion select").removeAttr("disabled");
@@ -1541,7 +1550,7 @@ function RestoreAccion() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             IncidentAction.ClosedOn = null;
             AnulateLayoutAccion();
         },

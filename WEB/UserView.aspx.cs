@@ -6,15 +6,14 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
-using SbrinnaCoreFramework.UI;
 using SbrinnaCoreFramework;
+using SbrinnaCoreFramework.UI;
 
 /// <summary>Implements user view page</summary>
 public partial class UserView : Page
@@ -229,7 +228,6 @@ public partial class UserView : Page
         this.user = Session["User"] as ApplicationUser;
         this.company = Session["company"] as Company;
         this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
-        string label = "Item_User";
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
@@ -258,7 +256,7 @@ public partial class UserView : Page
 
             var res = new StringBuilder();
             var permisos = this.userItem.EffectiveGrants.OrderBy(o => o.Item.Description).ToList();
-            foreach (var grant in permisos)
+            foreach (var grant in permisos.Where(g => !grantsException.Contains(g.Item.Code)).OrderBy(gr=>gr.Item.Description))
             {
                 res.Append(grant.Render());
                 if (grant.GrantToRead)

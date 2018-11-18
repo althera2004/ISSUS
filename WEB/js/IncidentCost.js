@@ -18,8 +18,16 @@ function IncidentCostRenderTable(tableName) {
     var count = 0;
     for (var x = 0; x < IncidentCosts.length; x++) {
         if (IncidentCosts[x].Active === true) {
-            var show = false;
+            var show = true;
+            if (typeof user.Grants.IncidentActions !== "undefined" || user.Grants.IncidentActions.Read === false) {
+                show = false;
+            }
+
             if (filter.indexOf(IncidentCosts[x].Source) !== -1) {
+                show = false;
+            }
+
+            if (show === true) {
                 total += IncidentCostRenderRow(IncidentCosts[x], target);
                 count++;
             }

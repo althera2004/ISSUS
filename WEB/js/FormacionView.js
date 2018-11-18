@@ -892,9 +892,9 @@ jQuery(function ($) {
     $("#TxtHours").val(formacion.Hours === 0 ? "" : StringToNumber(formacion.Hours));
     $("#TxtAmount").val(formacion.Amount === 0 ? "" : ToMoneyFormat(formacion.Amount, 2));
     $("#TxtMaster").val(formacion.Master);
-    $("#TxtNotes").val(formacion.Notes);
-    $("#TxtObjetivo").val(formacion.Objective);
-    $("#TxtMetodologia").val(formacion.Methodology);
+    $("#TxtNotes").val(formacion.Notes.split("\\n").join("\n"));
+    $("#TxtObjetivo").val(formacion.Objective.split("\\n").join("\n"));
+    $("#TxtMetodologia").val(formacion.Methodology.split("\\n").join("\n"));
     $("#TxtRealStart").val(formacion.RealStart);
     $("#TxtRealFinish").val(formacion.RealFinish);
 

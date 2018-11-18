@@ -761,7 +761,7 @@ namespace GisoFramework.Item
                                 {
                                     Id = rdr.GetInt64(ColumnsOportunityFilterGet.OportunityId),
                                     Description = rdr.GetString(ColumnsOportunityFilterGet.Description),
-                                    Code = "0",
+                                    Code = rdr.GetString(ColumnsOportunityFilterGet.Code),
                                     OpenDate = rdr.GetDateTime(ColumnsOportunityFilterGet.OpenDate),
                                     Result = rdr.GetInt32(ColumnsOportunityFilterGet.Result)
                                 };

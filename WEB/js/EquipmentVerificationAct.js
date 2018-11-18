@@ -10,11 +10,13 @@ var VerificationInternalExists = false;
 var VerificationExternalExists = false;
 
 function SetVerificationForm() {
-    document.getElementById("VerificationInternalActive").checked = this.Equipment.InternalVerification != null;
-    LockInternalVerificationForm(document.getElementById("VerificationInternalActive").checked);
+    document.getElementById("VerificationInternalActive").checked = this.Equipment.InternalVerification !== null; {
+        LockInternalVerificationForm(document.getElementById("VerificationInternalActive").checked);
+    }
 
-    document.getElementById("VerificationExternalActive").checked = this.Equipment.ExternalVerification != null;
-    LockExternalVerificationForm(document.getElementById("VerificationExternalActive").checked);
+    document.getElementById("VerificationExternalActive").checked = this.Equipment.ExternalVerification !== null; {
+        LockExternalVerificationForm(document.getElementById("VerificationExternalActive").checked);
+    }
 
     if (!document.getElementById("VerificationInternalActive").checked && !document.getElementById("VerificationExternalActive").checked) {
         $("#VerificationWarning").show();
@@ -66,7 +68,7 @@ function VerificationInternalSetForm() {
     $("#TxtVerificationInternalNotes").prop("readonly", !active);
     $("#BtnVerificationInternalSave").prop("disabled", !active);
     VerificationInternalActive = active;
-    VerificationInternalExists = Equipment.InternalVerification != null && Equipment.InternalVerification.Id > 0;
+    VerificationInternalExists = Equipment.InternalVerification !== null && Equipment.InternalVerification.Id > 0;
     ShowNewVerificationButton();
 }
 
@@ -86,7 +88,7 @@ function VerificationExternalSetForm() {
     $("#BtnVerificationExternalProviderBAR").prop("disabled", !active);
     $("#BtnVerificationExternalSave").prop("disabled", !active);
     VerificationExternalActive = active;
-    VerificationExternalExists = Equipment.ExternalVerification != null && Equipment.ExternalVerification.Id > 0;
+    VerificationExternalExists = Equipment.ExternalVerification !== null && Equipment.ExternalVerification.Id > 0;
     ShowNewVerificationButton();
 }
 
@@ -111,16 +113,16 @@ function LockInternalVerificationForm(active) {
         return;
     }
 
-    if (active === false && VerificationExternalExists === false) {
+    /*if (active === false && VerificationExternalExists === false) {
         try {
             warningInfoUI(Dictionary.Common_Error_LastActive, null, 400);
             document.getElementById("VerificationInternalActive").checked = true;
             return false;
         }
         catch (ex) { }
-    }
+    }*/
 
-    if (active === false && this.Equipment.InternalVerification != null && this.Equipment.InternalVerification.Id > 0) {
+    if (active === false && this.Equipment.InternalVerification !== null && this.Equipment.InternalVerification.Id > 0) {
         promptInfoUI("seguro", 300, VerificationInternalDelete, VerificationInternalCheckActive);
     }
     else {
@@ -139,16 +141,16 @@ function LockExternalVerificationForm(active) {
         return;
     }
 
-    if (active === false && VerificationInternalExists === false) {
+    /*if (active === false && VerificationInternalExists === false) {
         try {
             warningInfoUI(Dictionary.Common_Error_LastActive, null, 400);
             document.getElementById("VerificationExternalActive").checked = true;
             return false;
         }
         catch (ex) { }
-    }
+    }*/
 
-    if (active === false && this.Equipment.ExternalVerification != null && this.Equipment.ExternalVerification.Id > 0) {
+    if (active === false && this.Equipment.ExternalVerification !== null && this.Equipment.ExternalVerification.Id > 0) {
         promptInfoUI("seguro", 300, VerificationExternalDelete, VerificationExternalCheckActive);
     }
     else {
@@ -227,12 +229,12 @@ function EquipmentVerificationActRenderRow(equipmentVerificationAct, targetName)
     if (equipmentVerificationAct.Cost !== null) {
         tdCost.appendChild(document.createTextNode(ToMoneyFormat(equipmentVerificationAct.Cost, 2)));
     }
-    tdType.appendChild(document.createTextNode(equipmentVerificationAct.EquipmentVerificationType == 0 ? Dictionary.Common_Internal : Dictionary.Common_External));
+    tdType.appendChild(document.createTextNode(equipmentVerificationAct.EquipmentVerificationType === 0 ? Dictionary.Common_Internal : Dictionary.Common_External));
     tdFecha.appendChild(document.createTextNode(FormatYYYYMMDD(equipmentVerificationAct.Date, '/')));
 
     var vto = null;
-    if (typeof equipmentVerificationAct.Expiration != "undefined") { vto = FormatYYYYMMDD(equipmentVerificationAct.Expiration, '/'); }
-    if (typeof equipmentVerificationAct.Vto != "undefined") { vto = FormatYYYYMMDD(equipmentVerificationAct.Vto, '/'); }
+    if (typeof equipmentVerificationAct.Expiration !== "undefined") { vto = FormatYYYYMMDD(equipmentVerificationAct.Expiration, '/'); }
+    if (typeof equipmentVerificationAct.Vto !== "undefined") { vto = FormatYYYYMMDD(equipmentVerificationAct.Vto, '/'); }
 
     tdVto.appendChild(document.createTextNode(vto));
     tdResponsible.appendChild(document.createTextNode(equipmentVerificationAct.Responsible.Value));
@@ -304,7 +306,7 @@ function EquipmentVerificationActRemoveFromList(id) {
 
 function EquipmentVerificationActListUpdate(equipmentVerificationAct) {
     for (var x = 0; x < EquipmentVerificationActList.length; x++) {
-        if (EquipmentVerificationActList[x].Id == equipmentVerificationAct.Id) {
+        if (EquipmentVerificationActList[x].Id === equipmentVerificationAct.Id) {
             EquipmentVerificationActList[x] = equipmentVerificationAct;
         }
     }
@@ -361,7 +363,7 @@ function EquipmentVerificationActEditFormFill(EquipmentVerificationAct) {
     $("#TxtEquipmentVerificationActCostMalformed").hide();
     $("#REquipmentVerificationActTypeErrorRequired").hide();
 
-    if (SelectedEquipmentVerificationAct.EquipmentVerificationType == 0) {
+    if (SelectedEquipmentVerificationAct.EquipmentVerificationType === 0) {
         document.getElementById("REquipmentVerificationActTypeInternal").checked = true;
         $("#CmbEquipmentVerificationActProviderRow").hide();
     } else {
@@ -370,7 +372,7 @@ function EquipmentVerificationActEditFormFill(EquipmentVerificationAct) {
     }
 
     // Controlar que sólo esté disponible el check activo
-    if (SelectedEquipmentVerificationAct.EquipmentVerificationType == 0) {
+    if (SelectedEquipmentVerificationAct.EquipmentVerificationType === 0) {
         document.getElementById("REquipmentVerificationActTypeExternal").disabled = !VerificationExternalExists;
     }
     else {
@@ -502,8 +504,8 @@ function REquipmentVerificationActTypeChanged() {
 }
 
 function ShowDialogEquipmentVerificacionPopup(actionSelected) {
-    if (ToMoneyFormat(Equipment.InternalVerification.Cost, 2) != $("#TxtVerificationInternalCost").val() ||
-        ToMoneyFormat(Equipment.ExternalVerification.Cost, 2) != $("#TxtVerificationExternalCost").val()) {
+    if (ToMoneyFormat(Equipment.InternalVerification.Cost, 2) !== $("#TxtVerificationInternalCost").val() ||
+        ToMoneyFormat(Equipment.ExternalVerification.Cost, 2) !== $("#TxtVerificationExternalCost").val()) {
         alertUI(Dictionary.Item_Equipment_Message_VerificationChanged);
         return false;
     }
@@ -512,12 +514,12 @@ function ShowDialogEquipmentVerificacionPopup(actionSelected) {
     FillCmbEquipmentVerificationActResponsible();
     EquipmentVerificationActNewFormReset();
 
-    if (actionSelected == "-1") {
+    if (actionSelected === "-1") {
         document.getElementById("REquipmentVerificationActTypeInternal").checked = true;
         document.getElementById("REquipmentVerificationActTypeExternal").disabled = true;
     }
 
-    if (actionSelected == "-2") {
+    if (actionSelected === "-2") {
         document.getElementById("REquipmentVerificationActTypeExternal").checked = true;
         document.getElementById("REquipmentVerificationActTypeInternal").disabled = true;
     }
@@ -735,7 +737,7 @@ function EquipmentVerificationInternalDefinitionSave() {
     var uncertainty = StringToNumberNullable($("#TxtVerificationInternalUncertainty").val(), ".", ",");
     var cost = StringToNumberNullable($("#TxtVerificationInternalCost").val(), ".", ",");
     VerificationInternalDefinition = {
-        "Id": Equipment.InternalVerification == null ? 0 : Equipment.InternalVerification.Id,
+        "Id": Equipment.InternalVerification === null ? 0 : Equipment.InternalVerification.Id,
         "EquipmentId": Equipment.Id,
         "CompanyId": Equipment.CompanyId,
         "VerificationType": 0,
@@ -801,7 +803,7 @@ function EquipmentVerificationExternalDefinitionSave() {
     var uncertainty = StringToNumberNullable($("#TxtVerificationExternalUncertainty").val(), ".", ",");
     var cost = StringToNumberNullable($("#TxtVerificationExternalCost").val(), ".", ",");
     VerificationExternalDefinition = {
-        "Id": Equipment.ExternalVerification == null ? 0 : Equipment.ExternalVerification.Id,
+        "Id": Equipment.ExternalVerification === null ? 0 : Equipment.ExternalVerification.Id,
         "EquipmentId": Equipment.Id,
         "CompanyId": Equipment.CompanyId,
         "VerificationType": 1,

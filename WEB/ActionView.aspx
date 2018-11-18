@@ -70,19 +70,19 @@
                                                             </div>
                                                             <div class="form-group" id="IncidentDiv" style="display: none;">
                                                                 <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>
-                                                                <label class="col-sm-11"><%=this.Dictionary["Item_IncidentAction_Label_Incident"] %>&nbsp;<%=this.Incident.Link %></label>
+                                                                <label class="col-sm-11" id="IncidentLink"><%=this.Dictionary["Item_IncidentAction_Label_Incident"] %>&nbsp;<%=this.Incident.Link %></label>
                                                             </div>
                                                             <div class="form-group" id="BusinessRiskDiv" style="display: none;">
                                                                 <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>                                                                
-                                                                <label class="col-sm-11"><%=this.Dictionary["Item_IncidentAction_Label_BusinessRisk"] %>&nbsp;<%=this.BusinessRisk.Link %></label>
+                                                                <label class="col-sm-11" id="BusinessRiskLink"><%=this.Dictionary["Item_IncidentAction_Label_BusinessRisk"] %>&nbsp;<%=this.BusinessRisk.Link %></label>
                                                             </div>
                                                             <div class="form-group" id="ObjetivoDiv" style="display: none;">
                                                                 <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>                                                                
-                                                                <label class="col-sm-11"><%=this.Dictionary["Item_IncidentAction_Label_Objetivo"] %>&nbsp;<%=this.Objetivo.Link %></label>
+                                                                <label class="col-sm-11" id="ObjetivoLink"><%=this.Dictionary["Item_IncidentAction_Label_Objetivo"] %>&nbsp;<%=this.Objetivo.Link %></label>
                                                             </div>
                                                             <div class="form-group" id="OportunityDiv" style="display: none;">
                                                                 <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>                                                                
-                                                                <label class="col-sm-11"><%=this.Dictionary["Item_IncidentAction_Label_Oportunity"] %>&nbsp;<%=this.Oportunity.Link %></label>
+                                                                <label class="col-sm-11" id="OportunityLink"><%=this.Dictionary["Item_IncidentAction_Label_Oportunity"] %>&nbsp;<%=this.Oportunity.Link %></label>
                                                             </div>
                                                             <div class="form-group" id="ROriginDiv" style="display: _none;">
                                                                 <label id="ROriginLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %><span style="color: #f00;">*</span></label>
@@ -433,7 +433,7 @@
                                 <div class="form-group">
                                     <label id="TxtCostNameLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_CostDefinition_Field_Description"] %><span style="color: #f00;">*</span></label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="name" value=" " class="col-sm-12" id="TxtCostName" size=100" placeholder="<%=this.Dictionary["Item_CostDefinition_Field_Description"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
+                                        <input type="text" name="name" value=" " class="col-sm-12" id="TxtCostName" size="100" placeholder="<%=this.Dictionary["Item_CostDefinition_Field_Description"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
                                         <span class="ErrorMessage" id="TxtCostNameErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                         <span class="ErrorMessage" id="TxtCostNameErrorDuplicated"><%= this.Dictionary["Common_AlreadyExists"] %></span>
                                     </div>

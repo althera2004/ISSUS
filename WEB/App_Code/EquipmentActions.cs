@@ -58,7 +58,18 @@ public class EquipmentActions : WebService
             res = newItem.Update(userId, trace);
         }
 
-        if (newItem.InternalCalibration.Id != 0 || oldItem.InternalCalibration.Id > 0)
+        if(newItem.InternalCalibration == null)
+		{
+			newItem.InternalCalibration.Delete(userId);
+		}
+		else if (newItem.InternalCalibration.Id != 0 || oldItem.InternalCalibration == null)
+        {
+            if (newItem.InternalCalibration.Id == -1)
+            {
+                newItem.InternalCalibration.Insert(userId);
+            }
+        }
+        else if (newItem.InternalCalibration.Id != 0 || oldItem.InternalCalibration.Id > 0)
         {
             if (newItem.InternalCalibration.Id == -1)
             {
@@ -77,7 +88,18 @@ public class EquipmentActions : WebService
             }
         }
 
-        if (newItem.ExternalCalibration.Id != 0 || oldItem.ExternalCalibration.Id > 0)
+        if(newItem.ExternalCalibration == null)
+		{
+			newItem.ExternalCalibration.Delete(userId);
+		}
+		else if (newItem.ExternalCalibration.Id != 0 || oldItem.ExternalCalibration == null)
+        {
+            if (newItem.ExternalCalibration.Id == -1)
+            {
+                newItem.ExternalCalibration.Insert(userId);
+            }
+        }
+        else if (newItem.ExternalCalibration.Id != 0 || oldItem.ExternalCalibration.Id > 0)
         {
             if (newItem.ExternalCalibration.Id == -1)
             {
@@ -96,7 +118,18 @@ public class EquipmentActions : WebService
             }
         }
 
-        if (newItem.InternalVerification.Id != 0 || oldItem.InternalVerification.Id > 0)
+        if(newItem.InternalVerification == null)
+		{
+			newItem.InternalVerification.Delete(userId);
+		}
+		else if (newItem.InternalVerification.Id != 0 || oldItem.InternalVerification == null)
+        {
+            if (newItem.InternalVerification.Id == -1)
+            {
+                newItem.InternalVerification.Insert(userId);
+            }
+        }
+        else if (newItem.InternalVerification.Id != 0 || oldItem.InternalVerification.Id > 0)
         {
             if (newItem.InternalVerification.Id == -1)
             {
@@ -114,8 +147,19 @@ public class EquipmentActions : WebService
                 }
             }
         }
-
-        if (newItem.ExternalVerification.Id != 0 || oldItem.ExternalVerification.Id > 0)
+		
+		if(newItem.ExternalVerification == null)
+		{
+			newItem.ExternalVerification.Delete(userId);
+		}
+		else if (newItem.ExternalVerification.Id != 0 || oldItem.ExternalVerification == null)
+        {
+            if (newItem.ExternalVerification.Id == -1)
+            {
+                newItem.ExternalVerification.Insert(userId);
+            }
+        }
+        else if (newItem.ExternalVerification.Id != 0 || oldItem.ExternalVerification.Id > 0)
         {
             if (newItem.ExternalVerification.Id == -1)
             {

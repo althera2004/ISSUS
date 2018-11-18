@@ -53,12 +53,6 @@ window.onload = function () {
 
     $("#CmbProcess").on("change", CmbProcessChanged);
 
-    if (IndicadoresObjetivo.length > 0) {
-        document.getElementById("CmbProcess").disabled = true;
-        $("#ProcessTypeLabel").html(Dictionary.Item_Indicador_Message_ProcessBlocked);
-        $("#CmbType").val(1);
-    }
-
     $("#CmbProcess").after("<div id=\"LabelProcessType\" style=\"margin:4px;\"></div>");
     $("#DivCmbResponsible").removeAttr("style");
     $("#DivCmbProcess").removeAttr("style");
@@ -102,6 +96,13 @@ window.onload = function () {
     }
     else {
         $("#BtnPrint").hide();
+    }
+
+    if (IndicadoresObjetivo.length > 0) {
+        document.getElementById("CmbProcess").disabled = true;
+        // $("#ProcessTypeLabel").html(Dictionary.Item_Indicador_Message_ProcessBlocked);
+        $("#LabelProcessType").html(Dictionary.Item_Indicador_Message_ProcessBlocked);
+        $("#CmbType").val(1);
     }
 };
 
@@ -337,7 +338,7 @@ function FillComboUnidad() {
 function FillForm() {
     if (Indicador.Id > 0) {
         $("#TxtDescription").val(Indicador.Description);
-        $("#TxtCalculo").val(Indicador.Calculo);
+        $("#TxtCalculo").val(Indicador.Calculo.split("\\n").join("\n"));
         $("#CmbMetaComparer").val(Indicador.MetaComparer);
         $("#CmbAlarmaComparer").val(Indicador.AlarmaComparer);
         $("#TxtMeta").val(Indicador.Meta);

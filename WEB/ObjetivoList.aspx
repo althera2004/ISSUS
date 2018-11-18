@@ -158,6 +158,7 @@
                             </div><!-- /.col -->
                             <div id="ObjetivoDeleteDialog" class="hide" style="width:500px;">
                                 <p>&nbsp;<strong><span id="ObjetivoDeleteName"></span></strong>?</p>
+                                <div class="alert alert-danger"><%=this.Dictionary["Item_Incident_PopupDelete_Message_Actions"] %></div>
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">

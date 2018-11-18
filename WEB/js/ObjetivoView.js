@@ -4,7 +4,7 @@ var CloseRequired = false;
 var recordsGraph = [];
 var periodicityIndicador = null;
 
-window.onload = function () {    
+window.onload = function () {
     if (ItemData.Id < 1) {
         $("#TxtFechaCierrePrevista").val("");
         document.getElementById("Contentholder1_RVinculatedNo").checked = true;
@@ -17,7 +17,7 @@ window.onload = function () {
         $("#TxtMethodology").val(ItemData.Methodology);
         $("#TxtResources").val(ItemData.Resources);
         $("#TxtPeriodicity").val(ItemData.RevisionId);
-        $("#TxtNotes").val(ItemData.Notes);
+        $("#TxtNotes").val(ItemData.Notes.split("\\n").join("\n"));
         $("#TxtFechaAlta").val(ItemData.StartDate);
         $("#TxtFechaCierrePrevista").val(ItemData.PreviewEndDate);
         $("#TxtFechaCierreReal").val(ItemData.EndDate);
@@ -84,8 +84,8 @@ window.onload = function () {
     if (ItemData.EndDate !== null) {
         DisableLayout();
     }
-	
-	// @cristina: aquí se ocultan los botones de añadir acción y registro
+
+    // @cristina: aquí se ocultan los botones de añadir acción y registro
     if (ItemData.EndDate !== null) {
         $("#BtnRecordNew").hide();
         $("#BtnActionsNew").hide();
@@ -100,9 +100,18 @@ window.onload = function () {
         $("#Tabrecords a").click();
         $("#BtnRecordNew").click();
     }
-}
 
-window.onresize = function () { Resize(); }
+    if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
+        var res = "";
+        res += "<div class=\"alert alert-danger\">";
+        res += "<strong> <i class=\"icon-warning-sign fa-2x\"></i></strong >";
+        res += "<h3 style=\"display:inline;\">" + Dictionary.Common_Message_ItemNoAccess + "</h3>";
+        res += "</div>";
+        $("#actions").html(res);
+    }
+};
+
+window.onresize = function () { Resize(); };
 
 function Resize() {
     var containerHeight = $(window).height();
@@ -330,13 +339,13 @@ function Validate() {
     if ($("#CmbResponsible").val() * 1 < 1) {
         ok = false;
         document.getElementById("CmbResponsibleLabel").style.color = "#f00";
-        document.getElementById("CmbResponsibleErrorRequired").style.display = "";
+        $("#CmbResponsibleErrorRequired").show();
     }
 
     if (document.getElementById("Contentholder1_RVinculatedYes").checked === true && $("#CmbIndicador").val() * 1 < 1) {
         ok = false;
         document.getElementById("CmbIndicadorLabel").style.color = "#f00";
-        document.getElementById("CmbIndicadorErrorRequired").style.display = "";
+        $("#CmbIndicadorErrorRequired").show();
     }
 
     if ($("#TxtFechaCierrePrevista").val() !== "" && $("#TxtFechaAlta").val() !== "") {
@@ -345,21 +354,21 @@ function Validate() {
         if (previsto < inicio) {
             ok = false;
             document.getElementById("TxtFechaCierrePrevistaLabel").style.color = "#f00";
-            document.getElementById("TxtFechaCierrePrevistaCrossDate").style.display = "";
+            $("#TxtFechaCierrePrevistaCrossDate").show();
         }
     }
 
     if (CloseRequired === true) {
         if ($("#CmbEndResponsible").val() * 1 < 1) {
             ok = false;
-            document.getElementById("CmbEndResponsibleLabel").style.color = "#f00;"
-            document.getElementById("CmbEndResponsibleErrorRequired").style.display = "";
+            document.getElementById("CmbEndResponsibleLabel").style.color = "#f00";
+            $("#CmbEndResponsibleErrorRequired").show();
         }
 
         if ($("#TxtFechaCierreReal").val() === "") {
             ok = false;
             document.getElementById("TxtFechaCierreRealLabel").style.color = "#f00";
-            document.getElementById("TxtFechaCierreRealErrorRequired").style.display = "";
+            $("#TxtFechaCierreRealErrorRequired").show();
         }
     }
 
@@ -489,7 +498,7 @@ function ObjetivoRegistroFilterValidate() {
 }
 
 function ObjetivoRegistroFilter(exportType) {
-    console.log("ObjetivoRegistroFilter", exportType)
+    console.log("ObjetivoRegistroFilter", exportType);
     if (ObjetivoRegistroFilterValidate() === false) {
         $("#ObjetivoRegistrosTable").hide();
         $("#ItemTableError").show();
@@ -912,7 +921,7 @@ function ObjetivoRegistroSave() {
                 $("#BtnRecordFilter").click();
 
                 // Al añadir un registro se bloquea los radios de vincular a indicador
-                DisableVinculatedTo(true)
+                DisableVinculatedTo(true);
             }
         },
         "error": function (jqXHR, textStatus, errorThrown) {
@@ -1043,7 +1052,7 @@ function DrawGraphics(stop) {
                     fontColor: "rgb(255, 99, 132)"
                 }
             }
-        }
+        };
 
         var labels = new Array();
         var values = new Array();
@@ -1113,7 +1122,7 @@ function DrawGraphics(stop) {
         this.chart = new Chart(this.ctx).Overlay(overlayData, {
             populateSparseData: true,
             overlayBars: false,
-            datasetFill: true,
+            datasetFill: true
         });
         this.div.style.display = "none";
 

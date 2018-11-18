@@ -32,7 +32,6 @@ function IncidentActionCostRenderRow(incidentActionCost, target) {
     var tdTotal = document.createElement("TD");
     var tdResponsible = document.createElement("TD");
 
-    //tdDescription.style.width = "290px";
     tdAmount.style.width = "90px";
     tdDate.style.width = "90px";
     tdQuantity.style.width = "90px";

@@ -10,7 +10,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
-        var tasks = <%= this.Tasks %>;
+        var tasks = <%=this.Tasks %>;
         var Filter = <%=this.Filter %>;
         var MonthName =
         [
@@ -416,14 +416,16 @@
 
             // Los dias del mes anterior
             var firstWeekDay = DayOfTheWeek(firstDay);
-            if (firstWeekDay == 1) { firstWeekDay = 8; }
+            console.log("firstday", firstDay);
+            console.log("firstWeekDay", firstWeekDay);
+            if (firstWeekDay == 0) { firstWeekDay = 7; }
 
             for (var x = 1; x < firstWeekDay; x++) {
                 var myDate = new Date();
                 myDate.setTime(firstDay.getTime() - (firstWeekDay - x) * 86400000);
-                document.getElementById('w1d' + x + 'n').className = document.getElementById('w1d' + x + 'n').className + ' fc-other-month fc-past';
-                document.getElementById('w1d' + x + 'n').innerHTML = myDate.getDate();
-                document.getElementById('w1d' + x + 'd').innerHTML = '';
+                document.getElementById("w1d" + x + "n").className = document.getElementById('w1d' + x + 'n').className + ' fc-other-month fc-past';
+                $("#w1d" + x + "n").html(myDate.getDate());
+                $("#w1d" + x + "d").html("");
             }
 
             var lastMonthDay = firstWeekDay + lastDay.getDate() - 1;
@@ -437,18 +439,15 @@
                 else if (x > 14) { idRow = 3; }
                 else if (x > 7) { idRow = 2; }
 
-
                 var idCell = x - (idRow - 1) * 7;
-                var id = ("w" + idRow + "d" + idCell);
-
                 if (document.getElementById("w" + idRow + "d" + idCell + "n") != null) {
-                    document.getElementById("w" + idRow + "d" + idCell + "n").innerHTML = x - firstWeekDay + 1;
+                    $("#w" + idRow + "d" + idCell + "n").html(x - firstWeekDay + 1);
                     document.getElementById("w" + idRow + "d" + idCell + "n").className = "fc-day-number";
                 }
 
                 if (document.getElementById("w" + idRow + "d" + idCell + "d") != null) {
                     var task = GetTask(referenceDate, (x - firstWeekDay + 1));
-                    document.getElementById("w" + idRow + "d" + idCell + "d").innerHTML = "";
+                    $("#w" + idRow + "d" + idCell + "d").html();
                     if (task != null) {
                         document.getElementById("w" + idRow + "d" + idCell + "d").appendChild(task);
                     }
@@ -464,12 +463,11 @@
                 else if (y > 14) { idRow = 3; }
                 else if (y > 7) { idRow = 2; }
 
-
                 var idCell = y - (idRow - 1) * 7;
-                var id = ('w' + idRow + 'd' + idCell);
-                document.getElementById('w' + idRow + 'd' + idCell + 'n').innerHTML = y - x + 1;
+                var id = ("w" + idRow + "d" + idCell);
+                $("#w" + idRow + "d" + idCell + "n").html(y - x + 1);
                 document.getElementById('w' + idRow + 'd' + idCell + 'n').className = document.getElementById('w' + idRow + 'd' + idCell + 'n').className + ' fc-other-month fc-future';
-                document.getElementById('w' + idRow + 'd' + idCell + 'd').innerHTML = '';
+                $("#w" + idRow + "d" + idCell + "d").html("");
             }
         }
 
@@ -477,15 +475,9 @@
             var dayCode = referenceDate.getFullYear().toString();
             var todayYYYYMMDD = GetDateYYYYMMDDToText(new Date(), "");
             var month = referenceDate.getMonth() + 1
-            if (month < 10) {
-                dayCode += "0";
-            }
-
             dayCode += month.toString();
-
-            if (counter < 10) {
-                dayCode += "0";
-            }
+            if (month < 10) { dayCode += "0"; }
+            if (counter < 10) { dayCode += "0";  }
 
             dayCode += (counter).toString();
 
@@ -495,30 +487,20 @@
                 if (GetDateYYYYMMDDToText(taskDate) == dayCode) {
                     var show = false;
                     if (document.getElementById("Chk1").checked === true) {
-                        if (tasks[t].ResponsibleId === ApplicationUser.Employee.Id) {
-                            show = true;
-                        }
+                        if (tasks[t].ResponsibleId === ApplicationUser.Employee.Id) { show = true; }
                     }
 
                     if (document.getElementById("Chk2").checked === true) {
-                        if (tasks[t].ResponsibleId !== ApplicationUser.Employee.Id) {
-                            show = true;
-                        }
+                        if (tasks[t].ResponsibleId !== ApplicationUser.Employee.Id) { show = true; }
                     }
 
                     if (document.getElementById("Chk3").checked === true) {
-                        if (taskDate > new Date()) {
-                            show = false;
-                        }
+                        if (taskDate > new Date()) { show = false; }
                     }
 
-                    if (taskDate <= new Date()) {
-                        caducada = true;
-                    }
+                    if (taskDate <= new Date()) { caducada = true; }
 
-                    if (show === true) {
-                        return RenderTask(tasks[t], caducada);
-                    }
+                    if (show === true) { return RenderTask(tasks[t], caducada); }
                 }
             }
 
@@ -533,21 +515,11 @@
             link.href = task.location;
             tooltip = task.title;
 
-            if (task.Type == "M") {
-                link.className = "fc-day-grid-event fc-event";
-            }
-            if (task.Type == "R") {
-                link.className = "fc-day-grid-event fc-event";
-            }
-            if (task.Type == "C" || task.Type == "V") {
-                link.className = "fc-day-grid-event fc-event";
-            }
-            if (task.Type == "I" || task.Type == "A") {
-                link.className = "fc-day-grid-event fc-event";
-            }
-            if (task.Type == "X" || task.Type == "O") {
-                link.className = "fc-day-grid-event fc-event";
-            }
+            if (task.Type == "M") { link.className = "fc-day-grid-event fc-event"; }
+            if (task.Type == "R") { link.className = "fc-day-grid-event fc-event"; }
+            if (task.Type == "C" || task.Type == "V") { link.className = "fc-day-grid-event fc-event"; }
+            if (task.Type == "I" || task.Type == "A") { link.className = "fc-day-grid-event fc-event"; }
+            if (task.Type == "X" || task.Type == "O") { link.className = "fc-day-grid-event fc-event"; }
 
             var div = document.createElement("DIV");
             div.className = "fc-content";
@@ -611,7 +583,6 @@
             return link;
         }
 
-
         window.onload = function () {
             SetFilter();
             FillCalendar();
@@ -640,7 +611,7 @@
                 "contentType": "application/json; charset=utf-8",
                 "dataType": "json",
                 "data": JSON.stringify(filterData, null, 2),
-                "success": function (msg) { },
+                "success": function () { },
                 "error": function (msg) {
                     alertUI(msg.responseText);
                 }

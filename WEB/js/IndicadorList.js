@@ -419,7 +419,7 @@ $("#nav-search").hide();
 
 function Resize() {
     var containerHeight = $(window).height();
-    $("#ListDataDiv").height = (containerHeight - 420);
+    $("#ListDataDiv").height(containerHeight - 420);
 }
 
 window.onload = function () {

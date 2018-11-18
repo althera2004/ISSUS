@@ -201,7 +201,7 @@ function SortByName() {
             return -1;
         }
         return 0;
-    }
+    };
 }
 
 function ShowDepartmentPopup() {
@@ -351,6 +351,12 @@ jQuery(function ($) {
                 return false;
             }
 
+            // Puede que no haya responsable
+            var ResponsibleItem = null;
+            if (SelectedResponsible * 1 > 0) {
+                ResponsibleItem = { Id: SelectedResponsible * 1, CompanyId: Company.Id };
+            }
+
             cargo.Department.id = originalDepartmentId;
             var data = {
                 "newJobPosition":
@@ -358,7 +364,7 @@ jQuery(function ($) {
                     "Id": cargo.Id,
                     "Description": $("#TxtName").val(),
                     "CompanyId": Company.Id,
-                    "Responsible": { Id: SelectedResponsible, CompanyId: Company.Id },
+                    "Responsible": ResponsibleItem,//{ Id: SelectedResponsible, CompanyId: Company.Id },
                     "Department": { Id: SelectedDepartment, CompanyId: Company.Id },
                     "Responsibilities": $("#TxtResponsabilidades").val(),
                     "Notes": $("#TxtNotas").val(),

@@ -269,172 +269,175 @@ public partial class ExportPrintBusinessRiskData : Page
             document.Add(tableAction);
         }
 
-        #region Historico acciones
-        var historico = IncidentAction.ByBusinessRiskCode(businessRisk.Code, company.Id).Where(ia => ia.BusinessRiskId != businessRisk.Id).OrderBy(incidentAction => incidentAction.WhatHappenedOn).ToList();
-        if (historico.Count > 0)
+        if (user.HasGrantToRead(ApplicationGrant.IncidentActions))
         {
-            var backgroundColor = new iTS.BaseColor(225, 225, 225);
-            var rowPair = new iTS.BaseColor(255, 255, 255);
-            var rowEven = new iTS.BaseColor(240, 240, 240);
-            var headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-
-            document.SetPageSize(PageSize.A4.Rotate());
-            document.NewPage();
-
-            var tableHistoric = new iTSpdf.PdfPTable(5)
+            #region Historico acciones
+            var historico = IncidentAction.ByBusinessRiskCode(businessRisk.Code, company.Id).Where(ia => ia.BusinessRiskId != businessRisk.Id).OrderBy(incidentAction => incidentAction.WhatHappenedOn).ToList();
+            if (historico.Count > 0)
             {
-                WidthPercentage = 100,
-                HorizontalAlignment = 1,
-                SpacingBefore = 20f
-            };
+                var backgroundColor = new iTS.BaseColor(225, 225, 225);
+                var rowPair = new iTS.BaseColor(255, 255, 255);
+                var rowEven = new iTS.BaseColor(240, 240, 240);
+                var headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
 
-            tableHistoric.SetWidths(new float[] { 20f, 30f, 120f, 20f, 20f });
+                document.SetPageSize(PageSize.A4.Rotate());
+                document.NewPage();
 
-            tableHistoric.AddCell(new PdfPCell(new Phrase(dictionary["Item_BusinessRisk_Tab_HistoryActions"], descriptionFont))
-            {
-                Colspan = 5,
-                Border = Rectangle.NO_BORDER,
-                PaddingTop = 20f,
-                PaddingBottom = 20f,
-                HorizontalAlignment = Element.ALIGN_CENTER
-            });
-
-            var valueFont = new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK);
-            tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
-            tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"]));
-            tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
-            tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_ImplementDate"]));
-            tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Close"]));
-
-            int cont = 0;
-            foreach (var accion in historico)
-            {
-                string statusText = dictionary["Item_Incident_Status1"];
-
-                if (accion.CausesOn.HasValue)
+                var tableHistoric = new iTSpdf.PdfPTable(5)
                 {
-                    statusText = dictionary["Item_Incident_Status2"];
+                    WidthPercentage = 100,
+                    HorizontalAlignment = 1,
+                    SpacingBefore = 20f
+                };
+
+                tableHistoric.SetWidths(new float[] { 20f, 30f, 120f, 20f, 20f });
+
+                tableHistoric.AddCell(new PdfPCell(new Phrase(dictionary["Item_BusinessRisk_Tab_HistoryActions"], descriptionFont))
+                {
+                    Colspan = 5,
+                    Border = Rectangle.NO_BORDER,
+                    PaddingTop = 20f,
+                    PaddingBottom = 20f,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                });
+
+                var valueFont = new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK);
+                tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
+                tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"]));
+                tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
+                tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_ImplementDate"]));
+                tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Close"]));
+
+                int cont = 0;
+                foreach (var accion in historico)
+                {
+                    string statusText = dictionary["Item_Incident_Status1"];
+
+                    if (accion.CausesOn.HasValue)
+                    {
+                        statusText = dictionary["Item_Incident_Status2"];
+                    }
+
+                    if (accion.ActionsOn.HasValue)
+                    {
+                        statusText = dictionary["Item_Incident_Status3"];
+                    }
+
+                    if (accion.ClosedOn.HasValue)
+                    {
+                        statusText = dictionary["Item_Incident_Status4"];
+                    }
+
+                    tableHistoric.AddCell(ToolsPdf.DataCellCenter(accion.WhatHappenedOn, ToolsPdf.LayoutFonts.Times));
+                    tableHistoric.AddCell(ToolsPdf.DataCell(statusText, ToolsPdf.LayoutFonts.Times));
+                    tableHistoric.AddCell(ToolsPdf.DataCell(accion.Description, ToolsPdf.LayoutFonts.Times));
+                    tableHistoric.AddCell(ToolsPdf.DataCellCenter(accion.ActionsOn, ToolsPdf.LayoutFonts.Times));
+                    tableHistoric.AddCell(ToolsPdf.DataCellCenter(accion.ClosedOn, ToolsPdf.LayoutFonts.Times));
+
+                    cont++;
                 }
 
-                if (accion.ActionsOn.HasValue)
+                tableHistoric.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ": " + cont.ToString(), ToolsPdf.LayoutFonts.Times))
                 {
-                    statusText = dictionary["Item_Incident_Status3"];
+                    Border = ToolsPdf.BorderTop,
+                    Colspan = 5,
+                    Padding = 8f
+                });
+
+                document.Add(tableHistoric);
+            }
+            #endregion
+
+            #region Costes
+            var costs = IncidentActionCost.ByBusinessRiskId(businessRisk.Id, company.Id);
+            if (costs.Count > 0)
+            {
+                var backgroundColor = new iTS.BaseColor(225, 225, 225);
+                var rowPair = new iTS.BaseColor(255, 255, 255);
+                var rowEven = new iTS.BaseColor(240, 240, 240);
+                var headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+
+                document.SetPageSize(PageSize.A4.Rotate());
+                document.NewPage();
+
+                var tableCost = new iTSpdf.PdfPTable(5)
+                {
+                    WidthPercentage = 100,
+                    HorizontalAlignment = 1,
+                    SpacingBefore = 20f
+                };
+
+                tableCost.SetWidths(new float[] { 90f, 40f, 30f, 60f, 20f });
+
+                tableCost.AddCell(new PdfPCell(new Phrase(dictionary["Item_Incident_Tab_Costs"], descriptionFont))
+                {
+                    Colspan = 5,
+                    Border = Rectangle.NO_BORDER,
+                    PaddingTop = 20f,
+                    PaddingBottom = 20f,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                });
+
+                var valueFont = new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK);
+                tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Description"]));
+                tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Amount"]));
+                tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Quantity"]));
+                tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Total"]));
+                tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_ReportedBy"]));
+
+                int cont = 0;
+                decimal costTotal = 0;
+                foreach (var cost in costs)
+                {
+
+                    tableCost.AddCell(ToolsPdf.DataCell(cost.Description, ToolsPdf.LayoutFonts.Times));
+                    tableCost.AddCell(ToolsPdf.DataCellMoney(cost.Amount, ToolsPdf.LayoutFonts.Times));
+                    tableCost.AddCell(ToolsPdf.DataCellMoney(cost.Quantity, ToolsPdf.LayoutFonts.Times));
+                    tableCost.AddCell(ToolsPdf.DataCellMoney(cost.Amount * cost.Quantity, ToolsPdf.LayoutFonts.Times));
+                    tableCost.AddCell(ToolsPdf.DataCell(cost.Responsible.FullName, ToolsPdf.LayoutFonts.Times));
+
+                    costTotal += cost.Amount * cost.Quantity;
+                    cont++;
                 }
 
-                if (accion.ClosedOn.HasValue)
+                tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_RegisterCount"].ToUpperInvariant() + ": " + cont.ToString(), ToolsPdf.LayoutFonts.Times))
                 {
-                    statusText = dictionary["Item_Incident_Status4"];
-                }
+                    Border = ToolsPdf.BorderTop,
+                    Colspan = 2,
+                    Padding = 8f
+                });
 
-                tableHistoric.AddCell(ToolsPdf.DataCellCenter(accion.WhatHappenedOn, ToolsPdf.LayoutFonts.Times));
-                tableHistoric.AddCell(ToolsPdf.DataCell(statusText, ToolsPdf.LayoutFonts.Times));
-                tableHistoric.AddCell(ToolsPdf.DataCell(accion.Description, ToolsPdf.LayoutFonts.Times));
-                tableHistoric.AddCell(ToolsPdf.DataCellCenter(accion.ActionsOn, ToolsPdf.LayoutFonts.Times));
-                tableHistoric.AddCell(ToolsPdf.DataCellCenter(accion.ClosedOn, ToolsPdf.LayoutFonts.Times));
+                tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.Times))
+                {
+                    Border = ToolsPdf.BorderTop,
+                    Colspan = 1,
+                    Padding = 8f,
+                    HorizontalAlignment = alignRight
+                });
 
-                cont++;
+                tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Tools.PdfMoneyFormat(costTotal), ToolsPdf.LayoutFonts.Times))
+                {
+                    Border = ToolsPdf.BorderTop,
+                    Colspan = 1,
+                    Padding = 8f,
+                    HorizontalAlignment = alignRight
+                });
+
+
+
+                tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.Times))
+                {
+                    Border = ToolsPdf.BorderTop,
+                    Colspan = 1,
+                    Padding = 8f,
+                    HorizontalAlignment = alignRight
+                });
+
+                document.Add(tableCost);
             }
 
-            tableHistoric.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ": "  + cont.ToString(), ToolsPdf.LayoutFonts.Times))
-            {
-                Border = ToolsPdf.BorderTop,
-                Colspan = 5,
-                Padding = 8f
-            });
-
-            document.Add(tableHistoric);
+            #endregion
         }
-        #endregion
-
-        #region Costes
-        var costs = IncidentActionCost.ByBusinessRiskId(businessRisk.Id, company.Id);
-        if(costs.Count > 0)
-        {
-            var backgroundColor = new iTS.BaseColor(225, 225, 225);
-            var rowPair = new iTS.BaseColor(255, 255, 255);
-            var rowEven = new iTS.BaseColor(240, 240, 240);
-            var headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-
-            document.SetPageSize(PageSize.A4.Rotate());
-            document.NewPage();
-
-            var tableCost = new iTSpdf.PdfPTable(5)
-            {
-                WidthPercentage = 100,
-                HorizontalAlignment = 1,
-                SpacingBefore = 20f
-            };
-
-            tableCost.SetWidths(new float[] { 90f, 40f, 30f, 60f, 20f });
-
-            tableCost.AddCell(new PdfPCell(new Phrase(dictionary["Item_Incident_Tab_Costs"], descriptionFont))
-            {
-                Colspan = 5,
-                Border = Rectangle.NO_BORDER,
-                PaddingTop = 20f,
-                PaddingBottom = 20f,
-                HorizontalAlignment = Element.ALIGN_CENTER
-            });
-
-            var valueFont = new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK);
-            tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Description"]));
-            tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Amount"]));
-            tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Quantity"]));
-            tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Total"]));
-            tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_ReportedBy"]));
-
-            int cont = 0;
-            decimal costTotal = 0;
-            foreach (var cost in costs)
-            {
-
-                tableCost.AddCell(ToolsPdf.DataCell(cost.Description, ToolsPdf.LayoutFonts.Times));
-                tableCost.AddCell(ToolsPdf.DataCellMoney(cost.Amount, ToolsPdf.LayoutFonts.Times));
-                tableCost.AddCell(ToolsPdf.DataCellMoney(cost.Quantity, ToolsPdf.LayoutFonts.Times));
-                tableCost.AddCell(ToolsPdf.DataCellMoney(cost.Amount * cost.Quantity, ToolsPdf.LayoutFonts.Times));
-                tableCost.AddCell(ToolsPdf.DataCell(cost.Responsible.FullName, ToolsPdf.LayoutFonts.Times));
-
-                costTotal += cost.Amount * cost.Quantity;
-                cont++;
-            }
-
-            tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_RegisterCount"].ToUpperInvariant() + ": " + cont.ToString(), ToolsPdf.LayoutFonts.Times))
-            {
-                Border = ToolsPdf.BorderTop,
-                Colspan = 2,
-                Padding = 8f
-            });
-
-            tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.Times))
-            {
-                Border = ToolsPdf.BorderTop,
-                Colspan = 1,
-                Padding = 8f,
-                HorizontalAlignment = alignRight
-            });
-
-            tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Tools.PdfMoneyFormat( costTotal), ToolsPdf.LayoutFonts.Times))
-            {
-                Border = ToolsPdf.BorderTop,
-                Colspan = 1,
-                Padding = 8f,
-                HorizontalAlignment = alignRight
-            });
-
-
-
-            tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.Times))
-            {
-                Border = ToolsPdf.BorderTop,
-                Colspan = 1,
-                Padding = 8f,
-                HorizontalAlignment = alignRight
-            });
-
-            document.Add(tableCost);
-        }
-
-        #endregion
 
         document.Close();
         Response.ClearContent();

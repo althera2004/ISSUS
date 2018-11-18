@@ -1506,9 +1506,22 @@ window.onload = function () {
     else {
         $("#DivPrimaryUser").hide();
     }
-}
 
-window.onresize = function () { Resize(); }
+    if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
+        var resAccion = "";
+        resAccion += "<div class=\"alert alert-danger\">";
+        resAccion += "<strong> <i class=\"icon-warning-sign fa-2x\"></i></strong >";
+        resAccion += "<h3 style=\"display:inline;\">" + Dictionary.Common_Message_ItemNoAccess + "</h3>";
+        resAccion += "</div>";
+        $("#accion").html(resAccion);
+        $("#costes").html(resAccion);
+        $("#historyActions").html(resAccion);
+        $("#BtnAnular").remove();
+        $("#BtnRestaurar").remove();
+    }
+};
+
+window.onresize = function () { Resize(); };
 
 function AnularPopup() {
     var ok = true;
@@ -1638,6 +1651,13 @@ function AnularConfirmed() {
 }
 
 function AnulateLayout() {
+    if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
+        $("#DivAnulateMessage").hide();
+        $("#BtnRestaurar").hide();
+        $("#DivAnulateMessage").remove();
+        return;
+    }
+
     $("#BtnRestaurar").hide();
     $("#DivAnulateMessage").remove();
     if (Action.ClosedOn !== null) {

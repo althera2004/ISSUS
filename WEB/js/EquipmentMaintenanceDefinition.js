@@ -246,12 +246,27 @@ function FillCmbNewMaintainmentResponsible() {
     }
 }
 
+function ExistsActByMaintenanceDefinition(id) {
+    for (var x = 0; x < EquipmentMaintenanceActList.length; x++) {
+        if (EquipmentMaintenanceActList[x].EquipmentMaintenanceDefinitionId * 1 === id * 1) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function EquipmentMaintenanceDefinitionEdit(sender) {
+    $("#NewMaintainmentFirstDate").parent().parent().parent().parent().parent().hide();
     FillCmbProviders();
     FillCmbNewMaintainmentResponsible();
     SelectedEquipmentDefinitionSelectedId = sender.parentNode.parentNode.id.substring(30) * 1;
     SelectedEquipmentMaintenanceDefinition = EquipmentMaintenanceDefinitiongetById(SelectedEquipmentDefinitionSelectedId);
     if (SelectedEquipmentMaintenanceDefinition === null) { return false; }
+
+    if (ExistsActByMaintenanceDefinition(SelectedEquipmentDefinitionSelectedId) === false) {
+        $("#NewMaintainmentFirstDate").parent().parent().parent().parent().parent().show();
+    }
+
     EquipmentMaintenanceEditFormFill(SelectedEquipmentMaintenanceDefinition);
     var dialog = $("#dialogNewMaintaiment").removeClass("hide").dialog({
         "resizable": false,
@@ -264,7 +279,7 @@ function EquipmentMaintenanceDefinitionEdit(sender) {
                 "id": "BtnNewMaintenanceDefinitionSave",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Save,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     EquipmentMaintenanceDefinitionEditConfirmed();
                 }
             },

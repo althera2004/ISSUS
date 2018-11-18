@@ -111,14 +111,14 @@ function LockInternalCalibrationForm(active) {
         return;
     }
 
-    if (active === false && CalibrationExternalExists === false) {
+    /*if (active === false && CalibrationExternalExists === false) {
         try {
             warningInfoUI(Dictionary.Common_Error_LastActive, null, 400);
             document.getElementById("CalibrationInternalActive").checked = true;
             return false;
         }
         catch (ex) { }
-    }
+    }*/
 
     if (active === false && this.Equipment.InternalCalibration != null && this.Equipment.InternalCalibration.Id > 0) {
         promptInfoUI("seguro", 300, CalibrationInternalDelete, CalibrationInternalCheckActive);
@@ -139,14 +139,14 @@ function LockExternalCalibrationForm(active) {
         return;
     }
 
-    if (active === false && CalibrationInternalExists === false) {
+    /*if (active === false && CalibrationInternalExists === false) {
         try {
             warningInfoUI(Dictionary.Common_Error_LastActive, null, 400);
             document.getElementById("CalibrationExternalActive").checked = true;
             return false;
         }
         catch (ex) { }
-    }
+    }*/
 
     if (active === false && this.Equipment.ExternalCalibration != null && this.Equipment.ExternalCalibration.Id > 0) {
         promptInfoUI("seguro", 300, CalibrationExternalDelete, CalibrationExternalCheckActive);

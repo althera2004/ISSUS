@@ -83,14 +83,14 @@ function EquipmentMaintenanceActRenderRow(equipmentMaintenanceAct, targetName) {
 
         iconEdit.className = "btn btn-xs btn-info";
         iconEdit.title = Dictionary.Common_Edit;
-        iconEdit.onclick = function (e) { EquipmentMaintenanceActEdit(this) }
+        iconEdit.onclick = function (e) { EquipmentMaintenanceActEdit(this); };
         var innerEdit = document.createElement("I");
         innerEdit.className = "icon-edit bigger-120";
         iconEdit.appendChild(innerEdit);
 
         iconDelete.className = "btn btn-xs btn-danger";
         iconDelete.title = Dictionary.Common_Delete;
-        iconDelete.onclick = function (e) { EquipmentMaintananceActDelete(this) }
+        iconDelete.onclick = function (e) { EquipmentMaintananceActDelete(this); };
         var innerDelete = document.createElement("I");
         innerDelete.className = "icon-trash bigger-120";
         iconDelete.appendChild(innerDelete);
@@ -108,7 +108,7 @@ function EquipmentMaintenanceActRenderRow(equipmentMaintenanceAct, targetName) {
 
 function EquipmentMaintenanceActgetById(id) {
     for (var x = 0; x < EquipmentMaintenanceActList.length; x++) {
-        if (EquipmentMaintenanceActList[x].Id === id) {
+        if (EquipmentMaintenanceActList[x].Id === id * 1) {
             return EquipmentMaintenanceActList[x];
         }
     }
@@ -120,7 +120,7 @@ function EquipmentMaintenanceActRemoveFromList(id) {
     var temp = new Array();
 
     for (var x = 0; x < EquipmentMaintenanceActList.length; x++) {
-        if (EquipmentMaintenanceActList[x].Id !== id) {
+        if (EquipmentMaintenanceActList[x].Id !== id * 1) {
             temp.push(EquipmentMaintenanceActList[x]);
         }
     }
@@ -220,7 +220,7 @@ function EquipmentMaintenanceActEditFormFill(EquipmentMaintenanceAct, external) 
 
 function EquipmentMaintenanceActValidateForm() {
     var ok = true;
-    if (!RequiredFieldText('TxtEquipmentMaintenanceActDate')) {
+    if (!RequiredFieldText("TxtEquipmentMaintenanceActDate")) {
         ok = false;
     }
     else {
@@ -242,15 +242,17 @@ function EquipmentMaintenanceActValidateForm() {
         ok = false;
     }
 
-    var expiration = GetDate($('#TxtEquipmentMaintenanceActDate').val(), '-');
+    var expiration = GetDate($("#TxtEquipmentMaintenanceActDate").val(), "-");
 
     // comprobar linea del tiempo
-    for (var x = 0; x < EquipmentMaintenanceActList.length; x++) {
-        if (EquipmentMaintenanceActList[x].EquipmentMaintenanceDefinitionId === SelectedEquipmentDefinitionSelectedId * 1) {
-            if (GetDateYYYYMMDD(EquipmentMaintenanceActList[x].Date) > expiration) {
-                ok = false;
-                $("#TxtEquipmentMaintenanceActDateLabel").css("color", "#f00");
-                $("#TxtEquipmentMaintenanceActDateOverTime").show();
+    if (SelectedEquipmentActSelectedId < 1) {
+        for (var x = 0; x < EquipmentMaintenanceActList.length; x++) {
+            if (EquipmentMaintenanceActList[x].EquipmentMaintenanceDefinitionId === SelectedEquipmentDefinitionSelectedId * 1) {
+                if (GetDateYYYYMMDD(EquipmentMaintenanceActList[x].Date) > expiration) {
+                    ok = false;
+                    $("#TxtEquipmentMaintenanceActDateLabel").css("color", "#f00");
+                    $("#TxtEquipmentMaintenanceActDateOverTime").show();
+                }
             }
         }
     }
@@ -307,6 +309,7 @@ function FillCmbEquipmentMaintainmentActResponsible() {
 }
 
 function EquipmentMaintananceActDelete(sender) {
+    console.log(sender);
     SelectedEquipmentMaintenanceActId = sender.parentNode.parentNode.id.substring(23);
     var EquipmentMaintenanceAct = EquipmentMaintenanceActgetById(SelectedEquipmentMaintenanceActId);
     if (EquipmentMaintenanceAct === null) { return false; }
@@ -348,7 +351,7 @@ function dialogEquipmentMaintananceActDeleteConfirmed() {
         data: JSON.stringify(data, null, 2),
         success: function (msg) {
             EquipmentMaintenanceActRemoveFromList(SelectedEquipmentMaintenanceActId);
-            EquipmentMaintenanceActRenderTable('TableEquipmentMaintenanceAct');
+            EquipmentMaintenanceActRenderTable("TableEquipmentMaintenanceAct");
             $("#dialogEquipmentMaintananceActDelete").dialog("close");
 
         },
@@ -506,8 +509,9 @@ function EquipmentMaintainmentActSave() {
         Responsible: { Id: $('#CmbEquipmentMaintenanceActResponsible').val() * 1, Value: $("#CmbEquipmentMaintenanceActResponsible option:selected").text() }
     };
 
+    var data = {};
     if (SelectedEquipmentMaintenanceActAction === "New") {
-        var data = { "equipmentMaintenanceAct": SelectedEquipmentMaintenanceAct, "userId": user.Id };
+        data = { "equipmentMaintenanceAct": SelectedEquipmentMaintenanceAct, "userId": user.Id };
         $.ajax({
             "type": "POST",
             "url": "/Async/EquipmentMaintenanceActActions.asmx/Insert",
@@ -526,7 +530,7 @@ function EquipmentMaintainmentActSave() {
         });
     }
     else {
-        var data = { "equipmentMaintenanceAct": SelectedEquipmentMaintenanceAct, "userId": user.Id };
+        data = { "equipmentMaintenanceAct": SelectedEquipmentMaintenanceAct, "userId": user.Id };
         $.ajax({
             "type": "POST",
             "url": "/Async/EquipmentMaintenanceActActions.asmx/Update",

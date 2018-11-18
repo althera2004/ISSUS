@@ -276,10 +276,9 @@ function ItemRenderTable(list) {
         var tdDescription = document.createElement("TD");
         var tdAction = document.createElement("TD");
         var tdAmount = document.createElement("TD");
-        //var tdClose = document.createElement("TD");
 
         var status = "";
-        var colorStatus = "#fff;"
+        var colorStatus = "#fff";
         if (item.Status === 1) { status = Dictionary.Item_Incident_Status1; colorStatus = "#f00"; }
         if (item.Status === 2) { status = Dictionary.Item_Incident_Status2; colorStatus = "#dd0"; }
         if (item.Status === 3) { status = Dictionary.Item_Incident_Status3; colorStatus = "#070"; }
@@ -321,18 +320,16 @@ function ItemRenderTable(list) {
             }
         }
 
-        if (item.Action.Id === 0) {
+        if (item.Action.Id < 1) {
             tdAction.appendChild(document.createTextNode(" "));
         }
         else {
             if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
-                //tdAction.appendChild(document.createTextNode(item.Action.Description));
                 tdAction.appendChild(document.createTextNode(Dictionary.Common_View));
             }
             else {
                 var link3 = document.createElement("A");
                 link3.href = "ActionView.aspx?id=" + item.Action.Id;
-                //link3.appendChild(document.createTextNode(item.Action.Description));
                 link3.appendChild(document.createTextNode(Dictionary.Common_View));
                 tdAction.appendChild(link3);
             }
