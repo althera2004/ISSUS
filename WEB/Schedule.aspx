@@ -10,7 +10,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
-        var tasks = <%=this.Tasks %>;
+        var tasks = <%= this.Tasks %>;
         var Filter = <%=this.Filter %>;
         var MonthName =
         [
@@ -130,15 +130,13 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr>
-                                                                                                <td id="w1d1d"></td>
-                                                                                                <td id="w1d2d"></td>
-                                                                                                <td id="w1d3d"></td>
-                                                                                                <td id="w1d4d"></td>
-                                                                                                <td id="w1d5d"></td>
-                                                                                                <td id="w1d6d" class="fc-event-container">
-                                                                                                    
-                                                                                                </td>
-                                                                                                <td id="w1d7d"></td>
+                                                                                                <td id="w1d1d" class="tdData"></td>
+                                                                                                <td id="w1d2d" class="tdData"></td>
+                                                                                                <td id="w1d3d" class="tdData"></td>
+                                                                                                <td id="w1d4d" class="tdData"></td>
+                                                                                                <td id="w1d5d" class="tdData"></td>
+                                                                                                <td id="w1d6d" class="tdData"></td>
+                                                                                                <td id="w1d7d" class="tdData"></td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -175,13 +173,13 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr>
-                                                                                                <td id="w2d1d"></td>
-                                                                                                <td id="w2d2d"></td>
-                                                                                                <td id="w2d3d"></td>
-                                                                                                <td id="w2d4d"></td>
-                                                                                                <td id="w2d5d"></td>
-                                                                                                <td id="w2d6d"></td>
-                                                                                                <td id="w2d7d"></td>
+                                                                                                <td id="w2d1d" class="tdData"></td>
+                                                                                                <td id="w2d2d" class="tdData"></td>
+                                                                                                <td id="w2d3d" class="tdData"></td>
+                                                                                                <td id="w2d4d" class="tdData"></td>
+                                                                                                <td id="w2d5d" class="tdData"></td>
+                                                                                                <td id="w2d6d" class="tdData"></td>
+                                                                                                <td id="w2d7d" class="tdData"></td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -218,13 +216,13 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr>
-                                                                                                <td id="w3d1d"></td>
-                                                                                                <td id="w3d2d"></td>
-                                                                                                <td id="w3d3d"></td>
-                                                                                                <td id="w3d4d"></td>
-                                                                                                <td id="w3d5d"></td>
-                                                                                                <td id="w3d6d"></td>
-                                                                                                <td id="w3d7d"></td>
+                                                                                                <td id="w3d1d" class="tdData"></td>
+                                                                                                <td id="w3d2d" class="tdData"></td>
+                                                                                                <td id="w3d3d" class="tdData"></td>
+                                                                                                <td id="w3d4d" class="tdData"></td>
+                                                                                                <td id="w3d5d" class="tdData"></td>
+                                                                                                <td id="w3d6d" class="tdData"></td>
+                                                                                                <td id="w3d7d" class="tdData"></td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -261,13 +259,13 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr>
-                                                                                                <td id="w4d1d"></td>
-                                                                                                <td id="w4d2d"></td>
-                                                                                                <td id="w4d3d"></td>
-                                                                                                <td id="w4d4d"></td>
-                                                                                                <td id="w4d5d"></td>
-                                                                                                <td id="w4d6d"></td>
-                                                                                                <td id="w4d7d"></td>
+                                                                                                <td id="w4d1d" class="tdData"></td>
+                                                                                                <td id="w4d2d" class="tdData"></td>
+                                                                                                <td id="w4d3d" class="tdData"></td>
+                                                                                                <td id="w4d4d" class="tdData"></td>
+                                                                                                <td id="w4d5d" class="tdData"></td>
+                                                                                                <td id="w4d6d" class="tdData"></td>
+                                                                                                <td id="w4d7d" class="tdData"></td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -304,13 +302,13 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr>
-                                                                                                <td id="w5d1d"></td>
-                                                                                                <td id="w5d2d"></td>
-                                                                                                <td id="w5d3d"></td>
-                                                                                                <td id="w5d4d"></td>
-                                                                                                <td id="w5d5d"></td>
-                                                                                                <td id="w5d6d"></td>
-                                                                                                <td id="w5d7d"></td>
+                                                                                                <td id="w5d1d" class="tdData"></td>
+                                                                                                <td id="w5d2d" class="tdData"></td>
+                                                                                                <td id="w5d3d" class="tdData"></td>
+                                                                                                <td id="w5d4d" class="tdData"></td>
+                                                                                                <td id="w5d5d" class="tdData"></td>
+                                                                                                <td id="w5d6d" class="tdData"></td>
+                                                                                                <td id="w5d7d" class="tdData"></td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -347,13 +345,13 @@
                                                                                         </thead>
                                                                                         <tbody>
                                                                                             <tr>
-                                                                                                <td id="w6d1d"></td>
-                                                                                                <td id="w6d2d"></td>
-                                                                                                <td id="w6d3d"></td>
-                                                                                                <td id="w6d4d"></td>
-                                                                                                <td id="w6d5d"></td>
-                                                                                                <td id="w6d6d"></td>
-                                                                                                <td id="w6d7d"></td>
+                                                                                                <td id="w6d1d" class="tdData"></td>
+                                                                                                <td id="w6d2d" class="tdData"></td>
+                                                                                                <td id="w6d3d" class="tdData"></td>
+                                                                                                <td id="w6d4d" class="tdData"></td>
+                                                                                                <td id="w6d5d" class="tdData"></td>
+                                                                                                <td id="w6d6d" class="tdData"></td>
+                                                                                                <td id="w6d7d" class="tdData"></td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                     </table>
@@ -410,6 +408,7 @@
         }
 
         function FillCalendar() {
+			$(".tdData").html("");
             $("#ActualMonthLabel").html(MonthName[referenceDate.getMonth()] + " " + referenceDate.getFullYear());
 
             FirstDayOfMonth();
@@ -424,6 +423,8 @@
                 var myDate = new Date();
                 myDate.setTime(firstDay.getTime() - (firstWeekDay - x) * 86400000);
                 document.getElementById("w1d" + x + "n").className = document.getElementById('w1d' + x + 'n').className + ' fc-other-month fc-past';
+
+
                 $("#w1d" + x + "n").html(myDate.getDate());
                 $("#w1d" + x + "d").html("");
             }
@@ -439,7 +440,10 @@
                 else if (x > 14) { idRow = 3; }
                 else if (x > 7) { idRow = 2; }
 
+
                 var idCell = x - (idRow - 1) * 7;
+                var id = ("w" + idRow + "d" + idCell);
+
                 if (document.getElementById("w" + idRow + "d" + idCell + "n") != null) {
                     $("#w" + idRow + "d" + idCell + "n").html(x - firstWeekDay + 1);
                     document.getElementById("w" + idRow + "d" + idCell + "n").className = "fc-day-number";
@@ -463,6 +467,7 @@
                 else if (y > 14) { idRow = 3; }
                 else if (y > 7) { idRow = 2; }
 
+
                 var idCell = y - (idRow - 1) * 7;
                 var id = ("w" + idRow + "d" + idCell);
                 $("#w" + idRow + "d" + idCell + "n").html(y - x + 1);
@@ -475,9 +480,15 @@
             var dayCode = referenceDate.getFullYear().toString();
             var todayYYYYMMDD = GetDateYYYYMMDDToText(new Date(), "");
             var month = referenceDate.getMonth() + 1
+            if (month < 10) {
+                dayCode += "0";
+            }
+
             dayCode += month.toString();
-            if (month < 10) { dayCode += "0"; }
-            if (counter < 10) { dayCode += "0";  }
+
+            if (counter < 10) {
+                dayCode += "0";
+            }
 
             dayCode += (counter).toString();
 
@@ -487,20 +498,30 @@
                 if (GetDateYYYYMMDDToText(taskDate) == dayCode) {
                     var show = false;
                     if (document.getElementById("Chk1").checked === true) {
-                        if (tasks[t].ResponsibleId === ApplicationUser.Employee.Id) { show = true; }
+                        if (tasks[t].ResponsibleId === ApplicationUser.Employee.Id) {
+                            show = true;
+                        }
                     }
 
                     if (document.getElementById("Chk2").checked === true) {
-                        if (tasks[t].ResponsibleId !== ApplicationUser.Employee.Id) { show = true; }
+                        if (tasks[t].ResponsibleId !== ApplicationUser.Employee.Id) {
+                            show = true;
+                        }
                     }
 
                     if (document.getElementById("Chk3").checked === true) {
-                        if (taskDate > new Date()) { show = false; }
+                        if (taskDate > new Date()) {
+                            show = false;
+                        }
                     }
 
-                    if (taskDate <= new Date()) { caducada = true; }
+                    if (taskDate <= new Date()) {
+                        caducada = true;
+                    }
 
-                    if (show === true) { return RenderTask(tasks[t], caducada); }
+                    if (show === true) {
+                        return RenderTask(tasks[t], caducada);
+                    }
                 }
             }
 
@@ -515,11 +536,21 @@
             link.href = task.location;
             tooltip = task.title;
 
-            if (task.Type == "M") { link.className = "fc-day-grid-event fc-event"; }
-            if (task.Type == "R") { link.className = "fc-day-grid-event fc-event"; }
-            if (task.Type == "C" || task.Type == "V") { link.className = "fc-day-grid-event fc-event"; }
-            if (task.Type == "I" || task.Type == "A") { link.className = "fc-day-grid-event fc-event"; }
-            if (task.Type == "X" || task.Type == "O") { link.className = "fc-day-grid-event fc-event"; }
+            if (task.Type == "M") {
+                link.className = "fc-day-grid-event fc-event";
+            }
+            if (task.Type == "R") {
+                link.className = "fc-day-grid-event fc-event";
+            }
+            if (task.Type == "C" || task.Type == "V") {
+                link.className = "fc-day-grid-event fc-event";
+            }
+            if (task.Type == "I" || task.Type == "A") {
+                link.className = "fc-day-grid-event fc-event";
+            }
+            if (task.Type == "X" || task.Type == "O") {
+                link.className = "fc-day-grid-event fc-event";
+            }
 
             var div = document.createElement("DIV");
             div.className = "fc-content";
@@ -583,6 +614,7 @@
             return link;
         }
 
+
         window.onload = function () {
             SetFilter();
             FillCalendar();
@@ -611,7 +643,7 @@
                 "contentType": "application/json; charset=utf-8",
                 "dataType": "json",
                 "data": JSON.stringify(filterData, null, 2),
-                "success": function () { },
+                "success": function (msg) { },
                 "error": function (msg) {
                     alertUI(msg.responseText);
                 }

@@ -53,6 +53,12 @@ window.onload = function () {
 
     $("#CmbProcess").on("change", CmbProcessChanged);
 
+    if (IndicadoresObjetivo.length > 0) {
+        document.getElementById("CmbProcess").disabled = true;
+        $("#ProcessTypeLabel").html(Dictionary.Item_Indicador_Message_ProcessBlocked);
+        $("#CmbType").val(1);
+    }
+
     $("#CmbProcess").after("<div id=\"LabelProcessType\" style=\"margin:4px;\"></div>");
     $("#DivCmbResponsible").removeAttr("style");
     $("#DivCmbProcess").removeAttr("style");
@@ -96,13 +102,6 @@ window.onload = function () {
     }
     else {
         $("#BtnPrint").hide();
-    }
-
-    if (IndicadoresObjetivo.length > 0) {
-        document.getElementById("CmbProcess").disabled = true;
-        // $("#ProcessTypeLabel").html(Dictionary.Item_Indicador_Message_ProcessBlocked);
-        $("#LabelProcessType").html(Dictionary.Item_Indicador_Message_ProcessBlocked);
-        $("#CmbType").val(1);
     }
 };
 
@@ -777,7 +776,9 @@ function FillFormRegistro(id) {
     if (id > 0) {
         var registro = RegistroGetById(id);
         if (registro !== null) {
-            $("#TxtRegistroValue").val(registro.Value);
+			var value = registro.Value.toString().split('.').join(',');
+			if( value === "") { value = "0,00"; }
+            $("#TxtRegistroValue").val(value);
             $("#TxtRecordDate").val(registro.Date);
             $("#TxtRegistroComments").val(registro.Comments);
             $("#CmbResponsibleRecord").val(registro.Responsible.Id);

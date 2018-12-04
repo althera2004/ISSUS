@@ -1003,6 +1003,8 @@ window.onload = function () {
     $("#BtnRecordShowAllOportunity").click();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
 
+    console.log(Filter);
+    console.log(FilterOportunity);
     if (Filter === null && FilterOportunity !== null) {
         document.getElementById("RO").checked = true;
     }
@@ -1109,7 +1111,7 @@ window.onload = function () {
     });
 
     $("#input-span-sliderOportunity").slider({
-        "value": RuleLimitFromDBOportunity,
+        "value": typeof RuleLimitFromDBOportunity === "undefined" ? 0 : RuleLimitFromDBBusinessRisk,
         "range": "min",
         "min": 1,
         "max": 25,

@@ -30,7 +30,7 @@ public class CompanyCreation : WebService
     {
     }
 
-    [WebMethod]
+    [WebMethod(EnableSession = true)]
     public string Create(
         string companyName,
         string companyCode,
@@ -65,7 +65,7 @@ public class CompanyCreation : WebService
 
         if (res.Success)
         {
-            var dictionary = ApplicationDictionary.Load(language);
+            var dictionary = ApplicationDictionary.Load("es");
             string path = HttpContext.Current.Request.PhysicalApplicationPath;
             string destino = path;
             if (!path.EndsWith("\\", StringComparison.Ordinal))

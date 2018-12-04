@@ -143,14 +143,10 @@ jQuery(function ($) {
         SaveAction = false;
     }
 
-    $("#TxtActionCauses").on("change", SetCloseRequired);
-    $("#CmbActionCausesResponsible").on("change", SetCloseRequired);
-    $("#TxtActionCausesDate").on("change", SetCloseRequired);
-    $("#TxtActionActions").on("change", SetCloseRequired);
-    $("#CmbActionActionsResponsible").on("change", SetCloseRequired);
-    $("#TxtActionActionsDate").on("change", SetCloseRequired);
-    $("#CmbActionClosedResponsible").on("change", SetCloseRequired);
-    $("#TxtActionClosedDate").on("change", SetCloseRequired);
+    $("#TxtActionCauses").on("keyup", SetCloseRequired);
+    $("#TxtActionCauses").bind("paste", SetCloseRequired);
+    $("#TxtActionActions").on("keyup", SetCloseRequired);
+    $("#TxtActionActions").bind("paste", SetCloseRequired);
 
     $("#BtnNewCost").on("click", function (e) {
         e.preventDefault();
@@ -348,8 +344,10 @@ function ApplyActionTrue() {
     $("#Name").prop("disabled", true);
     $("#DateStart").prop("disabled", true);
     $("#CmbRules").prop("disabled", true);
-    $("#BtnSelectRules").hide();
     $("#CmbProcess").prop("disabled", true);
+    $("#CmbRules").css("background-color", "#eee");
+    $("#CmbProcess").css("background-color", "#eee");
+    $("#BtnSelectRules").hide();
     $("#ApplyAction2").prop("disabled", true);
     $("#input-span-slider-probability").slider("disable");
     $("#input-span-slider-severity").slider("disable");
@@ -621,6 +619,16 @@ function BusinessRiskUpdate(sender) {
 
 function SaveIncidentAction(businessRiskId, newBusinessRiskId, reload) {
     var reloadAfterSave = reload;
+
+    var CausesBy = null;
+    if ($("#CmbActionCausesResponsible").val() * 1 > 0) {
+        CausesBy = { "Id": $("#CmbActionCausesResponsible").val() };
+    }
+    var ActionsBy = null;
+    if ($("#CmbActionActionsResponsible").val() * 1 > 0) {
+        ActionsBy = { "Id": $("#CmbActionActionsResponsible").val() };
+    }
+
     var action =
         {
             "Id": Action.Id,
@@ -639,10 +647,10 @@ function SaveIncidentAction(businessRiskId, newBusinessRiskId, reload) {
             "WhatHappenedBy": { "Id": $('#CmbActionWhatHappenedResponsible').val() },
             "WhatHappenedOn": GetDate($('#TxtActionWhatHappenedDate').val(), "/", false),
             "Causes": $('#TxtActionCauses').val(),
-            "CausesBy": { "Id": $('#CmbActionCausesResponsible').val() },
+            "CausesBy": CausesBy,
             "CausesOn": GetDate($('#TxtActionCausesDate').val(), "/", false),
             "Actions": $('#TxtActionActions').val(),
-            "ActionsBy": { "Id": $('#CmbActionActionsResponsible').val() },
+            "ActionsBy": ActionsBy,
             "ActionsOn": GetDate($('#TxtActionActionsDate').val(), "/", false),
             "Monitoring": $('#TxtActionMonitoring').val(),
             "ClosedBy": { "Id": $('#CmbActionClosedResponsible').val() },
@@ -691,7 +699,14 @@ function Cancel() {
     document.location = referrer;
 }
 
-function SetCloseRequired() {
+function SetCloseRequired(e) {
+    console.log("SetCloseRequired");
+    var targetId = null;
+    var pastedValue = null;
+    if (typeof e !== "undefined" && e !== null && e.type === "paste") {
+        targetId = e.originalEvent.target.id;
+        pastedValue = e.originalEvent.clipboardData.getData('Text');
+    }
     /////////////////////////////////
     //Set required fields for risks//
     /////////////////////////////////
@@ -710,72 +725,75 @@ function SetCloseRequired() {
     FieldSetRequired("CmbActionWhatHappenedResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleWhatHappend, true);
     FieldSetRequired("TxtActionWhatHappenedDateLabel", Dictionary.Common_Date, true);
 
+
     //Checking if Causes is required
-    if (document.getElementById("CmbActionCausesResponsible").value * 1 !== 0 || document.getElementById("StartApplyActionYes").checked === true) {
-        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
-        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
-        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, true);
-        CausesRequired = true;
-    }
-    else if (document.getElementById("TxtActionCauses").value !== "") {
-        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
-        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
-        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, true);
-        CausesRequired = true;
-    }
-    else if (document.getElementById("TxtActionCausesDate").value !== "") {
-        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
-        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
-        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, true);
+    if ($("#TxtActionCauses").val().trim() !== "" || (targetId === "TxtActionCauses" && pastedValue !== null)) {
         CausesRequired = true;
     }
     else {
-        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, false);
-        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, false);
-        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, false);
         CausesRequired = false;
     }
 
     //Checking if Actions is required
-    if (document.getElementById('CmbActionActionsResponsible').value * 1 !== 0) {
-        FieldSetRequired('TxtActionActionsLabel', Dictionary.Item_IncidentAction_Field_Actions, true);
-        FieldSetRequired('CmbActionActionsResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleActions, true);
-        FieldSetRequired('TxtActionActionsDateLabel', Dictionary.Common_Date, true);
-        ActionsRequired = true;
-    }
-    else if (document.getElementById('TxtActionActions').value !== '') {
-        FieldSetRequired('TxtActionActionsLabel', Dictionary.Item_IncidentAction_Field_Actions, true);
-        FieldSetRequired('CmbActionActionsResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleActions, true);
-        FieldSetRequired('TxtActionActionsDateLabel', Dictionary.Common_Date, true);
-        ActionsRequired = true;
-    }
-    else if (document.getElementById('TxtActionActionsDate').value !== '') {
-        FieldSetRequired('TxtActionActionsLabel', Dictionary.Item_IncidentAction_Field_Actions, true);
-        FieldSetRequired('CmbActionActionsResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleActions, true);
-        FieldSetRequired('TxtActionActionsDateLabel', Dictionary.Common_Date, true);
+    if ($("#TxtActionActions").val().trim() !== "" || (targetId === "TxtActionActions" && pastedValue !== null)) {
         ActionsRequired = true;
     }
     else {
-        FieldSetRequired('TxtActionActionsLabel', Dictionary.Item_IncidentAction_Field_Actions, false);
-        FieldSetRequired('CmbActionActionsResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleActions, false);
-        FieldSetRequired('TxtActionActionsDateLabel', Dictionary.Common_Date, false);
         ActionsRequired = false;
     }
 
+    if (ActionsRequired === true) {
+        if ($("#CmbActionActionsResponsible").val() * 1 === 0) {
+            $("#CmbActionActionsResponsible").val(ApplicationUser.Employee.Id);
+        }
+
+        if ($("#TxtActionActionsDate").val().trim() === "") {
+            $("#TxtActionActionsDate").val(FormatDate(new Date(), "/"));
+        }
+
+        CausesRequired = true;
+    }
+    else {
+        $("#CmbActionActionsResponsible").val("");
+        $("#TxtActionActionsDate").val("");
+    }
+
+    if (CausesRequired === true) {
+        if ($("#CmbActionCausesResponsible").val() * 1 === 0) {
+            $("#CmbActionCausesResponsible").val(ApplicationUser.Employee.Id);
+        }
+
+        if ($("#TxtActionCausesDate").val().trim() === "") {
+            $("#TxtActionCausesDate").val(FormatDate(new Date(), "/"));
+        }
+    }
+    else {
+        $("#CmbActionCausesResponsible").val("");
+        $("#TxtActionCausesDate").val("");
+    }
+
+    FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, CausesRequired);
+    FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, CausesRequired);
+    FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, CausesRequired);
+
+    FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, ActionsRequired);
+    FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleActions, ActionsRequired);
+    FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Common_Date, ActionsRequired);
+
     //Checking if Closed is required
-    if (document.getElementById('CmbActionClosedResponsible').value * 1 !== 0) {
-        FieldSetRequired('CmbActionClosedResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleClose, true);
-        FieldSetRequired('TxtActionClosedDateLabel', Dictionary.Common_Date, true);
+    if ($("#CmbActionClosedResponsible").val() * 1 !== 0) {
+        FieldSetRequired("CmbActionClosedResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleClose, true);
+        FieldSetRequired("TxtActionClosedDateLabel", Dictionary.Common_Date, true);
         ClosedRequired = true;
     }
-    else if (document.getElementById('TxtActionClosedDate').value !== '') {
-        FieldSetRequired('CmbActionClosedResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleClose, true);
-        FieldSetRequired('TxtActionClosedDateLabel', Dictionary.Common_Date, true);
+    else if ($("#TxtActionClosedDate").val().trim() !== "") {
+        FieldSetRequired("CmbActionClosedResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleClose, true);
+        FieldSetRequired("TxtActionClosedDateLabel", Dictionary.Common_Date, true);
         ClosedRequired = true;
     }
     else {
-        FieldSetRequired('CmbActionClosedResponsibleLabel', Dictionary.Item_IncidentAction_Field_ResponsibleClose, false);
-        FieldSetRequired('TxtActionClosedDateLabel', Dictionary.Common_Date, false);
+        FieldSetRequired("CmbActionClosedResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleClose, false);
+        FieldSetRequired("TxtActionClosedDateLabel", Dictionary.Common_Date, false);
         ClosedRequired = false;
     }
 
@@ -820,7 +838,7 @@ function ValidateData() {
     }
 
     // Es obligatorio indicar la fecha de inicio del riesgo
-    if ($("#DateStart").val() === "") {
+    if ($("#DateStart").val().trim() === "") {
         ErrorMessageInicial.push(Dictionary.Item_BusinessRisk_ErrorMessage_DateStartRequired);
         SetFieldTextMessages("TxtDateStart");
         ok = false;
@@ -865,13 +883,13 @@ function ValidateData() {
 
         // ¿Qué ha pasado? es obligatorio
         //--------------------------------------------------------------------------
-        if ($("#TxtActionWhatHappened").val() === "") {
+        if ($("#TxtActionWhatHappened").val().trim() === "") {
             ok = false;
             ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequired);
             SetFieldTextMessages("TxtActionWhatHappened");
         }
 
-        if ($("#TxtActionWhatHappenedDate").val() === "") {
+        if ($("#TxtActionWhatHappenedDate").val().trim() === "") {
             ok = false;
             ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequiredDate);
             SetFieldTextMessages("TxtActionWhatHappenedDate");
@@ -907,30 +925,30 @@ function ValidateData() {
             ClearFieldTextMessages("TxtActionCauses");
             ClearFieldTextMessages("TxtActionCausesResponsible");
             ClearFieldTextMessages("TxtActionCausesDate");
-            if ($("#TxtActionCauses").val() === "") {
+            if ($("#TxtActionCauses").val().trim() === "") {
                 ok = false;
                 ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequired);
                 SetFieldTextMessages("TxtActionCauses");
 
             }
-            if (document.getElementById("CmbActionCausesResponsible").value * 1 === 0) {
+            if ($("#CmbActionCausesResponsible").val() * 1 === 0) {
                 ok = false;
                 ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequiredResponsible);
                 SetFieldTextMessages("CmbActionCausesResponsible");
             }
 
-            if ($('#TxtActionCausesDate').val() === '') {
+            if ($("#TxtActionCausesDate").val().trim() === "") {
                 ok = false;
                 ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequiredDate);
-                SetFieldTextMessages('TxtActionCausesDate');
+                SetFieldTextMessages("TxtActionCausesDate");
             }
             else {
-                if (!RequiredDateValue('TxtActionCausesDate')) {
+                if (!RequiredDateValue("TxtActionCausesDate")) {
                     ok = false;
                     ErrorMessageAccion.push(Dictionary.Item_IncidentAction_Error_DateMalformed_Causes);
                 }
                 else {
-                    dateCauses = GetDate($('#TxtActionCausesDate').val(), '/', false);
+                    dateCauses = GetDate($("#TxtActionCausesDate").val(), "/", false);
                 }
             }
         }
@@ -939,7 +957,7 @@ function ValidateData() {
             ClearFieldTextMessages("TxtActionActions");
             ClearFieldTextMessages("TxtActionActionsResponsible");
             ClearFieldTextMessages("TxtActionActionsDate");
-            if ($("#TxtActionActions").val() === "") {
+            if ($("#TxtActionActions").val().trim() === "") {
                 ok = false;
                 ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequired);
                 SetFieldTextMessages("TxtActionActions");
@@ -951,7 +969,7 @@ function ValidateData() {
                 SetFieldTextMessages("CmbActionActionsResponsible");
             }
 
-            if ($("#TxtActionActionsDate").val() === "") {
+            if ($("#TxtActionActionsDate").val().trim() === "") {
                 ok = false;
                 ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredDate);
                 SetFieldTextMessages("TxtActionActionsDate");
@@ -976,7 +994,7 @@ function ValidateData() {
                 ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseExecutor);
                 SetFieldTextMessages("TxtActionClosedDate");
             }
-            if ($("TxtActionClosedDate").val() === "") {
+            if (Action.ClosedOn === null) {
                 ok = false;
                 ErrorMessageAccion.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseExecutorDate);
                 SetFieldTextMessages("TxtActionClosedDate");
@@ -1039,7 +1057,7 @@ function ValidateData() {
     }
 
     // Si se marca la fecha de situación final se creará un nuevo riesgo y hay que rellenar los datos
-    if ($("#TxtFinalDate").val() !== "") {
+    if ($("#TxtFinalDate").val().trim() !== "") {
         console.log(businessRisk.FinalProbability);
         console.log(businessRisk.FinalSeverity);
 
@@ -1079,7 +1097,7 @@ function ValidateData() {
         }
 
         //Close date check
-        if ($("#TxtFinalDate").val() === "") {
+        if ($("#TxtFinalDate").val().trim() === "") {
             ErrorMessageFinal.push(Dictionary.Item_BusinessRisk_ErrorMessage_DateCloseRequired);
             SetFieldTextMessages("TxtFinalDate");
             ok = false;
@@ -1110,7 +1128,7 @@ function ValidateData() {
 
         if (ErrorMessageInicial.length > 0) {
             ErrorContent += "<strong>" + Dictionary.Item_BusinessRisk_Tab_Basic + "</strong><ul>";
-            for (var emi = 0; x < ErrorMessageInicial.length; emi++) {
+            for (var emi = 0; emi < ErrorMessageInicial.length; emi++) {
                 ErrorContent += "<li>" + ErrorMessageInicial[emi] + "</li>";
             }
 
@@ -1119,7 +1137,7 @@ function ValidateData() {
 
         if (ErrorMessageAccion.length > 0) {
             ErrorContent += "<strong>" + Dictionary.Item_BusinessRisk_Tab_Action + "</strong><ul>";
-            for (var ema = 0; x < ErrorMessageAccion.length; ema++) {
+            for (var ema = 0; ema < ErrorMessageAccion.length; ema++) {
                 ErrorContent += "<li>" + ErrorMessageAccion[ema] + "</li>";
             }
 
@@ -1569,7 +1587,7 @@ function RenderStepsSliders() {
                 break;
         }
 
-        document.getElementById("FinalStepsProbability").appendChild(span);
+        document.getElementById("FinalStepsProbability").appendChild(span2);
         if (x > 0) {
             span2.onclick = function () {
                 $("#Final-input-span-slider-probability").slider({ "value": this.id });
@@ -1767,7 +1785,9 @@ window.onload = function () {
     $("#TxtActionClosedDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtActionClosedDateErrorCross\" style=\"display:none;\">" + Dictionary.Item_BusinessRisk_ErrorMessage_ClosedRequiredDataOutTime + "</span>")
     $("#Tabhome").click();
 
-    $("#CmbActionActionsResponsible").on("change", function () { WarningEmployeeNoUserCheck($("#CmbActionActionsResponsible").val() * 1, Employees, this); });
+    $("#CmbActionActionsResponsible").on("change", function () {
+        WarningEmployeeNoUserCheck($("#CmbActionActionsResponsible").val() * 1, Employees, this);
+    });
 
     if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
         var resAccion = "";

@@ -74,6 +74,11 @@
         #BtnNewItem, BtnNewOportunity {
             display: none;
         }
+
+        .form-group select:disabled {
+            color: #848484 !important;
+            background-color: #eee !important;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">

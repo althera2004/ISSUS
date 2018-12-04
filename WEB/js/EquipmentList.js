@@ -77,15 +77,17 @@ window.onload = function () {
     document.getElementById("RBStatus1").checked = Filter.indexOf("1") !== -1;
     document.getElementById("RBStatus2").checked = Filter.indexOf("2") !== -1;
     RenderTable();
-    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;")    
-}
-window.onresize = function () { Resize(); }
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;")
+};
+
+window.onresize = function () { Resize(); };
 
 function Export(fileType) {
     console.log("Export", fileType);
     var data = {
         "companyId": Company.Id,
-        "listOrder": listOrder
+        "listOrder": listOrder,
+        "filterText": $("#nav-search-input").val().trim()
     };
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({

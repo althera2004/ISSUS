@@ -541,6 +541,9 @@ window.onload = function () {
         $("#Tabcostes").hide();
         $("#TabuploadFiles").hide();
     }
+
+    $("#TxtCauses").bind("paste", TxtCausesChanged);
+    $("#TxtActions").bind("paste", TxtActionsChanged);
 };
 
 window.onresize = function () { Resize(); };

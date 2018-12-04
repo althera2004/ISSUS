@@ -13,10 +13,10 @@ using GisoFramework;
 using GisoFramework.Item;
 
 /// <summary>Implements JavaScript generator for data page</summary>
-public partial class js_Data : Page
+public partial class JavascriptData : Page
 {
     /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> Dictionary;
+    private Dictionary<string, string> dictionary;
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -26,8 +26,8 @@ public partial class js_Data : Page
         var d1 = DateTime.Now;
         var company = Session["company"] as Company;
         var user = Session["user"] as ApplicationUser;
-        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
-        string userCulture = UsedCulture(company, user);
+        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        string userCulture = this.UsedCulture(company, user);
 
         this.Response.Clear();
         this.Response.ClearHeaders();
@@ -70,11 +70,11 @@ public partial class js_Data : Page
         this.Response.Write(Environment.NewLine);
         this.Response.Write(Environment.NewLine);
 
-        this.Response.Write("var processTypeCompany = " + Environment.NewLine + ProccessTypeList(company) + ";");
+        this.Response.Write("var processTypeCompany = " + Environment.NewLine + this.ProccessTypeList(company) + ";");
         this.Response.Write(Environment.NewLine);
         this.Response.Write(Environment.NewLine);
 
-        this.Response.Write("var departmentsCompany = " + Environment.NewLine + CompanyDepartments(company) + ";");
+        this.Response.Write("var departmentsCompany = " + Environment.NewLine + this.CompanyDepartments(company) + ";");
 
         this.Response.Write(Environment.NewLine);
         this.Response.Write(Environment.NewLine);
@@ -82,7 +82,7 @@ public partial class js_Data : Page
         this.Response.Write("var Dictionary =" + Environment.NewLine);
         this.Response.Write("{" + Environment.NewLine);
 
-        foreach (var item in this.Dictionary)
+        foreach (var item in this.dictionary)
         {
             if (!item.Key.StartsWith("Help_") || true)
             {
@@ -103,6 +103,10 @@ public partial class js_Data : Page
         return string.Format(CultureInfo.InvariantCulture, @"    ""{0}"": ""{1}"",{2}", key, value, Environment.NewLine);
     }
 
+    /// <summary>Gets user culture</summary>
+    /// <param name="company">User's company</param>
+    /// <param name="user">Application user</param>
+    /// <returns>ISO code of user language</returns>
     private string UsedCulture(Company company, ApplicationUser user)
     {
         string userCulture = string.Empty;
@@ -135,6 +139,9 @@ public partial class js_Data : Page
         return userCulture;
     }
 
+    /// <summary> Obtains company's departments</summary>
+    /// <param name="company">Company to search departments</param>
+    /// <returns>List of company's departments</returns>
     private string CompanyDepartments(Company company)
     {
         var departmentsCompanyJson = new StringBuilder("[");
@@ -160,11 +167,14 @@ public partial class js_Data : Page
         return departmentsCompanyJson.ToString();
     }
 
+    /// <summary> Obtains company's process types</summary>
+    /// <param name="company">Company to search process types</param>
+    /// <returns>List of company's process types</returns>
     private string ProccessTypeList(Company company)
     {
         var processTypeList = new StringBuilder("[");
         bool firstProcessType = true;
-        foreach (var processType in ProcessType.ObtainByCompany(company.Id, this.Dictionary))
+        foreach (var processType in ProcessType.ObtainByCompany(company.Id, this.dictionary))
         {
             if (processType.Active)
             {

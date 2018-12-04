@@ -7,42 +7,41 @@ function DocumentDelete(sender) {
     var description = DocumentDescriptionById(sender.id * 1);
     $("#DocumentName").html(description);
     var dialog = $("#DocumentDeleteDialog").removeClass("hide").dialog({
-        resizable: false,
-        width: 500,
-        modal: true,
-        title: Dictionary.Item_Document_PopupDelete_Title,
-        title_html: true,
-        buttons:
-        [
-            {
-                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
-                "class": "btn btn-danger btn-xs",
-                "click": function () {
-                    var ok = true;
-                    if (!RequiredFieldText("TxtNewReason")) { ok = false; }
-                    if (ok === false) {
-                        window.scrollTo(0, 0);
-                        return false;
-                    }
+        "resizable": false,
+        "width": 500,
+        "modal": true,
+        "title": Dictionary.Item_Document_PopupDelete_Title,
+        "title_html": true,
+        "buttons":
+            [
+                {
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        var ok = true;
+                        if (!RequiredFieldText("TxtNewReason")) { ok = false; }
+                        if (ok === false) {
+                            window.scrollTo(0, 0);
+                            return false;
+                        }
 
-                    $(this).dialog("close");
-                    DocumentDeleteConfirmed(sender.id * 1);
+                        $(this).dialog("close");
+                        DocumentDeleteConfirmed(sender.id * 1);
+                    }
+                },
+                {
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        ClearFieldTextMessages("TxtNewReason");
+                        $(this).dialog("close");
+                    }
                 }
-            },
-            {
-                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
-                "class": "btn btn-xs",
-                "click": function () {
-                    ClearFieldTextMessages("TxtNewReason");
-                    $(this).dialog("close");
-                }
-            }
-        ]
+            ]
     });
 }
 
 function DocumentDeleteConfirmed(id) {
-    var webMethod = "/Async/DocumentActions.asmx/DocumentDelete";
     var data = {
         "documentId": id,
         "companyId": Company.Id,
@@ -53,7 +52,7 @@ function DocumentDeleteConfirmed(id) {
     LoadingShow();
     $.ajax({
         type: "POST",
-        url: webMethod,
+        url: "/Async/DocumentActions.asmx/DocumentDelete",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(data, null, 2),
@@ -74,7 +73,6 @@ function DocumentDeleteConfirmed(id) {
 }
 
 function Restore(documentId) {
-    var webMethod = "/Async/DocumentActions.asmx/Restore";
     var data = {
         "documentId": documentId,
         "companyId": Company.Id,
@@ -83,12 +81,12 @@ function Restore(documentId) {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/DocumentActions.asmx/Restore",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
                 document.location = document.location + '';
@@ -97,7 +95,7 @@ function Restore(documentId) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -116,34 +114,33 @@ jQuery(function ($) {
 });
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
-    var listTableInactive = document.getElementById("ListDataDivInactive");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 380) + "px";
+    $("#ListDataDiv").height(containerHeight - 380);
+    $("#ListDataDivInactive").height(containerHeight - 380);
 }
 
 window.onload = function () {
     Resize();
     if (Filter.indexOf("A") !== -1) { document.getElementById("Chk1").checked = true; }
     if (Filter.indexOf("I") !== -1) { document.getElementById("Chk2").checked = true; }
-	var parts = Filter.split('|');
-	console.log(parts);
+    var parts = Filter.split('|');
+    console.log(parts);
     FillComboCategorias();
-	if(parts.length > 2){
-		console.log(parts[1], parts[2]);
-		$("#CmbCategory").val(parts[1]*1);
-		$("#CmbOrigin").val(parts[2]*1);
-	}
-	
-	
+    if (parts.length > 2) {
+        console.log(parts[1], parts[2]);
+        $("#CmbCategory").val(parts[1] * 1);
+        $("#CmbOrigin").val(parts[2] * 1);
+    }
+
+
     RenderDocumentTable();
-	$("#CmbCategory").on("change", FilterChanged);
-	$("#CmbOrigin").on("change", FilterChanged);
+    $("#CmbCategory").on("change", FilterChanged);
+    $("#CmbOrigin").on("change", FilterChanged);
     $("#th0").click();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
-}
+};
 
-window.onresize = function () { Resize(); }
+window.onresize = function () { Resize(); };
 
 function FillComboCategorias() {
     for (var x = 0; x < categories.length; x++) {
@@ -158,20 +155,20 @@ function RenderDocumentTable() {
     $("#ListDataTable").html("");
     var res = "";
     var count = 0;
-	var categorySelected = $("#CmbCategory").val()*1;
-	var originSelected = $("#CmbOrigin").val()*1;
+    var categorySelected = $("#CmbCategory").val() * 1;
+    var originSelected = $("#CmbOrigin").val() * 1;
     for (var x = 0; x < documents.length; x++) {
         var show = false;
         if (documents[x].Baja === false && Filter.indexOf("A") !== -1) { show = true; }
         if (documents[x].Baja === true && Filter.indexOf("I") !== -1) { show = true; }
-		
-		if(originSelected === 0 && documents[x].Origin.Id > 0) { show = false; }
-		if(originSelected === 1 && documents[x].Origin.Id === 0) { show = false; }
-		
-		if(categorySelected > 0){
-			if(documents[x].Category.Id !== categorySelected){ show = false; }
-		}
-		
+
+        if (originSelected === 0 && documents[x].Origin.Id > 0) { show = false; }
+        if (originSelected === 1 && documents[x].Origin.Id === 0) { show = false; }
+
+        if (categorySelected > 0) {
+            if (documents[x].Category.Id !== categorySelected) { show = false; }
+        }
+
         if (show === true) {
             res += RenderDocumentRow(documents[x]);
             count++;
@@ -234,7 +231,7 @@ function RenderDocumentRow(data) {
     buttonEdit.id = data.Id;
     buttonEdit.title = Dictionary.Common_Edit + " " + data.Description;
     buttonEdit.className = "btn btn-xs btn-info";
-    buttonEdit.onclick = function () { DocumentUpdate(this); }
+    buttonEdit.onclick = function () { DocumentUpdate(this); };
     var iconEdit = document.createElement("I");
     iconEdit.className = "icon-" + iconEditChar + " bigger-120";
     buttonEdit.appendChild(iconEdit);
@@ -246,7 +243,7 @@ function RenderDocumentRow(data) {
         buttonDelete.Description = data.Description;
         buttonDelete.title = Dictionary.Common_Delete + " " + data.Description;
         buttonDelete.className = "btn btn-xs btn-danger";
-        buttonDelete.onclick = function () { DocumentDelete(this); }
+        buttonDelete.onclick = function () { DocumentDelete(this); };
         var deleteIcon = document.createElement("I");
         deleteIcon.className = "icon-trash bigger-120";
         buttonDelete.appendChild(deleteIcon);
@@ -259,7 +256,7 @@ function RenderDocumentRow(data) {
     tdOrigin.style.width = "110px";
     tdLocation.style.width = "180px";
     tdRevision.style.width = "80px";
-	tdRevision.align = "right";
+    tdRevision.align = "right";
     tdActions.style.width = "90px";
 
     var target = document.getElementById("ListDataTable");
@@ -283,12 +280,12 @@ function Export(fileType) {
     };
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
             //successInfoUI(msg.d.MessageError, Go, 200);
             var link = document.createElement('a');
@@ -302,7 +299,7 @@ function Export(fileType) {
             window.open(msg.d.MessageError);
             $("#dialogAddAddress").dialog('close');
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI("error:" + msg.responseText);
         }
@@ -319,22 +316,20 @@ function SetFilter() {
     if (document.getElementById("Chk1").checked === true) { Filter += "A"; }
     if (document.getElementById("Chk2").checked === true) { Filter += "I"; }
 	Filter += "|" + $("#CmbCategory").val();
-	Filter += "|" + $("#CmbOrigin").val();
-	
+    Filter += "|" + $("#CmbOrigin").val();
 
-    var webMethod = "/Async/DocumentActions.asmx/SetFilter";
     var data = { "filter": Filter };
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/DocumentActions.asmx/SetFilter",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             console.log("SetFilter", "OK");
         },
-        error: function (msg) {
+        "error": function (msg) {
             console.log("SetFilter", msg.responseText);
         }
     });

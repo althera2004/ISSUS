@@ -42,7 +42,7 @@ public class EquipmentExportList : System.Web.Services.WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult PDF(int companyId, string listOrder)
+    public ActionResult PDF(int companyId, string listOrder, string filterText)
     {
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -247,6 +247,26 @@ public class EquipmentExportList : System.Web.Services.WebService
             PaddingTop = 4f
         });
 
+        if (!string.IsNullOrEmpty(filterText))
+        {
+
+            criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase("Contiene :", ToolsPdf.LayoutFonts.TimesBold))
+            {
+                Border = ToolsPdf.BorderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            });
+
+            criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(filterText, ToolsPdf.LayoutFonts.Times))
+            {
+                Border = ToolsPdf.BorderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            });
+        }
+
         bool pair = false;
         decimal total = 0;
         int border = 0;
@@ -281,6 +301,11 @@ public class EquipmentExportList : System.Web.Services.WebService
                     data = data.OrderByDescending(d => d.TotalCost).ToList();
                     break;
             }
+        }
+
+        if (!string.IsNullOrEmpty(filterText))
+        {
+            data = data.Where(d => d.Code.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1 || d.Description.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1 || d.Responsible.FullName.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1 || d.TotalCost.ToString().IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1).ToList();
         }
 
         foreach (Equipment equipment in data)

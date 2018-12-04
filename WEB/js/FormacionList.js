@@ -292,8 +292,8 @@ window.onresize = function () {
 function DateChange(){
 	$("#TxtDateFromErrorDateRange").hide();
 	$("#TxtDateToErrorDateRange").hide();
-    document.getElementById("TxtDateFromLabel").style.color = "#000";
-    document.getElementById("TxtDateToLabel").style.color = "#000";
+    $("#TxtDateFromLabel").css("color", "#000");
+    $("#TxtDateToLabel").css("color", "#000");
     var dateFrom = GetDate($("#TxtDateFrom").val(), "/", false);
     var dateTo = GetDate($("#TxtDateTo").val(), "/", false);
 	console.log(dateFrom, dateTo);
@@ -302,8 +302,8 @@ function DateChange(){
 	
     if ($("#TxtDateFrom").val() !== "" && $("#TxtDateTo").val() !== "") {
         if (dateFrom > dateTo) {
-            document.getElementById("TxtDateFromLabel").style.color = "#f00";
-            document.getElementById("TxtDateToLabel").style.color = "#f00";
+            $("#TxtDateFromLabel").css("color", "#f00");
+            $("#TxtDateToLabel").css("color", "#f00");
             $("#TxtDateFromErrorDateRange").show();
             $("#TxtDateToErrorDateRange").show();
             ok = false;

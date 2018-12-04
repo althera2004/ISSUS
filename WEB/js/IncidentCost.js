@@ -5,8 +5,8 @@ var filter = "IA";
 function FilterChanged() {
     if (document.getElementById("Chk1") !== null) {
         filter = "";
-        if (document.getElementById("Chk1").checked === true) { filter += "I" };
-        if (document.getElementById("Chk2").checked === true) { filter += "A" };
+        if (document.getElementById("Chk1").checked === true) { filter += "I"; };
+        if (document.getElementById("Chk2").checked === true) { filter += "A"; };
         IncidentCostRenderTable("IncidentCostsTableData");
     }
 }
@@ -19,11 +19,11 @@ function IncidentCostRenderTable(tableName) {
     for (var x = 0; x < IncidentCosts.length; x++) {
         if (IncidentCosts[x].Active === true) {
             var show = true;
-            if (typeof user.Grants.IncidentActions !== "undefined" || user.Grants.IncidentActions.Read === false) {
+            if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
                 show = false;
             }
 
-            if (filter.indexOf(IncidentCosts[x].Source) !== -1) {
+            if (filter.indexOf(IncidentCosts[x].Source) === -1) {
                 show = false;
             }
 
@@ -58,15 +58,16 @@ function IncidentCostRenderRow(incidentCost, target) {
 
     row.id = incidentCost.Id;
 
-    tdDescription.style.width = "290px";
     tdDate.align = "center";
-    tdDate.style.width = "100px";
     tdAmount.align = "right";
-    tdAmount.style.width = "90px";
     tdQuantity.align = "right";
-    tdQuantity.style.width = "90px";
     tdTotal.align = "right";
+
+    tdDate.style.width = "100px";
+    tdAmount.style.width = "90px";
+    tdQuantity.style.width = "90px";
     tdTotal.style.width = "120px";
+    tdResponsible.style.width = "200px";
 
     var fecha = "";
     if (incidentCost.Date !== null) {
@@ -287,6 +288,7 @@ function IncidentCostValidateForm() {
             if (ad < d) {
                 ok = false;
                 $("#TxtIncidentCostDateLabel").css("color", "#f00");
+                $("#TxtIncidentCostDateErrorRange").html(Dictionary.Item_Incident_Cost_Error_Range + " " + $("#TxtWhatHappenedDate").val());
                 $("#TxtIncidentCostDateErrorRange").show();
             }
         }

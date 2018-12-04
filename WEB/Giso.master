@@ -462,7 +462,7 @@
 			// @alex: si la página no es una lista ó no hay datos que mostrar, se oculta el buscador de arriba a la derecha
             if(document.getElementById("ListDataTable") == null)
             {
-                $("#nav-search").hide();
+                //$("#nav-search").hide();
             }
             else
             {                

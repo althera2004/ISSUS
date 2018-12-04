@@ -373,12 +373,12 @@ function ItemRenderTable(list) {
         tdAmount.appendChild(document.createTextNode(ToMoneyFormat(item.Amount, 2)));
 
         tdOpen.style.width = "100px";
-        tdOpen.align = "center"
+        tdOpen.align = "center";
         tdStatus.style.width = "60px";
-        tdStatus.align = "center"
+        tdStatus.align = "center";
         tdOrigin.style.width = "250px";
         tdAction.style.width = "90px";
-        tdAction.align = "center"
+        tdAction.align = "center";
         tdAmount.style.width = "100px";
         tdAmount.align = "right";
 
@@ -423,13 +423,14 @@ function ItemRenderTable(list) {
         if ($.inArray(item.Description, items) === -1) {
             items.push(item.Description);
         }
+
         if ($.inArray(item.Action.Description, items) === -1) {
             items.push(item.Action.Description);
         }
     }
 
     if (items.length === 0) {
-        $("#nav-search").hide();
+        //$("#nav-search").hide();
     }
     else {
         $("#nav-search").show();
@@ -507,14 +508,14 @@ function IncidentDelete(sender) {
     var dialog = $("#IncidentDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": '<h4 class="smaller">' + Dictionary.Item_Incident_Popup_Delete_Title + '</h4>',
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Incident_Popup_Delete_Title + "</h4>",
         "title_html": true,
         "buttons":
             [
                 {
                     "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
-                    click: function () {
+                    "click": function () {
                         IncidentDeleteConfirmed();
                     }
                 },
@@ -589,9 +590,9 @@ window.onload = function () {
     $("#RIncidentStatus4").on("click", IncidentGetFilter);
     $("#TxtDateFrom").on("change", IncidentGetFilter);
     $("#TxtDateTo").on("change", IncidentGetFilter);
-}
+};
 
-window.onresize = function () { Resize(); }
+window.onresize = function () { Resize(); };
 
 function Export() {
     lockOrderList = true;

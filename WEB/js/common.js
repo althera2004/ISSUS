@@ -452,22 +452,6 @@ function valida_nif_cif_nie( a )
     return 0;
 }
 
-/*function str_replace( search, position, replace, subject )
-{
-    var f = search, r = replace, s = subject, p = position;
-    var ra = r instanceof Array, sa = s instanceof Array, f = [].concat(f), r = [].concat(r), i = (s = [].concat(s)).length;
- 
-    while( j = 0, i-- )
-    {
-        if( s[i] )
-        {
-            while( s[p] = s[p].split( f[j] ).join( ra ? r[j] || "" : r[0] ), ++j in f){};
-        }
-    };
- 
-    return sa ? s : s[0];
-}*/
-//-------------------------------------------------
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
@@ -475,29 +459,17 @@ function validateEmail(email) {
 
 // VALIDACION DE FORMULARIOS
 function ClearFieldTextMessages(fieldName) {
-    if (document.getElementById(fieldName + "ErrorRequired") !== null) {
-        document.getElementById(fieldName + "ErrorRequired").style.display = "none";
-    }
-
-    if (document.getElementById(fieldName + "ErrorDuplicated") !== null) {
-        document.getElementById(fieldName + "ErrorDuplicated").style.display = "none";
-    }
-
-    if (document.getElementById(fieldName + "Label") !== null) {
-        document.getElementById(fieldName + "Label").style.color = "#000";
-    }
+    $("#" + fieldName + "ErrorRequired").hide();
+    $("#" + fieldName + "ErrorDuplicated").hide();
+    $("#" + fieldName + "Label").css("color", "#000");
 }
 
 function SetFieldTextMessages(fieldName) {
-    if (document.getElementById(fieldName + "Label") !== null) {
-        document.getElementById(fieldName + "Label").style.color = "#f00";
-    }
+    $("#" + fieldName + "Label").css("color", "#f00");
 }
 
 function SetAsRequired(fieldName) {
-    if (document.getElementById(fieldName + "Label") !== null) {
-        document.getElementById(fieldName + "Label").innerHTML += "<span style=\"color:#f00;\">*</span>";
-    }
+    $("#" + fieldName + "Label").html($("#" + fieldName + fieldName + "Label").html() + "<span style=\"color:#f00;\">*</span>");
 }
 
 function DuplicatedFiled(field) {
@@ -512,16 +484,12 @@ function DuplicatedFiled(field) {
     }
 
     if (ok === false) {
-        if (document.getElementById(fieldName + "ErrorDuplicated") !== null) {
-            document.getElementById(fieldName + "ErrorDuplicated").style.display = "block";
-        }
-        document.getElementById(fieldName + "Label").style.color = "#f00";
+        $("#" + fieldName + "ErrorDuplicated").show();
+        $("#" + fieldName + "Label").css("color", "#f00");
     }
     else {
-        if (document.getElementById(fieldName + "ErrorDuplicated") !== null) {
-            document.getElementById(fieldName + "ErrorDuplicated").style.display = "none";
-        }
-        document.getElementById(fieldName + "Label").style.color = "#000";
+        $("#" + fieldName + "ErrorDuplicated").hide();
+        $("#" + fieldName + "Label").css("color", "#000");
     }
 
     return ok;
@@ -529,18 +497,14 @@ function DuplicatedFiled(field) {
 
 function RequiredFieldText(fieldName) {
     ok = true;
-    if (document.getElementById(fieldName).value.trim() === "") {
+    if ($("#" + fieldName + ).val().trim() === "") {
         ok = false;
-        if (document.getElementById(fieldName + "ErrorRequired") !== null) {
-            document.getElementById(fieldName + "ErrorRequired").style.display = "block";
-        }
-        document.getElementById(fieldName+"Label").style.color = "#f00";
+        $("#" + fieldName + "ErrorRequired").show();
+        $("#" + fieldName + "Label").css("color", "#f00");
     }
     else {
-        if (document.getElementById(fieldName + "ErrorRequired") !== null) {
-            document.getElementById(fieldName + "ErrorRequired").style.display = "none";
-        }
-        document.getElementById(fieldName+"Label").style.color = "#000";
+        $("#" + fieldName + "ErrorRequired").hide();
+        $("#" + fieldName + "Label").css("color", "#000");
     }
 
     return ok;
@@ -550,16 +514,12 @@ function RequiredFieldCombo(fieldName) {
     ok = true;
     if ($("#"+fieldName).val() === "0") {
         ok = false;
-        if (document.getElementById(fieldName + "ErrorRequired") !== null) {
-            document.getElementById(fieldName + "ErrorRequired").style.display = "block";
-        }
-        document.getElementById(fieldName + "Label").style.color = "#f00";
+        $("#" + fieldName + "ErrorRequired").show();
+        $("#" + fieldName + "Label").css("color", "#f00");
     }
     else {
-        if (document.getElementById(fieldName + "ErrorRequired") !== null) {
-            document.getElementById(fieldName + "ErrorRequired").style.display = "none";
-        }
-        document.getElementById(fieldName + "Label").style.color = "#000";
+        $("#" + fieldName + "ErrorRequired").hide();
+        $("#" + fieldName + "Label").css("color", "#000");
     }
 
     return ok;
@@ -569,16 +529,16 @@ function RequiredBothFieldText(fieldName1, fieldName2) {
     ok = true;
     if (document.getElementById(fieldName1).value.trim() === "" && document.getElementById(fieldName2).value.trim() === "") {
         ok = false;
-        document.getElementById(fieldName1 + "ErrorRequired").style.display = "block";
-        document.getElementById(fieldName1 + "Label").style.color = "#f00";
-        document.getElementById(fieldName2 + "ErrorRequired").style.display = "block";
-        document.getElementById(fieldName2 + "Label").style.color = "#f00";
+        $("#" + fieldName1 + "ErrorRequired").show();
+        $("#" + fieldName1 + "Label").css("color", "#f00");
+        $("#" + fieldName2 + "ErrorRequired").show();
+        $("#" + fieldName2 + "Label").style.color = "#f00";
     }
     else {
-        document.getElementById(fieldName1 + "ErrorRequired").style.display = "none";
-        document.getElementById(fieldName1 + "Label").style.color = "#000";
-        document.getElementById(fieldName2 + "ErrorRequired").style.display = "none";
-        document.getElementById(fieldName2 + "Label").style.color = "#000";
+        $("#" + fieldName1 + "ErrorRequired").hide();
+        $("#" + fieldName1 + "Label").css("color", "#000");
+        $("#" + fieldName2 + "ErrorRequired").hide();
+        $("#" + fieldName2 + "Label").css("color", "#000");
     }
 
     return ok;
@@ -593,15 +553,15 @@ function MatchRequiredBothFieldText(fieldName1, fieldName2) {
     if (document.getElementById(fieldName1).value !== document.getElementById(fieldName2).value) {
         ok = false;
         document.getElementById(fieldName1 + "ErrorMatch").style.display = "block";
-        document.getElementById(fieldName1 + "Label").style.color = "#f00";
+        document.getElementById(fieldName1 + "Label").css("color", "#f00");
         document.getElementById(fieldName2 + "ErrorMatch").style.display = "block";
-        document.getElementById(fieldName2 + "Label").style.color = "#f00";
+        document.getElementById(fieldName2 + "Label").css("color", "#f00");
     }
     else {
         document.getElementById(fieldName1 + "ErrorMatch").style.display = "none";
-        document.getElementById(fieldName1 + "Label").style.color = "#000";
+        document.getElementById(fieldName1 + "Label").css("color", "#000");
         document.getElementById(fieldName2 + "ErrorMatch").style.display = "none";
-        document.getElementById(fieldName2 + "Label").style.color = "#000";
+        document.getElementById(fieldName2 + "Label").css("color", "#000");
     }
 
     return ok;
@@ -611,13 +571,13 @@ function MalFormedNif(fieldName) {
     ok = true;
     if (valida_nif_cif_nie(document.getElementById(fieldName).value) < 1) {
         ok = false;
-        document.getElementById(fieldName + "ErrorMalformed").style.display = "block";
-        document.getElementById(fieldName + "Label").style.color = "#f00";
+        $("#" + fieldName + "ErrorMalformed").show();
+        $("#" + fieldName + "Label").css("color", "#f00");
     }
     else {
-        document.getElementById(fieldName + "ErrorMalformed").style.display = "none";
-        document.getElementById(fieldName + "Label").style.color = "#000";
-        document.getElementById(fieldName).value = document.getElementById(fieldName).value.toUpperCase();
+        $("#" + fieldName + "ErrorMalformed").hide();
+        $("#" + fieldName + "Label").css("color", "#000");
+        $("#" + fieldName)val($("#" + fieldName).val().toUpperCase());
     }
 
     return ok;
@@ -627,11 +587,11 @@ function MalFormedEmail(fieldName) {
     ok = true;
     if (validateEmail(document.getElementById(fieldName).value) < 1) {
         ok = false;
-        document.getElementById(fieldName + "ErrorMalformed").style.display = "block";
+        $("#" + fieldName + "ErrorMalformed").show();
         document.getElementById(fieldName + "Label").style.color = "#f00";
     }
     else {
-        document.getElementById(fieldName + "ErrorMalformed").style.display = "none";
+        $("#" + fieldName + "ErrorMalformed").hide();
         document.getElementById(fieldName + "Label").style.color = "#000";
         document.getElementById(fieldName).value = document.getElementById(fieldName).value.toLowerCase();
     }

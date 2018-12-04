@@ -96,14 +96,19 @@ jQuery(function ($) {
     $("#BtnSave").on("click", function (e) { SaveBtnPressed(); });
     $("#BtnCancel").on("click", function (e) { Cancel(); });
 
-    $("#TxtActionCauses").change(function (e) { SetCloseRequired(); });
+    /*$("#TxtActionCauses").change(function (e) { SetCloseRequired(); });
     $("#CmbActionCausesResponsible").change(function (e) { SetCloseRequired(); });
     $("#TxtActionCausesDate").change(function (e) { SetCloseRequired(); });
     $("#TxtActionActions").change(function (e) { SetCloseRequired(); });
     $("#CmbActionActionsResponsible").change(function (e) { SetCloseRequired(); });
     $("#TxtActionActionsDate").change(function (e) { SetCloseRequired(); });
     $("#CmbActionClosedResponsible").change(function (e) { SetCloseRequired(); });
-    $("#TxtActionClosedDate").change(function (e) { SetCloseRequired(); });
+    $("#TxtActionClosedDate").change(function (e) { SetCloseRequired(); });*/
+
+    $("#TxtActionCauses").on("keyup", SetCloseRequired);
+    $("#TxtActionCauses").bind("paste", SetCloseRequired);
+    $("#TxtActionActions").on("keyup", SetCloseRequired);
+    $("#TxtActionActions").bind("paste", SetCloseRequired);
 
     $("#BtnNewCost").on("click", function (e) {
         e.preventDefault();
@@ -568,6 +573,13 @@ function Reload() {
 }
 
 function SetCloseRequired() {
+    console.log("SetCloseRequired");
+    var targetId = null;
+    var pastedValue = null;
+    if (typeof e !== "undefined" && e !== null && e.type === "paste") {
+        targetId = e.originalEvent.target.id;
+        pastedValue = e.originalEvent.clipboardData.getData('Text');
+    }
     /////////////////////////////////
     //Set required fields for risks//
     /////////////////////////////////
@@ -586,56 +598,58 @@ function SetCloseRequired() {
     FieldSetRequired("TxtActionWhatHappenedDateLabel", Dictionary.Common_Date, true);
 
     //Checking if Causes is required
-    if ($("#CmbActionCausesResponsible").val() * 1 !== 0) {
-        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
-        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
-        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, true);
-        CausesRequired = true;
-    }
-    else if ($("#TxtActionCauses").val() !== "") {
-        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
-        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
-        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, true);
-        CausesRequired = true;
-    }
-    else if ($("#TxtActionCausesDate").val() !== "") {
-        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
-        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
-        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, true);
+    if ($("#TxtActionCauses").val().trim() !== "" || (targetId === "TxtActionCauses" && pastedValue !== null)) {
         CausesRequired = true;
     }
     else {
-        FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, false);
-        FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, false);
-        FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, false);
         CausesRequired = false;
     }
 
     //Checking if Actions is required
-    if ($("#CmbActionActionsResponsible").val() * 1 !== 0) {
-        FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, true);
-        FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleActions, true);
-        FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Common_Date, true);
-        ActionsRequired = true;
-    }
-    else if ($("#TxtActionActions").val() !== "") {
-        FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, true);
-        FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleActions, true);
-        FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Common_Date, true);
-        ActionsRequired = true;
-    }
-    else if ($("#TxtActionActionsDate").val() !== "") {
-        FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, true);
-        FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleActions, true);
-        FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Common_Date, true);
+    if ($("#TxtActionActions").val().trim() !== "" || (targetId === "TxtActionActions" && pastedValue !== null)) {
         ActionsRequired = true;
     }
     else {
-        FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, false);
-        FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleActions, false);
-        FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Common_Date, false);
         ActionsRequired = false;
     }
+
+    if (ActionsRequired === true) {
+        if ($("#CmbActionActionsResponsible").val() * 1 === 0) {
+            $("#CmbActionActionsResponsible").val(ApplicationUser.Employee.Id);
+        }
+
+        if ($("#TxtActionActionsDate").val().trim() === "") {
+            $("#TxtActionActionsDate").val(FormatDate(new Date(), "/"));
+        }
+
+        CausesRequired = true;
+    }
+    else {
+        $("#CmbActionActionsResponsible").val("");
+        $("#TxtActionActionsDate").val("");
+    }
+
+    if (CausesRequired === true) {
+        if ($("#CmbActionCausesResponsible").val() * 1 === 0) {
+            $("#CmbActionCausesResponsible").val(ApplicationUser.Employee.Id);
+        }
+
+        if ($("#TxtActionCausesDate").val().trim() === "") {
+            $("#TxtActionCausesDate").val(FormatDate(new Date(), "/"));
+        }
+    }
+    else {
+        $("#CmbActionCausesResponsible").val("");
+        $("#TxtActionCausesDate").val("");
+    }
+
+    FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, CausesRequired);
+    FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, CausesRequired);
+    FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Common_Date, CausesRequired);
+
+    FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, ActionsRequired);
+    FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleActions, ActionsRequired);
+    FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Common_Date, ActionsRequired);
 
     //Checking if Closed is required
     if ($("#CmbActionClosedResponsible").val() * 1 !== 0) {
@@ -1396,6 +1410,7 @@ function Resize() {
 }
 
 window.onload = function () {
+    $("#nav-search").remove();
     $("#TxtActionWhatHappenedDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtActionWhatHappenedDateOverDate\" style=\"display: none;\">" + Dictionary.Item_BusinessRisk_ErrorMessage_ActionVerDate + "</span>");
 
 

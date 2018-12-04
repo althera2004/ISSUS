@@ -28,6 +28,7 @@ public partial class Giso : MasterPage
     /// <summary>List of navigation history urls</summary>
     private List<string> navigation;
 
+    /// <summary>Gets random data por anticache purposses</summary>
     public string AntiCache
     {
         get
@@ -38,6 +39,7 @@ public partial class Giso : MasterPage
 
     public int PendentTasks { get; private set; }
 
+    /// <summary>Gets Issus version</summary>
     public string IssusVersion
     {
         get
@@ -45,14 +47,14 @@ public partial class Giso : MasterPage
             return ConfigurationManager.AppSettings["issusversion"];
         }
     }
-
-    public string BK
+    
+    /*public string BK
     {
         get
         {
             return Session["BK"] as string;
         }
-    }
+    }*/
 
     /// <summary>Gets the navigation history</summary>    
     public string NavigationHistory
@@ -194,10 +196,7 @@ public partial class Giso : MasterPage
                 string label = item.Invariant ? item.Label : this.dictionary[item.Label];
                 if (item.Leaf)
                 {
-                    res.AppendFormat(
-                        CultureInfo.InvariantCulture,
-                        @"<li class=""active"">{0}</li>",
-                        label);
+                    res.AppendFormat(CultureInfo.InvariantCulture, @"<li class=""active"">{0}</li>", label);
                 }
                 else
                 {

@@ -224,6 +224,7 @@ function ShowNewCostPopup(actionSelected) {
 }
 
 function IncidentActionCostValidateForm() {
+    console.log("IncidentActionCostValidateForm");
     var ok = true;
     ClearFieldTextMessages("CmbIncidentActionCostDescription");
     ClearFieldTextMessages("TxtIncidentActionCostDescription");
@@ -237,6 +238,44 @@ function IncidentActionCostValidateForm() {
     if (!RequiredFieldText("TxtIncidentActionCostAmount")) { ok = false; }
     if (!RequiredFieldText("TxtIncidentActionCostQuantity")) { ok = false; }
     if (!RequiredFieldCombo("CmdIncidentActionCostResponsible")) { ok = false; }
+
+    if ($("#TxtIncidentActionCostDate").val() === "") {
+        ok = false;
+        $("#TxtIncidentCostDateLabel").css("color", "#f00");
+        $("#TxtIncidentCostDateErrorRequired").show();
+        $("#TxtIncidentActionCostDateLabel").css("color", "#f00");
+        $("#TxtIncidentActionCostDateErrorRequired").show();
+    }
+    else {
+        if (validateDate($("#TxtIncidentActionCostDate").val()) === false) {
+            ok = false;
+            $("#TxtIncidentCostDateLabel").css("color", "#f00");
+            $("#TxtIncidentCostDateErrorMalformed").show();
+            $("#TxtIncidentActionCostDateLabel").css("color", "#f00");
+            $("#TxtIncidentActionCostDateErrorMalformed").show();
+        }
+        else {
+            var ad = GetDate($("#TxtIncidentActionCostDate").val(), "/", false);
+            var d = new Date();
+
+            if (document.getElementById("TxtActionWhatHappenedDate") !== null) {
+                d = GetDate($("#TxtActionWhatHappenedDate").val(), "/", false);
+            }
+            else {
+                d = GetDate($("#TxtWhatHappenedDate").val(), "/", false);
+            }
+
+            if (ad < d) {
+                ok = false;
+                $("#TxtIncidentCostDateLabel").css("color", "#f00");
+                $("#TxtIncidentActionCostDateLabel").css("color", "#f00");
+                $("#TxtIncidentCostDateErrorRange").html(Dictionary.Item_Incident_Cost_Error_Range + " " + FormatDate(d, "/"));
+                $("#TxtIncidentActionCostDateErrorRange").html(Dictionary.Item_Incident_Cost_Error_Range + " " + FormatDate(d, "/"));
+                $("#TxtIncidentCostDateErrorRange").show();
+                $("#TxtIncidentActionCostDateErrorRange").show();
+            }
+        }
+    }
     return ok;
 }
 

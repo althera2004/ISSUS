@@ -23,7 +23,7 @@ public partial class InitSession : Page
     {
         this.Session["UserId"] = this.Request.Form["UserId"];
         this.Session["CompanyId"] = this.Request.Form["CompanyId"];
-        this.Session["BusinessRiskFilter"] = @"{{""companyId"": 12,""from"": null,""to"": null,""rulesId"": 0,""processId"": 0,""itemType"": 0,""type"": 0}}";
+        this.Session["BusinessRiskFilter"] = @"{""companyId"": 12,""from"": null,""to"": null,""rulesId"": 0,""processId"": 0,""itemType"": 0,""type"": 0}";
         var company = new Company(Convert.ToInt32(this.Request.Form["CompanyId"]));
         this.Session["Company"] = company;
         this.Session["TasksFilter"] = @"{""Owners"":true,""Others"":true,""Passed"": false}";

@@ -4,8 +4,8 @@ var reason = "";
 function ValidateForm()
 {
     var ok = true;
-    document.getElementById("TxtNameLabel").style.color = "#000";
-    document.getElementById("TxtLimitLabel").style.color = "#000";
+    $("#TxtNameLabel").css("color", "#000");
+    $("#TxtLimitLabel").css("color", "#000");
     $("#TxtNameErrorRequired").hide();
     $("#TxtNameErrorDuplicated").hide();
     $("#TxtLimitErrorRequired").hide();
@@ -17,7 +17,7 @@ function ValidateForm()
     if (name === "")
     {
         ok = false;
-        document.getElementById("TxtNameLabel").style.color = "#f00";
+        $("#TxtNameLabel").css("color", "#f00");
         $("#TxtNameErrorRequired").show();
     }
     else {
@@ -26,7 +26,7 @@ function ValidateForm()
             if(companyRules[x].Description === name && companyRules[x].Id !== rule.Id)
             {
                 ok = false;
-                document.getElementById("TxtNameLabel").style.color = "#f00";
+                $("#TxtNameLabel").css("color", "#f00");
                 $("#TxtNameErrorDuplicated").show();
                 break;
             }
@@ -35,14 +35,14 @@ function ValidateForm()
 
     if (limit === "") {
         ok = false;
-        document.getElementById("TxtLimitLabel").style.color = "#f00";
+        $("#TxtLimitLabel").css("color", "#f00");
         $("#TxtLimitErrorRequired").show();
     }
     else {
         var value = limit * 1;
         if(value <1 || value > 25)
         {
-            document.getElementById("TxtLimitLabel").style.color = "#f00";
+            $("#TxtLimitLabel").css("color",  "#f00");
             $("#TxtLimitErrorOutOfRange").show();
             ok = false;
         }
@@ -217,9 +217,9 @@ window.onload = function () {
     RenderStepsSliders();
     $("#TxtName").focus();
     $("#th1").click();
-}
+};
 
-window.onresize = function () { Resize(); }
+window.onresize = function () { Resize(); };
 
 function ShowIPRChanges(newIPR, oldIPR) {
     var risks = [];

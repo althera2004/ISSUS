@@ -403,8 +403,8 @@ public partial class IncidentView : Page
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_Incident_Tab_Basic"], Available = true });
-        this.tabBar.AddTab(new Tab { Id = "accion", Available = this.IncidentId > 0, Active = true, Label = this.Dictionary["Item_Incident_Tab_Action"] });
-        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.IncidentId > 0, Active = this.IncidentId > 0, Label = this.Dictionary["Item_Incident_Tab_Costs"] });
+        this.tabBar.AddTab(new Tab { Id = "accion", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Hidden = this.IncidentId < 1, Label = this.Dictionary["Item_Incident_Tab_Action"] });
+        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.Cost) && this.IncidentId > 0, Hidden = this.IncidentId < 1, Active = this.IncidentId > 0, Label = this.Dictionary["Item_Incident_Tab_Costs"] });
         this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = this.IncidentId > 0, Hidden = this.IncidentId < 1, Label = this.Dictionary["Item_Incident_Tab_UploadFiles"] });
         //// this.tabBar.AddTab(new Tab { Id = "trazas", Available = this.user.HasGrantToRead(ApplicationGrant.Trace) && this.IncidentId > 0, Active = this.IncidentId > 0, Label = this.dictionary["Item_Incident_Tab_Traces"] });
 

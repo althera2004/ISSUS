@@ -53,7 +53,7 @@ function ProviderDelete(id, name) {
 jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || '&nbsp;';
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true) {
                 title.html($title);
             }
@@ -70,10 +70,9 @@ jQuery(function ($) {
 });
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 310) + "px";
+    $("#ListDataDiv").height(containerHeight - 310);
 }
 
-window.onload = function () { Resize(); }
-window.onresize = function () { Resize(); }
+window.onload = function () { Resize(); };
+window.onresize = function () { Resize(); };
