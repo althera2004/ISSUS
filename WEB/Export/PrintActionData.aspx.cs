@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="PrintActionData.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="PrintActionData.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -78,7 +78,6 @@ public partial class ExportPrintActionData : Page
         }
         else
         {
-
             switch (action.ReporterType)
             {
                 case 1:
@@ -125,6 +124,7 @@ public partial class ExportPrintActionData : Page
             WidthPercentage = 100,
             HorizontalAlignment = 0
         };
+
         table.SetWidths(widths);
         var borderSides = Rectangle.RIGHT_BORDER + Rectangle.LEFT_BORDER;
         var borderTBL = Rectangle.TOP_BORDER + Rectangle.BOTTOM_BORDER + Rectangle.LEFT_BORDER;

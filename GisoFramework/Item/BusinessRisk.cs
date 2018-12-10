@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="BusinessRisk.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="BusinessRisk.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item
@@ -641,6 +641,7 @@ namespace GisoFramework.Item
         /// <returns>BusinessRisk object</returns>
         public static BusinessRisk ById(int companyId, long id)
         {
+            var source = string.Format(CultureInfo.InvariantCulture, "BusinessRisk::ById({0},{1}", companyId, id);
             var res = BusinessRisk.Empty;
             using (var cmd = new SqlCommand("BusinessRisk_GetById"))
             {
@@ -727,8 +728,21 @@ namespace GisoFramework.Item
 
                         res.Process = new Process(res.ProcessId, companyId);
                     }
-                    catch (Exception ex)
+                    catch (SqlException ex)
                     {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
                     }
                     finally
                     {

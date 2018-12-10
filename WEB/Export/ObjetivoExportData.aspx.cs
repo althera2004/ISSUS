@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="ExportObjetivoExportData.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="ExportObjetivoExportData.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -56,10 +56,8 @@ public partial class ExportObjetivoExportData : Page
         string originSufix = string.Empty;
         string reporterType = string.Empty;
         string reporter = string.Empty;
-
-        
-
         string status = string.Empty;
+
         var document = new iTextSharp.text.Document(PageSize.A4, 30, 30, 65, 55);
         var writer = PdfWriter.GetInstance(document, new FileStream(Request.PhysicalApplicationPath + "\\Temp\\" + fileName, FileMode.Create));
         writer.PageEvent = new TwoColumnHeaderFooter

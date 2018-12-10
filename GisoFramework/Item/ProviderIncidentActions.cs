@@ -1,8 +1,9 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="ProviderCost.cs" company="Microsoft">
-//     Copyright (c) Sbrinna. All rights reserved.
+﻿// --------------------------------
+// <copyright file="ProviderIncidentActions.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// -----------------------------------------------------------------------
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 namespace GisoFramework.Item
 {
     using System.Collections.Generic;
@@ -15,9 +16,7 @@ namespace GisoFramework.Item
     using GisoFramework.Item.Binding;
     using System.Web;
 
-    /// <summary>
-    /// Implements ProviderIncidentActions class
-    /// </summary>
+    /// <summary>Implements ProviderIncidentActions class</summary>
     public class ProviderIncidentActions
     {
         public Provider Provider { get; set; }

@@ -172,9 +172,8 @@ jQuery(function ($) {
 });
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 380) + "px";
+    $("#ListDataDiv").height(containerHeight - 380);
 }
 
 window.onload = function () {

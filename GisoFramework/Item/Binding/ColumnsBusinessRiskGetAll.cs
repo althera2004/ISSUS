@@ -1,8 +1,9 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="ColumnsBusinessRiskGetAll.cs" company="Sbrinna
-//     Copyright (c) Sbrinna. All rights reserved.
+﻿// --------------------------------
+// <copyright file="ColumnsBusinessRiskGetAll.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// -----------------------------------------------------------------------
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 namespace GisoFramework.Item.Binding
 {
     /// <summary>Index columns of fields in stored BusinessRisk_GetAll result</summary>

@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="UpladFileActions.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="UpladFileActions.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System.Web.Script.Services;
 using System.Web.Services;

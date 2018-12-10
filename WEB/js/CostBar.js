@@ -34,7 +34,7 @@ function CostRenderPopup() {
     var target = document.getElementById("SelectableCost");
     Costs.sort(CompareCosts);
     for (var x = 0; x < Costs.length; x++) {
-        CostPopupRow(Costs[x], target)
+        CostPopupRow(Costs[x], target);
     }
 }
 

@@ -317,5 +317,5 @@ function DateChange(){
 
 function Resize() {
     var containerHeight = $(window).height();
-    $("#ListDataDiv").height((containerHeight - 410) + "px");
+    $("#ListDataDiv").height(containerHeight - 410);
 }

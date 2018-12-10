@@ -1,8 +1,9 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="ProviderCost.cs" company="Microsoft">
-//     Copyright (c) Sbrinna. All rights reserved.
+﻿// --------------------------------
+// <copyright file="ProviderCost.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// -----------------------------------------------------------------------
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 namespace GisoFramework.Item
 {
     using System;
@@ -16,9 +17,7 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    /// <summary>
-    /// Implements ProviderCost class
-    /// </summary>
+    /// <summary>Implements ProviderCost class</summary>
     public class ProviderCost
     {
         public Provider Provider { get; set; }

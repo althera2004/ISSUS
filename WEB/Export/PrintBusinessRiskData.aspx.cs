@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="PrintBusinessRiskData.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="PrintBusinessRiskData.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -50,9 +50,7 @@ public partial class ExportPrintBusinessRiskData : Page
         }
 
         var formatedDescription = ToolsPdf.NormalizeFileName(businessRisk.Description);
-
         var alignLeft = Element.ALIGN_LEFT;
-
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_Data_{2:yyyyMMddhhmmss}.pdf",
@@ -201,6 +199,7 @@ public partial class ExportPrintBusinessRiskData : Page
                 Border = ToolsPdf.BorderBottom,
                 HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
+
             tableAction.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Description"], Rectangle.NO_BORDER));
             tableAction.AddCell(ValueCell(action.Description, ToolsPdf.BorderNone, alignLeft, 3));
 
@@ -220,6 +219,7 @@ public partial class ExportPrintBusinessRiskData : Page
                 causesFullName = action.CausesBy.FullName;
                 causesDate = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.CausesOn);
             }
+
             tableAction.AddCell(SeparationRow());
             tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Causes"]));
             tableAction.AddCell(TextAreaCell(Environment.NewLine + action.Causes, borderSides, alignLeft, 4));
@@ -235,6 +235,7 @@ public partial class ExportPrintBusinessRiskData : Page
                 actionFullName = action.ActionsBy.FullName;
                 actionDate = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.ActionsOn);
             }
+
             tableAction.AddCell(SeparationRow());
             tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Actions"]));
             tableAction.AddCell(TextAreaCell(Environment.NewLine + action.Actions, borderSides, alignLeft, 4));
@@ -255,6 +256,7 @@ public partial class ExportPrintBusinessRiskData : Page
                 closedFullName = action.ClosedBy.FullName;
                 closedDate = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.ClosedOn);
             }
+
             tableAction.AddCell(SeparationRow());
             tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Close"]));
             tableAction.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "\n{0}: {1}", dictionary["Item_IncidentAction_Field_Responsible"], closedFullName), borderTBL, alignLeft, 2));

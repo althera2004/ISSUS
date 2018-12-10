@@ -1,14 +1,12 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="ColumnsEquipmentVerificationActGet.cs" company="Microsoft">
-//     Copyright (c) Sbrinna. All rights reserved.
+﻿// --------------------------------
+// <copyright file="ColumnsEquipmentVerificationActGet.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// -----------------------------------------------------------------------
-
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 namespace GisoFramework.Item.Binding
 {
-    /// <summary>
-    /// Index columns of stored ColumnsEquipmentVerificationActGet result
-    /// </summary>
+    /// <summary>Index columns of stored ColumnsEquipmentVerificationActGet result</summary>
     public static class ColumnsEquipmentVerificationActGet
     {
         /// <summary> Index of Id column</summary>

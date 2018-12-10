@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="ObjetivoRecords.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="ObjetivoRecords.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -130,7 +130,6 @@ public partial class ExportObjetivoRecords : Page
         if (shCriteria.GetRow(1).GetCell(2) == null) { shCriteria.GetRow(1).CreateCell(2); }
         shCriteria.GetRow(1).GetCell(2).SetCellValue(objetivoName);
 
-
         if (shCriteria.GetRow(2).GetCell(1) == null) { shCriteria.GetRow(2).CreateCell(1); }
         shCriteria.GetRow(2).GetCell(1).SetCellValue(Dictionary["Common_From"]);
         if (shCriteria.GetRow(2).GetCell(2) == null) { shCriteria.GetRow(2).CreateCell(2); }
@@ -139,6 +138,7 @@ public partial class ExportObjetivoRecords : Page
         {
             fromValue = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", dateFrom.Value);
         }
+
         shCriteria.GetRow(2).GetCell(2).SetCellValue(fromValue);
 
         if (shCriteria.GetRow(3).GetCell(1) == null) { shCriteria.GetRow(3).CreateCell(1); }
@@ -393,7 +393,6 @@ public partial class ExportObjetivoRecords : Page
         if (shCriteria.GetRow(1).GetCell(2) == null) { shCriteria.GetRow(1).CreateCell(2); }
         shCriteria.GetRow(1).GetCell(2).SetCellValue(indicadorName);
 
-
         if (shCriteria.GetRow(2).GetCell(1) == null) { shCriteria.GetRow(2).CreateCell(1); }
         shCriteria.GetRow(2).GetCell(1).SetCellValue(Dictionary["Common_From"]);
         if (shCriteria.GetRow(2).GetCell(2) == null) { shCriteria.GetRow(2).CreateCell(2); }
@@ -402,6 +401,7 @@ public partial class ExportObjetivoRecords : Page
         {
             fromValue = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", dateFrom.Value);
         }
+
         shCriteria.GetRow(2).GetCell(2).SetCellValue(fromValue);
 
         if (shCriteria.GetRow(3).GetCell(1) == null) { shCriteria.GetRow(3).CreateCell(1); }
@@ -645,9 +645,7 @@ public partial class ExportObjetivoRecords : Page
         };
 
         pdfDoc.Open();
-
         var backgroundColor = new iTS.BaseColor(220, 220, 220);
-
         string periode = string.Empty;
 
         if (dateFrom.HasValue && dateTo.HasValue)
@@ -781,7 +779,6 @@ public partial class ExportObjetivoRecords : Page
                 registros = registros.OrderByDescending(d => d.Responsible.FullName).ToList();
                 break;
         }
-
 
         var dataPoints = new List<PointData>();
         foreach (var registro in registros.OrderByDescending(r=>r.Date))
@@ -986,8 +983,7 @@ public partial class ExportObjetivoRecords : Page
         var symbolFont = new iTS.Font(awesomeFont, 8, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
         var fontAwesomeIcon = BaseFont.CreateFont(string.Format(CultureInfo.InvariantCulture, @"{0}fonts\fontawesome-webfont.ttf", pathFonts), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         FontAwe = new Font(fontAwesomeIcon, 10);
-        // -------------------        
-
+        // -------------------
 
         string periode = string.Empty;
 
@@ -1154,7 +1150,6 @@ public partial class ExportObjetivoRecords : Page
         {
             registros = registros.Where(r => r.Date <= dateTo).ToList();
         }
-
         
         var dataPoints = new List<PointData>();
         foreach (var registro in registros.OrderByDescending(r=>r.Date))

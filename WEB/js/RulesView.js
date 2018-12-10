@@ -14,17 +14,14 @@ function ValidateForm()
     var name = document.getElementById("TxtName").value.trim();
     var limit = document.getElementById("TxtLimit").value.trim();
 
-    if (name === "")
-    {
+    if (name === "") {
         ok = false;
         $("#TxtNameLabel").css("color", "#f00");
         $("#TxtNameErrorRequired").show();
     }
     else {
-        for (var x=0;x<companyRules.length;x++)
-        {
-            if(companyRules[x].Description === name && companyRules[x].Id !== rule.Id)
-            {
+        for (var x = 0; x < companyRules.length; x++) {
+            if (companyRules[x].Description === name && companyRules[x].Id !== rule.Id) {
                 ok = false;
                 $("#TxtNameLabel").css("color", "#f00");
                 $("#TxtNameErrorDuplicated").show();
@@ -140,7 +137,7 @@ jQuery(function ($) {
     //override dialog"s title function to allow for HTML titles
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || "&nbsp;"
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true)
                 title.html($title);
             else title.text($title);
@@ -172,7 +169,7 @@ function RenderStepsSliders() {
         }
     });
 
-    VoidTable("stepsLimit")
+    VoidTable("stepsLimit");
     for (var x = MinStepValue; x < 26; x++) {
         var span = document.createElement("span");
         span.id = x;

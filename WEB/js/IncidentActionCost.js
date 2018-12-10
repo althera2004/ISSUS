@@ -116,6 +116,28 @@ function IncidentActionCostSetPopupFormFill() {
     }
     $("#TxtIncidentActionCostAmount").val(ToMoneyFormat(SelectedIncidentActionCost.Amount, 2));
     $("#TxtIncidentActionCostQuantity").val(ToMoneyFormat(SelectedIncidentActionCost.Quantity, 2));
+
+    // Detectar si el empleado está eliminado
+    var exists = false;
+    $("*[data-deleted]").remove();
+    $("#CmdIncidentActionCostResponsible option").each(function () {
+        if ($(this)[0].value * 1 === SelectedIncidentActionCost.Responsible.Id) {
+            exists = true;
+        }
+    });
+
+    if (exists === false) {
+        var employeeName = "";
+        for (var x = 0; x < Employees.length; x++) {
+            if (Employees[x].Id === SelectedIncidentActionCost.Responsible.Id) {
+                employeeName = Employees[x].FullName;
+            }
+        }
+
+        var option = "<option value=\"" + SelectedIncidentActionCost.Responsible.Id + "\" data-deleted=\"delete\">" + employeeName + "</option>";
+        $("#CmdIncidentActionCostResponsible").append(option);
+    }
+
     $("#CmdIncidentActionCostResponsible").val(SelectedIncidentActionCost.Responsible.Id);
     $("#TxtIncidentActionCostDateErrorRequired").hide();
     $("#TxtIncidentActionCostDateErrorMalformed").hide();

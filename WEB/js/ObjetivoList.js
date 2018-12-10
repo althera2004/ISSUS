@@ -307,7 +307,7 @@ function Resize() {
 window.onload = function () {
     // Descomentar si se imprimie lista
     Resize();
-    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;")
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
 
     $("#TxtDateFrom").on("change", ObjetivoGetFilter);
     $("#TxtDateTo").on("change", ObjetivoGetFilter);

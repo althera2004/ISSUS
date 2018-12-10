@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="Employee.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="Employee.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 namespace GisoFramework.Item
 {
@@ -756,7 +756,7 @@ namespace GisoFramework.Item
 
                                 if (!exists)
                                 {
-                                    var newEmployee = new Employee()
+                                    var newEmployee = new Employee
                                     {
                                         Id = rdr.GetInt32(ColumnsCompanyGetEmployees.Id),
                                         CompanyId = companyId,

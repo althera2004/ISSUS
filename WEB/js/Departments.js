@@ -62,7 +62,7 @@ function DepartmentDesassociationConfirmed(id) {
         var duplicated = false;
         for (var x = 0; x < departments.length; x++) {
             var description = departments[x].Description.toLowerCase();
-            if (description == document.getElementById('TxtName').value.toLowerCase() && departments[x].Id != departmentId) {
+            if (description === $("#TxtName").val().toLowerCase() && departments[x].Id !== departmentId) {
                 duplicated = true;
                 break;
             }
@@ -74,7 +74,7 @@ function DepartmentDesassociationConfirmed(id) {
             ok = false;
         }
         else {
-            $("#TxtNameLabel").css("color",  '#000');
+            $("#TxtNameLabel").css("color",  "#000");
             $("#TxtNameErrorDuplicated").hide();
         }
     }

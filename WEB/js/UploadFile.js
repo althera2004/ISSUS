@@ -142,7 +142,7 @@ function UploadFileGo() {
         if (!$("#fileName").val()) //check empty input filed
         {
             alertUI(Dictionary.Common_Error_NoFileSelected);
-            return false
+            return false;
         }
 
         var fsize = $("#fileName")[0].files[0].size; // get file size
@@ -296,7 +296,7 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
     icon2.href = "/DOCS/" + ApplicationUser.CompanyId + "/" + fileName;
 
     var icon3 = document.createElement("I");
-    icon3.className = "icon-trash bigger-120"
+    icon3.className = "icon-trash bigger-120";
 
     tdSpan1.appendChild(icon1);
     tdSpan1.onclick = function () { ShowPDF(fileName); };
