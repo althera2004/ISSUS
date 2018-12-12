@@ -282,7 +282,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <th id="th0" style="width:35px;"></th>
-                                                                    <th id="th1" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Value"]%></th>
+                                                                    <th id="th1" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 140px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Value"]%></th>
                                                                     <th id="th2" onclick="Sort(this,'IndicadorRegistrosTable','date',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Date"]%></th>
                                                                     <th id="th3"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Comments"]%></th>
                                                                     <!--th id="th4" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th-->

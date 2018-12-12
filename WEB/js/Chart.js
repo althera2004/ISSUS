@@ -3406,7 +3406,8 @@
                         if (dataset.points.length == index + 1 && point.ignore) {
                             point = this.getLastDataPoint(dataset, index);
                         }
-                        if (this.options.datasetFill) {
+
+                        if (this.options.datasetFill && point !== null) {
                             ctx.lineTo(point.x, point.base);
                             ctx.lineTo(start.x, point.base);
                             ctx.fillStyle = dataset.fillColor;

@@ -497,7 +497,7 @@ function DuplicatedFiled(field) {
 
 function RequiredFieldText(fieldName) {
     ok = true;
-    if ($("#" + fieldName + ).val().trim() === "") {
+    if ($("#" + fieldName).val().trim() === "") {
         ok = false;
         $("#" + fieldName + "ErrorRequired").show();
         $("#" + fieldName + "Label").css("color", "#f00");
@@ -577,7 +577,7 @@ function MalFormedNif(fieldName) {
     else {
         $("#" + fieldName + "ErrorMalformed").hide();
         $("#" + fieldName + "Label").css("color", "#000");
-        $("#" + fieldName)val($("#" + fieldName).val().toUpperCase());
+        $("#" + fieldName).val($("#" + fieldName).val().toUpperCase());
     }
 
     return ok;

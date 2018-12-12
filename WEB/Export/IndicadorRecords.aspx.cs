@@ -63,6 +63,8 @@ public partial class ExportIndicadorRecords : Page
             formatedDescription,
             DateTime.Now);
 
+        fileName = fileName.Replace("%", "");
+
         var wb = HSSFWorkbook.Create(InternalWorkbook.CreateWorkbook());
         var sh = (HSSFSheet)wb.CreateSheet(dictionary["Item_Indicador_RecordsReportTitle"]);
         var shCriteria = (HSSFSheet)wb.CreateSheet(dictionary["Common_SearchCriteria"]);
@@ -333,12 +335,17 @@ public partial class ExportIndicadorRecords : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
+
+        var formatedDescription = ToolsPdf.NormalizeFileName(indicadorName);
+
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
-            @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
+            @"{0}_{1}_{2:yyyyMMddhhmmss}.xls",
             dictionary["Item_Indicador_RecordsReportTitle"],
-            indicadorName,
+            formatedDescription,
             DateTime.Now);
+
+        fileName = fileName.Replace("%", "");
 
         var pdfDoc = new iTS.Document(iTS.PageSize.A4.Rotate(), 40, 40, 80, 50);
         var writer = iTextSharp.text.pdf.PdfWriter.GetInstance(pdfDoc,

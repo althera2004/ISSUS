@@ -156,9 +156,7 @@ function IndicadorTypeLayout() {
 }
 
 function ProcessLayout() {
-
     console.log("ProcessLayout", $("#CmbProcess").val());
-
     var processId = $("#CmbProcess").val() * 1;
     var processType = GetProcessType(processId);
     if (IndicadoresObjetivo.length === 0) {
@@ -375,17 +373,17 @@ function RenderRegistroRow(registro) {
     else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
     else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
     else if (registro.Alarma !== null) {
-        if (registro.AlarmaComparer === ">" && registro.Value > registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === ">=" && registro.Value >= registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === "<" && registro.Value < registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === "<=" && registro.Value <= registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        if (registro.AlarmaComparer === ">" && registro.Value > registro.Alarma) { color = "#dc8475"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === ">=" && registro.Value >= registro.Alarma) { color = "#dc8475"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === "<" && registro.Value < registro.Alarma) { color = "#dc8475"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === "<=" && registro.Value <= registro.Alarma) { color = "#dc8475"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
         else {
             color = "#dc8475";
-            statusLabel = Dictionary.Item_Indicador_StatusLabelNoMeta;
+            statusLabel = Dictionary.Item_Indicador_StatusLabelWarning;
         }
     }
     else {
-        color = "#dc8475";
+        color = "#e59729!important";
         statusLabel = Dictionary.Item_Indicador_StatusLabelNoMeta;
     }
 
@@ -394,12 +392,17 @@ function RenderRegistroRow(registro) {
     row += "    <td style=\"width:35px;\">";
     row += "        <i title=\"" + statusLabel + "\" class=\"" + icon + "\" style=\"color:" + color + ";\"></i>";
     row += "    </td>";
-    row += "    <td align=\"right\" style=\"width:90px;\">";
+    row += "    <td align=\"right\" style=\"width:140px;\">";
     row += ToMoneyFormat(registro.Value, 2) + "</td>";
     row += "    <td align=\"center\" style=\"width:90px;\">" + registro.Date + "</td>";
     row += "    <td>" + registro.Comments + "</td>";
     row += "    <td align=\"right\" style=\"width:120px;\">" + registro.MetaComparer + " " + ToMoneyFormat(registro.Meta, 2) + "</td>";
-    row += "    <td align=\"right\" style=\"width:120px;\">" + registro.AlarmaComparer + " " + alarmaText + "</td>";
+    if (registro.Alarma === null) {
+        row += "    <td align=\"right\" style=\"width:120px;\">&nbsp;</td>";
+    } else {
+        row += "    <td align=\"right\" style=\"width:120px;\">" + registro.AlarmaComparer + " " + alarmaText + "</td>";
+    }
+
     row += "    <td style=\"width:175px;\">" + registro.Responsible.Value + "</td>";
     row += "    <td style=\"width:90px;\">";
 
@@ -1008,34 +1011,31 @@ function DrawGraphics(stop) {
             labels.push("");
         }
 
+        console.log(alarmas);
+        console.log(metas);
+
         var overlayData = {
             "colors": colors,
             "labels": labels,
-            "datasets": [
-                {
-                    "label": "Alarma",
-                    "type": "line",
-                    "fillColor": "rgba(244,210,210,0)",
-                    "strokeColor": "rgba(216,33,0,0.8)",
-                    "highlightFill": "rgba(151,187,205,0.75)",
-                    "highlightStroke": "rgba(151,187,205,1)",
-                    "data": alarmas
-                }, {
+            "datasets": [ {
                     "label": "Meta",
                     "type": "line",
                     "fillColor": "rgba(119,226,152,0)",
                     "strokeColor": "rgba(59,183,38,0.8)",
-                    "highlightFill": "rgba(59,183,38,0.75)",
-                    "highlightStroke": "rgba(94,114,95,1)",
                     "data": metas
                 },
                 {
                     "label": "Valor",
                     "fillColor": "#275b89",
                     "strokeColor": "rgba(77,110,240,0.8)",
-                    "highlightFill": "rgba(77,100,240,0.75)",
-                    "highlightStroke": "rgba(77,100,240,1)",
                     "data": values
+                },
+                {
+                    "label": "Alarma",
+                    "type": "line",
+                    "fillColor": "rgba(244,210,210,0)",
+                    "strokeColor": "rgba(216,33,0,0.8)",
+                    "data": alarmas
                 }
             ]
         };
@@ -1065,7 +1065,7 @@ function DrawGraphics(stop) {
             }
         }.bind(this), 100);
 
-        console.log("gauge");
+        /*console.log("gauge");
 
         var maxValue = lastAlarm;
         if (lastValue > maxValue) { maxValue = lastValue; }
@@ -1108,7 +1108,7 @@ function DrawGraphics(stop) {
             },
             "value": lastValue,
             "subvalues": [lastValue]
-        });
+        });*/
     }
 }
 

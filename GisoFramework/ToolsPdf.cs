@@ -77,7 +77,7 @@ namespace GisoFramework
                 }
             }
 
-            return fileName.Replace('#', '_').Replace('%', '_');
+            return fileName.Replace('#', '_').Replace('%', '_').Replace('´', '_');
         }
 
         public static void AddTableTitle(PdfPTable table, string title)
