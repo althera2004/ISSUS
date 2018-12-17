@@ -72,6 +72,10 @@ function SaveAction() {
     var dateClose = null;
     var dateCloseExecution = null;
 
+    if (typeof IncidentAction.OportunityId === "undefined") {
+        IncidentAction.OportunityId = -1;
+    }
+
     if ($("#TxtDescription").val() === "") {
         ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_DescriptionRequired);
         SetFieldTextMessages("TxtDescription");

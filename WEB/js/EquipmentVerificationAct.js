@@ -379,7 +379,7 @@ function EquipmentVerificationActEditFormFill(EquipmentVerificationAct) {
         document.getElementById("REquipmentVerificationActTypeInternal").disabled = !VerificationInternalExists;
     }
 
-    document.getElementById("REquipmentVerificationActTypeErrorRequired").style.display = "none";
+    $("#REquipmentVerificationActTypeErrorRequired").hide();
     ClearFieldTextMessages("TxtEquipmentVerificationActResult");
     ClearFieldTextMessages("TxtEquipmentVerificationActDate");
     ClearFieldTextMessages("TxtEquipmentVerificationActCost");
@@ -387,7 +387,7 @@ function EquipmentVerificationActEditFormFill(EquipmentVerificationAct) {
     ClearFieldTextMessages("CmbEquipmentVerificationActResponsible");
     $("#TxtEquipmentVerificationActDate").val(FormatYYYYMMDD(EquipmentVerificationAct.Date, "/"));
     $("#TxtEquipmentVerificationActObservations").val(EquipmentVerificationAct.Observations);
-    $("#TxtEquipmentVerificationActResult").val(ToMoneyFormat(EquipmentVerificationAct.Result, 2));
+    $("#TxtEquipmentVerificationActResult").val(ToMoneyFormat(EquipmentVerificationAct.Result, 6));
     if (EquipmentVerificationAct.Cost !== null) {
         $("#TxtEquipmentVerificationActCost").val(ToMoneyFormat(EquipmentVerificationAct.Cost, 2));
     } else {
@@ -595,11 +595,11 @@ function EquipmentVerificationSave() {
         }
     };
 
+    var data = {
+        "equipmentVerificationAct": SelectedEquipmentVerificationAct,
+        "userId": user.Id
+    };
     if (SelectedEquipmentVerificationActId < 1) {
-        var data = {
-            "equipmentVerificationAct": SelectedEquipmentVerificationAct,
-            "userId": user.Id
-        };
         $.ajax({
             "type": "POST",
             "url": "/Async/EquipmentVerificationActActions.asmx/Insert",
@@ -618,10 +618,6 @@ function EquipmentVerificationSave() {
         });
     }
     else {
-        var data = {
-            "equipmentVerificationAct": SelectedEquipmentVerificationAct,
-            "userId": user.Id
-        };
         $.ajax({
             "type": "POST",
             "url": "/Async/EquipmentVerificationActActions.asmx/Update",
@@ -668,21 +664,6 @@ function VerificationInternalValidateForm() {
     if (!RequiredFieldText("TxtVerificationInternalPeriodicity")) {
         ok = false;
     }
-    /*if (!RequiredFieldText("TxtVerificationInternalUncertainty")) {
-        ok = false;
-    }*/
-    /*if (!RequiredFieldText("TxtVerificationInternalRange")) {
-        ok = false;
-    }*/
-    /*if (!RequiredFieldText("TxtVerificationInternalPattern")) {
-        ok = false;
-    }*/
-
-    /* ISSUS-18
-    if (!RequiredFieldText("TxtVerificationInternalCost")) {
-        ok = false;
-    }
-    */
 
     if (!RequiredFieldCombo("CmbVerificationInternalResponsible")) {
         ok = false;
@@ -703,21 +684,6 @@ function VerificationExternalValidateForm() {
     if (!RequiredFieldText("TxtVerificationExternalPeriodicity")) {
         ok = false;
     }
-    /*if (!RequiredFieldText("TxtVerificationExternalUncertainty")) {
-        ok = false;
-    }*/
-    /*if (!RequiredFieldText("TxtVerificationExternalRange")) {
-        ok = false;
-    }*/
-    /*if (!RequiredFieldText("TxtVerificationExternalPattern")) {
-        ok = false;
-    }*/
-
-    /* ISSUS-18
-    if (!RequiredFieldText("TxtVerificationExternalCost")) {
-        ok = false;
-    }
-    */
 
     if (!RequiredFieldCombo("CmbVerificationExternalResponsible")) {
         ok = false;
@@ -750,15 +716,15 @@ function EquipmentVerificationInternalDefinitionSave() {
         "Notes": $("#TxtVerificationInternalNotes").val(),
         "Provider": null,
         "Responsible": { "Id": $("#CmbVerificationInternalResponsible").val() }
-    }
+    };
 
     console.log("EquipmentVerificationInternalDefinitionSave", VerificationInternalDefinition);
 
+    var data = {
+        "equipmentVerificationDefinition": VerificationInternalDefinition,
+        "userId": user.Id
+    };
     if (Equipment.InternalVerification.Id < 1) {
-        var data = {
-            "equipmentVerificationDefinition": VerificationInternalDefinition,
-            "userId": user.Id
-        };
         $.ajax({
             "type": "POST",
             "url": "/Async/EquipmentVerificationDefinitionActions.asmx/Insert",
@@ -778,10 +744,6 @@ function EquipmentVerificationInternalDefinitionSave() {
         });
     }
     else {
-        var data = {
-            "equipmentVerificationDefinition": VerificationInternalDefinition,
-            "userId": user.Id
-        };
         $.ajax({
             "type": "POST",
             "url": "/Async/EquipmentVerificationDefinitionActions.asmx/Update",
@@ -816,13 +778,13 @@ function EquipmentVerificationExternalDefinitionSave() {
         "Notes": $("#TxtVerificationExternalNotes").val(),
         "Provider": { "Id": $("#CmbVerificationExternalProvider").val() },
         "Responsible": { "Id": $("#CmbVerificationExternalResponsible").val() }
-    }
+    };
 
+    var data = {
+        "equipmentVerificationDefinition": VerificationExternalDefinition,
+        "userId": user.Id
+    };
     if (Equipment.ExternalVerification.Id < 1) {
-        var data = {
-            "equipmentVerificationDefinition": VerificationExternalDefinition,
-            "userId": user.Id
-        };
         $.ajax({
             "type": "POST",
             "url": "/Async/EquipmentVerificationDefinitionActions.asmx/Insert",
@@ -842,10 +804,6 @@ function EquipmentVerificationExternalDefinitionSave() {
         });
     }
     else {
-        var data = {
-            "equipmentVerificationDefinition": VerificationExternalDefinition,
-            "userId": user.Id
-        };
         $.ajax({
             "type": "POST",
             "url": "/Async/EquipmentVerificationDefinitionActions.asmx/Update",

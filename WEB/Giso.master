@@ -140,6 +140,7 @@
         var PendentTasks = <%=this.PendentTasks %>;
         var referrer = "<%=this.Referrer %>";
         items = [<%=this.SearcheableItems %>];
+        var keyFocus = null;
     </script>
     <script type="text/javascript" src="assets/js/ace-extra.min.js"></script>
     <!--[if lt IE 9]>
@@ -485,6 +486,7 @@
                 if (code == 37) { ok = true; }
                 if (code == 39) { ok = true; }
                 if (code == 27) { ok = true; }
+                if (code == 109) { ok = true; }
                 if(code > 95 && code < 106) { ok = true; }
                 if(code > 36 && code < 41) { ok = true; }
                 if(code > 47 && code < 58) { ok = true; }
@@ -529,6 +531,7 @@
             }
 
             function numberDecimalUp(e) {
+                console.log("this", $(this));
                 var code = (e.keyCode ? e.keyCode : e.which);
                 numberActual = e.currentTarget.value;
 
@@ -545,6 +548,7 @@
             }
 
             function numberDecimalFocus(e) {
+                keyFocus = e.currentTarget.value;
                 console.log("numberDecimalFocus", e.currentTarget.value * 1);
                 e.currentTarget.value = e.currentTarget.value.toString().split(".").join("").split(",").join(".");
                 console.log("numberDecimalFocus", e.currentTarget.value * 1);
@@ -560,19 +564,43 @@
                     e.currentTarget.value = "";
                 }
 
+                if (isNaN(value)) {
+                    e.currentTarget.value = keyFocus;
+                    value = keyFocus;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Not a number", e.currentTarget.value);
+                }
+
                 // @alex: poner el formato en magnitud (sin puntos de millares)
                 e.currentTarget.value = e.currentTarget.value.toString().split(".").join("").split(",").join(".");
             }
 
             function numberDecimalBlur(e) {
                 var value = e.currentTarget.value;
+
+                if (isNaN(value)) {
+                    e.currentTarget.value = keyFocus;
+                    value = keyFocus;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Not a number", e.currentTarget.value);
+                }
+
                 value = Math.round(value * 100) / 100;
                 e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
             }
 
             function moneyBlur(e) {
                 var value = e.currentTarget.value;
-                console.log("moneyBlur", value);
+
+                if (isNaN(value)) {
+                    e.currentTarget.value = keyFocus;
+                    value = keyFocus;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Not a number", e.currentTarget.value);
+                }
 
                 if (e.currentTarget.className.indexOf("nullable") !== -1) {
                     if (value === "") {
@@ -596,6 +624,15 @@
 
             function numberDecimalBlur6(e) {
                 var value = e.currentTarget.value;
+
+                if (isNaN(value)) {
+                    e.currentTarget.value = keyFocus;
+                    value = keyFocus;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Not a number", e.currentTarget.value);
+                }
+
                 if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
                 }
                 else {
@@ -732,6 +769,9 @@
                 $("#menuoption-6").hide();
                 $("#menuoption-0").hide();
             }
+
+            // @alex: ocultar entrada de menú para oportunidades
+            $("#menuoption-26").hide();
 			
 			$(".pull-left").css("max-width","90%");
 			$(".pull-left").css("overflow","hidden");

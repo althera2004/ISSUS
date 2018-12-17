@@ -31,7 +31,6 @@
                             <div class="col-xs-12">
                                 <!-- PAGE CONTENT BEGINS -->
                                 <div class="col-sm-12">
-                                    
                                     <table cellpadding="2" cellspacing="2">
                                         <tr>
                                             <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Periode1"] %>:</strong></td>
@@ -143,15 +142,12 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
-                                                        <!-- <th id="th0" class="search"><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th> -->
-                                                        <th id="th2" style="width:60px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"] %></th>
+                                                        <th id="th2" style="width:65px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"] %></th>
 														<th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
 														<th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="sort search"><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th>
-                                                        <!-- <th id="th4" class="search sort" style="width:150px;"><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %></th> -->
-														<th onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="sort" style="width:250px;"><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="sort" style="width:250px;"><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %></th>
                                                         <th onclick="Sort(this,'ListDataTable','text',false);" id="th4" class="sort" style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_Type"] %></th>
 														<th onclick="Sort(this,'ListDataTable','date',false);" id="th5" class="sort hidden-480 search" style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_ImplementDate"] %></th>
-                                                        <!-- <th onclick="Sort(this,'ListDataTable','date',false);" id="th6" class="sort hidden-480 search" style="width:100px;text-align:center;"><%=this.Dictionary["Item_IncidentAction_Header_Close"] %></th> -->
                                                         <th onclick="Sort(this,'ListDataTable','money',false);" id="th6" class="sort hidden-480 search" style="width:100px; text-align:center"><%=this.Dictionary["Item_IncidentAction_Header_Cost"] %></th>
                                                         <th class="hidden-480" style="width:107px !important;">&nbsp;</th>
                                                     </tr>
@@ -163,7 +159,7 @@
                                                 </table>
                                                 <table id="ItemTableError" style="display:none;width:100%;">
                                                     <tr>
-                                                        <td colspan="10" align="center" style="color:#aa0000;">
+                                                        <td colspan="10" style="color:#aa0000;text-align:center;">
                                                             <table style="border:none;width:100%;">
                                                                 <tr>
                                                                     <td rowspan="2" style="border:none;text-align:right;"><i class="icon-warning-sign" style="font-size:48px;"></i></td>        
@@ -241,7 +237,6 @@
         <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/ActionsList.js?ac=<%=this.AntiCache %>"></script>
     <script type="text/javascript">
-
         jQuery(function ($) {
 
             $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
@@ -253,82 +248,72 @@
                 }
             }));
 
-            /*$('.date-picker').datepicker({
-                autoclose: true,
-                todayHighlight: true,
-                monthNamesShort: [ "Jan", "Feb", "222", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec" ]
-            });*/
             var options = $.extend({}, $.datepicker.regional["<%=this.UserLanguage %>"], { autoclose: true, todayHighlight: true });
             $(".date-picker").datepicker(options);
 
-            $("#BtnSearch").on('click', function (e) {
+            $("#BtnSearch").on("click", function (e) {
                 e.preventDefault();
                 IncidentActionGetFilter(); 
             });
 
-            $('#BtnRecordShowAll').on('click', function (e) {
+            $("#BtnRecordShowAll").on("click", function (e) {
                 e.preventDefault();
                 IncidentActionGetAll();
             });
 
-            $('#BtnRecordShowNone').on('click', function (e){
+            $("#BtnRecordShowNone").on("click", function (e){
                 e.preventDefault();
                 IncidentActionGetNone();
             });
         });
 
         function IncidentActionGetNone() {
-            document.getElementById('BtnRecordShowAll').style.display = '';
-            document.getElementById('BtnRecordShowNone').style.display = 'none';
-            
-            document.getElementById('TxtDateFrom').value = '';
-            document.getElementById('TxtDateTo').value = '';
-            document.getElementById('chkStatus1').checked = false;
-            document.getElementById('chkStatus2').checked = false;
-            document.getElementById('chkStatus3').checked = false;
-            document.getElementById('chkStatus4').checked = false;
-            document.getElementById('RType1').checked = false;
-            document.getElementById('RType2').checked = false;
-            document.getElementById('RType3').checked = false;
-            document.getElementById('CmbOrigin').value = -1;
-            document.getElementById('CmbReporter').value = 0;
-            VoidTable('ListDataTable');
+            $("#BtnRecordShowAll").show();
+            $("#BtnRecordShowNone").hide();
+
+            $("TxtDateFrom").val("");
+            $("TxtDateTo").val("");
+            document.getElementById("chkStatus1").checked = false;
+            document.getElementById("chkStatus2").checked = false;
+            document.getElementById("chkStatus3").checked = false;
+            document.getElementById("chkStatus4").checked = false;
+            document.getElementById("RType1").checked = false;
+            document.getElementById("RType2").checked = false;
+            document.getElementById("RType3").checked = false;
+            $("CmbOrigin").val(-1);
+            $("CmbReporter").val(0);
+            VoidTable("ListDataTable");
         }
 
         function IncidentActionGetAll() {
-            //document.getElementById('BtnRecordShowAll').style.display = 'none';
-            //document.getElementById('BtnRecordShowNone').style.display = '';
-
-            document.getElementById('TxtDateFrom').value = '';
-            document.getElementById('TxtDateTo').value = '';
-            document.getElementById('chkStatus1').checked = true;
-            document.getElementById('chkStatus2').checked = true;
-            document.getElementById('chkStatus3').checked = true;
-            document.getElementById('chkStatus4').checked = true;
-            document.getElementById('RType1').checked = true;
-            document.getElementById('RType2').checked = true;
-            document.getElementById('RType3').checked = true;
-            document.getElementById('CmbOrigin').value = -1;
-            document.getElementById('CmbReporter').value = 0;
+            $("TxtDateFrom").val("");
+            $("TxtDateTo").val("");
+            document.getElementById("chkStatus1").checked = true;
+            document.getElementById("chkStatus2").checked = true;
+            document.getElementById("chkStatus3").checked = true;
+            document.getElementById("chkStatus4").checked = true;
+            document.getElementById("RType1").checked = true;
+            document.getElementById("RType2").checked = true;
+            document.getElementById("RType3").checked = true;
+            $("CmbOrigin").val(-1);
+            $("CmbReporter").val(0);
             IncidentActionGetFilter();
         }
 
-        if(Filter!=null)
-        {
-            document.getElementById('TxtDateFrom').value = GetDateYYYYMMDDText(Filter.from,'/',false);
-            document.getElementById('TxtDateTo').value = GetDateYYYYMMDDText(Filter.to,'/',false);
-            document.getElementById('chkStatus1').checked = Filter.statusIdnetified;
-            document.getElementById('chkStatus2').checked = Filter.statusAnalyzed;
-            document.getElementById('chkStatus3').checked = Filter.statusInProgress;
-            document.getElementById('chkStatus4').checked = Filter.statusClose;
-            document.getElementById('RType1').checked = Filter.typeImprovement;
-            document.getElementById('RType2').checked = Filter.typeFix;
-            document.getElementById('RType3').checked = Filter.typePrevent;
-            document.getElementById('CmbOrigin').value = Filter.origin;
+        if (Filter != null) {
+            $("#TxtDateFrom").val(GetDateYYYYMMDDText(Filter.from, "/", false));
+            $("#TxtDateTo").val(GetDateYYYYMMDDText(Filter.to, "/", false));
+            document.getElementById("chkStatus1").checked = Filter.statusIdnetified;
+            document.getElementById("chkStatus2").checked = Filter.statusAnalyzed;
+            document.getElementById("chkStatus3").checked = Filter.statusInProgress;
+            document.getElementById("chkStatus4").checked = Filter.statusClose;
+            document.getElementById("RType1").checked = Filter.typeImprovement;
+            document.getElementById("RType2").checked = Filter.typeFix;
+            document.getElementById("RType3").checked = Filter.typePrevent;
+            $("#CmbOrigin").val(Filter.origin);
             IncidentActionGetFilter();
         }
 
         IncidentActionGetFilter();
     </script>
 </asp:Content>
-

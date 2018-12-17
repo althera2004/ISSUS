@@ -374,7 +374,7 @@ function ItemRenderTable(list) {
 
         tdOpen.style.width = "100px";
         tdOpen.align = "center";
-        tdStatus.style.width = "60px";
+        tdStatus.style.width = "65px";
         tdStatus.align = "center";
         tdOrigin.style.width = "250px";
         tdAction.style.width = "90px";

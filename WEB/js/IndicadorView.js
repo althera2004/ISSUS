@@ -781,7 +781,7 @@ function FillFormRegistro(id) {
         if (registro !== null) {
 			var value = registro.Value.toString().split('.').join(',');
 			if( value === "") { value = "0,00"; }
-            $("#TxtRegistroValue").val(value);
+            $("#TxtRegistroValue").val(ToMoneyFormat(value));
             $("#TxtRecordDate").val(registro.Date);
             $("#TxtRegistroComments").val(registro.Comments);
             $("#CmbResponsibleRecord").val(registro.Responsible.Id);

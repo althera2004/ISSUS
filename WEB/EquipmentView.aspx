@@ -257,8 +257,9 @@
                                                                             <tr>
                                                                                 <th id="th0" class="sort" style="width:90px;" onclick="Sort(this,'TableEquipmentCalibrationAct','date');" ><%=this.Dictionary["Common_Date"] %></th>
                                                                                 <th id="th1" class="sort hidden-480" style="width:90px;"" onclick="Sort(this,'TableEquipmentCalibrationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Type"] %></th>
-                                                                                <th class="hidden-480" style="width:130px;""><%=this.Dictionary["Item_Equipment_Field_Calibration_Uncertainty"] %></th>
-                                                                                <th id="th3" class="sort hidden-480" style="width:120px;" onclick="Sort(this,'TableEquipmentCalibrationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %></th>	
+                                                                                <!-- th class="hidden-480" style="width:130px;""><%=this.Dictionary["Item_Equipment_Field_Calibration_Uncertainty"] %></th -->
+                                                                                <th id="th2" class="sort hidden-480" style="width:130px;" onclick="Sort(this,'TableEquipmentCalibrationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Uncertainty"] %></th>
+																				<th id="th3" class="sort hidden-480" style="width:120px;" onclick="Sort(this,'TableEquipmentCalibrationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %></th>	
                                                                                 <th class="hidden-480"><%=this.Dictionary["Item_Equipment_Field_Calibration_Responsible"] %></th>	
                                                                                 <th id="th5" class="sort hidden-480" style="width:120px;" onclick="Sort(this,'TableEquipmentCalibrationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %></th>	
                                                                                 <th id="th6" class="sort hidden-480" style="width:120px;"  onclick="Sort(this,'TableEquipmentCalibrationAct','date');" ><%=this.Dictionary["Item_Equipment_Field_Calibration_Expiration"] %></th>	
@@ -410,8 +411,9 @@
                                                                             <tr>	
                                                                                 <th id="th0" class="sort" style="width:90px;" onclick="Sort(this,'TableEquipmentVerificationAct','date');" ><%=this.Dictionary["Common_Date"] %></th>
                                                                                 <th id="th1" class="sort hidden-480" style="width:90px;"" onclick="Sort(this,'TableEquipmentVerificationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Type"] %></th>
-                                                                                <th class="hidden-480" style="width:130px;""><%=this.Dictionary["Item_Equipment_Field_Calibration_Uncertainty"] %></th>
-                                                                                <th id="th3" class="sort hidden-480" style="width:120px;" onclick="Sort(this,'TableEquipmentVerificationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %></th>	
+                                                                                <!-- th class="hidden-480" style="width:130px;""><%=this.Dictionary["Item_EquipmentVerification_Field_Uncertainty"] %></th -->
+																				<th id="th2" class="sort hidden-480" style="width:130px;" onclick="Sort(this,'TableEquipmentVerificationAct','money');"><%=this.Dictionary["Item_EquipmentVerification_Field_Uncertainty"] %></th>
+																				<th id="th3" class="sort hidden-480" style="width:120px;" onclick="Sort(this,'TableEquipmentVerificationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %></th>	
                                                                                 <th class="hidden-480"><%=this.Dictionary["Common_Responsible"] %></th>	
                                                                                 <th id="th5" class="sort hidden-480" style="width:120px;" onclick="Sort(this,'TableEquipmentVerificationAct','money');"><%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %></th>	
                                                                                 <th id="th6" class="sort hidden-480" style="width:120px;"  onclick="Sort(this,'TableEquipmentVerificationAct','date');" ><%=this.Dictionary["Item_Equipment_Field_Calibration_Expiration"] %></th>	
@@ -1033,17 +1035,16 @@
                                         </div>
                                     </div>    
                                     <div class="form-group">
-                                        <label id ="TxtEquipmentCalibrationActResultLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentCalibrationActResult">Resultado<span class="required">*</span></label>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="col-xs-12 col-sm-12 decimalFormated6" id="TxtEquipmentCalibrationActResult" placeholder="Resultado" value="" maxlength="8" />
+                                        <label id ="TxtEquipmentCalibrationActResultLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentCalibrationActResult"><%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %><span class="required">*</span></label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="col-xs-12 col-sm-12 decimalFormated6" id="TxtEquipmentCalibrationActResult" placeholder="<%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %>" value="" maxlength="12" />
                                             <span class="ErrorMessage" id="TxtEquipmentCalibrationActResultErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div>   
                                     <div class="form-group">
-                                        <!-- ISSUS-18 -->
-                                        <label id ="TxtEquipmentCalibrationActCostLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentCalibrationActCost">Coste</label>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtEquipmentCalibrationActCost" placeholder="Coste" value="" maxlength="8" />                                            
+                                        <label id ="TxtEquipmentCalibrationActCostLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentCalibrationActCost"><%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %></label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtEquipmentCalibrationActCost" placeholder="<%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %>" value="" maxlength="12" />                                            
                                         </div>
                                     </div>                                    
                                     <div class="form-group" id="CmbEquipmentCalibrationActProviderRow">
@@ -1097,17 +1098,16 @@
                                         </div>
                                     </div>    
                                     <div class="form-group">
-                                        <label id ="TxtEquipmentVerificationActResultLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentVerificationActResult">Resultado<span class="required">*</span></label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="col-xs-4 col-sm-4 decimalFormated6" id="TxtEquipmentVerificationActResult" placeholder="Resultado" value="" maxlength="8" />
+                                        <label id ="TxtEquipmentVerificationActResultLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentVerificationActResult"><%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %><span class="required">*</span></label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="col-xs-12 col-sm-12 decimalFormated6" id="TxtEquipmentVerificationActResult" placeholder="<%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %>" value="" maxlength="12" />
                                             <span class="ErrorMessage" id="TxtEquipmentVerificationActErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div>   
                                     <div class="form-group">
-                                        <!-- ISSUS-18 -->
-                                        <label id ="TxtEquipmentVerificationActCostLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentVerificationActCost">Coste</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="col-xs-4 col-sm-4 money-bank" id="TxtEquipmentVerificationActCost" placeholder="Coste" value="" maxlength="8" />
+                                        <label id ="TxtEquipmentVerificationActCostLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentVerificationActCost"><%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %></label>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtEquipmentVerificationActCost" placeholder="<%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %>" value="" maxlength="12" />
                                             <span class="ErrorMessage" id="TxtEquipmentVerificationActCostMalformed"><%=this.Dictionary["Common_Error_MoneyMalformed"] %></span>
                                         </div>
                                     </div>                                   

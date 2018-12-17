@@ -724,34 +724,43 @@ function ToMoneyFormat(value, decimals, nullable) {
     }
 
     var pow = 100;
-    if (typeof decimals !== 'undefined') {
+    if (typeof decimals !== "undefined") {
         pow = Math.pow(10, decimals);
+    }
+    else {
+        decimals = 2;
     }
 
     value = parseFloat(Math.round(value * pow) / pow).toFixed(decimals);
     var res = value;
-    var entera = '';
-    var enteraRes = '';
-    var decimal = '';
+    var entera = "";
+    var enteraRes = "";
+    var decimal = "";
 
     entera = value.split('.')[0];
     decimal = value.split('.')[1];
-    if(typeof decimal === 'undefined')
+    if(typeof decimal === "undefined")
     {
-        decimal = '0';
+        decimal = "0";
     }
 
     while(decimal.length < decimals)
     {
-        decimal += '0';
+        decimal += "0";
+    }
+
+    var negative = "";
+    if (entera.length > 0 && entera.substr(0,1) === "-") {
+        negative = "-";
+        entera = entera.substr(1);
     }
 
     while (entera.length > 0)
     {
         if(entera.length < 4)
         {
-            enteraRes = entera + '.' + enteraRes;
-            entera = '';
+            enteraRes = entera + "." + enteraRes;
+            entera = "";
         }
         else
         {
@@ -759,6 +768,8 @@ function ToMoneyFormat(value, decimals, nullable) {
             entera = entera.substr(0, entera.length - 3);
         }        
     }
+
+    enteraRes = negative + enteraRes;
 
     if (decimals === 0)
     {
