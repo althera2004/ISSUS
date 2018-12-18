@@ -63,6 +63,7 @@ function LearningDelete(id, description) {
         "title_html": true,
         "buttons": [
             {
+                "id": "BtnLearningDeleteOk",
                 "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
                 "click": function () {
@@ -77,6 +78,7 @@ function LearningDelete(id, description) {
                 }
             },
             {
+                "id": "BtnLearningDeleteCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -111,14 +113,13 @@ function LearningDeleteConfirmed(id) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             alertUI(jqXHR.responseText);
         }
     });
 }
 
 jQuery(function ($) {
-    //override dialog's title function to allow for HTML titles
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
             var $title = this.options.title || "&nbsp;";
@@ -208,7 +209,7 @@ jQuery(function ($) {
                     alertUI(response.d.MessageError);
                 }
             },
-            "error": function (jqXHR, textStatus, errorThrown) {
+            "error": function (jqXHR) {
                 alertUI(jqXHR.responseText);
             }
         });

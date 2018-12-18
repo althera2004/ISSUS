@@ -36,11 +36,11 @@ function IncidentCostRenderTable(tableName) {
 
     if (count === 0) {
         $("#IncidentCostsTableVoid").show();
-        target.style.display = "none";
+        $("#" + tableName).hide();
     }
     else {
         $("#IncidentCostsTableVoid").hide();
-        target.style.display = "";        
+        $("#" + tableName).show();
     }
 
     $("#NumberCosts").html(count);
@@ -92,7 +92,6 @@ function IncidentCostRenderRow(incidentCost, target) {
     innerEdit.className = "icon-edit bigger-120";
     iconEdit.appendChild(innerEdit);
     iconEdit.onclick = function () { IncidentCostEdit(this.parentNode.parentNode.id); };
-
 
     var iconDelete = document.createElement("SPAN");
     iconDelete.className = "btn btn-xs btn-danger";
@@ -192,7 +191,7 @@ function IncidentCostEdit(id) {
         "buttons":
         [
             {
-                "id": "BtnNewCostSave",
+                "id": "BtnEditCostSaveOk",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Change,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
@@ -200,6 +199,7 @@ function IncidentCostEdit(id) {
                 }
             },
             {
+                "id": "BtnEditCostSaveCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -223,7 +223,7 @@ function ShowNewCostPopup(actionSelected) {
         "buttons":
         [
             {
-                "id": "BtnNewAddresSave",
+                "id": "BtnNewCostSaveOk",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
@@ -231,6 +231,7 @@ function ShowNewCostPopup(actionSelected) {
                 }
             },
             {
+                "id": "BtnNewCostSaveCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -362,18 +363,18 @@ function IncidentCostSave() {
         };
 
         $.ajax({
-            type: "POST",
-            url: "/Async/IncidentCostActions.asmx/Update",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(dataUpdate, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/IncidentCostActions.asmx/Update",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(dataUpdate, null, 2),
+            "success": function (msg) {
                 UpdateIncidentCosts(SelectedIncidentCost);
                 UpdateCompanyIncidentCosts(SelectedIncidentCost);
                 IncidentCostRenderTable("IncidentCostsTableData");
                 $("#dialogNewCost").dialog("close");
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });

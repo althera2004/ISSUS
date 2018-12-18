@@ -18,13 +18,13 @@ function ShowCustomerBarPopup(cmb) {
     var dialog = $(popupDialogId).removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": eval("Dictionary.Item_" + itemName + "s"),
+        "title": "<h4 class=\"smaller\">" + eval("Dictionary.Item_" + itemName + "s") + "</h4>",
         "title_html": true,
         "width": 600,
         "buttons":
             [
                 {
-                    "id": "Btn" + itemName + "Save",
+                    "id": "Btn" + itemName + "SaveOk",
                     "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                     "class": "btn btn-success btn-xs",
                     "click": function () { CustomerInsert(); }
@@ -61,6 +61,7 @@ function CustomerInsert(sender) {
         "buttons":
         [
             {
+                "id":"BtnCustomerInsertOk",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
@@ -90,9 +91,10 @@ function CustomerInsert(sender) {
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "id": "BtnCustomerInsertCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () { $(this).dialog("close"); }
+                "click": function () { $(this).dialog("close"); }
             }
         ]
 
@@ -102,7 +104,6 @@ function CustomerInsert(sender) {
 function CustomerInsertConfirmed(newDescription) {
     // 1.- Modificar en la BBDD
     var webMethod = "/Async/" + itemName + "Actions.asmx/Insert";
-    var description = "";
     var data = {
         "description": newDescription,
         "companyId": Company.Id,
@@ -134,7 +135,7 @@ function CustomerInsertConfirmed(newDescription) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -151,64 +152,64 @@ function CustomerUpdate(sender) {
         "resizable": false,
         "width": 600,
         "modal": true,
-        "title": Dictionary.Common_Edit,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Edit + "</h4>",
         "title_html": true,
         "buttons":
-        [
-            {
-                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
-                "class": "btn btn-success btn-xs",
-                "click": function () {
-                    var ok = true;
-                    if ($("#TxtCustomerName").val() === "") {
-                        $("#TxtCustomerNameErrorRequired").show();
-                        ok = false;
-                    }
-                    else {
-                        $("#TxtCustomerNameErrorRequired").hide();
-                    }
-
-                    var duplicated = false;
-                    for (var x = 0; x < Customers.length; x++) {
-                        if ($("#TxtCustomerName").val().toLowerCase() === Customers[x].Description.toLowerCase() && Selected !== Customers[x].Id && Customers[x].Active === true) {
-                            duplicated = true;
-                            break;
+            [
+                {
+                    "id": "BtnCustomerUpdateOk",
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        var ok = true;
+                        if ($("#TxtCustomerName").val() === "") {
+                            $("#TxtCustomerNameErrorRequired").show();
+                            ok = false;
                         }
-                    }
+                        else {
+                            $("#TxtCustomerNameErrorRequired").hide();
+                        }
 
-                    if (duplicated === true) {
-                        $("#TxtCustomerNameErrorDuplicated").show();
-                        ok = false;
-                    }
-                    else {
+                        var duplicated = false;
+                        for (var x = 0; x < Customers.length; x++) {
+                            if ($("#TxtCustomerName").val().toLowerCase() === Customers[x].Description.toLowerCase() && Selected !== Customers[x].Id && Customers[x].Active === true) {
+                                duplicated = true;
+                                break;
+                            }
+                        }
+
+                        if (duplicated === true) {
+                            $("#TxtCustomerNameErrorDuplicated").show();
+                            ok = false;
+                        }
+                        else {
+                            $("#TxtCustomerNameErrorDuplicated").hide();
+                        }
+
+
+                        if (ok === false) { window.scrollTo(0, 0); return false; }
+
+                        $("#TxtCustomerNameErrorRequired").hide();
                         $("#TxtCustomerNameErrorDuplicated").hide();
+                        $(this).dialog("close");
+                        CustomerUpdateConfirmed(ItemIdUpdate, $("#TxtCustomerName").val());
                     }
-
-
-                    if (ok === false) { window.scrollTo(0, 0); return false; }
-
-                    $("#TxtCustomerNameErrorRequired").hide();
-                    $("#TxtCustomerNameErrorDuplicated").hide();
-                    $(this).dialog("close");
-                    CustomerUpdateConfirmed(ItemIdUpdate, $("#TxtCustomerName").val());
+                },
+                {
+                    "id": "BtnCustomerUpdateCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
                 }
-            },
-            {
-                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                "class": "btn btn-xs",
-                "click": function () {
-                    $(this).dialog("close");
-                }
-            }
-        ]
-
+            ]
     });
 }
 
 function CustomerUpdateConfirmed(id, newDescription) {
     // 1.- Modificar en la BBDD
     var webMethod = "/Async/" + itemName + "Actions.asmx/Update";
-    var description = "";
     for (var x = 0; x < Customers.length; x++) {
         if (Customers[x].Id === id) {
             description = Customers[x].Description;
@@ -235,7 +236,7 @@ function CustomerUpdateConfirmed(id, newDescription) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -283,24 +284,26 @@ function CustomerDelete(sender) {
     var dialog = $(popupDeleteDialogId).removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": Dictionary.Common_Delete,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Delete + "</h4>",
         "title_html": true,
         "buttons":
-        [
-            {
-                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
-                "class": "btn btn-danger btn-xs",
-                "click": function () {
-                    $(this).dialog("close");
-                    CustomerDeleteConfirmed(ItemIdDelete);
+            [
+                {
+                    "id": "BtnCustomeDeleteOk",
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                        CustomerDeleteConfirmed(ItemIdDelete);
+                    }
+                },
+                {
+                    "id": "BtnCustomeDeleteCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () { $(this).dialog("close"); }
                 }
-            },
-            {
-                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                "class": "btn btn-xs",
-                "click": function () { $(this).dialog("close"); }
-            }
-        ]
+            ]
     });
 }
 

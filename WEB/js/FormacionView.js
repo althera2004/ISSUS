@@ -811,7 +811,9 @@ function SaveConfirmed(evaluatedAll)
 }
 
 jQuery(function ($) {
-    var options = $.extend({}, $.datepicker.regional["ca"], { "autoclose": true, "todayHighlight": true });
+    document.getElementById("TxtName").focus();
+
+    var options = $.extend({}, $.datepicker.regional[user.Language], { "autoclose": true, "todayHighlight": true });
     $(".date-picker").datepicker(options);
     $(".date-picker").on("blur", function () { DatePickerChanged(this); });
 
@@ -863,7 +865,7 @@ jQuery(function ($) {
 
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || "&nbsp;"
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true) {
                 title.html($title);
             }
@@ -930,7 +932,7 @@ jQuery(function ($) {
             "max-height": 400,
             "buttons": [
                 {
-                    "id": "BtnSelect",
+                    "id": "BtnSelectAssistantOk",
                     "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Save,
                     "class": "btn btn-success btn-xs",
                     "click": function () {
@@ -938,6 +940,7 @@ jQuery(function ($) {
                     }
                 },
                 {
+                    "id": "BtnSelectAssistantCancel",
                     "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     "click": function () {
@@ -949,20 +952,15 @@ jQuery(function ($) {
     });
 });
 
-// ISSUS-190
-document.getElementById("TxtName").focus();
-
 // ISSUS-201
 if (formacion.Id > 0)
 {
-    if (document.getElementById("CmbFechaPrevistaMes") !== null) {
-        document.getElementById("CmbFechaPrevistaMes").value = formacion.EstimatedMonthId;
-    }
+    $("#CmbFechaPrevistaMes").val(formacion.EstimatedMonthId);
     $("#BtnPrint").on("click", PrintData);
     console.log(formacion.EstimatedMonthId);
 }
 else {
-    console.log("nomes");
+    console.log("New learning");
 }
 
 if (typeof user.Grants.Learning === "undefined" || user.Grants.Learning.Write === false) {
