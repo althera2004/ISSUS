@@ -1294,19 +1294,19 @@ function RenderCostSlider(contentName) {
         spanStep.style.left = ((100 / (5 - MinStepValue)) * (x2 - MinStepValue)) + "%";
         switch (x2) {
             case 1:
-                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_1;
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Cost_1;
                 break;
             case 2:
-                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_2;
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Cost_2;
                 break;
             case 3:
-                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_3;
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Cost_3;
                 break;
             case 4:
-                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_4;
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Cost_4;
                 break;
             case 5:
-                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Impact_5;
+                spanStep.title = Dictionary.Item_Oportunity_Tooltip_Cost_5;
                 break;
         }
 

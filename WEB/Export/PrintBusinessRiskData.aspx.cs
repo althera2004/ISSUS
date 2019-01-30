@@ -139,11 +139,15 @@ public partial class ExportPrintBusinessRiskData : Page
 
         table.AddCell(SeparationRow());
         table.AddCell(TitleCell(dictionary["Item_BusinessRisk_LabelField_Description"]));
-        table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.Description, ToolsPdf.BorderAll, alignLeft, 4));
+        table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.ItemDescription, ToolsPdf.BorderAll, alignLeft, 4));
 
         table.AddCell(SeparationRow());
         table.AddCell(TitleCell(dictionary["Item_BusinessRisk_LabelField_Causes"]));
         table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.Causes, ToolsPdf.BorderAll, alignLeft, 4));
+
+        table.AddCell(SeparationRow());
+        table.AddCell(TitleCell(dictionary["Item_BusinessRisk_LabelField_StartControl"]));
+        table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.StartControl, ToolsPdf.BorderAll, alignLeft, 4));
 
         table.AddCell(SeparationRow());
         table.AddCell(TitleCell(dictionary["Item_BusinessRisk_LabelField_Notes"]));

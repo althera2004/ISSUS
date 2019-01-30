@@ -607,6 +607,11 @@ namespace GisoFramework.Item
             long other = 0;
             long free = company.DiskQuote;
 
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
             var files = Directory.GetFiles(path);
             foreach (string file in files)
             {

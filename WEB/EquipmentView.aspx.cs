@@ -1206,7 +1206,7 @@ public partial class EquipmentView : Page
             GrantToWrite = this.grantToWrite,
             Name = "TxtCode",
             Value = this.Equipment.Code,
-            MaximumLength = 10
+            MaximumLength = 25
         };
 
         this.TxtDescription = new FormText

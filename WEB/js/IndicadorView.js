@@ -353,6 +353,11 @@ function FillForm() {
 }
 
 function RenderRegistroRow(registro) {
+
+    var colorAssolit = "#a5ca9f!important";
+    var colorNoAssolit = "#e59729!important";
+    var colorAlarma = "#dc8475!important";
+
     var color = "#dc8475";
     var statusLabel = Dictionary.Item_Indicador_StatusLabelWithoutMeta;
     var icon = "icon-circle bigger-110";
@@ -363,27 +368,27 @@ function RenderRegistroRow(registro) {
         metaText = "";
         statusLabel = Dictionary.Item_Indicador_StatusLabelWithoutMeta;
     }
-    else if (registro.MetaComparer === "=" && registro.Value === registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === ">=" && registro.Value >= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === ">=" && registro.Value >= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "=" && registro.Value === registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === ">=" && registro.Value >= registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === ">=" && registro.Value >= registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
     else if (registro.Alarma !== null) {
-        if (registro.AlarmaComparer === ">" && registro.Value > registro.Alarma) { color = "#dc8475"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === ">=" && registro.Value >= registro.Alarma) { color = "#dc8475"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === "<" && registro.Value < registro.Alarma) { color = "#dc8475"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === "<=" && registro.Value <= registro.Alarma) { color = "#dc8475"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        if (registro.AlarmaComparer === ">" && registro.Value > registro.Alarma) { color = colorAlarma; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === ">=" && registro.Value >= registro.Alarma) { color = colorAlarma; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === "<" && registro.Value < registro.Alarma) { color = colorAlarma; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === "<=" && registro.Value <= registro.Alarma) { color = colorAlarma; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
         else {
-            color = "#dc8475";
-            statusLabel = Dictionary.Item_Indicador_StatusLabelWarning;
+            color = colorNoAssolit;
+            statusLabel = Dictionary.Item_Indicador_StatusLabelNoMeta;
         }
     }
     else {
-        color = "#e59729!important";
+        color = colorNoAssolit;
         statusLabel = Dictionary.Item_Indicador_StatusLabelNoMeta;
     }
 
@@ -779,7 +784,10 @@ function FillFormRegistro(id) {
     if (id > 0) {
         var registro = RegistroGetById(id);
         if (registro !== null) {
-			var value = registro.Value.toString().split('.').join(',');
+            var value = registro.Value.toString();
+            if (isNaN(value)) {
+                value = value.split('.').join(',');
+            }
 			if( value === "") { value = "0,00"; }
             $("#TxtRegistroValue").val(ToMoneyFormat(value));
             $("#TxtRecordDate").val(registro.Date);
