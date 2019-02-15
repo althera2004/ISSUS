@@ -64,6 +64,8 @@ namespace GisoFramework.Item
                 case ItemIdentifiers.Objetivo: return "Objetivo";
                 case ItemIdentifiers.Indicador: return "Inicador";
                 case ItemIdentifiers.Oportunity: return "Oportunity";
+                case ItemIdentifiers.Questionary: return "Questionary";
+                case ItemIdentifiers.Auditory: return "Auditory";
                 default:return string.Empty;
             }
         }

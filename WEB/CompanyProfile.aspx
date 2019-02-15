@@ -36,6 +36,12 @@
                                     <div class="tab-content no-border padding-24">
                                         <div id="home" class="tab-pane active">
                                             <div class="form-group">
+                                                <label class="col-sm-1 control-label no-padding-right" id="TxtHeadquartersLabel"><%=this.Dictionary["Item_CompanyProfile_FieldLabel_Headquarters"] %><span style="color:#f00">*</span></label>
+                                                <div class="col-sm-11">
+                                                    <input type="text" id="TxtHeadquarters" placeholder="Item_CompanyProfile_FieldLabel_Headquarters" class="col-xs-12 col-sm-12 tooltip-info" data-rel="tooltip" value="<%=this.Company.Headquarters %>" maxlength="50" readonly="readonly" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <label class="col-sm-1 control-label no-padding-right" id="TxtNameLabel"><%=this.Dictionary["Item_CompanyProfile_FieldLabel_Name"] %><span style="color:#f00">*</span></label>
                                                 <div class="col-sm-7">
                                                     <input type="text" id="TxtName" placeholder="Item_CompanyProfile_FieldLabel_Name" class="col-xs-12 col-sm-12 tooltip-info" data-rel="tooltip" value="<%=this.Company.Name %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
@@ -48,7 +54,6 @@
                                                     <span class="ErrorMessage" id="TxtNifErrorMalformed"><%=this.Dictionary["Common_Error_IncorrectNIF"] %></span>
                                                 </div>
                                             </div>
-
                                             <div class="space-4"></div>
                                             <div class="form-group">
                                                 <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_CompanyData_FieldLabel_Address"] %><span style="color:#f00">*</span></label>

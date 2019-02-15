@@ -5,11 +5,10 @@
 // <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
-using System.Text;
 using System.Web.Script.Services;
 using System.Web.Services;
-using GisoFramework.Item;
 using GisoFramework.Activity;
+using GisoFramework.Item;
 
 /// <summary>Summary description for DeparmentActions</summary>
 [WebService(Namespace = "http://tempuri.org/")]

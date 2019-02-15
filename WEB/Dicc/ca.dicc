@@ -420,6 +420,7 @@ Item_CompanyData_FieldLabel_PostalAddress::Codi postal
 Item_CompanyData_FieldLabel_Province::Província
 Item_CompanyData_Popup_ImageDelete_Title::Eliminar la imatge
 Item_CompanyProfile_FieldLabel_Name::Nom
+Item_CompanyProfile_FieldLabel_Headquarters::Seu social
 Item_CompanyProfile_FieldLabel_Nif::NIF
 Item_Cost::Cost habitual
 Item_CostDefinition::Costos habituals

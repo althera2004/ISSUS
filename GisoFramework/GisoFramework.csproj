@@ -89,7 +89,13 @@
     <Compile Include="Constant.cs" />
     <Compile Include="DifferenciableAttribute.cs" />
     <Compile Include="ItemIdentifiers.cs" />
+    <Compile Include="Item\ApartadoNorma.cs" />
+    <Compile Include="Item\Auditory.cs" />
+    <Compile Include="Item\AuditoryPlanning.cs" />
     <Compile Include="Item\BaseItem.cs" />
+    <Compile Include="Item\Binding\ColumnsAuditoryGet.cs" />
+    <Compile Include="Item\Binding\ColumnsAuditoryPlanningGet.cs" />
+    <Compile Include="Item\Binding\ColumnsAuditoryFilter.cs" />
     <Compile Include="Item\Binding\ColumnsBusinessRiskFilterGet.cs" />
     <Compile Include="Item\Binding\ColumnsBusinessRiskGetAll.cs" />
     <Compile Include="Item\Binding\ColumnsCompanyAddressGet.cs" />
@@ -121,6 +127,8 @@
     <Compile Include="Item\Binding\ColumnsProviderCostGet.cs" />
     <Compile Include="Item\Binding\ColumnsProviderGetDefinitions.cs" />
     <Compile Include="Item\Binding\ColumnsProviderIncidentActionsGet.cs" />
+    <Compile Include="Item\Binding\ColumnsQuestionaryGet.cs" />
+    <Compile Include="Item\Binding\ColumnsQuestionaryQuestionGet.cs" />
     <Compile Include="Item\Binding\ColumnsRevisionGet.cs" />
     <Compile Include="Item\Binding\ColumnsRulesGetAll.cs" />
     <Compile Include="Item\Binding\ColumnsRulesGetBAR.cs" />
@@ -194,6 +202,8 @@
     <Compile Include="Item\OportunityFilterItem.cs" />
     <Compile Include="Item\ProbabilitySeverityRange.cs" />
     <Compile Include="Item\ProcessTypeKernel.cs" />
+    <Compile Include="Item\Questionary.cs" />
+    <Compile Include="Item\QuestionaryQuestion.cs" />
     <Compile Include="Item\Revision.cs" />
     <Compile Include="Item\RuleHistory.cs" />
     <Compile Include="Item\Rules.cs" />

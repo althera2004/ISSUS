@@ -56,6 +56,7 @@ namespace GisoFramework.Item
             this.SubscriptionEnd = DateTime.Now;
             this.SubscriptionStart = DateTime.Now;
             this.Name = string.Empty;
+            this.Headquarters = string.Empty;
             this.Language = "es";
             this.DiskQuote = 0;
 
@@ -88,6 +89,7 @@ namespace GisoFramework.Item
                                 this.Code = rdr[6].ToString();
                                 this.DiskQuote = rdr.GetInt64(8);
                                 this.Agreement = rdr.GetBoolean(9);
+                                this.Headquarters = string.Empty; // TODO: rdr.GetString(10);
                             }
 
                             this.departments = Company.ObtainDepartments(this.Id);
@@ -113,6 +115,7 @@ namespace GisoFramework.Item
                         this.SubscriptionEnd = DateTime.Now;
                         this.SubscriptionStart = DateTime.Now;
                         this.Name = string.Empty;
+                        this.Headquarters = string.Empty;
                     }
                     catch (FormatException ex)
                     {
@@ -123,6 +126,7 @@ namespace GisoFramework.Item
                         this.SubscriptionEnd = DateTime.Now;
                         this.SubscriptionStart = DateTime.Now;
                         this.Name = string.Empty;
+                        this.Headquarters = string.Empty;
                     }
                     catch (NullReferenceException ex)
                     {
@@ -133,6 +137,7 @@ namespace GisoFramework.Item
                         this.SubscriptionEnd = DateTime.Now;
                         this.SubscriptionStart = DateTime.Now;
                         this.Name = string.Empty;
+                        this.Headquarters = string.Empty;
                     }
                     catch (ArgumentNullException ex)
                     {
@@ -153,6 +158,7 @@ namespace GisoFramework.Item
                         this.SubscriptionEnd = DateTime.Now;
                         this.SubscriptionStart = DateTime.Now;
                         this.Name = string.Empty;
+                        this.Headquarters = string.Empty;
                     }
                     finally
                     {
@@ -230,6 +236,7 @@ namespace GisoFramework.Item
                     Language = string.Empty,
                     MailContact = string.Empty,
                     Name = string.Empty,
+                    Headquarters = string.Empty,
                     FiscalNumber = string.Empty,
                     Web = string.Empty
                 };
@@ -250,6 +257,7 @@ namespace GisoFramework.Item
                     Language = string.Empty,
                     MailContact = string.Empty,
                     Name = string.Empty,
+                    Headquarters = string.Empty,
                     FiscalNumber = string.Empty,
                     Web = string.Empty
                 };
@@ -336,6 +344,9 @@ namespace GisoFramework.Item
 
         /// <summary>Gets or sets the name of company</summary>
         public string Name { get; set; }
+
+        /// <summary>Gets or sets the headquarters of company</summary>
+        public string Headquarters { get; set; }
 
         /// <summary>Gets or sets the date of starting subscription</summary>
         public DateTime SubscriptionStart { get; set; }
@@ -428,6 +439,7 @@ namespace GisoFramework.Item
                 var res = new StringBuilder("{").Append(Environment.NewLine);
                 res.Append("\t\t\"Id\":").Append(this.Id).Append(",").Append(Environment.NewLine);
                 res.Append("\t\t\"Name\":\"").Append(this.Name).Append("\",").Append(Environment.NewLine);
+                res.Append("\t\t\"Headquarters\":\"").Append(this.Headquarters).Append("\",").Append(Environment.NewLine);
                 res.Append("\t\t\"Nif\":\"").Append(this.FiscalNumber).Append("\",").Append(Environment.NewLine);
                 res.Append("\t\t\"MailContact\":\"").Append(this.MailContact).Append("\",").Append(Environment.NewLine);
                 res.Append("\t\t\"Web\":\"").Append(this.Web).Append("\",").Append(Environment.NewLine);

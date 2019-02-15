@@ -61,6 +61,9 @@
                                                 <li id="tabIndicators">                                                    
                                                     <a data-toggle="tab" href="#indicators"><%=this.Dictionary["Item_Process_Tab_Indicators"] %></a>
                                                 </li>
+                                                <li id="tabQuestionarios">                                                    
+                                                    <a data-toggle="tab" href="#questionarios">Cuestionarios</a>
+                                                </li>
                                                 <% if (this.Proceso.Id > 0) { %>
                                                 <li id="tabAttachments">                                                    
                                                     <a data-toggle="tab" href="#uploadFiles"><%=this.Dictionary["Item_IncidentAction_Tab_UploadFiles"] %></a>
@@ -142,6 +145,78 @@
                                                             <thead class="thin-border-bottom">
                                                                 <tr id="ListDataFooter">
                                                                     <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="IndicadoresDataTotal"></asp:Literal></i></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div> <!-- /.table-responsive -->                                             
+                                                    
+                                                </div>
+                                                <div id="questionarios" class="tab-pane">
+                                                    <div class="table-responsive" id="scrollTableDivQuestionarios">
+                                                        <table class="table table-bordered table-striped" style="margin: 0">
+                                                            <thead class="thin-border-bottom">
+                                                                <tr id="ListDataHeaderQuestionarios">
+			                                                        <th onclick="Sort(this,'ListDataTable');" id="th0" class="search sort" style="cursor:pointer;">Descripción</th>
+			                                                        <th onclick="Sort(this,'ListDataTable');" id="th1" class="search sort" style="cursor:pointer;width:400px;">Norma</th>
+			                                                        <th style="width:107px;">&nbsp;</th>
+		                                                        </tr>
+                                                            </thead>
+                                                        </table>
+                                                        <div id="ListDataDivQuestionarios" style="overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                            <table class="table table-bordered table-striped" style="<%=this.IndicadoresDataTotal.Text != "0" ? "" : "display:none;" %>border-top: none;margin:0;">
+                                                                <tbody id="ListDataTableQuestionarios">
+                                                                    <asp:Literal runat="server" ID="Literal1"></asp:Literal>
+                                                                    <tr>
+                                                                        <td style="width:25px;text-align:center;">-</td>
+                                                                        <td><a href="IndicadorView.aspx?id=14">Sobre la calidad de código</a></td>
+                                                                        <td style="width:400px;">ISO-9001</td>
+                                                                        <td style="width:90px;"><span title="Editar 'Indicador sin alarma'" class="btn btn-xs btn-info" onclick="document.location='IndicadorView.aspx?id=14';"><i class="icon-edit bigger-120"></i></span>&nbsp;<span title="Eliminar Indicador sin alarma" class="btn btn-xs btn-danger" onclick="warningInfoUI('No se puede eliminar porque tiene registros vinculados', null, 400);"><i class="icon-trash bigger-120"></i></span></td>
+                                                                    </tr>
+                                                                    <tr>                                                                        
+                                                                        <td style="width:25px;text-align:center;"></td>
+                                                                        <td colspan="3">
+                                                                            <ul>
+                                                                                <li>¿Se han utilizado las "Best practices" del fabricante?</li>
+                                                                                <li>¿Se han realizado análisis de WenStress?</li>
+                                                                                <li>¿Se han realizado pruebas unitarias?</li>
+                                                                            </ul>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width:25px;text-align:center;">+</td>
+                                                                        <td><a href="IndicadorView.aspx?id=14">Cumplimiento estándares</a></td>
+                                                                        <td style="width:400px;">W3C</td>
+                                                                        <td style="width:90px;"><span title="Editar 'Indicador sin alarma'" class="btn btn-xs btn-info" onclick="document.location='IndicadorView.aspx?id=14';"><i class="icon-edit bigger-120"></i></span>&nbsp;<span title="Eliminar Indicador sin alarma" class="btn btn-xs btn-danger" onclick="warningInfoUI('No se puede eliminar porque tiene registros vinculados', null, 400);"><i class="icon-trash bigger-120"></i></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width:25px;text-align:center;">+</td>
+                                                                        <td><a href="IndicadorView.aspx?id=14">Documentación</a></td>
+                                                                        <td style="width:400px;">ANSI/ISO</td>
+                                                                        <td style="width:90px;"><span title="Editar 'Indicador sin alarma'" class="btn btn-xs btn-info" onclick="document.location='IndicadorView.aspx?id=14';"><i class="icon-edit bigger-120"></i></span>&nbsp;<span title="Eliminar Indicador sin alarma" class="btn btn-xs btn-danger" onclick="warningInfoUI('No se puede eliminar porque tiene registros vinculados', null, 400);"><i class="icon-trash bigger-120"></i></span></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td style="width:25px;text-align:center;">+</td>
+                                                                        <td><a href="IndicadorView.aspx?id=14">Multisistema operativo</a></td>
+                                                                        <td style="width:400px;">EMACS-6</td>
+                                                                        <td style="width:90px;"><span title="Editar 'Indicador sin alarma'" class="btn btn-xs btn-info" onclick="document.location='IndicadorView.aspx?id=14';"><i class="icon-edit bigger-120"></i></span>&nbsp;<span title="Eliminar Indicador sin alarma" class="btn btn-xs btn-danger" onclick="warningInfoUI('No se puede eliminar porque tiene registros vinculados', null, 400);"><i class="icon-trash bigger-120"></i></span></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <table id="IndicadoresTableVoidQuestionarios" style="<%=this.IndicadoresDataTotal.Text == "0" ? "" : "display:none;" %>width:100%;margin:0;height:100%;">
+                                                                <tr>
+                                                                    <td style="color:#434382;background-color:#ccccff;">
+                                                                        <div style="width:100%;text-align:center;">
+                                                                            <span><i class="icon-info-sign" style="font-size:24px;"></i></span>        
+                                                                            <span style="font-size:20px;"><%=this.Dictionary["Item_Process_NoIndicators"] %></span>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <table class="table table-bordered table-striped" style="margin: 0">
+                                                            <thead class="thin-border-bottom">
+                                                                <tr id="ListDataFooterQuestionarios">
+                                                                    <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;4<asp:Literal runat="server" ID="Literal2"></asp:Literal></i></th>
                                                                 </tr>
                                                             </thead>
                                                         </table>

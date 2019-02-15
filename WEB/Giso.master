@@ -127,6 +127,13 @@
             overflow: hidden;
             font-weight: bold;
         }
+
+        .btn-filter {height:28px;padding-top:0;}
+
+        .thfooter {
+            color: #333;
+            _font-style: italic;
+        }
     </style>
     <!-- Specific style of page -->
     <script type="text/javascript" src="/js/Data.aspx"></script>
