@@ -45,12 +45,11 @@
                                         </td>
                                         <td id="CmbApartadoNormaLabel"><strong><%=this.Dictionary["Item_Questionary_List_Filter_ApartadoNorma"] %>:</strong></td>
                                         <td>
-                                            <select id="CmbApartadosNorma" style="width:100%;"></select>
+                                            <select id="CmbApartadosNorma" style="width:100%;min-width:120px;"></select>
                                         </td>
                                         <td>
                                             <div style="float:right">
                                                 <button class="btn btn-success btn-filter" type="button" id="BtnRecordShowAll" title="<%=this.Dictionary["Common_All_Female_Plural"] %>"><i class="icon-list" style="margin-top:-2px;"></i></button>
-                                                <!-- <button class="btn btn-success btn-filter" type="button" id="BtnRecordShowNone" title="<%=this.Dictionary["Common_None_Female"] %>"><i class="icon-remove-circle" style="margin-top:-2px;"></i></button> -->
                                             </div>
                                         </td>
                                     </tr>

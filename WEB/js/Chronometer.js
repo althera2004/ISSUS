@@ -24,13 +24,13 @@ function chrono() {
     else if (cr_msec < 100) { cr_msec = "0" + cr_msec; }
 
     if (cr_hr === 0 && cr_min === 0) {
-        document.getElementById("chronotime").innerHTML = cr_sec + " " + Dictionary.Common_Chronometer_Seconds;
+        $("#chronotime").html(cr_sec + " " + Dictionary.Common_Chronometer_Seconds);
     }
     else if (cr_hr === 0) {
-        document.getElementById("chronotime").innerHTML = cr_min + " " + Dictionary.Common_Chronometer_Minutes + " " + cr_sec + " " + Dictionary.Common_Chronometer_Seconds;
+        $("#chronotime").html(cr_min + " " + Dictionary.Common_Chronometer_Minutes + " " + cr_sec + " " + Dictionary.Common_Chronometer_Seconds);
     }
     else {
-        document.getElementById("chronotime").innerHTML = cr_hr + " " + Dictionary.Common_Chronometer_Hours + " " + cr_min + " " + Dictionary.Common_Chronometer_Minutes;
+        $("#chronotime").html(cr_hr + " " + Dictionary.Common_Chronometer_Hours + " " + cr_min + " " + Dictionary.Common_Chronometer_Minutes);
     }
 
     if (timePassed > 30) {
@@ -38,7 +38,7 @@ function chrono() {
         timeoutAlert();
     }
 
-    timerID = setTimeout("chrono()", 300);
+    timerID = setTimeout(chrono, 300);
 }
 
 function SessionRestart() {

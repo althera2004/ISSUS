@@ -14,7 +14,7 @@ namespace GisoFramework.Item
     using System.Data.SqlClient;
     using System.Globalization;
     using System.Text;
-    using System.Web;
+    using System.Web.Script.Serialization;
     using GisoFramework.Activity;
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
@@ -35,13 +35,17 @@ namespace GisoFramework.Item
         public DateTime? PlannedOn { get; set; }
         public Employee ClosedBy { get; set; }
         public DateTime? ClosedOn { get; set; }
-        public ApplicationUser ValidatedBy { get; set; }
+        public Employee ValidatedBy { get; set; }
         public DateTime? ValidatedOn { get; set; }
         public ApplicationUser ValidatedUserBy { get; set; }
         public DateTime? ValidatedUserOn { get; set; }
         public string Scope { get; set; }
         public string EnterpriseAddress { get; set; }
+        public int CompanyAddressId { get; set; }
         public string AuditorTeam { get; set; }
+
+        public DateTime? ReportStart { get; set; }
+        public DateTime? ReportEnd { get; set; }
 
         public static Auditory Empty
         {
@@ -56,11 +60,12 @@ namespace GisoFramework.Item
                     Scope = string.Empty,
                     Amount = 0,
                     Notes = string.Empty,
+                    CompanyAddressId = -1,
                     EnterpriseAddress = string.Empty,
                     AuditorTeam = string.Empty,
                     PlannedBy = Employee.EmptySimple,
                     ClosedBy = Employee.EmptySimple,
-                    ValidatedBy = ApplicationUser.Empty,
+                    ValidatedBy = Employee.EmptySimple,
                     ValidatedUserBy = ApplicationUser.Empty,
                     Customer = Customer.Empty,
                     Provider = Provider.Empty,
@@ -91,9 +96,47 @@ namespace GisoFramework.Item
             }
         }
 
+        public ReadOnlyCollection<AuditoryCuestionarioImprovement> Improvements
+        {
+            get
+            {
+                return AuditoryCuestionarioImprovement.ByAuditory(this.Id, this.CompanyId);
+            }
+        }
+
+        public ReadOnlyCollection<AuditoryCuestionarioFound> Founds
+        {
+            get
+            {
+                return AuditoryCuestionarioFound.ByAuditory(this.Id, this.CompanyId);
+            }
+        }
+
+        public void AddRule(long ruleId)
+        {
+            if (this.rules == null)
+            {
+                this.rules = new List<Rules>();
+            }
+
+            bool exists = false;
+            foreach (var r in this.rules)
+            {
+                if (r.Id == ruleId)
+                {
+                    exists = true;
+                    break;
+                }
+            }
+
+            if (!exists)
+            {
+                this.rules.Add(new Rules { Id = ruleId });
+            }
+        }
+
         public void AddRule(Rules rule)
         {
-
             if (this.rules == null)
             {
                 this.rules = new List<Rules>();
@@ -148,6 +191,9 @@ namespace GisoFramework.Item
                     validatedDate = string.Format(CultureInfo.InvariantCulture, @"{0:dd/MM/yyyy}", this.ValidatedOn);
                 }
 
+                var providerJson = this.Provider != null ? this.Provider.JsonKeyValue : Constant.JavaScriptNull;
+                var customerJson = this.Customer != null ? this.Customer.JsonKeyValue : Constant.JavaScriptNull;
+
                 string pattern = @"{{
                         ""Id"":{0},
                         ""Description"":""{1}"",
@@ -157,7 +203,10 @@ namespace GisoFramework.Item
                         ""Amount"":{5},
                         ""PlannedOn"":""{6}"",
                         ""ValidatedOn"":""{7}"",
-                        ""Active"":{8}
+                        ""Provider"":{8},
+                        ""Customer"":{9},
+                        ""Rules"":""{10}"",
+                        ""Active"":{11}
                     }}";
                 return string.Format(
                     CultureInfo.InvariantCulture,
@@ -170,6 +219,9 @@ namespace GisoFramework.Item
                     string.Format(CultureInfo.InvariantCulture, "{0:0.00}", this.Amount),
                     plannedDate,
                     validatedDate,
+                    providerJson,
+                    customerJson,
+                    this.rulesId,
                     this.Active ? "true" : "false");
             }
         }
@@ -338,29 +390,17 @@ namespace GisoFramework.Item
             return res;
         }
 
-        public ActionResult Insert(long applicationUserId)
-        {
-            var res = ActionResult.NoAction;
-            return res;
-        }
-
-        public ActionResult Update(long applicationUserId, string differences)
-        {
-            var res = ActionResult.NoAction;
-            return res;
-        }
-
         public static Auditory ById(long auditoryId, int companyId)
         {
             var source = string.Format(CultureInfo.InvariantCulture, "Auditory::>ById({0},{1})", auditoryId, companyId);
             var res = Auditory.Empty;
-            using (var cmd = new SqlCommand("Auditory_ById"))
+            using (var cmd = new SqlCommand("Auditory_GetById"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@Id", auditoryId));
+                    cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                     try
                     {
@@ -399,59 +439,30 @@ namespace GisoFramework.Item
                                     Name = rdr.GetString(ColumnsAuditoryGet.InternalResponsibleName),
                                     LastName = rdr.GetString(ColumnsAuditoryGet.InternalResponsibleLastName)
                                 };
-                                res.PlannedOn = rdr.GetDateTime(ColumnsAuditoryGet.PlannedOn);
-                                res.AuditorTeam = rdr.GetString(ColumnsAuditoryGet.AuditorTime);
 
-                                if (!rdr.IsDBNull(ColumnsAuditoryGet.CustomerId) && rdr.GetInt32(ColumnsAuditoryGet.ProviderId) > 0)
+                                if (!rdr.IsDBNull(ColumnsAuditoryGet.PlannedOn))
                                 {
-                                    res.Provider = new Provider
+                                    res.PlannedOn = rdr.GetDateTime(ColumnsAuditoryGet.PlannedOn);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsAuditoryGet.PlannedBy))
+                                {
+                                    res.PlannedBy = new Employee
                                     {
-                                        Id = rdr.GetInt32(ColumnsAuditoryGet.ProviderId),
-                                        Description = rdr.GetString(ColumnsAuditoryGet.ProviderName)
+                                        Id = rdr.GetInt32(ColumnsAuditoryGet.PlannedBy),
+                                        Name = rdr.GetString(ColumnsAuditoryGet.PlannedByName),
+                                        LastName = rdr.GetString(ColumnsAuditoryGet.PlannedByLastName)
                                     };
                                 }
 
-                                if (!rdr.IsDBNull(ColumnsAuditoryGet.CustomerId) && rdr.GetInt32(ColumnsAuditoryGet.CustomerId) > 0)
+                                if (!rdr.IsDBNull(ColumnsAuditoryGet.CompanyAddressId))
                                 {
-                                    res.Customer = new Customer
-                                    {
-                                        Id = rdr.GetInt32(ColumnsAuditoryGet.CustomerId),
-                                        Description = rdr.GetString(ColumnsAuditoryGet.CustomerName)
-                                    };
+                                    res.CompanyAddressId = rdr.GetInt32(ColumnsAuditoryGet.CompanyAddressId);
                                 }
 
-                                if (!rdr.IsDBNull(ColumnsAuditoryGet.ClosedBy) && rdr.GetInt32(ColumnsAuditoryGet.ClosedBy) > 0)
-                                {
-                                    res.ClosedOn = rdr.GetDateTime(ColumnsAuditoryGet.ClosedOn);
-                                    res.ClosedBy = new Employee
-                                    {
-                                        Id = rdr.GetInt32(ColumnsAuditoryGet.ClosedBy),
-                                        Name = rdr.GetString(ColumnsAuditoryGet.CloseName),
-                                        LastName = rdr.GetString(ColumnsAuditoryGet.CloseLastName)
-                                    };
-                                }
+                                res.AuditorTeam = rdr.GetString(ColumnsAuditoryGet.AuditorTeam);
 
-                                if (!rdr.IsDBNull(ColumnsAuditoryGet.ValidatedBy) && rdr.GetInt32(ColumnsAuditoryGet.ValidatedBy) > 0)
-                                {
-                                    res.ValidatedOn = rdr.GetDateTime(ColumnsAuditoryGet.ValidatedOn);
-                                    res.ValidatedBy = new ApplicationUser
-                                    {
-                                        Id = rdr.GetInt32(ColumnsAuditoryGet.ValidatedBy),
-                                        UserName = rdr.GetString(ColumnsAuditoryGet.ValidatedName)
-                                    };
-                                }
-
-                                if (!rdr.IsDBNull(ColumnsAuditoryGet.ValidatedUserBy) && rdr.GetInt32(ColumnsAuditoryGet.ValidatedUserBy) > 0)
-                                {
-                                    res.ValidatedUserOn = rdr.GetDateTime(ColumnsAuditoryGet.ValidatedUserOn);
-                                    res.ValidatedUserBy = new ApplicationUser
-                                    {
-                                        Id = rdr.GetInt32(ColumnsAuditoryGet.ValidatedUserBy),
-                                        UserName = rdr.GetString(ColumnsAuditoryGet.ValidatedUserName)
-                                    };
-                                }
-
-                                if(!rdr.IsDBNull(ColumnsAuditoryGet.ProviderId) && rdr.GetInt64(ColumnsAuditoryGet.ProviderId) > 0)
+                                if (!rdr.IsDBNull(ColumnsAuditoryGet.ProviderId) && rdr.GetInt64(ColumnsAuditoryGet.ProviderId) > 0)
                                 {
                                     res.Provider = new Provider
                                     {
@@ -467,6 +478,66 @@ namespace GisoFramework.Item
                                         Id = rdr.GetInt64(ColumnsAuditoryGet.CustomerId),
                                         Description = rdr.GetString(ColumnsAuditoryGet.CustomerName)
                                     };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsAuditoryGet.ClosedBy) && rdr.GetInt32(ColumnsAuditoryGet.ClosedBy) > 0)
+                                {
+                                    res.ClosedOn = rdr.GetDateTime(ColumnsAuditoryGet.ClosedOn);
+                                    res.ClosedBy = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsAuditoryGet.ClosedBy),
+                                        Name = rdr.GetString(ColumnsAuditoryGet.ClosedByName),
+                                        LastName = rdr.GetString(ColumnsAuditoryGet.ClosedByLastName)
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsAuditoryGet.ValidatedBy) && rdr.GetInt32(ColumnsAuditoryGet.ValidatedBy) > 0)
+                                {
+                                    res.ValidatedOn = rdr.GetDateTime(ColumnsAuditoryGet.ValidatedOn);
+                                    res.ValidatedBy = new Employee
+                                    {
+                                        Id = rdr.GetInt32(ColumnsAuditoryGet.ValidatedBy),
+                                        Name = rdr.GetString(ColumnsAuditoryGet.ValidatedByName),
+                                        LastName = rdr.GetString(ColumnsAuditoryGet.ValidatedByLastName)
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsAuditoryGet.ValidatedUserBy) && rdr.GetInt32(ColumnsAuditoryGet.ValidatedUserBy) > 0)
+                                {
+                                    res.ValidatedUserOn = rdr.GetDateTime(ColumnsAuditoryGet.ValidatedUserOn);
+                                    res.ValidatedUserBy = new ApplicationUser
+                                    {
+                                        Id = rdr.GetInt32(ColumnsAuditoryGet.ValidatedUserBy),
+                                        UserName = rdr.GetString(ColumnsAuditoryGet.ValidatedUserByName)
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsAuditoryGet.ProviderId) && rdr.GetInt64(ColumnsAuditoryGet.ProviderId) > 0)
+                                {
+                                    res.Provider = new Provider
+                                    {
+                                        Id = rdr.GetInt64(ColumnsAuditoryGet.ProviderId),
+                                        Description = rdr.GetString(ColumnsAuditoryGet.ProviderName)
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsAuditoryGet.CustomerId) && rdr.GetInt64(ColumnsAuditoryGet.CustomerId) > 0)
+                                {
+                                    res.Customer = new Customer
+                                    {
+                                        Id = rdr.GetInt64(ColumnsAuditoryGet.CustomerId),
+                                        Description = rdr.GetString(ColumnsAuditoryGet.CustomerName)
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsAuditoryGet.ReportStart))
+                                {
+                                    res.ReportStart = rdr.GetDateTime(ColumnsAuditoryGet.ReportStart);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsAuditoryGet.ReportEnd))
+                                {
+                                    res.ReportEnd = rdr.GetDateTime(ColumnsAuditoryGet.ReportEnd);
                                 }
 
                                 res.GetRules();
@@ -531,6 +602,310 @@ namespace GisoFramework.Item
                     }
                 }
             }
+        }
+
+        public static ActionResult Inactivate(long auditoryId, int companyId, int applicationUserId)
+        {
+            string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::Inactivate Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
+            /* CREATE PROCEDURE Auditory_Inactivate
+             *   @AuditoryId bigint,
+             *   @CompanyId int,
+             *   @ApplicationUserId int */
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Auditory_Inactivate"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static ActionResult Activate(long auditoryId, int companyId, int applicationUserId)
+        {
+            string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::Activate Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
+            /* CREATE PROCEDURE Auditory_Activate
+             *   @AuditoryId bigint,
+             *   @CompanyId int,
+             *   @ApplicationUserId int */
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Auditory_Activate"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public ActionResult Insert(int applicationUserId, int companyId)
+        {
+            CalculateRules();
+            var source = string.Format(CultureInfo.InvariantCulture, "Auditory::>Insert({0})", this.Id);
+            var res = ActionResult.NoAction;
+            /* CREATE PROCEDURE Auditory_Insert
+             *   @AuditoryId bigint output,
+             *   @CompanyId int,
+             *   @Type int,
+             *   @CustomerId bigint,
+             *   @ProviderId bigint,
+             *   @Nombre nvarchar(150),
+             *   @NormaId nvarchar(200),
+             *   @Amount decimal(18,3),
+             *   @InternalResponsible int,
+             *   @Description nvarchar(2000),
+             *   @Scope nvarchar(150),
+             *   @CompanyAddressId int,
+             *   @EnterpriseAddress nvarchar(500),
+             *   @Notes nvarchar(2000),
+             *   @AuditorTeam nvarchar(500),
+             *   @PlannedBy int,
+             *   @PlannedOn datetime,
+             *   @ClosedBy int,
+             *   @ClosedOn datetime,
+             *   @ValidatedBy int,
+             *   @ValidatedOn datetime,
+             *   @ValidatedUserBy int,
+             *   @ValidatedUserOn datetime,
+             *   @Status int,
+             *   @ApplicationUserId int */
+            using (var cmd = new SqlCommand("Auditory_Insert"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.OutputLong("@AuditoryId"));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    cmd.Parameters.Add(DataParameter.Input("@Type", this.Type));
+                    cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@Nombre", this.Description, 150));
+                    cmd.Parameters.Add(DataParameter.Input("@NormaId", this.rulesId, 200));
+                    cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
+                    cmd.Parameters.Add(DataParameter.Input("@InternalResponsible", this.InternalResponsible.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Descripcion, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Scope", this.Scope, 150));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyAddressId", this.CompanyAddressId));
+                    cmd.Parameters.Add(DataParameter.Input("@EnterpriseAddress", this.EnterpriseAddress, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@AuditorTeam", this.AuditorTeam, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@PlannedBy", this.PlannedBy.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@PlannedOn", this.PlannedOn));
+                    cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@ClosedOn", this.ClosedOn));
+                    cmd.Parameters.Add(DataParameter.Input("@ValidatedBy", this.ValidatedBy.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@ValidatedOn", this.ValidatedOn));
+                    cmd.Parameters.Add(DataParameter.Input("@ValidatedUserBy", this.ValidatedUserBy.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@ValidatedUserOn", this.ValidatedUserOn));
+                    cmd.Parameters.Add(DataParameter.Input("@Status", this.Status));
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                    try
+                    {
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt64(cmd.Parameters["@AuditoryId"].Value);
+                        res.SetSuccess(this.Id);
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+            return res;
+        }
+
+        public ActionResult Update(int applicationUserId, int companyId, string differences)
+        {
+            CalculateRules();
+            var source = string.Format(CultureInfo.InvariantCulture, "Auditory::>Update({0})", this.Id);
+            var res = ActionResult.NoAction;
+            /* CREATE PROCEDURE Auditory_Update
+             *   @AuditoryId bigint output,
+             *   @CompanyId int,
+             *   @Type int,
+             *   @CustomerId bigint,
+             *   @ProviderId bigint,
+             *   @Nombre nvarchar(150),
+             *   @NormaId nvarchar(200),
+             *   @Amount decimal(18,3),
+             *   @InternalResponsible int,
+             *   @Description nvarchar(2000),
+             *   @Scope nvarchar(150),
+             *   @CompanyAddressId int,
+             *   @EnterpriseAddress nvarchar(500),
+             *   @Notes nvarchar(2000),
+             *   @AuditorTeam nvarchar(500),
+             *   @PlannedBy int,
+             *   @PlannedOn datetime,
+             *   @ClosedBy int,
+             *   @ClosedOn datetime,
+             *   @ValidatedBy int,
+             *   @ValidatedOn datetime,
+             *   @ValidatedUserBy int,
+             *   @ValidatedUserOn datetime,
+             *   @Status int,
+             *   @ApplicationUserId int */
+            using (var cmd = new SqlCommand("Auditory_Update"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@AuditoryId", this.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                    cmd.Parameters.Add(DataParameter.Input("@Type", this.Type));
+                    cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@Nombre", this.Description, 150));
+                    cmd.Parameters.Add(DataParameter.Input("@NormaId", this.rulesId, 200));
+                    cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
+                    cmd.Parameters.Add(DataParameter.Input("@InternalResponsible", this.InternalResponsible.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Descripcion, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Scope", this.Scope, 150));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyAddressId", this.CompanyAddressId));
+                    cmd.Parameters.Add(DataParameter.Input("@EnterpriseAddress", this.EnterpriseAddress, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@AuditorTeam", this.AuditorTeam, 500));
+                    cmd.Parameters.Add(DataParameter.Input("@PlannedBy", this.PlannedBy.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@PlannedOn", this.PlannedOn));
+                    cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@ClosedOn", this.ClosedOn));
+                    cmd.Parameters.Add(DataParameter.Input("@ValidatedBy", this.ValidatedBy.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@ValidatedOn", this.ValidatedOn));
+                    cmd.Parameters.Add(DataParameter.Input("@ValidatedUserBy", this.ValidatedUserBy.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@ValidatedUserOn", this.ValidatedUserOn));
+                    cmd.Parameters.Add(DataParameter.Input("@Status", this.Status));
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                    try
+                    {
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        this.Id = Convert.ToInt64(cmd.Parameters["@AuditoryId"].Value);
+                        res.SetSuccess(this.Id);
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+            return res;
+        }
+
+        public static ActionResult SetQuestionaries(long auditoryId, int applicationUserId)
+        {
+            var res = ActionResult.NoAction;
+            return res;
+        }
+
+        private void CalculateRules()
+        {
+            var res = "";
+            if(this.rules != null)
+            {
+                foreach(var rule in this.rules)
+                {
+                    res += string.Format(CultureInfo.InvariantCulture, "{0}|", rule.Id);
+                }
+            }
+
+            this.rulesId = res;
         }
     }
 }

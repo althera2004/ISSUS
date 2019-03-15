@@ -111,7 +111,8 @@ namespace GisoFramework.Item
                         Responsible = actionCost.Responsible,
                         Amount = actionCost.Amount,
                         Active = actionCost.Active,
-                        Source = "A"
+                        Source = "A",
+                        Date = actionCost.Date
                     });
                 }
             }

@@ -35,9 +35,9 @@
     <script type="text/javascript">
         var Auditory = <%=this.Auditory.Json %>;
         var AuditoryPlanning = <%=this.Planning %>;
+        var Improvements = <%=this.Improvements %>;
+        var Founds = <%=this.Founds %>;
     </script>
-</asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div>
@@ -49,8 +49,11 @@
                                             <li class="active">
                                                 <a data-toggle="tab" href="#home"><%=this.Dictionary["Item_Auditory_Tab_Principal"]%></a>
                                             </li>
-                                            <li class"" style="display:none;">
-                                                <a data-toggle="tab" href="#home"><%=this.Dictionary["Item_Auditory_Tab_Questionaries"]%></a>
+                                            <li class="" <% if(this.Auditory.Status < 1) { %>style="display:none;" <% } %>>
+                                                <a data-toggle="tab" href="#questionaries"><%=this.Dictionary["Item_Auditory_Tab_Questionaries"]%></a>
+                                            </li>
+                                            <li class="" <% if(this.Auditory.Status < 1) { %>style="display:none;" <% } %>>
+                                                <a data-toggle="tab" href="#report"><%=this.Dictionary["Item_Auditory_Tab_Report"]%></a>
                                             </li>
                                             <!--<% if (this.GrantTraces) { %>
                                             <li class="" id="TabTrazas">
@@ -98,13 +101,27 @@
                                                         </div>
                                                     </div> 
                                                     <% } %>
+                                                    <% if (this.Auditory.Type == 1) { %>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-2"><input type="radio" id="RBProvider" name="RBExternalType" onclick="RBExternalTypeChanged();" /> Proveedor  </div>
+                                                        <div class="col-sm-2"><input type="radio" id="RBCustomer" name="RBExternalType" onclick="RBExternalTypeChanged();" /> Cliente  </div>
+                                                        <div class="col-sm-3" id="ProviderDiv" style="display:none;">
+                                                            <select id="CmbProvider" class="form-control col-xs-12 col-sm-12"><asp:Literal runat="server" ID="LtCmbProvider2"></asp:Literal></select>
+                                                            <input style="display:none;" type="text" readonly="readonly" id="CmbProviderValue" class="col-xs-12 col-sm-12" />
+                                                            <span class="ErrorMessage" id="CmbProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                        </div>
+                                                        <div class="col-sm-3" id="CustomerDiv" style="display:none;">
+                                                            <select id="CmbCustomer" class="form-control col-xs-12 col-sm-12"><asp:Literal runat="server" ID="LtCmbCustomer"></asp:Literal></select>
+                                                            <input style="display:none;" type="text" readonly="readonly" id="CmbCustomerValue" class="col-xs-12 col-sm-12" />
+                                                            <span class="ErrorMessage" id="CmbCustomerErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
                                                     <div class="form-group">
                                                         <label class="col-sm-1 control-label" id="CmbRulesLabel" for="CmbRules"><%=this.Dictionary["Item_Auditory_Label_Rules"] %><span style="color:#f00">*</span></label>
-                                                        <div class="col-sm-11">
-                                                            <select id="CmbRules" multiple="multiple" class="col-xs-12 col-sm-12 tooltip-info" onchange="CmbRulesChanged();">
-                                                                <option value="-1"><%=this.Dictionary["Common_SelectOne"] %></option>
-                                                                <asp:Literal runat="server" ID="LtCmbRules"></asp:Literal>
-                                                            </select>
+                                                        <div class="col-sm-11" id="AuditoryRulesDiv">
+                                                            <input type="text" id="TxtRulesId" style="display:none;" value="<%=this.RulesIds %>" />
+                                                            <asp:Literal runat="server" ID="LtCmbRules"></asp:Literal>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -113,10 +130,10 @@
                                                             <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtAmount" placeholder="<%=this.Dictionary["Item_Auditory_Label_Amount"] %>" value="" maxlength="8" />
                                                             <span class="ErrorMessage" id="TextAmountErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
-                                                        <label class="col-sm-1 control-label no-padding-right" id="CmbInternalResponsibleLabel" for="CmbInternalResponsible"><%=this.Dictionary["Item_Auditory_Label_InternalResponsible"] %><span class="required">*</span></label>
+                                                        <label class="col-sm-2 control-label no-padding-right" id="CmbInternalResponsibleLabel" for="CmbInternalResponsible"><%=this.Dictionary["Item_Auditory_Label_InternalResponsible"] %><span class="required">*</span></label>
                                                         <div class="col-sm-4">
                                                             <select id="CmbInternalResponsible" class="form-control col-xs-12 col-sm-12"><asp:Literal runat="server" ID="LtCmbInternalResponsible"></asp:Literal></select>
-                                                            <input style="display:none;" type="text" readonly="readonly" id="CCmbInternalResponsibleValue" class="col-xs-12 col-sm-12" />
+                                                            <input style="display:none;" type="text" readonly="readonly" id="CmbInternalResponsibleValue" class="col-xs-12 col-sm-12" />
                                                             <span class="ErrorMessage" id="CmbInternalResponsibleErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                         <% if (this.Auditory.Type == 1) { %>
@@ -138,8 +155,10 @@
                                                         <% } %>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label id="TxtDescriptionLabel" class="col-sm-2"><%=this.Dictionary["Item_Auditory_Label_Description"]%></label>
-                                                        <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtDescription"></textarea>
+                                                        <label id="TxtDescriptionLabel" class="col-sm-1 no-padding-right"><%=this.Dictionary["Item_Auditory_Label_Description"]%></label>
+                                                        <div class="col-sm-11">
+                                                            <textarea rows="3" class="form-control col-xs-11 col-sm-12" maxlength="2000" id="TxtDescription"></textarea>
+                                                        </div>
                                                     </div>
                                                     <% if (this.Auditory.Type == 0 || this.Auditory.Type == 2) { %>
                                                         <div class="form-group">
@@ -170,14 +189,19 @@
                                                     <% } %>
                                                     <% if (this.Auditory.Type == 1) { %>
                                                     <div class="form-group">
-                                                        <label id="TxtAuditorTeamLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_Auditory_Label_AuditorTeam"]%></label>
-                                                        <textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtAuditorTeam"><%=this.Auditory.AuditorTeam %></textarea>
+                                                        <label id="TxtAuditorTeamLabel" class="col-sm-1"><%=this.Dictionary["Item_Auditory_Label_AuditorTeam"]%></label>
+                                                        <div class="col-sm-11">
+                                                            <textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtAuditorTeam"><%=this.Auditory.AuditorTeam %></textarea>
+                                                        </div>
                                                     </div>
                                                     <% } %>
                                                     <div class="form-group">
-                                                        <label id="TxtNotesLabel" class="col-sm-2 no-padding-right"><%=this.Dictionary["Item_Auditory_Label_Notes"]%></label>
-                                                        <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtNotes"><%=this.Auditory.Notes %></textarea>
+                                                        <label id="TxtNotesLabel" class="col-sm-1 no-padding-right"><%=this.Dictionary["Item_Auditory_Label_Notes"]%></label>
+                                                        <div class="col-sm-11">
+                                                            <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtNotes"><%=this.Auditory.Notes %></textarea>
+                                                        </div>
                                                     </div>
+                                                    <% if (this.Auditory.Type == 0) { %>
                                                     <div class="row" id="TablePlanningHeader" style="display:none;">
                                                         <div class="col-xs-5"><h4><%=this.Dictionary["Item_Auditory_PlanningTable_Title"]%></h4></div>
                                                         <div class="col-xs-4">
@@ -218,8 +242,95 @@
                                                             </thead>
                                                         </table>
                                                     </div> <!-- /.table-responsive -->
+                                                    <% } %>
+                                                    <hr />
+                                                    <div class="form-group"> 
+                                                        <div class="col-sm-3">&nbsp;</div>
+                                                        <label class="col-sm-2 control-label no-padding-right" id="CmbPlanningResponsibleLabel" for="CmbPlanningResponsible"><%=this.Dictionary["Item_Auditory_Label_PlanningResponsible"] %><span class="required">*</span></label>
+                                                        <div class="col-sm-4">
+                                                            <select id="CmbPlanningResponsible" class="form-control col-xs-12 col-sm-12"><asp:Literal runat="server" ID="LtAuditoryPlanningResponsible"></asp:Literal></select>
+                                                            <input style="display:none;" type="text" readonly="readonly" id="CmbPlanningResponsibleValue" class="col-xs-12 col-sm-12" />
+                                                            <span class="ErrorMessage" id="CmbPlanningResponsibleErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                        </div>
+                                                        <label class="col-sm-1 control-label no-padding-right" id="TxtAuditoryPlanningDateLabel" for="TxtAuditoryPlanning"><%=this.Dictionary["Item_Auditory_Label_PlanningDate"] %></label>
+                                                        <div class="col-sm-2">
+                                                            <div class="input-group">
+                                                                <input style="width:90px;" class="form-control date-picker" id="TxtAuditoryPlanningDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="<%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.PlannedOn) %>" />
+                                                                <span id="TxtAuditoryPlanningDateLabelBtn" class="input-group-addon" onclick="document.getElementById('TxtAuditoryPlanningDate').focus();">
+                                                                    <i class="icon-calendar bigger-110"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <%=this.FormFooter %>
                                                 </div>
+                                            </div>
+                                            <div id="questionaries" class="tab-pane">
+                                                <div class="row" id="TableCuestionarioHeader">
+                                                        <div class="col-xs-5"><h4><%=this.Dictionary["Item_Auditory_Title_QuestionariesAvailables"]%></h4></div>                                                        
+                                                    </div>                                                    								
+                                                    <div class="table-responsive" id="scrollTableDivCuestionario">
+                                                        <table class="table table-bordered table-striped" style="margin: 0">
+                                                            <thead class="thin-border-bottom">
+                                                                <tr id="ListDataHeaderCuestionario">
+			                                                        <th style="width:120px;"><%=this.Dictionary["Item_AuditoryQuestionary_Header_Status"] %></th>
+			                                                        <th><%=this.Dictionary["Item_AuditoryQuestionary_Header_Name"] %></th>
+			                                                        <th style="width:67px;">&nbsp;</th>
+		                                                        </tr>
+                                                            </thead>
+                                                        </table>
+                                                        <div id="ListDataDivCuestionario" style="display:_none;overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                            <table class="table table-bordered table-striped" style="border-left:none;border-top: none;min-height:200px;">
+                                                                <tbody id="CuestionarioDataTable"><asp:Literal runat="server" ID="LtCuestionariosList"></asp:Literal></tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div id="NoDataCuestionario" style="display:none;width:100%;height:99%;min-height:200px;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>
+                                                        <table class="table table-bordered table-striped" style="margin: 0" >
+                                                            <thead class="thin-border-bottom">
+                                                                <tr id="ListDataFooterCuestionario">
+                                                                    <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="SpanCuestionarioTotal"></span></i></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div> <!-- /.table-responsive -->
+                                            </div>
+                                            <div id="report" class="tab-pane">
+                                                <div class="form-horizontal" role="form">
+                                                    <div class="row">
+                                                        <label class="col col-sm-1"><%=this.Dictionary["Item_Auditory_Report_StartLabel"] %></label>
+                                                        <label class="col col-sm-2" style="font-weight:bold;"><%=this.ReportDateStart %></label>
+                                                        <label class="col col-sm-1"><%=this.Dictionary["Item_Auditory_Report_EndLabel"] %></label>
+                                                        <label class="col col-sm-2" style="font-weight:bold;"><%=this.ReportDateEnd %></label>
+                                                    </div>
+                                                </div>
+                                                <h4><%=this.Dictionary["Item_Auditory_Title_Found"] %></h4>
+                                                <div class="table-responsive" id="scrollTableDivHallazgos">
+                                                        <table class="table table-bordered table-striped" style="margin: 0">
+                                                            <thead class="thin-border-bottom">
+                                                                <tr id="ListDataHeaderHallazgos">
+			                                                        <th style="width:120px;"><%=this.Dictionary["Item_Auditory_Header_Found"] %></th>
+			                                                        <th><%=this.Dictionary["Item_Auditory_Header_Requirement"] %></th>
+			                                                        <th><%=this.Dictionary["Item_Auditory_Header_Result"] %></th>
+			                                                        <th><%=this.Dictionary["Item_Auditory_Header_Action"] %></th>
+			                                                        <th style="width:67px;">&nbsp;</th>
+		                                                        </tr>
+                                                            </thead>
+                                                        </table>
+                                                        <div id="ListDataDivHallazgos" style="overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                            <table class="table table-bordered table-striped" style="border-left:none;border-top: none;min-height:200px;">
+                                                                <tbody id="HallazgosDataTable"><asp:Literal runat="server" ID="Literal1"></asp:Literal></tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div id="NoDataHallazgos" style="display:none;width:100%;height:99%;min-height:200px;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>
+                                                        <table class="table table-bordered table-striped" style="margin: 0" >
+                                                            <thead class="thin-border-bottom">
+                                                                <tr id="ListDataFooterHallazgos">
+                                                                    <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="SpanHallazgosTotal"></span></i></th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div> <!-- /.table-responsive -->
+                                                <h4><%=this.Dictionary["Item_Auditory_Title_Improvements"] %></h4>
                                             </div>
                                             <div id="trazas" class="tab-pane">													
                                                 <table class="table table-bordered table-striped">
@@ -320,4 +431,3 @@
         <script type="text/javascript" src="/js/AuditoryView.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/UploadFile.js?ac<%= this.AntiCache %>"></script>
 </asp:Content>
-

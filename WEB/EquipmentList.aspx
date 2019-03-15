@@ -80,7 +80,7 @@
 														<th onclick="Sort(this,'ListDataTable');" id="th0" class="search hidden-40 sort"><%=this.Dictionary["Item_Equipment_Header_Code"] %> - <%=this.Dictionary["Item_Equipment_Header_Description"] %></th>
 			                                            <th onclick="Sort(this,'ListDataTable');" id="th1" class="search hidden-480 sort" style="width:350px;"><%=this.Dictionary["Item_Equipment_Header_Location"] %></th>
 			                                            <th onclick="Sort(this,'ListDataTable');" id="th2" class="search hidden-480 sort" style="width:250px;"><%=this.Dictionary["Item_Equipment_Header_Responsible"] %></th>
-			                                            <th onclick="Sort(this,'ListDataTable', 'money');" id="th3" class="search hidden-480 sort" style="width:120px;"><%=this.Dictionary["Item_Equipment_Header_Cost"] %></th>
+			                                            <th onclick="Sort(this,'ListDataTable', 'money');" id="th3" class="search hidden-480 sort totalizable" style="width:120px;"><%=this.Dictionary["Item_Equipment_Header_Cost"] %></th>
 			                                            <th style="width:35px;"></th>
 			                                            <th style="width:107px;">&nbsp;</th>
 		                                            </tr>
@@ -96,9 +96,9 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalRecords"></span></i></th>
+                                                        <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalList"></span></i></th>
                                                         <th style="width:250px;text-align:right;"><%=this.Dictionary["Common_Total"] %></th>
-                                                        <th style="width:120px;text-align:right;"><span id="TotalCost"></span></th>
+                                                        <th style="width:120px;text-align:right;"><span id="TotalAmount"></span></th>
                                                         <th style="width:141px;">&nbsp;</th>
                                                     </tr>
                                                 </thead>

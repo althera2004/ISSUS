@@ -30,8 +30,8 @@ jQuery(function ($) {
 });
 
 function IncidentListGetAll() {
-    $("#BtnRecordShowAll").hide();
-    $("#BtnRecordShowNone").show();
+    //$("#BtnRecordShowAll").hide();
+    //$("#BtnRecordShowNone").show();
     var ok = true;
     VoidTable("ListDataTable");
 
@@ -520,10 +520,11 @@ function FillApartadoNorma() {
     if (RuleId > 0) {
         var res = "<option value=\"-1\">" + Dictionary.Common_All + "</option>";
         for (var x = 0; x < ApartadosNormasList.length; x++) {
-            if (ApartadosNormasList[x].R == RuleId) {
+            if (ApartadosNormasList[x].R === RuleId) {
                 res += "<option value=\"" + ApartadosNormasList[x].A + "\">" + ApartadosNormasList[x].A + "</option>";
             }
         }
+
         $("#CmbApartadosNorma").removeAttr("disabled");
     }
     else {

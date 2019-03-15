@@ -99,7 +99,7 @@
                                                         <th onclick="Sort(this,'ListDataTable');" id="th1" class="sort search"><%=this.Dictionary["Item_Auditory_ListHeader_Name"] %></th>
                                                         <th onclick="Sort(this,'ListDataTable');" id="th2" class="sort search" style="width:100px;"><%=this.Dictionary["Item_Auditory_ListHeader_Planned"] %></th>
                                                         <th onclick="Sort(this,'ListDataTable');" id="th3" class="sort search" style="width:100px;"><%=this.Dictionary["Item_Auditory_ListHeader_Closed"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable');" id="th4" class="sort search" style="width:150px;"><%=this.Dictionary["Item_Auditory_ListHeader_Ammount"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable');" id="th4" class="sort search totalizable" style="width:150px;"><%=this.Dictionary["Item_Auditory_ListHeader_Ammount"] %></th>
                                                         <th style="width:107px;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
@@ -113,8 +113,8 @@
                                             <table class="table table-bordered table-striped" style="margin:0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <td class="thfooter"><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="AuditoryDataTotal"></span></td>
-                                                        <td class="thfooter" style="width:150px;text-align:right;"><%=this.Dictionary["Common_Total"] %>:&nbsp;<strong><span id="AuditoryTotalAmount"></span></strong></td>
+                                                        <td class="thfooter"><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalList" style="font-weight:bold;"></span></td>
+                                                        <td class="thfooter" style="width:150px;text-align:right;"><%=this.Dictionary["Common_Total"] %>:&nbsp;<strong><span id="TotalAmount"></span></strong></td>
                                                         <td style="width:107px;">&nbsp;</td>
                                                     </tr>
                                                 </thead>

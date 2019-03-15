@@ -1,4 +1,8 @@
-﻿$.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
+﻿var AuditoryTypeInterna = 0;
+var AuditoryTypeExterna = 1;
+var AuditoryTypeProveedor = 2;
+
+$.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
     "_title": function (title) {
         var $title = this.options.title || "&nbsp;"
         if (("title_html" in this.options) && this.options.title_html == true) {
@@ -19,7 +23,42 @@ window.onload = function () {
     if (Auditory.Id > 0) {
         RenderPlanningTable();
     }
-}
+
+    // Las auditorías planificads no pueden añadir normas
+    if (Auditory.PlannedOn !== null && Auditory.PlannedOn !== "") {
+        $("#AuditoryRulesDiv input").attr("disabled", "disabled");
+        $("input").attr("disabled", "disabled");
+        $("textarea").attr("disabled", "disabled");
+        $("textarea").css("backgroundColor", "#eee");
+        $("select").attr("disabled", "disabled");
+        $("select").css("backgroundColor", "#eee");
+        $("#BtnNewItem").remove();
+        $("td .btn-info").remove();
+        $("td .btn-danger").remove();
+        $("#TxtNotes").removeAttr("disabled");
+        $("#TxtNotes").css("backgroundColor", "transparent");
+    } else {
+        $("#CmbRules").chosen();
+    }
+
+    if (Auditory.Id > 0) {
+        if (Auditory.Type === 1) {
+            if (Auditory.Customer.Id > 0) {
+                $("#CustomerDiv").show();
+                $("#RBCustomer").attr("checked", "checked");
+            }
+
+            if (Auditory.Provider.Id > 0) {
+                $("#ProviderDiv").show();
+                $("#RBProvider").attr("checked", "checked");
+            }
+        }
+
+        $("#TxtAmount").val(ToMoneyFormat(Auditory.Amount, 2));
+    }
+
+    $("#BtnSave").on("click", SaveAuditory);
+};
 
 function RenderPlanningTable()
 {
@@ -96,7 +135,7 @@ function ShowPopupPlanningDialog(id) {
         $("#CmbAuditor").val(auditoryPlanningSelected.Auditor.Id);
         $("#CmbAudited").val(auditoryPlanningSelected.Audited.Id);
 
-        if (auditoryPlanningSelected.SendMail === true && Auditory.Type === 2) {
+        if (auditoryPlanningSelected.SendMail === true && Auditory.Type !== 1) {
             $("#ChkSendMail").attr("checked", "checked");
             $("#TxtProviderEmailRow").show();
         }
@@ -117,6 +156,7 @@ function ShowPopupPlanningDialog(id) {
         "buttons":
             [
                 {
+                    "Id": "BtnAuditoryPlanningSaveOk",
                     "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
@@ -124,6 +164,7 @@ function ShowPopupPlanningDialog(id) {
                     }
                 },
                 {
+                    "Id": "BtnAuditoryPlanningSaveCancel",
                     "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                     "class": "btn btn-xs",
                     "click": function () {
@@ -267,4 +308,103 @@ function AuditoryPlanningGetById(id) {
         }
     }
     return null;
+}
+
+function RBExternalTypeChanged() {
+    $("#ProviderDiv").hide();
+    $("#CustomerDiv").hide();
+
+    if (document.getElementById("RBProvider").checked === true) {
+        $("#ProviderDiv").show();
+    }
+
+    if (document.getElementById("RBCustomer").checked === true) {
+        $("#CustomerDiv").show();
+    }
+}
+
+function SaveAuditory() {
+    console.log("SaveAuditory");
+    var customer = { "Id": -1 };
+    var provider = { "Id": -1 };
+
+    var auditoryData = {
+        "Id": Auditory.Id,
+        "CompanyId": Company.Id,
+        "Type": Auditory.Type,
+        "Description": $("#TxtName").val(),
+        "Descripcion": $("#TxtDescription").val(),
+        "Scope": $("#TxtScope").val(),
+        "Amount": StringToNumber($("#TxtAmount").val(), ".", ","),
+        "Notes": $("#TxtNotes").val(),
+        "CompanyAddressId": $("#CmbAddress").val() * 1,
+        "EnterpriseAddress": $("#CmbAddress").val(),
+        "AuditorTeam": Auditory.Type === 0 ? "" : $("#TxtAuditorTeam").val(),
+        "PlannedBy": { "Id": $("#CmbPlanningResponsible").val() * 1 },
+        "PlannedOn": GetDate($("#TxtAuditoryPlanningDate").val(), "/", true),
+        "InternalResponsible": { "Id": $("#CmbInternalResponsible").val() * 1 },
+        "Active": true,
+        "ValidatedBy": { "Id": -1 },
+        "ValidatedUserBy": { "Id": -1 },
+        "ClosedBy": { "Id": -1 },
+        "CreatedBy": { "Id": -1 },
+        "ModifiedBy": { "Id": -1 },
+        "Customer": customer,
+        "Provider": provider
+    };
+
+    var toPlanned = false;
+    if (Auditory.PlannedOn === null && $("#TxtAuditoryPlanningDate").val() !== "") {
+        toPlanned = true;
+    }
+
+    CalculateRules();
+    var data = {
+        "auditory": auditoryData,
+        "rules": $("#TxtRulesId").val(),
+        "applicationUserId": ApplicationUser.Id,
+        "toPlanned": toPlanned
+    };
+
+    var webMethod = "/Async/AuditoryActions.asmx/Insert";
+    if (Auditory.Id > 0) {
+        webMethod = "/Async/AuditoryActions.asmx/Update";
+        data["oldAuditory"] = Auditory;
+    }
+
+    console.log(data);
+    $.ajax({
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            if (Auditory.Id < 0) {
+                document.location = "/AuditoryView.aspx?id=" + msg.d.MessageError;
+            }
+            else {
+                document.location = referrer;
+            }
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function CalculateRules() {
+    var res = "";
+    $.each($("#AuditoryRulesDiv input:checkbox"), function () {
+        console.log($(this)[0].id);
+        if ($(this)[0].checked === true) {
+            res += $(this)[0].id.split("_")[1] + "|";
+        }
+    });
+
+    $("#TxtRulesId").val(res);
+}
+
+function QuestionaryPlay(auditoryId, cuestionarioId) {
+    window.open("/QuestionaryPlay.aspx?a=" + auditoryId + "&c=" + cuestionarioId);
 }

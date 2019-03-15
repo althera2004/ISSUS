@@ -91,11 +91,17 @@
     <Compile Include="ItemIdentifiers.cs" />
     <Compile Include="Item\ApartadoNorma.cs" />
     <Compile Include="Item\Auditory.cs" />
+    <Compile Include="Item\AuditoryCuestionarioFound.cs" />
+    <Compile Include="Item\AuditoryCuestionarioImprovement.cs" />
     <Compile Include="Item\AuditoryPlanning.cs" />
+    <Compile Include="Item\AuditoryQuestionaryQuestion.cs" />
     <Compile Include="Item\BaseItem.cs" />
+    <Compile Include="Item\Binding\ColumnsAuditoryCuestionarioFoundGet.cs" />
+    <Compile Include="Item\Binding\ColumnsAuditoryCuestionarioImprovementGet.cs" />
     <Compile Include="Item\Binding\ColumnsAuditoryGet.cs" />
     <Compile Include="Item\Binding\ColumnsAuditoryPlanningGet.cs" />
     <Compile Include="Item\Binding\ColumnsAuditoryFilter.cs" />
+    <Compile Include="Item\Binding\ColumnsAuditoryQuestionGet.cs" />
     <Compile Include="Item\Binding\ColumnsBusinessRiskFilterGet.cs" />
     <Compile Include="Item\Binding\ColumnsBusinessRiskGetAll.cs" />
     <Compile Include="Item\Binding\ColumnsCompanyAddressGet.cs" />

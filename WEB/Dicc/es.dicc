@@ -16,6 +16,7 @@ Alert_Large_IncidentIdentifiedNotEvaluated::Falta rellenar el campo 'Por qué ha
 Alert_Large_IncidentLastWeek::La fecha prevista para el cierre de la incidencia ha vencido
 Alert_Large_LearningFinishedWithoutEvaluation::Curso finalizado pendiente de evaluación
 Alert_Large_LearningStartedWithoutAssistants::Curso iniciado sin alumnos inscritos
+Alert_Large_LearningExpired::La fecha de inicio prevista del cusro ya ha pasado
 Alert_Short_ActionEvaluatedWithoutAction::Acción sin actuaciones
 Alert_Short_ActionIdentifiedNotEvaluated::Acción no analizada
 Alert_Short_ActionLastWeek::Acción vencida
@@ -30,6 +31,7 @@ Alert_Short_IncidentIdentifiedNotEvaluated::Incidencia no analizada
 Alert_Short_IncidentLastWeek::Incidencia vencida
 Alert_Short_LearningFinishedWithoutEvaluation::Curso sin evaluar
 Alert_Short_LearningStartedWithoutAssistants::Curso sin alumnos
+Alert_Short_LearningExpired::Curso no iniciado
 Añadir::Añadir
 Auditorías::Auditorías
 Avatar::Avatar
@@ -1789,6 +1791,9 @@ User_PrimaryUser::Propietario/a
 Verification-Ext::Verificación externa
 Verification-Int::Verificación interna
 ZZZZZ::Las nuevas claves a partir de aquí hacia abajo
+Common_Message_ItemNoAccess::No tiene acceso a este elemento, contecte con el administrador
+Item_IncidentAction_Error_BeforeActions::No puede ser anterior a la fecha de actuaciones
+Item_Incident_Error_BeforeActions::No puede ser anterior a la fecha de actuaciones
 Item_Questionaries::Cuestionarios
 Item_Questionary::Cuestionario
 Item_Questionary_Button_New::Añadir cuestionario
@@ -1849,6 +1854,7 @@ Item_Auditory_Label_Name::Nombre
 Item_Auditory_Help_Status_Title::Estados de una auditoría
 Item_Auditory_Tab_Principal::Datos básicos
 Item_Auditory_Tab_Questionaries::Cuestionarios
+Item_Auditory_Tab_Report::Informe
 Item_Auditory_Tab_Traces::Trazas
 Item_Auditory_PlanningTable_Title::Planificación
 Item_Auditory_SelectType_Title::Elija el tipo de auditoría
@@ -1888,3 +1894,27 @@ Item_AuditoryPlanning_Title_PopupAdd::Añadir planificación
 Item_AuditoryPlanning_Title_PopupUpdate::Modificar planifiación
 Item_AuditoryPlanning_Label_EmailProvider::Dirección de email
 Item_AuditoryPlanning_Title::Eliminar planificación
+Item_Auditory_Label_PlanningResponsible::Planificada por
+Item_Auditory_Label_PlanningDate::Fecha
+Item_Auditory_Title_QuestionariesAvailables::Cuestionarios de la auditoría
+Item_AuditoryQuestionary_Header_Status::Estado
+Item_AuditoryQuestionary_Header_Name::Cuestionario
+Item_AuditoryQuestionary_Tooltip_Start::Iniciar cuestionario
+Item_AuditoryQuestionary_Tooltip_Continue::Continuar cuestionario
+Item_Auditory_Text_NotStarted::No iniciado
+Item_Auditory_Text_NotEnded::No finalizado
+Item_Auditory_Title_Found::Hallazgos
+Item_Auditory_Title_Improvements::Mejoras
+Item_Questionary_Tab_Founds::Hallazgos y mejoras
+Item_Questionary_Tab_Questions::Cuestionario
+Item_Auditory_Header_Improvement::Propuestas de mejora
+Item_Auditory_Label_Unconformity::No conformidad
+Item_Auditory_Label_Improvement::Mejora
+Item_Auditory_Label_Requeriment::Requisito
+Item_Auditory_Label_Found::Hallazgo
+Item_Auditory_Button_AddFound::Añadir hallazgo
+Item_Auditory_Button_AddImprovement::Añadir mejora
+Item_Auditory_Title_PopupAddFound::Nuevo hallazgo
+Item_Auditory_Title_PopupUpdateFound::Modificar hallazgo
+Item_Auditory_Title_PopupAddImprovement::Nueva mejora
+Item_Auditory_Title_PopupUpdateImprovement::Modificar mejora

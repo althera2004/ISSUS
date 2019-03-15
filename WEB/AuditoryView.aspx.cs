@@ -6,12 +6,16 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Activity;
+using GisoFramework.DataAccess;
 using GisoFramework.Item;
 using SbrinnaCoreFramework;
 using SbrinnaCoreFramework.UI;
@@ -35,6 +39,58 @@ public partial class AuditoryView : Page
             return this.user.ShowHelp;
         }
     }
+
+    public string DataJson
+    {
+        get
+        {
+            return this.Auditory.Json;
+        }
+    }
+
+    public string ReportDateStart
+    {
+        get
+        {
+            if(this.Auditory.ReportStart == null)
+            {
+                return this.Dictionary["Item_Auditory_Text_NotStarted"];
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ReportStart);
+        }
+    }
+
+    public string ReportDateEnd
+    {
+        get
+        {
+            if (this.Auditory.ReportEnd == null)
+            {
+                return this.Dictionary["Item_Auditory_Text_NotEnded"];
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ReportEnd);
+        }
+    }
+
+    public string Improvements
+    {
+        get
+        {
+            return AuditoryCuestionarioImprovement.JsonList(this.Auditory.Improvements);
+        }
+    }
+
+    public string Founds
+    {
+        get
+        {
+            return AuditoryCuestionarioFound.JsonList(this.Auditory.Founds);
+        }
+    }
+
+    public string RulesIds { get; private set; }
 
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
@@ -203,6 +259,10 @@ public partial class AuditoryView : Page
         else
         {
             this.Auditory = Auditory.Empty;
+            if (this.Request.QueryString["t"] != null)
+            {
+                this.Auditory.Type = Convert.ToInt32(this.Request.QueryString["t"] as string);
+            }
         }
 
         if (!IsPostBack)
@@ -213,12 +273,17 @@ public partial class AuditoryView : Page
             }
         }
 
-        string label = this.auditoryId == -1 ? "Item_Auditory_BreadCrumb_Edit" : string.Format("{0} {2}: <strong>{1}</strong>", this.Dictionary["Item_Auditory"], this.Auditory.Description, this.Dictionary["Item_Adutory_Type_Label_" + this.Auditory.Type.ToString()].ToLowerInvariant());
+        string label = this.auditoryId == -1 ? this.Dictionary["Item_Auditory_BreadCrumb_Edit"] : string.Format("{0} {2}: <strong>{1}</strong>", this.Dictionary["Item_Auditory"], this.Auditory.Description, this.Dictionary["Item_Adutory_Type_Label_" + this.Auditory.Type.ToString()].ToLowerInvariant());
         this.master.AddBreadCrumb("Item_Auditories", "AuditoryList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumbInvariant(this.Dictionary["Item_Auditory_BreadCrumb_Edit"] + " " + this.Dictionary["Item_Adutory_Type_Label_" + this.Auditory.Type.ToString()].ToLowerInvariant());
         this.master.TitleInvariant = true;
         this.master.Titulo = label;
         this.FillLists();
+
+        if(this.Auditory.Status > 0)
+        {
+            this.RenderCuestionarios();
+        }
     }
 
     private void FillLists()
@@ -238,23 +303,57 @@ public partial class AuditoryView : Page
 
 
         var rules = Rules.GetAll(this.company.Id);
-        var rulesList = new StringBuilder("<option>").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
+        var rulesList = new StringBuilder("");
+        bool firstRule = true;
+        this.RulesIds = string.Empty;
+
+        if(this.Auditory.PlannedOn != null) { rulesList.Append("<label class=\"col-sm-10 control-label\" style=\"text-align:left;\"><strong>"); }
+        else { rulesList.Append("<select class=\"col-sm-12\" id=\"CmbRules\" multiple=\"multiple\">"); }
         foreach (var rule in rules.OrderBy(p => p.Description))
         {
-            rulesList.AppendFormat(
-                CultureInfo.InvariantCulture,
-                @"<option value=""{0}""{2}>{1}</option>",
-                rule.Id,
-                rule.Description,
-                this.Auditory.Rules.Any(r=>r.Id == rule.Id) ? " selected=\"selected\"" : string.Empty);
+            bool selected = this.Auditory.Rules.Any(r => r.Id == rule.Id);
+            if (selected)
+            {
+                this.RulesIds += rule.Id + "|";
+            }
+
+            if (this.Auditory.PlannedOn != null)
+            {
+                if (selected)
+                {
+                    if (firstRule)
+                    {
+                        firstRule = false;
+                    }
+                    else
+                    {
+                        rulesList.Append(", ");
+                    }
+
+                    rulesList.Append(rule.Description);
+                }
+            }
+            else
+            {
+                rulesList.AppendFormat(
+                    CultureInfo.InvariantCulture,
+                    @"<option value=""{0}""{2}>{1}</option>",
+                    rule.Id,
+                    rule.Description,
+                    selected ? " selected=\"selected\"" : string.Empty);
+            }
         }
 
+        if (this.Auditory.PlannedOn != null) { rulesList.Append("</strong></label>"); }
+        else { rulesList.Append("</select>"); }
         this.LtCmbRules.Text = rulesList.ToString();
 
         var employesList = new StringBuilder();
         var auditedList = new StringBuilder();
+        var planningList = new StringBuilder();
         employesList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         auditedList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
+        planningList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         foreach (var employee in Employee.ByCompany(this.company.Id))
         {
             employesList.AppendFormat(
@@ -263,6 +362,12 @@ public partial class AuditoryView : Page
                 employee.Id,
                 employee.FullName,
                 this.Auditory.InternalResponsible.Id == employee.Id ? " selected=\"selected\"" : string.Empty);
+            planningList.AppendFormat(
+                CultureInfo.InvariantCulture,
+                @"<option value=""{0}""{2}>{1}</option>",
+                employee.Id,
+                employee.FullName,
+                this.Auditory.PlannedBy.Id == employee.Id ? " selected=\"selected\"" : string.Empty);
             auditedList.AppendFormat(
                 CultureInfo.InvariantCulture,
                 @"<option value=""{0}"">{1}</option>",
@@ -272,7 +377,7 @@ public partial class AuditoryView : Page
 
         this.LtCmbInternalResponsible.Text = employesList.ToString();
         this.LtAuditedList.Text = auditedList.ToString();
-        this.LtAuditorList.Text = auditedList.ToString();
+        this.LtAuditoryPlanningResponsible.Text = planningList.ToString();
 
         var addressList = new StringBuilder();
         employesList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
@@ -283,7 +388,7 @@ public partial class AuditoryView : Page
                 @"<option value=""{0}""{2}>{1}</option>",
                 address.Id,
                 address.Description,
-                this.Auditory.InternalResponsible.Id == address.Id ? " selected=\"selected\"" : string.Empty);
+                this.Auditory.CompanyAddressId == address.Id ? " selected=\"selected\"" : string.Empty);
         }
 
         this.LtCmbAddress.Text = addressList.ToString();
@@ -295,17 +400,99 @@ public partial class AuditoryView : Page
             providerList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
             foreach (var provider in Provider.ByCompany(this.company.Id))
             {
-                providerList.AppendFormat(
-                    CultureInfo.InvariantCulture,
-                    @"<option value=""{0}""{2}>{1}</option>",
-                    provider.Id,
-                    provider.Description,
-                    this.Auditory.Provider.Id == provider.Id ? " selected=\"selected\"" : string.Empty);
+                if (this.auditoryId > 0 || provider.Active)
+                {
+                    providerList.AppendFormat(
+                        CultureInfo.InvariantCulture,
+                        @"<option value=""{0}""{2}>{1}</option>",
+                        provider.Id,
+                        provider.Description,
+                        this.Auditory.Provider.Id == provider.Id ? " selected=\"selected\"" : string.Empty);
+                }
             }
         }
 
         this.LtCmbProvider.Text = providerList.ToString();
+        this.LtCmbProvider2.Text = providerList.ToString();
+
+        var customerList = new StringBuilder();
+        customerList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
+        if (this.Auditory.Type == 1 || this.Auditory.Type == 2)
+        {
+            customerList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
+            foreach (var customer in Customer.ByCompany(this.company.Id))
+            {
+                if (this.auditoryId > 0 || customer.Active)
+                {
+                    customerList.AppendFormat(
+                        CultureInfo.InvariantCulture,
+                        @"<option value=""{0}""{2}>{1}</option>",
+                        customer.Id,
+                        customer.Description,
+                        this.Auditory.Customer.Id == customer.Id ? " selected=\"selected\"" : string.Empty);
+                }
+            }
+        }
+
+        this.LtCmbCustomer.Text = customerList.ToString();
+    }
+
+    private void RenderCuestionarios()
+    {
+        var res = new StringBuilder();
+
+        using(var cmd = new SqlCommand("Auditory_GetQuestionaries"))
+        {
+            using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+            {
+                cmd.Connection = cnn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add(DataParameter.Input("@AuditoryId", this.auditoryId));
+                cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.company.Id));
+                try
+                {
+                    cmd.Connection.Open();
+                    using(var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            res.AppendFormat(
+                                CultureInfo.InvariantCulture,
+                                @"<tr style=""height:30px;"">
+                                    <td style=""height:30px;width:120px;text-align:center;
+                                        background: -webkit-linear-gradient(left, #cfc {4}%, #fcc {4}%);
+                                        background: -moz-linear-gradient(left, #cfc {4}%, #fcc {4}%);
+                                        background: -ms-linear-gradient(left, #cfc {4}%, #fcc {4}%);
+                                        background: linear-gradient(left, #cfc {4}%, #fcc {4}%);"">
+                                        <strong>{0} / {1}</strong></td>
+                                    <td>{2}</td>
+                                    <td style=""width:50px;text-align:center;"">
+                                      <span class=""btn btn-xs btn-success"" id=""{3}"" title=""{5}"" onclick=""QuestionaryPlay({6},{3});"">
+                                        <i class=""icon-play bigger-120""></i>
+                                      </span>
+                                    </td>
+                                </tr>",
+                                rdr.GetInt32(3),
+                                rdr.GetInt32(2),
+                                rdr.GetString(1),
+                                rdr.GetInt64(0),
+                                rdr.GetInt32(3) * 100 / rdr.GetInt32(2),
+                                rdr.GetInt32(3) > 0 ? this.Dictionary["Item_AuditoryQuestionary_Tooltip_Continue"] : this.Dictionary["Item_AuditoryQuestionary_Tooltip_Start"],
+                                this.auditoryId);
+                        }
+                    }
+                }
+                finally
+                {
+                    if(cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+        }
 
 
+        this.LtCuestionariosList.Text = res.ToString();
     }
 }

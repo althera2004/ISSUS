@@ -24,24 +24,17 @@ jQuery(function ($) {
 
     $("#BtnRecordShowAll").on("click", function (e) {
         e.preventDefault();
-        IncidentListGetAll();
-    });
-
-    $("#BtnRecordShowNone").on("click", function (e) {
-        e.preventDefault();
-        IncidentListGetNone();
+        AuditoryListGetAll();
     });
 });
 
-function IncidentListGetAll() {
-    //$("#BtnRecordShowAll").hide();
-    //$("#BtnRecordShowNone").show();
+function AuditoryListGetAll() {
     var ok = true;
     VoidTable("ListDataTable");
     $("#TxtDateFrom").val("");
     $("#TxtDateTo").val("");
     for (var x = 0; x < 3; x++) { document.getElementById("ChkType" + x).checked = true; document.getElementById("ChkType" + x).disabled = false; }
-    for (var x = 0; x < 5; x++) { document.getElementById("ChkStatus" + x).checked = true; document.getElementById("ChkStatus" + x).disabled = false; }
+    for (var y = 0; y < 5; y++) { document.getElementById("ChkStatus" + y).checked = true; document.getElementById("ChkStatus" + y).disabled = false; }
     AuditoryGetFilter();
 }
 
@@ -123,7 +116,7 @@ function ItemRenderTable(list) {
         var tdPlanned = document.createElement("TD");
         var tdValidated = document.createElement("TD");
         var tdAmount = document.createElement("TD");
-        row.id = item.IncidentId;
+        row.id = item.Id;
         total += item.Amount;
 
         var colorStatus0 = "#777";
@@ -133,8 +126,6 @@ function ItemRenderTable(list) {
         var colorStatus4 = "#ff7";
         var colorStatus5 = "#ff0";
 
-        //<i title="No significativo" class="icon-circle bigger-110" style="color: rgb(165, 202, 159);"></i>
-        //<i title="Planificando"     class="icon-play bigger-110" style="color: rgb(255, 255, 255);"></i>
         var iconStatus = document.createElement("I");
         iconStatus.className = "icon-circle bigger-110";
         switch (item.Status) {
@@ -248,8 +239,8 @@ function ItemRenderTable(list) {
         $("#nav-search-input").change(FilterList);
     }
 
-    $("#AuditoryDataTotal").html(list.length);
-    $("#AuditoryTotalAmount").html(ToMoneyFormat(total));
+    $("#TotalList").html(list.length);
+    $("#TotalAmount").html(ToMoneyFormat(total));
 
     if (lockOrderList === false) {
         $("#th1").click();
@@ -298,6 +289,7 @@ function ShowSelectDialog() {
         "buttons":
             [
                 {
+                    "id": "PopupSelectDialogAccept",
                     "html": Dictionary.Common_Accept,
                     "class": "btn btn-success btn-xs",
                     "click": function () {
@@ -305,17 +297,19 @@ function ShowSelectDialog() {
                         if (document.getElementById("AuditoryTypeSelect0").checked) {
                             document.location = "AuditoryView.aspx?id=-1&t=0";
                         }
-                        else if (document.getElementById("AuditoryTypeSelect0").checked) {
+                        else if (document.getElementById("AuditoryTypeSelect1").checked) {
                             document.location = "AuditoryView.aspx?id=-1&t=1";
                         }
-                        else if (document.getElementById("AuditoryTypeSelect0").checked) {
+                        else if (document.getElementById("AuditoryTypeSelect2").checked) {
                             document.location = "AuditoryView.aspx?id=-1&t=2";
                         }
-
-                        $("#ErrorSelect").show();
+                        else {
+                            $("#ErrorSelect").show();
+                        }
                     }
                 },
                 {
+                    "id": "PopupSelectDialogCancel",
                     "html": Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     "click": function () {
@@ -339,6 +333,7 @@ function AuditoryDelete(sender) {
         "buttons":
             [
                 {
+                    "id": "BtnAuditoryDeleteOK",
                     "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
@@ -346,6 +341,7 @@ function AuditoryDelete(sender) {
                     }
                 },
                 {
+                    "id": "BtnAuditoryDeleteCancel",
                     "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                     "class": "btn btn-xs",
                     "click": function () {
@@ -370,7 +366,7 @@ function AuditoryDeleteConfirmed() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             AuditoryGetFilter();
         },
         "error": function (msg) {
@@ -408,6 +404,7 @@ function AuditoryDuplicate(sender) {
         "buttons":
             [
                 {
+                    "id": "BtnAuditoryDuplicatedOK",
                     "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
@@ -415,6 +412,7 @@ function AuditoryDuplicate(sender) {
                     }
                 },
                 {
+                    "id": "BtnAuditoryDUplicatedCancel",
                     "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                     "class": "btn btn-xs",
                     "click": function () {
@@ -465,21 +463,18 @@ function AuditoryDuplicatedConfirmed() {
 function ProposeName(original) {
     var x = 2;
     var text = original.toUpperCase();
-
-    while (DuplicatedName(text + " - COPIA " + x)) {
-        x++;
-    }
-
+    while (DuplicatedName(text + " - COPIA " + x)) { x++; }
     return original + " - COPIA " + x;
 }
 
 function DuplicatedName(text) {
-    var text = text.toUpperCase();
+    var finalText = text.toUpperCase();
     for (var x = 0; x < AuditoryList.length; x++) {
-        if (AuditoryList[x].Description.toUpperCase() === text) {
+        if (AuditoryList[x].Description.toUpperCase() === finalText) {
             return true;
         }
     }
+
     return false;
 }
 
@@ -495,7 +490,6 @@ window.onload = function () {
         $("#BtnNewItem").on("click", ShowSelectDialog);
     }
 
-    console.log("window olnoad");
     $("#nav-search").hide();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
     FilterLayout();
@@ -533,8 +527,8 @@ function ExportPDF() {
         "status1": document.getElementById("ChkStatus1").checked,
         "status2": document.getElementById("ChkStatus2").checked,
         "status3": document.getElementById("ChkStatus3").checked,
-        "status3": document.getElementById("ChkStatus4").checked,
-        "status3": document.getElementById("ChkStatus5").checked,
+        "status4": document.getElementById("ChkStatus4").checked,
+        "status5": document.getElementById("ChkStatus5").checked,
         "interna": document.getElementById("ChkInterna").checked,
         "externa": document.getElementById("ChkExterna").checked,
         "provider": document.getElementById("ChkProvider").checked
@@ -549,7 +543,6 @@ function ExportPDF() {
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
             LoadingHide();
-            //successInfoUI(msg.d.MessageError, Go, 200);
             var link = document.createElement("a");
             link.id = "download";
             link.href = msg.d.MessageError;
@@ -584,6 +577,7 @@ function FillApartadoNorma() {
                 res += "<option value=\"" + ApartadosNormasList[x].A + "\">" + ApartadosNormasList[x].A + "</option>";
             }
         }
+
         $("#CmbApartadosNorma").removeAttr("disabled");
     }
     else {
@@ -596,18 +590,18 @@ function FillApartadoNorma() {
 function ChkTypeChanged() {
     var count = 0;
     for (var x = 0; x < 3; x++) {
-        if (document.getElementById("ChkType" + x).checked) { count++; }
+        if (document.getElementById("ChkType" + x).checked === true) { count++; }
     }
 
     if (count > 1) {
-        for (var x = 0; x < 3; x++) {
-            document.getElementById("ChkType" + x).disabled = false;
+        for (var y = 0; y < 3; y++) {
+            document.getElementById("ChkType" + y).disabled = false;
         }
     }
     else {
-        for (var x = 0; x < 3; x++) {
-            if (document.getElementById("ChkType" + x).checked) {
-                document.getElementById("ChkType" + x).disabled = true;;
+        for (var z = 0; z < 3; z++) {
+            if (document.getElementById("ChkType" + z).checked === true) {
+                document.getElementById("ChkType" + z).disabled = true;
             }
         }
     }
@@ -618,18 +612,18 @@ function ChkTypeChanged() {
 function ChkStatusChanged() {
     var count = 0;
     for (var x = 0; x < 5; x++) {
-        if (document.getElementById("ChkStatus" + x).checked) { count++; }
+        if (document.getElementById("ChkStatus" + x).checked === true) { count++; }
     }
 
     if (count > 1) {
-        for (var x = 0; x < 5; x++) {
-            document.getElementById("ChkStatus" + x).disabled = false;
+        for (var y = 0; y < 5; y++) {
+            document.getElementById("ChkStatus" + y).disabled = false;
         }
     }
     else {
-        for (var x = 0; x < 5; x++) {
-            if (document.getElementById("ChkStatus" + x).checked) {
-                document.getElementById("ChkStatus" + x).disabled = true;;
+        for (var z = 0; z < 5; z++) {
+            if (document.getElementById("ChkStatus" + z).checked === true) {
+                document.getElementById("ChkStatus" + z).disabled = true;
             }
         }
     }

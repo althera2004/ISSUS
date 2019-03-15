@@ -1,14 +1,11 @@
 ﻿// --------------------------------
-// <copyright file="QuestionaryView.aspx.cs" company="OpenFramework">
+// <copyright file="QuestionaryPlay.aspx.cs" company="OpenFramework">
 //     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -19,7 +16,7 @@ using GisoFramework.Item;
 using SbrinnaCoreFramework;
 using SbrinnaCoreFramework.UI;
 
-public partial class QuestionaryView : Page
+public partial class QuestionaryPlay : Page
 {
     /// <summary> Master of page</summary>
     private Giso master;
@@ -31,6 +28,9 @@ public partial class QuestionaryView : Page
     private Company company;
 
     private long questionaryId;
+    private long auditoryId;
+
+    public Auditory Auditory { get; private set; }
 
     public bool ShowHelp
     {
@@ -61,26 +61,6 @@ public partial class QuestionaryView : Page
 
     public Questionary Questionary { get; private set; }
 
-    public string TxtName
-    {
-        get
-        {
-            return new FormText
-            {
-                Name = "TxtName",
-                Value = this.Questionary.Description,
-                ColumnSpan = 10,
-                Required = true,
-                RequiredMessage = this.Dictionary["Common_Required"],
-                Duplicated = true,
-                DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
-                MaximumLength = 100,
-                Placeholder = this.Dictionary["Item_Questionary"],
-                GrantToWrite = this.GrantToWrite
-            }.Render;
-        }
-    }
-
     public bool GrantTraces
     {
         get
@@ -97,30 +77,6 @@ public partial class QuestionaryView : Page
         }
     }
 
-    public string Questions
-    {
-        get
-        {
-            return QuestionaryQuestion.ByQuestionaryIdJson(this.questionaryId, this.company.Id);
-        }
-    }
-
-    public string ApartadosNormasList
-    {
-        get
-        {
-            return ApartadoNorma.JsonList(this.company.Id);
-        }
-    }
-
-    public bool NewQuestionary
-    {
-        get
-        {
-            return this.Questionary.Id < 1;
-        }
-    }
-
     public bool Admin
     {
         get
@@ -131,6 +87,22 @@ public partial class QuestionaryView : Page
 
     /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary { get; private set; }
+
+    public string Founds
+    {
+        get
+        {
+            return AuditoryCuestionarioFound.JsonList(AuditoryCuestionarioFound.ByCuestionary(this.questionaryId, this.auditoryId, this.company.Id));
+        }
+    }
+
+    public string Improvements
+    {
+        get
+        {
+            return AuditoryCuestionarioImprovement.JsonList(AuditoryCuestionarioImprovement.ByCuestionary(this.questionaryId, this.auditoryId, this.company.Id));
+        }
+    }
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -149,14 +121,6 @@ public partial class QuestionaryView : Page
             if (!UniqueSession.Exists(token, this.user.Id))
             {
                 this.Response.Redirect("MultipleSession.aspx", Constant.EndResponse);
-            }
-            else if (this.Request.QueryString["id"] == null)
-            {
-                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
-            }
-            else if (!int.TryParse(this.Request.QueryString["id"], out test))
-            {
-                this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
             }
             else
             {
@@ -182,9 +146,16 @@ public partial class QuestionaryView : Page
         }
 
         // Parameters control
-        if (this.Request.QueryString["id"] != null)
+        if (this.Request.QueryString["c"] != null)
         {
-            this.questionaryId = Convert.ToInt32(this.Request.QueryString["id"]);
+            this.questionaryId = Convert.ToInt32(this.Request.QueryString["c"]);
+        }
+
+        this.Auditory = Auditory.Empty;
+        if (this.Request.QueryString["a"] != null)
+        {
+            this.auditoryId = Convert.ToInt32(this.Request.QueryString["a"]);
+            this.Auditory = Auditory.ById(this.auditoryId, this.company.Id);
         }
 
         this.master = this.Master as Giso;
@@ -192,12 +163,6 @@ public partial class QuestionaryView : Page
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
 
         this.formFooter = new FormFooter();
-        if (this.user.HasGrantToWrite(ApplicationGrant.Questionary))
-        {
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
-        }
-
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.questionaryId > 0)
         {
@@ -217,14 +182,6 @@ public partial class QuestionaryView : Page
             this.Questionary = Questionary.Empty;
         }
 
-        if (!IsPostBack)
-        {
-            if (this.user.HasTraceGrant())
-            {
-                this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.questionaryId, TargetType.Questionary);
-            }
-        }
-
         string label = this.questionaryId == -1 ? "Item_Questionary_BreadCrumb_Edit" : string.Format("{0}: <strong>{1}</strong>", this.Dictionary["Item_Questionary"], this.Questionary.Description);
         this.master.AddBreadCrumb("Item_Questionaries", "QuestionaryList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_Questionary_BreadCrumb_Edit");
@@ -235,34 +192,25 @@ public partial class QuestionaryView : Page
 
     private void FillLists()
     {
-        // ---- Procesos ----------------
-        var processes = Process.ByCompany(this.company.Id);
-        var processList = new StringBuilder("<option>").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
-        foreach (var process in processes.OrderBy(p => p.Description))
+        var res = new StringBuilder();
+        foreach (var q in AuditoryQuestionaryQuestion.ByAuditoryId(this.auditoryId, this.questionaryId, this.company.Id))
         {
-            processList.AppendFormat(
-                CultureInfo.InvariantCulture,
-                @"<option value=""{0}""{2}>{1}</option>",
-                process.Id,
-                process.Description,
-                process.Id == this.Questionary.Process.Id ? " selected=\"selected\"" : string.Empty);
+            res.AppendFormat(
+             CultureInfo.InvariantCulture,
+             @"
+                <tr id=""RQ{0}"">
+                    <td style=""vertical-align:top;"">{1}</td>
+                    <td style=""vertical-align:top;width:157px;text-align:center;"">
+                        <span id=""Q{0}"" style=""color:#{2};cursor:pointer;"" onclick=""Toggle(this);"" data-status=""{4}"">{3}</span>
+                    </td>
+                </tr>",
+             q.Id,
+             q.Description,
+             q.Compliant.HasValue ? (q.Compliant.Value == true ? "070" : "700") : "333",
+             q.Compliant.HasValue ? (q.Compliant.Value == true ? "Cumple" : "No cumple") : "-",
+             q.Compliant.HasValue ? (q.Compliant.Value == true ? "1" : "2") : "0");
         }
 
-        this.LtProcessList.Text = processList.ToString();
-
-        // ---- Normas ------------------
-        var rules = Rules.GetAll(this.company.Id);
-        var rulesList = new StringBuilder("<option>").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
-        foreach (var rule in rules.OrderBy(p => p.Description))
-        {
-            rulesList.AppendFormat(
-                CultureInfo.InvariantCulture,
-                @"<option value=""{0}""{2}>{1}</option>",
-                rule.Id,
-                rule.Description,
-                rule.Id == this.Questionary.Rule.Id ? " selected=\"selected\"" : string.Empty);
-        }
-
-        this.LtRulesList.Text = rulesList.ToString();
+        this.LtQuestions.Text = res.ToString();
     }
 }

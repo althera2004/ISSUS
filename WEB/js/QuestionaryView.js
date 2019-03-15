@@ -1,5 +1,6 @@
 ﻿var selected = null;
 var textToUpdate = "";
+var nomatchValue = "";
 
 jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
@@ -17,32 +18,48 @@ window.onload = function () {
     $("#BtnSave").on("click", SaveQuestionary);
     TableQuestionsLayout();
     RenderQuestionsList();
-}
+    $("#BtnNewItem").on("click", InsertQuestion);
+    FillApartadoNorma();
+    $("#CmbProcess").chosen().css("min-width", "99%");
+    $("#CmbRule").chosen().css("min-width", "99%");
+    $("#CmbApartadoNorma").chosen({ "adminNewValues": true }).on("chosen:hiding_dropdown", function () {
+        nomatchValue = $("#DivCmbApartadoNorma .chosen-search input").val();
+        CmbApartadoNormaChanged();
+    }).on("chosen:showing_dropdown", function () {
+        $("#CmbApartadoNorma").val("");
+        }).css("min-width", "99%");
+};
 
 function RenderQuestionsList() {
-    $("#QuestionsTotal").html(Questions.length);
-    if (Questions.length > 0) {
-        $("#ListDataDiv").show();
-        $("#ItemTableVoid").hide();
+    $("#scrollTableDiv").show();
+    $("#ListDataDiv").hide();
+    $("#NoData").hide();
 
+    if (Questions.length > 0) {
         var res = "";
-        for (var q = 0; q < Questions.length; q++) {
-            res += "<tr id=\"" + Questions[q].Id + "\">";
-            res += "<td>" + Questions[q].Description + "</td>";
-            res += "<td style=\"width:90px;\">";
-            res += "<span class=\"btn btn-xs btn-info\" onclick=\"EditQuestion(" + Questions[q].Id + ");\" title=\"" + Dictionary.Item_QuestionaryQuestion_Tooltip_EditButton + "\"><i class=\"icon-edit bigger-120\"></i></span>";
-            res += "&nbsp;"
-            res += "<span class=\"btn btn-xs btn-danger\" onclick=\"DeleteQuestion(" + Questions[q].Id + ");\" title=\"" + Dictionary.Item_QuestionaryQuestion_Tooltip_DeleteButton + "\"><i class=\"icon-trash bigger-120\"></i></span>";
-            res += "</td>";
+        for (var x = 0; x < Questions.length; x++) {
+            res += "<tr id=\"" + Questions[x].Id + "\">";
+            res += "  <td>" + Questions[x].Description + "</td>";
+            res += "    </td>";
+            res += "  <td style=\"width:90px;\">";
+            res += "    <span class=\"btn btn-xs btn-info\" id=\"" + Questions[x].Id + "\" onclick=\"EditQuestion(" + Questions[x].Id + ");\">";
+            res += "        <i class=\"icon-edit bigger-120\"></i>";
+            res += "    </span>";
+            res += "    <span class=\"btn btn-xs btn-danger\" id=\"" + Questions[x].Id + "\" onclick=\"DeleteQuestion(" + Questions[x].Id + ");\">";
+            res += "      <i class=\"icon-trash bigger-120\"></i>";
+            res += "    </span>";
+            res += "  </td>";
             res += "</tr>";
         }
 
-        $("#ListDataTable").html(res);
+        $("#ListDataDiv").show();
     }
     else {
-        $("#ListDataDiv").hide();
-        $("#ItemTableVoid").show();
+        $("#NoData").show();
     }
+
+    $("#QuestionsTotal").html(Questions.length);
+    $("#ListDataTable").html(res);
 }
 
 function TableQuestionsLayout() {
@@ -57,6 +74,14 @@ function TableQuestionsLayout() {
 }
 
 function SaveQuestionary() {
+    var apartadoNorma = $("#TxtApartadoNormaName").val();
+    if (apartadoNorma === "") {
+        apartadoNorma = $("#CmbApartadoNorma :selected").val();
+        if (apartadoNorma === "-1") {
+            apartadoNorma = "";
+        }
+    }
+
     var data = {
         "questionary":
         {
@@ -65,7 +90,7 @@ function SaveQuestionary() {
             "Description": $("#TxtName").val(),
             "Rule": { "Id": + $("#CmbRule").val() * 1, "Description": "" },
             "Process": { "Id": + $("#CmbProcess").val() * 1, "Description": "" },
-            "ApartadoNorma": "weke",
+            "ApartadoNorma": apartadoNorma,
             "Notes": $("#TxtNotes").val(),
             "Active": true,
             "Deletable": false
@@ -108,13 +133,9 @@ function CmbProcessChanged() {
 
 }
 
-function CmbRuleChanged() {
-
-}
-
-function QuestionById(id) {
+function QuestionById() {
     for (var x = 0; x < Questions.length; x++) {
-        if (Questions[x].Id !== selected) {
+        if (Questions[x].Id === selected) {
             return Questions[x];
         }
     }
@@ -122,12 +143,12 @@ function QuestionById(id) {
 }
 
 function DeleteQuestion(id) {
-    var question = QuestionById(id);
+    selected = id * 1;
+    var question = QuestionById();
     if (question === null) {
         return;
     }
     $("#QuestionaryQuestionName").html(question.Description);
-    selected = id * 1;
     var dialog = $("#QuestionaryQuestionDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
@@ -140,7 +161,7 @@ function DeleteQuestion(id) {
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
                         $(this).dialog("close");
-                        DeleteQuestionConfirmed(Selected);
+                        DeleteQuestionConfirmed(selected);
                     }
                 },
                 {
@@ -187,14 +208,15 @@ function DeleteQuestionConfirmed(id) {
 }
 
 function EditQuestion(id) {
+    selected = id * 1;
     var question = QuestionById(id);
     if (question === null) {
         return;
     }
     $("#TxtQuestionaryQuestionUpdateName").val(question.Description);
-    selected = id * 1;
     $("#QuestionaryQuestionUpdateDialog").removeClass("hide").dialog({
         "resizable": false,
+        "width": 600,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_ItemQuestion_Popup_Edit_Title + "</h4>",
         "title_html": true,
@@ -205,7 +227,7 @@ function EditQuestion(id) {
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
                         $(this).dialog("close");
-                        EditQuestionConfirmed(Selected);
+                        EditQuestionConfirmed(selected);
                     }
                 },
                 {
@@ -224,6 +246,7 @@ function EditQuestionConfirmed(id) {
     var data = {
         "questionId": id,
         "question": textToUpdate,
+        "questionaryId": Questionary.Id,
         "companyId": Company.Id,
         "userId": user.Id
     };
@@ -231,14 +254,14 @@ function EditQuestionConfirmed(id) {
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
-        "url": "/Async/QuestionaryActions.asmx/EditQuestion",
+        "url": "/Async/QuestionaryActions.asmx/UpdateQuestion",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (response) {
             for (var x = 0; x < Questions.length; x++) {
                 if (Questions[x].Id === selected) {
-                    Questions.Description = textToUpdate;
+                    Questions[x].Description = textToUpdate;
                 }
             }
 
@@ -251,11 +274,13 @@ function EditQuestionConfirmed(id) {
     });
 }
 
-function InsertQuestion(id) {
-    $("#TxtQuestionaryQuestionUpdateName").val("");
+function InsertQuestion() {
+    console.log("InsertQuestion");
+    $("#TxtQuestionaryQuestionNewName").val("");
     selected = -1;
     var dialog = $("#QuestionaryQuestionInsertDialog").removeClass("hide").dialog({
         "resizable": false,
+        "width": 600,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_ItemQuestion_Popup_Insert_Title + "</h4>",
         "title_html": true,
@@ -266,7 +291,7 @@ function InsertQuestion(id) {
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
                         $(this).dialog("close");
-                        EditQuestionConfirmed(Selected);
+                        InsertQuestionConfirmed(selected);
                     }
                 },
                 {
@@ -285,6 +310,7 @@ function InsertQuestionConfirmed(id) {
     var data = {
         "questionId": id,
         "question": textToUpdate,
+        "questionaryId": Questionary.Id,
         "companyId": Company.Id,
         "userId": user.Id
     };
@@ -305,4 +331,36 @@ function InsertQuestionConfirmed(id) {
             alertUI(jqXHR.responseText);
         }
     });
+}
+
+function FillApartadoNorma() {
+    $("#CmbApartadosNorma").html("");
+    var RuleId = $("#CmbRule").val() * 1;
+    console.log("FillApartadoNorma", RuleId);
+    if (RuleId > 0) {
+        var res = "<option value=\"-1\">" + Dictionary.Common_None_Male + "</option>";
+        for (var x = 0; x < ApartadosNorma.length; x++) {
+            if (ApartadosNorma[x].R === RuleId) {
+                var selected = "";
+                if (Questionary.ApartadoNorma === ApartadosNorma[x].A) {
+                    selected = " selected=\"selected\"";
+                    $("#TxtApartadoNormaName").val(ApartadosNorma[x].A);
+                }
+
+                res += "<option value=\"" + ApartadosNorma[x].A + "\"" + selected + ">" + ApartadosNorma[x].A + "</option>";
+            }
+        }
+
+        $("#CmbApartadoNorma").removeAttr("disabled");
+    }
+    else {
+        $("#CmbApartadoNorma").attr("disabled", "disabled");
+    }
+
+    $("#CmbApartadoNorma").html(res);
+    $("#CmbApartadoNorma").trigger("chosen:updated");
+}
+
+function CmbApartadoNormaChanged() {
+    $("#TxtApartadoNormaName").val(nomatchValue);
 }

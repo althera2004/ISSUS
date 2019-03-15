@@ -35,6 +35,7 @@
     <script type="text/javascript">
         var Questionary = <%=this.Questionary.Json %>;
         var Questions = <%=this.Questions %>;
+        var ApartadosNorma = <%=this.ApartadosNormasList %>;
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
@@ -70,7 +71,7 @@
                                                         </div>
                                                         <label id="TxtRuleNameLabel" class="col-sm-1 control-label no-padding-right" style="margin-right:15px;"><%=this.Dictionary["Item_Questionary_FieldLabel_Rule"]%><span style="color:#f00">*</span></label>
                                                         <div class="col-sm-3" id="DivCmbRule" style="height:35px !important;">
-                                                            <select id="CmbRule" class="col-xs-12 col-sm-12 tooltip-info" onchange="CmbRuleChanged();"><asp:Literal runat="server" ID="LtRulesList"></asp:Literal></select>
+                                                            <select id="CmbRule" class="col-xs-12 col-sm-12 tooltip-info" onchange="FillApartadoNorma();"><asp:Literal runat="server" ID="LtRulesList"></asp:Literal></select>
                                                             <input style="display:none;" type="text" readonly="readonly" id="TxtRuleName" placeholder="<%=this.Dictionary["Item_Questionary_FieldLabel_Rule"] %>" class="col-xs-12 col-sm-12" />
                                                             <span class="ErrorMessage" id="TxtRuleNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
@@ -97,7 +98,7 @@
                                                         </div>
                                                         <div class="col-xs-2"><button class="btn btn-success" type="button" id="BtnNewItem" onclick="" style="margin-top:6px;height:28px;padding-top:0;"><i class="icon-plus bigger-110"></i>Añadir pregunta</button></div>
                                                     </div>
-                                                    								
+                                                    
                                                     <div class="table-responsive" id="scrollTableDiv" style="display:none;">
                                                         <table class="table table-bordered table-striped" style="margin: 0">
                                                             <thead class="thin-border-bottom">
@@ -107,25 +108,12 @@
 		                                                        </tr>
                                                             </thead>
                                                         </table>
-                                                        <div id="ListDataDiv" style="display:none;overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                        <div id="ListDataDiv" style="display:none;overflow: scroll; overflow-x: hidden; padding: 0;min-height:120px;">
                                                             <table class="table table-bordered table-striped" style="border-top: none;">
-                                                                <tbody id="ListDataTable"><asp:Literal runat="server" ID="ProviderData"></asp:Literal></tbody>
+                                                                <tbody id="ListDataTable"></tbody>
                                                             </table>
                                                         </div>
-                                                        <table id="ItemTableVoid" style="display:none;width:100%">
-                                                            <tr>
-                                                                <td colspan="10" style="color:#00A;text-align:center;">
-                                                                    <table style="border:none;width:100%">
-                                                                        <tr>
-                                                                            <td rowspan="2" style="border:none;text-align:right;"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
-                                                                            <td style="border:none;text-align:left;">
-                                                                                <h4><%=this.Dictionary["Common_VoidSearchResult"] %></h4>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
+                                                        <div id="NoData" style="display:none;width:100%;height:99%;min-height:120px;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>                                                        
                                                         <table class="table table-bordered table-striped" style="margin: 0" >
                                                             <thead class="thin-border-bottom">
                                                                 <tr id="ListDataFooter">
@@ -163,21 +151,27 @@
                             <div id="QuestionaryQuestionDeleteDialog" class="hide" style="width:500px;">
                                 <p><%=this.Dictionary["Item_QuestionaryQuestion_PopupDelete_Message"] %>&nbsp;<strong><span id="QuestionaryQuestionName"></span></strong>?</p>
                             </div>
-                            <div id="QuestionaryQuestionUpdateDialog" class="hide" style="width:600px;">
-                                <p>
-                                    <label class="col-sm-2 control-label no-padding-right" id="TxtQuestionaryQuestionUpdateNameLabel"><%=this.Dictionary["Item_Questionary_FieldLabel_QuestionaryQuestionName"] %>:</label> 
-                                    &nbsp;&nbsp;
-                                    <input type="text" id="TxtQuestionaryQuestionUpdateName" size="50" placeholder="<%= this.Dictionary["Item_Questionary_FieldLabel_QuestionaryQuestionName"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
-                                </p>
+                            <div id="QuestionaryQuestionUpdateDialog" class="hide" style="width: 600px;">
+                                <div class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right" id="TxtQuestionaryQuestionUpdateNameLabel"><%=this.Dictionary["Item_Questionary_FieldLabel_QuestionaryQuestionName"] %>:</label>
+                                        <div class="col-sm-10">
+                                            <textarea id="TxtQuestionaryQuestionUpdateName" class="col-sm-12" rows="5" placeholder="<%= this.Dictionary["Item_Questionary_FieldLabel_QuestionaryQuestionName"] %>" maxlength="2000" onblur="this.value=$.trim(this.value);"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                                 <span class="ErrorMessage" id="TxtQuestionaryQuestionUpdateNameErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                 <span class="ErrorMessage" id="TxtQuestionaryQuestionUpdateNameErrorDuplicated"><%= this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>
                             <div id="QuestionaryQuestionInsertDialog" class="hide" style="width:600px;">
-                                <p>
-                                    <label class="col-sm-2 control-label no-padding-right" id="TxtQuestionaryQuestionNewNameLabel"><%=this.Dictionary["Item_Questionary_FieldLabel_QuestionaryQuestionName"] %></label> 
-                                    &nbsp;&nbsp;
-                                    <input type="text" id="TxtQuestionaryQuestionNewName" size="50" placeholder="<%= this.Dictionary["Item_Questionary_FieldLabel_QuestionaryQuestionName"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" />
-                                </p>
+                                <div class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right" id="TxtQuestionaryQuestionNewNameLabel"><%=this.Dictionary["Item_Questionary_FieldLabel_QuestionaryQuestionName"] %>:</label> 
+                                        <div class="col-sm-10">
+                                            <textarea id="TxtQuestionaryQuestionNewName" class="col-sm-12" rows="5" placeholder="<%= this.Dictionary["Item_Questionary_FieldLabel_QuestionaryQuestionName"] %>" maxlength="2000" onblur="this.value=$.trim(this.value);"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                                 <span class="ErrorMessage" id="TxtQuestionaryQuestionNewNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                 <span class="ErrorMessage" id="TxtQuestionaryQuestionNewNameErrorDuplicated"><%=this.Dictionary["Common_Error_NameAlreadyExists"] %></span>
                             </div>

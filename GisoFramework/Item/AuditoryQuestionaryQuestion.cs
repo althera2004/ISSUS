@@ -1,5 +1,5 @@
 ﻿// --------------------------------
-// <copyright file="QuestionaryQuestion.cs" company="OpenFramework">
+// <copyright file="AuditoryQuestionaryQuestion.cs" company="OpenFramework">
 //     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
@@ -18,9 +18,11 @@ namespace GisoFramework.Item
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
-    public class QuestionaryQuestion : BaseItem
+    public class AuditoryQuestionaryQuestion : BaseItem
     {
         public long QuestionaryId { get; set; }
+        public long AuditoryId { get; set; }
+        public bool? Compliant { get; set; }
 
         /// <summary>Gets an identifier/description json item</summary>
         public override string JsonKeyValue
@@ -29,11 +31,10 @@ namespace GisoFramework.Item
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    @"{{""Id"":{0}, ""Description"":""{1}"", ""QuestionaryId"":{2}, ""Active"":{3}, ""Deletable"":true}}",
+                    @"{{""Id"":{0}, ""Question"":""{1}"", ""Compliant"":{2}}}",
                     this.Id,
                     Tools.JsonCompliant(this.Description),
-                    this.QuestionaryId,
-                    this.Active ? "true" : "false");
+                    this.Compliant.HasValue ? (this.Compliant.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse) : Constant.JavaScriptNull);
             }
         }
 
@@ -44,8 +45,10 @@ namespace GisoFramework.Item
             {
                 string pattern = @"{{
                         ""Id"":{0},
-                        ""Description"":""{1}"",
+                        ""Question"":""{1}"",
+                        ""Compliant"":{1},
                         ""QuestionaryId"":{2},
+                        ""AuditoryId"":{2},
                         ""CompanyId"":{3},
                         ""Active"":{4}
                     }}";
@@ -54,7 +57,9 @@ namespace GisoFramework.Item
                     pattern,
                     this.Id,
                     Tools.JsonCompliant(this.Description),
+                    this.Compliant.HasValue ? (this.Compliant.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse) : Constant.JavaScriptNull,
                     this.QuestionaryId,
+                    this.AuditoryId,
                     this.CompanyId,
                     this.Active ? "true" : "false");
             }
@@ -69,11 +74,11 @@ namespace GisoFramework.Item
             }
         }
 
-        public static string ByQuestionaryIdJson(long questionaryId, int companyId)
+        public static string ByAuditoryIdJson(long auditoryId, long cuestionarioId, int companyId)
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach(var question in ByQuestionaryId(questionaryId, companyId))
+            foreach (var question in ByAuditoryId(auditoryId, cuestionarioId, companyId))
             {
                 if (first)
                 {
@@ -91,50 +96,46 @@ namespace GisoFramework.Item
             return res.ToString();
         }
 
-        public static ReadOnlyCollection<QuestionaryQuestion> ByQuestionaryId(long questionaryId, int companyId)
+        public static ReadOnlyCollection<AuditoryQuestionaryQuestion> ByAuditoryId(long auditoryId, long cuestionarioId, int companyId)
         {
-            var res = new List<QuestionaryQuestion>();
-            using (var cmd = new SqlCommand("CuestionarioPregunta_ByCuestionarioId"))
+            var res = new List<AuditoryQuestionaryQuestion>();
+            using (var cmd = new SqlCommand("Auditory_GetQuestions"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                    cmd.Parameters.Add(DataParameter.Input("@CuestionarioId", questionaryId));
+                    cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
+                    cmd.Parameters.Add(DataParameter.Input("@CuestionarioId", cuestionarioId));
                     try
                     {
                         cmd.Connection.Open();
-                        using(var rdr = cmd.ExecuteReader())
+                        using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
                             {
-                                res.Add(new QuestionaryQuestion
+                                var newAuditoryQuestionaryQuestion = new AuditoryQuestionaryQuestion
                                 {
-                                    Id = rdr.GetInt64(ColumnsQuestionaryQuestionGet.Id),
+                                    Id = rdr.GetInt64(ColumnsAuditoryQuestionGet.Id),
                                     CompanyId = companyId,
-                                    Description = rdr.GetString(ColumnsQuestionaryQuestionGet.Question),
-                                    QuestionaryId = rdr.GetInt64(ColumnsQuestionaryQuestionGet.QuestionaryId),
-                                    CreatedBy = new ApplicationUser
-                                    {
-                                        Id = rdr.GetInt32(ColumnsQuestionaryQuestionGet.CreatedBy),
-                                        UserName = rdr.GetString(ColumnsQuestionaryQuestionGet.CreatedByName)
-                                    },
-                                    CreatedOn = rdr.GetDateTime(ColumnsQuestionaryQuestionGet.CreatedOn),
-                                    ModifiedBy = new ApplicationUser
-                                    {
-                                        Id = rdr.GetInt32(ColumnsQuestionaryQuestionGet.ModifiedBy),
-                                        UserName = rdr.GetString(ColumnsQuestionaryQuestionGet.ModifiedByName)
-                                    },
-                                    ModifiedOn = rdr.GetDateTime(ColumnsQuestionaryQuestionGet.ModifiedOn),
-                                    Active = rdr.GetBoolean(ColumnsQuestionaryQuestionGet.Active)                                    
-                                });
+                                    Description = rdr.GetString(ColumnsAuditoryQuestionGet.Question),
+                                    QuestionaryId = rdr.GetInt64(ColumnsAuditoryQuestionGet.CuestionarioId),
+                                    AuditoryId = rdr.GetInt64(ColumnsAuditoryQuestionGet.AuditoryId)
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsAuditoryQuestionGet.Compliant))
+                                {
+                                    newAuditoryQuestionaryQuestion.Compliant = rdr.GetBoolean(ColumnsAuditoryQuestionGet.Compliant);
+                                }
+
+                                res.Add(newAuditoryQuestionaryQuestion);
                             }
                         }
                     }
                     finally
                     {
-                        if(cmd.Connection.State != ConnectionState.Closed)
+                        if (cmd.Connection.State != ConnectionState.Closed)
                         {
                             cmd.Connection.Close();
                         }
@@ -142,7 +143,7 @@ namespace GisoFramework.Item
                 }
             }
 
-            return new ReadOnlyCollection<QuestionaryQuestion>(res);
+            return new ReadOnlyCollection<AuditoryQuestionaryQuestion>(res);
         }
 
         /// <summary>Insert the question into data base</summary>

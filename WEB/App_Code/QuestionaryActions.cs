@@ -79,24 +79,28 @@ public class QuestionaryActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult UpdateQuestion(long questionId, string question, int userId, int companyId)
+    public ActionResult UpdateQuestion(long questionaryId, long questionId, string question, int userId, int companyId)
     {
         var questionToUpdate = new QuestionaryQuestion
         {
             Id = questionId,
-            Description = question
+            Description = question,
+            QuestionaryId = questionaryId,
+            CompanyId = companyId
         };
         return questionToUpdate.Update(userId);
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult InsertQuestion(long questionId, string question, int userId, int companyId)
+    public ActionResult InsertQuestion(long questionaryId, long questionId, string question, int userId, int companyId)
     {
         var questionToUpdate = new QuestionaryQuestion
         {
             Id = questionId,
-            Description = question
+            Description = question,
+            QuestionaryId = questionaryId,
+            CompanyId = companyId
         };
         return questionToUpdate.Insert(userId);
     }

@@ -5,41 +5,86 @@
 // <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Text;
 using System.Web.Script.Services;
 using System.Web.Services;
 using GisoFramework;
 using GisoFramework.Activity;
+using GisoFramework.DataAccess;
 using GisoFramework.Item;
 
-/// <summary>Asynchronous actions for "adutory" item</summary>
+/// <summary>Asynchronous actions for "auditory" item</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
 public class AuditoryActions : WebService
 {
-
     public AuditoryActions()
     {
-
-        //Elimine la marca de comentario de la línea siguiente si utiliza los componentes diseñados 
-        //InitializeComponent(); 
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult Insert(Auditory auditory, int userId)
+    public ActionResult Insert(Auditory auditory, bool toPlanned, string rules, int applicationUserId)
     {
-        return auditory.Insert(userId);
+        foreach(var ruleId in rules.Split('|'))
+        {
+            if (!string.IsNullOrEmpty(ruleId))
+            {
+                auditory.AddRule(Convert.ToInt64(ruleId));
+            }
+        }
+
+        if(auditory.PlannedOn.Value.Year < 2000)
+        {
+            auditory.PlannedOn = null;
+        }
+
+        var res = auditory.Insert(applicationUserId, auditory.CompanyId);
+        if(res.Success && toPlanned)
+        {
+            var resPlanned = Auditory.SetQuestionaries(auditory.Id, applicationUserId);
+            if (!resPlanned.Success)
+            {
+                res.SetFail(resPlanned.MessageError);
+            }
+        }
+
+        return res;
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult Update(Auditory auditory, Auditory oldAuditory, int userId)
+    public ActionResult Update(Auditory auditory, bool toPlanned, string rules, Auditory oldAuditory, int applicationUserId)
     {
+        foreach (var ruleId in rules.Split('|'))
+        {
+            if (!string.IsNullOrEmpty(ruleId))
+            {
+                auditory.AddRule(Convert.ToInt64(ruleId));
+            }
+        }
+
+        if (auditory.PlannedOn.Value.Year < 2000)
+        {
+            auditory.PlannedOn = null;
+        }
+
         string differences = auditory.Differences(oldAuditory);
-        return auditory.Update(userId, differences);
+        var res = auditory.Update(applicationUserId, auditory.CompanyId, differences);
+        if (res.Success && toPlanned)
+        {
+            var resPlanned = Auditory.SetQuestionaries(auditory.Id, applicationUserId);
+            if (!resPlanned.Success)
+            {
+                res.SetFail(resPlanned.MessageError);
+            }
+        }
+
+        return res;
     }
 
     [WebMethod(EnableSession = true)]
@@ -89,5 +134,94 @@ public class AuditoryActions : WebService
     public ActionResult PlanningDelete(long planningId, int companyId, int applicationUserId)
     {
         return AuditoryPlanning.Inactivate(planningId, companyId, applicationUserId);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult QuestionToggle(long questionId, int status)
+    {
+        var res = ActionResult.NoAction;
+
+        status++;
+        if(status == 3)
+        {
+            status = 0;
+        }
+
+        using(var cmd = new SqlCommand("AuditoryCuestionarioPregunta_Toogle"))
+        {
+            using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+            {
+                cmd.Connection = cnn;
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.Add(DataParameter.Input("@PreguntaId", questionId));
+                if(status == 0)
+                {
+                    cmd.Parameters.Add(DataParameter.InputNull("@Compliant"));
+                }
+                else
+                {
+                    cmd.Parameters.Add(DataParameter.Input("@Compliant", status == 1));
+                }
+
+                try
+                {
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess(string.Format(CultureInfo.InvariantCulture, "{0}|{1}", questionId, status));
+                }
+                catch(Exception ex)
+                {
+                    res.SetFail(ex);
+                }
+                finally
+                {
+                    if(cmd.Connection.State != System.Data.ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult FoundSave(AuditoryCuestionarioFound found, int applicationUserId)
+    {
+        if(found.Id > 0)
+        {
+            return found.Update(applicationUserId);
+        }
+
+        return found.Insert(applicationUserId);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult ImprovementSave(AuditoryCuestionarioImprovement improvement, int applicationUserId)
+    {
+        if (improvement.Id > 0)
+        {
+            return improvement.Update(applicationUserId);
+        }
+
+        return improvement.Insert(applicationUserId);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult FoundDelete(long id, int companyId, int applicationUserId)
+    {
+        return AuditoryCuestionarioFound.Inactivate(id, companyId, applicationUserId);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult ImprovementDelete(long id, int companyId, int applicationUserId)
+    {
+        return AuditoryCuestionarioImprovement.Inactivate(id, companyId, applicationUserId);
     }
 }

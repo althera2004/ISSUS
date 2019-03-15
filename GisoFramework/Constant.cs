@@ -21,6 +21,9 @@ namespace GisoFramework
         /// <summary>Default item identifier</summary>
         public const int DefaultId = -1;
 
+        /// <summary>Default item identifier</summary>
+        public const long DefaultLongId = -1;
+
         /// <summary>Default active value</summary>
         public const bool DefaultActive = true;
 
