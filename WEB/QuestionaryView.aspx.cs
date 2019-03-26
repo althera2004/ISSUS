@@ -237,7 +237,7 @@ public partial class QuestionaryView : Page
     {
         // ---- Procesos ----------------
         var processes = Process.ByCompany(this.company.Id);
-        var processList = new StringBuilder("<option>").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
+        var processList = new StringBuilder("<option value=\"-1\">").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
         foreach (var process in processes.OrderBy(p => p.Description))
         {
             processList.AppendFormat(
@@ -252,7 +252,7 @@ public partial class QuestionaryView : Page
 
         // ---- Normas ------------------
         var rules = Rules.GetAll(this.company.Id);
-        var rulesList = new StringBuilder("<option>").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
+        var rulesList = new StringBuilder("<option value=\"-1\">").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
         foreach (var rule in rules.OrderBy(p => p.Description))
         {
             rulesList.AppendFormat(

@@ -16,6 +16,7 @@ jQuery(function ($) {
 window.onload = function () {
     $("#nav-search").hide();
     $("#BtnSave").on("click", SaveQuestionary);
+    $("#BtnCancel").on("click", function () { document.location = referrer; });
     TableQuestionsLayout();
     RenderQuestionsList();
     $("#BtnNewItem").on("click", InsertQuestion);
@@ -73,7 +74,38 @@ function TableQuestionsLayout() {
     }
 }
 
+function ValidateForm() {
+    var ok = true;
+    $("#TxtNameLabel").css("color", "#000");
+    $("#TxtNameErrorRequired").hide();
+    $("#TxtProcessNameLabel").css("color", "#000");
+    $("#TxtProcessNameErrorRequired").hide();
+    $("#TxtRuleNameLabel").css("color", "#000");
+    $("#TxtRuleNameErrorRequired").hide();
+
+    if ($("#TxtName").val() === "") {
+        $("#TxtNameLabel").css("color", "#f00");
+        $("#TxtNameErrorRequired").show();
+        ok = false;
+    }
+
+    if ($("#CmbProcess").val() * 1 < 1) {
+        $("#TxtProcessNameLabel").css("color", "#f00");
+        $("#TxtProcessNameErrorRequired").show();
+        ok = false;
+    }
+
+    if ($("#CmbRule").val() * 1 < 1) {
+        $("#TxtRuleNameLabel").css("color", "#f00");
+        $("#TxtRuleNameErrorRequired").show();
+        ok = false;
+    }
+
+    return ok;
+}
+
 function SaveQuestionary() {
+    if (ValidateForm() === false) { return false; }
     var apartadoNorma = $("#TxtApartadoNormaName").val();
     if (apartadoNorma === "") {
         apartadoNorma = $("#CmbApartadoNorma :selected").val();
@@ -208,6 +240,8 @@ function DeleteQuestionConfirmed(id) {
 }
 
 function EditQuestion(id) {
+    $("#TxtQuestionaryQuestionUpdateNameLabel").css("color", "#000");
+    $("#TxtQuestionaryQuestionUpdateNameErrorRequired").hide();
     selected = id * 1;
     var question = QuestionById(id);
     if (question === null) {
@@ -226,7 +260,6 @@ function EditQuestion(id) {
                     "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
-                        $(this).dialog("close");
                         EditQuestionConfirmed(selected);
                     }
                 },
@@ -243,6 +276,13 @@ function EditQuestion(id) {
 
 function EditQuestionConfirmed(id) {
     textToUpdate = $("#TxtQuestionaryQuestionUpdateName").val();
+
+    if (textToUpdate === "") {
+        $("#TxtQuestionaryQuestionUpdateNameLabel").css("color", "#f00");
+        $("#TxtQuestionaryQuestionUpdateNameErrorRequired").show();
+        return false;
+    }
+
     var data = {
         "questionId": id,
         "question": textToUpdate,
@@ -266,8 +306,9 @@ function EditQuestionConfirmed(id) {
             }
 
             RenderQuestionsList();
+            $("#QuestionaryQuestionUpdateDialog").dialog("close");
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -275,10 +316,12 @@ function EditQuestionConfirmed(id) {
 }
 
 function InsertQuestion() {
+    $("#TxtQuestionaryQuestionNewNameLabel").css("color", "#000");
+    $("#TxtQuestionaryQuestionNewNameErrorRequired").hide();
     console.log("InsertQuestion");
     $("#TxtQuestionaryQuestionNewName").val("");
     selected = -1;
-    var dialog = $("#QuestionaryQuestionInsertDialog").removeClass("hide").dialog({
+    $("#QuestionaryQuestionInsertDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 600,
         "modal": true,
@@ -290,7 +333,6 @@ function InsertQuestion() {
                     "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
-                        $(this).dialog("close");
                         InsertQuestionConfirmed(selected);
                     }
                 },
@@ -307,6 +349,13 @@ function InsertQuestion() {
 
 function InsertQuestionConfirmed(id) {
     textToUpdate = $("#TxtQuestionaryQuestionNewName").val();
+
+    if (textToUpdate === "") {
+        $("#TxtQuestionaryQuestionNewNameLabel").css("color", "#f00");
+        $("#TxtQuestionaryQuestionNewNameErrorRequired").show();
+        return false;
+    }
+
     var data = {
         "questionId": id,
         "question": textToUpdate,
@@ -325,8 +374,9 @@ function InsertQuestionConfirmed(id) {
         "success": function (response) {
             Questions.push({ "Id": response.d.MessageError * 1, "Description": textToUpdate });
             RenderQuestionsList();
+            $("#QuestionaryQuestionInsertDialog").dialog("close");
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }

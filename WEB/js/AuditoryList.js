@@ -354,7 +354,7 @@ function AuditoryDelete(sender) {
 
 function AuditoryDeleteConfirmed() {
     var data = {
-        "questionarioId": AuditorySelectedId,
+        "auditoryId": AuditorySelectedId,
         "companyId": Company.Id,
         "userId": user.Id
     };
@@ -611,17 +611,17 @@ function ChkTypeChanged() {
 
 function ChkStatusChanged() {
     var count = 0;
-    for (var x = 0; x < 5; x++) {
+    for (var x = 0; x < 6; x++) {
         if (document.getElementById("ChkStatus" + x).checked === true) { count++; }
     }
 
     if (count > 1) {
-        for (var y = 0; y < 5; y++) {
+        for (var y = 0; y < 6; y++) {
             document.getElementById("ChkStatus" + y).disabled = false;
         }
     }
     else {
-        for (var z = 0; z < 5; z++) {
+        for (var z = 0; z < 6; z++) {
             if (document.getElementById("ChkStatus" + z).checked === true) {
                 document.getElementById("ChkStatus" + z).disabled = true;
             }

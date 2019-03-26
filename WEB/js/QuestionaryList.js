@@ -96,12 +96,13 @@ function ItemRenderTable(list) {
     var target = document.getElementById("ListDataTable");
     VoidTable("ListDataTable");
     target.style.display = "";
-
+    var count = 0;
     for (var x = 0; x < list.length; x++) {
         if (list[x].Active === false) {
             continue;
         }
 
+        count++;
         var item = list[x];
         var row = document.createElement("TR");
         var tdDescription = document.createElement("TD");
@@ -219,7 +220,7 @@ function ItemRenderTable(list) {
         $("#nav-search-input").change(FilterList);
     }
 
-    $("#QuestionaryDataTotal").html(list.length);
+    $("#QuestionaryDataTotal").html(count);
 
     if (lockOrderList === false) {
         $("#th0").click();

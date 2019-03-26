@@ -87,23 +87,27 @@
                                                         <div class="col-sm-12"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtNotes"><%=this.Questionary.Notes %></textarea></div>
                                                     </div> 
                                                     <div class="row" id="TableQuestionsHeader" style="display:none;">
-                                                        <div class="col-xs-6"><h4><%=this.Dictionary["Item_QuestionaryQuestion_Title"]%></h4></div>
+                                                        <div class="col-xs-4"><h4><%=this.Dictionary["Item_QuestionaryQuestion_Title"]%></h4></div>
                                                         <div class="col-xs-4">
-                                                            <div class="nav-search" id="nav-search-question" style="display: block;">                            
+                                                            <div class="nav-search" id="nav-search-question" style="display:none;">                            
                                                                 <span class="input-icon">
                                                                     <input type="text" placeholder="Buscar" ..."="" class="nav-search-input" id="nav-search-input-question" autocomplete="off" />
                                                                     <i class="icon-search nav-search-icon"></i>
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xs-2"><button class="btn btn-success" type="button" id="BtnNewItem" onclick="" style="margin-top:6px;height:28px;padding-top:0;"><i class="icon-plus bigger-110"></i>Añadir pregunta</button></div>
+                                                        <div class="col-xs-4"><button class="btn btn-success" type="button" id="BtnNewItem" onclick="" style="margin-top:6px;height:28px;padding-top:0;float:right;"><i class="icon-plus bigger-110"></i>Añadir pregunta</button></div>
                                                     </div>
                                                     
+                                                    <div class="alert alert-info" style="display:none;" id="DivNewQuestionary">
+                                                        <strong><i class="icon-info-sign"></i></strong>
+                                                        <div style="display:inline;"><%=this.Dictionary["Item_Questionary_NewQuestionaryWarning"] %></div>
+                                                    </div>
                                                     <div class="table-responsive" id="scrollTableDiv" style="display:none;">
                                                         <table class="table table-bordered table-striped" style="margin: 0">
                                                             <thead class="thin-border-bottom">
                                                                 <tr id="ListDataHeader">
-			                                                        <th onclick="Sort(this,'ListDataTable');" id="th0" class="search sort" style="cursor:pointer;"><%=this.Dictionary["Item_QuestionaryQuestion_ListHeader_Name"] %></th>
+			                                                        <th onclick="Sort(this,'ListDataTable');" id="th0" class="search _sort" style="cursor:pointer;"><%=this.Dictionary["Item_QuestionaryQuestion_ListHeader_Name"] %></th>
 			                                                        <th style="width:107px;">&nbsp;</th>
 		                                                        </tr>
                                                             </thead>
@@ -122,10 +126,6 @@
                                                             </thead>
                                                         </table>
                                                     </div> <!-- /.table-responsive -->
-                                                    <div class="alert alert-info" style="display:none;" id="DivNewQuestionary">
-                                                        <strong><i class="icon-info-sign fa-2x"></i></strong>
-                                                        <h3 style="display:inline;"><%=this.Dictionary["Item_Questionary_NewQuestionaryWarning"] %></h3>
-                                                    </div>
                                                     <%=this.FormFooter %>
                                                 </div>
                                             </div>

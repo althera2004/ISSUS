@@ -13,8 +13,8 @@ namespace GisoFramework.Item
     using System.Data;
     using System.Data.SqlClient;
     using System.Globalization;
+    using System.Linq;
     using System.Text;
-    using System.Web.Script.Serialization;
     using GisoFramework.Activity;
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
@@ -31,6 +31,7 @@ namespace GisoFramework.Item
         public Customer Customer { get; set; }
         public string Descripcion { get; set; }
         public string Notes { get; set; }
+        public DateTime? PreviewDate { get; set; }
         public Employee PlannedBy { get; set; }
         public DateTime? PlannedOn { get; set; }
         public Employee ClosedBy { get; set; }
@@ -185,6 +186,12 @@ namespace GisoFramework.Item
                     plannedDate = string.Format(CultureInfo.InvariantCulture, @"{0:dd/MM/yyyy}", this.PlannedOn);
                 }
 
+                var reportEnd = string.Empty;
+                if (this.PlannedOn != null)
+                {
+                    reportEnd = string.Format(CultureInfo.InvariantCulture, @"{0:dd/MM/yyyy}", this.ReportEnd);
+                }
+
                 var validatedDate = string.Empty;
                 if (this.ValidatedOn != null)
                 {
@@ -203,10 +210,11 @@ namespace GisoFramework.Item
                         ""Amount"":{5},
                         ""PlannedOn"":""{6}"",
                         ""ValidatedOn"":""{7}"",
-                        ""Provider"":{8},
-                        ""Customer"":{9},
-                        ""Rules"":""{10}"",
-                        ""Active"":{11}
+                        ""ReportEnd"":""{8}"",
+                        ""Provider"":{9},
+                        ""Customer"":{10},
+                        ""Rules"":""{11}"",
+                        ""Active"":{12}
                     }}";
                 return string.Format(
                     CultureInfo.InvariantCulture,
@@ -219,6 +227,7 @@ namespace GisoFramework.Item
                     string.Format(CultureInfo.InvariantCulture, "{0:0.00}", this.Amount),
                     plannedDate,
                     validatedDate,
+                    reportEnd,
                     providerJson,
                     customerJson,
                     this.rulesId,
@@ -540,6 +549,11 @@ namespace GisoFramework.Item
                                     res.ReportEnd = rdr.GetDateTime(ColumnsAuditoryGet.ReportEnd);
                                 }
 
+                                if (!rdr.IsDBNull(ColumnsAuditoryGet.PreviewDate))
+                                {
+                                    res.PreviewDate = rdr.GetDateTime(ColumnsAuditoryGet.PreviewDate);
+                                }
+
                                 res.GetRules();
                             }
                         }
@@ -602,6 +616,242 @@ namespace GisoFramework.Item
                     }
                 }
             }
+        }
+
+        /// <summary>Validates auditory</summary>
+        /// <param name="auditoryId">Auditory's identifier</param>
+        /// <param name="validatedBy">Validator's identifier</param>
+        /// <param name="validatedOn">Date of validation</param>
+        /// <param name="applicationUserId">Application user identifiers</param>
+        /// <param name="companyId">Company's identifier</param>
+        /// <returns>Result of action</returns>
+        public static ActionResult Validate(long auditoryId, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId)
+        {
+            string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::Validate Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
+            /* CREATE PROCEDURE Auditory_Validate
+             *   @AuditoryId bigint,
+             *   @CompanyId int,
+             *   @ValidatedBy int,
+             *   @ValidatedOn datetime,
+             *   @ApplicationUserId int */
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Auditory_Validate"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@ValidatedBy", validatedBy));
+                        cmd.Parameters.Add(DataParameter.Input("@ValidatedOn", validatedOn));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+
+                        ReadOnlyCollection<AuditoryCuestionarioFound> founds = AuditoryCuestionarioFound.ByAuditory(auditoryId, companyId);
+                        foreach(var found in founds.Where(f=>f.Action == true))
+                        {
+                            IncidentAction.FromFound(found, Convert.ToInt32(validatedBy), applicationUserId, companyId);
+                        }
+
+                        ReadOnlyCollection<AuditoryCuestionarioImprovement> improvements = AuditoryCuestionarioImprovement.ByAuditory(auditoryId, companyId);
+                        foreach (var improvement in improvements.Where(i=>i.Action == true))
+                        {
+                            IncidentAction.FromImprovement(improvement, Convert.ToInt32(validatedBy), applicationUserId, companyId);
+                        }
+
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>Validates auditory</summary>
+        /// <param name="auditoryId">Auditory's identifier</param>
+        /// <param name="validatedBy">Validator's identifier</param>
+        /// <param name="validatedOn">Date of validation</param>
+        /// <param name="applicationUserId">Application user identifiers</param>
+        /// <param name="companyId">Company's identifier</param>
+        /// <returns>Result of action</returns>
+        public static ActionResult Close(long auditoryId, long closedBy, DateTime closedOn, int applicationUserId, int companyId)
+        {
+            string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::Close Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
+            /* CREATE PROCEDURE Auditory_Close
+             *   @AuditoryId bigint,
+             *   @CompanyId int,
+             *   @ClosedBy int,
+             *   @ClosedOn datetime,
+             *   @ApplicationUserId int */
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Auditory_Close"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@ClosedBy", closedBy));
+                        cmd.Parameters.Add(DataParameter.Input("@ClosedOn", closedOn));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+
+                        var auditory = Auditory.ById(auditoryId, companyId);
+                        if(auditory.Type == 1)
+                        {
+                            var zombies = IncidentActionZombie.ByAuditoryId(auditoryId, companyId);
+                            if(zombies != null && zombies.Count > 0)
+                            {
+                                foreach(var zombie in zombies)
+                                {
+                                    zombie.ConvertToIncidentAction(applicationUserId, auditory.Provider.Id, auditory.Customer.Id);
+                                }
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
+
+        /// <summary>Reopen auditory</summary>
+        /// <param name="auditoryId">Auditory's identifier</param>
+        /// <param name="applicationUserId">Application user identifiers</param>
+        /// <param name="companyId">Company's identifier</param>
+        /// <returns>Result of action</returns>
+        public static ActionResult Reopen(long auditoryId, int applicationUserId, int companyId)
+        {
+            string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::Reopen Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
+            /* CREATE PROCEDURE Auditory_Reopen
+             *   @AuditoryId bigint,
+             *   @CompanyId int,
+             *   @ApplicationUserId int */
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Auditory_Reopen"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+
+                        var auditory = Auditory.ById(auditoryId, companyId);
+                        if (auditory.Type == 1)
+                        {
+                            var zombies = IncidentActionZombie.ByAuditoryId(auditoryId, companyId);
+                            if (zombies != null && zombies.Count > 0)
+                            {
+                                foreach (var zombie in zombies)
+                                {
+                                    zombie.ConvertToIncidentAction(applicationUserId, auditory.Provider.Id, auditory.Customer.Id);
+                                }
+                            }
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
 
         public static ActionResult Inactivate(long auditoryId, int companyId, int applicationUserId)
@@ -758,6 +1008,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Type", this.Type));
                     cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer.Id));
                     cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@PreviewDate", this.PreviewDate));
                     cmd.Parameters.Add(DataParameter.Input("@Nombre", this.Description, 150));
                     cmd.Parameters.Add(DataParameter.Input("@NormaId", this.rulesId, 200));
                     cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
@@ -776,7 +1027,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@ValidatedOn", this.ValidatedOn));
                     cmd.Parameters.Add(DataParameter.Input("@ValidatedUserBy", this.ValidatedUserBy.Id));
                     cmd.Parameters.Add(DataParameter.Input("@ValidatedUserOn", this.ValidatedUserOn));
-                    cmd.Parameters.Add(DataParameter.Input("@Status", this.Status));
+                    cmd.Parameters.Add(DataParameter.Input("@Status", 0));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                     try
                     {
@@ -844,6 +1095,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Type", this.Type));
                     cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer.Id));
                     cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@PreviewDate", this.PreviewDate));
                     cmd.Parameters.Add(DataParameter.Input("@Nombre", this.Description, 150));
                     cmd.Parameters.Add(DataParameter.Input("@NormaId", this.rulesId, 200));
                     cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
@@ -862,6 +1114,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@ValidatedOn", this.ValidatedOn));
                     cmd.Parameters.Add(DataParameter.Input("@ValidatedUserBy", this.ValidatedUserBy.Id));
                     cmd.Parameters.Add(DataParameter.Input("@ValidatedUserOn", this.ValidatedUserOn));
+                    cmd.Parameters.Add(DataParameter.Input("@ReportEnd", this.ReportEnd));
                     cmd.Parameters.Add(DataParameter.Input("@Status", this.Status));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                     try
@@ -885,12 +1138,46 @@ namespace GisoFramework.Item
                     }
                 }
             }
+
             return res;
         }
 
         public static ActionResult SetQuestionaries(long auditoryId, int applicationUserId)
         {
-            var res = ActionResult.NoAction;
+            var source = string.Format(CultureInfo.InvariantCulture, "Auditory::>SetQuestionaries({0},{1}", auditoryId, applicationUserId);
+            /* CREATE PROCEDURE Auditory_SetQuestionaries
+             *   @AuditoryId bigint,
+             *   @CompanyId int,
+             *   @ApplicationUserId int */
+            var res = ActionResult.NoAction; using (var cmd = new SqlCommand("Auditory_SetQuestionaries"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
+                    cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                    try
+                    {
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (Exception ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
             return res;
         }
 

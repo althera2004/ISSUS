@@ -22,6 +22,7 @@ namespace GisoFramework.Item
         public string Text { get; set; }
         public string Requeriment { get; set; }
         public string Unconformity { get; set; }
+        public bool Action { get; set; }
 
         public static AuditoryCuestionarioFound Empty
         {
@@ -41,6 +42,7 @@ namespace GisoFramework.Item
                     CreatedOn = DateTime.Now,
                     ModifiedBy = ApplicationUser.Empty,
                     ModifiedOn = DateTime.Now,
+                    Action = false,
                     Active = false
                 };
             }
@@ -60,10 +62,22 @@ namespace GisoFramework.Item
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    @"{{""Id"":{0},""CompanyId"":{1},""AuditoryId"":{2},""CuestionarioId"":{3},
-                       ""Text"":""{4}"",""Requeriment"":""{5}"",""Unconformity"":""{6}"",
-                       ""CreatedBy"":{7},""CreatedOn"":""{8:dd/MM/yyyy}"",
-                       ""ModifiedBy"":{9},""ModifiedOn"":""{10:dd/MM/yyyy}"",""Active"":{11}}}",
+                    @"
+                    {{
+                        ""Id"":{0},
+                        ""CompanyId"":{1},
+                        ""AuditoryId"":{2},
+                        ""CuestionarioId"":{3},
+                        ""Text"":""{4}"",
+                        ""Requeriment"":""{5}"",
+                        ""Unconformity"":""{6}"",
+                        ""CreatedBy"":{7},
+                        ""CreatedOn"":""{8:dd/MM/yyyy}"",
+                        ""ModifiedBy"":{9},
+                        ""ModifiedOn"":""{10:dd/MM/yyyy}"",
+                        ""Action"":{11},
+                        ""Active"":{12}
+                    }}",
                     this.Id,
                     this.CompanyId,
                     this.AuditoryId,
@@ -75,6 +89,7 @@ namespace GisoFramework.Item
                     this.CreatedBy,
                     this.ModifiedBy.JsonKeyValue,
                     this.ModifiedOn,
+                    this.Action ? Constant.JavaScriptTrue : Constant.JavaScriptFalse,
                     this.Active ? Constant.JavaScriptTrue : Constant.JavaScriptFalse);
             }
         }
@@ -87,7 +102,7 @@ namespace GisoFramework.Item
             if (list != null)
             {
                 bool first = true;
-                foreach (var improvement in list)
+                foreach (var found in list)
                 {
                     if (first)
                     {
@@ -98,7 +113,7 @@ namespace GisoFramework.Item
                         res.Append(",");
                     }
 
-                    res.Append(improvement.Json);
+                    res.Append(found.Json);
                 }
             }
 
@@ -146,6 +161,7 @@ namespace GisoFramework.Item
                                 };
                                 res.ModifiedOn = rdr.GetDateTime(ColumnsAuditoryCuestionarioFoundGet.ModifiedOn);
                                 res.Active = rdr.GetBoolean(ColumnsAuditoryCuestionarioFoundGet.Active);
+                                res.Action = rdr.GetBoolean(ColumnsAuditoryCuestionarioFoundGet.Action);
                             }
                         }
                     }
@@ -202,7 +218,8 @@ namespace GisoFramework.Item
                                         UserName = rdr.GetString(ColumnsAuditoryCuestionarioFoundGet.ModifiedByName)
                                     },
                                     ModifiedOn = rdr.GetDateTime(ColumnsAuditoryCuestionarioFoundGet.ModifiedOn),
-                                    Active = rdr.GetBoolean(ColumnsAuditoryCuestionarioFoundGet.Active)
+                                    Active = rdr.GetBoolean(ColumnsAuditoryCuestionarioFoundGet.Active),
+                                    Action = rdr.GetBoolean(ColumnsAuditoryCuestionarioFoundGet.Action)
                                 });
                             }
                         }
@@ -259,7 +276,8 @@ namespace GisoFramework.Item
                                         UserName = rdr.GetString(ColumnsAuditoryCuestionarioFoundGet.ModifiedByName)
                                     },
                                     ModifiedOn = rdr.GetDateTime(ColumnsAuditoryCuestionarioFoundGet.ModifiedOn),
-                                    Active = rdr.GetBoolean(ColumnsAuditoryCuestionarioFoundGet.Active)
+                                    Active = rdr.GetBoolean(ColumnsAuditoryCuestionarioFoundGet.Active),
+                                    Action = rdr.GetBoolean(ColumnsAuditoryCuestionarioFoundGet.Action)
                                 });
                             }
                         }
@@ -293,6 +311,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Text", this.Text, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@Requeriment", this.Requeriment, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@Unconformity", this.Unconformity, Constant.MaximumTextAreaLength));
+                    cmd.Parameters.Add(DataParameter.Input("@Action", this.Action));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                     try
                     {
@@ -332,6 +351,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Text", this.Text, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@Requeriment", this.Requeriment, Constant.MaximumTextAreaLength));
                     cmd.Parameters.Add(DataParameter.Input("@Unconformity", this.Unconformity, Constant.MaximumTextAreaLength));
+                    cmd.Parameters.Add(DataParameter.Input("@Action", this.Action));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                     try
                     {

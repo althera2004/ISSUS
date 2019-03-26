@@ -356,11 +356,6 @@ namespace GisoFramework.Item
         public static ReadOnlyCollection<Process> ByCompany(int companyId)
         {
             var res = new List<Process>();
-
-            /* CREATE PROCEDURE Get_ProcesosById
-             * @Id int,
-             * @CompanyId int */
-
             using (var cmd = new SqlCommand("Get_Procesos"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))

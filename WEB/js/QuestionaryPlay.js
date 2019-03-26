@@ -1,4 +1,9 @@
-﻿window.onload = function () {
+﻿var foundSelectedId = null;
+var foundSelected = null;
+var improvementSelectedId = null;
+var improvementSelected = null;
+
+window.onload = function () {
     $("#navbar").remove();
     $("#menu-toggler").remove();
     $("#sidebar").remove();
@@ -34,14 +39,13 @@ function Toggle(sender) {
             LoadingHide();
             if (response.d.Success === true) {
                 var parts = response.d.MessageError.split('|');
-
                 var text = "-";
                 var color = "333";
                 if (parts[1] === "1") { text = "Cumple"; color = "070"; }
                 else if (parts[1] === "2") { text = "No cumple"; color = "700"; }
                 var html = "<span id=\"Q" + parts[0] + "\" style=\"color:#" + color + ";cursor:pointer;\" onclick=\"Toggle(this);\" data-status=\""+ parts[1] +"\">" + text + "</span>";
                 $("#Q" + parts[0]).parent().html(html);
-
+                window.opener.Reload();
             }
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -75,11 +79,6 @@ function improvementGetById(id) {
 
     return null;
 }
-
-var foundSelectedId = null;
-var foundSelected = null;
-var improvementSelectedId = null;
-var improvementSelected = null;
 
 function ShowPopupFoundDialog(id) {
     foundSelectedId = id;
@@ -133,13 +132,13 @@ function ShowPopupImprovementDialog(id) {
     var title = Dictionary.Item_Auditory_Title_PopupUpdateImprovement;
     if (id < 0) {
         title = Dictionary.Item_Auditory_Title_PopupAddImprovement;
-        $("#TxtText").val("");
+        $("#TxtImprovement").val("");
     }
     else {
-        $("#TxtText").val(improvementSelected.Text);
+        $("#TxtImprovement").val(improvementSelected.Text);
     }
 
-    var dialog = $("#PopupImprovementDialog").removeClass("hide").dialog({
+    $("#PopupImprovementDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": title,
@@ -208,7 +207,7 @@ function RenderImprovements() {
     var res = "";
     var count = 0;
     for (var x = 0; x < Improvements.length; x++) {
-        var improvement = Founds[x];
+        var improvement = Improvements[x];
         if (improvement.Active === true) {
             count++;
             res += "<tr id=\"" + improvement.Id + "\">";
@@ -229,12 +228,12 @@ function RenderImprovements() {
     $("#SpanMejorasTotal").html(count);
     if (count > 0) {
         $("#MejorasDataTable").html(res);
-        $("#MejorasDataTable").show();
+        $("#ListDataDivMejoras").show();
         $("#NoDataMejoras").hide();
     }
     else {
         $("#MejorasDataTable").html("");
-        $("#MejorasDataTable").hide();
+        $("#ListDataDivMejoras").hide();
         $("#NoDataMejoras").show();
     }
 }
@@ -285,6 +284,7 @@ function FoundSave() {
 
             $("#PopupFoundDialog").dialog("close");
             RenderFounds();
+            window.opener.Reload();
         },
         "error": function (msg) {
             alertUI(msg.responseText);
@@ -294,7 +294,7 @@ function FoundSave() {
 
 function ImprovementSave() {
     improvementSelected = {
-        "Id": foundSelectedId,
+        "Id": improvementSelectedId,
         "CompanyId": Company.Id,
         "AuditoryId": AuditoryId,
         "CuestionarioId": QuestionaryId,
@@ -336,6 +336,7 @@ function ImprovementSave() {
 
             $("#PopupImprovementDialog").dialog("close");
             RenderImprovements();
+            window.opener.Reload();
         },
         "error": function (msg) {
             alertUI(msg.responseText);
@@ -346,10 +347,10 @@ function ImprovementSave() {
 function ShowPopupFoundDeleteDialog(id) {
     foundSelectedId = id * 1;
     foundSelected = foundGetById(foundSelectedId);
-    var dialog = $("#foundDeleteDialog").removeClass("hide").dialog({
+    $("#foundDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": title,
+        "title": Dictionary.Item_Auditory_Title_PopupDeleteFound,
         "title_html": true,
         "width": 600,
         "buttons":
@@ -378,10 +379,10 @@ function ShowPopupFoundDeleteDialog(id) {
 function ShowPopupImprovementDeleteDialog(id) {
     improvementSelectedId = id * 1;
     improvementSelected = improvementGetById(improvementSelectedId);
-    var dialog = $("#improvementDeleteDialog").removeClass("hide").dialog({
+    $("#improvementDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": title,
+        "title": Dictionary.Item_Auditory_Title_PopupDeleteImprovement,
         "title_html": true,
         "width": 600,
         "buttons":
@@ -426,8 +427,8 @@ function FoundDeleteConfirmed() {
             if (foundSelectedId > 0) {
                 var temp = [];
                 for (var x = 0; x < Founds.length; x++) {
-                    if (Improvements[x].Id !== foundSelectedId) {
-                        temp.push(Improvements[x]);
+                    if (Founds[x].Id !== foundSelectedId) {
+                        temp.push(Founds[x]);
                     }
                 }
 
@@ -436,6 +437,7 @@ function FoundDeleteConfirmed() {
 
             $("#foundDeleteDialog").dialog("close");
             RenderFounds();
+            window.opener.Reload();
         },
         "error": function (msg) {
             alertUI(msg.responseText);
@@ -472,6 +474,7 @@ function ImprovementDeleteConfirmed() {
 
             $("#improvementDeleteDialog").dialog("close");
             RenderImprovements();
+            window.opener.Reload();
         },
         "error": function (msg) {
             alertUI(msg.responseText);

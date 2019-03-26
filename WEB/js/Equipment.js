@@ -289,7 +289,7 @@ window.onload = function () {
     }
 
     AnulateLayout();
-}
+};
 
 function ValidateForm(form) {
     var result = new Array();
@@ -348,10 +348,10 @@ function ValidateForm(form) {
         }
 
         if (VerificationSet === true) {
-            var VInternalSet = document.getElementById('VerificationInternalActive').checked;
-            var VExternalSet = document.getElementById('VerificationExternalActive').checked;
+            var VInternalSet = document.getElementById("VerificationInternalActive").checked;
+            var VExternalSet = document.getElementById("VerificationExternalActive").checked;
             if (VInternalSet === false && VExternalSet === false) {
-                result.push('Hay que definir almenos una verificación.')
+                result.push("Hay que definir almenos una verificación.");
             }
             else {
                 if (VInternalSet === true) {
@@ -429,9 +429,9 @@ function AnularPopup() {
 
 var anulationData = null;
 function AnularConfirmed() {
-    document.getElementById("TxtEndReasonLabel").style.color = "#000";
-    document.getElementById("TxtEndDateLabel").style.color = "#000";
-    document.getElementById("CmbEndResponsibleLabel").style.color = "#000";
+    $("#TxtEndReasonLabel").css("color", "#000");
+    $("#TxtEndDateLabel").css("color", "#000");
+    $("#CmbEndResponsibleLabel").css("color", "#000");
     $("#TxtEndReasonErrorRequired").hide();
     $("#TxtEndDateErrorRequired").hide();
     $("#TxtEndDateMalformed").hide();

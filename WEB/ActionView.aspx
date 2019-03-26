@@ -84,6 +84,10 @@
                                                                 <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>                                                                
                                                                 <label class="col-sm-11" id="OportunityLink"><%=this.Dictionary["Item_IncidentAction_Label_Oportunity"] %>&nbsp;<%=this.Oportunity.Link %></label>
                                                             </div>
+                                                            <div class="form-group" id="AuditoryDiv" style="display: none;">
+                                                                <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>                                                                
+                                                                <label class="col-sm-11" id="AuditoryLinkLink"><%=this.Dictionary["Item_IncidentAction_Label_Auditory"] %>&nbsp;<%=this.Auditory.Link %></label>
+                                                            </div>
                                                             <div class="form-group" id="ROriginDiv" style="display: _none;">
                                                                 <label id="ROriginLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %><span style="color: #f00;">*</span></label>
                                                                 <div class="col-sm-1" style="width:115px;"><input type="radio" value="0" id="ROrigin1" name="ROrigin"/><%=this.Dictionary["Item_IncidentAction_Origin1"] %></div>

@@ -1,11 +1,29 @@
-﻿var AuditoryTypeInterna = 0;
-var AuditoryTypeExterna = 1;
-var AuditoryTypeProveedor = 2;
+﻿var AppWindow = null;
+var foundSelectedId = null;
+var foundSelected = null;
+var improvementSelectedId = null;
+var improvementSelected = null;
+var auditoryPlanningSelectedId = null;
+var auditoryPlanningSelected = null;
+var AuditoryTypes = {
+    "Interna": 0,
+    "Externa": 1,
+    "Proveedor": 2
+};
+
+var AuditoryStatus = {
+    "Planificando": 0,
+    "Planificada": 1,
+    "EnCurso": 2,
+    "Pendiente": 3,
+    "Cerrada": 4,
+    "Validada": 5
+};
 
 $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
     "_title": function (title) {
-        var $title = this.options.title || "&nbsp;"
-        if (("title_html" in this.options) && this.options.title_html == true) {
+        var $title = this.options.title || "&nbsp;";
+        if (("title_html" in this.options) && this.options.title_html === true) {
             title.html($title);
         }
         else {
@@ -18,10 +36,25 @@ var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { "d
 $(".date-picker").datepicker(options);
 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
+window.onblur = function () {
+    console.log("blur");
+};
+
+window.onfocus = function () {
+    //document.location = document.location + "";
+};
+
+function Reload() {
+    document.location = "AuditoryView.aspx?id=" + Auditory.Id + "&t=2";
+}
+
 window.onload = function () {
     $("#nav-search").hide();
+    $("#BtnCancel").on("click", function () { document.location = "/AuditoryList.aspx"; });
     if (Auditory.Id > 0) {
         RenderPlanningTable();
+        var text = eval("Dictionary.Item_Adutory_Status_Label_" + Auditory.Status);
+        $("h1").append(" <i>(" + text + ")</i>");
     }
 
     // Las auditorías planificads no pueden añadir normas
@@ -37,6 +70,12 @@ window.onload = function () {
         $("td .btn-danger").remove();
         $("#TxtNotes").removeAttr("disabled");
         $("#TxtNotes").css("backgroundColor", "transparent");
+        RenderFounds();
+        RenderImprovements();
+
+        if (getParameterByName("t") === "2") {
+            $("#tabQuestionaries").click();
+        }
     } else {
         $("#CmbRules").chosen();
     }
@@ -58,6 +97,64 @@ window.onload = function () {
     }
 
     $("#BtnSave").on("click", SaveAuditory);
+    $("#BtnCloseAuditoria").on("click", PopupCloseShow);
+    $("#BtnReopenAuditoria").on("click", PopupReopenShow);
+    $("#BtnValidarAuditoria").on("click", PopupValidarShow);
+
+    if (Completo === true) {
+        $("#CloseCuestionarioDIV").show();
+        $("#TxtCloseQuestionsOn").removeAttr("disabled");
+        $("#TxtCloseQuestionsOn").css("background", "transparent");
+    }
+
+    if (Auditory.Status > 2) {
+        $("#TxtCloseQuestionsOn").attr("disabled", "disabled");
+        $("#TxtCloseQuestionsOn").css("background", "#ccc");
+        $("#CuestionarioDataTable .btn-success").hide();
+    }
+
+    if (Auditory.Status > AuditoryStatus.Pendiente) {
+        $("#HallazgosDataTable .btn").hide();
+        $("#MejorasDataTable .btn").hide();
+    }
+
+    if (Auditory.Status === AuditoryStatus.Pendiente) {
+        $("#DivCloseButton").show();
+    }
+
+    if (Auditory.Status === AuditoryStatus.Cerrada) {
+        $("#DivValidationButton").show();
+        $("#DivCloseResume").show();
+    }
+
+    if (Auditory.Status === AuditoryStatus.Validada) {
+        $("#DivCloseResume").removeClass("col-sm-12");
+        $("#DivValidationResume").removeClass("col-sm-12");
+        $("#DivCloseResume").addClass("col-sm-6");
+        $("#DivValidationResume").addClass("col-sm-6");
+        $("#DivValidationResume").show();
+        $("#DivCloseResume").show();
+    }
+
+    // Externas
+    // ------------------------------------------------
+    if (Auditory.Type === AuditoryTypes.Externa && Auditory.Status < AuditoryStatus.Cerrada) {
+        $("#TxtReportStart").removeAttr("disabled");
+        $("#TxtReportEnd").removeAttr("disabled");
+        $("#BtnActionAdd").on("click", function () { IncidentActionShowPopup(-1); });
+        RenderZombies();
+        $("#DivCloseButton").show();
+    }
+    if (Auditory.Type === AuditoryTypes.Externa && Auditory.Status === AuditoryStatus.Cerrada) {
+        RenderZombies();
+        $("#DivClosedResume").show();
+        $("#BtnActionAdd").hide();
+    }
+    // ------------------------------------------------
+
+    $(".timepicker").timepicker({
+        timeFormat: "G:i"
+    });
 };
 
 function RenderPlanningTable()
@@ -105,15 +202,13 @@ function RenderPlanningTable()
     $("#PlanningDataTable").html(res);
 }
 
-var auditoryPlanningSelectedId = null;
-var auditoryPlanningSelected = null;
 function ShowPopupPlanningDialog(id) {
     $("#TxtProviderEmailRow").hide();
     auditoryPlanningSelectedId = id;
     auditoryPlanningSelected = AuditoryPlanningGetById(id);
-    if (auditoryPlanningSelected === null) {
+    /*if (auditoryPlanningSelected === null) {
 
-    }
+    }*/
 
     var title = Dictionary.Item_AuditoryPlanning_Title_PopupAdd;
     if (id < 0) {
@@ -121,9 +216,9 @@ function ShowPopupPlanningDialog(id) {
         $("#TxtPlanningDate").val(FormatDate(new Date, "/"));
         $("#TxtHour").val("");
         $("#TxtDuration").val("");
-        $("#CmbProcess").val(0);
-        $("#CmbAuditor").val(0);
-        $("#CmbAudited").val(0);
+        $("#CmbProcess").val(-1);
+        $("#CmbAuditor").val(-1);
+        $("#CmbAudited").val(-1);
         $("#ChkSendMail").removeAttr("checked");
         $("#TxtProviderEmail").val("");
     }
@@ -147,7 +242,7 @@ function ShowPopupPlanningDialog(id) {
         $("#TxtProviderEmail").val(auditoryPlanningSelected.ProviderEmail);
     }
 
-    var dialog = $("#PopupPlanningDialog").removeClass("hide").dialog({
+    $("#PopupPlanningDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + title + "</h4>",
@@ -328,6 +423,23 @@ function SaveAuditory() {
     var customer = { "Id": -1 };
     var provider = { "Id": -1 };
 
+    var companyAddress = "";
+    var previewDate = null;
+    switch (Auditory.Type) {
+        case AuditoryTypes.Interna:
+            companyAddress = $("#CmbAddress option:selected").val();
+            break;
+        case AuditoryTypes.Externa:
+            companyAddress = $("#CmbAddress option:selected").val();
+            customer = { "Id": $("#CmbCustomer").val() * 1 };
+            previewDate = GetDate($("#TxtPreviewDate").val(), "/", false);
+            break;
+        case AuditoryTypes.Proveedor:
+            provider = { "Id": $("#CmbProvider").val() * 1 };
+            companyAddress = $("#TxtAddress").val();
+            break;
+    }
+
     var auditoryData = {
         "Id": Auditory.Id,
         "CompanyId": Company.Id,
@@ -337,11 +449,11 @@ function SaveAuditory() {
         "Scope": $("#TxtScope").val(),
         "Amount": StringToNumber($("#TxtAmount").val(), ".", ","),
         "Notes": $("#TxtNotes").val(),
-        "CompanyAddressId": $("#CmbAddress").val() * 1,
-        "EnterpriseAddress": $("#CmbAddress").val(),
+        "CompanyAddressId": 0,
+        "EnterpriseAddress": companyAddress,
         "AuditorTeam": Auditory.Type === 0 ? "" : $("#TxtAuditorTeam").val(),
         "PlannedBy": { "Id": $("#CmbPlanningResponsible").val() * 1 },
-        "PlannedOn": GetDate($("#TxtAuditoryPlanningDate").val(), "/", true),
+        "PlannedOn": GetDate($("#TxtAuditoryPlanningDate").val(), "/", false),
         "InternalResponsible": { "Id": $("#CmbInternalResponsible").val() * 1 },
         "Active": true,
         "ValidatedBy": { "Id": -1 },
@@ -350,12 +462,22 @@ function SaveAuditory() {
         "CreatedBy": { "Id": -1 },
         "ModifiedBy": { "Id": -1 },
         "Customer": customer,
-        "Provider": provider
+        "Provider": provider,
+        "PreviewDate": previewDate
     };
 
     var toPlanned = false;
-    if (Auditory.PlannedOn === null && $("#TxtAuditoryPlanningDate").val() !== "") {
+    if ((typeof Auditory.PlannedOn === "undefined" || Auditory.PlannedOn === null || Auditory.PlannedOn === "") && $("#TxtAuditoryPlanningDate").val() !== "") {
         toPlanned = true;
+    }
+
+    var finishQuestions = false;
+    if ((typeof Auditory.ReportEnd === "undefined" || Auditory.ReportEnd === null || Auditory.ReportEnd === "") && $("#TxtCloseQuestionsOn").val() !== "") {
+        auditoryData.ReportEnd = GetDate($("#TxtCloseQuestionsOn").val(), "/", true);
+        auditoryData.Status = AuditoryStatus.Cerrada;
+    }
+    else {
+        auditoryData.Status = Auditory.Status;
     }
 
     CalculateRules();
@@ -363,12 +485,16 @@ function SaveAuditory() {
         "auditory": auditoryData,
         "rules": $("#TxtRulesId").val(),
         "applicationUserId": ApplicationUser.Id,
-        "toPlanned": toPlanned
+        "toPlanned": toPlanned,
+        "finishQuestions": finishQuestions
     };
 
     var webMethod = "/Async/AuditoryActions.asmx/Insert";
     if (Auditory.Id > 0) {
         webMethod = "/Async/AuditoryActions.asmx/Update";
+        if (typeof Auditory.PlannedOn !== "undefined" && Auditory.PlannedOn !== null && Auditory.PlannedOn !== "") {
+            Auditory.PlannedOn = GetDate(Auditory.PlannedOn, "/", true);
+        }
         data["oldAuditory"] = Auditory;
     }
 
@@ -395,16 +521,971 @@ function SaveAuditory() {
 
 function CalculateRules() {
     var res = "";
-    $.each($("#AuditoryRulesDiv input:checkbox"), function () {
-        console.log($(this)[0].id);
-        if ($(this)[0].checked === true) {
-            res += $(this)[0].id.split("_")[1] + "|";
+
+    if (Auditory.Status < AuditoryStatus.Planificada) {
+        var rules = $("#CmbRules").val();
+        for (var x = 0; x < rules.length; x++) {
+            res += rules[x] + "|";
         }
-    });
+    }
+    else {
+        res = Auditory.Rules;
+    }
 
     $("#TxtRulesId").val(res);
 }
 
 function QuestionaryPlay(auditoryId, cuestionarioId) {
-    window.open("/QuestionaryPlay.aspx?a=" + auditoryId + "&c=" + cuestionarioId);
+    AppWindow = window.open("/QuestionaryPlay.aspx?a=" + auditoryId + "&c=" + cuestionarioId);
+}
+
+function RenderFounds() {
+    var res = "";
+    var count = 0;
+    for (var x = 0; x < Founds.length; x++) {
+        var found = Founds[x];
+        if (found.Active === true) {
+            count++;
+            res += "<tr id=\"" + found.Id + "\" style=\"border-left:none;\">";
+            res += "<td>" + found.Text + "</td>";
+            res += "<td style=\"width:200px;\">" + found.Requeriment + "</td>";
+            res += "<td style=\"width:200px;\">" + found.Unconformity + "</td>";
+            res += "<td style=\"width:80px;text-align:center\">";
+            res += found.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
+            res += "</td>";
+            res += "<td class=\"hidden-480\" style=\"width: 90px;white-space:nowrap;\">";
+            res += "  <span class=\"btn btn-xs btn-info\" onclick=\"ShowPopupFoundDialog(" + found.Id + "); \">";
+            res += "    <i class=\"icon-edit bigger-120\"></i>";
+            res += "  </span>";
+            res += "  &nbsp;";
+            res += "  <span class=\"btn btn-xs btn-danger\" onclick=\"ShowPopupFoundDeleteDialog(" + found.Id + "); \">";
+            res += "    <i class=\"icon-trash bigger-120\"></i>";
+            res += "  </span>";
+            res += "</td>";
+            res += "</tr>";
+        }
+    }
+
+    $("#SpanHallazgosTotal").html(count);
+    if (count > 0) {
+        $("#HallazgosDataTable").html(res);
+        $("#ListDataDivHallazgos").show();
+        $("#NoDataHallazgos").hide();
+    }
+    else {
+        $("#HallazgosDataTable").html("");
+        $("#ListDataDivHallazgos").hide();
+        $("#NoDataHallazgos").show();
+    }
+}
+
+function RenderImprovements() {
+    var res = "";
+    var count = 0;
+    for (var x = 0; x < Improvements.length; x++) {
+        var improvement = Improvements[x];
+        if (improvement.Active === true) {
+            count++;
+            res += "<tr id=\"" + improvement.Id + "\" style=\"border-left:none;\">";
+            res += "<td>" + improvement.Text + "</td>";
+            res += "<td style=\"width:80px;text-align:center\">";
+            res += improvement.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
+            res += "</td>";
+            res += "<td class=\"hidden-480\" style=\"width: 90px;white-space:nowrap;\">";
+            res += "  <span class=\"btn btn-xs btn-info\" onclick=\"ShowPopupImprovementDialog(" + improvement.Id + "); \">";
+            res += "    <i class=\"icon-edit bigger-120\"></i>";
+            res += "  </span>";
+            res += "  &nbsp;";
+            res += "  <span class=\"btn btn-xs btn-danger\" onclick=\"ShowPopupImprovementDeleteDialog(" + improvement.Id + "); \">";
+            res += "    <i class=\"icon-trash bigger-120\"></i>";
+            res += "  </span>";
+            res += "</td>";
+            res += "</tr>";
+        }
+    }
+
+    $("#SpanMejorasTotal").html(count);
+    if (count > 0) {
+        $("#MejorasDataTable").html(res);
+        $("#ListDataDivMejoras").show();
+        $("#NoDataMejoras").hide();
+    }
+    else {
+        $("#MejorasDataTable").html("");
+        $("#ListDataDivMejoras").hide();
+        $("#NoDataMejoras").show();
+    }
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+// ----------------------- Report ------------------
+function foundGetById(id) {
+    id = id * 1;
+    for (var x = 0; x < Founds.length; x++) {
+        if (Founds[x].Id === id) {
+            return Founds[x];
+        }
+    }
+
+    return null;
+}
+
+function improvementGetById(id) {
+    id = id * 1;
+    for (var x = 0; x < Improvements.length; x++) {
+        if (Improvements[x].Id === id) {
+            return Improvements[x];
+        }
+    }
+
+    return null;
+}
+
+function ShowPopupFoundDialog(id) {
+    $("#TxtText").removeAttr("disabled");
+    $("#TxtRequeriment").removeAttr("disabled");
+    $("#TxtUnconformity").removeAttr("disabled");
+    $("#TxtText").css("background", "transparent");
+    $("#TxtRequeriment").css("background", "transparent");
+    $("#TxtUnconformity").css("background", "transparent");
+    $("#ChkActionFound").removeAttr("disabled");
+
+    foundSelectedId = id;
+    foundSelected = foundGetById(id);
+
+    var title = Dictionary.Item_Auditory_Title_PopupUpdateFound;
+    if (id < 0) {
+        title = Dictionary.Item_Auditory_Title_PopupAddFound;
+        $("#TxtText").val("");
+        $("#TxtRequeriment").val("");
+        $("#TxtUnconformity").val("");
+        $("#ChkActionFound").attr("checked", false);
+    }
+    else {
+        $("#TxtText").val(foundSelected.Text);
+        $("#TxtRequeriment").val(foundSelected.Requeriment);
+        $("#TxtUnconformity").val(foundSelected.Unconformity);
+        $("#ChkActionFound").attr("checked", foundSelected.Action);
+    }
+
+    $("#PopupFoundDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": title,
+        "title_html": true,
+        "width": 600,
+        "buttons":
+            [
+                {
+                    "Id": "BtnFoundSaveOK",
+                    "html": "<i class=\"icon-save bigger-110\"></i>&nbsp;" + Dictionary.Common_Save,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        FoundSave();
+                    }
+                },
+                {
+                    "Id": "BtnFoundSaveCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+}
+
+function ShowPopupImprovementDialog(id) {
+    $("#TxtImprovement").removeAttr("disabled");
+    $("#TxtImprovement").css("background", "transparent");
+    $("#ChkActionImprovement").removeAttr("disabled");
+
+    improvementSelectedId = id;
+    improvementSelected = improvementGetById(id);
+
+    var title = Dictionary.Item_Auditory_Title_PopupUpdateImprovement;
+    if (id < 0) {
+        title = Dictionary.Item_Auditory_Title_PopupAddImprovement;
+        $("#TxtImprovement").val("");
+        $("#ChkActionImprovement").attr("checked", false);
+    }
+    else {
+        $("#TxtImprovement").val(improvementSelected.Text);
+        $("#ChkActionImprovement").attr("checked", improvementSelected.Action);
+    }
+
+    var dialog = $("#PopupImprovementDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": title,
+        "title_html": true,
+        "width": 600,
+        "buttons":
+            [
+                {
+                    "Id": "BtnImprovementSaveOk",
+                    "html": "<i class=\"icon-save bigger-110\"></i>&nbsp;" + Dictionary.Common_Save,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        ImprovementSave();
+                    }
+                },
+                {
+                    "Id": "BtnImprovementSaveCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+}
+
+function FoundSave() {
+    foundSelected = {
+        "Id": foundSelectedId,
+        "CompanyId": Company.Id,
+        "AuditoryId": Auditory.Id,
+        "CuestionarioId": foundSelected.CuestionarioId,
+        "Text": $("#TxtText").val(),
+        "Requeriment": $("#TxtRequeriment").val(),
+        "Unconformity": $("#TxtUnconformity").val(),
+        "Action": document.getElementById("ChkActionFound").checked === true,
+        "Active": true
+    };
+
+    var data = {
+        "found": foundSelected,
+        "applicationUserId": ApplicationUser.Id
+    };
+    console.log(data);
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/FoundSave",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            console.log("msg", msg);
+            if (foundSelectedId > 0) {
+                var temp = [];
+                for (var x = 0; x < Founds.length; x++) {
+                    if (Founds[x].Id === foundSelectedId) {
+                        temp.push(foundSelected);
+                    }
+                    else {
+                        temp.push(Founds[x]);
+                    }
+                }
+
+                Founds = temp;
+            }
+            else {
+                foundSelected.Id = msg.d.MessageError * 1;
+                Founds.push(foundSelected);
+            }
+
+            $("#PopupFoundDialog").dialog("close");
+            RenderFounds();
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function ImprovementSave() {
+    improvementSelected = {
+        "Id": improvementSelectedId,
+        "CompanyId": Company.Id,
+        "AuditoryId": Auditory.Id,
+        "CuestionarioId": improvementSelected.CuestionarioId,
+        "Action": document.getElementById("ChkActionImprovement").checked === true,
+        "Text": $("#TxtImprovement").val(),
+        "Active": true
+    };
+
+    var data = {
+        "improvement": improvementSelected,
+        "applicationUserId": ApplicationUser.Id
+    };
+    console.log(data);
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/ImprovementSave",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            console.log("msg", msg);
+            if (improvementSelectedId > 0) {
+                var temp = [];
+                for (var x = 0; x < Improvements.length; x++) {
+                    if (Improvements[x].Id === improvementSelectedId) {
+                        temp.push(improvementSelected);
+                    }
+                    else {
+                        temp.push(Improvements[x]);
+                    }
+                }
+
+                Improvements = temp;
+            }
+            else {
+                improvementSelected.Id = msg.d.MessageError * 1;
+                Improvements.push(improvementSelected);
+            }
+
+            $("#PopupImprovementDialog").dialog("close");
+            RenderImprovements();
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function ShowPopupFoundDeleteDialog(id) {
+    foundSelectedId = id * 1;
+    foundSelected = foundGetById(foundSelectedId);
+    $("#foundName").html(foundSelected.Text);
+    $("#foundDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Auditory_Title_PopupDeleteFound,
+        "title_html": true,
+        "width": 600,
+        "buttons":
+            [
+                {
+                    "Id": "BtnFoundDeleteOk",
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        FoundDeleteConfirmed();
+                    }
+                },
+                {
+                    "Id": "BtnFoundDeleteCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+
+}
+
+function ShowPopupImprovementDeleteDialog(id) {
+    improvementSelectedId = id * 1;
+    improvementSelected = improvementGetById(improvementSelectedId);
+    var dialog = $("#improvementDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Auditory_Title_PopupDeleteImprovement,
+        "title_html": true,
+        "width": 600,
+        "buttons":
+            [
+                {
+                    "Id": "BtnImprovementDeleteOk",
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        ImprovementDeleteConfirmed();
+                    }
+                },
+                {
+                    "Id": "BtnImprovementDeleteCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+
+}
+
+function FoundDeleteConfirmed() {
+    var data = {
+        "id": foundSelectedId,
+        "companyId": Company.Id,
+        "applicationUserId": ApplicationUser.Id
+    };
+    console.log(data);
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/FoundDelete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            console.log("msg", msg);
+            if (foundSelectedId > 0) {
+                var temp = [];
+                for (var x = 0; x < Founds.length; x++) {
+                    if (Founds[x].Id !== foundSelectedId) {
+                        temp.push(Founds[x]);
+                    }
+                }
+
+                Founds = temp;
+            }
+
+            $("#foundDeleteDialog").dialog("close");
+            RenderFounds();
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function ImprovementDeleteConfirmed() {
+    var data = {
+        "id": improvementSelectedId,
+        "companyId": Company.Id,
+        "applicationUserId": ApplicationUser.Id
+    };
+    console.log(data);
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/ImprovementDelete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            console.log("msg", msg);
+            if (improvementSelectedId > 0) {
+                var temp = [];
+                for (var x = 0; x < Improvements.length; x++) {
+                    if (Improvements[x].Id !== improvementSelectedId) {
+                        temp.push(Improvements[x]);
+                    }
+                }
+
+                Improvements = temp;
+            }
+
+            $("#improvementDeleteDialog").dialog("close");
+            RenderImprovements();
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+// -------------------------------------------------
+
+function PopupValidarReset() {
+    $("#CmbValidatedBy").removeAttr("disabled");
+    $("#CmbValidatedBy").css("background", "transparent");
+    $("#TxtValidatedOn").removeAttr("disabled");
+    $("#TxtValidatedOn").css("background", "transparent");
+    $("#CmbValidatedByLabel").css("color", "#000");
+    $("#TxtValidatedOnLabel").css("color", "#000");
+    $("#CmbValidatedByErrorRequired").hide();
+    $("#TxtValidatedOnErrorRequired").hide();
+    $("#TxtValidatedOnErrorDateMalformed").hide();
+    $("#TxtValidatedOnErrorCross").hide();
+}
+
+function PopupClosedReset() {
+    $("#CmbClosedBy").removeAttr("disabled");
+    $("#CmbClosedBy").css("background", "transparent");
+    $("#TxtClosedOn").removeAttr("disabled");
+    $("#TxtClosedOn").css("background", "transparent");
+    $("#CmbClosedByLabel").css("color", "#000");
+    $("#TxtClosedOnLabel").css("color", "#000");
+    $("#CmbClosedByErrorRequired").hide();
+    $("#TxtClosedOnErrorRequired").hide();
+    $("#TxtClosedOnErrorDateMalformed").hide();
+    $("#TxtClosedOnErrorCross").hide();
+}
+
+function PopupReopenShow() {
+    $("#ReopenPopup").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Auditory_Popup_ReopenTitle,
+        "title_html": true,
+        "width": 400,
+        "buttons":
+            [
+                {
+                    "Id": "BtnReopenSaveOK",
+                    "html": "<i class=\"fa fa-check bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        ReopenConfirmed();
+                    }
+                },
+                {
+                    "Id": "BtnReopenSaveCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+}
+
+function PopupCloseShow() {
+    PopupClosedReset();
+    $("#ClosedPopup").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Auditory_Btn_Close,
+        "title_html": true,
+        "width": 400,
+        "buttons":
+            [
+                {
+                    "Id": "BtnCloseSaveOK",
+                    "html": "<i class=\"fa fa-check bigger-110\"></i>&nbsp;" + Dictionary.Item_Auditory_Btn_Close,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        CloseConfirmed();
+                    }
+                },
+                {
+                    "Id": "BtnCloseSaveCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+}
+
+function ReopenConfirmed() {
+    var data = {
+        "auditoryId": Auditory.Id,
+        "applicationUserId": ApplicationUser.Id,
+        "companyId": Company.Id
+    };
+
+    console.log(data);
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/Reopen",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            console.log("msg", msg);
+            $("#ReopenPopup").dialog("close");
+            $("#DivCloseButton").show();
+            $("#DivCloseResume").hide();
+            $("#DivValidationButton").show();
+            document.location = document.location + "";
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function CloseConfirmed() {
+    PopupClosedReset();
+    var ok = true;
+    if ($("#CmbClosedBy").val() * 1 < 1) {
+        ok = false;
+        $("#CmbClosedByLabel").css("color", "#f00");
+        $("#CmbClosedByErrorRequired").show();
+    }
+
+    if ($("#TxtClosedOn").val() === "") {
+        ok = false;
+        $("#TxtClosedOnLabel").css("color", "#f00");
+        $("#TxtClosedOnErrorRequired").show();
+    } else {
+        if (validateDate($("#TxtClosedOn").val()) === false) {
+            ok = false;
+            $("#TxtClosedOnLabel").css("color", "#f00");
+            $("#TxtClosedOnErrorDateMalformed").show();
+        }
+        else {
+            var reportEnd = GetDate(Auditory.ReportEnd, "/", false);
+            var validationDate = GetDate($("#TxtClosedOn").val(), "/", false);
+            if (validationDate < reportEnd) {
+                $("#TxtClosedOnLabel").css("color", "#f00");
+                $("#TxtClosedOnErrorCross").show();
+            }
+        }
+    }
+
+    if (ok === false) {
+        return false;
+    }
+
+    var data = {
+        "auditoryId": Auditory.Id,
+        "closedBy": $("#CmbClosedBy").val() * 1,
+        "closedOn": GetDate($("#TxtClosedOn").val(), "/", false),
+        "applicationUserId": ApplicationUser.Id,
+        "companyId": Company.Id
+    };
+
+    console.log(data);
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/Close",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            console.log("msg", msg);
+            $("#ClosedPopup").dialog("close");
+            $("#DivCloseButton").hide();
+            $("#DivCloseResume").show();
+            $("#DivValidationButton").hide();
+            document.location = document.location + "";
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function PopupValidarShow() {
+    PopupValidarReset();
+    $("#ValidationPopup").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Auditory_Btn_Validation,
+        "title_html": true,
+        "width": 400,
+        "buttons":
+            [
+                {
+                    "Id": "BtnFoundSaveOK",
+                    "html": "<i class=\"fa fa-check bigger-110\"></i>&nbsp;" + Dictionary.Item_Auditory_Btn_PopupValidation,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        ValidationConfirmed();
+                    }
+                },
+                {
+                    "Id": "BtnFoundSaveCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+}
+
+function ValidationConfirmed() {
+    PopupValidarReset();
+    var ok = true;
+    if ($("#CmbValidatedBy").val() * 1 < 1) {
+        ok = false;
+        $("#CmbValidatedByLabel").css("color", "#f00");
+        $("#CmbValidatedByErrorRequired").show();
+    }
+
+    if ($("#TxtValidatedOn").val() === "") {
+        ok = false;
+        $("#TxtValidatedOnLabel").css("color", "#f00");
+        $("#TxtValidatedOnErrorRequired").show();
+    } else {
+        if (validateDate($("#TxtValidatedOn").val()) === false) {
+            ok = false;
+            $("#TxtValidatedOnLabel").css("color", "#f00");
+            $("#TxtValidatedOnErrorDateMalformed").show();
+        }
+        else {
+            var reportEnd = GetDate(Auditory.ReportEnd, "/", false);
+            var validationDate = GetDate($("#TxtValidatedOn").val(), "/", false);
+            if (validationDate < reportEnd) {
+                $("#TxtValidatedOnLabel").css("color", "#f00");
+                $("#TxtValidatedOnErrorCross").show();
+            }
+        }
+    }
+
+    if (ok === false) {
+        return false;
+    }
+
+
+    var data = {
+        "auditoryId": Auditory.Id,
+        "validatedBy": $("#CmbValidatedBy").val() * 1,
+        "validatedOn": GetDate($("#TxtValidatedOn").val(), "/", false),
+        "applicationUserId": ApplicationUser.Id,
+        "companyId": Company.Id
+    };
+
+    console.log(data);
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/Validate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            console.log("msg", msg);
+            $("#ValidationPopup").dialog("close");
+            $("#DivValidationButton").hide();
+            $("#DivValidationResume").show();
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+var zombieSelectedId = null;
+var zombieSelected = null;
+function IncidentActionShowPopup(id) {
+    ZombieResetValidationForm();
+    zombieSelectedId = id * 1;
+    zombieSelected = ZombieById(zombieSelectedId);
+    if (zombieSelected === null) {
+        $("#TxtIncidentActionDescription").val("");
+        $("#TxtWhatHappend").val("");
+        $("#CmbWhatHappendBy").val(-1);
+        $("#TxtWahtHappendOn").val("");
+        document.getElementById("RBactionType1").checked = false;
+        document.getElementById("RBactionType2").checked = false;
+    }
+    else {
+        $("#TxtIncidentActionDescription").val(zombieSelected.Description);
+        $("#TxtWhatHappend").val(zombieSelected.WhatHappend);
+        $("#CmbWhatHappendBy").val(zombieSelected.WhatHappendBy.Id);
+        $("#TxtWahtHappendOn").val(zombieSelected.WhatHappendOn);
+        document.getElementById("RBactionType1").checked = zombieSelected.ActionType === 1;
+        document.getElementById("RBactionType2").checked = zombieSelected.ActionType === 2;
+    }
+
+    $("#TxtIncidentActionDescription").removeAttr("disabled");
+    $("#TxtWhatHappend").removeAttr("disabled");
+    $("#CmbWhatHappendBy").removeAttr("disabled");
+    $("#TxtWahtHappendOn").removeAttr("disabled");
+    $("#TxtWhatHappend").css("background", "transparent");
+    $("#CmbWhatHappendBy").css("background", "transparent");
+    $("#RBactionType1").removeAttr("disabled");
+    $("#RBactionType2").removeAttr("disabled");
+
+    $("#IncidentActionPopup").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_IncidentAction,
+        "title_html": true,
+        "width": 600,
+        "buttons":
+            [
+                {
+                    "Id": "BtnIncidentActionSaveOK",
+                    "html": "<i class=\"fa fa-check bigger-110\"></i>&nbsp;" + Dictionary.Common_Save,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        ZombieSaveConfirmed();
+                    }
+                },
+                {
+                    "Id": "BtnIncidentActionSaveCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+}
+
+function ZombieResetValidationForm() {
+    $("#TxtIncidentActionTypeLabel").css("color", "#333");
+    $("#TxtIncidentActionDescriptionLabel").css("color", "#333");
+    $("#TxtWhatHappendLabel").css("color", "#333");
+    $("#CmbWhatHappendByLabel").css("color", "#333");
+    $("#TxtWahtHappendOnLabel").css("color", "#333");
+    $("#TxtIncidentActionTypeErrorRequired").hide();
+    $("#TxtIncidentActionDescriptionErrorRequired").hide();
+    $("#TxtWhatHappendErrorRequired").hide();
+    $("#CmbWhatHappendByErrorRequired").hide();
+    $("#TxtWahtHappendOnErrorRequired").hide();
+    $("#TxtWahtHappendOnErrorDateMalformed").hide();
+    $("#TxtWahtHappendOnErrorCross").hide();
+}
+
+function ZombieValidateForm() {
+    ZombieResetValidationForm();
+    var ok = true;
+
+    if (document.getElementById("RBactionType1").checked === false && document.getElementById("RBactionType2").checked === false) {
+        ok = false;
+        $("#TxtIncidentActionTypeLabel").css("color", "#f00");
+        $("#TxtIncidentActionTypeErrorRequired").show();
+    }
+
+    if ($("#TxtIncidentActionDescription").val() === "") {
+        ok = false;
+        $("TxtIncidentActionDescriptionLabel").css("color", "#f00");
+        $("#TxtIncidentActionDescriptionErrorRequired").show();
+    }
+
+    if ($("#TxtWhatHappend").val() === "") {
+        ok = false;
+        $("#TxtWhatHappendLabel").css("color", "#f00");
+        $("#CmbWhatHappendByErrorRequired").show();
+    }
+
+    if ($("#CmbWhatHappendBy").val() * 1 < 1) {
+        ok = false;
+        $("#CmbWhatHappendByLabel").css("color", "#f00");
+        $("#TxtWhatHappendErrorRequired").show();
+    }
+
+    if ($("#TxtWahtHappendOn").val() === "") {
+        ok = false;
+        $("#TxtWahtHappendOnLabel").css("color", "#f00");
+        $("#TxtWahtHappendOnErrorRequired").show();
+    }
+    else {
+        if (validateDate($("#TxtWahtHappendOn").val()) === false) {
+            ok = false;
+            $("#TxtWahtHappendOnLabel").css("color", "#f00");
+            $("#TxtWahtHappendOnErrorDateMalformed").show();
+        }
+    }
+
+    return ok;
+}
+
+function ZombieSaveConfirmed() {
+    if (ZombieValidateForm() === false) { return false; }
+
+    zombieSelected = {
+        "Id": zombieSelectedId,
+        "ActionType": document.getElementById("RBactionType1").checked === true ? 1 : 2,
+        "Description": $("#TxtIncidentActionDescription").val(),
+        "WhatHappend": $("#TxtWhatHappend").val(),
+        "WhatHappendBy": { "Id": $("#CmbWhatHappendBy").val() * 1 },
+        "WhatHappendOn": GetDate($("#TxtWahtHappendOn").val(), "/", true),
+        "AuditoryId": Auditory.Id,
+        "CompanyId": Auditory.CompanyId
+    };
+
+    var data = {
+        "zombie": zombieSelected
+    };
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/SaveZombie",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            console.log("msg", msg);
+            if (zombieSelectedId > 0) {
+                var temp = [];
+                for (var x = 0; x < Zombies.length; x++) {
+                    if (Zombies[x].Id === zombieSelectedId) {
+                        zombieSelected.WhatHappendOn = FormatDate(zombieSelected.WhatHappendOn, "/");
+                        temp.push(zombieSelected);
+                    }
+                    else {
+                        temp.push(Zombies[x]);
+                    }
+                }
+
+                Zombies = temp;
+            }
+            else {
+                zombieSelected.Id = msg.d.MessageError * 1;
+                zombieSelected.WhatHappendOn = FormatDate(zombieSelected.WhatHappendOn, "/");
+                Zombies.push(zombieSelected);
+            }
+
+            $("#IncidentActionPopup").dialog("close");
+            RenderZombies();
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function ZombieById(id) {
+    for (var x = 0; x < Zombies.length; x++) {
+        if (Zombies[x].Id === id * 1) {
+            return Zombies[x];
+        }
+    }
+    return null;
+}
+
+function RenderZombies() {
+    var res = "";
+
+    if (Zombies.length > 0) {
+        for (var x = 0; x < Zombies.length; x++) {
+            res += "<tr>";
+            res += "<td style=\"width:120px;\">" + (Zombies[x].ActionType == 1 ? Dictionary.Item_IncidentAction_Type1 : Dictionary.Item_IncidentAction_Type2) + "</td>";
+            res += "<td>" + Zombies[x].Description + "</td>";
+            res += "<td style=\"width:120px;\">" + Zombies[x].WhatHappendOn + "</td>";
+            res += "<td style=\"width:90px;\">";
+            res += "  <span class=\"btn btn-xs btn-info\" id=\"" + Zombies[x].Id + "\" onclick=\"IncidentActionShowPopup(this.id)\">";
+            res += "    <i class=\"icon-edit bigger-120\"></i></span>";
+            res += "  <span class=\"btn btn-xs btn-danger\" id=\"" + Zombies[x].Id + "\">";
+            res += "    <i class=\"icon-trash bigger-120\"></i></span>";
+            res += "</td>";
+            res += "</tr>";
+        }
+
+        $("#IncidentActionsDataTable").html(res);
+        $("#ListDataDivIncidentActions").show();
+        $("#NoDataIncidentActions").hide();
+        $("#SpanIncidentActionsTotal").html(Zombies.length);
+    }
+    else {
+
+        $("#IncidentActionsDataTable").html("");
+        $("#ListDataDivIncidentActions").hide();
+        $("#NoDataIncidentActions").show();
+        $("#SpanIncidentActionsTotal").html("0");
+    }
+}
+
+function CmbPlanningResponsibleChanged() {
+    var id = $("#CmbPlanningResponsible").val() * 1;
+    if (id > 0) {
+        $("#TxtAuditoryPlanningDateLabel").html(Dictionary.Item_Auditory_Label_PlanningDate + "<span color=\"#f00;\">*</span>");
+    }
+    else {
+        $("#TxtAuditoryPlanningDateLabel").html(Dictionary.Item_Auditory_Label_PlanningDate);
+    }
 }

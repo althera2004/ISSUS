@@ -161,5 +161,8 @@ namespace GisoFramework.Item.Binding
 
         /// <summary>Index of "Objetivo description" column</summary>
         public const int OportunityDescription = 50;
+
+        /// <summary>Index of "AuditoryId" column</summary>
+        public const int AuditoryId = 51;
     }
 }

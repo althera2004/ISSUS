@@ -134,6 +134,18 @@
             color: #333;
             _font-style: italic;
         }
+
+        .TableNoData {
+            width: 100%;
+            height: 99%;
+            min-height: 100px;
+            background-color: #eef;
+            text-align: center;
+            font-size: large;
+            color: #aaf;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
     </style>
     <!-- Specific style of page -->
     <script type="text/javascript" src="/js/Data.aspx"></script>
@@ -426,8 +438,6 @@
     </asp:ContentPlaceHolder>
         <script type = "text/javascript">
             setInterval("KeepSessionAlive()", 60000);
-
-            
 
 			// @alex: si la página no es una lista ó no hay datos que mostrar, se oculta el buscador de arriba a la derecha
             if(document.getElementById("ListDataTable") == null)

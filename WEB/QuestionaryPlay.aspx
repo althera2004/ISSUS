@@ -114,7 +114,7 @@
 		                                                    </tr>
                                                         </thead>
                                                     </table>
-                                                    <div id="ListDataDivHallazgos" style="display:none;overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                    <div id="ListDataDivHallazgos" style="display:none;overflow-y: scroll; overflow-x: hidden; padding: 0;min-height:100px;">
                                                         <table class="table table-bordered table-striped" style="border-left:none;border-top: none;">
                                                             <tbody id="HallazgosDataTable"></tbody>
                                                         </table>
@@ -143,7 +143,7 @@
 		                                                    </tr>
                                                         </thead>
                                                     </table>
-                                                    <div id="ListDataDivMejoras" style="display:none;scroll; overflow-x: hidden; padding: 0;">
+                                                    <div id="ListDataDivMejoras" style="display:none;overflow-y: scroll; overflow-x: hidden; padding: 0;min-height:100px;">
                                                         <table class="table table-bordered table-striped" style="border-left:none;border-top: none;">
                                                             <tbody id="MejorasDataTable"></tbody>
                                                         </table>

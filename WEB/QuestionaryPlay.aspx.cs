@@ -115,7 +115,6 @@ public partial class QuestionaryPlay : Page
         }
         else
         {
-            int test = 0;
             this.user = this.Session["User"] as ApplicationUser;
             var token = new Guid(this.Session["UniqueSessionId"].ToString());
             if (!UniqueSession.Exists(token, this.user.Id))

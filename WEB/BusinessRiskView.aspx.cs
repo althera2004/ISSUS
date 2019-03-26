@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
+using GisoFramework.Activity;
 using GisoFramework.DataAccess;
 using GisoFramework.Item;
 using GisoFramework.Item.Binding;
@@ -797,6 +798,7 @@ public partial class BusinessRiskView : Page
                 }
                 catch (Exception ex)
                 {
+                    ExceptionManager.Trace(ex, "BusinessRiskView --> ById(" + this.BusinessRiskId.ToString() + ")");
                 }
                 finally
                 {

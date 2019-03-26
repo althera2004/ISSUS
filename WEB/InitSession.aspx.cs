@@ -80,7 +80,7 @@ public partial class InitSession : Page
                     landPage = "/AgreementNotice.aspx";
                 }
             }
-            else if (true || user.HasGrantToRead(ApplicationGrant.CompanyProfile))
+            else //if (true || user.HasGrantToRead(ApplicationGrant.CompanyProfile))
             {
                 landPage = "/DashBoard.aspx";
             }

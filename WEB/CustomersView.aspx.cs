@@ -81,7 +81,7 @@ public partial class CustomersView : Page
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    public string Items
+    public string Customers
     {
         get
         {

@@ -123,8 +123,8 @@
                                     </div><!-- /span -->
                                 </div><!-- /row -->								
                             </div><!-- /.col -->                            
-                            <div id="QuestionaryDeleteDialog" class="hide" style="width:500px;">
-                                <p><%=this.Dictionary["Item_Questionary_PopupDelete_Message"] %>&nbsp;<strong><span id="QuestionaryToDeleteName"></span></strong>?</p>
+                            <div id="AuditoryDeleteDialog" class="hide" style="width:500px;">
+                                <p><%=this.Dictionary["Item_Auditory_PopupDelete_Message"] %>&nbsp;<strong><span id="AuditoryDeleteName"></span></strong>?</p>
                             </div>                          
                             <div id="QuestionaryDuplicateDialog" class="hide" style="width:500px;">
                                 <p><%=this.Dictionary["Item_Questionary_PopupDuplicate_Message"] %>&nbsp;<strong><span id="QuestionaryToDuplicateName"></span></strong>?</p>

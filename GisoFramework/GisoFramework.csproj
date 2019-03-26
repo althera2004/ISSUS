@@ -191,6 +191,7 @@
     <Compile Include="Item\Incident.cs" />
     <Compile Include="Item\IncidentActionCost.cs" />
     <Compile Include="Item\IncidentActionFilterItem.cs" />
+    <Compile Include="Item\IncidentActionZombie.cs" />
     <Compile Include="Item\IncidentCost.cs" />
     <Compile Include="Item\IncidentFilterItem.cs" />
     <Compile Include="Item\Indicador.cs" />

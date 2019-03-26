@@ -24,6 +24,7 @@ namespace GisoFramework.Item
         public string Text { get; set; }
         public long AuditoryId { get; set; }
         public long CuestionarioId { get; set; }
+        public bool Action { get; set; }
 
         public static AuditoryCuestionarioImprovement Empty
         {
@@ -37,6 +38,7 @@ namespace GisoFramework.Item
                     CuestionarioId = Constant.DefaultLongId,
                     Description = string.Empty,
                     Text = string.Empty,
+                    Action = false,
                     CreatedBy = ApplicationUser.Empty,
                     CreatedOn = DateTime.Now,
                     ModifiedBy = ApplicationUser.Empty,
@@ -60,14 +62,26 @@ namespace GisoFramework.Item
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    @"{{""Id"":{0}, ""CompanyId"":{1}, ""AuditoryId"":{2},""CuestionarioId"":{3},
-                      ""Text"":""{4}"", ""CreatedBy"":{5}, ""CreatedOn"":""{6:dd/MM/yyy}"",
-                      ""ModifiedBy"":{7}, ""ModifiedOn"":""{7:dd/MM/yyyy}"", ""Active"":{8}}}",
+                    @"
+                    {{
+                        ""Id"":{0},
+                        ""CompanyId"":{1},
+                        ""AuditoryId"":{2},
+                        ""CuestionarioId"":{3},
+                        ""Text"":""{4}"",
+                        ""Action"":{5},
+                        ""CreatedBy"":{6},
+                        ""CreatedOn"":""{7:dd/MM/yyy}"",
+                        ""ModifiedBy"":{8},
+                        ""ModifiedOn"":""{9:dd/MM/yyyy}"",
+                        ""Active"":{10}
+                    }}",
                     this.Id,
                     this.CompanyId,
                     this.AuditoryId,
                     this.CuestionarioId,
                     Tools.JsonCompliant(this.Text),
+                    this.Action ? Constant.JavaScriptTrue : Constant.JavaScriptFalse,
                     this.CreatedBy.JsonKeyValue,
                     this.CreatedOn,
                     this.ModifiedBy.JsonKeyValue,
@@ -141,6 +155,7 @@ namespace GisoFramework.Item
                                 };
                                 res.ModifiedOn = rdr.GetDateTime(ColumnsAuditoryCuestionarioImprovementGet.ModifiedOn);
                                 res.Active = rdr.GetBoolean(ColumnsAuditoryCuestionarioImprovementGet.Active);
+                                res.Action = rdr.GetBoolean(ColumnsAuditoryCuestionarioImprovementGet.Action);
                             }
                         }
                     }
@@ -179,7 +194,7 @@ namespace GisoFramework.Item
                                 res.Add(new AuditoryCuestionarioImprovement
                                 {
                                     Id = rdr.GetInt64(ColumnsAuditoryCuestionarioImprovementGet.Id),
-                                    CompanyId = rdr.GetInt32(ColumnsAuditoryCuestionarioImprovementGet.CompanyId),
+                                    CompanyId = Convert.ToInt32( rdr.GetInt64(ColumnsAuditoryCuestionarioImprovementGet.CompanyId)),
                                     AuditoryId = rdr.GetInt64(ColumnsAuditoryCuestionarioImprovementGet.AuditoryId),
                                     CuestionarioId = rdr.GetInt64(ColumnsAuditoryCuestionarioImprovementGet.CuestionarioId),
                                     Text = rdr.GetString(ColumnsAuditoryCuestionarioImprovementGet.Text),
@@ -195,7 +210,8 @@ namespace GisoFramework.Item
                                         UserName = rdr.GetString(ColumnsAuditoryCuestionarioImprovementGet.ModifiedByName)
                                     },
                                     ModifiedOn = rdr.GetDateTime(ColumnsAuditoryCuestionarioImprovementGet.ModifiedOn),
-                                    Active = rdr.GetBoolean(ColumnsAuditoryCuestionarioImprovementGet.Active)
+                                    Active = rdr.GetBoolean(ColumnsAuditoryCuestionarioImprovementGet.Active),
+                                    Action = rdr.GetBoolean(ColumnsAuditoryCuestionarioImprovementGet.Action)
                                 });
                             }
                         }
@@ -234,7 +250,7 @@ namespace GisoFramework.Item
                                 res.Add(new AuditoryCuestionarioImprovement
                                 {
                                     Id = rdr.GetInt64(ColumnsAuditoryCuestionarioImprovementGet.Id),
-                                    CompanyId = rdr.GetInt32(ColumnsAuditoryCuestionarioImprovementGet.CompanyId),
+                                    CompanyId = Convert.ToInt32( rdr.GetInt64(ColumnsAuditoryCuestionarioImprovementGet.CompanyId)),
                                     AuditoryId = rdr.GetInt64(ColumnsAuditoryCuestionarioImprovementGet.AuditoryId),
                                     CuestionarioId = rdr.GetInt64(ColumnsAuditoryCuestionarioImprovementGet.CuestionarioId),
                                     Text = rdr.GetString(ColumnsAuditoryCuestionarioImprovementGet.Text),
@@ -250,7 +266,8 @@ namespace GisoFramework.Item
                                         UserName = rdr.GetString(ColumnsAuditoryCuestionarioImprovementGet.ModifiedByName)
                                     },
                                     ModifiedOn = rdr.GetDateTime(ColumnsAuditoryCuestionarioImprovementGet.ModifiedOn),
-                                    Active = rdr.GetBoolean(ColumnsAuditoryCuestionarioImprovementGet.Active)
+                                    Active = rdr.GetBoolean(ColumnsAuditoryCuestionarioImprovementGet.Active),
+                                    Action = rdr.GetBoolean(ColumnsAuditoryCuestionarioImprovementGet.Action)
                                 });
                             }
                         }
@@ -282,6 +299,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@AuditoryId", this.AuditoryId));
                     cmd.Parameters.Add(DataParameter.Input("@CuestionarioId", this.CuestionarioId));
                     cmd.Parameters.Add(DataParameter.Input("@Text", this.Text, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Action", this.Action));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                     try
                     {
@@ -318,9 +336,8 @@ namespace GisoFramework.Item
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(DataParameter.Input("@Id", this.Id));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@AuditoryId", this.AuditoryId));
-                    cmd.Parameters.Add(DataParameter.Input("@CuestionarioId", this.CuestionarioId));
                     cmd.Parameters.Add(DataParameter.Input("@Text", this.Text, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@Action", this.Action));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                     try
                     {

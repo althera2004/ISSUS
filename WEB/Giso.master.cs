@@ -47,14 +47,6 @@ public partial class Giso : MasterPage
             return ConfigurationManager.AppSettings["issusversion"];
         }
     }
-    
-    /*public string BK
-    {
-        get
-        {
-            return Session["BK"] as string;
-        }
-    }*/
 
     /// <summary>Gets the navigation history</summary>    
     public string NavigationHistory

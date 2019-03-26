@@ -1896,6 +1896,8 @@ Item_AuditoryPlanning_Label_EmailProvider::Dirección de email
 Item_AuditoryPlanning_Title::Eliminar planificación
 Item_Auditory_Label_PlanningResponsible::Planificada por
 Item_Auditory_Label_PlanningDate::Fecha
+Item_Auditory_Label_ValidatedByResponsible::Validada por
+Item_Auditory_Label_ValidatedOn::Fecha
 Item_Auditory_Title_QuestionariesAvailables::Cuestionarios de la auditoría
 Item_AuditoryQuestionary_Header_Status::Estado
 Item_AuditoryQuestionary_Header_Name::Cuestionario
@@ -1918,3 +1920,11 @@ Item_Auditory_Title_PopupAddFound::Nuevo hallazgo
 Item_Auditory_Title_PopupUpdateFound::Modificar hallazgo
 Item_Auditory_Title_PopupAddImprovement::Nueva mejora
 Item_Auditory_Title_PopupUpdateImprovement::Modificar mejora
+Item_Auditory_PopupDelete_Message::Quiere eliminar la auditoria
+Item_Auditory_Popup_Delete_Title::Eliminar auditoria
+Item_Auditory_Label_EndQuestionarios::Cierre cuestionarios
+Item_Auditory_Btn_Validation::Validar auditoria
+Item_Auditory_Btn_PopupValidation::Validar
+Item_Auditory_Btn_Close::Cerrar auditoria
+Item_Auditory_Label_Action::Genera acción
+Item_Auditory_ValidateCrossDate::No puede ser anterior a la fecha final

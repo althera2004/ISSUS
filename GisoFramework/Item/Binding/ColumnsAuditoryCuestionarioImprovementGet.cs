@@ -14,5 +14,6 @@
         public const int ModifiedOn = 9;
         public const int ModifiedByName = 10;
         public const int Active = 11;
+        public const int Action = 12;
     }
 }

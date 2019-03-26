@@ -28,6 +28,18 @@ public class AuditoryActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
+    public ActionResult SaveZombie(IncidentActionZombie zombie)
+    {
+        if(zombie.Id > 0)
+        {
+            return zombie.Update();
+        }
+
+        return zombie.Insert(); 
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
     public ActionResult Insert(Auditory auditory, bool toPlanned, string rules, int applicationUserId)
     {
         foreach(var ruleId in rules.Split('|'))
@@ -36,11 +48,6 @@ public class AuditoryActions : WebService
             {
                 auditory.AddRule(Convert.ToInt64(ruleId));
             }
-        }
-
-        if(auditory.PlannedOn.Value.Year < 2000)
-        {
-            auditory.PlannedOn = null;
         }
 
         var res = auditory.Insert(applicationUserId, auditory.CompanyId);
@@ -68,23 +75,46 @@ public class AuditoryActions : WebService
             }
         }
 
-        if (auditory.PlannedOn.Value.Year < 2000)
-        {
-            auditory.PlannedOn = null;
-        }
-
         string differences = auditory.Differences(oldAuditory);
         var res = auditory.Update(applicationUserId, auditory.CompanyId, differences);
         if (res.Success && toPlanned)
         {
-            var resPlanned = Auditory.SetQuestionaries(auditory.Id, applicationUserId);
-            if (!resPlanned.Success)
+            if (auditory.Type != 1)
             {
-                res.SetFail(resPlanned.MessageError);
+                var resPlanned = Auditory.SetQuestionaries(auditory.Id, applicationUserId);
+                if (!resPlanned.Success)
+                {
+                    res.SetFail(resPlanned.MessageError);
+                }
+            }
+            else
+            {
+                res = Close(auditory.Id, auditory.PlannedBy.Id, auditory.ClosedOn.Value, applicationUserId, auditory.CompanyId);
             }
         }
 
         return res;
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult Close(long auditoryId, long closedBy, DateTime closedOn, int applicationUserId, int companyId)
+    {
+        return Auditory.Close(auditoryId, closedBy, closedOn, applicationUserId, companyId);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult Reopen(long auditoryId, int applicationUserId, int companyId)
+    {
+        return Auditory.Reopen(auditoryId, applicationUserId, companyId);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult Validate(long auditoryId, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId)
+    {
+        return Auditory.Validate(auditoryId, validatedBy, validatedOn, applicationUserId, companyId);
     }
 
     [WebMethod(EnableSession = true)]
