@@ -350,9 +350,7 @@ public partial class CargosView : Page
 
             string listViewButton = string.Format(
                 CultureInfo.InvariantCulture,
-                @"<span class=""btn btn-xs btn-success"" onclick=""ShowPDF('{0}');"">
-                            <i class=""icon-eye-open bigger-120""></i>
-                        </span>",
+                @"<span class=""btn btn-xs btn-success"" onclick=""ShowPDF('{0}');""><i class=""icon-eye-open bigger-120""></i></span>",
                 file.FileName);
 
             var fileExtension = Path.GetExtension(file.FileName);

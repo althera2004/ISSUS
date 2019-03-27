@@ -75,10 +75,38 @@ public class IndicadorActions : WebService {
         return indicador.Save(applicationUserId);
     }
 
+    /*"Id": selectedRecordId,
+            "CompanyId": Indicador.CompanyId,
+            "Indicador": { "Id": Indicador.Id },
+            "Value": StringToNumber($("#TxtRegistroValue").val(), ".", ","),
+            "Date": GetDate($("#TxtRecordDate").val(), "/", false),
+            "Comments": $("#TxtRegistroComments").val(),
+            "MetaComparer": Indicador.MetaComparer,
+            "Meta": Indicador.Meta,
+            "AlarmaComparer": Indicador.AlarmaComparer,
+            "Alarma": Indicador.Alarma,
+            "Responsible": { "Id": $("#CmbResponsibleRecord").val() * 1 },
+        "applicationUserId": ApplicationUser.Id*/
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult SaveRegistro(IndicadorRegistro registro, int applicationUserId)
+    public ActionResult SaveRegistro(long Id, long Responsible,decimal Meta, string MetaComparer,int CompanyId, long Indicador, decimal Value, DateTime Date,string AlarmaComparer, string Comments,decimal? Alarma, int applicationUserId)
     {
+        var registro = new IndicadorRegistro
+        {
+            Active = true,
+            Alarma = Alarma,
+            AlarmaComparer = AlarmaComparer,
+            Comments = Comments,
+            CompanyId = CompanyId,
+            Date = Date,
+            Id = Id,
+            Indicador = new Indicador { Id = Indicador },
+            Meta = Meta,
+            MetaComparer = MetaComparer,
+            Responsible = new Employee { Id = Responsible },
+            Value = Value
+        };
+
         return registro.Save(applicationUserId);
     }
 
@@ -89,3 +117,4 @@ public class IndicadorActions : WebService {
         return IndicadorRegistro.Inactivate(registroId, companyId, applicationUserId);
     }
 }
+ 

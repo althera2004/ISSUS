@@ -962,3 +962,20 @@ function Ellipsys(text, length) {
     res = text > 50 ? (text.substr(0, 49) + "...") : text;
     return res;
 }
+
+function MinutesToHour(minutes) {
+    var h = 0;
+    while (minutes > 59) {
+        minutes -= 60;
+        h++;
+    }
+
+    res = h + ":";
+    if (minutes < 10) { res += "0"; }
+    return res += minutes;
+}
+
+function HourToMinutes(minutes) {
+    var parts = minutes.split(':');
+    return parts[0] * 60 + parts[1] * 1;
+}

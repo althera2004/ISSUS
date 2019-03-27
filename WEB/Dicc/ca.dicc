@@ -420,6 +420,7 @@ Item_CompanyData_FieldLabel_PostalAddress::Codi postal
 Item_CompanyData_FieldLabel_Province::Província
 Item_CompanyData_Popup_ImageDelete_Title::Eliminar la imatge
 Item_CompanyProfile_FieldLabel_Name::Nom
+Item_CompanyProfile_FieldLabel_Headquarters::Seu social
 Item_CompanyProfile_FieldLabel_Nif::NIF
 Item_Cost::Cost habitual
 Item_CostDefinition::Costos habituals
@@ -1793,3 +1794,160 @@ ZZZZZ::Les noves claus a partir d'aquí cap avall
 Common_Message_ItemNoAccess::No tiene acceso a este elemento, contecte con el administrador
 Item_IncidentAction_Error_BeforeActions::No pot ser anterior a la data d'actuacions
 Item_Incident_Error_BeforeActions::No pot ser anterior a la data d'actuacions
+Item_Questionaries::Cuestionaris
+Item_Questionary::Cuestionari
+Item_Questionary_Button_New::Afegir cuestionari
+Item_Questionary_ListHeader_Name::Cuestionari
+Item_Questionary_ListHeader_Rule::Norma
+Item_Questionary_ListHeader_Process::Procés
+Item_Questionary_Popup_Delete_Title::Eliminar cuestionari
+Item_Questionary_PopupDelete_Message::¿Vol eliminar el cuestionari
+Item_Questionary_List_Filter_Process::Procés
+Item_Questionary_List_Filter_Rule::Norma
+Item_Questionary_List_Filter_ApartadoNorma::Apartat norma
+Item_Questionary_Popup_Duplicate_Title::Crear copia
+Item_Questionary_PopupDuplicate_Message:: ¿Vol copiar el cuestionari i les seves preguntes
+Item_Questionary_BreadCrumb_Edit::Fitxa del cuestionari
+Item_Questionary_FieldLabel_Process::Procés
+Item_Questionary_FieldLabel_Rule::Norma
+Item_Questionary_FieldLabel_ApartadoNorma::Apartat
+Item_Questionary_FieldLabel_Notes::Notes
+Item_Questionary_NewQuestionaryWarning::Par poder afegir preguntes, abans s'ha de desar el cuestionari
+Item_QuestionaryQuestion_Title::Preguntes
+Item_QuestionaryQuestion_ListHeader_Name::Pregunta
+Item_QuestionaryQuestion_PopupDelete_Message::¿Vol eliminar la pregunta
+Item_Questionary_FieldLabel_QuestionaryQuestionName::Pregunta
+Item_QuestionaryQuestion_Tooltip_EditButton::Editar pregunta
+Item_QuestionaryQuestion_Tooltip_DeleteButton::Eliminar pregunta
+Item_ItemQuestion_Popup_Delete_Title::Eliminar pregunta
+Item_ItemQuestion_Popup_Edit_Title::Modificar pregunta
+Item_ItemQuestion_Popup_Insert_Title::Afegir pregunta
+Item_Questionary_Warning_NoQuestions::El cuestionari no conté preguntes
+Item_Adutory_Status_Label_0::Planificant-se
+Item_Adutory_Status_Label_1::Planificada
+Item_Adutory_Status_Label_2::En curs
+Item_Adutory_Status_Label_3::Pendent
+Item_Adutory_Status_Label_4::Tancada
+Item_Adutory_Status_Label_5::Validada
+Item_Adutory_Status_Explanation_0::Dades bàsiques sense acabar de planificar
+Item_Adutory_Status_Explanation_1::Planificada amb responsable i date
+Item_Adutory_Status_Explanation_2::Alguna pregunta del/ls cuestionaris marcada
+Item_Adutory_Status_Explanation_3::Totes les preguntes dels cuestionaris marcades
+Item_Adutory_Status_Explanation_4::AMb responsable i data de tancament
+Item_Adutory_Status_Explanation_5::Amb responsable i data de validació
+Item_Auditory::Auditoria
+Item_Auditories::Auditories
+Item_Auditory_Filter_From::Des de
+Item_Auditory_Filter_To::Fins
+Item_Auditory_Button_New::Afegir auditoria
+Item_Auditory_ListHeader_Status::Estat
+Item_Auditory_ListHeader_Name::Auditoria
+Item_Auditory_ListHeader_Planned::Prevista
+Item_Auditory_ListHeader_Closed::Realitzada
+Item_Auditory_ListHeader_Ammount::Cost
+Item_Auditory_Filter_Status::Estat
+Item_Auditory_Filter_Type::Tipus
+Item_Adutory_Type_Label_0::Interna
+Item_Adutory_Type_Label_1::Externa
+Item_Adutory_Type_Label_2::Proveïdor
+Item_Auditory_Label_Name::Nom
+Item_Auditory_Help_Status_Title::Estats d'auditoria
+Item_Auditory_Tab_Principal::Dades básiques
+Item_Auditory_Tab_Questionaries::Cuestionaris
+Item_Auditory_Tab_Report::Informe
+Item_Auditory_Tab_Traces::Traces
+Item_Auditory_PlanningTable_Title::Planificació
+Item_Auditory_SelectType_Title::S'ha d'escollir el tipus de auditoría
+Item_Auditory_SelectType_Error::S'ha d'escollir una opció
+Item_Auditory_Button_AddPlanning::Afegir planificació
+Item_AuditoryPlanning_PopupDelete_Message::¿Vil eliminar la planificació
+Item_Auditory_Label_Type::Tipo
+Item_Auditory_Label_Name::Nom
+Item_Auditory_Label_Rules::Normes
+Item_Auditory_BreadCrumb_Edit::Fitxa d'auditoria
+Item_Auditory_Label_Amount::Cost
+Item_Auditory_Label_InternalResponsible::Responsable intern
+Item_Auditory_Label_Description::Descripció
+Item_Auditory_Label_Scope::Àmbit
+Item_Auditory_Label_Notes::Notas
+Item_Auditory_Label_Address::Adreça
+Item_Auditory_Label_Rules::Normes
+Item_AuditoryPlanning_Header_Date::Data
+Item_AuditoryPlanning_Header_Hour::Hora
+Item_AuditoryPlanning_Header_Duration::Horas
+Item_AuditoryPlanning_Header_Process::Proceso
+Item_AuditoryPlanning_Header_Auditor::Auditor/a
+Item_AuditoryPlanning_Header_Audited::Auditat/da
+Item_Auditory_Label_PannedDate::Data prevista
+Item_Auditory_Label_AuditorTeam::Equip auditor
+Item_Auditory_Label_Provider::Proveïdor
+Item_Auditory_Label_Customer::Client
+Common_MessageMailMalformed::El mail no és vàlid
+Item_AuditoryPlanning_Label_Process::Procés
+Item_AuditoryPlanning_Label_Auditor::Auditor
+Item_AuditoryPlanning_Label_Audited::Auditado/a
+Item_AuditoryPlanning_Label_SendMail::Enviar correo al/a auditado/a
+Item_AuditoryPlanning_Label_Date::Data
+Item_AuditoryPlanning_Field_Duration::Durada
+Item_AuditoryPlanning_Field_Hour::Hora inici
+Item_AuditoryPlanning_Title_PopupAdd::Añadir planificación
+Item_AuditoryPlanning_Title_PopupUpdate::Modificar planifiación
+Item_AuditoryPlanning_Label_EmailProvider::Dirección de email
+Item_AuditoryPlanning_Title::Eliminar planificación
+Item_Auditory_Label_PlanningResponsible::Planificada per
+Item_Auditory_Label_PlanningDate::Data
+Item_Auditory_Label_ValidatedByResponsible::Validada per
+Item_Auditory_Label_ValidatedOn::Data
+Item_Auditory_Title_QuestionariesAvailables::Cuestionaris de la auditoria
+Item_AuditoryQuestionary_Header_Status::Estat
+Item_AuditoryQuestionary_Header_Name::Cuestionari
+Item_AuditoryQuestionary_Tooltip_Start::Iniciar cuestionari
+Item_AuditoryQuestionary_Tooltip_Continue::Continuar cuestionari
+Item_Auditory_Report_StartLabel::Inici
+Item_Auditory_Report_EndLabel::Final
+Item_Auditory_Text_NotStarted::No iniciat
+Item_Auditory_Text_NotEnded::No finalitzat
+Item_Auditory_Title_Found::Troballes
+Item_Auditory_Title_Improvements::Millores
+Item_Auditory_Header_Found::Troballa
+Item_Auditory_Header_Requirement::Requisit
+Item_Auditory_Header_Result::No conformitat
+Item_Auditory_Header_Action::Acció
+Item_Questionary_Tab_Founds::Troballes i millores
+Item_Questionary_Tab_Questions::Cuestionari
+Item_Auditory_Header_Improvement::Propostes de millora
+Item_Auditory_Label_Unconformity::No conformitat
+Item_Auditory_Label_Improvement::Millora
+Item_Auditory_Label_Requeriment::Requisit
+Item_Auditory_Label_Found::Troballa
+Item_Auditory_Button_AddFound::Afegir troballa
+Item_Auditory_Button_AddImprovement::Afegir millora
+Item_Auditory_Title_PopupAddFound::Nova troballa
+Item_Auditory_Title_PopupUpdateFound::Modificar troballa
+Item_Auditory_Title_PopupDeleteFound::Eliminar troballa
+Item_Auditory_Title_PopupAddImprovement::Nova millora
+Item_Auditory_Title_PopupUpdateImprovement::Modificar millora
+Item_Auditory_Title_PopupDeleteImprovement::Eliminar millora
+Item_Auditory_PopupDelete_MessageFound::Eliminar troballa
+Item_Auditory_PopupDelete_MessageImprovement::Eliminar proposta de millora
+Item_Auditory_PopupDelete_Message::Vol eliminar la auditoria
+Item_Auditory_Popup_Delete_Title::Eliminar auditoria
+Item_Auditory_Label_EndQuestionarios::Tacament cuestionaris
+Item_Auditory_Btn_Validation::Validar auditoria
+Item_Auditory_Btn_Close::Tancar auditoria
+Item_Auditory_Btn_PopupValidation::Validar
+Item_Auditory_Label_Action::Genera acció
+Item_Auditory_ValidateCrossDate::No pot ser anterior a la data final
+Item_Auditory_Message_Closed::Auditoria tancada
+Item_Auditory_Message_Validated::Auditoria validada
+Item_Auditory_Label_ValidatedBy::Validada per
+Item_Auditory_Label_ValidatedOn::Data validació
+Item_Auditory_Label_ClosedOn::Data tancament
+Item_Auditory_Label_ClosedBy::Tancada per
+Item_Auditory_Btn_AddIncidentAction::Afegir acció
+Item_Auditory_Btn_Close::Tancar auditoria
+Item_Auditory_Message_Closed::Tancada
+Item_IncidentAction_Label_Auditory::Auditoria
+Item_Auditory_Popup_ReopenTitle::Reobrir la auditoria
+Item_Auditory_Popup_ReopenMessage::Vol reobrir la auditoria
+Item_Auditory_Message_NoCompliantNoFound::El cuestionari té no conformitats sense troballes

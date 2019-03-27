@@ -11,8 +11,7 @@ function IncidentActionGetFilter(exportType) {
     $("#rrorStatus").hide();
     $("#ErrorType").hide();
     var from = GetDate($("#TxtDateFrom").val(), "-");
-    var to = GetDate($("#TxtDateTo").val(), "-");
-
+    var to = GetDate($("#TxtDateTo").val(), "-"); 
     var status1 = document.getElementById("chkStatus1").checked;
     var status2 = document.getElementById("chkStatus2").checked;
     var status3 = document.getElementById("chkStatus3").checked;
@@ -123,7 +122,22 @@ function ItemRenderTable(list) {
         if (item.ActionType === 3) { type = Dictionary.Item_IncidentAction_Type3; }
 
         var origin = "";
-        if (item.Origin === 1) { origin = document.createTextNode(Dictionary.Item_IncidentAction_Origin1); }
+        if (item.Origin === 1) {
+
+            if (item.Associated.Id === 0) {
+                origin = document.createTextNode(Dictionary.Item_IncidentAction_Origin1);
+            }
+            else {
+                origin = document.createElement("A");
+                origin.href = "AuditoryView.aspx?id=" + item.Associated.Id;
+                origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin1));
+                var spantext = document.createElement("span");
+                spantext.style.display = "none";
+                spantext.appendChild(document.createTextNode(item.Associated.Description));
+                origin.appendChild(spantext);
+                origin.title = item.Associated.Description;
+            }
+        }
         if (item.Origin === 2) { origin = document.createTextNode(Dictionary.Item_IncidentAction_Origin2); }
         if (item.Origin === 3) {
             origin = document.createElement("A");

@@ -31,6 +31,8 @@ public partial class LogOut : Page
         this.Session["User"] = null;
         this.Session["IncidentFilter"] = null;
         this.Session["IncidentActionFilter"] = null;
+        this.Session["QuestionaryFilter"] = null;
+
         if (this.Request.QueryString["company"] != null)
         {
             this.Response.Redirect(string.Format("Default.aspx?company={0}", this.Request.QueryString["company"].ToString()), false);

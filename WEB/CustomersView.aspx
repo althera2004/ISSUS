@@ -8,7 +8,7 @@
         var itemId = <%=this.CustomerId %>;
         var companyId = <%=this.Company.Id %>;
         var userId = <%=this.User.Id %>;
-        pageItems = [<%=this.Items %>];
+        pageItems = [<%=this.Customers %>];
         var customer = <%=this.CustomerItem.Json %>;
     </script>
 </asp:Content>

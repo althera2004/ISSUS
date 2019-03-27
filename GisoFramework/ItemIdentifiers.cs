@@ -77,5 +77,11 @@ namespace GisoFramework
 
         /// <summary>Indentifier for oportunity</summary>
         public const int Oportunity = 26;
+
+        /// <summary>Indentifier for questionary</summary>
+        public const int Questionary = 27;
+
+        /// <summary>Indentifier for auditory</summary>
+        public const int Auditory = 29;
     }
 }

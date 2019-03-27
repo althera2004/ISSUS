@@ -8,7 +8,6 @@ var IncidentClosedRequired = false;
 var anulationData = null;
 
 jQuery(function ($) {
-
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
             var $title = this.options.title || "&nbsp;"
@@ -845,6 +844,40 @@ function Restore() {
 function SetLayout() {
     switch (IncidentAction.Origin) {
         case 1:
+            $("#AuditoryDiv").show();
+            $("#RReporterType1").parent().hide();
+            $("#RType3").parent().hide();
+            $("#ROriginDiv").hide();
+            $("#RReporterDiv select").attr("disabled", "disabled");
+            $("#RTypeDiv input").attr("disabled", "disabled");
+            $("#RReporterDiv input").attr("disabled", "disabled");
+            $("#RReporterDiv button").hide();
+            document.getElementById("ROrigin1").checked = true;
+            switch (IncidentAction.ReporterType) {
+                case 1:
+                    document.getElementById("RReporterType1").checked = true;
+                    $("#CmbReporterType1").val(IncidentAction.Department.Id);
+                    console.log("Department", IncidentAction.Department.Id);
+                    break;
+                case 2:
+                    document.getElementById("RReporterType2").checked = true;
+                    $("#CmbReporterType2").val(IncidentAction.Provider.Id);
+                    break;
+                case 3:
+                    document.getElementById("RReporterType3").checked = true;
+                    $("#CmbReporterType3").val(IncidentAction.Customer.Id);
+                    break;
+            }
+
+            switch (IncidentAction.ActionType) {
+                case 1: document.getElementById("RType1").checked = true; break;
+                case 2: document.getElementById("RType2").checked = true; break;
+                case 3: document.getElementById("RType3").checked = true; break;
+            }
+
+            RReporterTypeChanged();
+            break;
+            break;
         case 2:
             document.getElementById("ROrigin" + IncidentAction.Origin).checked = true;
             switch (IncidentAction.ReporterType) {

@@ -67,7 +67,13 @@ namespace GisoFramework.Activity
         BusinessRisk = 18,
 
         /// <summary>Rules - 19</summary>
-        Rules = 19
+        Rules = 19,
+
+        /// <summary>Questionary - 27</summary>
+        Questionary = 27,
+
+        /// <summary>Auditory - 29</summary>
+        Auditory = 29
     }
 
     /// <summary>Implements Activity log class</summary>

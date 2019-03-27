@@ -23,10 +23,14 @@ public partial class InitSession : Page
     {
         this.Session["UserId"] = this.Request.Form["UserId"];
         this.Session["CompanyId"] = this.Request.Form["CompanyId"];
-        this.Session["BusinessRiskFilter"] = @"{""companyId"": 12,""from"": null,""to"": null,""rulesId"": 0,""processId"": 0,""itemType"": 0,""type"": 0}";
         var company = new Company(Convert.ToInt32(this.Request.Form["CompanyId"]));
         this.Session["Company"] = company;
+
+        // Filtros predeterminado
         this.Session["TasksFilter"] = @"{""Owners"":true,""Others"":true,""Passed"": false}";
+        this.Session["BusinessRiskFilter"] = @"{""companyId"": 0,""from"": null,""to"": null,""rulesId"": 0,""processId"": 0,""itemType"": 0,""type"": 0}";
+        this.Session["AuditoryFilter"] = @"{""companyId"": 0, ""externa"": true, ""from"": null, ""interna"": true, ""provider"": true, ""status0"": true, ""status1"": true, ""status2"": true, ""status3"": true, ""status4"": true, ""status5"": false, ""to"": null }";
+        this.Session["QuestionaryFilter"] = @"{""apartadoNorma"": ""-1"", ""companyId"": 0,""processId"": -1,""ruleId"": -1}";
         var user = new ApplicationUser(Convert.ToInt32(this.Request.Form["UserId"]));
         if (user.CompanyId == 0)
         {
@@ -76,7 +80,7 @@ public partial class InitSession : Page
                     landPage = "/AgreementNotice.aspx";
                 }
             }
-            else if (true || user.HasGrantToRead(ApplicationGrant.CompanyProfile))
+            else //if (true || user.HasGrantToRead(ApplicationGrant.CompanyProfile))
             {
                 landPage = "/DashBoard.aspx";
             }

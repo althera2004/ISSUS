@@ -16,6 +16,7 @@ Alert_Large_IncidentIdentifiedNotEvaluated::Falta rellenar el campo 'Por qué ha
 Alert_Large_IncidentLastWeek::La fecha prevista para el cierre de la incidencia ha vencido
 Alert_Large_LearningFinishedWithoutEvaluation::Curso finalizado pendiente de evaluación
 Alert_Large_LearningStartedWithoutAssistants::Curso iniciado sin alumnos inscritos
+Alert_Large_LearningExpired::La fecha de inicio prevista del cusro ya ha pasado
 Alert_Short_ActionEvaluatedWithoutAction::Acción sin actuaciones
 Alert_Short_ActionIdentifiedNotEvaluated::Acción no analizada
 Alert_Short_ActionLastWeek::Acción vencida
@@ -30,6 +31,7 @@ Alert_Short_IncidentIdentifiedNotEvaluated::Incidencia no analizada
 Alert_Short_IncidentLastWeek::Incidencia vencida
 Alert_Short_LearningFinishedWithoutEvaluation::Curso sin evaluar
 Alert_Short_LearningStartedWithoutAssistants::Curso sin alumnos
+Alert_Short_LearningExpired::Curso no iniciado
 Añadir::Añadir
 Auditorías::Auditorías
 Avatar::Avatar
@@ -418,6 +420,7 @@ Item_CompanyData_FieldLabel_PostalAddress::Código Postal
 Item_CompanyData_FieldLabel_Province::Provincia
 Item_CompanyData_Popup_ImageDelete_Title::Eliminar la imagen
 Item_CompanyProfile_FieldLabel_Name::Nombre
+Item_CompanyProfile_FieldLabel_Headquarters::Sede social
 Item_CompanyProfile_FieldLabel_Nif::NIF
 Item_Cost::Coste habitual
 Item_CostDefinition::Costes habituales
@@ -1788,3 +1791,140 @@ User_PrimaryUser::Propietario/a
 Verification-Ext::Verificación externa
 Verification-Int::Verificación interna
 ZZZZZ::Las nuevas claves a partir de aquí hacia abajo
+Common_Message_ItemNoAccess::No tiene acceso a este elemento, contecte con el administrador
+Item_IncidentAction_Error_BeforeActions::No puede ser anterior a la fecha de actuaciones
+Item_Incident_Error_BeforeActions::No puede ser anterior a la fecha de actuaciones
+Item_Questionaries::Cuestionarios
+Item_Questionary::Cuestionario
+Item_Questionary_Button_New::Añadir cuestionario
+Item_Questionary_ListHeader_Name::Cuestionario
+Item_Questionary_ListHeader_Rule::Norma
+Item_Questionary_ListHeader_Process::Proceso
+Item_Questionary_Popup_Delete_Title::Eliminar cuestionario
+Item_Questionary_PopupDelete_Message::¿Desea eliminar el cuestionario 
+Item_Questionary_List_Filter_Process::Proceso
+Item_Questionary_List_Filter_Rule::Norma
+Item_Questionary_List_Filter_ApartadoNorma::Apartado norma
+Item_Questionary_Popup_Duplicate_Title::Crear copia
+Item_Questionary_PopupDuplicate_Message:: ¿Desde copiar el cuestionario y su preguntas
+Item_Questionary_BreadCrumb_Edit::Ficha del cuestionario
+Item_Questionary_FieldLabel_Process::Proceso
+Item_Questionary_FieldLabel_Rule::Norma
+Item_Questionary_FieldLabel_ApartadoNorma::Apartado
+Item_Questionary_FieldLabel_Notes::Notas
+Item_Questionary_NewQuestionaryWarning::Para añadir preguntas, primero se ha de guardar el cuestionario
+Item_QuestionaryQuestion_Title::Preguntas
+Item_QuestionaryQuestion_ListHeader_Name::Pregunta
+Item_QuestionaryQuestion_PopupDelete_Message::¿Desea borrar la pregunta
+Item_Questionary_FieldLabel_QuestionaryQuestionName::Pregunta
+Item_QuestionaryQuestion_Tooltip_EditButton::Editar pregunta
+Item_QuestionaryQuestion_Tooltip_DeleteButton::Eliminar pregunta
+Item_ItemQuestion_Popup_Delete_Title::Eliminar pregunta
+Item_ItemQuestion_Popup_Edit_Title::Modificar pregunta
+Item_ItemQuestion_Popup_Insert_Title::Añadir pregunta
+Item_Questionary_Warning_NoQuestions::El cuestionario no tiene preguntas
+Item_Adutory_Status_Label_0::Planificando
+Item_Adutory_Status_Label_1::Planificada
+Item_Adutory_Status_Label_2::En curso
+Item_Adutory_Status_Label_3::Pendiente
+Item_Adutory_Status_Label_4::Cerrada
+Item_Adutory_Status_Label_5::Validada
+Item_Adutory_Status_Explanation_0::Datos básicos sin acabar de planificar
+Item_Adutory_Status_Explanation_1::Planificada con responsable y fecha
+Item_Adutory_Status_Explanation_2::Alguna pregunta del/los cuestionarios marcada
+Item_Adutory_Status_Explanation_3::Todas la preguntas de los cuestionarios marcadas
+Item_Adutory_Status_Explanation_4::Con responsable y fecha de cierre
+Item_Adutory_Status_Explanation_5::Con responsable y fecha de validación
+Item_Auditory::Auditoría
+Item_Auditories::Auditorías
+Item_Auditory_Filter_From::Desde
+Item_Auditory_Filter_To::Hasta
+Item_Auditory_Button_New::Añadir auditoría
+Item_Auditory_ListHeader_Status::Estado
+Item_Auditory_ListHeader_Name::Auditoría
+Item_Auditory_ListHeader_Planned::Prevista
+Item_Auditory_ListHeader_Closed::Realizada
+Item_Auditory_ListHeader_Ammount::Coste
+Item_Auditory_Filter_Status::Estado
+Item_Auditory_Filter_Type::Tipo
+Item_Adutory_Type_Label_0::Interna
+Item_Adutory_Type_Label_1::Externa
+Item_Adutory_Type_Label_2::Proveedor
+Item_Auditory_Label_Name::Nombre
+Item_Auditory_Help_Status_Title::Estados de una auditoría
+Item_Auditory_Tab_Principal::Datos básicos
+Item_Auditory_Tab_Questionaries::Cuestionarios
+Item_Auditory_Tab_Report::Informe
+Item_Auditory_Tab_Traces::Trazas
+Item_Auditory_PlanningTable_Title::Planificación
+Item_Auditory_SelectType_Title::Elija el tipo de auditoría
+Item_Auditory_SelectType_Error::Se debe elegir una opción
+Item_Auditory_Button_AddPlanning::Añadir planificación
+Item_AuditoryPlanning_PopupDelete_Message::¿Desea eliminar la planificación
+Item_Auditory_Label_Type::Tipo
+Item_Auditory_Label_Name::Nombre
+Item_Auditory_Label_Rules::Normas
+Item_Auditory_BreadCrumb_Edit::Ficha de auditoria
+Item_Auditory_Label_Amount::Cost
+Item_Auditory_Label_InternalResponsible::Responsable interno
+Item_Auditory_Label_Description::Descripción
+Item_Auditory_Label_Scope::Ámbito
+Item_Auditory_Label_Notes::Notas
+Item_Auditory_Label_Address::Dirección
+Item_Auditory_Label_Rules::Normas
+Item_AuditoryPlanning_Header_Date::Fecha
+Item_AuditoryPlanning_Header_Hour::Hora
+Item_AuditoryPlanning_Header_Duration::Horas
+Item_AuditoryPlanning_Header_Process::Proceso
+Item_AuditoryPlanning_Header_Auditor::Auditor/a
+Item_AuditoryPlanning_Header_Audited::Auditado/a
+Item_Auditory_Label_PannedDate::Fecha prevista
+Item_Auditory_Label_AuditorTeam::Equipo auditor
+Item_Auditory_Label_Provider::Proveedor
+Item_Auditory_Label_Customer::Cliente
+Common_MessageMailMalformed::El correo no es válido
+Item_AuditoryPlanning_Label_Process::Proceso
+Item_AuditoryPlanning_Label_Auditor::Auditor
+Item_AuditoryPlanning_Label_Audited::Auditado/a
+Item_AuditoryPlanning_Label_SendMail::Enviar correo al/a auditado/a
+Item_AuditoryPlanning_Label_Date::Fecha
+Item_AuditoryPlanning_Field_Duration::Duración
+Item_AuditoryPlanning_Field_Hour::Hora inicio
+Item_AuditoryPlanning_Title_PopupAdd::Añadir planificación
+Item_AuditoryPlanning_Title_PopupUpdate::Modificar planifiación
+Item_AuditoryPlanning_Label_EmailProvider::Dirección de email
+Item_AuditoryPlanning_Title::Eliminar planificación
+Item_Auditory_Label_PlanningResponsible::Planificada por
+Item_Auditory_Label_PlanningDate::Fecha
+Item_Auditory_Label_ValidatedByResponsible::Validada por
+Item_Auditory_Label_ValidatedOn::Fecha
+Item_Auditory_Title_QuestionariesAvailables::Cuestionarios de la auditoría
+Item_AuditoryQuestionary_Header_Status::Estado
+Item_AuditoryQuestionary_Header_Name::Cuestionario
+Item_AuditoryQuestionary_Tooltip_Start::Iniciar cuestionario
+Item_AuditoryQuestionary_Tooltip_Continue::Continuar cuestionario
+Item_Auditory_Text_NotStarted::No iniciado
+Item_Auditory_Text_NotEnded::No finalizado
+Item_Auditory_Title_Found::Hallazgos
+Item_Auditory_Title_Improvements::Mejoras
+Item_Questionary_Tab_Founds::Hallazgos y mejoras
+Item_Questionary_Tab_Questions::Cuestionario
+Item_Auditory_Header_Improvement::Propuestas de mejora
+Item_Auditory_Label_Unconformity::No conformidad
+Item_Auditory_Label_Improvement::Mejora
+Item_Auditory_Label_Requeriment::Requisito
+Item_Auditory_Label_Found::Hallazgo
+Item_Auditory_Button_AddFound::Añadir hallazgo
+Item_Auditory_Button_AddImprovement::Añadir mejora
+Item_Auditory_Title_PopupAddFound::Nuevo hallazgo
+Item_Auditory_Title_PopupUpdateFound::Modificar hallazgo
+Item_Auditory_Title_PopupAddImprovement::Nueva mejora
+Item_Auditory_Title_PopupUpdateImprovement::Modificar mejora
+Item_Auditory_PopupDelete_Message::Quiere eliminar la auditoria
+Item_Auditory_Popup_Delete_Title::Eliminar auditoria
+Item_Auditory_Label_EndQuestionarios::Cierre cuestionarios
+Item_Auditory_Btn_Validation::Validar auditoria
+Item_Auditory_Btn_PopupValidation::Validar
+Item_Auditory_Btn_Close::Cerrar auditoria
+Item_Auditory_Label_Action::Genera acción
+Item_Auditory_ValidateCrossDate::No puede ser anterior a la fecha final

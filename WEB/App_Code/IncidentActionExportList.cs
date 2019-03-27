@@ -63,7 +63,7 @@ public class IncidentActionExportList : System.Web.Services.WebService
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        var formatedDescription = ToolsPdf.NormalizeFileName(company.Name);
+        var formatedDescription = ToolsPdf.NormalizeFileName(company.Headquarters);
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,

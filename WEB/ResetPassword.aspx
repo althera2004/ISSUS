@@ -52,7 +52,7 @@
 
         <script type="text/javascript" src="js/ResetPassword.js?ac=<%=this.AntiCache %>"></script>
         <script type="text/javascript">
-            var user = <%=this.User%>;
+            var user = <%=this.ActualUser%>;
             var companyId = <%=this.CompanyId%>;
             var op = '<%=this.op%>';
             window.onload = function()

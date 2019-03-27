@@ -71,17 +71,58 @@ public class ObjetivoActions : WebService {
         return Objetivo.Inactivate(objetivoId, companyId, applicationUserId);
     }
 
+    /* "Id": selectedRecordId,
+            "CompanyId": Company.Id,
+            "ObjetivoId": ItemData.Id,
+            "Value": StringToNumber($("#TxtRegistroValue").val(), ".", ","),
+            "Date": GetDate($("#TxtRecordDate").val(), "/", false),
+            "Comments": $("#TxtRegistroComments").val(),
+            "MetaComparer": metaComparer,
+            "Meta": meta,
+            "Responsible": $("#CmbResponsibleRecord").val() * 1,
+            "applicationUserId": ApplicationUser.Id */
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult ObjetivoRegistroSave(ObjetivoRegistro registro, int applicationUserId)
+    public ActionResult ObjetivoRegistroSave(long Id, int ObjetivoId, int CompanyId, decimal Value, DateTime Date, string Comments, decimal Meta, string MetaComparer,
+        long Responsible, int applicationUserId)
     {
-        return registro.Save(applicationUserId);
+        var registroObjetivo = new ObjetivoRegistro
+        {
+            Id = Id,
+            ObjetivoId = ObjetivoId,
+            Meta = Meta,
+            MetaComparer = MetaComparer,
+            Value = Value,
+            Comments = Comments,
+            CompanyId = CompanyId,
+            Date = Date,
+            Responsible = new Employee { Id = Responsible },
+            ModifiedBy = new ApplicationUser(applicationUserId),
+            ModifiedOn = DateTime.Now
+        };
+        return registroObjetivo.Save(applicationUserId);
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult ObjetivoIndicadorRegistroSave(IndicadorRegistro registro, int applicationUserId)
+    public ActionResult ObjetivoIndicadorRegistroSave(long Id, long Responsible, decimal Meta, string MetaComparer, int CompanyId, long Indicador, decimal Value, DateTime Date, string AlarmaComparer, string Comments, decimal? Alarma, int applicationUserId)
     {
+        var registro = new IndicadorRegistro
+        {
+            Active = true,
+            Alarma = Alarma,
+            AlarmaComparer = AlarmaComparer,
+            Comments = Comments,
+            CompanyId = CompanyId,
+            Date = Date,
+            Id = Id,
+            Indicador = new Indicador { Id = Indicador },
+            Meta = Meta,
+            MetaComparer = MetaComparer,
+            Responsible = new Employee { Id = Responsible },
+            Value = Value
+        };
+
         return registro.Save(applicationUserId);
     }
 
@@ -92,3 +133,4 @@ public class ObjetivoActions : WebService {
         return ObjetivoRegistro.Inactivate(registroId, companyId, applicationUserId);
     }    
 }
+ 

@@ -36,6 +36,7 @@ public partial class MultipleSession : Page
         this.Session["IncidentFilter"] = null;
         this.Session["IncidentActionFilter"] = null;
         this.Session["EquipmentFilter"] = null;
+        this.Session["QuestionaryFilter"] = null;
         if (this.Request.QueryString["company"] != null)
         {
             this.Response.Redirect(string.Format("Default.aspx?company={0}", this.Request.QueryString["company"]), false);

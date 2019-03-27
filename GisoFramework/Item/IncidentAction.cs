@@ -85,6 +85,8 @@ namespace GisoFramework.Item
             }
         }
 
+        public long AuditoryId { get; set; }
+
         public Oportunity Oportunity { get; set; }
 
         public string WhatHappened { get; set; }
@@ -560,6 +562,11 @@ namespace GisoFramework.Item
                                 else
                                 {
                                     res.Oportunity = Oportunity.Empty;
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsIncidentActionGet.AuditoryId))
+                                {
+                                    res.AuditoryId = rdr.GetInt64(ColumnsIncidentActionGet.AuditoryId);
                                 }
 
                                 res.ModifiedBy.Employee = Employee.ByUserId(res.ModifiedBy.Id);
@@ -1797,6 +1804,133 @@ namespace GisoFramework.Item
                 this.ActionsOn,
                 this.ClosedOn,
                 iconView);
+        }
+
+        public static ActionResult FromFound(AuditoryCuestionarioFound found,int employeeId, int applicationUserId, int companyId)
+        {
+            var res = ActionResult.NoAction;
+            /* CREATE PROCEDURE IncidentAction_From_Found
+             *   @FoundId bigint,
+             *   @Title nvarchar(100),
+             *   @AuditoryId bigint,
+             *   @EmployeeId int,
+             *   @ApplicationUserId int,
+             *   @CompanyId int */
+
+            using (var cmd = new SqlCommand("IncidentAction_From_Found"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@FoundId", found.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@AuditoryId", found.AuditoryId));
+                        cmd.Parameters.Add(DataParameter.Input("@Title", found.Text, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (InvalidCastException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return res;
+        }
+
+
+        public static ActionResult FromImprovement(AuditoryCuestionarioImprovement improvement, int employeeId, int applicationUserId, int companyId)
+        {
+            var res = ActionResult.NoAction;
+            /* CREATE PROCEDURE IncidentAction_From_Improvement
+             *   @ImprovementId bigint,
+             *   @Title nvarchar(100),
+             *   @AuditoryId bigint,
+             *   @EmployeeId int,
+             *   @ApplicationUserId int,
+             *   @CompanyId int */
+
+            using (var cmd = new SqlCommand("IncidentAction_From_Improvement"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@ImprovementId", improvement.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@AuditoryId", improvement.AuditoryId));
+                        cmd.Parameters.Add(DataParameter.Input("@Title", improvement.Text, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        res.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (InvalidCastException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (FormatException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    catch (NotSupportedException ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return res;
         }
     }
 }

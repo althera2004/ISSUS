@@ -12,7 +12,7 @@ function ShowProviderBarPopup(cmb) {
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Providers + "</h4>",
         "title_html": true,
         "width": 600,
-        "buttons":
+        "buttons": 
         [
             {
                 "id": "BtnProviderSave",

@@ -60,7 +60,6 @@
         <![endif]-->
     <script type="text/javascript">
         var language = "<%=this.LanguageBrowser %>";
-        var ip = "<%=this.IP %>";
         var Dictionary =
             {
                 "es": {
@@ -76,8 +75,6 @@
             };
 
         window.onload = function () {
-           // $("#PageTitle").html(Dictionary[language].Title);
-            //$("#Message").html(Dictionary[language].Message);
             $("#BtnLoginEs").html(Dictionary["es"].Btn);
             $("#BtnLoginCa").html(Dictionary["ca"].Btn);
 

@@ -117,8 +117,6 @@
                                                                 <div class="col-sm-1" style="text-align:left;" ><input runat="server" type="checkbox" id="status0" name="status" value="0" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsCalibration_Label"] %></div>
                                                                 <div class="col-sm-1" style="text-align:left;" ><input runat="server" type="checkbox" id="status1" name="status" value="1" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsVerification_Label"] %></div>
                                                                 <div class="col-sm-1" style="text-align:center; padding-left:5px; padding-right:5px;"><input runat="server" type="checkbox" id="status2" name="status" value="2" />&nbsp;<%=this.Dictionary["Item_Equipment_Field_IsMaintenance_Label"]%></div>
-																																																			  
-																
                                                                     <%=this.CmbResponsible.Render %>
                                                                  <div class="col-sm-3">&nbsp;</div>
                                                             </div>
