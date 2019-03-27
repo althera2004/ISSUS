@@ -1,8 +1,9 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="ColumnsEquipmentRepairGet.cs" company="Microsoft">
-//     Copyright (c) Sbrinna. All rights reserved.
+﻿// --------------------------------
+// <copyright file="ColumnsEquipmentRepairGet.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// -----------------------------------------------------------------------
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 namespace GisoFramework.Item.Binding
 {
     /// <summary>Index of columns of EquipmentRepairGet result rows</summary>

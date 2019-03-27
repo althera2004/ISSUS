@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="BaseItem.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="BaseItem.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 namespace GisoFramework.Item
 {
@@ -38,8 +38,6 @@ namespace GisoFramework.Item
 
         /// <summary>Gets or sets the last modification date of item</summary>
         public DateTime ModifiedOn { get; set; }
-
-        public DateTime? Date { get; set; }
 
         /// <summary>Gets or sets a value indicating whether item is active</summary>
         public bool Active { get; set; }

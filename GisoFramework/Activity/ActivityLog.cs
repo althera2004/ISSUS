@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="ActivityLog.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="ActivityLog.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 namespace GisoFramework.Activity
 {
@@ -67,7 +67,13 @@ namespace GisoFramework.Activity
         BusinessRisk = 18,
 
         /// <summary>Rules - 19</summary>
-        Rules = 19
+        Rules = 19,
+
+        /// <summary>Questionary - 27</summary>
+        Questionary = 27,
+
+        /// <summary>Auditory - 29</summary>
+        Auditory = 29
     }
 
     /// <summary>Implements Activity log class</summary>

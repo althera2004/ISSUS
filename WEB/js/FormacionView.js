@@ -49,7 +49,6 @@ function DeleteEmployeeConfirmed(id) {
         return false;
     }
 
-    var webMethod = "/Async/LearningActions.asmx/DeleteAssistant";
     var data = {
         "assistantId": id,
         "companyId": Company.Id,
@@ -61,7 +60,7 @@ function DeleteEmployeeConfirmed(id) {
     LoadingShow();
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/LearningActions.asmx/DeleteAssistant",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
@@ -620,7 +619,7 @@ function SaveConfirmed(evaluatedAll)
     ClearFieldTextMessages("TxtRealStart");
     ClearFieldTextMessages("TxtRealFinish");
     var d1 = null;
-    if (document.getElementById("TxtRealStart").value === "")
+    if ($("#TxtRealStart").val() === "")
     {
         if (!RequiredDateValue("TxtRealStart") && formacion.status > 1) {
             ok = false;
@@ -631,7 +630,7 @@ function SaveConfirmed(evaluatedAll)
     }
 
     var d2 = null;
-    if (document.getElementById("TxtRealFinish").value === "") {
+    if ($("#TxtRealFinish").val() === "") {
         if (!RequiredDateValue("TxtRealFinish") && formacion.status > 1) {
             ok = false;
         }
@@ -639,8 +638,8 @@ function SaveConfirmed(evaluatedAll)
     else {
         d2 = GetDate($("#TxtRealFinish").val(), "/", true);
     }
+
     var ok = true;
-    //if (!RequiredFieldText("TxtYear")) { ok = false; }
     if (!RequiredFieldText("TxtName")) { ok = false; }
 
     if (formacion.Status < 2) {
@@ -658,51 +657,24 @@ function SaveConfirmed(evaluatedAll)
             ok = false;
         }
 
-
-        /*if (document.getElementById("CmbFechaPrevistaMes").value === "0" || document.getElementById("TxtFechaPrevistaYear").value == "") {
-            ok = false;
-            document.getElementById("CmbFechaPrevistaMesLabel").style.color = "#f00";
-            if (document.getElementById("CmbFechaPrevistaMes").value === "0") {
-                document.getElementById("CmbFechaPrevistaMesErrorRequired").style.display = "block";
-            }
-            else {
-                document.getElementById("CmbFechaPrevistaMesErrorRequired").style.display = "none";
-            }
-
-            if (document.getElementById("TxtFechaPrevistaYear").value === "") {
-                document.getElementById("TxtFechaPrevistaYearErrorRequired").style.display = "block";
-            }
-            else {
-                document.getElementById("TxtFechaPrevistaYearErrorRequired").style.display = "none";
-            }
-        }
-        else {
-            document.getElementById("CmbFechaPrevistaMesLabel").style.color = "#000";
-            document.getElementById("CmbFechaPrevistaMesErrorRequired").style.display = "none";
-            document.getElementById("TxtFechaPrevistaYearErrorRequired").style.display = "none";
-        }*/
-
         if (!RequiredFieldText("TxtMaster")) { ok = false; }
         if (!RequiredFieldText("TxtHours")) { ok = false; }
-        // ISSUS-18 if (!RequiredFieldText("TxtAmount")) { ok = false; }
 
-        if (document.getElementById("TxtRealFinish").value !== "") {
+        if ($("#TxtRealFinish").val() !== "") {
             if (!RequiredFieldText("TxtRealStart")) { ok = false; }
 
             if (d1 > d2) {
                 ok = false;
                 document.getElementById("TxtRealStartLabel").style.color = "#f00";
                 document.getElementById("TxtRealFinishLabel").style.color = "#f00";
-                document.getElementById("TxtRealStartErrorDateRange").style.display = "block";
-                document.getElementById("TxtRealFinishErrorDateRange").style.display = "block";
+                $("#TxtRealStartErrorDateRange").show();
+                $("#TxtRealFinishErrorDateRange").show();
             }
             else {
                 document.getElementById("TxtRealStartLabel").style.color = "#000";
                 document.getElementById("TxtRealFinishLabel").style.color = "#000";
-                if (document.getElementById("TxtRealStartErrorDateRange") !== null) {
-                    document.getElementById("TxtRealStartErrorDateRange").style.display = "none";
-                    document.getElementById("TxtRealFinishErrorDateRange").style.display = " none";
-                }
+                $("#TxtRealStartErrorDateRange").hide();
+                $("#TxtRealFinishErrorDateRange").hide();
             }
         }
     }
@@ -710,11 +682,11 @@ function SaveConfirmed(evaluatedAll)
     if (formacion.Status < 1) {
         ClearFieldTextMessages("TxtRealStart");
         ClearFieldTextMessages("TxtRealFinish");
-        document.getElementById("TxtRealStartDateMalformed").style.display = "none";
-        document.getElementById("TxtRealFinishDateMalformed").style.display = "none";
+        $("#TxtRealStartDateMalformed").hide();
+        $("#TxtRealFinishDateMalformed").hide();
         var dates = true;
 
-        if (document.getElementById("TxtRealFinish").value !== "") {
+        if ($("#TxtRealFinish").val() !== "") {
             if (!RequiredFieldText("TxtRealStart")) { ok = false; dates = false; }
 
             if (dates === true) {
@@ -722,37 +694,30 @@ function SaveConfirmed(evaluatedAll)
                     ok = false;
                     document.getElementById("TxtRealStartLabel").style.color = "#f00";
                     document.getElementById("TxtRealFinishLabel").style.color = "#f00";
-                    document.getElementById("TxtRealStartErrorDateRange").style.display = "block";
-                    document.getElementById("TxtRealFinishErrorDateRange").style.display = "block";
+                    $("#TxtRealStartErrorDateRange").show();
+                    $("#TxtRealFinishErrorDateRange").show();
                 }
                 else {
                     document.getElementById("TxtRealStartLabel").style.color = "#000";
                     document.getElementById("TxtRealFinishLabel").style.color = "#000";
-                    if (document.getElementById("TxtRealStartErrorDateRange") != null) {
-                        document.getElementById("TxtRealStartErrorDateRange").style.display = "none";
-                        document.getElementById("TxtRealFinishErrorDateRange").style.display = " none";
-                    }
+                    $("#TxtRealStartErrorDateRange").hide();
+                    $("#TxtRealFinishErrorDateRange").hide();
                 }
             }
             else {
-                if (document.getElementById("TxtRealStartErrorDateRange") !== null) {
-                    document.getElementById("TxtRealStartErrorDateRange").style.display = "none";
-                    document.getElementById("TxtRealFinishErrorDateRange").style.display = "none";
-                }
+                $("#TxtRealStartErrorDateRange").hide();
+                $("#TxtRealFinishErrorDateRange").hide();
             }
         }
 
-        if(dates===true)
-        {
+        if (dates === true) {
             ClearFieldTextMessages("TxtRealStart");
             ClearFieldTextMessages("TxtRealFinish");
         }
     }
     else {
-        if (document.getElementById("TxtRealStartErrorDateRange") !== null) {
-            document.getElementById("TxtRealStartErrorDateRange").style.display = "none";
-            document.getElementById("TxtRealFinishErrorDateRange").style.display = "none";
-        }
+        $("#TxtRealStartErrorDateRange").hide();
+        $("#TxtRealFinishErrorDateRange").hide();
     }
 
     if (ok === false) {
@@ -790,18 +755,6 @@ function SaveConfirmed(evaluatedAll)
 
     var dateEstimated = formacion.DateEstimated;
     if (formacion.Status < 2) {
-        /*var month = 0;
-        var list = document.getElementById("CmbFechaPrevistaMes").childNodes;
-        for (var x3 = 0; x3 < list.length; x3++) {
-            if (list[x3].tagName === "OPTION") {
-                if (list[x3].selected === true) {
-                    month = list[x3].value;
-                    break;
-                }
-            }
-        }*/
-
-        //dateEstimated = new Date(document.getElementById("TxtFechaPrevistaYear").value * 1, month - 1, 1);
 		dateEstimated = GetDate($("#TxtFechaPrevista").val(), "/", true);
     }
 
@@ -809,7 +762,6 @@ function SaveConfirmed(evaluatedAll)
     if (document.getElementById("RBStatus2").checked) { status = 1; }
     else if (document.getElementById("RBStatus3").checked) { status = 2; }
     if (evaluatedAll === true) { status = 2; }
-    var amount = ParseInputValueToNumber($("#TxtAmount").val());
 
     var data = {
         "oldLearning": formacion,
@@ -845,14 +797,13 @@ function SaveConfirmed(evaluatedAll)
         "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
-                //document.location = document.referrer;
                 document.location = referrer;
             }
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -860,7 +811,9 @@ function SaveConfirmed(evaluatedAll)
 }
 
 jQuery(function ($) {
-    var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
+    document.getElementById("TxtName").focus();
+
+    var options = $.extend({}, $.datepicker.regional[user.Language], { "autoclose": true, "todayHighlight": true });
     $(".date-picker").datepicker(options);
     $(".date-picker").on("blur", function () { DatePickerChanged(this); });
 
@@ -887,14 +840,12 @@ jQuery(function ($) {
 
     if (formacion.Year !== 0) { $("#TxtYear").val(formacion.Year); }
     $("#TxtName").val(formacion.Description);
-    //$("#TxtHours").val(formacion.Hours === 0 ? "" : formacion.Hours.toLocaleString(UserCulture, { minimumFractionDigits: 0 }));
-    //$("#TxtAmount").val(formacion.Amount === 0 ? "" : formacion.Amount.toLocaleString(UserCulture, { minimumFractionDigits: 2 }));
     $("#TxtHours").val(formacion.Hours === 0 ? "" : StringToNumber(formacion.Hours));
-    $("#TxtAmount").val(formacion.Amount === 0 ? "" : ToMoneyFormat(formacion.Amount, 2));
+    $("#TxtAmount").val(formacion.Amount === null ? "" : ToMoneyFormat(formacion.Amount, 2));
     $("#TxtMaster").val(formacion.Master);
-    $("#TxtNotes").val(formacion.Notes);
-    $("#TxtObjetivo").val(formacion.Objective);
-    $("#TxtMetodologia").val(formacion.Methodology);
+    $("#TxtNotes").val(formacion.Notes.split("\\n").join("\n"));
+    $("#TxtObjetivo").val(formacion.Objective.split("\\n").join("\n"));
+    $("#TxtMetodologia").val(formacion.Methodology.split("\\n").join("\n"));
     $("#TxtRealStart").val(formacion.RealStart);
     $("#TxtRealFinish").val(formacion.RealFinish);
 
@@ -908,33 +859,13 @@ jQuery(function ($) {
         document.getElementById("RBStatus1").checked = true;
     }
 
-    /*var month = formacion.DateEstimated.split("/")[1] * 1;
-    var year = formacion.DateEstimated.split("/")[2] * 1;
-
-    if (year > 1) {
-        $("#TxtFechaPrevistaYear").val(year);
-    }
-
-    if (year > 1 && formacion.Status < 2) {
-        var list = document.getElementById("CmbFechaPrevistaMes").childNodes;
-        for (var x = 0; x < list.length; x++) {
-            if (list[x].tagName * 1 === "OPTION") {
-                if (list[x].value === month) {
-                    list[x].selected = true;
-                }
-                else {
-                    list[x].selected = false;
-                }
-            }
-        }
-    }*/
 	if(formacion.DateEstimated !== "01/01/0001") {
 		$("#TxtFechaPrevista").val(formacion.DateEstimated);
 	}
 
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || "&nbsp;"
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true) {
                 title.html($title);
             }
@@ -946,8 +877,6 @@ jQuery(function ($) {
 
     $("#TxtHours").css("text-align", "right");
     $("#TxtAmount").css("text-align", "right");
-    //$("#TxtHours").autoNumeric("init", {aSep: ".", aDec: ",", vMin: "0", vMax: "9999", mDec: "0", lZero: "deny"});
-    //$("#TxtAmount").autoNumeric("init", {aSep: ".", aDec: ",", vMin: "0", vMax: "99999.99", mDec: "2", lZero: "deny"});
 
     $("#BtnCancel").on("click", function (e) { document.location = referrer; });
     $("#BtnSave").on("click", Save);
@@ -1003,7 +932,7 @@ jQuery(function ($) {
             "max-height": 400,
             "buttons": [
                 {
-                    "id": "BtnSelect",
+                    "id": "BtnSelectAssistantOk",
                     "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Save,
                     "class": "btn btn-success btn-xs",
                     "click": function () {
@@ -1011,6 +940,7 @@ jQuery(function ($) {
                     }
                 },
                 {
+                    "id": "BtnSelectAssistantCancel",
                     "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     "click": function () {
@@ -1022,20 +952,15 @@ jQuery(function ($) {
     });
 });
 
-// ISSUS-190
-document.getElementById("TxtName").focus();
-
 // ISSUS-201
 if (formacion.Id > 0)
 {
-    if (document.getElementById("CmbFechaPrevistaMes") !== null) {
-        document.getElementById("CmbFechaPrevistaMes").value = formacion.EstimatedMonthId;
-    }
+    $("#CmbFechaPrevistaMes").val(formacion.EstimatedMonthId);
     $("#BtnPrint").on("click", PrintData);
     console.log(formacion.EstimatedMonthId);
 }
 else {
-    console.log("nomes");
+    console.log("New learning");
 }
 
 if (typeof user.Grants.Learning === "undefined" || user.Grants.Learning.Write === false) {

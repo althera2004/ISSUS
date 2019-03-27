@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="UploadFile.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="UploadFile.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 namespace GisoFramework.Item
 {
@@ -64,6 +64,8 @@ namespace GisoFramework.Item
                 case ItemIdentifiers.Objetivo: return "Objetivo";
                 case ItemIdentifiers.Indicador: return "Inicador";
                 case ItemIdentifiers.Oportunity: return "Oportunity";
+                case ItemIdentifiers.Questionary: return "Questionary";
+                case ItemIdentifiers.Auditory: return "Auditory";
                 default:return string.Empty;
             }
         }
@@ -606,6 +608,11 @@ namespace GisoFramework.Item
             long processes = 0;
             long other = 0;
             long free = company.DiskQuote;
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
 
             var files = Directory.GetFiles(path);
             foreach (string file in files)

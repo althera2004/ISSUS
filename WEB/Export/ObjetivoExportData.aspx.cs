@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="ExportObjetivoExportData.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="ExportObjetivoExportData.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -56,10 +56,8 @@ public partial class ExportObjetivoExportData : Page
         string originSufix = string.Empty;
         string reporterType = string.Empty;
         string reporter = string.Empty;
-
-        
-
         string status = string.Empty;
+
         var document = new iTextSharp.text.Document(PageSize.A4, 30, 30, 65, 55);
         var writer = PdfWriter.GetInstance(document, new FileStream(Request.PhysicalApplicationPath + "\\Temp\\" + fileName, FileMode.Create));
         writer.PageEvent = new TwoColumnHeaderFooter
@@ -102,78 +100,81 @@ public partial class ExportObjetivoExportData : Page
         document.Add(table);
 
         #region Acciones
-        var acciones = IncidentAction.ByObjetivoId(objetivoId, companyId);
-        if (acciones.Count > 0)
+        if (user.HasGrantToRead(ApplicationGrant.IncidentActions))
         {
-
-            document.SetPageSize(PageSize.A4.Rotate());
-            document.NewPage();
-
-            var tableAcciones = new PdfPTable(5)
+            var acciones = IncidentAction.ByObjetivoId(objetivoId, companyId);
+            if (acciones.Count > 0)
             {
-                WidthPercentage = 100,
-                HorizontalAlignment = 1,
-                SpacingBefore = 20f
-            };
 
-            tableAcciones.SetWidths(new float[] { 20f, 120f, 20f, 20f, 20f });
-            ToolsPdf.AddTableTitle(tableAcciones, dictionary["Item_Objetivo_ActionsReportTitle"]);
-            tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"]));
-            tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
-            tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
-            tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_ImplementDate"]));
-            tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Cost"]));
-                                   
-            int cont = 0;
-            decimal totalAcciones = 0;
-            foreach (var accion in acciones)
-            {
-                tableAcciones.AddCell(ToolsPdf.DataCell(accion.Status));
-                tableAcciones.AddCell(ToolsPdf.DataCell(accion.Description));
-                tableAcciones.AddCell(ToolsPdf.DataCell(accion.WhatHappenedOn));
-                tableAcciones.AddCell(ToolsPdf.DataCell(accion.ActionsOn));
-                tableAcciones.AddCell(ToolsPdf.DataCell(0));
-                cont++;
-                var costs = IncidentActionCost.GetByIncidentActionId(accion.Id, company.Id);
-                foreach(var cost in costs)
+                document.SetPageSize(PageSize.A4.Rotate());
+                document.NewPage();
+
+                var tableAcciones = new PdfPTable(5)
                 {
-                    totalAcciones = cost.Amount;
+                    WidthPercentage = 100,
+                    HorizontalAlignment = 1,
+                    SpacingBefore = 20f
+                };
+
+                tableAcciones.SetWidths(new float[] { 20f, 120f, 20f, 20f, 20f });
+                ToolsPdf.AddTableTitle(tableAcciones, dictionary["Item_Objetivo_ActionsReportTitle"]);
+                tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"]));
+                tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
+                tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
+                tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_ImplementDate"]));
+                tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Cost"]));
+
+                int cont = 0;
+                decimal totalAcciones = 0;
+                foreach (var accion in acciones)
+                {
+                    tableAcciones.AddCell(ToolsPdf.DataCell(accion.Status));
+                    tableAcciones.AddCell(ToolsPdf.DataCell(accion.Description));
+                    tableAcciones.AddCell(ToolsPdf.DataCell(accion.WhatHappenedOn));
+                    tableAcciones.AddCell(ToolsPdf.DataCell(accion.ActionsOn));
+                    tableAcciones.AddCell(ToolsPdf.DataCell(0));
+                    cont++;
+                    var costs = IncidentActionCost.GetByIncidentActionId(accion.Id, company.Id);
+                    foreach (var cost in costs)
+                    {
+                        totalAcciones = cost.Amount;
+                    }
                 }
+
+                // TotalRow
+                tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_RegisterCount"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
+                {
+                    Border = Rectangle.TOP_BORDER,
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    Padding = 8f
+                });
+
+                tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", cont), ToolsPdf.LayoutFonts.TimesBold))
+                {
+                    Border = Rectangle.TOP_BORDER,
+                    HorizontalAlignment = Element.ALIGN_RIGHT,
+                    Padding = 8f
+                });
+
+                tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
+                {
+                    Border = Rectangle.TOP_BORDER,
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    Padding = 8f,
+                    Colspan = 2
+                });
+
+                tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", totalAcciones), ToolsPdf.LayoutFonts.TimesBold))
+                {
+                    Border = Rectangle.TOP_BORDER,
+                    HorizontalAlignment = Element.ALIGN_RIGHT,
+                    Padding = 8f
+                });
+
+                tableAcciones.AddCell(new PdfPCell(new Phrase(string.Empty)) { Colspan = 3, Border = Rectangle.TOP_BORDER });
+
+                document.Add(tableAcciones);
             }
-
-            // TotalRow
-            tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_RegisterCount"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
-            {
-                Border = Rectangle.TOP_BORDER,
-                HorizontalAlignment = Element.ALIGN_LEFT,
-                Padding = 8f
-            });
-
-            tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", cont), ToolsPdf.LayoutFonts.TimesBold))
-            {
-                Border = Rectangle.TOP_BORDER,
-                HorizontalAlignment = Element.ALIGN_RIGHT,
-                Padding = 8f
-            });
-
-            tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
-            {
-                Border = Rectangle.TOP_BORDER,
-                HorizontalAlignment = Element.ALIGN_LEFT,
-                Padding = 8f,
-                Colspan = 2
-            });
-
-            tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", totalAcciones), ToolsPdf.LayoutFonts.TimesBold))
-            {
-                Border = Rectangle.TOP_BORDER,
-                HorizontalAlignment = Element.ALIGN_RIGHT,
-                Padding = 8f
-            });
-
-            tableAcciones.AddCell(new PdfPCell(new Phrase(string.Empty)) { Colspan = 3, Border = Rectangle.TOP_BORDER });
-
-            document.Add(tableAcciones);
         }
         #endregion
 

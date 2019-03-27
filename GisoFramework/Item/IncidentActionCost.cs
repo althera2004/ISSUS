@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="IncidentActionCost.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="IncidentActionCost.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 namespace GisoFramework.Item
 {
@@ -51,6 +51,8 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets the responsible of cost</summary>
         public Employee Responsible { get; set; }
 
+        public DateTime? Date { get; set; }
+
         /// <summary>Create a link for the cost</summary>
         public override string Link
         {
@@ -87,6 +89,66 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("Active", this.Active)).Append("}");
                 return res.ToString();
             }
+        }
+
+        public static ReadOnlyCollection<IncidentActionCost> GetByIncidentActionId(long incidentActionId, int companyId)
+        {
+            /* CREATE PROCEDURE IndecidentActionCost_GetByIndicentActionId
+             *   @IncidentId bigint,
+             *   @CompanyId int */
+            var res = new List<IncidentActionCost>();
+            using (var cmd = new SqlCommand("IndecidentActionCost_GetByIndicentActionId"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", incidentActionId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                var newIncidentActionCost = new IncidentActionCost
+                                {
+                                    Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
+                                    CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
+                                    IncidentActionId = rdr.GetInt64(ColumnsIncidentCostGet.IncidentActionId),
+                                    Description = rdr.GetString(ColumnsIncidentCostGet.Description),
+                                    Amount = rdr.GetDecimal(ColumnsIncidentCostGet.Amount),
+                                    Quantity = rdr.GetDecimal(ColumnsIncidentCostGet.Quantity),
+                                    Responsible = new Employee
+                                    {
+                                        Id = rdr.GetInt64(ColumnsIncidentCostGet.ResponsibleId),
+                                        Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
+                                        LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
+                                    },
+                                    Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
+                                };
+
+                                if (!rdr.IsDBNull(ColumnsIncidentCostGet.Date))
+                                {
+                                    newIncidentActionCost.Date = rdr.GetDateTime(ColumnsIncidentCostGet.Date);
+                                }
+
+                                res.Add(newIncidentActionCost);
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return new ReadOnlyCollection<IncidentActionCost>(res);
         }
 
         /// <summary>Get the costs of action</summary>
@@ -356,66 +418,6 @@ namespace GisoFramework.Item
         public ActionResult Delete(int userId)
         {
             return Delete(this.Id, userId, this.CompanyId);
-        }
-
-        public static ReadOnlyCollection<IncidentActionCost> GetByIncidentActionId(long incidentActionId, int companyId)
-        {
-            /* CREATE PROCEDURE IndecidentActionCost_GetByIndicentActionId
-             *   @IncidentId bigint,
-             *   @CompanyId int */
-            var res = new List<IncidentActionCost>();
-            using (var cmd = new SqlCommand("IndecidentActionCost_GetByIndicentActionId"))
-            {
-                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
-                {
-                    cmd.Connection = cnn;
-                    try
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", incidentActionId));
-                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
-                        cmd.Connection.Open();
-                        using (var rdr = cmd.ExecuteReader())
-                        {
-                            while (rdr.Read())
-                            {
-                                var newIncidentActionCost = new IncidentActionCost
-                                {
-                                    Id = rdr.GetInt64(ColumnsIncidentCostGet.Id),
-                                    CompanyId = rdr.GetInt32(ColumnsIncidentCostGet.CompanyId),
-                                    IncidentActionId = rdr.GetInt64(ColumnsIncidentCostGet.IncidentActionId),
-                                    Description = rdr.GetString(ColumnsIncidentCostGet.Description),
-                                    Amount = rdr.GetDecimal(ColumnsIncidentCostGet.Amount),
-                                    Quantity = rdr.GetDecimal(ColumnsIncidentCostGet.Quantity),
-                                    Responsible = new Employee()
-                                    {
-                                        Id = rdr.GetInt64(ColumnsIncidentCostGet.ResponsibleId),
-                                        Name = rdr.GetString(ColumnsIncidentCostGet.ResponsibleName),
-                                        LastName = rdr.GetString(ColumnsIncidentCostGet.ResponsibleLastName)
-                                    },
-                                    Active = rdr.GetBoolean(ColumnsIncidentCostGet.Active)
-                                };
-
-                                if (!rdr.IsDBNull(ColumnsIncidentCostGet.Date))
-                                {
-                                    newIncidentActionCost.Date = rdr.GetDateTime(ColumnsIncidentCostGet.Date);
-                                }
-
-                                res.Add(newIncidentActionCost);
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        if (cmd.Connection.State != ConnectionState.Closed)
-                        {
-                            cmd.Connection.Close();
-                        }
-                    }
-                }
-            }
-
-            return new ReadOnlyCollection<IncidentActionCost>(res);
         }
 
         private static ReadOnlyCollection<IncidentActionCost> GetByCompanyId(int companyId)

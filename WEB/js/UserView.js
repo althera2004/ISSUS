@@ -65,7 +65,7 @@ function ChangeUserName()
 {
     var ok = true;
     $("#TxtUserNameErrorDuplicated").hide();
-    if (!RequiredFieldText("TxtUserName")) {
+    if (!RequiredFieldText("TxtUserName") || !RequiredFieldText("TxtUserEmail") ) {
         ok = false;
     }
     else

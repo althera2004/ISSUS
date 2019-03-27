@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="Oportunity.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="Oportunity.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 namespace GisoFramework.Item
 {
@@ -761,7 +761,7 @@ namespace GisoFramework.Item
                                 {
                                     Id = rdr.GetInt64(ColumnsOportunityFilterGet.OportunityId),
                                     Description = rdr.GetString(ColumnsOportunityFilterGet.Description),
-                                    Code = "0",
+                                    Code = rdr.GetString(ColumnsOportunityFilterGet.Code),
                                     OpenDate = rdr.GetDateTime(ColumnsOportunityFilterGet.OpenDate),
                                     Result = rdr.GetInt32(ColumnsOportunityFilterGet.Result)
                                 };

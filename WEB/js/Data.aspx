@@ -1,1 +1,1 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Data.aspx.cs" Inherits="js_Data" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Data.aspx.cs" Inherits="JavascriptData" %>

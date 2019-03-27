@@ -105,14 +105,12 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
-                                                        <!--<th onclick="Sort(this,'ItemTableData','text',true);" id="th1" class="sort" style="width:90px;"><%=this.Dictionary["Item_Incident_Header_Number"] %></th>-->
-                                                        <th style="width:60px;"><%=this.Dictionary["Item_Incident_Header_Status"] %></th>
+                                                        <th style="width:65px;"><%=this.Dictionary["Item_Incident_Header_Status"] %></th>
                                                         <th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="sort search"  style="width:100px; text-align:center"><%=this.Dictionary["Item_Incident_Header_Open"] %></th>
                                                         <th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="sort search"><%=this.Dictionary["Item_Incident_Header_Description"] %></th>
 														<th style="width:250px;" onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="sort search" ><%=this.Dictionary["Item_Incident_Header_Origin"] %></th>
                                                         <th onclick="Sort(this,'ListDataTable','text',false);" id="th4" class="sort hidden-480 search" style="width:90px; text-align:center"><%=this.Dictionary["Item_Incident_Header_ActionNumber"] %></th>
                                                         <th onclick="Sort(this,'ListDataTable','money',false);" id="th5" class="sort hidden-480 search" style="width:100px; text-align:center"><%=this.Dictionary["Item_Incident_Header_Cost"] %></th>
-                                                        <!-- <th onclick="Sort(this,'ListDataTable','date',false);" id="th6" class="sort hidden-480 search" style="width:100px !important; text-align:center"><%=this.Dictionary["Item_Incident_Header_Close"] %></th> IKEA 090318-->
                                                         <th class="hidden-480" style="width:107px !important;">&nbsp;</th>
                                                     </tr>
                                                 </thead>

@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="CustomersView.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="CustomersView.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -81,7 +81,7 @@ public partial class CustomersView : Page
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
-    public string Items
+    public string Customers
     {
         get
         {

@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿// --------------------------------
+// <copyright file="ColumnsIndicadorGet.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
+// </copyright>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 namespace GisoFramework.Item.Binding
 {
     public static class ColumnsIndicadorGet

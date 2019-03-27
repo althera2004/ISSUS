@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="ColumnsProviderCostGet.cs" company="Microsoft">
-//     Copyright (c) Sbrinna. All rights reserved.
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
 namespace GisoFramework.Item.Binding

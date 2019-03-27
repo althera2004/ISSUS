@@ -5,8 +5,8 @@ var filter = "IA";
 function FilterChanged() {
     if (document.getElementById("Chk1") !== null) {
         filter = "";
-        if (document.getElementById("Chk1").checked === true) { filter += "I" };
-        if (document.getElementById("Chk2").checked === true) { filter += "A" };
+        if (document.getElementById("Chk1").checked === true) { filter += "I"; };
+        if (document.getElementById("Chk2").checked === true) { filter += "A"; };
         IncidentCostRenderTable("IncidentCostsTableData");
     }
 }
@@ -18,8 +18,16 @@ function IncidentCostRenderTable(tableName) {
     var count = 0;
     for (var x = 0; x < IncidentCosts.length; x++) {
         if (IncidentCosts[x].Active === true) {
-            var show = false;
-            if (filter.indexOf(IncidentCosts[x].Source) !== -1) {
+            var show = true;
+            if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
+                show = false;
+            }
+
+            if (filter.indexOf(IncidentCosts[x].Source) === -1) {
+                show = false;
+            }
+
+            if (show === true) {
                 total += IncidentCostRenderRow(IncidentCosts[x], target);
                 count++;
             }
@@ -28,11 +36,11 @@ function IncidentCostRenderTable(tableName) {
 
     if (count === 0) {
         $("#IncidentCostsTableVoid").show();
-        target.style.display = "none";
+        $("#" + tableName).hide();
     }
     else {
         $("#IncidentCostsTableVoid").hide();
-        target.style.display = "";        
+        $("#" + tableName).show();
     }
 
     $("#NumberCosts").html(count);
@@ -50,15 +58,16 @@ function IncidentCostRenderRow(incidentCost, target) {
 
     row.id = incidentCost.Id;
 
-    tdDescription.style.width = "290px";
     tdDate.align = "center";
-    tdDate.style.width = "100px";
     tdAmount.align = "right";
-    tdAmount.style.width = "90px";
     tdQuantity.align = "right";
-    tdQuantity.style.width = "90px";
     tdTotal.align = "right";
+
+    tdDate.style.width = "100px";
+    tdAmount.style.width = "90px";
+    tdQuantity.style.width = "90px";
     tdTotal.style.width = "120px";
+    tdResponsible.style.width = "200px";
 
     var fecha = "";
     if (incidentCost.Date !== null) {
@@ -83,7 +92,6 @@ function IncidentCostRenderRow(incidentCost, target) {
     innerEdit.className = "icon-edit bigger-120";
     iconEdit.appendChild(innerEdit);
     iconEdit.onclick = function () { IncidentCostEdit(this.parentNode.parentNode.id); };
-
 
     var iconDelete = document.createElement("SPAN");
     iconDelete.className = "btn btn-xs btn-danger";
@@ -183,7 +191,7 @@ function IncidentCostEdit(id) {
         "buttons":
         [
             {
-                "id": "BtnNewCostSave",
+                "id": "BtnEditCostSaveOk",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Change,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
@@ -191,6 +199,7 @@ function IncidentCostEdit(id) {
                 }
             },
             {
+                "id": "BtnEditCostSaveCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -214,7 +223,7 @@ function ShowNewCostPopup(actionSelected) {
         "buttons":
         [
             {
-                "id": "BtnNewAddresSave",
+                "id": "BtnNewCostSaveOk",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
@@ -222,6 +231,7 @@ function ShowNewCostPopup(actionSelected) {
                 }
             },
             {
+                "id": "BtnNewCostSaveCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -279,6 +289,7 @@ function IncidentCostValidateForm() {
             if (ad < d) {
                 ok = false;
                 $("#TxtIncidentCostDateLabel").css("color", "#f00");
+                $("#TxtIncidentCostDateErrorRange").html(Dictionary.Item_Incident_Cost_Error_Range + " " + $("#TxtWhatHappenedDate").val());
                 $("#TxtIncidentCostDateErrorRange").show();
             }
         }
@@ -352,18 +363,18 @@ function IncidentCostSave() {
         };
 
         $.ajax({
-            type: "POST",
-            url: "/Async/IncidentCostActions.asmx/Update",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(dataUpdate, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/IncidentCostActions.asmx/Update",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(dataUpdate, null, 2),
+            "success": function (msg) {
                 UpdateIncidentCosts(SelectedIncidentCost);
                 UpdateCompanyIncidentCosts(SelectedIncidentCost);
                 IncidentCostRenderTable("IncidentCostsTableData");
                 $("#dialogNewCost").dialog("close");
             },
-            error: function (msg) {
+            "error": function (msg) {
                 alertUI(msg.responseText);
             }
         });

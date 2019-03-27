@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="BusinessRiskView.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="BusinessRiskView.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
+using GisoFramework.Activity;
 using GisoFramework.DataAccess;
 using GisoFramework.Item;
 using GisoFramework.Item.Binding;
@@ -797,6 +798,7 @@ public partial class BusinessRiskView : Page
                 }
                 catch (Exception ex)
                 {
+                    ExceptionManager.Trace(ex, "BusinessRiskView --> ById(" + this.BusinessRiskId.ToString() + ")");
                 }
                 finally
                 {
@@ -884,8 +886,8 @@ public partial class BusinessRiskView : Page
         RenderActionHistory();
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_BusinessRisk_Tab_Basic"], Available = true });
-        this.tabBar.AddTab(new Tab { Id = "accion", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Label = this.Dictionary["Item_BusinessRisk_Tab_Action"] });
-        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.Cost), Active = true, Label = this.Dictionary["Item_BusinessRisk_Tab_Costs"] });
+        this.tabBar.AddTab(new Tab { Id = "accion", Available = true, Active = true, Label = this.Dictionary["Item_BusinessRisk_Tab_Action"] });
+        this.tabBar.AddTab(new Tab { Id = "costes", Available = true, Active = true, Label = this.Dictionary["Item_BusinessRisk_Tab_Costs"] });
         this.tabBar.AddTab(new Tab { Id = "graphic", Available = true, Active = true, Label = this.Dictionary["Item_BusinessRisk_Tab_Graphics"] });
         this.tabBar.AddTab(new Tab { Id = "historyActions", Available = true, Active = historyActionActive == true, Label = this.Dictionary["Item_BusinessRisk_Tab_HistoryActions"], Hidden = !historyActionActive });
         this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = true, Label = this.Dictionary["Item_Learning_Tab_UploadFiles"], Hidden = this.businessRisk.Id < 1 });

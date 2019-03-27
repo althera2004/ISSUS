@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="EquipmentView.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="EquipmentView.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -1206,7 +1206,7 @@ public partial class EquipmentView : Page
             GrantToWrite = this.grantToWrite,
             Name = "TxtCode",
             Value = this.Equipment.Code,
-            MaximumLength = 10
+            MaximumLength = 25
         };
 
         this.TxtDescription = new FormText

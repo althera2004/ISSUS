@@ -32,7 +32,6 @@ function IncidentActionCostRenderRow(incidentActionCost, target) {
     var tdTotal = document.createElement("TD");
     var tdResponsible = document.createElement("TD");
 
-    //tdDescription.style.width = "290px";
     tdAmount.style.width = "90px";
     tdDate.style.width = "90px";
     tdQuantity.style.width = "90px";
@@ -117,6 +116,28 @@ function IncidentActionCostSetPopupFormFill() {
     }
     $("#TxtIncidentActionCostAmount").val(ToMoneyFormat(SelectedIncidentActionCost.Amount, 2));
     $("#TxtIncidentActionCostQuantity").val(ToMoneyFormat(SelectedIncidentActionCost.Quantity, 2));
+
+    // Detectar si el empleado está eliminado
+    var exists = false;
+    $("*[data-deleted]").remove();
+    $("#CmdIncidentActionCostResponsible option").each(function () {
+        if ($(this)[0].value * 1 === SelectedIncidentActionCost.Responsible.Id) {
+            exists = true;
+        }
+    });
+
+    if (exists === false) {
+        var employeeName = "";
+        for (var x = 0; x < Employees.length; x++) {
+            if (Employees[x].Id === SelectedIncidentActionCost.Responsible.Id) {
+                employeeName = Employees[x].FullName;
+            }
+        }
+
+        var option = "<option value=\"" + SelectedIncidentActionCost.Responsible.Id + "\" data-deleted=\"delete\">" + employeeName + "</option>";
+        $("#CmdIncidentActionCostResponsible").append(option);
+    }
+
     $("#CmdIncidentActionCostResponsible").val(SelectedIncidentActionCost.Responsible.Id);
     $("#TxtIncidentActionCostDateErrorRequired").hide();
     $("#TxtIncidentActionCostDateErrorMalformed").hide();
@@ -225,6 +246,7 @@ function ShowNewCostPopup(actionSelected) {
 }
 
 function IncidentActionCostValidateForm() {
+    console.log("IncidentActionCostValidateForm");
     var ok = true;
     ClearFieldTextMessages("CmbIncidentActionCostDescription");
     ClearFieldTextMessages("TxtIncidentActionCostDescription");
@@ -238,6 +260,44 @@ function IncidentActionCostValidateForm() {
     if (!RequiredFieldText("TxtIncidentActionCostAmount")) { ok = false; }
     if (!RequiredFieldText("TxtIncidentActionCostQuantity")) { ok = false; }
     if (!RequiredFieldCombo("CmdIncidentActionCostResponsible")) { ok = false; }
+
+    if ($("#TxtIncidentActionCostDate").val() === "") {
+        ok = false;
+        $("#TxtIncidentCostDateLabel").css("color", "#f00");
+        $("#TxtIncidentCostDateErrorRequired").show();
+        $("#TxtIncidentActionCostDateLabel").css("color", "#f00");
+        $("#TxtIncidentActionCostDateErrorRequired").show();
+    }
+    else {
+        if (validateDate($("#TxtIncidentActionCostDate").val()) === false) {
+            ok = false;
+            $("#TxtIncidentCostDateLabel").css("color", "#f00");
+            $("#TxtIncidentCostDateErrorMalformed").show();
+            $("#TxtIncidentActionCostDateLabel").css("color", "#f00");
+            $("#TxtIncidentActionCostDateErrorMalformed").show();
+        }
+        else {
+            var ad = GetDate($("#TxtIncidentActionCostDate").val(), "/", false);
+            var d = new Date();
+
+            if (document.getElementById("TxtActionWhatHappenedDate") !== null) {
+                d = GetDate($("#TxtActionWhatHappenedDate").val(), "/", false);
+            }
+            else {
+                d = GetDate($("#TxtWhatHappenedDate").val(), "/", false);
+            }
+
+            if (ad < d) {
+                ok = false;
+                $("#TxtIncidentCostDateLabel").css("color", "#f00");
+                $("#TxtIncidentActionCostDateLabel").css("color", "#f00");
+                $("#TxtIncidentCostDateErrorRange").html(Dictionary.Item_Incident_Cost_Error_Range + " " + FormatDate(d, "/"));
+                $("#TxtIncidentActionCostDateErrorRange").html(Dictionary.Item_Incident_Cost_Error_Range + " " + FormatDate(d, "/"));
+                $("#TxtIncidentCostDateErrorRange").show();
+                $("#TxtIncidentActionCostDateErrorRange").show();
+            }
+        }
+    }
     return ok;
 }
 

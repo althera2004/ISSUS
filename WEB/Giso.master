@@ -127,6 +127,25 @@
             overflow: hidden;
             font-weight: bold;
         }
+
+        .btn-filter {height:28px;padding-top:0;}
+
+        .thfooter {
+            color: #333;
+            _font-style: italic;
+        }
+
+        .TableNoData {
+            width: 100%;
+            height: 99%;
+            min-height: 100px;
+            background-color: #eef;
+            text-align: center;
+            font-size: large;
+            color: #aaf;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
     </style>
     <!-- Specific style of page -->
     <script type="text/javascript" src="/js/Data.aspx"></script>
@@ -140,6 +159,7 @@
         var PendentTasks = <%=this.PendentTasks %>;
         var referrer = "<%=this.Referrer %>";
         items = [<%=this.SearcheableItems %>];
+        var keyFocus = null;
     </script>
     <script type="text/javascript" src="assets/js/ace-extra.min.js"></script>
     <!--[if lt IE 9]>
@@ -413,56 +433,16 @@
     <script type="text/javascript" src="/assets/js/chosen.jquery.js"></script>
     <script type="text/javascript" src="/js/PopupAlerts.js?ac=<%=this.AntiCache %>"></script>
     <script type="text/javascript" src="/js/moment.js"></script>
+    <script type="text/javascript" src="/js/FilterList.js"></script>
     <asp:ContentPlaceHolder id="ScriptBodyContentHolder" runat="server">
     </asp:ContentPlaceHolder>
         <script type = "text/javascript">
-            function FilterList() {
-                if (document.getElementById("ListDataTable") != null) {
-
-                    var searcheablesIndex = new Array();
-                    var headerList = document.getElementById("ListDataHeader").childNodes;
-                    var cont =0;
-                    for(var x=0;x<headerList.length;x++) {
-                        if(headerList[x].className!=null && headerList[x].className.indexOf("search")!=-1) {
-                            searcheablesIndex.push(cont);
-                        }
-
-                        if(headerList[x].tagName === "TH") {cont++;}
-                    }
-
-                    var pattern = document.getElementById("nav-search-input").value.toUpperCase();
-                    var list = document.getElementById("ListDataTable");
-                    var cont = 0;
-                    for (var x = 0; x < list.childNodes.length; x++) {
-                        var row = list.childNodes[x];
-                        if(row.tagName === "TR")
-                        {
-                            var match = false;
-
-                            for(var y=0;y<searcheablesIndex.length;y++)
-                            {
-                                if(row.childNodes[searcheablesIndex[y]].childNodes.length >0)
-                                {
-                                    var item = row.childNodes[searcheablesIndex[y]].innerText.toUpperCase();
-                                    if (item.indexOf(pattern) != -1) {
-                                        match = true;
-                                        cont++;
-                                    }
-                                }
-                            }
-
-                            row.style.display = match ? "" : "none";
-                        }
-                    }
-
-                    $("#ListDataFooter").html("<th style=\"color:#aaa;\"><i>" + Dictionary.Common_RegisterCount + ":&nbsp;<span id=\"NumberCosts\"> " +cont + "</span></i></th>");
-                }
-            }            
+            setInterval("KeepSessionAlive()", 60000);
 
 			// @alex: si la página no es una lista ó no hay datos que mostrar, se oculta el buscador de arriba a la derecha
             if(document.getElementById("ListDataTable") == null)
             {
-                $("#nav-search").hide();
+                //$("#nav-search").hide();
             }
             else
             {                
@@ -472,192 +452,6 @@
 
             // Force Logout
             var timeoutAlerted = false;
-
-            var numberActual;
-
-            function AcceptKey(code, type)
-            {
-                var ok = false;
-                if (code ==  8) { ok = true; }
-                if (code ==  9) { ok = true; }
-                if (code == 13) { ok = true; }
-                if (code == 46) { ok = true; }
-                if (code == 37) { ok = true; }
-                if (code == 39) { ok = true; }
-                if (code == 27) { ok = true; }
-                if(code > 95 && code < 106) { ok = true; }
-                if(code > 36 && code < 41) { ok = true; }
-                if(code > 47 && code < 58) { ok = true; }
-
-                if(type === "decimal" || type === "money")
-                {
-                    if(code===188 || code===110 || code===190){
-                        ok = true;
-                    }
-                }
-
-                return ok;
-            }
-
-            function numberDecimalDown(e)
-            {
-                var code = (e.keyCode ? e.keyCode : e.which);
-
-                if(AcceptKey(code, "decimal") === false){
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-
-                numberActual = e.currentTarget.value;
-                if(code===188 || code===110 || code===190){
-                    e.currentTarget.value = numberActual.split(",").join(".");
-                    if(numberActual.indexOf(".")!=-1) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    }
-                }              
-            }
-
-            function numberIntegerDown(e) {
-                var code = (e.keyCode ? e.keyCode : e.which);
-                numberActual = e.currentTarget.value;
-
-                if (AcceptKey(code, "integer") === false) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-            }
-
-            function numberDecimalUp(e) {
-                var code = (e.keyCode ? e.keyCode : e.which);
-                numberActual = e.currentTarget.value;
-
-                if (numberActual.indexOf(",") != -1) {
-                    e.currentTarget.value = numberActual.split(",").join(".");
-                }
-
-                if (numberActual.split(".").length > 2) {
-                    console.log("doble-up");
-                    e.currentTarget.value = numberActual;
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-            }
-
-            function numberDecimalFocus(e) {
-                console.log("numberDecimalFocus", e.currentTarget.value * 1);
-                e.currentTarget.value = e.currentTarget.value.toString().split(".").join("").split(",").join(".");
-                console.log("numberDecimalFocus", e.currentTarget.value * 1);
-                if (e.currentTarget.value * 1 === 0) {
-                    e.currentTarget.value = "";
-                }
-
-                e.currentTarget.value = e.currentTarget.value.toString().split(Dictionary.NumericDecimalSeparator).join(".");
-            }
-
-            function numberIntegerFocus(e) {
-                if (e.currentTarget.value * 1 === 0) {
-                    e.currentTarget.value = "";
-                }
-
-                // @alex: poner el formato en magnitud (sin puntos de millares)
-                e.currentTarget.value = e.currentTarget.value.toString().split(".").join("").split(",").join(".");
-            }
-
-            function numberDecimalBlur(e) {
-                var value = e.currentTarget.value;
-                value = Math.round(value * 100) / 100;
-                e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
-            }
-
-            function moneyBlur(e) {
-                var value = e.currentTarget.value;
-                console.log("moneyBlur", value);
-
-                if (e.currentTarget.className.indexOf("nullable") !== -1) {
-                    if (value === "") {
-                        console.log("moneyBlur", "null value");
-                        return false;
-                    }
-                }
-
-                if ($.isNumeric(value) === false) {
-                    value = value = StringToNumberNullable(value, ".", ",");
-                }
-
-                if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
-                }
-                else {
-                    value = Math.round(value * 100) / 100;
-                    value = ToMoneyFormat(value, 2);
-                    e.currentTarget.value = value;
-                }
-            }
-
-            function numberDecimalBlur6(e) {
-                var value = e.currentTarget.value;
-                if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
-                }
-                else {
-                    value = Math.round(value * 1000000) / 1000000;
-                    // @alex: poner puntos de millar
-                    // e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
-                    e.currentTarget.value = ToMoneyFormat(value, 6);
-                }
-            }
-
-            function numberDecimalBlur4(e) {
-                var value = e.currentTarget.value;
-                if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
-                }
-                else {
-                    value = Math.round(value * 10000) / 10000;
-                    // @alex: poner puntos de millar
-                    // e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
-                    e.currentTarget.value = ToMoneyFormat(value, 4);
-                }
-            }
-
-            function numberDecimalBlur6(e) {
-                var value = e.currentTarget.value;
-                if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
-                }
-                else {
-                    value = Math.round(value * 1000000) / 1000000;
-                    // @alex: poner puntos de millar
-                    // e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
-                    e.currentTarget.value = ToMoneyFormat(value, 6);
-                }
-            }
-
-            function numberIntegerBlur(e) {
-                e.currentTarget.value = ToMoneyFormat(e.currentTarget.value * 1, 0);
-            }
-
-            $("input.money-bank").on("keyup", numberDecimalUp);
-            $("input.money-bank").on("keydown", numberDecimalDown);
-            $("input.money-bank").on("focus", numberDecimalFocus);
-            $("input.money-bank").on("blur", moneyBlur);
-
-            $("input.decimalFormated").on("keyup", numberDecimalUp);
-            $("input.decimalFormated").on("keydown", numberDecimalDown);
-            $("input.decimalFormated").on("focus", numberDecimalFocus);
-            $("input.decimalFormated").on("blur", numberDecimalBlur6);
-
-            $("input.decimalFormated4").on("keyup", numberDecimalUp);
-            $("input.decimalFormated4").on("keydown", numberDecimalDown);
-            $("input.decimalFormated4").on("focus", numberDecimalFocus);
-            $("input.decimalFormated4").on("blur", numberDecimalBlur4);
-
-            $("input.decimalFormated6").on("keyup", numberDecimalUp);
-            $("input.decimalFormated6").on("keydown", numberDecimalDown);
-            $("input.decimalFormated6").on("focus", numberDecimalFocus);
-            $("input.decimalFormated6").on("blur", numberDecimalBlur6);
-
-            //$("input.integerFormated").on("keyup", numberIntegerUp);
-            $("input.integerFormated").on("keydown", numberIntegerDown);
-            $("input.integerFormated").on("focus", numberIntegerFocus);
-            $("input.integerFormated").on("blur", numberIntegerBlur);
 
 			// @alex: preventDefault es un semáforo que evito que al pulsar ENTER en un textarea se haga el submit() del formulario
             var preventSubmit = false;
@@ -691,26 +485,6 @@
                 xmlHttp.open("GET", url, true);
                 xmlHttp.send();
             }
-            setInterval("KeepSessionAlive()", 60000);
-
-			// @alex: con estas funciones se pasan las magnitudes de los campos al formato de cada uno
-			// --------------------------------------------------------------------------------------------
-            $(".money-bank").each(function (){
-                $(this).val(ToMoneyFormat(ParseInputValueToNumber($(this).val()), 2));
-            });
-			$(".decimalFormated").each(function (){
-                $(this).val(ToMoneyFormat(ParseInputValueToNumber($(this).val()), 2));
-            });
-			$(".decimalFormated4").each(function (){
-                $(this).val(ToMoneyFormat(ParseInputValueToNumber($(this).val()), 4));
-            });
-			$(".decimalFormated6").each(function (){
-                $(this).val(ToMoneyFormat(ParseInputValueToNumber($(this).val()), 6));
-            });
-			$(".integerFormated").each(function (){
-                $(this).val(ToMoneyFormat(ParseInputValueToNumber($(this).val()), 0));
-            });
-			// --------------------------------------------------------------------------------------------
 
             function EmployeeGetById(id) {
                 for (var x = 0; x < Employees.length; x++) {
@@ -732,10 +506,14 @@
                 $("#menuoption-6").hide();
                 $("#menuoption-0").hide();
             }
+
+            // @alex: ocultar entrada de menú para oportunidades
+            $("#menuoption-26").hide();
 			
-			$(".pull-left").css("max-width","90%");
-			$(".pull-left").css("overflow","hidden");
-			$(".pull-left").css("text-overflow","ellipsis");
+            $(".pull-left").css("max-width", "90%");
+            $(".pull-left").css("overflow", "hidden");
+            $(".pull-left").css("text-overflow", "ellipsis");
         </script>
+        <script type="text/javascript" src="/js/NumberFormat.js"></script>
     </body>
 </html>

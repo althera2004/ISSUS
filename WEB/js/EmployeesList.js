@@ -172,9 +172,8 @@ jQuery(function ($) {
 });
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 380) + "px";
+    $("#ListDataDiv").height(containerHeight - 380);
 }
 
 window.onload = function () {
@@ -183,9 +182,9 @@ window.onload = function () {
     if (Filter.indexOf("I") !== -1) { document.getElementById("Chk2").checked = true; }
     RenderEmployeeTable();
     $("#th0").click();
-}
+};
 
-window.onresize = function () { Resize(); }
+window.onresize = function () { Resize(); };
 
 function RenderEmployeeRow(employee) {
     var style = "";
@@ -238,12 +237,11 @@ function SetFilter() {
     if (document.getElementById("Chk1").checked === true) { Filter += "A"; }
     if (document.getElementById("Chk2").checked === true) { Filter += "I"; }
 
-    var webMethod = "/Async/EmployeeActions.asmx/SetFilter";
     var data = { "filter": Filter };
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/EmployeeActions.asmx/SetFilter",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),

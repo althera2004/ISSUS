@@ -8,26 +8,26 @@ function Export() {
 }
 
 function ObjetivoGetFilter(exportType) {
-    document.getElementById("nav-search-input").value = "";
+    $("#nav-search-input").val("");
     var ok = true;
-    document.getElementById("ListDataTable").style.display = "none";
-    document.getElementById("ItemTableError").style.display = "none";
-    document.getElementById("ItemTableVoid").style.display = "none";
-    document.getElementById("ErrorDate").style.display = "none";
-    document.getElementById("ErrorStatus").style.display = "none";
-    document.getElementById("ErrorType").style.display = "none";
+    $("#ListDataTable").hide();
+    $("#ItemTableError").hide();
+    $("#ItemTableVoid").hide();
+    $("#ErrorDate").hide();
+    $("#ErrorStatus").hide();
+    $("#ErrorType").hide();
     var from = GetDate($("#TxtDateFrom").val(), "-");
     var to = GetDate($("#TxtDateTo").val(), "-");
 
     if (from !== null && to !== null) {
         if (from > to) {
             ok = false;
-            document.getElementById("ErrorDate").style.display = "";
+            $("#ErrorDate").show();
         }
     }
 
     if (ok === false) {
-        document.getElementById("ItemTableError").style.display = "";
+        $("#ItemTableError").show();
         return false;
     }
 
@@ -198,7 +198,8 @@ function ItemRenderTable(list) {
             if (a < b) return -1;
             if (a > b) return 1;
             return 0;
-        })
+        });
+
         var autocomplete = $(".nav-search-input").typeahead();
         autocomplete.data("typeahead").source = items;
 
@@ -237,22 +238,24 @@ function ObjetivoDelete(sender) {
         "title": Dictionary.Common_Delete,
         "title_html": true,
         "buttons":
-        [
-            {
-                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
-                "class": "btn btn-danger btn-xs",
-                "click": function () {
-                    ObjetivoDeleteConfirmed();
+            [
+                {
+                    "id": "ObjetivoDeleteBtnOk",
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        ObjetivoDeleteConfirmed();
+                    }
+                },
+                {
+                    "id": "ObjetivoDeleteBtnCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
                 }
-            },
-            {
-                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
-                "class": "btn btn-xs",
-                "click": function () {
-                    $(this).dialog("close");
-                }
-            }
-        ]
+            ]
     });
 }
 
@@ -304,7 +307,7 @@ function Resize() {
 window.onload = function () {
     // Descomentar si se imprimie lista
     Resize();
-    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;")
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
 
     $("#TxtDateFrom").on("change", ObjetivoGetFilter);
     $("#TxtDateTo").on("change", ObjetivoGetFilter);
@@ -326,7 +329,6 @@ window.onload = function () {
     }
 
     console.log("Filter", Filter);
-
     ObjetivoGetFilter();
 };
 

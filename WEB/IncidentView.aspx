@@ -196,22 +196,19 @@
                                                                 <div class="col-sm-2">
                                                                     <h4><%=this.Dictionary["Item_IncidentAction_Tab_Costs"] %></h4>
                                                                 </div>
-                                                                <div class="col-sm-3" style="padding-top:10px;" >
+                                                                <div class="col-sm-3" style="padding-top:10px;" id="ChkIncidentCosts">
                                                                     <input type="checkbox" id="Chk1" onchange="FilterChanged();" checked="checked" />&nbsp;<%=this.Dictionary["Item_Incident_Cost_IncidentCheck"] %>
                                                                 </div>
-                                                                <div class="col-sm-3" style="padding-top:10px;">
+                                                                <div class="col-sm-3" style="padding-top:10px;" id="ChkActionCosts">
                                                                     <input type="checkbox" id="Chk2" onchange="FilterChanged();" checked="checked" />&nbsp;<%=this.Dictionary["Item_Incident_Cost_IncidentActionCheck"] %>
                                                                 </div>
                                                             <!--/div-->
                                                         </div>
                                                         <div class="col-sm-4" style="text-align:right;">
-                                                            <!--h4 class="pink" style="right:0;"-->
-                                                                <button class="btn btn-success" type="button" id="BtnNewCost">
-                                                                    <i class="icon-plus-sign bigger-110"></i>
-                                                                    <%=this.Dictionary["Item_IncidentCost_Btn_New"] %>
-                                                                </button>
-                                                                <br /><br />
-                                                            <!--/h4-->
+                                                            <button class="btn btn-success" type="button" id="BtnNewCost">
+                                                                <i class="icon-plus-sign bigger-110"></i>
+                                                                <%=this.Dictionary["Item_IncidentCost_Btn_New"] %>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -220,12 +217,12 @@
                                                                 <table class="table table-bordered table-striped" style="margin: 0">
                                                                     <thead class="thin-border-bottom">
                                                                         <tr>
-                                                                            <th style="width:290px;"><%=this.Dictionary["Item_IncidentCost_Header_Description"] %></th>	
+                                                                            <th><%=this.Dictionary["Item_IncidentCost_Header_Description"] %></th>	
                                                                             <th style="width:100px;"><%=this.Dictionary["Common_Date"]%></th>	
                                                                             <th style="width:90px;"><%=this.Dictionary["Item_IncidentCost_Header_Amount"]%></th>	
                                                                             <th class="hidden-480" style="width:90px;"><%=this.Dictionary["Item_IncidentCost_Header_Quantity"]%></th>	
                                                                             <th style="width:120px;"><%=this.Dictionary["Item_IncidentCost_Header_Total"]%></th>	
-                                                                            <th class="hidden-480"><%=this.Dictionary["Item_IncidentCost_Header_ReportedBy"]%></th>
+                                                                            <th style="width:200px;"class="hidden-480"><%=this.Dictionary["Item_IncidentCost_Header_ReportedBy"]%></th>
                                                                             <th class="hidden-480" style="width:107px;"></th>												
                                                                         </tr>
                                                                     </thead>
@@ -248,10 +245,10 @@
                                                                 <table class="table table-bordered table-striped" style="margin: 0">
                                                                     <thead class="thin-border-bottom">
                                                                         <tr id="ListDataFooter">
-                                                                            <th style="color:#aaa;width:380px;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="NumberCosts"></span></i></th>
+                                                                            <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="NumberCosts"></span></i></th>
                                                                             <th style="width:90px;font-weight:bold;"><%=this.Dictionary["Common_Total"] %></th>
                                                                             <th style="width:120px;"><div id="TotalCosts" style="width:100%;text-align:right;font-weight:bold;"></div></th>
-                                                                            <th></th>
+                                                                            <th style="width:307px;"></th>
                                                                         </tr>
                                                                     </thead>
                                                                 </table>
@@ -534,30 +531,30 @@
                 $(".date-picker").datepicker(options);
                 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
-                $('#BtnSave').on('click', function (e) { e.preventDefault(); SaveIncident(); });
-                $('#BtnCancel').on('click', function (e) { document.location = referrer; });
-                $('#BtnSaveAction').on('click', function (e) { e.preventDefault(); SaveIncident(); });
-                $('#BtnCancelAction').on('click', function (e) { document.location = referrer; });
-                $('#BtnPrint').on('click', PrintData);
+                $("#BtnSave").on("click", function (e) { e.preventDefault(); SaveIncident(); });
+                $("#BtnCancel").on("click", function (e) { document.location = referrer; });
+                $("#BtnSaveAction").on("click", function (e) { e.preventDefault(); SaveIncident(); });
+                $("#BtnCancelAction").on("click", function (e) { document.location = referrer; });
+                $("#BtnPrint").on("click", PrintData);
 
-                $("#BtnNewCost").on('click', function (e) {
+                $("#BtnNewCost").on("click", function (e) {
                     e.preventDefault();
                     ShowNewCostPopup(0);
                 });                
 
-                $('#CmbReporterType2Bar').on('click', function (e){
+                $("#CmbReporterType2Bar").on("click", function (e){
                     e.preventDefault();
-                    ShowProviderBarPopup($('#CmbReporterType2'));
+                    ShowProviderBarPopup($("#CmbReporterType2"));
                 });                
 
-                $('#CmbReporterType3Bar').on('click', function (e){
+                $("#CmbReporterType3Bar").on("click", function (e){
                     e.preventDefault();
-                    ShowCustomerBarPopup($('#CmbReporterType3'));
+                    ShowCustomerBarPopup($("#CmbReporterType3"));
                 });
 
-                $('#BtnCostBAR').on('click', function (e){
+                $("#BtnCostBAR").on("click", function (e){
                     e.preventDefault();
-                    ShowCostBarPopup($('#TxtCostDescription'));
+                    ShowCostBarPopup($("#TxtCostDescription"));
                 });
 
                 // Control wizard de la incidencia

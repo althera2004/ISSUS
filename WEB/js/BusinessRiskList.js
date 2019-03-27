@@ -275,10 +275,38 @@ function BusinessRiskGetFilter(exportType) {
     });
 }
 
+function OportunityExists(list, code) {
+    for (var x = 0; x < list.length; x++) {
+        if (list[x].Code === code) {
+            return x;
+        }
+    }
+
+    return -1;
+}
+
 function OportunityRenderTable(list) {
     if (typeof ApplicationUser.Grants.Oportunity === "undefined") {
         ApplicationUser.Grants.push({ "Oportunity": { "Read": false, "Write": false, "Delete": false } });
     }
+
+    var temp = [];
+    for (var x = 0; x < list.length; x++) {
+        var exists = OportunityExists(temp, list[x].Code);
+
+        if (exists < 0) {
+            temp.push(list[x]);
+        }
+        else {
+            if (temp[exists].OportunityId < list[x].OportunityId) {
+                temp[exists] = list[x];
+            }
+        }
+    }
+
+    list = temp;
+
+    console.log("oport", list);
 
     var items = [];
     VoidTable("ListDataTableOportunity");
@@ -375,16 +403,16 @@ function OportunityRenderTable(list) {
     }
 
     if (items.length === 0) {
-        document.getElementById("nav-search").style.display = "none";
+        $("#nav-search").hide();
     }
     else {
-        document.getElementById("nav-search").style.display = "";
+        $("#nav-search").show();
 
         items.sort(function (a, b) {
             if (a < b) return -1;
             if (a > b) return 1;
             return 0;
-        })
+        });
         var autocomplete = $(".nav-search-input").typeahead();
         autocomplete.data('typeahead').source = items;
 
@@ -450,8 +478,6 @@ function BusinessRiskRenderTable(list) {
     }
 
     var total = 0;
-
-    // Se vacía el JSON del gráfico
     BusinessRiskGraph = [];
 
     for (var x = 0; x < list.length; x++) {
@@ -495,7 +521,7 @@ function BusinessRiskRenderTable(list) {
 
     if (document.getElementById("CmbRules").value * 1 > 0) {
         DrawRuleLineBusinessRisk();
-        document.getElementById("BtnChangeIpr").style.display = "";
+        $("#BtnChangeIpr").show();
         rule = RuleGetById($("#CmbRules").val() * 1);
         if (rule !== null) {
             actualRuleLimitBusinessRisk = rule.Limit;
@@ -511,18 +537,18 @@ function BusinessRiskRenderTable(list) {
     }
 
     if (items.length === 0) {
-        document.getElementById("nav-search").style.display = "none";
+        $("#nav-search").hide();
     }
     else {
-        document.getElementById("nav-search").style.display = "";
+        $("#nav-search").show();
 
         items.sort(function (a, b) {
             if (a < b) return -1;
             if (a > b) return 1;
             return 0;
-        })
+        });
         var autocomplete = $(".nav-search-input").typeahead();
-        autocomplete.data('typeahead').source = items;
+        autocomplete.data("typeahead").source = items;
 
         $("#nav-search-input").keyup(FilterList);
         $("#nav-search-input").change(FilterList);
@@ -831,7 +857,7 @@ function SetRule(id)
     RenderChartBusinessRisk();
     DrawRuleLineBusinessRisk();
     $("#input-span-slider").slider({ "value": id });
-    $(".discreteBar").on("click", function (e) { console.log(e) });
+    $(".discreteBar").on("click", function (e) { console.log(e); });
 }
 
 function SetRuleOportunity(id) {
@@ -842,28 +868,23 @@ function SetRuleOportunity(id) {
     RenderchartOportunity();
     DrawRuleLineOportunity();
     $("#input-span-slideroportunity").slider({ "value": id });
-    $(".discreteBar").on("click", function (e) { console.log(e) });
+    $(".discreteBar").on("click", function (e) { console.log(e); });
 }
 
 function NewIpr()
 {
     var candidate = new Array();
-    for (var x=0;x<BusinessRiskGraph.length;x++)
-    {
-        if(BusinessRiskGraph[x].Assumed===false)
-        {
-            if (BusinessRiskGraph[x].Result <= RuleLimitFromDBBusinessRisk)
-            {
-                if(BusinessRiskGraph[x].Result > actualRuleLimitBusinessRisk)
-                {
+    for (var x = 0; x < BusinessRiskGraph.length; x++) {
+        if (BusinessRiskGraph[x].Assumed === false) {
+            if (BusinessRiskGraph[x].Result <= RuleLimitFromDBBusinessRisk) {
+                if (BusinessRiskGraph[x].Result > actualRuleLimitBusinessRisk) {
                     candidate.push(BusinessRiskGraph[x]);
                 }
             }
         }
     }
 
-    if(candidate.length>0)
-    {
+    if (candidate.length > 0) {
         message = Dictionary.Item_BusinessRisk_Message_IPR.replace("#", candidate.length);
         promptInfoUI(message, 450, NewIprConfirmed, null);
         return;
@@ -880,8 +901,7 @@ function NewIpr()
         }
     }
 
-    if(candidate.length>0)
-    {
+    if (candidate.length > 0) {
         message = Dictionary.Item_BusinessRisk_Message_IPR_2.replace("#", candidate.length);
         promptInfoUI(message, 450, NewIprConfirmed, null);
         return;
@@ -889,17 +909,17 @@ function NewIpr()
 
     NewIprConfirmed();
     return;
-};
+}
 
 function NewIprConfirmed()
 {
     var data = {
         "rules":
-            {
-                "Id": rule.Id,
-                "Limit": actualRuleLimitBusinessRisk,
-                "CompanyId": companyId
-            },
+        {
+            "Id": rule.Id,
+            "Limit": actualRuleLimitBusinessRisk,
+            "CompanyId": companyId
+        },
         "companyId": companyId,
         "userId": user.Id
     };
@@ -969,9 +989,7 @@ function Resize() {
 }
 
 window.onload = function () {
-
     $("#BtnNewItem").after("<button class=\"btn btn-success\" type=\"button\" id=\"BtnNewOportunity\" onclick=\"document.location = 'OportunityView.aspx?id=-1';\"><i class=\"icon-plus bigger-110\"></i>" + Dictionary.Item_Oportunity_Button_New + "</button>");
-
     $("H1").html("<input type=\"radio\" id=\"RR\" name=\"RType\" checked=\"checked\" style=\"margin-top:12px;\" />&nbsp;" + Dictionary.Item_BusinessRisks + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"radio\" id=\"RO\" name=\"RType\" style=\"margin-top:12px;\" />&nbsp;" + Dictionary.Item_Oportunities);
 
     BusinessRiskGetFilter();
@@ -985,6 +1003,8 @@ window.onload = function () {
     $("#BtnRecordShowAllOportunity").click();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
 
+    console.log(Filter);
+    console.log(FilterOportunity);
     if (Filter === null && FilterOportunity !== null) {
         document.getElementById("RO").checked = true;
     }
@@ -1091,7 +1111,7 @@ window.onload = function () {
     });
 
     $("#input-span-sliderOportunity").slider({
-        "value": RuleLimitFromDBOportunity,
+        "value": typeof RuleLimitFromDBOportunity === "undefined" ? 0 : RuleLimitFromDBBusinessRisk,
         "range": "min",
         "min": 1,
         "max": 25,

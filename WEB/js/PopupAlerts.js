@@ -6,16 +6,16 @@
         "title": Dictionary.Common_Warning,
         "title_html": true,
         "buttons":
-        [
-            {
-                "id": "alertUI_BtnOK",
-                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
-                "class": "btn btn-xs btn-success",
-                "click": function () {
-                    $(this).dialog("close");
+            [
+                {
+                    "id": "alertUI_BtnOK",
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-xs btn-success",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
                 }
-            }
-        ]
+            ]
     });
 }
 
@@ -127,10 +127,7 @@ function successInfoUI(message, action, width) {
 }
 
 function timeoutAlert() {
-    if (timeoutAlerted === true) {
-        return false
-    };
-
+    if (timeoutAlerted === true) { return false; }
     if (timePassed * 1 < 30) {
         console.log("===> Timeout falso intento", timePassed);
         return false;
@@ -144,20 +141,20 @@ function timeoutAlert() {
         "title": Dictionary.Common_TiemoutSessionTitle,
         "title_html": true,
         "buttons":
-        [
-            {
-                "Id": "timeoutAlert_BtnOK",
-                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
-                "class": "btn btn-xs btn-success",
-                "click": function () {
-                    $(this).dialog("close");
+            [
+                {
+                    "id": "timeoutAlert_BtnOK",
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-xs btn-success",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
                 }
-            }
-        ]
+            ]
 
     }).on("dialogclose", function (event) {
         document.location = "LogOut.aspx";
-    })
+    });
 }
 
 function promptInfoUI(message, width, actionYes, actionNo) {
@@ -197,10 +194,7 @@ function promptInfoUI(message, width, actionYes, actionNo) {
 
 // @alex la variable forced que se envía desde el upload hace que salga el mensaje
 function LoadingShow(message, forced) {
-    if (typeof forced === "undefined" || forced === null || forced === false) {
-        return;
-    }
-
+    if (typeof forced === "undefined" || forced === null || forced === false) { return; }
     $("#LoadingMessage").html(message);
     var dialog = $("#LoadingDialog").removeClass("hide").dialog({
         "resizable": false,
@@ -215,5 +209,5 @@ function LoadingHide() {
     try {
         $("#LoadingDialog").dialog("close");
     }
-    catch (e) { }
+    catch (e) { console.log(e); }
 }

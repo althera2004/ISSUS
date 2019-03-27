@@ -36,13 +36,9 @@
                                     <div id="user-profile-2" class="user-profile">
                                         <div class="tabbable">
                                             <ul class="nav nav-tabs padding-18">
-                                                <li class="active" id="TabHome">
-                                                    <a data-toggle="tab" href="#home"><%=this.Dictionary["Item_Learning_Tab_Principal"]%></a>
-                                                </li>
+                                                <li class="active" id="TabHome"><a data-toggle="tab" href="#home"><%=this.Dictionary["Item_Learning_Tab_Principal"]%></a></li>
                                                 <% if(this.Learning.Id > 0) { %>
-                                                <li class="" id="TabuploadFiles">
-                                                    <a data-toggle="tab" href="#uploadFiles"><%=this.Dictionary["Item_Learning_Tab_UploadFiles"]%></a>
-                                                </li>
+                                                <li class="" id="TabuploadFiles"> <a data-toggle="tab" href="#uploadFiles"><%=this.Dictionary["Item_Learning_Tab_UploadFiles"]%></a></li>
                                                 <% } %>
                                             </ul>
                                             <div class="tab-content no-border padding-24">
@@ -60,11 +56,6 @@
                                                             <div class="col-sm-7">&nbsp;</div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <!--<label id="TxtYearLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Year"] %><span style="color:#f00;">*</span></label>
-                                                            <div class="col-sm-1">
-                                                                <input <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>type="text" id="TxtYear" placeholder="<%=this.Dictionary["Common_Year"] %>" class="col-xs-12 col-sm-12 integerFormated" maxlength="4"<% if(this.ShowHelp) { %> title="<%=this.Dictionary["Item_Learning_FieldLabel_Year"]%>"<% } %> />
-                                                                <span class="ErrorMessage" id="TxtYearErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
-                                                            </div>--> 
                                                             <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Course"] %><span style="color:#f00;">*</span></label>
                                                             <div class="col-sm-11">
                                                                 <input <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>type="text" id="TxtName" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Course"] %>" class="col-xs-12 col-sm-12"<% if(this.ShowHelp) { %> title="<%=this.Dictionary["Item_Learning_FieldLabel_Name"]%>"<% } %> maxlength="100" />
@@ -130,7 +121,7 @@
                                                             </div>
                                                             <label id="TxtAmountLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %></label>
                                                             <div class="col-sm-2">
-                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtAmount" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %>" class="col-xs-12 col-sm-12 money-bank" maxlength="9" />
+                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtAmount" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %>" class="col-xs-12 col-sm-12 -money-bank" maxlength="9" />
                                                                 <span class="ErrorMessage" id="TxtAmountErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                         </div>

@@ -1,4 +1,5 @@
 ﻿function RestoreUpload() {
+    $("#UploadFileDescription").removeAttr("disabled");
     document.getElementById("fileName").files = null;
     $("#UploadMessage").show();
     $("#UploadMessageSelected").hide();
@@ -39,8 +40,8 @@ function ShowPDF(documentName) {
     //initialize the document viewer
     var viewer = new DocumentViewer({
         $anchor: $('#container'),
-        width: 600,
-        isModal: true
+        "width": 600,
+        "isModal": true
     });
 
     var fileName = "/DOCS/" + ApplicationUser.CompanyId + "/" + documentName;
@@ -115,35 +116,34 @@ function UploadFile() {
         "title_html": true,
         "width": 800,
         "buttons":
-        [
-            {
-                "id": "BtnUploadOk",
-                "html": "<i class=\"icon-check bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
-                "class": "btn btn-success btn-xs",
-                "click": function () {
-                    UploadFileGo();
+            [
+                {
+                    "id": "BtnUploadFileOk",
+                    "html": "<i class=\"icon-check bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        UploadFileGo();
+                    }
+                },
+                {
+                    "id": "BtnUploadFileCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
                 }
-            },
-            {
-                "id": "UploadFileBtnCancel",
-                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                "class": "btn btn-xs",
-                "click": function () {
-                    $(this).dialog("close");
-                }
-            }
-        ]
+            ]
     });
 }
 
 function UploadFileGo() {
     //check whether browser fully supports all File API
     if (window.File && window.FileReader && window.FileList && window.Blob) {
-
         if (!$("#fileName").val()) //check empty input filed
         {
             alertUI(Dictionary.Common_Error_NoFileSelected);
-            return false
+            return false;
         }
 
         var fsize = $("#fileName")[0].files[0].size; // get file size
@@ -156,7 +156,6 @@ function UploadFileGo() {
             case "image/png":
             case "image/jpeg":
             case "image/pjpeg":
-            //case "image/gif":
             case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
             case "application/pdf":
             case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
@@ -175,8 +174,7 @@ function UploadFileGo() {
         if (fsize > 1024 * 1024 * 4) {
             alertUI(Dictionary.Common_MaximumUploadSize);
             return false;
-        }
-			
+        }			
 
         document.getElementById("BtnUploadOk").disabled = true;
         LoadingShow(Dictionary.Common_Uploading, true);
@@ -235,7 +233,6 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
     var div = document.createElement("DIV");
     div.id = id;
     div.className = "col-sm-3 document-container";
-
 
     var res = "<div class=\"col-sm-6\">&nbsp;</div>";
     if (extension !== "txt" && extension !== "png" && extension !== "gif" && extension !== "jpg") {
@@ -300,7 +297,7 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
     icon2.href = "/DOCS/" + ApplicationUser.CompanyId + "/" + fileName;
 
     var icon3 = document.createElement("I");
-    icon3.className = "icon-trash bigger-120"
+    icon3.className = "icon-trash bigger-120";
 
     tdSpan1.appendChild(icon1);
     tdSpan1.onclick = function () { ShowPDF(fileName); };
@@ -321,7 +318,6 @@ function RenderNewUploadFile(id, description, extension, fileName, date, size) {
     tr.appendChild(td3);
 
     document.getElementById("TBodyDocumentsList").appendChild(tr);
-
 
     $("#PopupUploadFile").dialog("close");
 }

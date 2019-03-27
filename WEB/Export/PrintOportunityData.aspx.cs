@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="PrintOportunityData.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="PrintOportunityData.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -180,260 +180,263 @@ public partial class ExportPrintOportunityData : Page
         document.Add(table);
         #endregion
 
-        // Añadir posible acción
-        var action = IncidentAction.ByOportunityId(oportunity.Id, companyId);
-        if (action.Id > 0)
+        if (user.HasGrantToRead(ApplicationGrant.IncidentActions))
         {
-            var tableAction = new PdfPTable(4)
+            // Añadir posible acción
+            var action = IncidentAction.ByOportunityId(oportunity.Id, companyId);
+            if (action.Id > 0)
             {
-                WidthPercentage = 100,
-                HorizontalAlignment = 0
-            };
-
-            tableAction.SetWidths(new float[] { 15f, 30f, 15f, 30f });
-
-            // Descripción
-            var headerFont = new Font(this.arial, 15, Font.NORMAL, BaseColor.BLACK);
-            tableAction.AddCell(new PdfPCell(new Phrase(dictionary["Item_Incident_PDF_ActionPageTitle"], headerFont))
-            {
-                Colspan = 4,
-                Border = ToolsPdf.BorderBottom,
-                HorizontalAlignment = Rectangle.ALIGN_CENTER
-            });
-            tableAction.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Description"], Rectangle.NO_BORDER));
-            tableAction.AddCell(ValueCell(action.Description, ToolsPdf.BorderNone, alignLeft, 3));
-
-            // WhatHappend
-            tableAction.AddCell(SeparationRow());
-            tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_WhatHappened"]));
-            tableAction.AddCell(TextAreaCell(Environment.NewLine + action.WhatHappened, borderSides, alignLeft, 4));
-            tableAction.AddCell(BlankRow());
-            tableAction.AddCell(TextAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + action.WhatHappenedBy.FullName, borderBL, alignLeft, 2));
-            tableAction.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "{0}: {1:dd/MM/yyyy}", dictionary["Common_Date"], action.WhatHappenedOn), borderBR, alignRight, 2));
-
-            // Causes
-            var causesFullName = string.Empty;
-            var causesDate = string.Empty;
-            if (action.CausesBy != null)
-            {
-                causesFullName = action.CausesBy.FullName;
-                causesDate = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.CausesOn);
-            }
-            tableAction.AddCell(SeparationRow());
-            tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Causes"]));
-            tableAction.AddCell(TextAreaCell(Environment.NewLine + action.Causes, borderSides, alignLeft, 4));
-            tableAction.AddCell(BlankRow());
-            tableAction.AddCell(TextAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + causesFullName, borderBL, alignLeft, 2));
-            tableAction.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "{0}: {1}", dictionary["Common_Date"], causesDate), borderBR, alignRight, 2));
-
-            // Actions
-            var actionFullName = string.Empty;
-            var actionDate = string.Empty;
-            if (action.ActionsBy != null)
-            {
-                actionFullName = action.ActionsBy.FullName;
-                actionDate = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.ActionsOn);
-            }
-            tableAction.AddCell(SeparationRow());
-            tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Actions"]));
-            tableAction.AddCell(TextAreaCell(Environment.NewLine + action.Actions, borderSides, alignLeft, 4));
-            tableAction.AddCell(BlankRow());
-            tableAction.AddCell(TextAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + actionFullName, borderBL, alignLeft, 2));
-            tableAction.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "{0}: {1}", dictionary["Common_DateExecution"], actionDate), borderBR, alignRight, 2));
-
-            // Monitoring
-            tableAction.AddCell(SeparationRow());
-            tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Monitoring"]));
-            tableAction.AddCell(TextAreaCell(Environment.NewLine + action.Monitoring, ToolsPdf.BorderAll, alignLeft, 4));
-
-            // Close
-            var closedFullName = string.Empty;
-            var closedDate = string.Empty;
-            if (action.ClosedBy != null)
-            {
-                closedFullName = action.ClosedBy.FullName;
-                closedDate = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.ClosedOn);
-            }
-            tableAction.AddCell(SeparationRow());
-            tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Close"]));
-            tableAction.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "\n{0}: {1}", dictionary["Item_IncidentAction_Field_Responsible"], closedFullName), borderTBL, alignLeft, 2));
-            tableAction.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "\n{0}: {1}", dictionary["Common_DateClose"], closedDate), borderTBR, alignRight, 2));
-
-            // Notes
-            tableAction.AddCell(SeparationRow());
-            tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Notes"]));
-            tableAction.AddCell(TextAreaCell(Environment.NewLine + action.Notes, ToolsPdf.BorderAll, alignLeft, 4));
-
-            document.NewPage();
-            document.Add(tableAction);
-        }
-
-        #region Historico acciones
-        var historico = IncidentAction.ByOportunityCode(oportunity.Code, company.Id).Where(ia => ia.Oportunity.Id != oportunity.Id).OrderBy(incidentAction => incidentAction.WhatHappenedOn).ToList();
-        if (historico.Count > 0)
-        {
-            var backgroundColor = new iTS.BaseColor(225, 225, 225);
-            var rowPair = new iTS.BaseColor(255, 255, 255);
-            var rowEven = new iTS.BaseColor(240, 240, 240);
-            var headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-
-            document.SetPageSize(PageSize.A4.Rotate());
-            document.NewPage();
-
-            var tableHistoric = new iTSpdf.PdfPTable(5)
-            {
-                WidthPercentage = 100,
-                HorizontalAlignment = 1,
-                SpacingBefore = 20f
-            };
-
-            tableHistoric.SetWidths(new float[] { 20f, 30f, 120f, 20f, 20f });
-
-            tableHistoric.AddCell(new PdfPCell(new Phrase(dictionary["Item_BusinessRisk_Tab_HistoryActions"], descriptionFont))
-            {
-                Colspan = 5,
-                Border = Rectangle.NO_BORDER,
-                PaddingTop = 20f,
-                PaddingBottom = 20f,
-                HorizontalAlignment = Element.ALIGN_CENTER
-            });
-
-            var valueFont = new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK);
-            tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
-            tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"]));
-            tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
-            tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_ImplementDate"]));
-            tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Close"]));
-
-            int cont = 0;
-            foreach (var accion in historico)
-            {
-                string statusText = dictionary["Item_Incident_Status1"];
-
-                if (accion.CausesOn.HasValue)
+                var tableAction = new PdfPTable(4)
                 {
-                    statusText = dictionary["Item_Incident_Status2"];
+                    WidthPercentage = 100,
+                    HorizontalAlignment = 0
+                };
+
+                tableAction.SetWidths(new float[] { 15f, 30f, 15f, 30f });
+
+                // Descripción
+                var headerFont = new Font(this.arial, 15, Font.NORMAL, BaseColor.BLACK);
+                tableAction.AddCell(new PdfPCell(new Phrase(dictionary["Item_Incident_PDF_ActionPageTitle"], headerFont))
+                {
+                    Colspan = 4,
+                    Border = ToolsPdf.BorderBottom,
+                    HorizontalAlignment = Rectangle.ALIGN_CENTER
+                });
+                tableAction.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Description"], Rectangle.NO_BORDER));
+                tableAction.AddCell(ValueCell(action.Description, ToolsPdf.BorderNone, alignLeft, 3));
+
+                // WhatHappend
+                tableAction.AddCell(SeparationRow());
+                tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_WhatHappened"]));
+                tableAction.AddCell(TextAreaCell(Environment.NewLine + action.WhatHappened, borderSides, alignLeft, 4));
+                tableAction.AddCell(BlankRow());
+                tableAction.AddCell(TextAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + action.WhatHappenedBy.FullName, borderBL, alignLeft, 2));
+                tableAction.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "{0}: {1:dd/MM/yyyy}", dictionary["Common_Date"], action.WhatHappenedOn), borderBR, alignRight, 2));
+
+                // Causes
+                var causesFullName = string.Empty;
+                var causesDate = string.Empty;
+                if (action.CausesBy != null)
+                {
+                    causesFullName = action.CausesBy.FullName;
+                    causesDate = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.CausesOn);
+                }
+                tableAction.AddCell(SeparationRow());
+                tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Causes"]));
+                tableAction.AddCell(TextAreaCell(Environment.NewLine + action.Causes, borderSides, alignLeft, 4));
+                tableAction.AddCell(BlankRow());
+                tableAction.AddCell(TextAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + causesFullName, borderBL, alignLeft, 2));
+                tableAction.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "{0}: {1}", dictionary["Common_Date"], causesDate), borderBR, alignRight, 2));
+
+                // Actions
+                var actionFullName = string.Empty;
+                var actionDate = string.Empty;
+                if (action.ActionsBy != null)
+                {
+                    actionFullName = action.ActionsBy.FullName;
+                    actionDate = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.ActionsOn);
+                }
+                tableAction.AddCell(SeparationRow());
+                tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Actions"]));
+                tableAction.AddCell(TextAreaCell(Environment.NewLine + action.Actions, borderSides, alignLeft, 4));
+                tableAction.AddCell(BlankRow());
+                tableAction.AddCell(TextAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + actionFullName, borderBL, alignLeft, 2));
+                tableAction.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "{0}: {1}", dictionary["Common_DateExecution"], actionDate), borderBR, alignRight, 2));
+
+                // Monitoring
+                tableAction.AddCell(SeparationRow());
+                tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Monitoring"]));
+                tableAction.AddCell(TextAreaCell(Environment.NewLine + action.Monitoring, ToolsPdf.BorderAll, alignLeft, 4));
+
+                // Close
+                var closedFullName = string.Empty;
+                var closedDate = string.Empty;
+                if (action.ClosedBy != null)
+                {
+                    closedFullName = action.ClosedBy.FullName;
+                    closedDate = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.ClosedOn);
+                }
+                tableAction.AddCell(SeparationRow());
+                tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Close"]));
+                tableAction.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "\n{0}: {1}", dictionary["Item_IncidentAction_Field_Responsible"], closedFullName), borderTBL, alignLeft, 2));
+                tableAction.AddCell(TextAreaCell(string.Format(CultureInfo.InvariantCulture, "\n{0}: {1}", dictionary["Common_DateClose"], closedDate), borderTBR, alignRight, 2));
+
+                // Notes
+                tableAction.AddCell(SeparationRow());
+                tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Notes"]));
+                tableAction.AddCell(TextAreaCell(Environment.NewLine + action.Notes, ToolsPdf.BorderAll, alignLeft, 4));
+
+                document.NewPage();
+                document.Add(tableAction);
+            }
+
+            #region Historico acciones
+            var historico = IncidentAction.ByOportunityCode(oportunity.Code, company.Id).Where(ia => ia.Oportunity.Id != oportunity.Id).OrderBy(incidentAction => incidentAction.WhatHappenedOn).ToList();
+            if (historico.Count > 0)
+            {
+                var backgroundColor = new iTS.BaseColor(225, 225, 225);
+                var rowPair = new iTS.BaseColor(255, 255, 255);
+                var rowEven = new iTS.BaseColor(240, 240, 240);
+                var headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+
+                document.SetPageSize(PageSize.A4.Rotate());
+                document.NewPage();
+
+                var tableHistoric = new iTSpdf.PdfPTable(5)
+                {
+                    WidthPercentage = 100,
+                    HorizontalAlignment = 1,
+                    SpacingBefore = 20f
+                };
+
+                tableHistoric.SetWidths(new float[] { 20f, 30f, 120f, 20f, 20f });
+
+                tableHistoric.AddCell(new PdfPCell(new Phrase(dictionary["Item_BusinessRisk_Tab_HistoryActions"], descriptionFont))
+                {
+                    Colspan = 5,
+                    Border = Rectangle.NO_BORDER,
+                    PaddingTop = 20f,
+                    PaddingBottom = 20f,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                });
+
+                var valueFont = new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK);
+                tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
+                tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"]));
+                tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
+                tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_ImplementDate"]));
+                tableHistoric.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Close"]));
+
+                int cont = 0;
+                foreach (var accion in historico)
+                {
+                    string statusText = dictionary["Item_Incident_Status1"];
+
+                    if (accion.CausesOn.HasValue)
+                    {
+                        statusText = dictionary["Item_Incident_Status2"];
+                    }
+
+                    if (accion.ActionsOn.HasValue)
+                    {
+                        statusText = dictionary["Item_Incident_Status3"];
+                    }
+
+                    if (accion.ClosedOn.HasValue)
+                    {
+                        statusText = dictionary["Item_Incident_Status4"];
+                    }
+
+                    tableHistoric.AddCell(ToolsPdf.DataCellCenter(accion.WhatHappenedOn, ToolsPdf.LayoutFonts.Times));
+                    tableHistoric.AddCell(ToolsPdf.DataCell(statusText, ToolsPdf.LayoutFonts.Times));
+                    tableHistoric.AddCell(ToolsPdf.DataCell(accion.Description, ToolsPdf.LayoutFonts.Times));
+                    tableHistoric.AddCell(ToolsPdf.DataCellCenter(accion.ActionsOn, ToolsPdf.LayoutFonts.Times));
+                    tableHistoric.AddCell(ToolsPdf.DataCellCenter(accion.ClosedOn, ToolsPdf.LayoutFonts.Times));
+
+                    cont++;
                 }
 
-                if (accion.ActionsOn.HasValue)
+                tableHistoric.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ": " + cont.ToString(), ToolsPdf.LayoutFonts.Times))
                 {
-                    statusText = dictionary["Item_Incident_Status3"];
+                    Border = ToolsPdf.BorderTop,
+                    Colspan = 5,
+                    Padding = 8f
+                });
+
+                document.Add(tableHistoric);
+            }
+            #endregion
+
+            #region Costes
+            var costs = IncidentActionCost.ByOportunityId(oportunity.Id, company.Id);
+            if (costs.Count > 0)
+            {
+                var backgroundColor = new iTS.BaseColor(225, 225, 225);
+                var rowPair = new iTS.BaseColor(255, 255, 255);
+                var rowEven = new iTS.BaseColor(240, 240, 240);
+                var headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
+
+                document.SetPageSize(PageSize.A4.Rotate());
+                document.NewPage();
+
+                var tableCost = new iTSpdf.PdfPTable(5)
+                {
+                    WidthPercentage = 100,
+                    HorizontalAlignment = 1,
+                    SpacingBefore = 20f
+                };
+
+                tableCost.SetWidths(new float[] { 90f, 40f, 30f, 60f, 20f });
+
+                tableCost.AddCell(new PdfPCell(new Phrase(dictionary["Item_Incident_Tab_Costs"], descriptionFont))
+                {
+                    Colspan = 5,
+                    Border = Rectangle.NO_BORDER,
+                    PaddingTop = 20f,
+                    PaddingBottom = 20f,
+                    HorizontalAlignment = Element.ALIGN_CENTER
+                });
+
+                var valueFont = new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK);
+                tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Description"]));
+                tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Amount"]));
+                tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Quantity"]));
+                tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Total"]));
+                tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_ReportedBy"]));
+
+                int cont = 0;
+                decimal costTotal = 0;
+                foreach (var cost in costs)
+                {
+
+                    tableCost.AddCell(ToolsPdf.DataCell(cost.Description, ToolsPdf.LayoutFonts.Times));
+                    tableCost.AddCell(ToolsPdf.DataCellMoney(cost.Amount, ToolsPdf.LayoutFonts.Times));
+                    tableCost.AddCell(ToolsPdf.DataCellMoney(cost.Quantity, ToolsPdf.LayoutFonts.Times));
+                    tableCost.AddCell(ToolsPdf.DataCellMoney(cost.Amount * cost.Quantity, ToolsPdf.LayoutFonts.Times));
+                    tableCost.AddCell(ToolsPdf.DataCell(cost.Responsible.FullName, ToolsPdf.LayoutFonts.Times));
+
+                    costTotal += cost.Amount * cost.Quantity;
+                    cont++;
                 }
 
-                if (accion.ClosedOn.HasValue)
+                tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_RegisterCount"].ToUpperInvariant() + ": " + cont.ToString(), ToolsPdf.LayoutFonts.Times))
                 {
-                    statusText = dictionary["Item_Incident_Status4"];
-                }
+                    Border = ToolsPdf.BorderTop,
+                    Colspan = 2,
+                    Padding = 8f
+                });
 
-                tableHistoric.AddCell(ToolsPdf.DataCellCenter(accion.WhatHappenedOn, ToolsPdf.LayoutFonts.Times));
-                tableHistoric.AddCell(ToolsPdf.DataCell(statusText, ToolsPdf.LayoutFonts.Times));
-                tableHistoric.AddCell(ToolsPdf.DataCell(accion.Description, ToolsPdf.LayoutFonts.Times));
-                tableHistoric.AddCell(ToolsPdf.DataCellCenter(accion.ActionsOn, ToolsPdf.LayoutFonts.Times));
-                tableHistoric.AddCell(ToolsPdf.DataCellCenter(accion.ClosedOn, ToolsPdf.LayoutFonts.Times));
+                tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.Times))
+                {
+                    Border = ToolsPdf.BorderTop,
+                    Colspan = 1,
+                    Padding = 8f,
+                    HorizontalAlignment = alignRight
+                });
 
-                cont++;
+                tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Tools.PdfMoneyFormat(costTotal), ToolsPdf.LayoutFonts.Times))
+                {
+                    Border = ToolsPdf.BorderTop,
+                    Colspan = 1,
+                    Padding = 8f,
+                    HorizontalAlignment = alignRight
+                });
+
+
+
+                tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.Times))
+                {
+                    Border = ToolsPdf.BorderTop,
+                    Colspan = 1,
+                    Padding = 8f,
+                    HorizontalAlignment = alignRight
+                });
+
+                document.Add(tableCost);
             }
 
-            tableHistoric.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ": " + cont.ToString(), ToolsPdf.LayoutFonts.Times))
-            {
-                Border = ToolsPdf.BorderTop,
-                Colspan = 5,
-                Padding = 8f
-            });
-
-            document.Add(tableHistoric);
+            #endregion
         }
-        #endregion
-
-        #region Costes
-        var costs = IncidentActionCost.ByOportunityId(oportunity.Id, company.Id);
-        if (costs.Count > 0)
-        {
-            var backgroundColor = new iTS.BaseColor(225, 225, 225);
-            var rowPair = new iTS.BaseColor(255, 255, 255);
-            var rowEven = new iTS.BaseColor(240, 240, 240);
-            var headerFontFinal = new iTS.Font(headerFont, 9, iTS.Font.NORMAL, iTS.BaseColor.BLACK);
-
-            document.SetPageSize(PageSize.A4.Rotate());
-            document.NewPage();
-
-            var tableCost = new iTSpdf.PdfPTable(5)
-            {
-                WidthPercentage = 100,
-                HorizontalAlignment = 1,
-                SpacingBefore = 20f
-            };
-
-            tableCost.SetWidths(new float[] { 90f, 40f, 30f, 60f, 20f });
-
-            tableCost.AddCell(new PdfPCell(new Phrase(dictionary["Item_Incident_Tab_Costs"], descriptionFont))
-            {
-                Colspan = 5,
-                Border = Rectangle.NO_BORDER,
-                PaddingTop = 20f,
-                PaddingBottom = 20f,
-                HorizontalAlignment = Element.ALIGN_CENTER
-            });
-
-            var valueFont = new Font(this.headerFont, 11, Font.BOLD, BaseColor.BLACK);
-            tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Description"]));
-            tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Amount"]));
-            tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Quantity"]));
-            tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Total"]));
-            tableCost.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_ReportedBy"]));
-
-            int cont = 0;
-            decimal costTotal = 0;
-            foreach (var cost in costs)
-            {
-
-                tableCost.AddCell(ToolsPdf.DataCell(cost.Description, ToolsPdf.LayoutFonts.Times));
-                tableCost.AddCell(ToolsPdf.DataCellMoney(cost.Amount, ToolsPdf.LayoutFonts.Times));
-                tableCost.AddCell(ToolsPdf.DataCellMoney(cost.Quantity, ToolsPdf.LayoutFonts.Times));
-                tableCost.AddCell(ToolsPdf.DataCellMoney(cost.Amount * cost.Quantity, ToolsPdf.LayoutFonts.Times));
-                tableCost.AddCell(ToolsPdf.DataCell(cost.Responsible.FullName, ToolsPdf.LayoutFonts.Times));
-
-                costTotal += cost.Amount * cost.Quantity;
-                cont++;
-            }
-
-            tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_RegisterCount"].ToUpperInvariant() + ": " + cont.ToString(), ToolsPdf.LayoutFonts.Times))
-            {
-                Border = ToolsPdf.BorderTop,
-                Colspan = 2,
-                Padding = 8f
-            });
-
-            tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.Times))
-            {
-                Border = ToolsPdf.BorderTop,
-                Colspan = 1,
-                Padding = 8f,
-                HorizontalAlignment = alignRight
-            });
-
-            tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Tools.PdfMoneyFormat(costTotal), ToolsPdf.LayoutFonts.Times))
-            {
-                Border = ToolsPdf.BorderTop,
-                Colspan = 1,
-                Padding = 8f,
-                HorizontalAlignment = alignRight
-            });
-
-
-
-            tableCost.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.Times))
-            {
-                Border = ToolsPdf.BorderTop,
-                Colspan = 1,
-                Padding = 8f,
-                HorizontalAlignment = alignRight
-            });
-
-            document.Add(tableCost);
-        }
-
-        #endregion
 
         document.Close();
         Response.ClearContent();

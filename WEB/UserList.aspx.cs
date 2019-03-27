@@ -1,13 +1,14 @@
 ﻿// --------------------------------
-// <copyright file="UserList.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="UserList.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
@@ -140,7 +141,75 @@ public partial class UserList : Page
         bool first = true;
         var users =  ApplicationUser.CompanyUsers(this.company.Id);
         int contData = 0;
-        foreach (var userItem in users)
+
+        foreach (var userItem in users.Where(u => u.PrimaryUser == true))
+        {
+            var row = string.Empty;
+            if (dictionary == null)
+            {
+                dictionary = Session["Dictionary"] as Dictionary<string, string>;
+            }
+
+            bool grantWrite = UserGrant.HasWriteGrant(this.user.Grants, ApplicationGrant.User);
+            bool grantDelete = UserGrant.HasDeleteGrant(this.user.Grants, ApplicationGrant.User);
+
+            string employeeLink = userItem.Employee != null ? userItem.Employee.Link : string.Empty;
+
+            string iconDelete = string.Empty;
+
+            string iconEdit = string.Format(
+                CultureInfo.InvariantCulture,
+                @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-info"" onclick=""UserUpdate({0},'{2}');""><i class=""icon-eye-open bigger-120""></i></span>",
+                userItem.Id,
+                dictionary["Common_View"],
+                userItem.Description);
+
+            if (grantWrite)
+            {
+                iconEdit = string.Format(
+                CultureInfo.InvariantCulture,
+                @"<span title=""{1} '{2}'"" class=""btn btn-xs btn-info"" onclick=""UserUpdate({0},'{2}');""><i class=""icon-edit bigger-120""></i></span>",
+                userItem.Id,
+                dictionary["Common_Edit"],
+                userItem.Description);
+            }
+
+            string iconAdmin = iconAdmin = "<i class=\"icon-star\" style=\"color:#428bca;\" title=" + dictionary["User_PrimaryUser"] + "></i>";
+
+
+            string pattern = @"<tr><td style=""width:40px;"">{5}</td><td>{0}</td><td style=""width:300px;"">{1}</td><td style=""width:300px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</td></tr>";
+            row = string.Format(
+                CultureInfo.GetCultureInfo("en-us"),
+                pattern,
+                userItem.Link,
+                employeeLink,
+                userItem.Email,
+                iconEdit,
+                string.Empty,
+                iconAdmin);
+
+
+            active.Append(row);
+
+            if (!searchedItem.Contains(userItem.UserName))
+            {
+                searchedItem.Add(userItem.UserName);
+            }
+
+            if (!searchedItem.Contains(userItem.Email))
+            {
+                searchedItem.Add(userItem.Email);
+            }
+
+            if (!searchedItem.Contains(userItem.Employee.FullName))
+            {
+                searchedItem.Add(userItem.Employee.FullName);
+            }
+
+            contData++;
+        }
+
+        foreach (var userItem in users.Where(u=>u.PrimaryUser == false))
         {
             active.Append(userItem.ListRow(this.dictionary, this.user.Grants));
 

@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="Giso.master.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="Giso.master.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -28,6 +28,7 @@ public partial class Giso : MasterPage
     /// <summary>List of navigation history urls</summary>
     private List<string> navigation;
 
+    /// <summary>Gets random data por anticache purposses</summary>
     public string AntiCache
     {
         get
@@ -38,19 +39,12 @@ public partial class Giso : MasterPage
 
     public int PendentTasks { get; private set; }
 
+    /// <summary>Gets Issus version</summary>
     public string IssusVersion
     {
         get
         {
             return ConfigurationManager.AppSettings["issusversion"];
-        }
-    }
-
-    public string BK
-    {
-        get
-        {
-            return Session["BK"] as string;
         }
     }
 
@@ -111,8 +105,17 @@ public partial class Giso : MasterPage
                 {
                     "Dashboard.aspx"
                 };
+
                 Session["Navigation"] = newNavigation;
                 return "DashBoard.aspx";
+            }
+
+            if(this.navigation == null)
+            {
+                this.navigation = new List<string>
+                {
+                    "DashBoard.aspx"
+                };
             }
 
             string last1 = string.Empty;
@@ -194,10 +197,7 @@ public partial class Giso : MasterPage
                 string label = item.Invariant ? item.Label : this.dictionary[item.Label];
                 if (item.Leaf)
                 {
-                    res.AppendFormat(
-                        CultureInfo.InvariantCulture,
-                        @"<li class=""active"">{0}</li>",
-                        label);
+                    res.AppendFormat(CultureInfo.InvariantCulture, @"<li class=""active"">{0}</li>", label);
                 }
                 else
                 {

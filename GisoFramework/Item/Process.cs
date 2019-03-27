@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="Process.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="Process.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 namespace GisoFramework.Item
 {
@@ -247,7 +247,35 @@ namespace GisoFramework.Item
             return res;
         }
 
-        /// <summary>Gets a descriptive string with the differences between tow process</summary>
+        /// <summary>Creates a JSON structure with the processes of a company</summary>
+        /// <param name="companyId">Company identifier</param>
+        /// <returns>JSON structure of a departments list</returns>
+        public static string ByCompanyJson(int companyId)
+        {
+            var res = new StringBuilder("[");
+            bool first = true;
+            foreach (var process in ByCompany(companyId))
+            {
+                if (!process.CanBeDeleted)
+                {
+                    if (first)
+                    {
+                        first = false;
+                    }
+                    else
+                    {
+                        res.Append(",");
+                    }
+
+                    res.Append(process.JsonKeyValue);
+                }
+            }
+
+            res.Append("]");
+            return res.ToString();
+        }
+
+        /// <summary>Gets a descriptive string with the differences between two process</summary>
         /// <param name="other">Second process to compare</param>
         /// <returns>A descriptive string</returns>
         public string Differences(Process other)
@@ -328,11 +356,6 @@ namespace GisoFramework.Item
         public static ReadOnlyCollection<Process> ByCompany(int companyId)
         {
             var res = new List<Process>();
-
-            /* CREATE PROCEDURE Get_ProcesosById
-             * @Id int,
-             * @CompanyId int */
-
             using (var cmd = new SqlCommand("Get_Procesos"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))

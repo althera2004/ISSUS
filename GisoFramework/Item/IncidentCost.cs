@@ -1,8 +1,9 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="IncidentCost.cs" company="Microsoft">
-//     Copyright (c) Sbrinna. All rights reserved.
+﻿// --------------------------------
+// <copyright file="IncidentCost.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// -----------------------------------------------------------------------
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 namespace GisoFramework.Item
 {
     using System;
@@ -110,7 +111,8 @@ namespace GisoFramework.Item
                         Responsible = actionCost.Responsible,
                         Amount = actionCost.Amount,
                         Active = actionCost.Active,
-                        Source = "A"
+                        Source = "A",
+                        Date = actionCost.Date
                     });
                 }
             }

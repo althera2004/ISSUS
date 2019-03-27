@@ -80,10 +80,9 @@ function RulesDeleteConfirmed(id) {
 }
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 310) + "px";
+    $("#ListDataDiv").height(containerHeight - 310);
 }
 
-window.onload = function () { Resize(); }
-window.onresize = function () { Resize(); }
+window.onload = function () { Resize(); };
+window.onresize = function () { Resize(); };

@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="actionview.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="actionview.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -43,6 +43,7 @@ public partial class ActionView : Page
     public BusinessRisk BusinessRisk { get; private set; }
     public Objetivo Objetivo { get; private set; }
     public Oportunity Oportunity { get; private set; }
+    public Auditory Auditory { get; private set; }
 
     TabBar tabBar = new TabBar { Id = "IncidentActionTabBar" };
 
@@ -203,6 +204,7 @@ public partial class ActionView : Page
         this.BusinessRisk = BusinessRisk.Empty;
         this.Objetivo = Objetivo.Empty;
         this.Oportunity = Oportunity.Empty;
+        this.Auditory = Auditory.Empty;
 
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
@@ -316,6 +318,11 @@ public partial class ActionView : Page
             if (this.IncidentAction.Oportunity.Id > 0)
             {
                 this.Oportunity = this.IncidentAction.Oportunity;
+            }
+
+            if (this.IncidentAction.AuditoryId > 0)
+            {
+                this.Auditory = Auditory.ById(this.IncidentAction.AuditoryId, this.Company.Id);
             }
 
             this.RenderDocuments();

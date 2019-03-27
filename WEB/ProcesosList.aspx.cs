@@ -1,18 +1,17 @@
 ﻿// --------------------------------
-// <copyright file="ProcesosList.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="ProcesosList.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
+using SbrinnaCoreFramework;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
-using SbrinnaCoreFramework;
 
 /// <summary>Implements Process list page</summary>
 public partial class ProcesosList : Page

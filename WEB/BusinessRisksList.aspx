@@ -74,6 +74,11 @@
         #BtnNewItem, BtnNewOportunity {
             display: none;
         }
+
+        .form-group select:disabled {
+            color: #848484 !important;
+            background-color: #eee !important;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
@@ -585,10 +590,12 @@
     
                                                         <div id="OportunityDeleteDialog" class="hide" style="width:500px;">
                                                             <p><%=this.Dictionary["Item_Oportunity_PopupDelete_Message"] %>&nbsp;<strong><span id="OportunityName"></span></strong>?</p>
+                                                            <div class="alert alert-danger"><%=this.Dictionary["Item_Incident_PopupDelete_Message_Actions"] %></div>
                                                         </div>
     
                                                         <div id="BusinessRiskDeleteDialog" class="hide" style="width:500px;">
                                                             <p><%=this.Dictionary["Item_BusinessRisk_PopupDelete_Message"] %>&nbsp;<strong><span id="BusinessRiskName"></span></strong>?</p>
+                                                            <div class="alert alert-danger"><%=this.Dictionary["Item_Incident_PopupDelete_Message_Actions"] %></div>
                                                         </div>
                                                         <div id="BusinessRiskUpdateDialog" class="hide" style="width:500px;">
                                                             <p><span id="TxtBusinessRiskNameLabel"><%=this.Dictionary["Common_Name"] %></span>&nbsp;<input type="text" id="TxtBusinessRiskName" /></p>

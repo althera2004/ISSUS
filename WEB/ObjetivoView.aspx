@@ -604,7 +604,7 @@
                                     <div class="form-group"> 
                                         <label id ="TxtRegistroValueLabel" class="col-sm-3 control-label no-padding-right" for="TxtRegistroValue"><%=this.Dictionary["Item_IndicatorRecord_FieldLabel_Value"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtRegistroValue" placeholder="" value="" maxlength="8" onkeypress="validate(event);" />
+                                            <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtRegistroValue" placeholder="" value="" maxlength="10" onkeypress="validate(event);" />
                                             <span class="ErrorMessage" id="TxtRegistroValueErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div> 
@@ -649,12 +649,10 @@
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
-        <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>   
-        <!-- script type="text/javascript" src="/assets/js/jquery.dynameter.js"></script -->
+        <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>
         <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
         <script type="text/javascript" src="/assets/js/dx.chartjs.js"></script>
         <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/Chart.js?ac=<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/ObjetivoView.js?ac=<%=this.AntiCache %>"></script>
 </asp:Content>
-

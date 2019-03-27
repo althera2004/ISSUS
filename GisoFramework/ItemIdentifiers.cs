@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="ItemValues.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="ItemValues.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 namespace GisoFramework
 {
@@ -77,5 +77,11 @@ namespace GisoFramework
 
         /// <summary>Indentifier for oportunity</summary>
         public const int Oportunity = 26;
+
+        /// <summary>Indentifier for questionary</summary>
+        public const int Questionary = 27;
+
+        /// <summary>Indentifier for auditory</summary>
+        public const int Auditory = 29;
     }
 }

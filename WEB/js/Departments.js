@@ -1,7 +1,6 @@
 ﻿$(document).ready(function () {
     RenderTable();
-
-    document.getElementById('TxtName').focus();
+    document.getElementById("TxtName").focus();
 });
 
 function RenderTable() {
@@ -11,8 +10,8 @@ function RenderTable() {
     }
 
     for (var x = 0; x < Departments.length; x++) {
-        var tr = document.createElement('tr');
-        var td = document.createElement('td');
+        var tr = document.createElement("TR");
+        var td = document.createElement("TD");
         var department = Departments[x];
         tr.id = department.Id;
         td.appendChild(document.createTextNode(department.Description));
@@ -22,58 +21,61 @@ function RenderTable() {
 }
 
  function JobPositionUpdate(id) {
-     document.location = 'CargosView.aspx?id=' + id;
+     document.location = "CargosView.aspx?id=" + id;
  }
 
  function EmployeeUpdate(id) {
-     document.location = 'EmployeesView.aspx?id=' + id;
+     document.location = "EmployeesView.aspx?id=" + id;
  }
 
  function NoDelete() {
      alert(Dictionary.Common_CanNotDelete);
  }
 
- function DepartmentDesassociationConfirmed(id) {
-     var webMethod = "/Async/EmployeeActions.asmx/DesassociateDepartment";
-     var data = { employeeId: id, companyId: Company.Id, departmentId: departmentId};
-     $("#DepartmentDesassociationDialog").dialog("close");
-     $.ajax({
-         type: "POST",
-         url: webMethod,
-         contentType: "application/json; charset=utf-8",
-         dataType: "json",
-         data: JSON.stringify(data, null, 2),
-         success: function (msg) {
-             document.location = document.location + '';
-         },
-         error: function (msg) {
-             alertUI(msg.responseText);
-         }
-     });
- }
+function DepartmentDesassociationConfirmed(id) {
+    var data = {
+        "employeeId": id,
+        "companyId": Company.Id,
+        "departmentId": departmentId
+    };
+    $("#DepartmentDesassociationDialog").dialog("close");
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/EmployeeActions.asmx/DesassociateDepartment",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            document.location = document.location + "";
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
 
  function Save() {
     var ok = true;
-    if (!RequiredFieldText('TxtName')) { ok = false; }
+    if (!RequiredFieldText("TxtName")) { ok = false; }
     else
     {
         var duplicated = false;
         for (var x = 0; x < departments.length; x++) {
             var description = departments[x].Description.toLowerCase();
-            if (description == document.getElementById('TxtName').value.toLowerCase() && departments[x].Id != departmentId) {
+            if (description === $("#TxtName").val().toLowerCase() && departments[x].Id !== departmentId) {
                 duplicated = true;
                 break;
             }
         }
 
         if (duplicated === true) {
-            document.getElementById('TxtNameLabel').style.color = '#f00';
-            document.getElementById('TxtNameErrorDuplicated').style.display = 'block';
+            $("#TxtNameLabel").css("color", "#f00");
+            $("#TxtNameErrorDuplicated").show();
             ok = false;
         }
         else {
-            document.getElementById('TxtNameLabel').style.color = '#000';
-            document.getElementById('TxtNameErrorDuplicated').style.display = 'none';
+            $("#TxtNameLabel").css("color",  "#000");
+            $("#TxtNameErrorDuplicated").hide();
         }
     }
 
@@ -84,29 +86,29 @@ function RenderTable() {
     else {
         var webMethod = "/Async/DepartmentActions.asmx/DepartmentUpdate";
         var data = {
-            'departmentId': departmentId,
-            'name': document.getElementById('TxtName').value,
-            'companyId': Company.Id,
-            'userId': user.Id
+            "departmentId": departmentId,
+            "name": document.getElementById("TxtName").value,
+            "companyId": Company.Id,
+            "userId": user.Id
         };
 
         if (departmentId === -1) {
             webMethod = "/Async/DepartmentActions.asmx/DepartmentInsert";
             data = {
-                'name': document.getElementById('TxtName').value,
-                'companyId': Company.Id,
-                'userId': user.Id
+                "name": document.getElementById("TxtName").value,
+                "companyId": Company.Id,
+                "userId": user.Id
             };
         }
 
         LoadingShow(Dictionary.Common_Message_Saving);
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (response) {
+            "type": "POST",
+            "url": webMethod,
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (response) {
                 LoadingHide();
                 if (response.d.Success !== true) {
                     alertUI(response.d.MessageError);
@@ -115,7 +117,7 @@ function RenderTable() {
                     document.location = referrer;
                 }
             },
-            error: function (jqXHR, textStatus, errorThrown) {
+            "error": function (jqXHR, textStatus, errorThrown) {
                 LoadingHide();
                 alertUI(jqXHR.responseText);
             }
@@ -124,25 +126,25 @@ function RenderTable() {
 }
 
 function EmployeeDelete(id, name) {
-    $('#DepartmentDesassociationText').html(name);
+    $("#DepartmentDesassociationText").html(name);
     DepartmentSelected = id;
     var dialog = $("#DepartmentDesassociationDialog").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Item_Employee_Popup_UnlinkJobPosition_Message,
-        title_html: true,
-        buttons: [
+        "resizable": false,
+        "modal": true,
+        "title": Item_Employee_Popup_UnlinkJobPosition_Message,
+        "title_html": true,
+        "buttons": [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
+                "html": "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
                 "class": "btn btn-danger btn-xs",
                 click: function () {
                     DepartmentDesassociationConfirmed(id);
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
@@ -151,15 +153,15 @@ function EmployeeDelete(id, name) {
 }
 
 jQuery(function ($) {
-    $('#BtnSave').click(Save);
-    $('#BtnCancel').click(function (e) {
+    $("#BtnSave").click(Save);
+    $("#BtnCancel").click(function (e) {
         document.location = referrer;
     });
 
     //override dialog's title function to allow for HTML titles
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || '&nbsp;';
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true) {
                 title.html($title);
             }
@@ -170,8 +172,8 @@ jQuery(function ($) {
     }));
 
     if (ApplicationUser.ShowHelp === true) {
-        SetToolTip('TxtName', Dictionary.Item_Department_Help_Field_Name);
-        $('[data-rel=tooltip]').tooltip();
+        SetToolTip("TxtName", Dictionary.Item_Department_Help_Field_Name);
+        $("[data-rel=tooltip]").tooltip();
     }
 });
 

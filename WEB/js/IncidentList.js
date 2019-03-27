@@ -276,10 +276,9 @@ function ItemRenderTable(list) {
         var tdDescription = document.createElement("TD");
         var tdAction = document.createElement("TD");
         var tdAmount = document.createElement("TD");
-        //var tdClose = document.createElement("TD");
 
         var status = "";
-        var colorStatus = "#fff;"
+        var colorStatus = "#fff";
         if (item.Status === 1) { status = Dictionary.Item_Incident_Status1; colorStatus = "#f00"; }
         if (item.Status === 2) { status = Dictionary.Item_Incident_Status2; colorStatus = "#dd0"; }
         if (item.Status === 3) { status = Dictionary.Item_Incident_Status3; colorStatus = "#070"; }
@@ -321,18 +320,16 @@ function ItemRenderTable(list) {
             }
         }
 
-        if (item.Action.Id === 0) {
+        if (item.Action.Id < 1) {
             tdAction.appendChild(document.createTextNode(" "));
         }
         else {
             if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
-                //tdAction.appendChild(document.createTextNode(item.Action.Description));
                 tdAction.appendChild(document.createTextNode(Dictionary.Common_View));
             }
             else {
                 var link3 = document.createElement("A");
                 link3.href = "ActionView.aspx?id=" + item.Action.Id;
-                //link3.appendChild(document.createTextNode(item.Action.Description));
                 link3.appendChild(document.createTextNode(Dictionary.Common_View));
                 tdAction.appendChild(link3);
             }
@@ -376,12 +373,12 @@ function ItemRenderTable(list) {
         tdAmount.appendChild(document.createTextNode(ToMoneyFormat(item.Amount, 2)));
 
         tdOpen.style.width = "100px";
-        tdOpen.align = "center"
-        tdStatus.style.width = "60px";
-        tdStatus.align = "center"
+        tdOpen.align = "center";
+        tdStatus.style.width = "65px";
+        tdStatus.align = "center";
         tdOrigin.style.width = "250px";
         tdAction.style.width = "90px";
-        tdAction.align = "center"
+        tdAction.align = "center";
         tdAmount.style.width = "100px";
         tdAmount.align = "right";
 
@@ -426,13 +423,14 @@ function ItemRenderTable(list) {
         if ($.inArray(item.Description, items) === -1) {
             items.push(item.Description);
         }
+
         if ($.inArray(item.Action.Description, items) === -1) {
             items.push(item.Action.Description);
         }
     }
 
     if (items.length === 0) {
-        $("#nav-search").hide();
+        //$("#nav-search").hide();
     }
     else {
         $("#nav-search").show();
@@ -510,14 +508,14 @@ function IncidentDelete(sender) {
     var dialog = $("#IncidentDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
-        "title": '<h4 class="smaller">' + Dictionary.Item_Incident_Popup_Delete_Title + '</h4>',
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Incident_Popup_Delete_Title + "</h4>",
         "title_html": true,
         "buttons":
             [
                 {
                     "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
-                    click: function () {
+                    "click": function () {
                         IncidentDeleteConfirmed();
                     }
                 },
@@ -592,9 +590,9 @@ window.onload = function () {
     $("#RIncidentStatus4").on("click", IncidentGetFilter);
     $("#TxtDateFrom").on("change", IncidentGetFilter);
     $("#TxtDateTo").on("change", IncidentGetFilter);
-}
+};
 
-window.onresize = function () { Resize(); }
+window.onresize = function () { Resize(); };
 
 function Export() {
     lockOrderList = true;

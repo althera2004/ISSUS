@@ -1,7 +1,9 @@
-﻿function decimalFormat(value) {
+﻿/// Redondea un valor decimal a dos decimales
+function decimalFormat(value) {
     return parseFloat(Math.round(value * 100) / 100).toFixed(2);
 }
 
+/// Sólo admite cifras "." y "," al pulsar una tecla
 function validate(evt) {
     var theEvent = evt || window.event;
     var key = theEvent.keyCode || theEvent.which;
@@ -14,6 +16,7 @@ function validate(evt) {
     }
 }
 
+/// Sólo admite cifras al pulsar una tecla
 function validateInteger(evt) {
     var theEvent = evt || window.event;
     var key = theEvent.keyCode || theEvent.which;
@@ -25,6 +28,7 @@ function validateInteger(evt) {
     }
 }
 
+/// Sólo admite cifras al pulsar una tecla
 function validateIntegerFormated(event) {
     var value = StringToNumber(event.currentTarget.value);
     var regex = /[0-9]/;
@@ -34,6 +38,7 @@ function validateIntegerFormated(event) {
     }
 }
 
+/// Sólo admite cifras y "." al pulsar una tecla
 function validateDecimal(evt, value) {
     var theEvent = evt || window.event;
     var key = theEvent.keyCode || theEvent.which;
@@ -45,6 +50,7 @@ function validateDecimal(evt, value) {
     }
 }
 
+/// Valida que texto es una fecha
 function validateDate(dateString) {
     // First check for the pattern
     if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString))
@@ -76,8 +82,9 @@ function validateDate(dateString) {
 
     // Check the range of the day
     return day > 0 && day <= monthLength[month - 1];
-};
+}
 
+/// Vacía el contenido de una table a través del id
 function VoidTable(name) {
     var target = document.getElementById(name);
     if (target !== null) {
@@ -87,6 +94,7 @@ function VoidTable(name) {
     }
 }
 
+/// Rellena los datos de la ficha de la empresa (traspasar a la ficha de empresa)
 function FillEmpresaForm() {
     $("#TxtMailContact").val(CompanyData.MailContact);
     $("#TxtWeb").val(CompanyData.Web);
@@ -94,6 +102,7 @@ function FillEmpresaForm() {
     $("#SpanSubscriptionEnd").html(CompanyData.SubscriptionEnd);
 }
 
+/// Convierte una fecha en texto con formato dd-mm-yyyy
 function FormatDate(date, separator) {
     if (date === null) { return ""; }
     if (separator === null) { separator = "-"; }
@@ -107,6 +116,7 @@ function FormatDate(date, separator) {
     return res += month + separator + year;
 }
 
+/// Convierte un texto de fecha YYYYMMDD en texto con formato dd-mm-yyyy
 function FormatYYYYMMDD(date, separator) {
     if (date === null) { return ""; }
 
@@ -126,6 +136,7 @@ function FormatYYYYMMDD(date, separator) {
     return res += month + separator + year;
 }
 
+/// Convierte una fecha en texto con formato YYYYMMDD
 function GetDateYYYYMMDDToText(date, nullable) {
 
     if (date === null || date === "") {
@@ -150,6 +161,7 @@ function GetDateYYYYMMDDToText(date, nullable) {
     return year +  month +  day;
 }
 
+/// Convierte un texto de fecha YYYYMMDD en texto con formato dd-mm-yyyy indicando separador
 function GetDateYYYYMMDDText(date, separator, nullable) {
 
     if (date === null || date === "") {
@@ -174,6 +186,7 @@ function GetDateYYYYMMDDText(date, separator, nullable) {
     return day + separator + month + separator + year;
 }
 
+/// Obtiene una fecha a partir de un texto con formato YYYYMMDD
 function GetDateYYYYMMDD(date, nullable) {
     if (date === "") {
         if (typeof nullable === "undefined" || nullable === null) {
@@ -196,6 +209,7 @@ function GetDateYYYYMMDD(date, nullable) {
     return new Date(year, month, day);
 }
 
+/// Obtiene una fecha a partir de un texto con formato dd-mm-yyyy
 function GetDate(date, separator, nullable) {
     if (date === "") {
         if (typeof nullable === "undefined" || nullable === null) {
@@ -223,6 +237,7 @@ function GetDate(date, separator, nullable) {
     return new Date(year, month, day);
 }
 
+/// Convierte un texto en número indicando separador de millares y decimal
 function StringToNumber(text, milesSeparator, decimalSeparator) {
     text = text.toString();
     milesSeparator = milesSeparator || Dictionary.NumericMilesSeparator;
@@ -232,6 +247,7 @@ function StringToNumber(text, milesSeparator, decimalSeparator) {
     return text * 1;
 }
 
+/// Convierte un texto en número indicando separador de millares y decimal admitiendo valores nulos
 function StringToNumberNullable(text, milesSeparator, decimalSeparator) {
     if (text === "") {
         return null;
@@ -245,6 +261,7 @@ function StringToNumberNullable(text, milesSeparator, decimalSeparator) {
     return text * 1;
 }
 
+/// Conviert un número en texto
 function NumberToString(number) {
     var integer = Math.floor(number);
     var decimal = number - integer;
@@ -252,14 +269,16 @@ function NumberToString(number) {
 }
 
 //----------------------------------------------------------------------
+/// Ordena un array de objetos indicando el campo y el orden ASC/DESC
 var sort_by = function (field, reverse, primer) {
-    var key = primer ? function (x) { return primer(x[field]) } : function (x) { return x[field] };
+    var key = primer ? function (x) { return primer(x[field]); } : function (x) { return x[field]; };
     reverse = [-1, 1][+!!reverse];
     return function (a, b) {
         return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
-    }
-}
+    };
+};
 
+/// Ordena el contenido de una lista
 function Sort(sender, targetName, dataType, HasTotalFooter) {
     var sortType = sender.className.indexOf("ASC") !== -1 ? "DESC" : "ASC";
     listOrder = sender.id + "|" + sortType;
@@ -310,29 +329,29 @@ function Sort(sender, targetName, dataType, HasTotalFooter) {
             value = pivot.childNodes[0].innerHTML;
         }
 
-        if (dataType === 'date') {
+        if (dataType === "date") {
             value = value.split('/')[2] + value.split('/')[1] + value.split('/')[0];
         }
 
-        if (dataType === 'money') {
+        if (dataType === "money") {
             value = ParseInputValueToNumber(value);
         }
 
         index.push({ Key: y, Value: value });
     }
 
-    if (dataType === 'money') {
-        index.sort(sort_by('Value', sortType === 'ASC', function (a) { return a * 1; }));
+    if (dataType === "money") {
+        index.sort(sort_by("Value", sortType === "ASC", function (a) { return a * 1; }));
     }
     else {
-        index.sort(sort_by('Value', sortType === 'ASC', function (a) { return a.toUpperCase() }));
+        index.sort(sort_by("Value", sortType === "ASC", function (a) { return a.toUpperCase(); }));
     }
 
     for (var w = 0; w < index.length; w++) {
         target.appendChild(rows[index[w].Key]);
     }
 
-    if (typeof HasTotalFooter !== 'undefined' && HasTotalFooter === true) {
+    if (typeof HasTotalFooter !== "undefined" && HasTotalFooter === true) {
         target.appendChild(footer);
     }
 }
@@ -344,106 +363,88 @@ function valida_nif_cif_nie( a )
     var temp = a.toUpperCase();
     var cadenadni = "TRWAGMYFPDXBNJZSQVHLCKE";
  
-    if( temp!== '' )
-    {
+    if (temp !== '') {
         //si no tiene un formato valido devuelve error
-        if( ( !/^[A-Z]{1}[0-9]{7}[A-Z0-9]{1}$/.test( temp ) && !/^[T]{1}[A-Z0-9]{8}$/.test( temp ) ) && !/^[0-9]{8}[A-Z]{1}$/.test( temp ) )
-        {
+        if ((!/^[A-Z]{1}[0-9]{7}[A-Z0-9]{1}$/.test(temp) && !/^[T]{1}[A-Z0-9]{8}$/.test(temp)) && !/^[0-9]{8}[A-Z]{1}$/.test(temp)) {
             return 0;
         }
- 
+
         //comprobacion de NIFs estandar
-        if( /^[0-9]{8}[A-Z]{1}$/.test( temp ) )
-        {
-            posicion = a.substring( 8,0 ) % 23;
-            letra = cadenadni.charAt( posicion );
-            var letradni = temp.charAt( 8 );
-            if( letra === letradni )
-            {
+        if (/^[0-9]{8}[A-Z]{1}$/.test(temp)) {
+            posicion = a.substring(8, 0) % 23;
+            letra = cadenadni.charAt(posicion);
+            var letradni = temp.charAt(8);
+            if (letra === letradni) {
                 return 1;
             }
-            else
-            {
+            else {
                 return -1;
             }
         }
- 
- 
+
         //algoritmo para comprobacion de codigos tipo CIF
-        suma = parseInt(a.charAt(2))+parseInt(a.charAt(4))+parseInt(a.charAt(6));
- 
-        for( i = 1; i < 8; i += 2 )
-        {
-            temp1 = 2 * parseInt( a.charAt( i ) );
-            temp1 += '';
-            temp1 = temp1.substring(0,1);
-            temp2 = 2 * parseInt( a.charAt( i ) );
-            temp2 += '';
-            temp2 = temp2.substring( 1,2 );
-            if( temp2 === '' )
-            {
-                temp2 = '0';
+        suma = parseInt(a.charAt(2)) + parseInt(a.charAt(4)) + parseInt(a.charAt(6));
+
+        for (i = 1; i < 8; i += 2) {
+            temp1 = 2 * parseInt(a.charAt(i));
+            temp1 += "";
+            temp1 = temp1.substring(0, 1);
+            temp2 = 2 * parseInt(a.charAt(i));
+            temp2 += "";
+            temp2 = temp2.substring(1, 2);
+            if (temp2 === "") {
+                temp2 = "0";
             }
- 
-            suma += ( parseInt( temp1 ) + parseInt( temp2 ) );
+
+            suma += (parseInt(temp1) + parseInt(temp2));
         }
-        suma += '';
-        n = 10 + (parseInt( suma.substring( suma.length-1, suma.length ) )* -1);
- 
+
+        suma += "";
+        n = 10 + (parseInt(suma.substring(suma.length - 1, suma.length)) * -1);
+
         //comprobacion de NIFs especiales (se calculan como CIFs)
-        if( /^[KLM]{1}/.test( temp ) )
-        {
-            if( a.charAt( 8 ) === String.fromCharCode( 64 + n ) )
-            {
+        if (/^[KLM]{1}/.test(temp)) {
+            if (a.charAt(8) === String.fromCharCode(64 + n)) {
                 return 1;
             }
-            else
-            {
+            else {
                 return -1;
             }
         }
- 
+
         //comprobacion de CIFs
-        if( /^[ABCDEFGHJNPQRSUVW]{1}/.test( temp ) )
-        {
-            temp = n + '';
-            if( a.charAt( 8 ) === String.fromCharCode( 64 + n ) || a.charAt( 8 ) === parseInt( temp.substring( temp.length-1, temp.length ) ) )
-            {
+        if (/^[ABCDEFGHJNPQRSUVW]{1}/.test(temp)) {
+            temp = n + "";
+            if (a.charAt(8) === String.fromCharCode(64 + n) || a.charAt(8) === parseInt(temp.substring(temp.length - 1, temp.length))) {
                 return 2;
             }
-            else
-            {
+            else {
                 return -2;
             }
         }
- 
+
         //comprobacion de NIEs
         //T
-        if( /^[T]{1}[A-Z0-9]{8}$/.test( temp ) )
-        {
-            if( a.charAt( 8 ) === /^[T]{1}[A-Z0-9]{8}$/.test( temp ) )
-            {
+        if (/^[T]{1}[A-Z0-9]{8}$/.test(temp)) {
+            if (a.charAt(8) === /^[T]{1}[A-Z0-9]{8}$/.test(temp)) {
                 return 3;
             }
-            else
-            {
+            else {
                 return -3;
             }
         }
+
         //XYZ
-        if( /^[XYZ]{1}/.test( temp ) )
-        {
-            temp = temp.replace( 'X','0' )
-            temp = temp.replace( 'Y','1' )
-            temp = temp.replace( 'Z','2' )
+        if (/^[XYZ]{1}/.test(temp)) {
+            temp = temp.replace("X", "0");
+            temp = temp.replace("Y", "1");
+            temp = temp.replace("Z", "2");
             pos = temp.substring(0, 8) % 23;
- 
-            if( a.toUpperCase().charAt( 8 ) === cadenadni.substring( pos, pos + 1 ) )
-            {
+
+            if (a.toUpperCase().charAt(8) === cadenadni.substring(pos, pos + 1)) {
                 return 3;
             }
-            else
-            {
+            else {
                 return -3;
             }
         }
@@ -452,54 +453,33 @@ function valida_nif_cif_nie( a )
     return 0;
 }
 
-/*function str_replace( search, position, replace, subject )
-{
-    var f = search, r = replace, s = subject, p = position;
-    var ra = r instanceof Array, sa = s instanceof Array, f = [].concat(f), r = [].concat(r), i = (s = [].concat(s)).length;
- 
-    while( j = 0, i-- )
-    {
-        if( s[i] )
-        {
-            while( s[p] = s[p].split( f[j] ).join( ra ? r[j] || "" : r[0] ), ++j in f){};
-        }
-    };
- 
-    return sa ? s : s[0];
-}*/
-//-------------------------------------------------
+/// Indica si el texto tiene el formato de email
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
 
 // VALIDACION DE FORMULARIOS
+// --------------------------------------------------------------
+
+/// Resetea los errores de validación de un campo
 function ClearFieldTextMessages(fieldName) {
-    if (document.getElementById(fieldName + "ErrorRequired") !== null) {
-        document.getElementById(fieldName + "ErrorRequired").style.display = "none";
-    }
-
-    if (document.getElementById(fieldName + "ErrorDuplicated") !== null) {
-        document.getElementById(fieldName + "ErrorDuplicated").style.display = "none";
-    }
-
-    if (document.getElementById(fieldName + "Label") !== null) {
-        document.getElementById(fieldName + "Label").style.color = "#000";
-    }
+    $("#" + fieldName + "ErrorRequired").hide();
+    $("#" + fieldName + "ErrorDuplicated").hide();
+    $("#" + fieldName + "Label").css("color", "#000");
 }
 
+/// Pinta de rojo la etiqueta de un campo
 function SetFieldTextMessages(fieldName) {
-    if (document.getElementById(fieldName + "Label") !== null) {
-        document.getElementById(fieldName + "Label").style.color = "#f00";
-    }
+    $("#" + fieldName + "Label").css("color", "#f00");
 }
 
+/// Establece un campo como obligatio, añade * en rojo a la etiqueta
 function SetAsRequired(fieldName) {
-    if (document.getElementById(fieldName + "Label") !== null) {
-        document.getElementById(fieldName + "Label").innerHTML += "<span style=\"color:#f00;\">*</span>";
-    }
+    $("#" + fieldName + "Label").html($("#" + fieldName + fieldName + "Label").html() + "<span style=\"color:#f00;\">*</span>");
 }
 
+/// Comprueba si el valor de un campo está duplicado
 function DuplicatedFiled(field) {
     ok = true;
     var fieldName = field.FieldName;
@@ -512,133 +492,128 @@ function DuplicatedFiled(field) {
     }
 
     if (ok === false) {
-        if (document.getElementById(fieldName + "ErrorDuplicated") !== null) {
-            document.getElementById(fieldName + "ErrorDuplicated").style.display = "block";
-        }
-        document.getElementById(fieldName + "Label").style.color = "#f00";
+        $("#" + fieldName + "ErrorDuplicated").show();
+        $("#" + fieldName + "Label").css("color", "#f00");
     }
     else {
-        if (document.getElementById(fieldName + "ErrorDuplicated") !== null) {
-            document.getElementById(fieldName + "ErrorDuplicated").style.display = "none";
-        }
-        document.getElementById(fieldName + "Label").style.color = "#000";
+        $("#" + fieldName + "ErrorDuplicated").hide();
+        $("#" + fieldName + "Label").css("color", "#000");
     }
 
     return ok;
 }
 
+/// Comprueba si un campo tiene valor
 function RequiredFieldText(fieldName) {
     ok = true;
-    if (document.getElementById(fieldName).value.trim() === "") {
+    if ($("#" + fieldName).val().trim() === "") {
         ok = false;
-        if (document.getElementById(fieldName + "ErrorRequired") !== null) {
-            document.getElementById(fieldName + "ErrorRequired").style.display = "block";
-        }
-        document.getElementById(fieldName+"Label").style.color = "#f00";
+        $("#" + fieldName + "ErrorRequired").show();
+        $("#" + fieldName + "Label").css("color", "#f00");
     }
     else {
-        if (document.getElementById(fieldName + "ErrorRequired") !== null) {
-            document.getElementById(fieldName + "ErrorRequired").style.display = "none";
-        }
-        document.getElementById(fieldName+"Label").style.color = "#000";
+        $("#" + fieldName + "ErrorRequired").hide();
+        $("#" + fieldName + "Label").css("color", "#000");
     }
 
     return ok;
 }
 
+/// Comprueba si un select tiene valor seleccionado
 function RequiredFieldCombo(fieldName) {
     ok = true;
     if ($("#"+fieldName).val() === "0") {
         ok = false;
-        if (document.getElementById(fieldName + "ErrorRequired") !== null) {
-            document.getElementById(fieldName + "ErrorRequired").style.display = "block";
-        }
-        document.getElementById(fieldName + "Label").style.color = "#f00";
+        $("#" + fieldName + "ErrorRequired").show();
+        $("#" + fieldName + "Label").css("color", "#f00");
     }
     else {
-        if (document.getElementById(fieldName + "ErrorRequired") !== null) {
-            document.getElementById(fieldName + "ErrorRequired").style.display = "none";
-        }
-        document.getElementById(fieldName + "Label").style.color = "#000";
+        $("#" + fieldName + "ErrorRequired").hide();
+        $("#" + fieldName + "Label").css("color", "#000");
     }
 
     return ok;
 }
 
+/// Comprueba que almenos uno de los dos campos tiene valir
 function RequiredBothFieldText(fieldName1, fieldName2) {
     ok = true;
     if (document.getElementById(fieldName1).value.trim() === "" && document.getElementById(fieldName2).value.trim() === "") {
         ok = false;
-        document.getElementById(fieldName1 + "ErrorRequired").style.display = "block";
-        document.getElementById(fieldName1 + "Label").style.color = "#f00";
-        document.getElementById(fieldName2 + "ErrorRequired").style.display = "block";
-        document.getElementById(fieldName2 + "Label").style.color = "#f00";
+        $("#" + fieldName1 + "ErrorRequired").show();
+        $("#" + fieldName1 + "Label").css("color", "#f00");
+        $("#" + fieldName2 + "ErrorRequired").show();
+        $("#" + fieldName2 + "Label").style.color = "#f00";
     }
     else {
-        document.getElementById(fieldName1 + "ErrorRequired").style.display = "none";
-        document.getElementById(fieldName1 + "Label").style.color = "#000";
-        document.getElementById(fieldName2 + "ErrorRequired").style.display = "none";
-        document.getElementById(fieldName2 + "Label").style.color = "#000";
+        $("#" + fieldName1 + "ErrorRequired").hide();
+        $("#" + fieldName1 + "Label").css("color", "#000");
+        $("#" + fieldName2 + "ErrorRequired").hide();
+        $("#" + fieldName2 + "Label").css("color", "#000");
     }
 
     return ok;
 }
 
+/// Comprueba que los dos campos tienen el mismo valor. P.e.:"Contreña" y "Validar contraseña"
 function MatchRequiredBothFieldText(fieldName1, fieldName2) {
     ok = true;
-    if (document.getElementById(fieldName1).value.trim() === "" || document.getElementById(fieldName2).value.trim() === "") {
+    if ($("#" + fieldName1).val() === "" || $("#" + fieldName2).val() === "") {
         return ok;
     }
 
     if (document.getElementById(fieldName1).value !== document.getElementById(fieldName2).value) {
         ok = false;
-        document.getElementById(fieldName1 + "ErrorMatch").style.display = "block";
-        document.getElementById(fieldName1 + "Label").style.color = "#f00";
-        document.getElementById(fieldName2 + "ErrorMatch").style.display = "block";
-        document.getElementById(fieldName2 + "Label").style.color = "#f00";
+        $("#" + fieldName1 + "ErrorMatch").show();
+        $("#" + fieldName1 + "Label").css("color", "#f00");
+        $("#" + fieldName2 + "ErrorMatch").show();
+        $("#" + fieldName2 + "Label").css("color", "#f00");
     }
     else {
-        document.getElementById(fieldName1 + "ErrorMatch").style.display = "none";
-        document.getElementById(fieldName1 + "Label").style.color = "#000";
-        document.getElementById(fieldName2 + "ErrorMatch").style.display = "none";
-        document.getElementById(fieldName2 + "Label").style.color = "#000";
+        $("#" + fieldName1 + "ErrorMatch").hide();
+        $("#" + fieldName1 + "Label").css("color", "#000");
+        $("#" + fieldName2 + "ErrorMatch").hide();
+        $("#" + fieldName2 + "Label").css("color", "#000");
     }
 
     return ok;
 }
 
+/// Comprueba si un texto tiene el formato válidfo para NIF/NIE/CIF
 function MalFormedNif(fieldName) {
     ok = true;
     if (valida_nif_cif_nie(document.getElementById(fieldName).value) < 1) {
         ok = false;
-        document.getElementById(fieldName + "ErrorMalformed").style.display = "block";
-        document.getElementById(fieldName + "Label").style.color = "#f00";
+        $("#" + fieldName + "ErrorMalformed").show();
+        $("#" + fieldName + "Label").css("color", "#f00");
     }
     else {
-        document.getElementById(fieldName + "ErrorMalformed").style.display = "none";
-        document.getElementById(fieldName + "Label").style.color = "#000";
-        document.getElementById(fieldName).value = document.getElementById(fieldName).value.toUpperCase();
+        $("#" + fieldName + "ErrorMalformed").hide();
+        $("#" + fieldName + "Label").css("color", "#000");
+        $("#" + fieldName).val($("#" + fieldName).val().toUpperCase());
     }
 
     return ok;
 }
 
+/// Comprueba si un texto tiene el formato válido para un email
 function MalFormedEmail(fieldName) {
     ok = true;
     if (validateEmail(document.getElementById(fieldName).value) < 1) {
         ok = false;
-        document.getElementById(fieldName + "ErrorMalformed").style.display = "block";
-        document.getElementById(fieldName + "Label").style.color = "#f00";
+        $("#" + fieldName + "ErrorMalformed").show();
+        $("#" + fieldName + "Label").css("color", "#f00");
     }
     else {
-        document.getElementById(fieldName + "ErrorMalformed").style.display = "none";
-        document.getElementById(fieldName + "Label").style.color = "#000";
-        document.getElementById(fieldName).value = document.getElementById(fieldName).value.toLowerCase();
+        $("#" + fieldName + "ErrorMalformed").hide();
+        $("#" + fieldName + "Label").style.color = "#000";
+        $("#" + fieldName).val($("#" + fieldName).val().toLowerCase());
     }
 
     return ok;
 }
 
+/// Comprueba si se alcanza el mínimo de checkbox marcados
 function RequiredMinimumCheckBox(criteria) {
     var res = true;
     var count = 0;
@@ -648,28 +623,23 @@ function RequiredMinimumCheckBox(criteria) {
 
     if (count < criteria.Minimum) {
         ok = false;
-        document.getElementById(criteria.Message).style.display = "block";
+        $("#" + criteria.Message).show();
     }
     else {
         ok = true;
-        document.getElementById(criteria.Message).style.display = "none";
+        $("#" + criteria.Message).hide();
     }
 
     return ok;
 }
 
+/// Comprueba que el valor sea una fecha
 function RequiredDateValue(fieldName) {
     if (document.getElementById(fieldName) !== null) {
-        var dateText = document.getElementById(fieldName).value;
+        var dateText = $("#" + fieldName).val();
         if (!validateDate(dateText)) {
-            if (document.getElementById(fieldName + "Label") !== null) {
-                document.getElementById(fieldName + "Label").style.color = "#f00";
-            }
-
-            if (document.getElementById(fieldName + "DateMalformed") !== null) {
-                document.getElementById(fieldName + "DateMalformed").style.display = "";
-            }
-
+                $("#" + fieldName + "Label").css("color", "#f00");
+            $("#" + fieldName + "DateMalformed").show();
             return false;
         }
     }
@@ -677,6 +647,7 @@ function RequiredDateValue(fieldName) {
     return true;
 }
 
+/// Obtiene un empleado a través del id
 function GetCompanyEmployee(employeeId) {
     for (var x = 0; x < Company.Employees.length; x++) {
         if (Company.Employees[x].Id === employeeId) {
@@ -687,6 +658,7 @@ function GetCompanyEmployee(employeeId) {
     return null;
 }
 
+/// Obtiene un departamento a través del id
 function GetCompanyDepartment(departmentId) {
     for (var x = 0; x < departmentsCompany.length; x++) {
         if (departmentsCompany[x].Id === departmentId) {
@@ -697,6 +669,7 @@ function GetCompanyDepartment(departmentId) {
     return null;
 }
 
+/// Indica si un departamento tiene cargo asignado para evitar ser eliminado
 function DepartmentHasJobPosition(departmentId) {
     for (var x = 0; x < jobPositionCompany.length; x++) {
         if (jobPositionCompany[x].Department.Id === departmentId) {
@@ -707,12 +680,13 @@ function DepartmentHasJobPosition(departmentId) {
     return false;
 }
 
+/// Establece el tooltipo para un campo de formulario
 function SetToolTip(id, text) {
     if(document.getElementById(id) !== null) {
         var control = document.getElementById(id);
         control.title = text;
         control.setAttribute("data-rel", "tooltip");
-        if (control.tagName === 'DIV') {
+        if (control.tagName === "DIV") {
             control.setAttribute("data-placement", "top");
             return;
         }
@@ -721,6 +695,7 @@ function SetToolTip(id, text) {
     }
 }
 
+/// Deshabilita el tooltipo para un campo de formulario
 function UnsetToolTip(id) {
     if (document.getElementById(id) !== null) {
         var control = document.getElementById(id);
@@ -728,70 +703,83 @@ function UnsetToolTip(id) {
     }
 }
 
+/// Genera un aviso de obligatoriedad
 function CreateRequiredAlert() {
-    var requiredAlert = document.createElement('SPAN');
-    requiredAlert.style.color = '#f00';
-    requiredAlert.appendChild(document.createTextNode('*'));
+    var requiredAlert = document.createElement("SPAN");
+    requiredAlert.style.color = "#f00";
+    requiredAlert.appendChild(document.createTextNode("*"));
     return requiredAlert;
 }
 
+/// Establece un campo campo obligatorio
 function FieldSetRequired(fieldName, label, required) {
     try{
         target = document.getElementById(fieldName);
-        target.innerHTML = '';
+        target.innerHTML = "";
         target.appendChild(document.createTextNode(label));
         if (required === true) {
             target.appendChild(CreateRequiredAlert());
         }
         else {
-            target.style.color = '';
+            target.style.color = "";
         }
     }
     catch (e) {
-        // alert('FieldSetRequired:' + fieldName);
+        console.log("FieldSetRequired", e);
     }
 }
 
+/// Convierto el valor de un campo en formato "money" #.###,##
 function ToMoneyFormatValue(sender, decimals) {
     var value = sender.value;
     if (value === "") { return; }
     sender.value = ToMoneyFormat(value, decimals);
 }
 
+/// Convierto un texto en formato "money" #.###,##
 function ToMoneyFormat(value, decimals, nullable) {
     if (nullable === true && value === null) {
         return "";
     }
 
     var pow = 100;
-    if (typeof decimals !== 'undefined') {
+    if (typeof decimals !== "undefined") {
         pow = Math.pow(10, decimals);
+    }
+    else {
+        decimals = 2;
     }
 
     value = parseFloat(Math.round(value * pow) / pow).toFixed(decimals);
     var res = value;
-    var entera = '';
-    var enteraRes = '';
-    var decimal = '';
+    var entera = "";
+    var enteraRes = "";
+    var decimal = "";
 
-    entera = value.split('.')[0];
-    decimal = value.split('.')[1];
-    if(typeof decimal === 'undefined')
+    entera = value.split(".")[0];
+    decimal = value.split(".")[1];
+    if(typeof decimal === "undefined")
     {
-        decimal = '0';
+        decimal = "0";
     }
 
     while(decimal.length < decimals)
     {
-        decimal += '0';
+        decimal += "0";
+    }
+
+    var negative = "";
+    if (entera.length > 0 && entera.substr(0,1) === "-") {
+        negative = "-";
+        entera = entera.substr(1);
     }
 
     while (entera.length > 0)
     {
         if(entera.length < 4)
         {
-            enteraRes = entera + '.' + enteraRes;
-            entera = '';
+            enteraRes = entera + "." + enteraRes;
+            entera = "";
         }
         else
         {
@@ -799,6 +787,8 @@ function ToMoneyFormat(value, decimals, nullable) {
             entera = entera.substr(0, entera.length - 3);
         }        
     }
+
+    enteraRes = negative + enteraRes;
 
     if (decimals === 0)
     {
@@ -825,11 +815,13 @@ Number.prototype.formatMoney = function (places, symbol, thousand, decimal) {
     return res;
 };
 
+/// Prepara un valor para ser tratado como número
 function PrepareNumberForInput(value)
 {
     return value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
 }
 
+/// Prepara el valor de un campo para ser tratado como número
 function PrepareInputNumber(sender)
 {
     if (sender.value === "") return;
@@ -842,17 +834,20 @@ function PrepareInputNumber(sender)
     sender.value = value * 1;
 }
 
+/// Noop
 function ValidateMoneyValue(sender)
 {
     return false;
 }
 
 // --------- Numeric transform
+/// Convierte un texto en valor Integer
 function ParseNumberToInputValue(value)
 {
     return value.toString().split(".").join(Dictionary.NumericDecimalSeparator);
 }
 
+/// Convierte un texto en valor Integer, permite valores nulos
 function ParseInputValueToNumber(value, nullable) {
     if (typeof value === "undefined") { return null; }
 
@@ -860,24 +855,24 @@ function ParseInputValueToNumber(value, nullable) {
         return "";
     }
 
-    //value = value.split(Dictionary.NumericMilesSeparator).join("");
-    //value = value.split(Dictionary.NumericDecimalSeparator).join(".");
-
     value = value.split(".").join("");
     value = value.split(",").join(".");
     return value * 1;
 }
 
+/// Convierte un texto en valor Money
 function ParseInputValueToMoney(value) {
     value = parseFloat(Math.round(value * 100) / 100).toFixed(2);
     return ParseNumberToInputValue(value);
 }
 
+/// Convierte un valor Decimal en Integer
 function Decimal2Integer(value) {
     return Math.floor(value);
 }
 
 var cmbEmployee = null;
+/// Indica si un empleado seleccionado no tiene usuario asociado
 function WarningEmployeeNoUserCheck(employeeId, employeesList, cmbSender) {
     if (employeeId < 1) {
         return false;
@@ -914,10 +909,12 @@ function WarningEmployeeNoUserCheck(employeeId, employeesList, cmbSender) {
     }
 }
 
+/// Lanza un popup avisando que el empleado seleccionado no tiene usuario asociado
 function WarningEmployeeNoUser() {
     alertUI(Dictionary.Item_Employee_Warning_NoUser);
 }
 
+/// Establece el formato de fecha dd/mm/yyyy cuando cambia el valor de un campo fecha
 function DatePickerChanged(sender) {
     var value = sender.value;
     if (validateDate(value, "/", false) === false) {
@@ -926,10 +923,11 @@ function DatePickerChanged(sender) {
     }
 
     var date = GetDate(sender.value, "/", false);
-    value = FormatDate(date, "/")
+    value = FormatDate(date, "/");
     sender.value = value;
 }
 
+/// Establece los permisos de un usuario
 function EmployeeSetGrant(employeeId, itemId) {
     //public ActionResult SetGrant(long employeeId, int companyId, int itemId, int applicationUserId)
     var data = {
@@ -953,12 +951,31 @@ function EmployeeSetGrant(employeeId, itemId) {
     });
 }
 
+/// Comvierte un campo editable en etiqueta
 function InputToLabel(imputName) {
     $("#" + imputName).parent().html("<strong>" + $("#" + imputName).val() + "</strong>");
 }
 
+/// Crear un texto ellipsys fijado en un límite de 50 caracteres
 function Ellipsys(text, length) {
     var res = text;
     res = text > 50 ? (text.substr(0, 49) + "...") : text;
     return res;
+}
+
+function MinutesToHour(minutes) {
+    var h = 0;
+    while (minutes > 59) {
+        minutes -= 60;
+        h++;
+    }
+
+    res = h + ":";
+    if (minutes < 10) { res += "0"; }
+    return res += minutes;
+}
+
+function HourToMinutes(minutes) {
+    var parts = minutes.split(':');
+    return parts[0] * 60 + parts[1] * 1;
 }

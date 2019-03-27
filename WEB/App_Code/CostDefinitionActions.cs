@@ -1,18 +1,12 @@
 ﻿// --------------------------------
-// <copyright file="CostDefinitionActions.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="CostDefinitionActions.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Services;
 using System.Web.Script.Services;
-using GisoFramework;
+using System.Web.Services;
 using GisoFramework.Activity;
-using GisoFramework.LogOn;
 using GisoFramework.Item;
 
 /// <summary>Implements actions for CostDefinition</summary>

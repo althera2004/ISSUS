@@ -1,6 +1,6 @@
 ﻿// --------------------------------
-// <copyright file="ObjetivoRegistro.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="ObjetivoRegistro.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
 // <author>Juan Castilla Calderón -  jcastilla@sbrinna.com</author>
 // --------------------------------

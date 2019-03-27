@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="Schedule.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="Schedule.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using SbrinnaCoreFramework;
 using System;
@@ -12,6 +12,7 @@ using GisoFramework;
 using GisoFramework.Item;
 using System.Text;
 using System.Linq;
+using System.Globalization;
 
 /// <summary>Implements Schedule page</summary>
 public partial class Schedule : Page
@@ -191,10 +192,111 @@ public partial class Schedule : Page
             }
 
             if (!searchItems.Contains(text)) { searchItems.Add(text); };
-            tasksJson.Append(task.JsonRow(this.Dictionary));
+            //tasksJson.Append(task.JsonRow(this.Dictionary));
+            tasksJson.Append(JsonRowLocal(task));
         }
 
         tasksJson.Append("]");
         this.Tasks = tasksJson.ToString();
+    }
+    public string JsonRowLocal(ScheduledTask task)
+    {
+        string tab = "home";
+        string tooltip = string.Empty;
+        string link = "EquipmentView";
+        string operationId = string.Empty;
+        string action = string.Empty;
+        string labelType = string.Empty;
+        switch (task.TaskType)
+        {
+            case "M":
+                tooltip = dictionary["Item_Equipment_Tab_Maintenance"];
+                tab = "&Tab=mantenimiento";
+                operationId = string.Format(CultureInfo.InvariantCulture, "&OperationId={0}", task.OperationId);
+                action = string.Format(CultureInfo.InvariantCulture, "&Action={0}&Type={1}", task.Action, task.Internal);
+                labelType = task.Internal == "I" ? dictionary["Item_EquipmentMaintenance_Label_Internal"] : dictionary["Item_EquipmentMaintenance_Label_External"];
+                break;
+            case "V":
+                tooltip = dictionary["Item_Equipment_Tab_Verification"];
+                tab = "&Tab=verificacion";
+                operationId = string.Format(CultureInfo.InvariantCulture, "&OperationId={0}", task.OperationId);
+                action = string.Format(CultureInfo.InvariantCulture, "&Action={0}&Type={1}", task.Action, task.Internal);
+                labelType = task.Internal == "I" ? dictionary["Item_EquipmentVerification_Label_Internal"] : dictionary["Item_EquipmentVerification_Label_External"];
+                break;
+            case "C":
+                tooltip = dictionary["Item_Equipment_Tab_Calibration"];
+                tab = "&Tab=calibracion";
+                operationId = string.Format(CultureInfo.InvariantCulture, "&OperationId={0}", task.OperationId);
+                action = string.Format(CultureInfo.InvariantCulture, "&Action={0}&Type={1}", task.Action, task.Internal);
+                labelType = task.Internal == "I" ? dictionary["Item_EquipmentCalibration_Label_Internal"] : dictionary["Item_EquipmentCalibration_Label_External"];
+                break;
+            case "I":
+                tooltip = dictionary["Item_Incident"];
+                link = "IncidentView";
+                tab = string.Empty;
+                labelType = dictionary["Item_Incident"];
+                break;
+            case "A":
+                tooltip = dictionary["Item_IncidentAction"];
+                link = "ActionView";
+                tab = string.Empty;
+                labelType = dictionary["Item_IncidentAction"];
+                break;
+            case "X":
+                tooltip = dictionary["Item_Indicador"];
+                link = "IndicadorView";
+                tab = "&Tab=Records";
+                labelType = dictionary["Item_Indicador"];
+                break;
+            case "O":
+                tooltip = dictionary["Item_Objetivo"];
+                link = "ObjetivoView";
+                tab = "&Tab=Records";
+                labelType = dictionary["Item_Objetivo"];
+                break;
+            case "B":
+                tooltip = dictionary["Item_BusinessRisk"];
+                link = "BusinessRiskView";
+                tab = string.Empty;
+                labelType = dictionary["Item_BusinessRisk"];
+                break;
+            default:
+                tooltip = string.Empty;
+                link = "ActionView";
+                tab = "home";
+                labelType = string.Empty;
+                break;
+        }
+
+        string pattern = @"{{
+                ""location"":""{6}.aspx?id={0}{9}{10}{11}"",
+                ""title"":""{5}"",
+                ""color"":""{8}"",
+                ""labelType"":""{4} / {2}{7}"",
+                ""Item"":""{1}"",
+                ""Responsible"":""{12}"",
+                ""ResponsibleId"":{14},
+                ""Provider"":""{13}"",
+                ""Date"":""{3:dd/MM/yyyy}"",
+                ""Type"":""{15}""}}";
+        return string.Format(
+            CultureInfo.InvariantCulture,
+            pattern,
+            task.Equipment.Id,
+            GisoFramework.Tools.JsonCompliant(task.Equipment.Description),
+            GisoFramework.Tools.JsonCompliant(task.Description),
+            task.Expiration,
+            labelType,
+            tooltip,
+            link,
+            string.Empty,
+            task.Expiration < DateTime.Now.Date ? "#f00" : "#000",
+            tab,
+            operationId,
+            action,
+            GisoFramework.Tools.JsonCompliant(task.Responsible.FullName),
+            GisoFramework.Tools.JsonCompliant(task.Provider != null ? task.Provider.Description : string.Empty),
+            task.Responsible.Id,
+            task.TaskType);
     }
 }

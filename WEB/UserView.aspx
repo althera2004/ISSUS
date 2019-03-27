@@ -67,7 +67,6 @@
                                                         <div class="col-sm-2">
                                                             <input type="checkbox" id="ChkPrimaryUser" disabled="disabled" />&nbsp;<%=this.Dictionary["User_PrimaryUser"] %>
                                                         </div>
-                                                        <!--label id="TxtAdminLabel" class="col-sm-1 control-label no-padding-right _emailed">&nbsp;</label-->
                                                         <div class="col-sm-2 _emailed">
                                                             <input type="checkbox" id="ChkAdmin" />&nbsp;<%=this.Dictionary["User_Admin"] %>
                                                         </div>

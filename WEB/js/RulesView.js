@@ -4,8 +4,8 @@ var reason = "";
 function ValidateForm()
 {
     var ok = true;
-    document.getElementById("TxtNameLabel").style.color = "#000";
-    document.getElementById("TxtLimitLabel").style.color = "#000";
+    $("#TxtNameLabel").css("color", "#000");
+    $("#TxtLimitLabel").css("color", "#000");
     $("#TxtNameErrorRequired").hide();
     $("#TxtNameErrorDuplicated").hide();
     $("#TxtLimitErrorRequired").hide();
@@ -14,19 +14,16 @@ function ValidateForm()
     var name = document.getElementById("TxtName").value.trim();
     var limit = document.getElementById("TxtLimit").value.trim();
 
-    if (name === "")
-    {
+    if (name === "") {
         ok = false;
-        document.getElementById("TxtNameLabel").style.color = "#f00";
+        $("#TxtNameLabel").css("color", "#f00");
         $("#TxtNameErrorRequired").show();
     }
     else {
-        for (var x=0;x<companyRules.length;x++)
-        {
-            if(companyRules[x].Description === name && companyRules[x].Id !== rule.Id)
-            {
+        for (var x = 0; x < companyRules.length; x++) {
+            if (companyRules[x].Description === name && companyRules[x].Id !== rule.Id) {
                 ok = false;
-                document.getElementById("TxtNameLabel").style.color = "#f00";
+                $("#TxtNameLabel").css("color", "#f00");
                 $("#TxtNameErrorDuplicated").show();
                 break;
             }
@@ -35,14 +32,14 @@ function ValidateForm()
 
     if (limit === "") {
         ok = false;
-        document.getElementById("TxtLimitLabel").style.color = "#f00";
+        $("#TxtLimitLabel").css("color", "#f00");
         $("#TxtLimitErrorRequired").show();
     }
     else {
         var value = limit * 1;
         if(value <1 || value > 25)
         {
-            document.getElementById("TxtLimitLabel").style.color = "#f00";
+            $("#TxtLimitLabel").css("color",  "#f00");
             $("#TxtLimitErrorOutOfRange").show();
             ok = false;
         }
@@ -140,7 +137,7 @@ jQuery(function ($) {
     //override dialog"s title function to allow for HTML titles
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || "&nbsp;"
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true)
                 title.html($title);
             else title.text($title);
@@ -172,7 +169,7 @@ function RenderStepsSliders() {
         }
     });
 
-    VoidTable("stepsLimit")
+    VoidTable("stepsLimit");
     for (var x = MinStepValue; x < 26; x++) {
         var span = document.createElement("span");
         span.id = x;
@@ -217,9 +214,9 @@ window.onload = function () {
     RenderStepsSliders();
     $("#TxtName").focus();
     $("#th1").click();
-}
+};
 
-window.onresize = function () { Resize(); }
+window.onresize = function () { Resize(); };
 
 function ShowIPRChanges(newIPR, oldIPR) {
     var risks = [];

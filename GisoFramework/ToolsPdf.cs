@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="ToolsPdf.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="ToolsPdf.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 namespace GisoFramework
 {
@@ -77,7 +77,7 @@ namespace GisoFramework
                 }
             }
 
-            return fileName.Replace('#', '_').Replace('%', '_');
+            return fileName.Replace('#', '_').Replace('%', '_').Replace('´', '_');
         }
 
         public static void AddTableTitle(PdfPTable table, string title)

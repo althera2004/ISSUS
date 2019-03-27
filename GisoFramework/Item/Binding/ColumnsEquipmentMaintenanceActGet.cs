@@ -1,38 +1,30 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="ColumnsEquipmentMaintenanceActGet.cs" company="Microsoft">
-//     Copyright (c) Sbrinna. All rights reserved.
+﻿// --------------------------------
+// <copyright file="ColumnsEquipmentMaintenanceGetByEquipmentId.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// -----------------------------------------------------------------------
-
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 namespace GisoFramework.Item.Binding
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    /// <summary>
-    /// TODO: Update summary.
-    /// </summary>
     public static class ColumnsEquipmentMaintenanceActGet
     {
-        public static readonly int Id = 0;
-        public static readonly int EquipmentId = 1;
-        public static readonly int EquipmentMaintenanceDefinitionId = 2;
-        public static readonly int CompanyId = 3;
-        public static readonly int Date = 4;
-        public static readonly int Operation = 5;
-        public static readonly int Observations = 6;
-        public static readonly int ProviderId = 7;
-        public static readonly int ProviderDescription = 8;
-        public static readonly int ResponsibleId = 9;
-        public static readonly int ResponsibleName = 10;
-        public static readonly int ResponsibleLastName = 11;
-        public static readonly int Cost = 12;
-        public static readonly int Expiration = 13;
-        public static readonly int Active = 14;
-        public static readonly int ModifiedByUserId = 15;
-        public static readonly int ModifiedByUserName = 16;
-        public static readonly int ModifiedOn = 17;
+        public const int Id = 0;
+        public const int EquipmentId = 1;
+        public const int EquipmentMaintenanceDefinitionId = 2;
+        public const int CompanyId = 3;
+        public const int Date = 4;
+        public const int Operation = 5;
+        public const int Observations = 6;
+        public const int ProviderId = 7;
+        public const int ProviderDescription = 8;
+        public const int ResponsibleId = 9;
+        public const int ResponsibleName = 10;
+        public const int ResponsibleLastName = 11;
+        public const int Cost = 12;
+        public const int Expiration = 13;
+        public const int Active = 14;
+        public const int ModifiedByUserId = 15;
+        public const int ModifiedByUserName = 16;
+        public const int ModifiedOn = 17;
     }
 }

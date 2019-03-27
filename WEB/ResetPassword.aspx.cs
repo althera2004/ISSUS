@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="ResetPassword.aspx.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="ResetPassword.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ public partial class ResetPassword : Page
     public string LanguageBrowser { get; private set; }
     public string Ip { get; private set; }
 
-    public string User { get; private set; }
+    public string ActualUser { get; private set; }
     public string CompanyId { get; private set; }
     public string op { get; private set; }
 
@@ -40,8 +40,8 @@ public partial class ResetPassword : Page
     {
         if (Request.Form["UserId"] != null)
         {
-            ApplicationUser user = new ApplicationUser(Convert.ToInt32(this.Request.Form["UserId"]));
-            this.User = user.Json;
+            var user = new ApplicationUser(Convert.ToInt32(this.Request.Form["UserId"]));
+            this.ActualUser = user.Json;
             this.Dictionary = ApplicationDictionary.Load(user.Language);
             Session["Dictionary"] = this.Dictionary;
         }
@@ -52,7 +52,7 @@ public partial class ResetPassword : Page
 
         if (Request.Form["CompanyId"] != null)
         {
-            Company company = new Company(Convert.ToInt32(Request.Form["CompanyId"].ToString()));
+            var company = new Company(Convert.ToInt32(Request.Form["CompanyId"].ToString()));
             this.LtCompnayName.Text = company.Name;
             this.ImgCompnayLogo.ImageUrl = string.Format("/images/Logos/{0}.jpg", company.Id);
             this.CompanyId = Request.Form["CompanyId"].ToString();

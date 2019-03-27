@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="ApplicationGrant.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="ApplicationGrant.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 namespace GisoFramework
 {
@@ -116,6 +116,18 @@ namespace GisoFramework
             get { return new ApplicationGrant { Code = ItemIdentifiers.Oportunity }; }
         }
 
+        /// <summary>Gets a grant for questionary</summary>
+        public static ApplicationGrant Questionary
+        {
+            get { return new ApplicationGrant { Code = ItemIdentifiers.Questionary }; }
+        }
+
+        /// <summary>Gets a grant for auditory</summary>
+        public static ApplicationGrant Auditory
+        {
+            get { return new ApplicationGrant { Code = ItemIdentifiers.Auditory }; }
+        }
+
         /// <summary>Gets a grant for rule</summary>
         public static ApplicationGrant Rule
         {
@@ -202,6 +214,8 @@ namespace GisoFramework
                 case ItemIdentifiers.Indicador: return "Indicador";
                 case ItemIdentifiers.Unidad: return "Unidad";
                 case ItemIdentifiers.Oportunity: return "Oportunity";
+                case ItemIdentifiers.Questionary: return "Questionary";
+                case ItemIdentifiers.Auditory: return "Auditory";
                 default: return "undefined";
             }
         }

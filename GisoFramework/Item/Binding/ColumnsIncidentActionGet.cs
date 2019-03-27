@@ -1,8 +1,9 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="ColumnsIncidentActionGet.cs" company="Microsoft">
-//     Copyright (c) Sbrinna. All rights reserved.
+﻿// --------------------------------
+// <copyright file="ColumnsIncidentActionGet.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// -----------------------------------------------------------------------
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 namespace GisoFramework.Item.Binding
 {
     /// <summary>Indx columns of IndicidentActionGet procedure </summary>
@@ -160,5 +161,8 @@ namespace GisoFramework.Item.Binding
 
         /// <summary>Index of "Objetivo description" column</summary>
         public const int OportunityDescription = 50;
+
+        /// <summary>Index of "AuditoryId" column</summary>
+        public const int AuditoryId = 51;
     }
 }

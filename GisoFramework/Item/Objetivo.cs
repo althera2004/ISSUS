@@ -1,19 +1,24 @@
-﻿using GisoFramework.Activity;
-using GisoFramework.DataAccess;
-using GisoFramework.Item.Binding;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Web;
-
+﻿// --------------------------------
+// <copyright file="Objetivo.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
+// </copyright>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 namespace GisoFramework.Item
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Configuration;
+    using System.Data;
+    using System.Data.SqlClient;
+    using System.Globalization;
+    using System.Text;
+    using System.Web;
+    using GisoFramework.Activity;
+    using GisoFramework.DataAccess;
+    using GisoFramework.Item.Binding;
+
     public class Objetivo : BaseItem
     {
         [DifferenciableAttribute]

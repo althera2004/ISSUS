@@ -63,6 +63,7 @@ function LearningDelete(id, description) {
         "title_html": true,
         "buttons": [
             {
+                "id": "BtnLearningDeleteOk",
                 "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
                 "click": function () {
@@ -77,6 +78,7 @@ function LearningDelete(id, description) {
                 }
             },
             {
+                "id": "BtnLearningDeleteCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -111,14 +113,13 @@ function LearningDeleteConfirmed(id) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             alertUI(jqXHR.responseText);
         }
     });
 }
 
 jQuery(function ($) {
-    //override dialog's title function to allow for HTML titles
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
             var $title = this.options.title || "&nbsp;";
@@ -208,7 +209,7 @@ jQuery(function ($) {
                     alertUI(response.d.MessageError);
                 }
             },
-            "error": function (jqXHR, textStatus, errorThrown) {
+            "error": function (jqXHR) {
                 alertUI(jqXHR.responseText);
             }
         });
@@ -292,8 +293,8 @@ window.onresize = function () {
 function DateChange(){
 	$("#TxtDateFromErrorDateRange").hide();
 	$("#TxtDateToErrorDateRange").hide();
-    document.getElementById("TxtDateFromLabel").style.color = "#000";
-    document.getElementById("TxtDateToLabel").style.color = "#000";
+    $("#TxtDateFromLabel").css("color", "#000");
+    $("#TxtDateToLabel").css("color", "#000");
     var dateFrom = GetDate($("#TxtDateFrom").val(), "/", false);
     var dateTo = GetDate($("#TxtDateTo").val(), "/", false);
 	console.log(dateFrom, dateTo);
@@ -302,8 +303,8 @@ function DateChange(){
 	
     if ($("#TxtDateFrom").val() !== "" && $("#TxtDateTo").val() !== "") {
         if (dateFrom > dateTo) {
-            document.getElementById("TxtDateFromLabel").style.color = "#f00";
-            document.getElementById("TxtDateToLabel").style.color = "#f00";
+            $("#TxtDateFromLabel").css("color", "#f00");
+            $("#TxtDateToLabel").css("color", "#f00");
             $("#TxtDateFromErrorDateRange").show();
             $("#TxtDateToErrorDateRange").show();
             ok = false;
@@ -317,5 +318,5 @@ function DateChange(){
 
 function Resize() {
     var containerHeight = $(window).height();
-    $("#ListDataDiv").height((containerHeight - 410) + "px");
+    $("#ListDataDiv").height(containerHeight - 410);
 }

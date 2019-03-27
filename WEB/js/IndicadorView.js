@@ -156,9 +156,7 @@ function IndicadorTypeLayout() {
 }
 
 function ProcessLayout() {
-
     console.log("ProcessLayout", $("#CmbProcess").val());
-
     var processId = $("#CmbProcess").val() * 1;
     var processType = GetProcessType(processId);
     if (IndicadoresObjetivo.length === 0) {
@@ -337,7 +335,7 @@ function FillComboUnidad() {
 function FillForm() {
     if (Indicador.Id > 0) {
         $("#TxtDescription").val(Indicador.Description);
-        $("#TxtCalculo").val(Indicador.Calculo);
+        $("#TxtCalculo").val(Indicador.Calculo.split("\\n").join("\n"));
         $("#CmbMetaComparer").val(Indicador.MetaComparer);
         $("#CmbAlarmaComparer").val(Indicador.AlarmaComparer);
         $("#TxtMeta").val(Indicador.Meta);
@@ -355,6 +353,11 @@ function FillForm() {
 }
 
 function RenderRegistroRow(registro) {
+
+    var colorAssolit = "#a5ca9f!important";
+    var colorNoAssolit = "#e59729!important";
+    var colorAlarma = "#dc8475!important";
+
     var color = "#dc8475";
     var statusLabel = Dictionary.Item_Indicador_StatusLabelWithoutMeta;
     var icon = "icon-circle bigger-110";
@@ -365,27 +368,27 @@ function RenderRegistroRow(registro) {
         metaText = "";
         statusLabel = Dictionary.Item_Indicador_StatusLabelWithoutMeta;
     }
-    else if (registro.MetaComparer === "=" && registro.Value === registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === ">=" && registro.Value >= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === ">=" && registro.Value >= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
-    else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "=" && registro.Value === registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === ">=" && registro.Value >= registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === ">=" && registro.Value >= registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
+    else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = colorAssolit; statusLabel = Dictionary.Item_Indicador_StatusLabelMeta; }
     else if (registro.Alarma !== null) {
-        if (registro.AlarmaComparer === ">" && registro.Value > registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === ">=" && registro.Value >= registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === "<" && registro.Value < registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === "<=" && registro.Value <= registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        if (registro.AlarmaComparer === ">" && registro.Value > registro.Alarma) { color = colorAlarma; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === ">=" && registro.Value >= registro.Alarma) { color = colorAlarma; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === "<" && registro.Value < registro.Alarma) { color = colorAlarma; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === "<=" && registro.Value <= registro.Alarma) { color = colorAlarma; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Indicador_StatusLabelWarning; }
         else {
-            color = "#dc8475";
+            color = colorNoAssolit;
             statusLabel = Dictionary.Item_Indicador_StatusLabelNoMeta;
         }
     }
     else {
-        color = "#dc8475";
+        color = colorNoAssolit;
         statusLabel = Dictionary.Item_Indicador_StatusLabelNoMeta;
     }
 
@@ -394,12 +397,17 @@ function RenderRegistroRow(registro) {
     row += "    <td style=\"width:35px;\">";
     row += "        <i title=\"" + statusLabel + "\" class=\"" + icon + "\" style=\"color:" + color + ";\"></i>";
     row += "    </td>";
-    row += "    <td align=\"right\" style=\"width:90px;\">";
+    row += "    <td align=\"right\" style=\"width:140px;\">";
     row += ToMoneyFormat(registro.Value, 2) + "</td>";
     row += "    <td align=\"center\" style=\"width:90px;\">" + registro.Date + "</td>";
     row += "    <td>" + registro.Comments + "</td>";
     row += "    <td align=\"right\" style=\"width:120px;\">" + registro.MetaComparer + " " + ToMoneyFormat(registro.Meta, 2) + "</td>";
-    row += "    <td align=\"right\" style=\"width:120px;\">" + registro.AlarmaComparer + " " + alarmaText + "</td>";
+    if (registro.Alarma === null) {
+        row += "    <td align=\"right\" style=\"width:120px;\">&nbsp;</td>";
+    } else {
+        row += "    <td align=\"right\" style=\"width:120px;\">" + registro.AlarmaComparer + " " + alarmaText + "</td>";
+    }
+
     row += "    <td style=\"width:175px;\">" + registro.Responsible.Value + "</td>";
     row += "    <td style=\"width:90px;\">";
 
@@ -776,7 +784,12 @@ function FillFormRegistro(id) {
     if (id > 0) {
         var registro = RegistroGetById(id);
         if (registro !== null) {
-            $("#TxtRegistroValue").val(registro.Value);
+            var value = registro.Value.toString();
+            if (isNaN(value)) {
+                value = value.split('.').join(',');
+            }
+			if( value === "") { value = "0,00"; }
+            $("#TxtRegistroValue").val(ToMoneyFormat(value));
             $("#TxtRecordDate").val(registro.Date);
             $("#TxtRegistroComments").val(registro.Comments);
             $("#CmbResponsibleRecord").val(registro.Responsible.Id);
@@ -999,34 +1012,31 @@ function DrawGraphics(stop) {
             labels.push("");
         }
 
+        console.log(alarmas);
+        console.log(metas);
+
         var overlayData = {
             "colors": colors,
             "labels": labels,
-            "datasets": [
-                {
-                    "label": "Alarma",
-                    "type": "line",
-                    "fillColor": "rgba(244,210,210,0)",
-                    "strokeColor": "rgba(216,33,0,0.8)",
-                    "highlightFill": "rgba(151,187,205,0.75)",
-                    "highlightStroke": "rgba(151,187,205,1)",
-                    "data": alarmas
-                }, {
+            "datasets": [ {
                     "label": "Meta",
                     "type": "line",
                     "fillColor": "rgba(119,226,152,0)",
                     "strokeColor": "rgba(59,183,38,0.8)",
-                    "highlightFill": "rgba(59,183,38,0.75)",
-                    "highlightStroke": "rgba(94,114,95,1)",
                     "data": metas
                 },
                 {
                     "label": "Valor",
                     "fillColor": "#275b89",
                     "strokeColor": "rgba(77,110,240,0.8)",
-                    "highlightFill": "rgba(77,100,240,0.75)",
-                    "highlightStroke": "rgba(77,100,240,1)",
                     "data": values
+                },
+                {
+                    "label": "Alarma",
+                    "type": "line",
+                    "fillColor": "rgba(244,210,210,0)",
+                    "strokeColor": "rgba(216,33,0,0.8)",
+                    "data": alarmas
                 }
             ]
         };
@@ -1056,7 +1066,7 @@ function DrawGraphics(stop) {
             }
         }.bind(this), 100);
 
-        console.log("gauge");
+        /*console.log("gauge");
 
         var maxValue = lastAlarm;
         if (lastValue > maxValue) { maxValue = lastValue; }
@@ -1099,7 +1109,7 @@ function DrawGraphics(stop) {
             },
             "value": lastValue,
             "subvalues": [lastValue]
-        });
+        });*/
     }
 }
 
@@ -1117,15 +1127,23 @@ function UnitUpdate(sender) {
     $("#TxtUnitsNewNameErrorDuplicated").hide();
     $("#TxtUnitsNewNameErrorRequired").hide();
     $("#TxtUnitsNewName").val("");
+    var unidad = null;
     if (sender === null) {
         UnitSelected = -1;
     }
     else {
         UnitSelected = sender.parentNode.parentNode.parentNode.id * 1;
-        var unidad = UnitGetById(UnitSelected * 1);
-        if (unidad !== null) {
-            $("#TxtUnitsNewName").val(unidad.Description);
-        }
+        unidad = UnitGetById(UnitSelected * 1);
+        console.log(unidad);
+    }
+
+    $("#TxtUnitsNewName").attr("placeholder", Dictionary.Item_Unidad);
+
+    var html = $("#TxtUnitsNewName").parent().html();
+    console.log(html);
+    $("#TxtUnitsNewName").parent().html(Dictionary.Item_Unidad + ":&nbsp;&nbsp;" + $("#TxtUnitsNewName").parent().html().split('&nbsp;&nbsp;')[1]);
+    if (unidad !== null) {
+        $("#TxtUnitsNewName").val(unidad.Description);
     }
 
     $(".dialogUnits").css("z-index", 1000);
@@ -1134,7 +1152,7 @@ function UnitUpdate(sender) {
         "id": "UnitsInsertDialog",
         "resizable": false,
         "modal": true,
-        "title": Dictionary.Common_Modify,
+        "title": UnitSelected > 0 ? Dictionary.Common_Modify : Dictionary.Common_Add,
         "title_html": true,
         "width": 600,
         "buttons": [
@@ -1186,7 +1204,7 @@ function UnitSave() {
         "description": description,
         "companyId": Company.Id,
         "userId": ApplicationUser.Id
-    }
+    };
 
     if (UnitSelected < 0) {
         webMethod = "/Async/UnidadActions.asmx/Insert";
@@ -1195,7 +1213,7 @@ function UnitSave() {
             "description": $("#TxtUnitsNewName").val(),
             "companyId": Company.Id,
             "userId": ApplicationUser.Id
-        }
+        };
     }
 
     // Insert(string description, int companyId, int userId)
@@ -1373,21 +1391,23 @@ function UnitDelete(sender) {
         "title": Dictionary.Common_Delete,
         "title_html": true,
         "buttons": [
-                {
-                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
-                    "class": "btn btn-danger btn-xs",
-                    "click": function () {
-                        UnitDeleteConfirmed();
-                    }
-                },
-                {
-                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                    "class": "btn btn-xs",
-                    "click": function () {
-                        $(this).dialog("close");
-                    }
+            {
+                "id": "UnitDeleteBtnOK",
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
+                "class": "btn btn-danger btn-xs",
+                "click": function () {
+                    UnitDeleteConfirmed();
                 }
-            ]
+            },
+            {
+                "id": "UnitDeleteBtnCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () {
+                    $(this).dialog("close");
+                }
+            }
+        ]
     });
 }
 

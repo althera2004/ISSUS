@@ -1,36 +1,32 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="ColumnsIncidentFilterGet.cs" company="Microsoft">
-//     Copyright (c) Sbrinna. All rights reserved.
+﻿// --------------------------------
+// <copyright file="ColumnsIncidentFilterGet.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// -----------------------------------------------------------------------
-
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 namespace GisoFramework.Item.Binding
 {
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
-    public sealed class ColumnsIncidentFilterGet
+    public static class ColumnsIncidentFilterGet
     {
         /// <summary> Index of Id IncidentId</summary>
-        public static readonly int IncidentId = 0;
-        public static readonly int OpenDate = 1;
-        public static readonly int DepartmentId = 2;
-        public static readonly int DepartmentName = 3;
-        public static readonly int ProviderId = 4;
-        public static readonly int ProviderDescription = 5;
-        public static readonly int CustomerId = 6;
-        public static readonly int CustomerDescription = 7;
-        public static readonly int IncidentDescription = 8;
-        public static readonly int Code = 9;
-        public static readonly int CloseDate = 10;
-        public static readonly int IncidentActionId = 11;
-        public static readonly int IncidentActionDescription = 12;
-        public static readonly int Origin = 13;
-        public static readonly int Amount = 14;
-        public static readonly int Status = 15;
-
-        private ColumnsIncidentFilterGet()
-        {
-        }
+        public const int IncidentId = 0;
+        public const int OpenDate = 1;
+        public const int DepartmentId = 2;
+        public const int DepartmentName = 3;
+        public const int ProviderId = 4;
+        public const int ProviderDescription = 5;
+        public const int CustomerId = 6;
+        public const int CustomerDescription = 7;
+        public const int IncidentDescription = 8;
+        public const int Code = 9;
+        public const int CloseDate = 10;
+        public const int IncidentActionId = 11;
+        public const int IncidentActionDescription = 12;
+        public const int Origin = 13;
+        public const int Amount = 14;
+        public const int Status = 15;
     }
 }

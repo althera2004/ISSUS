@@ -53,7 +53,7 @@
                                     <div id="user-profile-2" class="user-profile">
                                         <div class="tabbable">
                                             <%=this.TabBar %>
-                                            <div-- class="tab-content no-border padding-24" style="height:500px;">
+                                            <div class="tab-content no-border padding-24" style="height:500px;">
                                                 <div id="home" class="tab-pane active">       
                                                     <div class="row">
                                                         <form class="form-horizontal" role="form">   
@@ -282,7 +282,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <th id="th0" style="width:35px;"></th>
-                                                                    <th id="th1" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Value"]%></th>
+                                                                    <th id="th1" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 140px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Value"]%></th>
                                                                     <th id="th2" onclick="Sort(this,'IndicadorRegistrosTable','date',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Date"]%></th>
                                                                     <th id="th3"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Comments"]%></th>
                                                                     <!--th id="th4" onclick="Sort(this,'IndicadorRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th-->
@@ -454,7 +454,7 @@
                                     <div class="form-group"> 
                                         <label id ="TxtRegistroValueLabel" class="col-sm-3 control-label no-padding-right" for="TxtRegistroValue"><%=this.Dictionary["Item_IndicatorRecord_FieldLabel_Value"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtRegistroValue" placeholder="" value="" maxlength="8" onkeypress="validate(event);" />
+                                            <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtRegistroValue" placeholder="" value="" maxlength="11" />
                                             <span class="ErrorMessage" id="TxtRegistroValueErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
                                     </div> 
@@ -534,12 +534,10 @@
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
-        <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>   
-        <!-- script type="text/javascript" src="/assets/js/jquery.dynameter.js"></script -->
+        <script type="text/javascript" src="/assets/js/jquery.ui.touch-punch.min.js"></script>
         <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/globalize/0.1.1/globalize.min.js"></script>
         <script type="text/javascript" src="/assets/js/dx.chartjs.js"></script>
-        <script type="text/javascript" src="/js/common.js"></script>
+        <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/Chart.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/IndicadorView.js?<%=this.AntiCache %>"></script>
 </asp:Content>
-

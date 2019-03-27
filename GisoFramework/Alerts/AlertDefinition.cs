@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="AlertDefinition.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="AlertDefinition.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 namespace GisoFramework.Alerts
 {
@@ -21,6 +21,32 @@ namespace GisoFramework.Alerts
     /// <summary>Implements alert definition</summary>
     public class AlertDefinition
     {
+        /// <summary>Gets alert definition from disk</summary>
+        /// <returns>Alert definition structure</returns>
+        public static ReadOnlyCollection<AlertDefinition> GetFromDisk
+        {
+            get
+            {
+                int companyId = Convert.ToInt32(HttpContext.Current.Session["CompanyId"], CultureInfo.InvariantCulture);
+                var res = new List<AlertDefinition>();
+                string path = HttpContext.Current.Request.PhysicalApplicationPath + "Alerts";
+                if (!path.EndsWith(@"\", StringComparison.Ordinal))
+                {
+                    path += @"\";
+                }
+
+                var myFiles = Directory.GetFiles(path, "*.json", SearchOption.TopDirectoryOnly).ToList();
+                string userid = HttpContext.Current.Session["UserId"].ToString();
+
+                foreach (string fileName in myFiles)
+                {
+                    res.Add(GetDefinitionByFile(companyId, fileName, userid));
+                }
+
+                return new ReadOnlyCollection<AlertDefinition>(res);
+            }
+        }
+
         /// <summary>Gets or sets de company identifier</summary>
         [JsonProperty("CompanyId")]
         public int CompanyId { get; set; }
@@ -60,33 +86,6 @@ namespace GisoFramework.Alerts
         /// <summary>Gets or sets the index of field positions</summary>
         [JsonProperty("Index")]
         private FieldPosition[] Index { get; set; }
-
-        /// <summary>Read alert definition from disk</summary>
-        /// <param name="dictionary">Dictionary for fixed labels</param>
-        /// <returns>Alert definition structure</returns>
-        public static ReadOnlyCollection<AlertDefinition> GetFromDisk
-        {
-            get
-            {
-                int companyId = Convert.ToInt32(HttpContext.Current.Session["CompanyId"], CultureInfo.InvariantCulture);
-                var res = new List<AlertDefinition>();
-                string path = HttpContext.Current.Request.PhysicalApplicationPath + "Alerts";
-                if (!path.EndsWith(@"\", StringComparison.Ordinal))
-                {
-                    path += @"\";
-                }
-
-                var myFiles = Directory.GetFiles(path, "*.json", SearchOption.TopDirectoryOnly).ToList();
-                string userid = HttpContext.Current.Session["UserId"].ToString();
-
-                foreach (string fileName in myFiles)
-                {
-                    res.Add(GetDefinitionByFile(companyId, fileName, userid));
-                }
-
-                return new ReadOnlyCollection<AlertDefinition>(res);
-            }
-        }
 
         /// <summary>Read alert definition from file</summary>
         /// <param name="companyId">Company identifier</param>
@@ -198,7 +197,7 @@ namespace GisoFramework.Alerts
                                         "<tr><td>{0}</td><td>{1}</td><td><span class=\"btn btn-xs btn-info\" onclick=\"document.location='{2}{3}';\"><i class=\"icon-edit bigger-1202\"></i></span></td></tr>",
                                         largeExplanation,
                                         data[1],
-                                        ItemUrl,
+                                        this.ItemUrl,
                                         data[0]));
                                 }
                             }
@@ -289,14 +288,17 @@ namespace GisoFramework.Alerts
                                 data.Add(this.ItemUrl);
                                 data.Add(icon);
 
-                                res.Add(string.Format(CultureInfo.InvariantCulture,
-                                    @"<li>
+                                var pattern = @"<li>
                                           <a href=""{3}{0}"">
                                           <div class=""MenuAlertTitle"">{2}</div>
                                           <div class=""clearfix"">
                                             <span class=""pull-left"">
                                                 <i class=""btn btn-xs no-hover btn-warning {4}""></i>{1}
-                                            </span></div></a></li>",
+                                            </span></div></a></li>";
+
+                                res.Add(string.Format(
+                                    CultureInfo.InvariantCulture,
+                                    pattern,
                                     data.ToArray()));
                             }
                         }

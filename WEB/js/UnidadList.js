@@ -32,20 +32,22 @@ function UnidadDelete(id, name) {
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Unidad_Popup_Delete_Title + "</h4>",
         "title_html": true,
         "buttons": [
-                {
-                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
-                    "class": "btn btn-danger btn-xs",
-                    "click": function () {
-                        UnidadDeleteAction();
-                    }
-                },
-                {
-                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
-                    "class": "btn btn-xs",
-                    "click": function () {
-                        $(this).dialog("close");
-                    }
+            {
+                "id": "BtnUnidadDeleteOk",
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                "class": "btn btn-danger btn-xs",
+                "click": function () {
+                    UnidadDeleteAction();
                 }
+            },
+            {
+                "id": "BtnUnidadDeleteCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                "class": "btn btn-xs",
+                "click": function () {
+                    $(this).dialog("close");
+                }
+            }
         ]
     });
 }
@@ -53,7 +55,7 @@ function UnidadDelete(id, name) {
 jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || '&nbsp;';
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true) {
                 title.html($title);
             }
@@ -74,5 +76,5 @@ function Resize() {
     $("#ListDataDiv").height(containerHeight - 310);
 }
 
-window.onload = function () { Resize(); }
-window.onresize = function () { Resize(); }
+window.onload = function () { Resize(); };
+window.onresize = function () { Resize(); };

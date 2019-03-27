@@ -652,7 +652,18 @@
                                         <div class="col-sm-2" id="DivBtnCostBAR">
                                             <button class="btn btn-light" style="height: 30px;" title="<%=this.Dictionary["Item_CostDefinitions"] %>" id="BtnCostBAR">...</button>
                                         </div>
-                                    </div>                              
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="TxtIncidentCostDateLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Common_Date"] %><span class="required">*</span></label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="col-xs-12 col-sm-12 date-picker" id="TxtIncidentActionCostDate" placeholder="<%=this.Dictionary["Common_Date"] %>" value="" />
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <span class="ErrorMessage" id="TxtIncidentCostDateErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                            <span class="ErrorMessage" id="TxtIncidentCostDateErrorMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                            <span class="ErrorMessage" id="TxtIncidentCostDateErrorRange"><%=this.Dictionary["Item_Incident_Cost_Error_Range"] %></span>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label id ="TxtIncidentActionCostAmountLabel" class="col-sm-3 control-label no-padding-right" for="TxtIncidentCostAmount"><%=this.Dictionary["Item_IncidentCost_FieldLabel_Amount"] %><span class="required">*</span></label>
                                         <div class="col-sm-3">
@@ -680,7 +691,7 @@
                                     </div>
                                 </form>
                             </div>
-                            <div id="dialogIncidentCostDelete" class="hide" style="width:500px;">
+                            <div id="dialogIncidentActionCostDelete" class="hide" style="width:500px;">
                                 <p>¿Seguro&nbsp;<strong><span id="dialogIncidentCostDeleteName"></span></strong>?</p>
                             </div>
 

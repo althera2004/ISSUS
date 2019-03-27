@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="Constant.cs" company="Sbrinna">
-//     Copyright (c) Sbrinna. All rights reserved.
+// <copyright file="Constant.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 namespace GisoFramework
 {
@@ -20,6 +20,9 @@ namespace GisoFramework
 
         /// <summary>Default item identifier</summary>
         public const int DefaultId = -1;
+
+        /// <summary>Default item identifier</summary>
+        public const long DefaultLongId = -1;
 
         /// <summary>Default active value</summary>
         public const bool DefaultActive = true;
