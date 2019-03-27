@@ -826,24 +826,15 @@ function ObjetivoRegistroSave() {
         metaComparer = ItemData.MetaComparer;
         webMethod = "/Async/ObjetivoActions.asmx/ObjetivoRegistroSave";
         data = {
-            "registro": {
-                "Id": selectedRecordId,
-                "CompanyId": Company.Id,
-                "ObjetivoId": ItemData.Id,
-                "Value": StringToNumber($("#TxtRegistroValue").val(), ".", ","),
-                "Date": GetDate($("#TxtRecordDate").val(), "/", false),
-                "Comments": $("#TxtRegistroComments").val(),
-                "MetaComparer": metaComparer,
-                "Meta": meta,
-                //"AlarmaComparer": Indicador.AlarmaComparer,
-                //"Alarma": Indicador.Alarma,
-                "Responsible": { "Id": $("#CmbResponsibleRecord").val() * 1 },
-                "CreatedBy": { "Id": -1 },
-                "CreatedOn": new Date(),
-                "ModifiedBy": { "Id": -1 },
-                "ModifiedOn": new Date(),
-                "Active": true
-            },
+            "Id": selectedRecordId,
+            "CompanyId": Company.Id,
+            "ObjetivoId": ItemData.Id,
+            "Value": StringToNumber($("#TxtRegistroValue").val(), ".", ","),
+            "Date": GetDate($("#TxtRecordDate").val(), "/", false),
+            "Comments": $("#TxtRegistroComments").val(),
+            "MetaComparer": metaComparer,
+            "Meta": meta,
+            "Responsible": $("#CmbResponsibleRecord").val() * 1,
             "applicationUserId": ApplicationUser.Id
         };
     } else {
@@ -851,24 +842,18 @@ function ObjetivoRegistroSave() {
         metaComparer = IndicadorObjetivo.MetaComparer;
         webMethod = "/Async/ObjetivoActions.asmx/ObjetivoIndicadorRegistroSave";
         data = {
-            "registro": {
-                "Id": selectedRecordId,
-                "CompanyId": Company.Id,
-                "Indicador": { "Id": IndicadorObjetivo.Id },
-                "Value": StringToNumber($("#TxtRegistroValue").val(), ".", ","),
-                "Date": GetDate($("#TxtRecordDate").val(), "/", false),
-                "Comments": $("#TxtRegistroComments").val(),
-                "MetaComparer": metaComparer,
-                "Meta": meta,
-                "AlarmaComparer": IndicadorObjetivo.AlarmaComparer,
-                "Alarma": IndicadorObjetivo.Alarma,
-                "Responsible": { "Id": $("#CmbResponsibleRecord").val() * 1 },
-                "CreatedBy": { "Id": -1 },
-                "CreatedOn": new Date(),
-                "ModifiedBy": { "Id": -1 },
-                "ModifiedOn": new Date(),
-                "Active": true
-            },
+
+            "Id": selectedRecordId,
+            "CompanyId": Company.Id,
+            "Indicador": IndicadorObjetivo.Id,
+            "Value": StringToNumber($("#TxtRegistroValue").val(), ".", ","),
+            "Date": GetDate($("#TxtRecordDate").val(), "/", false),
+            "Comments": $("#TxtRegistroComments").val(),
+            "MetaComparer": metaComparer,
+            "Meta": meta,
+            "AlarmaComparer": IndicadorObjetivo.AlarmaComparer,
+            "Alarma": IndicadorObjetivo.Alarma,
+            "Responsible": $("#CmbResponsibleRecord").val() * 1 ,
             "applicationUserId": ApplicationUser.Id
         };
     }
