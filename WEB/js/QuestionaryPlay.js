@@ -45,7 +45,7 @@ function Toggle(sender) {
                 else if (parts[1] === "2") { text = "No cumple"; color = "700"; }
                 var html = "<span id=\"Q" + parts[0] + "\" style=\"color:#" + color + ";cursor:pointer;\" onclick=\"Toggle(this);\" data-status=\""+ parts[1] +"\">" + text + "</span>";
                 $("#Q" + parts[0]).parent().html(html);
-                window.opener.Reload();
+                window.opener.GetReportData();
             }
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
@@ -284,7 +284,7 @@ function FoundSave() {
 
             $("#PopupFoundDialog").dialog("close");
             RenderFounds();
-            window.opener.Reload();
+            window.opener.GetReportData();
         },
         "error": function (msg) {
             alertUI(msg.responseText);
@@ -336,7 +336,7 @@ function ImprovementSave() {
 
             $("#PopupImprovementDialog").dialog("close");
             RenderImprovements();
-            window.opener.Reload();
+            window.opener.GetReportData();
         },
         "error": function (msg) {
             alertUI(msg.responseText);
@@ -437,7 +437,7 @@ function FoundDeleteConfirmed() {
 
             $("#foundDeleteDialog").dialog("close");
             RenderFounds();
-            window.opener.Reload();
+            window.opener.GetReportData();
         },
         "error": function (msg) {
             alertUI(msg.responseText);
@@ -474,7 +474,7 @@ function ImprovementDeleteConfirmed() {
 
             $("#improvementDeleteDialog").dialog("close");
             RenderImprovements();
-            window.opener.Reload();
+            window.opener.GetReportData();
         },
         "error": function (msg) {
             alertUI(msg.responseText);

@@ -130,6 +130,8 @@
         var Founds = <%=this.Founds %>;
         var Completo = <%=this.CuestionariosCompletos %>;
         var Zombies = <%=this.Zombie %>;
+        var TotalQuestions = <%=this.TotalQuestions %>;
+        var Cuestionarios = [<%=this.CuestionariosJson %>];
 
         // For Upload files
         // --------------------------------------
@@ -389,6 +391,10 @@
                                                         <strong><i class="icon-info-sign"></i></strong>
                                                         <div style="display:inline;"><%=this.Dictionary["Item_Auditory_Message_NoPlanning"] %></div>
                                                     </div>
+                                                    <div class="alert alert-warning" style="display:none;" id="DivNoQuestions">
+                                                        <strong><i class="icon-warning-sign"></i></strong>
+                                                        <div style="display:inline;"><%=this.Dictionary["Item_Auditory_Message_NoQuestions"] %></div>
+                                                    </div>
                                                     <div class="form-group" id="DivYesPlanning"> 
                                                         <div class="col-sm-3">&nbsp;</div>
                                                         <label class="col-sm-2 control-label no-padding-right" id="CmbPlanningResponsibleLabel" for="CmbPlanningResponsible"><%=this.Dictionary["Item_Auditory_Label_PlanningResponsible"] %></label>
@@ -427,7 +433,7 @@
                                                     </table>
                                                     <div id="ListDataDivCuestionario" style="border-left:1px solid #ddd;background-color:#eef;min-height:400px;overflow: scroll; overflow-x: hidden; padding: 0;">
                                                         <table class="table table-bordered table-striped" style="border-left:none;border-top: none;">
-                                                            <tbody id="CuestionarioDataTable"><asp:Literal runat="server" ID="LtCuestionariosList"></asp:Literal></tbody>
+                                                            <tbody id="CuestionarioDataTable"></tbody>
                                                         </table>
                                                     </div>
                                                     <div id="NoDataCuestionario" style="display:none;width:100%;height:99%;min-height:200px;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>

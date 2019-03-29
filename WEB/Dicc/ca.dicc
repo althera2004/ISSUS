@@ -1953,3 +1953,4 @@ Item_Auditory_Popup_ReopenMessage::Vol reobrir la auditoria
 Item_Auditory_Message_NoCompliantNoFound::El cuestionari té no conformitats sense troballes
 Item_Auditory_Message_NoPlanning::Per poder nonar per planificada la auditoria, al menys ha de haver-hi una planificació.
 Item_Auditory_Message_NewAuditory::Per poder afegir planificaciones s'ha de desar la auditoria.
+Item_Auditory_Message_NoQuestions::Amb les normes i processos sel·leccionat no hi han pregustes per als questionaris.

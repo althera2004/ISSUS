@@ -254,4 +254,24 @@ public class AuditoryActions : WebService
     {
         return AuditoryCuestionarioImprovement.Inactivate(id, companyId, applicationUserId);
     }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult ReportData(long id, int companyId)
+    {
+        var res = "{\"Cuestionarios\":[";
+        res += Auditory.RenderCuestionarios(id, companyId);
+        res += "],\"Founds\":";
+        res += AuditoryCuestionarioFound.JsonList(AuditoryCuestionarioFound.ByAuditory(id, companyId));
+        res += ",\"Improvements\":";
+        res += AuditoryCuestionarioImprovement.JsonList(AuditoryCuestionarioImprovement.ByAuditory(id, companyId));
+        res += "}";
+
+        return new ActionResult
+        {
+            Success = true,
+            ReturnValue = res,
+            MessageError = string.Empty
+        };
+    }
 }

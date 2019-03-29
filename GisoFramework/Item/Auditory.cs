@@ -1194,5 +1194,58 @@ namespace GisoFramework.Item
 
             this.rulesId = res;
         }
+
+        public static string RenderCuestionarios(long auditoryId, int companyId)
+        {
+            var res = new StringBuilder();
+            using (var cmd = new SqlCommand("Auditory_GetQuestionaries"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    try
+                    {
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            bool first = true;
+                            while (rdr.Read())
+                            {
+                                if (first)
+                                {
+                                    first = false;
+                                }
+                                else
+                                {
+                                    res.Append(",");
+                                }
+
+                                res.AppendFormat(
+                                    CultureInfo.InvariantCulture,
+                                    @"{{""Id"":{0},  ""Description"":""{1}"", ""T"":{2}, ""C"":{3}, ""Co"":{4}, ""F"":{5}}}",
+                                    rdr.GetInt64(0),
+                                    GisoFramework.Tools.JsonCompliant(rdr.GetString(1)),
+                                    rdr.GetInt32(2),
+                                    rdr.GetInt32(3),
+                                    rdr.GetInt32(4),
+                                    rdr.GetInt32(5));
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return res.ToString();
+        }
     }
 }
