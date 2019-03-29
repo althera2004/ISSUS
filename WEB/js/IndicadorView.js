@@ -878,10 +878,9 @@ function IndicadorRegistroSave() {
     }
 
     var data = {
-        "registro": {
             "Id": selectedRecordId,
             "CompanyId": Indicador.CompanyId,
-            "Indicador": { "Id": Indicador.Id },
+            "Indicador": Indicador.Id,
             "Value": StringToNumber($("#TxtRegistroValue").val(), ".", ","),
             "Date": GetDate($("#TxtRecordDate").val(), "/", false),
             "Comments": $("#TxtRegistroComments").val(),
@@ -889,13 +888,7 @@ function IndicadorRegistroSave() {
             "Meta": Indicador.Meta,
             "AlarmaComparer": Indicador.AlarmaComparer,
             "Alarma": Indicador.Alarma,
-            "Responsible": { "Id": $("#CmbResponsibleRecord").val() * 1 },
-            "CreatedBy": { "Id": -1 },
-            "CreatedOn": new Date(),
-            "ModifiedBy": { "Id": -1 },
-            "ModifiedOn": new Date(),
-            "Active": true
-        },
+            "Responsible": $("#CmbResponsibleRecord").val() * 1 ,
         "applicationUserId": ApplicationUser.Id
     };
 
@@ -941,7 +934,7 @@ function IndicadorRegistroSave() {
         },
         "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
-            alertUI(jqXHR.responseText);
+            alertUI("****"+jqXHR.responseText);
         }
     });
 }
