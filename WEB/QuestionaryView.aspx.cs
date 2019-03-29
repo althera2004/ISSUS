@@ -240,12 +240,15 @@ public partial class QuestionaryView : Page
         var processList = new StringBuilder("<option value=\"-1\">").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
         foreach (var process in processes.OrderBy(p => p.Description))
         {
-            processList.AppendFormat(
-                CultureInfo.InvariantCulture,
-                @"<option value=""{0}""{2}>{1}</option>",
-                process.Id,
-                process.Description,
-                process.Id == this.Questionary.Process.Id ? " selected=\"selected\"" : string.Empty);
+            if (process.Active == true || this.Questionary.Process.Id == process.Id)
+            {
+                processList.AppendFormat(
+                    CultureInfo.InvariantCulture,
+                    @"<option value=""{0}""{2}>{1}</option>",
+                    process.Id,
+                    process.Description,
+                    process.Id == this.Questionary.Process.Id ? " selected=\"selected\"" : string.Empty);
+            }
         }
 
         this.LtProcessList.Text = processList.ToString();
@@ -255,12 +258,15 @@ public partial class QuestionaryView : Page
         var rulesList = new StringBuilder("<option value=\"-1\">").Append(this.Dictionary["Common_SelectOne"]).Append("</option>");
         foreach (var rule in rules.OrderBy(p => p.Description))
         {
-            rulesList.AppendFormat(
-                CultureInfo.InvariantCulture,
-                @"<option value=""{0}""{2}>{1}</option>",
-                rule.Id,
-                rule.Description,
-                rule.Id == this.Questionary.Rule.Id ? " selected=\"selected\"" : string.Empty);
+            if (rule.Active == true || this.Questionary.Rule.Id == rule.Id)
+            {
+                rulesList.AppendFormat(
+                    CultureInfo.InvariantCulture,
+                    @"<option value=""{0}""{2}>{1}</option>",
+                    rule.Id,
+                    rule.Description,
+                    rule.Id == this.Questionary.Rule.Id ? " selected=\"selected\"" : string.Empty);
+            }
         }
 
         this.LtRulesList.Text = rulesList.ToString();

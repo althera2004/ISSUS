@@ -34,6 +34,11 @@ jQuery(function ($) {
 });
 
 function IncidentListGetAll() {
+    $("#RIncidentStatus1").removeAttr("disabled");
+    $("#RIncidentStatus2").removeAttr("disabled");
+    $("#RIncidentStatus3").removeAttr("disabled");
+    $("#RIncidentStatus4").removeAttr("disabled");
+
     $("#BtnRecordShowAll").hide();
     $("#BtnRecordShowNone").show();
     var ok = true;
@@ -139,6 +144,23 @@ function ShowCombos(x) {
 ShowCombos(0);
 
 function IncidentGetFilter(exportType) {
+    $("#RIncidentStatus1").removeAttr("disabled");
+    $("#RIncidentStatus2").removeAttr("disabled");
+    $("#RIncidentStatus3").removeAttr("disabled");
+    $("#RIncidentStatus4").removeAttr("disabled");
+
+    var RIncidentStatus = "";
+    RIncidentStatus += document.getElementById("RIncidentStatus1").checked === true ? "1" : "0";
+    RIncidentStatus += document.getElementById("RIncidentStatus2").checked === true ? "1" : "0";
+    RIncidentStatus += document.getElementById("RIncidentStatus3").checked === true ? "1" : "0";
+    RIncidentStatus += document.getElementById("RIncidentStatus4").checked === true ? "1" : "0";
+
+    if (RIncidentStatus === "1000") { $("#RIncidentStatus1").attr("disabled", "disabled"); }
+    if (RIncidentStatus === "0100") { $("#RIncidentStatus2").attr("disabled", "disabled"); }
+    if (RIncidentStatus === "0010") { $("#RIncidentStatus3").attr("disabled", "disabled"); }
+    if (RIncidentStatus === "0001") { $("#RIncidentStatus4").attr("disabled", "disabled"); }
+
+
     //$("#nav-search-input").hide();
     var ok = true;
     VoidTable("ListDataTable");

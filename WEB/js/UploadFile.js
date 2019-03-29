@@ -107,10 +107,8 @@ function DeleteUploadFile(id, description) {
 function UploadFile() {
     RestoreUpload();
     $("#UploadFileDescription").val("");
-    if (document.getElementById("BtnUploadOk") !== null) {
-        document.getElementById("BtnUploadOk").disabled = false;
-    }
-    var dialog = $("#PopupUploadFile").removeClass("hide").dialog({
+    $("#BtnUploadFileOk").attr("disabled", "disabled");
+    $("#PopupUploadFile").removeClass("hide").dialog({
         "modal": true,
         "title": "<h4 class=\"smaller\">&nbsp;" + Dictionary.Item_DocumentAttachment_AddFile + "</h4>",
         "title_html": true,
@@ -176,7 +174,7 @@ function UploadFileGo() {
             return false;
         }			
 
-        document.getElementById("BtnUploadOk").disabled = true;
+        $("#BtnUploadFileOk").attr("disabled", "disabled");
         LoadingShow(Dictionary.Common_Uploading, true);
         var fd = new FormData();
         var file = document.getElementById('imageInput');

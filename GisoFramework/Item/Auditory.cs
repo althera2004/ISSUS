@@ -72,7 +72,7 @@ namespace GisoFramework.Item
                     Provider = Provider.Empty,
                     rules = new List<Rules>(),
                     InternalResponsible = Employee.Empty,
-                    Status = Constant.DefaultId,
+                    Status = 0,
                     Type = Constant.DefaultId,
                     CanBeDeleted = true,
                     CreatedBy = ApplicationUser.Empty,

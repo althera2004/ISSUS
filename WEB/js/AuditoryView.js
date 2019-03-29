@@ -78,6 +78,15 @@ window.onload = function () {
         }
     } else {
         $("#CmbRules").chosen();
+        if (Auditory.Type !== AuditoryTypes.Externa) {
+            if (Auditory.Id > 0) {
+                $("#DivNewAuditory").hide();
+            }
+            else {
+                $("#DivNewAuditory").show();
+                $("#DivYesPlanning").hide();
+            }
+        }
     }
 
     if (Auditory.Id > 0) {
@@ -107,10 +116,16 @@ window.onload = function () {
         $("#TxtCloseQuestionsOn").css("background", "transparent");
     }
 
-    if (Auditory.Status > 2) {
+    if (Auditory.Status > AuditoryStatus.EnCurso) {
         $("#TxtCloseQuestionsOn").attr("disabled", "disabled");
         $("#TxtCloseQuestionsOn").css("background", "#ccc");
         $("#CuestionarioDataTable .btn-success").hide();
+    }
+    else if (Auditory.Status === AuditoryStatus.EnCurso) {
+        $("#TxtStartQuestionsOn").removeAttr("disabled");
+        $("#TxtStartQuestionsOn").css("background", "transparent");
+        $("#TxtCloseQuestionsOn").removeAttr("disabled");
+        $("#TxtCloseQuestionsOn").css("background", "transparent");
     }
 
     if (Auditory.Status > AuditoryStatus.Pendiente) {
@@ -200,9 +215,22 @@ function RenderPlanningTable()
 
     $("#SpanPlanningTotal").html(AuditoryPlanning.length);
     $("#PlanningDataTable").html(res);
+
+    if (AuditoryPlanning.length < 1) {
+        $("#DivNoPlanning").show();
+        $("#DivYesPlanning").hide();
+        $("#CmbPlanningResponsible").attr("disabled", "disabled");
+        $("#TxtAuditoryPlanningDate").attr("disabled", "disabled");
+    } else {
+        $("#DivNoPlanning").hide();
+        $("#DivYesPlanning").show();
+        $("#CmbPlanningResponsible").removeAttr("disabled");
+        $("#TxtAuditoryPlanningDate").removeAttr("disabled");
+    }
 }
 
 function ShowPopupPlanningDialog(id) {
+    AuditoringPlanningReset();
     $("#TxtProviderEmailRow").hide();
     auditoryPlanningSelectedId = id;
     auditoryPlanningSelected = AuditoryPlanningGetById(id);
@@ -210,9 +238,9 @@ function ShowPopupPlanningDialog(id) {
 
     }*/
 
-    var title = Dictionary.Item_AuditoryPlanning_Title_PopupAdd;
+    var title = Dictionary.Item_AuditoryPlanning_Title_PopupUpdate;
     if (id < 0) {
-        title = Dictionary.Item_AuditoryPlanning_Title_PopupUpdate;
+        title = Dictionary.Item_AuditoryPlanning_Title_PopupAdd;
         $("#TxtPlanningDate").val(FormatDate(new Date, "/"));
         $("#TxtHour").val("");
         $("#TxtDuration").val("");
@@ -240,6 +268,7 @@ function ShowPopupPlanningDialog(id) {
         }
 
         $("#TxtProviderEmail").val(auditoryPlanningSelected.ProviderEmail);
+        ChkSendMailChanged();
     }
 
     $("#PopupPlanningDialog").removeClass("hide").dialog({
@@ -247,20 +276,20 @@ function ShowPopupPlanningDialog(id) {
         "modal": true,
         "title": "<h4 class=\"smaller\">" + title + "</h4>",
         "title_html": true,
-        "width": 400,
+        "width": 600,
         "buttons":
             [
                 {
                     "Id": "BtnAuditoryPlanningSaveOk",
-                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
-                    "class": "btn btn-danger btn-xs",
+                    "html": "<i class=\"icon-save bigger-110\"></i>&nbsp;" + Dictionary.Common_Save,
+                    "class": "btn btn-success btn-xs",
                     "click": function () {
                         AuditoryPlanningSave();
                     }
                 },
                 {
                     "Id": "BtnAuditoryPlanningSaveCancel",
-                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     "click": function () {
                         $(this).dialog("close");
@@ -270,7 +299,92 @@ function ShowPopupPlanningDialog(id) {
     });
 }
 
+function AuditoringPlanningReset() {
+    $("#CmbProcessLabel").css("color", "#333");
+    $("#TxtPlanningDateLabel").css("color", "#333");
+    $("#TxtHourLabel").css("color", "#333");
+    $("#TxtDurationLabel").css("color", "#333");
+    $("#CmbAuditorLabel").css("color", "#333");
+    $("#CmbAuditedLabel").css("color", "#333");
+    $("#TxtProviderEmailLabel").css("color", "#333");
+    $("#CmbProcessErrorRequired").hide();
+    $("#TxtPlanningDateErrorRequired").hide();
+    $("#TxtPlanningDateMalformed").hide();
+    $("#TxtHourRequired").hide();
+    $("#TxtDurationMalformed").hide();
+    $("#CmbAuditorErrorRequired").hide();
+    $("#CmbAuditedErrorRequired").hide();
+    $("#TxtProviderEmailErrorRequired").hide();
+    $("#TxtProviderEmailMalformed").hide();
+}
+
+function AuditoryPlanningValidate() {
+    AuditoringPlanningReset();
+    var ok = true;
+
+    if ($("#TxtPlanningDate").val() === "") {
+        ok = false;
+        $("#TxtPlanningDateLabel").css("color", "#f00");
+        $("#TxtPlanningDateErrorRequired").show();
+    }
+    else {
+        if (validateDate($("#TxtPlanningDate").val()) === false) {
+            $("#TxtPlanningDateLabel").css("color", "#f00");
+            $("#TxtPlanningDateMalformed").show();
+        }
+    }
+
+    if ($("#TxtHour").val() === "") {
+        ok = false;
+        $("#TxtHourLabel").css("color", "#f00");
+        $("#TxtHourRequired").show();
+    }
+
+    if ($("#TxtDuration").val() === "") {
+        ok = false;
+        $("#TxtDurationLabel").css("color", "#f00");
+        $("#TxtDurationRequired").show();
+    }
+
+    if ($("#CmbProcess").val() * 1 < 1) {
+        ok = false;
+        $("#CmbProcessLabel").css("color", "#f00");
+        $("#CmbProcessErrorRequired").hide();
+    }
+
+    if ($("#CmbAuditor").val() * 1 < 1) {
+        ok = false;
+        $("#CmbAuditorLabel").css("color", "#f00");
+        $("#CmbAuditorErrorRequired").hide();
+    }
+
+    if ($("#CmbAudited").val() * 1 < 1) {
+        ok = false;
+        $("#CmbAuditedLabel").css("color", "#f00");
+        $("#CmbAuditedErrorRequired").hide();
+    }
+
+    if (Auditory.Type === AuditoryTypes.Proveedor) {
+        if (document.getElementById("ChkSendMail").checked === true) {
+            if ($("#TxtProviderEmail").val() === "") {
+                ok = false;
+                $("#TxtProviderEmailErrorRequired").show();
+            }
+            else {
+                if (validateEmail($("#TxtProviderEmail").val()) === false) {
+                    ok = false;
+                    $("#TxtProviderEmailMalformed").show();
+
+                }
+            }
+        }
+    }
+
+    return ok;
+}
+
 function AuditoryPlanningSave() {
+    if (AuditoryPlanningValidate() === false) { return false; }
     auditoryPlanningSelected = {
         "Id": auditoryPlanningSelectedId,
         "CompanyId": Company.Id,
@@ -408,35 +522,158 @@ function AuditoryPlanningGetById(id) {
 function RBExternalTypeChanged() {
     $("#ProviderDiv").hide();
     $("#CustomerDiv").hide();
+    $("#ErrorProviderCustomerDiv").hide();
+    $("#ProviderCustomerErrorRequired").hide();
+    $("#RBProvider").parent().css("color", "#333");
+    $("#RBCustomer").parent().css("color", "#333");
+    if (document.getElementById("RBProvider").checked === true) { $("#ProviderDiv").show(); }
+    if (document.getElementById("RBCustomer").checked === true) { $("#CustomerDiv").show(); }
+}
 
-    if (document.getElementById("RBProvider").checked === true) {
-        $("#ProviderDiv").show();
+function AuditoryValidate() {
+    var ok = true;
+    if ($("#TxtName").val() === "") {
+        ok = false;
+        $("#TxtNameLabel").css("color", "#f00");
+        $("#TxtNameErrorRequired").show();
     }
 
-    if (document.getElementById("RBCustomer").checked === true) {
-        $("#CustomerDiv").show();
+    if ($("#TxtAmount").val() === "") {
+        ok = false;
+        $("#TxtAmountLabel").css("color", "#f00");
+        $("#TextAmountErrorRequired").show();
     }
+
+    if ($("#TxtDescription").val() === "") {
+        ok = false;
+        $("#TxtDescriptionLabel").css("color", "#f00");
+        $("#TextDescriptionErrorRequired").show();
+    }
+
+    if ($("#TxtScope").val() === "") {
+        ok = false;
+        $("#TxtScopeLabel").css("color", "#f00");
+        $("#TxtScopeErrorRequired").show();
+    }
+
+    if ($("#TxtRulesId").val() === "") {
+        ok = false;
+        $("#TxtRulesIdLabel").css("color", "#f00");
+        $("#TxtRulesIdErrorRequired").show();
+    }
+
+    if ($("#CmbInternalResponsible").val() * 1 < 0) {
+        ok = false;
+        $("#CmbInternalResponsibleLabel").css("color", "#f00");
+        $("#CmbInternalResponsibleErrorRequired").show();
+    }
+
+    if (Auditory.Type === AuditoryTypes.Interna) {
+        if ($("#TxtAuditorTeam").val() === "") {
+            ok = false;
+            $("#TxtAuditorTeamLabel").css("color", "#f00");
+            $("#TxtAuditorTeamErrorRequired").show();
+        }
+    }
+
+    if (Auditory.Type === AuditoryTypes.Proveedor) {
+        if ($("#CmbProvider").val() * 1 < 0) {
+            ok = false;
+            $("#CmbProviderLabel").css("color", "#f00");
+            $("#CmbProviderErrorRequired").show();
+        }
+
+        if ($("#TxtAddress").val() === "") {
+            ok = false;
+            $("#TxtAddressLabel").css("color", "#f00");
+            $("#TxtAddressErrorRequired").show();
+        }
+    }
+    else {
+        if ($("#CmbAddress").val() * 1 < 0) {
+            ok = false;
+            $("#CmbAddressLabel").css("color", "#f00");
+            $("#CmbAddressErrorRequired").show();
+        }
+    }
+
+    if (Auditory.Type === AuditoryTypes.Externa) {
+        if ($("#TxtAuditorTeam").val() === "") {
+            ok = false;
+            $("#TxtAuditorTeamLabel").css("color", "#f00");
+            $("#TxtAuditorTeamErrorRequired").show();
+        }
+
+        if ($("#TxtPreviewDate").val() === "") {
+            ok = false;
+            $("#TxtPreviewDateLabel").css("color", "#f00");
+            $("#TxtPreviewDateErrorRequired").show();
+        }
+        else {
+            if (validateDate($("#TxtPreviewDate").val()) === false) {
+                ok = false;
+                $("#TxtPreviewDateLabel").css("color", "#f00");
+                $("#TxtPlannedDateErrorMailMalformed").show();
+            }
+        }
+
+        if (document.getElementById("RBProvider").checked === false && document.getElementById("RBCustomer").checked === false) {
+            ok = false;
+            $("#ErrorProviderCustomerDiv").show();
+            $("#ProviderCustomerErrorRequired").show();
+            $("#RBProvider").parent().css("color", "#f00");
+            $("#RBCustomer").parent().css("color", "#f00");
+        }
+        else if (document.getElementById("RBProvider").checked === true) {
+            if ($("#CmbProvider").val() * 1 < 1) {
+                ok = false;
+                $("#RBProvider").parent().css("color", "#f00");
+                $("#CmbProviderErrorRequired").show();
+            }
+        }
+        else {
+            if ($("#CmbCustomer").val() * 1 < 1) {
+                ok = false;
+                $("#RBCustomer").parent().css("color", "#f00");
+                $("#CmbCustomerErrorRequired").show();
+            }
+        }
+    }
+
+    if ($("#CmbPlanningResponsible").val() * 1 > 0) {
+        if ($("#TxtAuditoryPlanningDate").val() === "") {
+            ok = false;
+            $("#TxtAuditoryPlanningDateLabel").css("color", "#f00");
+            $("#TxtAuditoryPlanningDateErrorRequired").show();
+        }
+    }
+
+    return ok;
 }
 
 function SaveAuditory() {
+    if (AuditoryValidate() === false) { return false; }
     console.log("SaveAuditory");
     var customer = { "Id": -1 };
     var provider = { "Id": -1 };
-
-    var companyAddress = "";
+    var enterpriseAddress = "";
+    var companyAddress = -1;
     var previewDate = null;
     switch (Auditory.Type) {
         case AuditoryTypes.Interna:
-            companyAddress = $("#CmbAddress option:selected").val();
+            companyAddress = $("#CmbAddress").val();
+            enterpriseAddress = $("#CmbAddress option:selected").val();
             break;
         case AuditoryTypes.Externa:
-            companyAddress = $("#CmbAddress option:selected").val();
+            companyAddress = $("#CmbAddress").val();
+            enterpriseAddress = $("#CmbAddress option:selected").val();
             customer = { "Id": $("#CmbCustomer").val() * 1 };
             previewDate = GetDate($("#TxtPreviewDate").val(), "/", false);
             break;
         case AuditoryTypes.Proveedor:
             provider = { "Id": $("#CmbProvider").val() * 1 };
-            companyAddress = $("#TxtAddress").val();
+            companyAddress = 1;
+            enterpriseAddress = $("#TxtAddress").val();
             break;
     }
 
@@ -449,8 +686,8 @@ function SaveAuditory() {
         "Scope": $("#TxtScope").val(),
         "Amount": StringToNumber($("#TxtAmount").val(), ".", ","),
         "Notes": $("#TxtNotes").val(),
-        "CompanyAddressId": 0,
-        "EnterpriseAddress": companyAddress,
+        "CompanyAddressId": companyAddress,
+        "EnterpriseAddress": enterpriseAddress,
         "AuditorTeam": Auditory.Type === 0 ? "" : $("#TxtAuditorTeam").val(),
         "PlannedBy": { "Id": $("#CmbPlanningResponsible").val() * 1 },
         "PlannedOn": GetDate($("#TxtAuditoryPlanningDate").val(), "/", false),
@@ -491,11 +728,15 @@ function SaveAuditory() {
 
     var webMethod = "/Async/AuditoryActions.asmx/Insert";
     if (Auditory.Id > 0) {
+        var oldAuditory = Auditory;
         webMethod = "/Async/AuditoryActions.asmx/Update";
-        if (typeof Auditory.PlannedOn !== "undefined" && Auditory.PlannedOn !== null && Auditory.PlannedOn !== "") {
-            Auditory.PlannedOn = GetDate(Auditory.PlannedOn, "/", true);
+        if (typeof Auditory.ReportEnd !== "undefined" && Auditory.ReportEnd !== null && Auditory.ReportEnd !== "") {
+            oldAuditory.ReportEnd = GetDate(Auditory.ReportEnd, "/", true);
         }
-        data["oldAuditory"] = Auditory;
+        if (typeof Auditory.PlannedOn !== "undefined" && Auditory.PlannedOn !== null && Auditory.PlannedOn !== "") {
+            oldAuditory.PlannedOn = GetDate(Auditory.PlannedOn, "/", true);
+        }
+        data["oldAuditory"] = oldAuditory;
     }
 
     console.log(data);
@@ -524,8 +765,10 @@ function CalculateRules() {
 
     if (Auditory.Status < AuditoryStatus.Planificada) {
         var rules = $("#CmbRules").val();
-        for (var x = 0; x < rules.length; x++) {
-            res += rules[x] + "|";
+        if (rules !== "") {
+            for (var x = 0; x < rules.length; x++) {
+                res += rules[x] + "|";
+            }
         }
     }
     else {
@@ -1483,9 +1726,20 @@ function RenderZombies() {
 function CmbPlanningResponsibleChanged() {
     var id = $("#CmbPlanningResponsible").val() * 1;
     if (id > 0) {
-        $("#TxtAuditoryPlanningDateLabel").html(Dictionary.Item_Auditory_Label_PlanningDate + "<span color=\"#f00;\">*</span>");
+        $("#TxtAuditoryPlanningDateLabel").html(Dictionary.Item_Auditory_Label_PlanningDate + "<span style=\"color:#f00;\">*</span>");
     }
     else {
         $("#TxtAuditoryPlanningDateLabel").html(Dictionary.Item_Auditory_Label_PlanningDate);
+    }
+}
+
+function ChkSendMailChanged() {
+    if (Auditory.Type === AuditoryTypes.Proveedor) {
+        if (document.getElementById("ChkSendMail").checked === true) {
+            $("#TxtProviderEmailRow").show();
+        }
+        else {
+            $("#TxtProviderEmailRow").hide();
+        }
     }
 }

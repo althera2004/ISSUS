@@ -307,6 +307,10 @@ function Export(fileType) {
 }
 
 function FilterChanged() {
+    $("#Chk1").removeAttr("disabled");
+    $("#Chk2").removeAttr("disabled");
+    if (document.getElementById("Chk1").checked === false) { $("#Chk2").attr("disabled", "disabled"); }
+    if (document.getElementById("Chk2").checked === false) { $("#Chk1").attr("disabled", "disabled"); }
     SetFilter();
     RenderDocumentTable();
 }
