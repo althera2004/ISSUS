@@ -22,7 +22,7 @@ namespace SbrinnaCoreFramework.UI
         {
             return new FormSelectOption
             {
-                Text = dictionary["Common_SelectAll"],
+                Text = dictionary["Common_SelectOne"],
                 Value = "0"
             };
         }

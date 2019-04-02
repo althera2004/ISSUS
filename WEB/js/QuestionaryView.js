@@ -71,6 +71,9 @@ function TableQuestionsLayout() {
     }
     else {
         $("#DivNewQuestionary").show();
+        $("#scrollTableDiv").hide();
+        $("#ItemTableVoid").hide();
+        $("#TableQuestionsHeader").hide();
     }
 }
 

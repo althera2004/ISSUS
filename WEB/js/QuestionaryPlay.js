@@ -298,7 +298,7 @@ function ImprovementSave() {
         "CompanyId": Company.Id,
         "AuditoryId": AuditoryId,
         "CuestionarioId": QuestionaryId,
-        "Text": $("TxtImprovement").val(),
+        "Text": $("#TxtImprovement").val(),
         "Active": true
     };
 

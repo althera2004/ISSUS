@@ -398,7 +398,7 @@
 		                                                    </tr>
                                                         </thead>
                                                     </table>
-                                                    <div id="ListDataDivCuestionario" style="border-left:1px solid #ddd;background-color:#eef;min-height:400px;overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                    <div id="ListDataDivCuestionario" style="border-left:1px solid #ddd;background-color:#eef;min-height:200px;overflow: scroll; overflow-x: hidden; padding: 0;">
                                                         <table class="table table-bordered table-striped" style="border-left:none;border-top: none;">
                                                             <tbody id="CuestionarioDataTable"><asp:Literal runat="server" ID="LtCuestionariosList"></asp:Literal></tbody>
                                                         </table>
@@ -686,7 +686,7 @@
                                 <div class="col-sm-12" style="margin-top:4px;">
                                     <label id="TxtIncidentActionDescriptionLabel" class="col-sm-4 control-label no-padding-right" for="TxtIncidentActionDescription"><%=this.Dictionary["Item_IncidentAction_Label_Description"] %><span class="required">*</span></label>
                                     <div class="col-sm-8">
-                                        <input type="text" class="col-xs-12 col-sm-12" id="TxtIncidentActionDescription" placeholder="<%=this.Dictionary["Item_IncidentAction_Label_Description"] %>" value="" maxlength="12" />
+                                        <input type="text" class="col-xs-12 col-sm-12" id="TxtIncidentActionDescription" placeholder="<%=this.Dictionary["Item_IncidentAction_Label_Description"] %>" value="" maxlength="100" />
                                         <span class="ErrorMessage" id="TxtIncidentActionDescriptionErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div> 
