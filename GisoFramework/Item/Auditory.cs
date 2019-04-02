@@ -72,7 +72,7 @@ namespace GisoFramework.Item
                     Provider = Provider.Empty,
                     rules = new List<Rules>(),
                     InternalResponsible = Employee.Empty,
-                    Status = Constant.DefaultId,
+                    Status = 0,
                     Type = Constant.DefaultId,
                     CanBeDeleted = true,
                     CreatedBy = ApplicationUser.Empty,
@@ -854,6 +854,62 @@ namespace GisoFramework.Item
             return result;
         }
 
+        public static ActionResult ReopenCuestionarios(long auditoryId, int applicationUserId, int companyId)
+        {
+            string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::ReopenCustionarios Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
+            /* CREATE PROCEDURE Auditory_ReopenCuestionarios
+             *   @AuditoryId bigint,
+             *   @CompanyId int,
+             *   @ApplicationUserId int */
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Auditory_ReopenCuestionarios"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public static ActionResult Inactivate(long auditoryId, int companyId, int applicationUserId)
         {
             string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::Inactivate Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
@@ -1193,6 +1249,59 @@ namespace GisoFramework.Item
             }
 
             this.rulesId = res;
+        }
+
+        public static string RenderCuestionarios(long auditoryId, int companyId)
+        {
+            var res = new StringBuilder();
+            using (var cmd = new SqlCommand("Auditory_GetQuestionaries"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                    try
+                    {
+                        cmd.Connection.Open();
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            bool first = true;
+                            while (rdr.Read())
+                            {
+                                if (first)
+                                {
+                                    first = false;
+                                }
+                                else
+                                {
+                                    res.Append(",");
+                                }
+
+                                res.AppendFormat(
+                                    CultureInfo.InvariantCulture,
+                                    @"{{""Id"":{0},  ""Description"":""{1}"", ""T"":{2}, ""C"":{3}, ""Co"":{4}, ""F"":{5}}}",
+                                    rdr.GetInt64(0),
+                                    GisoFramework.Tools.JsonCompliant(rdr.GetString(1)),
+                                    rdr.GetInt32(2),
+                                    rdr.GetInt32(3),
+                                    rdr.GetInt32(4),
+                                    rdr.GetInt32(5));
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return res.ToString();
         }
     }
 }

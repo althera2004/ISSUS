@@ -2,6 +2,35 @@
 var listOrder = "th2|DESC";
 
 function IncidentActionGetFilter(exportType) {
+    // Control del ultimo checkbox
+    $("#RType1").removeAttr("disabled");
+    $("#RType2").removeAttr("disabled");
+    $("#RType3").removeAttr("disabled");
+    if (document.getElementById("RType1").checked === true && document.getElementById("RType2").checked === false && document.getElementById("RType3").checked === false) {
+        $("#RType1").attr("disabled", "disabled");
+    }
+    if (document.getElementById("RType1").checked === false && document.getElementById("RType2").checked === true && document.getElementById("RType3").checked === false) {
+        $("#RType2").attr("disabled", "disabled");
+    }
+    if (document.getElementById("RType1").checked === false && document.getElementById("RType2").checked === false && document.getElementById("RType3").checked === true) {
+        $("#RType3").attr("disabled", "disabled");
+    }
+
+
+    var statusSelected = document.getElementById("chkStatus1").checked ? "1" : "0";
+    statusSelected += document.getElementById("chkStatus2").checked ? "1" : "0";
+    statusSelected += document.getElementById("chkStatus3").checked ? "1" : "0";
+    statusSelected += document.getElementById("chkStatus4").checked ? "1" : "0";
+
+    $("#chkStatus1").removeAttr("disabled");
+    $("#chkStatus2").removeAttr("disabled");
+    $("#chkStatus3").removeAttr("disabled");
+    $("#chkStatus4").removeAttr("disabled");
+    if (statusSelected === "1000") { $("#chkStatus1").attr("disabled", "disabled"); }
+    if (statusSelected === "0100") { $("#chkStatus2").attr("disabled", "disabled"); }
+    if (statusSelected === "0010") { $("#chkStatus3").attr("disabled", "disabled"); }
+    if (statusSelected === "0010") { $("#chkStatus4").attr("disabled", "disabled"); }
+
     var ok = true;
     $("#nav-search-input").val();
     $("#ListDataTable").hide();
@@ -428,7 +457,7 @@ window.onload = function () {
     $("#CmbReporter").on("click", IncidentActionGetFilter);
     $("#RType1").on("click", IncidentActionGetFilter);
     $("#RType2").on("click", IncidentActionGetFilter);
-    $("#Rtype3").on("click", IncidentActionGetFilter);
+    $("#RType3").on("click", IncidentActionGetFilter);
     $("#TxtDateFrom").on("change", IncidentActionGetFilter);
     $("#TxtDateTo").on("change", IncidentActionGetFilter);
 };

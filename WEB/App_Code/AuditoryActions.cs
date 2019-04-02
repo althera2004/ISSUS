@@ -112,6 +112,13 @@ public class AuditoryActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
+    public ActionResult ReopenCuestionarios(long auditoryId, int applicationUserId, int companyId)
+    {
+        return Auditory.ReopenCuestionarios(auditoryId, applicationUserId, companyId);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
     public ActionResult Validate(long auditoryId, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId)
     {
         return Auditory.Validate(auditoryId, validatedBy, validatedOn, applicationUserId, companyId);
@@ -253,5 +260,25 @@ public class AuditoryActions : WebService
     public ActionResult ImprovementDelete(long id, int companyId, int applicationUserId)
     {
         return AuditoryCuestionarioImprovement.Inactivate(id, companyId, applicationUserId);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult ReportData(long id, int companyId)
+    {
+        var res = "{\"Cuestionarios\":[";
+        res += Auditory.RenderCuestionarios(id, companyId);
+        res += "],\"Founds\":";
+        res += AuditoryCuestionarioFound.JsonList(AuditoryCuestionarioFound.ByAuditory(id, companyId));
+        res += ",\"Improvements\":";
+        res += AuditoryCuestionarioImprovement.JsonList(AuditoryCuestionarioImprovement.ByAuditory(id, companyId));
+        res += "}";
+
+        return new ActionResult
+        {
+            Success = true,
+            ReturnValue = res,
+            MessageError = string.Empty
+        };
     }
 }

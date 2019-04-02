@@ -3,6 +3,7 @@ var VerificationExternalActive = false;
 var VerificationInternalExists = false;
 var VerificationExternalExists = false;
 var EquipmentNewId;
+$("#BtnRecordShowNone").remove();
 
 var initialDateText = Dictionary.Item_EquipmentErrorInitialDate + " " + limitInitialDate;
 $("#TxtStartDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtStartDatePostInitial\" style=\"display:none;\">" + initialDateText + "</span>");

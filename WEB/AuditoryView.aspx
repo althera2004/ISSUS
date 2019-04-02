@@ -130,6 +130,15 @@
         var Founds = <%=this.Founds %>;
         var Completo = <%=this.CuestionariosCompletos %>;
         var Zombies = <%=this.Zombie %>;
+        var TotalQuestions = <%=this.TotalQuestions %>;
+        var Cuestionarios = [<%=this.CuestionariosJson %>];
+        var RealActions = <%= this.RealActions %>;
+
+        // For Upload files
+        // --------------------------------------
+        var typeItemId = 29;
+        var itemId = <%=this.Auditory.Id %>;
+        // --------------------------------------
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
@@ -160,13 +169,16 @@
                                                 <a data-toggle="tab" href="#questionaries" id="tabQuestionaries"><%=this.Dictionary["Item_Auditory_Tab_Questionaries"]%></a>
                                             </li>
                                             <li class="" <% if (this.Auditory.Status < 1) { %>style="display:none;" <% } %>>
-                                                <a data-toggle="tab" href="#report"><%=this.Dictionary["Item_Auditory_Tab_Report"]%></a>
+                                                <a data-toggle="tab" href="#report" id="TabReport"><%=this.Dictionary["Item_Auditory_Tab_Report"]%></a>
                                             </li>
                                             <% } else { %>
                                             <li class="" <% if (this.Auditory.Status < 1) { %>style="display:none;" <% } %>>
                                                 <a data-toggle="tab" href="#reportExternal"><%=this.Dictionary["Item_Auditory_Tab_Report"]%></a>
                                             </li>
                                             <% } %>
+                                            <li class="" <% if (this.Auditory.Status != 5) { %>style="display:none;" <% } %>>
+                                                <a data-toggle="tab" href="#actions"><%=this.Dictionary["Item_IncidentActions"]%></a>
+                                            </li>
                                             <li class="" <% if (this.Auditory.Id < 1) { %>style="display:none;" <% } %>>
                                                 <a data-toggle="tab" href="#uploadFiles"><%=this.Dictionary["Item_Equipment_Tab_UploadFiles"]%></a>
                                             </li>
@@ -182,21 +194,23 @@
                                                 <div class="form-horizontal" role="form">
                                                     <% if (this.Auditory.Type == 0) { %>
                                                     <div class="form-group">
-                                                        <label class="col-sm-1" id="CmbTypeLabel"><%=this.Dictionary["Item_Auditory_Label_Type"] %><span style="color:#f00">*</span></label>
+                                                        <label class="col-sm-1" id="TxtTypeLabel"><%=this.Dictionary["Item_Auditory_Label_Type"] %><span style="color:#f00">*</span></label>
                                                         <label class="col-sm-2 control-label" style="text-align:left;"><strong><%=this.Dictionary["Item_Adutory_Type_Label_" + this.Auditory.Type.ToString()] %></strong></label>
                                                         <label class="col-sm-1 control-label no-padding-right" id="TxtNameLabel"><%=this.Dictionary["Item_Auditory_Label_Name"] %><span style="color:#f00">*</span></label>
                                                         <div class="col-sm-8">
                                                             <input type="text" id="TxtName" placeholder="<%=this.Dictionary["Item_Auditory_Label_Name"] %>" class="col-xs-12 col-sm-12" value="<%=this.Auditory.Description %>" />                                                            
+                                                            <span class="ErrorMessage" id="TxtNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                     </div> 
                                                     <% } %>
                                                     <% if (this.Auditory.Type == 1) { %>
                                                     <div class="form-group">
-                                                        <label class="col-sm-1" id="CmbTypeLabel"><%=this.Dictionary["Item_Auditory_Label_Type"] %><span style="color:#f00">*</span></label>
+                                                        <label class="col-sm-1" id="TxtNameLabel"><%=this.Dictionary["Item_Auditory_Label_Type"] %><span style="color:#f00">*</span></label>
                                                         <label class="col-sm-2 control-label" style="text-align:left;"><strong><%=this.Dictionary["Item_Adutory_Type_Label_" + this.Auditory.Type.ToString()] %></strong></label>
                                                         <label class="col-sm-1 control-label no-padding-right" id="TxtNameLabel"><%=this.Dictionary["Item_Auditory_Label_Name"] %><span style="color:#f00">*</span></label>
                                                         <div class="col-sm-8">
-                                                            <input type="text" id="TxtName" placeholder="<%=this.Dictionary["Item_Auditory_Label_Name"] %>" class="col-xs-12 col-sm-12" value="<%=this.Auditory.Description %>" />                                                            
+                                                            <input type="text" id="TxtName" placeholder="<%=this.Dictionary["Item_Auditory_Label_Name"] %>" class="col-xs-12 col-sm-12" value="<%=this.Auditory.Description %>" />
+                                                            <span class="ErrorMessage" id="TxtNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                     </div> 
                                                     <% } %>
@@ -212,7 +226,8 @@
                                                         </div>
                                                         <label class="col-sm-1 control-label no-padding-right" id="TxtNameLabel"><%=this.Dictionary["Item_Auditory_Label_Name"] %><span style="color:#f00">*</span></label>
                                                         <div class="col-sm-4">
-                                                            <input type="text" id="TxtName" placeholder="<%=this.Dictionary["Item_Auditory_Label_Name"] %>" class="col-xs-12 col-sm-12" value="<%=this.Auditory.Description %>" />                                                            
+                                                            <input type="text" id="TxtName" placeholder="<%=this.Dictionary["Item_Auditory_Label_Name"] %>" class="col-xs-12 col-sm-12" value="<%=this.Auditory.Description %>" />
+                                                            <span class="ErrorMessage" id="TxtNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                     </div> 
                                                     <% } %>
@@ -230,13 +245,17 @@
                                                             <input style="display:none;" type="text" readonly="readonly" id="CmbCustomerValue" class="col-xs-12 col-sm-12" />
                                                             <span class="ErrorMessage" id="CmbCustomerErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
+                                                        <div class="col-sm-3" id="ErrorProviderCustomerDiv" style="display:none;">
+                                                            <span class="ErrorMessage" id="ProviderCustomerErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                        </div>
                                                     </div>
                                                     <% } %>
                                                     <div class="form-group">
-                                                        <label class="col-sm-1 control-label" id="CmbRulesLabel" for="CmbRules"><%=this.Dictionary["Item_Auditory_Label_Rules"] %><span style="color:#f00">*</span></label>
+                                                        <label class="col-sm-1 control-label" id="TxtRulesIdLabel" for="CmbRules"><%=this.Dictionary["Item_Auditory_Label_Rules"] %><span style="color:#f00">*</span></label>
                                                         <div class="col-sm-11" id="AuditoryRulesDiv">
                                                             <input type="text" id="TxtRulesId" style="display:none;" value="<%=this.RulesIds %>" />
                                                             <asp:Literal runat="server" ID="LtCmbRules"></asp:Literal>
+                                                            <span class="ErrorMessage" id="TxtRulesIdErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
@@ -252,7 +271,7 @@
                                                             <span class="ErrorMessage" id="CmbInternalResponsibleErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                         <% if (this.Auditory.Type == 1) { %>
-                                                        <label id="TxtPreviewDateLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Auditory_Label_PannedDate"] %></label>
+                                                        <label id="TxtPreviewDateLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Auditory_Label_PannedDate"] %><span class="required">*</span></label>
                                                             <div class="col-sm-2">
                                                                 <div class="row">
                                                                     <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtPreviewDateDiv">
@@ -273,6 +292,7 @@
                                                         <label id="TxtDescriptionLabel" class="col-sm-1 no-padding-right"><%=this.Dictionary["Item_Auditory_Label_Description"]%><span style="color:#f00;">*</span></label>
                                                         <div class="col-sm-11">
                                                             <textarea rows="3" class="form-control col-xs-11 col-sm-12" maxlength="2000" id="TxtDescription"><%=this.Auditory.Descripcion %></textarea>
+                                                            <span class="ErrorMessage" id="TxtDescriptionErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                     </div>
                                                     <% if (this.Auditory.Type == 0 || this.Auditory.Type == 2) { %>
@@ -280,10 +300,11 @@
                                                         <label id="TxtScopeLabel" class="col-sm-1 no-padding-right"><%=this.Dictionary["Item_Auditory_Label_Scope"]%><span style="color:#f00;">*</span></label>
                                                         <div class="col-sm-11">
                                                             <input type="text" id="TxtScope" placeholder="<%=this.Dictionary["Item_Auditory_Label_Scope"] %>" class="col-xs-12 col-sm-12" value="<%=this.Auditory.Scope %>" />                                                            
+                                                            <span class="ErrorMessage" id="TxtScopeErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                     </div> 
                                                     <% } %>                                                    
-                                                    <% if (this.Auditory.Type == 0 || this.Auditory.Type == 1) { %>
+                                                    <% if ((this.Auditory.Type == 0 || this.Auditory.Type == 1) && this.Auditory.Status < 1) { %>
                                                     <div class="form-group">
                                                         <label class="col-sm-1" id="CmbAddressLabel" for="CmbAddress"><%=this.Dictionary["Item_Auditory_Label_Address"] %><span style="color:#f00">*</span></label>
                                                         <div class="col-sm-11">
@@ -291,22 +312,25 @@
                                                                 <option value="-1"><%=this.Dictionary["Common_SelectOne"] %></option>
                                                                 <asp:Literal runat="server" ID="LtCmbAddress"></asp:Literal>
                                                             </select>
+                                                            <span class="ErrorMessage" id="CmbAddressErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                     </div>
                                                     <% } %>
-                                                    <% if (this.Auditory.Type == 2) { %>
+                                                    <% if (this.Auditory.Type == 2 || this.Auditory.Status > 0) { %>
                                                     <div class="form-group">
-                                                        <label id="TxtAddressLabel" class="col-sm-1"><%=this.Dictionary["Item_Auditory_Label_Address"]%></label>
+                                                        <label id="TxtAddressLabel" class="col-sm-1"><%=this.Dictionary["Item_Auditory_Label_Address"]%><span class="required">*</span></label>
                                                         <div class="col-sm-11">
                                                             <input type="text" id="TxtAddress" placeholder="<%=this.Dictionary["Item_Auditory_Label_Address"] %>" class="col-xs-12 col-sm-12" value="<%=this.Auditory.EnterpriseAddress %>" />                                                            
+                                                            <span class="ErrorMessage" id="TxtAddressErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                     </div>
                                                     <% } %>
                                                     <% if (this.Auditory.Type == 1) { %>
                                                     <div class="form-group">
-                                                        <label id="TxtAuditorTeamLabel" class="col-sm-1"><%=this.Dictionary["Item_Auditory_Label_AuditorTeam"]%></label>
+                                                        <label id="TxtAuditorTeamLabel" class="col-sm-1"><%=this.Dictionary["Item_Auditory_Label_AuditorTeam"]%><span class="required">*</span></label>
                                                         <div class="col-sm-11">
                                                             <textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtAuditorTeam"><%=this.Auditory.AuditorTeam %></textarea>
+                                                            <span class="ErrorMessage" id="TxtAuditorTeamErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                     </div>
                                                     <% } %>
@@ -317,6 +341,10 @@
                                                         </div>
                                                     </div>
                                                     <% if (this.Auditory.Type != 1) { %>
+                                                    <div class="alert alert-info" style="display:none;" id="DivNewAuditory">
+                                                        <strong><i class="icon-info-sign"></i></strong>
+                                                        <div style="display:inline;"><%=this.Dictionary["Item_Auditory_Message_NewAuditory"] %></div>
+                                                    </div>
                                                     <div class="row" id="TablePlanningHeader" style="display:none;">
                                                         <div class="col-xs-4"><h4><%=this.Dictionary["Item_Auditory_PlanningTable_Title"]%></h4></div>
                                                         <div class="col-xs-4">
@@ -347,8 +375,8 @@
 		                                                        </tr>
                                                             </thead>
                                                         </table>
-                                                        <div id="ListDataDiv" style="display:none;overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                            <table class="table table-bordered table-striped" style="border-left:none;border-top: none;min-height:120px;">
+                                                        <div id="ListDataDiv" style="display:none;overflow: scroll; overflow-x: hidden; padding: 0;min-height:120px;">
+                                                            <table class="table table-bordered table-striped" style="border-left:none;border-top: none;">
                                                                 <tbody id="PlanningDataTable"></tbody>
                                                             </table>
                                                         </div>
@@ -363,9 +391,17 @@
                                                     </div> <!-- /.table-responsive -->
                                                     <% } %>
                                                     <hr />
-                                                    <div class="form-group"> 
+                                                    <div class="alert alert-info" style="display:none;" id="DivNoPlanning">
+                                                        <strong><i class="icon-info-sign"></i></strong>
+                                                        <div style="display:inline;"><%=this.Dictionary["Item_Auditory_Message_NoPlanning"] %></div>
+                                                    </div>
+                                                    <div class="alert alert-warning" style="display:none;" id="DivNoQuestions">
+                                                        <strong><i class="icon-warning-sign"></i></strong>
+                                                        <div style="display:inline;"><%=this.Dictionary["Item_Auditory_Message_NoQuestions"] %></div>
+                                                    </div>
+                                                    <div class="form-group" id="DivYesPlanning"> 
                                                         <div class="col-sm-3">&nbsp;</div>
-                                                        <label class="col-sm-2 control-label no-padding-right" id="CmbPlanningResponsibleLabel" for="CmbPlanningResponsible"><%=this.Dictionary["Item_Auditory_Label_PlanningResponsible"] %><span class="required">*</span></label>
+                                                        <label class="col-sm-2 control-label no-padding-right" id="CmbPlanningResponsibleLabel" for="CmbPlanningResponsible"><%=this.Dictionary["Item_Auditory_Label_PlanningResponsible"] %></label>
                                                         <div class="col-sm-4">
                                                             <select id="CmbPlanningResponsible" class="form-control col-xs-12 col-sm-12" onchange="CmbPlanningResponsibleChanged();"><asp:Literal runat="server" ID="LtAuditoryPlanningResponsible"></asp:Literal></select>
                                                             <input style="display:none;" type="text" readonly="readonly" id="CmbPlanningResponsibleValue" class="col-xs-12 col-sm-12" />
@@ -379,6 +415,7 @@
                                                                     <i class="icon-calendar bigger-110"></i>
                                                                 </span>
                                                             </div>
+                                                            <span class="ErrorMessage" id="TxtAuditoryPlanningDateErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                     </div>
                                                     <%=this.FormFooter %>
@@ -400,7 +437,7 @@
                                                     </table>
                                                     <div id="ListDataDivCuestionario" style="border-left:1px solid #ddd;background-color:#eef;min-height:200px;overflow: scroll; overflow-x: hidden; padding: 0;">
                                                         <table class="table table-bordered table-striped" style="border-left:none;border-top: none;">
-                                                            <tbody id="CuestionarioDataTable"><asp:Literal runat="server" ID="LtCuestionariosList"></asp:Literal></tbody>
+                                                            <tbody id="CuestionarioDataTable"></tbody>
                                                         </table>
                                                     </div>
                                                     <div id="NoDataCuestionario" style="display:none;width:100%;height:99%;min-height:200px;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>
@@ -411,20 +448,7 @@
                                                             </tr>
                                                         </thead>
                                                     </table>
-                                                </div> <!-- /.table-responsive -->                                                
-
-                                                <div class="form-group" id="CloseCuestionarioDIV" style="display:none;margin-top:12px;"> 
-                                                    <div class="col-sm-8">&nbsp;</div>
-                                                    <label class="col-sm-2 control-label no-padding-right" id="TxtCloseQuestionsOnLabel" for="TxtAuditoryPlanning"><%=this.Dictionary["Item_Auditory_Label_EndQuestionarios"] %></label>
-                                                    <div class="col-sm-2">
-                                                        <div class="input-group">
-                                                            <input style="width:90px;" class="form-control date-picker" id="TxtCloseQuestionsOn" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="<%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ReportEnd) %>" />
-                                                            <span id="TxtCloseQuestionsOnLabelBtn" class="input-group-addon" onclick="document.getElementById('TxtCloseQuestionsOn').focus();">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>                                                
+                                                </div> <!-- /.table-responsive -->                                                 
 
                                             </div>
                                             <% if (this.Auditory.Type != 1) { %>
@@ -432,9 +456,29 @@
                                                 <div class="form-horizontal" role="form">
                                                     <div class="row">
                                                         <label class="col col-sm-1"><%=this.Dictionary["Item_Auditory_Report_StartLabel"] %></label>
-                                                        <label class="col col-sm-2" style="font-weight:bold;"><%=this.ReportDateStart %></label>
+                                                        <div class="col-sm-2">
+                                                            <div class="input-group">
+                                                                <input style="width:90px;" class="form-control date-picker" id="TxtStartQuestionsOn" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="<%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ReportStart) %>" />
+                                                                <span id="TxtStartQuestionsOnLabelBtn" class="input-group-addon" onclick="document.getElementById('TxtStartQuestionsOn').focus();">
+                                                                    <i class="icon-calendar bigger-110"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
                                                         <label class="col col-sm-1"><%=this.Dictionary["Item_Auditory_Report_EndLabel"] %></label>
-                                                        <label class="col col-sm-2" style="font-weight:bold;"><%=this.ReportDateEnd %></label>
+                                                        <div class="col-sm-2">
+                                                            <div class="input-group">
+                                                                <input style="width:90px;" class="form-control date-picker" id="TxtCloseQuestionsOn" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="<%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ReportEnd) %>" />
+                                                                <span id="TxtCloseQuestionsOnLabelBtn" class="input-group-addon" onclick="document.getElementById('TxtCloseQuestionsOn').focus();">
+                                                                    <i class="icon-calendar bigger-110"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <button type="button" class="btn btn-success" id="BtnReopenCuestionarios" style="display:none;margin-top:2px;height:32px;padding-top:2px;" onclick="ReopenCuestionariosPopup();">
+                                                                <i class="fa fa-recycle"></i>&nbsp;
+                                                                <%=this.Dictionary["Item_Auditory_Popup_ReopenQuestionary"] %>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <h4><%=this.Dictionary["Item_Auditory_Title_Found"] %></h4>
@@ -510,7 +554,7 @@
                                                         </p>
                                                 </div>
 
-                                                <div class="col-sm-12" style="margin-top:12px;display:none;" id="DivValidationButton">
+                                                <div class="col-sm-12" style="margin-top:-24px;margin-bottom:32px;display:none;" id="DivValidationButton">
                                                     <div class="col-sm-10"></div>
                                                     <div class="col-sm-2">
                                                         <button type="button" class="btn btn-success" id="BtnValidarAuditoria"><i class="fa fa-check"></i>&nbsp;<%=this.Dictionary["Item_Auditory_Btn_Validation"] %></button>
@@ -610,6 +654,43 @@
 
                                             </div>
                                             <% } %>
+
+                                            <div id="actions" class="tab-pane">
+                                                <div class="row">
+                                                    <div class="col-sm-6"><h4><%=this.Dictionary["Item_IncidentActions"] %></h4></div>
+                                                    <div class="col-sm-6" style="text-align:right;">
+                                                        <button type="button" id="BtnActionAddReal" class="btn btn-success" style="margin-top:6px;height:28px;padding-top:0;float:right;"><i class="fa fa-plus"></i>&nbsp;<%=this.Dictionary["Item_Auditory_Btn_AddIncidentAction"] %></button>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="table-responsive" id="scrollTableDivIncidentActionsReal" style="margin-top:4px;border-left:1px solid #ddd;">
+                                                    <table class="table table-bordered table-striped" style="margin: 0">
+                                                        <thead class="thin-border-bottom">
+                                                            <tr id="ListDataHeaderIncidentActionsReal">
+			                                                    <th style="width:65px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"] %></th>
+			                                                    <th style="width:120px;"><%=this.Dictionary["Item_IncidentAction_Header_Type"] %></th>
+			                                                    <th><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th>
+			                                                    <th style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
+			                                                    <th style="width:67px;">&nbsp;</th>
+		                                                    </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <div id="ListDataDivIncidentActionsReal" style="display:none;overflow:scroll;overflow-x:hidden; padding: 0;min-height:200px;">
+                                                        <table class="table table-bordered table-striped" style="border-left:none;border-top: none;">
+                                                            <tbody id="IncidentActionsDataTableReal"><asp:Literal runat="server" ID="Literal2"></asp:Literal></tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div id="NoDataIncidentActionsReal" style="width:100%;height:99%;min-height:200px;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>
+                                                    <table class="table table-bordered table-striped" style="margin: 0" >
+                                                        <thead class="thin-border-bottom">
+                                                            <tr id="ListDataFooterIncidentActionsReal">
+                                                                <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="SpanIncidentActionsTotalReal">0</span></i></th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div> <!-- /.table-responsive -->
+                                            </div>
 
                                             <div id="uploadFiles" class="tab-pane">
                                                 <div class="col-sm-12">
@@ -750,6 +831,10 @@
                                 <p><%=this.Dictionary["Item_Auditory_Popup_ReopenMessage"] %>&nbsp;<strong><span id="AuditoryPlanningName"></span></strong>?</p>
                             </div>
 
+                            <div id="NoActionsPopup" class="hide"">
+                                <p><span id="NoActionsPopupMessage"></span></p>
+                            </div>
+
                             <div id="ValidationPopup" class="hide">
                                 <div class="row"> 
                                     <label class="col-sm-4 control-label no-padding-right" id="CmbValidatedByLabel" for="CmbValidatedBy"><%=this.Dictionary["Item_Auditory_Label_PlanningResponsible"] %><span class="required">*</span></label>
@@ -775,21 +860,25 @@
                                 </div>
                             </div>
 
+                            <div id="CustionariosReoenDialog" class="hide" style="width:500px;">
+                                <p><%=this.Dictionary["Item_Auditory_Message_ReopenCuestionario"] %>?</p>
+                            </div>
+
                             <div id="AuditoryPlanningDeleteDialog" class="hide" style="width:500px;">
                                 <p><%=this.Dictionary["Item_AuditoryPlanning_PopupDelete_Message"] %>&nbsp;<strong><span id="AuditoryPlanningName"></span></strong>?</p>
                             </div>
 
                             <div id="PopupPlanningDialog" class="hide" style="width:400px;overflow:hidden;">    
                                 <div class="col-sm-12" style="margin-top:4px;">
-                                    <label id="CmbProcessLabel" class="col-sm-4 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_Process"] %><span class="required">*</span></label>
-                                    <div class="col-sm-8">
+                                    <label id="CmbProcessLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_Process"] %><span class="required">*</span></label>
+                                    <div class="col-sm-10">
                                         <select id="CmbProcess" class="col-xs-12 col-sm-12"><asp:Literal runat="server" ID ="LtProcessList"></asp:Literal></select>
                                         <span class="ErrorMessage" id="CmbProcessErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>                            
                                 <div class="col-sm-12" style="margin-top:4px;">
-                                    <label id="TxtPlanningDateLabel" class="col-sm-4 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_Date"] %><span class="required">*</span></label>
-                                    <div class="col-sm-8">
+                                    <label id="TxtPlanningDateLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_Date"] %><span class="required">*</span></label>
+                                    <div class="col-sm-5">
                                         <div class="row">
                                             <div class="col-xs-10 col-sm-10 tooltip-info" id="TxtPlanningDateDiv">
                                                 <div class="input-group">
@@ -803,10 +892,8 @@
                                         <span class="ErrorMessage" id="TxtPlanningDateErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         <span class="ErrorMessage" id="TxtPlanningDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
                                     </div>
-                                </div>
-                                <div class="col-sm-12" style="margin-top:4px;">
-                                    <label id ="TxtHourLabel" class="col-sm-4 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_AuditoryPlanning_Field_Hour"] %></label>
-                                    <div class="col-sm-8">
+                                    <label id ="TxtHourLabel" class="col-sm-2 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_AuditoryPlanning_Field_Hour"] %><span class="required">*</span></label>
+                                    <div class="col-sm-3">
                                         <div class="row">
                                             <div class="col-xs-10 col-sm-10 tooltip-info" id="TxtPlanningTimeDiv">
                                                 <div class="input-group">
@@ -817,39 +904,38 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <span class="ErrorMessage" id="TxtHourMalformed"><%=this.Dictionary["Common_Error_MoneyMalformed"] %></span>
+                                        <span class="ErrorMessage" id="TxtHourRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>    
                                 <div class="col-sm-12" style="margin-top:4px;">
-                                    <label id ="TxtDurationLabel" class="col-sm-4 control-label no-padding-right" for="TxtDuration"><%=this.Dictionary["Item_AuditoryPlanning_Field_Duration"] %></label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtDuration" placeholder="<%=this.Dictionary["Item_AuditoryPlanning_Field_Duration"] %>" value="" maxlength="12" />
+                                    <label id ="TxtDurationLabel" class="col-sm-2 control-label no-padding-right" for="TxtDuration"><%=this.Dictionary["Item_AuditoryPlanning_Field_Duration"] %><span class="required">*</span></label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="col-xs-2 col-sm-2 money-bank" id="TxtDuration" placeholder="<%=this.Dictionary["Item_AuditoryPlanning_Field_Duration"] %>" value="" maxlength="12" />
                                         <span class="ErrorMessage" id="TxtDurationMalformed"><%=this.Dictionary["Common_Error_MoneyMalformed"] %></span>
                                     </div>
                                 </div> 
                                 <div class="col-sm-12" style="margin-top:4px;">
-                                    <label id="CmbAuditorLabel" class="col-sm-4 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_Auditor"] %><span class="required">*</span></label>
-                                    <div class="col-sm-8">
+                                    <label id="CmbAuditorLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_Auditor"] %><span class="required">*</span></label>
+                                    <div class="col-sm-10">
                                         <select id="CmbAuditor" class="col-xs-12 col-sm-12"><asp:Literal runat="server" ID="LtAuditorList"></asp:Literal></select>
                                         <span class="ErrorMessage" id="CmbAuditorErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>
                                 <div class="col-sm-12" style="margin-top:4px;">
-                                    <label id="CmbAuditedLabel" class="col-sm-4 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_Audited"] %><span class="required">*</span></label>
-                                    <div class="col-sm-8">
+                                    <label id="CmbAuditedLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_Audited"] %><span class="required">*</span></label>
+                                    <div class="col-sm-10">
                                         <select id="CmbAudited" class="col-xs-12 col-sm-12"><asp:Literal runat="server" ID ="LtAuditedList"></asp:Literal></select>
                                         <span class="ErrorMessage" id="CmbAuditedErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>
                                 <div class="col-sm-12" style="margin-top:4px;">
-                                    <div class="col-sm-1"><input type="checkbox" id="ChkSendMail" /></div>
-                                    <label id="ChkSendMailLabel" class="col-sm-11 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_SendMail"] %></label>
-                                    
+                                    <div class="col-sm-1"><input type="checkbox" id="ChkSendMail" onclick="ChkSendMailChanged();" /></div>
+                                    <label id="ChkSendMailLabel" class="col-sm-11 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_SendMail"] %></label>                                    
                                 </div>     
                                 <div class="col-sm-12" style="margin-top:4px;display:none;" id="TxtProviderEmailRow">
-                                    <label id ="TxtProviderEmailLabel" class="col-sm-4 control-label no-padding-right" for="TxtProviderEmail"><%=this.Dictionary["Item_AuditoryPlanning_Label_EmailProvider"] %><span class="required">*</span></label>
-                                    <div class="col-sm-8">
-                                        <input type="text" class="col-xs-12 col-sm-12 decimalFormated6" id="TxtProviderEmail" placeholder="<%=this.Dictionary["Item_AuditoryPlanning_Label_EmailProvider"] %>" value="" maxlength="12" />
+                                    <label id ="TxtProviderEmailLabel" class="col-sm-2 control-label no-padding-right" for="TxtProviderEmail"><%=this.Dictionary["Item_AuditoryPlanning_Label_EmailProvider"] %><span class="required">*</span></label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="col-xs-12 col-sm-12" id="TxtProviderEmail" placeholder="<%=this.Dictionary["Item_AuditoryPlanning_Label_EmailProvider"] %>" value="" maxlength="150" />
                                         <span class="ErrorMessage" id="TxtProviderEmailErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         <span class="ErrorMessage" id="TxtProviderEmailMalformed"><%=this.Dictionary["Common_MessageMailMalformed"]%></span>
                                     </div>

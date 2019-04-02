@@ -17,7 +17,6 @@ window.onload = function () {
     $("#nav-search").hide();
     $("#BtnSave").on("click", SaveQuestionary);
     $("#BtnCancel").on("click", function () { document.location = referrer; });
-    TableQuestionsLayout();
     RenderQuestionsList();
     $("#BtnNewItem").on("click", InsertQuestion);
     FillApartadoNorma();
@@ -29,6 +28,7 @@ window.onload = function () {
     }).on("chosen:showing_dropdown", function () {
         $("#CmbApartadoNorma").val("");
         }).css("min-width", "99%");
+    TableQuestionsLayout();
 };
 
 function RenderQuestionsList() {
@@ -65,6 +65,7 @@ function RenderQuestionsList() {
 
 function TableQuestionsLayout() {
     if (Questionary.Id > 0) {
+        $("#DivNewQuestionary").hide();
         $("#scrollTableDiv").show();
         $("#ItemTableVoid").show();
         $("#TableQuestionsHeader").show();

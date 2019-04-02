@@ -54,7 +54,7 @@ public partial class Giso : MasterPage
         get
         {
             var res = new StringBuilder(Environment.NewLine).Append("<!-- Havigation history -->").Append(Environment.NewLine);
-            foreach(string link in this.navigation)
+            foreach (string link in this.navigation)
             {
                 res.Append(string.Format(CultureInfo.InvariantCulture, "    {0}{1}<br />", link, Environment.NewLine));
             }
@@ -64,13 +64,8 @@ public partial class Giso : MasterPage
         }
     }
 
-    /// <summary>Dictionary for fixed labels</summary>
-    private Dictionary<string, string> dictionary;
-
     /// <summary>Application user logged in session</summary>
     public ApplicationUser ApplicationUser { get; set; }
-
-    private Collection<BreadcrumbItem> breadCrumb;
 
     public string ItemCode { get; set; }
 
@@ -99,7 +94,7 @@ public partial class Giso : MasterPage
             string actual = this.Request.RawUrl;
             string res = string.Empty;
 
-            if(actual.ToUpperInvariant().IndexOf("DASHBOARD.ASPX") != -1)
+            if (actual.ToUpperInvariant().IndexOf("DASHBOARD.ASPX") != -1)
             {
                 var newNavigation = new List<string>
                 {
@@ -110,7 +105,7 @@ public partial class Giso : MasterPage
                 return "DashBoard.aspx";
             }
 
-            if(this.navigation == null)
+            if (this.navigation == null)
             {
                 this.navigation = new List<string>
                 {
@@ -138,7 +133,7 @@ public partial class Giso : MasterPage
                 last1 = this.navigation[0];
             }
 
-            if(actual == last1)
+            if (actual == last1)
             {
                 this.navigation.RemoveAt(this.navigation.Count - 1);
                 res = last2;
@@ -149,7 +144,7 @@ public partial class Giso : MasterPage
                 this.navigation.RemoveAt(this.navigation.Count - 1);
                 res = last3;
             }
-            else if (last1.IndexOf(".aspx?id=-1") != -1)
+            else if (last1.IndexOf(".aspx?id=-1") != -1 || last1.IndexOf("QuestionaryPlay.aspx") != -1)
             {
                 this.navigation.RemoveAt(this.navigation.Count - 1);
                 res = last2;
@@ -165,8 +160,6 @@ public partial class Giso : MasterPage
             }
 
             Session["Navigation"] = this.navigation;
-
-
             return res;
         }
     }
@@ -175,13 +168,7 @@ public partial class Giso : MasterPage
     public bool AdminPage { get; set; }
 
     /// <summary>Gets de breadcrumb elements</summary>
-    public Collection<BreadcrumbItem> BreadCrumb
-    {
-        get
-        {
-            return this.breadCrumb;
-        }
-    }
+    public Collection<BreadcrumbItem> BreadCrumb { get; private set; }
 
     /// <summary>Gets a value indicating whether if the text of title is translatable</summary>
     public bool TitleInvariant { get; set; }
@@ -191,10 +178,10 @@ public partial class Giso : MasterPage
     {
         get
         {
-            var res = new StringBuilder("<li><i class=\"icon-cog home-icon\"></i><a href=\"").Append(Session["home"].ToString()).Append("\">").Append(this.dictionary["Common_Home"]).Append("</a></li>");
-            foreach (var item in this.breadCrumb)
+            var res = new StringBuilder("<li><i class=\"icon-cog home-icon\"></i><a href=\"").Append(Session["home"].ToString()).Append("\">").Append(this.Dictionary["Common_Home"]).Append("</a></li>");
+            foreach (var item in this.BreadCrumb)
             {
-                string label = item.Invariant ? item.Label : this.dictionary[item.Label];
+                string label = item.Invariant ? item.Label : this.Dictionary[item.Label];
                 if (item.Leaf)
                 {
                     res.AppendFormat(CultureInfo.InvariantCulture, @"<li class=""active"">{0}</li>", label);
@@ -207,7 +194,7 @@ public partial class Giso : MasterPage
                         link = item.Link;
                     }
 
-                    res.Append("<li><a href=\"").Append(link).Append("\" title=\"").Append(label).Append("\">").Append(this.dictionary[item.Label]).Append("</a></li>");
+                    res.Append("<li><a href=\"").Append(link).Append("\" title=\"").Append(label).Append("\">").Append(this.Dictionary[item.Label]).Append("</a></li>");
                 }
             }
 
@@ -219,7 +206,7 @@ public partial class Giso : MasterPage
     {
         get
         {
-            if(!string.IsNullOrEmpty(this.ApplicationUser.Description))
+            if (!string.IsNullOrEmpty(this.ApplicationUser.Description))
             {
                 return this.ApplicationUser.Description;
             }
@@ -229,13 +216,7 @@ public partial class Giso : MasterPage
     }
 
     /// <summary>Gets the dictionary for interface texts</summary>
-    public Dictionary<string, string> Dictionary
-    {
-        get
-        {            
-            return this.dictionary;
-        }
-    }
+    public Dictionary<string, string> Dictionary { get; private set; }
 
     public string UserLanguage
     {
@@ -256,7 +237,7 @@ public partial class Giso : MasterPage
                 return this.titulo;
             }
 
-            return this.dictionary[this.titulo];
+            return this.Dictionary[this.titulo];
         }
 
         set
@@ -282,9 +263,9 @@ public partial class Giso : MasterPage
 
     public void AddBreadCrumb(string label)
     {
-        if (this.breadCrumb == null)
+        if (this.BreadCrumb == null)
         {
-            this.breadCrumb = new Collection<BreadcrumbItem>();
+            this.BreadCrumb = new Collection<BreadcrumbItem>();
         }
 
         var newBreadCrumb = new BreadcrumbItem
@@ -294,14 +275,14 @@ public partial class Giso : MasterPage
             Leaf = true
         };
 
-        this.breadCrumb.Add(newBreadCrumb);
+        this.BreadCrumb.Add(newBreadCrumb);
     }
 
     public void AddBreadCrumbInvariant(string label)
     {
-        if (this.breadCrumb == null)
+        if (this.BreadCrumb == null)
         {
-            this.breadCrumb = new Collection<BreadcrumbItem>();
+            this.BreadCrumb = new Collection<BreadcrumbItem>();
         }
 
         var newBreadCrumb = new BreadcrumbItem
@@ -312,14 +293,14 @@ public partial class Giso : MasterPage
             Invariant = true
         };
 
-        this.breadCrumb.Add(newBreadCrumb);
+        this.BreadCrumb.Add(newBreadCrumb);
     }
 
     public void AddBreadCrumb(string label, bool leaf)
     {
-        if (this.breadCrumb == null)
+        if (this.BreadCrumb == null)
         {
-            this.breadCrumb = new Collection<BreadcrumbItem>();
+            this.BreadCrumb = new Collection<BreadcrumbItem>();
         }
 
         var newBreadCrumb = new BreadcrumbItem
@@ -329,14 +310,14 @@ public partial class Giso : MasterPage
             Leaf = leaf
         };
 
-        this.breadCrumb.Add(newBreadCrumb);
+        this.BreadCrumb.Add(newBreadCrumb);
     }
 
     public void AddBreadCrumb(string label, string link, bool leaf)
     {
-        if (this.breadCrumb == null)
+        if (this.BreadCrumb == null)
         {
-            this.breadCrumb = new Collection<BreadcrumbItem>();
+            this.BreadCrumb = new Collection<BreadcrumbItem>();
         }
 
         var newBreadCrumb = new BreadcrumbItem
@@ -346,7 +327,7 @@ public partial class Giso : MasterPage
             Leaf = leaf
         };
 
-        this.breadCrumb.Add(newBreadCrumb);
+        this.BreadCrumb.Add(newBreadCrumb);
     }
 
     /// <summary>Page's load event</summary>
@@ -366,27 +347,31 @@ public partial class Giso : MasterPage
 
         this.ApplicationUser = Session["User"] as ApplicationUser;
         this.Company = Session["Company"] as Company;
-        this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
+        this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
 
         // Renew session
         //// ---------------------------------
         this.Session["User"] = this.ApplicationUser;
         this.Session["Company"] = this.Company;
-        this.Session["Dictionary"] = this.dictionary;
+        this.Session["Dictionary"] = this.Dictionary;
         //// ---------------------------------
 
         this.LeftMenu.Text += MenuOption.RenderMenu((ReadOnlyCollection<MenuOption>)Session["Menu"]);
         this.RenderShortCuts();
 
-        string logo = Company.GetLogoFileName(this.Company.Id);
+        var logo = Company.GetLogoFileName(this.Company.Id);
         this.ImgCompany.ImageUrl = string.Format("/images/Logos/{0}?ac={1}", logo, Guid.NewGuid());
         this.ImgCompany.Attributes.Add("height", "30");
+        this.GetTasks();
+        this.Alerts();
 
+    }
+
+    private void GetTasks()
+    {
         var tasks = ScheduledTask.ByEmployee(this.ApplicationUser, this.Company.Id).Where(t => t.Expiration >= Constant.Now.AddYears(-1)).ToList();
         var printedTasks = new List<ScheduledTask>();
-
         tasks = tasks.OrderByDescending(t => t.Expiration).ToList();
-
         foreach (var task in tasks)
         {
             if (printedTasks.Any(t => t.Action == task.Action && t.Equipment.Id == task.Equipment.Id && task.TaskType == t.TaskType))
@@ -403,41 +388,39 @@ public partial class Giso : MasterPage
 
     private void RenderShortCuts()
     {
-        var res = new StringBuilder(@"<div class=""sidebar-shortcuts"" id=""sidebar-shortcuts"">");        
+        var res = new StringBuilder(@"<div class=""sidebar-shortcuts"" id=""sidebar-shortcuts"">");
         var big = new StringBuilder(@"<div class=""sidebar-shortcuts-large"" id=""sidebar-shortcuts-large"">");
         var small = new StringBuilder(@"<div class=""sidebar-shortcuts-mini"" id=""sidebar-shortcuts-mini"">");
         bool showShortCuts = false;
-        //if (this.ApplicationUser.MenuShortcuts != null)
-        //{
-            if (this.ApplicationUser.MenuShortcuts.Blue != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Blue.Label))
-            {
-                showShortCuts = true;
-                big.Append(string.Format(@"<button type=""button"" class=""btn btn-info"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Blue.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Blue.Label], this.ApplicationUser.MenuShortcuts.Blue.Icon));
-                small.Append(@"<span class=""btn btn-info""></span>");
-            }
 
-            if (this.ApplicationUser.MenuShortcuts.Green != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Green.Label))
-            {
-                showShortCuts = true;
-                big.Append(string.Format(@"<button type=""button"" class=""btn btn-success"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Green.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Green.Label], this.ApplicationUser.MenuShortcuts.Green.Icon));
-                small.Append(@"<span class=""btn btn-success""></span>");
-            }
+        if (this.ApplicationUser.MenuShortcuts.Blue != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Blue.Label))
+        {
+            showShortCuts = true;
+            big.Append(string.Format(@"<button type=""button"" class=""btn btn-info"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Blue.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Blue.Label], this.ApplicationUser.MenuShortcuts.Blue.Icon));
+            small.Append(@"<span class=""btn btn-info""></span>");
+        }
 
-            if (this.ApplicationUser.MenuShortcuts.Red != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Red.Label))
-            {
-                showShortCuts = true;
-                big.Append(string.Format(@"<button type=""button"" class=""btn btn-danger"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Red.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Red.Label], this.ApplicationUser.MenuShortcuts.Red.Icon));
-                small.Append(@"<span class=""btn btn-danger""></span>");
-            }
+        if (this.ApplicationUser.MenuShortcuts.Green != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Green.Label))
+        {
+            showShortCuts = true;
+            big.Append(string.Format(@"<button type=""button"" class=""btn btn-success"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Green.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Green.Label], this.ApplicationUser.MenuShortcuts.Green.Icon));
+            small.Append(@"<span class=""btn btn-success""></span>");
+        }
 
-            if (this.ApplicationUser.MenuShortcuts.Yellow != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Yellow.Label))
-            {
-                showShortCuts = true;
-                big.Append(string.Format(@"<button type=""button"" class=""btn btn-warning"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Yellow.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Yellow.Label], this.ApplicationUser.MenuShortcuts.Yellow.Icon));
-                small.Append(@"<span class=""btn btn-warning""></span>");
-            }
-        //}
-        
+        if (this.ApplicationUser.MenuShortcuts.Red != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Red.Label))
+        {
+            showShortCuts = true;
+            big.Append(string.Format(@"<button type=""button"" class=""btn btn-danger"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Red.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Red.Label], this.ApplicationUser.MenuShortcuts.Red.Icon));
+            small.Append(@"<span class=""btn btn-danger""></span>");
+        }
+
+        if (this.ApplicationUser.MenuShortcuts.Yellow != null && !string.IsNullOrEmpty(this.ApplicationUser.MenuShortcuts.Yellow.Label))
+        {
+            showShortCuts = true;
+            big.Append(string.Format(@"<button type=""button"" class=""btn btn-warning"" style=""height:32px;"" onclick=""document.location='{0}';"" title=""{1}""><i class=""{2}""></i></button>", this.ApplicationUser.MenuShortcuts.Yellow.Link, this.Dictionary[this.ApplicationUser.MenuShortcuts.Yellow.Label], this.ApplicationUser.MenuShortcuts.Yellow.Icon));
+            small.Append(@"<span class=""btn btn-warning""></span>");
+        }
+
         big.Append("</div>");
         small.Append("</div>");
 
@@ -452,8 +435,6 @@ public partial class Giso : MasterPage
         {
             this.LtMenuShortCuts.Text = string.Empty;
         }
-
-        this.Alerts();
     }
 
     /// <summary>Render alerts items on top menu</summary>
@@ -488,7 +469,7 @@ public partial class Giso : MasterPage
 
         if(cont > 8)
         {
-            res.AppendFormat(@"<li class=""dropdown-footer""><a href=""Alerts.aspx"">{0}<i class=""ace-icon fa fa-arrow-right""></i></a></li>", this.dictionary["Common_ViewAll"]);
+            res.AppendFormat(@"<li class=""dropdown-footer""><a href=""Alerts.aspx"">{0}<i class=""ace-icon fa fa-arrow-right""></i></a></li>", this.Dictionary["Common_ViewAll"]);
         }
 
         this.LtAlertsCount.Text = cont.ToString();

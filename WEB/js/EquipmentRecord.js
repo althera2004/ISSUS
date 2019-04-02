@@ -100,6 +100,34 @@ function EquipmentRecordGetAll() {
 }
 
 function EquipmentRecordGetFromFilter(exportType) {
+    // Control de checkboxes
+    var chks = "";
+    $("#CalInt").removeAttr("disabled");
+    $("#CalExt").removeAttr("disabled");
+    $("#VerInt").removeAttr("disabled");
+    $("#VerExt").removeAttr("disabled");
+    $("#ManInt").removeAttr("disabled");
+    $("#ManExt").removeAttr("disabled");
+    $("#RepInt").removeAttr("disabled");
+    $("#RepExt").removeAttr("disabled");
+    chks += document.getElementById("CalInt").checked === true ? "1" : "0";
+    chks += document.getElementById("CalExt").checked === true ? "1" : "0";
+    chks += document.getElementById("VerInt").checked === true ? "1" : "0";
+    chks += document.getElementById("VerExt").checked === true ? "1" : "0";
+    chks += document.getElementById("ManInt").checked === true ? "1" : "0";
+    chks += document.getElementById("ManExt").checked === true ? "1" : "0";
+    chks += document.getElementById("RepInt").checked === true ? "1" : "0";
+    chks += document.getElementById("RepExt").checked === true ? "1" : "0";
+
+    if (chks === "10000000") { $("#CalInt").attr("disabled", "disabled") };
+    if (chks === "01000000") { $("#CalExt").attr("disabled", "disabled") };
+    if (chks === "00100000") { $("#VerInt").attr("disabled", "disabled") };
+    if (chks === "00010000") { $("#VerExt").attr("disabled", "disabled") };
+    if (chks === "00001000") { $("#ManInt").attr("disabled", "disabled") };
+    if (chks === "00000100") { $("#ManExt").attr("disabled", "disabled") };
+    if (chks === "00000010") { $("#RepInt").attr("disabled", "disabled") };
+    if (chks === "00000001") { $("#RepExt").attr("disabled", "disabled") };
+
     var ok = true;
     $("#ErrorItem").hide();
     $("#ErrorDate").hide();

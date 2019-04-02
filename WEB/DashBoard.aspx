@@ -97,6 +97,15 @@
             }
 
             function FilterChanged() {
+                $("#Chk1").removeAttr("disabled");
+                $("#Chk2").removeAttr("disabled");
+                if (document.getElementById("Chk1").checked === false) {
+                    $("#Chk2").attr("disabled", "disabled");
+                }
+                if (document.getElementById("Chk2").checked === false) {
+                    $("#Chk1").attr("disabled", "disabled");
+                }
+
                 RenderTaskTable();
                 var filterData =
                     {
@@ -183,7 +192,7 @@
                 divName.style.textOverflow = "ellipsis";
                 divName.style.overflow = "hidden";
                 divName.style.whiteSpace = "nowrap";
-                divName.style.width = "320px";
+                divName.style.width = $("#th0").width()-18 + "px";
                 divName.appendChild(document.createTextNode(task.labelType));
                 tdName.title = task.labelType;
                 tdName.appendChild(divName);				
@@ -194,7 +203,7 @@
                 divTarget.style.textOverflow = "ellipsis";
                 divTarget.style.overflow = "hidden";
                 divTarget.style.whiteSpace = "nowrap";
-                divTarget.style.width = "320px";
+                divTarget.style.width = "310px";
                 divTarget.appendChild(document.createTextNode(task.Item));
                 tdTarget.title = task.Item;
                 tdTarget.appendChild(divTarget);
