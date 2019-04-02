@@ -112,6 +112,13 @@ public class AuditoryActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
+    public ActionResult ReopenCuestionarios(long auditoryId, int applicationUserId, int companyId)
+    {
+        return Auditory.ReopenCuestionarios(auditoryId, applicationUserId, companyId);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
     public ActionResult Validate(long auditoryId, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId)
     {
         return Auditory.Validate(auditoryId, validatedBy, validatedOn, applicationUserId, companyId);

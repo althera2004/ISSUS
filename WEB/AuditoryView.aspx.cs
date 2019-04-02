@@ -89,6 +89,14 @@ public partial class AuditoryView : Page
         }
     }
 
+    public string RealActions
+    {
+        get
+        {
+            return IncidentAction.JsonList(IncidentAction.ByAuditoryId(this.auditoryId, this.company.Id));
+        }
+    }
+
     public string Improvements
     {
         get

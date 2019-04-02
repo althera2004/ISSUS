@@ -132,6 +132,7 @@
         var Zombies = <%=this.Zombie %>;
         var TotalQuestions = <%=this.TotalQuestions %>;
         var Cuestionarios = [<%=this.CuestionariosJson %>];
+        var RealActions = <%= this.RealActions %>;
 
         // For Upload files
         // --------------------------------------
@@ -168,13 +169,16 @@
                                                 <a data-toggle="tab" href="#questionaries" id="tabQuestionaries"><%=this.Dictionary["Item_Auditory_Tab_Questionaries"]%></a>
                                             </li>
                                             <li class="" <% if (this.Auditory.Status < 1) { %>style="display:none;" <% } %>>
-                                                <a data-toggle="tab" href="#report"><%=this.Dictionary["Item_Auditory_Tab_Report"]%></a>
+                                                <a data-toggle="tab" href="#report" id="TabReport"><%=this.Dictionary["Item_Auditory_Tab_Report"]%></a>
                                             </li>
                                             <% } else { %>
                                             <li class="" <% if (this.Auditory.Status < 1) { %>style="display:none;" <% } %>>
                                                 <a data-toggle="tab" href="#reportExternal"><%=this.Dictionary["Item_Auditory_Tab_Report"]%></a>
                                             </li>
                                             <% } %>
+                                            <li class="" <% if (this.Auditory.Status != 5) { %>style="display:none;" <% } %>>
+                                                <a data-toggle="tab" href="#actions"><%=this.Dictionary["Item_IncidentActions"]%></a>
+                                            </li>
                                             <li class="" <% if (this.Auditory.Id < 1) { %>style="display:none;" <% } %>>
                                                 <a data-toggle="tab" href="#uploadFiles"><%=this.Dictionary["Item_Equipment_Tab_UploadFiles"]%></a>
                                             </li>
@@ -469,6 +473,12 @@
                                                                 </span>
                                                             </div>
                                                         </div>
+                                                        <div class="col-sm-6">
+                                                            <button type="button" class="btn btn-success" id="BtnReopenCuestionarios" style="display:none;margin-top:2px;height:32px;padding-top:2px;" onclick="ReopenCuestionariosPopup();">
+                                                                <i class="fa fa-recycle"></i>&nbsp;
+                                                                <%=this.Dictionary["Item_Auditory_Popup_ReopenQuestionary"] %>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <h4><%=this.Dictionary["Item_Auditory_Title_Found"] %></h4>
@@ -544,7 +554,7 @@
                                                         </p>
                                                 </div>
 
-                                                <div class="col-sm-12" style="margin-top:12px;display:none;" id="DivValidationButton">
+                                                <div class="col-sm-12" style="margin-top:-24px;margin-bottom:32px;display:none;" id="DivValidationButton">
                                                     <div class="col-sm-10"></div>
                                                     <div class="col-sm-2">
                                                         <button type="button" class="btn btn-success" id="BtnValidarAuditoria"><i class="fa fa-check"></i>&nbsp;<%=this.Dictionary["Item_Auditory_Btn_Validation"] %></button>
@@ -644,6 +654,43 @@
 
                                             </div>
                                             <% } %>
+
+                                            <div id="actions" class="tab-pane">
+                                                <div class="row">
+                                                    <div class="col-sm-6"><h4><%=this.Dictionary["Item_IncidentActions"] %></h4></div>
+                                                    <div class="col-sm-6" style="text-align:right;">
+                                                        <button type="button" id="BtnActionAddReal" class="btn btn-success" style="margin-top:6px;height:28px;padding-top:0;float:right;"><i class="fa fa-plus"></i>&nbsp;<%=this.Dictionary["Item_Auditory_Btn_AddIncidentAction"] %></button>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="table-responsive" id="scrollTableDivIncidentActionsReal" style="margin-top:4px;border-left:1px solid #ddd;">
+                                                    <table class="table table-bordered table-striped" style="margin: 0">
+                                                        <thead class="thin-border-bottom">
+                                                            <tr id="ListDataHeaderIncidentActionsReal">
+			                                                    <th style="width:65px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"] %></th>
+			                                                    <th style="width:120px;"><%=this.Dictionary["Item_IncidentAction_Header_Type"] %></th>
+			                                                    <th><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th>
+			                                                    <th style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
+			                                                    <th style="width:67px;">&nbsp;</th>
+		                                                    </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <div id="ListDataDivIncidentActionsReal" style="display:none;overflow:scroll;overflow-x:hidden; padding: 0;min-height:200px;">
+                                                        <table class="table table-bordered table-striped" style="border-left:none;border-top: none;">
+                                                            <tbody id="IncidentActionsDataTableReal"><asp:Literal runat="server" ID="Literal2"></asp:Literal></tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div id="NoDataIncidentActionsReal" style="width:100%;height:99%;min-height:200px;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>
+                                                    <table class="table table-bordered table-striped" style="margin: 0" >
+                                                        <thead class="thin-border-bottom">
+                                                            <tr id="ListDataFooterIncidentActionsReal">
+                                                                <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="SpanIncidentActionsTotalReal">0</span></i></th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div> <!-- /.table-responsive -->
+                                            </div>
 
                                             <div id="uploadFiles" class="tab-pane">
                                                 <div class="col-sm-12">
@@ -784,6 +831,10 @@
                                 <p><%=this.Dictionary["Item_Auditory_Popup_ReopenMessage"] %>&nbsp;<strong><span id="AuditoryPlanningName"></span></strong>?</p>
                             </div>
 
+                            <div id="NoActionsPopup" class="hide"">
+                                <p><span id="NoActionsPopupMessage"></span></p>
+                            </div>
+
                             <div id="ValidationPopup" class="hide">
                                 <div class="row"> 
                                     <label class="col-sm-4 control-label no-padding-right" id="CmbValidatedByLabel" for="CmbValidatedBy"><%=this.Dictionary["Item_Auditory_Label_PlanningResponsible"] %><span class="required">*</span></label>
@@ -807,6 +858,10 @@
                                         <span class="ErrorMessage" id="TxtValidatedOnErrorCross"><%=this.Dictionary["Item_Auditory_ValidateCrossDate"] %></span>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div id="CustionariosReoenDialog" class="hide" style="width:500px;">
+                                <p><%=this.Dictionary["Item_Auditory_Message_ReopenCuestionario"] %>?</p>
                             </div>
 
                             <div id="AuditoryPlanningDeleteDialog" class="hide" style="width:500px;">

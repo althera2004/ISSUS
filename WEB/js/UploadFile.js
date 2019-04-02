@@ -1,4 +1,5 @@
 ﻿function RestoreUpload() {
+    $("#fileName").removeAttr("disabled");
     $("#UploadFileDescription").removeAttr("disabled");
     document.getElementById("fileName").files = null;
     $("#UploadMessage").show();

@@ -493,6 +493,8 @@ window.onload = function () {
     $("#nav-search").hide();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
     FilterLayout();
+    ChkTypeChanged();
+    ChkStatusChanged();
     AuditoryGetFilter();
 };
 

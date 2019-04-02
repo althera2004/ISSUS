@@ -1948,8 +1948,10 @@ Item_Auditory_Btn_AddIncidentAction::Afegir acció
 Item_Auditory_Btn_Close::Tancar auditoria
 Item_Auditory_Message_Closed::Tancada
 Item_IncidentAction_Label_Auditory::Auditoria
+Item_Auditory_Popup_ReopenQuestionary::Reobrir cuestionaris
 Item_Auditory_Popup_ReopenTitle::Reobrir la auditoria
 Item_Auditory_Popup_ReopenMessage::Vol reobrir la auditoria
+Item_Auditory_Message_ReopenCuestionario::Vol reobrir els questionaris
 Item_Auditory_Message_NoCompliantNoFound::El cuestionari té no conformitats sense troballes
 Item_Auditory_Message_NoPlanning::Per poder nonar per planificada la auditoria, al menys ha de haver-hi una planificació.
 Item_Auditory_Message_NewAuditory::Per poder afegir planificaciones s'ha de desar la auditoria.

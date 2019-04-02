@@ -854,6 +854,62 @@ namespace GisoFramework.Item
             return result;
         }
 
+        public static ActionResult ReopenCuestionarios(long auditoryId, int applicationUserId, int companyId)
+        {
+            string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::ReopenCustionarios Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
+            /* CREATE PROCEDURE Auditory_ReopenCuestionarios
+             *   @AuditoryId bigint,
+             *   @CompanyId int,
+             *   @ApplicationUserId int */
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Auditory_ReopenCuestionarios"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public static ActionResult Inactivate(long auditoryId, int companyId, int applicationUserId)
         {
             string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::Inactivate Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
