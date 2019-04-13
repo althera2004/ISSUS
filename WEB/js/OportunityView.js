@@ -507,6 +507,9 @@ function OportunityUpdate(sender) {
 
 function SaveIncidentAction(OportunityId, reload) {
     reloadAfterAnulate = reload;
+    var actionsBy = $("#CmbActionActionsResponsible").val();
+    if (actionsBy === null) { actionsBy = -1;}
+
     var data =
         {
             "incidentAction": {
@@ -530,7 +533,7 @@ function SaveIncidentAction(OportunityId, reload) {
                 "CausesBy": { "Id": $("#CmbActionCausesResponsible").val() },
                 "CausesOn": GetDate($("#TxtActionCausesDate").val(), "/", false),
                 "Actions": $("#TxtActionActions").val(),
-                "ActionsBy": { "Id": $("#CmbActionActionsResponsible").val() },
+                "ActionsBy": { "Id": actionsBy },
                 "ActionsOn": GetDate($("#TxtActionActionsDate").val(), "/", false),
                 "Monitoring": $("#TxtActionMonitoring").val(),
                 "ClosedBy": { "Id": $("#CmbActionClosedResponsible").val() },

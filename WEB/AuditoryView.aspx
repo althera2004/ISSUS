@@ -437,7 +437,7 @@
 		                                                    </tr>
                                                         </thead>
                                                     </table>
-                                                    <div id="ListDataDivCuestionario" style="border-left:1px solid #ddd;background-color:#eef;min-height:400px;overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                    <div id="ListDataDivCuestionario" style="border-left:1px solid #ddd;background-color:#eef;min-height:200px;overflow: scroll; overflow-x: hidden; padding: 0;">
                                                         <table class="table table-bordered table-striped" style="border-left:none;border-top: none;">
                                                             <tbody id="CuestionarioDataTable"></tbody>
                                                         </table>
