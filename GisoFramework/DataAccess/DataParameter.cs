@@ -296,6 +296,11 @@ namespace GisoFramework.DataAccess
                 return InputNull(name);
             }
 
+            if(item.Id < 1)
+            {
+                return InputNull(name);
+            }
+
             return Input(name, item.Id);
         }
 

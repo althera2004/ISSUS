@@ -32,6 +32,16 @@ public class OportunityActions : WebService {
     public ActionResult SetLayout(int type)
     {
         Session["BusinnessListLayout"] = type;
+
+        if(type == 1)
+        {
+            this.Session["OportunityFilter"] = null;
+        }
+        else
+        {
+            this.Session["BusinessRiskFilter"] = null;
+        }
+
         var res = ActionResult.NoAction;
         res.SetSuccess();
         return res;

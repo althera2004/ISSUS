@@ -1,0 +1,25 @@
+07:28:00::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+07:29:55::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+07:31:27::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+07:32:40::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+07:32:53::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+07:34:17::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+07:46:15::Invalid column name 'Enterprise'.::Auditory::>ById(1,12)::
+07:46:26::Invalid column name 'Enterprise'.::Auditory::>ById(1,12)::
+07:47:23::Invalid column name 'Enterprise'.::Auditory::>ById(1,12)::
+07:48:01::No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.::Auditory::>ById(1,12)::
+07:49:27::No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.::Auditory::>ById(1,12)::
+07:52:14::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+07:52:31::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+07:54:57::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+07:56:30::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+07:57:20::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+07:57:57::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+08:02:42::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+08:04:38::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+08:04:52::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+08:08:26::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+08:12:33::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+08:13:38::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+08:15:21::La conversión especificada no es válida.::Auditory::>ById(1,12)::
+08:15:49::La conversión especificada no es válida.::Auditory::>ById(1,12)::

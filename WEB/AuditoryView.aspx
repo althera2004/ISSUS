@@ -14,13 +14,15 @@
             padding-top:4px !important;
             padding-bottom:4px !important;
             margin-bottom:12px !important;
-        }        
+        }
+        
         #scrollTableDiv{
             background-color:#fafaff;
             border:1px solid #e0e0e0;
             border-top:none;
             display:block;
         }
+        
         .truncate {
             white-space: nowrap;
             overflow: hidden;
@@ -578,8 +580,8 @@
                                                         <label class="col col-sm-1" for="TxtReportStart"><%=this.Dictionary["Item_Auditory_Report_StartLabel"] %></label>
                                                         <div class="col col-sm-2">
                                                             <div class="input-group">
-                                                                <input style="width:90px;" class="form-control date-picker" id="TxtReportStart" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="<%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ClosedOn) %>" />
-                                                                <span id="TxtReportStartBtn" class="input-group-addon" onclick="document.getElementById('TxtReportStart').focus();">
+                                                                <input style="width:90px;" class="form-control date-picker" id="TxtStartQuestionsOn" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="<%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ReportStart) %>" />
+                                                                <span id="TxtReportStartBtn" class="input-group-addon" onclick="document.getElementById('TxtStartQuestionsOn').focus();">
                                                                     <i class="icon-calendar bigger-110"></i>
                                                                 </span>
                                                             </div>
@@ -587,8 +589,8 @@
                                                         <label class="col col-sm-1" for="TxtReportEnd"><%=this.Dictionary["Item_Auditory_Report_EndLabel"] %></label>
                                                         <div class="col col-sm-2">
                                                             <div class="input-group">
-                                                                <input style="width:90px;" class="form-control date-picker" id="TxtReportEnd" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="<%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ClosedOn) %>" />
-                                                                <span id="TxtReportEndBtn" class="input-group-addon" onclick="document.getElementById('TxtReportEnd').focus();">
+                                                                <input style="width:90px;" class="form-control date-picker" id="TxtCloseQuestionsOn" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="<%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ReportEnd) %>" />
+                                                                <span id="TxtReportEndBtn" class="input-group-addon" onclick="document.getElementById('TxtCloseQuestionsOn').focus();">
                                                                     <i class="icon-calendar bigger-110"></i>
                                                                 </span>
                                                             </div>
@@ -602,7 +604,6 @@
                                                         <button type="button" id="BtnActionAdd" class="btn btn-success" style="margin-top:6px;height:28px;padding-top:0;float:right;"><i class="fa fa-plus"></i>&nbsp;<%=this.Dictionary["Item_Auditory_Btn_AddIncidentAction"] %></button>
                                                     </div>
                                                 </div>
-
 
                                                 <div class="table-responsive" id="scrollTableDivIncidentActions" style="margin-top:4px;">
                                                     <table class="table table-bordered table-striped" style="margin: 0">
@@ -625,6 +626,33 @@
                                                         <thead class="thin-border-bottom">
                                                             <tr id="ListDataFooterIncidentActions">
                                                                 <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="SpanIncidentActionsTotal">0</span></i></th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div> <!-- /.table-responsive -->
+
+                                                <div class="table-responsive" id="scrollTableDivIncidentActionsReal" style="margin-top:4px;border-left:1px solid #ddd;">
+                                                    <table class="table table-bordered table-striped" style="margin: 0">
+                                                        <thead class="thin-border-bottom">
+                                                            <tr id="ListDataHeaderIncidentActionsReal">
+			                                                    <th style="width:65px;"><%=this.Dictionary["Item_IncidentAction_Header_Status"] %></th>
+			                                                    <th style="width:120px;"><%=this.Dictionary["Item_IncidentAction_Header_Type"] %></th>
+			                                                    <th><%=this.Dictionary["Item_IncidentAction_Header_Description"] %></th>
+			                                                    <th style="width:100px;"><%=this.Dictionary["Item_IncidentAction_Header_Open"] %></th>
+			                                                    <th style="width:67px;">&nbsp;</th>
+		                                                    </tr>
+                                                        </thead>
+                                                    </table>
+                                                    <div id="ListDataDivIncidentActionsReal" style="display:none;overflow:scroll;overflow-x:hidden; padding: 0;min-height:200px;">
+                                                        <table class="table table-bordered table-striped" style="border-left:none;border-top: none;">
+                                                            <tbody id="IncidentActionsDataTableReal"><asp:Literal runat="server" ID="Literal3"></asp:Literal></tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div id="NoDataIncidentActionsReal" style="width:100%;height:99%;min-height:200px;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>
+                                                    <table class="table table-bordered table-striped" style="margin: 0" >
+                                                        <thead class="thin-border-bottom">
+                                                            <tr id="ListDataFooterIncidentActionsReal">
+                                                                <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="SpanIncidentActionsTotalReal">0</span></i></th>
                                                             </tr>
                                                         </thead>
                                                     </table>
@@ -662,8 +690,7 @@
                                                         <button type="button" id="BtnActionAddReal" class="btn btn-success" style="margin-top:6px;height:28px;padding-top:0;float:right;"><i class="fa fa-plus"></i>&nbsp;<%=this.Dictionary["Item_Auditory_Btn_AddIncidentAction"] %></button>
                                                     </div>
                                                 </div>
-
-
+                                                
                                                 <div class="table-responsive" id="scrollTableDivIncidentActionsReal" style="margin-top:4px;border-left:1px solid #ddd;">
                                                     <table class="table table-bordered table-striped" style="margin: 0">
                                                         <thead class="thin-border-bottom">
@@ -716,23 +743,22 @@
                                                 </div>
                                                 <div class="col-sm-12" id="UploadFilesList" style="display:none;">
                                                     <table class="table table-bordered table-striped">
-                                                    <thead class="thin-border-bottom">
-                                                        <tr>
-                                                            <!--<th style="width:150px;"><%=this.Dictionary["Item_Attachment_Header_FileName"] %></th>-->
-                                                            <th><%=this.Dictionary["Item_Attachment_Header_Description"] %></th>
-                                                            <th style="width:90px;"><%=this.Dictionary["Item_Attachment_Header_CreateDate"] %></th>
-                                                            <th style="width:120px;"><%=this.Dictionary["Item_Attachment_Header_Size"] %></th>
-                                                            <th style="width:160px;"></th>													
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="TBodyDocumentsList">
-                                                        <asp:Literal runat="server" ID="LtDocumentsList"></asp:Literal>
-                                                    </tbody>
-                                                </table>
+                                                        <thead class="thin-border-bottom">
+                                                            <tr>
+                                                                <!--<th style="width:150px;"><%=this.Dictionary["Item_Attachment_Header_FileName"] %></th>-->
+                                                                <th><%=this.Dictionary["Item_Attachment_Header_Description"] %></th>
+                                                                <th style="width:90px;"><%=this.Dictionary["Item_Attachment_Header_CreateDate"] %></th>
+                                                                <th style="width:120px;"><%=this.Dictionary["Item_Attachment_Header_Size"] %></th>
+                                                                <th style="width:160px;"></th>													
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="TBodyDocumentsList">
+                                                            <asp:Literal runat="server" ID="LtDocumentsList"></asp:Literal>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
-
-
+                                            
                                             <div id="trazas" class="tab-pane">													
                                                 <table class="table table-bordered table-striped">
                                                     <thead class="thin-border-bottom">
@@ -910,7 +936,8 @@
                                 <div class="col-sm-12" style="margin-top:4px;">
                                     <label id ="TxtDurationLabel" class="col-sm-2 control-label no-padding-right" for="TxtDuration"><%=this.Dictionary["Item_AuditoryPlanning_Field_Duration"] %><span class="required">*</span></label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="col-xs-2 col-sm-2 money-bank" id="TxtDuration" placeholder="<%=this.Dictionary["Item_AuditoryPlanning_Field_Duration"] %>" value="" maxlength="12" />
+                                        <input type="text" class="col-xs-2 col-sm-2 integerFormated" id="TxtDuration" placeholder="<%=this.Dictionary["Item_AuditoryPlanning_Field_Duration"] %>" value="" maxlength="12" />
+                                        <span class="ErrorMessage" id="TxtDurationRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         <span class="ErrorMessage" id="TxtDurationMalformed"><%=this.Dictionary["Common_Error_MoneyMalformed"] %></span>
                                     </div>
                                 </div> 

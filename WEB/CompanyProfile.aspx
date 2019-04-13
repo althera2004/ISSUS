@@ -239,7 +239,7 @@
                                             </div>
                                         </div> -->                                        
                                         <div id="contrato" class="tab-pane active">
-                                            <iframe src="/viewer/viewer.html?file=/Agreement/Agreement_<%=this.Company.Name %>.pdf" style="width:100%;" id="pdfViewer"></iframe>
+                                            <iframe src="/viewer/viewer.html?file=/Agreement/Agreement_<%=this.Company.Id %>.pdf" style="width:100%;" id="pdfViewer"></iframe>
                                         </div>
                                         <div id="trazas" class="tab-pane">													
                                             <table class="table table-bordered table-striped">
@@ -340,7 +340,7 @@
                                     <label class="col-sm-6 control-label"><%=this.Dictionary["Item_Equipment_Field_Image_Actual_Label"] %></label>
                                     <label class="col-sm-6 control-label"><%=this.Dictionary["Item_Equipment_Field_Image_New_Label"] %></label>
                                     <div class="col-sm-6" style="border:1px solid #aaa;vertical-align:middle;text-align:center;height:200px;background-color:#fefefe;padding:4px;">
-                                        <img id="actual" src="/images/Logos/<%=this.Logo %>.jpg" style="max-width:192px;max-height:192px;" alt="<%=this.Dictionary["Item_Equipment_Field_Image_New_Label"] %>"/>
+                                        <img id="actual" src="/images/Logos/<%=this.Logo %>" style="max-width:192px;max-height:192px;" alt="<%=this.Dictionary["Item_Equipment_Field_Image_New_Label"] %>"/>
                                     </div>
                                     <div class="col-sm-6" style="border:1px solid #aaa;border-left:none;vertical-align:middle;text-align:center;height:200px;background-color:#fefefe;padding:4px;">
                                         <img id="blah" src="/images/noimage.jpg"alt="<%=this.Dictionary["Item_Equipment_Field_Image_Actual_Label"] %>"  style="max-width:192px;max-height:192px;" />                                                                    

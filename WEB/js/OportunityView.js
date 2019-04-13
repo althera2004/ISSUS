@@ -288,12 +288,23 @@ function ApplyActionTrue() {
         $("#TxtActionWhatHappenedDate").val(FormatDate(new Date(), "/"));
     }
 
-    if (Action.CausesBy.Id < 0) {
-        $("#CmbActionCausesResponsible").val(ApplicationUser.Employee.Id);
+    if ($("#TxtCauses").val() !== "") {
+        if (Action.CausesBy.Id < 0) {
+            $("#CmbActionCausesResponsible").val(ApplicationUser.Employee.Id);
+        }
+
+        if (Action.CausesOn === null) {
+            $("#TxtActionCausesDate").val(FormatDate(new Date(), "/"));
+        }
+    }
+    else {
+        $("#CmbActionCausesResponsible").val(0);
+        $("#TxtActionCausesDate").val("");
     }
 
-    if (Action.CausesOn === null) {
-        $("#TxtActionCausesDate").val(FormatDate(new Date(), "/"));
+    if (IncidentAction.Id < 0) {
+        $("#CmbActionActionsResponsible").val(0);
+        $("#TxtActionActionsDate").val("");
     }
 
     var rangeColor = ["#777", "#4aa4ce", "#4aa4ce", "#fd3", "#ffb752", "#d40"];

@@ -66,26 +66,26 @@ namespace GisoFramework.Item
 
         public long Number { get; set; }
 
-        public long IncidentId { get; set; }
+        public long? IncidentId { get; set; }
 
-        public long BusinessRiskId { get; set; }
+        public long? BusinessRiskId { get; set; }
 
         public Objetivo Objetivo { get; set; }
 
-        public long ObjetivoId
+        public long? ObjetivoId
         {
             get
             {
                 if (this.Objetivo == null)
                 {
-                    return -1;
+                    return null;
                 }
 
                 return this.Objetivo.Id;
             }
         }
 
-        public long AuditoryId { get; set; }
+        public long? AuditoryId { get; set; }
 
         public Oportunity Oportunity { get; set; }
 
@@ -831,8 +831,8 @@ namespace GisoFramework.Item
                                         LastName = rdr.GetString(ColumnsIncidentActionGet.WhatHappendLastName)
                                     },
                                     WhatHappenedOn = rdr.GetDateTime(ColumnsIncidentActionGet.WhatHappendOn),
-                                    Monitoring = rdr.GetString(ColumnsIncidentActionGet.Monitoring),
-                                    Notes = rdr.GetString(ColumnsIncidentActionGet.Notes),
+                                    Monitoring = string.Empty,
+                                    Notes = string.Empty,
                                     Active = rdr.GetBoolean(ColumnsIncidentActionGet.Active),
                                     ModifiedBy = new ApplicationUser
                                     {

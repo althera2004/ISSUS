@@ -1083,7 +1083,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@ValidatedOn", this.ValidatedOn));
                     cmd.Parameters.Add(DataParameter.Input("@ValidatedUserBy", this.ValidatedUserBy.Id));
                     cmd.Parameters.Add(DataParameter.Input("@ValidatedUserOn", this.ValidatedUserOn));
-                    cmd.Parameters.Add(DataParameter.Input("@Status", 0));
+                    cmd.Parameters.Add(DataParameter.Input("@Status", this.Status));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                     try
                     {
@@ -1106,6 +1106,7 @@ namespace GisoFramework.Item
                     }
                 }
             }
+
             return res;
         }
 

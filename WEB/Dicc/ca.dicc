@@ -267,7 +267,7 @@ Item_BusinessRisk::Risc
 Item_BusinessRisk_Btn_NewIPR::Fixar nou IPR
 Item_BusinessRisk_Button_CategoryBAR::Gestió de normes
 Item_BusinessRisk_Button_CloseAction::Tancar l'acció
-Item_BusinessRisk_Button_New::Afegir
+Item_BusinessRisk_Button_New::Afegir risc
 Item_BusinessRisk_Button_RestoreAction::Restaurar l'acció
 Item_BusinessRisk_ErrorMesagge_OutOfDate::La data ha de ser posterior a
 Item_BusinessRisk_ErrorMessage_ActionVerDate::La acció no pot començar abans que el risk
@@ -1531,7 +1531,7 @@ Item_Oportunities::Oportunitats
 Item_Oportunity::Oportunitat
 Item_Oportunity_Btn_NewIPR::Fixar nou IPR
 Item_Oportunity_Button_CategoryBAR::Gestió de normes
-Item_Oportunity_Button_New::Afegir
+Item_Oportunity_Button_New::Afegir oportunitat
 Item_Oportunity_Detail::Fitxa de l'Oportunitat
 Item_Oportunity_ErrorMesagge_OutOfDate::Data no vàlida
 Item_Oportunity_ErrorMessage_ActionVerDate::La acció no pot començar abans que la oportunitat

@@ -155,17 +155,43 @@ window.onload = function () {
 
     // Externas
     // ------------------------------------------------
-    if (Auditory.Type === AuditoryTypes.Externa && Auditory.Status < AuditoryStatus.Cerrada) {
-        $("#TxtReportStart").removeAttr("disabled");
-        $("#TxtReportEnd").removeAttr("disabled");
-        $("#BtnActionAdd").on("click", function () { IncidentActionShowPopup(-1); });
-        RenderZombies();
-        $("#DivCloseButton").show();
-    }
-    if (Auditory.Type === AuditoryTypes.Externa && Auditory.Status === AuditoryStatus.Cerrada) {
-        RenderZombies();
-        $("#DivClosedResume").show();
-        $("#BtnActionAdd").hide();
+
+    if (Auditory.Type === AuditoryTypes.Externa) {
+        $("#DivNoPlanning").remove();
+        $("#DivNoQuestions").remove();
+        $("#DivYesPlanning").show();
+
+        if (Auditory.Status === AuditoryStatus.Planificando) {
+            $("#CmbPlanningResponsible").removeAttr("disabled");
+            $("#TxtAuditoryPlanningDate").removeAttr("disabled");
+        }
+        else {
+            if (Auditory.Status === AuditoryStatus.Planificada || Auditory.Status === AuditoryStatus.EnCurso) {
+                $("#BtnCloseAuditoria").hide();
+            }
+        }
+
+        if (Auditory.Status < AuditoryStatus.Cerrada) {
+            $("#TxtReportStart").removeAttr("disabled");
+            $("#TxtReportEnd").removeAttr("disabled");
+            $("#BtnActionAdd").on("click", function () { IncidentActionShowPopup(-1); });
+            RenderZombies();
+            $("#DivCloseButton").show();
+        }
+
+        if (Auditory.Status === AuditoryStatus.Cerrada) {
+            RenderZombies();
+            $("#DivClosedResume").show();
+            $("#BtnActionAdd").hide
+
+            $("#scrollTableDivIncidentActions").hide();
+            $("#scrollTableDivIncidentActionsReal").show();
+            RenderRealActions();
+        }
+        else {
+            $("#scrollTableDivIncidentActions").show();
+            $("#scrollTableDivIncidentActionsReal").hide();
+        }
     }
     // ------------------------------------------------
 
@@ -328,6 +354,7 @@ function AuditoringPlanningReset() {
     $("#TxtPlanningDateErrorRequired").hide();
     $("#TxtPlanningDateMalformed").hide();
     $("#TxtHourRequired").hide();
+    $("#TxtDurationRequired").hide();
     $("#TxtDurationMalformed").hide();
     $("#CmbAuditorErrorRequired").hide();
     $("#CmbAuditedErrorRequired").hide();
@@ -366,19 +393,19 @@ function AuditoryPlanningValidate() {
     if ($("#CmbProcess").val() * 1 < 1) {
         ok = false;
         $("#CmbProcessLabel").css("color", "#f00");
-        $("#CmbProcessErrorRequired").hide();
+        $("#CmbProcessErrorRequired").show();
     }
 
     if ($("#CmbAuditor").val() * 1 < 1) {
         ok = false;
         $("#CmbAuditorLabel").css("color", "#f00");
-        $("#CmbAuditorErrorRequired").hide();
+        $("#CmbAuditorErrorRequired").show();
     }
 
     if ($("#CmbAudited").val() * 1 < 1) {
         ok = false;
         $("#CmbAuditedLabel").css("color", "#f00");
-        $("#CmbAuditedErrorRequired").hide();
+        $("#CmbAuditedErrorRequired").show();
     }
 
     if (Auditory.Type === AuditoryTypes.Proveedor) {
@@ -574,6 +601,7 @@ function AuditoryValidate() {
         $("#TxtScopeErrorRequired").show();
     }
 
+    CalculateRules();
     if ($("#TxtRulesId").val() === "") {
         ok = false;
         $("#TxtRulesIdLabel").css("color", "#f00");
@@ -726,13 +754,25 @@ function SaveAuditory() {
         toPlanned = true;
     }
 
-    var finishQuestions = false;
-    if ((typeof Auditory.ReportEnd === "undefined" || Auditory.ReportEnd === null || Auditory.ReportEnd === "") && $("#TxtCloseQuestionsOn").val() !== "") {
-        auditoryData.ReportEnd = GetDate($("#TxtCloseQuestionsOn").val(), "/", true);
-        auditoryData.Status = AuditoryStatus.Pendiente;
+    if (Auditory.Type === AuditoryTypes.Externa && Auditory.Status === AuditoryStatus.EnCurso) {
+        if ($("#TxtStartQuestionsOn").val() !== "") {
+            auditoryData.ReportStart = GetDate($("#TxtStartQuestionsOn").val(), "/", false);
+        }
     }
-    else {
-        auditoryData.Status = Auditory.Status;
+
+    var finishQuestions = false;
+    if (toPlanned === true && Auditory.Type === AuditoryTypes.Externa) {
+        finishQuestions = true;
+        auditoryData.Status = AuditoryStatus.EnCurso;        
+    }
+    else if (Auditory.Status > AuditoryStatus.Planificando) {
+        if ((typeof Auditory.ReportEnd === "undefined" || Auditory.ReportEnd === null || Auditory.ReportEnd === "") && $("#TxtCloseQuestionsOn").val() !== "") {
+            auditoryData.ReportEnd = GetDate($("#TxtCloseQuestionsOn").val(), "/", true);
+            auditoryData.Status = AuditoryStatus.Pendiente;
+        }
+        else {
+            auditoryData.Status = Auditory.Status;
+        }
     }
 
     CalculateRules();
@@ -779,11 +819,12 @@ function SaveAuditory() {
 }
 
 function CalculateRules() {
+    console.log("CalculateRules");
     var res = "";
 
     if (Auditory.Status < AuditoryStatus.Planificada) {
         var rules = $("#CmbRules").val();
-        if (rules !== "") {
+        if (rules !== null && rules !== "") {
             for (var x = 0; x < rules.length; x++) {
                 res += rules[x] + "|";
             }
@@ -824,6 +865,7 @@ function RenderFounds() {
                 res += "    <i class=\"icon-trash bigger-120\"></i>";
                 res += "  </span>";
             }
+
             res += "</td>";
             res += "</tr>";
         }
@@ -864,6 +906,7 @@ function RenderImprovements() {
                 res += "    <i class=\"icon-trash bigger-120\"></i>";
                 res += "  </span>";
             }
+
             res += "</td>";
             res += "</tr>";
         }
@@ -1383,6 +1426,9 @@ function PopupReopenShow() {
 
 var forceValidate = false;
 function PopupCloseShow() {
+    $("#CmbClosedBy").css("background", "transparent");
+    $("#CmbClosedBy").removeAttr("disabled");
+    $("#TxtClosedOn").removeAttr("disabled");
     $("#ClosedPopup").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
@@ -1833,6 +1879,7 @@ function ChkSendMailChanged() {
 }
 
 function CalculeTotalQuestions() {
+    if (Auditory.Type === AuditoryTypes.Externa) { return false; }
     if (Auditory.Status === AuditoryStatus.Planificando) {
         var total = 0;
         var rules = $("#CmbRules").val();

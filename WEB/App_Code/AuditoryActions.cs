@@ -6,6 +6,7 @@
 // --------------------------------
 using System;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Text;
@@ -51,7 +52,7 @@ public class AuditoryActions : WebService
         }
 
         var res = auditory.Insert(applicationUserId, auditory.CompanyId);
-        if(res.Success && toPlanned)
+        if(res.Success && toPlanned && auditory.Type != 1)
         {
             var resPlanned = Auditory.SetQuestionaries(auditory.Id, applicationUserId);
             if (!resPlanned.Success)
@@ -77,20 +78,45 @@ public class AuditoryActions : WebService
 
         string differences = auditory.Differences(oldAuditory);
         var res = auditory.Update(applicationUserId, auditory.CompanyId, differences);
-        if (res.Success && toPlanned)
+        if (res.Success && toPlanned && auditory.Type != 1)
         {
-            if (auditory.Type != 1)
+            var resPlanned = Auditory.SetQuestionaries(auditory.Id, applicationUserId);
+            if (!resPlanned.Success)
             {
-                var resPlanned = Auditory.SetQuestionaries(auditory.Id, applicationUserId);
-                if (!resPlanned.Success)
+                res.SetFail(resPlanned.MessageError);
+            }
+        }
+
+        if(auditory.Type == 1 && auditory.ReportStart != null)
+        {
+             /* CREATE PROCEDURE [dbo].[Auditory_SetReportStart]
+              *   @AuditoryId bigint,
+              *   @CompanyId int,
+              *   @ReportStart datetime */
+            using(var cmd = new SqlCommand("Auditory_SetReportStart"))
+            {
+                using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
-                    res.SetFail(resPlanned.MessageError);
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditory.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", auditory.CompanyId));
+                    cmd.Parameters.Add(DataParameter.Input("@ReportStart", auditory.ReportStart));
+                    try
+                    {
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                    finally
+                    {
+                        if(cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
                 }
             }
-            else
-            {
-                res = Close(auditory.Id, auditory.PlannedBy.Id, auditory.ClosedOn.Value, applicationUserId, auditory.CompanyId);
-            }
+
         }
 
         return res;

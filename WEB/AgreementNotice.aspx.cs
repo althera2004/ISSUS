@@ -1,15 +1,18 @@
-﻿using GisoFramework;
-using GisoFramework.Item;
+﻿// --------------------------------
+// <copyright file="AgreementNotice.aspx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
+// </copyright>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using GisoFramework;
+using GisoFramework.Item;
 
-public partial class AgreementNotice : System.Web.UI.Page
+public partial class AgreementNotice : Page
 {
     //private string languageBrowser;
     private string ip;

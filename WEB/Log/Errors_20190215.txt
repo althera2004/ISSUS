@@ -1,0 +1,2 @@
+10:18:33::Procedure or function 'AuditoryPlanning_Update' expects parameter '@ApplicationUserId', which was not supplied.::AuditoryPlanning::>Update(2)::
+10:19:23::Procedure or function 'AuditoryPlanning_Update' expects parameter '@ApplicationUserId', which was not supplied.::AuditoryPlanning::>Update(2)::

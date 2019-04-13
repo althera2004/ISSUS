@@ -85,14 +85,13 @@
     <script type="text/javascript">
         var layout = <%=this.Layout %>;
         var companyId = <%=this.Company.Id%>;
-        var Filter = <%=this.FilterBusinessRisk %>;
+        var FilterBusinessRisk = <%=this.FilterBusinessRisk %>;
         var FilterOportunity = <%=this.FilterOportunity %>;
         var BussinessRiskList = [];
         var OportunityList = [];
         var BusinessRiskGraph = <%=this.RiskJson%>;
         var OportunityGraph = [];
         var CompanyRules = <%=RulesJson%>;
-        var FilterType = 1;
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">

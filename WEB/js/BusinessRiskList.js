@@ -49,7 +49,7 @@ function BusinessRiskDeleteConfirmed() {
 function BusinessRiskDelete(id, name) {
     $("#BusinessRiskName").html(name);
     BusinessRiskSelected = id;
-    var dialog = $("#BusinessRiskDeleteDialog").removeClass("hide").dialog({
+    $("#BusinessRiskDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_BusinessRisk_Popup_Delete_Title + "</h4>",
@@ -57,6 +57,7 @@ function BusinessRiskDelete(id, name) {
         "buttons":
         [
             {
+                "id": "BtnBusinessriskDeleteOk",
                 "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
                 "click": function () {
@@ -64,6 +65,7 @@ function BusinessRiskDelete(id, name) {
                 }
             },
             {
+                "id": "BtnBusinessriskDeleteCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -88,7 +90,7 @@ function OportunityDeleteConfirmed() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             document.location = document.location + "";
         },
         "error": function (msg) {
@@ -101,7 +103,7 @@ function OportunityDeleteConfirmed() {
 function OportunityDelete(id, name) {
     $("#OportunityName").html(name);
     OportunitySelected = id;
-    var dialog = $("#OportunityDeleteDialog").removeClass("hide").dialog({
+    $("#OportunityDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Opoprtunity_Popup_Delete_Title + "</h4>",
@@ -109,6 +111,7 @@ function OportunityDelete(id, name) {
         "buttons":
             [
                 {
+                    "id": "BtnOpportunityDeleteOk",
                     "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
@@ -116,6 +119,7 @@ function OportunityDelete(id, name) {
                     }
                 },
                 {
+                    "id": "BtnOpportunityDeleteCancel",
                     "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                     "class": "btn btn-xs",
                     "click": function () {
@@ -1003,39 +1007,39 @@ window.onload = function () {
     $("#BtnRecordShowAllOportunity").click();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
 
-    console.log(Filter);
+    console.log(FilterBusinessRisk);
     console.log(FilterOportunity);
-    if (Filter === null && FilterOportunity !== null) {
+    if (FilterBusinessRisk === null && FilterOportunity !== null) {
         document.getElementById("RO").checked = true;
     }
 
-    if (Filter !== null) {
-        if (Filter.rulesId !== null) {
-            $("#CmbRules").val(Filter.rulesId);
+    if (FilterBusinessRisk !== null) {
+        if (FilterBusinessRisk.rulesId !== null) {
+            $("#CmbRules").val(FilterBusinessRisk.rulesId);
         }
 
-        if (Filter.processId !== null) {
-            $("#CmbProcess").val(Filter.processId);
+        if (FilterBusinessRisk.processId !== null) {
+            $("#CmbProcess").val(FilterBusinessRisk.processId);
         }
 
-        if (Filter.type !== null) {
-            $("#CmbType").val(Filter.type);
+        if (FilterBusinessRisk.type !== null) {
+            $("#CmbType").val(FilterBusinessRisk.type);
         }
 
-        if (Filter.from !== null) {
-            $("#TxtDateFrom").val(GetDateYYYYMMDDText(Filter.from, "/", false));
+        if (FilterBusinessRisk.from !== null) {
+            $("#TxtDateFrom").val(GetDateYYYYMMDDText(FilterBusinessRisk.from, "/", false));
         }
 
-        if (Filter.to !== null) {
-            $("#TxtDateTo").val(GetDateYYYYMMDDText(Filter.to, "/", false));
+        if (FilterBusinessRisk.to !== null) {
+            $("#TxtDateTo").val(GetDateYYYYMMDDText(FilterBusinessRisk.to, "/", false));
         }
 
-        if (Filter.itemType !== null) {
-            if (Filter.itemType === 0) {
+        if (FilterBusinessRisk.itemType !== null) {
+            if (FilterBusinessRisk.itemType === 0) {
                 document.getElementById("RR").checked = true;
             }
 
-            if (Filter.itemType === 1) {
+            if (FilterBusinessRisk.itemType === 1) {
                 document.getElementById("RO").checked = true;
             }
         }
@@ -1223,6 +1227,7 @@ function ExportPDF() {
 
 function SetLayout(type) {
     if (type === 1) {
+        FilterOportunity = null;
         $("#widthTest").show();
         $("#widthTestOportunity").hide();
         $("#tabbasic").show();
@@ -1232,9 +1237,11 @@ function SetLayout(type) {
         $("#tabbasic").click();
         $("#BtnNewItem").show();
         $("#BtnNewOportunity").hide();
+        $("#RB").attr("checked", "checked");
     }
 
     if (type === 2) {
+        FilterBusinessRisk = null;
         $("#widthTest").hide();
         $("#widthTestOportunity").show();
         $("#tabbasic").hide();
@@ -1244,6 +1251,7 @@ function SetLayout(type) {
         $("#taboportunity").click();
         $("#BtnNewItem").hide();
         $("#BtnNewOportunity").show();
+        $("#RO").attr("checked", "checked");
     }
 
     var data = {

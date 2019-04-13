@@ -1,0 +1,10 @@
+10:38:49::Los datos tienen valor Null. No se puede llamar a este método o propiedad con valores Null.::Auditory::>ById(13,12)::
+10:47:59::Los datos tienen valor Null. No se puede llamar a este método o propiedad con valores Null.::Auditory::>ById(11,12)::
+10:49:11::Los datos tienen valor Null. No se puede llamar a este método o propiedad con valores Null.::Auditory::>ById(11,12)::
+10:49:20::Los datos tienen valor Null. No se puede llamar a este método o propiedad con valores Null.::Auditory::>ById(11,12)::
+10:50:10::Los datos tienen valor Null. No se puede llamar a este método o propiedad con valores Null.::Auditory::>ById(11,12)::
+10:51:45::La conversión especificada no es válida.::Auditory::>ById(11,12)::
+10:53:23::La conversión especificada no es válida.::Auditory::>ById(11,12)::
+10:54:43::La conversión especificada no es válida.::Auditory::>ById(11,12)::
+10:54:52::La conversión especificada no es válida.::Auditory::>ById(11,12)::
+10:55:47::La conversión especificada no es válida.::Auditory::>ById(11,12)::
