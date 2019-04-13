@@ -2,36 +2,4 @@
 # Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/ISSUS/v15
-/BAK
-/GisoFramework/bin/Debug
-/GisoFramework/obj/Debug
-/GisoFramework/templates
-/SbrinnaFramework/bin/Debug
-/SbrinnaFramework/obj/Debug
-/WEB/App_Data/PublishProfiles
-/WEB/Bin/SbrinnaCoreFramework.pdb
-/WEB/Bin/SbrinnaCoreFramework.dll
-/WEB/Bin/NPOI.xml
-/WEB/Bin/NPOI.OpenXmlFormats.dll
-/WEB/Bin/NPOI.OpenXml4Net.dll
-/WEB/Bin/NPOI.OOXML.dll
-/WEB/Bin/NPOI.dll
-/WEB/Bin/Newtonsoft.Json.xml
-/WEB/Bin/Newtonsoft.Json.dll
-/WEB/Bin/itextsharp.xml
-/WEB/Bin/itextsharp.dll
-/WEB/Bin/ICSharpCode.SharpZipLib.dll
-/WEB/Bin/GisoFramework.XML
-/WEB/Bin/GisoFramework.pdb
-/WEB/Bin/GisoFramework.dll
-/WEB/DOCS
-/WEB/Log
-/WEB/{B38D5BF1-8652-4D26-807A-99852AC56A91}
-/WEB/Temp
-/WEB/aspnet_client/system_web/4_0_30319/crystalreportviewers13
-/.vs/ProjectSettings.json
-/.vs/VSWorkspaceState.json
-/SbrinnaFramework/_web.config
-/WEB/aspnet_client/assets
-/packages
+/.vs
