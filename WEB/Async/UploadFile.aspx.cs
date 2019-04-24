@@ -58,6 +58,12 @@ public partial class AsyncUploadFile : Page
                 fileName = string.Format(CultureInfo.InvariantCulture, "{0} ({1}){2}", fileDiskName1, cont, extension);
             }
 
+            var folder = string.Format(@"{0}DOCS\{1}", path, companyId);
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
             fileDisk = string.Format(@"{0}DOCS\{1}\{2}", path, companyId, fileName);
             exists = File.Exists(fileDisk);
             cont++;

@@ -9,7 +9,10 @@ namespace GISOWeb
     using System;
     using System.Collections.Generic;
     using System.Configuration;
+    using System.Data;
+    using System.Data.SqlClient;
     using System.Globalization;
+    using System.IO;
     using System.Net.Mail;
     using System.Web;
     using System.Web.Script.Services;
@@ -74,8 +77,6 @@ namespace GISOWeb
                 res = employee.SetUser();
             }
 
-            // var actualUser = ApplicationUser.GetById(userId, itemUser.CompanyId);
-            // ApplicationDictionary.Load(actualUser.Language);
             return res;
         }
 
@@ -132,7 +133,135 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult ResetPassword(int userId, int companyId)
         {
-            return ApplicationUser.ResetPassword(userId, companyId);
+            //return ApplicationUser.ResetPassword(userId, companyId);
+            var res = ActionResult.NoAction;
+            var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+
+            /* CREATE PROCEDURE ApplicationUser_ChangePassword
+             * @UserId int,
+             * @CompanyId int,
+             * @Result int out */
+            using (var cmd = new SqlCommand("ApplicationUser_ResetPassword"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    try
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
+                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                        cmd.Parameters.Add("@Result", SqlDbType.Int);
+                        cmd.Parameters["@UserId"].Value = userId;
+                        cmd.Parameters["@CompanyId"].Value = companyId;
+                        cmd.Parameters["@Result"].Value = DBNull.Value;
+                        cmd.Parameters["@Result"].Direction = ParameterDirection.Output;
+
+                        cmd.Parameters.Add("@UserName", SqlDbType.NVarChar, 50);
+                        cmd.Parameters.Add("@Password", SqlDbType.NVarChar, 50);
+                        cmd.Parameters.Add("@Email", SqlDbType.NVarChar, 50);
+                        cmd.Parameters["@UserName"].Value = DBNull.Value;
+                        cmd.Parameters["@Password"].Value = DBNull.Value;
+                        cmd.Parameters["@Email"].Value = DBNull.Value;
+                        cmd.Parameters["@UserName"].Direction = ParameterDirection.Output;
+                        cmd.Parameters["@Password"].Direction = ParameterDirection.Output;
+                        cmd.Parameters["@Email"].Direction = ParameterDirection.Output;
+
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+
+                        var company = new Company(companyId);
+                        string userName = cmd.Parameters["@UserName"].Value as string;
+                        string password = cmd.Parameters["@Password"].Value as string;
+                        string email = cmd.Parameters["@Email"].Value as string;
+
+                        var selectedUser = new ApplicationUser(userId);
+
+                        string sender = ConfigurationManager.AppSettings["mailaddress"];
+                        string pass = ConfigurationManager.AppSettings["mailpass"];
+						int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);
+                        string server = ConfigurationManager.AppSettings["mailserver"];
+
+                        var senderMail = new MailAddress(sender, "ISSUS");
+                        var to = new MailAddress(email);
+
+                        using (var client = new SmtpClient
+                        {
+                            Host = server,
+                            Credentials = new System.Net.NetworkCredential(sender, pass),
+                            Port = port,
+                            DeliveryMethod = SmtpDeliveryMethod.Network
+                        })
+                        {
+                            var mail = new MailMessage(senderMail, to)
+                            {
+                                IsBodyHtml = true,
+                                Subject = dictionary["MailTemplate_ResetPassword_DefaultBody"]
+                            };
+
+                            string templatePath = HttpContext.Current.Request.PhysicalApplicationPath;
+                            string translatedTemplate = string.Format(
+                                CultureInfo.InvariantCulture,
+                                @"ResetPassword_{0}.tpl",
+                                selectedUser.Language);
+                            if (!templatePath.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
+                            {
+                                templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\", templatePath);
+                            }
+
+                            if (!File.Exists(templatePath + "Templates\\" + translatedTemplate))
+                            {
+                                translatedTemplate = "ResetPassword.tpl";
+                            }
+
+                            string body = string.Format(
+                                CultureInfo.InvariantCulture,
+                                dictionary["MailTemplate_ResetPassword_DefaultBody"],
+                                userName,
+                                password);
+
+                            string templateFileName = string.Format(
+                                CultureInfo.InvariantCulture,
+                                @"{0}Templates\{1}",
+                                templatePath,
+                                translatedTemplate);
+
+                            if (File.Exists(templateFileName))
+                            {
+                                using (var input = new StreamReader(templateFileName))
+                                {
+                                    body = input.ReadToEnd();
+                                }
+
+                                body = body.Replace("#USERNAME#", userName).Replace("#PASSWORD#", password).Replace("#EMAIL#", email).Replace("#EMPRESA#", company.Name);
+                            }
+
+                            mail.Subject = dictionary["MailTemplate_ResetPassword_Subject"];
+                            mail.Body = body;
+                            client.Send(mail);
+                        }
+
+                        if (cmd.Parameters["@Result"].Value.ToString().Trim() == "1")
+                        {
+                            res.SetSuccess();
+                        }
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, string.Format(CultureInfo.InvariantCulture, "ResetPassword({0}, {1})", userId, companyId));
+                        res.SetFail(dictionary["MailTemplate_ResetPassword_Error"]);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return res;
         }
 
         [WebMethod(EnableSession = true)]
@@ -220,13 +349,15 @@ namespace GISOWeb
             string sender = ConfigurationManager.AppSettings["mailaddress"];
             string pass = ConfigurationManager.AppSettings["mailpass"];
             var senderMail = new MailAddress(sender, "ISSUS");
+            var server = ConfigurationManager.AppSettings["mailserver"];
+            int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);
             var to = new MailAddress(ConfigurationManager.AppSettings["mailaddress"]);
 
             var client = new SmtpClient
             {
-                Host = "smtp.scrambotika.com",
+                Host = server,
                 Credentials = new System.Net.NetworkCredential(sender, pass),
-                Port = Constant.SmtpPort,
+                Port = port,
                 DeliveryMethod = SmtpDeliveryMethod.Network
             };
 

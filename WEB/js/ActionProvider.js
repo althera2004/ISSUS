@@ -54,8 +54,16 @@ function ProviderInsert(sender) {
                 "id": "ProviderInsertOk",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
-                "click": function () {
-                    var ok = true;
+                    "click": function () {
+                        var ok = true;
+                        if ($("#TxtProviderNewName").val() === "") {
+                            $("#TxtProviderNewNameErrorRequired").show();
+                            ok = false;
+                        }
+                        else {
+                            $("#TxtProviderNewNameErrorRequired").hide();
+                        }
+
                     var duplicated = false;
                     for (var x = 0; x < Providers.length; x++) {
                         if ($("#TxtProviderNewName").val().toLowerCase() === Providers[x].Description.toLowerCase()) {

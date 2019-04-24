@@ -41,6 +41,7 @@ public partial class ExportPrintActionData : Page
         }
 
         var formatedDescription = ToolsPdf.NormalizeFileName(action.Description);
+        formatedDescription = formatedDescription.Replace(@"\", "/");
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
@@ -63,17 +64,48 @@ public partial class ExportPrintActionData : Page
         if (action.Origin == 2) { origin = dictionary["Item_IncidentAction_Origin2"]; }
         if (action.Origin == 3)
         {
-            var incident = Incident.GetById(action.IncidentId, action.CompanyId);
-            origin = "Incidencia:" + incident.Description;
+            if (action.IncidentId.HasValue)
+            {
+                var incident = Incident.GetById(action.IncidentId.Value, action.CompanyId);
+                origin = string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"{0}: {1}",
+                    dictionary["Item_Incident"],
+                    incident.Description);
+            }
         }
 
         if (action.Origin == 4)
         {
-            if (action.BusinessRiskId > Constant.DefaultId)
+            if (action.BusinessRiskId.HasValue)
             {
-                var businessRisk = BusinessRisk.ById(action.CompanyId, action.BusinessRiskId);
-                origin = businessRisk.Description;
-                originSufix = " (" + dictionary["Item_BusinessRisk"] + ")";
+                if (action.BusinessRiskId > Constant.DefaultId)
+                {
+                    var businessRisk = BusinessRisk.ById(action.CompanyId, action.BusinessRiskId.Value);
+                    origin = businessRisk.Description;
+                    originSufix = " (" + dictionary["Item_BusinessRisk"] + ")";
+                }
+            }
+        }
+        if (action.Origin == 5)
+        {
+            if (action.ObjetivoId.HasValue)
+            {
+                if (action.ObjetivoId > Constant.DefaultId)
+                {
+                    var objetivo = Objetivo.ById(Convert.ToInt32(action.ObjetivoId.Value), action.CompanyId);
+                    origin = objetivo.Name;
+                    originSufix = " (" + dictionary["Item_Objetivo"] + ")";
+                }
+            }
+        }
+        if (action.Origin == 6)
+        {
+            if (action.Oportunity.Id > Constant.DefaultId)
+            {
+                 var oportunidad = Oportunity.ById(Convert.ToInt32(action.Oportunity.Id), action.CompanyId);
+                    origin = oportunidad.Description;
+                    originSufix = " (" + dictionary["Item_Oportunity"] + ")";
             }
         }
         else
@@ -151,7 +183,7 @@ public partial class ExportPrintActionData : Page
         table.AddCell(ValueCell(origin + originSufix, ToolsPdf.BorderNone, alignLeft, 3));
 
         // Reportador
-        if (action.Origin != 4)
+        if (action.Origin != 4 && action.Origin != 5)
         {
             table.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Reporter"], Rectangle.NO_BORDER));
             table.AddCell(ValueCell(reporterType + " (" + reporter + ")", ToolsPdf.BorderNone, alignLeft, 3));

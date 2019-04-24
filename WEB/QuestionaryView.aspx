@@ -96,7 +96,7 @@
                                                                 </span>
                                                             </div>
                                                         </div>
-                                                        <div class="col-xs-4"><button class="btn btn-success" type="button" id="BtnNewItem" onclick="" style="margin-top:6px;height:28px;padding-top:0;float:right;"><i class="icon-plus bigger-110"></i>Añadir pregunta</button></div>
+                                                        <div class="col-xs-4"><button class="btn btn-success" type="button" id="BtnNewItem" onclick="" style="margin-top:6px;height:28px;padding-top:0;float:right;"><i class="icon-plus bigger-110"></i><%=this.Dictionary["Common_Add"] %></button></div>
                                                     </div>
                                                     
                                                     <div class="alert alert-info" style="display:none;" id="DivNewQuestionary">

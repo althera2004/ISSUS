@@ -11,6 +11,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI;
 using GisoFramework.Item;
+using System.Globalization;
+using System.Net.Mail;
 
 public partial class test : Page
 {
@@ -46,5 +48,44 @@ public partial class test : Page
         }
 
         Employee em = new Employee();
+    }
+
+    private void SendMail()
+    {
+        string sender = ConfigurationManager.AppSettings["mailaddress"];
+        string pass = ConfigurationManager.AppSettings["mailpass"];
+
+        var senderMail = new MailAddress(sender, "ISSUS");
+        var to = new MailAddress("jcastilla@openframework.es");
+
+        var client = new SmtpClient
+        {
+            Host = "smtp.scrambotika.com",
+            Credentials = new System.Net.NetworkCredential(sender, pass),
+            Port = 25,
+            DeliveryMethod = SmtpDeliveryMethod.Network
+        };
+
+        var mail = new MailMessage(senderMail, to)
+        {
+            IsBodyHtml = true,
+            Subject = "test email",
+            Body = "test"
+        };
+
+        client.Send(mail);
+    }
+
+    protected void BtnMail_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            SendMail();
+            this.ltMail.Text = "Mail ok";
+        }
+        catch(Exception ex)
+        {
+            this.ltMail.Text = ex.Message;
+        }
     }
 }

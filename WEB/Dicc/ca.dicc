@@ -267,7 +267,7 @@ Item_BusinessRisk::Risc
 Item_BusinessRisk_Btn_NewIPR::Fixar nou IPR
 Item_BusinessRisk_Button_CategoryBAR::Gestió de normes
 Item_BusinessRisk_Button_CloseAction::Tancar l'acció
-Item_BusinessRisk_Button_New::Afegir risc
+Item_BusinessRisk_Button_New::Afegir
 Item_BusinessRisk_Button_RestoreAction::Restaurar l'acció
 Item_BusinessRisk_ErrorMesagge_OutOfDate::La data ha de ser posterior a
 Item_BusinessRisk_ErrorMessage_ActionVerDate::La acció no pot començar abans que el risk
@@ -1531,7 +1531,7 @@ Item_Oportunities::Oportunitats
 Item_Oportunity::Oportunitat
 Item_Oportunity_Btn_NewIPR::Fixar nou IPR
 Item_Oportunity_Button_CategoryBAR::Gestió de normes
-Item_Oportunity_Button_New::Afegir oportunitat
+Item_Oportunity_Button_New::Afegir
 Item_Oportunity_Detail::Fitxa de l'Oportunitat
 Item_Oportunity_ErrorMesagge_OutOfDate::Data no vàlida
 Item_Oportunity_ErrorMessage_ActionVerDate::La acció no pot començar abans que la oportunitat
@@ -1794,25 +1794,25 @@ ZZZZZ::Les noves claus a partir d'aquí cap avall
 Common_Message_ItemNoAccess::No tiene acceso a este elemento, contecte con el administrador
 Item_IncidentAction_Error_BeforeActions::No pot ser anterior a la data d'actuacions
 Item_Incident_Error_BeforeActions::No pot ser anterior a la data d'actuacions
-Item_Questionaries::Cuestionaris
-Item_Questionary::Cuestionari
-Item_Questionary_Button_New::Afegir cuestionari
-Item_Questionary_ListHeader_Name::Cuestionari
+Item_Questionaries::Qüestionaris
+Item_Questionary::Qüestionari
+Item_Questionary_Button_New::Afegir
+Item_Questionary_ListHeader_Name::Qüestionari
 Item_Questionary_ListHeader_Rule::Norma
 Item_Questionary_ListHeader_Process::Procés
-Item_Questionary_Popup_Delete_Title::Eliminar cuestionari
-Item_Questionary_PopupDelete_Message::¿Vol eliminar el cuestionari
+Item_Questionary_Popup_Delete_Title::Eliminar qüestionari
+Item_Questionary_PopupDelete_Message::¿Vol eliminar el qüestionari
 Item_Questionary_List_Filter_Process::Procés
 Item_Questionary_List_Filter_Rule::Norma
 Item_Questionary_List_Filter_ApartadoNorma::Apartat norma
 Item_Questionary_Popup_Duplicate_Title::Crear copia
-Item_Questionary_PopupDuplicate_Message:: ¿Vol copiar el cuestionari i les seves preguntes
-Item_Questionary_BreadCrumb_Edit::Fitxa del cuestionari
+Item_Questionary_PopupDuplicate_Message:: ¿Vol copiar el qüestionari i les seves preguntes
+Item_Questionary_BreadCrumb_Edit::Fitxa del qüestionari
 Item_Questionary_FieldLabel_Process::Procés
 Item_Questionary_FieldLabel_Rule::Norma
 Item_Questionary_FieldLabel_ApartadoNorma::Apartat
 Item_Questionary_FieldLabel_Notes::Notes
-Item_Questionary_NewQuestionaryWarning::Par poder afegir preguntes, abans s'ha de desar el cuestionari
+Item_Questionary_NewQuestionaryWarning::Per afegir preguntes, abans s'ha de desar el qüestionari
 Item_QuestionaryQuestion_Title::Preguntes
 Item_QuestionaryQuestion_ListHeader_Name::Pregunta
 Item_QuestionaryQuestion_PopupDelete_Message::¿Vol eliminar la pregunta
@@ -1822,7 +1822,7 @@ Item_QuestionaryQuestion_Tooltip_DeleteButton::Eliminar pregunta
 Item_ItemQuestion_Popup_Delete_Title::Eliminar pregunta
 Item_ItemQuestion_Popup_Edit_Title::Modificar pregunta
 Item_ItemQuestion_Popup_Insert_Title::Afegir pregunta
-Item_Questionary_Warning_NoQuestions::El cuestionari no conté preguntes
+Item_Questionary_Warning_NoQuestions::El qüestionari no conté preguntes
 Item_Adutory_Status_Label_0::Planificant-se
 Item_Adutory_Status_Label_1::Planificada
 Item_Adutory_Status_Label_2::En curs
@@ -1831,15 +1831,15 @@ Item_Adutory_Status_Label_4::Tancada
 Item_Adutory_Status_Label_5::Validada
 Item_Adutory_Status_Explanation_0::Dades bàsiques sense acabar de planificar
 Item_Adutory_Status_Explanation_1::Planificada amb responsable i date
-Item_Adutory_Status_Explanation_2::Alguna pregunta del/ls cuestionaris marcada
-Item_Adutory_Status_Explanation_3::Totes les preguntes dels cuestionaris marcades
+Item_Adutory_Status_Explanation_2::Alguna pregunta del/ls qüestionaris marcada
+Item_Adutory_Status_Explanation_3::Totes les preguntes dels qüestionaris marcades
 Item_Adutory_Status_Explanation_4::AMb responsable i data de tancament
 Item_Adutory_Status_Explanation_5::Amb responsable i data de validació
 Item_Auditory::Auditoria
 Item_Auditories::Auditories
 Item_Auditory_Filter_From::Des de
 Item_Auditory_Filter_To::Fins
-Item_Auditory_Button_New::Afegir auditoria
+Item_Auditory_Button_New::Afegir
 Item_Auditory_ListHeader_Status::Estat
 Item_Auditory_ListHeader_Name::Auditoria
 Item_Auditory_ListHeader_Planned::Prevista
@@ -1853,7 +1853,7 @@ Item_Adutory_Type_Label_2::Proveïdor
 Item_Auditory_Label_Name::Nom
 Item_Auditory_Help_Status_Title::Estats d'auditoria
 Item_Auditory_Tab_Principal::Dades básiques
-Item_Auditory_Tab_Questionaries::Cuestionaris
+Item_Auditory_Tab_Questionaries::Qüestionaris
 Item_Auditory_Tab_Report::Informe
 Item_Auditory_Tab_Traces::Traces
 Item_Auditory_PlanningTable_Title::Planificació
@@ -1861,7 +1861,7 @@ Item_Auditory_SelectType_Title::S'ha d'escollir el tipus de auditoría
 Item_Auditory_SelectType_Error::S'ha d'escollir una opció
 Item_Auditory_Button_AddPlanning::Afegir planificació
 Item_AuditoryPlanning_PopupDelete_Message::¿Vil eliminar la planificació
-Item_Auditory_Label_Type::Tipo
+Item_Auditory_Label_Type::Tipus
 Item_Auditory_Label_Name::Nom
 Item_Auditory_Label_Rules::Normes
 Item_Auditory_BreadCrumb_Edit::Fitxa d'auditoria
@@ -1869,7 +1869,7 @@ Item_Auditory_Label_Amount::Cost
 Item_Auditory_Label_InternalResponsible::Responsable intern
 Item_Auditory_Label_Description::Descripció
 Item_Auditory_Label_Scope::Àmbit
-Item_Auditory_Label_Notes::Notas
+Item_Auditory_Label_Notes::Notes
 Item_Auditory_Label_Address::Adreça
 Item_Auditory_Label_Rules::Normes
 Item_AuditoryPlanning_Header_Date::Data
@@ -1898,11 +1898,11 @@ Item_Auditory_Label_PlanningResponsible::Planificada per
 Item_Auditory_Label_PlanningDate::Data
 Item_Auditory_Label_ValidatedByResponsible::Validada per
 Item_Auditory_Label_ValidatedOn::Data
-Item_Auditory_Title_QuestionariesAvailables::Cuestionaris de la auditoria
+Item_Auditory_Title_QuestionariesAvailables::Qüestionaris de la auditoria
 Item_AuditoryQuestionary_Header_Status::Estat
-Item_AuditoryQuestionary_Header_Name::Cuestionari
-Item_AuditoryQuestionary_Tooltip_Start::Iniciar cuestionari
-Item_AuditoryQuestionary_Tooltip_Continue::Continuar cuestionari
+Item_AuditoryQuestionary_Header_Name::Qüestionari
+Item_AuditoryQuestionary_Tooltip_Start::Iniciar qüestionari
+Item_AuditoryQuestionary_Tooltip_Continue::Continuar qüestionari
 Item_Auditory_Report_StartLabel::Inici
 Item_Auditory_Report_EndLabel::Final
 Item_Auditory_Text_NotStarted::No iniciat
@@ -1914,7 +1914,7 @@ Item_Auditory_Header_Requirement::Requisit
 Item_Auditory_Header_Result::No conformitat
 Item_Auditory_Header_Action::Acció
 Item_Questionary_Tab_Founds::Troballes i millores
-Item_Questionary_Tab_Questions::Cuestionari
+Item_Questionary_Tab_Questions::Qüestionari
 Item_Auditory_Header_Improvement::Propostes de millora
 Item_Auditory_Label_Unconformity::No conformitat
 Item_Auditory_Label_Improvement::Millora
@@ -1932,7 +1932,7 @@ Item_Auditory_PopupDelete_MessageFound::Eliminar troballa
 Item_Auditory_PopupDelete_MessageImprovement::Eliminar proposta de millora
 Item_Auditory_PopupDelete_Message::Vol eliminar la auditoria
 Item_Auditory_Popup_Delete_Title::Eliminar auditoria
-Item_Auditory_Label_EndQuestionarios::Tacament cuestionaris
+Item_Auditory_Label_EndQuestionarios::Tacament qüestionaris
 Item_Auditory_Btn_Validation::Validar auditoria
 Item_Auditory_Btn_Close::Tancar auditoria
 Item_Auditory_Btn_PopupValidation::Validar
@@ -1948,11 +1948,12 @@ Item_Auditory_Btn_AddIncidentAction::Afegir acció
 Item_Auditory_Btn_Close::Tancar auditoria
 Item_Auditory_Message_Closed::Tancada
 Item_IncidentAction_Label_Auditory::Auditoria
-Item_Auditory_Popup_ReopenQuestionary::Reobrir cuestionaris
+Item_Auditory_Popup_ReopenQuestionary::Reobrir qüestionaris
 Item_Auditory_Popup_ReopenTitle::Reobrir la auditoria
 Item_Auditory_Popup_ReopenMessage::Vol reobrir la auditoria
-Item_Auditory_Message_ReopenCuestionario::Vol reobrir els questionaris
-Item_Auditory_Message_NoCompliantNoFound::El cuestionari té no conformitats sense troballes
-Item_Auditory_Message_NoPlanning::Per poder nonar per planificada la auditoria, al menys ha de haver-hi una planificació.
-Item_Auditory_Message_NewAuditory::Per poder afegir planificaciones s'ha de desar la auditoria.
-Item_Auditory_Message_NoQuestions::Amb les normes i processos sel·leccionat no hi han pregustes per als questionaris.
+Item_Auditory_Message_ReopenCuestionario::Vol reobrir els questionaris?
+Item_Auditory_Message_NoCompliantNoFound::El qüestionari té no conformitats sense troballes
+Item_Auditory_Message_NoPlanning::Per poder donar per planificada l'auditoria, al menys ha d'haver-hi una planificació
+Item_Auditory_Message_NewAuditory::Per poder afegir planificacions, primer s'ha de desar l'auditoria
+Item_Auditory_Message_NoQuestions::Amb les normes i processos sel·leccionat no hi han preguntes per als questionaris
+Item_Auditory_Message_ReopenCuestionario::Obrir qüestionari

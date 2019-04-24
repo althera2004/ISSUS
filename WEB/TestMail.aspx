@@ -9,7 +9,8 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    
+    <asp:Button runat="server" ID="btnMail" OnClick="btnMail_Click" />
+        <asp:Literal runat="server" ID="LtMail"></asp:Literal>
     </div>
     </form>
 </body>

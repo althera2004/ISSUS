@@ -59,7 +59,7 @@ public partial class ExportEquipmentRecords : Page
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
         var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
         var equipment = Equipment.ById(equipmentId, companyId);
-        var getFilter = HttpContext.Current.Session["EquipmentFilter"] as List<EquipmentRecord>;
+        var data = HttpContext.Current.Session["EquipmentRecordsFilter"] as List<EquipmentRecord>;
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 
         if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
@@ -220,81 +220,82 @@ public partial class ExportEquipmentRecords : Page
         int countRow = 4;
         decimal total = 0;
 
-        var data = getFilter;
-
         // Poner el tipo de registro diccionarizado
-        foreach (var record in data)
+        if (data != null)
         {
-            record.RecordTypeText = dictionary[record.Item + "-" + (record.RecordType == 0 ? "Int" : "Ext")];
-        }
-
-        switch (listOrder.ToUpperInvariant())
-        {
-            default:
-            case "TH0|ASC":
-                data = data.OrderBy(d => d.Date).ToList();
-                break;
-            case "TH0|DESC":
-                data = data.OrderByDescending(d => d.Date).ToList();
-                break;
-            case "TH1|ASC":
-                data = data.OrderBy(d => d.RecordTypeText).ToList();
-                break;
-            case "TH1|DESC":
-                data = data.OrderByDescending(d => d.RecordTypeText).ToList();
-                break;
-            case "TH2|ASC":
-                data = data.OrderBy(d => d.Operation).ToList();
-                break;
-            case "TH2|DESC":
-                data = data.OrderByDescending(d => d.Operation).ToList();
-                break;
-            case "TH3|ASC":
-                data = data.OrderBy(d => d.Responsible.FullName).ToList();
-                break;
-            case "TH3|DESC":
-                data = data.OrderByDescending(d => d.Responsible.FullName).ToList();
-                break;
-            case "TH4|ASC":
-                data = data.OrderBy(d => d.Cost).ToList();
-                break;
-            case "TH4|DESC":
-                data = data.OrderByDescending(d => d.Cost).ToList();
-                break;
-        }
-
-        foreach (var equipmentRecord in data)
-        {
-            if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
-
-            // Fecha
-            if (sh.GetRow(countRow).GetCell(0) == null) { sh.GetRow(countRow).CreateCell(0); }
-            sh.GetRow(countRow).GetCell(0).CellStyle.DataFormat = dataFormatCustom.GetFormat("dd/MM/yyyy");
-            sh.GetRow(countRow).GetCell(0).SetCellValue(equipmentRecord.Date);
-
-            // Tipo
-            if (sh.GetRow(countRow).GetCell(1) == null) { sh.GetRow(countRow).CreateCell(1); }
-            sh.GetRow(countRow).GetCell(1).SetCellValue(equipmentRecord.RecordTypeText);
-
-            // Operacion
-            if (sh.GetRow(countRow).GetCell(2) == null) { sh.GetRow(countRow).CreateCell(2); }
-            sh.GetRow(countRow).GetCell(2).SetCellValue(equipmentRecord.Operation);
-
-            // Responsable
-            if (sh.GetRow(countRow).GetCell(3) == null) { sh.GetRow(countRow).CreateCell(3); }
-            sh.GetRow(countRow).GetCell(3).SetCellValue(equipmentRecord.Responsible.FullName);
-
-            // Coste
-            if (sh.GetRow(countRow).GetCell(4) == null) { sh.GetRow(countRow).CreateCell(4); }
-            if (equipmentRecord.Cost.HasValue)
+            foreach (var record in data)
             {
-                sh.GetRow(countRow).GetCell(4).SetCellValue(Convert.ToDouble(equipmentRecord.Cost.Value));
-                sh.GetRow(countRow).GetCell(4).SetCellType(CellType.Numeric);
-                sh.GetRow(countRow).GetCell(4).CellStyle = moneyCellStyle;
-                total += equipmentRecord.Cost.Value;
+                record.RecordTypeText = dictionary[record.Item + "-" + (record.RecordType == 0 ? "Int" : "Ext")];
             }
 
-            countRow++;
+            switch (listOrder.ToUpperInvariant())
+            {
+                default:
+                case "TH0|ASC":
+                    data = data.OrderBy(d => d.Date).ToList();
+                    break;
+                case "TH0|DESC":
+                    data = data.OrderByDescending(d => d.Date).ToList();
+                    break;
+                case "TH1|ASC":
+                    data = data.OrderBy(d => d.RecordTypeText).ToList();
+                    break;
+                case "TH1|DESC":
+                    data = data.OrderByDescending(d => d.RecordTypeText).ToList();
+                    break;
+                case "TH2|ASC":
+                    data = data.OrderBy(d => d.Operation).ToList();
+                    break;
+                case "TH2|DESC":
+                    data = data.OrderByDescending(d => d.Operation).ToList();
+                    break;
+                case "TH3|ASC":
+                    data = data.OrderBy(d => d.Responsible.FullName).ToList();
+                    break;
+                case "TH3|DESC":
+                    data = data.OrderByDescending(d => d.Responsible.FullName).ToList();
+                    break;
+                case "TH4|ASC":
+                    data = data.OrderBy(d => d.Cost).ToList();
+                    break;
+                case "TH4|DESC":
+                    data = data.OrderByDescending(d => d.Cost).ToList();
+                    break;
+            }
+
+            foreach (var equipmentRecord in data)
+            {
+                if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
+
+                // Fecha
+                if (sh.GetRow(countRow).GetCell(0) == null) { sh.GetRow(countRow).CreateCell(0); }
+                sh.GetRow(countRow).GetCell(0).CellStyle.DataFormat = dataFormatCustom.GetFormat("dd/MM/yyyy");
+                sh.GetRow(countRow).GetCell(0).SetCellValue(equipmentRecord.Date);
+
+                // Tipo
+                if (sh.GetRow(countRow).GetCell(1) == null) { sh.GetRow(countRow).CreateCell(1); }
+                sh.GetRow(countRow).GetCell(1).SetCellValue(equipmentRecord.RecordTypeText);
+
+                // Operacion
+                if (sh.GetRow(countRow).GetCell(2) == null) { sh.GetRow(countRow).CreateCell(2); }
+                sh.GetRow(countRow).GetCell(2).SetCellValue(equipmentRecord.Operation);
+
+                // Responsable
+                if (sh.GetRow(countRow).GetCell(3) == null) { sh.GetRow(countRow).CreateCell(3); }
+                sh.GetRow(countRow).GetCell(3).SetCellValue(equipmentRecord.Responsible.FullName);
+
+                // Coste
+                if (sh.GetRow(countRow).GetCell(4) == null) { sh.GetRow(countRow).CreateCell(4); }
+                if (equipmentRecord.Cost.HasValue)
+                {
+                    sh.GetRow(countRow).GetCell(4).SetCellValue(Convert.ToDouble(equipmentRecord.Cost.Value));
+                    sh.GetRow(countRow).GetCell(4).SetCellType(CellType.Numeric);
+                    sh.GetRow(countRow).GetCell(4).CellStyle = moneyCellStyle;
+                    total += equipmentRecord.Cost.Value;
+                }
+
+                countRow++;
+            }
         }
 
         if (sh.GetRow(countRow) == null) { sh.CreateRow(countRow); }
@@ -379,7 +380,7 @@ public partial class ExportEquipmentRecords : Page
         dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
         var equipment = Equipment.ById(equipmentId, companyId);
         var company = new Company(equipment.CompanyId);
-        var data = HttpContext.Current.Session["EquipmentFilter"] as List<EquipmentRecord>;
+        var data = HttpContext.Current.Session["EquipmentRecordsFilter"] as List<EquipmentRecord>;
         
         string path = HttpContext.Current.Request.PhysicalApplicationPath;
 

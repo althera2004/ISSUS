@@ -300,14 +300,14 @@ public partial class ActionView : Page
 
             this.master.ItemCode = this.IncidentAction.Description;
 
-            if (this.IncidentAction.IncidentId > 0)
+            if (this.IncidentAction.IncidentId.HasValue && this.IncidentAction.IncidentId > 0)
             {
-                this.Incident = Incident.GetById(this.IncidentAction.IncidentId, this.Company.Id);
+                this.Incident = Incident.GetById(this.IncidentAction.IncidentId.Value, this.Company.Id);
             }
 
-            if (this.IncidentAction.BusinessRiskId > 0)
+            if (this.IncidentAction.BusinessRiskId.HasValue && this.IncidentAction.BusinessRiskId > 0)
             {
-                this.BusinessRisk = BusinessRisk.ById(this.Company.Id, this.IncidentAction.BusinessRiskId);
+                this.BusinessRisk = BusinessRisk.ById(this.Company.Id, this.IncidentAction.BusinessRiskId.Value);
             }
 
             if(this.IncidentAction.Objetivo.Id > 0)
@@ -320,9 +320,9 @@ public partial class ActionView : Page
                 this.Oportunity = this.IncidentAction.Oportunity;
             }
 
-            if (this.IncidentAction.AuditoryId > 0)
+            if (this.IncidentAction.AuditoryId.HasValue && this.IncidentAction.AuditoryId > 0)
             {
-                this.Auditory = Auditory.ById(this.IncidentAction.AuditoryId, this.Company.Id);
+                this.Auditory = Auditory.ById(this.IncidentAction.AuditoryId.Value, this.Company.Id);
             }
 
             this.RenderDocuments();
@@ -364,7 +364,7 @@ public partial class ActionView : Page
             Duplicated = true,
             DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
             Description = "Proveedor",
-            FieldName = this.Dictionary["Common_Name"],
+            FieldName = this.Dictionary["Item_Provider"],
             BarTitle = this.Dictionary["Item_Providers"]
         };
 
@@ -380,7 +380,7 @@ public partial class ActionView : Page
             Duplicated = true,
             DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
             Description = "Cliente",
-            FieldName = this.Dictionary["Common_Name"],
+            FieldName = this.Dictionary["Item_Customer"],
             BarTitle = this.Dictionary["Item_Customers"]
         };
     }

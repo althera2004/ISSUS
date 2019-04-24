@@ -186,7 +186,7 @@ function UploadFileGo() {
         fd.append("ItemLinked", typeItemId);
         fd.append("ItemId", itemId);
         fd.append("Description", $("#UploadFileDescription").val());
-        fd.append("CompanyId", ApplicationUser.CompanyId);
+        fd.append("CompanyId", Company.Id);
         fd.append("ApplicationUserId", ApplicationUser.Id);
 
         var xhr = new XMLHttpRequest();
@@ -198,6 +198,9 @@ function UploadFileGo() {
                 console.log(result);
                 RenderNewUploadFile(result.Id, result.Description, result.Extension, result.FileName, result.ModifiedOn, result.Size);
                 LoadingHide();
+            }
+            else {
+                console.log(xhr);
             }
         };
         xhr.send(fd);

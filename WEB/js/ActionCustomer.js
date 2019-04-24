@@ -59,43 +59,51 @@ function CustomerInsert(sender) {
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Equipment_Popup_AddCustomer_Title + "</h4>",
         "title_html": true,
         "buttons":
-        [
-            {
-                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
-                "class": "btn btn-success btn-xs",
-                "click": function () {
-                    var ok = true;
-                    var duplicated = false;
-                    for (var x = 0; x < Customers.length; x++) {
-                        if (document.getElementById("TxtCustomerNewName").value.toLowerCase() === Customers[x].Description.toLowerCase()) {
-                            duplicated = true;
-                            break;
+            [
+                {
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        var ok = true;
+                        if ($("#TxtCustomerNewName").val() === "") {
+                            $("#TxtCustomerNewNameErrorRequired").show();
+                            ok = false;
                         }
-                    }
+                        else {
+                            $("#TxtCustomerNewNameErrorRequired").hide();
+                        }
 
-                    if (duplicated === true) {
-                        $("#TxtCustomerNewNameErrorDuplicated").show();
-                        ok = false;
-                    }
-                    else {
-                        $("#TxtCustomerNewNameErrorDuplicated").hide();;
-                    }
+                        var duplicated = false;
+                        for (var x = 0; x < Customers.length; x++) {
+                            if (document.getElementById("TxtCustomerNewName").value.toLowerCase() === Customers[x].Description.toLowerCase()) {
+                                duplicated = true;
+                                break;
+                            }
+                        }
 
-                    if (ok === false) { window.scrollTo(0, 0); return false; }
+                        if (duplicated === true) {
+                            $("#TxtCustomerNewNameErrorDuplicated").show();
+                            ok = false;
+                        }
+                        else {
+                            $("#TxtCustomerNewNameErrorDuplicated").hide();;
+                        }
 
-                    $("#TxtCustomerNewNameErrorRequired").hide();
-                    $("#TxtCustomerNewNameErrorDuplicated").hide();
-                    $(this).dialog("close");
-                    CustomerInsertConfirmed($("#TxtCustomerNewName").val());
-                    return false;
+                        if (ok === false) { window.scrollTo(0, 0); return false; }
+
+                        $("#TxtCustomerNewNameErrorRequired").hide();
+                        $("#TxtCustomerNewNameErrorDuplicated").hide();
+                        $(this).dialog("close");
+                        CustomerInsertConfirmed($("#TxtCustomerNewName").val());
+                        return false;
+                    }
+                },
+                {
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () { $(this).dialog("close"); }
                 }
-            },
-            {
-                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                "class": "btn btn-xs",
-                "click": function () { $(this).dialog("close"); }
-            }
-        ]
+            ]
     });
 }
 
@@ -153,53 +161,53 @@ function CustomerUpdate(sender) {
         "title": Dictionary.Common_Edit,
         "title_html": true,
         "buttons":
-        [
-            {
-                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
-                "class": "btn btn-success btn-xs",
-                "click": function () {
-                    var ok = true;
-                    if ($("#TxtCustomerName").val() === "") {
-                        $("#TxtCustomerNameErrorRequired").show();
-                        ok = false;
-                    }
-                    else {
-                        $("#TxtCustomerNameErrorRequired").hide();
-                    }
-
-                    var duplicated = false;
-                    for (var x = 0; x < Customers.length; x++) {
-                        if ($("#TxtCustomerName").val().toLowerCase() === Customers[x].Description.toLowerCase() && Selected !== Customers[x].Id && Customers[x].Active === true) {
-                            duplicated = true;
-                            break;
+            [
+                {
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        var ok = true;
+                        if ($("#TxtCustomerName").val() === "") {
+                            $("#TxtCustomerNameErrorRequired").show();
+                            ok = false;
                         }
-                    }
+                        else {
+                            $("#TxtCustomerNameErrorRequired").hide();
+                        }
 
-                    if (duplicated === true) {
-                        $("#TxtCustomerNameErrorDuplicated").show();
-                        ok = false;
-                    }
-                    else {
+                        var duplicated = false;
+                        for (var x = 0; x < Customers.length; x++) {
+                            if ($("#TxtCustomerName").val().toLowerCase() === Customers[x].Description.toLowerCase() && Selected !== Customers[x].Id && Customers[x].Active === true) {
+                                duplicated = true;
+                                break;
+                            }
+                        }
+
+                        if (duplicated === true) {
+                            $("#TxtCustomerNameErrorDuplicated").show();
+                            ok = false;
+                        }
+                        else {
+                            $("#TxtCustomerNameErrorDuplicated").hide();
+                        }
+
+                        if (ok === false) { window.scrollTo(0, 0); return false; }
+
+                        $("#TxtCustomerNameErrorRequired").hide();
                         $("#TxtCustomerNameErrorDuplicated").hide();
+                        $(this).dialog("close");
+                        CustomerUpdateConfirmed(ItemIdUpdate, $("#TxtCustomerName").val());
+                        return null;
                     }
-
-                    if (ok === false) { window.scrollTo(0, 0); return false; }
-
-                    $("#TxtCustomerNameErrorRequired").hide();
-                    $("#TxtCustomerNameErrorDuplicated").hide();
-                    $(this).dialog("close");
-                    CustomerUpdateConfirmed(ItemIdUpdate, $("#TxtCustomerName").val());
-                    return null;
+                },
+                {
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
                 }
-            },
-            {
-                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                "class": "btn btn-xs",
-                "click": function () {
-                    $(this).dialog("close");
-                }
-            }
-        ]
+            ]
 
     });
 }
@@ -216,7 +224,7 @@ function CustomerUpdateConfirmed(id, newDescription) {
 
     var data = {
         "customerId": id,
-        "description": newDescription,
+        "description": description,
         "companyId": Company.Id,
         "userId": user.Id
     };
@@ -279,27 +287,27 @@ function CustomerUpdateConfirmed(id, newDescription) {
 function CustomerDelete(sender) {
     $("#CustomerName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     ItemIdDelete = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $(popupDeleteDialogId).removeClass("hide").dialog({
+    $(popupDeleteDialogId).removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_Delete,
         "title_html": true,
         "buttons":
-        [
-            {
-                "html": "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
-                "class": "btn btn-danger btn-xs",
-                "click": function () {
-                    $(this).dialog("close");
-                    CustomerDeleteConfirmed(ItemIdDelete);
+            [
+                {
+                    "html": "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                        CustomerDeleteConfirmed(ItemIdDelete);
+                    }
+                },
+                {
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () { $(this).dialog("close"); }
                 }
-            },
-            {
-                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                "class": "btn btn-xs",
-                "click": function () { $(this).dialog("close"); }
-            }
-        ]
+            ]
     });
 }
 
