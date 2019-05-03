@@ -499,7 +499,7 @@ function IncidentCostDelete(id) {
                 "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
                 "class": "btn btn-danger btn-xs",
                 "click": function () {
-                    IncidentCostDelteConfirmed();
+                    IncidentCostDeleteConfirmed();
                 }
             },
             {
@@ -514,7 +514,7 @@ function IncidentCostDelete(id) {
     });
 }
 
-function IncidentCostDelteConfirmed() {
+function IncidentCostDeleteConfirmed() {
     var data = {
         "incidentId": SelectedIncidentCostId,
         "reason": "",

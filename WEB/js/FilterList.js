@@ -1,4 +1,4 @@
-﻿function FilterList() {
+﻿function FilterList(totalIndex) {
     if (document.getElementById("ListDataTable") != null) {
         var searcheablesIndex = new Array();
         var headerList = document.getElementById("ListDataHeader").childNodes;

@@ -93,7 +93,7 @@ function ItemRenderTable(list) {
 
     if (list.length === 0) {
         $("#ItemTableVoid").show();
-        $("#NumberCosts").html("0");
+        $("#TotalList").html("0");
         target.style.display = "none";
         return false;
     }
@@ -207,7 +207,7 @@ function ItemRenderTable(list) {
         $("#nav-search-input").change(FilterList);
     }
 
-    $("#NumberCosts").html(list.length);
+    $("#TotalList").html(list.length);
 
     if (lockOrderList === false) {
         $("#th0").click();
@@ -302,6 +302,7 @@ $("#nav-search").hide();
 function Resize() {
     var containerHeight = $(window).height();
     $("#ListDataDiv").height(containerHeight - 390);
+    $("#NoData").height(containerHeight - 390);
 }
 
 window.onload = function () {

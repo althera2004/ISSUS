@@ -23,6 +23,7 @@ public class UpladFileActions : WebService
     [ScriptMethod]
     public ActionResult Delete(long attachId, int companyId)
     {
-        return UploadFile.Delete(attachId, companyId);
+        var res = UploadFile.Delete(attachId, companyId);
+        return res;
     }
 }

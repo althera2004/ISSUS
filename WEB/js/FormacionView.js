@@ -12,6 +12,7 @@ function EmployeeDelete(id, name) {
         "title_html": true,
         "buttons": [
             {
+                "id": "BtnDeleteEmployeeOK",
                 "html": "<i class=\"con-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
                 "class": "btn btn-danger btn-xs",
                 "click": function () {
@@ -19,6 +20,7 @@ function EmployeeDelete(id, name) {
                 }
             },
             {
+                "id": "BtnDeleteEmployeeCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -456,7 +458,7 @@ function Toggle(sender, action, value, status) {
                 eval("status=" + msg.d.MessageError + ";");
                 //alert(status.AssistantId+"-"+status.Completed+"-"+status.Success);
                 for (var x = 0; x < SelectedEmployeesTable.childNodes.length; x++) {
-                    if (SelectedEmployeesTable.childNodes[x].id.split("|")[0] * 1 == status.AssistantId) {
+                    if (SelectedEmployeesTable.childNodes[x].id.split("|")[0] * 1 === status.AssistantId) {
                         var completedSpan = SelectedEmployeesTable.childNodes[x].childNodes[2].childNodes[0];
                         var successSpan = SelectedEmployeesTable.childNodes[x].childNodes[3].childNodes[0];
                         if (status.Completed === 0) {
@@ -578,7 +580,7 @@ function InsertAssistant(employeeId) {
 function SelectEmployees() {
     var target = document.getElementById("SelectableEmployeesTable").childNodes;
     for (var x = 0; x < target.length; x++) {
-        if (target[x].tagName == "TR") {
+        if (target[x].tagName === "TR") {
             if (target[x].childNodes[0].childNodes[0].checked) {
                 var id = target[x].childNodes[0].childNodes[0].id.substr(3);
                 InsertAssistant(id);
@@ -589,17 +591,25 @@ function SelectEmployees() {
 }
 
 function Save() {
+    // Si no hay alumnos no se puede finalizar el curso.
+    if (SelectedEmployees.length === 0) {
+        if ($("#TxtRealFinish").val() !== "") {
+            alertUI(Dictionary.Item_Learning_Message_NoAssistants);
+            return false;
+        }
+    }
+
     // Sólo si el status = 1 (Realizado) se revisa si está en condiciones de pasar a evaluado
     var evaluatedAll = false;
-    if (formacion.Status == 1) {
+    if (formacion.Status === 1) {
         evaluatedAll = true;
         for (var x = 0; x < SelectedEmployeesTable.childNodes.length; x++) {
-            if (SelectedEmployeesTable.childNodes[x].childNodes[2].childNodes[0].innerHTML == "-") {
+            if (SelectedEmployeesTable.childNodes[x].childNodes[2].childNodes[0].innerHTML === "-") {
                 evaluatedAll = false;
                 break;
             }
-            else if (SelectedEmployeesTable.childNodes[x].childNodes[2].childNodes[0].innerHTML == Dictionary.Common_Yes &&
-                    SelectedEmployeesTable.childNodes[x].childNodes[3].childNodes[0].innerHTML == "-") {
+            else if (SelectedEmployeesTable.childNodes[x].childNodes[2].childNodes[0].innerHTML === Dictionary.Common_Yes &&
+                    SelectedEmployeesTable.childNodes[x].childNodes[3].childNodes[0].innerHTML === "-") {
                 evaluatedAll = false;
                 break;
             }
@@ -665,14 +675,14 @@ function SaveConfirmed(evaluatedAll)
 
             if (d1 > d2) {
                 ok = false;
-                document.getElementById("TxtRealStartLabel").style.color = "#f00";
-                document.getElementById("TxtRealFinishLabel").style.color = "#f00";
+                $("#TxtRealStartLabel").css("color", "#f00");
+                $("#TxtRealFinishLabel").css("color", "#f00");
                 $("#TxtRealStartErrorDateRange").show();
                 $("#TxtRealFinishErrorDateRange").show();
             }
             else {
-                document.getElementById("TxtRealStartLabel").style.color = "#000";
-                document.getElementById("TxtRealFinishLabel").style.color = "#000";
+                $("#TxtRealStartLabel").css("color", "#000");
+                $("#TxtRealFinishLabel").css("color", "#000");
                 $("#TxtRealStartErrorDateRange").hide();
                 $("#TxtRealFinishErrorDateRange").hide();
             }
@@ -692,14 +702,14 @@ function SaveConfirmed(evaluatedAll)
             if (dates === true) {
                 if (d1 > d2) {
                     ok = false;
-                    document.getElementById("TxtRealStartLabel").style.color = "#f00";
-                    document.getElementById("TxtRealFinishLabel").style.color = "#f00";
+                    $("#TxtRealStartLabel").css("color", "#f00");
+                    $("#TxtRealFinishLabel").css("color", "#f00");
                     $("#TxtRealStartErrorDateRange").show();
                     $("#TxtRealFinishErrorDateRange").show();
                 }
                 else {
-                    document.getElementById("TxtRealStartLabel").style.color = "#000";
-                    document.getElementById("TxtRealFinishLabel").style.color = "#000";
+                    $("#TxtRealStartLabel").css("color", "#000");
+                    $("#TxtRealFinishLabel").css("color", "#000");
                     $("#TxtRealStartErrorDateRange").hide();
                     $("#TxtRealFinishErrorDateRange").hide();
                 }
@@ -728,7 +738,7 @@ function SaveConfirmed(evaluatedAll)
     //Eliminar los asistentes ya existentes
     var newAssistants = new Array();
     for (var x2 = 0; x2 < SelectedEmployees.length; x2++) {
-        if (formacion.Id == 0) {
+        if (formacion.Id === 0) {
             newAssistants.push(SelectedEmployees[x2]);
         }
         else {
@@ -745,7 +755,7 @@ function SaveConfirmed(evaluatedAll)
     }
 
     if (formacion.Id !== 0) {
-        if (typeof (formacion.DateEstimated) == "string") {
+        if (typeof (formacion.DateEstimated) === "string") {
             formacion.DateEstimated = new Date(formacion.DateEstimated.split("/")[2] * 1, formacion.DateEstimated.split("/")[1] * 1, formacion.DateEstimated.split("/")[0] * 1);
         }
 
@@ -894,7 +904,7 @@ jQuery(function ($) {
         for (var x = 0; x < Company.Employees.length; x++) {
             var selectable = true;
             for (var y = 0; y < SelectedEmployees.length; y++) {
-                if (SelectedEmployees[y].EmployeeId == Company.Employees[x].Id) {
+                if (SelectedEmployees[y].EmployeeId === Company.Employees[x].Id) {
                     selectable = false;
                     break;
                 }

@@ -452,6 +452,8 @@ function CostDeleteConfirmed(id) {
             break;
         }
     }
+
+    CostRenderPopup();
 }
 
 // Selection functions for bar item Cost

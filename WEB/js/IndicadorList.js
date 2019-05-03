@@ -96,7 +96,7 @@ function IndicadorGetFilter(exportType) {
     var ok = true;
     $("#ListDataTable").hide();
     $("#ItemTableError").hide();
-    $("#ItemTableVoid").hide();
+    $("#NoData").hide();
     $("#ErrorDate").hide();
     $("#ErrorStatus").hide();
     $("#ErrorType").hide();
@@ -183,10 +183,12 @@ function ItemRenderTable(list) {
     target.style.display = "";
 
     if (list.length === 0) {
-        $("#ItemTableVoid").show();
-        $("#NumberCosts").html("0");
-        $("#ListDataTable").hide();
+        $("#NoData").show();
+        $("#TotalList").html("0");
+        $("#DataTable").hide();
         return false;
+    } else {
+        $("#DataTable").show();
     }
 
     var total = 0;
@@ -325,7 +327,7 @@ function ItemRenderTable(list) {
         $("#nav-search-input").change(FilterList);
     }
 
-    $("#NumberCosts").html(list.length);
+    $("#TotalList").html(list.length);
 
     if (lockOrderList === false) {
         $("#th1").click();
@@ -420,6 +422,7 @@ $("#nav-search").hide();
 function Resize() {
     var containerHeight = $(window).height();
     $("#ListDataDiv").height(containerHeight - 420);
+    $("#NoData").height(containerHeight - 420);
 }
 
 window.onload = function () {

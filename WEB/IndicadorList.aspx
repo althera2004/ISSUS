@@ -30,7 +30,6 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
                                 <div class="col-sm-12">
-
                                     <table cellpadding="2" cellspacing="2">
                                         <tr>
                                             <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_Indicador_Filter_Periode1"] %>:</strong></td>
@@ -87,9 +86,9 @@
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>
                                                 <!--div class="col-xs-12 col-sm-12"-->                                      
-                                                <button style="display:none;" class="btn btn-success" type="button" id="BtnSearch" title="<%= this.Dictionary["Common_Filter"] %><"><i class="icon-filter bigger-110"></i></button>
-                                                <button class="btn btn-success" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-list bigger-110"></i></button>
-                                                <button class="btn btn-success" type="button" id="BtnRecordShowNone" title="<%= this.Dictionary["Common_None_Male"] %>"><i class="icon-remove-circle bigger-110"></i></button>
+                                                <!--<button style="display:none;" class="btn btn-success" type="button" id="BtnSearch" title="<%= this.Dictionary["Common_Filter"] %><"><i class="icon-filter bigger-110"></i></button>-->
+                                                <button class="btn btn-filter" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-list bigger-110"></i></button>
+                                                <!--<button class="btn btn-success" type="button" id="BtnRecordShowNone" title="<%= this.Dictionary["Common_None_Male"] %>"><i class="icon-remove-circle bigger-110"></i></button>-->
                                                 <!--/div-->
                                             </td>
                                             
@@ -199,7 +198,7 @@
                                                 </thead>
                                             </table>
                                             <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                <table class="table table-bordered table-striped" style="border-top: none;">
+                                                <table class="table table-bordered table-striped" style="border-top: none;display:none;" id="DataTable">
                                                     <tbody id="ListDataTable"></tbody>
                                                 </table>
                                                 <table id="ItemTableError" style="display:none;width:100%;">
@@ -225,31 +224,14 @@
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <table id="ItemTableVoid" style="display:none;width:100%">
-                                                    <tr>
-                                                        <td colspan="10" align="center" style="color:#0000aa;">
-                                                            <table style="border:none;width:100%">
-                                                                <tr>
-                                                                    <td rowspan="2" style="border:none;text-align:right;"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
-                                                                    <td style="border:none;">
-                                                                        <h4><%=this.Dictionary["Common_VoidSearchResult"] %></h4>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                </table>
+                                                <div id="NoData" style="display:none;width:100%;height:99%;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>                                            
                                             </div>                                                                                       
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <th style="color:#aaa;">
-															<i>
-																<%=this.Dictionary["Common_RegisterCount"] %>:
-																&nbsp;
-																<span id="NumberCosts"></span>
-															</i>
-														</th>
+                                                        <td class="thfooter">
+                                                            <%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalList" style="font-weight:bold;"></span>
+														</td>
                                                     </tr>
                                                 </thead>
                                             </table>

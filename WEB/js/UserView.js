@@ -1,5 +1,5 @@
 ﻿function GrantChanged(mode, id, sender) {
-    var grants = document.getElementById("Contentholder1_Grants").value;
+    var grants = $("#Contentholder1_Grants").val();
 
     var tag = mode + id + "|";
 
@@ -51,7 +51,7 @@ function SaveGrants() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {                           
+        "success": function () {                           
             document.location = referrer;
         },
         "error": function (msg) {
@@ -83,7 +83,7 @@ function ChangeUserName()
         if(duplicated === true)
         {
             ok = false;
-            document.getElementById('TxtUserNameLabel').style.color = '#f00';
+            $("#TxtUserNameLabel").css("color", "#f00");
             $("#TxtUserNameErrorDuplicated").show();
         }
 
@@ -100,7 +100,7 @@ function ChangeUserName()
         if(duplicatedEmail === true)
         {
             ok = false;
-            document.getElementById("TxtUserEmailLabel").style.color = '#f00';
+            $("#TxtUserEmailLabel").css("color", "#f00");
             $("#TxtUserEmailErrorDuplicated").show();
         }
     }
@@ -141,17 +141,19 @@ function ChangeUserName()
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
-            if(itemUser.Id<1)
-            {
-                // ISSUS-259
-                console.log("SAVE OK",msg.d );
-                itemUser.Id = msg.d.ReturnValue * 1;
-                newUserId = itemUser.Id;
-                alertInfoUI(Dictionary.Item_User_Message_WelcommeMailSent, grantsAvaiable);
+            if (msg.d.Success === true) {
+                if (itemUser.Id < 1) {
+                    console.log("SAVE OK", msg.d);
+                    itemUser.Id = msg.d.ReturnValue * 1;
+                    newUserId = itemUser.Id;
+                    alertInfoUI(Dictionary.Item_User_Message_WelcommeMailSent, grantsAvaiable);
+                }
+                else {
+                    SaveGrants();
+                }
             }
-            else
-            {
-                SaveGrants();
+            else {
+                alertUI(msg.d.MessageError);
             }
         },
         "error": function (msg) {
@@ -162,12 +164,11 @@ function ChangeUserName()
 
 function ResetPassword()
 { 
-    var webMethod = "/Async/LoginActions.asmx/ResetPassword";
-    var data = { userId: ItemUserId, companyId: Company.Id };
+    var data = { "userId": ItemUserId, "companyId": Company.Id };
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         type: "POST",
-        url: webMethod,
+        url: "/Async/LoginActions.asmx/ResetPassword",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(data, null, 2),
@@ -190,8 +191,8 @@ function ResetPassword()
 }
             
 jQuery(function ($) {
-    $('#BtnSave').click(ChangeUserName);
-    $('#BtnCancel').click(function (e) { document.location = referrer; });
+    $("#BtnSave").click(ChangeUserName);
+    $("#BtnCancel").click(function (e) { document.location = referrer; });
 
     var i = 0;
     for(var x=0; x<ddData.length; x++)

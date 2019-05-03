@@ -1957,3 +1957,4 @@ Item_Auditory_Message_NoPlanning::Per poder donar per planificada l'auditoria, a
 Item_Auditory_Message_NewAuditory::Per poder afegir planificacions, primer s'ha de desar l'auditoria
 Item_Auditory_Message_NoQuestions::Amb les normes i processos sel·leccionat no hi han preguntes per als questionaris
 Item_Auditory_Message_ReopenCuestionario::Obrir qüestionari
+Item_Learning_Message_NoAssistants::No es pot finalitzar la formación sense asistents

@@ -470,8 +470,8 @@ function ItemRenderTable(list) {
         $("#nav-search-input").change(FilterList);
     }
 
-    $("#NumberCosts").html(list.length);
-    $("#TotalCosts").html(ToMoneyFormat(total, 2));
+    $("#TotalList").html(list.length);
+    $("#TotalAmount").html(ToMoneyFormat(total, 2));
 
     if (lockOrderList === false) {
         $("#th1").click();

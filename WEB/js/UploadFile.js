@@ -80,6 +80,7 @@ function DeleteUploadFile(id, description) {
     AttachSelected = id;
     var dialog = $("#DeleteAttachDialog").removeClass("hide").dialog({
         "resizable": false,
+        "width": 600,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Attach_Popup_Delete_Title + "</h4>",
         "title_html": true,

@@ -580,7 +580,7 @@ public partial class ExportEquipmentRecords : Page
             typeText += dictionary["Item_EquipmentRecord_Filter_RepairExternal"];
         }
         
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(typeText + listOrder, ToolsPdf.LayoutFonts.Times))
+        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(typeText, ToolsPdf.LayoutFonts.Times))
         {
             Border = ToolsPdf.BorderNone,
             HorizontalAlignment = iTS.Element.ALIGN_LEFT,

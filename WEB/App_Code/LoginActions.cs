@@ -19,6 +19,7 @@ namespace GISOWeb
     using System.Web.Services;
     using GisoFramework;
     using GisoFramework.Activity;
+    using GisoFramework.DataAccess;
     using GisoFramework.Item;
     using GisoFramework.LogOn;
     using SbrinnaCoreFramework;
@@ -69,12 +70,131 @@ namespace GISOWeb
         [ScriptMethod]
         public ActionResult InsertUser(ApplicationUser itemUser, long employeeId, int userId)
         {
-            var res = itemUser.Insert(userId);
-            if(res.Success && employeeId > 0)
+            var id = 0;
+            /*var res = itemUser.Insert(userId);*/
+            var res = ActionResult.NoAction;
+            string userpass = GisoFramework.RandomPassword.Generate(5, 8);
+            using (var cmd = new SqlCommand("ApplicationUser_Insert"))
             {
-                var id = Convert.ToInt32(res.MessageError);
-                var employee = new Employee { Id = employeeId, UserId = id, CompanyId = itemUser.CompanyId };
-                res = employee.SetUser();
+                cmd.CommandType = CommandType.StoredProcedure;
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.Parameters.Add(DataParameter.OutputInt("@Id"));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", itemUser.CompanyId));
+                    cmd.Parameters.Add(DataParameter.Input("@Login", itemUser.UserName, DataParameter.DefaultTextLength));
+                    cmd.Parameters.Add(DataParameter.Input("@Email", itemUser.Email, DataParameter.DefaultTextLength));
+                    cmd.Parameters.Add(DataParameter.Input("@Language", itemUser.Language, DataParameter.DefaultTextLength));
+                    cmd.Parameters.Add(DataParameter.Input("@Admin", itemUser.Admin));
+                    cmd.Parameters.Add(DataParameter.Input("@Password", userpass));
+                    try
+                    {
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        id = Convert.ToInt32(cmd.Parameters["@Id"].Value);
+                        res.ReturnValue = id;
+                        res.SetSuccess();
+                    }
+                    catch (Exception ex)
+                    {
+                        res.SetFail(ex);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            if (res.Success)
+            {
+                if (employeeId > 0)
+                {
+                    var employee = new Employee { Id = employeeId, UserId = id, CompanyId = itemUser.CompanyId };
+                    res = employee.SetUser();
+                }
+            }
+            else
+            {
+                return res;
+            }
+
+            // -----------------------------------
+            var company = new Company(itemUser.CompanyId);
+            var createdUser = ApplicationUser.GetById(id, company.Id);
+            string sender = ConfigurationManager.AppSettings["mailaddress"];
+            string pass = ConfigurationManager.AppSettings["mailpass"];
+            string server = ConfigurationManager.AppSettings["mailserver"];
+            int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);
+            var senderMail = new MailAddress(sender, "ISSUS");
+            var to = new MailAddress(itemUser.Email);
+
+            try
+            {
+                using (var client = new SmtpClient
+                {
+                    Host = server,
+                    Credentials = new System.Net.NetworkCredential(sender, pass),
+                    Port = port,
+                    DeliveryMethod = SmtpDeliveryMethod.Network
+                })
+                {
+                    string body = string.Format(
+                        CultureInfo.GetCultureInfo("en-us"),
+                        "Acceder a la siguiente url http://www.scrambotika.com/Default.aspx?company={0} <br/> User:<b>{1}</b><br/>Password:<b>{2}</b>",
+                        company.Code,
+                        itemUser.UserName,
+                        userpass);
+
+                    string templatePath = HttpContext.Current.Request.PhysicalApplicationPath;
+                    if (!templatePath.EndsWith("\\", StringComparison.OrdinalIgnoreCase))
+                    {
+                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}\", templatePath);
+                    }
+
+                    string translatedTemplate = string.Format(
+                        CultureInfo.InvariantCulture,
+                        @"NewUser_{0}.tpl",
+                        itemUser.Language);
+
+                    if (!File.Exists(templatePath + "Templates\\" + translatedTemplate))
+                    {
+                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\NewUser.tpl", templatePath);
+                    }
+                    else
+                    {
+                        templatePath = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\{1}", templatePath, translatedTemplate);
+                    }
+
+                    if (File.Exists(templatePath))
+                    {
+                        using (var input = new StreamReader(templatePath))
+                        {
+                            body = input.ReadToEnd();
+                        }
+
+                        body = body.Replace("#USERNAME#", itemUser.UserName).Replace("#PASSWORD#", userpass).Replace("#EMAIL#", itemUser.Email).Replace("#EMPRESA#", company.Name);
+                    }
+
+                    var localDictionary = ApplicationDictionary.LoadLocal(itemUser.Language);
+                    var mail = new MailMessage(senderMail, to)
+                    {
+                        IsBodyHtml = true,
+                        Subject = localDictionary["MailTemplate_Welcome_Subject"],
+                        Body = body
+                    };
+
+                    client.Send(mail);
+                    res.MessageError = itemUser.Email;
+                }
+                // -----------------------------------
+            }
+            catch (Exception ex)
+            {
+                res.SetFail(ex.Message);
             }
 
             return res;

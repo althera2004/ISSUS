@@ -35,7 +35,7 @@ function IncidentActionGetFilter(exportType) {
     $("#nav-search-input").val();
     $("#ListDataTable").hide();
     $("#ItemTableError").hide();
-    $("#ItemTableVoid").hide();
+    $("#NoData").hide();
     $("#ErrorDate").hide();
     $("#rrorStatus").hide();
     $("#ErrorType").hide();
@@ -116,8 +116,8 @@ function ItemRenderTable(list) {
     target.style.display = "";
 
     if (list.length === 0) {
-        $("#ItemTableVoid").show();
-        $("#NumberCosts").html("0");
+        $("#NoData").show();
+        $("#TotalList").html("0");
         target.style.display = "none";
         return false;
     }
@@ -339,8 +339,8 @@ function ItemRenderTable(list) {
         $("#nav-search-input").change(FilterList);
     }
 
-    $("#NumberCosts").html(list.length);
-    $("#TotalCosts").html(ToMoneyFormat(total, 2));
+    $("#TotalList").html(list.length);
+    $("#TotalAmount").html(ToMoneyFormat(total, 2));
 
     if (lockOrderList === false) {
         $("#th1").click();
@@ -442,6 +442,7 @@ $("#nav-search").hide();
 function Resize() {
     var containerHeight = $(window).height();
     $("#ListDataDiv").height(containerHeight - 450);
+    $("#NoData").height(containerHeight - 450);
 }
 
 window.onload = function () {
@@ -453,8 +454,8 @@ window.onload = function () {
     $("#chkStatus2").on("click", IncidentActionGetFilter);
     $("#chkStatus3").on("click", IncidentActionGetFilter);
     $("#chkStatus4").on("click", IncidentActionGetFilter);
-    $("#CmbOrigin").on("click", IncidentActionGetFilter);
-    $("#CmbReporter").on("click", IncidentActionGetFilter);
+    $("#CmbOrigin").on("change", IncidentActionGetFilter);
+    $("#CmbReporter").on("change", IncidentActionGetFilter);
     $("#RType1").on("click", IncidentActionGetFilter);
     $("#RType2").on("click", IncidentActionGetFilter);
     $("#RType3").on("click", IncidentActionGetFilter);

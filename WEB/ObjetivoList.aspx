@@ -28,7 +28,6 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
                                 <div class="col-sm-12">
-                                    
                                     <table cellpadding="2" cellspacing="2">
                                         <tr>
                                             <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_ObjetivoAction_List_Filter_Periode1"] %>:</strong></td>
@@ -142,13 +141,9 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <th style="color:#aaa;">
-															<i>
-																<%=this.Dictionary["Common_RegisterCount"] %>:
-																&nbsp;
-																<span id="NumberCosts"></span>
-															</i>
-														</th>
+                                                        <td class="thfooter">
+                                                            <%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalList" style="font-weight:bold;"></span>
+														</td>
                                                     </tr>
                                                 </thead>
                                             </table>

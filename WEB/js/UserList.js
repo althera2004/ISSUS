@@ -3,7 +3,7 @@
 }
 
 function UserUpdate(id) {
-    document.location = 'UserView.aspx?id=' + id;
+    document.location = "UserView.aspx?id=" + id;
 }
 
 function UserDelete(id, description) {
@@ -62,13 +62,13 @@ function UserDeleteConfirmed(id) {
         "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
-                document.location = document.location + '';
+                document.location = document.location + "";
             }
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -113,7 +113,7 @@ function EmployeeDeleteConfirmed(id) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -125,5 +125,5 @@ function Resize() {
     $("#ListDataDiv").height((containerHeight - 310) + "px");
 }
 
-window.onload = function () { Resize(); }
-window.onresize = function () { Resize(); }
+window.onload = function () { Resize(); };
+window.onresize = function () { Resize(); };
