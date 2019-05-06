@@ -175,7 +175,7 @@ function RenderDocumentTable() {
         }
     }
 
-    $("#TotalRecords").html(count);
+    $("#TotalList").html(count);
 
     if (listOrder === null) {
         listOrder = "th0|ASC";

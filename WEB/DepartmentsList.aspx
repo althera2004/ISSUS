@@ -47,7 +47,7 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="DeparmentDataTotal"></asp:Literal></i></th>
+                                                        <td><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><asp:Literal runat="server" ID="DeparmentDataTotal"></asp:Literal></strong></td>
                                                     </tr>
                                                 </thead>
                                             </table>

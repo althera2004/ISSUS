@@ -21,15 +21,6 @@ function EmployeeDeleteAlertYes() {
     document.location = "EmployeeSubstitution.aspx?id=" + EmployeeDeleteId;
 }
 
-/*function EmployeeDeleteAlert(id, description) {
-    if (id === ApplicationUser.Employee.Id) {
-        warningInfoUI(Dictionary.Item_Employee_Error_AutoDelete, null, 300);
-        return false;
-    }
-    EmployeeDeleteId = id;
-    promptInfoUI(Dictionary.Item_Employee_Message_Delete, 300, EmployeeDeleteAlertYes, EmployeeDeleteAlertNo);
-}*/
-
 function EmployeeDeleteAlert(id, description) {
     if (id === ApplicationUser.Employee.Id) {
         warningInfoUI(Dictionary.Item_Employee_Error_AutoDelete, null, 300);
@@ -147,7 +138,7 @@ function Restore(employeeId)
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -173,7 +164,7 @@ jQuery(function ($) {
 
 function Resize() {
     var containerHeight = $(window).height();
-    $("#ListDataDiv").height(containerHeight - 380);
+    $("#ListDataDiv").height(containerHeight - 360);
 }
 
 window.onload = function () {
@@ -228,6 +219,16 @@ function RenderEmployeeTable() {
 }
 
 function FilterChanged() {
+    $("#Chk1").removeAttr("disabled");
+    $("#Chk2").removeAttr("disabled");
+    var count = document.getElementById("Chk1").checked === true ? 1 : 0;
+    count += document.getElementById("Chk2").checked === true ? 1 : 0;
+
+    if (count === 1) {
+        if (document.getElementById("Chk1").checked === true) { $("#Chk1").attr("disabled", "disabled"); }
+        if (document.getElementById("Chk2").checked === true) { $("#Chk2").attr("disabled", "disabled"); }
+    }
+
     SetFilter();
     RenderEmployeeTable();
 }

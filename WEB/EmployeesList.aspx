@@ -30,78 +30,42 @@
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                                 <div class="col-xs-12">
-                                    <div class="row" style="padding-bottom:8px;" id="SelectRow">
-                                        <!--div class="col-xs-12">
-                                            <div class="col-xs-2">
-                                                <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Active_Plural"] %>
+                                    <table cellpadding="2" cellspacing="2" style="margin-bottom:12px;">
+                                        <tr>
+                                            <td><strong><%=this.Dictionary["Item_Employee_Filter_Status"] %>:</strong></td>
+										    <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Active_Plural"] %></td>
+                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Inactive_Plural"] %></td>
+                                        </tr>
+                                    </table>
+                                    <div class="row">
+                                        <div class="table-responsive" id="scrollTableDiv">
+                                            <table class="table table-bordered table-striped" style="margin: 0">
+                                                <thead class="thin-border-bottom">
+                                                    <tr id="ListDataHeader">
+                                                        <th id="th0" onclick="Sort(this,'ListDataTable');" class="search sort"><%=this.Dictionary["Item_Employee"] %></th>
+                                                        <th id="th1" class="search" style="width: 300px;"><%=this.Dictionary["Item_JobPosition"] %></th>
+                                                        <th id="th2" class="search" style="width: 300px;"><%=this.Dictionary["Item_Department"] %></th>
+                                                        <th style="width: 107px;">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                            <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                <table class="table table-bordered table-striped" style="border-top: none;">
+                                                    <tbody id="ListDataTable">
+                                                        <asp:Literal runat="server" ID="EmployeeData"></asp:Literal>
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                            <div class="col-xs-2">
-                                                <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Inactive_Plural"] %>
-                                            </div>
-                                        </!--div>
-                                    </div-->
-
-                                    <!-- GTK CLG STart -->
-
-                                    <div class="col-xs-12">
-                                        <table cellpadding="2" cellspacing="2">
-                                            <tr>
-                                                <td><strong><%=this.Dictionary["Item_Employee_Filter_Status"] %>:</strong></td>
-										        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Active_Plural"] %></td>
-                                                <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Inactive_Plural"] %></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <br /><br />
-
-                                    <!-- GTL CLG End -->
-
-
-                                    <div id="user-profile-2" class="user-profile">
-                                        <div class="tabbable">
-                                            <!--<ul class="nav nav-tabs padding-18">
-                                                <li class="active">
-                                                    <a data-toggle="tab" href="#active" id="SelectorTabActive"><%=this.Dictionary["Common_Active_Plural"] %></a>
-                                                </li>
-                                                <li class="">
-                                                    <a data-toggle="tab" href="#inactive" id="SelectorTabInactive"><%=this.Dictionary["Common_Inactive_Plural"] %></a>
-                                                </li>
-                                            </ul>-->
-                                            <div class="tab-content no-border " style="height:500px;">
-                                                <div id="active" class="tab-pane active"> 
-                                                    <div class="row">
-                                                        <div class="table-responsive" id="scrollTableDiv">
-                                                            <table class="table table-bordered table-striped" style="margin: 0">
-                                                                <thead class="thin-border-bottom">
-                                                                    <tr id="ListDataHeader">
-                                                                        <th id="th0" onclick="Sort(this,'ListDataTable');" class="search sort"><%=this.Dictionary["Item_Employee"] %></th>
-                                                                        <th id="th1" class="search" style="width: 300px;"><%=this.Dictionary["Item_JobPosition"] %></th>
-                                                                        <th id="th2" class="search" style="width: 300px;"><%=this.Dictionary["Item_Department"] %></th>
-                                                                        <th style="width: 107px;">&nbsp;</th>
-                                                                    </tr>
-                                                                </thead>
-                                                            </table>
-                                                            <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                                <table class="table table-bordered table-striped" style="border-top: none;">
-                                                                    <tbody id="ListDataTable">
-                                                                        <asp:Literal runat="server" ID="EmployeeData"></asp:Literal>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            <table class="table table-bordered table-striped" style="margin: 0">
-                                                                <thead class="thin-border-bottom">
-                                                                    <tr id="ListDataFooter">
-                                                                        <th style="color: #aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalRecords"></span></th>
-                                                                    </tr>
-                                                                </thead>
-                                                            </table>
-                                                        </div>
-                                                        <!-- /.table-responsive -->
-                                                    </div><!-- /span -->
-                                                </div>
-                                            </div>
+                                            <table class="table table-bordered table-striped" style="margin: 0">
+                                                <thead class="thin-border-bottom">
+                                                    <tr id="ListDataFooter">
+                                                        <td><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><span id="TotalRecords"></span></strong></td>
+                                                    </tr>
+                                                </thead>
+                                            </table>
                                         </div>
-                                    </div>
+                                        <!-- /.table-responsive -->
+                                    </div><!-- /span -->
                                 </div>
                             <div id="EmployeeDeleteDialog" class="hide" style="width:500px;">
                                 <p><%=this.Dictionary["Item_Employee_PopupDelete_Message"] %>&nbsp;<strong><span id="EmployeeName"></span></strong>?</p>

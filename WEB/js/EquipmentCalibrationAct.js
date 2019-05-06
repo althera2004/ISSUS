@@ -180,7 +180,7 @@ function EquipmentCalibrationActRenderTable(targetName) {
         }
     }
 
-    $("#TableEquipmentCalibrationActTotalLabel").html("<i style=\"color:#aaa;font-weight:bold;\">" + Dictionary.Common_RegisterCount +":&nbsp;"+ EquipmentCalibrationActList.length + "</i><span style=\"float:right\">" + Dictionary.Common_Total + ":</span>");
+    $("#TableEquipmentCalibrationActTotalLabel").html(Dictionary.Common_RegisterCount +":&nbsp;<strong>"+ EquipmentCalibrationActList.length + "</strong><span style=\"float:right\">" + Dictionary.Common_Total + ":</span>");
     $("#TableEquipmentCalibrationActTotal").html(ToMoneyFormat(total, 2));
     if ($("#CalibrationDivTable #th0").attr("class") === "sort  ASC") {
         $("#CalibrationDivTable #th0").click();

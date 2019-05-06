@@ -85,7 +85,7 @@
                                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                                 <thead class="thin-border-bottom">
                                                                     <tr id="ListDataFooter">
-                                                                        <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="CargosDataTotal"></asp:Literal></i></th>
+                                                                        <td><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><asp:Literal runat="server" ID="CargosDataTotal"></asp:Literal></strong></td>
                                                                     </tr>
                                                                 </thead>
                                                             </table>
@@ -120,7 +120,7 @@
             var graphRows = <%=this.GraphRows%>;
             function JobPositionDelete(id, description) {
                 $("#JobPositionName").html(description);
-                var dialog = $("#JobPositionDeleteDialog").removeClass("hide").dialog({
+                $("#JobPositionDeleteDialog").removeClass("hide").dialog({
                     "resizable": false,
                     "modal": true,
                     "title": Dictionary.Common_Delete,
@@ -128,6 +128,7 @@
                     "buttons":
                     [
                         {
+                            "id": "BtnDeleteOk",
                             "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                             "class": "btn btn-danger btn-xs",
                             "click": function () {
@@ -136,6 +137,7 @@
                             }
                         },
                         {
+                            "id": "BtnDeleteCancel",
                             "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                             "class": "btn btn-xs",
                             "click": function () {
@@ -172,7 +174,7 @@
                             alertUI(response.d.MessageError);
                         }
                     },
-                    "error": function (jqXHR, textStatus, errorThrown) {
+                    "error": function (jqXHR) {
                         LoadingHide();
                         alertUI(jqXHR.responseText);
                     }
@@ -197,7 +199,7 @@
 
             function Resize() {
                 var containerHeight = $(window).height();
-                $("#ListDataDiv").height(containerHeight - 350);
+                $("#ListDataDiv").height(containerHeight - 370);
             }
 
             window.onload = function () {
@@ -210,46 +212,17 @@
             google.charts.load('current', {packages:["orgchart"]});
             google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
-        var data = new google.visualization.DataTable();
-        data.addColumn("string", "Name");
-        data.addColumn("string", "Manager");
-        data.addColumn("string", "ToolTip");
+            function drawChart() {
+                var data = new google.visualization.DataTable();
+                data.addColumn("string", "Name");
+                data.addColumn("string", "Manager");
+                data.addColumn("string", "ToolTip");
+                data.addRows(graphRows);
 
-        // For each orgchart box, provide the name, manager, and tooltip to show.
-          /*data.addRows([
-              [
-                  {
-                      "v": "Cargo 2", "f": 'Mike<div style="color:red; font-style:italic">President</div>'
-                  },
-                  '', 'The President'
-              ],
-              [
-                  {
-                      v: 'Test', f: 'Test<div style="color:red; font-style:italic">Contable fiscal</div>'
-                  },
-                  '', 'VP'
-              ],
-              [
-                  {
-                      v: 'Cargo 3', f: 'Cargo 3<div style="color:red; font-style:italic">Contable fiscal</div>'
-                  },
-                  'Cargo 2', 'VP'
-              ],
-              [
-                  'Dependiente', 'Cargo 3', 'Desarrollo'
-              ],
-              [
-                  'Dependiente 2', 'Cargo 3', 'Marketing'
-              ]
-          ]);*/
-
-          data.addRows(graphRows);
-
-        // Create the chart.
-          var chart = new google.visualization.OrgChart(document.getElementById("chart_div"));
-          chart.draw(data, { "allowHtml": true });
-      }
+                // Create the chart.
+                var chart = new google.visualization.OrgChart(document.getElementById("chart_div"));
+                chart.draw(data, { "allowHtml": true });
+            }
 
         </script>
 </asp:Content>

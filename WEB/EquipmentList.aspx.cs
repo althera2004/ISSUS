@@ -192,11 +192,12 @@ public partial class EquipmentList : Page
 
                             res.AppendFormat(
                                 CultureInfo.InvariantCulture,
-                                @"{{""T"":""{0}"", ""E"":{3},""A"":{1:#0.00},""D"":""{2:yyyyMMdd}""}}",
+                                @"{{""T"":""{0}"", ""ST"": ""{1}"", ""E"":{4},""A"":{2:#0.00},""D"":""{3:yyyyMMdd}""}}",
                                 rdr.GetString(0),
-                                rdr.GetDecimal(1),
-                                rdr.GetDateTime(2),
-                                rdr.GetInt64(3));
+                                rdr.GetString(1),
+                                rdr.GetDecimal(2),
+                                rdr.GetDateTime(3),
+                                rdr.GetInt64(4));
 
                         }
                     }

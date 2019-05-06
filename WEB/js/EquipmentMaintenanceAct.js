@@ -17,7 +17,7 @@ function EquipmentMaintenanceActRenderTable(targetName) {
         }
     }
 
-    $("#TableEquipmentMaintenanceActTotalLabel").html("<i style=\"color:#aaa;font-weight:bold;\">" + Dictionary.Common_RegisterCount + ":&nbsp;" + EquipmentMaintenanceActList.length + "</i><span style=\"float:right\">" + Dictionary.Common_Total + ":</span>");
+    $("#TableEquipmentMaintenanceActTotalLabel").html(Dictionary.Common_RegisterCount + ":&nbsp;<strong>" + EquipmentMaintenanceActList.length + "</strong><span style=\"float:right\">" + Dictionary.Common_Total + ":</span>");
     document.getElementById('TableEquipmentMaintenanceActTotal').innerHTML = ToMoneyFormat(total, 2);
     if ($("#EquipmentMaintenanceActTable #th0").attr('class') === "sort  ASC") {
         $("#EquipmentMaintenanceActTable #th0").click();

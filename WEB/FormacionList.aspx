@@ -105,10 +105,10 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <th style="color:#333;" colspan="3"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="LtCount"></asp:Literal></i></th>
-                                                        <th style="color:#333;width:100px;" align="right"><strong><%=this.Dictionary["Common_Total"] %>:&nbsp</strong></th>
-                                                        <th style="color:#333;width:150px;" align="right"><strong><asp:Literal runat="server" ID="LtTotal"></asp:Literal></strong></th>
-                                                        <th style="color:#333;width:107px !important;">&nbsp;</th>
+                                                        <td style="color:#333;" colspan="3"><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><asp:Literal runat="server" ID="LtCount"></asp:Literal></strong></td>
+                                                        <td style="color:#333;width:100px;text-align:right;"><%=this.Dictionary["Common_Total"] %>&nbsp</td>
+                                                        <td style="color:#333;width:150px;text-align:right;"><strong><asp:Literal runat="server" ID="LtTotal"></asp:Literal></strong></td>
+                                                        <td style="color:#333;width:107px !important;">&nbsp;</td>
                                                     </tr>
                                                 </thead>
                                             </table>

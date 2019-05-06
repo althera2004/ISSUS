@@ -33,7 +33,7 @@
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
-                                <table cellpadding="2" cellspacing="2" style="width:99%;">
+                                <table cellpadding="2" cellspacing="2" style="width:99%;margin-bottom:12px;">
                                     <tr>
                                         <td id="CmbProcessLabel"><strong><%=this.Dictionary["Item_Questionary_List_Filter_Process"] %>:</strong></td>
                                         <td>
@@ -78,7 +78,7 @@
                                             <table class="table table-bordered table-striped" style="margin:0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="QuestionaryDataTotal"></span></i></th>
+                                                        <td><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><span id="QuestionaryDataTotal"></span></strong></td>
                                                     </tr>
                                                 </thead>
                                             </table>

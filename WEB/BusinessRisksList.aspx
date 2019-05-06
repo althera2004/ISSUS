@@ -132,17 +132,14 @@
 											        <span class="ErrorMessage" id="TxtDateToDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
-
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
                                             <td><strong><%=this.Dictionary["Item_BusinessRisk_List_Filter_Rules"] %>:</strong></td>
                                             <td>
                                                 <select id="CmbRules" class="col-sm-12">
                                                     <asp:Literal runat="server" ID="LtCmbRulesOptions"></asp:Literal>
                                                 </select>
                                             </td>
-
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
@@ -156,9 +153,7 @@
                                                     <option value="4"><%=this.Dictionary["Item_BusinessRisk_Status_Unevaluated"] %></option>
                                                 </select>
                                             </td>
-                                            
                                         </tr>
-
                                         <tr>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -166,98 +161,16 @@
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
                                             <td><strong><%=this.Dictionary["Item_BusinessRisk_List_Filter_Process"] %>:</strong></td>
                                             <td>
                                                 <select id="CmbProcess" class="col-sm-12">
                                                     <asp:Literal runat="server" ID="LtCmbProcessOptions"></asp:Literal>
                                                 </select>
                                             </td>
-
                                         </tr>
                                     </table>
-
-
-
-                                    <!-- GTK CLG Start -->
-
-                                    <!--table style="width:100%;">
-                                        <tr>
-                                            <td style="width:250px;">
-                                                <div class="row">
-                                                    <label id="TxtDateFromLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Incident_List_Filter_From"] %></label>
-                                                    <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtDateFromDiv">
-                                                        <div class="input-group">
-                                                            <input class="form-control date-picker" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                            <span id="TxtDateFromBtn" class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td style="width: 25px;">&nbsp;</td>
-                                            <td><%=this.Dictionary["Item_BusinessRisk_List_Filter_Rules"] %>:</td>
-                                            <td>
-                                                <select id="CmbRules" class="col-sm-10">
-                                                    <asp:Literal runat="server" ID="LtCmbRulesOptions_CLG"></asp:Literal>
-                                                </select>
-                                            </td>
-                                            <td style="width: 25px;">&nbsp;</td>
-                                            <td><%=this.Dictionary["Item_BusinessRisk_List_Filter_Type"] %>:</td>
-                                            <td style="width:180px;">
-                                                <select id="CmbType" class="col-sm-10">
-                                                    <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>
-                                                    <option value="1"><%=this.Dictionary["Item_BusinessRisk_List_Filter_Type_Assumed"] %></option>
-                                                    <option value="2"><%=this.Dictionary["Item_BusinessRisk_List_Filter_Type_Significant"] %></option>
-                                                    <option value="3"><%=this.Dictionary["Item_BusinessRisk_List_Filter_Type_NotSignificant"] %></option>
-                                                    <option value="4"><%=this.Dictionary["Item_BusinessRisk_Status_Unevaluated"] %></option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 250px;">
-                                                <div class="row">
-                                                    <label id="TxtDateToLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Incident_List_Filter_To"] %></label>
-                                                    <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtDateToDiv">
-                                                        <div class="input-group">
-                                                            <input class="form-control date-picker" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                            <span id="TxtDateToBtn" class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td style="width: 25px;">&nbsp;</td>
-                                            <td><%=this.Dictionary["Item_BusinessRisk_List_Filter_Process"] %>:</td>
-                                            <td>
-                                                <select id="CmbProcess" class="col-sm-10">
-                                                    <asp:Literal runat="server" ID="LtCmbProcessOptions_CLG"></asp:Literal>
-                                                </select>
-                                            </td>
-                                             
-                                            <td style="width: 25px;">&nbsp;</td>
-                                            <td style="width: 25px;">&nbsp;</td>
-                                            <td style="width:180px;">
-                                                <div class="col-sm-3" style="text-align:right;display:none;">
-                                            <button class="btn btn-success" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></button>                                        
-                                        </div>
-                                        <div class="col-sm-2" style="text-align:right;">&nbsp;</div>
-                                        <div class="col-sm-3" style="text-align:right;">                                        
-                                            <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowAll"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
-                                            <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowNone"><i class="icon-remove-circle bigger-110"></i><%=this.Dictionary["Common_None_Male"] %></button>
-                                        </div>
-                                            </td> 
-                                        </tr>
-                                    </table-->
-
-                                    <!-- GTK CLG End -->
-
-                                </div> 
-                                
+                                </div>
                                 <div class="col-sm-12" id="widthTestOportunity" style="display:none;">
-
                                     <table cellpadding="2" cellspacing="2">
                                         <tr>
                                             <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_BusinessRisksAndOportunities_Filter_Periode1"] %>:</strong></td>
@@ -288,21 +201,16 @@
 											        <span class="ErrorMessage" id="TxtDateToDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
-
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
                                             <td><strong><%=this.Dictionary["Item_BusinessRisk_List_Filter_Rules"] %>:</strong></td>
                                             <td>
                                                 <select id="OportunityCmbRules" class="col-sm-12">
                                                     <asp:Literal runat="server" ID="LtCmbRulesOportunityOptions"></asp:Literal>
                                                 </select>
                                             </td>
-
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
-                                            <!-- // @JUAN Añadido el filtro de Estado ... Falta hacer que funcione ;D -->
                                             <td><strong><%=this.Dictionary["Item_BusinessRisk_List_Filter_Type"] %>:</strong></!--td>
                                             <td>
                                                 <select id="CmbType" class="col-sm-12">
@@ -312,10 +220,7 @@
                                                     <option value="3"><%=this.Dictionary["Item_Oportunity_Status_Unevaluated"] %></option>
                                                 </select>
                                             </td>
-                                            <!-- // @JUAN End -->
-                                            
                                         </tr>
-
                                         <tr>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
@@ -323,85 +228,14 @@
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
                                             <td><strong><%=this.Dictionary["Item_BusinessRisk_List_Filter_Process"] %>:</strong></td>
                                             <td>
                                                 <select id="OportunityCmbProcess" class="col-sm-12">
                                                     <asp:Literal runat="server" ID="LtCmbProcessOportunityOptions"></asp:Literal>
                                                 </select>
                                             </td>
-
                                         </tr>
                                     </table>
-
-
-
-                                <!-- GTK CLG Start -->
-                                
-                                    <!--table style="width:100%;">
-                                        <tr>
-                                            <td style="width:250px;">
-                                                <div class="row">
-                                                    <label id="TxtOportunityDateFromLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Incident_List_Filter_From"] %></label>
-                                                    <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtOportunityDateFromDiv">
-                                                        <div class="input-group">
-                                                            <input class="form-control date-picker" id="TxtOportunityDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                            <span id="TxtOportunityDateFromBtn" class="input-group-addon" onclick="document.getElementById('TxtOportunityDateFrom').focus();">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td style="width: 25px;">&nbsp;</td>
-                                            <td><%=this.Dictionary["Item_BusinessRisk_List_Filter_Rules"] %>:</td>
-                                            <td>
-                                                <select id="OportunityCmbRules" class="col-sm-10">
-                                                    <asp:Literal runat="server" ID="LtCmbRulesOportunityOptions_CLG"></asp:Literal>
-                                                </select>
-                                            </td>
-                                            <td style="width: 25px;">&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td style="width:180px;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td style="width: 250px;">
-                                                <div class="row">
-                                                    <label id="TxtOportunityDateToLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Incident_List_Filter_To"] %></label>
-                                                    <div class="col-xs-9 col-sm-9 tooltip-info" id="TxtOportunityDateToDiv">
-                                                        <div class="input-group">
-                                                            <input class="form-control date-picker" id="TxtOportunityDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                            <span id="TxtOportunityDateToBtn" class="input-group-addon" onclick="document.getElementById('TxtOportunityDateTo').focus();">
-                                                                <i class="icon-calendar bigger-110"></i>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td style="width: 25px;">&nbsp;</td>
-                                            <td><%=this.Dictionary["Item_BusinessRisk_List_Filter_Process"] %>:</td>
-                                            <td>
-                                                <select id="OportunityCmbProcess" class="col-sm-10">
-                                                    <asp:Literal runat="server" ID="LtCmbProcessOportunityOptions_CLG"></asp:Literal>
-                                                </select>
-                                            </td>
-                                             
-                                            <td style="width: 25px;">&nbsp;</td>
-                                            <td style="width: 25px;">&nbsp;</td>
-                                            <td style="width:180px;">
-                                                <div class="col-sm-3" style="text-align:right;display:none;">
-                                            <button class="btn btn-success" type="button" id="BtnSearchOportunity"><i class="icon-filter bigger-110"></i><%=this.Dictionary["Common_Filter"] %></button>                                        
-                                        </div>
-                                        <div class="col-sm-2" style="text-align:right;">&nbsp;</div>
-                                        <div class="col-sm-3" style="text-align:right;">                                        
-                                            <button style="width:100px;display:none;" class="btn btn-success" type="button" id="BtnRecordShowAllOportunity"><i class="icon-list bigger-110"></i><%=this.Dictionary["Common_All_Male_Plural"] %></button>
-                                        </div>
-                                            </td> 
-                                        </tr>
-                                    </table-->
-
-                                <!-- GTK CLG End -->
-
                                 </div> 
 
                                 <div style="height:8px;clear:both;"></div>
@@ -461,7 +295,7 @@
                                                         <table class="table table-bordered table-striped" style="margin: 0;">
                                                             <thead class="thin-border-bottom">
                                                                 <tr id="ListDataFooter">
-                                                                    <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="NumberCosts"></span></i></th>
+                                                                    <td><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><span id="NumberCosts"></span></strong></td>
                                                                 </tr>
                                                             </thead>
                                                         </table>
@@ -542,7 +376,7 @@
                                                 <table class="table table-bordered table-striped" style="margin: 0;">
                                                     <thead class="thin-border-bottom">
                                                         <tr id="ListDataFooterOportunity">
-                                                            <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="NumberCostsOportunity"></span></i></th>
+                                                            <td><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><span id="NumberCostsOportunity"></span></strong></th>
                                                         </tr>
                                                     </thead>
                                                 </table>

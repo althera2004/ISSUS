@@ -216,4 +216,12 @@ public class EquipmentActions : WebService
         Session["EquipmentFilter"] = filter.ToUpperInvariant();
         return "OK";
     }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public string SetFilterCosts(string filter)
+    {
+        Session["EquipmentFilterCosts"] = filter.ToUpperInvariant();
+        return "OK";
+    }
 }

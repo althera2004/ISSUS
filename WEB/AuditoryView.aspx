@@ -156,7 +156,7 @@
                                 </ul>
                             </div>
                             <% } %>
-                            <div>
+                            <div style="margin-top:30px;">
                                 <div id="user-profile-2" class="user-profile">
                                     <div class="tabbable">
                                         <% if (!this.NewAuditory)
@@ -953,6 +953,7 @@
                                     <div class="col-sm-10">
                                         <select id="CmbAudited" class="col-xs-12 col-sm-12"><asp:Literal runat="server" ID ="LtAuditedList"></asp:Literal></select>
                                         <span class="ErrorMessage" id="CmbAuditedErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                        <span class="ErrorMessage" id="CmbAuditedErrorSame"><%=this.Dictionary["Item_Auditory_Planning_Message"] %></span>
                                     </div>
                                 </div>
                                 <div class="col-sm-12" style="margin-top:4px;">
@@ -979,45 +980,51 @@
                                 <p><%=this.Dictionary["Item_Auditory_PopupDelete_MessageImprovement"] %>&nbsp;<strong><span id="imporvementName"></span></strong>?</p>
                             </div>
 
-                            <div id="PopupFoundDialog" class="hide" style="width:600px;overflow:hidden;">
-                                <div class="form-group" style="clear:both;">
-                                    <label id ="TxtTextLabel" class="col-sm-4 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Found"] %></label>
-                                    <div class="col-sm-8">
+                            <div id="PopupFoundDialog" class="hide" style="width:800px;overflow:hidden;">
+                                <div class="row" style="clear:both;margin-bottom:8px;">
+                                    <label id ="TxtTextLabel" class="col-sm-12 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Found"] %></label>
+                                    <div class="col-sm-12">
                                         <textarea class="col-xs-12 col-sm-12" rows="5" id="TxtText"></textarea>
                                         <span class="ErrorMessage" id="TxtTextErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>
-                                <div class="form-group" style="clear:both;">
-                                    <label id ="TxtRequerimentLabel" class="col-sm-4 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Requeriment"] %></label>
-                                    <div class="col-sm-8">
+                                <div class="row" style="clear:both;margin-bottom:8px;">
+                                    <label id ="TxtRequerimentLabel" class="col-sm-12 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Requeriment"] %></label>
+                                    <div class="col-sm-12">
                                         <textarea class="col-xs-12 col-sm-12" rows="5" id="TxtRequeriment"></textarea>
                                         <span class="ErrorMessage" id="TxtRequerimentErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>
-                                <div class="form-group" style="clear:both;">
-                                    <label id ="TxUnconformityLabel" class="col-sm-4 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Unconformity"] %></label>
-                                    <div class="col-sm-8">
+                                <div class="row" style="clear:both;margin-bottom:8px;">
+                                    <label id ="TxUnconformityLabel" class="col-sm-12 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Unconformity"] %></label>
+                                    <div class="col-sm-12">
                                         <textarea class="col-xs-12 col-sm-12" rows="5" id="TxtUnconformity"></textarea>
                                         <span class="ErrorMessage" id="TxtUnconformityErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>
-                                <div class="form-group" style="clear:both;">
-                                    <div class="col-sm-1"><input type="checkbox" id="ChkActionFound" /></div>
-                                    <label id ="TxtActionLabel" class="col-sm-4 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Action"] %></label>                                    
+                                <div class="row" style="clear:both;margin-bottom:8px;">
+                                    <div class="col-sm-12">
+                                        <input type="checkbox" id="ChkActionFound" />
+                                        &nbsp;
+                                    <label id ="TxtActionLabel" class="control-label" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Action"] %>
+                                    </label>
                                 </div>
                             </div>
 
                             <div id="PopupImprovementDialog" class="hide" style="width:600px;overflow:hidden;">
-                                <div class="form-group" style="clear:both;">
-                                    <label id ="TxtImprovementTextLabel" class="col-sm-4 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Improvement"] %></label>
-                                    <div class="col-sm-8">
+                                <div class="row" style="clear:both;margin-bottom:8px;">
+                                    <label id ="TxtImprovementTextLabel" class="col-sm-12 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Improvement"] %></label>
+                                    <div class="col-sm-12">
                                         <textarea class="col-xs-12 col-sm-12" rows="5" id="TxtImprovement"></textarea>
                                         <span class="ErrorMessage" id="TxtImprovementErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>
-                                <div class="form-group" style="clear:both;">
-                                    <div class="col-sm-1"><input type="checkbox" id="ChkActionImprovement" /></div>
-                                    <label id ="TxtActionLabel" class="col-sm-4 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Action"] %></label>                                    
+                                <div class="row" style="clear:both;">
+                                    <div class="col-sm-12">
+                                        <input type="checkbox" id="ChkActionImprovement" />
+                                        &nbsp;
+                                        <label id ="TxtActionLabel" class="control-label" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Action"] %>
+                                        </label>
                                 </div>
                             </div>
     

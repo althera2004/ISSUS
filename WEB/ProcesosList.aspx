@@ -49,7 +49,9 @@
                                             <table class="table table-bordered table-striped" style="margin:0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<asp:Literal runat="server" ID="ProcesosDataTotal"></asp:Literal></i></th>
+                                                        <td class="thfooter">
+                                                            <%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalList" style="font-weight:bold;"><asp:Literal runat="server" ID="ProcesosDataTotal"></asp:Literal></span>
+                                                        </td>
                                                     </tr>
                                                 </thead>
                                             </table>

@@ -358,6 +358,7 @@ function AuditoringPlanningReset() {
     $("#TxtDurationMalformed").hide();
     $("#CmbAuditorErrorRequired").hide();
     $("#CmbAuditedErrorRequired").hide();
+    $("#CmbAuditedErrorSame").hide();
     $("#TxtProviderEmailErrorRequired").hide();
     $("#TxtProviderEmailMalformed").hide();
 }
@@ -406,6 +407,15 @@ function AuditoryPlanningValidate() {
         ok = false;
         $("#CmbAuditedLabel").css("color", "#f00");
         $("#CmbAuditedErrorRequired").show();
+    }
+
+    if ($("#CmbAuditor").val() * 1 > 0) {
+        if ($("#CmbAuditor").val() * 1 === $("#CmbAudited").val() * 1) {
+            ok = false;
+            $("#CmbAuditorLabel").css("color", "#f00");
+            $("#CmbAuditedLabel").css("color", "#f00");
+            $("#CmbAuditedErrorSame").show();
+        }
     }
 
     if (Auditory.Type === AuditoryTypes.Proveedor) {
@@ -495,7 +505,7 @@ function AuditoryPlanningSave() {
 function ShowAuditoryPlanningDeleteDialog(id) {
     auditoryPlanningSelectedId = id;
     auditoryPlanningSelected = AuditoryPlanningGetById(id);
-    var dialog = $("#AuditoryPlanningDeleteDialog").removeClass("hide").dialog({
+    $("#AuditoryPlanningDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_AuditoryPlanning_Title + "</h4>",
@@ -713,6 +723,12 @@ function SaveAuditory() {
         case AuditoryTypes.Externa:
             companyAddress = $("#CmbAddress").val();
             enterpriseAddress = $("#CmbAddress option:selected").text();
+            if (document.getElementById("RBProvider").checked === true) {
+                privider = { "Id": $("#CmbProvider").val() * 1 };
+            }
+            else {
+                customer = { "Id": $("#CmbCustomer").val() * 1 };
+            }
             customer = { "Id": $("#CmbCustomer").val() * 1 };
             previewDate = GetDate($("#TxtPreviewDate").val(), "/", false);
             break;
@@ -1892,7 +1908,7 @@ function CalculeTotalQuestions() {
 
             if (process.length > 0) {
                 for (var q = 0; q < TotalQuestions.length; q++) {
-                    if ($.inArray(TotalQuestions[q].N.toString(), rules) > -1 && $.inArray(TotalQuestions[q].P, process)) {
+                    if ($.inArray(TotalQuestions[q].N.toString(), rules) > -1 && $.inArray(TotalQuestions[q].P, process) > -1) {
                         total += TotalQuestions[q].T;
                     }
                 }
