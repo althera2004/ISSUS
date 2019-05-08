@@ -67,34 +67,36 @@
                                                     <a data-toggle="tab" href="#inactive" id="SelectorTabInactive"><%=this.Dictionary["Common_Inactive_Plural"] %></a>
                                                 </li>
                                             </ul>-->
-                                            <div class="tab-content no-border " style="height:500px;">
+                                            <div class="tab-content no-border ">
                                                 <div id="active" class="tab-pane active"> 
                                                     <div class="row">
-                                                        <div class="table-responsive" id="scrollTableDiv">
-                                                            <table class="table table-bordered table-striped" style="margin: 0">
-                                                                <thead class="thin-border-bottom">
-                                                                    <tr id="ListDataHeader">
-                                                                        <th id="th0" onclick="Sort(this,'ListDataTable');" class="search sort"><%=this.Dictionary["Item_Employee"] %></th>
-                                                                        <th id="th1" class="search" style="width: 300px;"><%=this.Dictionary["Item_JobPosition"] %></th>
-                                                                        <th id="th2" class="search" style="width: 300px;"><%=this.Dictionary["Item_Department"] %></th>
-                                                                        <th style="width: 107px;">&nbsp;</th>
-                                                                    </tr>
-                                                                </thead>
-                                                            </table>
-                                                            <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                                <table class="table table-bordered table-striped" style="border-top: none;">
-                                                                    <tbody id="ListDataTable">
-                                                                        <asp:Literal runat="server" ID="EmployeeData"></asp:Literal>
-                                                                    </tbody>
+                                                        <div class="col-xs-12">    
+                                                            <div class="table-responsive" id="scrollTableDiv">
+                                                                <table class="table table-bordered table-striped" style="margin: 0">
+                                                                    <thead class="thin-border-bottom">
+                                                                        <tr id="ListDataHeader">
+                                                                            <th id="th0" onclick="Sort(this,'ListDataTable');" class="search sort"><%=this.Dictionary["Item_Employee"] %></th>
+                                                                            <th id="th1" class="search" style="width: 300px;"><%=this.Dictionary["Item_JobPosition"] %></th>
+                                                                            <th id="th2" class="search" style="width: 300px;"><%=this.Dictionary["Item_Department"] %></th>
+                                                                            <th style="width: 107px;">&nbsp;</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                </table>
+                                                                <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                                    <table class="table table-bordered table-striped" style="border-top: none;">
+                                                                        <tbody id="ListDataTable">
+                                                                            <asp:Literal runat="server" ID="EmployeeData"></asp:Literal>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <table class="table table-bordered table-striped" style="margin: 0">
+                                                                    <thead class="thin-border-bottom">
+                                                                        <tr id="ListDataFooter">
+                                                                            <th style="color: #aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalRecords"></span></th>
+                                                                        </tr>
+                                                                    </thead>
                                                                 </table>
                                                             </div>
-                                                            <table class="table table-bordered table-striped" style="margin: 0">
-                                                                <thead class="thin-border-bottom">
-                                                                    <tr id="ListDataFooter">
-                                                                        <th style="color: #aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalRecords"></span></th>
-                                                                    </tr>
-                                                                </thead>
-                                                            </table>
                                                         </div>
                                                         <!-- /.table-responsive -->
                                                     </div><!-- /span -->

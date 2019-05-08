@@ -71,7 +71,7 @@
                                             <a data-toggle="tab" href="#inactive" onclick="document.getElementById('BtnNewItem').parentNode.style.visibility='hidden';"><%=this.Dictionary["Item_Document_Status_InactivePlural"] %></a>
                                         </li>
                                     </ul>-->
-                                    <div class="tab-content no-border " style="height:500px;">
+                                    <div class="tab-content no-border">
                                         <div id="active" class="tab-pane active">  
                                             <div class="row">
                                                 <div class="col-xs-12">
@@ -99,7 +99,9 @@
                                                         <table class="table table-bordered table-striped" style="margin: 0">
                                                             <thead class="thin-border-bottom">
                                                                 <tr id="ListDataFooter">
-                                                                    <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalRecords"></span></i></th>
+                                                                    <td class="thfooter">
+                                                                        <%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalRecords" style="font-weight:bold;"></span>
+														            </td>      
                                                                 </tr>
                                                             </thead>
                                                         </table>

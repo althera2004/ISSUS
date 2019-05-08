@@ -110,12 +110,12 @@
                                             <table class="table table-bordered table-striped" style="margin:0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <td class="thfooter">
+                                                        <th class="thin-border-bottom">
                                                             <%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalList" style="font-weight:bold;"></span>
                                                             <span style="float:right"><%=this.Dictionary["Common_Total"] %></span>
-                                                        </td>
-                                                        <td class="thfooter" style="width:150px;text-align:right;"><strong><span id="TotalAmount"></span></strong></td>
-                                                        <td style="width:107px;">&nbsp;</td>
+                                                        </th>
+                                                        <th style="width:150px;text-align:right;"><strong><span id="TotalAmount"></span></strong></th>
+                                                        <th style="width:107px;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
                                             </table>

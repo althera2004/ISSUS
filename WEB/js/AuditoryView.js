@@ -713,7 +713,13 @@ function SaveAuditory() {
         case AuditoryTypes.Externa:
             companyAddress = $("#CmbAddress").val();
             enterpriseAddress = $("#CmbAddress option:selected").text();
-            customer = { "Id": $("#CmbCustomer").val() * 1 };
+            if (document.getElementById("RBProvider").checked===true)
+            {
+                provider = { "Id": $("#CmbProvider").val() * 1 };
+            } else
+            {
+                customer = { "Id": $("#CmbCustomer").val() * 1 };
+            }
             previewDate = GetDate($("#TxtPreviewDate").val(), "/", false);
             break;
         case AuditoryTypes.Proveedor:
@@ -1892,7 +1898,7 @@ function CalculeTotalQuestions() {
 
             if (process.length > 0) {
                 for (var q = 0; q < TotalQuestions.length; q++) {
-                    if ($.inArray(TotalQuestions[q].N.toString(), rules) > -1 && $.inArray(TotalQuestions[q].P, process)) {
+                    if ($.inArray(TotalQuestions[q].N.toString(), rules) > -1 && $.inArray(TotalQuestions[q].P, process) > -1) {
                         total += TotalQuestions[q].T;
                     }
                 }
