@@ -60,9 +60,7 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <td class="thfooter">
-                                                            <%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalRows" style="font-weight:bold;"></span>
-													    </td> 
+                                                        <td><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><span id="TotalRows"></span></strong></td>
                                                     </tr>
                                                 </thead>
                                             </table>

@@ -405,7 +405,7 @@ function DuplicatedName(text) {
 
 function Resize() {
     var containerHeight = $(window).height();
-    $("#ListDataDiv").height(containerHeight - 350);
+    $("#ListDataDiv").height(containerHeight - 370);
 }
 
 window.onload = function () {

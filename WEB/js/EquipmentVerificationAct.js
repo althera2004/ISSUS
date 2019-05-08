@@ -184,7 +184,7 @@ function EquipmentVerificationActRenderTable(targetName) {
         }
     }
 
-    $("#TableEquipmentVerificationActTotalLabel").html("<i style=\"color:#aaa;font-weight:bold;\">" + Dictionary.Common_RegisterCount + ":&nbsp;" + EquipmentVerificationActList.length + "</i><span style=\"float:right\">" + Dictionary.Common_Total + ":</span>");
+    $("#TableEquipmentVerificationActTotalLabel").html(Dictionary.Common_RegisterCount + ":&nbsp;<strong>" + EquipmentVerificationActList.length + "</strong><span style=\"float:right\">" + Dictionary.Common_Total + ":</span>");
     $("#TableEquipmentVerificationActTotal").html(ToMoneyFormat(total, 2));
     if ($("#VerificationDivTable #th0").attr('class') === "sort  ASC") {
         $("#VerificationDivTable #th0").click();

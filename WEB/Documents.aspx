@@ -63,15 +63,7 @@
                                 <br /><br />
 
                                 <div class="tabbable">
-                                    <!--<ul class="nav nav-tabs padding-18">
-                                        <li class="active">
-                                            <a data-toggle="tab" href="#active" onclick="document.getElementById('BtnNewItem').parentNode.style.visibility='visible';"><%=this.Dictionary["Item_Document_Status_ActivePlural"] %></a>
-                                        </li>
-                                        <li class="">
-                                            <a data-toggle="tab" href="#inactive" onclick="document.getElementById('BtnNewItem').parentNode.style.visibility='hidden';"><%=this.Dictionary["Item_Document_Status_InactivePlural"] %></a>
-                                        </li>
-                                    </ul>-->
-                                    <div class="tab-content no-border">
+                                    <div class="tab-content no-border " style="height:500px;">
                                         <div id="active" class="tab-pane active">  
                                             <div class="row">
                                                 <div class="col-xs-12">
@@ -96,12 +88,12 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                        <table class="table table-bordered table-striped" style="margin: 0">
+                                                        <table class="table table-bordered table-striped" style="margin:0">
                                                             <thead class="thin-border-bottom">
                                                                 <tr id="ListDataFooter">
                                                                     <td class="thfooter">
-                                                                        <%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalRecords" style="font-weight:bold;"></span>
-														            </td>      
+                                                                        <%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalList" style="font-weight:bold;"></span>
+                                                                    </td>
                                                                 </tr>
                                                             </thead>
                                                         </table>

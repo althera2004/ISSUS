@@ -481,7 +481,6 @@ public partial class AuditoryView : Page
         providerList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         if (this.Auditory.Type == 1 || this.Auditory.Type == 2)
         {
-            providerList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
             foreach (var provider in Provider.ByCompany(this.company.Id))
             {
                 if (this.auditoryId > 0 || provider.Active)
@@ -503,7 +502,6 @@ public partial class AuditoryView : Page
         customerList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         if (this.Auditory.Type == 1 || this.Auditory.Type == 2)
         {
-            customerList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
             foreach (var customer in Customer.ByCompany(this.company.Id))
             {
                 if (this.auditoryId > 0 || customer.Active)

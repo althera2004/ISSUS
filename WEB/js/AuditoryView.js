@@ -358,6 +358,7 @@ function AuditoringPlanningReset() {
     $("#TxtDurationMalformed").hide();
     $("#CmbAuditorErrorRequired").hide();
     $("#CmbAuditedErrorRequired").hide();
+    $("#CmbAuditedErrorSame").hide();
     $("#TxtProviderEmailErrorRequired").hide();
     $("#TxtProviderEmailMalformed").hide();
 }
@@ -406,6 +407,15 @@ function AuditoryPlanningValidate() {
         ok = false;
         $("#CmbAuditedLabel").css("color", "#f00");
         $("#CmbAuditedErrorRequired").show();
+    }
+
+    if ($("#CmbAuditor").val() * 1 > 0) {
+        if ($("#CmbAuditor").val() * 1 === $("#CmbAudited").val() * 1) {
+            ok = false;
+            $("#CmbAuditorLabel").css("color", "#f00");
+            $("#CmbAuditedLabel").css("color", "#f00");
+            $("#CmbAuditedErrorSame").show();
+        }
     }
 
     if (Auditory.Type === AuditoryTypes.Proveedor) {
@@ -495,7 +505,7 @@ function AuditoryPlanningSave() {
 function ShowAuditoryPlanningDeleteDialog(id) {
     auditoryPlanningSelectedId = id;
     auditoryPlanningSelected = AuditoryPlanningGetById(id);
-    var dialog = $("#AuditoryPlanningDeleteDialog").removeClass("hide").dialog({
+    $("#AuditoryPlanningDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_AuditoryPlanning_Title + "</h4>",

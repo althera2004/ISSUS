@@ -65,7 +65,8 @@ jQuery(function ($) {
 
 function Resize() {
     var containerHeight = $(window).height();
-    $("#ListDataDiv").height(containerHeight - 390);
+    $("#ListDataDiv").height(containerHeight - 430);
+    $("#ListDataDivCosts").height(containerHeight - 440);
 }
 
 window.onload = function () {
@@ -275,7 +276,7 @@ function RenderRow(equipment) {
     tr.appendChild(tdDescripcion);
     tr.appendChild(tdUbicacion);
     tr.appendChild(tdResponsable);
-    tr.appendChild(tdCoste);
+    //tr.appendChild(tdCoste);
     tr.appendChild(tdAdjuntos);
     tr.appendChild(tdAcciones);
 
@@ -309,4 +310,282 @@ function SetFilter() {
             console.log("SetFilter", msg.responseText);
         }
     });
+}
+
+function SetFilterCosts() {
+    var Filter = "";
+    if (document.getElementById("RBCE").checked === true) { Filter += "CE"; }
+    if (document.getElementById("RBVE").checked === true) { Filter += "VE"; }
+    if (document.getElementById("RBME").checked === true) { Filter += "ME"; }
+    if (document.getElementById("RBRE").checked === true) { Filter += "RE"; }
+    if (document.getElementById("RBCI").checked === true) { Filter += "VI"; }
+    if (document.getElementById("RBVI").checked === true) { Filter += "VI"; }
+    if (document.getElementById("RBMI").checked === true) { Filter += "MI"; }
+    if (document.getElementById("RBRI").checked === true) { Filter += "RI"; }
+    Filter += "|";
+    if (document.getElementById("RBCostStatus0").checked === true) { Filter += "0"; }
+    if (document.getElementById("RBCostStatus1").checked === true) { Filter += "1"; }
+    if (document.getElementById("RBCostStatus2").checked === true) { Filter += "2"; }
+    Filter += "|" + $("#TxtDateFrom").val();
+    Filter += "|" + $("#TxtDateTo").val();
+
+    var data = { "filter": Filter };
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/EquipmentActions.asmx/SetFilterCosts",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            console.log("SetFilterCosts", "OK");
+        },
+        "error": function (msg) {
+            console.log("SetFilter", msg.responseText);
+        }
+    });
+}
+
+function RenderTableCosts() {
+    SetFilterCosts();
+    console.log("RenderTableCosts");
+    $("#ListDataTableCosts").html("");
+    var temp = [];
+    var CI = document.getElementById("RBCI").checked === true;
+    var CE = document.getElementById("RBCE").checked === true;
+    var VI = document.getElementById("RBVI").checked === true;
+    var VE = document.getElementById("RBVE").checked === true;
+    var MI = document.getElementById("RBMI").checked === true;
+    var ME = document.getElementById("RBME").checked === true;
+    var RI = document.getElementById("RBRI").checked === true;
+    var RE = document.getElementById("RBRE").checked === true;
+
+    // Redraw Header
+    if (CI === true) { $("#HCI").show(); $("#TCI").show(); } else { $("#HCI").hide(); $("#TCI").hide(); }
+    if (CE === true) { $("#HCE").show(); $("#TCE").show(); } else { $("#HCE").hide(); $("#TCE").hide(); }
+    if (VI === true) { $("#HVI").show(); $("#TVI").show(); } else { $("#HVI").hide(); $("#TVI").hide(); }
+    if (VE === true) { $("#HVE").show(); $("#TVE").show(); } else { $("#HVE").hide(); $("#TVE").hide(); }
+    if (MI === true) { $("#HMI").show(); $("#TMI").show(); } else { $("#HMI").hide(); $("#TMI").hide(); }
+    if (ME === true) { $("#HME").show(); $("#TME").show(); } else { $("#HME").hide(); $("#TME").hide(); }
+    if (RI === true) { $("#HRI").show(); $("#TRI").show(); } else { $("#HRI").hide(); $("#TRI").hide(); }
+    if (RE === true) { $("#HRE").show(); $("#TRE").show(); } else { $("#HRE").hide(); $("#TRE").hide(); }
+
+
+    for (var x = 0; x < Costs.length; x++) {
+        if (CI === true) { if (Costs[x].T === "C" && Costs[x].ST === "I") { temp.push(Costs[x]); continue; } }
+        if (CE === true) { if (Costs[x].T === "C" && Costs[x].ST === "E") { temp.push(Costs[x]); continue; } }
+        if (VI === true) { if (Costs[x].T === "V" && Costs[x].ST === "I") { temp.push(Costs[x]); continue; } }
+        if (VE === true) { if (Costs[x].T === "V" && Costs[x].ST === "E") { temp.push(Costs[x]); continue; } }
+        if (MI === true) { if (Costs[x].T === "M" && Costs[x].ST === "I") { temp.push(Costs[x]); continue; } }
+        if (ME === true) { if (Costs[x].T === "M" && Costs[x].ST === "E") { temp.push(Costs[x]); continue; } }
+        if (RI === true) { if (Costs[x].T === "R" && Costs[x].ST === "I") { temp.push(Costs[x]); continue; } }
+        if (RE === true) { if (Costs[x].T === "R" && Costs[x].ST === "E") { temp.push(Costs[x]); continue; } }
+    }
+
+    var result = [];
+    for (var y = 0; y < temp.length; y++) {
+        var equipmentId = temp[y].E;
+        var foundIndex = 0;
+        var exists = false;
+        for (var z = 0; z < result.length; z++) {
+            if (result[z].Equipment.Id === equipmentId) {
+                exists = true;
+                foundIndex = z;
+                break;
+            }
+        }
+
+        if (exists === false) {
+            var text = "";
+            var activo = false;
+            for (var eq = 0; eq < Equipments.length; eq++) {
+                if (Equipments[eq].Id === equipmentId) {
+                    text = Equipments[eq].Codigo + " - " + Equipments[eq].Descripcion;
+                    activo = Equipments[eq].Active;
+                    break;
+                }
+            }
+
+            result.push({
+                "Equipment": { "Id": equipmentId, "Value": text },
+                "Activo": activo,
+                "Date": temp[y].D,
+                "CI": 0,
+                "CE": 0,
+                "VI": 0,
+                "VE": 0,
+                "MI": 0,
+                "ME": 0,
+                "RI": 0,
+                "RE": 0
+            });
+        }
+
+        if (temp[y].T === "C" && temp[y].ST === "I") { result[foundIndex]["CI"] += temp[y].A; }
+        if (temp[y].T === "C" && temp[y].ST === "E") { result[foundIndex]["CE"] += temp[y].A; }
+        if (temp[y].T === "V" && temp[y].ST === "I") { result[foundIndex]["VI"] += temp[y].A; }
+        if (temp[y].T === "V" && temp[y].ST === "E") { result[foundIndex]["VE"] += temp[y].A; }
+        if (temp[y].T === "M" && temp[y].ST === "I") { result[foundIndex]["MI"] += temp[y].A; }
+        if (temp[y].T === "M" && temp[y].ST === "E") { result[foundIndex]["ME"] += temp[y].A; }
+        if (temp[y].T === "R" && temp[y].ST === "I") { result[foundIndex]["RI"] += temp[y].A; }
+        if (temp[y].T === "R" && temp[y].ST === "E") { result[foundIndex]["RE"] += temp[y].A; }
+    }
+
+    var totalCI = 0;
+    var totalCE = 0;
+    var totalVI = 0;
+    var totalVE = 0;
+    var totalMI = 0;
+    var totalME = 0;
+    var totalRI = 0;
+    var totalRE = 0;
+    var totalT = 0;
+
+    $("#TotalListCosts").html(temp.length);
+    var total = 0;
+    if (temp.length > 0) {
+        for (var s = 0; s < result.length; s++) {
+            totalCI += result[s].CI;
+            totalCE += result[s].CE;
+            totalVI += result[s].VI;
+            totalVE += result[s].VE;
+            totalMI += result[s].MI;
+            totalME += result[s].ME;
+            totalRI += result[s].RI;
+            totalRE += result[s].RE;
+            totalT += totalCI + totalCE + totalVE + totalVI + totalME + totalMI + totalRE + totalRI;
+            RenderRowCosts(result[s]);
+        }
+    }
+
+    $("#TotalAmount").html(ToMoneyFormat(total, 2));
+    $("#TCI").html(ToMoneyFormat(totalCI, 2));
+    $("#TCE").html(ToMoneyFormat(totalCE, 2));
+    $("#TVI").html(ToMoneyFormat(totalVI, 2));
+    $("#TVE").html(ToMoneyFormat(totalVE, 2));
+    $("#TMI").html(ToMoneyFormat(totalMI, 2));
+    $("#TME").html(ToMoneyFormat(totalME, 2));
+    $("#TRI").html(ToMoneyFormat(totalRI, 2));
+    $("#TRE").html(ToMoneyFormat(totalRE, 2));
+    $("#TT").html(ToMoneyFormat(totalT, 2));
+    $("#TrCost").append("<th class=\"tdtemp\" style=\"width:17px;\"></th>"); 
+    $("#TfCost").append("<th class=\"tdtemp\" style=\"width:17px;\"></th>"); 
+
+    var countcell = 1;
+
+    if (CI === true) { $("#HCI").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); $("#TCI").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); countcell++; }
+    if (CE === true) { $("#HCE").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); $("#TCE").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); countcell++; }
+    if (VI === true) { $("#HVI").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); $("#TVI").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); countcell++; }
+    if (VE === true) { $("#HVE").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); $("#TVE").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); countcell++; }
+    if (MI === true) { $("#HMI").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); $("#TMI").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); countcell++; }
+    if (ME === true) { $("#HME").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); $("#TME").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); countcell++; }
+    if (RI === true) { $("#HRI").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); $("#TRI").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); countcell++; }
+    if (RE === true) { $("#HRE").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); $("#TRE").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); countcell++; }
+    $("#HT").width($("#ListDataTableCosts td:eq(" + countcell + ")").width());
+    $("#TT").width($("#ListDataTableCosts td:eq(" + countcell + ")").width()); 
+    $("#HT").show(); $("#TT").show();
+    console.log(result); 
+}
+
+
+
+function RenderRowCosts(data) {
+    var CI = document.getElementById("RBCI").checked === true;
+    var CE = document.getElementById("RBCE").checked === true;
+    var VI = document.getElementById("RBVI").checked === true;
+    var VE = document.getElementById("RBVE").checked === true;
+    var MI = document.getElementById("RBMI").checked === true;
+    var ME = document.getElementById("RBME").checked === true;
+    var RI = document.getElementById("RBRI").checked === true;
+    var RE = document.getElementById("RBRE").checked === true;
+    var tr = document.createElement("tr");
+    var tdDescripcion = document.createElement("td");
+
+    // @cristina --> aquí se decide el tipo de fuente para toda la fila
+    if (data.Activo === false) {
+        tr.style.fontStyle = "italic";
+    }
+
+
+    tdDescripcion.appendChild(document.createTextNode(data.Equipment.Value));
+
+    //tdCoste.appendChild(document.createTextNode(ToMoneyFormat(rowCost, 2)));
+
+
+    var totalFila = 0;
+    tr.appendChild(tdDescripcion);
+
+    if (CI === true) {
+        var td = document.createElement("TD");
+        td.style.textAlign = "right";
+        td.appendChild(document.createTextNode(ToMoneyFormat(data.CI, 2)));
+        totalFila += data.CI;
+        tr.appendChild(td);
+    }
+
+    if (CE === true) {
+        var td = document.createElement("TD");
+        td.style.textAlign = "right";
+        td.appendChild(document.createTextNode(ToMoneyFormat(data.CE, 2)));
+        totalFila += data.CE;
+        tr.appendChild(td);
+    }
+
+    if (VI === true) {
+        var td = document.createElement("TD");
+        td.style.textAlign = "right";
+        td.appendChild(document.createTextNode(ToMoneyFormat(data.VI, 2)));
+        totalFila += data.VI;
+        tr.appendChild(td);
+    }
+
+    if (VE === true) {
+        var td = document.createElement("TD");
+        td.style.textAlign = "right";
+        td.appendChild(document.createTextNode(ToMoneyFormat(data.VE, 2)));
+        totalFila += data.VE;
+        tr.appendChild(td);
+    }
+
+    if (MI === true) {
+        var td = document.createElement("TD");
+        td.style.textAlign = "right";
+        td.appendChild(document.createTextNode(ToMoneyFormat(data.MI, 2)));
+        totalFila += data.MI;
+        tr.appendChild(td);
+    }
+
+    if (ME === true) {
+        var td = document.createElement("TD");
+        td.style.textAlign = "right";
+        td.appendChild(document.createTextNode(ToMoneyFormat(data.ME, 2)));
+        totalFila += data.ME;
+        tr.appendChild(td);
+    }
+
+    if (RI === true) {
+        var td = document.createElement("TD");
+        td.style.textAlign = "right";
+        td.appendChild(document.createTextNode(ToMoneyFormat(data.RI, 2)));
+        totalFila += data.RI;
+        tr.appendChild(td);
+    }
+
+    if (RE === true) {
+        var td = document.createElement("TD");
+        td.style.textAlign = "right";
+        td.appendChild(document.createTextNode(ToMoneyFormat(data.RE, 2)));
+        totalFila += data.RE;
+        tr.appendChild(td);
+    }
+
+    var td = document.createElement("TD");
+    td.style.textAlign = "right";
+    td.style.fontWeight = "bold";
+    td.appendChild(document.createTextNode(ToMoneyFormat(totalFila, 2)));
+    tr.appendChild(td);
+
+    document.getElementById("ListDataTableCosts").appendChild(tr);
+
+    //return rowCost;
 }
