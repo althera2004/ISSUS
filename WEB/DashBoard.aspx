@@ -40,7 +40,7 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="table-responsive" id="scrollTableDiv">
-                                            <table class="table table-bordered table-striped" style="margin: 0">
+                                            <table class="table table-bordered table-striped" style="margin:0;margin-top:6px;">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
                                                         <th id="th0" class="search sort" onclick="Sort(this,'ListDataTable');"><%=this.Dictionary["Common_Task"] %></th>

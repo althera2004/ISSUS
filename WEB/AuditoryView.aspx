@@ -261,7 +261,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-sm-1" id="TxtAmountLabel" for="TxtAmountCost"><%=this.Dictionary["Item_Auditory_Label_Amount"] %><span style="color:#f00">*</span></label>
+                                                        <label class="col-sm-1" id="TxtAmountLabel" for="TxtAmountCost"><%=this.Dictionary["Item_Auditory_Label_Amount"] %></label>
                                                         <div class="col-sm-2">
                                                             <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtAmount" placeholder="<%=this.Dictionary["Item_Auditory_Label_Amount"] %>" value="" maxlength="8" />
                                                             <span class="ErrorMessage" id="TextAmountErrorRequired"><%=this.Dictionary["Common_Required"] %></span>

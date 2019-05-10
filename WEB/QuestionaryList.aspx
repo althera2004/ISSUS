@@ -33,7 +33,7 @@
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
-                                <table cellpadding="2" cellspacing="2" style="width:99%;margin-bottom:12px;">
+                                <table cellpadding="2" cellspacing="2" style="width:100%;margin-bottom:16px;">
                                     <tr>
                                         <td id="CmbProcessLabel"><strong><%=this.Dictionary["Item_Questionary_List_Filter_Process"] %>:</strong></td>
                                         <td>

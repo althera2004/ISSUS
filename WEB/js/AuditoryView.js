@@ -723,13 +723,13 @@ function SaveAuditory() {
         case AuditoryTypes.Externa:
             companyAddress = $("#CmbAddress").val();
             enterpriseAddress = $("#CmbAddress option:selected").text();
-            if (document.getElementById("RBProvider").checked === true) {
-                privider = { "Id": $("#CmbProvider").val() * 1 };
-            }
-            else {
+            if (document.getElementById("RBProvider").checked===true)
+            {
+                provider = { "Id": $("#CmbProvider").val() * 1 };
+            } else
+            {
                 customer = { "Id": $("#CmbCustomer").val() * 1 };
             }
-            customer = { "Id": $("#CmbCustomer").val() * 1 };
             previewDate = GetDate($("#TxtPreviewDate").val(), "/", false);
             break;
         case AuditoryTypes.Proveedor:
