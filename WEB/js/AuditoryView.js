@@ -2048,7 +2048,6 @@ function ReopenCuestionariosConfirmed() {
 }
 // ---------------------------------------------------
 
-
 function RenderRealActions() {
     console.log("RenderRealActions");
     var items = new Array();

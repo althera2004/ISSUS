@@ -1,4 +1,44 @@
-﻿$(document).ready(function () {
+﻿var client;
+
+//Connect Options
+var options = {
+    timeout: 3,
+    //Gets Called if the connection has sucessfully been established
+    onSuccess: function () {
+        MQTTAfterConnect();
+    },
+    //Gets Called if the connection could not be established
+    onFailure: function (message) {
+        console.log("Connection failed: " + message.errorMessage);
+    }
+};
+
+function MQTTAfterConnect(message) {
+    try {
+        var topic = 'issus/' + companyId + '/Versioned/#';
+        client.subscribe(topic, { qos: 1 });
+        console.log("subscription", topic);
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
+var publish = function (payload, topic, qos) {
+    try {
+        //Send your message (also possible to serialize it as JSON or protobuf or just use a string, no limitations)
+        var message = new Messaging.Message(userId + "|" + payload);
+        message.destinationName = topic;
+        message.qos = qos;
+        client.send(message);
+        console.log("topic", topic);
+    }
+    catch (e) {
+        console.log(e);
+    }
+};
+
+$(document).ready(function () {
     $("#BtnNewVersion").click(Versioned);
     $("#BtnSave").click(SetReason);
     $("#BtnCancel").click(function (e) {
@@ -20,7 +60,39 @@
         $("#TxtRevisionDate").attr("readonly", "readonly");
         $("#TxtRevisionDateBtn").hide();
     }
+
+    console.log("MQTT connect");
+    client = new Messaging.Client("broker.mqttdashboard.com", 8000, "issus_" + parseInt(Math.random() * 100, 10));
+
+    client.onConnectionLost = function (responseObject) {
+        //Depending on your scenario you could implement a reconnect logic here
+        console.log("connection lost: " + responseObject.errorMessage);
+    };
+
+    //Gets called whenever you receive a message for your subscriptions
+    client.onMessageArrived = function (message) {
+        //Do something with the push message you received
+        //$('#messages').append('<span>Topic: ' + message.destinationName + '  | ' + message.payloadString + '</span><br/>');
+        MQTTversioned(message);
+    };
+
+    client.connect(options);
+    console.log("MQTT connect - END");
 });
+
+function MQTTversioned(message) {
+    var token = message.destinationName;
+    var value = message.payloadString;
+    if (value.split('|')[0] === userId.toString()) {
+        return false;
+    }
+
+    if (value.split('|')[1] === documentId.toString()) {
+        var version = value.split('|')[2];
+        alert("Acaban de versionar el document a la versión " + version);
+        console.log(message.destinationName, message.payloadString);
+    }
+}
 
 function Versioned() {
     $("#TxtNewReason").val("");
@@ -107,7 +179,6 @@ function VersionedConfirmed() {
         dataType: "json",
         data: JSON.stringify(data, null, 2),
         success: function (msg) {
-            LoadingHide();
             document.getElementById("TxtRevision").value = msg.d.MessageError;
             document.getElementById("TxtRevisionDate").value = FormatDate(new Date(), "/");
             document.getElementById("TxtMotivo").value = document.getElementById("TxtNewReason").value;
@@ -115,6 +186,8 @@ function VersionedConfirmed() {
             $("#ReasonDialog").dialog("close");
             attachActual = null;
             SetAttachLayout();
+
+            publish(documentId + "|" + $("#TxtRevision").val(), "issus/" + companyId + "/Versioned", 2);
         },
         error: function (msg) {
             LoadingHide();

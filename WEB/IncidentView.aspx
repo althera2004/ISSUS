@@ -532,9 +532,9 @@
                 $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
                 $("#BtnSave").on("click", function (e) { e.preventDefault(); SaveIncident(); });
-                $("#BtnCancel").on("click", function (e) { document.location = referrer; });
+                $("#BtnCancel").on("click", function () { document.location = referrer; });
                 $("#BtnSaveAction").on("click", function (e) { e.preventDefault(); SaveIncident(); });
-                $("#BtnCancelAction").on("click", function (e) { document.location = referrer; });
+                $("#BtnCancelAction").on("click", function () { document.location = referrer; });
                 $("#BtnPrint").on("click", PrintData);
 
                 $("#BtnNewCost").on("click", function (e) {
@@ -621,9 +621,6 @@
                 $("#CmbActionsResponsible").attr("disabled", true);
                 $("#TxtActionsDate").attr("disabled", true);
 
-                //$("#CmbClosedResponsible").attr("disabled", true);
-                //$("#TxtClosedDate").attr("disabled", true);
-
                 if(document.getElementById("RActionYes").checked === true)
                 {
                     $("#RActionYes").attr("disabled", true);
@@ -638,4 +635,3 @@
             }
         </script>
 </asp:Content>
-
