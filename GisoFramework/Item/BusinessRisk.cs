@@ -946,7 +946,7 @@ namespace GisoFramework.Item
                         res.SetSuccess();
                         if (res.Success)
                         {
-                            Tools.DeleteAttachs(companyId, "BusinessRisk", businessRiskId);
+                            Tools.DeleteAttachs(companyId, "BusinessRisks", businessRiskId);
                         }
 
                         if (deleteAction)

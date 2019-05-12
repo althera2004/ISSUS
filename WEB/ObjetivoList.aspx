@@ -28,10 +28,10 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
                                 <div class="col-sm-12">
-                                    <table cellpadding="2" cellspacing="2">
+                                    <table cellpadding="2" cellspacing="2" style="width:100%;margin-bottom:16px;">
                                         <tr>
                                             <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_ObjetivoAction_List_Filter_Periode1"] %>:</strong></td>
-										    <td>
+										    <td style="width:120px;">
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
 													    <input class="form-control date-picker" style="width:100px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
@@ -44,8 +44,7 @@
 											        <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
-                                            <td id="TxtDateToLabel"><%=this.Dictionary["Item_ObjetivoAction_List_Filter_Periode2"] %></td>
-										    <td>
+										    <td style="width:120px;">
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
 													    <input class="form-control date-picker" style="width:100px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
@@ -59,22 +58,14 @@
                                                 </div>
 										    </td>
 
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-
                                             <td><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Status"] %>:</strong></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus1" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowActive"] %></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus2" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %></td>
-											<td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %></td>
+                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="RBStatus" id="RBStatus1" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowActive"] %></td>
+                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="RBStatus" id="RBStatus2" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %></td>
+											<!--<td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %></td>-->
 
-                                            <td style="padding-bottom:35px;">&nbsp;&nbsp;&nbsp;&nbsp;</td> 
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>
-                                                <!--div class="col-xs-12 col-sm-12"-->                                      
-                                                <button style="display:none;" class="btn btn-success" type="button" id="BtnSearch" title="<%= this.Dictionary["Common_Filter"] %>"><i class="icon-filter bigger-110"></i></button>
-                                                <button class="btn btn-success" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-list bigger-110"></i></button>
-                                                <button class="btn btn-success" type="button" id="BtnRecordShowNone" title="<%= this.Dictionary["Common_None_Male"] %>"><i class="icon-remove-circle bigger-110"></i></button>
-                                                <!--/div-->
+                                            <td style="text-align:right;width:200px;">
+                                                <button class="btn btn-success btn-filter" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-refresh"></i></button>
                                             </td>
                                             
                                         </tr>

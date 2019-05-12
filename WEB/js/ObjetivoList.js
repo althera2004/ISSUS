@@ -32,8 +32,9 @@ function ObjetivoGetFilter(exportType) {
     }
 
     var status = 0;
-    if (document.getElementById("RBStatus1").checked === true) { status = 1; }
-    if (document.getElementById("RBStatus2").checked === true) { status = 2; }
+    if (document.getElementById("RBStatus1").checked === true && document.getElementById("RBStatus2").checked === true) { status = 0; }
+    else if (document.getElementById("RBStatus1").checked === true) { status = 1; }
+    else if (document.getElementById("RBStatus2").checked === true) { status = 2; }
 
     filterData =
         {
@@ -79,7 +80,8 @@ function ObjetivoGetNone() {
 function ObjetivoGetAll() {
     //$("#BtnRecordShowAll").hide();
     //$("#BtnRecordShowNone").show();
-    document.getElementById("RBStatus0").checked = true;
+    document.getElementById("RBStatus1").checked = true;
+    document.getElementById("RBStatus2").checked = true;
     $("#TxtDateFrom").val("");
     $("#TxtDateTo").val("");
     ObjetivoGetFilter();
@@ -232,7 +234,7 @@ function ObjetivoDelete(sender) {
     console.log(ObjetivoSelectedId);
     if (ObjetivoSelected === null) { return false; }
     $("#ObjetivoDeleteName").html(ObjetivoSelected.Name);
-    var dialog = $("#ObjetivoDeleteDialog").removeClass("hide").dialog({
+    $("#ObjetivoDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_Delete,
@@ -305,22 +307,40 @@ function Resize() {
     $("#NoData").height(containerHeight - 390);
 }
 
+function RBStatusChanged() {
+    $("#RBStatus1").removeAttr("disabled");
+    $("#RBStatus2").removeAttr("disabled");
+
+    if (document.getElementById("RBStatus1").checked === true && document.getElementById("RBStatus2").checked === false) {
+        $("#RBStatus1").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBStatus2").checked === true && document.getElementById("RBStatus1").checked === false) {
+        $("#RBStatus2").attr("disabled", "disabled");
+    }
+
+    ObjetivoGetFilter();
+}
+
 window.onload = function () {
     // Descomentar si se imprimie lista
     Resize();
-    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"ExportPDF();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
 
     $("#TxtDateFrom").on("change", ObjetivoGetFilter);
     $("#TxtDateTo").on("change", ObjetivoGetFilter);
     $("#RBStatus0").on("click", ObjetivoGetFilter);
-    $("#RBStatus1").on("click", ObjetivoGetFilter);
-    $("#RBStatus2").on("click", ObjetivoGetFilter);
+    $("#RBStatus1").on("click", RBStatusChanged);
+    $("#RBStatus2").on("click", RBStatusChanged);
 
     if (Filter !== null) {
         console.log("Filter", Filter);
         document.getElementById("TxtDateFrom").value = GetDateYYYYMMDDText(Filter.from, "/", false);
         document.getElementById("TxtDateTo").value = GetDateYYYYMMDDText(Filter.to, "/", false);
-        if (Filter.status === 0) { document.getElementById("RBStatus0").checked = true; }
+        if (Filter.status === 0) {
+            document.getElementById("RBStatus1").checked = true;
+            document.getElementById("RBStatus2").checked = true;
+        }
         if (Filter.status === 1) { document.getElementById("RBStatus1").checked = true; }
         if (Filter.status === 2) { document.getElementById("RBStatus2").checked = true; }
     }
@@ -342,6 +362,7 @@ function ExportPDF() {
         listOrder = "TH0|ASC";
     }
     data["listOrder"] = listOrder;
+    data["filterText"] = $("#nav-search-input").val();
     LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
         "type": "POST",

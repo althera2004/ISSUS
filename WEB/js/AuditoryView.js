@@ -1343,21 +1343,22 @@ function PopupValidarReset() {
         }
 
         if (actions === 0) {
-            noActionsMessage = "Ningún hallazgo genera acción";
+            noActionsMessage = Dictionary.Item_Auditory_FoundNoAction;
         }
     }
 
     actions = 0;
     if (Improvements.length > 0) {
-        for (var x = 0; x < Improvements.length; x++) {
-            if (Improvements[x].Action === true) {
+        for (var i = 0; i < Improvements.length; i++) {
+            if (Improvements[i].Action === true) {
                 actions = 1;
                 break;
             }
         }
 
         if (actions === 0) {
-            noActionsMessage = "Ninguna mejora genera acción";
+            if (noActionsMessage !== "") { noActionsMessage += "<br />"; }
+            noActionsMessage = Dictionary.Item_Auditory_ImprovementNoAction;
         }
     }
 
@@ -1847,7 +1848,7 @@ function RenderZombies() {
     if (Zombies.length > 0) {
         for (var x = 0; x < Zombies.length; x++) {
             res += "<tr>";
-            res += "<td style=\"width:120px;\">" + (Zombies[x].ActionType == 1 ? Dictionary.Item_IncidentAction_Type1 : Dictionary.Item_IncidentAction_Type2) + "</td>";
+            res += "<td style=\"width:120px;\">" + (Zombies[x].ActionType === 1 ? Dictionary.Item_IncidentAction_Type1 : Dictionary.Item_IncidentAction_Type2) + "</td>";
             res += "<td>" + Zombies[x].Description + "</td>";
             res += "<td style=\"width:120px;\">" + Zombies[x].WhatHappendOn + "</td>";
             res += "<td style=\"width:90px;\">";

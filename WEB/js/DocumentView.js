@@ -78,7 +78,18 @@ $(document).ready(function () {
 
     client.connect(options);
     console.log("MQTT connect - END");
+
+    if (documentId === -1) {
+        $("#TxtRevisionDate").attr("disabled", "disabled");
+        $("#TxtRevisionDateBtn").hide();
+        $("#TxtStartDate").on("change", CopyStartToRevision);
+        CopyStartToRevision();
+    }
 });
+
+function CopyStartToRevision() {
+    $("#TxtRevisionDate").val($("#TxtStartDate").val());
+}
 
 function MQTTversioned(message) {
     var token = message.destinationName;

@@ -155,6 +155,7 @@ function OportunityListGetAll() {
     $("#OportunityCmbProcess").val(0);
     $("#TxtOportunityDateFrom").val("");
     $("#TxtOportunityDateTo").val("");
+    $("#CmbTypeO").val(0);
     var from = GetDate($("#TxtOportunityDateFrom").val(), "-");
     var to = GetDate($("#TxtOportunityDateTo").val(), "-");
     OportunityGetFilter();
@@ -451,7 +452,7 @@ function BusinessRiskRenderTable(list) {
     var items = [];
     VoidTable("ListDataTable");
     d3.selectAll("svg > *").remove();
-    $("#NumberCosts").html("0");
+    $("#TotalBusinessRisks").html("0");
 
     if (list.length === 0) {
         $("#ItemTableVoid").show();
@@ -498,7 +499,7 @@ function BusinessRiskRenderTable(list) {
                 "Code": item.Code,
                 "Rules": item.Rules,
                 "Result": realResult,
-                "Assumed": item.Assumed, //realAction === 1,
+                "Assumed": item.Assumed,
                 "RuleLimit": item.RuleLimit,
                 "FinalAction": item.FinalAction
             });
@@ -507,14 +508,6 @@ function BusinessRiskRenderTable(list) {
         if ($.inArray(item.Description, items) === -1) {
             items.push(item.Description);
         }
-
-        /*if ($.inArray(objRules.Description, items) === -1) {
-            items.push(objRules.Description);
-        } 
-
-        if ($.inArray(objProcess.Description, items) === -1) {
-            items.push(objProcess.Description);
-        }*/
     }
 
     $("#GraphicTableVoid").hide("none");
@@ -558,7 +551,7 @@ function BusinessRiskRenderTable(list) {
         $("#nav-search-input").change(FilterList);
     }
 
-    $("#NumberCosts").html(list.length);
+    $("#TotalBusinessRisks").html(list.length);
     if (lockOrderList === false) {
         $("#th1").click();
         if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
@@ -1129,6 +1122,9 @@ window.onload = function () {
     if (layout === 2) {
         $("#RO").click();
     }
+
+    $("#BtnBRecordShowAll").on("click", BussinesRiskListGetAll);
+    $("#BtnORecordShowAll").on("click", OportunityListGetAll);
 };
 
 window.onresize = function () { Resize(); };

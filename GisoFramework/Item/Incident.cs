@@ -832,7 +832,7 @@ namespace GisoFramework.Item
                         res.SetSuccess();
                         if (res.Success)
                         {
-                            Tools.DeleteAttachs(companyId, "Incident", incidentId);
+                            Tools.DeleteAttachs(companyId, "Incidents", incidentId);
                         }
                     }
                     catch (SqlException ex)
