@@ -932,6 +932,10 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         result.SetSuccess();
+                        if(result.Success)
+                        {
+                            Tools.DeleteAttachs(companyId, "Auditory", auditoryId);
+                        }
                     }
                     catch (SqlException ex)
                     {

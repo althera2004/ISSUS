@@ -50,7 +50,8 @@ public class IncidentActionExportList : System.Web.Services.WebService
         bool typePrevent,
         int origin,
         int reporter,
-        string listOrder)
+        string listOrder,
+        string filterText)
     {
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -282,14 +283,36 @@ public class IncidentActionExportList : System.Web.Services.WebService
             PaddingTop = 4f
         });
 
-        criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.TimesBold))
+        if (string.IsNullOrEmpty(filterText))
         {
-            Border = ToolsPdf.BorderNone,
-            HorizontalAlignment = iTS.Element.ALIGN_LEFT,
-            Padding = 6f,
-            PaddingTop = 4f,
-            Colspan = 2
-        });
+            criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.TimesBold))
+            {
+                Border = ToolsPdf.BorderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 2
+            });
+        }
+        else
+        {
+
+            criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_PDF_Filter_Contains"] + " :", ToolsPdf.LayoutFonts.TimesBold))
+            {
+                Border = ToolsPdf.BorderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            });
+
+            criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(filterText, ToolsPdf.LayoutFonts.Times))
+            {
+                Border = ToolsPdf.BorderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            });
+        }
 
         pdfDoc.Add(criteriatable);
         //---------------------------
@@ -377,6 +400,14 @@ public class IncidentActionExportList : System.Web.Services.WebService
 
         foreach (IncidentActionFilterItem action in data)
         {
+            if (!string.IsNullOrEmpty(filterText))
+            {
+                if(action.Description.IndexOf(filterText,StringComparison.OrdinalIgnoreCase)== -1)
+                {
+                    continue;
+                }
+            }
+
             int border = 0;
             totalCost += action.Amount;
 

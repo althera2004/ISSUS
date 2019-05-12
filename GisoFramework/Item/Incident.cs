@@ -830,6 +830,10 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();
+                        if (res.Success)
+                        {
+                            Tools.DeleteAttachs(companyId, "Incident", incidentId);
+                        }
                     }
                     catch (SqlException ex)
                     {

@@ -596,7 +596,7 @@ function Resize() {
 
 window.onload = function () {
     $("#nav-search").hide();
-    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"ExportPDF();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
     Resize();
 
     $("#ROrigin0").on("click", IncidentGetFilter);
@@ -653,7 +653,8 @@ function ExportPDF() {
         "departmentId": $("#CmbOrigin1").val() * 1,
         "providerId": $("#CmbOrigin2").val() * 1,
         "customerId": $("#CmbOrigin3").val() * 1,
-        "listOrder": listOrder
+        "listOrder": listOrder,
+        "filterText": $("#nav-search-input").val()
     };
 
     LoadingShow(Dictionary.Common_Report_Rendering);

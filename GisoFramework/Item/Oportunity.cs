@@ -599,6 +599,10 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();
+                        if (res.Success)
+                        {
+                            Tools.DeleteAttachs(companyId, "Oportunity", oportunityId);
+                        }
                     }
                     finally
                     {
