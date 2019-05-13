@@ -1838,6 +1838,10 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         result.SetSuccess();
+                        if (result.Success)
+                        {
+                            Tools.DeleteAttachs(this.CompanyId, "IncidentActions", this.Id);
+                        }
                     }
                     catch (SqlException ex)
                     {

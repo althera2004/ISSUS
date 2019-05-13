@@ -57,6 +57,10 @@
                     "TxtDescription",
                     "TxtLocation"
                 ],
+            "DuplicatedFields":
+            [
+                {FieldName:'TxtCode',Id: Equipment.Id, Values:[{Id:1,Value:'aaa'},{Id:2,Value:'bbb'},{Id:3,Value:'ccc'}]}
+            ],
             "MinimumOptions":
                 [
                     {

@@ -63,11 +63,11 @@
                                                         </td>                                       
                                                         <td>
                                                             <div class="row">
-                                                                <input type="radio" name="RBStatus" id="RBStatus1" onclick="RenderTable();" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowActive"] %>
+                                                                <input type="checkbox" name="RBStatus" id="RBStatus1" onclick="RBStatusChanged();" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowActive"] %>
                                                                 &nbsp;&nbsp;
-                                                                <input type="radio" name="RBStatus" id="RBStatus2" onclick="RenderTable();" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowClosed"] %>
-													            &nbsp;&nbsp;
-													            <input type="radio" name="RBStatus" id="RBStatus0" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Common_All"] %>
+                                                                <input type="checkbox" name="RBStatus" id="RBStatus2" onclick="RBStatusChanged();" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowClosed"] %>
+													            <!--&nbsp;&nbsp;
+													            <input type="radio" name="RBStatus" id="RBStatus0" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Common_All"] %>-->
 												            </div>
                                                         </td>
                                                     </tr>
@@ -149,11 +149,11 @@
                                                     <td><strong><%=this.Dictionary["Item_Equipment_List_Filter_ShowByStatus"] %>:</strong></td>                                       
                                                     <td>
                                                         <div class="row">
-                                                            <input type="radio" name="RBStatusCost" id="RBCostStatus1" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowActive"] %>
+                                                            <input type="checkbox" name="RBStatusCost" id="RBCostStatus1" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowActive"] %>
                                                             &nbsp;&nbsp;
-                                                            <input type="radio" name="RBStatusCost" id="RBCostStatus2" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowClosed"] %>
-													        &nbsp;&nbsp;
-													        <input type="radio" name="RBStatusCost" id="RBCostStatus0" checked="checked" /><%= this.Dictionary["Common_All"] %>
+                                                            <input type="checkbox" name="RBStatusCost" id="RBCostStatus2" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowClosed"] %>
+													        <!--&nbsp;&nbsp;
+													        <input type="radio" name="RBStatusCost" id="RBCostStatus0" checked="checked" /><%= this.Dictionary["Common_All"] %>-->
 												        </div>
                                                     </td>
                                                 </tr>

@@ -447,7 +447,7 @@ function Resize() {
 
 window.onload = function () {
     $("#th2").click();
-    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"ExportPDF();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
     Resize();
 
     $("#chkStatus1").on("click", IncidentActionGetFilter);
@@ -497,10 +497,10 @@ function ExportPDF() {
         "typePrevent": type3,
         "origin": $("#CmbOrigin").val() * 1,
         "reporter": $("#CmbReporter").val() * 1,
-        "listOrder": listOrder
-    };
+            "listOrder": listOrder,
+            "filterText": $("#nav-search-input").val()
+        };
 
-    LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
         "type": "POST",
         "url": "/Export/IncidentActionExportList.asmx/PDF",
@@ -508,7 +508,6 @@ function ExportPDF() {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
-            LoadingHide();
             var link = document.createElement("a");
             link.id = "download";
             link.href = msg.d.MessageError;

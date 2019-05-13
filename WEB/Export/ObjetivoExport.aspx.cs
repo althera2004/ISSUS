@@ -42,7 +42,8 @@ public partial class ExportObjetivoExport : Page
         DateTime? from,
         DateTime? to,
         int status,
-        string listOrder)
+        string listOrder,
+        string filterText)
     {
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -145,6 +146,11 @@ public partial class ExportObjetivoExport : Page
 
         ToolsPdf.AddCriteria(criteriatable, dictionary["Common_Period"], periode);
         ToolsPdf.AddCriteria(criteriatable, dictionary["Item_IncidentAction_Header_Status"], statusText);
+
+        if (!string.IsNullOrEmpty(filterText))
+        {
+            ToolsPdf.AddCriteria(criteriatable, dictionary["Common_PDF_Filter_Contains"], filterText);
+        }
         pdfDoc.Add(criteriatable);
         #endregion
 
@@ -206,6 +212,25 @@ public partial class ExportObjetivoExport : Page
         cont = 0;
         foreach (var item in data)
         {
+            if (!string.IsNullOrEmpty(filterText))
+            {
+                var show = false;
+                if (item.Objetivo.Name.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1)
+                {
+                    show = true;
+                }
+
+                if (item.Objetivo.Responsible.FullName.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1)
+                {
+                    show = true;
+                }
+
+                if (!show)
+                {
+                    continue;
+                }
+            }
+
             string endDateText = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", item.Objetivo.PreviewEndDate);
             if (item.Objetivo.EndDate.HasValue)
             {

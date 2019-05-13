@@ -1970,3 +1970,6 @@ Item_Equipment_FilterLabel_Maintenance_Int::Mtm. Int
 Item_Equipment_FilterLabel_Maintenance_Ext::Mtm. Ext
 Item_Equipment_FilterLabel_Repair_Int::Rep. Int
 Item_Equipment_FilterLabel_Repair_Ext::Rep. Ext
+Common_PDF_Filter_Contains::Conté
+Item_Auditory_FoundNoAction::Cap troballa genera una acció
+Item_Auditory_ImprovementNoAction::Cap millora genera una acció

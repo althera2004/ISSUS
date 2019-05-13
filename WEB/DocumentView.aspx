@@ -321,7 +321,7 @@
                                     <span class="ErrorMessage" id="TxtNewReasonErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                 </div>
                                 <div class="form-group">
-                                        <label id="TxtNewRevisionDateLabel" class="col-sm-3 control-label no-padding-right" for="TxtEndDate"><%=this.Dictionary["Item_Document_FieldLabel_InactiveDate"] %><span class="required">*</span></label>
+                                        <label id="TxtNewRevisionDateLabel" class="col-sm-3 control-label no-padding-right" for="TxtEndDate"><%=this.Dictionary["Item_Document_FieldLabel_RevisionDate"] %><span class="required">*</span></label>
                                         <div class="col-sm-4">
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-12 tooltip-info">

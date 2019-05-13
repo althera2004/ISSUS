@@ -223,10 +223,10 @@
                                                                 <table class="table table-bordered table-striped" style="margin: 0">
                                                                     <thead class="thin-border-bottom">
                                                                         <tr id="ListDataFooter">
-                                                                            <th style="color:#aaa;"><i><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="NumberCosts"></span></i></th>
-                                                                            <th style="width:90px;font-weight:bold;"><%=this.Dictionary["Common_Total"] %></th>
-                                                                            <th style="width:120px;"><div id="TotalCosts" style="width:100%;text-align:right;font-weight:bold;"></div></th>
-                                                                            <th style="width:307px;"></th>
+                                                                            <td><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><span id="NumberCosts"></span></strong></td>
+                                                                            <td style="width:90px;text-align:right;"><%=this.Dictionary["Common_Total"] %></td>
+                                                                            <td style="width:120px;text-align:right;font-weight:bold;"><span id="TotalCosts"></span></td>
+                                                                            <td style="width:307px;"></td>
                                                                         </tr>
                                                                     </thead>
                                                                 </table>

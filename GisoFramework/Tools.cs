@@ -9,12 +9,37 @@ namespace GisoFramework
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
     using System.Web;
+    using GisoFramework.Activity;
     using GisoFramework.Item;
 
     /// <summary>Implements Tools class.</summary>
     public static class Tools
     {
+        public static ActionResult DeleteAttachs(int companyId, string itemName, long itemId)
+        {
+            var res =  ActionResult.NoAction; string path = HttpContext.Current.Request.PhysicalApplicationPath;
+            if (!path.EndsWith("\\"))
+            {
+                path += "\\";
+            }
+
+            path = string.Format(@"{0}DOCS\{1}", path, companyId);
+            var searchPattenr = string.Format("{0}_{1}_*.*", itemName, itemId);
+            var filePaths = Directory.GetFiles(path, searchPattenr);
+            {
+                foreach(var fileName in filePaths)
+                {
+                    if (File.Exists(fileName))
+                    {
+                        File.Delete(fileName);
+                    }
+                }
+            }
+            return res;
+        }
+
         /// <summary>Gets a date from text</summary>
         /// <param name="text">Text to convert</param>
         /// <returns>Date from text</returns>

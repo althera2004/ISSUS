@@ -50,7 +50,8 @@ public partial class ExportIncidentExportList : Page
         int departmentId,
         int providerId,
         int customerId,
-        string listOrder)
+        string listOrder,
+        string filterText)
     {
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -235,7 +236,14 @@ public partial class ExportIncidentExportList : Page
         #endregion
 
         ToolsPdf.AddCriteria(criteriatable, dictionary["Common_Period"], periode);
-        ToolsPdf.AddCriteria(criteriatable, string.Empty, string.Empty);
+        if (string.IsNullOrEmpty(filterText))
+        {
+            ToolsPdf.AddCriteria(criteriatable, string.Empty, string.Empty);
+        }
+        else
+        {
+            ToolsPdf.AddCriteria(criteriatable, dictionary["Common_PDF_Filter_Contains"], filterText);
+        }
         ToolsPdf.AddCriteria(criteriatable, dictionary["Item_IncidentAction_Header_Status"], statusText);
         ToolsPdf.AddCriteria(criteriatable, dictionary["Item_IncidentAction_Header_Origin"], criteriaOrigin);
         pdfDoc.Add(criteriatable);
@@ -326,6 +334,14 @@ public partial class ExportIncidentExportList : Page
 
         foreach (var incidentFilter in data)
         {
+            if (!string.IsNullOrEmpty(filterText))
+            {
+                if(incidentFilter.Description.IndexOf(filterText,StringComparison.OrdinalIgnoreCase) == -1)
+                {
+                    continue;
+                }
+            }
+
             cont++;
             totalCost += incidentFilter.Amount;
             var incident = Incident.GetById(incidentFilter.Id, companyId);

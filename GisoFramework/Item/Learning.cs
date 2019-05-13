@@ -444,6 +444,10 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();
+                        if(res.Success)
+                        {
+                            Tools.DeleteAttachs(companyId, "Learning", learningId);
+                        }
                     }
                     catch (SqlException ex)
                     {

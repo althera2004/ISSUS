@@ -1058,6 +1058,10 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();
+                        if (res.Success)
+                        {
+                            Tools.DeleteAttachs(companyId, "Employees", Convert.ToInt64(employeeId));
+                        }
                     }
                     catch (SqlException ex)
                     {
