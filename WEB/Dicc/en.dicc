@@ -1749,7 +1749,7 @@ Item_User_MailResetPassword_Subject::Password renewed in ISSUS for a proprietary
 Item_User_Message_AfterChangePassword::When changing the password the session is restarted, to enter with the new one
 Item_User_Message_GrantsAvaiable::The permissions tab has been generated. Activate them so that the user can use the application
 Item_User_Message_ResetPassword_Ok::The password has been reset
-Item_User_Message_WelcommeMailSent::An email with instructions for access to the application has been sent
+Item_User_Message_WelcommeMailSent::An email with instructions for access to the application has been sent to the new user
 Item_User_NewPassword::New Password
 Item_User_PopupDelete_Message::Remove?
 Item_User_Profile_Title_Settings::Configuration

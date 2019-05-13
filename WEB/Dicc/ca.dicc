@@ -1750,10 +1750,10 @@ Item_User_List_Header_Read::Lectura
 Item_User_List_Header_UserName::Usuari/a
 Item_User_List_Header_Write::Modificació
 Item_User_MailResetPassword_Subject::Reinici de contrasenya a ISSUS de un usuari propietari
-Item_User_Message_AfterChangePassword::Al canviar la contrasenya es reinicia la sessió, per entrar amb la nova
-Item_User_Message_GrantsAvaiable::S'ha generat la pestanya de permisos. Configurar-los per tal que l'usuari/a pugui utilitzar l'aplicació
+Item_User_Message_AfterChangePassword::Al canviar la contrasenya es reinicia la sessió per tal d'accedir amb la nova.
+Item_User_Message_GrantsAvaiable::S'ha generat la pestanya de permisos. Sisplau, activa els necessaris per tal que l'usuari/a pugui utilitzar l'aplicació.
 Item_User_Message_ResetPassword_Ok::S'ha restablert la contrasenya
-Item_User_Message_WelcommeMailSent::S'ha enviat un correu amb les instruccions d'accés a l'aplicació
+Item_User_Message_WelcommeMailSent::S'ha enviat un correu al nou usuari amb les instruccions d'accés a l'aplicació
 Item_User_NewPassword::Nova contrasenya
 Item_User_PopupDelete_Message::¿Eliminar?
 Item_User_Profile_Title_Settings::Configuració

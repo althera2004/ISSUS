@@ -1749,10 +1749,10 @@ Item_User_List_Header_Read::Lectura
 Item_User_List_Header_UserName::Usuario/a
 Item_User_List_Header_Write::Modificación
 Item_User_MailResetPassword_Subject::Reinicio de contraseña en ISSUS de un usuario propietario
-Item_User_Message_AfterChangePassword::Al cambiar la contraseña se reinicia la sesión, para entrar con la nueva
-Item_User_Message_GrantsAvaiable::Se ha generado la pestaña de permisos. Activarlos para que el/la usuario/a pueda utilizar la aplicación
+Item_User_Message_AfterChangePassword::Al cambiar la contraseña se reinicia la sesión, para poder entrar con la nueva.
+Item_User_Message_GrantsAvaiable::Se ha generado la pestaña de permisos. Por favor, activa los necesarios para que el/la usuario/a pueda utilizar la aplicación.
 Item_User_Message_ResetPassword_Ok::Se ha restablecido la contraseña
-Item_User_Message_WelcommeMailSent::Se ha enviado un correo con las instrucciones de acceso a la aplicación
+Item_User_Message_WelcommeMailSent::Se ha enviado un correo al nuevo usuario con las instrucciones de acceso a la aplicación
 Item_User_NewPassword::Nueva contraseña
 Item_User_PopupDelete_Message::¿Eliminar?
 Item_User_Profile_Title_Settings::Configuración
