@@ -249,7 +249,6 @@ Item_Attachment_Header_CreateDate::Subido el
 Item_Attachment_Header_Description::Descripción
 Item_Attachment_Header_FileName::Fichero
 Item_Attachment_Header_Size::Tamaño
-Item_Attachment_Popup_Warning::ATENCION:Esta acción no se podrá deshacer!
 Item_Attachment_SectionTitle::Documentos adjuntos
 Item_Attachment_Size::Tamaño
 Item_Backup::Back-Up

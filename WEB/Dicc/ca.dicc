@@ -249,7 +249,6 @@ Item_Attachment_Header_CreateDate::Pujat el
 Item_Attachment_Header_Description::Descripció
 Item_Attachment_Header_FileName::Fitxer
 Item_Attachment_Header_Size::Mida
-Item_Attachment_Popup_Warning::ATENCIÓ: Aquesta acció no es podrà desfer!
 Item_Attachment_SectionTitle::Documents adjunts
 Item_Attachment_Size::Mida
 Item_Backup::Back-Up

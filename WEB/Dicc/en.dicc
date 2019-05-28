@@ -247,7 +247,6 @@ Item_Attachment_Header_CreateDate::Uploaded the
 Item_Attachment_Header_Description::Description
 Item_Attachment_Header_FileName::File
 Item_Attachment_Header_Size::Size
-Item_Attachment_Popup_Warning::CAUTION: This action can not be undone!
 Item_Attachment_SectionTitle::Attachments
 Item_Attachment_Size::Size
 Item_Backup::Back-Up
