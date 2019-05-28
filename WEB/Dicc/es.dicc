@@ -84,7 +84,8 @@ Common_DateRangeTo::Hasta
 Common_Day::Día
 Common_Days::Días
 Common_Delete::Eliminar
-Common_DeleteMessage::¿Seguro que quiere eliminar?
+Common_DeleteMessage::¿Seguro que quiere eliminar
+Common_DeleteMessage_NoUndo::ATENCIÓN: Esta acción no se podrá deshacer!
 Common_Edit::Editar
 Common_Error::Error
 Common_Error_Application::Se ha producido un error en la aplicación
@@ -248,7 +249,7 @@ Item_Attachment_Header_CreateDate::Subido el
 Item_Attachment_Header_Description::Descripción
 Item_Attachment_Header_FileName::Fichero
 Item_Attachment_Header_Size::Tamaño
-Item_Attachment_Popup_Warning::Esta acción no se puede deshacer
+Item_Attachment_Popup_Warning::ATENCION:Esta acción no se podrá deshacer!
 Item_Attachment_SectionTitle::Documentos adjuntos
 Item_Attachment_Size::Tamaño
 Item_Backup::Back-Up
@@ -550,8 +551,8 @@ Item_Document_Popup_AddSource_Title::Añadir una procedencia
 Item_Document_PopupAnular_Title::Inactivar un documento
 Item_Document_PopupCategory_Header::Categoría
 Item_Document_PopupCategory_Title::Categorías de documento
-Item_Document_PopupDelete_Message::¿Eliminar el documento?
-Item_Document_PopupDelete_Title::Eliminar el documento
+Item_Document_PopupDelete_Message::¿Eliminar el documento
+Item_Document_PopupDelete_Title::Eliminar documento
 Item_Document_PopupSource_Header::Procedencia
 Item_Document_PopupSource_Title::Procedencias de documento
 Item_Document_Status_Active_Single::Activo

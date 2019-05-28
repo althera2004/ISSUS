@@ -82,7 +82,8 @@ Common_DateRangeTo::Fins
 Common_Day::Day
 Common_Days::Days
 Common_Delete::Remove
-Common_DeleteMessage::¿Are you sure you want to delete
+Common_DeleteMessage::Are you sure you want to delete
+Common_DeleteMessage_NoUndo::CAUTION: This action cannot be undo!
 Common_Edit::Edit
 Common_Error::Error
 Common_Error_Application::There was an error in the application
@@ -246,7 +247,7 @@ Item_Attachment_Header_CreateDate::Uploaded the
 Item_Attachment_Header_Description::Description
 Item_Attachment_Header_FileName::File
 Item_Attachment_Header_Size::Size
-Item_Attachment_Popup_Warning::This action can not be undone
+Item_Attachment_Popup_Warning::CAUTION: This action can not be undone!
 Item_Attachment_SectionTitle::Attachments
 Item_Attachment_Size::Size
 Item_Backup::Back-Up
@@ -547,8 +548,8 @@ Item_Document_Popup_AddSource_Title::Add an origin
 Item_Document_PopupAnular_Title::Inactivate a document
 Item_Document_PopupCategory_Header::Category
 Item_Document_PopupCategory_Title::Document categories
-Item_Document_PopupDelete_Message::Delete the document?
-Item_Document_PopupDelete_Title::Delete the document
+Item_Document_PopupDelete_Message::Delete the document
+Item_Document_PopupDelete_Title::Delete document
 Item_Document_PopupSource_Header::Origin
 Item_Document_PopupSource_Title::Document origins
 Item_Document_Status_Active_Single::Active

@@ -85,6 +85,7 @@ Common_Day::Dia
 Common_Days::Dies
 Common_Delete::Eliminar
 Common_DeleteMessage::Segur que vol eliminar
+Common_DeleteMessage_NoUndo::ATENCIÓ: Aquesta acció no es podrà desfer!
 Common_Edit::Editar
 Common_Error::Error
 Common_Error_Application::S'ha produït un error a l'aplicació
@@ -248,7 +249,7 @@ Item_Attachment_Header_CreateDate::Pujat el
 Item_Attachment_Header_Description::Descripció
 Item_Attachment_Header_FileName::Fitxer
 Item_Attachment_Header_Size::Mida
-Item_Attachment_Popup_Warning::Aquesta acció no es pot desfer
+Item_Attachment_Popup_Warning::ATENCIÓ: Aquesta acció no es podrà desfer!
 Item_Attachment_SectionTitle::Documents adjunts
 Item_Attachment_Size::Mida
 Item_Backup::Back-Up
@@ -550,8 +551,8 @@ Item_Document_Popup_AddSource_Title::Afegir una procedència
 Item_Document_PopupAnular_Title::Inactivar document
 Item_Document_PopupCategory_Header::Categoria
 Item_Document_PopupCategory_Title::Categories de document
-Item_Document_PopupDelete_Message::Eliminar el document?
-Item_Document_PopupDelete_Title::Eliminar el document
+Item_Document_PopupDelete_Message::Eliminar el document
+Item_Document_PopupDelete_Title::Eliminar document
 Item_Document_PopupSource_Header::Procedència
 Item_Document_PopupSource_Title::Procedències dels documents
 Item_Document_Status_Active_Single::Actiu
