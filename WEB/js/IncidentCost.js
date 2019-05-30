@@ -19,8 +19,10 @@ function IncidentCostRenderTable(tableName) {
     for (var x = 0; x < IncidentCosts.length; x++) {
         if (IncidentCosts[x].Active === true) {
             var show = true;
-            if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
-                show = false;
+            if (IncidentCosts[x].Source === "A") {
+                if (typeof user.Grants.IncidentActions === "undefined" || user.Grants.IncidentActions.Read === false) {
+                    show = false;
+                }
             }
 
             if (filter.indexOf(IncidentCosts[x].Source) === -1) {
@@ -151,7 +153,7 @@ function IncidentCostSetPopupFormReset(newIncidentCost) {
 
     $("#TxtIncidentActionCostDescription").val("");
     $("#TxtIncidentActionCostAmount").val("");
-    $("#TxtIncidentCostQuantity").val("");
+    $("#TxtIncidentCostQuantity").val(1);
     $("#CmbCmbIncidentCostDescription").val(0);
     $("#CmdIncidentCostResponsible").val(ApplicationUser.Employee.Id);
     $("#TxtIncidentCostDate").val("");
@@ -182,7 +184,7 @@ function CmbIncidentCostDescriptionChanged() {
 function IncidentCostEdit(id) {
     SelectedIncidentCostId = id * 1;
     IncidentCostSetPopupFormFill();
-    var dialog = $("#dialogNewCost").removeClass("hide").dialog({
+    $("#dialogNewCost").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_IncidentCost_PopupTitle_Update + "</h4>",
@@ -214,7 +216,7 @@ function IncidentCostEdit(id) {
 function ShowNewCostPopup(actionSelected) {
     SelectedIncidentCostId = 0;
     IncidentCostSetPopupFormReset();
-    var dialog = $("#dialogNewCost").removeClass("hide").dialog({
+    $("#dialogNewCost").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_IncidentCost_PopupTitle_Add + "</h4>",

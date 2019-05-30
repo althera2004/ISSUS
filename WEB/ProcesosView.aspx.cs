@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
@@ -111,7 +112,7 @@ public partial class ProcesosView : Page
     {
         if (this.Session["User"] == null || this.Session["UniqueSessionId"] == null)
         {
-             this.Response.Redirect("Default.aspx", Constant.EndResponse);
+            this.Response.Redirect("Default.aspx", Constant.EndResponse);
         }
         else
         {
@@ -160,7 +161,9 @@ public partial class ProcesosView : Page
 
 
         this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary[ "Common_Accept"], Action = "success" });
+        this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Hidden = true, Icon = "icon-undo", Text = this.Dictionary["Item_Process_Btn_Restaurar"], Action = "primary" });
+        this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Hidden = true, Icon = "icon-ban-circle", Text = this.Dictionary["Item_Process_Btn_Anular"], Action = "danger" });
+        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
         this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         this.process = Process.Empty;
@@ -182,8 +185,9 @@ public partial class ProcesosView : Page
             this.RenderIndicatorsData();
             this.RenderDocuments();
         }
-        
+
         this.RenderProcesosData();
+        this.RenderCmbUsers();
 
         if (!IsPostBack)
         {
@@ -211,9 +215,9 @@ public partial class ProcesosView : Page
         bool first = true;
         foreach (var process in procesos)
         {
-            if(first)
+            if (first)
             {
-                first=false;
+                first = false;
             }
             else
             {
@@ -328,5 +332,22 @@ public partial class ProcesosView : Page
 
         this.LtDocuments.Text = res.ToString();
         this.LtDocumentsList.Text = resList.ToString();
+    }
+
+    private void RenderCmbUsers()
+    {
+        var res = new StringBuilder();
+        var users = ApplicationUser.CompanyUsers(this.company.Id);
+        foreach(var user in users.OrderBy(u => u.Description))
+        {
+            res.AppendFormat(
+                CultureInfo.InvariantCulture,
+                @"<option value=""{0}""{2}>{1}</option>",
+                user.Id,
+                user.Description,
+                user.Id == this.user.Id ? " selected=\"selected\"" : string.Empty);
+        }
+
+        this.LtCmbDisabledBy.Text = res.ToString();
     }
 }

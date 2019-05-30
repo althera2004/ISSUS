@@ -998,7 +998,7 @@ window.onload = function () {
 
     $("#BtnRecordShowAll").click();
     $("#BtnRecordShowAllOportunity").click();
-    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"ExportPDF();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
 
     console.log(FilterBusinessRisk);
     console.log(FilterOportunity);
@@ -1152,7 +1152,8 @@ function ExportPDF() {
                 "rulesId": rulesId,
                 "processId": processId,
                 "typeId": typeId,
-                "listOrder": listOrder
+                "listOrder": listOrder,
+                "filterText": $("#nav-search-input").val()
             };
 
         LoadingShow(Dictionary.Common_Report_Rendering);

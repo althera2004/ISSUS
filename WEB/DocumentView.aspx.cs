@@ -274,7 +274,7 @@ public partial class DocumentView : Page
     /// <summary>Generates HTML code for historical changes table</summary>
     private void RenderHistorico()
     {
-        this.DocumentAttachActual = "null";
+        this.DocumentAttachActual = Constant.JavaScriptNull;
         var firstDate = DateTime.Now;
         var rows = new List<DocumentVersionRow>();
         var attachs = DocumentAttach.ByDocument(this.DocumentId, this.Company.Id).Where(d=>d.Active == true).ToList();
@@ -313,10 +313,10 @@ public partial class DocumentView : Page
         var res = new StringBuilder();
         foreach(var row in rows.OrderByDescending(r=>r.Version).ThenByDescending(r=>r.Date))
         {
-            firstDate = row.Date;
+            //firstDate = row.Date;
             string rowText = row.Render(this.dictionary, this.ApplicationUser.Grants);
 
-            string extension = rowText.Replace("window.open(", "^"); ;
+            /*string extension = rowText.Replace("window.open(", "^");
             if (extension.IndexOf("^") != -1)
             {
                 extension = extension.Split('^')[1].Split('.')[1].Split('\'')[0];
@@ -333,11 +333,11 @@ public partial class DocumentView : Page
             else
             {
                 extension = string.Empty;
-            }
+            }*/
 
-            rowText = rowText.Replace("icon-edit bigger-120", "icon-download");
+            //rowText = rowText.Replace("icon-edit bigger-120", "icon-download");
 
-            res.Append("<!-- ").Append(extension).Append(" -->");
+            //res.Append("<!-- ").Append(extension).Append(" -->");
 
             res.Append(rowText);
         }

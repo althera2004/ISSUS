@@ -17,9 +17,20 @@ window.onload = function () {
     $("h1").css("padding-top", "12px");
     RenderFounds();
     RenderImprovements();
+
+    if (Editable === false) {
+        $("#BtnNewFound").remove();
+        $("#BtnNewImprovement").remove();
+        $(".btn-info").remove();
+        $(".btn-danger").remove();
+    }
 };
 
 function Toggle(sender) {
+    if (Editable === false) {
+        return false;
+    }
+
     console.log("Toggle", sender.id + " - " + $("#" + sender.id).data("status"));
 
     var id = sender.id.split('Q')[1] * 1;

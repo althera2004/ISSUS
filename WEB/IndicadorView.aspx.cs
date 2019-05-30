@@ -329,7 +329,7 @@ public partial class IndicadorView : Page
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Indicador_Tab_Basic"], Available = true });
         this.tabBar.AddTab(new Tab { Id = "records", Available = true && this.IndicadorId > 0, Active = this.IndicadorId > 0, Label = this.dictionary["Item_Indicador_Tab_Records"] });
         this.tabBar.AddTab(new Tab { Id = "graphics", Available = true && this.IndicadorId > 0, Active = this.IndicadorId > 0, Label = this.dictionary["Item_Indicador_Tab_Graphics"] });
-        this.tabBar.AddTab(new Tab { Id = "historic", Available = true, Active = this.IndicadorId > 0, Hidden = this.IndicadorId < 1, Label = this.Dictionary["Item_Indicador_TabHistoric"] });
+        this.tabBar.AddTab(new Tab { Id = "historic", Available = this.user.HasGrantToRead(ApplicationGrant.IncidentActions), Active = this.IndicadorId > 0, Hidden = this.IndicadorId < 1, Label = this.Dictionary["Item_Indicador_TabHistoric"] });
 
         this.RenderForm();
 

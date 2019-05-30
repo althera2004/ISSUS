@@ -19,7 +19,7 @@ function DocumentDelete(sender) {
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
                         var ok = true;
-                        if (!RequiredFieldText("TxtNewReason")) { ok = false; }
+                        //if (!RequiredFieldText("TxtNewReason")) { ok = false; }
                         if (ok === false) {
                             window.scrollTo(0, 0);
                             return false;

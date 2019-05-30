@@ -74,11 +74,30 @@ window.onload = function () {
     document.getElementById("RBOperation1").checked = Filter.indexOf("C") !== -1;
     document.getElementById("RBOperation2").checked = Filter.indexOf("V") !== -1;
     document.getElementById("RBOperation3").checked = Filter.indexOf("M") !== -1;
-    //document.getElementById("RBStatus0").checked = Filter.indexOf("0") !== -1;
     document.getElementById("RBStatus1").checked = Filter.indexOf("1") !== -1;
     document.getElementById("RBStatus2").checked = Filter.indexOf("2") !== -1;
     RenderTable();
-    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;")
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
+
+    if (document.getElementById("RBOperation1").checked === true && document.getElementById("RBOperation2").checked === false && document.getElementById("RBOperation3").checked === false) {
+        $("#RBOperation1").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBOperation1").checked === false && document.getElementById("RBOperation2").checked === true && document.getElementById("RBOperation3").checked === false) {
+        $("#RBOperation2").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBOperation1").checked === false && document.getElementById("RBOperation2").checked === false && document.getElementById("RBOperation3").checked === true) {
+        $("#RBOperation3").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBStatus1").checked === true && document.getElementById("RBStatus2").checked === false) {
+        $("#RBStatus1").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBStatus1").checked === false && document.getElementById("RBStatus2").checked === true) {
+        $("#RBStatus1").attr("disabled", "disabled");
+    }
 };
 
 window.onresize = function () { Resize(); };

@@ -71,6 +71,7 @@
         var QuestionaryName = "<%=this.Questionary.Description %>";
         var Founds = <%=this.Founds %>;
         var Improvements = <%=this.Improvements %>;
+        var Editable = <%=this.Editable %>;
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">

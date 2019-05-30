@@ -1032,15 +1032,15 @@ namespace GisoFramework.Item
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(DataParameter.OutputInt("@DocumentId"));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description));
+                    cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 100));
                     cmd.Parameters.Add(DataParameter.Input("@Origen", this.Source));
                     cmd.Parameters.Add(DataParameter.Input("@CategoryId", this.Category.Id));
                     cmd.Parameters.Add(DataParameter.Input("@ProcedenciaId", this.Origin.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Conservacion", this.Conservation));
                     cmd.Parameters.Add(DataParameter.Input("@ConservacionType", this.ConservationType));
                     cmd.Parameters.Add(DataParameter.Input("@Activo", Constant.DefaultActive));
-                    cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code));
-                    cmd.Parameters.Add(DataParameter.Input("@Ubicacion", this.Location));
+                    cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code, 25));
+                    cmd.Parameters.Add(DataParameter.Input("@Ubicacion", this.Location, 100));
                     cmd.Parameters.Add(DataParameter.Input("@Version", version));
                     cmd.Parameters.Add(DataParameter.Input("@Revisiondate", revisionDate));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
@@ -1125,7 +1125,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Conservacion", this.Conservation));
                     cmd.Parameters.Add(DataParameter.Input("@ConservacionType", this.ConservationType));
                     cmd.Parameters.Add(DataParameter.Input("@Activo", this.Active));
-                    cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code, 10));
+                    cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code, 25));
                     cmd.Parameters.Add(DataParameter.Input("@Ubicacion", this.Location, 100));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Parameters.Add("@ProcedenciaId", SqlDbType.Int);

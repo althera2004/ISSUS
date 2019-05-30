@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
 using iTS = iTextSharp.text;
 using iTSpdf = iTextSharp.text.pdf;
 using GisoFramework;
@@ -19,7 +20,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PDF_Tests;
 
-public partial class ExportIndicadorExportData : System.Web.UI.Page
+public partial class ExportIndicadorExportData : Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -148,71 +149,74 @@ public partial class ExportIndicadorExportData : System.Web.UI.Page
         }
         #endregion
 
-        #region Historico
-        var historico = ObjetivoHistorico.ByObjetivoId(indicadorId);
-        if (historico.Count > 0)
+        if (user.HasGrantToRead(ApplicationGrant.IncidentActions))
         {
-
-            document.SetPageSize(PageSize.A4.Rotate());
-            document.NewPage();
-
-            var tableHistorico = new PdfPTable(4)
+            #region Historico
+            var historico = ObjetivoHistorico.ByObjetivoId(indicadorId);
+            if (historico.Count > 0)
             {
-                WidthPercentage = 100,
-                HorizontalAlignment = 1,
-                SpacingBefore = 20f
-            };
 
-            tableHistorico.SetWidths(new float[] { 20f, 20f, 120f, 50f });
-            ToolsPdf.AddTableTitle(tableHistorico, dictionary["Item_Objetivo_TabHistoric"]);
-            tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_FieldLabel_Action"]));
-            tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IndicatorRecord_FieldLabel_Date"]));
-            tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_ObjetivoRecord_FieldLabel_Reason"]));
-            tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_FieldLabel_CloseResponsible"]));
+                document.SetPageSize(PageSize.A4.Rotate());
+                document.NewPage();
 
-            int cont = 0;
-            foreach (var objetivoHistorico in historico)
-            {
-                var actionText = string.Empty;
-                var description = string.Empty;
-
-                if (objetivoHistorico.Reason == "Restore")
+                var tableHistorico = new PdfPTable(4)
                 {
-                    actionText = dictionary["Item_ObjetivoHistorico_StatusRestore"];
-                }
-                else
+                    WidthPercentage = 100,
+                    HorizontalAlignment = 1,
+                    SpacingBefore = 20f
+                };
+
+                tableHistorico.SetWidths(new float[] { 20f, 20f, 120f, 50f });
+                ToolsPdf.AddTableTitle(tableHistorico, dictionary["Item_Objetivo_TabHistoric"]);
+                tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_FieldLabel_Action"]));
+                tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IndicatorRecord_FieldLabel_Date"]));
+                tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_ObjetivoRecord_FieldLabel_Reason"]));
+                tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_FieldLabel_CloseResponsible"]));
+
+                int cont = 0;
+                foreach (var objetivoHistorico in historico)
                 {
-                    actionText = dictionary["Item_ObjetivoHistorico_StatusAnulate"];
-                    description = objetivoHistorico.Reason;
+                    var actionText = string.Empty;
+                    var description = string.Empty;
+
+                    if (objetivoHistorico.Reason == "Restore")
+                    {
+                        actionText = dictionary["Item_ObjetivoHistorico_StatusRestore"];
+                    }
+                    else
+                    {
+                        actionText = dictionary["Item_ObjetivoHistorico_StatusAnulate"];
+                        description = objetivoHistorico.Reason;
+                    }
+
+                    tableHistorico.AddCell(ToolsPdf.DataCell(actionText));
+                    tableHistorico.AddCell(ToolsPdf.DataCell(objetivoHistorico.Date));
+                    tableHistorico.AddCell(ToolsPdf.DataCell(description));
+                    tableHistorico.AddCell(ToolsPdf.DataCell(objetivoHistorico.Employee.FullName));
+                    cont++;
                 }
 
-                tableHistorico.AddCell(ToolsPdf.DataCell(actionText));
-                tableHistorico.AddCell(ToolsPdf.DataCell(objetivoHistorico.Date));
-                tableHistorico.AddCell(ToolsPdf.DataCell(description));
-                tableHistorico.AddCell(ToolsPdf.DataCell(objetivoHistorico.Employee.FullName));
-                cont++;
+                // TotalRow
+                tableHistorico.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
+                {
+                    Border = Rectangle.TOP_BORDER,
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    Padding = 8f
+                });
+
+                tableHistorico.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", cont), ToolsPdf.LayoutFonts.TimesBold))
+                {
+                    Border = Rectangle.TOP_BORDER,
+                    HorizontalAlignment = Element.ALIGN_RIGHT,
+                    Padding = 8f
+                });
+
+                tableHistorico.AddCell(new PdfPCell(new Phrase(string.Empty)) { Colspan = 2, Border = Rectangle.TOP_BORDER });
+
+                document.Add(tableHistorico);
             }
-
-            // TotalRow
-            tableHistorico.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
-            {
-                Border = Rectangle.TOP_BORDER,
-                HorizontalAlignment = Element.ALIGN_LEFT,
-                Padding = 8f
-            });
-
-            tableHistorico.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", cont), ToolsPdf.LayoutFonts.TimesBold))
-            {
-                Border = Rectangle.TOP_BORDER,
-                HorizontalAlignment = Element.ALIGN_RIGHT,
-                Padding = 8f
-            });
-
-            tableHistorico.AddCell(new PdfPCell(new Phrase(string.Empty)) { Colspan = 2, Border = Rectangle.TOP_BORDER });
-
-            document.Add(tableHistorico);
+            #endregion
         }
-        #endregion
 
         document.Close();
 

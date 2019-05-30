@@ -99,84 +99,87 @@ public partial class ExportObjetivoExportData : Page
 
         document.Add(table);
 
-        #region Acciones
         if (user.HasGrantToRead(ApplicationGrant.IncidentActions))
         {
-            var acciones = IncidentAction.ByObjetivoId(objetivoId, companyId);
-            if (acciones.Count > 0)
+            #region Acciones
+            if (user.HasGrantToRead(ApplicationGrant.IncidentActions))
             {
-
-                document.SetPageSize(PageSize.A4.Rotate());
-                document.NewPage();
-
-                var tableAcciones = new PdfPTable(5)
+                var acciones = IncidentAction.ByObjetivoId(objetivoId, companyId);
+                if (acciones.Count > 0)
                 {
-                    WidthPercentage = 100,
-                    HorizontalAlignment = 1,
-                    SpacingBefore = 20f
-                };
 
-                tableAcciones.SetWidths(new float[] { 20f, 120f, 20f, 20f, 20f });
-                ToolsPdf.AddTableTitle(tableAcciones, dictionary["Item_Objetivo_ActionsReportTitle"]);
-                tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"]));
-                tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
-                tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
-                tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_ImplementDate"]));
-                tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Cost"]));
+                    document.SetPageSize(PageSize.A4.Rotate());
+                    document.NewPage();
 
-                int cont = 0;
-                decimal totalAcciones = 0;
-                foreach (var accion in acciones)
-                {
-                    tableAcciones.AddCell(ToolsPdf.DataCell(accion.Status));
-                    tableAcciones.AddCell(ToolsPdf.DataCell(accion.Description));
-                    tableAcciones.AddCell(ToolsPdf.DataCell(accion.WhatHappenedOn));
-                    tableAcciones.AddCell(ToolsPdf.DataCell(accion.ActionsOn));
-                    tableAcciones.AddCell(ToolsPdf.DataCell(0));
-                    cont++;
-                    var costs = IncidentActionCost.GetByIncidentActionId(accion.Id, company.Id);
-                    foreach (var cost in costs)
+                    var tableAcciones = new PdfPTable(5)
                     {
-                        totalAcciones = cost.Amount;
+                        WidthPercentage = 100,
+                        HorizontalAlignment = 1,
+                        SpacingBefore = 20f
+                    };
+
+                    tableAcciones.SetWidths(new float[] { 20f, 120f, 20f, 20f, 20f });
+                    ToolsPdf.AddTableTitle(tableAcciones, dictionary["Item_Objetivo_ActionsReportTitle"]);
+                    tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"]));
+                    tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
+                    tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
+                    tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_ImplementDate"]));
+                    tableAcciones.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Cost"]));
+
+                    int cont = 0;
+                    decimal totalAcciones = 0;
+                    foreach (var accion in acciones)
+                    {
+                        tableAcciones.AddCell(ToolsPdf.DataCell(accion.Status));
+                        tableAcciones.AddCell(ToolsPdf.DataCell(accion.Description));
+                        tableAcciones.AddCell(ToolsPdf.DataCell(accion.WhatHappenedOn));
+                        tableAcciones.AddCell(ToolsPdf.DataCell(accion.ActionsOn));
+                        tableAcciones.AddCell(ToolsPdf.DataCell(0));
+                        cont++;
+                        var costs = IncidentActionCost.GetByIncidentActionId(accion.Id, company.Id);
+                        foreach (var cost in costs)
+                        {
+                            totalAcciones = cost.Amount;
+                        }
                     }
+
+                    // TotalRow
+                    tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_RegisterCount"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
+                    {
+                        Border = Rectangle.TOP_BORDER,
+                        HorizontalAlignment = Element.ALIGN_LEFT,
+                        Padding = 8f
+                    });
+
+                    tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", cont), ToolsPdf.LayoutFonts.TimesBold))
+                    {
+                        Border = Rectangle.TOP_BORDER,
+                        HorizontalAlignment = Element.ALIGN_RIGHT,
+                        Padding = 8f
+                    });
+
+                    tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
+                    {
+                        Border = Rectangle.TOP_BORDER,
+                        HorizontalAlignment = Element.ALIGN_LEFT,
+                        Padding = 8f,
+                        Colspan = 2
+                    });
+
+                    tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", totalAcciones), ToolsPdf.LayoutFonts.TimesBold))
+                    {
+                        Border = Rectangle.TOP_BORDER,
+                        HorizontalAlignment = Element.ALIGN_RIGHT,
+                        Padding = 8f
+                    });
+
+                    tableAcciones.AddCell(new PdfPCell(new Phrase(string.Empty)) { Colspan = 3, Border = Rectangle.TOP_BORDER });
+
+                    document.Add(tableAcciones);
                 }
-
-                // TotalRow
-                tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_RegisterCount"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
-                {
-                    Border = Rectangle.TOP_BORDER,
-                    HorizontalAlignment = Element.ALIGN_LEFT,
-                    Padding = 8f
-                });
-
-                tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", cont), ToolsPdf.LayoutFonts.TimesBold))
-                {
-                    Border = Rectangle.TOP_BORDER,
-                    HorizontalAlignment = Element.ALIGN_RIGHT,
-                    Padding = 8f
-                });
-
-                tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
-                {
-                    Border = Rectangle.TOP_BORDER,
-                    HorizontalAlignment = Element.ALIGN_LEFT,
-                    Padding = 8f,
-                    Colspan = 2
-                });
-
-                tableAcciones.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", totalAcciones), ToolsPdf.LayoutFonts.TimesBold))
-                {
-                    Border = Rectangle.TOP_BORDER,
-                    HorizontalAlignment = Element.ALIGN_RIGHT,
-                    Padding = 8f
-                });
-
-                tableAcciones.AddCell(new PdfPCell(new Phrase(string.Empty)) { Colspan = 3, Border = Rectangle.TOP_BORDER });
-
-                document.Add(tableAcciones);
             }
+            #endregion
         }
-        #endregion
 
         #region Registros
         if (objetivo.VinculatedToIndicator)
@@ -303,71 +306,74 @@ public partial class ExportObjetivoExportData : Page
         }
         #endregion
 
-        #region Historico
-        var historico = ObjetivoHistorico.ByObjetivoId(objetivoId);
-        if (historico.Count > 0)
+        if (user.HasGrantToRead(ApplicationGrant.IncidentActions))
         {
-
-            document.SetPageSize(PageSize.A4.Rotate());
-            document.NewPage();
-
-            var tableHistorico = new PdfPTable(4)
+            #region Historico
+            var historico = ObjetivoHistorico.ByObjetivoId(objetivoId);
+            if (historico.Count > 0)
             {
-                WidthPercentage = 100,
-                HorizontalAlignment = 1,
-                SpacingBefore = 20f
-            };
 
-            tableHistorico.SetWidths(new float[] { 20f, 20f, 120f, 50f });
-            ToolsPdf.AddTableTitle(tableHistorico, dictionary["Item_Objetivo_TabHistoric"]);
-            tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_FieldLabel_Action"]));
-            tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IndicatorRecord_FieldLabel_Date"]));
-            tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_ObjetivoRecord_FieldLabel_Reason"]));
-            tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_FieldLabel_CloseResponsible"]));
+                document.SetPageSize(PageSize.A4.Rotate());
+                document.NewPage();
 
-            int cont = 0;
-            foreach (var objetivoHistorico in historico)
-            {
-                var actionText = string.Empty;
-                var description = string.Empty;
-                
-                if(objetivoHistorico.Reason == "Restore")
+                var tableHistorico = new PdfPTable(4)
                 {
-                    actionText = dictionary["Item_ObjetivoHistorico_StatusRestore"];
-                }
-                else
+                    WidthPercentage = 100,
+                    HorizontalAlignment = 1,
+                    SpacingBefore = 20f
+                };
+
+                tableHistorico.SetWidths(new float[] { 20f, 20f, 120f, 50f });
+                ToolsPdf.AddTableTitle(tableHistorico, dictionary["Item_Objetivo_TabHistoric"]);
+                tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_FieldLabel_Action"]));
+                tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IndicatorRecord_FieldLabel_Date"]));
+                tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_ObjetivoRecord_FieldLabel_Reason"]));
+                tableHistorico.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Objetivo_FieldLabel_CloseResponsible"]));
+
+                int cont = 0;
+                foreach (var objetivoHistorico in historico)
                 {
-                    actionText = dictionary["Item_ObjetivoHistorico_StatusAnulate"];
-                    description = objetivoHistorico.Reason;
+                    var actionText = string.Empty;
+                    var description = string.Empty;
+
+                    if (objetivoHistorico.Reason == "Restore")
+                    {
+                        actionText = dictionary["Item_ObjetivoHistorico_StatusRestore"];
+                    }
+                    else
+                    {
+                        actionText = dictionary["Item_ObjetivoHistorico_StatusAnulate"];
+                        description = objetivoHistorico.Reason;
+                    }
+
+                    tableHistorico.AddCell(ToolsPdf.DataCell(actionText));
+                    tableHistorico.AddCell(ToolsPdf.DataCell(objetivoHistorico.Date));
+                    tableHistorico.AddCell(ToolsPdf.DataCell(description));
+                    tableHistorico.AddCell(ToolsPdf.DataCell(objetivoHistorico.Employee.FullName));
+                    cont++;
                 }
 
-                tableHistorico.AddCell(ToolsPdf.DataCell(actionText));
-                tableHistorico.AddCell(ToolsPdf.DataCell(objetivoHistorico.Date));
-                tableHistorico.AddCell(ToolsPdf.DataCell(description));
-                tableHistorico.AddCell(ToolsPdf.DataCell(objetivoHistorico.Employee.FullName));
-                cont++;
+                // TotalRow
+                tableHistorico.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
+                {
+                    Border = Rectangle.TOP_BORDER,
+                    HorizontalAlignment = Element.ALIGN_LEFT,
+                    Padding = 8f
+                });
+
+                tableHistorico.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", cont), ToolsPdf.LayoutFonts.TimesBold))
+                {
+                    Border = Rectangle.TOP_BORDER,
+                    HorizontalAlignment = Element.ALIGN_RIGHT,
+                    Padding = 8f
+                });
+
+                tableHistorico.AddCell(new PdfPCell(new Phrase(string.Empty)) { Colspan = 2, Border = Rectangle.TOP_BORDER });
+
+                document.Add(tableHistorico);
             }
-
-            // TotalRow
-            tableHistorico.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant() + ":", ToolsPdf.LayoutFonts.TimesBold))
-            {
-                Border = Rectangle.TOP_BORDER,
-                HorizontalAlignment = Element.ALIGN_LEFT,
-                Padding = 8f
-            });
-
-            tableHistorico.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:#0.00}", cont), ToolsPdf.LayoutFonts.TimesBold))
-            {
-                Border = Rectangle.TOP_BORDER,
-                HorizontalAlignment = Element.ALIGN_RIGHT,
-                Padding = 8f
-            });
-
-            tableHistorico.AddCell(new PdfPCell(new Phrase(string.Empty)) { Colspan = 2, Border = Rectangle.TOP_BORDER });
-
-            document.Add(tableHistorico);
+            #endregion
         }
-        #endregion
 
         document.Close();
 
