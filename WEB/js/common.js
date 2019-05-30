@@ -117,6 +117,7 @@ function FormatDate(date, separator) {
 }
 
 /// Convierte un texto de fecha YYYYMMDD en texto con formato dd-mm-yyyy
+/// Necesario cuando la fecha debe ser ordenable
 function FormatYYYYMMDD(date, separator) {
     if (date === null) { return ""; }
 

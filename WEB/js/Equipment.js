@@ -503,7 +503,7 @@ function AnulateLayout() {
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_Equipment_AnulateMessageTile + "</h3>";
         message += "    <p style=\"margin-left:50px;\">";
         message += "        " + Dictionary.Item_Equipment_FieldLabel_EndReason + ": <strong>" + Equipment.EndReason + "</strong><br />";
-        message += "        " + Dictionary.Item_Equipment_FieldLabel_EndDate + ": <strong>" + Equipment.EndDate + "</strong><br />";
+        message += "        " + Dictionary.Item_Equipment_FieldLabel_EndDate + ": <strong>" + FormatYYYYMMDD(Equipment.EndDate, "/") + "</strong><br />";
         message += "        " + Dictionary.Item_Equipment_FieldLabel_EndResponsible + ": <strong>" + Equipment.EndResponsible.Value + "</strong>";
         message += "    </p>";
         message += "</div>";

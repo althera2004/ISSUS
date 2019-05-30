@@ -65,7 +65,7 @@ public class CompanyCreation : WebService
 
         if (res.Success)
         {
-            var dictionary = ApplicationDictionary.Load("es");
+            var dictionary = ApplicationDictionary.Load("ca");
             string path = HttpContext.Current.Request.PhysicalApplicationPath;
             string destino = path;
             if (!path.EndsWith("\\", StringComparison.Ordinal))
@@ -112,8 +112,9 @@ public class CompanyCreation : WebService
                 res.MessageError.Split('|')[1],
                 res.MessageError.Split('|')[2],
                 res.MessageError.Split('|')[0],
-                res.MessageError.Split('|'),companyName);
-            var mail = new MailMessage
+                res.MessageError.Split('|')[3]);
+            
+			var mail = new MailMessage
             {
                 From = new MailAddress("issus@scrambotika.com", "ISSUS"),
                 IsBodyHtml = true,
@@ -124,10 +125,10 @@ public class CompanyCreation : WebService
             //mail.To.Add("hola@scrambotika.com");
             //mail.CC.Add(companyEmail);
 
-            var smtpServer = new SmtpClient("mail.scrambotika.com")
+            var smtpServer = new SmtpClient("smtp.scrambotika.com")
             {
-                Port = 25,
-                Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "WSBhz7WB")
+                Port = 587,
+                Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "W3&S1B%h7Jz%7W7f5$%B")
             };
             smtpServer.Send(mail);
         }
@@ -225,7 +226,7 @@ public class CompanyCreation : WebService
                         Directory.CreateDirectory(directory);
                     }
 
-                    res.SetSuccess(userName + Separator + companyEmail + Separator + cmd.Parameters["@Password"].Value.ToString());
+                    res.SetSuccess(userName + Separator + companyEmail + Separator + cmd.Parameters["@Password"].Value.ToString() + Separator + companyName);
                 }
                 catch (SqlException ex)
                 {

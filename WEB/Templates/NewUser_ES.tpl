@@ -21,7 +21,7 @@
 <p>
   <center>
     <FONT FACE="calibri" SIZE="2" COLOR="black">
-      <br />Por favor, nos respondas a este email. Si necesitas contactar con nosotros envíanos un correo a <a href="mailto:hola@scrambotika.com">hola@scrambotika.com.</a>
+      <br />Por favor, no respondas a este email. Si necesitas contactar con nosotros envíanos un correo a <a href="mailto:hola@scrambotika.com">hola@scrambotika.com.</a>
     </FONT>
   </center>
 </p>

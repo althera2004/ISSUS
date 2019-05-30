@@ -159,7 +159,7 @@ public partial class ExportOportunityExportList : Page
 
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_IncidentAction_Header_Type"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_BusinesRisk_ListHeader_Date"]));
-        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_BusinesRisk_ListHeader_Description"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Oportunity"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_BusinesRisk_ListHeader_Process"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_BusinesRisk_ListHeader_Rule"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_BusinesRisk_ListHeader_StartValue"]));
