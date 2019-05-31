@@ -709,7 +709,7 @@ namespace GisoFramework.Item
                         res.SetSuccess();
                         if (res.Success)
                         {
-                            Tools.DeleteAttachs(this.CompanyId, "Equipment", this.Id);
+                            Tools.DeleteAttachs(this.CompanyId, "Equipments", this.Id);
                         }
                     }
                     catch (SqlException ex)

@@ -31,7 +31,7 @@ jQuery(function ($) {
     $("#BtnSelectRules").on("click", function (e) {
         e.preventDefault();
         RulesRenderPopup();
-        var dialog = $("#dialogRules").removeClass("hide").dialog({
+        $("#dialogRules").removeClass("hide").dialog({
             "resizable": false,
             "modal": true,
             "title": Dictionary.Item_Oportunity_SelectRuleType,
@@ -79,7 +79,7 @@ jQuery(function ($) {
 
         IncidentActionCostRenderTable("IncidentActionCostsTableData");
 
-        if (typeof ApplicationUser.Grants.Oportunity === "undefined" || ApplicationUser.Grants.Oportunity.Write === false) {
+        if (typeof ApplicationUser.Grants.BusinessRisk === "undefined" || ApplicationUser.Grants.BusinessRisk.Write === false) {
             $("#costes .btn-info").hide();
             $(".btn-danger").hide();
         }
@@ -93,17 +93,8 @@ jQuery(function ($) {
         RenderStepsSliders();
     }
 
-    $("#BtnSave").on("click", function (e) { SaveBtnPressed(); });
-    $("#BtnCancel").on("click", function (e) { Cancel(); });
-
-    /*$("#TxtActionCauses").change(function (e) { SetCloseRequired(); });
-    $("#CmbActionCausesResponsible").change(function (e) { SetCloseRequired(); });
-    $("#TxtActionCausesDate").change(function (e) { SetCloseRequired(); });
-    $("#TxtActionActions").change(function (e) { SetCloseRequired(); });
-    $("#CmbActionActionsResponsible").change(function (e) { SetCloseRequired(); });
-    $("#TxtActionActionsDate").change(function (e) { SetCloseRequired(); });
-    $("#CmbActionClosedResponsible").change(function (e) { SetCloseRequired(); });
-    $("#TxtActionClosedDate").change(function (e) { SetCloseRequired(); });*/
+    $("#BtnSave").on("click", SaveBtnPressed);
+    $("#BtnCancel").on("click", Cancel);
 
     $("#TxtActionCauses").on("keyup", SetCloseRequired);
     $("#TxtActionCauses").bind("paste", SetCloseRequired);
@@ -226,6 +217,12 @@ function ApplyActionRadio() {
     }
 
     if (document.getElementById("ApplyActionYes").checked === true) {
+        if (user.Grants.IncidentActions !== true) {
+            alertUI(Dictionary.Item_IncidentAction_Message_NoGrants, null, 500);
+            $("#ApplyActionYes").removeAttr("checked");
+            return false;
+        }
+
         ApplyActionTrue();
     }
     else {
@@ -411,7 +408,7 @@ function OportunityInsert(previousId) {
                 }
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -496,7 +493,7 @@ function OportunityUpdate(sender) {
                 }
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -568,7 +565,7 @@ function SaveIncidentAction(OportunityId, reload) {
 
 function SaveBtnPressed() {
     if (ValidateData() === true) {
-        if (this.Oportunity.Id === -1) {
+        if (Oportunity.Id === -1) {
             OportunityInsert(-1);
         }
         else {
@@ -1365,7 +1362,6 @@ function syncFields(target, source) {
 }
 
 if (Oportunity.Result > 0) {
-    //document.getElementById("ApplyActionYes").checked = Oportunity.ApplyAction;
     if (Oportunity.ApplyAction === true) {
         document.getElementById("ApplyActionYes").checked = true;
     }
@@ -1405,8 +1401,7 @@ if (ApplicationUser.Grants.Rules !== null) {
     }
 }
 
-if (typeof ApplicationUser.Grants.Oportunity === "undefined" || ApplicationUser.Grants.Oportunity.Write === false) {
-    alert("no grant");
+if (typeof ApplicationUser.Grants.BusinessRisk === "undefined" || ApplicationUser.Grants.BusinessRisk.Write === false) {
     $("input").attr("disabled", true);
     $("select").attr("disabled", true);
     $("textarea").attr("disabled", true);
@@ -1691,7 +1686,7 @@ function AnulateLayout() {
     $("#DivAnulateMessage").remove();
     if (Action.ClosedOn !== null) {
         $("#BtnNewCost").hide();
-        var message = "<br /><div class=\"alert alert-info\" style=\"display: block;\" id=\"DivAnulateMessage\">";
+        var message = "<br /><div class=\"alert alert-info\" style=\"display:block;\" id=\"DivAnulateMessage\">";
         message += "    <strong><i class=\"icon-info-sign fa-2x\"></i></strong>";
         message += "    <h3 style=\"display:inline;\">" + Dictionary.Item_IncidentAction_AnulateMessageTile + "</h3>";
         message += "    <p style=\"margin-left:50px;\">";

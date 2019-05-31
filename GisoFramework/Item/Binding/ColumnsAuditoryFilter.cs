@@ -19,6 +19,8 @@ namespace GisoFramework.Item.Binding
 
         public const int Amount = 5;
 
-        public const int Active = 6;
+        public const int Type = 6;
+
+        public const int Active = 7;
     }
 }

@@ -209,7 +209,8 @@ namespace GisoFramework.Item
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    @"<a href=""ActionView.aspx?id={0}"">{1:00000} - {2}</a>",
+                    // @"<a href=""ActionView.aspx?id={0}"">{1:00000} - {2}</a>",
+                    @"<a href=""ActionView.aspx?id={0}"">{2}</a>",
                     this.Id,
                     this.Number,
                     this.Description);
@@ -1895,7 +1896,7 @@ namespace GisoFramework.Item
             bool grantIncidentActions = UserGrant.HasWriteGrant(grants, ApplicationGrant.IncidentActions);
             bool grantIncidentActionsDelete = UserGrant.HasDeleteGrant(grants, ApplicationGrant.IncidentActions);
 
-            string iconView = string.Format(CultureInfo.InvariantCulture, @"<span title=""{1} {0}"" class=""btn btn-xs btn-info"" onclick=""ActionsDialog(this);""><i class=""icon-eye-open bigger-120""></i></span>", Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Edit"]));
+            string iconView = string.Format(CultureInfo.InvariantCulture, @"<span title=""{1} {0}"" class=""btn btn-xs btn-info"" onclick=""document.location='/ActionView.aspx?id={2}';""><i class=""icon-edit bigger-120""></i></span>", Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Edit"]), this.Id);
 
             if (this.WhatHappenedOn.HasValue)
             {
@@ -1914,9 +1915,6 @@ namespace GisoFramework.Item
 
             if (this.ClosedOn.HasValue)
             {
-                //this.Status = @"<i title='" + dictionary["Item_Incident_Status4"] + "' class=""fa icon-lock"" style=""color: rgb(0, 0, 0);""></i>" + dictionary["Item_Incident_Status4"];
-                //this.Status = @"<i class=""fa icon-lock"" style=""color: rgb(0, 0, 0);"" title=""" + dictionary["Item_Incident_Status4"] + "\"></i>";
-                // @cristina: la forma correcta es así, pero era muy dificil explicarla por telefono
                 this.Status = string.Format(
                     CultureInfo.InvariantCulture,
                     @"<i class=""fa icon-lock"" style=""color: rgb(0, 0, 0);"" title=""{0}""></i>",
@@ -1925,7 +1923,6 @@ namespace GisoFramework.Item
 
             return string.Format(
                 CultureInfo.InvariantCulture,
-                //@"<tr id=""{1}""><td>{0:dd/MM/yyyy}</td><td>{2}</td><td class=""hidden-480"">{3}</td><td class=""hidden-480""> {4:dd/MM/yyyy}</td><td class=""hidden-480"">{5:dd/MM/yyyy}</td><td>{6}</td></tr>",
                 @"<tr id=""{1}""><td style=""text-align:center;"">{2}</td><td>{0:dd/MM/yyyy}</td><td class=""hidden-480"">{3}</td><td class=""hidden-480""> {4:dd/MM/yyyy}</td><td class=""hidden-480"">{5:dd/MM/yyyy}</td><td>{6}</td></tr>",
                 this.WhatHappenedOn,
                 this.Id,
@@ -1934,6 +1931,77 @@ namespace GisoFramework.Item
                 this.ActionsOn,
                 this.ClosedOn,
                 iconView);
+        }
+
+        /// <summary>HTML Table containing fields to be showed</summary>
+        /// <param name="dictionary">Dictionary containing terms to be showed</param>
+        /// <param name="grants">Gets the grants of the user</param>
+        /// <returns>String containing HTML table</returns>
+        public string ListAuditoryRow(Dictionary<string, string> dictionary, ReadOnlyCollection<UserGrant> grants)
+        {
+            if (dictionary == null)
+            {
+                dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
+            }
+
+            bool grantIncidentActions = UserGrant.HasWriteGrant(grants, ApplicationGrant.IncidentActions);
+            bool grantIncidentActionsDelete = UserGrant.HasDeleteGrant(grants, ApplicationGrant.IncidentActions);
+
+            string iconView = string.Format(CultureInfo.InvariantCulture, @"<span title=""{1} {0}"" class=""btn btn-xs btn-info""><i class=""icon-eye-open bigger-120""></i></span>", Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Edit"]));
+            string statusText = string.Empty;
+            if (this.WhatHappenedOn.HasValue)
+            {
+                this.Status = @"<i class=""fa icon-pie-chart"" style=""color: rgb(255, 0, 0);""></i>";
+                statusText = dictionary["Item_Incident_Status1"];
+            }
+
+            if (this.CausesOn.HasValue)
+            {
+                this.Status = @"<i class=""fa icon-pie-chart"" style=""color: rgb(221, 221, 0);""></i>";
+                statusText = dictionary["Item_Incident_Status2"];
+            }
+
+            if (this.ActionsOn.HasValue)
+            {
+                this.Status = @"<i class=""fa icon-play"" style=""color: rgb(0, 119, 0);""></i>";
+                statusText = dictionary["Item_Incident_Status3"];
+            }
+
+            if (this.ClosedOn.HasValue)
+            {
+                this.Status = string.Format(
+                    CultureInfo.InvariantCulture,
+                    @"<i class=""fa icon-lock"" style=""color: rgb(0, 0, 0);"" title=""{0}""></i>",
+                    dictionary["Item_Incident_Status4"]);
+            }
+
+            var typeText = dictionary["Item_IncidentAction_Type1"];
+            if(this.ActionType == 2)
+            {
+                typeText = dictionary["Item_IncidentAction_Type2"];
+            }
+
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                @"
+                <tr id=""{1}"">
+                    <td style=""text-align:center;width:90px;"" title=""{7}"">{2}</td>
+                    <td style=""width:120px;"">{8}</td>
+                    <td>{3}</td>
+                    <td style=""width:100px;text-align:center;"">{0:dd/MM/yyyy}</td>
+                    <td style=""width:50px;"">
+                        {6}
+                    </td>
+                </tr>",
+                this.WhatHappenedOn,
+                this.Id,
+                this.Status,
+                this.Link,
+                this.ActionsOn,
+                this.ClosedOn,
+                iconView,
+                statusText,
+                typeText);
         }
 
         public static ActionResult FromFound(AuditoryCuestionarioFound found,int employeeId, int applicationUserId, int companyId)

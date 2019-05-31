@@ -34,7 +34,8 @@ public partial class ExportBusinessRiskExportList : Page
         long rulesId,
         long processId,
         int typeId,
-        string listOrder)
+        string listOrder,
+        string filterText)
     {
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -147,6 +148,13 @@ public partial class ExportBusinessRiskExportList : Page
         criteriatable.AddCell(ToolsPdf.CriteriaCellData(ruleDescriptionBusinessRisk));
         criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Item_BusinesRisk_ListHeader_Type"]));
         criteriatable.AddCell(ToolsPdf.CriteriaCellData(criteriaProccess));
+        if (!string.IsNullOrEmpty(filterText))
+        {
+            criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(Dictionary["Common_PDF_Filter_Contains"]));
+            criteriatable.AddCell(ToolsPdf.CriteriaCellData(filterText));
+            criteriatable.AddCell(ToolsPdf.CriteriaCellData(string.Empty));
+            criteriatable.AddCell(ToolsPdf.CriteriaCellData(string.Empty));
+        }
 
         pdfDoc.Add(criteriatable);
         //---------------------------
@@ -215,6 +223,15 @@ public partial class ExportBusinessRiskExportList : Page
 
         foreach (var risk in data)
         {
+            if (!string.IsNullOrEmpty(filterText))
+            {
+                var match = risk.Description;
+                match += "|" + risk.Rule.Description;
+                if (match.IndexOf(filterText,StringComparison.OrdinalIgnoreCase) == -1)
+                {
+                    continue;
+                }
+            }
             cont++;
             string typeText = string.Empty;
             if (risk.Assumed) { typeText = Dictionary["Item_BusinessRisk_Status_Assumed"]; }

@@ -305,6 +305,12 @@ function ApplyActionRadio() {
     }
 
     if (document.getElementById("StartApplyActionYes").checked === true) {
+        if (user.Grants.IncidentActions !== true) {
+            alertUI(Dictionary.Item_IncidentAction_Message_NoGrants, null, 500);
+            $("#StartApplyActionYes").removeAttr("checked");
+            return false;
+        }
+
         ApplyActionTrue();
         SetCloseRequired();
         alertUI(Dictionary.Item_BusinessRisk_Warning_ActionTabAvailable, null, 500);

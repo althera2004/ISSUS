@@ -278,10 +278,10 @@ public partial class ObjetivoView : Page
         this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_Objetivo_TabBasic"], Available = true });
-        this.tabBar.AddTab(new Tab { Id = "actions", Available = this.objetivoId > 0, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabActions"] });
+        this.tabBar.AddTab(new Tab { Id = "actions", Available = this.objetivoId > 0 && this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabActions"] });
         this.tabBar.AddTab(new Tab { Id = "records", Available = this.objetivoId > 0, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_Tab_Records"] });
         this.tabBar.AddTab(new Tab { Id = "graphics", Available = this.objetivoId > 0, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabGraphics"] });
-        this.tabBar.AddTab(new Tab { Id = "historic", Available = this.objetivoId > 0, Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabHistoric"] });
+        this.tabBar.AddTab(new Tab { Id = "historic", Available = this.objetivoId > 0 && this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabHistoric"] });
 
         this.RenderForm();
     }

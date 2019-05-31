@@ -32,9 +32,20 @@ function numberDecimalDown(e) {
     }
 
     numberActual = e.currentTarget.value;
+
+    if (code === 189) {
+        if (e.currentTarget.value.indexOf('-') !== -1) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        else {
+            e.currentTarget.value = "-" + e.currentTarget.value;
+        }
+    }
+
     if (code === 188 || code === 110 || code === 190) {
         e.currentTarget.value = numberActual.split(",").join(".");
-        if (numberActual.indexOf(".") != -1) {
+        if (numberActual.indexOf(".") !== -1) {
             e.preventDefault();
             e.stopPropagation();
         }
@@ -56,7 +67,7 @@ function numberDecimalUp(e) {
     var code = (e.keyCode ? e.keyCode : e.which);
     numberActual = e.currentTarget.value;
 
-    if (numberActual.indexOf(",") != -1) {
+    if (numberActual.indexOf(",") !== -1) {
         e.currentTarget.value = numberActual.split(",").join(".");
     }
 

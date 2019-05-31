@@ -305,7 +305,7 @@ public class EquipmentExportList : System.Web.Services.WebService
 
         if (!string.IsNullOrEmpty(filterText))
         {
-            data = data.Where(d => d.Code.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1 || d.Description.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1 || d.Responsible.FullName.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1 || d.TotalCost.ToString().IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1).ToList();
+            data = data.Where(d => d.Code.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1 || d.Description.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1 || d.Location.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1 || d.Responsible.FullName.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1 || d.TotalCost.ToString().IndexOf(filterText, StringComparison.OrdinalIgnoreCase) != -1).ToList();
         }
 
         foreach (Equipment equipment in data)

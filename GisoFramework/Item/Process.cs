@@ -70,6 +70,20 @@ namespace GisoFramework.Item
                             };
 
                             this.ModifiedBy.Employee = Employee.ByUserId(this.ModifiedBy.Id);
+
+                            if (!rdr.IsDBNull(ColumnsProcessGetById.DisabledBy))
+                            {
+                                this.DisabledBy = new ApplicationUser
+                                {
+                                    Id = rdr.GetInt32(ColumnsProcessGetById.DisabledBy),
+                                    UserName = rdr.GetString(ColumnsProcessGetById.DisabledByUserName)
+                                };
+                            }
+
+                            if (!rdr.IsDBNull(ColumnsProcessGetById.DisabledOn))
+                            {
+                                this.DisabledOn = rdr.GetDateTime(ColumnsProcessGetById.DisabledOn);
+                            }
                         }
                     }
                 }
@@ -113,6 +127,12 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets the text for the finish phase</summary>
         public string End { get; set; }
 
+        /// <summary>Gets or sets the user that disables process</summary>
+        public ApplicationUser DisabledBy { get; set; }
+
+        /// <summary>Gets or sets the date of disable process</summary>
+        public DateTime? DisabledOn { get; set; }
+
         /// <summary>Gets or sets the job position linked to process</summary>
         public JobPosition JobPosition { get; set; }
 
@@ -137,6 +157,20 @@ namespace GisoFramework.Item
         {
             get
             {
+                string disabledOn = Constant.JavaScriptNull;
+                if (this.DisabledOn.HasValue)
+                {
+                    disabledOn = string.Format(CultureInfo.InvariantCulture, @"""{0:dd/MM/yyyy}""", this.DisabledOn.Value);
+                }
+
+                ApplicationUser disabledByUser = ApplicationUser.Empty;
+                if(this.DisabledBy!=null && this.DisabledBy.Id > 0)
+                {
+                    disabledByUser = this.DisabledBy;
+                }
+
+                string disabledBy = disabledByUser.JsonKeyValue;
+
                 string pattern = @"{{
                         ""Id"":{0},
                         ""Description"":""{1}"",
@@ -146,6 +180,8 @@ namespace GisoFramework.Item
                         ""Start"":""{5}"",
                         ""Work"":""{6}"",
                         ""End"":""{7}"",
+                        ""Disabledby"": {10},
+                        ""DisabledOn"": {11},
                         ""Active"":{8},
                         ""Deletable"":{9}
                     }}";
@@ -161,7 +197,9 @@ namespace GisoFramework.Item
                     Tools.JsonCompliant(this.Work),
                     Tools.JsonCompliant(this.End),
                     this.Active ? "true" : "false",
-                    this.CanBeDeleted ? "true" : "false");
+                    this.CanBeDeleted ? "true" : "false",
+                    disabledBy,
+                    disabledOn);
             }
         }
 
@@ -215,7 +253,7 @@ namespace GisoFramework.Item
         /// <param name="companyId">Company identifier</param>
         /// <param name="userId">Identifier of user that performs the action</param>
         /// <returns>Action result</returns>
-        public static ActionResult Deactive(int processId, int companyId, int userId)
+        public static ActionResult Delete(int processId, int companyId, int userId)
         {
             var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Process_Desactive
@@ -403,6 +441,20 @@ namespace GisoFramework.Item
                                             Description = rdr.GetString(8),
                                             CompanyId = companyId
                                         };
+                                    }
+
+                                    if (!rdr.IsDBNull(10))
+                                    {
+                                        newProcess.DisabledBy = new ApplicationUser
+                                        {
+                                            Id = rdr.GetInt32(10),
+                                            UserName = rdr.GetString(11)
+                                        };
+                                    }
+
+                                    if (!rdr.IsDBNull(12))
+                                    {
+                                        newProcess.DisabledOn = rdr.GetDateTime(12);
                                     }
 
                                     res.Add(newProcess);

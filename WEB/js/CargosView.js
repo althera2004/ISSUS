@@ -234,13 +234,13 @@ function ShowDepartmentPopup() {
 
 function ValidateJobPositionForm() {
     var ok = true;
-    document.getElementById("TxtNameErrorDuplicated").style.display = "none";
+    $("#TxtNameErrorDuplicated").hide();
     if (!RequiredFieldText("TxtName")) { ok = false; }
     else
     {
         var duplicated = false;
         for (var x = 0; x < jobPositionCompany.length; x++) {
-            if (jobPositionCompany[x].Description === document.getElementById("TxtName").value && jobPositionCompany[x].Id !== cargo.Id) {
+            if (jobPositionCompany[x].Description === $("#TxtName").val() && jobPositionCompany[x].Id !== cargo.Id) {
                 duplicated = true;
                 break;
             }
@@ -248,8 +248,8 @@ function ValidateJobPositionForm() {
 
         if (duplicated === true) {
             ok = false;
-            document.getElementById("TxtNameLabel").style.color = "#f00";
-            document.getElementById("TxtNameErrorDuplicated").style.display = "block";
+            $("#TxtNameLabel").css("color", "#f00");
+            $("#TxtNameErrorDuplicated").show();
         }
     }
 
@@ -405,12 +405,12 @@ jQuery(function ($) {
 
 function DepartmentInsert() {
     document.getElementById("dialogDepartment").parentNode.style.cssText += "z-Index:1039 !important";
-    document.getElementById("TxtDepartmentNewName").value = "";
-    document.getElementById("TxtDepartmentNewNameErrorRequired").style.display = "none";
-    document.getElementById("TxtDepartmentNewNameErrorDuplicated").style.display = "none";
+    $("#TxtDepartmentNewName").val("");
+    $("#TxtDepartmentNewNameErrorRequired").hide();
+    $("#TxtDepartmentNewNameErrorDuplicated").hide();
     $("#TxtProcessTypeNewName").val("");
     var Selected = 0;
-    var dialog = $("#DepartmentInsertDialog").removeClass("hide").dialog({
+    $("#DepartmentInsertDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 600,
         "modal": true,
@@ -423,32 +423,32 @@ function DepartmentInsert() {
                 "class": "btn btn-success btn-xs",
                 "click": function () {
                     var ok = true;
-                    document.getElementById("TxtDepartmentNewNameErrorRequired").style.display = "none";
-                    document.getElementById("TxtDepartmentNewNameErrorDuplicated").style.display = "none";
+                    $("#TxtDepartmentNewNameErrorRequired").hide();
+                    $("#TxtDepartmentNewNameErrorDuplicated").hide();
 
                     if (!RequiredFieldText("TxtDepartmentNewName")) { ok = false; }
                     else
                     {
                         var duplicated = false;
                         for (var x = 0; x < departmentsCompany.length; x++) {
-                            if (document.getElementById("TxtDepartmentNewName").value.toLowerCase() === departmentsCompany[x].Description.toLowerCase()) {
+                            if ($("#TxtDepartmentNewName").val().toLowerCase() === departmentsCompany[x].Description.toLowerCase()) {
                                 duplicated = true;
                                 break;
                             }
                         }
 
                         if (duplicated === true) {
-                            document.getElementById("TxtDepartmentNewNameErrorDuplicated").style.display = "block";
+                            $("#TxtDepartmentNewNameErrorDuplicated").show()";
                             ok = false;
                         }
                     }
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
 
-                    document.getElementById("TxtDepartmentNewNameErrorRequired").style.display = "none";
-                    document.getElementById("TxtDepartmentNewNameErrorDuplicated").style.display = "none";
+                    $("#TxtDepartmentNewNameErrorRequired").hide();
+                    $("#TxtDepartmentNewNameErrorDuplicated").hide();
                     $(this).dialog("close");
-                    DepartmentInsertConfirmed(document.getElementById("TxtDepartmentNewName").value);
+                    DepartmentInsertConfirmed($("#TxtDepartmentNewName").val());
                 }
             },
             {
@@ -473,7 +473,6 @@ function DepartmentInsertConfirmed(newDescription) {
     };
 
     var newId = 0;
-
     $.ajax({
         "type": "POST",
         "url": "/Async/DepartmentActions.asmx/DepartmentInsert",
@@ -501,7 +500,7 @@ function DepartmentInsertConfirmed(newDescription) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             alert(jqXHR.responseText);
         }
     });
@@ -517,10 +516,10 @@ function DepartmentUpdate(sender) {
     document.getElementById("dialogDepartment").parentNode.style.cssText += "z-Index:1039 !important";
     var DepartmentUpdatedId = sender.parentNode.parentNode.parentNode.id * 1;
     var department = GetCompanyDepartment(DepartmentUpdatedId);
-    document.getElementById("TxtDepartmentUpdateName").value = department.Description;
-    document.getElementById("TxtDepartmentUpdateNameErrorRequired").style.display = "none";
-    document.getElementById("TxtDepartmentUpdateNameErrorDuplicated").style.display = "none";
-    var dialog = $("#DepartmentUpdateDialog").removeClass("hide").dialog({
+    $("#TxtDepartmentUpdateName").val(department.Description);
+    $("#TxtDepartmentUpdateNameErrorRequired").hide();
+    $("#TxtDepartmentUpdateNameErrorDuplicated").hide();
+    $("#DepartmentUpdateDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 600,
         "modal": true,
@@ -538,23 +537,22 @@ function DepartmentUpdate(sender) {
                     {
                         var duplicated = false;
                         for (var x = 0; x < departmentsCompany.length; x++) {
-                            if (document.getElementById("TxtDepartmentUpdateName").value.toLowerCase() === departmentsCompany[x].Description.toLowerCase() && departmentsCompany[x].Id !== DepartmentUpdatedId) {
+                            if ($("#TxtDepartmentUpdateName").val().toLowerCase() === departmentsCompany[x].Description.toLowerCase() && departmentsCompany[x].Id !== DepartmentUpdatedId) {
                                 duplicated = true;
                                 break;
                             }
                         }
 
                         if (duplicated === true) {
-                            document.getElementById("TxtDepartmentUpdateNameErrorDuplicated").style.display = "block";
+                            $("#TxtDepartmentUpdateNameErrorDuplicated").show();
                             ok = false;
                         }
                     }
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
-                    document.getElementById("TxtDepartmentUpdateNameErrorRequired").style.display = "none";
-                    document.getElementById("TxtDepartmentUpdateNameErrorDuplicated").style.display = "none";
-                    $(this).dialog("close");
-                    DepartmentUpdateConfirmed(DepartmentUpdatedId, document.getElementById("TxtDepartmentUpdateName").value);
+                    $("#TxtDepartmentUpdateNameErrorRequired").hide();
+                    $("#TxtDepartmentUpdateNameErrorDuplicated").hide();
+                    DepartmentUpdateConfirmed(DepartmentUpdatedId, $("#TxtDepartmentUpdateName").val());
                 }
             },
             {
@@ -589,7 +587,7 @@ function DepartmentUpdateConfirmed(id, name) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             alert(jqXHR.responseText);
         }
     });
@@ -649,18 +647,18 @@ function FillDepartmentCombo() {
 FillDepartmentCombo();
 
 if (ApplicationUser.Grants.JobPosition.Write === false) {
-    document.getElementById("TxtName").disabled = true;
-    document.getElementById("TxtResponsabilidades").disabled = true;
-    document.getElementById("TxtNotas").disabled = true;
-    document.getElementById("TxtFormacionAcademicaDeseada").disabled = true;
-    document.getElementById("TxtFormacionEspecificaDeseada").disabled = true;
-    document.getElementById("TxtExperienciaLaboral").disabled = true;
-    document.getElementById("TxtHabilidades").disabled = true;
+    $("#TxtName").attr("disabled", "disabled");
+    $("#TxtResponsabilidades").attr("disabled", "disabled");
+    $("#TxtNotas").attr("disabled", "disabled");
+    $("#TxtFormacionAcademicaDeseada").attr("disabled", "disabled");
+    $("#TxtFormacionEspecificaDeseada").attr("disabled", "disabled");
+    $("#TxtExperienciaLaboral").attr("disabled", "disabled");
+    $("#TxtHabilidades").attr("disabled", "disabled");
 
-    document.getElementById("CmbDepartment").disabled = true;
-    document.getElementById("CmbDepartment").style.backgroundColor = "#f5f5f5";
-    document.getElementById("CmbResponsible").disabled = true;
-    document.getElementById("CmbResponsible").style.backgroundColor = "#f5f5f5";
+    $("#CmbDepartment").attr("disabled", "disabled");
+    $("#CmbDepartment").css("background-color", "#f5f5f5");
+    $("#CmbResponsible").attr("disabled", "disabled");
+    $("#CmbResponsible").css("background-color", "#f5f5f5");
 
     $("#BtnDepartment").hide();
     $("#BtnSave").hide();

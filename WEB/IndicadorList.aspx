@@ -241,7 +241,7 @@
                             </div><!-- /.col -->
                             <br /><br />
                             <div id="IndicadorDeleteDialog" class="hide" style="width:500px;">
-                                <p><%=this.Dictionary["Item_Indicador_PopupDelete_Message"] %>&nbsp;<strong><span id="IndicadorDeleteName"></span></strong>? <br /><br /><strong><%=this.Dictionary["Item_Indicador_PopupDelete_Message2"] %></strong></p>
+                                <p><%=this.Dictionary["Item_Indicador_PopupDelete_Message"] %>&nbsp;<strong><span id="IndicadorDeleteName"></span></strong>? <br /><br /><strong><%=this.Dictionary["Common_DeleteMessage_NoUndo"] %></strong></p>
                             </div>
 
 </asp:Content>

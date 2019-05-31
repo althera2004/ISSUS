@@ -372,7 +372,7 @@
             
             <div id="DeleteAttachDialog" class="hide" style="width:500px;">
                 <p><%=this.Dictionary["Item_Attach_Popup_Delete_Question"] %>&nbsp;<strong><span id="AttachName"></span></strong>?</p>
-                <p><i><%=this.Dictionary["Item_Attachment_Popup_Warning"] %></i></p>
+                <p><i><%=this.Dictionary["Common_DeleteMessage_NoUndo"] %></i></p>
             </div>
         </div><!-- /.main-container -->
         <div id="logofooter" class="btn-scroll-up hidden-sm" style="width:100%;background-color:#ddd;color:#333;font-size:1em;text-align:center;padding:8px;position:fixed; margin:0 !important;bottom:0;right:0;">
