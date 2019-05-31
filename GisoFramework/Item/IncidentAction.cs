@@ -1896,7 +1896,7 @@ namespace GisoFramework.Item
             bool grantIncidentActions = UserGrant.HasWriteGrant(grants, ApplicationGrant.IncidentActions);
             bool grantIncidentActionsDelete = UserGrant.HasDeleteGrant(grants, ApplicationGrant.IncidentActions);
 
-            string iconView = string.Format(CultureInfo.InvariantCulture, @"<span title=""{1} {0}"" class=""btn btn-xs btn-info"" onclick=""ActionsDialog(this);""><i class=""icon-eye-open bigger-120""></i></span>", Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Edit"]));
+            string iconView = string.Format(CultureInfo.InvariantCulture, @"<span title=""{1} {0}"" class=""btn btn-xs btn-info"" onclick=""document.location='/ActionView.aspx?id={2}';""><i class=""icon-edit bigger-120""></i></span>", Tools.SetTooltip(this.Description), Tools.JsonCompliant(dictionary["Common_Edit"]), this.Id);
 
             if (this.WhatHappenedOn.HasValue)
             {

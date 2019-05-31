@@ -1,5 +1,5 @@
-﻿function FilterList(totalIndex) {
-    if (document.getElementById("ListDataTable") != null) {
+﻿function FilterList(totalIndex, totalDOMElement) {
+    if (document.getElementById("ListDataTable") !== null) {
         var searcheablesIndex = new Array();
         var headerList = document.getElementById("ListDataHeader").childNodes;
         var cont = 0;
@@ -33,12 +33,13 @@
                         var item = row.childNodes[searcheablesIndex[y]].innerText.toUpperCase();
                         if (item.indexOf(pattern) !== -1) {
                             match = true;
-                            cont++;
+                            break;
                         }
                     }
                 }
 
                 if (match === true) {
+                    cont++;
                     if (totalizableIndex > 0) {
                         var totalText = row.childNodes[totalizableIndex].innerText;
                         total += StringToNumber(totalText, ".", ",");
@@ -49,7 +50,12 @@
             }
         }
 
-        $("#TotalList").html(cont);
+        if (typeof totalDOMElement !== "undefined" && totalDOMElement !== null && totalDOMElement !== $("#" + totalDOMElement).length > 0) {
+            $("#" + totalDOMElement).html(cont);
+        }
+        else {
+            $("#TotalList").html(cont);
+        }
         $("#TotalAmount").html(ToMoneyFormat(total, 2));
     }
 }

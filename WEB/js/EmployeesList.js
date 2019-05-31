@@ -215,10 +215,11 @@ function RenderEmployeeTable() {
     }
 
     $("#ListDataTable").html(res);
-    $("#TotalRecords").html(count);
+    $("#TotalList").html(count);
 }
 
 function FilterChanged() {
+    $("#nav-search-input").val("");
     $("#Chk1").removeAttr("disabled");
     $("#Chk2").removeAttr("disabled");
     var count = document.getElementById("Chk1").checked === true ? 1 : 0;

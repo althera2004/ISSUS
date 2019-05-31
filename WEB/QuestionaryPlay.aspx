@@ -80,7 +80,6 @@
                             <div>
                                 <div id="user-profile-2" class="user-profile">                                             
                                                 <div class="form-horizontal" role="form">
-                                                    
                                                     <div class="table-responsive" id="scrollTableDiv">
                                                         <table class="table table-bordered table-striped" style="margin: 0">
                                                             <thead class="thin-border-bottom">

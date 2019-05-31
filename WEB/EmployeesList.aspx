@@ -59,7 +59,7 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <td><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><span id="TotalRecords"></span></strong></td>
+                                                        <td><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><span id="TotalList"></span></strong></td>
                                                     </tr>
                                                 </thead>
                                             </table>

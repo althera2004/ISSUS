@@ -27,7 +27,6 @@ C:\Proyectos\ISSUS\SbrinnaFramework\bin\Debug\NPOI.OpenXmlFormats.dll
 C:\Proyectos\ISSUS\SbrinnaFramework\bin\Debug\itextsharp.xml
 C:\Proyectos\ISSUS\SbrinnaFramework\bin\Debug\Newtonsoft.Json.xml
 C:\Proyectos\ISSUS\SbrinnaFramework\bin\Debug\NPOI.xml
-C:\Proyectos\ISSUS\SbrinnaFramework\obj\Debug\SbrinnaFramework.csprojAssemblyReference.cache
 C:\Proyectos\ISSUS\SbrinnaFramework\obj\Debug\SbrinnaFramework.csproj.CoreCompileInputs.cache
 C:\Proyectos\ISSUS\SbrinnaFramework\obj\Debug\SbrinnaFramework.csproj.CopyComplete
 C:\Proyectos\ISSUS\SbrinnaFramework\obj\Debug\SbrinnaCoreFramework.dll

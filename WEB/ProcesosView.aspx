@@ -58,10 +58,10 @@
                                                 <li class="active" id="TabHome">
                                                     <a data-toggle="tab" href="#home"><%=this.Dictionary["Item_Process_Tab_Principal"] %></a>
                                                 </li>
-                                                <li id="tabIndicators">                                                    
+                                                <!--<li id="tabIndicators">                                                    
                                                     <a data-toggle="tab" href="#indicators"><%=this.Dictionary["Item_Process_Tab_Indicators"] %></a>
                                                 </li>
-                                                <!--<li id="tabQuestionarios">                                                    
+                                                <li id="tabQuestionarios">                                                    
                                                     <a data-toggle="tab" href="#questionarios">Cuestionarios</a>
                                                 </li>-->
                                                 <% if (this.Proceso.Id > 0) { %>
