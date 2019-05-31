@@ -65,7 +65,6 @@ public partial class ExportIncidentExportList : Page
         }
 
         var formatedDescription = ToolsPdf.NormalizeFileName(company.Name);
-
         var fileName = string.Format(
             CultureInfo.InvariantCulture,
             @"{0}_{1}_{2:yyyyMMddhhmmss}.pdf",
@@ -244,6 +243,7 @@ public partial class ExportIncidentExportList : Page
         {
             ToolsPdf.AddCriteria(criteriatable, dictionary["Common_PDF_Filter_Contains"], filterText);
         }
+
         ToolsPdf.AddCriteria(criteriatable, dictionary["Item_IncidentAction_Header_Status"], statusText);
         ToolsPdf.AddCriteria(criteriatable, dictionary["Item_IncidentAction_Header_Origin"], criteriaOrigin);
         pdfDoc.Add(criteriatable);
