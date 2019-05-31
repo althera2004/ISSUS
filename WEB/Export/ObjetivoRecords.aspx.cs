@@ -80,6 +80,9 @@ public partial class ExportObjetivoRecords : Page
         var hssfDataFormat = wb.CreateDataFormat();
         moneyCellStyle.DataFormat = hssfDataFormat.GetFormat("#,##0.00");
 
+        var dateCellStyle = wb.CreateCellStyle();
+        dateCellStyle.DataFormat = hssfDataFormat.GetFormat("dd/MM/yyyy");
+
         var headerCellStyle = wb.CreateCellStyle();
         var headerFont = wb.CreateFont();
         headerFont.Boldweight = (short)FontBoldWeight.Bold;
@@ -283,7 +286,6 @@ public partial class ExportObjetivoRecords : Page
             // Responsible
             if (sh.GetRow(countRow).GetCell(5) == null) { sh.GetRow(countRow).CreateCell(5); }
             sh.GetRow(countRow).GetCell(5).SetCellValue(registroObjetivo.Responsible.FullName);
-
             countRow++;
         }
 

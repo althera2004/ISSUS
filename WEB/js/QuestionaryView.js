@@ -334,14 +334,14 @@ function InsertQuestion() {
         "buttons":
             [
                 {
-                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
-                    "class": "btn btn-danger btn-xs",
+                    "html": "<i class=\"icon-check bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
                     "click": function () {
                         InsertQuestionConfirmed(selected);
                     }
                 },
                 {
-                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     "click": function () {
                         $(this).dialog("close");

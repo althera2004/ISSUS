@@ -5,6 +5,7 @@ var recordsGraph = [];
 var periodicityIndicador = null;
 
 window.onload = function () {
+    $("#nav-search").remove();
     if (ItemData.Id < 1) {
         $("#TxtFechaCierrePrevista").val("");
         document.getElementById("Contentholder1_RVinculatedNo").checked = true;
@@ -52,7 +53,7 @@ window.onload = function () {
     $("#BtnRecordFilter").on("click", ObjetivoRegistroFilter);
     $("#BtnRecordNew").on("click", RecordNew);
     $("#BtnSave").on("click", Save);
-    $("#BtnCancel").on("click", function (e) { document.location = referrer; });
+    $("#BtnCancel").on("click", function () { document.location = referrer; });
 
     $("#Contentholder1_RVinculatedYes").on("change", IndicatorVinculatedLayout);
     $("#Contentholder1_RVinculatedNo").on("change", IndicatorVinculatedLayout);

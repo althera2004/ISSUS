@@ -124,9 +124,9 @@ public class AuditoryActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult Close(long auditoryId, long closedBy, DateTime closedOn, int applicationUserId, int companyId)
+    public ActionResult Close(long auditoryId, long closedBy,DateTime questionaryStart, DateTime questionaryEnd, DateTime closedOn, int applicationUserId, int companyId)
     {
-        return Auditory.Close(auditoryId, closedBy, closedOn, applicationUserId, companyId);
+        return Auditory.Close(auditoryId, questionaryStart, questionaryEnd, closedBy, closedOn, applicationUserId, companyId);
     }
 
     [WebMethod(EnableSession = true)]
@@ -148,6 +148,13 @@ public class AuditoryActions : WebService
     public ActionResult Validate(long auditoryId, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId)
     {
         return Auditory.Validate(auditoryId, validatedBy, validatedOn, applicationUserId, companyId);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult ValidateExternal(long auditoryId, DateTime questionaryStart, DateTime questionaryEnd, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId)
+    {
+        return Auditory.ValidateExternal(auditoryId,validatedBy,questionaryStart, questionaryEnd, validatedOn, applicationUserId, companyId);
     }
 
     [WebMethod(EnableSession = true)]

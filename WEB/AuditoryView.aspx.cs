@@ -1,5 +1,5 @@
 ﻿// --------------------------------
-// <copyright file="QuestionaryView.aspx.cs" company="OpenFramework">
+// <copyright file="AuditoryView.aspx.cs" company="OpenFramework">
 //     Copyright (c) OpenFramework. All rights reserved.
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
@@ -110,6 +110,58 @@ public partial class AuditoryView : Page
         get
         {
             return AuditoryCuestionarioFound.JsonList(this.Auditory.Founds);
+        }
+    }
+
+    public string UserEmployees
+    {
+        get
+        {
+            var res = new StringBuilder("[");
+            bool first = true;
+            using(var cmd = new SqlCommand("ApplicationUserEmployee_GetAll"))
+            {
+                using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.company.Id));
+                    try
+                    {
+                        cmd.Connection.Open();
+                        using(var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                if (first)
+                                {
+                                    first = false;
+                                }
+                                else
+                                {
+                                    res.Append(",");
+                                }
+
+                                res.AppendFormat(
+                                    CultureInfo.InvariantCulture,
+                                    @"{{""U"":{0},""E"":{1}}}",
+                                    rdr.GetInt32(0),
+                                    rdr.GetInt32(1));
+                            }
+                        }
+                    }
+                    finally
+                    {
+                        if(cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            res.Append("]");
+            return res.ToString();
         }
     }
 
@@ -394,13 +446,11 @@ public partial class AuditoryView : Page
         var employesList = new StringBuilder();
         var auditedList = new StringBuilder();
         var planningList = new StringBuilder();
-        var auditorList = new StringBuilder();
         var closedList = new StringBuilder();
         var validatedList = new StringBuilder();
         employesList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         auditedList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         planningList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
-        auditorList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         closedList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         validatedList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         foreach (var employee in Employee.ByCompany(this.company.Id))
@@ -447,21 +497,29 @@ public partial class AuditoryView : Page
                     @"<option value=""{0}"">{1}</option>",
                     employee.Id,
                     employee.FullName);
-                auditorList.AppendFormat(
-                    CultureInfo.InvariantCulture,
-                    @"<option value=""{0}"">{1}</option>",
-                    employee.Id,
-                    employee.FullName);
             }
         }
 
         this.LtCmbInternalResponsible.Text = employesList.ToString();
         this.LtAuditedList.Text = auditedList.ToString();
         this.LtAuditoryPlanningResponsible.Text = planningList.ToString();
-        this.LtAuditorList.Text = auditorList.ToString();
         this.LtClosedByList.Text = closedList.ToString();
         this.LtValidatedByList.Text = validatedList.ToString();
         this.LtWhatHappendByList.Text = validatedList.ToString();
+
+
+        var auditorList = new StringBuilder();
+        auditorList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
+        foreach(var user in ApplicationUser.CompanyUsers(this.company.Id).Where(us=>us.Status != GisoFramework.LogOn.ApplicationLogOn.LogOnResult.None).OrderBy(u => u.UserName))
+        {
+            auditorList.AppendFormat(
+                CultureInfo.InvariantCulture,
+                @"<option value=""{0}"">{1}</option>",
+                user.Id,
+                user.UserName);
+        }
+
+        this.LtAuditorList.Text = auditorList.ToString();
 
         var addressList = new StringBuilder();
         employesList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
@@ -496,30 +554,7 @@ public partial class AuditoryView : Page
         }
 
         this.LtCmbProvider.Text = providerList.ToString();
-        this.LtCmbProvider2.Text = providerList.ToString();
-
-        var customerList = new StringBuilder();
-        customerList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
-        if (this.Auditory.Type == 1 || this.Auditory.Type == 2)
-        {
-            foreach (var customer in Customer.ByCompany(this.company.Id))
-            {
-                if (this.auditoryId > 0 || customer.Active)
-                {
-                    customerList.AppendFormat(
-                        CultureInfo.InvariantCulture,
-                        @"<option value=""{0}""{2}>{1}</option>",
-                        customer.Id,
-                        customer.Description,
-                        this.Auditory.Customer.Id == customer.Id ? " selected=\"selected\"" : string.Empty);
-                }
-            }
-        }
-
-        this.LtCmbCustomer.Text = customerList.ToString();
-    }
-
-    
+    }    
 
     private void RenderDocuments()
     {

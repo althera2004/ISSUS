@@ -85,6 +85,7 @@ Common_Day::Dia
 Common_Days::Dies
 Common_Delete::Eliminar
 Common_DeleteMessage::Segur que vol eliminar
+Common_DeleteMessage_NoUndo::ATENCIÓ: Aquesta acció no es podrà desfer!
 Common_Edit::Editar
 Common_Error::Error
 Common_Error_Application::S'ha produït un error a l'aplicació
@@ -248,7 +249,6 @@ Item_Attachment_Header_CreateDate::Pujat el
 Item_Attachment_Header_Description::Descripció
 Item_Attachment_Header_FileName::Fitxer
 Item_Attachment_Header_Size::Mida
-Item_Attachment_Popup_Warning::Aquesta acció no es pot desfer
 Item_Attachment_SectionTitle::Documents adjunts
 Item_Attachment_Size::Mida
 Item_Backup::Back-Up
@@ -1750,10 +1750,10 @@ Item_User_List_Header_Read::Lectura
 Item_User_List_Header_UserName::Usuari/a
 Item_User_List_Header_Write::Modificació
 Item_User_MailResetPassword_Subject::Reinici de contrasenya a ISSUS de un usuari propietari
-Item_User_Message_AfterChangePassword::Al canviar la contrasenya es reinicia la sessió, per entrar amb la nova
-Item_User_Message_GrantsAvaiable::S'ha generat la pestanya de permisos. Configurar-los per tal que l'usuari/a pugui utilitzar l'aplicació
+Item_User_Message_AfterChangePassword::Al canviar la contrasenya es reinicia la sessió per tal d'accedir amb la nova.
+Item_User_Message_GrantsAvaiable::S'ha generat la pestanya de permisos. Sisplau, activa els necessaris per tal que l'usuari/a pugui utilitzar l'aplicació.
 Item_User_Message_ResetPassword_Ok::S'ha restablert la contrasenya
-Item_User_Message_WelcommeMailSent::S'ha enviat un correu amb les instruccions d'accés a l'aplicació
+Item_User_Message_WelcommeMailSent::S'ha enviat un correu al nou usuari amb les instruccions d'accés a l'aplicació
 Item_User_NewPassword::Nova contrasenya
 Item_User_PopupDelete_Message::¿Eliminar?
 Item_User_Profile_Title_Settings::Configuració
@@ -1945,8 +1945,8 @@ Item_Auditory_Label_ValidatedBy::Validada per
 Item_Auditory_Label_ValidatedOn::Data validació
 Item_Auditory_Label_ClosedOn::Data tancament
 Item_Auditory_Label_ClosedBy::Tancada per
-Item_Auditory_Btn_AddIncidentAction::Afegir acció
-Item_Auditory_Btn_Close::Tancar auditoria
+Item_Auditory_Btn_AddIncidentAction::Afegir
+Item_Auditory_Btn_Reopen::Reobrir auditoria
 Item_Auditory_Message_Closed::Tancada
 Item_IncidentAction_Label_Auditory::Auditoria
 Item_Auditory_Popup_ReopenQuestionary::Reobrir qüestionaris
@@ -1973,3 +1973,12 @@ Item_Equipment_FilterLabel_Repair_Ext::Rep. Ext
 Common_PDF_Filter_Contains::Conté
 Item_Auditory_FoundNoAction::Cap troballa genera una acció
 Item_Auditory_ImprovementNoAction::Cap millora genera una acció
+Common_Status_ActivePlural::Activos
+Common_Status_InactivePlural::Inactivos
+Item_Process_Btn_Restaurar::Activar
+Item_Process_Btn_Anular::Desactivar
+Item_Process_PopupAnular_Title::Desactivar proceso
+Item_Auditory_Message_ActionsZombie::Les accions no estaran disponibles al sistema fins que no es validi la auditoria
+Item_Auditory_ErrorMessage_QuestionairesClosed::Per validar la auditoria s'ha d'indicar l'inici i el final
+Item_Adutiry_Message_NoActions::No hi cap acción definida a la auditoria.
+Item_IncidentAction_Message_NoGrants::No té permissos per a treballar amb accions

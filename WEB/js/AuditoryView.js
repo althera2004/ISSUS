@@ -410,11 +410,22 @@ function AuditoryPlanningValidate() {
     }
 
     if ($("#CmbAuditor").val() * 1 > 0) {
-        if ($("#CmbAuditor").val() * 1 === $("#CmbAudited").val() * 1) {
-            ok = false;
-            $("#CmbAuditorLabel").css("color", "#f00");
-            $("#CmbAuditedLabel").css("color", "#f00");
-            $("#CmbAuditedErrorSame").show();
+        var userId = $("#CmbAuditor").val() * 1;
+        var employeeId = -1;
+        for (var x = 0; x < UserEmployess.length; x++) {
+            if (UserEmployess[x].U === userId) {
+                employeeId = UserEmployess[x].E;
+                break;
+            }
+        }
+
+        if (employeeId > 0) {
+            if (employeeId === $("#CmbAudited").val() * 1) {
+                ok = false;
+                $("#CmbAuditorLabel").css("color", "#f00");
+                $("#CmbAuditedLabel").css("color", "#f00");
+                $("#CmbAuditedErrorSame").show();
+            }
         }
     }
 
@@ -810,6 +821,9 @@ function SaveAuditory() {
         if (typeof Auditory.PlannedOn !== "undefined" && Auditory.PlannedOn !== null && Auditory.PlannedOn !== "") {
             oldAuditory.PlannedOn = GetDate(Auditory.PlannedOn, "/", true);
         }
+        if (typeof Auditory.PlannedOn !== "undefined" && Auditory.PlannedOn !== null && Auditory.PlannedOn !== "") {
+            oldAuditory.ValidatedOn = GetDate(Auditory.ValidatedOn, "/", true);
+        }
         data["oldAuditory"] = oldAuditory;
     }
 
@@ -853,8 +867,8 @@ function CalculateRules() {
     $("#TxtRulesId").val(res);
 }
 
-function QuestionaryPlay(cuestionarioId) {
-    AppWindow = window.open("/QuestionaryPlay.aspx?a=" + Auditory.Id + "&c=" + cuestionarioId);
+function QuestionaryPlay(cuestionarioId, editable) {
+    AppWindow = window.open("/QuestionaryPlay.aspx?a=" + Auditory.Id + "&c=" + cuestionarioId + "&e=" + (editable === true ? "1" : "0"));
 }
 
 function RenderFounds() {
@@ -898,6 +912,8 @@ function RenderFounds() {
         $("#ListDataDivHallazgos").hide();
         $("#NoDataHallazgos").show();
     }
+
+    ReviseNoActions();
 }
 
 function RenderImprovements() {
@@ -939,6 +955,8 @@ function RenderImprovements() {
         $("#ListDataDivMejoras").hide();
         $("#NoDataMejoras").show();
     }
+
+    ReviseNoActions();
 }
 
 function getParameterByName(name, url) {
@@ -1523,7 +1541,7 @@ function CloseConfirmed() {
             $("#TxtClosedOnErrorDateMalformed").show();
         }
         else {
-            var reportEnd = GetDate(Auditory.ReportEnd, "/", false);
+            var reportEnd = GetDate($("#TxtCloseQuestionsOn").val(), "/", false);
             var validationDate = GetDate($("#TxtClosedOn").val(), "/", false);
             if (validationDate < reportEnd) {
                 ok = false;
@@ -1539,6 +1557,8 @@ function CloseConfirmed() {
 
     var data = {
         "auditoryId": Auditory.Id,
+        "questionaryStart": GetDate($("#TxtStartQuestionsOn").val(), "/", false),
+        "questionaryEnd": GetDate($("#TxtCloseQuestionsOn").val(), "/", false),
         "closedBy": $("#CmbClosedBy").val() * 1,
         "closedOn": GetDate($("#TxtClosedOn").val(), "/", false),
         "applicationUserId": ApplicationUser.Id,
@@ -1952,12 +1972,14 @@ function RenderCuestionarios() {
         res += "  <td>" + cuestionario.Description + warning + "</td>";
         res += " <td style=\"width:50px;text-align:center;\">";
         if (Auditory.Status === AuditoryStatus.EnCurso || Auditory.Status === AuditoryStatus.Planificada) {
-            res += "      <span class=\"btn btn-xs btn-success\" id=\"" + cuestionario.Id + "\" title=\"Continuar cuestionario\" onclick=\"QuestionaryPlay(" + cuestionario.Id + ");\">";
+            res += "      <span class=\"btn btn-xs btn-success\" id=\"" + cuestionario.Id + "\" title=\"Continuar cuestionario\" onclick=\"QuestionaryPlay(" + cuestionario.Id + ", true);\">";
             res += "      <i class=\"icon-play bigger-120\"></i>";
             res += "    </span>";
         }
         else {
-            res += "&nbsp;";
+            res += "      <span class=\"btn btn-xs btn-success\" id=\"" + cuestionario.Id + "\" title=\"Ver cuestionario\" onclick=\"QuestionaryPlay(" + cuestionario.Id + ", false);\">";
+            res += "      <i class=\"icon-eye-open bigger-120\"></i>";
+            res += "    </span>";
         }
         res += "  </td>";
         res += "</tr>";
@@ -2169,4 +2191,30 @@ function RenderRealActions() {
         $("#ListDataDivIncidentActionsReal").show();
         $("#SpanIncidentActionsTotalReal").html(RealActions.length);
     }
+}
+
+function ReviseNoActions() {
+    $("#NoActionF").hide();
+    $("#NoActionI").hide();
+    $("#DivNoActions").hide();
+
+    var AF = false;
+    var AI = false;
+
+    for (var x = 0; x < Founds.length; x++) {
+        if (Founds[x].Action === true) {
+            AF = true;
+            break;
+        }
+    }
+
+    for (var y = 0; y < Improvements.length; y++) {
+        if (Improvements[y].Action === true) {
+            AI = true;
+            break;
+        }
+    }
+
+    if (AF === false) { $("#NoActionF").show(); $("#DivNoActions").show(); }
+    if (AI === false) { $("#NoActionI").show(); $("#DivNoActions").show(); }
 }

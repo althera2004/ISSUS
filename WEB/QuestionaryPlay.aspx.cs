@@ -85,6 +85,22 @@ public partial class QuestionaryPlay : Page
         }
     }
 
+    public string Editable
+    {
+        get
+        {
+            if(this.Request.QueryString["e"] == "1")
+            {
+                return "true";
+            }
+            else
+            {
+                return "false";
+            }
+
+        }
+    }
+
     /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary { get; private set; }
 

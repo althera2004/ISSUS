@@ -23,6 +23,7 @@ namespace GisoFramework
     using GisoFramework.Item.Binding;
     using GisoFramework.LogOn;
     using GisoFramework.UserInterface;
+    using static GisoFramework.LogOn.ApplicationLogOn;
 
     /// <summary>Implements ApplicationUser class.</summary>
     public class ApplicationUser
@@ -563,7 +564,8 @@ namespace GisoFramework
                                 {
                                     Id = rdr.GetInt32(ColumnsUserGetByCompanyId.Id),
                                     UserName = rdr.GetString(ColumnsUserGetByCompanyId.Login),
-                                    Email = rdr.GetString(ColumnsUserGetByCompanyId.UserEmail)
+                                    Email = rdr.GetString(ColumnsUserGetByCompanyId.UserEmail),
+                                    status = (LogOnResult)rdr.GetInt32(ColumnsUserGetByCompanyId.Status)
                                 };
 
                                 if (!rdr.IsDBNull(ColumnsUserGetByCompanyId.SecurityGroupId))

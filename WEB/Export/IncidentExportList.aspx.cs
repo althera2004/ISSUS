@@ -336,7 +336,13 @@ public partial class ExportIncidentExportList : Page
         {
             if (!string.IsNullOrEmpty(filterText))
             {
-                if(incidentFilter.Description.IndexOf(filterText,StringComparison.OrdinalIgnoreCase) == -1)
+                var match = incidentFilter.Description;
+                match += "|" + incidentFilter.Customer.Description;
+                match += "|" + incidentFilter.Provider.Description;
+                match += "|" + incidentFilter.Department.Description;
+
+
+                if (match.IndexOf(filterText,StringComparison.OrdinalIgnoreCase) == -1)
                 {
                     continue;
                 }

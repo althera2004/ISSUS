@@ -98,7 +98,14 @@ function AuditoryGetFilter(exportType) {
 }
 
 function Go(sender) {
-    document.location = "AuditoryView.aspx?id=" + sender.id;
+    for (var x = 0; x < AuditoryList.length; x++) {
+        if (AuditoryList[x].Id === sender.id * 1) {
+            if (AuditoryList[x].Type === 1) { document.location = "AuditoryExternaView.aspx?id=" + sender.id; }
+            else { document.location = "AuditoryView.aspx?id=" + sender.id; }
+        }
+    }
+
+    return false;    
 }
 
 function ItemRenderTable(list) {
@@ -159,7 +166,13 @@ function ItemRenderTable(list) {
 
         var AuditoryLink = document.createElement("A");
         AuditoryLink.title = item.Description;
-        AuditoryLink.href = "AuditoryView.aspx?id=" + item.Id;
+        if (item.Type === 1) {
+            AuditoryLink.href = "AuditoryExternaView.aspx?id=" + item.Id;
+        }
+        else {
+            AuditoryLink.href = "AuditoryView.aspx?id=" + item.Id;
+        }
+
         AuditoryLink.appendChild(document.createTextNode(item.Description));
         tdDescription.appendChild(AuditoryLink);
 
@@ -206,9 +219,7 @@ function ItemRenderTable(list) {
         }
 
         tdActions.style.width = "90px";
-
         row.appendChild(tdActions);
-
         target.appendChild(row);
 
         if ($.inArray(item.Description, items) === -1) {
@@ -260,7 +271,7 @@ function ItemRenderTable(list) {
 }
 
 function ShowStatusHelp() {
-    var dialog = $("#StatusHelpDialog").removeClass("hide").dialog({
+    $("#StatusHelpDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Auditory_Help_Status_Title + "</h4>",
@@ -298,7 +309,7 @@ function ShowSelectDialog() {
                             document.location = "AuditoryView.aspx?id=-1&t=0";
                         }
                         else if (document.getElementById("AuditoryTypeSelect1").checked) {
-                            document.location = "AuditoryView.aspx?id=-1&t=1";
+                            document.location = "AuditoryExternaView.aspx?id=-1&t=1";
                         }
                         else if (document.getElementById("AuditoryTypeSelect2").checked) {
                             document.location = "AuditoryView.aspx?id=-1&t=2";
@@ -325,7 +336,7 @@ function AuditoryDelete(sender) {
     AuditorySelected = AuditoryGetById(AuditorySelectedId);
     if (AuditorySelected === null) { return false; }
     $("#AuditoryDeleteName").html(AuditorySelected.Description);
-    var dialog = $("#AuditoryDeleteDialog").removeClass("hide").dialog({
+    $("#AuditoryDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Auditory_Popup_Delete_Title + "</h4>",
@@ -395,7 +406,7 @@ function AuditoryDuplicate(sender) {
     if (AuditorySelected === null) { return false; }
     $("#AuditoryToDuplicateName").html(AuditorySelected.Description);
     $("#AuditoryNewDescription").val(ProposeName(AuditorySelected.Description));
-    var dialog = $("#AuditoryDuplicateDialog").removeClass("hide").dialog({
+    $("#AuditoryDuplicateDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 800,
         "modal": true,

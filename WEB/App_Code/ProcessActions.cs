@@ -115,9 +115,9 @@ public class ProcessActions : WebService {
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult DesactiveProcess(int processId, int companyId, int userId)
+    public ActionResult DeleteProcess(int processId, int companyId, int userId)
     {
-        var res = Process.Deactive(processId, companyId, userId);
+        var res = Process.Delete(processId, companyId, userId);
         if (res.Success)
         {
             var companySession = new Company(companyId);
@@ -125,5 +125,13 @@ public class ProcessActions : WebService {
         }
 
         return res;
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public string SetFilter(string filter)
+    {
+        HttpContext.Current.Session["ProcessFilter"] = filter;
+        return "ok";
     }
 }

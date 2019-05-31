@@ -84,15 +84,8 @@ function SaveAction() {
         ok = false;
     }
 
-    if (IncidentAction.IncidentId < 1 && IncidentAction.BusinessRiskId < 1 && IncidentAction.ObjetivoId < 1 && IncidentAction.OportunityId < 1) {
-        if (!document.getElementById("ROrigin1").checked && !document.getElementById("ROrigin2").checked) {
-            ok = false;
-            ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_OriginRequired);
-            $("#ROriginLabel").css("color", "#f00");
-        } else {
-            $("#ROriginLabel").css("color", "#000");
-        }
-
+    // Sólo para propuestas por dirección
+    if (IncidentAction.Origin === 2) {
         if (!document.getElementById("RType1").checked && !document.getElementById("RType2").checked && !document.getElementById("RType3").checked) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_TypeRequired);
@@ -288,14 +281,6 @@ function SaveAction() {
         return false;
     }
 
-    var ROrigin = 0;
-    if (document.getElementById("ROrigin1").checked) { ROrigin = 1; }
-    if (document.getElementById("ROrigin2").checked) { ROrigin = 2; }
-
-    if (document.getElementById("ROrigin3") !== null) {
-        if (document.getElementById("ROrigin3").checked) { ROrigin = 5; }
-    }
-
     var Rtype = 0;
     if (document.getElementById("RType1").checked) { Rtype = 1; }
     if (document.getElementById("RType2").checked) { Rtype = 2; }
@@ -310,7 +295,11 @@ function SaveAction() {
     var Provider = { "Id": RReporter === 2 ? $("#CmbReporterType2").val() * 1 : 0 };
     var Customer = { "Id": RReporter === 3 ? $("#CmbReporterType3").val() * 1 : 0 };
 
-    if (IncidentAction.IncidentId > 0) {
+    var ROrigin = 0;
+    if (IncidentAction.Id === -1) {
+        ROrigin = 2;
+    }
+    else if (IncidentAction.IncidentId > 0) {
         RReporter = IncidentAction.ReporterType;
         Department = IncidentAction.Department;
         Provider = IncidentAction.Provider;
@@ -322,8 +311,7 @@ function SaveAction() {
         // Correctiva
         Rtype = 2;
     }
-
-    if (IncidentAction.BusinessRiskId > 0) {
+    else if (IncidentAction.BusinessRiskId > 0) {
         RReporter = IncidentAction.ReporterType;
         Department = IncidentAction.Department;
         Provider = IncidentAction.Provider;
@@ -335,8 +323,7 @@ function SaveAction() {
         // Preventiva
         Rtype = 3;
     }
-
-    if (IncidentAction.ObjetivoId > 0) {
+    else if (IncidentAction.ObjetivoId > 0) {
         RReporter = IncidentAction.ReporterType;
         Department = IncidentAction.Department;
         Provider = IncidentAction.Provider;
@@ -348,8 +335,7 @@ function SaveAction() {
         // Preventiva
         Rtype = 3;
     }
-
-    if (typeof IncidentAction.Oportunity !== "undefined" && IncidentAction.Oportunity !== null) {
+    else if (typeof IncidentAction.Oportunity !== "undefined" && IncidentAction.Oportunity !== null) {
         if (IncidentAction.Oportunity.Id > 0) {
             RReporter = IncidentAction.ReporterType;
             Department = IncidentAction.Department;
@@ -413,7 +399,7 @@ function SaveAction() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             document.location = referrer;
         },
         "error": function (msg) {
@@ -550,6 +536,11 @@ window.onload = function () {
 
     $("#TxtCauses").bind("paste", TxtCausesChanged);
     $("#TxtActions").bind("paste", TxtActionsChanged);
+
+    if (IncidentAction.Origin === 2) {
+        $("#RTypeDiv").show();
+        $("#RReporterDiv").show();
+    }
 };
 
 window.onresize = function () { Resize(); };
@@ -882,7 +873,6 @@ function SetLayout() {
             RReporterTypeChanged();
             break;
         case 2:
-            document.getElementById("ROrigin" + IncidentAction.Origin).checked = true;
             switch (IncidentAction.ReporterType) {
                 case 1:
                     document.getElementById("RReporterType1").checked = true;
