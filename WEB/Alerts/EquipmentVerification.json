@@ -2,22 +2,23 @@
     "CompanyId":0, // si es 0 es para todas las empresas, en caso contrario solo es para la empresa que lo pida.
     "ItemType":13, // identificador del item, sale de la tabla applicationItem
     "Icon":"icon-wrench", // icono del mensaje
-    "AlertDescription": "Alert_Short_EquipmentMaintenance",
-    "AlertExplanation": "Alert_Large_EquipmentMaintenance",
+    "AlertDescription": "Alert_Short_EquipmentVerification",
+    "AlertExplanation": "Alert_Large_EquipmentVerification",
     "ItemUrl": "EquipmentView.aspx?id=", // en esta linea se define la url de la ficha afectada por la alerta
     Query:"select distinct
 	E.Id,
 	E.Description,
-	EMD.Operation
-FROM EquipmentMaintenanceDefinition EMD WITH(NOLOCK)
+	EVD.Operation
+FROM EquipmentVerificationDefinition EVD WITH(NOLOCK)
 INNER JOIN Equipment E WITH(NOLOCK)
-ON	 E.Id = EMD.EquipmentId
-LEFT JOIN EquipmentMaintenanceAct EMA WITH(NOLOCK)
-ON	EMA.EquipmentMaintenanceDefinitionId = EMD.Id
+ON	 E.Id = EVD.EquipmentId
+LEFT JOIN EquipmentVerificationAct EVA WITH(NOLOCK)
+ON	EVA.EquipmentVerificationType = EVD.VerificationType
+AND E.Id = EVA.EquipmentId
 
 WHERE
-	EMA.Id IS NULL
-AND EMD.Active = 1 AND E.Active = 1 AND E.EndDate IS NULL 
+	EVA.Id IS NULL
+AND EVD.Active = 1 AND E.Active = 1 AND E.EndDate IS NULL
     and E.companyid = #CompanyId#",
     Index:
     [
