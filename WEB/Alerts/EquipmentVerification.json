@@ -11,14 +11,14 @@
 	EVD.Operation
 FROM EquipmentVerificationDefinition EVD WITH(NOLOCK)
 INNER JOIN Equipment E WITH(NOLOCK)
-ON	 E.Id = EVD.EquipmentId
+ON	 E.Id = EVD.EquipmentId AND E.EndDate IS NULL 
 LEFT JOIN EquipmentVerificationAct EVA WITH(NOLOCK)
 ON	EVA.EquipmentVerificationType = EVD.VerificationType
 AND E.Id = EVA.EquipmentId
 
 WHERE
 	EVA.Id IS NULL
-AND EVD.Active = 1 AND E.Active = 1 AND E.EndDate IS NULL
+AND EVD.Active = 1 AND E.Active = 1 
     and E.companyid = #CompanyId#",
     Index:
     [

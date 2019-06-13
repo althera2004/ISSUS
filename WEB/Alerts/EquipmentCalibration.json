@@ -11,14 +11,14 @@
 	ECD.Operation
 FROM EquipmentCalibrationDefinition ECD WITH(NOLOCK)
 INNER JOIN Equipment E WITH(NOLOCK)
-ON	 E.Id = ECD.EquipmentId
+ON	 E.Id = ECD.EquipmentId AND E.EndDate IS NULL 
 LEFT JOIN EquipmentCalibrationAct ECA WITH(NOLOCK)
-ON	ECA.EquipmentCalibrationType = ECD.CalibrationType 
+ON	ECA.EquipmentCalibrationType = ECD.Type 
 AND E.Id = ECA.EquipmentId
 
 WHERE
 	ECA.Id IS NULL
-AND ECD.Active = 1 AND E.Active = 1 AND E.EndDate IS NULL 
+AND ECD.Active = 1 AND E.Active = 1  
     and E.companyid = #CompanyId#",
     Index:
     [
