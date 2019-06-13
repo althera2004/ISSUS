@@ -121,7 +121,7 @@
                                                             </div>
                                                             <label id="TxtAmountLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %></label>
                                                             <div class="col-sm-2">
-                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtAmount" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %>" class="col-xs-12 col-sm-12 -money-bank" maxlength="9" />
+                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtAmount" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %>" class="col-xs-12 col-sm-12 money-bank" maxlength="9" />
                                                                 <span class="ErrorMessage" id="TxtAmountErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                         </div>
