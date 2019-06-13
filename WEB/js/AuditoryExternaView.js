@@ -821,6 +821,16 @@ function ZombieValidateForm() {
             $("#TxtWahtHappendOnLabel").css("color", "#f00");
             $("#TxtWahtHappendOnErrorDateMalformed").show();
         }
+        else {
+            // Comprobar que la fecha no es anterior a la fecha prevista de auditoria
+            var plannedOn = GetDate($("#TxtPreviewDate").val(), "/");
+            var actionDate = GetDate($("#TxtWahtHappendOn").val(), "/");
+            if (actionDate < plannedOn) {
+                ok = false;
+                $("#TxtWahtHappendOnLabel").css("color", "#f00");
+                $("#TxtWahtHappendOnErrorCross").show();
+            }
+        }
     }
 
     return ok;

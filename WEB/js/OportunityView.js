@@ -79,7 +79,7 @@ jQuery(function ($) {
 
         IncidentActionCostRenderTable("IncidentActionCostsTableData");
 
-        if (typeof ApplicationUser.Grants.BusinessRisk === "undefined" || ApplicationUser.Grants.BusinessRisk.Write === false) {
+        if (typeof user.Grants.Oportunity === "undefined" || user.Grants.Oportunity.Write === false) {
             $("#costes .btn-info").hide();
             $(".btn-danger").hide();
         }
@@ -217,7 +217,7 @@ function ApplyActionRadio() {
     }
 
     if (document.getElementById("ApplyActionYes").checked === true) {
-        if (user.Grants.IncidentActions !== true) {
+        if (user.Grants.IncidentActions.Write !== true) {
             alertUI(Dictionary.Item_IncidentAction_Message_NoGrants, null, 500);
             $("#ApplyActionYes").removeAttr("checked");
             return false;

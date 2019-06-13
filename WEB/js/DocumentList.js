@@ -6,7 +6,7 @@ function DocumentDelete(sender) {
     console.log(sender.id);
     var description = DocumentDescriptionById(sender.id * 1);
     $("#DocumentName").html(description);
-    var dialog = $("#DocumentDeleteDialog").removeClass("hide").dialog({
+    $("#DocumentDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 500,
         "modal": true,
@@ -15,11 +15,11 @@ function DocumentDelete(sender) {
         "buttons":
             [
                 {
+                    "id": "BtnDeleteOk",
                     "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                     "class": "btn btn-danger btn-xs",
                     "click": function () {
                         var ok = true;
-                        //if (!RequiredFieldText("TxtNewReason")) { ok = false; }
                         if (ok === false) {
                             window.scrollTo(0, 0);
                             return false;
@@ -30,6 +30,7 @@ function DocumentDelete(sender) {
                     }
                 },
                 {
+                    "id": "BtnDeleteCancel",
                     "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                     "class": "btn btn-xs",
                     "click": function () {
@@ -51,12 +52,12 @@ function DocumentDeleteConfirmed(id) {
 
     LoadingShow();
     $.ajax({
-        type: "POST",
-        url: "/Async/DocumentActions.asmx/DocumentDelete",
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/DocumentActions.asmx/DocumentDelete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
                 document.location = document.location + "";
@@ -65,7 +66,7 @@ function DocumentDeleteConfirmed(id) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR, textStatus, errorThrown) {
             LoadingHide();
             alert(jqXHR.responseText);
         }
@@ -132,6 +133,13 @@ window.onload = function () {
         $("#CmbOrigin").val(parts[2] * 1);
     }
 
+    if (document.getElementById("Chk1").checked === true && document.getElementById("Chk2").checked === false) {
+        $("#Chk1").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("Chk1").checked === false && document.getElementById("Chk2").checked === true) {
+        $("#Chk2").attr("disabled", "disabled");
+    }
 
     RenderDocumentTable();
     $("#CmbCategory").on("change", FilterChanged);

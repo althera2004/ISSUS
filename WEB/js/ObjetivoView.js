@@ -1510,6 +1510,18 @@ function DataIsChanged() {
         metaComparer = $("#CmbMetaComparer").val();
     }
 
+    // Evitar saltar el popup de cambios por culpa de los valores por defecto "0" y "-1"
+    // -----------------------------------------------------------------------------------------
+	var endResponsibleId = $("#CmbEndResponsible").val() * 1;
+    var responsibleId = $("#CmbResponsible").val() * 1;
+
+    if (endResponsibleId < 1) { endResponsibleId = -1; }
+    if (responsibleId < 1) { responsibleId = -1; }
+
+    if (OriginalItemData.Responsible.Id < 1) { OriginalItemData.Responsible.Id = -1; }
+    if (OriginalItemData.EndResponsible.Id < 1) { OriginalItemData.EndResponsible.Id = -1; }
+    // -----------------------------------------------------------------------------------------
+
     var actual =  {
         "Id": ItemData.Id,
         "CompanyId": Company.Id,
@@ -1520,8 +1532,8 @@ function DataIsChanged() {
         "Notes": $("#TxtNotes").val(),
         "VinculatedToIndicator": indicatorId > 0,
         "IndicatorId": indicatorId,
-        "Responsible": { "Id": $("#CmbResponsible").val() * 1, "Value": "", "Active": false },
-        "EndResponsible": { "Id": $("#CmbEndResponsible").val() * 1, "Value": "", "Active": false },
+        "Responsible": { "Id": responsibleId, "Value": "", "Active": false },
+        "EndResponsible": { "Id": endResponsibleId, "Value": "", "Active": false },
         "StartDate": GetDate($("#TxtFechaAlta").val(), "/", true),
         "PreviewEndDate": GetDate($("#TxtFechaCierrePrevista").val(), "/", false),
         "EndDate": GetDate($("#TxtFechaCierreReal").val(), "/", false),

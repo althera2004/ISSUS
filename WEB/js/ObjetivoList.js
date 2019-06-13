@@ -351,6 +351,14 @@ window.onload = function () {
 
     console.log("Filter", Filter);
     ObjetivoGetFilter();
+
+    if (document.getElementById("RBStatus1").checked === true && document.getElementById("RBStatus2").checked === false) {
+        $("#RBStatus1").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBStatus1").checked === false && document.getElementById("RBStatus2").checked === true) {
+        $("#RBStatus2").attr("disabled", "disabled");
+    }
 };
 
 window.onresize = function () { Resize(); };

@@ -308,7 +308,7 @@ public partial class ExportPrintActionData : Page
                 HorizontalAlignment = Rectangle.ALIGN_RIGHT
             });
 
-            tableCosts.AddCell(new PdfPCell(new Phrase(Tools.PdfMoneyFormat(totalAccion), times))
+            tableCosts.AddCell(new PdfPCell(new Phrase(Tools.PdfMoneyFormat(total), times))
             {
                 Border = Rectangle.TOP_BORDER,
                 BackgroundColor = ToolsPdf.SummaryBackgroundColor,

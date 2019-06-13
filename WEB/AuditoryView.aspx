@@ -409,6 +409,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
+                                                            <button type="button" class="btn btn-success" id="BtnCloseCuestionarios" style="display:none;margin-top:2px;height:32px;padding-top:2px;" onclick="CloseCuestionariosPopup();">
+                                                                <i class="fa fa-check"></i>&nbsp;
+                                                                <%=this.Dictionary["Item_Auditory_Popup_CloseQuestionary"] %>
+                                                            </button>
                                                             <button type="button" class="btn btn-success" id="BtnReopenCuestionarios" style="display:none;margin-top:2px;height:32px;padding-top:2px;" onclick="ReopenCuestionariosPopup();">
                                                                 <i class="fa fa-recycle"></i>&nbsp;
                                                                 <%=this.Dictionary["Item_Auditory_Popup_ReopenQuestionary"] %>
@@ -651,6 +655,23 @@
                                         <span class="ErrorMessage" id="TxtWahtHappendOnErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         <span class="ErrorMessage" id="TxtWahtHappendOnErrorDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                         <span class="ErrorMessage" id="TxtWahtHappendOnErrorCross"><%=this.Dictionary["Item_Auditory_ValidateCrossDate"] %></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="CloseCuestionarioPopup" class="hide">
+                                <div class="row" style="margin-top:4px;"> 
+                                    <label class="col-sm-4 control-label no-padding-right" id="TxtCloseCuestionarioLabel" for="TxtAuditoryPlanning"><%=this.Dictionary["Item_Auditory_Label_ClosedOn"] %><span class="required">*</span></label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input style="width:90px;" class="form-control date-picker" id="TxtCloseCuestionario" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="" />
+                                            <span id="TxtCloseCuestionarioBtn" class="input-group-addon" onclick="document.getElementById('TxtCloseCuestionario').focus();">
+                                                <i class="icon-calendar bigger-110"></i>
+                                            </span>
+                                        </div>
+                                        <span class="ErrorMessage" id="TxtTxtCloseCuestionarioErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                        <span class="ErrorMessage" id="TxtTxtCloseCuestionarioErrorDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                        <span class="ErrorMessage" id="TxtTxtCloseCuestionarioErrorCross"><%=this.Dictionary["Item_Auditory_ValidateCuestionarioCrossDate"] %></span>
                                     </div>
                                 </div>
                             </div>

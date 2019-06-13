@@ -1,4 +1,0 @@
-04:01:18::Procedure or function 'Auditory_Insert' expects parameter '@PreviewDate', which was not supplied.::Auditory::>Insert(-1)::
-04:02:56::Procedure or function 'Auditory_Insert' expects parameter '@PreviewDate', which was not supplied.::Auditory::>Insert(-1)::
-04:10:05::Procedure or function 'Auditory_Insert' expects parameter '@PreviewDate', which was not supplied.::Auditory::>Insert(-1)::
-04:10:48::Procedure or function 'Auditory_Insert' expects parameter '@PreviewDate', which was not supplied.::Auditory::>Insert(-1)::
