@@ -169,22 +169,22 @@
 
                             <div id="PopupFoundDialog" class="hide" style="width:600px;overflow:hidden;">
                                 <div class="form-group" style="clear:both;">
-                                    <label id ="TxtTextLabel" class="col-sm-4 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Found"] %></label>
-                                    <div class="col-sm-8">
+                                    <label id ="TxtTextLabel" class="col-sm-12 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Found"] %></label>
+                                    <div class="col-sm-12">
                                         <textarea class="col-xs-12 col-sm-12" rows="5" id="TxtText"></textarea>
                                         <span class="ErrorMessage" id="TxtTextErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>
                                 <div class="form-group" style="clear:both;">
-                                    <label id ="TxtRequerimentLabel" class="col-sm-4 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Requeriment"] %></label>
-                                    <div class="col-sm-8">
+                                    <label id ="TxtRequerimentLabel" class="col-sm-12 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Requeriment"] %></label>
+                                    <div class="col-sm-12">
                                         <textarea class="col-xs-12 col-sm-12" rows="5" id="TxtRequeriment"></textarea>
                                         <span class="ErrorMessage" id="TxtRequerimentErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>
                                 <div class="form-group" style="clear:both;">
-                                    <label id ="TxUnconformityLabel" class="col-sm-4 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Unconformity"] %></label>
-                                    <div class="col-sm-8">
+                                    <label id ="TxUnconformityLabel" class="col-sm-12 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Unconformity"] %></label>
+                                    <div class="col-sm-12">
                                         <textarea class="col-xs-12 col-sm-12" rows="5" id="TxtUnconformity"></textarea>
                                         <span class="ErrorMessage" id="TxtUnconformityErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
@@ -193,8 +193,8 @@
 
                             <div id="PopupImprovementDialog" class="hide" style="width:600px;overflow:hidden;">
                                 <div class="form-group" style="clear:both;">
-                                    <label id ="TxtImprovementTextLabel" class="col-sm-4 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Improvement"] %></label>
-                                    <div class="col-sm-8">
+                                    <label id ="TxtImprovementTextLabel" class="col-sm-12 control-label no-padding-right" for="TxtHour"><%=this.Dictionary["Item_Auditory_Label_Improvement"] %></label>
+                                    <div class="col-sm-12">
                                         <textarea class="col-xs-12 col-sm-12" rows="5" id="TxtImprovement"></textarea>
                                         <span class="ErrorMessage" id="TxtImprovementErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>

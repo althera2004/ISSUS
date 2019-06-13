@@ -110,8 +110,8 @@ window.onload = function () {
 
     if (Completo === true) {
         $("#CloseCuestionarioDIV").show();
-        $("#TxtCloseQuestionsOn").removeAttr("disabled");
-        $("#TxtCloseQuestionsOn").css("background", "transparent");
+        //$("#TxtCloseQuestionsOn").removeAttr("disabled");
+        //$("#TxtCloseQuestionsOn").css("background", "transparent");
     }
 
     if (Auditory.Status > AuditoryStatus.EnCurso) {
@@ -122,8 +122,9 @@ window.onload = function () {
     else if (Auditory.Status === AuditoryStatus.EnCurso) {
         $("#TxtStartQuestionsOn").removeAttr("disabled");
         $("#TxtStartQuestionsOn").css("background", "transparent");
-        $("#TxtCloseQuestionsOn").removeAttr("disabled");
-        $("#TxtCloseQuestionsOn").css("background", "transparent");
+        //$("#TxtCloseQuestionsOn").removeAttr("disabled");
+        //$("#TxtCloseQuestionsOn").css("background", "transparent");
+        $("#BtnCloseCuestionarios").show();
     }
 
     if (Auditory.Status > AuditoryStatus.Pendiente) {
@@ -1793,6 +1794,23 @@ function ZombieValidateForm() {
             $("#TxtWahtHappendOnLabel").css("color", "#f00");
             $("#TxtWahtHappendOnErrorDateMalformed").show();
         }
+        else {
+            // Comprobar que la fecha no es anterior a la fecha más antigua de las planificaciones
+            var limitDate = GetDate(AuditoryPlanning[0].Date, "/");
+            for (var p = 1; p < AuditoryPlanning.length; p++) {
+                var candidate = GetDate(AuditoryPlanning[p].Date, "/");
+                if (candidate < limitDate) {
+                    limitDate = candidate;
+                }
+            }
+
+            var actionDate = GetDate($("#TxtWahtHappendOn").val(), "/");
+            if (actionDate < limitDate) {
+                ok = false;
+                $("#TxtWahtHappendOnLabel").css("color", "#f00");
+                $("#TxtWahtHappendOnErrorCross").show();
+            }
+        }
     }
 
     return ok;
@@ -1954,12 +1972,14 @@ function CalculeTotalQuestions() {
 
 function RenderCuestionarios() {
     var res = "";
+    var cuestionariosCerrables = true;
     for (var x = 0; x < Cuestionarios.length; x++) {
         var cuestionario = Cuestionarios[x];
         var percent = (cuestionario.C / cuestionario.T) * 100;
         var warning = "";
         if (cuestionario.Co < cuestionario.C && cuestionario.F === 0) {
             warning = "&nbsp;<i class=\"fa fa-warning\" style=\"color:#f77;\" title=\"" + Dictionary.Item_Auditory_Message_NoCompliantNoFound + "\"></i>";
+            cuestionariosCerrables = false;
         }
 
         res += "<tr id=\"Cuestionario_" + cuestionario.Id + "\">";
@@ -1983,6 +2003,12 @@ function RenderCuestionarios() {
         }
         res += "  </td>";
         res += "</tr>";
+    }
+
+    if (cuestionariosCerrables === true) {
+        $("#BtnCloseCuestionarios").show();
+    } else {
+        $("#BtnCloseCuestionarios").hide();
     }
 
     $("#SpanCuestionarioTotal").html(Cuestionarios.length);
@@ -2016,6 +2042,94 @@ function GetReportData() {
         }
     });
 }
+
+// ------ Close cuestionarios -----------------------
+function CloseCuestionariosPopup() {
+    $("#TxtCloseCuestionario").removeAttr("disabled");
+    $("#TxtCloseCuestionarioBtn").removeAttr("disabled");
+    $("#CloseCuestionarioPopup").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Auditory_Popup_CloseQuestionary,
+        "title_html": true,
+        "width": 400,
+        "buttons":
+            [
+                {
+                    "Id": "BtnReopenCuestionarioOK",
+                    "html": "<i class=\"fa fa-check bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        CloseCuestionariosConfirmed();
+                    }
+                },
+                {
+                    "Id": "BtnReopenCuestionarioCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+}
+
+function CloseCuestionariosConfirmed() {
+    var ok = true;
+    $("#TxtCloseCuestionarioLabel").css("color", "#333");
+    $("#TxtTxtCloseCuestionarioErrorRequired").hide();
+    $("#TxtTxtCloseCuestionarioErrorDateMalformed").hide();
+    $("#TxtTxtCloseCuestionarioErrorCross").hide();
+
+    if ($("#TxtCloseCuestionario").val() === "") {
+        ok = false;
+        $("#TxtCloseCuestionarioLabel").css("color", "#f00");
+        $("#TxtTxtCloseCuestionarioErrorRequired").show();
+    }
+    else {
+        if (validateDate($("#TxtCloseCuestionario").val()) === "false") {
+            ok = false;
+            $("#TxtCloseCuestionarioLabel").css("color", "#f00");
+            $("#TxtTxtCloseCuestionarioErrorDateMalformed").show();
+        }
+        else {
+            var dateStart = GetDate($("#TxtStartQuestionsOn").val(), "/");
+            var dateEnd = GetDate($("#TxtCloseCuestionario").val(), "/");
+            if (dateEnd < dateStart) {
+                ok = false;
+                $("#TxtCloseCuestionarioLabel").css("color", "#f00");
+                $("#TxtTxtCloseCuestionarioErrorCross").show();
+            }
+        }
+    }
+
+    if (ok === false) { return; }
+
+    var data = {
+        "questionaryStart": GetDate($("#TxtStartQuestionsOn").val(), "/"),
+        "questionaryEnd": GetDate($("#TxtCloseCuestionario").val(), "/"),
+        "auditoryId": Auditory.Id,
+        "applicationUserId": ApplicationUser.Id,
+        "companyId": Company.Id
+    };
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/CloseCuestionarios",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            console.log("msg", msg);
+            document.location = document.location + "";
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+// ---------------------------------------------------
 
 // ------ Reopen cuestionarios -----------------------
 function ReopenCuestionariosPopup() {
@@ -2198,8 +2312,9 @@ function ReviseNoActions() {
     $("#NoActionI").hide();
     $("#DivNoActions").hide();
 
-    var AF = false;
-    var AI = false;
+    // Si no hay hallazgos o mejoras, no hay hay aviso de falta de acciones
+    var AF = Founds.length === 0;
+    var AI = Improvements.length === 0;
 
     for (var x = 0; x < Founds.length; x++) {
         if (Founds[x].Action === true) {

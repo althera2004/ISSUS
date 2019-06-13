@@ -438,7 +438,7 @@ function DepartmentInsert() {
                         }
 
                         if (duplicated === true) {
-                            $("#TxtDepartmentNewNameErrorDuplicated").show()";
+                            $("#TxtDepartmentNewNameErrorDuplicated").show();
                             ok = false;
                         }
                     }

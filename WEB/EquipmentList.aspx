@@ -51,11 +51,11 @@
                                                         </td>
                                                         <td>
                                                             <div class="row">
-                                                                <input type="checkbox" name="RBOperation" id="RBOperation1" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowCalibration"] %>
+                                                                <input type="checkbox" name="RBOperation" id="RBOperation1" onclick="RBOperationChanged();" checked="checked" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowCalibration"] %>
                                                                 &nbsp;&nbsp;
-                                                                <input type="checkbox" name="RBOperation" id="RBOperation2" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowVerification"] %>
+                                                                <input type="checkbox" name="RBOperation" id="RBOperation2" onclick="RBOperationChanged();" checked="checked" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowVerification"] %>
                                                                 &nbsp;&nbsp;
-                                                                <input type="checkbox" name="RBOperation" id="RBOperation3" onclick="RenderTable();" checked="checked" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowMaintenance"] %>
+                                                                <input type="checkbox" name="RBOperation" id="RBOperation3" onclick="RBOperationChanged();" checked="checked" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowMaintenance"] %>
                                                             </div>
                                                         </td>  
                                                         <td>

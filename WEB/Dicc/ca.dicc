@@ -85,7 +85,7 @@ Common_Day::Dia
 Common_Days::Dies
 Common_Delete::Eliminar
 Common_DeleteMessage::Segur que vol eliminar
-Common_DeleteMessage_NoUndo::ATENCIÓ: Aquesta acció no es podrà desfer!
+Common_DeleteMessage_NoUndo::ATENCIÓ: Aquesta acció no es podrà desfer!						  
 Common_Edit::Editar
 Common_Error::Error
 Common_Error_Application::S'ha produït un error a l'aplicació
@@ -249,6 +249,7 @@ Item_Attachment_Header_CreateDate::Pujat el
 Item_Attachment_Header_Description::Descripció
 Item_Attachment_Header_FileName::Fitxer
 Item_Attachment_Header_Size::Mida
+Item_Attachment_Popup_Warning::Aquesta acció no es pot desfer
 Item_Attachment_SectionTitle::Documents adjunts
 Item_Attachment_Size::Mida
 Item_Backup::Back-Up
@@ -1938,6 +1939,7 @@ Item_Auditory_Btn_Validation::Validar auditoria
 Item_Auditory_Btn_Close::Tancar auditoria
 Item_Auditory_Btn_PopupValidation::Validar
 Item_Auditory_Label_Action::Genera acció
+Item_Auditory_ValidateCuestionarioCrossDate::No pot ser anterior a l'inici dels qüestionaris
 Item_Auditory_ValidateCrossDate::No pot ser anterior a la data final
 Item_Auditory_Message_Closed::Auditoria tancada
 Item_Auditory_Message_Validated::Auditoria validada
@@ -1949,6 +1951,7 @@ Item_Auditory_Btn_AddIncidentAction::Afegir
 Item_Auditory_Btn_Reopen::Reobrir auditoria
 Item_Auditory_Message_Closed::Tancada
 Item_IncidentAction_Label_Auditory::Auditoria
+Item_Auditory_Popup_CloseQuestionary::Tancar qüestionaris
 Item_Auditory_Popup_ReopenQuestionary::Reobrir qüestionaris
 Item_Auditory_Popup_ReopenTitle::Reobrir la auditoria
 Item_Auditory_Popup_ReopenMessage::Vol reobrir la auditoria

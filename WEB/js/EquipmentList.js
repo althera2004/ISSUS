@@ -27,7 +27,7 @@ function EquipmentDeleteAction() {
 function EquipmentDelete(id, name) {
     $("#EquipmentName").html(name);
     EquipmentSelected = id;
-    var dialog = $("#EquipmentDeleteDialog").removeClass("hide").dialog({
+    $("#EquipmentDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Equipment_Popup_Delete_Title + "</h4>",
@@ -35,6 +35,7 @@ function EquipmentDelete(id, name) {
         "buttons":
         [
             {
+                "id": "BtnDeleteOk",
                 "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
                 "click": function () {
@@ -42,6 +43,7 @@ function EquipmentDelete(id, name) {
                 }
             },
             {
+                "id": "BtnDeleteCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -55,7 +57,7 @@ function EquipmentDelete(id, name) {
 jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || "&nbsp;"
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true)
                 title.html($title);
             else title.text($title);
@@ -98,6 +100,9 @@ window.onload = function () {
     if (document.getElementById("RBStatus1").checked === false && document.getElementById("RBStatus2").checked === true) {
         $("#RBStatus1").attr("disabled", "disabled");
     }
+
+    $("#TabEquipmentList").on("click", function () { $("#BtnNewItem").css("visibility", "visible"); });
+    $("#TabCostList").on("click", function () { $("#BtnNewItem").css("visibility", "hidden"); });
 };
 
 window.onresize = function () { Resize(); };
@@ -137,6 +142,26 @@ function Export(fileType) {
     });
 }
 
+function RBOperationChanged() {
+    $("#RBOperation1").removeAttr("disabled");
+    $("#RBOperation2").removeAttr("disabled");
+    $("#RBOperation3").removeAttr("disabled");
+
+    if (document.getElementById("RBOperation1").checked === true && document.getElementById("RBOperation2").checked === false && document.getElementById("RBOperation3").checked === false) {
+        $("#RBOperation1").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBOperation1").checked === false && document.getElementById("RBOperation2").checked === true && document.getElementById("RBOperation3").checked === false) {
+        $("#RBOperation2").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBOperation1").checked === false && document.getElementById("RBOperation2").checked === false && document.getElementById("RBOperation3").checked === true) {
+        $("#RBOperation3").attr("disabled", "disabled");
+    }
+
+    RenderTable();
+}
+
 function RBStatusChanged() {
     $("#RBStatus1").removeAttr("disabled");
     $("#RBStatus2").removeAttr("disabled");
@@ -153,7 +178,6 @@ function RBStatusChanged() {
 
 function RenderTable() {
     SetFilter();
-    console.log("RenderTable");
     $("#ListDataTable").html("");
     var temp = [];
     for (var x = 0; x < Equipments.length; x++) {
@@ -162,11 +186,15 @@ function RenderTable() {
         if (document.getElementById("RBStatus1").checked === true && equipment.Activo === true) { ok = true; }
         if (document.getElementById("RBStatus2").checked === true && equipment.Activo === false) { ok = true; }
         if (ok === true) {
-            if (document.getElementById("RBOperation1").checked === true && equipment.Calibracion === true) { temp.push(equipment); }
-            else
-                if (document.getElementById("RBOperation2").checked === true && equipment.Verificacion === true) { temp.push(equipment); }
-                else
-                    if (document.getElementById("RBOperation3").checked === true && equipment.Mantenimiento === true) { temp.push(equipment); }
+            if (document.getElementById("RBOperation1").checked === true && equipment.Calibracion === true) {
+                temp.push(equipment);
+            }
+            else if (document.getElementById("RBOperation2").checked === true && equipment.Verificacion === true) {
+                temp.push(equipment);
+            }
+            else if (document.getElementById("RBOperation3").checked === true && equipment.Mantenimiento === true) {
+                temp.push(equipment);
+            }
         }
     }
 
@@ -276,7 +304,6 @@ function RenderRow(equipment) {
     }
 
     if (user.Grants["Equipment"].Write === true) {
-        /*<span title="Editar 6789 123456789 123456789 123456789 123456789 1234567890" class="btn btn-xs btn-info" onclick="document.location='EquipmentView.aspx?id=2';"><i class="icon-edit bigger-120"></i></span> */
         var buttonEdit = document.createElement("span");
         buttonEdit.title = Dictionary.Common_Edit + " " + equipment.Descripcion;
         buttonEdit.className = "btn btn-xs btn-info";
@@ -287,7 +314,6 @@ function RenderRow(equipment) {
         tdAcciones.appendChild(buttonEdit);
 
         if (user.Grants["Equipment"].Delete === true) {
-            /*<span title="Eliminar 180" class="btn btn-xs btn-danger" onclick="EquipmentDelete(2,'123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890');"><i class="icon-trash bigger-120"></i></span>*/
             var buttonDelete = document.createElement("span");
             buttonDelete.title = Dictionary.Common_Delete + " " + equipment.Descripcion;
             buttonDelete.className = "btn btn-xs btn-danger";
@@ -356,7 +382,6 @@ function SetFilterCosts() {
     if (document.getElementById("RBMI").checked === true) { Filter += "MI"; }
     if (document.getElementById("RBRI").checked === true) { Filter += "RI"; }
     Filter += "|";
-    if (document.getElementById("RBCostStatus0").checked === true) { Filter += "0"; }
     if (document.getElementById("RBCostStatus1").checked === true) { Filter += "1"; }
     if (document.getElementById("RBCostStatus2").checked === true) { Filter += "2"; }
     Filter += "|" + $("#TxtDateFrom").val();

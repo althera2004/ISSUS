@@ -138,6 +138,13 @@ public class AuditoryActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
+    public ActionResult CloseCuestionarios(long auditoryId, int applicationUserId, DateTime questionaryStart, DateTime questionaryEnd, int companyId)
+    {
+        return Auditory.CloseCuestionarios(auditoryId, applicationUserId, companyId, questionaryStart, questionaryEnd);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
     public ActionResult ReopenCuestionarios(long auditoryId, int applicationUserId, int companyId)
     {
         return Auditory.ReopenCuestionarios(auditoryId, applicationUserId, companyId);

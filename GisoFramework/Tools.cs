@@ -19,7 +19,8 @@ namespace GisoFramework
     {
         public static ActionResult DeleteAttachs(int companyId, string itemName, long itemId)
         {
-            var res =  ActionResult.NoAction; string path = HttpContext.Current.Request.PhysicalApplicationPath;
+            var res =  ActionResult.NoAction;
+            string path = HttpContext.Current.Request.PhysicalApplicationPath;
             if (!path.EndsWith("\\"))
             {
                 path += "\\";

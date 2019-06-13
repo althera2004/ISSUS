@@ -13,6 +13,7 @@ namespace GisoFramework.Item
     using System.Data;
     using System.Data.SqlClient;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Text;
     using System.Web;
@@ -797,6 +798,30 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@ExtraData", Tools.LimitedText(reason, 200)));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
+                        //Document_7_V
+
+                        /*****************/
+                        string path = HttpContext.Current.Request.PhysicalApplicationPath;
+                        if (!path.EndsWith("\\"))
+                        {
+                            path += "\\";
+                        }
+
+                        path = string.Format(@"{0}DOCS\{1}", path, companyId);
+                        var searchPattenr = string.Format("Document_{0}_v*.*", documentId);
+                        var filePaths = Directory.GetFiles(path, searchPattenr);
+                        {
+                            foreach(var fileName in filePaths)
+                            {
+                                if (File.Exists(fileName))
+                                {
+                                    File.Delete(fileName);
+                                }
+                            }
+                        }
+                         /****************/
+
+
                         res.SetSuccess();
                     }
                     finally

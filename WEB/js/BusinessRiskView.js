@@ -305,7 +305,7 @@ function ApplyActionRadio() {
     }
 
     if (document.getElementById("StartApplyActionYes").checked === true) {
-        if (user.Grants.IncidentActions !== true) {
+        if (user.Grants.IncidentActions.Write !== true) {
             alertUI(Dictionary.Item_IncidentAction_Message_NoGrants, null, 500);
             $("#StartApplyActionYes").removeAttr("checked");
             return false;

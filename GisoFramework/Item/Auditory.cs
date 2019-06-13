@@ -951,6 +951,66 @@ namespace GisoFramework.Item
             return result;
         }
 
+        public static ActionResult CloseCuestionarios(long auditoryId, int applicationUserId, int companyId, DateTime questionaryStart, DateTime questionaryEnd)
+        {
+            string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::Close Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
+            /* CREATE PROCEDURE Auditory_CuestionariosClose
+             *   @AuditoryId bigint,
+             *   @CompanyId int,
+             *   @QuestionaryStart datetime,
+             *   @QuestionaryEnd datetime,
+             *   @ApplicationUserId int */
+            var result = ActionResult.NoAction;
+            using (var cmd = new SqlCommand("Auditory_CuestionariosClose"))
+            {
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                {
+                    cmd.Connection = cnn;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    try
+                    {
+                        cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@QuestionaryStart", questionaryStart));
+                        cmd.Parameters.Add(DataParameter.Input("@questionaryEnd", questionaryEnd));
+                        cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                        result.SetSuccess();
+                    }
+                    catch (SqlException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (FormatException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        ExceptionManager.Trace(ex, source);
+                    }
+                    finally
+                    {
+                        if (cmd.Connection.State != ConnectionState.Closed)
+                        {
+                            cmd.Connection.Close();
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public static ActionResult ReopenCuestionarios(long auditoryId, int applicationUserId, int companyId)
         {
             string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::ReopenCustionarios Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
