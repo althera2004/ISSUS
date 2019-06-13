@@ -64,5 +64,8 @@ namespace GisoFramework.Item.Binding
 
         /// <summary>Index of Code column</summary>
         public static readonly int ModifiedOn = 18;
+
+        /// <summary>Index of FirstDate column</summary>
+        public static readonly int FirstDate = 19;
     }
 }

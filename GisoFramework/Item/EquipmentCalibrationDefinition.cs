@@ -58,6 +58,9 @@ namespace GisoFramework.Item
         [DifferenciableAttribute]
         public Provider Provider { get; set; }
 
+        [DifferenciableAttribute]
+        public DateTime? FirstDate { get; set; }
+
         /*
         public override string Differences(BaseItem item1)
         {
@@ -137,6 +140,7 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("Pattern", this.Pattern)).Append(", ");
                 res.Append(Tools.JsonPair("Cost", this.Cost)).Append(", ");
                 res.Append(Tools.JsonPair("Notes", this.Notes)).Append(", ");
+                res.Append(Tools.JsonPair("FirstDate", this.FirstDate)).Append(", ");
                 res.Append("\"Provider\": ").Append(this.Provider.JsonKeyValue).Append(", ");
                 res.Append("\"Responsible\": ").Append(this.Responsible.JsonSimple);
                 res.Append("}");
@@ -160,6 +164,7 @@ namespace GisoFramework.Item
              *   @Notes text,
              *   @Responsable int,
              *   @Provider int,
+             *   @FirstDate datetime,
              *   @UserId int */
             var res = ActionResult.NoAction;
             using (var cmd = new SqlCommand("EquipmentCalibrationDefinition_Insert"))
@@ -189,6 +194,15 @@ namespace GisoFramework.Item
                         else
                         {
                             cmd.Parameters.Add(DataParameter.Input("@Provider", this.Provider.Id));
+                        }
+
+                        if (this.FirstDate == null)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@FirstDate"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@FirstDate", this.FirstDate.Value));
                         }
 
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
@@ -248,6 +262,7 @@ namespace GisoFramework.Item
              *   @Notes text,
              *   @Responsable int,
              *   @Provider int,
+             *   @FirstDate datetime,
              *   @UserId int */
             var res = ActionResult.NoAction;
             using (var cmd = new SqlCommand("EquipmentCalibrationDefinition_Update"))
@@ -277,6 +292,15 @@ namespace GisoFramework.Item
                         else
                         {
                             cmd.Parameters.Add(DataParameter.Input("@Provider", this.Provider.Id));
+                        }
+
+                        if (this.FirstDate == null)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@FirstDate"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@FirstDate", this.FirstDate.Value));
                         }
 
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));

@@ -35,5 +35,6 @@ namespace GisoFramework.Item.Binding
         public static readonly int ModifiedOn = 16;
         public static readonly int ProviderId = 17;
         public static readonly int ProviderDescription = 18;
+        public const int FirstDate = 19;
     }
 }

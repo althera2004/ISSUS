@@ -47,6 +47,9 @@ namespace GisoFramework.Item
         [DifferenciableAttribute]
         public Provider Provider { get; set; }
 
+        [DifferenciableAttribute]
+        public DateTime? Firstdate { get; set; }
+
         public static EquipmentVerificationDefinition Empty
         {
             get
@@ -97,6 +100,7 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("Pattern", this.Pattern)).Append(", ");
                 res.Append(Tools.JsonPair("Cost", this.Cost)).Append(", ");
                 res.Append(Tools.JsonPair("Notes", this.Notes)).Append(", ");
+                res.Append(Tools.JsonPair("FirstDate", this.Firstdate)).Append(", ");
                 res.Append("\"Provider\":").Append(this.Provider.JsonKeyValue).Append(", ");
                 res.Append("\"Responsible\":").Append(this.Responsible.JsonSimple);
                 res.Append("}");
@@ -121,6 +125,7 @@ namespace GisoFramework.Item
              *   @Responsable int,
              *   @ProviderId bigint,
              *   @Provider int,
+             *   @FirstDate datetime,
              *   @UserId int */
             var res = ActionResult.NoAction;
             using (var cmd = new SqlCommand("EquipmentVerificationDefinition_Insert"))
@@ -144,6 +149,15 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes));
                         cmd.Parameters.Add(DataParameter.Input("@Responsable", this.Responsible.Id));
                         cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider));
+
+                        if (this.Firstdate == null)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@FirstDate"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@FirstDate", this.Firstdate.Value));
+                        }
 
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
@@ -201,6 +215,7 @@ namespace GisoFramework.Item
              *   @Responsable int,
              *   @ProviderId bigint,
              *   @Provider int,
+             *   @FirstDate datetime,
              *   @UserId int */
             var res = ActionResult.NoAction;
             using (var cmd = new SqlCommand("EquipmentVerificationDefinition_Update"))
@@ -224,6 +239,16 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes));
                         cmd.Parameters.Add(DataParameter.Input("@Responsable", this.Responsible.Id));
                         cmd.Parameters.Add(DataParameter.Input("@ProviderId", this.Provider));
+
+                        if (this.Firstdate == null)
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@FirstDate"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@FirstDate", this.Firstdate.Value));
+                        }
+
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();

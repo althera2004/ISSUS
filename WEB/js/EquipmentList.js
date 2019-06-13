@@ -98,7 +98,7 @@ window.onload = function () {
     }
 
     if (document.getElementById("RBStatus1").checked === false && document.getElementById("RBStatus2").checked === true) {
-        $("#RBStatus1").attr("disabled", "disabled");
+        $("#RBStatus2").attr("disabled", "disabled");
     }
 
     $("#TabEquipmentList").on("click", function () { $("#BtnNewItem").css("visibility", "visible"); });

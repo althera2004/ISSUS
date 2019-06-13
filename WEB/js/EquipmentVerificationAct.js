@@ -171,9 +171,14 @@ function ShowNewVerificationButton() {
 
 function EquipmentVerificationActRenderTable(targetName) {
     VoidTable(targetName);
-    var target = document.getElementById(targetName);
+    var hasInternal = false;
+    var hasExternal = false;
     var total = 0;
     for (var x = 0; x < EquipmentVerificationActList.length; x++) {
+
+        if (EquipmentVerificationActList[x].EquipmentVerificationType === 0) { hasInternal = true; }
+        if (EquipmentVerificationActList[x].EquipmentVerificationType === 1) { hasExternal = true; }
+
         // @alex: limitacion a los dos más recientes
         //if (x === 2) {
         //    break;
@@ -184,9 +189,12 @@ function EquipmentVerificationActRenderTable(targetName) {
         }
     }
 
+    $("#TxtIVDFirstDateRow").css("visibility", hasInternal ? "hidden" : "visible");
+    $("#TxtEVDFirstDateRow").css("visibility", hasExternal ? "hidden" : "visible");
+
     $("#TableEquipmentVerificationActTotalLabel").html(Dictionary.Common_RegisterCount + ":&nbsp;<strong>" + EquipmentVerificationActList.length + "</strong><span style=\"float:right\">" + Dictionary.Common_Total + ":</span>");
     $("#TableEquipmentVerificationActTotal").html(ToMoneyFormat(total, 2));
-    if ($("#VerificationDivTable #th0").attr('class') === "sort  ASC") {
+    if ($("#VerificationDivTable #th0").attr("class") === "sort  ASC") {
         $("#VerificationDivTable #th0").click();
     }
     else {
@@ -233,13 +241,13 @@ function EquipmentVerificationActRenderRow(equipmentVerificationAct, targetName)
     tdFecha.appendChild(document.createTextNode(FormatYYYYMMDD(equipmentVerificationAct.Date, '/')));
 
     var vto = null;
-    if (typeof equipmentVerificationAct.Expiration !== "undefined") { vto = FormatYYYYMMDD(equipmentVerificationAct.Expiration, '/'); }
-    if (typeof equipmentVerificationAct.Vto !== "undefined") { vto = FormatYYYYMMDD(equipmentVerificationAct.Vto, '/'); }
+    if (typeof equipmentVerificationAct.Expiration !== "undefined") { vto = FormatYYYYMMDD(equipmentVerificationAct.Expiration, "/"); }
+    if (typeof equipmentVerificationAct.Vto !== "undefined") { vto = FormatYYYYMMDD(equipmentVerificationAct.Vto, "/"); }
 
     tdVto.appendChild(document.createTextNode(vto));
     tdResponsible.appendChild(document.createTextNode(equipmentVerificationAct.Responsible.Value));
 
-    row.id = 'EquipmentVerificationAct' + equipmentVerificationAct.Id;
+    row.id = "EquipmentVerificationAct" + equipmentVerificationAct.Id;
     row.appendChild(tdFecha);
     row.appendChild(tdType);
     row.appendChild(tdMax);
@@ -249,28 +257,28 @@ function EquipmentVerificationActRenderRow(equipmentVerificationAct, targetName)
     row.appendChild(tdVto);
 
     if (GrantToWrite) {
-        var tdActions = document.createElement('TD');
-        var iconEdit = document.createElement('SPAN');
-        var iconDelete = document.createElement('SPAN');
+        var tdActions = document.createElement("TD");
+        var iconEdit = document.createElement("SPAN");
+        var iconDelete = document.createElement("SPAN");
 
-        iconEdit.className = 'btn btn-xs btn-info';
+        iconEdit.className = "btn btn-xs btn-info";
         iconEdit.title = Dictionary.Common_Edit;
-        iconEdit.onclick = function (e) { EquipmentVerificationActEdit(this) }
-        var innerEdit = document.createElement('I');
-        innerEdit.className = 'icon-edit bigger-120';
+        iconEdit.onclick = function () { EquipmentVerificationActEdit(this) };
+        var innerEdit = document.createElement("I");
+        innerEdit.className = "icon-edit bigger-120";
         iconEdit.appendChild(innerEdit);
 
-        iconDelete.className = 'btn btn-xs btn-danger';
+        iconDelete.className = "btn btn-xs btn-danger";
         iconDelete.title = Dictionary.Common_Delete;
-        iconDelete.onclick = function (e) { EquipmentVerificationActDelete(this) }
-        var innerDelete = document.createElement('I');
-        innerDelete.className = 'icon-trash bigger-120';
+        iconDelete.onclick = function () { EquipmentVerificationActDelete(this) };
+        var innerDelete = document.createElement("I");
+        innerDelete.className = "icon-trash bigger-120";
         iconDelete.appendChild(innerDelete);
 
         tdActions.appendChild(iconEdit);
-        tdActions.appendChild(document.createTextNode(' '));
+        tdActions.appendChild(document.createTextNode(" "));
         tdActions.appendChild(iconDelete);
-        tdActions.style.width = '90px';
+        tdActions.style.width = "90px";
         row.appendChild(tdActions);
     }
 
@@ -312,7 +320,7 @@ function EquipmentVerificationActListUpdate(equipmentVerificationAct) {
     }
 }
 
-function EquipmentVerificationActNewFormReset(EquipmentVerificationDefinition) {
+function EquipmentVerificationActNewFormReset() {
     $("#TxtEquipmentVerificationActCostMalformed").hide();
     $("#REquipmentVerificationActTypeErrorRequired").hide();
     var internal = document.getElementById("VerificationInternalActive").checked;
@@ -351,7 +359,7 @@ function EquipmentVerificationActNewFormReset(EquipmentVerificationDefinition) {
     $("#TxtEquipmentVerificationActDate").val(FormatDate(new Date, "/"));
     if (onlyExternal === true) {
         $("#CmbEquipmentVerificationActProviderRow").show();
-        $('#CmbEquipmentVerificationActProvider').val($('#CmbVerificationExternalProvider').val());
+        $("#CmbEquipmentVerificationActProvider").val($('#CmbVerificationExternalProvider').val());
     }
     else {
         $("#CmbEquipmentVerificationActProviderRow").hide();
@@ -487,7 +495,7 @@ function FillCmbEquipmentVerificationActResponsible() {
         }
     }
 
-    $('#CmbEquipmentVerificationActResponsible').val(ApplicationUser.Employee.Id);
+    $("#CmbEquipmentVerificationActResponsible").val(ApplicationUser.Employee.Id);
 }
 
 function REquipmentVerificationActTypeChanged() {
@@ -529,7 +537,7 @@ function ShowDialogEquipmentVerificacionPopup(actionSelected) {
         return false;
     }
 
-    var dialog = $("#dialogEquipmentVerificacionForm").removeClass("hide").dialog({
+    $("#dialogEquipmentVerificacionForm").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentVerification_PopupNew_Title + "</h4>",
@@ -711,6 +719,7 @@ function EquipmentVerificationInternalDefinitionSave() {
         "Periodicity": ParseInputValueToNumber($("#TxtVerificationInternalPeriodicity").val()),
         "Uncertainty": uncertainty,
         "Range": $("#TxtVerificationInternalRange").val(),
+        "FirstDate": GetDate($("#TxtIVDFirstDate").val(), "/", true),
         "Pattern": $("#TxtVerificationInternalPattern").val(),
         "Cost": cost,
         "Notes": $("#TxtVerificationInternalNotes").val(),
@@ -773,6 +782,7 @@ function EquipmentVerificationExternalDefinitionSave() {
         "Periodicity": ParseInputValueToNumber($("#TxtVerificationExternalPeriodicity").val()),
         "Uncertainty": uncertainty,
         "Range": $("#TxtVerificationExternalRange").val(),
+        "FirstDate": GetDate($("#TxtEVDFirstDate").val(), "/", true),
         "Pattern": $("#TxtVerificationExternalPattern").val(),
         "Cost": cost,
         "Notes": $("#TxtVerificationExternalNotes").val(),

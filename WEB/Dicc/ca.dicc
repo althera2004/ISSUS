@@ -1985,3 +1985,10 @@ Item_Auditory_Message_ActionsZombie::Les accions no estaran disponibles al siste
 Item_Auditory_ErrorMessage_QuestionairesClosed::Per validar la auditoria s'ha d'indicar l'inici i el final
 Item_Adutiry_Message_NoActions::No hi cap acción definida a la auditoria.
 Item_IncidentAction_Message_NoGrants::No té permissos per a treballar amb accions
+Common_FirstDate::Data primer registre
+Item_Equipment_Calibration_Error_None::S'ha de definir com a mínim una calibració.
+Item_Equipment_Verification_Error_None::S'ha de definir com a mínim una verificació.
+Item_Equipment_Error_NoRisponsible::Hay que informar el responsable del equipo.
+Item_Equipment_Error_NoOptions::Elija almenos una opción.
+Item_Equipment_Error_DuplicateData::Los datos del equipo están repetidos.
+Item_Equipment_Error_RequiredFields::Revise los campos obligatorios del equipo.

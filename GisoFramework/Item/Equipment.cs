@@ -1003,6 +1003,11 @@ namespace GisoFramework.Item
                                     verification.Uncertainty = rdr.GetDecimal(ColumnsEquipmentGetVerificationDefinition.Uncertainty);
                                 }
 
+                                if (!rdr.IsDBNull(ColumnsEquipmentGetVerificationDefinition.FirstDate))
+                                {
+                                    verification.Firstdate = rdr.GetDateTime(ColumnsEquipmentGetVerificationDefinition.FirstDate);
+                                }
+
                                 if (verification.VerificationType == 0)
                                 {
                                     this.InternalVerification = verification;
@@ -1118,6 +1123,11 @@ namespace GisoFramework.Item
                                 if (!rdr.IsDBNull(ColumnsEquipmentGetCalibrationDefinition.Cost))
                                 {
                                     calibration.Cost = rdr.GetDecimal(ColumnsEquipmentGetCalibrationDefinition.Cost);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsEquipmentGetCalibrationDefinition.FirstDate))
+                                {
+                                    calibration.FirstDate = rdr.GetDateTime(ColumnsEquipmentGetCalibrationDefinition.FirstDate);
                                 }
 
                                 if (calibration.CalibrationType == 0)
