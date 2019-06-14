@@ -1,7 +1,16 @@
-﻿function FilterList(totalIndex, totalDOMElement) {
-    if (document.getElementById("ListDataTable") !== null) {
+﻿function FilterList(listId, listDataHeader, totalDOMElement) {
+    if (typeof listId === "undefined" || listId === null) {
+        listId = "ListDataTable";
+    }
+
+    if (typeof listDataHeader === "undefined" || listDataHeader === null) {
+        listDataHeader = "ListDataHeader";
+    }
+
+
+    if (document.getElementById(listId) !== null) {
         var searcheablesIndex = new Array();
-        var headerList = document.getElementById("ListDataHeader").childNodes;
+        var headerList = document.getElementById(listDataHeader).childNodes;
         var cont = 0;
         var totalizableIndex = -1;
         for (var h = 0; h < headerList.length; h++) {
@@ -20,7 +29,7 @@
 
 
         var pattern = document.getElementById("nav-search-input").value.toUpperCase();
-        var list = document.getElementById("ListDataTable");
+        var list = document.getElementById(listId);
         var cont = 0;
         var total = 0;
         for (var x = 0; x < list.childNodes.length; x++) {

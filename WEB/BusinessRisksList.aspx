@@ -87,10 +87,8 @@
         var companyId = <%=this.Company.Id%>;
         var FilterBusinessRisk = <%=this.FilterBusinessRisk %>;
         var FilterOportunity = <%=this.FilterOportunity %>;
-        var BussinessRiskList = [];
-        var OportunityList = [];
-        var BusinessRiskGraph = <%=this.RiskJson%>;
-        var OportunityGraph = [];
+        var BussinessRiskList = <%=this.BusinessRiskList %>;
+        var OportunityList = <%=this.OportunityList %>;
         var CompanyRules = <%=RulesJson%>;
     </script>
 </asp:Content>
@@ -258,32 +256,22 @@
 		                                                        </tr>
 	                                                        </thead>
                                                         </table>
-                                                        <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                            <table class="table table-bordered table-striped" style="border-top: none;">
-                                                                <tbody id="ListDataTable"><asp:Literal runat="server" ID="BusinessRiskData"></asp:Literal></tbody>
-                                                            </table>
-                                                            <table id="ItemTableVoid" style="display:none;width:100%">
-                                                                <tr>
-                                                                    <td colspan="10" align="center" style="color:#0000aa;">
-                                                                        <table style="border:none;width:100%">
-                                                                            <tr>
-                                                                                <td rowspan="2" style="border:none;text-align:right"><i class="icon-info-sign" style="font-size:48px;"></i></td>        
-                                                                                <td style="border:none;">
-                                                                                    <h4><%=this.Dictionary["Common_VoidSearchResult"] %></h4>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </div>
-                                                        <table class="table table-bordered table-striped" style="margin: 0;">
-                                                            <thead class="thin-border-bottom">
-                                                                <tr id="ListDataFooter">
-                                                                    <td><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><span id="TotalBusinessRisks"></span></strong></td>
-                                                                </tr>
-                                                            </thead>
-                                                        </table>
+                                                        <div id="ListDataDiv" style="overflow:scroll;overflow-x:hidden;padding:0;">
+															<table class="table table-bordered table-striped" style="border-top:none;">  
+																<tbody id="ListDataTable"><tr><td><%=this.Dictionary["Common_Loading"] %>...</td></tr></tbody>
+															</table>
+														</div>
+														<div id="NoData" style="display:none;width:100%;height:99%;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>
+														<table class="table table-bordered table-striped" style="margin:0">
+															<thead class="thin-border-bottom">
+																<tr id="ListDataFooter">
+																	<th class="thin-border-bottom">
+																		<%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalList" style="font-weight:bold;"></span>
+																	</th>
+																	<th style="width:107px;">&nbsp;</th>
+																</tr>
+															</thead>
+														</table>
                                                     </div><!-- /.table-responsive -->
                                                 </div><!-- /span -->
                                             </div><!-- /row -->								

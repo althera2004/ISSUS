@@ -2,9 +2,9 @@
 var graphicShowBusinessRisk = false;
 var actualRuleLimitBusinessRisk = -1;
 var chartdataBusinessRisk = [];
-for (var x = 0; x < BusinessRiskGraph.length; x++) {
+/*for (var x = 0; x < BusinessRiskGraph.length; x++) {
     chartdataBusinessRisk.push (BusinessRiskGraph[x].Result * 20);
-}
+}*/
 
 var chartBusinessRisk;
 var myColorsBusinessRisk = ["#1f77b4", "#ff7f0e", "#2ca02c"];
@@ -12,13 +12,10 @@ var graphicDataBusinessRisk;
 var linedataBusinessRisk;
 var myDataBusinessRisk = [];
 
-function GetRiskNameById(id)
-{
+function GetRiskNameById(id) {
     id = id * 1;
-    for (var x = 0; x < BusinessRiskList.length; x++)
-    {
-        if (BusinessRiskList[x].BusinessRiskId === id)
-        {
+    for (var x = 0; x < BusinessRiskList.length; x++) {
+        if (BusinessRiskList[x].BusinessRiskId === id) {
             return BusinessRiskList[x].Description;
         }
     }
@@ -27,14 +24,12 @@ function GetRiskNameById(id)
 }
 
 function RenderChartBusinessRisk() {
-
     nv.addGraph(function () {
         //Create BarChart
         chartBusinessRisk = nv.models.discreteBarChart()
             .x(function (d) { return d.label; })
             .y(function (d) { return d.value; })
             .tooltips(true)
-
             .showValues(true)
             .showXAxis(false)
             .transitionDuration(0)
@@ -42,7 +37,7 @@ function RenderChartBusinessRisk() {
             .color(myColorsBusinessRisk)
             .tooltipContent(function (key, x, y, e) {
                 if (e.value >= 0) {
-                    return '<div style="min-width:150px;-webkit-border-radius: 40px;-moz-border-radius: 10px;border-radius: 10px;border:3px solid #DBE6FF;background:rgba(242,246,252,0.8);-webkit-box-shadow: #B3B3B3 2px 2px 2px;-moz-box-shadow: #B3B3B3 2px 2px 2px; box-shadow: #B3B3B3 2px 2px 2px;padding-top:4px;padding-left:4px;"><strong>' + GetRiskNameById(x) + '</strong><p>' + Dictionary.Item_BusinessRisk_LabelField_Result + ': <strong>' + y + '</strong></p></div>';
+                    return "<div style=\"min-width:150px;-webkit-border-radius: 40px;-moz-border-radius: 10px;border-radius: 10px;border:3px solid #DBE6FF;background:rgba(242,246,252,0.8);-webkit-box-shadow: #B3B3B3 2px 2px 2px;-moz-box-shadow: #B3B3B3 2px 2px 2px; box-shadow: #B3B3B3 2px 2px 2px;padding-top:4px;padding-left:4px;\"><strong>" + GetRiskNameById(x) + "</strong><p>" + Dictionary.Item_BusinessRisk_LabelField_Result + ": <strong>" + y + "</strong></p></div>";
                 } else {
                     return "";
                 }
@@ -72,27 +67,37 @@ function exampleDataBusinessRisk() {
         myDataBusinessRisk = [];
         var y = [];
 
+        var ids = [];
+        $.each($("#ListDataTable TR"), function (index, value) {
+            if (value.style.display !== "none") {
+                ids.push(value.id * 1);
+            }
+        });
+
         BusinessRiskGraph.sort(function (a, b) { return parseFloat(b.Result) - parseFloat(a.Result); });
         for (var x = 0; x < BusinessRiskGraph.length; x++) {
-            var label = BusinessRiskGraph[x].Id.toString();
-            y.push({ "label": label, "value": BusinessRiskGraph[x].Result });
+            var show = $.inArray(BusinessRiskGraph[x].Id, ids);
+            if (show !== -1) {
+                var label = BusinessRiskGraph[x].Id.toString();
+                y.push({ "label": label, "value": BusinessRiskGraph[x].Result });
 
-            var finalColor = "#ffb752";
-            if (BusinessRiskGraph[x].Assumed === false && BusinessRiskGraph[x].FinalAction !== 1) {
-                var limit = typeof actualRuleLimitBusinessRisk === "undefined" ? 0 : actualRuleLimitBusinessRisk;
-                if (limit < 0) {
-                    limit = BusinessRiskGraph[x].RuleLimit;
+                var finalColor = "#ffb752";
+                if (BusinessRiskGraph[x].Assumed === false && BusinessRiskGraph[x].FinalAction !== 1) {
+                    var limit = typeof actualRuleLimitBusinessRisk === "undefined" ? 0 : actualRuleLimitBusinessRisk;
+                    if (limit < 0) {
+                        limit = BusinessRiskGraph[x].RuleLimit;
+                    }
+                    if (BusinessRiskGraph[x].Result < limit) {
+                        finalColor = "#87b87f";
+                    }
+                    else {
+                        finalColor = "#d15b47";
+                    }
                 }
-                if (BusinessRiskGraph[x].Result < limit) {
-                    finalColor = "#87b87f";
-                }
-                else {
-                    finalColor = "#d15b47";
-                }
+
+                myColorsBusinessRisk.push(finalColor);
+                myDataBusinessRisk.push({ "label": label, "value": 5 });
             }
-
-            myColorsBusinessRisk.push(finalColor);
-            myDataBusinessRisk.push({ "label": label, "value": 5 });
         }
 
         return y;

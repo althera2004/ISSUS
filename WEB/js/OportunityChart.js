@@ -2,9 +2,9 @@
 var graphicShowOportunity = false;
 var actualRuleLimitOportunity = -1;
 var chartdataoportunity = [];
-for (var x = 0; x < OportunityGraph.length; x++) {
+/*for (var x = 0; x < OportunityGraph.length; x++) {
     chartdataoportunity.push(OportunityGraph[x].Result * 20);
-}
+}*/
 
 var chartOportunity;
 var myColorsoportunity = ["#DC8475", "#A5CA9F"];
@@ -54,7 +54,6 @@ function RenderchartOportunity() {
         nv.utils.windowResize(chartOportunity.update);
         return chartOportunity;
     }, function () {
-        //console.log("callback");
         d3.selectAll(".discreteBar").on("click",
             function (e) {
                 document.location = "/OportunityView.aspx?id=" + e.label;
@@ -68,28 +67,37 @@ function exampleDataoportunity() {
         myDataOportunity = [];
         var y = [];
 
-        OportunityGraph.sort(function (a, b) { return parseFloat(b.Result) - parseFloat(a.Result); });
-
-        for (var x = 0; x < OportunityGraph.length; x++) {
-            var label = OportunityGraph[x].Id.toString();
-            y.push({ "label": label, "value": OportunityGraph[x].Result });
-
-            var finalColor = "#ffb752";
-            if (OportunityGraph[x].Assumed === false && OportunityGraph[x].FinalAction !== 1) {
-                var limit = typeof actualRuleLimitOportunity === "undefined" ? 0 : actualRuleLimitBusinessRisk;
-                if (limit < 0) {
-                    limit = OportunityGraph[x].RuleLimit;
-                }
-                if (OportunityGraph[x].Result < limit) {
-                    finalColor = "#DC8475";
-                }
-                else {
-                    finalColor = "#A5CA9F";
-                }
+        var ids = [];
+        $.each($("#ListDataTableOportunity TR"), function (index, value) {
+            if (value.style.display !== "none") {
+                ids.push(value.id * 1);
             }
+        });
 
-            myColorsoportunity.push(finalColor);
-            myDataOportunity.push({ "label": label, "value": 5 });
+        OportunityGraph.sort(function (a, b) { return parseFloat(b.Result) - parseFloat(a.Result); });
+        for (var x = 0; x < OportunityGraph.length; x++) {
+            var show = $.inArray(OportunityGraph[x].Id, ids);
+            if (show !== -1) {
+                var label = OportunityGraph[x].Id.toString();
+                y.push({ "label": label, "value": OportunityGraph[x].Result });
+
+                var finalColor = "#ffb752";
+                if (OportunityGraph[x].Assumed === false && OportunityGraph[x].FinalAction !== 1) {
+                    var limit = typeof actualRuleLimitOportunity === "undefined" ? 0 : actualRuleLimitBusinessRisk;
+                    if (limit < 0) {
+                        limit = OportunityGraph[x].RuleLimit;
+                    }
+                    if (OportunityGraph[x].Result < limit) {
+                        finalColor = "#DC8475";
+                    }
+                    else {
+                        finalColor = "#A5CA9F";
+                    }
+                }
+
+                myColorsoportunity.push(finalColor);
+                myDataOportunity.push({ "label": label, "value": 5 });
+            }
         }
 
         return y;
