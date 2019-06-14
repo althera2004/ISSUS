@@ -599,9 +599,9 @@ function Save() {
         }
     }
 
-    // Sólo si el status = 1 (Realizado) se revisa si está en condiciones de pasar a evaluado
+    // Sólo si el status = 2 (Realizado) se revisa si está en condiciones de pasar a evaluado
     var evaluatedAll = false;
-    if (formacion.Status === 1) {
+    if (formacion.Status === 2) {
         evaluatedAll = true;
         for (var x = 0; x < SelectedEmployeesTable.childNodes.length; x++) {
             if (SelectedEmployeesTable.childNodes[x].childNodes[2].childNodes[0].innerHTML === "-") {

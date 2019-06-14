@@ -1424,6 +1424,7 @@ Item_Learning_Objetive::Objectiu / Valoració de l'eficàcia
 Item_Learning_PopupDelete_Message::Vol eliminar la formació
 Item_Learning_SelectAssistants::Afegir
 Item_Learning_Status_Done::Realitzada
+Item_Learning_Status_Started::Iniciada
 Item_Learning_Status_Evaluated::Avaluada
 Item_Learning_Status_Finished::Realitzada
 Item_Learning_Status_InProgress::Pendent
@@ -1976,19 +1977,20 @@ Item_Equipment_FilterLabel_Repair_Ext::Rep. Ext
 Common_PDF_Filter_Contains::Conté
 Item_Auditory_FoundNoAction::Cap troballa genera una acció
 Item_Auditory_ImprovementNoAction::Cap millora genera una acció
-Common_Status_ActivePlural::Activos
-Common_Status_InactivePlural::Inactivos
+Common_Status_ActivePlural::Actius
+Common_Status_InactivePlural::Inactius
 Item_Process_Btn_Restaurar::Activar
 Item_Process_Btn_Anular::Desactivar
-Item_Process_PopupAnular_Title::Desactivar proceso
+Item_Process_PopupAnular_Title::Desactivar procés
 Item_Auditory_Message_ActionsZombie::Les accions no estaran disponibles al sistema fins que no es validi la auditoria
 Item_Auditory_ErrorMessage_QuestionairesClosed::Per validar la auditoria s'ha d'indicar l'inici i el final
-Item_Adutiry_Message_NoActions::No hi cap acción definida a la auditoria.
+Item_Adutiry_Message_NoActions::No hi cap acció definida a la auditoria.
 Item_IncidentAction_Message_NoGrants::No té permissos per a treballar amb accions
 Common_FirstDate::Data primer registre
 Item_Equipment_Calibration_Error_None::S'ha de definir com a mínim una calibració.
 Item_Equipment_Verification_Error_None::S'ha de definir com a mínim una verificació.
-Item_Equipment_Error_NoRisponsible::Hay que informar el responsable del equipo.
-Item_Equipment_Error_NoOptions::Elija almenos una opción.
-Item_Equipment_Error_DuplicateData::Los datos del equipo están repetidos.
-Item_Equipment_Error_RequiredFields::Revise los campos obligatorios del equipo.
+Item_Equipment_Error_NoRisponsible::S'ha d'informar el responsable de l'equip.
+Item_Equipment_Error_NoOptions::Escolli com a mínim una opció,
+Item_Equipment_Error_DuplicateData::Les dades de l'equip estan repetits.
+Item_Equipment_Error_RequiredFields::Revisi els camps obligatoris de l'equip.
+Common_Loading::Carregant dades

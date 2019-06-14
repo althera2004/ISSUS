@@ -353,7 +353,7 @@ function OportunityRenderTable(list) {
 
     for (var x = 0; x < list.length; x++) {
         var item = list[x];
-        var realResult = item.Result
+        var realResult = item.Result;
         RenderOportunityRow(item);
 
         // Se añade el elemento al JSON del gráfico
@@ -365,7 +365,7 @@ function OportunityRenderTable(list) {
                 "Code": item.Code,
                 "Rules": item.Rules,
                 "Result": realResult,
-                "Assumed": item.Assumed, //realAction === 1,
+                "Assumed": false, //realAction === 1,
                 "RuleLimit": item.RuleLimit,
                 "FinalAction": item.FinalAction
             });
@@ -388,11 +388,11 @@ function OportunityRenderTable(list) {
     $("#svggraficoportunity").show();
     exampleDataoportunity();
     RenderchartOportunity();
-    $(".discreteBar").on("click", function (e) { console.log(e) });
+    $(".discreteBar").on("click", function (e) { console.log(e);});
 
     if (document.getElementById("CmbRules").value * 1 > 0) {
         DrawRuleLineOportunity();
-        document.getElementById("BtnChangeIprOportunity").style.display = "";
+        $("#BtnChangeIprOportunity").show();
         rule = RuleGetById($("#OportunityCmbRules").val() * 1);
         if (rule !== null) {
             actualRuleLimitOportunity = rule.Limit;
@@ -402,7 +402,7 @@ function OportunityRenderTable(list) {
     else {
         rule = { "Id": 0 };
         resizeGraficoOportunity($("#OportunityCmbRules").val() * 1);
-        document.getElementById("BtnChangeIpr").style.display = "none";
+        $("#BtnChangeIpr").hide();
         $("#RuleDescriptionOportunity").html(Dictionary.Common_All_Female_Plural);
         actualRuleLimitOportunity = -1;
     }
@@ -616,7 +616,7 @@ function RenderOportunityRow(item) {
     icon = document.createElement("I");
     tdStatus.appendChild(icon);
 
-    var realResult = item.StartResult
+    var realResult = item.StartResult;
 
     if (item.Result === 0) {
         icon.style.color = "#777777";
@@ -624,14 +624,13 @@ function RenderOportunityRow(item) {
         icon.className = "icon-warning-sign bigger-110";
     } else {
         if (item.Result < item.RuleLimit) {
-
-            icon.style.color = "#A5CA9F";
-            icon.title = Dictionary.Item_Oportunity_Status_NotSignificant;
+            icon.style.color = "#DC8475";
+            //icon.title = Dictionary.Item_Oportunity_Status_NotSignificant;
             icon.className = "icon-circle bigger-110";
         }
         else {
-            icon.style.color = "#DC8475";
-            icon.title = Dictionary.Item_Oportunity_Status_Significant;
+            icon.style.color = "#A5CA9F";
+            //icon.title = Dictionary.Item_Oportunity_Status_Significant;
             icon.className = "icon-circle bigger-110";
         }
     }

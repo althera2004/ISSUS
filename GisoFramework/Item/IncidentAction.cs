@@ -1563,9 +1563,9 @@ namespace GisoFramework.Item
         }
 
         /// <summary>Insert incident action in database</summary>
-        /// <param name="userId">User identififer</param>
+        /// <param name="applicationUserId">User identififer</param>
         /// <returns>Result of action</returns>
-        public ActionResult Insert(int userId)
+        public ActionResult Insert(int applicationUserId)
         {
             string source = string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name:{1}", this.Id, this.Description);
             /* CREATE PROCEDURE IncidentAction_Insert
@@ -1651,7 +1651,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@ClosedExecutorOn", this.ClosedExecutorOn));
 
                         cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, Constant.MaximumTextAreaLength));
-                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", applicationUserId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         this.Id = Convert.ToInt32(cmd.Parameters["@IncidentActionId"].Value, CultureInfo.InvariantCulture);
@@ -1681,9 +1681,9 @@ namespace GisoFramework.Item
         }
 
         /// <summary>Update incident action in database</summary>
-        /// <param name="userId">User identififer</param>
+        /// <param name="applicationUserId">User identififer</param>
         /// <returns>Result of action</returns>
-        public ActionResult Update(int userId)
+        public ActionResult Update(int applicationUserId)
         {
             string source = string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name:{1}", this.Id, this.Description);
             /* CREATE PROCEDURE IncidentAction_Update
@@ -1770,7 +1770,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@ClosedExecutorOn", this.ClosedExecutorOn));
 
                         cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes ?? string.Empty, Constant.MaximumTextAreaLength));
-                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", applicationUserId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         result.SetSuccess();
@@ -1814,9 +1814,9 @@ namespace GisoFramework.Item
         }
 
         /// <summary>Delete incident action in database</summary>
-        /// <param name="userId">User identififer</param>
+        /// <param name="applicationUserId">User identififer</param>
         /// <returns>Result of action</returns>
-        public ActionResult Delete(int userId)
+        public ActionResult Delete(int applicationUserId)
         {
             string source = string.Format(CultureInfo.InvariantCulture, "Id:{0} - Name{1}", this.Id, this.Description);
             /* CREATE PROCEDURE IncidentAction_Delete
@@ -1835,7 +1835,7 @@ namespace GisoFramework.Item
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(DataParameter.Input("@IncidentActionId", this.Id));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
-                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", applicationUserId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         result.SetSuccess();
@@ -2066,7 +2066,6 @@ namespace GisoFramework.Item
 
             return res;
         }
-
 
         public static ActionResult FromImprovement(AuditoryCuestionarioImprovement improvement, int employeeId, int applicationUserId, int companyId)
         {

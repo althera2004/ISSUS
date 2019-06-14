@@ -1093,6 +1093,16 @@ namespace GisoFramework.Item
                         {
                             Tools.DeleteAttachs(companyId, "Auditory", auditoryId);
                         }
+
+                        var actions = IncidentAction.ByAuditoryId(auditoryId, companyId);
+                        if (actions != null)
+                        {
+                            foreach (var action in actions)
+                            {
+                                action.CompanyId = companyId;
+                                action.Delete(applicationUserId);
+                            }
+                        }
                     }
                     catch (SqlException ex)
                     {

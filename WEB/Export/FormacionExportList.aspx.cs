@@ -190,7 +190,7 @@ public partial class ExportFormacionExportList : Page
             yTo = Tools.TextToDate(yearTo);
         }
 
-        var learningFilter = new LearningFilter(companyId) { Mode = mode, YearFrom = yFrom, YearTo = yTo };
+        var learningFilter = new LearningFilter(companyId) { Pendent =true, YearFrom = yFrom, YearTo = yTo };
         decimal totalCost = 0;
         int count = 0;
 

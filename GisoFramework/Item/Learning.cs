@@ -499,6 +499,9 @@ namespace GisoFramework.Item
                     case 2:
                         iconDeleteAction = "LearningDeleteDisabled2";
                         break;
+                    case 3:
+                        iconDeleteAction = "LearningDeleteDisabled";
+                        break;
                     default:
                         iconDeleteAction = "LearningDeleteDisabled";
                         break;

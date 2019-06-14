@@ -33,6 +33,7 @@ public partial class InitSession : Page
         this.Session["QuestionaryFilter"] = @"{""apartadoNorma"": ""-1"", ""companyId"": 0,""processId"": -1,""ruleId"": -1}";
         this.Session["ProcessFilter"] = @"AI";
         this.Session["EquipmentFilter"] = @"CVM|1";
+        this.Session["LearningFilter"] = @"0123||";
         var user = new ApplicationUser(Convert.ToInt32(this.Request.Form["UserId"]));
         if (user.CompanyId == 0)
         {

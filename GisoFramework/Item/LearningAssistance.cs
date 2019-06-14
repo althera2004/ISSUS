@@ -11,11 +11,17 @@ namespace GisoFramework.Item
     using System.Globalization;
     using System.Web;    
 
-    /// <summary>
-    /// Implementation of LearningAssistance class.
-    /// </summary>
+    /// <summary>Implementation of LearningAssistance class.</summary>
     public class LearningAssistance
     {
+        private class Status
+        {
+            public const int Pendent = 0;
+            public const int Started = 1;
+            public const int Finished = 2;
+            public const int Evaluated = 3;
+        }
+
         #region Properties
         /// <summary>
         /// Gets or sets the date of assistance
@@ -139,13 +145,13 @@ namespace GisoFramework.Item
                 }
             }
 
-            if (this.Learning.Status == 1)
+            if (this.Learning.Status == Status.Finished)
             {
                 completedSpan = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span style=""color:{0};cursor:pointer;"" onclick=""Toggle(this, 'Completed', {2}, {3});"">{1}</span>", completedColor, completedText, this.Id, completedStatus);
                 successSpan = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span style=""color:{0};cursor:pointer;"" onclick=""Toggle(this, 'Success', {2}, {3});"">{1}</span>", successColor, successText, this.Id, successStatus);
             }
 
-            if (this.Learning.Status == 2)
+            if (this.Learning.Status == Status.Evaluated)
             {
                 completedSpan = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span style=""color:{0}"">{1}</span>", completedColor, completedText);
                 successSpan = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span style=""color:{0}"">{1}</span>", successColor, successText);
@@ -154,17 +160,8 @@ namespace GisoFramework.Item
             string res = string.Empty;
 
             switch (status)
-            {
-                case 0:
-                    string iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""EmployeeDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, this.Employee.FullName, dictionary["Common_Delete"]);
-                    res = string.Format(
-                         CultureInfo.GetCultureInfo("en-us"),
-                         @"<tr><!--<td><input type=""checkbox"" id=""chk{0}"" /></td>--><td>{0}</td><td align=""center"">{2}</td></tr>",
-                         this.Employee.FullName,
-                         this.JobPosition.Link,
-                         iconDelete);
-                    break;
-                case 1:
+            {               
+                case Status.Finished:
                     res = string.Format(
                         CultureInfo.GetCultureInfo("en-us"),
                         @"<tr id=""{3}|{4}""><td><input type=""checkbox"" /></td><td>{0}</td><td align=""center"">{1}</td><td class=""hidden-480"" align=""center"">{2}</td></tr>",
@@ -174,7 +171,7 @@ namespace GisoFramework.Item
                         this.Id,
                         this.Employee.Id);
                     break;
-                case 2:
+                case Status.Evaluated:
                     res = string.Format(
                         CultureInfo.GetCultureInfo("en-us"),
                         @"<tr><td>{0}</td><td align=""center"">{1}</td><td class=""hidden-480"" align=""center"">{2}</td></tr>",
@@ -182,14 +179,21 @@ namespace GisoFramework.Item
                         completedSpan,
                         successSpan);
                     break;
+                default:
+                    string iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} '{1}'"" class=""btn btn-xs btn-danger"" onclick=""EmployeeDelete({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, this.Employee.FullName, dictionary["Common_Delete"]);
+                    res = string.Format(
+                         CultureInfo.GetCultureInfo("en-us"),
+                         @"<tr><!--<td><input type=""checkbox"" id=""chk{0}"" /></td>--><td>{0}</td><td align=""center"">{2}</td></tr>",
+                         this.Employee.FullName,
+                         this.JobPosition.Link,
+                         iconDelete);
+                    break;
             }
 
             return res;
         }
 
-        /// <summary>
-        /// Render the HTML code to get a learning row for the learning table of employee profile
-        /// </summary>
+        /// <summary>Render the HTML code to get a learning row for the learning table of employee profile</summary>
         /// <param name="dictionary">Dictionary for fixed labels</param>
         /// <returns>HTML cdoe</returns>
         public string TableRowProfile(Dictionary<string, string> dictionary)
@@ -200,7 +204,8 @@ namespace GisoFramework.Item
             }
 
             string estado = string.Empty;
-            if (this.Learning.Status == 0 || !this.Learning.RealFinish.HasValue)
+            //if (this.Learning.Status == 0 || !this.Learning.RealFinish.HasValue)
+            if (this.Learning.Status == 0 || this.Learning.Status == 3)
             {
                 estado = dictionary["Item_LearningAssistant_Status_InProgress"];
             }

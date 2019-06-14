@@ -217,16 +217,32 @@ function RenderPlanningTable()
     $("#NoData").hide();
     $("#TablePlanningHeader").show();
 
+    for (var y = 0; y < AuditoryPlanning.length; y++) {
+        var dateText = AuditoryPlanning[y].Date;
+        if (typeof dateText === "object") {
+            AuditoryPlanning[y].Date = FormatDate(dateText, "/");
+        }
+
+        dateText = AuditoryPlanning[y].Date;
+        var hourtext = AuditoryPlanning[y].Hour < 1000 ? "0" : "";
+        if (AuditoryPlanning[y].Hour < 100) { hourtext += "0"; }
+        hourtext += AuditoryPlanning[y].Hour.toString();
+
+        var timeText = dateText.substring(6, 10) + dateText.substring(3, 5) + dateText.substring(0, 2) + hourtext;
+        AuditoryPlanning[y]["order"] = timeText;
+    }
+
+    AuditoryPlanning.sort(function (a, b) {
+        return parseFloat(a.order) - parseFloat(b.order);
+    });
+
     if (AuditoryPlanning.length > 0) {
         var res = "";
         for (var x = 0; x < AuditoryPlanning.length; x++) {
-            var dateText = AuditoryPlanning[x].Date;
-            if (typeof dateText === "object") {
-                dateText = FormatDate(dateText, "/");
-            }
+            console.log(dateText + AuditoryPlanning[x].Hour);
 
             res += "<tr id=\"" + AuditoryPlanning[x].Id + "\">";
-            res += "  <td style=\"width:100px;text-align:center\">" + dateText + "</td>";
+            res += "  <td style=\"width:100px;text-align:center\">" + AuditoryPlanning[x].Date + "</td>";
             res += "  <td style=\"width:70px;text-align:center\">" + MinutesToHour(AuditoryPlanning[x].Hour) + "</td>";
             res += "  <td style=\"width:90px;text-align:right\">" + AuditoryPlanning[x].Duration + "</td>";
             res += "  <td style=\"\">" + AuditoryPlanning[x].Process.Description + "</td>";
@@ -1972,10 +1988,12 @@ function CalculeTotalQuestions() {
 
 function RenderCuestionarios() {
     var res = "";
+    var cuestionariosHasResponses = false;
     var cuestionariosCerrables = true;
     for (var x = 0; x < Cuestionarios.length; x++) {
         var cuestionario = Cuestionarios[x];
         var percent = (cuestionario.C / cuestionario.T) * 100;
+        if (cuestionario.C > 0) { cuestionariosHasResponses = true; }
         var warning = "";
         if (cuestionario.Co < cuestionario.C && cuestionario.F === 0) {
             warning = "&nbsp;<i class=\"fa fa-warning\" style=\"color:#f77;\" title=\"" + Dictionary.Item_Auditory_Message_NoCompliantNoFound + "\"></i>";
@@ -2003,6 +2021,13 @@ function RenderCuestionarios() {
         }
         res += "  </td>";
         res += "</tr>";
+    }
+
+    // Si los cuestionarios tienen respuestas y no hay fecha de inicio de cuestionarios
+    if (cuestionariosHasResponses === true) {
+        if ($("#TxtStartQuestionsOn").val() === "") {
+            $("#TxtStartQuestionsOn").val(FormatDate(new Date(), "/"));
+        }
     }
 
     if (cuestionariosCerrables === true) {

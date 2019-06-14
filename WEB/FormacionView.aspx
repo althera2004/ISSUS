@@ -171,8 +171,8 @@
                                                         <hr />
                                                         <div class="form-group col-sm-12">
                                                             <!--<label class="col-sm-2 control-label" for="form-input-readonly"><%=this.Dictionary["Item_LearningAssistants"] %></label>-->
-                                                            <% if (this.Learning.Status == 0)
-                                                               { %>
+                                                            <% if (this.Learning.Status < 2)
+                                                                { %>
                                                                <div class="col-sm-11"><h4><%=this.Dictionary["Item_LearningAssistants"] %></h4></div>
                                                                <div class="col-sm-1 no-padding-right">
                                                                <button class="btn btn-success" type="button" id="BtnSelectEmpleado">
@@ -189,13 +189,13 @@
                                                                     <table class="table table-bordered table-striped">
                                                                                 <thead class="thin-border-bottom">
                                                                                     <tr>
-                                                                                        <% if (this.Learning.Status == 1)
+                                                                                        <% if (this.Learning.Status == 2)
                                                                                            { %>
                                                                                         <th style="width:23px;"><input type="checkbox" title="<%=this.Dictionary["Common_SelectAll"] %>" onclick="SelectAllAssistants(this);" /></th>
                                                                                         <% } %>
                                                                                         <th><%=this.Dictionary["Item_LearningAssistants"] %></th>
 
-                                                                                        <% if(this.Learning.Status==0) { %>
+                                                                                        <% if(this.Learning.Status < 2) { %>
                                                                                             <th class="hidden-480" style="width:80px;">&nbsp;</th>
                                                                                         <% }else  { %>
                                                                                         <th class="hidden-480" style="width:80px;"><%=this.Dictionary["Item_LearningAssistant_Status_Done"] %></th>

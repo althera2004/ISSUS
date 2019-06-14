@@ -5,6 +5,7 @@
 // <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System.Globalization;
+using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
 using GisoFramework.Activity;
@@ -36,7 +37,7 @@ public class LearningActions : WebService {
         string extradata = Learning.Differences(oldLearning, newLearning);
         if (!string.IsNullOrEmpty(extradata))
         {
-            // Si se informa la fecha de finnalización el estado pasa ser "realizado"
+            // Si se informa la fecha de finalización el estado pasa ser "realizado"
             if (newLearning.RealFinish.HasValue)
             {
                 newLearning.Status = 1;
@@ -70,6 +71,16 @@ public class LearningActions : WebService {
             res.SetSuccess(newLearning.Id);
         }
 
+        return res;
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult SetFilter(string filter)
+    {
+        HttpContext.Current.Session["LearningFilter"] = filter;
+        var res = ActionResult.NoAction;
+        res.SetSuccess("ok");
         return res;
     }
 

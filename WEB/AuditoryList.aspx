@@ -100,10 +100,10 @@
                                                         <th style="width:107px;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
-                                            </table>                                
+                                            </table>
                                             <div id="ListDataDiv" style="overflow:scroll;overflow-x:hidden;padding:0;">
                                                 <table class="table table-bordered table-striped" style="border-top:none;">  
-                                                    <tbody id="ListDataTable"><tr><td>Cargando...</td></tr></tbody>
+                                                    <tbody id="ListDataTable"><tr><td><%=this.Dictionary["Common_Loading"] %>...</td></tr></tbody>
                                                 </table>
                                             </div>
                                             <div id="NoData" style="display:none;width:100%;height:99%;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>

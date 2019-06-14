@@ -669,6 +669,13 @@ namespace GisoFramework.Item
                         {
                             Tools.DeleteAttachs(companyId, "Oportunity", oportunityId);
                         }
+
+                        var action = IncidentAction.ByOportunityId(oportunityId, companyId);
+                        if (action != null)
+                        {
+                            action.CompanyId = companyId;
+                            action.Delete(applicationUserId);
+                        }
                     }
                     finally
                     {

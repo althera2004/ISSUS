@@ -7,7 +7,7 @@ for (var x = 0; x < OportunityGraph.length; x++) {
 }
 
 var chartOportunity;
-var myColorsoportunity = ["#1f77b4", "#ff7f0e", "#2ca02c"];
+var myColorsoportunity = ["#DC8475", "#A5CA9F"];
 var graphicDataOportunity;
 var linedataoportunity;
 var myDataOportunity = [];
@@ -81,10 +81,10 @@ function exampleDataoportunity() {
                     limit = OportunityGraph[x].RuleLimit;
                 }
                 if (OportunityGraph[x].Result < limit) {
-                    finalColor = "#87b87f";
+                    finalColor = "#DC8475";
                 }
                 else {
-                    finalColor = "#d15b47";
+                    finalColor = "#A5CA9F";
                 }
             }
 

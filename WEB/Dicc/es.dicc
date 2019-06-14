@@ -1932,3 +1932,22 @@ Item_Auditory_ValidateCuestionarioCrossDate::No puede ser anterio al inicio de l
 Item_Auditory_ValidateCrossDate::No puede ser anterior a la fecha final
 Item_Learning_Message_NoAssistants::No se puede finalizar la formación sin asistentes
 Common_PDF_Filter_Contains::Contiene
+Item_Auditory_FoundNoAction::Cap troballa genera una acció
+Item_Auditory_ImprovementNoAction::Cap millora genera una acció
+Common_Status_ActivePlural::Activos
+Common_Status_InactivePlural::Inactivos
+Item_Process_Btn_Restaurar::Activar
+Item_Process_Btn_Anular::Desactivar
+Item_Process_PopupAnular_Title::Desactivar proceso
+Item_Auditory_Message_ActionsZombie::Las acciones no estarán disponibles en el sistema hasta que no se valide la auditoria
+Item_Auditory_ErrorMessage_QuestionairesClosed::Para validar la auditoria se ha de indicar el inicio i el final
+Item_Adutiry_Message_NoActions::No hay ninguna acción definida a la auditoria.
+Item_IncidentAction_Message_NoGrants::No tiene permisos para trabajar con acciones
+Common_FirstDate::Fecha primer registro
+Item_Equipment_Calibration_Error_None::Se ha de definir al menos una calibració.
+Item_Equipment_Verification_Error_None::Se ha de definir al menos una verificació.
+Item_Equipment_Error_NoRisponsible::Se ha de informar el responsable del equipo.
+Item_Equipment_Error_NoOptions::elija al menos una opción.
+Item_Equipment_Error_DuplicateData::Los datos del equipo están repetidos.
+Item_Equipment_Error_RequiredFields::Revise los campos obligatorios del equipo.
+Common_Loading::Cargando datos
