@@ -140,27 +140,27 @@
                             <div id="StatusHelpDialog" class="hide" style="width:500px;">
                                 <table cellpadding="2" cellspacing="2">
                                     <tr>
-                                        <td style="font-weight:bold;vertical-align:top;"><%=this.Dictionary["Item_Adutory_Status_Label_0"] %>:</td>
+                                        <td style="font-weight:bold;vertical-align:top;"><i class="icon-circle bigger-110" id="StatusIcon0"></i>&nbsp;<%=this.Dictionary["Item_Adutory_Status_Label_0"] %>:</td>
                                         <td><%=this.Dictionary["Item_Adutory_Status_Explanation_0"] %></td>
                                     </tr>
                                     <tr>
-                                        <td style="font-weight:bold;vertical-align:top;"><%=this.Dictionary["Item_Adutory_Status_Label_1"] %>:</td>
+                                        <td style="font-weight:bold;vertical-align:top;"><i class="icon-circle bigger-110" id="StatusIcon1"></i>&nbsp;<%=this.Dictionary["Item_Adutory_Status_Label_1"] %>:</td>
                                         <td><%=this.Dictionary["Item_Adutory_Status_Explanation_1"] %></td>
                                     </tr>
                                     <tr>
-                                        <td style="font-weight:bold;vertical-align:top;"><%=this.Dictionary["Item_Adutory_Status_Label_2"] %>:</td>
+                                        <td style="font-weight:bold;vertical-align:top;"><i class="icon-circle bigger-110" id="StatusIcon2"></i>&nbsp;<%=this.Dictionary["Item_Adutory_Status_Label_2"] %>:</td>
                                         <td><%=this.Dictionary["Item_Adutory_Status_Explanation_2"] %></td>
                                     </tr>
                                     <tr>
-                                        <td style="font-weight:bold;vertical-align:top;"><%=this.Dictionary["Item_Adutory_Status_Label_3"] %>:</td>
+                                        <td style="font-weight:bold;vertical-align:top;"><i class="icon-circle bigger-110" id="StatusIcon3"></i>&nbsp;<%=this.Dictionary["Item_Adutory_Status_Label_3"] %>:</td>
                                         <td><%=this.Dictionary["Item_Adutory_Status_Explanation_3"] %></td>
                                     </tr>
                                     <tr>
-                                        <td style="font-weight:bold;vertical-align:top;"><%=this.Dictionary["Item_Adutory_Status_Label_4"] %>:</td>
+                                        <td style="font-weight:bold;vertical-align:top;"><i class="icon-circle bigger-110" id="StatusIcon4"></i>&nbsp;<%=this.Dictionary["Item_Adutory_Status_Label_4"] %>:</td>
                                         <td><%=this.Dictionary["Item_Adutory_Status_Explanation_4"] %></td>
                                     </tr>
                                     <tr>
-                                        <td style="font-weight:bold;vertical-align:top;"><%=this.Dictionary["Item_Adutory_Status_Label_5"] %>:</td>
+                                        <td style="font-weight:bold;vertical-align:top;"><i class="icon-circle bigger-110" id="StatusIcon5"></i>&nbsp;<%=this.Dictionary["Item_Adutory_Status_Label_5"] %>:</td>
                                         <td><%=this.Dictionary["Item_Adutory_Status_Explanation_5"] %></td>
                                     </tr>
                                 </table>

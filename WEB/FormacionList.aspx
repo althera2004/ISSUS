@@ -141,6 +141,6 @@
         <script type="text/javascript" src="/assets/js/bootstrap-tag.min.js"></script>
         <script type="text/javascript" src="/assets/js/autoNumeric.js"></script>
         <script type="text/javascript" src="/js/common.js?ac=<%=this.AntiCache %>"></script>
-        <script type="text/javascript" src="/js/FormacionList.js"></script>
+        <script type="text/javascript" src="/js/FormacionList.js?ac=<%=this.AntiCache %>"></script>
 </asp:Content>
 

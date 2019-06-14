@@ -478,15 +478,13 @@ function RenderLearningRow(data) {
     }
 
     var res = "";
-    res += "<tr>";
-    res += "  <td>";
+    res += "<tr><td>";
     res += "    <a href=\"FormacionView.aspx?id=" + data.Id + "\">" + data.Description + "</a>";
-    res += "  </td>";
-    res += "  <td align=\"center\" style=\"width:100px;white-space:nowrap;\">" + realStart + "</td>";
-    res += "  <td align=\"center\" style=\"width:100px;white-space:nowrap;\">" + realFinish + "</td>";
-    res += "  <td align=\"center\" class=\"hidden-480\" style=\"width:100px;white-space:nowrap;\">" + estadoText + data.Status + "</td>";
-    res += "  <td align=\"right\" class=\"hidden-480\" style=\"width:150px;white-space:nowrap;\">" + ToMoneyFormat(data.Amount, 2) + "</td > ";
-    res += "  <td class=\"hidden-480\" style=\"width:90px;white-space:nowrap;\">";
+    res += "  </td><td align=\"center\" style=\"width:100px;white-space:nowrap;\">" + realStart;
+    res += "  </td><td align=\"center\" style=\"width:100px;white-space:nowrap;\">" + realFinish;
+    res += "  </td><td align=\"center\" class=\"hidden-480\" style=\"width:100px;white-space:nowrap;\">" + estadoText;
+    res += "  </td><td align=\"right\" class=\"hidden-480\" style=\"width:150px;white-space:nowrap;\">" + ToMoneyFormat(data.Amount, 2);
+    res += "  </td><td class=\"hidden-480\" style=\"width:90px;white-space:nowrap;\">";
     res += "    <span title=\"Editar " + data.Id + "\" class=\"btn btn-xs btn-info\" onclick=\"LearningUpdate(" + data.Id + ");\">";
     res += "      <i class=\"icon-edit bigger-120\"></i>";
     res += "    </span>&nbsp;";

@@ -1,5 +1,14 @@
 ﻿var lockOrderList = false;
-Resize();    
+Resize();
+
+var StatusColors = {
+    "Planificando": "#6fb3e0",
+    "Planificada": "#ff0",
+    "EnCurso": "#ffb752",
+    "Pendiente": "#d15b47",
+    "Cerrada": "#87b87f",
+    "Validada": "#555"
+};
 
 jQuery(function ($) {
     var options = $.extend({}, $.datepicker.regional[userLanguage], { "autoclose": true, "todayHighlight": true });
@@ -126,38 +135,31 @@ function ItemRenderTable(list) {
         row.id = item.Id;
         total += item.Amount;
 
-        var colorStatus0 = "#777";
-        var colorStatus1 = "#77f";
-        var colorStatus2 = "#33f";
-        var colorStatus3 = "#00f";
-        var colorStatus4 = "#ff7";
-        var colorStatus5 = "#ff0";
-
         var iconStatus = document.createElement("I");
         iconStatus.className = "icon-circle bigger-110";
         switch (item.Status) {
             case 0:
-                iconStatus.style.color = colorStatus0;
+                iconStatus.style.color = StatusColors.Planificando;
                 iconStatus.title = Dictionary.Item_Adutory_Status_Label_0;
                 break;
             case 1:
-                iconStatus.style.color = colorStatus1;
+                iconStatus.style.color = StatusColors.Planificada;
                 iconStatus.title = Dictionary.Item_Adutory_Status_Label_1;
                 break;
             case 2:
-                iconStatus.style.color = colorStatus2;
+                iconStatus.style.color = StatusColors.EnCurso;
                 iconStatus.title = Dictionary.Item_Adutory_Status_Label_2;
                 break;
             case 3:
-                iconStatus.style.color = colorStatus3;
+                iconStatus.style.color = StatusColors.Pendiente;
                 iconStatus.title = Dictionary.Item_Adutory_Status_Label_3;
                 break;
             case 4:
-                iconStatus.style.color = colorStatus4;
+                iconStatus.style.color = StatusColors.Cerrada;
                 iconStatus.title = Dictionary.Item_Adutory_Status_Label_4;
                 break;
             case 5:
-                iconStatus.style.color = colorStatus5;
+                iconStatus.style.color = StatusColors.Validada;
                 iconStatus.title = Dictionary.Item_Adutory_Status_Label_5;
                 break;
         }
@@ -496,6 +498,13 @@ function Resize() {
 }
 
 window.onload = function () {
+    $("#StatusIcon0").css("color", StatusColors.Planificando);
+    $("#StatusIcon1").css("color", StatusColors.Planificada);
+    $("#StatusIcon2").css("color", StatusColors.EnCurso);
+    $("#StatusIcon3").css("color", StatusColors.Pendiente);
+    $("#StatusIcon4").css("color", StatusColors.Cerrada);
+    $("#StatusIcon5").css("color", StatusColors.Validada);
+
     if (document.getElementById("BtnNewItem") !== null) {
         document.getElementById("BtnNewItem").onclick = null;
         $("#BtnNewItem").on("click", ShowSelectDialog);
