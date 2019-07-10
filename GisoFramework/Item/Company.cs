@@ -265,7 +265,7 @@ namespace GisoFramework.Item
         }
 
         /// <summary>Gets or sets company's disk quote</summary>
-        public long DiskQuote { get; set; }
+        public decimal DiskQuote { get; set; }
 
         /// <summary>Gets or sets a value indicating whether agreement document is accepted</summary>
         public bool Agreement { get; set; }

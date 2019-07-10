@@ -205,7 +205,7 @@ namespace GisoFramework.Item
 
             string estado = string.Empty;
             //if (this.Learning.Status == 0 || !this.Learning.RealFinish.HasValue)
-            if (this.Learning.Status == 0 || this.Learning.Status == 3)
+            if (this.Learning.Status == 1 || this.Learning.Status == 2)
             {
                 estado = dictionary["Item_LearningAssistant_Status_InProgress"];
             }

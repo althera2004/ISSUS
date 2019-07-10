@@ -44,7 +44,7 @@ public partial class CompanyProfile : Page
     {
         get
         {
-            return string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.Company.DiskQuote / (1024M * 1024M)).Replace(',', '*').Replace('.', ',').Replace('*', '.');
+            return string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.Company.DiskQuote).Replace(',', '*').Replace('.', ',').Replace('*', '.');
         }
     }
 

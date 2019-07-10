@@ -130,11 +130,13 @@ window.onload = function () {
     if (Auditory.Status > AuditoryStatus.Pendiente) {
         $("#HallazgosDataTable .btn").hide();
         $("#MejorasDataTable .btn").hide();
+        FillCmbClosedBy();
     }
 
     if (Auditory.Status === AuditoryStatus.Pendiente) {
         $("#DivCloseButton").show();
         $("#BtnReopenCuestionarios").show();
+        $("#BtnCloseCuestionarios").hide();
     }
 
     if (Auditory.Status === AuditoryStatus.Cerrada) {
@@ -152,6 +154,10 @@ window.onload = function () {
         $("#HallazgosDataTable .btn").hide();
         $("#ListDataDivMejoras .btn").hide();
         RenderRealActions();
+    }
+    else {
+        $("#TxtPuntosFuertes").removeAttr("disabled");
+        $("#TxtPuntosFuertes").css("background-color", "#fff");
     }
 
     // Externas
@@ -767,12 +773,18 @@ function SaveAuditory() {
             break;
     }
 
+    var PuntosFuertes = "";
+    if ($("#TxtPuntosFuertes").length > 0) {
+        PuntosFuertes = $("#TxtPuntosFuertes").val();
+    }
+
     var auditoryData = {
         "Id": Auditory.Id,
         "CompanyId": Company.Id,
         "Type": Auditory.Type,
         "Description": $("#TxtName").val(),
         "Descripcion": $("#TxtDescription").val(),
+        "PuntosFuertes": PuntosFuertes,
         "Scope": $("#TxtScope").val(),
         "Amount": StringToNumber($("#TxtAmount").val(), ".", ","),
         "Notes": $("#TxtNotes").val(),
@@ -2000,6 +2012,10 @@ function RenderCuestionarios() {
             cuestionariosCerrables = false;
         }
 
+        if (percent < 100) {
+            cuestionariosCerrables = false;
+        }
+
         res += "<tr id=\"Cuestionario_" + cuestionario.Id + "\">";
         res += "  <td style=\"height: 30px;width:120px;text-align:center;";
         res += "             background: -webkit-linear-gradient(left, #cfc " + percent + "%, #fcc " + percent + "%);";
@@ -2031,9 +2047,14 @@ function RenderCuestionarios() {
     }
 
     if (cuestionariosCerrables === true) {
-        $("#BtnCloseCuestionarios").show();
+        // Comprobar que no estén ya cerrados
+        if ($("#TxtCloseQuestionsOn").val() === "") {
+            $("#BtnCloseCuestionarios").show();
+        }
+        $("#DivMessageCuestonariosCerrables").show();
     } else {
         $("#BtnCloseCuestionarios").hide();
+        $("#DivMessageCuestonariosCerrables").hide();
     }
 
     $("#SpanCuestionarioTotal").html(Cuestionarios.length);
@@ -2357,4 +2378,14 @@ function ReviseNoActions() {
 
     if (AF === false) { $("#NoActionF").show(); $("#DivNoActions").show(); }
     if (AI === false) { $("#NoActionI").show(); $("#DivNoActions").show(); }
+}
+
+function FillCmbClosedBy() {
+    $("#CmbClosedBy").html("");
+    var res = "<option value=\"0\">" + Dictionary.SelectOne + "</option>";
+    for (var x = 0; x < AuditoryPlanning.length; x++) {
+        res += "<option value=\"" + AuditoryPlanning[x].Auditor.Id + "\">" + AuditoryPlanning[x].Auditor.Value + "</option>";
+    }
+
+    $("#CmbClosedBy").html(res);
 }

@@ -384,7 +384,12 @@
                                                             </tr>
                                                         </thead>
                                                     </table>
-                                                </div> <!-- /.table-responsive -->                                                 
+                                                </div> <!-- /.table-responsive -->
+                                                
+                                                <div class="alert alert-info" style="display:none;" id="DivMessageCuestonariosCerrables">
+                                                    <strong><i class="fa fa-info-circle fa-fw fa-lg"></i></strong>
+                                                    <div style="display:inline;">&nbsp;<%=this.Dictionary["Item_Auditory_Message_QuestionaryClosable"] %></div>
+                                                </div>
 
                                             </div>
                                             <div id="report" class="tab-pane">
@@ -448,10 +453,8 @@
                                                         </thead>
                                                     </table>
                                                 </div> <!-- /.table-responsive -->
-
-                                                <br />
+                                                
                                                 <h4><%=this.Dictionary["Item_Auditory_Title_Improvements"] %></h4>
-
                                                 <div class="table-responsive" id="scrollTableDivMejoras">
                                                     <table class="table table-bordered table-striped" style="margin: 0">
                                                         <thead class="thin-border-bottom">
@@ -482,7 +485,12 @@
                                                     <div style="display:inline;"><span id="NoActionF"><%=this.Dictionary["Item_Auditory_FoundNoAction"] %></span>&nbsp;<span id="NoActionI"><%=this.Dictionary["Item_Auditory_ImprovementNoAction"] %></span></div>
                                                 </div>
 
-                                                <div class="col-sm-12" style="margin-top:12px;display:none;" id="DivCloseButton">
+                                                <h4><%=this.Dictionary["Item_Auditory_Label_PuntosFuertes"] %></h4>
+                                                <div class="form-group">
+                                                    <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtPuntosFuertes"><%=this.Auditory.PuntosFuertes %></textarea>
+                                                </div>
+
+                                                <div class="col-sm-12" style="margin-top:12px;margin-bottom:20px;display:none;" id="DivCloseButton">
                                                     <div class="col-sm-10"></div>
                                                     <div class="col-sm-2">
                                                         <button type="button" class="btn btn-success" id="BtnCloseAuditoria"><i class="fa fa-check"></i>&nbsp;<%=this.Dictionary["Item_Auditory_Btn_Close"] %></button>
@@ -494,7 +502,7 @@
                                                         <p style="margin-left:50px;">
                                                             <%=this.Dictionary["Item_Auditory_Label_ClosedOn"] %>:&nbsp;<span id="SpanClosedOn" style="font-weight:bold;"><%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ClosedOn) %></span>
                                                             <br />
-                                                            <%=this.Dictionary["Item_Auditory_Label_ClosedBy"] %>:&nbsp;<span id="SpanClosedBy" style="font-weight:bold;"><%=this.Auditory.ClosedBy.FullName %></span>
+                                                            <%=this.Dictionary["Item_Auditory_Label_ClosedBy"] %>:&nbsp;<span id="SpanClosedBy" style="font-weight:bold;"><%=this.Auditory.ClosedBy.UserName %></span>
                                                         </p>
                                                 </div>
 
@@ -680,7 +688,7 @@
                                 <div class="row"> 
                                     <label class="col-sm-4 control-label no-padding-right" id="CmbClosedByLabel" for="CmbClosedBy"><%=this.Dictionary["Item_Auditory_Label_ClosedBy"] %><span class="required">*</span></label>
                                     <div class="col-sm-8">
-                                        <select id="CmbClosedBy" class="form-control col-xs-12 col-sm-12"><asp:Literal runat="server" ID="LtClosedByList"></asp:Literal></select>
+                                        <select id="CmbClosedBy" class="form-control col-xs-12 col-sm-12"></select>
                                         <input style="display:none;" type="text" readonly="readonly" id="CmbClosedByValue" class="col-xs-12 col-sm-12" />
                                         <span class="ErrorMessage" id="CmbClosedByErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>

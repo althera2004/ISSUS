@@ -446,12 +446,12 @@ public partial class AuditoryView : Page
         var employesList = new StringBuilder();
         var auditedList = new StringBuilder();
         var planningList = new StringBuilder();
-        var closedList = new StringBuilder();
+        //var closedList = new StringBuilder();
         var validatedList = new StringBuilder();
         employesList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         auditedList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         planningList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
-        closedList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
+        //closedList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         validatedList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         foreach (var employee in Employee.ByCompany(this.company.Id))
         {
@@ -492,18 +492,18 @@ public partial class AuditoryView : Page
                     @"<option value=""{0}"">{1}</option>",
                     employee.Id,
                     employee.FullName);
-                closedList.AppendFormat(
-                    CultureInfo.InvariantCulture,
-                    @"<option value=""{0}"">{1}</option>",
-                    employee.Id,
-                    employee.FullName);
+                //closedList.AppendFormat(
+                //    CultureInfo.InvariantCulture,
+                //    @"<option value=""{0}"">{1}</option>",
+                //    employee.Id,
+                //    employee.FullName);
             }
         }
 
         this.LtCmbInternalResponsible.Text = employesList.ToString();
         this.LtAuditedList.Text = auditedList.ToString();
         this.LtAuditoryPlanningResponsible.Text = planningList.ToString();
-        this.LtClosedByList.Text = closedList.ToString();
+        //this.LtClosedByList.Text = closedList.ToString();
         this.LtValidatedByList.Text = validatedList.ToString();
         this.LtWhatHappendByList.Text = validatedList.ToString();
 

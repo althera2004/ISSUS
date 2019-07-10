@@ -1869,6 +1869,7 @@ Item_Auditory_BreadCrumb_Edit::Ficha de auditoria
 Item_Auditory_Label_Amount::Cost
 Item_Auditory_Label_InternalResponsible::Responsable interno
 Item_Auditory_Label_Description::Descripción
+Item_Auditory_Label_PuntosFuertes::Puntos fuertes
 Item_Auditory_Label_Scope::Ámbito
 Item_Auditory_Label_Notes::Notas
 Item_Auditory_Label_Address::Dirección

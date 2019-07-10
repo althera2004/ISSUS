@@ -238,6 +238,7 @@ Item_Alert_ListHeader_Reason::Motiu
 Item_Alerts::Avisos
 Item_Attach_DiskFreeLabel1::Disponible el 
 Item_Attach_DiskFreeLabel2::% d'assignació de disc
+Item_Attach_DiskFreeLabel3::Disponibles 
 Item_Attach_DiskQuote::Quota de disc assignada
 Item_Attach_FreeDisk::Espai disponible
 Item_Attach_Popup_Delete_Question::Eliminar l'adjunt
@@ -1871,6 +1872,7 @@ Item_Auditory_BreadCrumb_Edit::Fitxa d'auditoria
 Item_Auditory_Label_Amount::Cost
 Item_Auditory_Label_InternalResponsible::Responsable intern
 Item_Auditory_Label_Description::Descripció
+Item_Auditory_Label_PuntosFuertes::Punts a destacar
 Item_Auditory_Label_Scope::Àmbit
 Item_Auditory_Label_Notes::Notes
 Item_Auditory_Label_Address::Adreça
@@ -1994,3 +1996,4 @@ Item_Equipment_Error_NoOptions::Escolli com a mínim una opció,
 Item_Equipment_Error_DuplicateData::Les dades de l'equip estan repetits.
 Item_Equipment_Error_RequiredFields::Revisi els camps obligatoris de l'equip.
 Common_Loading::Carregant dades
+Item_Auditory_Message_QuestionaryClosable::Ja es pot accedir a la pestanya Informes per tancar el qüestionaris

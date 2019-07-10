@@ -73,11 +73,10 @@
 
     var placeholder = $("#piechart-placeholder").css({ "width": "90%", "min-height": "150px" });
 
-    console.log("QuotePercentage", ToMoneyFormat(diskQuote[12].value, 2));
-    $("#QuotePercentage").html(ToMoneyFormat(diskQuote[12].value, 2));
+    console.log("QuotePercentage", ToMoneyFormat(diskQuote[diskQuote.length-1].value, 2));
+    $("#QuotePercentage").html(ToMoneyFormat(diskQuote[diskQuote.length - 1].value, 2));
 
     function drawPieChart(placeholder, data, position) {
-
         CmbAddressChanged();
         console.log("drawPieChart1", data);
         console.log("drawPieChart2", diskQuote);
@@ -106,7 +105,7 @@
                 "hoverable": true,
                 "clickable": false
             }
-        })
+        });
     }
 
     drawPieChart(placeholder, diskQuote);

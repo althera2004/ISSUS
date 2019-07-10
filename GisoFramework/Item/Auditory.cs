@@ -30,11 +30,12 @@ namespace GisoFramework.Item
         public Provider Provider { get; set; }
         public Customer Customer { get; set; }
         public string Descripcion { get; set; }
+        public string PuntosFuertes { get; set; }
         public string Notes { get; set; }
         public DateTime? PreviewDate { get; set; }
         public Employee PlannedBy { get; set; }
         public DateTime? PlannedOn { get; set; }
-        public Employee ClosedBy { get; set; }
+        public ApplicationUser ClosedBy { get; set; }
         public DateTime? ClosedOn { get; set; }
         public Employee ValidatedBy { get; set; }
         public DateTime? ValidatedOn { get; set; }
@@ -65,7 +66,7 @@ namespace GisoFramework.Item
                     EnterpriseAddress = string.Empty,
                     AuditorTeam = string.Empty,
                     PlannedBy = Employee.EmptySimple,
-                    ClosedBy = Employee.EmptySimple,
+                    ClosedBy = ApplicationUser.Empty,
                     ValidatedBy = Employee.EmptySimple,
                     ValidatedUserBy = ApplicationUser.Empty,
                     Customer = Customer.Empty,
@@ -424,6 +425,7 @@ namespace GisoFramework.Item
                                 res.Description = rdr.GetString(ColumnsAuditoryGet.Nombre);
                                 res.Notes = rdr.GetString(ColumnsAuditoryGet.Notes);
                                 res.Descripcion = rdr.GetString(ColumnsAuditoryGet.Description);
+                                res.PuntosFuertes = rdr.GetString(ColumnsAuditoryGet.PuntosFuertes);
                                 res.Scope = rdr.GetString(ColumnsAuditoryGet.Scope);
                                 res.rulesId = rdr.GetString(ColumnsAuditoryGet.NormaId);
                                 res.EnterpriseAddress = rdr.GetString(ColumnsAuditoryGet.EnterpriseAddress);
@@ -493,11 +495,10 @@ namespace GisoFramework.Item
                                 if (!rdr.IsDBNull(ColumnsAuditoryGet.ClosedBy) && rdr.GetInt32(ColumnsAuditoryGet.ClosedBy) > 0)
                                 {
                                     res.ClosedOn = rdr.GetDateTime(ColumnsAuditoryGet.ClosedOn);
-                                    res.ClosedBy = new Employee
+                                    res.ClosedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsAuditoryGet.ClosedBy),
-                                        Name = rdr.GetString(ColumnsAuditoryGet.ClosedByName),
-                                        LastName = rdr.GetString(ColumnsAuditoryGet.ClosedByLastName)
+                                        UserName = rdr.GetString(ColumnsAuditoryGet.ClosedByName)
                                     };
                                 }
 
@@ -1297,6 +1298,7 @@ namespace GisoFramework.Item
              *   @Amount decimal(18,3),
              *   @InternalResponsible int,
              *   @Description nvarchar(2000),
+             *   @PuntosFuertes nvarchar(2000),
              *   @Scope nvarchar(150),
              *   @CompanyAddressId int,
              *   @EnterpriseAddress nvarchar(500),
@@ -1329,6 +1331,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
                     cmd.Parameters.Add(DataParameter.Input("@InternalResponsible", this.InternalResponsible.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Description", this.Descripcion, 2000));
+                    cmd.Parameters.Add(DataParameter.Input("@PuntosFuertes", this.PuntosFuertes, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@Scope", this.Scope, 150));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyAddressId", this.CompanyAddressId));
                     cmd.Parameters.Add(DataParameter.Input("@EnterpriseAddress", this.EnterpriseAddress, 500));

@@ -376,7 +376,7 @@
                                                         <p style="margin-left:50px;">
                                                             <%=this.Dictionary["Item_Auditory_Label_ClosedOn"] %>:&nbsp;<span id="SpanClosedOn" style="font-weight:bold;"><%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ClosedOn) %></span>
                                                             <br />
-                                                            <%=this.Dictionary["Item_Auditory_Label_ClosedBy"] %>:&nbsp;<span id="SpanClosedBy" style="font-weight:bold;"><%=this.Auditory.ClosedBy.FullName %></span>
+                                                            <%=this.Dictionary["Item_Auditory_Label_ClosedBy"] %>:&nbsp;<span id="SpanClosedBy" style="font-weight:bold;"><%=this.Auditory.ClosedBy.UserName %></span>
                                                         </p>
                                                     </div>
                                                     <!--<div class="col-sm-6" style="text-align:right;">
