@@ -269,35 +269,35 @@ function Validate() {
     if ($("#TxtStartDate").val() === "") {
         ok = false;
         $("#TxtStartDateErrorRequired").show();
-        $("#TxtStartDateLabel").css("color", "#f00");
+        $("#TxtStartDateLabel").css("color", Color.Error);
     }
     else if (!validateDate($("#TxtStartDate").val())) {
         ok = false;
         $("#TxtStartDateErrorMalformed").show();
-        $("#TxtStartDateLabel").css("color", "#f00");
+        $("#TxtStartDateLabel").css("color", Color.Error);
     }
 
     if ($("#TxtCalculo").val() === "") {
         ok = false;
-        $("TxtCalculoLabel").css("color", "#f00");
+        $("TxtCalculoLabel").css("color", Color.Error);
         $("#TxtCalculoErrorRequired").show();
     }
 
     if ($("#TxtPeriodicity").val() === "" || $("#TxtPeriodicity").val() * 1 === 0) {
         ok = false;
-        $("TxtPeriodicityLabel").css("color", "#f00");
+        $("TxtPeriodicityLabel").css("color", Color.Error);
         $("#TxtPeriodicityErrorRequired").show();
     }
 
     if ($("#CmbUnidad").val() * 1 === 0) {
         ok = false;
-        $("CmbUnidadLabel").css("color", "#f00");
+        $("CmbUnidadLabel").css("color", Color.Error);
         $("#CmbUnidadErrorRequired").show();
     }
 
     if ($("#CmbMetaComparer").val() * 1 === 0 || $("#TxtMeta").val() * 1 === 0) {
         ok = false;
-        $("#CmbMetaLabel").css("color", "#f00");
+        $("#CmbMetaLabel").css("color", Color.Error);
         $("#CmbMetaErrorRequired").show();
     }
 
@@ -608,25 +608,25 @@ function AnularConfirmed() {
     var ok = true;
     if ($("#TxtAnularComments").val() === "") {
         ok = false;
-        document.getElementById("TxtAnularCommentsLabel").css("color", "#f00");
+        document.getElementById("TxtAnularCommentsLabel").css("color", Color.Error);
         document.getElementById("TxtAnularCommentsErrorRequired").show();
     }
 
     if ($("#TxtAnularDate").val() === "") {
         ok = false;
-        $("#TxtAnularDateLabel").css("color", "#f00");
+        $("#TxtAnularDateLabel").css("color", Color.Error);
         $("#TxtAnularDateRequired").show();
     }
     else {
         if (validateDate($("#TxtAnularDate").val()) === false) {
             ok = false;
-            $("#TxtAnularDateLabel").css("color", "#f00");
+            $("#TxtAnularDateLabel").css("color", Color.Error);
             $("#TxtAnularDateMalformed").show();
         }
         else {
             var date = GetDate($("#TxtAnularDate").val(), "/", false);
             if (date > new Date()) {
-                $("#TxtAnularDateLabel").css("color", "#f00");
+                $("#TxtAnularDateLabel").css("color", Color.Error);
                 $("#TxtAnularDateMaximumToday").show();
             }
         }
@@ -634,7 +634,7 @@ function AnularConfirmed() {
 
     if ($("#CmbResponsibleAnularRecord").val() * 1 < 1) {
         ok = false;
-        $("#CmbResponsibleAnularRecordLabel").css("color", "#f00");
+        $("#CmbResponsibleAnularRecordLabel").css("color", Color.Error);
         $("#CmbResponsibleAnularRecordErrorRequired").show();
     }
 
@@ -833,37 +833,37 @@ function ValidateRegistroForm() {
     RegistroFormReset();
     if ($("#TxtRegistroValue").val() === "") {
         ok = false;
-        $("#TxtRegistroValueLabel").css("color", "#f00");
+        $("#TxtRegistroValueLabel").css("color", Color.Error);
         $("#TxtRegistroValueErrorRequired").show();
     }
 
     if ($("#CmbResponsibleRecord").val() * 1 < 1) {
         ok = false;
-        $("#CmbResponsibleRecordLabel").css("color", "#f00");
+        $("#CmbResponsibleRecordLabel").css("color", Color.Error);
         $("#CmbResponsibleRecordErrorRequired").show();
     }
 
     if ($("#TxtRecordDate").val() === "") {
         ok = false;
-        $("#TxtRecordDateLabel").css("color", "#f00");
+        $("#TxtRecordDateLabel").css("color", Color.Error);
         $("#TxtRecordDateRequired").show();
     }
     else if (validateDate($("#TxtRecordDate").val()) === false) {
         ok = false;
-        $("#TxtRecordDateLabel").css("color", "#f00");
+        $("#TxtRecordDateLabel").css("color", Color.Error);
         $("#TxtRecordDateMalformed").show();
     }    
     else {
         var date = GetDate($("#TxtRecordDate").val(), "/", false);
         if (date > new Date()) {
             ok = false;
-            $("#TxtRecordDateLabel").css("color", "#f00");
+            $("#TxtRecordDateLabel").css("color", Color.Error);
             $("#TxtRecordDateMaximumToday").show();
         } else {
             var IndicadorStartDate = GetDate($("#TxtStartDate").val(), "/", true);
             if (IndicadorStartDate > date) {
                 ok = false;
-                $("#TxtRecordDateLabel").css("color", "#f00");
+                $("#TxtRecordDateLabel").css("color", Color.Error);
                 $("#TxtRecordDatePrevious").show();
             }
         }

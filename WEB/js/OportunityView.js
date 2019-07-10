@@ -787,7 +787,7 @@ function ValidateData() {
                 dateWhatHappened = GetDate($("#TxtActionWhatHappenedDate").val(), "/", false);
                 var startDate = GetDate($("#DateStart").val(), "/", false);
                 if (startDate > dateWhatHappened) {
-                    $("#TxtActionWhatHappenedDateLabel").css("color", "#f00");
+                    $("#TxtActionWhatHappenedDateLabel").css("color", Color.Error);
                     ErrorMessageAccion.push(Dictionary.Item_BusinessRisk_ErrorMessage_ActionVerDate);
                     ok = false;
                 }
@@ -1616,13 +1616,13 @@ function AnularConfirmed() {
 
     if ($("#TxtActionClosedDate").val() === "") {
         ok = false;
-        $("#TxtActionClosedDateLabel").css("color", "#f00");
+        $("#TxtActionClosedDateLabel").css("color", Color.Error);
         $("#TxtActionClosedDateDateRequired").show();
     }
     else {
         if (validateDate($("#TxtActionClosedDate").val()) === false) {
             ok = false;
-            $("#TxtActionClosedDateLabel").css("color", "#f00");
+            $("#TxtActionClosedDateLabel").css("color", Color.Error);
             $("#TxtActionClosedDateDateMalformed").show();
         }
         else {
@@ -1631,7 +1631,7 @@ function AnularConfirmed() {
             if (closeDate < actionsDate) {
                 ok = false;
                 $("#TxtActionClosedDateErrorCross").show();
-                $("#TxtActionClosedDateLabel").css("color", "#f00");
+                $("#TxtActionClosedDateLabel").css("color", Color.Error);
             }
         }
     }

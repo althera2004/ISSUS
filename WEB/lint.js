@@ -3071,25 +3071,25 @@ function ADJUDICACION_InformeMensualGo() {
 
     var ok = true;
     if (startDate === "") {
-        $("#InformeMensualDesdeLabel").css("color", "#f00");
+        $("#InformeMensualDesdeLabel").css("color", Color.Error);
         errorMessage = "La data d'inici és obligatoria.<br />";
         ok = false;
     }
 
     if (endDate === "") {
-        $("#InformeMensualHastaLabel").css("color", "#f00");
+        $("#InformeMensualHastaLabel").css("color", Color.Error);
         errorMessage += "La data final és obligatoria.<br />";
         ok = false;
     }
 
     if (email === "") {
-        $("#InformeMensualEmailLabel").css("color", "#f00");
+        $("#InformeMensualEmailLabel").css("color", Color.Error);
         errorMessage += "S'ha d'informar del mail que rebrà l'informe.<br />";
         ok = false;
     }
     else {
         if (validateEmail(email) === false) {
-            $("#InformeMensualEmailLabel").css("color", "#f00");
+            $("#InformeMensualEmailLabel").css("color", Color.Error);
             errorMessage += "L'adreça de mail no és correcta.<br />";
             ok = false;
         }

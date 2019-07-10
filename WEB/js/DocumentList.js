@@ -90,13 +90,13 @@ function Restore(documentId) {
         "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
-                document.location = document.location + '';
+                document.location = document.location + "";
             }
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -338,7 +338,7 @@ function SetFilter() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             console.log("SetFilter", "OK");
         },
         "error": function (msg) {
@@ -353,5 +353,6 @@ function DocumentDescriptionById(id) {
             return documents[x].Description;
         }
     }
+
     return "";
 }

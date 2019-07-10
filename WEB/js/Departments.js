@@ -69,7 +69,7 @@ function DepartmentDesassociationConfirmed(id) {
         }
 
         if (duplicated === true) {
-            $("#TxtNameLabel").css("color", "#f00");
+            $("#TxtNameLabel").css("color", Color.Error);
             $("#TxtNameErrorDuplicated").show();
             ok = false;
         }

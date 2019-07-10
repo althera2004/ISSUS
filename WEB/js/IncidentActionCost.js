@@ -279,17 +279,17 @@ function IncidentActionCostValidateForm() {
 
     if ($("#TxtIncidentActionCostDate").val() === "") {
         ok = false;
-        $("#TxtIncidentCostDateLabel").css("color", "#f00");
+        $("#TxtIncidentCostDateLabel").css("color", Color.Error);
         $("#TxtIncidentCostDateErrorRequired").show();
-        $("#TxtIncidentActionCostDateLabel").css("color", "#f00");
+        $("#TxtIncidentActionCostDateLabel").css("color", Color.Error);
         $("#TxtIncidentActionCostDateErrorRequired").show();
     }
     else {
         if (validateDate($("#TxtIncidentActionCostDate").val()) === false) {
             ok = false;
-            $("#TxtIncidentCostDateLabel").css("color", "#f00");
+            $("#TxtIncidentCostDateLabel").css("color", Color.Error);
             $("#TxtIncidentCostDateErrorMalformed").show();
-            $("#TxtIncidentActionCostDateLabel").css("color", "#f00");
+            $("#TxtIncidentActionCostDateLabel").css("color", Color.Error);
             $("#TxtIncidentActionCostDateErrorMalformed").show();
         }
         else {
@@ -305,8 +305,8 @@ function IncidentActionCostValidateForm() {
 
             if (ad < d) {
                 ok = false;
-                $("#TxtIncidentCostDateLabel").css("color", "#f00");
-                $("#TxtIncidentActionCostDateLabel").css("color", "#f00");
+                $("#TxtIncidentCostDateLabel").css("color", Color.Error);
+                $("#TxtIncidentActionCostDateLabel").css("color", Color.Error);
                 $("#TxtIncidentCostDateErrorRange").html(Dictionary.Item_Incident_Cost_Error_Range + " " + FormatDate(d, "/"));
                 $("#TxtIncidentActionCostDateErrorRange").html(Dictionary.Item_Incident_Cost_Error_Range + " " + FormatDate(d, "/"));
                 $("#TxtIncidentCostDateErrorRange").show();

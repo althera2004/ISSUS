@@ -462,7 +462,7 @@ function AnularConfirmed() {
     else {
         if (validateDate($("#TxtEndDate").val()) === false) {
             ok = false;
-            $("#TxtEndDateLabel").css("color", "#f00");
+            $("#TxtEndDateLabel").css("color", Color.Error);
             $("#TxtEndDateMalformed").show();
         }
     }

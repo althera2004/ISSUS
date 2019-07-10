@@ -223,7 +223,7 @@ function ValidateForm() {
     if ($("#TxtName").val() === "") {
         ok = false;
         $("#TxtNameErrorRequired").style.display = "block";
-        $("#TxtNameLabel").css("color", "#f00");
+        $("#TxtNameLabel").css("color", Color.Error);
     }
     else {
         $("#TxtNameErrorRequired").hide();
@@ -234,7 +234,7 @@ function ValidateForm() {
         ok = false;
         $("#TxtNifErrorRequired").show();;
         $("#TxtNifErrorMalformed").hide();
-        $("#TxtNifLabel").css("color", "#f00");
+        $("#TxtNifLabel").css("color", Color.Error);
     }
     else {
         $("#TxtNifErrorRequired").hide();
@@ -242,7 +242,7 @@ function ValidateForm() {
         if (valida_nif_cif_nie(document.getElementById("TxtNif").value) < 1 && $("#TxtCountry").val() === "España") {
             ok = false;
             $("#TxtNifErrorMalformed").style.display = "block";
-            $("#TxtNifLabel").css("color", "#f00");
+            $("#TxtNifLabel").css("color", Color.Error);
         }
         else {
             $("#TxtNifErrorMalformed").hide();

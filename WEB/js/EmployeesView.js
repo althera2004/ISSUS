@@ -140,9 +140,9 @@ function ValidateForm()
             $("#TxtNombreErrorDuplicated").show();
             $("#TxtApellido1ErrorDuplicated").show();
             $("#TxtEmailErrorDuplicated").show();
-            $("#TxtNombreLabel").css("color", "#f00");
-            $("#TxtApellido1Label").css("color", "#f00");
-            $("#TxtEmailLabel").css("color", "#f00");
+            $("#TxtNombreLabel").css("color", Color.Error);
+            $("#TxtApellido1Label").css("color", Color.Error);
+            $("#TxtEmailLabel").css("color", Color.Error);
             ok = false;
         }
         else
@@ -719,13 +719,13 @@ function AnularConfirmed() {
     
     if ($("#TxtEndDate").val() === "") {
         ok = false;
-        $("#TxtEndDateLabel").css("color", "#f00");
+        $("#TxtEndDateLabel").css("color", Color.Error);
         $("#TxtEndDateErrorRequired").show();
     }
     else {
         if (validateDate($("#TxtEndDate").val()) === false) {
             ok = false;
-            $("#TxtEndDateLabel").css("color", "#f00");
+            $("#TxtEndDateLabel").css("color", Color.Error);
             $("#TxtEndDateMalformed").show();
         }
     }

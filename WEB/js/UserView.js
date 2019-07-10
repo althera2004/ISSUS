@@ -83,7 +83,7 @@ function ChangeUserName()
         if(duplicated === true)
         {
             ok = false;
-            $("#TxtUserNameLabel").css("color", "#f00");
+            $("#TxtUserNameLabel").css("color", Color.Error);
             $("#TxtUserNameErrorDuplicated").show();
         }
 
@@ -100,7 +100,7 @@ function ChangeUserName()
         if(duplicatedEmail === true)
         {
             ok = false;
-            $("#TxtUserEmailLabel").css("color", "#f00");
+            $("#TxtUserEmailLabel").css("color", Color.Error);
             $("#TxtUserEmailErrorDuplicated").show();
         }
     }

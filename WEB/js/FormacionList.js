@@ -370,8 +370,8 @@ function DateChange(){
 	
     if ($("#TxtDateFrom").val() !== "" && $("#TxtDateTo").val() !== "") {
         if (dateFrom > dateTo) {
-            $("#TxtDateFromLabel").css("color", "#f00");
-            $("#TxtDateToLabel").css("color", "#f00");
+            $("#TxtDateFromLabel").css("color", Color.Error);
+            $("#TxtDateToLabel").css("color", Color.Error);
             $("#TxtDateFromErrorDateRange").show();
             $("#TxtDateToErrorDateRange").show();
             ok = false;

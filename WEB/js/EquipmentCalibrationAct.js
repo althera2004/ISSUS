@@ -431,7 +431,7 @@ function EquipmentCalibrationActValidateForm() {
     }
     else {
         if (validateDate($("#TxtEquipmentCalibrationActDate").val()) === false) {
-            $("#TxtEquipmentCalibrationActDateLabel").css("color", "#f00");
+            $("#TxtEquipmentCalibrationActDateLabel").css("color", Color.Error);
             $("#TxtEquipmentCalibrationActDateMalformed").show();
             ok = false;
         }
@@ -463,7 +463,7 @@ function EquipmentCalibrationActValidateForm() {
         if (EquipmentCalibrationActList[x].EquipmentCalibrationType === calibrationType) {
             if (GetDateYYYYMMDD(EquipmentCalibrationActList[x].Date) > expiration) {
                 ok = false;
-                $("#TxtEquipmentCalibrationActDateLabel").css("color", "#f00");
+                $("#TxtEquipmentCalibrationActDateLabel").css("color", Color.Error);
                 $("#TxtEquipmentCalibrationActDateOverTime").show();
             }
         }

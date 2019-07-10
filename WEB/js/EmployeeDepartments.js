@@ -14,13 +14,13 @@ function DepartmentAddTag(id,name) {
     var spanTag = document.createElement('span');
     spanTag.id = id;
     spanTag.appendChild(document.createTextNode(name));
-    spanTag.style.cursor = 'pointer';
-    spanTag.className = 'tag';
-    var buttonTag = document.createElement('button');
-    buttonTag.type = 'button';
-    buttonTag.className = 'close';
+    spanTag.style.cursor = "pointer";
+    spanTag.className = "tag";
+    var buttonTag = document.createElement("button");
+    buttonTag.type = "button";
+    buttonTag.className = "close";
     buttonTag.title = Dictionary.Common_Delete;
-    buttonTag.appendChild(document.createTextNode('x'));
+    buttonTag.appendChild(document.createTextNode("x"));
     buttonTag.onclick = function () { DepartmentDesassociation(id, name); };
     spanTag.appendChild(buttonTag);
     tags.appendChild(spanTag);
@@ -28,22 +28,22 @@ function DepartmentAddTag(id,name) {
 
 function CompanyDepartmentRow(department, target) {
     var selected = DepartmetIsSelected(department.Id);
-    var tr = document.createElement('tr');
+    var tr = document.createElement("tr");
     tr.id = department.Id;
     
-    var td1 = document.createElement('td');
+    var td1 = document.createElement("td");
     td1.appendChild(document.createTextNode(department.Name));
     if (selected===true) {
-        td1.style.fontWeight = 'bold';
+        td1.style.fontWeight = "bold";
     }
 
-    var td2 = document.createElement('td');
-    var div = document.createElement('div');
-    var span1 = document.createElement('span');
-    span1.className = 'btn btn-xs btn-success';
+    var td2 = document.createElement("td");
+    var div = document.createElement("div");
+    var span1 = document.createElement("span");
+    span1.className = "btn btn-xs btn-success";
     span1.title = Dictionary.Common_SelectAll;
-    var i1 = document.createElement('i');
-    i1.className = 'icon-star bigger-120';
+    var i1 = document.createElement("i");
+    i1.className = "icon-star bigger-120";
     span1.appendChild(i1);
 
     if (selected === true) {
@@ -55,21 +55,21 @@ function CompanyDepartmentRow(department, target) {
 
     div.appendChild(span1);
 
-    var span2 = document.createElement('span');
-    span2.className = 'btn btn-xs btn-info';
+    var span2 = document.createElement("span");
+    span2.className = "btn btn-xs btn-info";
     span2.onclick = function () { DepartmentPopupUpdate(this); };
     span2.title = Dictionary.Common_Edit;
-    var i2 = document.createElement('i');
-    i2.className = 'icon-edit bigger-120';
+    var i2 = document.createElement("i");
+    i2.className = "icon-edit bigger-120";
     span2.appendChild(i2);
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span2);
 
-    var span3 = document.createElement('span');
-    span3.className = 'btn btn-xs btn-danger';
+    var span3 = document.createElement("span");
+    span3.className = "btn btn-xs btn-danger";
     span3.title = Dictionary.Common_Delete;
-    var i3 = document.createElement('i');
-    i3.className = 'icon-trash bigger-120';
+    var i3 = document.createElement("i");
+    i3.className = "icon-trash bigger-120";
     span3.appendChild(i3);
     if (DepartmetIsSelected(department.Id) === true) {
         span3.onclick = function () { alert(Dictionary.Common_ErrorMessage_CanNotDelete); };
@@ -108,34 +108,34 @@ function RenderDeparmentsEmployee() {
 function EmployeeDepartmentRow(department, target) {
     var selected = DepartmetIsSelected(department.Id);
 
-    var tr = document.createElement('tr');
+    var tr = document.createElement("tr");
     tr.id = department.Id;
 
-    var td1 = document.createElement('td');
+    var td1 = document.createElement("td");
     td1.appendChild(document.createTextNode(department.Name));
 
-    var td2 = document.createElement('td');
-    var div = document.createElement('div');
+    var td2 = document.createElement("td");
+    var div = document.createElement("div");
 
-    var span2 = document.createElement('span');
-    span2.className = 'btn btn-xs btn-info';
+    var span2 = document.createElement("span");
+    span2.className = "btn btn-xs btn-info";
     span2.onclick = function () { DepartmentUpdate(2, this); };
-    span2.title = Dictionary.Common_Edit + ' ' + department.Name;
-    var i2 = document.createElement('i');
-    i2.className = 'icon-edit bigger-120';
+    span2.title = Dictionary.Common_Edit + " " + department.Name;
+    var i2 = document.createElement("i");
+    i2.className = "icon-edit bigger-120";
     span2.appendChild(i2);
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span2);
 
-    var span3 = document.createElement('span');
-    span3.className = 'btn btn-xs btn-danger';
-    span3.title = Dictionary.Item_Employee_Popup_UnlinkJobPosition_Message + ' ' + department.Name;
-    var i3 = document.createElement('i');
-    i3.className = 'icon-trash bigger-120';
+    var span3 = document.createElement("span");
+    span3.className = "btn btn-xs btn-danger";
+    span3.title = Dictionary.Item_Employee_Popup_UnlinkJobPosition_Message + " " + department.Name;
+    var i3 = document.createElement("i");
+    i3.className = "icon-trash bigger-120";
     span3.appendChild(i3);
     span3.onclick = function () { DepartmentDesassociation(this); };
 
-    div.appendChild(document.createTextNode(' '));
+    div.appendChild(document.createTextNode(" "));
     div.appendChild(span3);
     td2.appendChild(div);
 

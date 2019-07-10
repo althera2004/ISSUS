@@ -124,8 +124,8 @@ function CostPopupRow(item, target) {
 
 function ResetCostInsertForm()
 {
-    document.getElementById("TxtCostNewNameLabel").style.color = "#000";
-    document.getElementById("TxtCostNewAmountLabel").style.color = "#000";
+    $("#TxtCostNewNameLabel").css("color", Color.Label);
+    $("#TxtCostNewAmountLabel").css("color", Color.Label);
     $("#TxtCostNewNameErrorRequired").hide();
     $("#TxtCostNewNameErrorDuplicated").hide();
     $("#TxtCostNewAmountErrorRequired").hide();
@@ -136,8 +136,7 @@ function CostInsert(sender) {
     ResetCostInsertForm();
     $("#TxtCostNewName").val("");
     $("#TxtCostNewAmount").val("");
-    var Selected = 0;
-    var dialog = $("#CostInsertDialog").removeClass("hide").dialog({
+    $("#CostInsertDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 600,
         "modal": true,
@@ -156,7 +155,7 @@ function CostInsert(sender) {
                     if ($("#TxtCostNewName").val() === "") {
                         ok = false;
                         $("#TxtCostNewNameErrorRequired").show();
-                        document.getElementById("TxtCostNewNameLabel").style.color = "#f00";
+                        document.getElementById("TxtCostNewNameLabel").style.color = Color.Error;
                     }
                     else {
                         for (var x = 0; x < Costs.length; x++) {
@@ -178,7 +177,7 @@ function CostInsert(sender) {
                     if ($("#TxtCostNewAmount").val() === "") {
                         ok = false;
                         $("#TxtCostNewAmountErrorRequired").show();
-                        document.getElementById("TxtCostNewAmountLabel").style.color = "#f00";
+                        document.getElementById("TxtCostNewAmountLabel").style.color = Color.Error;
                     }
 
                     if (ok === false) { window.scrollTo(0, 0); return false; }
@@ -235,7 +234,7 @@ function CostInsertConfirmed() {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -243,8 +242,8 @@ function CostInsertConfirmed() {
 }
 
 function ResetCostUpdateForm() {
-    document.getElementById("TxtCostNameLabel").style.color = "#000";
-    document.getElementById("TxtCostAmountLabel").style.color = "#000";
+    $("#TxtCostNameLabel").css("color", Color.Label);
+    $("#TxtCostAmountLabel").css("color", Color.Label);
     $("#TxtCostNameErrorRequired").hide();
     $("#TxtCostNameErrorDuplicated").hide();
     $("#TxtCostAmountErrorRequired").hide();
@@ -255,7 +254,7 @@ function CostUpdate(sender) {
     $("#TxtCostName").val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     $("#TxtCostAmount").val(sender.parentNode.parentNode.parentNode.childNodes[1].innerHTML);
     CostSelected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#CostUpdateDialog").removeClass("hide").dialog({
+    $("#CostUpdateDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 600,
         "modal": true,
@@ -263,16 +262,16 @@ function CostUpdate(sender) {
         "title_html": true,
         "buttons": [
                 {
-                    html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                     "class": "btn btn-success btn-xs",
-                    click: function () {
+                    "click": function () {
                         var ok = true;
                         var duplicated = false;
                         ResetCostUpdateForm();
                         if ($("#TxtCostName").val() === "") {
                             ok = false;
                             $("#TxtCostNameErrorRequired").show();
-                            document.getElementById("TxtCostNameLabel").style.color = "#f00";
+                            $("#TxtCostNameLabel").css("color", Color.Error);
                         }
                         else {
                             for (var x = 0; x < Costs.length; x++) {
@@ -294,7 +293,7 @@ function CostUpdate(sender) {
                         if ($("#TxtCostAmount").val() === "") {
                             ok = false;
                             $("#TxtCostAmountErrorRequired").show();
-                            document.getElementById("TxtCostAmountLabel").style.color = "#f00";
+                            $("#TxtCostAmountLabel").css("color", Color.Error);
                         }
 
                         if (ok === false) { window.scrollTo(0, 0); return false; }

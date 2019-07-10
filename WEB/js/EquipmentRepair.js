@@ -214,7 +214,7 @@ function EquipmentRepairValidateForm() {
         ok = false;
     }
 
-    return true;
+    return ok;
 }
 
 function FillCmbEquipmentRepairProvider() {
@@ -298,7 +298,7 @@ function EquipmentRepairEdit(sender) {
     FillCmbEquipmentRepairProvider();
     FillCmbEquipmentRepairResponsible();
     EquipmentRepairEditFormFill(SelectedEquipmentRepair);
-    var dialog = $("#dialogEquipmentRepairForm").removeClass("hide").dialog({
+    $("#dialogEquipmentRepairForm").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentRepair_PopupUpdate_Title + "</h4>",
@@ -332,7 +332,7 @@ function EquipmentRepairNew() {
     FillCmbEquipmentRepairProvider();
     FillCmbEquipmentRepairResponsible();
     EquipmentRepairNewFormReset();
-    var dialog = $("#dialogEquipmentRepairForm").removeClass("hide").dialog({
+    $("#dialogEquipmentRepairForm").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentRepair_PopupNew_Title + "</h4>",
@@ -434,7 +434,7 @@ function EquipmentRepairDelete(sender) {
     SelectedEquipmentRepair = EquipmentRepairgetById(SelectedEquipmentRepairId);
     if (SelectedEquipmentRepair === null) { return false; }
     $("#dialogDeleteEquipmentRepairName").html(SelectedEquipmentRepair.Description);
-    var dialog = $("#dialogEquipmentRepairDelete").removeClass("hide").dialog({
+    $("#dialogEquipmentRepairDelete").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentRepair_PopupDelete_Title + "</h4>",

@@ -264,14 +264,14 @@ function RulesUpdate(sender) {
                         }
 
                         if ($("#CmbUpdateLimit").val() === "") {
-                            $("#TxtNewLimitLabel").css("color", "#f00");
+                            $("#TxtNewLimitLabel").css("color", Color.Error);
                             $("#CmbUpdateLimitErrorRequired").show();
                             ok = false;
 
                         } else {
                             if ($("#CmbUpdateLimit").val() * 1 < 1 || $("#CmbUpdateLimit").val() * 1 > 25) {
                                 ok = false;
-                                $("#TxtNewLimitLabel").css("color", "#f00");
+                                $("#TxtNewLimitLabel").css("color", Color.Error);
                                 $("#CmbUpdateLimitOutOfRange").show();
                             }
                         }

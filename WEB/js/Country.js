@@ -41,7 +41,7 @@ function DiscardCountries() {
     var data = {
         "countries": document.getElementById("SelectedCountriesDelete").value,
         "companyId": Company.Id
-    }
+    };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({

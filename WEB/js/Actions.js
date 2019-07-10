@@ -89,7 +89,7 @@ function SaveAction() {
         if (!document.getElementById("RType1").checked && !document.getElementById("RType2").checked && !document.getElementById("RType3").checked) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_TypeRequired);
-            $("#RTypeLabel").css("color", "#f00");
+            $("#RTypeLabel").css("color", Color.Error);
         } else {
             $("#RTypeLabel").css("color", "#000");
         }
@@ -97,7 +97,7 @@ function SaveAction() {
         if (!document.getElementById("RReporterType1").checked && !document.getElementById("RReporterType2").checked && !document.getElementById("RReporterType3").checked) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ReportedByRequired);
-            $("#RReporterTypeLabel").css("color", "#f00");
+            $("#RReporterTypeLabel").css("color", Color.Error);
         } else {
             var origin = true;
             if (document.getElementById("RReporterType1").checked && $("#CmbReporterType1").val() * 1 === 0) { origin = false; }
@@ -108,7 +108,7 @@ function SaveAction() {
             } else {
                 ok = false;
                 ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ReportedByRequired);
-                $("#RReporterTypeLabel").css("color", "#f00");
+                $("#RReporterTypeLabel").css("color", Color.Error);
             }
         }
     }
@@ -736,13 +736,13 @@ function AnularConfirmed() {
 
     if ($("#TxtClosedDate").val() === "") {
         ok = false;
-        $("#TxtClosedDateLabel").css("color", "#f00");
+        $("#TxtClosedDateLabel").css("color", Color.Error);
         $("#TxtClosedDateDateRequired").show();
     }
     else {
         if (validateDate($("#TxtClosedDate").val()) === false) {
             ok = false;
-            $("#TxtClosedDateLabel").css("color", "#f00");
+            $("#TxtClosedDateLabel").css("color", Color.Error);
             $("#TxtClosedDateDateMalformed").show();
         }
         else {
@@ -761,7 +761,7 @@ function AnularConfirmed() {
 
     if ($("#CmbClosedResponsible").val() * 1 < 1) {
         ok = false;
-        $("#CmbClosedResponsibleLabel").css("color", "#f00");
+        $("#CmbClosedResponsibleLabel").css("color", Color.Error);
         $("#CmbClosedResponsibleErrorRequired").show();
     }
 

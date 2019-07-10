@@ -1,4 +1,9 @@
-﻿/// Redondea un valor decimal a dos decimales
+﻿var Color = {
+    "Error": "#f00",
+    "Label": "#333"
+};
+
+/// Redondea un valor decimal a dos decimales
 function decimalFormat(value) {
     return parseFloat(Math.round(value * 100) / 100).toFixed(2);
 }
@@ -472,7 +477,7 @@ function ClearFieldTextMessages(fieldName) {
 
 /// Pinta de rojo la etiqueta de un campo
 function SetFieldTextMessages(fieldName) {
-    $("#" + fieldName + "Label").css("color", "#f00");
+    $("#" + fieldName + "Label").css("color", Color.Error);
 }
 
 /// Establece un campo como obligatio, añade * en rojo a la etiqueta
@@ -494,7 +499,7 @@ function DuplicatedFiled(field) {
 
     if (ok === false) {
         $("#" + fieldName + "ErrorDuplicated").show();
-        $("#" + fieldName + "Label").css("color", "#f00");
+        $("#" + fieldName + "Label").css("color", Color.Error);
     }
     else {
         $("#" + fieldName + "ErrorDuplicated").hide();
@@ -510,7 +515,7 @@ function RequiredFieldText(fieldName) {
     if ($("#" + fieldName).val().trim() === "") {
         ok = false;
         $("#" + fieldName + "ErrorRequired").show();
-        $("#" + fieldName + "Label").css("color", "#f00");
+        $("#" + fieldName + "Label").css("color", Color.Error);
     }
     else {
         $("#" + fieldName + "ErrorRequired").hide();
@@ -526,7 +531,7 @@ function RequiredFieldCombo(fieldName) {
     if ($("#"+fieldName).val() === "0") {
         ok = false;
         $("#" + fieldName + "ErrorRequired").show();
-        $("#" + fieldName + "Label").css("color", "#f00");
+        $("#" + fieldName + "Label").css("color", Color.Error);
     }
     else {
         $("#" + fieldName + "ErrorRequired").hide();
@@ -542,7 +547,7 @@ function RequiredBothFieldText(fieldName1, fieldName2) {
     if (document.getElementById(fieldName1).value.trim() === "" && document.getElementById(fieldName2).value.trim() === "") {
         ok = false;
         $("#" + fieldName1 + "ErrorRequired").show();
-        $("#" + fieldName1 + "Label").css("color", "#f00");
+        $("#" + fieldName1 + "Label").css("color", Color.Error);
         $("#" + fieldName2 + "ErrorRequired").show();
         $("#" + fieldName2 + "Label").style.color = "#f00";
     }
@@ -566,9 +571,9 @@ function MatchRequiredBothFieldText(fieldName1, fieldName2) {
     if (document.getElementById(fieldName1).value !== document.getElementById(fieldName2).value) {
         ok = false;
         $("#" + fieldName1 + "ErrorMatch").show();
-        $("#" + fieldName1 + "Label").css("color", "#f00");
+        $("#" + fieldName1 + "Label").css("color", Color.Error);
         $("#" + fieldName2 + "ErrorMatch").show();
-        $("#" + fieldName2 + "Label").css("color", "#f00");
+        $("#" + fieldName2 + "Label").css("color", Color.Error);
     }
     else {
         $("#" + fieldName1 + "ErrorMatch").hide();
@@ -586,7 +591,7 @@ function MalFormedNif(fieldName) {
     if (valida_nif_cif_nie(document.getElementById(fieldName).value) < 1) {
         ok = false;
         $("#" + fieldName + "ErrorMalformed").show();
-        $("#" + fieldName + "Label").css("color", "#f00");
+        $("#" + fieldName + "Label").css("color", Color.Error);
     }
     else {
         $("#" + fieldName + "ErrorMalformed").hide();
@@ -603,7 +608,7 @@ function MalFormedEmail(fieldName) {
     if (validateEmail(document.getElementById(fieldName).value) < 1) {
         ok = false;
         $("#" + fieldName + "ErrorMalformed").show();
-        $("#" + fieldName + "Label").css("color", "#f00");
+        $("#" + fieldName + "Label").css("color", Color.Error);
     }
     else {
         $("#" + fieldName + "ErrorMalformed").hide();
@@ -639,7 +644,7 @@ function RequiredDateValue(fieldName) {
     if (document.getElementById(fieldName) !== null) {
         var dateText = $("#" + fieldName).val();
         if (!validateDate(dateText)) {
-                $("#" + fieldName + "Label").css("color", "#f00");
+                $("#" + fieldName + "Label").css("color", Color.Error);
             $("#" + fieldName + "DateMalformed").show();
             return false;
         }

@@ -389,7 +389,7 @@ function AnularConfirmed() {
     else {
         if (validateDate($("#TxtEndDate").val()) === false) {
             ok = false;
-            $("#TxtEndDateLabel").css("color", "#f00");
+            $("#TxtEndDateLabel").css("color", Color.Error);
             $("#TxtEndDateMalformed").show();
         }
         else {
@@ -397,7 +397,7 @@ function AnularConfirmed() {
             var inactivateDate = GetDate($("#TxtEndDate").val(), "/", false);
             if (inactivateDate < lastRevisionDate) {
 				ok = false;
-                $("#TxtEndDateLabel").css("color", "#f00");
+                $("#TxtEndDateLabel").css("color", Color.Error);
                 $("#TxtEndDateCrossDate").show();
             }
         }

@@ -182,62 +182,62 @@ function AuditoryValidate() {
     var ok = true;
     if ($("#TxtName").val() === "") {
         ok = false;
-        $("#TxtNameLabel").css("color", "#f00");
+        $("#TxtNameLabel").css("color", Color.Error);
         $("#TxtNameErrorRequired").show();
     }
 
     if ($("#TxtAmount").val() === "") {
         ok = false;
-        $("#TxtAmountLabel").css("color", "#f00");
+        $("#TxtAmountLabel").css("color", Color.Error);
         $("#TextAmountErrorRequired").show();
     }
 
     if ($("#TxtDescription").val() === "") {
         ok = false;
-        $("#TxtDescriptionLabel").css("color", "#f00");
+        $("#TxtDescriptionLabel").css("color", Color.Error);
         $("#TextDescriptionErrorRequired").show();
     }
 
     if ($("#TxtScope").val() === "") {
         ok = false;
-        $("#TxtScopeLabel").css("color", "#f00");
+        $("#TxtScopeLabel").css("color", Color.Error);
         $("#TxtScopeErrorRequired").show();
     }
 
     CalculateRules();
     if ($("#TxtRulesId").val() === "") {
         ok = false;
-        $("#TxtRulesIdLabel").css("color", "#f00");
+        $("#TxtRulesIdLabel").css("color", Color.Error);
         $("#TxtRulesIdErrorRequired").show();
     }
 
     if ($("#CmbInternalResponsible").val() * 1 < 0) {
         ok = false;
-        $("#CmbInternalResponsibleLabel").css("color", "#f00");
+        $("#CmbInternalResponsibleLabel").css("color", Color.Error);
         $("#CmbInternalResponsibleErrorRequired").show();
     }
 
     if ($("#CmbAddress").val() * 1 < 0) {
         ok = false;
-        $("#CmbAddressLabel").css("color", "#f00");
+        $("#CmbAddressLabel").css("color", Color.Error);
         $("#CmbAddressErrorRequired").show();
     }
 
         if ($("#TxtAuditorTeam").val() === "") {
             ok = false;
-            $("#TxtAuditorTeamLabel").css("color", "#f00");
+            $("#TxtAuditorTeamLabel").css("color", Color.Error);
             $("#TxtAuditorTeamErrorRequired").show();
         }
 
         if ($("#TxtPreviewDate").val() === "") {
             ok = false;
-            $("#TxtPreviewDateLabel").css("color", "#f00");
+            $("#TxtPreviewDateLabel").css("color", Color.Error);
             $("#TxtPreviewDateErrorRequired").show();
         }
         else {
             if (validateDate($("#TxtPreviewDate").val()) === false) {
                 ok = false;
-                $("#TxtPreviewDateLabel").css("color", "#f00");
+                $("#TxtPreviewDateLabel").css("color", Color.Error);
                 $("#TxtPlannedDateErrorMailMalformed").show();
             }
         }
@@ -246,20 +246,20 @@ function AuditoryValidate() {
         ok = false;
         $("#ErrorProviderCustomerDiv").show();
         $("#ProviderCustomerErrorRequired").show();
-        $("#RBProvider").parent().css("color", "#f00");
-        $("#RBCustomer").parent().css("color", "#f00");
+        $("#RBProvider").parent().css("color", Color.Error);
+        $("#RBCustomer").parent().css("color", Color.Error);
     }
     else if (document.getElementById("RBProvider").checked === true) {
         if ($("#CmbProvider").val() * 1 < 1) {
             ok = false;
-            $("#RBProvider").parent().css("color", "#f00");
+            $("#RBProvider").parent().css("color", Color.Error);
             $("#CmbProviderErrorRequired").show();
         }
     }
     else {
         if ($("#CmbCustomer").val() * 1 < 1) {
             ok = false;
-            $("#RBCustomer").parent().css("color", "#f00");
+            $("#RBCustomer").parent().css("color", Color.Error);
             $("#CmbCustomerErrorRequired").show();
         }
     }
@@ -267,7 +267,7 @@ function AuditoryValidate() {
     if ($("#CmbPlanningResponsible").val() * 1 > 0) {
         if ($("#TxtAuditoryPlanningDate").val() === "") {
             ok = false;
-            $("#TxtAuditoryPlanningDateLabel").css("color", "#f00");
+            $("#TxtAuditoryPlanningDateLabel").css("color", Color.Error);
             $("#TxtAuditoryPlanningDateErrorRequired").show();
         }
     }
@@ -439,18 +439,18 @@ function CloseConfirmed() {
     var ok = true;
     if ($("#CmbClosedBy").val() * 1 < 1) {
         ok = false;
-        $("#CmbClosedByLabel").css("color", "#f00");
+        $("#CmbClosedByLabel").css("color", Color.Error);
         $("#CmbClosedByErrorRequired").show();
     }
 
     if ($("#TxtClosedOn").val() === "") {
         ok = false;
-        $("#TxtClosedOnLabel").css("color", "#f00");
+        $("#TxtClosedOnLabel").css("color", Color.Error);
         $("#TxtClosedOnErrorRequired").show();
     } else {
         if (validateDate($("#TxtClosedOn").val()) === false) {
             ok = false;
-            $("#TxtClosedOnLabel").css("color", "#f00");
+            $("#TxtClosedOnLabel").css("color", Color.Error);
             $("#TxtClosedOnErrorDateMalformed").show();
         }
         else {
@@ -458,7 +458,7 @@ function CloseConfirmed() {
             var validationDate = GetDate($("#TxtClosedOn").val(), "/", false);
             if (validationDate < reportEnd) {
                 ok = false;
-                $("#TxtClosedOnLabel").css("color", "#f00");
+                $("#TxtClosedOnLabel").css("color", Color.Error);
                 $("#TxtClosedOnErrorCross").show();
             }
         }
@@ -558,8 +558,6 @@ function ReopenConfirmed() {
     });
 }
 
-
-
 function PopupValidarReset() {
     $("#CmbValidatedBy").removeAttr("disabled");
     $("#CmbValidatedBy").css("background", "transparent");
@@ -654,25 +652,25 @@ function ValidationConfirmed() {
     var ok = true;
     if ($("#CmbValidatedBy").val() * 1 < 1) {
         ok = false;
-        $("#CmbValidatedByLabel").css("color", "#f00");
+        $("#CmbValidatedByLabel").css("color", Color.Error);
         $("#CmbValidatedByErrorRequired").show();
     }
 
     if ($("#TxtValidatedOn").val() === "") {
         ok = false;
-        $("#TxtValidatedOnLabel").css("color", "#f00");
+        $("#TxtValidatedOnLabel").css("color", Color.Error);
         $("#TxtValidatedOnErrorRequired").show();
     } else {
         if (validateDate($("#TxtValidatedOn").val()) === false) {
             ok = false;
-            $("#TxtValidatedOnLabel").css("color", "#f00");
+            $("#TxtValidatedOnLabel").css("color", Color.Error);
             $("#TxtValidatedOnErrorDateMalformed").show();
         }
         else {
             var reportEnd = GetDate(Auditory.ReportEnd, "/", false);
             var validationDate = GetDate($("#TxtValidatedOn").val(), "/", false);
             if (validationDate < reportEnd) {
-                $("#TxtValidatedOnLabel").css("color", "#f00");
+                $("#TxtValidatedOnLabel").css("color", Color.Error);
                 $("#TxtValidatedOnErrorCross").show();
             }
         }
@@ -788,37 +786,37 @@ function ZombieValidateForm() {
 
     if (document.getElementById("RBactionType1").checked === false && document.getElementById("RBactionType2").checked === false) {
         ok = false;
-        $("#TxtIncidentActionTypeLabel").css("color", "#f00");
+        $("#TxtIncidentActionTypeLabel").css("color", Color.Error);
         $("#TxtIncidentActionTypeErrorRequired").show();
     }
 
     if ($("#TxtIncidentActionDescription").val() === "") {
         ok = false;
-        $("TxtIncidentActionDescriptionLabel").css("color", "#f00");
+        $("TxtIncidentActionDescriptionLabel").css("color", Color.Error);
         $("#TxtIncidentActionDescriptionErrorRequired").show();
     }
 
     if ($("#TxtWhatHappend").val() === "") {
         ok = false;
-        $("#TxtWhatHappendLabel").css("color", "#f00");
+        $("#TxtWhatHappendLabel").css("color", Color.Error);
         $("#CmbWhatHappendByErrorRequired").show();
     }
 
     if ($("#CmbWhatHappendBy").val() * 1 < 1) {
         ok = false;
-        $("#CmbWhatHappendByLabel").css("color", "#f00");
+        $("#CmbWhatHappendByLabel").css("color", Color.Error);
         $("#TxtWhatHappendErrorRequired").show();
     }
 
     if ($("#TxtWahtHappendOn").val() === "") {
         ok = false;
-        $("#TxtWahtHappendOnLabel").css("color", "#f00");
+        $("#TxtWahtHappendOnLabel").css("color", Color.Error);
         $("#TxtWahtHappendOnErrorRequired").show();
     }
     else {
         if (validateDate($("#TxtWahtHappendOn").val()) === false) {
             ok = false;
-            $("#TxtWahtHappendOnLabel").css("color", "#f00");
+            $("#TxtWahtHappendOnLabel").css("color", Color.Error);
             $("#TxtWahtHappendOnErrorDateMalformed").show();
         }
         else {
@@ -827,7 +825,7 @@ function ZombieValidateForm() {
             var actionDate = GetDate($("#TxtWahtHappendOn").val(), "/");
             if (actionDate < plannedOn) {
                 ok = false;
-                $("#TxtWahtHappendOnLabel").css("color", "#f00");
+                $("#TxtWahtHappendOnLabel").css("color", Color.Error);
                 $("#TxtWahtHappendOnErrorCross").show();
             }
         }

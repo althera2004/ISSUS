@@ -276,13 +276,13 @@ function IncidentCostValidateForm() {
 
     if ($("#TxtIncidentCostDate").val() === "") {
         ok = false;
-        $("#TxtIncidentCostDateLabel").css("color", "#f00");
+        $("#TxtIncidentCostDateLabel").css("color", Color.Error);
         $("#TxtIncidentCostDateErrorRequired").show();
     }
     else {
         if (validateDate($("#TxtIncidentCostDate").val()) === false) {
             ok = false;
-            $("#TxtIncidentCostDateLabel").css("color", "#f00");
+            $("#TxtIncidentCostDateLabel").css("color", Color.Error);
             $("#TxtIncidentCostDateErrorMalformed").show();
         }
         else {
@@ -290,7 +290,7 @@ function IncidentCostValidateForm() {
             var d = GetDate($("#TxtWhatHappenedDate").val(), "/", false);
             if (ad < d) {
                 ok = false;
-                $("#TxtIncidentCostDateLabel").css("color", "#f00");
+                $("#TxtIncidentCostDateLabel").css("color", Color.Error);
                 $("#TxtIncidentCostDateErrorRange").html(Dictionary.Item_Incident_Cost_Error_Range + " " + $("#TxtWhatHappenedDate").val());
                 $("#TxtIncidentCostDateErrorRange").show();
             }

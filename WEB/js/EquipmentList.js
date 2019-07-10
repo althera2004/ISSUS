@@ -14,7 +14,7 @@ function EquipmentDeleteAction() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             document.location = document.location + "";
         },
         "error": function (msg) {
@@ -362,7 +362,7 @@ function SetFilter() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             console.log("SetFilter", "OK");
         },
         "error": function (msg) {
@@ -395,7 +395,7 @@ function SetFilterCosts() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             console.log("SetFilterCosts", "OK");
         },
         "error": function (msg) {
@@ -545,8 +545,6 @@ function RenderTableCosts() {
     console.log(result); 
 }
 
-
-
 function RenderRowCosts(data) {
     var CI = document.getElementById("RBCI").checked === true;
     var CE = document.getElementById("RBCE").checked === true;
@@ -564,77 +562,74 @@ function RenderRowCosts(data) {
         tr.style.fontStyle = "italic";
     }
 
-
     tdDescripcion.appendChild(document.createTextNode(data.Equipment.Value));
-
     //tdCoste.appendChild(document.createTextNode(ToMoneyFormat(rowCost, 2)));
-
 
     var totalFila = 0;
     tr.appendChild(tdDescripcion);
 
     if (CI === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.CI, 2)));
+        var tdCI = document.createElement("TD");
+        tdCI.style.textAlign = "right";
+        tdCI.appendChild(document.createTextNode(ToMoneyFormat(data.CI, 2)));
         totalFila += data.CI;
-        tr.appendChild(td);
+        tr.appendChild(tdCI);
     }
 
     if (CE === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.CE, 2)));
+        var tdCE = document.createElement("TD");
+        tdCE.style.textAlign = "right";
+        tdCE.appendChild(document.createTextNode(ToMoneyFormat(data.CE, 2)));
         totalFila += data.CE;
-        tr.appendChild(td);
+        tr.appendChild(tdCE);
     }
 
     if (VI === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.VI, 2)));
+        var tdVI = document.createElement("TD");
+        tdVI.style.textAlign = "right";
+        tdVI.appendChild(document.createTextNode(ToMoneyFormat(data.VI, 2)));
         totalFila += data.VI;
-        tr.appendChild(td);
+        tr.appendChild(tdVI);
     }
 
     if (VE === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.VE, 2)));
+        var tdVE = document.createElement("TD");
+        tdVE.style.textAlign = "right";
+        tdVE.appendChild(document.createTextNode(ToMoneyFormat(data.VE, 2)));
         totalFila += data.VE;
-        tr.appendChild(td);
+        tr.appendChild(tdVE);
     }
 
     if (MI === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.MI, 2)));
+        var tdMI = document.createElement("TD");
+        tdMI.style.textAlign = "right";
+        ttdMId.appendChild(document.createTextNode(ToMoneyFormat(data.MI, 2)));
         totalFila += data.MI;
-        tr.appendChild(td);
+        tr.appendChild(tdMI);
     }
 
     if (ME === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.ME, 2)));
+        var tdME = document.createElement("TD");
+        tdME.style.textAlign = "right";
+        tdME.appendChild(document.createTextNode(ToMoneyFormat(data.ME, 2)));
         totalFila += data.ME;
-        tr.appendChild(td);
+        tr.appendChild(tdME);
     }
 
     if (RI === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.RI, 2)));
+        var tdRI = document.createElement("TD");
+        tdRI.style.textAlign = "right";
+        tdRI.appendChild(document.createTextNode(ToMoneyFormat(data.RI, 2)));
         totalFila += data.RI;
-        tr.appendChild(td);
+        tr.appendChild(tdRI);
     }
 
     if (RE === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.RE, 2)));
+        var tdRE = document.createElement("TD");
+        tdRE.style.textAlign = "right";
+        tdRE.appendChild(document.createTextNode(ToMoneyFormat(data.RE, 2)));
         totalFila += data.RE;
-        tr.appendChild(td);
+        tr.appendChild(tdRE);
     }
 
     var td = document.createElement("TD");
@@ -644,6 +639,4 @@ function RenderRowCosts(data) {
     tr.appendChild(td);
 
     document.getElementById("ListDataTableCosts").appendChild(tr);
-
-    //return rowCost;
 }

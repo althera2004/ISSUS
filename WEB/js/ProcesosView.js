@@ -14,7 +14,7 @@
 
         if (duplicated === true) {
             $("#TxtNameErrorDuplicated").show();
-            $("#TxtNameLabel").css("color", "#f00");
+            $("#TxtNameLabel").css("color", Color.Error);
             ok = false;
         }
     }
@@ -763,20 +763,20 @@ function AnularConfirmed() {
 
     if ($("#TxtDate").val() === "") {
         ok = false;
-        $("#TxtDateLabel").css("color", "#f00");
+        $("#TxtDateLabel").css("color", Color.Error);
         $("#TxtDateDateRequired").show();
     }
     else {
         if (validateDate($("#TxtDate").val()) === false) {
             ok = false;
-            $("#TxtDateLabel").css("color", "#f00");
+            $("#TxtDateLabel").css("color", Color.Error);
             $("#TxtDateMalformed").show();
         }
     }
 
     if ($("#CmbDisabledBy").val() * 1 < 1) {
         ok = false;
-        $("#CmbDisabledLabel").css("color", "#f00");
+        $("#CmbDisabledLabel").css("color", Color.Error);
         $("#CmbDisabledErrorRequired").show();
     }
 

@@ -27,7 +27,7 @@ var DeletableJobPostionRow = null;
 
 function UnassociatedJobPosition(sender) {
     console.log("UnassociatedJobPosition");
-    document.getElementById("TxtFinishDateErrorMaximumToday").style.display = "none";
+    $("#TxtFinishDateErrorMaximumToday").hide();
     var id = sender.parentNode.parentNode.id * 1;
     var jobPosition = GetJobPositionById(id);
 
@@ -39,10 +39,9 @@ function UnassociatedJobPosition(sender) {
     $("#BtnStartCopyDate").val(sender.parentNode.parentNode.childNodes[3].innerHTML);
     $("#TxtFinishDate").val("");
     DeletableJobPostionRow = sender;
-    
-    var jobPosition = GetJobPositionById(id);
+
     $("#JobPositionDesassociationText").html(jobPosition.Description);
-    var dialog = $("#JobPositionDesassociationDialog").removeClass("hide").dialog({
+    $("#JobPositionDesassociationDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Item_Employee_Button_Unlink,
@@ -118,7 +117,7 @@ function UnassociatedJobPositionConfirmed(id) {
             }
 
             // hide hitorical row
-            DeletableJobPostionRow.parentNode.appendChild(document.createTextNode(FormatDate(SelectedFinishDate, '/')));
+            DeletableJobPostionRow.parentNode.appendChild(document.createTextNode(FormatDate(SelectedFinishDate, "/")));
             DeletableJobPostionRow.parentNode.align = "center";
             DeletableJobPostionRow.parentNode.removeChild(DeletableJobPostionRow);
             UpdateSkillProfile();
@@ -206,9 +205,9 @@ $("#JobPositionAssociationDateDialog").on("dialogclose", function (event) {
 
 function JobPositionAssociationAction(sender) {
     var id = sender.parentNode.parentNode.parentNode.id * 1;
-    $('#JobPositionAssociationDialog').dialog('close');
-    $('#TxtStartDate').val('');
-    var dialog = $("#JobPositionAssociationDateDialog").removeClass("hide").dialog({
+    $("#JobPositionAssociationDialog").dialog("close");
+    $("#TxtStartDate").val("");
+    $("#JobPositionAssociationDateDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
         title: Dictionary.Item_Employee_Button_LinkJobPosition,
@@ -235,17 +234,17 @@ function JobPositionAssociationAction(sender) {
 
 function JobPositionAssociationActionConfirmed(id)
 {
-    document.getElementById('TxtStartDateErrorRequired').style.display = 'none';
-    document.getElementById('TxtStartDateErrorMaximumToday').style.display = 'none';
+    $("#TxtStartDateErrorRequired").hide();
+    $("#TxtStartDateErrorMaximumToday").hide();
 
     if ($("#TxtStartDate").val() === "") {
-        document.getElementById("TxtStartDateErrorRequired").style.display = "block";
+        $("#TxtStartDateErrorRequired").show();
         return false;
     }
 
     var StartDate = GetDate($("#TxtStartDate").val(), "/", false);
     if (StartDate > new Date()) {
-        document.getElementById("TxtStartDateErrorMaximumToday").style.display = "block";
+        $("#TxtStartDateErrorMaximumToday").show();
         return false;
     }
 
@@ -274,7 +273,7 @@ function JobPositionAssociationActionConfirmed(id)
             jobPositionEmployee.push({ "Id": id, "Description": jobposition.Description, "EndDate": false });
 
             // render hitorical row
-            var target = document.getElementById('WorkExperienceDataTable');
+            var target = document.getElementById("WorkExperienceDataTable");
 
             var jobPositionLink = document.createElement("a");
             jobPositionLink.title = Dictionary.Common_Edit + " " + jobposition.Description;
@@ -302,15 +301,16 @@ function JobPositionAssociationActionConfirmed(id)
                 td3.appendChild(document.createTextNode(jobposition.Responsible.Description));
             }
 
-            var td4 = document.createElement('td');
-            td4.appendChild(document.createTextNode(FormatDate(SelectedStartDate, '/'))); td4.align = 'center';
+            var td4 = document.createElement("td");
+            td4.appendChild(document.createTextNode(FormatDate(SelectedStartDate, "/")));
+            td4.align = "center";
 
-            var td5 = document.createElement('td'); //td5.appendChild(unlinkButton);
-            td5.innerHTML = ' <button class="btn btn-warning" type="button" style="padding:0 !important" onclick="UnassociatedJobPosition(this);"><i class="icon-remove bigger-110"></i>Desvincular</button>';
+            var td5 = document.createElement("td"); //td5.appendChild(unlinkButton);
+            td5.innerHTML = " <button class=\"btn btn-warning\" type=\"button\" style=\"padding:0 !important\" onclick=\"UnassociatedJobPosition(this);\"><i class=\"icon-remove bigger-110\"></i>" + Dictionary.Item_Employee_Button_Unlink + "</button>";
 
-            var td6 = document.createElement('td');
-            td6.align = 'center';
-            td6.innerHTML = '<span title="Eliminar" class="btn btn-xs btn-danger" onclick="DeleteJobPosition(' + jobposition.Id + ',\'' + jobposition.Description + '\');"><i class="icon-trash bigger-120"></i></span>';
+            var td6 = document.createElement("td");
+            td6.align = "center";
+            td6.innerHTML = "<span title=\"" + Dictionary.Common_Delete +"\" class=\"btn btn-xs btn-danger\" onclick=\"DeleteJobPosition(" + jobposition.Id + ",'" + jobposition.Description + "');\"><i class=\"icon-trash bigger-120\"></i></span>";
 
 
             tr.appendChild(td1);
@@ -356,5 +356,5 @@ function SortBy(nameField) {
             return -1;
         }
         return 0;
-    }
+    };
 }

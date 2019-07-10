@@ -423,7 +423,7 @@ function EquipmentVerificationActValidateForm() {
     }
     else {
         if (validateDate($("#TxtEquipmentVerificationActDate").val()) === false) {
-            $("#TxtEquipmentVerificationActDateLabel").css("color", "#f00");
+            $("#TxtEquipmentVerificationActDateLabel").css("color", Color.Error);
             $("#TxtEquipmentVerificationActDateMalformed").show();
             ok = false;
         }
@@ -455,7 +455,7 @@ function EquipmentVerificationActValidateForm() {
         if (EquipmentVerificationActList[x].EquipmentVerificationType === verificationType) {
             if (GetDateYYYYMMDD(EquipmentVerificationActList[x].Date) > expiration) {
                 ok = false;
-                $("#TxtEquipmentVerificationActDateLabel").css("color", "#f00");
+                $("#TxtEquipmentVerificationActDateLabel").css("color", Color.Error);
                 $("#TxtEquipmentVerificationActDateOverTime").show();
             }
         }

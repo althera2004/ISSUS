@@ -1,6 +1,5 @@
 ﻿function CompanyAddressDeleteConfirmed(id)
 {
-    var webMethod = "/Async/CompanyActions.asmx/DeleteAddress";
     var actionAddress = id;
     var data = {
         "companyId": Company.Id,
@@ -10,7 +9,7 @@
 
     $.ajax({
         type: "POST",
-        url: webMethod,
+        url: "/Async/CompanyActions.asmx/DeleteAddress",
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         data: JSON.stringify(data, null, 2),
@@ -36,7 +35,7 @@
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR) {
             alert(jqXHR.responseText);
         }
     });
@@ -133,7 +132,7 @@ function CompanyAddressDelete(sender) {
     document.getElementById("dialogShowAddress").parentNode.style.cssText += "z-Index:1039 !important";
     $("#AddressName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#AddressDeleteDialog").removeClass("hide").dialog({
+    $("#AddressDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_Delete,
@@ -169,7 +168,7 @@ function ShowAddressPopup() {
         AddAddressPopupRow(addresses[x], target);
     }
 
-    var dialog = $("#dialogShowAddress").removeClass("hide").dialog({
+    $("#dialogShowAddress").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Item_CompanyAddress_PopupTitle,
@@ -232,7 +231,7 @@ function CompanySetDefaultAddressAddress()
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alert(jqXHR.responseText);
         }

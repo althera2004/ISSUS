@@ -1293,7 +1293,7 @@ function AnularConfirmed() {
     else {
         if (validateDate($("#TxtClosedDate").val()) === false) {
             ok = false;
-            $("#TxtClosedDateLabel").css("color", "#f00");
+            $("#TxtClosedDateLabel").css("color", Color.Error);
             $("#TxtClosedDateDateMalformed").show();
         }
         else {
@@ -1462,7 +1462,7 @@ function AnularConfirmedAccion() {
     else {
         if (validateDate($("#TxtActionClosedDate").val()) === false) {
             ok = false;
-            $("#TxtActionClosedDateLabel").css("color", "#f00");
+            $("#TxtActionClosedDateLabel").css("color", Color.Error);
             $("#TxtActionClosedDateDateMalformed").show();
         }
     }

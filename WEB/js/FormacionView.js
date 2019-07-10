@@ -675,8 +675,8 @@ function SaveConfirmed(evaluatedAll)
 
             if (d1 > d2) {
                 ok = false;
-                $("#TxtRealStartLabel").css("color", "#f00");
-                $("#TxtRealFinishLabel").css("color", "#f00");
+                $("#TxtRealStartLabel").css("color", Color.Error);
+                $("#TxtRealFinishLabel").css("color", Color.Error);
                 $("#TxtRealStartErrorDateRange").show();
                 $("#TxtRealFinishErrorDateRange").show();
             }
@@ -702,8 +702,8 @@ function SaveConfirmed(evaluatedAll)
             if (dates === true) {
                 if (d1 > d2) {
                     ok = false;
-                    $("#TxtRealStartLabel").css("color", "#f00");
-                    $("#TxtRealFinishLabel").css("color", "#f00");
+                    $("#TxtRealStartLabel").css("color", Color.Error);
+                    $("#TxtRealFinishLabel").css("color", Color.Error);
                     $("#TxtRealStartErrorDateRange").show();
                     $("#TxtRealFinishErrorDateRange").show();
                 }
