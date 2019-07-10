@@ -72,6 +72,11 @@ function IncidentActionCostRenderRow(incidentActionCost, target) {
     iconEdit.onclick = function () { IncidentActionCostEdit(this.parentNode.parentNode.id); };
     tdActions.appendChild(iconEdit);
 
+    // Juan Castilla - en businessrisk view la variable se llama "Action"
+    if (typeof Action !== "undefined" && Action !== null) {
+        IncidentAction = Action;
+    }
+
     if (typeof IncidentAction.ClosedOn !== "undefined" && IncidentAction.ClosedOn !== "null" && IncidentAction.ClosedOn !== "") {
         // La acción esta cerrada y no se puede eleminar el coste
     }
