@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="IncidentExportList.aspx.cs" company="OpenFramework">
-//     Copyright (c) OpenFramework. All rights reserved.
+// <copyright file="IncidentExportList.aspx.cs" company="Sbrinna">
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
 using System;
 using System.Collections.Generic;
@@ -50,8 +50,7 @@ public partial class ExportIncidentExportList : Page
         int departmentId,
         int providerId,
         int customerId,
-        string listOrder,
-        string filterText)
+        string listOrder)
     {
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -236,14 +235,7 @@ public partial class ExportIncidentExportList : Page
         #endregion
 
         ToolsPdf.AddCriteria(criteriatable, dictionary["Common_Period"], periode);
-        if (string.IsNullOrEmpty(filterText))
-        {
-            ToolsPdf.AddCriteria(criteriatable, string.Empty, string.Empty);
-        }
-        else
-        {
-            ToolsPdf.AddCriteria(criteriatable, dictionary["Common_PDF_Filter_Contains"], filterText);
-        }
+        //ToolsPdf.AddCriteria(criteriatable, string.Empty, string.Empty);
         ToolsPdf.AddCriteria(criteriatable, dictionary["Item_IncidentAction_Header_Status"], statusText);
         ToolsPdf.AddCriteria(criteriatable, dictionary["Item_IncidentAction_Header_Origin"], criteriaOrigin);
         pdfDoc.Add(criteriatable);
@@ -334,14 +326,6 @@ public partial class ExportIncidentExportList : Page
 
         foreach (var incidentFilter in data)
         {
-            if (!string.IsNullOrEmpty(filterText))
-            {
-                if(incidentFilter.Description.IndexOf(filterText,StringComparison.OrdinalIgnoreCase) == -1)
-                {
-                    continue;
-                }
-            }
-
             cont++;
             totalCost += incidentFilter.Amount;
             var incident = Incident.GetById(incidentFilter.Id, companyId);
